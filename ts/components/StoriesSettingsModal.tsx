@@ -117,14 +117,6 @@ export const StoriesSettingsModal = ({
   const [confirmDeleteListId, setConfirmDeleteListId] = useState<
     string | undefined
   >();
-  const [confirmRemoveMember, setConfirmRemoveMember] = useState<
-    | undefined
-    | {
-        listId: string;
-        title: string;
-        uuid: UUIDStringType | undefined;
-      }
-  >();
 
   let content: JSX.Element | null;
 
@@ -134,7 +126,7 @@ export const StoriesSettingsModal = ({
         candidateConversations={candidateConversations}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
-        onDone={(name, uuids) => {
+        onCreateList={(name, uuids) => {
           onDistributionListCreated(name, uuids);
           resetChooseViewersScreen();
         }}
@@ -159,142 +151,19 @@ export const StoriesSettingsModal = ({
       />
     );
   } else if (listToEdit) {
-    const isMyStories = listToEdit.id === MY_STORIES_ID;
-
     content = (
-      <>
-        {!isMyStories && (
-          <>
-            <div className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer">
-              <span className="StoriesSettingsModal__list__left">
-                <span className="StoriesSettingsModal__list__avatar--private" />
-                <span className="StoriesSettingsModal__list__title">
-                  <StoryDistributionListName
-                    i18n={i18n}
-                    id={listToEdit.id}
-                    name={listToEdit.name}
-                  />
-                </span>
-              </span>
-            </div>
-
-            <hr className="StoriesSettingsModal__divider" />
-          </>
-        )}
-
-        <div className="StoriesSettingsModal__title">
-          {i18n('StoriesSettings__who-can-see')}
-        </div>
-
-        {isMyStories && (
-          <EditMyStoriesPrivacy
-            i18n={i18n}
-            learnMore="StoriesSettings__mine_disclaimer"
-            myStories={listToEdit}
-            onClickExclude={() => {
-              setPage(Page.HideStoryFrom);
-            }}
-            onClickOnlyShareWith={() => {
-              setPage(Page.AddViewer);
-            }}
-            setSelectedContacts={setSelectedContacts}
-            setMyStoriesToAllSignalConnections={
-              setMyStoriesToAllSignalConnections
-            }
-            toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-          />
-        )}
-
-        {!isMyStories && (
-          <>
-            <button
-              className="StoriesSettingsModal__list"
-              onClick={() => {
-                setSelectedContacts(listToEdit.members);
-                setPage(Page.AddViewer);
-              }}
-              type="button"
-            >
-              <span className="StoriesSettingsModal__list__left">
-                <span className="StoriesSettingsModal__list__avatar--new" />
-                <span className="StoriesSettingsModal__list__title">
-                  {i18n('StoriesSettings__add-viewer')}
-                </span>
-              </span>
-            </button>
-
-            {listToEdit.members.map(member => (
-              <div
-                className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer"
-                key={member.id}
-              >
-                <span className="StoriesSettingsModal__list__left">
-                  <Avatar
-                    acceptedMessageRequest={member.acceptedMessageRequest}
-                    avatarPath={member.avatarPath}
-                    badge={getPreferredBadge(member.badges)}
-                    color={member.color}
-                    conversationType={member.type}
-                    i18n={i18n}
-                    isMe
-                    sharedGroupNames={member.sharedGroupNames}
-                    size={AvatarSize.THIRTY_SIX}
-                    theme={ThemeType.dark}
-                    title={member.title}
-                  />
-                  <span className="StoriesSettingsModal__list__title">
-                    {member.title}
-                  </span>
-                </span>
-
-                <button
-                  aria-label={i18n('StoriesSettings__remove--title', [
-                    member.title,
-                  ])}
-                  className="StoriesSettingsModal__list__delete"
-                  onClick={() =>
-                    setConfirmRemoveMember({
-                      listId: listToEdit.id,
-                      title: member.title,
-                      uuid: member.uuid,
-                    })
-                  }
-                  type="button"
-                />
-              </div>
-            ))}
-          </>
-        )}
-
-        <hr className="StoriesSettingsModal__divider" />
-
-        <div className="StoriesSettingsModal__title">
-          {i18n('StoriesSettings__replies-reactions--title')}
-        </div>
-
-        <Checkbox
-          checked={listToEdit.allowsReplies}
-          description={i18n('StoriesSettings__replies-reactions--description')}
-          label={i18n('StoriesSettings__replies-reactions--label')}
-          moduleClassName="StoriesSettingsModal__checkbox"
-          name="replies-reactions"
-          onChange={value => onRepliesNReactionsChanged(listToEdit.id, value)}
-        />
-
-        {!isMyStories && (
-          <>
-            <hr className="StoriesSettingsModal__divider" />
-
-            <button
-              className="StoriesSettingsModal__delete-list"
-              onClick={() => setConfirmDeleteListId(listToEdit.id)}
-              type="button"
-            >
-              {i18n('StoriesSettings__delete-list')}
-            </button>
-          </>
-        )}
-      </>
+      <DistributionListSettings
+        getPreferredBadge={getPreferredBadge}
+        i18n={i18n}
+        listToEdit={listToEdit}
+        onRemoveMember={onRemoveMember}
+        onRepliesNReactionsChanged={onRepliesNReactionsChanged}
+        setConfirmDeleteListId={setConfirmDeleteListId}
+        setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
+        setPage={setPage}
+        setSelectedContacts={setSelectedContacts}
+        toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+      />
     );
   } else {
     const privateStories = distributionLists.filter(
@@ -447,6 +316,182 @@ export const StoriesSettingsModal = ({
           {i18n('StoriesSettings__delete-list--confirm')}
         </ConfirmationDialog>
       )}
+    </>
+  );
+};
+
+type DistributionListSettingsPropsType = {
+  i18n: LocalizerType;
+  listToEdit: StoryDistributionListWithMembersDataType;
+  setConfirmDeleteListId: (id: string) => unknown;
+  setPage: (page: Page) => unknown;
+  setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+} & Pick<
+  PropsType,
+  | 'getPreferredBadge'
+  | 'onRemoveMember'
+  | 'onRepliesNReactionsChanged'
+  | 'setMyStoriesToAllSignalConnections'
+  | 'toggleSignalConnectionsModal'
+>;
+
+export const DistributionListSettings = ({
+  getPreferredBadge,
+  i18n,
+  listToEdit,
+  onRemoveMember,
+  onRepliesNReactionsChanged,
+  setConfirmDeleteListId,
+  setMyStoriesToAllSignalConnections,
+  setPage,
+  setSelectedContacts,
+  toggleSignalConnectionsModal,
+}: DistributionListSettingsPropsType): JSX.Element => {
+  const [confirmRemoveMember, setConfirmRemoveMember] = useState<
+    | undefined
+    | {
+        listId: string;
+        title: string;
+        uuid: UUIDStringType | undefined;
+      }
+  >();
+
+  const isMyStories = listToEdit.id === MY_STORIES_ID;
+
+  return (
+    <>
+      {!isMyStories && (
+        <>
+          <div className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer">
+            <span className="StoriesSettingsModal__list__left">
+              <span className="StoriesSettingsModal__list__avatar--private" />
+              <span className="StoriesSettingsModal__list__title">
+                <StoryDistributionListName
+                  i18n={i18n}
+                  id={listToEdit.id}
+                  name={listToEdit.name}
+                />
+              </span>
+            </span>
+          </div>
+
+          <hr className="StoriesSettingsModal__divider" />
+        </>
+      )}
+
+      <div className="StoriesSettingsModal__title">
+        {i18n('StoriesSettings__who-can-see')}
+      </div>
+
+      {isMyStories && (
+        <EditMyStoriesPrivacy
+          i18n={i18n}
+          learnMore="StoriesSettings__mine_disclaimer"
+          myStories={listToEdit}
+          onClickExclude={() => {
+            setPage(Page.HideStoryFrom);
+          }}
+          onClickOnlyShareWith={() => {
+            setPage(Page.AddViewer);
+          }}
+          setSelectedContacts={setSelectedContacts}
+          setMyStoriesToAllSignalConnections={
+            setMyStoriesToAllSignalConnections
+          }
+          toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        />
+      )}
+
+      {!isMyStories && (
+        <>
+          <button
+            className="StoriesSettingsModal__list"
+            onClick={() => {
+              setSelectedContacts(listToEdit.members);
+              setPage(Page.AddViewer);
+            }}
+            type="button"
+          >
+            <span className="StoriesSettingsModal__list__left">
+              <span className="StoriesSettingsModal__list__avatar--new" />
+              <span className="StoriesSettingsModal__list__title">
+                {i18n('StoriesSettings__add-viewer')}
+              </span>
+            </span>
+          </button>
+
+          {listToEdit.members.map(member => (
+            <div
+              className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer"
+              key={member.id}
+            >
+              <span className="StoriesSettingsModal__list__left">
+                <Avatar
+                  acceptedMessageRequest={member.acceptedMessageRequest}
+                  avatarPath={member.avatarPath}
+                  badge={getPreferredBadge(member.badges)}
+                  color={member.color}
+                  conversationType={member.type}
+                  i18n={i18n}
+                  isMe
+                  sharedGroupNames={member.sharedGroupNames}
+                  size={AvatarSize.THIRTY_SIX}
+                  theme={ThemeType.dark}
+                  title={member.title}
+                />
+                <span className="StoriesSettingsModal__list__title">
+                  {member.title}
+                </span>
+              </span>
+
+              <button
+                aria-label={i18n('StoriesSettings__remove--title', [
+                  member.title,
+                ])}
+                className="StoriesSettingsModal__list__delete"
+                onClick={() =>
+                  setConfirmRemoveMember({
+                    listId: listToEdit.id,
+                    title: member.title,
+                    uuid: member.uuid,
+                  })
+                }
+                type="button"
+              />
+            </div>
+          ))}
+        </>
+      )}
+
+      <hr className="StoriesSettingsModal__divider" />
+
+      <div className="StoriesSettingsModal__title">
+        {i18n('StoriesSettings__replies-reactions--title')}
+      </div>
+
+      <Checkbox
+        checked={listToEdit.allowsReplies}
+        description={i18n('StoriesSettings__replies-reactions--description')}
+        label={i18n('StoriesSettings__replies-reactions--label')}
+        moduleClassName="StoriesSettingsModal__checkbox"
+        name="replies-reactions"
+        onChange={value => onRepliesNReactionsChanged(listToEdit.id, value)}
+      />
+
+      {!isMyStories && (
+        <>
+          <hr className="StoriesSettingsModal__divider" />
+
+          <button
+            className="StoriesSettingsModal__delete-list"
+            onClick={() => setConfirmDeleteListId(listToEdit.id)}
+            type="button"
+          >
+            {i18n('StoriesSettings__delete-list')}
+          </button>
+        </>
+      )}
+
       {confirmRemoveMember && (
         <ConfirmationDialog
           actions={[
@@ -581,7 +626,7 @@ export const EditMyStoriesPrivacy = ({
 };
 
 type EditDistributionListPropsType = {
-  onDone: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
+  onCreateList: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
   onViewersUpdated: (viewerUuids: Array<UUIDStringType>) => unknown;
   page: Page;
   selectedContacts: Array<ConversationType>;
@@ -592,7 +637,7 @@ export const EditDistributionList = ({
   candidateConversations,
   getPreferredBadge,
   i18n,
-  onDone,
+  onCreateList,
   onViewersUpdated,
   page,
   selectedContacts,
@@ -716,7 +761,7 @@ export const EditDistributionList = ({
           <Button
             disabled={!storyName}
             onClick={() => {
-              onDone(storyName, Array.from(selectedConversationUuids));
+              onCreateList(storyName, Array.from(selectedConversationUuids));
               setStoryName('');
             }}
             variant={ButtonVariant.Primary}

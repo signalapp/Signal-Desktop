@@ -4,8 +4,25 @@
 import casual from 'casual';
 
 import type { StoryDistributionListDataType } from '../../state/ducks/storyDistributionLists';
+import type { StoryDistributionListWithMembersDataType } from '../../types/Stories';
 import { MY_STORIES_ID } from '../../types/Stories';
 import { UUID } from '../../types/UUID';
+import { getDefaultConversation } from './getDefaultConversation';
+
+export function getFakeDistributionListsWithMembers(): Array<StoryDistributionListWithMembersDataType> {
+  return [
+    {
+      ...getMyStories(),
+      members: [],
+    },
+    ...Array.from(Array(casual.integer(2, 8)), () => ({
+      ...getFakeDistributionList(),
+      members: Array.from(Array(casual.integer(3, 12)), () =>
+        getDefaultConversation()
+      ),
+    })),
+  ];
+}
 
 export function getFakeDistributionLists(): Array<StoryDistributionListDataType> {
   return [

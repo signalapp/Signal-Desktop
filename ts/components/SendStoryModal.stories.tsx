@@ -14,10 +14,15 @@ import {
 import { setupI18n } from '../util/setupI18n';
 import {
   getMyStories,
-  getFakeDistributionLists,
+  getFakeDistributionListsWithMembers,
 } from '../test-both/helpers/getFakeDistributionLists';
 
 const i18n = setupI18n('en', enMessages);
+
+const myStories = {
+  ...getMyStories(),
+  members: [],
+};
 
 export default {
   title: 'Components/SendStoryModal',
@@ -27,7 +32,7 @@ export default {
       defaultValue: Array.from(Array(100), () => getDefaultConversation()),
     },
     distributionLists: {
-      defaultValue: [getMyStories()],
+      defaultValue: [myStories],
     },
     getPreferredBadge: { action: true },
     groupConversations: {
@@ -46,6 +51,7 @@ export default {
       defaultValue: getDefaultConversation(),
     },
     onClose: { action: true },
+    onDeleteList: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
     onSend: { action: true },
@@ -54,7 +60,7 @@ export default {
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },
-    tagGroupsAsNewGroupStory: { action: true },
+    toggleGroupsForStorySend: { action: true },
     toggleSignalConnectionsModal: { action: true },
   },
 } as Meta;
@@ -63,12 +69,25 @@ const Template: Story<PropsType> = args => <SendStoryModal {...args} />;
 
 export const Modal = Template.bind({});
 Modal.args = {
-  distributionLists: getFakeDistributionLists(),
+  distributionLists: getFakeDistributionListsWithMembers(),
 };
 
 export const FirstTime = Template.bind({});
 FirstTime.args = {
-  distributionLists: [getMyStories()],
+  distributionLists: [myStories],
+  groupStories: [],
+  hasFirstStoryPostExperience: true,
+};
+
+export const FirstTimeAlreadyConfiguredOnMobile = Template.bind({});
+FirstTime.args = {
+  distributionLists: [
+    {
+      ...myStories,
+      isBlockList: false,
+      members: Array.from(Array(3), getDefaultConversation),
+    },
+  ],
   groupStories: [],
   hasFirstStoryPostExperience: true,
 };

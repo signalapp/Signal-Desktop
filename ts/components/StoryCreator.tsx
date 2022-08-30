@@ -31,7 +31,6 @@ export type PropsType = {
   i18n: LocalizerType;
   linkPreview?: LinkPreviewType;
   onClose: () => unknown;
-  onSelectedStoryList: (memberUuids: Array<string>) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>,
@@ -51,12 +50,16 @@ export type PropsType = {
     | 'groupStories'
     | 'hasFirstStoryPostExperience'
     | 'me'
+    | 'onDeleteList'
     | 'onDistributionListCreated'
     | 'onHideMyStoriesFrom'
+    | 'onRemoveMember'
+    | 'onRepliesNReactionsChanged'
+    | 'onSelectedStoryList'
     | 'onViewersUpdated'
     | 'setMyStoriesToAllSignalConnections'
     | 'signalConnections'
-    | 'tagGroupsAsNewGroupStory'
+    | 'toggleGroupsForStorySend'
     | 'toggleSignalConnectionsModal'
   >;
 
@@ -74,8 +77,11 @@ export const StoryCreator = ({
   linkPreview,
   me,
   onClose,
+  onDeleteList,
   onDistributionListCreated,
   onHideMyStoriesFrom,
+  onRemoveMember,
+  onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
   onViewersUpdated,
@@ -84,7 +90,7 @@ export const StoryCreator = ({
   sendStoryModalOpenStateChanged,
   setMyStoriesToAllSignalConnections,
   signalConnections,
-  tagGroupsAsNewGroupStory,
+  toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [draftAttachment, setDraftAttachment] = useState<
@@ -141,8 +147,11 @@ export const StoryCreator = ({
           i18n={i18n}
           me={me}
           onClose={() => setDraftAttachment(undefined)}
+          onDeleteList={onDeleteList}
           onDistributionListCreated={onDistributionListCreated}
           onHideMyStoriesFrom={onHideMyStoriesFrom}
+          onRemoveMember={onRemoveMember}
+          onRepliesNReactionsChanged={onRepliesNReactionsChanged}
           onSelectedStoryList={onSelectedStoryList}
           onSend={(listIds, groupIds) => {
             onSend(listIds, groupIds, draftAttachment);
@@ -154,7 +163,7 @@ export const StoryCreator = ({
             setMyStoriesToAllSignalConnections
           }
           signalConnections={signalConnections}
-          tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
+          toggleGroupsForStorySend={toggleGroupsForStorySend}
           toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         />
       )}

@@ -7443,6 +7443,14 @@
       }
     }
   },
+  "SendStoryModal__delete-story": {
+    "message": "Delete story",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",
     "description": "Select box title for the stories on/off toggle"

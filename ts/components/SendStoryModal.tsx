@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { noop } from 'lodash';
 
 import { SearchInput } from './SearchInput';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
@@ -10,13 +11,15 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
-import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
+import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
 import type { UUIDStringType } from '../types/UUID';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
 import {
+  DistributionListSettings,
   EditDistributionList,
   EditMyStoriesPrivacy,
   Page as StoriesSettingsPage,
@@ -29,7 +32,7 @@ import { isNotNil } from '../util/isNotNil';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
-  distributionLists: Array<StoryDistributionListDataType>;
+  distributionLists: Array<StoryDistributionListWithMembersDataType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   groupConversations: Array<ConversationType>;
   groupStories: Array<ConversationType>;
@@ -37,6 +40,7 @@ export type PropsType = {
   i18n: LocalizerType;
   me: ConversationType;
   onClose: () => unknown;
+  onDeleteList: (listId: string) => unknown;
   onDistributionListCreated: (
     name: string,
     viewerUuids: Array<UUIDStringType>
@@ -47,23 +51,20 @@ export type PropsType = {
     conversationIds: Array<string>
   ) => unknown;
   signalConnections: Array<ConversationType>;
-  tagGroupsAsNewGroupStory: (cids: Array<string>) => unknown;
+  toggleGroupsForStorySend: (cids: Array<string>) => unknown;
 } & Pick<
   StoriesSettingsModalPropsType,
   | 'onHideMyStoriesFrom'
+  | 'onRemoveMember'
+  | 'onRepliesNReactionsChanged'
   | 'onViewersUpdated'
   | 'setMyStoriesToAllSignalConnections'
   | 'toggleSignalConnectionsModal'
 >;
 
-enum MyStoriesPrivacy {
-  AllSignalConnections = 'AllSignalConnections',
-  Exclude = 'Exclude',
-  OnlyShareWith = 'OnlyShareWith',
-}
-
 enum SendStoryPage {
   ChooseGroups = 'ChooseGroups',
+  EditingDistributionList = 'EditingDistributionList',
   SendStory = 'SendStory',
   SetMyStoriesPrivacy = 'SetMyStoriesPrivacy',
 }
@@ -76,30 +77,32 @@ const Page = {
 type PageType = SendStoryPage | StoriesSettingsPage;
 
 function getListMemberUuids(
-  list: StoryDistributionListDataType,
+  list: StoryDistributionListWithMembersDataType,
   signalConnections: Array<ConversationType>
 ): Array<string> {
+  const memberUuids = list.members.map(({ uuid }) => uuid).filter(isNotNil);
+
   if (list.id === MY_STORIES_ID && list.isBlockList) {
-    const excludeUuids = new Set<string>(list.memberUuids);
+    const excludeUuids = new Set<string>(memberUuids);
     return signalConnections
       .map(conversation => conversation.uuid)
       .filter(isNotNil)
       .filter(uuid => !excludeUuids.has(uuid));
   }
 
-  return list.memberUuids;
+  return memberUuids;
 }
 
 function getListViewers(
-  list: StoryDistributionListDataType,
+  list: StoryDistributionListWithMembersDataType,
   i18n: LocalizerType,
   signalConnections: Array<ConversationType>
 ): string {
-  let memberCount = list.memberUuids.length;
+  let memberCount = list.members.length;
 
   if (list.id === MY_STORIES_ID && list.isBlockList) {
     memberCount = list.isBlockList
-      ? signalConnections.length - list.memberUuids.length
+      ? signalConnections.length - list.members.length
       : signalConnections.length;
   }
 
@@ -118,14 +121,17 @@ export const SendStoryModal = ({
   i18n,
   me,
   onClose,
+  onDeleteList,
   onDistributionListCreated,
   onHideMyStoriesFrom,
-  onSend,
+  onRemoveMember,
+  onRepliesNReactionsChanged,
   onSelectedStoryList,
+  onSend,
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
   signalConnections,
-  tagGroupsAsNewGroupStory,
+  toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [page, setPage] = useState<PageType>(Page.SendStory);
@@ -192,27 +198,61 @@ export const SendStoryModal = ({
     Array<ConversationType>
   >([]);
 
-  const [myStoriesPrivacy, setMyStoriesPrivacy] = useState<MyStoriesPrivacy>(
-    MyStoriesPrivacy.AllSignalConnections
-  );
-  const [myStoriesPrivacyUuids, setMyStoriesPrivacyUuids] = useState<
-    Set<UUIDStringType>
-  >(new Set());
+  const [confirmRemoveGroupId, setConfirmRemoveGroupId] = useState<
+    string | undefined
+  >();
+  const [confirmDeleteListId, setConfirmDeleteListId] = useState<
+    string | undefined
+  >();
 
-  const myStories = useMemo(() => {
-    return {
+  const [listIdToEdit, setListIdToEdit] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (listIdToEdit) {
+      setPage(Page.EditingDistributionList);
+    } else {
+      setPage(Page.SendStory);
+    }
+  }, [listIdToEdit]);
+
+  const listToEdit = useMemo(() => {
+    if (!listIdToEdit) {
+      return;
+    }
+
+    return distributionLists.find(list => list.id === listIdToEdit);
+  }, [distributionLists, listIdToEdit]);
+
+  // myStoriesPrivacy, myStoriesPrivacyUuids, and myStories are only used
+  // during the first time posting to My Stories experience where we have
+  // to select the privacy settings.
+  const ogMyStories = useMemo(
+    () => distributionLists.find(list => list.id === MY_STORIES_ID),
+    [distributionLists]
+  );
+
+  const initialMyStories = useMemo(
+    () => ({
       allowsReplies: true,
       id: MY_STORIES_ID,
-      name: MY_STORIES_ID,
-      isBlockList: myStoriesPrivacy !== MyStoriesPrivacy.OnlyShareWith,
-      members:
-        myStoriesPrivacy === MyStoriesPrivacy.AllSignalConnections
-          ? []
-          : candidateConversations.filter(
-              convo => convo.uuid && myStoriesPrivacyUuids.has(convo.uuid)
-            ),
-    };
-  }, [candidateConversations, myStoriesPrivacy, myStoriesPrivacyUuids]);
+      name: i18n('Stories__mine'),
+      isBlockList: ogMyStories?.isBlockList ?? true,
+      members: ogMyStories?.members || [],
+    }),
+    [i18n, ogMyStories]
+  );
+
+  const initialMyStoriesMemberUuids = useMemo(
+    () => (ogMyStories?.members || []).map(({ uuid }) => uuid).filter(isNotNil),
+    [ogMyStories]
+  );
+
+  const [stagedMyStories, setStagedMyStories] =
+    useState<StoryDistributionListWithMembersDataType>(initialMyStories);
+
+  const [stagedMyStoriesMemberUuids, setStagedMyStoriesMemberUuids] = useState<
+    Array<UUIDStringType>
+  >(initialMyStoriesMemberUuids);
 
   let content: JSX.Element;
   if (page === Page.SetMyStoriesPrivacy) {
@@ -221,25 +261,60 @@ export const SendStoryModal = ({
         hasDisclaimerAbove
         i18n={i18n}
         learnMore="SendStoryModal__privacy-disclaimer"
-        myStories={myStories}
+        myStories={stagedMyStories}
         onClickExclude={() => {
-          setMyStoriesPrivacy(MyStoriesPrivacy.Exclude);
-          setMyStoriesPrivacyUuids(new Set());
-          setSelectedContacts([]);
+          let nextSelectedContacts = stagedMyStories.members;
+
+          if (!stagedMyStories.isBlockList) {
+            setStagedMyStories(myStories => ({
+              ...myStories,
+              isBlockList: true,
+              members: [],
+            }));
+            nextSelectedContacts = [];
+          }
+
+          setSelectedContacts(nextSelectedContacts);
+
           setPage(Page.HideStoryFrom);
         }}
         onClickOnlyShareWith={() => {
-          setMyStoriesPrivacy(MyStoriesPrivacy.OnlyShareWith);
-          setMyStoriesPrivacyUuids(new Set());
-          setSelectedContacts([]);
+          if (!stagedMyStories.isBlockList) {
+            setSelectedContacts(stagedMyStories.members);
+          } else {
+            setStagedMyStories(myStories => ({
+              ...myStories,
+              isBlockList: false,
+              members: [],
+            }));
+          }
+
           setPage(Page.AddViewer);
         }}
         setSelectedContacts={setSelectedContacts}
         setMyStoriesToAllSignalConnections={() => {
-          setMyStoriesPrivacy(MyStoriesPrivacy.AllSignalConnections);
-          setMyStoriesPrivacyUuids(new Set());
+          setStagedMyStories(myStories => ({
+            ...myStories,
+            isBlockList: true,
+            members: [],
+          }));
           setSelectedContacts([]);
         }}
+        toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+      />
+    );
+  } else if (page === Page.EditingDistributionList && listToEdit) {
+    content = (
+      <DistributionListSettings
+        getPreferredBadge={getPreferredBadge}
+        i18n={i18n}
+        listToEdit={listToEdit}
+        onRemoveMember={onRemoveMember}
+        onRepliesNReactionsChanged={onRepliesNReactionsChanged}
+        setConfirmDeleteListId={setConfirmDeleteListId}
+        setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
+        setPage={setPage}
+        setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       />
     );
@@ -254,15 +329,21 @@ export const SendStoryModal = ({
         candidateConversations={candidateConversations}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
-        onDone={(name, uuids) => {
+        onCreateList={(name, uuids) => {
           onDistributionListCreated(name, uuids);
           setPage(Page.SendStory);
         }}
         onViewersUpdated={uuids => {
-          if (page === Page.ChooseViewers) {
+          if (listIdToEdit && page === Page.AddViewer) {
+            onViewersUpdated(listIdToEdit, uuids);
+            setPage(Page.EditingDistributionList);
+          } else if (page === Page.ChooseViewers) {
             setPage(Page.NameStory);
+          } else if (listIdToEdit && page === Page.HideStoryFrom) {
+            onHideMyStoriesFrom(uuids);
+            setPage(Page.SendStory);
           } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
-            setMyStoriesPrivacyUuids(new Set(uuids));
+            setStagedMyStoriesMemberUuids(uuids);
             setPage(Page.SetMyStoriesPrivacy);
           } else {
             setPage(Page.SendStory);
@@ -415,7 +496,38 @@ export const SendStoryModal = ({
             }}
           >
             {({ id, checkboxNode }) => (
-              <>
+              <ContextMenu
+                i18n={i18n}
+                menuOptions={
+                  list.id === MY_STORIES_ID
+                    ? [
+                        {
+                          label: i18n('StoriesSettings__context-menu'),
+                          icon: 'SendStoryModal__icon--delete',
+                          onClick: () => setListIdToEdit(list.id),
+                        },
+                      ]
+                    : [
+                        {
+                          label: i18n('StoriesSettings__context-menu'),
+                          icon: 'SendStoryModal__icon--settings',
+                          onClick: () => setListIdToEdit(list.id),
+                        },
+                        {
+                          label: i18n('SendStoryModal__delete-story'),
+                          icon: 'SendStoryModal__icon--delete',
+                          onClick: () => setConfirmDeleteListId(list.id),
+                        },
+                      ]
+                }
+                moduleClassName="SendStoryModal__distribution-list-context"
+                onClick={noop}
+                popperOptions={{
+                  placement: 'bottom',
+                  strategy: 'absolute',
+                }}
+                theme={Theme.Dark}
+              >
                 <label
                   className="SendStoryModal__distribution-list__label"
                   htmlFor={id}
@@ -454,7 +566,7 @@ export const SendStoryModal = ({
                   </div>
                 </label>
                 {checkboxNode}
-              </>
+              </ContextMenu>
             )}
           </Checkbox>
         ))}
@@ -484,7 +596,23 @@ export const SendStoryModal = ({
             }}
           >
             {({ id, checkboxNode }) => (
-              <>
+              <ContextMenu
+                i18n={i18n}
+                menuOptions={[
+                  {
+                    label: i18n('SendStoryModal__delete-story'),
+                    icon: 'SendStoryModal__icon--delete',
+                    onClick: () => setConfirmRemoveGroupId(group.id),
+                  },
+                ]}
+                moduleClassName="SendStoryModal__distribution-list-context"
+                onClick={noop}
+                popperOptions={{
+                  placement: 'bottom',
+                  strategy: 'absolute',
+                }}
+                theme={Theme.Dark}
+              >
                 <label
                   className="SendStoryModal__distribution-list__label"
                   htmlFor={id}
@@ -517,7 +645,7 @@ export const SendStoryModal = ({
                   </div>
                 </label>
                 {checkboxNode}
-              </>
+              </ContextMenu>
             )}
           </Checkbox>
         ))}
@@ -568,7 +696,7 @@ export const SendStoryModal = ({
             className="SendStoryModal__ok"
             disabled={!chosenGroupIds.size}
             onClick={() => {
-              tagGroupsAsNewGroupStory(Array.from(chosenGroupIds));
+              toggleGroupsForStorySend(Array.from(chosenGroupIds));
               setChosenGroupIds(new Set());
               setPage(Page.SendStory);
             }}
@@ -598,21 +726,16 @@ export const SendStoryModal = ({
               </Button>
               <Button
                 onClick={() => {
-                  if (
-                    myStoriesPrivacy === MyStoriesPrivacy.AllSignalConnections
-                  ) {
-                    setMyStoriesToAllSignalConnections();
-                  } else if (myStoriesPrivacy === MyStoriesPrivacy.Exclude) {
-                    onHideMyStoriesFrom(Array.from(myStoriesPrivacyUuids));
-                  } else if (
-                    myStoriesPrivacy === MyStoriesPrivacy.OnlyShareWith
-                  ) {
-                    onViewersUpdated(
-                      MY_STORIES_ID,
-                      Array.from(myStoriesPrivacyUuids)
-                    );
+                  if (stagedMyStories.isBlockList) {
+                    if (stagedMyStories.members.length) {
+                      onHideMyStoriesFrom(stagedMyStoriesMemberUuids);
+                    } else {
+                      setMyStoriesToAllSignalConnections();
+                    }
+                  } else {
+                    onViewersUpdated(MY_STORIES_ID, stagedMyStoriesMemberUuids);
                   }
-                  setMyStoriesPrivacyUuids(new Set());
+
                   setSelectedContacts([]);
                   setPage(Page.SendStory);
                 }}
@@ -628,43 +751,97 @@ export const SendStoryModal = ({
   }
 
   return (
-    <Modal
-      hasStickyButtons
-      hasXButton
-      i18n={i18n}
-      modalFooter={modalFooter}
-      onBackButtonClick={
-        hasBackButton
-          ? () => {
-              if (page === Page.SetMyStoriesPrivacy) {
-                setSelectedContacts([]);
-                setMyStoriesPrivacyUuids(new Set());
-                setMyStoriesPrivacy(MyStoriesPrivacy.AllSignalConnections);
-                setPage(Page.SendStory);
-              } else if (
-                page === Page.HideStoryFrom ||
-                page === Page.AddViewer
-              ) {
-                setSelectedContacts([]);
-                setMyStoriesPrivacyUuids(new Set());
-                setPage(Page.SetMyStoriesPrivacy);
-              } else if (page === Page.ChooseGroups) {
-                setChosenGroupIds(new Set());
-                setPage(Page.SendStory);
-              } else if (page === Page.ChooseViewers) {
-                setSelectedContacts([]);
-                setPage(Page.SendStory);
-              } else if (page === Page.NameStory) {
-                setPage(Page.ChooseViewers);
+    <>
+      <Modal
+        hasStickyButtons
+        hasXButton
+        i18n={i18n}
+        modalFooter={modalFooter}
+        onBackButtonClick={
+          hasBackButton
+            ? () => {
+                if (listIdToEdit) {
+                  if (
+                    page === Page.AddViewer ||
+                    page === Page.HideStoryFrom ||
+                    page === Page.ChooseViewers
+                  ) {
+                    setPage(Page.EditingDistributionList);
+                  } else {
+                    setListIdToEdit(undefined);
+                  }
+                } else if (page === Page.SetMyStoriesPrivacy) {
+                  setSelectedContacts([]);
+                  setStagedMyStories(initialMyStories);
+                  setStagedMyStoriesMemberUuids(initialMyStoriesMemberUuids);
+                  setPage(Page.SendStory);
+                } else if (
+                  page === Page.HideStoryFrom ||
+                  page === Page.AddViewer
+                ) {
+                  setSelectedContacts([]);
+                  setStagedMyStories(initialMyStories);
+                  setStagedMyStoriesMemberUuids(initialMyStoriesMemberUuids);
+                  setPage(Page.SetMyStoriesPrivacy);
+                } else if (page === Page.ChooseGroups) {
+                  setChosenGroupIds(new Set());
+                  setPage(Page.SendStory);
+                } else if (page === Page.ChooseViewers) {
+                  setSelectedContacts([]);
+                  setPage(Page.SendStory);
+                } else if (page === Page.NameStory) {
+                  setPage(Page.ChooseViewers);
+                }
               }
-            }
-          : undefined
-      }
-      onClose={onClose}
-      title={modalTitle}
-      theme={Theme.Dark}
-    >
-      {content}
-    </Modal>
+            : undefined
+        }
+        onClose={onClose}
+        title={modalTitle}
+        theme={Theme.Dark}
+      >
+        {content}
+      </Modal>
+      {confirmRemoveGroupId && (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () => {
+                toggleGroupsForStorySend([confirmRemoveGroupId]);
+                setConfirmRemoveGroupId(undefined);
+              },
+              style: 'negative',
+              text: i18n('delete'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => {
+            setConfirmRemoveGroupId(undefined);
+          }}
+        >
+          {i18n('SendStoryModal__confirm-remove-group')}
+        </ConfirmationDialog>
+      )}
+      {confirmDeleteListId && (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () => {
+                onDeleteList(confirmDeleteListId);
+                setConfirmDeleteListId(undefined);
+                // setListToEditId(undefined);
+              },
+              style: 'negative',
+              text: i18n('delete'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => {
+            setConfirmDeleteListId(undefined);
+          }}
+        >
+          {i18n('StoriesSettings__delete-list--confirm')}
+        </ConfirmationDialog>
+      )}
+    </>
   );
 };

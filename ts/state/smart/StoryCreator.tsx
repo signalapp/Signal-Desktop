@@ -15,7 +15,7 @@ import {
   getMe,
   getNonGroupStories,
 } from '../selectors/conversations';
-import { getDistributionLists } from '../selectors/storyDistributionLists';
+import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
 import { getIntl } from '../selectors/user';
 import {
   getInstalledStickerPacks,
@@ -46,17 +46,20 @@ export function SmartStoryCreator({
     sendStoryMessage,
     verifyStoryListMembers,
   } = useStoriesActions();
-  const { tagGroupsAsNewGroupStory } = useConversationsActions();
+  const { toggleGroupsForStorySend } = useConversationsActions();
   const {
+    allowsRepliesChanged,
     createDistributionList,
+    deleteDistributionList,
     hideMyStoriesFrom,
+    removeMemberFromDistributionList,
     setMyStoriesToAllSignalConnections,
     updateStoryViewers,
   } = useStoryDistributionListsActions();
   const { toggleSignalConnectionsModal } = useGlobalModalActions();
 
   const candidateConversations = useSelector(getCandidateContactsForNewGroup);
-  const distributionLists = useSelector(getDistributionLists);
+  const distributionLists = useSelector(getDistributionListsWithMembers);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const groupConversations = useSelector(getNonGroupStories);
   const groupStories = useSelector(getGroupStories);
@@ -83,8 +86,11 @@ export function SmartStoryCreator({
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
       onClose={onClose}
+      onDeleteList={deleteDistributionList}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
+      onRemoveMember={removeMemberFromDistributionList}
+      onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
       onViewersUpdated={updateStoryViewers}
@@ -93,7 +99,7 @@ export function SmartStoryCreator({
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
-      tagGroupsAsNewGroupStory={tagGroupsAsNewGroupStory}
+      toggleGroupsForStorySend={toggleGroupsForStorySend}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );

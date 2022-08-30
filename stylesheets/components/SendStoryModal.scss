@@ -27,6 +27,16 @@
   }
 
   &__icon {
+    &--delete {
+      @include color-svg(
+        '../images/icons/v2/trash-outline-24.svg',
+        $color-white
+      );
+      height: 14px;
+      margin-top: 2px;
+      width: 14px;
+    }
+
     &--lock {
       @include color-svg(
         '../images/icons/v2/lock-outline-24.svg',
@@ -45,6 +55,28 @@
       height: 14px;
       margin-top: 2px;
       width: 14px;
+    }
+
+    &--settings {
+      @include color-svg(
+        '../images/icons/v2/settings-outline-16.svg',
+        $color-white
+      );
+      height: 14px;
+      margin-top: 2px;
+      width: 14px;
+    }
+  }
+
+  &__distribution-list-context {
+    &__container {
+      width: 100%;
+    }
+
+    &__button {
+      align-items: center;
+      display: flex;
+      width: 100%;
     }
   }
 

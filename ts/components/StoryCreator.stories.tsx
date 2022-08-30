@@ -12,7 +12,7 @@ import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../test-both/helpers/getDefaultConversation';
-import { getFakeDistributionLists } from '../test-both/helpers/getFakeDistributionLists';
+import { getFakeDistributionListsWithMembers } from '../test-both/helpers/getFakeDistributionLists';
 import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
@@ -25,7 +25,7 @@ export default {
       defaultValue: Array.from(Array(100), getDefaultConversation),
     },
     debouncedMaybeGrabLinkPreview: { action: true },
-    distributionLists: { defaultValue: getFakeDistributionLists() },
+    distributionLists: { defaultValue: getFakeDistributionListsWithMembers() },
     getPreferredBadge: { action: true },
     groupConversations: {
       defaultValue: Array.from(Array(7), getDefaultGroup),
@@ -47,6 +47,7 @@ export default {
       defaultValue: getDefaultConversation(),
     },
     onClose: { action: true },
+    onDeleteList: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
     onSend: { action: true },
