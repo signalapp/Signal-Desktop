@@ -130,3 +130,8 @@ export const getHasSetMyStoriesPrivacy = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.hasSetMyStoriesPrivacy)
 );
+
+export const getHasReadReceiptSetting = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state['read-receipt-setting'])
+);

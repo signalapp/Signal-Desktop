@@ -7487,6 +7487,10 @@
     "message": "Unmute",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "Views off",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",
     "description": "Sent timestamp",
@@ -7510,6 +7514,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copy timestamp",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Enable read receipts to see who's viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Privacy.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "No replies yet",

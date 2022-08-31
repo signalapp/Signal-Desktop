@@ -87,6 +87,7 @@ export type PropsType = {
   authorTitle: string;
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasReadReceiptSetting: boolean;
   i18n: LocalizerType;
   isGroupStory?: boolean;
   onClose: () => unknown;
@@ -113,6 +114,7 @@ export const StoryViewsNRepliesModal = ({
   authorTitle,
   canReply,
   getPreferredBadge,
+  hasReadReceiptSetting,
   i18n,
   isGroupStory,
   onClose,
@@ -353,40 +355,52 @@ export const StoryViewsNRepliesModal = ({
     );
   }
 
-  const viewsElement = views.length ? (
-    <div className="StoryViewsNRepliesModal__views">
-      {views.map(view => (
-        <div className="StoryViewsNRepliesModal__view" key={view.recipient.id}>
-          <div>
-            <Avatar
-              acceptedMessageRequest={view.recipient.acceptedMessageRequest}
-              avatarPath={view.recipient.avatarPath}
-              badge={undefined}
-              color={getAvatarColor(view.recipient.color)}
-              conversationType="direct"
-              i18n={i18n}
-              isMe={Boolean(view.recipient.isMe)}
-              name={view.recipient.name}
-              profileName={view.recipient.profileName}
-              sharedGroupNames={view.recipient.sharedGroupNames || []}
-              size={AvatarSize.TWENTY_EIGHT}
-              title={view.recipient.title}
-            />
-            <span className="StoryViewsNRepliesModal__view--name">
-              <ContactName title={view.recipient.title} />
-            </span>
+  let viewsElement: JSX.Element | undefined;
+  if (!hasReadReceiptSetting) {
+    viewsElement = (
+      <div className="StoryViewsNRepliesModal__read-receipts-off">
+        {i18n('StoryViewsNRepliesModal__read-receipts-off')}
+      </div>
+    );
+  } else if (views.length) {
+    viewsElement = (
+      <div className="StoryViewsNRepliesModal__views">
+        {views.map(view => (
+          <div
+            className="StoryViewsNRepliesModal__view"
+            key={view.recipient.id}
+          >
+            <div>
+              <Avatar
+                acceptedMessageRequest={view.recipient.acceptedMessageRequest}
+                avatarPath={view.recipient.avatarPath}
+                badge={undefined}
+                color={getAvatarColor(view.recipient.color)}
+                conversationType="direct"
+                i18n={i18n}
+                isMe={Boolean(view.recipient.isMe)}
+                name={view.recipient.name}
+                profileName={view.recipient.profileName}
+                sharedGroupNames={view.recipient.sharedGroupNames || []}
+                size={AvatarSize.TWENTY_EIGHT}
+                title={view.recipient.title}
+              />
+              <span className="StoryViewsNRepliesModal__view--name">
+                <ContactName title={view.recipient.title} />
+              </span>
+            </div>
+            {view.updatedAt && (
+              <MessageTimestamp
+                i18n={i18n}
+                module="StoryViewsNRepliesModal__view--timestamp"
+                timestamp={view.updatedAt}
+              />
+            )}
           </div>
-          {view.updatedAt && (
-            <MessageTimestamp
-              i18n={i18n}
-              module="StoryViewsNRepliesModal__view--timestamp"
-              timestamp={view.updatedAt}
-            />
-          )}
-        </div>
-      ))}
-    </div>
-  ) : undefined;
+        ))}
+      </div>
+    );
+  }
 
   const tabsElement =
     views.length && replies.length ? (

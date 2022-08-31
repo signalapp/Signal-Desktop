@@ -31,6 +31,9 @@ export default {
     hasAllStoriesMuted: {
       defaultValue: false,
     },
+    hasReadReceiptSetting: {
+      defaultValue: true,
+    },
     i18n: {
       defaultValue: i18n,
     },
@@ -168,3 +171,35 @@ export const YourStory = Template.bind({});
   };
   YourStory.storyName = 'Your story';
 }
+
+export const ReadReceiptsOff = Template.bind({});
+{
+  const storyView = getFakeStoryView(
+    '/fixtures/nathan-anderson-316188-unsplash.jpg'
+  );
+  ReadReceiptsOff.args = {
+    hasReadReceiptSetting: false,
+    story: {
+      ...storyView,
+      sender: {
+        ...storyView.sender,
+        isMe: true,
+      },
+      sendState: [
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Viewed,
+        },
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Delivered,
+        },
+        {
+          recipient: getDefaultConversation(),
+          status: SendStatus.Pending,
+        },
+      ],
+    },
+  };
+}
+ReadReceiptsOff.storyName = 'Read receipts turned off';

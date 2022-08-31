@@ -14,6 +14,7 @@ import { getConversationSelector } from '../selectors/conversations';
 import {
   getEmojiSkinTone,
   getHasAllStoriesMuted,
+  getHasReadReceiptSetting,
   getPreferredReactionEmoji,
 } from '../selectors/items';
 import { getIntl } from '../selectors/user';
@@ -76,6 +77,9 @@ export function SmartStoryViewer(): JSX.Element | null {
   );
 
   const hasActiveCall = useSelector(isInFullScreenCall);
+  const hasReadReceiptSetting = useSelector<StateType, boolean>(
+    getHasReadReceiptSetting
+  );
 
   return (
     <StoryViewer
@@ -84,6 +88,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       group={conversationStory.group}
       hasActiveCall={hasActiveCall}
       hasAllStoriesMuted={hasAllStoriesMuted}
+      hasReadReceiptSetting={hasReadReceiptSetting}
       i18n={i18n}
       numStories={selectedStoryData.numStories}
       onHideStory={toggleHideStories}
