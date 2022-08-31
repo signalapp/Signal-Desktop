@@ -7,6 +7,10 @@
         "message": "條款同私隱政策",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "複製錯誤然後離開",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "語音附件嘅播放時間",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "㩒上面嘅 $composeIcon$，就可以搵聯絡人或者群組然後傳送訊息。",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "是日花生設定",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "選擇邊個可以睇到你嘅限時動態",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "傳畀",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "揀邊啲谷",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "「我嘅限時動態」私隱設定",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "選擇邊個 Signal 人脈可以睇到你嘅限時動態。你隨時都可以喺私隱設定度更改。 $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "分享同睇吓限時動態",
@@ -7691,8 +7729,12 @@
         "message": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "如果你用緊 JAWS 螢幕閱讀程式嘅話，你而家可以播放語音備忘錄，同埋睇到有「閱讀更多」按鈕嘅長訊息。",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "調較語音訊息嘅速度，方便你掌握訊息重點或者聽清楚細節。",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "搵表情符號簡單咗。當你打開表情符號選擇器之後就可以跳過 🔍，然後直接輸入關鍵字。",
+        "description": "Release notes for v5.57"
     }
 }

@@ -7,6 +7,10 @@
         "message": "이용약관 및 개인정보 처리방침",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple 실리콘",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "오류 복사 후 종료",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "오디오 첨부 파일 재생 시간",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5배",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5배",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "위 $composeIcon$ 아이콘을 클릭하고 메시지를 전송할 연락처 또는 그룹을 검색하세요.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "스토리 설정",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "스토리를 볼 수 있는 사람을 선택하세요.",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "다음으로 보내기",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "그룹 선택",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "내 스토리 개인정보보호",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "내 스토리를 볼 수 있는 Signal 커넥션을 선택하세요. 개인정보보호 설정에서 언제든지 변경할 수 있습니다. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "스토리 공유 및 보기",
@@ -7691,8 +7729,12 @@
         "message": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "이제 JAWS 화면 읽기 프로그램을 사용하는 경우 음성 메모를 재생하고 '더 읽기' 버튼 뒤에 생략되는 긴 메시지에 액세스할 수 있습니다.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "음성 메시지 재생 속도를 변경하여 요점만 확인하거나 정확한 내용을 확인하세요.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "더욱 간편하게 이모지를 검색하세요. 이모지 창에서 🔍 아이콘을 누를 필요 없이 바로 키워드를 입력하세요.",
+        "description": "Release notes for v5.57"
     }
 }

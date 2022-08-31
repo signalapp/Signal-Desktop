@@ -7,6 +7,10 @@
         "message": "नियम और गोपनीयता नीति",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "त्रुटि कॉपी करें और ऐप बंद करें",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "ऑडियो अटैचमेंट का प्लेबैक समय",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "ऊपर दिए गए $composeIcon$ पर क्लिक करें और संदेश भेजने के लिए अपने संपर्कों या समूहों को खोजें।",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "स्टोरी सेटिंग्स",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "चुनें कि आपकी स्टोरी कौन देख सकते हैं",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "को भेजें",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "ग्रुप चुनें",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "मेरी स्टोरीज़ की निजता",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "चुनें कि कौन-से Signal कनेक्शन आपकी स्टोरी देख सकते हैं। इसे आप कभी भी निजता सेटिंग्स में बदल सकते हैं। $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "स्टोरीज़ शेयर और व्यू करें",
@@ -7691,8 +7729,12 @@
         "message": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "यदि आप JAWS स्क्रीन रीडिंग प्रोग्राम का इस्तेमाल कर रहे हैं तो अब आप सफलतापूर्वक वॉयस मेमो प्ले कर सकते हैं उन लंबे संदेशों को ऐक्सेस कर सकते हैं जो \"अधिक पढ़ें\" बटन के पीछे छिप जाते हैं।",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "ऑडियो संदेशों की गति बदलें ताकि या तो सीधे मुद्दे की बात पर पहुँच सकें या जानकारी ले सकें।",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "अपनी इमोजी की खोज को व्यवस्थित करें। एक बार इमोजी पिकर चुन लेने के बाद  🔍 को छोड़ दें और केवल कीवर्ड टाइप करना शुरू करें।",
+        "description": "Release notes for v5.57"
     }
 }

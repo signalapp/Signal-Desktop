@@ -7,6 +7,10 @@
         "message": "শর্তাদি এবং গোপনীয়তা নীতি",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "ত্রুটি অনুলিপি করে প্রস্থান করুন",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "অডিও সংযুক্তিটির বাজানোর সময়",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "উপরের $composeIcon$-এ ক্লিক করুন এবং মেসেজ পাঠানোর জন্য আপনার কন্ট্যাক্ট বা গ্রুপ খুঁজুন।",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "স্টোরি সেটিংস",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "আপনার স্টোরি কে দেখতে পাবেন তা নির্বাচন করুন।",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "প্রেরণ করুন",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "গ্ৰুপ বেছে নিন",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "আমার স্টোরি'র গোপনীয়তা",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "কোন Signal কানেকশন আপনার স্টোরি দেখতে পাবেন তা নির্বাচন করুন৷ আপনি যেকোনো সময় গোপনীয়তা সেটিংস থেকে এটি পরিবর্তন করতে পারবেন। $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "স্টোরি শেয়ার করুন এবং দেখুন",
@@ -7691,8 +7729,12 @@
         "message": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "আপনি যদি JAWS স্ক্রিন রিডিং প্রোগ্রাম ব্যবহার করে থাকেন, তাহলে আপনি এখন সফলভাবে ভয়েস মেমো চালাতে পারবেন এবং \"আরো পড়ুন\" বাটনের পেছনে সংক্ষিপ্ত আকারে থাকা বড় ম্যাসেজগুলোতে অ্যাক্সেস করতে পারবেন।",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "কাঙ্ক্ষিত অংশে পৌঁছাতে কিংবা খুঁটিনাটি বিষয়বস্তু বুঝতে অডিও ম্যাসেজের গতি পরিবর্তন করুন।",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "আপনার ইমোজি অনুসন্ধান সহজ করুন। একবার আপনি ইমোজি বাছাই করে নিলে, পরবর্তীতে 🔍 এড়িয়ে যান এবং শুধু কীওয়ার্ড টাইপ করুন।",
+        "description": "Release notes for v5.57"
     }
 }

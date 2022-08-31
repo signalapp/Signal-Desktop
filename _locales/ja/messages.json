@@ -7,6 +7,10 @@
         "message": "使用条件とプライバシーポリシー",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Appleシリコン",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "エラーメッセージをコピーして終了します",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "添付の音声の再生時間",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": "0.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "上にある$composeIcon$をクリックして、メッセージを送りたい相手やグループを探してください。",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "ストーリーの設定",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "ストーリーを閲覧できる人を選択します",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "宛先",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "グループを選択",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "マイストーリープライバシー",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "ストーリーを表示できるSignalコネクションを選択します。これはプライバシー設定でいつでも変更できます。$learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "ストーリーズの共有と閲覧",
@@ -7691,8 +7729,12 @@
         "message": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "JAWS の画面読み上げプログラムを使用している場合に、ボイスメモを正常に再生し、「もっと読む」ボタンの後に省略されている長いメッセージにアクセスできるようになりました。",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "音声メッセージの速度を変更すれば、さっと要点をかいつまむことも、じっくり詳細を聞き取ることもできます。",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "絵文字検索を効率化します。絵文字ピッカーを表示したら、🔍をスキップしてキーワードを入力し始めましょう。",
+        "description": "Release notes for v5.57"
     }
 }

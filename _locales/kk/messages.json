@@ -7,6 +7,10 @@
         "message": "Шарттар және құпиялық саясаты",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Қатені көшіру және шығу",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Аудио тіркеменің ойнатылу уақыты",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Жоғарыдағы $composeIcon$ түймесін басыңыз және хат жазатын контактілерді немесе топтарды іздеңіз.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Сторис параметрлері",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Стористі кім көре алатынын таңдаңыз",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Жіберу",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Топтарды таңдау",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Стористерімнің құпиялылығы",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Сторисіңізді Signal-дағы контактілердің қайсысы көре алатынын таңдаңыз. Ол тізімді құпиялылық параметрлерінен кез келген уақытта өзгертуге болады. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Стористерді бөлісу және көру",
@@ -7691,8 +7729,12 @@
         "message": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Егер сіз JAWS экранды оқу бағдарламасын қолданып жатсаңыз, онда дауыстық хабарламаларды тыңдай аласыз және \"толық оқу\" түймесін басу арқылы хаттың қалған бөлігін оқи аласыз.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Аудио хаттарда не айтылғанын жылдам түсініп алу үшін немесе дұрыстап тыңдап алу үшін жылдамдығын өзгертіп тыңдаңыз.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Эмодзи іздеу процесін жеңілдетіңіз. Эмодзилер панелін шығарған соң, 🔍 таңбасын баспай-ақ, кілт сөздерді тере бастаңыз.",
+        "description": "Release notes for v5.57"
     }
 }

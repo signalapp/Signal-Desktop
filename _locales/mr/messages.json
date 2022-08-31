@@ -7,6 +7,10 @@
         "message": "अटी आणि गोपनीयता धोरण",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple सिलिकॉन",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "त्रुटी कॉपी करा आणि सोडा",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "ऑडिओ संलग्नचा प्लेबॅक अवधी",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "वरील $composeIcon$ वर क्लिक करा आणि संदेश पाठवण्यासाठी आपले संपर्क किंवा गट शोधा.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "स्टोरी सेटिंग्ज",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा ",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "यांना पाठवा",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "गट निवडा",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "माझ्या स्टोरीज ची गोपनीयता",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "कोणती Signal कनेक्शन्स आपली स्टोरी पाहू शकतील ते निवडा. आपण नेहमी हे गोपनीयता सेटिंग्ज मध्ये बदलू शकता. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "स्टोरीज शेअर करा व पहा",
@@ -7691,8 +7729,12 @@
         "message": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "आपण JAWS स्क्रिन वाचन प्रोग्राम वापरतअसल्यास, आपण आता ध्वनी मेमोज यशस्वीरित्या प्ले करु शकता आणि “अधिक वाचा” बटणाच्या मागे लहान झालेल्या दीर्घ संदेशांना ॲक्सेस करु शकता.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "मुद्दा लक्षात घेण्यासाठी किंवा तपशील ऐकण्यासाठी ऑडिओ संदेशाचा वेग बदला.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "आपला इमोजी शोध स्ट्रिमलाइन करा. एकदा तुम्ही इमोजी पिकर वर ओढला तर, 🔍 वगळा आणि फक्त मुख्य शब्द टाईप करून सुरुवात करा.",
+        "description": "Release notes for v5.57"
     }
 }

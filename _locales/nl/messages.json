@@ -7,6 +7,10 @@
         "message": "Gebruiksvoorwaarden & privacybeleid",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Foutmelding kopiëren en afsluiten",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -36,7 +40,7 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Bewerken",
+        "message": "B&ewerken",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
@@ -164,7 +168,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Verwijzing kopiëren",
+        "message": "Link kopiëren",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -484,7 +488,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopy": {
-        "message": "Verwijzing kopiëren",
+        "message": "Link kopiëren",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
@@ -492,7 +496,7 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "De verwijzing is naar het klembord gekopieerd",
+        "message": "De link is naar het klembord gekopieerd",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -3492,7 +3496,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Gebruik jouw nieuwe stickers via het sticker-pictogram, of deel ze met je kennissen door middel van de koppeling hieronder.",
+        "message": "Gebruik jouw nieuwe stickers via het sticker-pictogram, of deel ze met je kennissen door middel van de link hieronder.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -3570,7 +3574,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Koppeling gekopieerd",
+        "message": "Link gekopieerd",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -4242,7 +4246,7 @@
         "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Sorry, die sgnl:// verwijzing klopt niet.",
+        "message": "Sorry, die sgnl:// link klopt niet.",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
@@ -4254,11 +4258,11 @@
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Ongeldige verwijzing",
+        "message": "Ongeldige link",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Dit is geen geldige groepsverwijzing. Ga na dat je de volledige verwijzing gebruikt met de juiste karakters voordat je probeert lid te worden van de groep.",
+        "message": "Dit is geen geldige groepslink. Ga na dat je de volledige link gebruikt met de juiste karakters voordat je probeert lid te worden van de groep.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
@@ -4274,11 +4278,11 @@
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
-        "message": "Onbekend verwijzingsformaat",
+        "message": "Onbekend linkformaat",
         "description": "This group link is no longer valid."
     },
     "GroupV2--join--unknown-link-version": {
-        "message": "Deze groepsverwijzing wordt niet langer ondersteund in deze versie van Signal-desktop.",
+        "message": "Deze groepslink wordt niet langer ondersteund in deze versie van Signal-desktop.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked--title": {
@@ -4286,7 +4290,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "De groepsverwijzing is niet langer geldig.",
+        "message": "De groepslink is niet langer geldig.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-forbidden--title": {
@@ -4294,7 +4298,7 @@
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--link-forbidden": {
-        "message": "Je kunt niet door middel van een groepsverwijzing lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd. ",
+        "message": "Je kunt niet door middel van een groepslink lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd. ",
         "description": "Shown if you click a group link and you have been forbidden from joining via the link"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -4354,7 +4358,7 @@
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Verwijzingsfout",
+        "message": "Linkfout",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
@@ -4556,11 +4560,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Je hebt de beheerderstoestemming-vereiste om via de groepsverwijzing lid te mogen worden uitgeschakeld.",
+        "message": "Je hebt de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ heeft de beheerderstoestemming-vereiste om via de groepsverwijzing lid te mogen worden van de groep uitgeschakeld.",
+        "message": "$adminName$ heeft de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4570,15 +4574,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "De beheerderstoestemming-vereiste om via de groepsverwijzing lid te mogen worden van de groep is uitgeschakeld.",
+        "message": "De beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep is uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "Je hebt de beheerderstoestemming-vereiste om via de groepsverwijzing lid te mogen worden van de groep ingeschakeld.",
+        "message": "Je hebt de beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ heeft de beheerderstoestemming-vereiste voor personen die lid willen worden via de groepsverwijzing ingeschakeld.",
+        "message": "$adminName$ heeft de beheerderstoestemming-vereiste voor personen die lid willen worden via de groepslink ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4588,7 +4592,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "De beheerderstoestemming-vereiste om via de groepsverwijzing lid te mogen worden van de groep is ingeschakeld.",
+        "message": "De beheerderstoestemming-vereiste om via de groepslink lid te mogen worden van de groep is ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4726,11 +4730,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Je bent via de groepsverwijzing lid geworden van de groep.",
+        "message": "Je bent via de groepslink lid geworden van de groep.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ is lid geworden via de groepsverwijzing.",
+        "message": "$memberName$ is lid geworden via de groepslink.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5280,7 +5284,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$ heeft via de groepsverwijzing verzocht om lid te worden.",
+        "message": "$joinerName$ heeft via de groepslink verzocht om lid te worden.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5332,7 +5336,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$ heeft via de groepsverwijzing verzocht lid te worden van de groep en heeft dat verzoek weer ingetrokken",
+        "message": "$joinerName$ heeft via de groepslink verzocht lid te worden van de groep en heeft dat verzoek weer ingetrokken",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5356,11 +5360,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Je hebt de groepsverwijzingen ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+        "message": "Je hebt de groepslink ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ heeft de groepsverwijzing ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+        "message": "$adminName$ heeft de groepslink ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5370,15 +5374,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "De groepsverwijzing is ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
+        "message": "De groepslink is ingeschakeld zonder beheerderstoestemming-vereiste om lid te mogen worden.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Je hebt de groepsverwijzing ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+        "message": "Je hebt de groepslink ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ heeft de groepsverwijzing ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+        "message": "$adminName$ heeft de groepslink ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5388,15 +5392,15 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "De groepsverwijzing is ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
+        "message": "De groepslink is ingeschakeld met beheerderstoestemming-vereiste om lid te mogen worden ook ingeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Je hebt de groepsverwijzing uitgeschakeld.",
+        "message": "Je hebt de groepslink uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$ heeft de groepsverwijzing uitgeschakeld.",
+        "message": "$adminName$ heeft de groepslink uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5406,15 +5410,15 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "De groepsverwijzing is uitgeschakeld.",
+        "message": "De groepslink is uitgeschakeld.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Je hebt de groepsverwijzing vernieuwd.",
+        "message": "Je hebt de groepslink vernieuwd.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$ heeft de groepsverwijzing vernieuwd.",
+        "message": "$adminName$ heeft de groepslink vernieuwd.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5424,7 +5428,7 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "De groepsverwijzing is vernieuwd.",
+        "message": "De groepslink is vernieuwd.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
@@ -5726,7 +5730,7 @@
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
-        "message": "Groepsverwijzing",
+        "message": "Groepslink",
         "description": "This is the label for the group link management panel"
     },
     "ConversationDetails--disappearing-messages-label": {
@@ -5890,19 +5894,19 @@
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
-        "message": "Groepsverwijzing gekopieerd.",
+        "message": "Groepslink gekopieerd.",
         "description": "Shown in a toast when a user selects to copy group link"
     },
     "GroupLinkManagement--share": {
-        "message": "Verwijzing kopiëren",
+        "message": "Link kopiëren",
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Weet je zeker dat je de groepsverwijzing wilt vernieuwen? Als je de verwijzing vernieuwt zullen mensen niet langer lid kunnen worden via de huidige verwijzing.",
+        "message": "Weet je zeker dat je de groepslink wilt vernieuwen? Als je de link vernieuwt zullen mensen niet langer lid kunnen worden via de huidige link.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "Verwijzing vernieuwen",
+        "message": "Link vernieuwen",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5910,7 +5914,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Vereis voor iedere persoon die via de groepsverwijzing lid wil worden eerst toestemming van een beheerder",
+        "message": "Vereis voor iedere persoon die via de groepslink lid wil worden eerst toestemming van een beheerder",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5954,7 +5958,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "Wil je het lidmaatschapverzoek van “$name$” afwijzen? Als je dit doet dan kan hij of zij niet opnieuw via de groepsverwijzing verzoeken om lid te worden van de groep.",
+        "message": "Wil je het lidmaatschapverzoek van “$name$” afwijzen? Als je dit doet dan kan hij of zij niet opnieuw via de groepslink verzoeken om lid te worden van de groep.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -6040,7 +6044,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "Personen in deze lijst proberen via de groepsverwijzing lid te worden van “$name$”.",
+        "message": "Personen in deze lijst proberen via de groepslink lid te worden van “$name$”.",
         "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -6062,7 +6066,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ zal niet langer via de groepsverwijzing lid kunnen worden van deze groep en ook niet kunnen verzoeken om lid te worden van de groep. Hij of zij kan dan nog wel lid worden via een uitnodiging.",
+        "message": "$name$ zal niet langer via de groepslink lid kunnen worden van deze groep en ook niet kunnen verzoeken om lid te worden van de groep. Hij of zij kan dan nog wel lid worden via een uitnodiging.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6241,6 +6245,22 @@
         "message": "Afspeellengte van het audiobericht",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1,5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": "0,5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Klik op de $composeIcon$ hierboven en zoek een contactpersoon of groep om een bericht naar te verzenden.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -6368,7 +6388,7 @@
         }
     },
     "RemoveGroupMemberConfirmation__description__with-link": {
-        "message": "Wil je “$name$” van de groep verwijderen? Als je dit doet dan zal hij of zij niet via de groepsverwijzing verzoeken om opnieuw lid te worden van de groep.",
+        "message": "Wil je “$name$” van de groep verwijderen? Als je dit doet dan zal hij of zij niet via de groepslink verzoeken om opnieuw lid te worden van de groep.",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -7395,6 +7415,10 @@
         "message": "Verhaalinstellingen",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Kies wie dit verhaal kan bekijken",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Verzonden aan",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Groepen kiezen",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Mijn verhaalprivacy",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Kies welke Signal-contacten je verhaal kunnen zien. Je kunt dit altijd veranderen in je privacyinstellingen. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Verhalen delen en bekijken",
@@ -7630,7 +7668,7 @@
         "description": "Placeholder for the add text input"
     },
     "TextAttachment__preview__link": {
-        "message": "Verwijzing volgen",
+        "message": "Link volgen",
         "description": "Title for the link preview tooltip"
     },
     "Quote__story": {
@@ -7691,8 +7729,12 @@
         "message": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Als je het schermleesprogramma van JAWS gebruikt, kun je nu spraakmemo's afspelen en toegang krijgen tot langere berichten die ingekort worden achter een 'Meer informatie'-knop.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Verander de snelheid van gesproken berichten om tot de kern te komen of om meer details op te vangen.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Zoek sneller naar emoji's. Open de emojizoeker, sla de 🔍 over en typ gewoon wat je zoekt.",
+        "description": "Release notes for v5.57"
     }
 }

@@ -7,6 +7,10 @@
         "message": "ನಿಯಮಗಳು ಮತ್ತು ಖಾಸಗಿತನದ ನೀತಿ",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "ಆ್ಯಪಲ್ ಸಿಲಿಕಾನ್",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "ದೋಷವನ್ನು ಪ್ರತಿ ಮಾಡಿ ತ್ಯಜಿಸು",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗೆ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯ",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "ಮೇಲಿರುವ $composeIcon$ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೆಸೇಜ್ ಮಾಡಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಹುಡುಕಿ.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿರಿ",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "ಇವರಿಗೆ ಕಳುಹಿಸಿ",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "ಗ್ರೂಪ್‌ಗಳನ್ನು ಆರಿಸಿ",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "ನನ್ನ ಸ್ಟೋರೀಸ್ ಗೌಪ್ಯತೆ",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ನೀವು ಯಾವತ್ತೂ ಗೌಪ್ಯತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಲ್ಲಿ ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ವೀಕ್ಷಿಸಿ",
@@ -7691,8 +7729,12 @@
         "message": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "JAWS ಸ್ಕ್ರೀನ್ ರೀಡಿಂಗ್ ಪ್ರೋಗ್ರಾಂ ಅನ್ನು ನೀವು ಬಳಸುತ್ತಿದ್ದರೆ, ನೀವು ಯಶಸ್ವಿಯಾಗಿ ವಾಯ್ಸ್ ಮೆಮೋಸ್ ಪ್ಲೇ ಮಾಡಬಹುದು ಮತ್ತು “ಇನ್ನಷ್ಟು ಓದಿ” ಬಟನ್ ಹಿಂದೆ ಸಂಕ್ಷಿಪ್ತಗೊಳಿಸಲ್ಪಟ್ಟ‌ ದೀರ್ಘವಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಪ್ರವೇಶಿಸಬಹುದು.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "ಪಾಯಿಂಟ್ ಅನ್ನು ಪಡೆಯಲು ಅಥವಾ ವಿವರಗಳನ್ನು ಗ್ರಹಿಸಲು ಆಡಿಯೋ ಮೆಸೇಜ್‌ಗಳ ವೇಗವನ್ನು ಬದಲಾಯಿಸಿ.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "ನಿಮ್ಮ ಎಮೋಜಿ ಹುಡುಕುವಿಕೆಯನ್ನು ಸುಗಮಗೊಳಿಸಿ. ಎಮೋಜಿ ಪಿಕರ್ ಅನ್ನು ಸೆಳೆದ ಬಳಿಕ, 🔍 ಅನ್ನು ಸ್ಕಿಪ್ ಮಾಡಿ ಮತ್ತು ಕೀವರ್ಡ್‌ಗಳನ್ನು ಟೈಪ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ.",
+        "description": "Release notes for v5.57"
     }
 }
