@@ -7,7 +7,10 @@ import { TestUtils } from '..';
 import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { MessageModel } from '../../../models/message';
-import { OpenGroupMessageV4 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
+import {
+  OpenGroupMessageV4,
+  OpenGroupReactionMessageV4,
+} from '../../../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
 import { OpenGroupReaction } from '../../../types/Reaction';
 
 export function generateVisibleMessage({
@@ -29,13 +32,29 @@ export function generateVisibleMessage({
   });
 }
 
-export function generateOpenGroupMessageV2({ serverId }: { serverId: number }): OpenGroupMessageV2 {
+export function generateOpenGroupMessageV2(): OpenGroupMessageV2 {
+  return new OpenGroupMessageV2({
+    sentTimestamp: Date.now(),
+    sender: TestUtils.generateFakePubKey().key,
+    base64EncodedData: 'whatever',
+  });
+}
+
+// this is for test purposes only
+type OpenGroupMessageV2WithServerId = Omit<OpenGroupMessageV2, 'sender' | 'serverId'> & {
+  sender: string;
+  serverId: number;
+};
+
+export function generateOpenGroupMessageV2WithServerId(
+  serverId: number
+): OpenGroupMessageV2WithServerId {
   return new OpenGroupMessageV2({
     serverId,
     sentTimestamp: Date.now(),
     sender: TestUtils.generateFakePubKey().key,
     base64EncodedData: 'whatever',
-  });
+  }) as OpenGroupMessageV2WithServerId;
 }
 
 export function generateOpenGroupVisibleMessage(): OpenGroupVisibleMessage {
@@ -68,16 +87,16 @@ export function generateFakeIncomingPrivateMessage(): MessageModel {
 
 export function generateFakeIncomingOpenGroupMessageV4({
   id,
-  seqno,
   reactions,
+  seqno,
 }: {
-  seqno: number;
   id: number;
+  seqno?: number;
   reactions?: Record<string, OpenGroupReaction>;
-}): OpenGroupMessageV4 {
+}): OpenGroupMessageV4 | OpenGroupReactionMessageV4 {
   return {
     id, // serverId
-    seqno,
+    seqno: seqno ?? undefined,
     /** base64 */
     signature: 'whatever',
     /** timestamp number with decimal */

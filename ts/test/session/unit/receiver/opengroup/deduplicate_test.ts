@@ -21,9 +21,9 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('no duplicates', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: 222 });
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: 333 });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
       expect(filtered.length).to.be.eq(3);
       expect(filtered[0]).to.be.deep.eq(msg1);
@@ -32,11 +32,11 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('two duplicate sender but not the same timestamp', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: 222 });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
       msg2.sender = msg1.sender;
       msg2.sentTimestamp = Date.now() + 2;
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: 333 });
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
       expect(filtered.length).to.be.eq(3);
       expect(filtered[0]).to.be.deep.eq(msg1);
@@ -45,10 +45,10 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('two duplicate timestamp but not the same sender', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: 222 });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
       msg2.sentTimestamp = msg1.sentTimestamp;
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: 333 });
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
       expect(filtered.length).to.be.eq(3);
       expect(filtered[0]).to.be.deep.eq(msg1);
@@ -57,10 +57,10 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('two duplicate timestamp but not the same sender', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: 222 });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
       msg2.sentTimestamp = msg1.sentTimestamp;
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: 333 });
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
       expect(filtered.length).to.be.eq(3);
       expect(filtered[0]).to.be.deep.eq(msg1);
@@ -69,11 +69,11 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('two duplicates in the same poll ', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: msg1.serverId! });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
       msg2.sentTimestamp = msg1.sentTimestamp;
       msg2.sender = msg1.sender;
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: 333 });
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
       expect(filtered.length).to.be.eq(2);
       expect(filtered[0]).to.be.deep.eq(msg1);
@@ -81,10 +81,10 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
     });
 
     it('three duplicates in the same poll', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2({ serverId: 111 });
-      const msg2 = TestUtils.generateOpenGroupMessageV2({ serverId: msg1.serverId! });
+      const msg1 = TestUtils.generateOpenGroupMessageV2();
+      const msg2 = TestUtils.generateOpenGroupMessageV2();
 
-      const msg3 = TestUtils.generateOpenGroupMessageV2({ serverId: msg1.serverId! });
+      const msg3 = TestUtils.generateOpenGroupMessageV2();
       msg2.sentTimestamp = msg1.sentTimestamp;
       msg2.sender = msg1.sender;
       msg3.sentTimestamp = msg1.sentTimestamp;
