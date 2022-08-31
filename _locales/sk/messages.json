@@ -7,6 +7,10 @@
         "message": "Podmienky a Ochrana osobných údajov",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Kopírovať a ukončiť",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Čas prehrávania zvukovej prílohy",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Kliknite hore na $composeIcon$ a vyhľadajte svoje kontakty, alebo skupiny ktorým chcete poslať správu.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Nastavenia príbehu",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Vyberte, kto si môže pozrieť váš príbeh",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Poslať",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Vyberte skupiny",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Súkromie mojich príbehov",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Vyberte, ktoré Signal spojenia si môžu pozrieť váš príbeh. Výber môžete kedykoľvek zmeniť v nastaveniach súkromia. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Zdieľať a zobraziť príbehy",
@@ -7691,8 +7729,12 @@
         "message": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Ak používate program na čítanie obrazovky JAWS, teraz môžete jednoducho prehrávať hlasové správy a pristupovať k dlhším správam, ktoré boli skryté pod tlačidlom „zistiť viac“.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Zmeňte rýchlosť zvukových správ, aby ste si vypočuli len to podstatné, alebo zistili čo vám ušlo.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Zjednodušte si vyhľadávanie emoji. Po rozbalení ponuky s emoji, preskočte 🔍 a začnite rovno písať kľúčové slová.",
+        "description": "Release notes for v5.57"
     }
 }

@@ -7,6 +7,10 @@
         "message": "Điều khoản và Chính sách bảo mật",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Sao chép lỗi và thoát",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Thời gian phát lại của đính kèm âm thanh",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Nhấn $composeIcon$ ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Cài đặt story",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Chọn người có thể xem story của bạn",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Gửi đến",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Chọn nhóm",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Sự riêng tư của story của tôi",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Chọn các liên hệ Signal có thể xem story của bạn. Bạn luôn có thể thay đổi trong phần cài đặt sự riêng tư. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Chia sẻ & Xem Story",
@@ -7691,8 +7729,12 @@
         "message": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Nếu bạn đang sử dụng chương trình đọc màn hình JAWS, giờ đây bạn có thể phát ghi nhớ thoại và đọc được các tin nhắn dài được thu gọn với nút \"đọc thêm\".",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Thay đổi tốc độ của tin nhắn âm thanh để nắm nội dung dễ dàng hơn.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Cải thiện tốc độ tìm emoji. Sau khi mở bảng chọn emoji, bạn có thể bỏ qua nút 🔍 và gõ từ khóa luôn.",
+        "description": "Release notes for v5.57"
     }
 }

@@ -7,6 +7,10 @@
         "message": "Пайдалануу шарттары жана Купуялык саясаты",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Катаны көчүрүп, чыгуу",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Аудио тиркеменин ойнотуу убакыты",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Жогорудагы $composeIcon$ дегенди басып, баарлаша турган байланышты же топту табыңыз.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Окуя орнотуулары",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Окуяңызды кимдер көрө алат?",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Жөнөтүү",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Топторду тандоо",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Окуяларымдын купуялыгы",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Signal байланыштарыңыздын кимиси окуяңызды көрө ала турганын тандаңыз. Бул нерсени каалаган убакта купуялык параметрлеринен өзгөртө аласыз. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Окуяларды бөлүшүү жана көрүү",
@@ -7691,8 +7729,12 @@
         "message": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "JAWS экрандан окугучту колдонсоңуз, үн эскертмелерин ойнотуп, узун билдирүүлөрдү окуй аласыз (\"дагы\" дегендин аркасында жашырылган).",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Жакшыраак түшүнүү же майда-баратына чейин угуу үчүн аудио билдирүүлөрдүн ылдамдыгын өзгөртсөңүз болот.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Эми быйтыкчаларды оңой издейсиз. Быйтыкчаны бир жолу тандагандан кийин, аны кайра издеп 🔍 убара болбостон, жөн гана ачкыч сөздөрдү жазып баштасаңыз болот.",
+        "description": "Release notes for v5.57"
     }
 }

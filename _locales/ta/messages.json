@@ -7,6 +7,10 @@
         "message": "விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கை",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "ஆப்பிள் சிலிகான்",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "பிழையை நகலெடுத்து வெளியேற்றவும்",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "கேட்பொலி இணைப்பின் முழு இயக்க நேரம்",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1 எக்ஸ்",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள். ",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "ஸ்டோரி அமைப்புகள்",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "உங்கள் ஸ்டோரியை யார் பார்க்கலாம் என்பதைத் தேர்வு செய்யவும்",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "அனுப்பவும்",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "குழுக்களைத் தேர்ந்தெடுக்கவும்",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "என் ஸ்டோரீஸ் தனியுரிமை",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "உங்கள் ஸ்டோரியை எந்த சிக்னல் இணைப்புகள் பார்க்கலாம் என்பதைத் தேர்வு செய்யவும். தனியுரிமை அமைப்புகளில் நீங்கள் இதை எப்போது வேண்டுமானாலும் மாற்றலாம். $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
@@ -7691,8 +7729,12 @@
         "message": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "நீங்கள் JAWS ஸ்கிரீன் ரீடிங் திட்டத்தைப் பயன்படுத்துகிறீர்கள் எனில், நீங்கள் இப்போது குரல் மெமோக்களை வெற்றிகரமாக இயக்கலாம் மற்றும் \"மேலும் படிக்க\" பட்டனின் பின்னால் சுருக்கப்படும் நீண்ட செய்திகளை அணுகலாம்.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "விஷயத்திற்கு வருவதற்கு அல்லது விவரங்களை தெரிந்து கொள்வதற்கு ஆடியோ செய்திகளின் வேகத்தை மாற்றவும்.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "உங்கள் ஈமோஜி தேடலை சீரமைக்கவும். ஈமோஜி பிக்கரை மேலே இழுத்தவுடன், 🔍 -ஐத் தவிர்த்துவிட்டு, முக்கிய வார்த்தைகளை டைப் செய்யத் தொடங்கவும்.",
+        "description": "Release notes for v5.57"
     }
 }

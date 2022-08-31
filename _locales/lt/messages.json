@@ -7,6 +7,10 @@
         "message": "Sąlygos ir Privatumo politika",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "„Apple Silicon“",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Kopijuoti klaidą ir išeiti",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Garso įrašo priedo atkūrimo laikas",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1,5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": "0,5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Spustelėkite aukščiau ant $composeIcon$ ir ieškokite adresatų ar grupių, kuriems norite rašyti žinutę.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Istorijos nustatymai",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Pasirink, kas gali žiūrėti tavo istoriją",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Kam siųsti",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Pasirinkite grupes",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Mano istorijų privatumas",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Pasirink, kurie „Signal“ adresatai gali žiūrėti tavo istoriją. Bet kada galėsi pakeisti pasirinkimą privatumo nustatymuose. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Dalintis ir žiūrėti istorijas",
@@ -7691,8 +7729,12 @@
         "message": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Jei naudoji ekrano skaitymo programą JAWS, nuo šiol gali sėkmingai paleisti balso pastabas ir skaityti ilgesnes žinutes, kurios būna sutrumpintos ties mygtuku „Skaityti daugiau“.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Keisk garso žinučių greitį jei nori išgirsti tik esmę ar perklausyti išsamiai.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Jaustukų ieškok paprasčiau. Atidaręs jaustukų parinkiklį, praleisk 🔍 ir tiesiog įvesk raktinius žodžius.",
+        "description": "Release notes for v5.57"
     }
 }

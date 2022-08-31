@@ -7,6 +7,10 @@
         "message": "Syarat & Kebijakan Privasi",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Salin galat dan keluar",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Durasi dari lampiran audio",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Klik $composeIcon$ di atas dan cari kontak atau grup Anda untuk mengirimkan pesan.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Pengaturan cerita",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Pilih siapa yang bisa melihat cerita Anda",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Kirim ke",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Pilih grup",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Privasi cerita saya",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Pilih siapa saja koneksi Signal yang bisa melihat cerita Anda. Anda bisa mengubah ini di pengaturan privasi. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Bagikan & Lihat Cerita",
@@ -7668,7 +7706,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--1": {
-        "message": "Sedikit penyesuaian tambahan, perbaikan bug, dan penyempurnaan performa. Terima kasih telah menggunakan Signal!",
+        "message": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--2": {
@@ -7684,15 +7722,19 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--5": {
-        "message": "Sedikit penyesuaian tambahan, perbaikan bug, dan berbagai rencana untuk masa mendatang.",
+        "message": "Tambahan penyesuaian kecil, perbaikan bug, dan berbagai rencana untuk masa mendatang.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--6": {
-        "message": "Sedikit penyesuaian tambahan, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
+        "message": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Jika Anda menggunakan program pembaca layar JAWS, kini Anda bisa memutar memo suara dan mengakses pesan panjang yang dipersingkat di balik tombol “baca selengkapnya”.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Ubah kecepatan pesan audio agar bisa langsung menangkap intinya atau mendapat detail pesan.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Permudah pencarian emoji Anda. Begitu pemilih emoji ditampilkan, tak perlu lagi mencari-cari 🔍 dan langsung saja ketik kata kuncinya.",
+        "description": "Release notes for v5.57"
     }
 }

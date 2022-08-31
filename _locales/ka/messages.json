@@ -7,6 +7,10 @@
         "message": "წესების & კონფიდენციალურობის პოლიტიკა",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon-ი",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "ხარვეზის დაკოპირება და დახურვა",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -3496,7 +3500,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "გამოიყენე ჰეშთეგი $hashtag$ , რათა დაეხმარო სხვა ადამიანებს იპოვონ URL-ები ნებისმიერი პერსონალიზირებული სტიკერების ნაკრებისთვის, რომლებიც გსურს საჯაროდ ხელმისაწვდომი გახადო.",
+        "message": "გამოიყენე ჰეშთეგი $hashtag$ , რათა დაეხმარო სხვა ადამიანებს იპოვონ URL-ები ნებისმიერი არასტანდარტული სტიკერების ნაკრებისთვის, რომლებიც გსურს საჯაროდ ხელმისაწვდომი გახადო.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -4444,7 +4448,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "წევრმა ჯგუფის სახელი წაშალა.",
+        "message": "ჯგუფის წევრმა ჯგუფის სახელი წაშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -4462,7 +4466,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "წევრმა ჯგუფის ავატარი შეცვალა.",
+        "message": "ჯგუფის წევრმა ჯგუფის ავატარი შეცვალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
@@ -4480,11 +4484,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "წევრმა ჯგუფის ავატარი წაშალა.",
+        "message": "ჯგუფის წევრმა ჯგუფის ავატარი წაშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
-        "message": "$adminName$-მა შეცვალა ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინები“-ზე.",
+        "message": "$adminName$ -მა ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭა „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4494,15 +4498,15 @@
         }
     },
     "GroupV2--access-attributes--admins--you": {
-        "message": "შენ მიანიჭე ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინებს“.",
+        "message": "შენ ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭე „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "ადმინმა შეცვალა ჯგუფის ინფორმაციის რედაქტირების უფლება „მხოლოდ ადმინებს“-ზე..",
+        "message": "ადმინმა ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭა „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
-        "message": "$adminName$-მა ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება \"ყველა წევრზე\" დააყენა.",
+        "message": "$adminName$ -მა ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭა \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4512,15 +4516,15 @@
         }
     },
     "GroupV2--access-attributes--all--you": {
-        "message": "ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება \"ყველა წევრზე\" დააყენე.",
+        "message": "შენ ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭე \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "ადმინისტრატორმა ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება \"ყველა წევრზე\" დააყენა.",
+        "message": "ადმინმა ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭა \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
-        "message": "$adminName$-მა ვის შეუძლია ჯგუფის წევრობის რედაქტირება „მხოლოდ ადმინისტრატორებზე“ დააყენა.",
+        "message": "$adminName$ -მა ჯგუფის წევრობის რედაქტირება მიანიჭა „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4530,15 +4534,15 @@
         }
     },
     "GroupV2--access-members--admins--you": {
-        "message": "ვის შეუძლია ჯგუფის წევრობის რედაქტირება „მხოლოდ ადმინისტრატორებზე“ დააყენე.",
+        "message": "შენ ჯგუფის წევრობის რედაქტირება მიანიჭე „მხოლოდ ადმინებს“.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "ადმინისტრატორმა ვის შეუძლია ჯგუფის წევრობის რედაქტირება „მხოლოდ ადმინისტრატორებზე“ დააყენა.",
+        "message": "ადმინმა ჯგუფის წევრობის რედაქტირება მიანიჭა „მხოლოდ ადმინებს“",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
-        "message": "$adminName$-მა ვის შეუძლია ჯგუფის წევრობის რედაქტირება „ყველა წევრზე“ დააყენა.",
+        "message": "$adminName$ -მა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4548,19 +4552,19 @@
         }
     },
     "GroupV2--access-members--all--you": {
-        "message": "ვის შეუძლია ჯგუფის წევრობის რედაქტირება „ყველა წევრზე“ დააყენე.",
+        "message": "შენ ჯგუფის წევრობის რედაქტირება მიანიჭე \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "ადმინისტრატორმა ვის შეუძლია ჯგუფის წევრობის რედაქტირება „ყველა წევრზე“ დააყენა.",
+        "message": "ადმინმა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\".",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "გამორთე ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "შენ გამორთე ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$-მა გამორთო ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "$adminName$ -მა გამორთო ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4570,15 +4574,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "ადმინისტრატორმა გამორთო ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "ადმინმა გამორთო ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "ჩართე ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "შენ ჩართე ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$-მა ჩართო ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "$adminName$ -მა ჩართო ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4588,7 +4592,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "ადმინისტრატორმა ჩართო ადმინისტრატორის დასტური ჯგუფის ბმულისთვის.",
+        "message": "ადმინმა ჩართო ადმინის დასტური ჯგუფის ბმულისთვის.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4602,7 +4606,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$-მა დაამატა მოწვეული წევრი $inviteeName$.",
+        "message": "$memberName$ -მა დაამატა მოწვეული წევრი $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4616,7 +4620,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "წევრმა დაამატა მოწვეული წევრი $inviteeName$.",
+        "message": "ჯგუფის წევრმა დაამატა მოწვეული წევრი $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4626,7 +4630,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other": {
-        "message": "$inviteeName$ -მა $inviterName$-სგან მიღებული მოწვევა დაადასტურა.",
+        "message": "$inviteeName$ -მა $inviterName$ -სგან მიღებული მოწვევა დაადასტურა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4640,7 +4644,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$-მა ჯგუფში მოწვევა დაადასტურა.",
+        "message": "$inviteeName$ -მა ჯგუფში მოწვევა დაადასტურა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4650,7 +4654,7 @@
         }
     },
     "GroupV2--member-add--from-invite--you": {
-        "message": "$inviterName$-სგან მიღებული ჯგუფში მოწვევა დაადასტურე.",
+        "message": "შენ დაადასტურე $inviterName$ -ისგან მიღებული ჯგუფში გაწევრიანების მოწვევა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4664,7 +4668,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$-მა შენგან მიღებული ჯგუფში მოწვევა დაადასტურა.",
+        "message": "$inviteeName$ -მა დაადასტურა შენგან მიღებული ჯგუფში გაწევრიანების მოწვევა .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4674,7 +4678,7 @@
         }
     },
     "GroupV2--member-add--other--other": {
-        "message": "$adderName$-მა $addeeName$ დაამატა.",
+        "message": "$adderName$ -მა $addeeName$ დაამატა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adderName": {
@@ -4688,7 +4692,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "$memberName$ დაამატე.",
+        "message": "შენ $memberName$ დაამატე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4698,7 +4702,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "წევრმა $memberName$ დაამატა.",
+        "message": "ჯგუფის წევრმა $memberName$ დაამატა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4708,7 +4712,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$-მა ჯგუფში დაგამატა.",
+        "message": "$memberName$ -მა ჯგუფში დაგამატა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4730,7 +4734,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
-        "message": "$memberName$ ჯგუფს ჯგუფის ბმულით შემოუერთდა.",
+        "message": "$memberName$ ჯგუფს ჯგუფის ბმულით შეუერთდა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4740,7 +4744,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--other": {
-        "message": "$adminName$-მა შენი ჯგუფში გაწევრიანების მოთხოვნა დაადასტურა.",
+        "message": "$adminName$ -მა შენი ჯგუფში გაწევრიანების მოთხოვნა დაადასტურა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4754,7 +4758,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
-        "message": " $joinerName$-ის ჯგუფში გაწევრიანების მოთხოვნა დაადასტურე.",
+        "message": "$joinerName$ -ის ჯგუფში გაწევრიანების მოთხოვნა დაადასტურე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4764,7 +4768,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--other": {
-        "message": "$adminName$-მა $joinerName$-ის ჯგუფში გაწევრიანების მოთხოვნა დაადასტურა.",
+        "message": "$adminName$ -მა $joinerName$ -ის ჯგუფში გაწევრიანების მოთხოვნა დაადასტურა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4778,7 +4782,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--other--unknown": {
-        "message": " $joinerName$-ის ჯგუფში გაწევრიანების მოთხოვნა დადასტურებულია.",
+        "message": "$joinerName$ -ის ჯგუფში გაწევრიანების მოთხოვნა დადასტურებულია.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -4788,7 +4792,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$-მა $memberName$ ამოშალა.",
+        "message": "$adminName$ -მა $memberName$ ამოშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4802,7 +4806,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$-მა ჯგუფი დატოვა.",
+        "message": "$memberName$ -მა ჯგუფი დატოვა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4812,7 +4816,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "$memberName$ ამოშალე.",
+        "message": "შენ $memberName$ ამოშალე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4822,7 +4826,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "წევრმა $memberName$ ამოშალა.",
+        "message": "ჯგუფის წევრმა $memberName$ ამოშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4832,7 +4836,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$-მა ამოგშალა.",
+        "message": "$adminName$ -მა ამოგშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4850,7 +4854,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$-მა $memberName$ ადმინისტრატორად დანიშნა.",
+        "message": "$adminName$ -მა $memberName$ ადმინად დანიშნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4864,7 +4868,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "$memberName$ ადმინისტრატორად დანიშნე.",
+        "message": "შენ $memberName$ ადმინად დანიშნე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4874,7 +4878,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "ადმინისტრატორმა $memberName$ ადმინისტრატორად დანიშნა.",
+        "message": "ადმინმა $memberName$ ადმინად დანიშნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4884,7 +4888,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$-მა ადმინისტრატორად დაგნიშნა.",
+        "message": "$adminName$ -მა ადმინად დაგნიშნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4894,11 +4898,11 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "ადმინისტრატორმა ადმინისტრატორად დაგნიშნა.",
+        "message": "ადმინმა შენ ადმინად დაგნიშნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
-        "message": "$adminName$-მა $memberName$-ს ადმინისტრატორის პრივილეგიები გაუუქმა.",
+        "message": "$adminName$ -მა $memberName$ -ს ადმინის პრივილეგიები ჩამოართვა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4912,7 +4916,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--you": {
-        "message": "$memberName$-ს ადმინისტრატორის პრივილეგიები გაუუქმე.",
+        "message": "შენ $memberName$ -ს ადმინის პრივილეგიები ჩამოართვი.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4922,7 +4926,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "ადმინისტრატორმა $memberName$-ს ადმინისტრატორის პრივილეგიები გაუუქმა.",
+        "message": "ადმინმა $memberName$ -ს ადმინის პრივილეგიები ჩამოართვა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4932,7 +4936,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--other": {
-        "message": "$adminName$-მა ადმინისტრატორის პრივილეგიები გაგიუქმა.",
+        "message": "$adminName$ -მა ადმინის პრივილეგიები ჩამოგართვა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4942,11 +4946,11 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "ადმინისტრატორმა ადმინისტრატორის პრივილეგიები გაგიუქმა.",
+        "message": "ადმინმა ჩამოგართვა ადმინის პრივილეგიები.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
-        "message": "$memberName$-მა ჯგუფში 1 ადამიანი მოიწვია.",
+        "message": "$memberName$ -მა ჯგუფში 1 ადამიანი მოიწვია.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4976,7 +4980,7 @@
         }
     },
     "GroupV2--pending-add--one--you--other": {
-        "message": "$memberName$-მა ჯგუფში მოგიწვია.",
+        "message": "$memberName$ -მა ჯგუფში მოგიწვია.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4990,7 +4994,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--many--other": {
-        "message": "$memberName$-მა ჯგუფში $count$ ადამიანი მოიწვია.",
+        "message": "$memberName$ -მა ჯგუფში $count$ ადამიანი მოიწვია.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5024,7 +5028,7 @@
         }
     },
     "GroupV2--pending-remove--decline--other": {
-        "message": "$memberName$-ის მიერ მოწვეულმა ერთმა ადამიანმა უარი თქვა ჯგუფში მიწვევაზე.",
+        "message": "$memberName$ -ის მიერ მოწვეულმა 1-მა ადამიანმა უარი თქვა ჯგუფში გაწევრიანებაზე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5034,7 +5038,7 @@
         }
     },
     "GroupV2--pending-remove--decline--you": {
-        "message": "$inviteeName$-მა უარი თქვა შენს მიერ გაგზავნილ ჯგუფში მიწვევაზე.",
+        "message": "$inviteeName$ -მა უარი თქვა შენს მიერ გაგზავნილ ჯგუფში მიწვევაზე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5044,15 +5048,15 @@
         }
     },
     "GroupV2--pending-remove--decline--from-you": {
-        "message": "შენ უარი თქვი ჯგუფში მოწვევაზე.",
+        "message": "შენ უარი თქვი ჯგუფში გაწევრიანებაზე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1-მა ადამიანმა უარი თქვა ჯგუფში მიწვევაზე.",
+        "message": "1-მა ადამიანმა უარი თქვა ჯგუფში გაწევრიანებაზე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
-        "message": "$memberName$-მა 1 ადამიანს გაუუქმა ჯგუფში მოსაწვევი.",
+        "message": "$memberName$ -მა 1 ადამიანის ჯგუფში მოწვევა  გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5062,7 +5066,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "1 ადამიანს გაუუქმე ჯგუფში მოსაწვევი.",
+        "message": "1 ადამიანის ჯგუფში მოწვევა გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5072,7 +5076,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$-მა ჯგუფში მოსაწვევი გაგიუქმა.",
+        "message": "$inviterName$ -მა ჯგუფში მოწვევა გაგიუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -5082,7 +5086,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$-მა 1 ადამიანს გაუუქმა მოწვევა.",
+        "message": "$inviterName$ -მა 1 ადამიანის მოწვევა გააუქმა .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -5092,7 +5096,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "ადმინისტრატორმა 1 ადამიანს გაუუქმა ჯგუფში მოწვევა.",
+        "message": "ადმინმა 1 ადამიანის ჯგუფში მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5102,7 +5106,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--other": {
-        "message": "$memberName$-მა  $count$ ადამიანს გაუუქმა ჯგუფში მოწვევა.",
+        "message": "$memberName$ -მა  $count$ ადამიანის ჯგუფში მოწვევა გააუქმა .",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5116,7 +5120,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "ჯგუფში მოსაწვევი $count$ ადამიანს გაუუქმე.",
+        "message": "ჯგუფში $count$ ადამიანის მოწვევა გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5126,7 +5130,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "ადმინისტრატორმა ჯგუფში მოსაწვევი $count$ ადამიანს გაუუქმა.",
+        "message": "ადმინმა $count$ ადამიანის  ჯგუფში მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5136,7 +5140,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$-მა ჯგუფში მოსაწვევი 1, $memberName$-ის მოწვეულ ადამიანს გაუუქმა.",
+        "message": "$adminName$ -მა $memberName$ -ის ჯგუფში გაწევრიანების 1 ადამიანის მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5150,7 +5154,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "ჯგუფში მოსაწვევი 1, $memberName$-ის მოწვეულ ადამიანს გაუუქმე.",
+        "message": "$memberName$ -ის მიერ ჯგუფში მოწვეული 1 ადამიანის მოწვევა გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5160,7 +5164,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "ადმინისტრატორმა $memberName$-ის მიერ მოწვეულ 1 ადამიანს ჯგუფში მოწვევა გაუუქმა.",
+        "message": "ადმინმა $memberName$ -ის მიერ ჯგუფში მოწვეული 1 ადამიანის მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -5170,7 +5174,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$-მა შენი გაგზავნილი ჯგუფში მოწვევა $inviteeName$-ს გაუუქმა.",
+        "message": "$adminName$ -მა $inviteeName$ -სთვის შენი გაგზავნილი ჯგუფში მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5180,7 +5184,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "$inviteeName$-სთვის გაგზავნილი შენი მოწვევა გააუქმე.",
+        "message": "$inviteeName$ -სთვის გაგზავნილი შენი მოწვევა გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5190,7 +5194,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "ადმინისტრატორმა $inviteeName$-ს შენი გაგზავნილი ჯგუფში მოწვევა გაუუქმა.",
+        "message": "ადმინმა $inviteeName$-სთვის შენი გაგზავნილი ჯგუფში მოწვევა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5200,7 +5204,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--other": {
-        "message": "$adminName$-მა $memberName$-ის მოწვეულ $count$ ადამიანს ჯგუფში მოსაწვევი გაუუქმა.",
+        "message": "$adminName$ -მა $memberName$ -ის ჯგუფში მოწვეული $count$ ადამიანის  მოსაწვევი გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5214,7 +5218,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "$memberName$-ის მოწვეულ $count$ადამიანს ჯგუფში მოსაწვევი გაუუქმე.",
+        "message": "$memberName$ -ის ჯგუფში მოწვეული $count$ ადამიანის მოსაწვევი გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5228,7 +5232,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "$memberName$-ის მოწვეულ $count$ ადამიანს ადმინისტრატორმა ჯგუფში მოსაწვევი გაუუქმა.",
+        "message": "ადმინმა $memberName$ -ის ჯგუფში მოწვეული $count$ ადამიანის მოსაწვევი გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5242,7 +5246,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "შენ მოწვეულ $count$ ადამიანს $adminName$-მა ჯგუფში მოსაწვევი გაუუქმა.",
+        "message": "$adminName$ -მა ჯგუფში შენს მიერ მოწვეული $count$ ადამიანის მოსაწვევი გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5256,7 +5260,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "შენი გაგზავნილი მოსაწვევი $count$ ადამიანს გაუუქმე.",
+        "message": "შენს მიერ გაგზავნილი $count$ ადამიანის მოსაწვევი გააუქმე.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5266,7 +5270,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "შენ მოწვეულ $count$ ადამიანს ადმინისტრატორმა ჯგუფში მოსაწვევი გაუუქმა.",
+        "message": "ადმინმა ჯგუფში შენს მიერ მოწვეული $count$ ადამიანის მოსაწვევი გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5276,11 +5280,11 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "შენ ჯგუფში გასაწევრიანებლად მოთხოვნა გაგზავნე.",
+        "message": "შენ ჯგუფში გასაწევრიანებლად მოთხოვნა გააგზავნე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
-        "message": "$joinerName$-მა ითხოვა გაწევრიანება ჯგუფის ბმულით.",
+        "message": "$joinerName$ -მა ითხოვა გაწევრიანება ჯგუფის ბმულის მეშვეობით.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5290,7 +5294,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "შენ გააუქმე ჯგუფში გაწევრიანების მოთხოვნა.",
+        "message": "შენ გააუქმე ჯგუფში გაწევრიანების შენი მოთხოვნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
@@ -5298,7 +5302,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "$joinerName$-ის ჯგუფში გაწევრიანების მოთხოვნა უარყავი.",
+        "message": "$joinerName$ -ის ჯგუფში გაწევრიანების მოთხოვნა უარყავი.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5308,7 +5312,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--own": {
-        "message": "$joinerName$-მა ჯგუფში გაწევრიანების მოთხოვნა გააუქმა.",
+        "message": "$joinerName$ -მა ჯგუფში გაწევრიანების მოთხოვნა გააუქმა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5318,7 +5322,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$-მა $joinerName$-ის ჯგუფში გაწევრიანების მოთხოვნა უარყო.",
+        "message": "$adminName$ -მა $joinerName$ -ის ჯგუფში გაწევრიანების მოთხოვნა უარყო.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5332,7 +5336,7 @@
         }
     },
     "GroupV2--admin-approval-bounce--one": {
-        "message": "$joinerName$-მა მოითხოვა ჯგუფის ბმულით გაწევრიანება და გააუქმა თავისი მოთხოვნა",
+        "message": "$joinerName$ -მა მოითხოვა ჯგუფის ბმულით გაწევრიანება და გააუქმა თავისი მოთხოვნა",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5342,7 +5346,7 @@
         }
     },
     "GroupV2--admin-approval-bounce": {
-        "message": "$joinerName$-მა მოითხოვა ჯგუფის ბმულით გაწევრიანება და გააუქმა თავისი $numberOfRequests$ მოთხოვნა",
+        "message": "$joinerName$ -მა მოითხოვა ჯგუფის ბმულით გაწევრიანება და გააუქმა თავისი $numberOfRequests$ მოთხოვნა",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5356,11 +5360,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "შენ გათიშული ადმინისტრატორის დადასტურებით ჯგუფის ბმული ჩართე.",
+        "message": "შენ ჩართე ჯგუფის ბმული ადმინის დასტურის გათიშული ფუნქციით.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$-მა გათიშული ადმინისტრატორის დადასტურებით ჯგუფის ბმული ჩართო.",
+        "message": "$adminName$ -მა ჩართო ჯგუფის ბმული ადმინის დასტურის გათიშული ფუნქციით..",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5370,15 +5374,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "ჯგუფის ბმული ჩართულია გათიშული ადმინისტრატორის დადასტურებით.",
+        "message": "ჯგუფის ბმული ჩართულია ადმინის დასტურის გათიშული ფუნქციით..",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "ჯგუფის ბმული ჩართული ადმინისტრატორის დადასტურებით ჩართე.",
+        "message": "შენ ჩართე ჯგუფის ბმული ადმინის დასტურის ჩართული ფუნქციით.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$-მა ჯგუფის ბმული ჩართული ადმინისტრატორის დადასტურებით ჩართო.",
+        "message": "$adminName$ -მა ჯგუფის ბმული ჩართო ადმინის დასტურის ჩართული ფუნქციით.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5388,7 +5392,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "ჯგუფის ბმული ჩართული ადმინისტრატორის დადასტურებით ჩაირთო.",
+        "message": "ჩართო ჯგუფის ბმული ადმინის დასტურის ჩართული ფუნქციით.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -5396,7 +5400,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
-        "message": "$adminName$-მა ჯგუფის ბმული გამორთო.",
+        "message": "$adminName$ -მა ჯგუფის ბმული გამორთო.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5410,11 +5414,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "შენ შეცვალე ჯგუფის ბმული.",
+        "message": "შენ განაახლე ჯგუფის ბმული.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
-        "message": "$adminName$-მა ჯგუფის ბმული შეცვალა.",
+        "message": "$adminName$ -მა ჯგუფის ბმული განაახლა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5424,15 +5428,15 @@
         }
     },
     "GroupV2--group-link-reset--unknown": {
-        "message": "ჯგუფის ბმული შეცვლილია.",
+        "message": "ჯგუფის ბმული განახლებულია.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "ჯგუფის აღწერილობა წაშალე.",
+        "message": "შენ ჯგუფის აღწერილობა წაშალე.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "$memberName$-მა ჯგუფის აღწერილობა წაშლა.",
+        "message": "$memberName$ -მა ჯგუფის აღწერილობა წაშალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5450,7 +5454,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "$memberName$-მა ჯგუფის აღწერილობა შეცვალა.",
+        "message": "$memberName$ -მა ჯგუფის აღწერილობა შეცვალა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5468,7 +5472,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$-მა ჯგუფის პარამეტრები შეცვალა, რათა მხოლოდ ადმინისტრატორებს შეეძლოთ შეტყობინებების გაგზავნა.",
+        "message": "$memberName$ -მა ჯგუფის პარამეტრები შეცვალა ისე , რომ მხოლოდ ადმინებს შეეძლოთ შეტყობინებების გაგზავნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5478,7 +5482,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "ჯგუფი შეიცვალა და მხოლოდ ადმინისტრატორებს შეუძლიათ შეტყობინებების გაგზავნა.",
+        "message": "ჯგუფი შეიცვალა და მხოლოდ ადმინებს შეუძლიათ შეტყობინებების გაგზავნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -5486,7 +5490,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$-მა ჯგუფის პარამეტრები შეცვალა, რათა ყველა წევრს შეეძლოს შეტყობინებების გაგზავნა.",
+        "message": "$memberName$ -მა ჯგუფის პარამეტრები შეცვალა ისე, რომ ყველა წევრს შეეძლოს შეტყობინებების გაგზავნა.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5500,7 +5504,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "განაახლე ეს ჯგუფი ისეთი ახალი ფუნქციების გასააქტიურებლად, როგორიცაა @მონიშვნები და ადმინისტრატორები. წევრები, რომლებსაც არ გაუზიარებიათ თავიანთი სახელი ან ფოტო ამ ჯგუფში, მოწვეულნი იქნებიან შესაერთებლად. $learnMore$",
+        "message": "განაახლე ეს ჯგუფი ისეთი ახალი ფუნქციების გასააქტიურებლად, როგორიცაა @მონიშვნები და ადმინები. ჯგუფის წევრები, რომლებსაც არ გაუზიარებიათ თავიანთი სახელი ან ფოტო ამ ჯგუფში, მოწვეულნი იქნებიან გასაწევრიანებლად. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5514,7 +5518,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "მეტის გაგება",
+        "message": "გაიგე მეტი",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5542,7 +5546,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "იმისათვის, რომ კვლავ შეუერთდე ამ ჯგუფს, მოწვევას უნდა დაეთანხმო. ჯგუფურ შეტყობინებებსაც ვერ მიიღებ, სანამ მოწვევას არ დაეთანხმები.",
+        "message": "იმისათვის, რომ კვლავ შეუერთდე ამ ჯგუფს, მოწვევას უნდა დაეთანხმო. ჯგუფურ შეტყობინებებს ვერ მიიღებ, სანამ მოწვევას არ დაეთანხმები.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5566,7 +5570,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "ამ წევრს არ შეეძლო ახალ ჯგუფებში დაწევრიანება და ჯგუფიდან წაიშალა:",
+        "message": "ამ წევრს არ შეეძლო ახალ ჯგუფებში გაწევრიანება და ჯგუფიდან წაიშალა:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -5584,7 +5588,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "$count$ წევრი ვერ დაემატა ახალ ჯგუფს და მიწვეულია გასაწევრიანებლად.",
+        "message": "$count$ წევრი ვერ დაემატა ახალ ჯგუფს და მოწვეულია გასაწევრიანებლად.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5626,11 +5630,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Signal-ისთვის შემოწირულობის გაღება",
+        "message": "Signal-ისთვის დონაციის გაკეთება",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Signal-ისთვის შემოწირულობის გაღება",
+        "message": "Signal-ისთვის დონაციის გაკეთება",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5662,7 +5666,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop-ი არ უჭერს მხარს შეტყობინებებს Signal-ის გარეთ არსებული კონტაქტებისგან. სთხოვე ამ ადამიანს დააინსტალიროს Signal-ი უფრო უსაფრთხო შეტყობინებების გამოცდილებისთვის.",
+        "message": "Signal Desktop-ს არ აქვს Signal-ის გარე კონტაქტებთან მიმოწერის მხარდაჭერა. შესათავაზე ამ ადამიანს გადმოწეროს Signal-ი უფრო უსაფრთხო მიმოწერის გამოცდილების მისაღებად.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5750,7 +5754,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "აირჩიე, ვის შეუძლია დაარედაქტიროს ჯგუფის სახელი, ფოტო, აღწეროლობა და გაუჩინარებადი წერილების წამზომი.",
+        "message": "აირჩიე, ვის შეუძლია ჯგუფის სახელის, ფოტოს, აღწეროლობის და გაქრობადი შეტყობინებების ტაიმერის რედაქტირება.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5790,7 +5794,7 @@
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
-        "message": "მართლა გინდა გასვლა?",
+        "message": "ნამდვილად გინდა ჯგუფის დატოვება?",
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
@@ -5812,7 +5816,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-title": {
-        "message": "დავბლოკოთ და დავტოვოთ \"$groupName$\" ჯგუფი?",
+        "message": "გსურს ამ ჯგუფის \"$groupName$\" დავბლოკვა და დავტოვება?",
         "description": "This is the modal title for confirming blocking a group",
         "placeholders": {
             "groupName": {
@@ -5878,15 +5882,15 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "მიიღე შეტყობინებები, როცა დადუმებულ ჩატებში მოგნიშნავენ",
+        "message": "შეტყობინებების მიღება, როცა დადუმებულ ჩატებში მოგნიშნავენ",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
-        "message": "ყოველთვის მამცნობე",
+        "message": "ყოველთვის შემატყობინეთ",
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "არ მამცნობო, თუ დადუმებულია",
+        "message": "არ შემატყობინოთ, თუ დადუმებულია",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5898,11 +5902,11 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "დარწმუნებული ხარ, რომ გსურს ჯგუფის ბმული შეცვალო? ხალხი ჯგუფში გაწევრიანებას ამჟამინდელი ბმულის საშუალებით ვეღარ შეძლებს.",
+        "message": "დარწმუნებული ხარ, რომ გსურს ჯგუფის ბმულის განახლება? ჯგუფში გაწევრიანებას ამჟამინდელი ბმულის საშუალებით ვეღარ შეძლებენ.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "ბმულის შეცვლა",
+        "message": "ბმულის განახლება",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5910,7 +5914,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "მოითხოვე, რომ ახალი წევრები ჯგუფის ბმულის მეშვეობით ადმინისტრატორმა დაამტკიცოს",
+        "message": "მოითხოვე, რომ ადმინმა დაადასტუროს ახალი წევრები, ვინც ჯგუფის ბმულით ცდილობს გაწევრიანებას",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5944,7 +5948,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "უარვყოთ \"$name$\"-ის მოთხოვნა?",
+        "message": "ვუარყოთ \"$name$\"-ის მოთხოვნა?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5954,7 +5958,7 @@
         }
     },
     "PendingRequests--deny-for--with-link": {
-        "message": "უარვყოთ \"$name$\"-ის მოთხოვნა? ის ჯგუფის ბმულით გაწევრიანებას ვეღარ მოითხოვს.",
+        "message": "ვუარყოთ \"$name$\"-ის მოთხოვნა? ის ჯგუფის ბმულით გაწევრიანებას ვეღარ მოითხოვს.",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5968,7 +5972,7 @@
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "შენს მიერ მოწვეული",
+        "message": "შენი მოწვეული",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
@@ -5976,7 +5980,7 @@
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
-        "message": "მოწვეული $number$",
+        "message": " $number$ მოწვეული",
         "description": "This is the label for the number of members someone has invited",
         "placeholders": {
             "number": {
@@ -5990,7 +5994,7 @@
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "გავუუქმოთ \"$name$\"-ს ჯგუფში მოწვევა?",
+        "message": "გავაუქმოთ \"$name$\"-ს ჯგუფში მოწვევა?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -6040,7 +6044,7 @@
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
-        "message": "ხალხი ამ სიაში ცდილობს შეუერთდეს \"$name$\"-ს ჯგუფის ბმულის მეშვეობით.",
+        "message": "ადამიანები ამ სიაიიდან ცდილობენ \"$name$\"-ში გაწევრიანებას ჯგუფის ბმულის მეშვეობით.",
         "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
@@ -6062,7 +6066,7 @@
         "description": "Title of dialog to block a user from requesting to join via the link again"
     },
     "PendingRequests--block--contents": {
-        "message": "$name$ ვერ შეძლებს ამ ჯგუფში გაწევრიანებას ან ჯგუფის ბმულის საშუალებით გაწევრიანების მოთხოვნას. მისი ხელით დამატება ჯგუფში მაინც შეიძლება.",
+        "message": "$name$ ვერ შეძლებს ამ ჯგუფში გაწევრიანებას, ან ჯგუფის ბმულის საშუალებით გაწევრიანების მოთხოვნას. მისი ჯგუფში დამატება ხელით მაინც იქნება შესაძლებელი.",
         "description": "Details of dialog to block a user from requesting to join via the link again",
         "placeholders": {
             "name": {
@@ -6118,7 +6122,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ ავტომატურად ვერ დაემატება ამ ჯგუფს შენ მიერ.",
+        "message": "$name$ -ის ავტომატურად დამატება ამ ჯგუფში შენ მიერ შეუძლებელია.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -6188,7 +6192,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "კონტაქტ $name$-ის არჩევა",
+        "message": "კონტაქტის არჩევა $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -6198,7 +6202,7 @@
         }
     },
     "deselectContact": {
-        "message": "კონტაქტ $name$-ის არჩევის გაუქმება",
+        "message": "კონტაქტის არჩევის გაუქმება $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -6208,7 +6212,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "კონტაქტ $name$-ის არჩევა ვერ მოხერხდა",
+        "message": "კონტაქტის არჩევა ვერ მოხერხდა $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6218,11 +6222,11 @@
         }
     },
     "alreadyAMember": {
-        "message": "უკვე წევრია",
+        "message": "უკვე გაწევრიანებულია",
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "აუდიო დანართის დაკვრა",
+        "message": "აუდიო დანართის გაშვება",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
@@ -6241,8 +6245,24 @@
         "message": "აუდიო დანართის დაკვრის დრო",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
-        "message": "დააწკაპუნე $composeIcon$-ზე ზემოთ და მოძებნე შენი კონტაქტები ან ჯგუფები შეტყობინების გასაგზავნად.",
+        "message": "დააჭირე $composeIcon$ -ზე ზემოთ და მოძებნე შენი კონტაქტები ან ჯგუფები შეტყობინების გასაგზავნად.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -6252,7 +6272,7 @@
         }
     },
     "composeIcon": {
-        "message": "შედგენის ღილაკი",
+        "message": "შეტყობინების შედგენის ღილაკი",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -6340,7 +6360,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "$oldName$-მა ახლახანს თავისი პროფილის სახელი $newName$-ზე დააყენა",
+        "message": "$oldName$ -მა თავისი პროფილის სახელი ახლახანს $newName$ -ზე შეცვალა",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6378,7 +6398,7 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "გაიარე ვერიფიკაცია მიმოწერის გასაგრძელებლად",
+        "message": "მიმოწერის გასაგრძელებლად გაიარე ვერიფიკაცია",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
@@ -6418,7 +6438,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "ეს მორგებული ფერი $num$ ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?",
+        "message": "ეს არასტანდარტული ფერი $num$ ჩატშია გამოყენებული. გსურს მისი წაშლა ყველა ჩატისთვის?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6436,19 +6456,19 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "ჩატის ფერის გადაყენება",
+        "message": "ჩატის ფერის განახლება",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "ჩატის ფერების გადაყენება",
+        "message": "ჩატის ფერის განახლება",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "ყველა ჩატის ფერის გადაყენება",
+        "message": "ყველა ჩატის ფერის განახლება",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "ნაგულისხმევის გადაყენება",
+        "message": "ნაგულისხმევის განახლება",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -6456,11 +6476,11 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "გსურს ჩატის ყველა ფერის უგულებელყოფა?",
+        "message": "გსურს ყველა ჩატის ფერის გაუქმება?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "მორგებული ფერის რედაქტორის ჩვენება",
+        "message": "არასტანდარტული ფერის რედაქტორის ჩვენება",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -6468,11 +6488,11 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "სხვა ბუშტი.",
+        "message": "სხვა ბაბლი.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "ეს ფერი მხოლოდ შენთვისაა ხილული.",
+        "message": "ეს ფერი მხოლოდ შენთვისაა ხილვადი.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -6480,7 +6500,7 @@
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "დუბლიკატის გაკეთება",
+        "message": "დუბლირება",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -6488,11 +6508,11 @@
         "description": "Option in the custom color bubble context menu"
     },
     "CustomColorEditor__solid": {
-        "message": "მყარი",
+        "message": "ერთიანი",
         "description": "Tab label for selecting solid colors"
     },
     "CustomColorEditor__gradient": {
-        "message": "გარდამავალი",
+        "message": "გრადიენტი",
         "description": "Tab label for selecting a gradient"
     },
     "CustomColorEditor__hue": {
@@ -6500,19 +6520,19 @@
         "description": "Label for the hue slider"
     },
     "CustomColorEditor__saturation": {
-        "message": "სატურაცია",
+        "message": "გაჯერება",
         "description": "Label for the saturation slider"
     },
     "CustomColorEditor__title": {
-        "message": "მორგებული ფერი",
+        "message": "არასტანდარტული ფერი",
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "მორგებული დრო...",
+        "message": "არასტანდარტული დრო...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "მორგებული დროით",
+        "message": "არასტანდარტული დროით",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__label--value": {
@@ -6524,11 +6544,11 @@
         "description": "aria-label for the units of time select box"
     },
     "DisappearingTimeDialog__title": {
-        "message": "მორგებული დრო",
+        "message": "არასტანდარტული დრო",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "აირჩიე მორგებული დრო გაუჩინარებადი შეტყობინებებისთვის.",
+        "message": "აირჩიე არასტანდარტული დრო გაუჩინარებადი შეტყობინებებისთვის.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -6552,19 +6572,19 @@
         "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__weeks": {
-        "message": "კვირა",
+        "message": "კვირები",
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "დააყენე გაუჩინარებადი წერილების ნაგულისხმევი წამზომი შენ მიერ დაწყებული ყველა ახალი ჩატისთვის.",
+        "message": "დააყენე გაქრობადი შეტყობინებების ნაგულისხმევი ტაიმერი შენ მიერ დაწყებული ყველა ახალი ჩატისთვის.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "ნაგულისხმევი წამზომი ახალი ჩატებისთვის",
+        "message": "ნაგულისხმევი ტაიმერი ახალი ჩატებისთვის",
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "გაუჩინარებადი შეტყობინების დრო დაყენდება $timeValue$-ზე, როდესაც მათ გაგზავნი.",
+        "message": "გაქრობადი შეტყობინებების დრო დაყენდება $timeValue$ -ზე, როდესაც მათ გააგზავნი.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6582,7 +6602,7 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "ჯგუფის აღწერილობები ხილული იქნება ამ ჯგუფის წევრებისა და მოწვეული ადამიანებისთვის.",
+        "message": "ჯგუფის აღწერილობები ხილვადი იქნება ამ ჯგუფის წევრებისა და მოწვეული ადამიანებისთვის.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6602,7 +6622,7 @@
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "უფრო სწრაფი, მეტი მობილური ინტერნეტი",
+        "message": "უფრო სწრაფი, ნაკლები მობილური ინტერნეტი",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -6610,7 +6630,7 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "უფრო ნელი, მეტი მონაცემი",
+        "message": "უფრო ნელი, მეტი მობილური ინტერნეტი",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
@@ -6622,19 +6642,19 @@
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "გაგზავნილია ჩამოთვლილ ადამიანებთან",
+        "message": "გაგზავნილია ჩამოთვლილებთან",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "გაეგზავნათ ჩამოთვლილ ადამიანებს",
+        "message": "მიუვიდათ ჩამოთვლილებს",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "წაიკითხეს ჩამოთვლილმა ადამიანებმა",
+        "message": "წაიკითხეს ჩამოთვლილებმა",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "ნახეს ჩამოთვლილმა ადამიანებმა",
+        "message": "ნახეს ჩამოთვლილებმა",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
@@ -6650,11 +6670,11 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Signal-ზე მომხმარებლის სახელები არჩევითია. თუ მომხმარებლის სახელის შექმნას აირჩევ, Signal-ის სხვა მომხმარებლები შეძლებენ შენს პოვნას ამ მომხმარებლის სახელით და შენი ტელეფონის ნომრის ცოდნის გარეშე დაგიკავშირდებიან.",
+        "message": "Signal-ზე მომხმარებლის სახელები ნებაყოფლობითია. თუ მომხმარებლის სახელის შექმნას აირჩევ, Signal-ის სხვა მომხმარებლები შეძლებენ შენს პოვნას ამ მომხმარებლის სახელით და შენი ტელეფონის ნომრის ცოდნის გარეშე დაგიკავშირდებიან.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "მომხმარებლის სახელში შეიძლება იყოს მხოლოდ ა-ჰ, 0-9 და _",
+        "message": "მომხმარებლის სახელში შეიძლება იყოს მხოლოდ a-z, 0-9 და _",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6698,7 +6718,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "ეს წაშლის სენს მომხმარებლის სახელს და ნებას მისცემს სხვა მომხმარებლებს, ის გამოიყენონ. დარწმუნებული ხარ?",
+        "message": "ეს წაშლის შენს მომხმარებლის სახელს და ნებას მისცემს სხვა მომხმარებლებს, ის გამოიყენონ. დარწმუნებული ხარ?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6718,11 +6738,11 @@
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
-        "message": "გსურს ამ ცვლილებების წაშლა?",
+        "message": "გსურს ამ ცვლილებების გაუქმება?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "შენი პროფილი დაშიფრულია. შენი პროფილი და მისი ცვლილებები ხილული იქნება შენი კონტაქტებისთვის და როდესაც დაიწყებ ან დაადასტურებ ახალ ჩატებს. $learnMore$",
+        "message": "შენი პროფილი დაშიფრულია. შენი პროფილი და მისი ცვლილებები ხილვადი იქნება შენი კონტაქტებისთვის და მაშინ, როდესაც დაიწყებ ან დაადასტურებ ახალ ჩატებს. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6732,7 +6752,7 @@
         }
     },
     "ProfileEditor--learnMore": {
-        "message": "მეტის გაგება",
+        "message": "გაიგე მეტი",
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
@@ -6740,7 +6760,7 @@
         "description": "A default bio option"
     },
     "Bio--encrypted": {
-        "message": "დაშიფრული",
+        "message": "დაშიფრულია",
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
@@ -6752,7 +6772,7 @@
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "Შესვენება",
+        "message": "Შესვენებაზეა",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {
@@ -6784,7 +6804,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "მხოლოდ $admins$-ს შეუძლიათ შეტყობინებების გაგზავნა",
+        "message": "მხოლოდ $admins$ -ს შეუძლიათ შეტყობინებების გაგზავნა",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6834,7 +6854,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "ბოლო იმპორტირება $date$-ს $time$-ზე",
+        "message": "ბოლო იმპორტირება $date$ -ში $time$-ზე",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6860,11 +6880,11 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და შედი პარამეტრებში, შემდეგ კი ჩატებში",
+        "message": "ამ პარამეტრის შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და შედი პარამეტრებში, შემდეგ კი > ჩატები",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
-        "message": "Მოწინავე",
+        "message": "დეტალური",
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
@@ -6900,7 +6920,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "ამ პარამეტრების შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და გადადი პარამეტრებში, შემდეგ კი კონფიდენციალურობაში",
+        "message": "ამ პარამეტრების შესაცვლელად გახსენი Signal-ის აპი შენს მობილურ მოწყობილობაზე და გადადი პარამეტრებში, შემდეგ კი > კონფიდენციალურობა",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6928,7 +6948,7 @@
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
-        "message": "წაკითხვის ქვითრები",
+        "message": "წაკითხვის დასტური",
         "description": "Label for the read receipts setting"
     },
     "Preferences--typing-indicators": {
@@ -6952,7 +6972,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "ვერსია $version$-ზე განახლება ხელმისაწვდომია",
+        "message": "განახლება ვერსია $version$-ზე ხელმისაწვდომია",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6962,7 +6982,7 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal-ის დახურვა ვერ მოხერხდა.",
+        "message": "Signal-ის დახურვა შეუძლებელია.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
@@ -6988,11 +7008,11 @@
         "description": "Displayed when Windows installer cannot uninstall the old application"
     },
     "CrashReportDialog__title": {
-        "message": "აპლიკაციამ გაჭედა",
+        "message": "აპლიკაცია გაიჭედა",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal-ი გაჭედვის შემდეგ დარესტარტდა. შეგიძლია გაჭედვის შესახებ ანგარიში წარადგინო, რათა დაეხმარო Signal-ს პრობლემის გამოძიებაში.",
+        "message": "Signal-ი გაჭედვის შემდეგ გადაიტვირთა. შეგიძლია გაჭედვის შესახებ ანგარიში გააგზავნო, რათა დაეხმარო Signal-ს პრობლემის გამოძიებაში.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -7004,7 +7024,7 @@
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
-        "message": "მორგებული რეაქციები",
+        "message": "რეაქციების პერსონალიზირება",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
@@ -7036,7 +7056,7 @@
         "description": "Label for the undo button in the media editor"
     },
     "MediaEditor__control--redo": {
-        "message": "ხელახლა გაკეთება",
+        "message": "დაბრუნება",
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
@@ -7044,7 +7064,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "დაჰაილაითება",
+        "message": "გამოკვეთა",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
@@ -7088,7 +7108,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "შემობრუნება",
+        "message": "გადატრიალება",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -7222,7 +7242,7 @@
         "description": "Placeholder label for the story view"
     },
     "Stories__from-to-group": {
-        "message": "$name$ $group$-ს",
+        "message": "$name$ $group$ -ს",
         "description": "Title for someone sending a story to a group",
         "placeholders": {
             "name": {
@@ -7395,6 +7415,10 @@
         "message": "Story-ის პარამეტრები",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "აირჩიე ვინ შეძლებს შენი Story-ის ნახვას",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "გაეგზავნოთ ჩამოთვლილებს",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "ჯგუფების არჩევა",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "ჩემი Stories-ების კონფიდენციალურობა",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "აირჩიე Signal-ის რომელი კონტაქტები შეძლებენ შენი Story-ის ნახვას. ამის შეცვლას ყოველთვის შეძლებ კონფიდენციალურობის პარამეტრებში. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "გააზიარე და ნახე Stories-ები",
@@ -7496,11 +7534,11 @@
         "description": "Title for replies tab"
     },
     "StoryViewsNRepliesModal__react": {
-        "message": "Story-ის დარეაქტება",
+        "message": "Story-ზე გამოხმაურება",
         "description": "aria-label for reaction button"
     },
     "StoryViewsNRepliesModal__reacted": {
-        "message": "დაარეაქტა Story-ი",
+        "message": "Story-იზე გამოხმაურება",
         "description": "Description of someone reacting to a story"
     },
     "StoryListItem__label": {
@@ -7638,7 +7676,7 @@
         "description": "Title for replies to stories"
     },
     "Quote__story-reaction": {
-        "message": "$name$-ის Story-ი დაარეაქტა",
+        "message": "$name$ -ის Story-ის გამოეხმაურა",
         "description": "Label for when a person reacts to a story",
         "placeholders": {
             "name": {
@@ -7648,7 +7686,7 @@
         }
     },
     "Quote__story-reaction--single": {
-        "message": "დაარეაქტა Story-ი",
+        "message": "გამოეხმაურა Story-ის",
         "description": "Used whenever we can't find a user's first name"
     },
     "Quote__story-unavailable": {
@@ -7664,7 +7702,7 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და შეცდომის გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
+        "message": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__bugfixes--1": {
@@ -7691,8 +7729,12 @@
         "message": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "თუ JAWS-ის ეკრანის წამკითხველ პროგრამას იყენებ, ახლა უკვე წარმატებით შეგიძლია ააჟღერო ხმოვანი ჩანიშვნები და მიიღო წვდომა უფრო გრძელ შეტყობინებებზე, რომლებიც “წაიკითხე მეტი” ღილაკის საშუალებით მოკლდებიან.",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "შეცვალე აუდიო შეტყობინებების სიჩქარე, რათა აზრი გამოიტანო ან დეტალებს ჩაწვდე.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "გაიმარტივე emoji-ს ძებნა. როგორც კი emoji-ის ამომრჩეველს ამოქაჩავ, გამოტოვე 🔍 და პირდაპირ საკვანძო სიტყვების აკრეფა დაიწყე.",
+        "description": "Release notes for v5.57"
     }
 }

@@ -7,6 +7,10 @@
         "message": "Όροι & Πολιτική απορρήτου",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
+    "appleSilicon": {
+        "message": "Apple silicon",
+        "description": "Shown in the about box for Apple silicon product name"
+    },
     "copyErrorAndQuit": {
         "message": "Αντιγραφή σφάλματος και έξοδος",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -6241,6 +6245,22 @@
         "message": "Χρόνος αναπαραγωγής του συνημμένου ήχου",
         "description": "Aria label for audio attachment's playback time slider"
     },
+    "MessageAudio--playbackRate1x": {
+        "message": "1x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate1p5x": {
+        "message": "1.5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRate2x": {
+        "message": "2x",
+        "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+    },
+    "MessageAudio--playbackRatep5x": {
+        "message": ".5x",
+        "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+    },
     "emptyInboxMessage": {
         "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
         "description": "Shown in the left-pane when the inbox is empty",
@@ -7395,6 +7415,10 @@
         "message": "Ρυθμίσεις ιστορίας",
         "description": "Button label to get to story settings"
     },
+    "SendStoryModal__choose-who-can-view": {
+        "message": "Επίλεξε ποιοι μπορούν να δουν αυτήν την ιστορία",
+        "description": "Shown during the first time posting a story"
+    },
     "SendStoryModal__title": {
         "message": "Αποστολή σε",
         "description": "Title for the send story modal"
@@ -7426,6 +7450,20 @@
     "SendStoryModal__choose-groups": {
         "message": "Επιλογή ομάδας",
         "description": "Modal title when choosing groups"
+    },
+    "SendStoryModal__my-stories-privacy": {
+        "message": "Απόρρητο ιστοριών",
+        "description": "Modal title for setting privacy for My Stories"
+    },
+    "SendStoryModal__privacy-disclaimer": {
+        "message": "Επίλεξε ποιες επαφές σου στο Signal μπορούν να δουν την ιστορία σου. Μπορείς πάντα να το αλλάξεις αυτό στις ρυθμίσεις απορρήτου. $learnMore$",
+        "description": "Disclaimer on how changes to story settings work",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
     },
     "Stories__settings-toggle--title": {
         "message": "Κοινοποίηση και προβολή ιστοριών",
@@ -7691,8 +7729,12 @@
         "message": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
         "description": "Release notes for releases that only include bug fixes"
     },
-    "WhatsNew__v5.53--1": {
-        "message": "Εάν χρησιμοποιείς το πρόγραμμα ανάγνωσης οθόνης JAWS, μπορείς πλέον να αναπαράγεις με επιτυχία φωνητικές σημειώσεις και να έχεις πρόσβαση σε μεγαλύτερα μηνύματα που γίνονται συντόμευση πίσω από ένα κουμπί \"διάβασε περισσότερα\".",
-        "description": "Release notes for v5.53"
+    "WhatsNew__v5.57--1": {
+        "message": "Άλλαξε την ταχύτητα των ηχητικών μηνυμάτων για να μπεις στο νόημα ή να πιάσεις όλες τις λεπτομέρειες.",
+        "description": "Release notes for v5.57"
+    },
+    "WhatsNew__v5.57--2": {
+        "message": "Βελτιστοποίησε την αναζήτηση emoji. Μόλις ανασύρεις τον επιλογέα emoji, παράλειψε το 🔍 και απλώς ξεκίνα να πληκτρολογείς λέξεις-κλειδιά. ",
+        "description": "Release notes for v5.57"
     }
 }
