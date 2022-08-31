@@ -24,9 +24,9 @@ import type { ToastConversationMarkedUnread } from '../components/ToastConversat
 import type { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import type { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import type {
-  ToastDecryptionError,
-  ToastPropsType as ToastDecryptionErrorPropsType,
-} from '../components/ToastDecryptionError';
+  ToastInternalError,
+  ToastPropsType as ToastInternalErrorPropsType,
+} from '../components/ToastInternalError';
 import type { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import type { ToastExpired } from '../components/ToastExpired';
 import type {
@@ -78,8 +78,8 @@ export function showToast(Toast: typeof ToastConversationMarkedUnread): void;
 export function showToast(Toast: typeof ToastConversationUnarchived): void;
 export function showToast(Toast: typeof ToastDangerousFileType): void;
 export function showToast(
-  Toast: typeof ToastDecryptionError,
-  props: ToastDecryptionErrorPropsType
+  Toast: typeof ToastInternalError,
+  props: ToastInternalErrorPropsType
 ): void;
 export function showToast(Toast: typeof ToastDeleteForEveryoneFailed): void;
 export function showToast(Toast: typeof ToastExpired): void;

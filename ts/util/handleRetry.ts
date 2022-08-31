@@ -20,7 +20,10 @@ import * as RemoteConfig from '../RemoteConfig';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
-import { ToastDecryptionError } from '../components/ToastDecryptionError';
+import {
+  ToastInternalError,
+  ToastInternalErrorKind,
+} from '../components/ToastInternalError';
 import { showToast } from './showToast';
 import * as Errors from '../types/errors';
 
@@ -210,7 +213,8 @@ function maybeShowDecryptionToast(
   }
 
   log.info(`maybeShowDecryptionToast/${logId}: Showing decryption error toast`);
-  showToast(ToastDecryptionError, {
+  showToast(ToastInternalError, {
+    kind: ToastInternalErrorKind.DecryptionError,
     deviceId,
     name,
     onShowDebugLog: () => window.showDebugLog(),

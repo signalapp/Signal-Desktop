@@ -643,6 +643,10 @@
       }
     }
   },
+  "cdsMirroringErrorToast": {
+    "message": "Desktop ran into a Contact Discovery Service inconsistency.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",

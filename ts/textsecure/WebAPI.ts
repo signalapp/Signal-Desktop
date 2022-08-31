@@ -63,6 +63,12 @@ import type {
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl } from '../util/url';
+import {
+  ToastInternalError,
+  ToastInternalErrorKind,
+} from '../components/ToastInternalError';
+import { showToast } from '../util/showToast';
+import { isProduction } from '../util/version';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -2860,6 +2866,7 @@ export function initialize({
 
         const expectedMap = await expectedMapPromise;
         let matched = 0;
+        let warnings = 0;
         for (const [e164, { aci }] of actualMap) {
           if (!aci) {
             continue;
@@ -2869,11 +2876,20 @@ export function initialize({
           if (expectedACI === aci) {
             matched += 1;
           } else {
+            warnings += 1;
             log.warn(
               `cdsLookup: mirrored request has aci=${aci} for ${e164}, while ` +
                 `expected aci=${expectedACI}`
             );
           }
+        }
+
+        if (warnings !== 0 && !isProduction(window.getVersion())) {
+          log.info('cdsLookup: showing error toast');
+          showToast(ToastInternalError, {
+            kind: ToastInternalErrorKind.CDSMirroringError,
+            onShowDebugLog: () => window.showDebugLog(),
+          });
         }
 
         log.info(`cdsLookup: mirrored request success, matched=${matched}`);
