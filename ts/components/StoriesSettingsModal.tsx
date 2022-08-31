@@ -16,6 +16,8 @@ import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { ContactPills } from './ContactPills';
+import { ContactPill } from './ContactPill';
 import { ConversationList, RowType } from './ConversationList';
 import { Input } from './Input';
 import { Intl } from './Intl';
@@ -807,38 +809,26 @@ export const EditDistributionList = ({
           value={searchTerm}
         />
         {selectedContacts.length ? (
-          <div className="StoriesSettingsModal__tags">
+          <ContactPills moduleClassName="StoriesSettingsModal__tags">
             {selectedContacts.map(contact => (
-              <div className="StoriesSettingsModal__tag" key={contact.id}>
-                <Avatar
-                  acceptedMessageRequest={contact.acceptedMessageRequest}
-                  avatarPath={contact.avatarPath}
-                  badge={getPreferredBadge(contact.badges)}
-                  color={contact.color}
-                  conversationType={contact.type}
-                  i18n={i18n}
-                  isMe={contact.isMe}
-                  sharedGroupNames={contact.sharedGroupNames}
-                  size={AvatarSize.TWENTY_EIGHT}
-                  theme={ThemeType.dark}
-                  title={contact.title}
-                />
-                <span className="StoriesSettingsModal__tag__name">
-                  {contact.firstName ||
-                    contact.profileName ||
-                    contact.phoneNumber}
-                </span>
-                <button
-                  aria-label={i18n('StoriesSettings__remove--title', [
-                    contact.title,
-                  ])}
-                  className="StoriesSettingsModal__tag__remove"
-                  onClick={() => toggleSelectedConversation(contact.id)}
-                  type="button"
-                />
-              </div>
+              <ContactPill
+                key={contact.id}
+                acceptedMessageRequest={contact.acceptedMessageRequest}
+                avatarPath={contact.avatarPath}
+                color={contact.color}
+                firstName={contact.firstName}
+                i18n={i18n}
+                id={contact.id}
+                isMe={contact.isMe}
+                name={contact.name}
+                phoneNumber={contact.phoneNumber}
+                profileName={contact.profileName}
+                sharedGroupNames={contact.sharedGroupNames}
+                title={contact.title}
+                onClickRemove={() => toggleSelectedConversation(contact.id)}
+              />
             ))}
-          </div>
+          </ContactPills>
         ) : undefined}
         {candidateConversations.length ? (
           <Measure bounds>

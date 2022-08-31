@@ -3,15 +3,20 @@
 
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useRef, useEffect, Children } from 'react';
+import classNames from 'classnames';
 
 import { usePrevious } from '../hooks/usePrevious';
 import { scrollToBottom } from '../util/scrollUtil';
 
 type PropsType = {
+  moduleClassName?: string;
   children?: ReactNode;
 };
 
-export const ContactPills: FunctionComponent<PropsType> = ({ children }) => {
+export const ContactPills: FunctionComponent<PropsType> = ({
+  moduleClassName,
+  children,
+}) => {
   const elRef = useRef<null | HTMLDivElement>(null);
 
   const childCount = Children.count(children);
@@ -26,7 +31,10 @@ export const ContactPills: FunctionComponent<PropsType> = ({ children }) => {
   }, [childCount, previousChildCount]);
 
   return (
-    <div className="module-ContactPills" ref={elRef}>
+    <div
+      className={classNames('module-ContactPills', moduleClassName)}
+      ref={elRef}
+    >
       {children}
     </div>
   );

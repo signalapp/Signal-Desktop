@@ -203,28 +203,9 @@
 
   &__tags {
     margin: 0 -4px;
-  }
 
-  &__tag {
-    align-items: center;
-    background: $color-gray-75;
-    border-radius: 26px;
-    color: $color-gray-05;
-    display: inline-flex;
-    padding: 4px 0;
-    margin: 0 4px;
-
-    &__name {
-      margin-left: 4px;
-    }
-
-    &__remove {
-      @include button-reset;
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
-      height: 12px;
-      margin: 0 8px;
-      width: 12px;
-    }
+    // Override .module-ContactPills
+    padding: 0;
   }
 
   &__name-story-avatar-container {
