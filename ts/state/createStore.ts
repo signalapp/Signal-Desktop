@@ -40,6 +40,9 @@ const logger = createLogger({
     if (action.type === 'network/CHECK_NETWORK_STATUS') {
       return false;
     }
+    if (action.type === 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE') {
+      return false;
+    }
     return true;
   },
 });
