@@ -317,12 +317,17 @@ const handleOpenGroupMessageReactions = async (
         senders.push(reactor);
       });
 
-      reacts[emoji] = {
-        count: reactions[key].count,
-        index: reactions[key].index,
-        senders,
-        you,
-      };
+      if (reactions[key].count > 0) {
+        reacts[emoji] = {
+          count: reactions[key].count,
+          index: reactions[key].index,
+          senders,
+          you,
+        };
+      } else {
+        // tslint:disable-next-line: no-dynamic-delete
+        delete reacts[key];
+      }
     });
 
     originalMessage.set({

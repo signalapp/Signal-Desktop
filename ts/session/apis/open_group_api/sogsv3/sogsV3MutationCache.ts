@@ -38,13 +38,10 @@ export function getMutationCache() {
 function verifyEntry(entry: SogsV3Mutation): boolean {
   return Boolean(
     entry.server &&
-      entry.server !== '' &&
       entry.room &&
-      entry.room !== '' &&
       entry.changeType === ChangeType.REACTIONS &&
       entry.metadata.messageId &&
       entry.metadata.emoji &&
-      entry.metadata.emoji !== '' &&
       (entry.metadata.action === 'ADD' ||
         entry.metadata.action === 'REMOVE' ||
         entry.metadata.action === 'CLEAR')
