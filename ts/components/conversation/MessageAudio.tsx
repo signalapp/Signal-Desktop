@@ -633,39 +633,46 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       >
         {timeToText(countDown)}
       </div>
+
+      <div className={`${CSS_BASE}__controls`}>
+        <div
+          aria-hidden="true"
+          className={classNames(
+            `${CSS_BASE}__dot`,
+            `${CSS_BASE}__dot--${played ? 'played' : 'unplayed'}`
+          )}
+        />
+        {isPlaying && (
+          <button
+            type="button"
+            className={classNames(`${CSS_BASE}__playback-rate-button`)}
+            onClick={ev => {
+              ev.stopPropagation();
+              setPlaybackRate(nextPlaybackRate(playbackRate));
+            }}
+            tabIndex={0}
+          >
+            {playbackRateLabels[playbackRate]}
+          </button>
+        )}
+      </div>
+
       {!withContentBelow && !collapseMetadata && (
-        <>
-          <div className={`${CSS_BASE}__controls`}>
-            {isPlaying && (
-              <button
-                type="button"
-                className={classNames(`${CSS_BASE}__playback-rate-button`)}
-                onClick={ev => {
-                  ev.stopPropagation();
-                  setPlaybackRate(nextPlaybackRate(playbackRate));
-                }}
-                tabIndex={0}
-              >
-                {playbackRateLabels[playbackRate]}
-              </button>
-            )}
-          </div>
-          <MessageMetadata
-            direction={direction}
-            expirationLength={expirationLength}
-            expirationTimestamp={expirationTimestamp}
-            hasText={withContentBelow}
-            i18n={i18n}
-            id={id}
-            isShowingImage={false}
-            isSticker={false}
-            isTapToViewExpired={false}
-            showMessageDetail={showMessageDetail}
-            status={status}
-            textPending={textPending}
-            timestamp={timestamp}
-          />
-        </>
+        <MessageMetadata
+          direction={direction}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+          hasText={withContentBelow}
+          i18n={i18n}
+          id={id}
+          isShowingImage={false}
+          isSticker={false}
+          isTapToViewExpired={false}
+          showMessageDetail={showMessageDetail}
+          status={status}
+          textPending={textPending}
+          timestamp={timestamp}
+        />
       )}
     </div>
   );
