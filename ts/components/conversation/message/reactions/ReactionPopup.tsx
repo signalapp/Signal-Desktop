@@ -1,7 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { PubKey } from '../../../../session/types/PubKey';
+import { getTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
 
 export type TipPosition = 'center' | 'left' | 'right';
@@ -54,8 +56,8 @@ const StyledEmoji = styled.span`
   margin-left: 8px;
 `;
 
-const StyledOthers = styled.span`
-  color: var(--color-accent);
+const StyledOthers = styled.span<{ darkMode: boolean }>`
+  color: ${props => (props.darkMode ? 'var(--color-accent)' : 'var(--color-text)')};
 `;
 
 const generateContactsString = async (
@@ -85,6 +87,8 @@ const generateContactsString = async (
 };
 
 const Contacts = (contacts: Array<string>, count: number) => {
+  const darkMode = useSelector(getTheme) === 'dark';
+
   if (!Boolean(contacts?.length > 0)) {
     return;
   }
@@ -108,7 +112,7 @@ const Contacts = (contacts: Array<string>, count: number) => {
     return (
       <span>
         {window.i18n('reactionPopupMany', [contacts[0], contacts[1], contacts[3]])}{' '}
-        <StyledOthers>
+        <StyledOthers darkMode={darkMode}>
           {window.i18n(reactors === 4 ? 'otherSingular' : 'otherPlural', [`${count - 3}`])}
         </StyledOthers>{' '}
         {window.i18n('reactionPopup')}
