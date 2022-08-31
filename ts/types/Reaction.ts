@@ -145,4 +145,5 @@ export type OpenGroupReactionList = Record<string, OpenGroupReaction>;
 export interface OpenGroupReactionResponse {
   added?: boolean;
   removed?: boolean;
+  seqno: number;
 }
