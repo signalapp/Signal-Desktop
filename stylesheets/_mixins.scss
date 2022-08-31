@@ -58,6 +58,10 @@
   @include font-body-2;
   font-weight: 600;
 }
+@mixin font-body-2-medium {
+  @include font-body-2;
+  font-weight: 500;
+}
 @mixin font-body-2-italic {
   @include font-body-2;
   font-style: italic;

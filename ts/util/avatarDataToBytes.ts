@@ -40,7 +40,7 @@ async function drawImage(
 async function getFont(text: string): Promise<string> {
   const font = new window.FontFace(
     'Inter',
-    'url("fonts/inter-v3.10/Inter-Regular.woff2")'
+    'url("fonts/inter-v3.19/Inter-Regular.woff2")'
   );
   await font.load();
 

@@ -841,7 +841,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // if it's not selfAuthor and there's no incoming contact,
     // it might be a group notification, so we return undefined
-    return selfAuthor ?? this.getIncomingContact()?.getTitle();
+    return selfAuthor ?? this.getIncomingContact()?.getTitle({ isShort: true });
   }
 
   getNotificationText(): string {

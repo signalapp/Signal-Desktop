@@ -4891,12 +4891,13 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getTitle(): string {
+  getTitle({ isShort = false }: { isShort?: boolean } = {}): string {
     if (isDirectConversation(this.attributes)) {
       const username = this.get('username');
 
       return (
         this.get('name') ||
+        (isShort ? this.get('profileName') : undefined) ||
         this.getProfileName() ||
         this.getNumber() ||
         (username && window.i18n('at-username', { username })) ||

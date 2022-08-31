@@ -3469,7 +3469,9 @@ Signal Desktop makes use of the following open source projects.
 
 ## typeface-inter
 
-    Copyright (c) 2016-2018 The Inter Project Authors (me@rsms.me)
+    Copyright (c) 2016-2020 The Inter Project Authors.
+    "Inter" is trademark of Rasmus Andersson.
+    https://github.com/rsms/inter
 
     This Font Software is licensed under the SIL Open Font License, Version 1.1.
     This license is copied below, and is also available with a FAQ at:
