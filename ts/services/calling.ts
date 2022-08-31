@@ -798,7 +798,7 @@ export class CallingClass {
     conversationId: string,
     resolutions: Array<VideoRequest>
   ): void {
-    this.getGroupCall(conversationId)?.requestVideo(resolutions);
+    this.getGroupCall(conversationId)?.requestVideo(resolutions, 0);
   }
 
   public groupMembersChanged(conversationId: string): void {
