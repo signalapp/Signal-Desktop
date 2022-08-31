@@ -46,20 +46,80 @@ $audio-attachment-button-margin-small: 4px;
 .module-message__audio-attachment__controls {
   display: flex;
   flex: 1;
-  justify-content: right;
-  padding: 0 4px;
+  margin-right: 4px;
+}
+
+.module-message__audio-attachment__dot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: width 100ms ease-out;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    transition: background 100ms ease-out;
+  }
+
+  &--unplayed {
+    width: 14px;
+  }
+  &--played {
+    width: 0px;
+  }
+  .module-message__audio-attachment--incoming & {
+    &--unplayed:before {
+      @include light-theme {
+        background: $color-gray-60;
+      }
+      @include dark-theme {
+        background: $color-gray-25;
+      }
+    }
+  }
+  .module-message__audio-attachment--outgoing & {
+    &--unplayed:before {
+      background: $color-white-alpha-80;
+    }
+  }
+  &--played:before {
+    background: transparent;
+  }
 }
 
 .module-message__audio-attachment__playback-rate-button {
   @include button-reset;
   @include font-body-2-bold;
 
+  width: 38px;
+  height: 18px;
+  text-align: center;
+  font-weight: 700;
   border-radius: 4px;
-  font-size: 12px; /* tiny override */
-  padding: 1px 7px;
-  margin: -1px 4px;
-  background: $color-white-alpha-20;
+  font-size: 11px;
+  padding: 1px 2px;
+  margin: -2px 0;
   line-height: 16px;
+  letter-spacing: 0.05px;
+  user-select: none;
+
+  .module-message__audio-attachment--incoming & {
+    @include light-theme {
+      color: $color-gray-60;
+      background: $color-black-alpha-08;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+      background: $color-white-alpha-08;
+    }
+  }
+  .module-message__audio-attachment--outgoing & {
+    color: $color-white-alpha-80;
+    background: $color-white-alpha-20;
+  }
 }
 
 .module-message__audio-attachment__button,
@@ -197,8 +257,6 @@ $audio-attachment-button-margin-small: 4px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-left: $audio-attachment-button-size +
-    $audio-attachment-button-margin-big;
 
   @media (min-width: 0px) and (max-width: 799px) {
     margin-left: $audio-attachment-button-size +
@@ -208,24 +266,11 @@ $audio-attachment-button-margin-small: 4px;
 
 .module-message__audio-attachment__countdown {
   @include font-caption;
-  align-items: center;
-  display: flex;
-  flex-shrink: 1;
+  width: $audio-attachment-button-size;
   user-select: none;
-
-  &:after {
-    content: '';
-    display: block;
-    width: 6px;
-    height: 6px;
-    margin-left: 6px;
-    border-radius: 100%;
-    transition: background 100ms ease-out;
-  }
-
-  &--played:after {
-    background: transparent;
-  }
+  text-align: center;
+  white-space: nowrap;
+  margin-right: 12px;
 
   .module-message__audio-attachment--incoming & {
     @include light-theme {
