@@ -49,14 +49,12 @@ const en: LocaleMessagesType = readJsonSync(
 const locales = readdirSync(join(BASE_DIR, ''));
 
 console.log();
-console.log('Re-adding placeholders to non-en locales');
+console.log('Deleting placeholders for all locales');
 locales.forEach((locale: string) => {
-  if (locale === 'en') {
-    return;
-  }
   const target = resolve(join(BASE_DIR, locale, 'messages.json'));
   if (!existsSync(target)) {
-    throw new Error(`File not found for ${locale}: ${target}`);
+    console.warn(`File not found for ${locale}: ${target}`);
+    return;
   }
 
   const messages: LocaleMessagesType = readJsonSync(target);
@@ -65,11 +63,15 @@ locales.forEach((locale: string) => {
       return;
     }
 
-    messages[key].placeholders = en[key].placeholders;
+    delete messages[key].placeholders;
   });
 
   console.log(`Writing ${target}`);
   writeFileSync(target, `${JSON.stringify(messages, null, 4)}\n`);
+});
+
+execSync('yarn format', {
+  stdio: [null, process.stdout, process.stderr],
 });
 
 if (failed) {

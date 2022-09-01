@@ -201,13 +201,7 @@
   },
   "migratingToSQLCipher": {
     "message": "Optimizing messages... $status$ complete.",
-    "description": "Message shown on the loading screen while we are doing application optimizations",
-    "placeholders": {
-      "status": {
-        "content": "$1",
-        "example": "45/200"
-      }
-    }
+    "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
     "message": "Archived Conversations",
@@ -315,13 +309,7 @@
   },
   "loadingMessages": {
     "message": "Loading messages. $count$ so far...",
-    "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
     "message": "View",
@@ -349,13 +337,7 @@
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
-    "description": "Text for unread message separator, with count",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Text for unread message separator, with count"
   },
   "messageHistoryUnsynced": {
     "message": "For your security, conversation history isn't transferred to new linked devices.",
@@ -363,43 +345,19 @@
   },
   "youMarkedAsVerified": {
     "message": "You marked your Safety Number with $name$ as verified",
-    "description": "Shown in the conversation history when the user marks a contact as verified.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "youMarkedAsNotVerified": {
     "message": "You marked your Safety Number with $name$ as not verified",
-    "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "youMarkedAsVerifiedOtherDevice": {
     "message": "You marked your Safety Number with $name$ as verified from another device",
-    "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
   },
   "youMarkedAsNotVerifiedOtherDevice": {
     "message": "You marked your Safety Number with $name$ as not verified from another device",
-    "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "membersNeedingVerification": {
     "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
@@ -407,17 +365,7 @@
   },
   "changedRightAfterVerify": {
     "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
-    "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
-    "placeholders": {
-      "name1": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "name2": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "changedVerificationWarning": {
     "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
@@ -429,17 +377,7 @@
   },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
-    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
-    "placeholders": {
-      "name1": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "name2": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
     "message": "Send Anyway",
@@ -455,13 +393,7 @@
   },
   "noLongerVerified": {
     "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
-    "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
     "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
@@ -522,23 +454,11 @@
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
-    "description": "Summary state shown at top of the safety number screen if user has verified contact.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "isNotVerified": {
     "message": "You have not verified your safety number with $name$.",
-    "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
     "message": "Verified"
@@ -615,33 +535,15 @@
   },
   "stagedPreviewThumbnail": {
     "message": "Draft thumbnail link preview for $domain$",
-    "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
-    "placeholders": {
-      "path": {
-        "content": "$1",
-        "example": "instagram.com"
-      }
-    }
+    "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "previewThumbnail": {
     "message": "Thumbnail link preview for $domain$",
-    "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
-    "placeholders": {
-      "domain": {
-        "content": "$1",
-        "example": "instagram.com"
-      }
-    }
+    "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedImageAttachment": {
     "message": "Draft image attachment: $path$",
-    "description": "Alt text for staged attachments",
-    "placeholders": {
-      "path": {
-        "content": "$1",
-        "example": "dog.jpg"
-      }
-    }
+    "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
     "message": "Desktop ran into a Contact Discovery Service inconsistency.",
@@ -649,17 +551,7 @@
   },
   "decryptionErrorToast": {
     "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
-    "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      },
-      "deviceId": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
+    "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
   },
   "decryptionErrorToastAction": {
     "message": "Submit log",
@@ -793,13 +685,7 @@
   },
   "noSearchResults": {
     "message": "No results for \"$searchTerm$\"",
-    "description": "Shown in the search left pane when no results were found",
-    "placeholders": {
-      "searchTerm": {
-        "content": "$1",
-        "example": "dog"
-      }
-    }
+    "description": "Shown in the search left pane when no results were found"
   },
   "noSearchResults--sms-only": {
     "message": "SMS/MMS contacts are not available on Desktop.",
@@ -807,17 +693,7 @@
   },
   "noSearchResultsInConversation": {
     "message": "No results for \"$searchTerm$\" in $conversationName$",
-    "description": "Shown in the search left pane when no results were found",
-    "placeholders": {
-      "searchTerm": {
-        "content": "$1",
-        "example": "dog"
-      },
-      "conversationName": {
-        "content": "$2",
-        "example": "Friends"
-      }
-    }
+    "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
     "message": "Conversations",
@@ -845,26 +721,14 @@
   },
   "at-username": {
     "message": "@$username$",
-    "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
-    "placeholders": {
-      "username": {
-        "content": "$1",
-        "example": "sammy45"
-      }
-    }
+    "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
     "message": "Welcome to Signal"
   },
   "whatsNew": {
     "message": "See $whatsNew$ in this update",
-    "description": "Shown in the main window",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "what's new"
-      }
-    }
+    "description": "Shown in the main window"
   },
   "viewReleaseNotes": {
     "message": "what's new",
@@ -880,13 +744,7 @@
   },
   "contactAvatarAlt": {
     "message": "Avatar for contact $name$",
-    "description": "Used in the alt tag for the image avatar of a contact",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "Used in the alt tag for the image avatar of a contact"
   },
   "sendMessageToContact": {
     "message": "Send Message",
@@ -998,13 +856,7 @@
   },
   "replyingTo": {
     "message": "Replying to $name$",
-    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
     "message": "To send audio messages, allow Signal Desktop to access your microphone.",
@@ -1056,49 +908,15 @@
   },
   "cannotUpdateDetail": {
     "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
-    "description": "Shown if a general error happened while trying to install update package",
-    "placeholders": {
-      "retry": {
-        "content": "$2",
-        "example": "retry update"
-      },
-      "url": {
-        "content": "$2",
-        "example": "https://signal.org/download"
-      },
-      "support": {
-        "content": "$3",
-        "example": "contact support"
-      }
-    }
+    "description": "Shown if a general error happened while trying to install update package"
   },
   "cannotUpdateRequireManualDetail": {
     "message": "Signal couldn't update. Visit $url$ to install it manually. Then, $support$ about this problem",
-    "description": "Shown if a general error happened while trying to install update package and manual update is required",
-    "placeholders": {
-      "url": {
-        "content": "$2",
-        "example": "https://signal.org/download"
-      },
-      "support": {
-        "content": "$3",
-        "example": "contact support"
-      }
-    }
+    "description": "Shown if a general error happened while trying to install update package and manual update is required"
   },
   "readOnlyVolume": {
     "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
-    "description": "Shown on MacOS if running on a read-only volume and we cannot update",
-    "placeholders": {
-      "app": {
-        "content": "$1",
-        "example": "Signal.app"
-      },
-      "folder": {
-        "content": "$2",
-        "example": "/Applications"
-      }
-    }
+    "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
     "message": "OK"
@@ -1191,13 +1009,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device."
   },
   "theirIdentityUnknown": {
     "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
@@ -1268,13 +1080,7 @@
   },
   "DeliveryIssue--notification": {
     "message": "A message from $sender$ couldn’t be delivered",
-    "description": "Shown in timeline when message delivery issue happens",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline when message delivery issue happens"
   },
   "DeliveryIssue--learnMore": {
     "message": "Learn More",
@@ -1286,33 +1092,15 @@
   },
   "DeliveryIssue--summary": {
     "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
-    "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
     "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
-    "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
     "message": "$sender$ changed their phone number",
-    "description": "Shown in timeline when a member of a conversation changes their phone number",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "Sam"
-      }
-    }
+    "description": "Shown in timeline when a member of a conversation changes their phone number"
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -1372,17 +1160,7 @@
   },
   "Install__instructions__2": {
     "message": "Tap into $settings$, then tap $linkedDevices$",
-    "description": "Instructions on the device link screen",
-    "placeholders": {
-      "settings": {
-        "content": "$1",
-        "example": "<strong>Settings</strong>"
-      },
-      "linkedDevices": {
-        "content": "$2",
-        "example": "<strong>Linked Devices</strong>"
-      }
-    }
+    "description": "Instructions on the device link screen"
   },
   "Install__instructions__2__settings": {
     "message": "Settings",
@@ -1390,27 +1168,11 @@
   },
   "Install__instructions__3": {
     "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
-    "description": "Instructions on the device link screen",
-    "placeholders": {
-      "plusButton": {
-        "content": "$1",
-        "example": "<PlusButton />"
-      },
-      "linkNewDevice": {
-        "content": "$2",
-        "example": "<strong>Link New Device</strong>"
-      }
-    }
+    "description": "Instructions on the device link screen"
   },
   "Install__qr-failed": {
     "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "<a>Learn more</a>"
-      }
-    }
+    "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__qr-failed__learn-more": {
     "message": "Learn more",
@@ -1577,13 +1339,7 @@
   },
   "calling__pre-call-info--1-person-in-call": {
     "message": "$first$ is in this call",
-    "description": "Shown in the calling lobby to describe who is in the call",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--another-device-in-call": {
     "message": "One of your other devices is in this call",
@@ -1591,173 +1347,47 @@
   },
   "calling__pre-call-info--2-people-in-call": {
     "message": "$first$ and $second$ are in this call",
-    "description": "Shown in the calling lobby to describe who is in the call",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--3-people-in-call": {
     "message": "$first$, $second$, and $third$ are in this call",
-    "description": "Shown in the calling lobby to describe who is in the call",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "third": {
-        "content": "$3",
-        "example": "April"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--many-people-in-call": {
     "message": "$first$, $second$, and $others$ others are in this call",
-    "description": "Shown in the calling lobby to describe who is in the call",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "others": {
-        "content": "$3",
-        "example": "5"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--will-ring-1": {
     "message": "Signal will ring $person$",
-    "description": "Shown in the calling lobby to describe who will be rung",
-    "placeholders": {
-      "person": {
-        "content": "$1",
-        "example": "Sam"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be rung"
   },
   "calling__pre-call-info--will-ring-2": {
     "message": "Signal will ring $first$ and $second$",
-    "description": "Shown in the calling lobby to describe who will be rang",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-ring-3": {
     "message": "Signal will ring $first$, $second$, and $third$",
-    "description": "Shown in the calling lobby to describe who will be rang",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "third": {
-        "content": "$3",
-        "example": "April"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-ring-many": {
     "message": "Signal will ring $first$, $second$, and $others$ others",
-    "description": "Shown in the calling lobby to describe who will be rang",
-    "placeholders": {
-      "person": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "others": {
-        "content": "$3",
-        "example": "5"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-notify-1": {
     "message": "$person$ will be notified",
-    "description": "Shown in the calling lobby to describe who will be notified",
-    "placeholders": {
-      "person": {
-        "content": "$1",
-        "example": "Sam"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-2": {
     "message": "$first$ and $second$ will be notified",
-    "description": "Shown in the calling lobby to describe who will be notified",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-3": {
     "message": "$first$, $second$, and $third$ will be notified",
-    "description": "Shown in the calling lobby to describe who will be notified",
-    "placeholders": {
-      "first": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "third": {
-        "content": "$3",
-        "example": "April"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-many": {
     "message": "$first$, $second$, and $others$ others will be notified",
-    "description": "Shown in the calling lobby to describe who will be notified",
-    "placeholders": {
-      "person": {
-        "content": "$1",
-        "example": "Sam"
-      },
-      "second": {
-        "content": "$2",
-        "example": "Cayce"
-      },
-      "others": {
-        "content": "$3",
-        "example": "5"
-      }
-    }
+    "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__in-this-call--zero": {
     "message": "No one else is here",
@@ -1769,23 +1399,11 @@
   },
   "calling__in-this-call--many": {
     "message": "In this call · $people$ people",
-    "description": "Shown in the participants list to describe how many people are in the call",
-    "placeholders": {
-      "people": {
-        "content": "$1",
-        "example": "15"
-      }
-    }
+    "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
     "message": "You have blocked $name$",
-    "description": "when you block someone and cannot view their video",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Henry Richard"
-      }
-    }
+    "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
     "message": "You won't receive their audio or video and they won't receive yours.",
@@ -1809,13 +1427,7 @@
   },
   "calling__presenting--info": {
     "message": "Signal is sharing $window$.",
-    "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Application"
-      }
-    }
+    "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
   },
   "calling__presenting--stop": {
     "message": "Stop sharing",
@@ -1827,23 +1439,11 @@
   },
   "calling__presenting--person-ongoing": {
     "message": "$name$ is presenting",
-    "description": "Title of call when someone is presenting",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Maddie"
-      }
-    }
+    "description": "Title of call when someone is presenting"
   },
   "calling__presenting--person-stopped": {
     "message": "$name$ stopped presenting",
-    "description": "Toast that appears when someone stops presenting",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Maddie"
-      }
-    }
+    "description": "Toast that appears when someone stops presenting"
   },
   "calling__presenting--permission-title": {
     "message": "Permission needed",
@@ -1987,47 +1587,13 @@
   },
   "notificationSenderInGroup": {
     "message": "$sender$ in $group$",
-    "description": "Displayed in notifications for messages in a group",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "group": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      }
-    }
+    "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reacted $emoji$ to your message",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      }
-    }
+    "message": "$sender$ reacted $emoji$ to your message"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reacted $emoji$ to: $message$",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      },
-      "message": {
-        "content": "$3",
-        "example": "Sounds good."
-      }
-    }
+    "message": "$sender$ reacted $emoji$ to: $message$"
   },
   "sendFailed": {
     "message": "Send failed",
@@ -2115,23 +1681,11 @@
   },
   "hoursAgo": {
     "message": "$hours$h",
-    "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
+    "description": "Contracted form of 'X hours ago' which works both for singular and plural"
   },
   "minutesAgo": {
     "message": "$minutes$m",
-    "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
+    "description": "Contracted form of 'X minutes ago' which works both for singular and plural"
   },
   "justNow": {
     "message": "Now",
@@ -2163,47 +1717,19 @@
   },
   "youChangedTheTimer": {
     "message": "You set the disappearing message time to $time$.",
-    "description": "Message displayed when you change the message expiration timer in a conversation.",
-    "placeholders": {
-      "time": {
-        "content": "$1",
-        "example": "10m"
-      }
-    }
+    "description": "Message displayed when you change the message expiration timer in a conversation."
   },
   "timerSetOnSync": {
     "message": "Updated the disappearing message time to $time$.",
-    "description": "Message displayed when timer is set on initial link of desktop device.",
-    "placeholders": {
-      "time": {
-        "content": "$1",
-        "example": "10m"
-      }
-    }
+    "description": "Message displayed when timer is set on initial link of desktop device."
   },
   "timerSetByMember": {
     "message": "A member set the disappearing message time to $time$.",
-    "description": "Message displayed when timer is by an unknown group member.",
-    "placeholders": {
-      "time": {
-        "content": "$1",
-        "example": "10m"
-      }
-    }
+    "description": "Message displayed when timer is by an unknown group member."
   },
   "theyChangedTheTimer": {
     "message": "$name$ set the disappearing message time to $time$.",
-    "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "time": {
-        "content": "$2",
-        "example": "10m"
-      }
-    }
+    "description": "Message displayed when someone else changes the message expiration timer in a conversation."
   },
   "disappearingMessages__off": {
     "message": "off",
@@ -2223,13 +1749,7 @@
   },
   "disabledDisappearingMessages": {
     "message": "$name$ disabled disappearing messages.",
-    "description": "Displayed in the conversation list when the timer is turned off",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "Displayed in the conversation list when the timer is turned off"
   },
   "youDisabledDisappearingMessages": {
     "message": "You disabled disappearing messages.",
@@ -2237,13 +1757,7 @@
   },
   "timerSetTo": {
     "message": "Timer set to $time$",
-    "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
-    "placeholders": {
-      "time": {
-        "content": "$1",
-        "example": "1w"
-      }
-    }
+    "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane"
   },
   "audioNotificationDescription": {
     "message": "Play notification sounds",
@@ -2263,35 +1777,11 @@
   },
   "contactChangedProfileName": {
     "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
-    "description": "Description for incoming calls setting",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "oldProfile": {
-        "content": "$2",
-        "example": ".x8Skillz8x."
-      },
-      "newProfile": {
-        "content": "$3",
-        "example": "Bob Smith"
-      }
-    }
+    "description": "Description for incoming calls setting"
   },
   "changedProfileName": {
     "message": "$oldProfile$ changed their profile name to $newProfile$.",
-    "description": "Shown when a contact not in your address book changes their profile name",
-    "placeholders": {
-      "oldProfile": {
-        "content": "$2",
-        "example": ".x8Skillz8x."
-      },
-      "newProfile": {
-        "content": "$3",
-        "example": "Bob Smith"
-      }
-    }
+    "description": "Shown when a contact not in your address book changes their profile name"
   },
   "SafetyNumberModal__title": {
     "message": "Verify Safety Number",
@@ -2307,13 +1797,7 @@
   },
   "safetyNumberChangedGroup": {
     "message": "Safety Number with $name$ has changed",
-    "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "verifyNewNumber": {
     "message": "Verify Safety Number",
@@ -2325,13 +1809,7 @@
   },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name1$:",
-    "description": "Heading for safety number view",
-    "placeholders": {
-      "name1": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "Heading for safety number view"
   },
   "themeLight": {
     "message": "Light",
@@ -2403,33 +1881,15 @@
   },
   "startConversation--username-not-found": {
     "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
-    "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
-    "placeholders": {
-      "atUsername": {
-        "content": "$1",
-        "example": "@alex"
-      }
-    }
+    "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "startConversation--phone-number-not-found": {
     "message": "User not found. \"$phoneNumber$\" is not a Signal user.",
-    "description": "Shown in dialog if phone number is not found.",
-    "placeholders": {
-      "phoneNumber": {
-        "content": "$1",
-        "example": "+1 203-123-4567"
-      }
-    }
+    "description": "Shown in dialog if phone number is not found."
   },
   "startConversation--phone-number-not-valid": {
     "message": "User not found. \"$phoneNumber$\" is not a valid phone number.",
-    "description": "Shown in dialog if phone number is not valid.",
-    "placeholders": {
-      "phoneNumber": {
-        "content": "$1",
-        "example": "+1 203-123-4567"
-      }
-    }
+    "description": "Shown in dialog if phone number is not valid."
   },
   "chooseGroupMembers__title": {
     "message": "Choose members",
@@ -2453,13 +1913,7 @@
   },
   "chooseGroupMembers__maximum-group-size__body": {
     "message": "Signal groups can have a maximum of $max$ members.",
-    "description": "Shown in the alert when you add the maximum number of group members",
-    "placeholders": {
-      "max": {
-        "content": "$1",
-        "example": "1000"
-      }
-    }
+    "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-recommended-group-size__title": {
     "message": "Recommended member limit reached",
@@ -2467,13 +1921,7 @@
   },
   "chooseGroupMembers__maximum-recommended-group-size__body": {
     "message": "Signal groups perform best with $max$ members or less. Adding more members will cause delays sending and receiving messages.",
-    "description": "Shown in the alert when you add the maximum recommended number of group members",
-    "placeholders": {
-      "max": {
-        "content": "$1",
-        "example": "150"
-      }
-    }
+    "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "setGroupMetadata__title": {
     "message": "Name this group",
@@ -2565,33 +2013,15 @@
   },
   "leftTheGroup": {
     "message": "$name$ left the group.",
-    "description": "Shown in the conversation history when a single person leaves the group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the conversation history when a single person leaves the group"
   },
   "multipleLeftTheGroup": {
     "message": "$name$ left the group.",
-    "description": "Shown in the conversation history when multiple people leave the group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice, Bob"
-      }
-    }
+    "description": "Shown in the conversation history when multiple people leave the group"
   },
   "updatedTheGroup": {
     "message": "$name$ updated the group.",
-    "description": "Shown in the conversation history when someone updates the group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in the conversation history when someone updates the group"
   },
   "youUpdatedTheGroup": {
     "message": "You updated the group.",
@@ -2603,13 +2033,7 @@
   },
   "titleIsNow": {
     "message": "Group name is now '$name$'.",
-    "description": "Shown in the conversation history when someone changes the title of the group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Book Club"
-      }
-    }
+    "description": "Shown in the conversation history when someone changes the title of the group"
   },
   "youJoinedTheGroup": {
     "message": "You joined the group.",
@@ -2617,42 +2041,15 @@
   },
   "joinedTheGroup": {
     "message": "$name$ joined the group.",
-    "description": "Shown in the conversation history when a single person joins the group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in the conversation history when a single person joins the group"
   },
   "multipleJoinedTheGroup": {
     "message": "$names$ joined the group.",
-    "description": "Shown in the conversation history when more than one person joins the group",
-    "placeholders": {
-      "names": {
-        "content": "$1",
-        "example": "Alice, Bob"
-      }
-    }
+    "description": "Shown in the conversation history when more than one person joins the group"
   },
-
   "ConversationList__aria-label": {
     "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
-    "description": "Aria label for the conversation list item",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "unreadCount": {
-        "content": "$2",
-        "example": "23"
-      },
-      "lastMessage": {
-        "content": "$3",
-        "example": "How about Friday?"
-      }
-    }
+    "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
     "message": "The last message may have been deleted.",
@@ -2660,13 +2057,7 @@
   },
   "BaseConversationListItem__aria-label": {
     "message": "Go to conversation with $title$",
-    "description": "Aria label for the conversation list item button",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
     "message": "Message Request",
@@ -2706,17 +2097,7 @@
   },
   "message--getNotificationText--text-with-emoji": {
     "message": "$emoji$ $text$",
-    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages.",
-    "placeholders": {
-      "emoji": {
-        "content": "$1",
-        "example": "📷"
-      },
-      "text": {
-        "content": "$2",
-        "example": "Photo"
-      }
-    }
+    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."
   },
   "message--getDescription--unsupported-message": {
     "message": "Unsupported message",
@@ -2780,33 +2161,15 @@
   },
   "message--giftBadge--remaining--days": {
     "message": "$days$ days remaining",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)",
-    "placeholders": {
-      "days": {
-        "content": "$1",
-        "example": "58"
-      }
-    }
+    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
   },
   "message--giftBadge--remaining--hours": {
     "message": "$hours$ hours remaining",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "23"
-      }
-    }
+    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
     "message": "$minutes$ minutes remaining",
-    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "45"
-      }
-    }
+    "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for minutes > 1)"
   },
   "message--giftBadge--remaining--one-minute": {
     "message": "1 minute remaining",
@@ -2830,13 +2193,7 @@
   },
   "modal--giftBadge--description": {
     "message": "You've gifted a badge to $name$. When they accept, they'll be given a choice to show or hide their badge.",
-    "description": "The description of the outgoing gift badge detail dialog",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Paige Hall"
-      }
-    }
+    "description": "The description of the outgoing gift badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
@@ -2952,13 +2309,7 @@
   },
   "EmojiPicker--skin-tone": {
     "message": "Skin tone $tone$",
-    "description": "Shown as a tooltip over the emoji tone buttons.",
-    "placeholders": {
-      "status": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
+    "description": "Shown as a tooltip over the emoji tone buttons."
   },
   "EmojiPicker__button--recents": {
     "message": "Recents",
@@ -3005,22 +2356,10 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal."
   },
   "Message--from-me-unsupported-message": {
     "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature."
@@ -3382,13 +2721,7 @@
   },
   "StickerCreator--DropStage--addMore": {
     "message": "Add $count$ or more",
-    "description": "Text to show user how many more stickers they must add",
-    "placeholders": {
-      "hashtag": {
-        "content": "$1",
-        "example": "4"
-      }
-    }
+    "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
     "message": "Add an emoji to each sticker",
@@ -3436,17 +2769,7 @@
   },
   "StickerCreator--UploadStage-uploaded": {
     "message": "$count$ of $total$ uploaded",
-    "description": "Title for the upload stage of the sticker creator",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "3"
-      },
-      "total": {
-        "content": "$2",
-        "example": "20"
-      }
-    }
+    "description": "Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
     "message": "Congratulations! You created a sticker pack.",
@@ -3458,13 +2781,7 @@
   },
   "StickerCreator--ShareStage--callToAction": {
     "message": "Use the hashtag $hashtag$ to help other people find the URLs for any custom sticker packs that you would like to make publicly accessible.",
-    "description": "Call to action text for the share stage of the sticker creator",
-    "placeholders": {
-      "hashtag": {
-        "content": "$1",
-        "example": "<strong>#makeprivacystick</strong>"
-      }
-    }
+    "description": "Call to action text for the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--copyTitle": {
     "message": "Sticker Pack URL",
@@ -3484,13 +2801,7 @@
   },
   "StickerCreator--Toasts--imagesAdded": {
     "message": "$count$ image(s) added",
-    "description": "Text for the toast when images are added to the sticker creator",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
     "message": "Animated stickers are not currently supported",
@@ -3522,13 +2833,7 @@
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "Error uploading stickers: $message$",
-    "description": "Text for the toast when a sticker pack cannot be uploaded",
-    "placeholders": {
-      "message": {
-        "content": "$1",
-        "example": "Not connected"
-      }
-    }
+    "description": "Text for the toast when a sticker pack cannot be uploaded"
   },
   "StickerCreator--Toasts--linkedCopied": {
     "message": "Link copied",
@@ -3564,23 +2869,11 @@
   },
   "MessageRequests--message-direct": {
     "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
-    "description": "Shown as the message for a message request in a direct message",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce"
-      }
-    }
+    "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
     "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
-    "description": "Shown as the message for a message request in a direct message with a blocked account",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce"
-      }
-    }
+    "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
     "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
@@ -3600,13 +2893,7 @@
   },
   "MessageRequests--unblock-direct-confirm-title": {
     "message": "Unblock $name$?",
-    "description": "Shown as a button to let the user unblock a message request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce Pollard"
-      }
-    }
+    "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
     "message": "You will be able to message and call each other.",
@@ -3626,13 +2913,7 @@
   },
   "MessageRequests--block-direct-confirm-title": {
     "message": "Block $name$?",
-    "description": "Shown as the title in the confirmation modal for blocking a private message request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce Pollard"
-      }
-    }
+    "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
     "message": "Blocked people won't be able to call you or send you messages.",
@@ -3640,13 +2921,7 @@
   },
   "MessageRequests--block-group-confirm-title": {
     "message": "Block and Leave $group$?",
-    "description": "Shown as the title in the confirmation modal for blocking a group message request",
-    "placeholders": {
-      "group": {
-        "content": "$1",
-        "example": "Friends 🌿"
-      }
-    }
+    "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
     "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
@@ -3666,13 +2941,7 @@
   },
   "MessageRequests--delete-group-confirm-title": {
     "message": "Delete and Leave $group$?",
-    "description": "Shown as the title in the confirmation modal for deleting a group message request",
-    "placeholders": {
-      "group": {
-        "content": "$1",
-        "example": "Friends 🌿"
-      }
-    }
+    "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
     "message": "Delete",
@@ -3696,27 +2965,11 @@
   },
   "MessageRequests--profile-sharing--group": {
     "message": "Continue your conversation with this group and share your name and photo with its members? $learnMore$",
-    "description": "Shown when user hasn't shared their profile in a group yet",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "Learn More."
-      }
-    }
+    "description": "Shown when user hasn't shared their profile in a group yet"
   },
   "MessageRequests--profile-sharing--direct": {
     "message": "Continue this conversation with $firstName$ and share your name and photo with them? $learnMore$",
-    "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
-    "placeholders": {
-      "firstName": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "learnMore": {
-        "content": "$2",
-        "example": "Learn More."
-      }
-    }
+    "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet"
   },
   "MessageRequests--learn-more": {
     "message": "Learn more.",
@@ -3724,115 +2977,35 @@
   },
   "ConversationHero--members": {
     "message": "$count$ members",
-    "description": "Specifies the number of members in a group conversation",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "22"
-      }
-    }
+    "description": "Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 member",
-    "description": "Specifies the number of members in a group conversation when there is one member",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "22"
-      }
-    }
+    "description": "Specifies the number of members in a group conversation when there is one member"
   },
   "member-of-1-group": {
     "message": "Member of $group$",
-    "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
-    "placeholders": {
-      "group": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      }
-    }
+    "description": "Shown in the conversation hero to indicate this user is a member of a mutual group"
   },
   "member-of-2-groups": {
     "message": "Member of $group1$ and $group2$",
-    "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
-    "placeholders": {
-      "group1": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      },
-      "group2": {
-        "content": "$2",
-        "example": "Dinner Party"
-      }
-    }
+    "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups"
   },
   "member-of-3-groups": {
     "message": "Member of $group1$, $group2$, and $group3$",
-    "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
-    "placeholders": {
-      "group1": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      },
-      "group2": {
-        "content": "$2",
-        "example": "Dinner Party"
-      },
-      "group3": {
-        "content": "$3",
-        "example": "Friends 🌿"
-      }
-    }
+    "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups"
   },
   "member-of-more-than-3-groups--one-more": {
     "message": "Member of $group1$, $group2$, $group3$ and one more",
-    "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
-    "placeholders": {
-      "group1": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      },
-      "group2": {
-        "content": "$2",
-        "example": "Dinner Party"
-      },
-      "group3": {
-        "content": "$3",
-        "example": "Friends 🌿"
-      }
-    }
+    "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "member-of-more-than-3-groups--multiple-more": {
     "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more",
-    "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
-    "placeholders": {
-      "group1": {
-        "content": "$1",
-        "example": "NYC Rock Climbers"
-      },
-      "group2": {
-        "content": "$2",
-        "example": "Dinner Party"
-      },
-      "group3": {
-        "content": "$3",
-        "example": "Friends 🌿"
-      },
-      "remainingCount": {
-        "content": "$4",
-        "example": "3"
-      }
-    }
+    "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "ConversationHero--membership-added": {
     "message": "$name$ added you to the group.",
-    "description": "Shown Indicates that you were added to a group by a given individual.",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Jeff Smith"
-      }
-    }
+    "description": "Shown Indicates that you were added to a group by a given individual."
   },
   "no-groups-in-common": {
     "message": "No groups in common",
@@ -3904,85 +3077,23 @@
   },
   "incomingGroupCall__ringing-you": {
     "message": "$ringer$ is calling you",
-    "description": "Shown in the incoming call bar when someone is ringing you for a group call",
-    "placeholders": {
-      "ringer": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-1-other": {
     "message": "$ringer$ is calling you and $otherMember$",
-    "description": "Shown in the incoming call bar when someone is ringing you for a group call",
-    "placeholders": {
-      "ringer": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "otherMember": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-2-others": {
     "message": "$ringer$ is calling you, $first$, and $second$",
-    "description": "Shown in the incoming call bar when someone is ringing you for a group call",
-    "placeholders": {
-      "ringer": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "first": {
-        "content": "$2",
-        "example": "Bob"
-      },
-      "second": {
-        "content": "$3",
-        "example": "Charlie"
-      }
-    }
+    "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-3-others": {
     "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
-    "description": "Shown in the incoming call bar when someone is ringing you for a group call",
-    "placeholders": {
-      "ringer": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "first": {
-        "content": "$2",
-        "example": "Bob"
-      },
-      "second": {
-        "content": "$3",
-        "example": "Charlie"
-      }
-    }
+    "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-many": {
     "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
-    "description": "Shown in the incoming call bar when someone is ringing you for a group call",
-    "placeholders": {
-      "ringer": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "first": {
-        "content": "$2",
-        "example": "Bob"
-      },
-      "second": {
-        "content": "$3",
-        "example": "Charlie"
-      },
-      "remaining": {
-        "content": "$4",
-        "example": "5"
-      }
-    }
+    "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
     "message": "Ringing...",
@@ -4002,13 +3113,7 @@
   },
   "callNeedPermission": {
     "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
-    "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
     "message": "Reconnecting...",
@@ -4016,13 +3121,7 @@
   },
   "callDuration": {
     "message": "Signal $duration$",
-    "description": "Shown in the call screen to indicate how long the call has been connected",
-    "placeholders": {
-      "duration": {
-        "content": "$1",
-        "example": "00:01"
-      }
-    }
+    "description": "Shown in the call screen to indicate how long the call has been connected"
   },
   "callingDeviceSelection__settings": {
     "message": "Settings",
@@ -4030,13 +3129,7 @@
   },
   "calling__participants": {
     "message": "$people$ in call",
-    "description": "Title for participants list toggle",
-    "placeholders": {
-      "people": {
-        "content": "$1",
-        "example": "16"
-      }
-    }
+    "description": "Title for participants list toggle"
   },
   "calling__call-notification__ended": {
     "message": "The group call has ended",
@@ -4052,13 +3145,7 @@
   },
   "calling__call-notification__started": {
     "message": "$name$ started a group call",
-    "description": "Notification message when a group call has started",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Notification message when a group call has started"
   },
   "calling__in-another-call-tooltip": {
     "message": "You are already in a call",
@@ -4066,13 +3153,7 @@
   },
   "calling__call-notification__button__call-full-tooltip": {
     "message": "Call has reached capacity of $max$ participants",
-    "description": "Tooltip in disabled notification button when the call is full",
-    "placeholders": {
-      "max": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Tooltip in disabled notification button when the call is full"
   },
   "calling__pip--on": {
     "message": "Minimize call",
@@ -4108,13 +3189,7 @@
   },
   "calling__SelectPresentingSourcesModal--screen": {
     "message": "Screen $id$",
-    "description": "Title for `Screen #N` source in screen sharing sources modal and overlay",
-    "placeholders": {
-      "id": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "description": "Title for `Screen #N` source in screen sharing sources modal and overlay"
   },
   "calling__SelectPresentingSourcesModal--window": {
     "message": "A window",
@@ -4178,19 +3253,12 @@
   },
   "muteExpirationLabel": {
     "message": "Muted until $duration$",
-    "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
-    "placeholders": {
-      "duration": {
-        "content": "$1",
-        "example": "10/23/2023, 7:10 PM"
-      }
-    }
+    "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
   },
   "EmojiButton__label": {
     "message": "Emoji",
     "description": "Label for emoji button"
   },
-
   "ErrorModal--title": {
     "message": "Something went wrong!",
     "description": "Title of popup dialog when user-initiated task has gone wrong"
@@ -4203,12 +3271,10 @@
     "message": "Okay",
     "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
-
   "unknown-sgnl-link": {
     "message": "Sorry, that sgnl:// link didn't make sense!",
     "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
   },
-
   "GroupV2--cannot-send": {
     "message": "You cannot send messages to that group.",
     "description": "Shown in toast when you attempt to forward a message to an announcement only group"
@@ -4237,7 +3303,6 @@
     "message": "You have already requested approval to join this group.",
     "description": "Shown if you click a group link for a group where you've already requested approval'"
   },
-
   "GroupV2--join--unknown-link-version--title": {
     "message": "Unknown link version",
     "description": "This group link is no longer valid."
@@ -4296,29 +3361,16 @@
   },
   "GroupV2--join--member-count--multiple": {
     "message": "$count$ members",
-    "description": "Shown in the metadata section if group has more than one member",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "12"
-      }
-    }
+    "description": "Shown in the metadata section if group has more than one member"
   },
   "GroupV2--join--group-metadata": {
     "message": "Group · $memberCount$",
-    "description": "A holder for two pieces of information - the type of conversation, and the member count",
-    "placeholders": {
-      "memberCount": {
-        "content": "$1",
-        "example": "12 members"
-      }
-    }
+    "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
     "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
     "description": "Shown in composition area when you've requested to join a group"
   },
-
   "GroupV2--join--general-join-failure--title": {
     "message": "Link Error",
     "description": "Shown if something went wrong when you try to join via a group link"
@@ -4327,7 +3379,6 @@
     "message": "Couldn't join group. Try again later.",
     "description": "Shown if something went wrong when you try to join via a group link"
   },
-
   "GroupV2--admin": {
     "message": "Admin",
     "description": "Label for a group administrator"
@@ -4344,20 +3395,13 @@
     "message": "Updating...",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
-
   "GroupV2--create--you": {
     "message": "You created the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--create--other": {
     "message": "$memberName$ created the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--create--unknown": {
     "message": "The group was created.",
@@ -4365,48 +3409,19 @@
   },
   "GroupV2--title--change--other": {
     "message": "$memberName$ changed the group name to \"$newTitle$\".",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "newTitle": {
-        "content": "$2",
-        "example": "Saturday Hiking"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--you": {
     "message": "You changed the group name to \"$newTitle$\".",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "newTitle": {
-        "content": "$1",
-        "example": "Saturday Hiking"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--unknown": {
     "message": "A member changed the group name to \"$newTitle$\".",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "newTitle": {
-        "content": "$1",
-        "example": "Saturday Hiking"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--title--remove--other": {
     "message": "$memberName$ removed the group name.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
     "message": "You removed the group name.",
@@ -4416,16 +3431,9 @@
     "message": "A member removed the group name.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--avatar--change--other": {
     "message": "$memberName$ changed the group avatar.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--you": {
     "message": "You changed the group avatar.",
@@ -4437,13 +3445,7 @@
   },
   "GroupV2--avatar--remove--other": {
     "message": "$memberName$ removed the group avatar.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--remove--you": {
     "message": "You removed the group avatar.",
@@ -4453,16 +3455,9 @@
     "message": "A member removed the group avatar.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--access-attributes--admins--other": {
     "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--you": {
     "message": "You changed who can edit group info to \"Only admins.\"",
@@ -4474,13 +3469,7 @@
   },
   "GroupV2--access-attributes--all--other": {
     "message": "$adminName$ changed who can edit group info to \"All members.\"",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--all--you": {
     "message": "You changed who can edit group info to \"All members.\"",
@@ -4492,13 +3481,7 @@
   },
   "GroupV2--access-members--admins--other": {
     "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--admins--you": {
     "message": "You changed who can edit group membership to \"Only admins.\"",
@@ -4510,13 +3493,7 @@
   },
   "GroupV2--access-members--all--other": {
     "message": "$adminName$ changed who can edit group membership to \"All members.\"",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--all--you": {
     "message": "You changed who can edit group membership to \"All members.\"",
@@ -4532,13 +3509,7 @@
   },
   "GroupV2--access-invite-link--disabled--other": {
     "message": "$adminName$ disabled admin approval for the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--disabled--unknown": {
     "message": "Admin approval for the group link has been disabled.",
@@ -4550,13 +3521,7 @@
   },
   "GroupV2--access-invite-link--enabled--other": {
     "message": "$adminName$ enabled admin approval for the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--enabled--unknown": {
     "message": "Admin approval for the group link has been enabled.",
@@ -4564,71 +3529,27 @@
   },
   "GroupV2--member-add--invited--you": {
     "message": "You added invited member $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--other": {
     "message": "$memberName$ added invited member $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "inviteeName": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--unknown": {
     "message": "A member added invited member $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--other": {
     "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "inviterName": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--other-no-from": {
     "message": "$inviteeName$ accepted an invitation to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--you": {
     "message": "You accepted an invitation to the group from $inviterName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviterName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--you-no-from": {
     "message": "You accepted an invitation to the group.",
@@ -4636,57 +3557,23 @@
   },
   "GroupV2--member-add--from-invite--from-you": {
     "message": "$inviteeName$ accepted your invitation to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--other": {
     "message": "$adderName$ added $addeeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adderName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "addeeName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--you": {
     "message": "You added $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--unknown": {
     "message": "A member added $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--you--other": {
     "message": "$memberName$ added you to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--you--you": {
     "message": "You joined the group.",
@@ -4696,125 +3583,53 @@
     "message": "You were added to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--member-add-from-link--you--you": {
     "message": "You joined the group via the group link.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-link--other": {
     "message": "$memberName$ joined the group via the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--member-add-from-admin-approval--you--other": {
     "message": "$adminName$ approved your request to join the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--you--unknown": {
     "message": "Your request to join the group has been approved.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--member-add-from-admin-approval--other--you": {
     "message": "You approved a request to join the group from $joinerName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--other--other": {
     "message": "$adminName$ approved a request to join the group from $joinerName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--other--unknown": {
     "message": "A request to join the group from $joinerName$ has been approved.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--member-remove--other--other": {
     "message": "$adminName$ removed $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--self": {
     "message": "$memberName$ left the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--you": {
     "message": "You removed $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--unknown": {
     "message": "A member removed $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--other": {
     "message": "$adminName$ removed you.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
     "message": "You left the group.",
@@ -4824,50 +3639,21 @@
     "message": "You were removed from the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--member-privilege--promote--other--other": {
     "message": "$adminName$ made $memberName$ an admin.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--you": {
     "message": "You made $memberName$ an admin.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--other--unknown": {
     "message": "An admin made $memberName$ an admin.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--you--other": {
     "message": "$adminName$ made you an admin.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--promote--you--unknown": {
     "message": "An admin made you an admin.",
@@ -4875,92 +3661,39 @@
   },
   "GroupV2--member-privilege--demote--other--other": {
     "message": "$adminName$ revoked admin privileges from $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--demote--other--you": {
     "message": "You revoked admin privileges from $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--demote--other--unknown": {
     "message": "An admin revoked admin privileges from $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--demote--you--other": {
     "message": "$adminName$ revoked your admin privileges.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-privilege--demote--you--unknown": {
     "message": "An admin revoked your admin privileges.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--pending-add--one--other--other": {
     "message": "$memberName$ invited 1 person to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--one--other--you": {
     "message": "You invited $inviteeName$ to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--one--other--unknown": {
     "message": "One person was invited to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--one--you--other": {
     "message": "$memberName$ invited you to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--one--you--unknown": {
     "message": "You were invited to the group.",
@@ -4968,58 +3701,23 @@
   },
   "GroupV2--pending-add--many--other": {
     "message": "$memberName$ invited $count$ people to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "count": {
-        "content": "$2",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--you": {
     "message": "You invited $count$ people to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--unknown": {
     "message": "$count$ people were invited to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--pending-remove--decline--other": {
     "message": "1 person invited by $memberName$ declined the invitation to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--decline--you": {
     "message": "$inviteeName$ declined your invitation to the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--decline--from-you": {
     "message": "You declined the invitation to the group.",
@@ -5031,227 +3729,83 @@
   },
   "GroupV2--pending-remove--revoke--one--other": {
     "message": "$memberName$ revoked an invitation to the group for 1 person.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--one--you": {
     "message": "You revoked an invitation to the group for 1 person.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-own--to-you": {
     "message": "$inviterName$ revoked their invitation to you.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviterName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-own--unknown": {
     "message": "$inviterName$ revoked their invitation to 1 person.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviterName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--one--unknown": {
     "message": "An admin revoked an invitation to the group for 1 person.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--many--other": {
     "message": "$memberName$ revoked invitations to the group for $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "count": {
-        "content": "$2",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--many--you": {
     "message": "You revoked invitations to the group for $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--many--unknown": {
     "message": "An admin revoked invitations to the group for $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--one--other": {
     "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--one--you": {
     "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
     "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "memberName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
     "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
     "message": "You rescinded your invitation to $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
     "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "inviteeName": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--many--other": {
     "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--many--you": {
     "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
     "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      },
-      "memberName": {
-        "content": "$2",
-        "example": "Bob"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
     "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "count": {
-        "content": "$2",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
     "message": "You rescinded your invitation to $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
     "message": "An admin revoked the invitations to the group you sent to $count$ people.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-add-one--you": {
     "message": "You sent a request to join the group.",
@@ -5259,15 +3813,8 @@
   },
   "GroupV2--admin-approval-add-one--other": {
     "message": "$joinerName$ requested to join via the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--admin-approval-remove-one--you--you": {
     "message": "You canceled your request to join the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -5276,79 +3823,33 @@
     "message": "Your request to join the group has been denied by an admin.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--admin-approval-remove-one--other--you": {
     "message": "You denied a request to join the group from $joinerName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--own": {
     "message": "$joinerName$ canceled their request to join the group.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--other": {
     "message": "$adminName$ denied a request to join the group from $joinerName$.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Bob"
-      },
-      "joinerName": {
-        "content": "$2",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-bounce--one": {
     "message": "$joinerName$ requested and cancelled their request to join via the group link",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-bounce": {
     "message": "$joinerName$ requested and cancelled $numberOfRequests$ requests to join via the group link",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "joinerName": {
-        "content": "$1",
-        "example": "Alice"
-      },
-      "numberOfRequests": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--group-link-add--disabled--you": {
     "message": "You turned on the group link with admin approval disabled.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--disabled--other": {
     "message": "$adminName$ turned on the group link with admin approval disabled.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--disabled--unknown": {
     "message": "The group link has been turned on with admin approval disabled.",
@@ -5360,13 +3861,7 @@
   },
   "GroupV2--group-link-add--enabled--other": {
     "message": "$adminName$ turned on the group link with admin approval enabled.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--enabled--unknown": {
     "message": "The group link has been turned on with admin approval enabled.",
@@ -5378,13 +3873,7 @@
   },
   "GroupV2--group-link-remove--other": {
     "message": "$adminName$ turned off the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-remove--unknown": {
     "message": "The group link has been turned off.",
@@ -5396,32 +3885,19 @@
   },
   "GroupV2--group-link-reset--other": {
     "message": "$adminName$ reset the group link.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-reset--unknown": {
     "message": "The group link has been reset.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--description--remove--you": {
     "message": "You removed the group description.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--other": {
     "message": "$memberName$ removed the group description.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
     "message": "The group description was removed.",
@@ -5433,32 +3909,19 @@
   },
   "GroupV2--description--change--other": {
     "message": "$memberName$ changed the group description.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--unknown": {
     "message": "The group description was changed.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV2--announcements--admin--you": {
     "message": "You changed the group settings to only allow admins to send messages.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--admin--other": {
     "message": "$memberName$ changed the group settings to only allow admins to send messages.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--admin--unknown": {
     "message": "The group was changed to only allow admins to send messages.",
@@ -5470,28 +3933,15 @@
   },
   "GroupV2--announcements--member--other": {
     "message": "$memberName$ changed the group settings to allow all members to send messages.",
-    "description": "Shown in timeline or conversation preview when v2 group changes",
-    "placeholders": {
-      "adminName": {
-        "content": "$1",
-        "example": "Alice"
-      }
-    }
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--member--unknown": {
     "message": "The group was changed to allow all members to send messages.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
-    "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "Learn more."
-      }
-    }
+    "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
     "message": "This group was upgraded to a New Group.",
@@ -5559,43 +4009,19 @@
   },
   "GroupV1--Migration--invited--one": {
     "message": "$contact$ couldn’t be added to the New Group and has been invited to join.",
-    "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added"
   },
   "GroupV1--Migration--invited--many": {
     "message": "$count$ members couldn’t be added to the New Group and have been invited to join.",
-    "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added"
   },
   "GroupV1--Migration--removed--one": {
     "message": "$contact$ was removed from the group.",
-    "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline when a group is upgraded and one person was removed entirely during the upgrade"
   },
   "GroupV1--Migration--removed--many": {
     "message": "$count$ members were removed from the group.",
-    "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Shown in timeline when a group is upgraded and some people were removed entirely during the upgrade"
   },
   "close": {
     "message": "Close",
@@ -5671,23 +4097,11 @@
   },
   "ContactModal--make-admin-info": {
     "message": "$contact$ will be able to edit this group and its members.",
-    "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "Homer"
-      }
-    }
+    "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
     "message": "Remove $contact$ as group admin?",
-    "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
-    "placeholders": {
-      "contact": {
-        "content": "$1",
-        "example": "Homer"
-      }
-    }
+    "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
     "message": "Remove from group",
@@ -5787,23 +4201,11 @@
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
     "message": "Unblock the \"$groupName$\" Group?",
-    "description": "This is the modal title for confirming unblock of a group",
-    "placeholders": {
-      "groupName": {
-        "content": "$1",
-        "example": "Our Conversation"
-      }
-    }
+    "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
     "message": "Block and Leave the \"$groupName$\" Group?",
-    "description": "This is the modal title for confirming blocking a group",
-    "placeholders": {
-      "groupName": {
-        "content": "$1",
-        "example": "Our Conversation"
-      }
-    }
+    "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
     "message": "You will no longer receive messages or updates from this group.",
@@ -5823,13 +4225,7 @@
   },
   "ConversationDetailsHeader--members": {
     "message": "$number$ members",
-    "description": "This is the number of members in a group",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
+    "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
     "message": "Shared media",
@@ -5841,13 +4237,7 @@
   },
   "ConversationDetailsMembershipList--title": {
     "message": "$number$ members",
-    "description": "The title of the membership list panel",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
+    "description": "The title of the membership list panel"
   },
   "ConversationDetailsMembershipList--add-members": {
     "message": "Add members",
@@ -5899,53 +4289,23 @@
   },
   "PendingInvites--tab-requests": {
     "message": "Requests ($count$)",
-    "description": "Label for the tab to view pending requests",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "4"
-      }
-    }
+    "description": "Label for the tab to view pending requests"
   },
   "PendingInvites--tab-invites": {
     "message": "Invites ($count$)",
-    "description": "Label for the tab to view pending invites",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
+    "description": "Label for the tab to view pending invites"
   },
   "PendingRequests--approve-for": {
     "message": "Approve request from \"$name$\"?",
-    "description": "This is the modal content when confirming approving a group request to join",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Meowsy Purrington"
-      }
-    }
+    "description": "This is the modal content when confirming approving a group request to join"
   },
   "PendingRequests--deny-for": {
     "message": "Deny request from \"$name$\"?",
-    "description": "This is the modal content when confirming denying a group request to join",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Meowsy Purrington"
-      }
-    }
+    "description": "This is the modal content when confirming denying a group request to join"
   },
   "PendingRequests--deny-for--with-link": {
     "message": "Deny request from \"$name$\"? They will not be able to request to join via the group link again.",
-    "description": "This is the modal content when confirming denying a group request to join",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Meowsy Purrington"
-      }
-    }
+    "description": "This is the modal content when confirming denying a group request to join"
   },
   "PendingInvites--invites": {
     "message": "Invited by you",
@@ -5961,13 +4321,7 @@
   },
   "PendingInvites--invited-count": {
     "message": "Invited $number$",
-    "description": "This is the label for the number of members someone has invited",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "This is the label for the number of members someone has invited"
   },
   "PendingInvites--revoke-for-label": {
     "message": "Revoke group invite",
@@ -5975,41 +4329,15 @@
   },
   "PendingInvites--revoke-for": {
     "message": "Revoke group invite for \"$name$\"?",
-    "description": "This is the modal content when confirming revoking a single invite",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "3"
-      },
-      "name": {
-        "content": "$2",
-        "example": "Fred Riley III"
-      }
-    }
+    "description": "This is the modal content when confirming revoking a single invite"
   },
   "PendingInvites--revoke-from-singular": {
     "message": "Revoke 1 invite sent by \"$name$\"?",
-    "description": "This is the modal content when confirming revoking a single invite",
-    "placeholders": {
-      "name": {
-        "content": "$2",
-        "example": "Fred Riley III"
-      }
-    }
+    "description": "This is the modal content when confirming revoking a single invite"
   },
   "PendingInvites--revoke-from-plural": {
     "message": "Revoke $number$ invites sent by \"$name$\"?",
-    "description": "This is the modal content when confirming revoking multiple invites",
-    "placeholders": {
-      "number": {
-        "content": "$1",
-        "example": "3"
-      },
-      "name": {
-        "content": "$2",
-        "example": "Fred Riley III"
-      }
-    }
+    "description": "This is the modal content when confirming revoking multiple invites"
   },
   "PendingInvites--revoke": {
     "message": "Revoke",
@@ -6025,19 +4353,12 @@
   },
   "PendingRequests--info": {
     "message": "People on this list are attempting to join \"$name$\" via the group link.",
-    "description": "Information shown below the pending admin approval list",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Tahoe List"
-      }
-    }
+    "description": "Information shown below the pending admin approval list"
   },
   "PendingInvites--info": {
     "message": "Details about people invited to this group aren’t shown until they join. Invitees will only see messages after they join the group.",
     "description": "Information shown below the invite list"
   },
-
   "PendingRequests--block--button": {
     "message": "Block request",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
@@ -6048,19 +4369,12 @@
   },
   "PendingRequests--block--contents": {
     "message": "$name$ will not be able to join or request to join this group via the group link. They can still be added to the group manually.",
-    "description": "Details of dialog to block a user from requesting to join via the link again",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Annoying Person"
-      }
-    }
+    "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
     "message": "Block Request",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
-
   "AvatarInput--no-photo-label--group": {
     "message": "Add a group photo",
     "description": "The label for the avatar uploader when no group photo is selected"
@@ -6095,23 +4409,11 @@
   },
   "NewlyCreatedGroupInvitedContactsDialog--title--many": {
     "message": "$count$ invitations sent",
-    "description": "When creating a new group and inviting users, this is shown in the dialog",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
     "message": "$name$ can’t be automatically added to this group by you.",
-    "description": "When creating a new group and inviting users, this is shown in the dialog",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Jane Doe"
-      }
-    }
+    "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
     "message": "These users can’t be automatically added to this group by you.",
@@ -6135,31 +4437,11 @@
   },
   "AddGroupMembersModal--confirm-title--one": {
     "message": "Add $person$ to \"$group$\"?",
-    "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
-    "placeholders": {
-      "person": {
-        "content": "$1",
-        "example": "Jane Doe"
-      },
-      "group": {
-        "content": "$2",
-        "example": "Tahoe Trip"
-      }
-    }
+    "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-title--many": {
     "message": "Add $count$ members to \"$group$\"?",
-    "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      },
-      "group": {
-        "content": "$2",
-        "example": "Tahoe Trip"
-      }
-    }
+    "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-button--one": {
     "message": "Add member",
@@ -6175,33 +4457,15 @@
   },
   "selectContact": {
     "message": "Select contact $name$",
-    "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
   },
   "deselectContact": {
     "message": "De-select contact $name$",
-    "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
   },
   "cannotSelectContact": {
     "message": "Cannot select contact $name$",
-    "description": "The label for contact checkboxes that are disabled",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
+    "description": "The label for contact checkboxes that are disabled"
   },
   "alreadyAMember": {
     "message": "Already a member",
@@ -6245,13 +4509,7 @@
   },
   "emptyInboxMessage": {
     "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
-    "description": "Shown in the left-pane when the inbox is empty",
-    "placeholders": {
-      "composeIcon": {
-        "content": "$1",
-        "example": "compose button"
-      }
-    }
+    "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
     "message": "compose button",
@@ -6283,27 +4541,11 @@
   },
   "ContactSpoofing__same-name": {
     "message": "Review requests carefully. Signal found another contact with the same name. $link$",
-    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
-    "placeholders": {
-      "link": {
-        "content": "$1",
-        "example": "Review request"
-      }
-    }
+    "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
     "message": "$count$ group members have the same name. $link$",
-    "description": "Shown in the timeline warning when you multiple group members have the same name",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "3"
-      },
-      "link": {
-        "content": "$2",
-        "example": "Tap to review"
-      }
-    }
+    "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
     "message": "Review request",
@@ -6343,17 +4585,7 @@
   },
   "ContactSpoofingReviewDialog__group__name-change-info": {
     "message": "Recently changed their profile name from $oldName$ to $newName$",
-    "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
-    "placeholders": {
-      "oldName": {
-        "content": "$1",
-        "example": "Jane Doe"
-      },
-      "newName": {
-        "content": "$2",
-        "example": "Doe Jane"
-      }
-    }
+    "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "RemoveGroupMemberConfirmation__remove-button": {
     "message": "Remove from group",
@@ -6361,23 +4593,11 @@
   },
   "RemoveGroupMemberConfirmation__description": {
     "message": "Remove \"$name$\" from the group?",
-    "description": "When confirming the removal of a group member, show this text in the dialog",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Jane Doe"
-      }
-    }
+    "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "RemoveGroupMemberConfirmation__description__with-link": {
     "message": "Remove \"$name$\" from the group? They will not be able to rejoin via the group link.",
-    "description": "When confirming the removal of a group member, show this text in the dialog",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Jane Doe"
-      }
-    }
+    "description": "When confirming the removal of a group member, show this text in the dialog"
   },
   "CaptchaDialog__title": {
     "message": "Verify to continue messaging",
@@ -6421,13 +4641,7 @@
   },
   "ChatColorPicker__delete--message": {
     "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
-    "description": "Confirm message for deleting custom color",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
+    "description": "Confirm message for deleting custom color"
   },
   "ChatColorPicker__global-chat-color": {
     "message": "Global Chat Color",
@@ -6567,13 +4781,7 @@
   },
   "UniversalTimerNotification__text": {
     "message": "The disappearing message time will be set to $timeValue$ when you message them.",
-    "description": "A message displayed when default disappearing message timeout is about to be applied",
-    "placeholders": {
-      "timeValue": {
-        "content": "$1",
-        "example": "1 week"
-      }
-    }
+    "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "ErrorBoundaryNotification__text": {
     "message": "Couldn't display this message. Click to submit a debug log.",
@@ -6665,23 +4873,11 @@
   },
   "ProfileEditor--username--check-character-min": {
     "message": "Usernames must have a least $min$ characters.",
-    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
-    "placeholders": {
-      "min": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
   },
   "ProfileEditor--username--check-character-max": {
     "message": "Usernames must have at most $max$ characters.",
-    "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
-    "placeholders": {
-      "max": {
-        "content": "$1",
-        "example": "25"
-      }
-    }
+    "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--check-username-taken": {
     "message": "This username is taken.",
@@ -6725,13 +4921,7 @@
   },
   "ProfileEditor--info": {
     "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
-    "description": "Information shown at the bottom of the profile editor section",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "Learn More."
-      }
-    }
+    "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
     "message": "Learn More",
@@ -6787,13 +4977,7 @@
   },
   "AnnouncementsOnlyGroupBanner--announcements-only": {
     "message": "Only $admins$ can send messages",
-    "description": "Displayed if sending of messages is disabled to non-admins",
-    "placeholders": {
-      "admins": {
-        "content": "$1",
-        "example": "admins"
-      }
-    }
+    "description": "Displayed if sending of messages is disabled to non-admins"
   },
   "AnnouncementsOnlyGroupBanner--admins": {
     "message": "admins",
@@ -6837,17 +5021,7 @@
   },
   "Preferences--lastSynced": {
     "message": "Last import at $date$ $time$",
-    "description": "Label for date and time of last sync operation",
-    "placeholders": {
-      "date": {
-        "content": "$1",
-        "example": "6/9/2020"
-      },
-      "time": {
-        "content": "$2",
-        "example": "7:37:25 PM"
-      }
-    }
+    "description": "Label for date and time of last sync operation"
   },
   "Preferences--system": {
     "message": "System",
@@ -6879,23 +5053,11 @@
   },
   "Preferences--blocked-count-singular": {
     "message": "$num$ contact",
-    "description": "Number of contacts blocked singular",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "description": "Number of contacts blocked singular"
   },
   "Preferences--blocked-count-plural": {
     "message": "$num$ contacts",
-    "description": "Number of contacts blocked plural",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "20"
-      }
-    }
+    "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
     "message": "Who can...",
@@ -6955,13 +5117,7 @@
   },
   "DialogUpdate--version-available": {
     "message": "Update to version $version$ available",
-    "description": "Tooltip for new update available",
-    "placeholders": {
-      "status": {
-        "content": "$1",
-        "example": "v7.7.7"
-      }
-    }
+    "description": "Tooltip for new update available"
   },
   "NSIS__retry-dialog--first-line": {
     "message": "Signal cannot be closed.",
@@ -6973,13 +5129,7 @@
   },
   "NSIS__appRunning": {
     "message": "$appName$ is running.\nClick OK to close it.\nIf it doesn't close, try closing it manually.",
-    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines",
-    "placeholders": {
-      "appName": {
-        "content": "$1",
-        "example": "Signal"
-      }
-    }
+    "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines"
   },
   "NSIS__decompressionFailed": {
     "message": "Failed to decompress files. Please try running the installer again.",
@@ -7119,43 +5269,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ view",
-    "description": "Number of views your story has",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ views",
-    "description": "Number of views your story has",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "16"
-      }
-    }
+    "description": "Number of views your story has"
   },
   "MyStories__replies--singular": {
     "message": "$num$ reply",
-    "description": "Number of replies your story has",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "description": "Number of replies your story has"
   },
   "MyStories__replies--plural": {
     "message": "$num$ replies",
-    "description": "Number of replies your story has",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "3"
-      }
-    }
+    "description": "Number of replies your story has"
   },
   "MyStories__delete": {
     "message": "Delete this story? It will also be deleted for everyone who received it.",
@@ -7167,13 +5293,7 @@
   },
   "SignalConnectionsModal__header": {
     "message": "$connections$ are people you've chosen to trust, either by:",
-    "description": "The beginning sentence to list the different ways a signal connection is formed",
-    "placeholders": {
-      "connections": {
-        "content": "$1",
-        "example": "Signal Connections"
-      }
-    }
+    "description": "The beginning sentence to list the different ways a signal connection is formed"
   },
   "SignalConnectionsModal__bullet--1": {
     "message": "Starting a conversation",
@@ -7225,17 +5345,7 @@
   },
   "Stories__from-to-group": {
     "message": "$name$ to $group$",
-    "description": "Title for someone sending a story to a group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Elle"
-      },
-      "group": {
-        "content": "$2",
-        "example": "Family"
-      }
-    }
+    "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
     "message": "Sending reply...",
@@ -7259,23 +5369,11 @@
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ viewer",
-    "description": "A single viewer",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "1"
-      }
-    }
+    "description": "A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ viewers",
-    "description": "More than one viewer",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "14"
-      }
-    }
+    "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
     "message": "Who can see this story",
@@ -7291,13 +5389,7 @@
   },
   "StoriesSettings__remove--title": {
     "message": "Remove $title$",
-    "description": "Title of the confirmation dialog, has a person's name",
-    "placeholders": {
-      "title": {
-        "content": "$1",
-        "example": "Aahron Lee"
-      }
-    }
+    "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
     "message": "This person will no longer see your story.",
@@ -7353,13 +5445,7 @@
   },
   "StoriesSettings__mine__exclude--description": {
     "message": "$num$ people excluded",
-    "description": "Description of how many people are excluded in a list",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "0"
-      }
-    }
+    "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
     "message": "Only share with...",
@@ -7371,23 +5457,11 @@
   },
   "StoriesSettings__mine__only--description--people": {
     "message": "$num$ people",
-    "description": "Description of how many people are in the exclusive allow list",
-    "placeholders": {
-      "num": {
-        "content": "$1",
-        "example": "7"
-      }
-    }
+    "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
     "message": "Choose who can view your story. Changes won't affect stories you've already sent. $learnMore$",
-    "description": "Disclaimer on how changes to story settings work",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "<a>Learn more</a>"
-      }
-    }
+    "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
     "message": "Learn more.",
@@ -7439,13 +5513,7 @@
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Choose which Signal connections can view your story. You can always change this in privacy settings. $learnMore$",
-    "description": "Disclaimer on how changes to story settings work",
-    "placeholders": {
-      "learnMore": {
-        "content": "$1",
-        "example": "<a>Learn more</a>"
-      }
-    }
+    "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
     "message": "Delete story",
@@ -7493,23 +5561,11 @@
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",
-    "description": "Sent timestamp",
-    "placeholders": {
-      "time": {
-        "content": "$1",
-        "example": "Today 5:33pm"
-      }
-    }
+    "description": "Sent timestamp"
   },
   "StoryDetailsModal__file-size": {
     "message": "File size $size$",
-    "description": "File size description",
-    "placeholders": {
-      "size": {
-        "content": "$1",
-        "example": "100kb"
-      }
-    }
+    "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copy timestamp",
@@ -7573,13 +5629,7 @@
   },
   "StoryImage__error2": {
     "message": "Can’t download story. $name$ will need to share it again.",
-    "description": "Description for image errors",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Clara"
-      }
-    }
+    "description": "Description for image errors"
   },
   "StoryImage__error--you": {
     "message": "Can’t download story. You will need to share it again.",
@@ -7675,13 +5725,7 @@
   },
   "Quote__story-reaction": {
     "message": "Reacted to a story from $name$",
-    "description": "Label for when a person reacts to a story",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Charlie"
-      }
-    }
+    "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
     "message": "Reacted to a story",
