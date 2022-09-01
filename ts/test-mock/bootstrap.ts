@@ -256,7 +256,7 @@ export class Bootstrap {
     return result;
   }
 
-  public async saveLogs(): Promise<void> {
+  public async saveLogs(app?: App): Promise<void> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
       // eslint-disable-next-line no-console
@@ -272,7 +272,13 @@ export class Bootstrap {
     console.error(`Saving logs to ${outDir}`);
 
     const { logsDir } = this;
-    await fs.rename(logsDir, path.join(outDir));
+    await fs.rename(logsDir, outDir);
+
+    if (app) {
+      const window = await app.getWindow();
+      const screenshot = await window.screenshot();
+      await fs.writeFile(path.join(outDir, 'screenshot.png'), screenshot);
+    }
   }
 
   //

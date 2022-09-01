@@ -62,7 +62,7 @@ describe('gv2', function needsName() {
 
   afterEach(async function after() {
     if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs();
+      await bootstrap.saveLogs(app);
     }
 
     await app.close();
@@ -172,28 +172,33 @@ describe('gv2', function needsName() {
 
     const window = await app.getWindow();
 
-    debug('Sending another invite');
+    debug('Waiting for the PNI invite');
+    await window
+      .locator(`text=${first.profileName} invited you to the group.`)
+      .waitFor();
 
-    // Invite ACI from another contact
+    debug('Inviting ACI from another contact');
     group = await second.inviteToGroup(group, desktop, {
       uuidKind: UUIDKind.ACI,
     });
 
     const conversationStack = window.locator('.conversation-stack');
 
+    debug('Waiting for the ACI invite');
+    await window
+      .locator(`text=${second.profileName} invited you to the group.`)
+      .waitFor();
+
     debug('Accepting');
     await conversationStack
       .locator('.module-message-request-actions button >> "Accept"')
       .click();
 
-    debug('Verifying notifications');
-    await window
-      .locator(`"${first.profileName} invited you to the group."`)
-      .waitFor();
-    await window.locator('"You were invited to the group."').waitFor();
+    debug('Checking final notification');
     await window
       .locator(
-        `"You accepted an invitation to the group from ${second.profileName}."`
+        'text=You accepted an invitation to the group from ' +
+          `${second.profileName}.`
       )
       .waitFor();
 

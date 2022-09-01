@@ -92,7 +92,7 @@ describe('PNI Signature', function needsName() {
 
   afterEach(async function after() {
     if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs();
+      await bootstrap.saveLogs(app);
     }
 
     await app.close();

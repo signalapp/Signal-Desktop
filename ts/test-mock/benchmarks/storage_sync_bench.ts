@@ -60,7 +60,7 @@ const CONTACT_COUNT = 1000;
     const duration = Date.now() - start;
     console.log(`Took: ${(duration / 1000).toFixed(2)} seconds`);
   } catch (error) {
-    await bootstrap.saveLogs();
+    await bootstrap.saveLogs(app);
     throw error;
   } finally {
     await app?.close();

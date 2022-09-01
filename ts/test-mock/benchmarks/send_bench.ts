@@ -132,7 +132,7 @@ const LAST_MESSAGE = 'start sending messages now';
 
     console.log('stats info=%j', { delta: stats(deltaList, [99, 99.8]) });
   } catch (error) {
-    await bootstrap.saveLogs();
+    await bootstrap.saveLogs(app);
     throw error;
   } finally {
     await app?.close();

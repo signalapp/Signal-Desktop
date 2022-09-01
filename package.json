@@ -36,7 +36,7 @@
     "test": "yarn test-node && yarn test-electron",
     "test-electron": "node ts/scripts/test-electron.js",
     "test-release": "node ts/scripts/test-release.js",
-    "test-node": "electron-mocha --file test/setup-test-node.js --recursive test/modules ts/test-node ts/test-both",
+    "test-node": "electron-mocha --timeout 10000 --file test/setup-test-node.js --recursive test/modules ts/test-node ts/test-both",
     "test-mock": "mocha ts/test-mock/**/*_test.js",
     "test-node-coverage": "nyc --reporter=lcov --reporter=text mocha --recursive test/modules ts/test-node ts/test-both",
     "eslint": "eslint --cache .",

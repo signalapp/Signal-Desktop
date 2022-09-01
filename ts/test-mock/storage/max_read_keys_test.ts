@@ -28,7 +28,7 @@ describe('storage service', function needsName() {
     }
 
     if (this.currentTest?.state !== 'passed') {
-      await bootstrap.saveLogs();
+      await bootstrap.saveLogs(app);
     }
 
     await app.close();
