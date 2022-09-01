@@ -12,7 +12,7 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 216px;
+  width: 244px;
   height: 72px;
   z-index: 5;
 
@@ -56,6 +56,13 @@ const StyledEmoji = styled.span`
   margin-left: 8px;
 `;
 
+const StyledContacts = styled.span`
+  word-break: break-all;
+  span {
+    word-break: keep-all;
+  }
+`;
+
 const StyledOthers = styled.span<{ darkMode: boolean }>`
   color: ${props => (props.darkMode ? 'var(--color-accent)' : 'var(--color-text)')};
 `;
@@ -96,7 +103,7 @@ const Contacts = (contacts: Array<string>, count: number) => {
   const reactors = contacts.length;
   if (reactors === 1 || reactors === 2 || reactors === 3) {
     return (
-      <span>
+      <StyledContacts>
         {window.i18n(
           reactors === 1
             ? 'reactionPopupOne'
@@ -105,18 +112,18 @@ const Contacts = (contacts: Array<string>, count: number) => {
             : 'reactionPopupThree',
           contacts
         )}{' '}
-        {window.i18n('reactionPopup')}
-      </span>
+        <span>{window.i18n('reactionPopup')}</span>
+      </StyledContacts>
     );
   } else if (reactors > 3) {
     return (
-      <span>
+      <StyledContacts>
         {window.i18n('reactionPopupMany', [contacts[0], contacts[1], contacts[3]])}{' '}
         <StyledOthers darkMode={darkMode}>
           {window.i18n(reactors === 4 ? 'otherSingular' : 'otherPlural', [`${count - 3}`])}
         </StyledOthers>{' '}
-        {window.i18n('reactionPopup')}
-      </span>
+        <span>{window.i18n('reactionPopup')}</span>
+      </StyledContacts>
     );
   } else {
     return null;
