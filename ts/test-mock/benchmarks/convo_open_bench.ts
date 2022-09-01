@@ -99,7 +99,7 @@ const DELAY = 50; // milliseconds
 
     await Promise.all([sendQueue(), measure()]);
   } catch (error) {
-    await bootstrap.saveLogs();
+    await bootstrap.saveLogs(app);
     throw error;
   } finally {
     await app?.close();

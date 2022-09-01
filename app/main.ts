@@ -550,8 +550,8 @@ function handleCommonWindowEvents(
   }
 }
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 610;
+const DEFAULT_WIDTH = enableCI ? 1024 : 800;
+const DEFAULT_HEIGHT = enableCI ? 1024 : 610;
 // LARGEST_LEFT_PANE_WIDTH = 380
 // TIMELINE_WIDTH = 300
 // TIMELINE_MARGIN = 16 + 16
