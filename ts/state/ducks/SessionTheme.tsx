@@ -334,10 +334,16 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-md:  15px;
     --margins-lg:  20px;
 
+    /* PADDING */
+    --padding-message-content: 7px 13px;
+    --border-radius-message-box: 16px;
+
     /* ANIMATIONS */
     --default-duration: '0.25s';
+
     /* FILTERS */
     --filter-session-text: ${lightFilterSessionText};
+
     /* BORDERS */
     --border-unread: ${lightUnreadBorder};
     --border-session:  ${lightColorSessionBorder};
@@ -348,6 +354,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-warning:  ${warning};
     --color-destructive:  ${destructive};
+
     /* COLORS */
     --color-accent: ${lightColorAccent};
     --color-accent-button:  ${lightColorAccentButton};
@@ -360,7 +367,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-session-shadow: ${lightColorSessionShadow};
     --color-compose-view-button-background: ${lightColorComposeViewBg};
     --color-sent-message-background:  ${lightColorSentMessageBg};
-    // TODO: this might be wrong text colour. Something happened during merge.
     --color-sent-message-text:  ${black};
     --color-clickable-hovered: ${lightColorClickableHovered};
     --color-session-border:  ${lightColorSessionBorderColor};

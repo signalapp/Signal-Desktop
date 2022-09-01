@@ -1,9 +1,8 @@
-import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clone } from 'lodash';
 import { Data } from '../../../../data/data';
-import { MessageRenderingProps } from '../../../../models/messageType';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
   PropsForAttachment,
   showLightBox,
@@ -30,6 +29,7 @@ import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
+import styled from 'styled-components';
 
 export type MessageAttachmentSelectorProps = Pick<
   MessageRenderingProps,
@@ -49,6 +49,14 @@ type Props = {
   handleImageError: () => void;
 };
 // tslint:disable: use-simple-attributes
+
+const StyledAttachmentContainer = styled.div<{ messageDirection: MessageModelType }>`
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+`;
 
 // tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const MessageAttachment = (props: Props) => {
@@ -121,15 +129,16 @@ export const MessageAttachment = (props: Props) => {
       (isVideo(attachments) && hasVideoScreenshot(attachments)))
   ) {
     return (
-      <div className={classNames('module-message__attachment-container')}>
+      <StyledAttachmentContainer messageDirection={direction}>
         <ImageGrid
           attachments={attachments}
           onError={handleImageError}
           onClickAttachment={onClickOnImageGrid}
         />
-      </div>
+      </StyledAttachmentContainer>
     );
-  } else if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
+  }
+  if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
     return (
       <div
         role="main"
@@ -149,52 +158,35 @@ export const MessageAttachment = (props: Props) => {
         />
       </div>
     );
-  } else {
-    const { pending, fileName, fileSize, contentType } = firstAttachment;
-    const extension = getExtensionForDisplay({ contentType, fileName });
+  }
+  const { pending, fileName, fileSize, contentType } = firstAttachment;
+  const extension = getExtensionForDisplay({ contentType, fileName });
 
-    return (
-      <div className={classNames('module-message__generic-attachment')}>
-        {pending ? (
-          <div className="module-message__generic-attachment__spinner-container">
-            <Spinner size="small" />
-          </div>
-        ) : (
-          <div className="module-message__generic-attachment__icon-container">
-            <div
-              role="button"
-              className="module-message__generic-attachment__icon"
-              onClick={onClickOnGenericAttachment}
-            >
-              {extension ? (
-                <div className="module-message__generic-attachment__icon__extension">
-                  {extension}
-                </div>
-              ) : null}
-            </div>
-          </div>
-        )}
-        <div className="module-message__generic-attachment__text">
+  return (
+    <div className="module-message__generic-attachment">
+      {pending ? (
+        <div className="module-message__generic-attachment__spinner-container">
+          <Spinner size="small" />
+        </div>
+      ) : (
+        <div className="module-message__generic-attachment__icon-container">
           <div
-            className={classNames(
-              'module-message__generic-attachment__file-name',
-              `module-message__generic-attachment__file-name--${direction}`
-            )}
+            role="button"
+            className="module-message__generic-attachment__icon"
+            onClick={onClickOnGenericAttachment}
           >
-            {fileName}
-          </div>
-          <div
-            className={classNames(
-              'module-message__generic-attachment__file-size',
-              `module-message__generic-attachment__file-size--${direction}`
-            )}
-          >
-            {fileSize}
+            {extension ? (
+              <div className="module-message__generic-attachment__icon__extension">{extension}</div>
+            ) : null}
           </div>
         </div>
+      )}
+      <div className="module-message__generic-attachment__text">
+        <div className="module-message__generic-attachment__file-name">{fileName}</div>
+        <div className="module-message__generic-attachment__file-size">{fileSize}</div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 function attachmentIsAttachmentTypeWithPath(attac: any): attac is AttachmentTypeWithPath {

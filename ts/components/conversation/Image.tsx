@@ -5,6 +5,7 @@ import { Spinner } from '../basic/Spinner';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
+import styled from 'styled-components';
 
 type Props = {
   alt: string;
@@ -20,7 +21,7 @@ type Props = {
 
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
-  softCorners?: boolean;
+  softCorners: boolean;
   forceSquare?: boolean;
   attachmentIndex?: number;
 
@@ -28,6 +29,16 @@ type Props = {
   onClickClose?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
   onError?: () => void;
 };
+
+const StyledOverlay = styled.div<Pick<Props, 'darkOverlay' | 'softCorners'>>`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  background-color: ${props => (props.darkOverlay ? '#0008' : 'unset')};
+`;
 
 export const Image = (props: Props) => {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
@@ -133,12 +144,10 @@ export const Image = (props: Props) => {
           onDragStart={disableDrag}
         />
       ) : null}
-      <div
-        className={classNames(
-          'module-image__border-overlay',
-          softCorners ? 'module-image--soft-corners' : null,
-          darkOverlay ? 'module-image__border-overlay--dark' : null
-        )}
+      <StyledOverlay
+        className={classNames(softCorners ? 'module-image--soft-corners' : null)}
+        darkOverlay={darkOverlay}
+        softCorners={softCorners}
       />
       {closeButton ? (
         <div

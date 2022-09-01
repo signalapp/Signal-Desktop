@@ -48,6 +48,8 @@ const StyledMessageOpaqueContent = styled.div<{ messageDirection: MessageModelTy
     props.messageDirection === 'incoming'
       ? 'var(--color-received-message-background)'
       : 'var(--color-sent-message-background)'};
+  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+
   padding: 7px 13px; // FIXME
   border-radius: 16px; //FIXME
 `;
@@ -142,6 +144,11 @@ export const MessageContent = (props: Props) => {
         threshold={0}
         rootMargin="500px 0px 500px 0px"
         triggerOnce={false}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--margins-xs)',
+        }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {hasContentAfterAttachmentAndQuote ? (

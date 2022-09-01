@@ -1111,8 +1111,7 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
     }
 
     const msgProps: MessageContentWithStatusSelectorProps = {
-      hasAttachments: Boolean(props.propsForMessage.attachments?.length) || false,
-      ...pick(props.propsForMessage, ['direction', 'isDeleted', 'isTrustedForAttachmentDownload']),
+      ...pick(props.propsForMessage, ['direction', 'isDeleted']),
     };
 
     return msgProps;

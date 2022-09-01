@@ -20,8 +20,8 @@ import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
-  'direction' | 'isDeleted' | 'isTrustedForAttachmentDownload'
-> & { hasAttachments: boolean };
+  'direction' | 'isDeleted'
+>;
 
 type Props = {
   messageId: string;
@@ -87,7 +87,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   if (!contentProps) {
     return null;
   }
-  const { direction, isDeleted, hasAttachments, isTrustedForAttachmentDownload } = contentProps;
+  const { direction, isDeleted } = contentProps;
   const isIncoming = direction === 'incoming';
 
   const [popupReaction, setPopupReaction] = useState('');
@@ -112,9 +112,6 @@ export const MessageContentWithStatuses = (props: Props) => {
         role="button"
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
-        style={{
-          width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto',
-        }}
         data-testid={dataTestId}
       >
         <MessageStatus

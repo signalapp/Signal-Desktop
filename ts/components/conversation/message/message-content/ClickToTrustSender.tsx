@@ -11,6 +11,10 @@ const StyledTrustSenderUI = styled.div`
   padding-inline: var(--margins-sm);
   display: flex;
   align-items: center;
+  width: fit-content;
+
+  border-radius: var(--border-radius-message-box);
+  background: var(--color-received-message-background);
 `;
 
 const ClickToDownload = styled.div`

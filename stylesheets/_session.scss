@@ -323,28 +323,17 @@ textarea {
   margin-inline-start: auto;
 }
 
-pre {
-  backdrop-filter: brightness(0.8);
-  padding: $session-margin-xs;
-}
-
 .module-message__container {
   position: relative;
   display: inline-block;
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
-  max-width: calc(100vw - 380px - 100px);
+  max-width: calc(100vw - 380px - 50px);
   align-items: center;
 }
 label {
   user-select: none;
-}
-.module-message__attachment-container {
-  // Entirely to ensure that images are centered if they aren't full width of bubble
-  text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .conversation-header {

@@ -89,8 +89,8 @@
 
 .module-quote-container {
   margin-bottom: 5px;
-  margin-top: 10px;
-  padding-left: 10px;
+  margin-top: var(--margins-xs);
+  min-width: 300px; // just because even with the quoted content is small it doesn't look very good
 }
 
 .module-quote--no-click {

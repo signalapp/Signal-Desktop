@@ -27,7 +27,7 @@
   margin: 4px 16px;
   padding: 4px;
 
-  border-radius: $border-radius-message-box;
+  border-radius: var(--border-radius-message-box);
 
   align-self: flex-start;
 
