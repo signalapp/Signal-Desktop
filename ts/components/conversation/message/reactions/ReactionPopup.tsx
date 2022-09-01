@@ -8,11 +8,13 @@ import { nativeEmojiData } from '../../../../util/emoji';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
+export const POPUP_WIDTH = 216; // px
+
 export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 216px;
+  width: ${POPUP_WIDTH}px;
   height: 72px;
   z-index: 5;
 
@@ -35,10 +37,10 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
         case 'left':
           return '24px';
         case 'right':
-          return 'calc(100% - 48px)';
+          return 'calc(100% - 78px)';
         case 'center':
         default:
-          return 'calc(100% - 100px)';
+          return 'calc(100% - 118px)';
       }
     }};
     width: 22px;
@@ -54,6 +56,13 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
 const StyledEmoji = styled.span`
   font-size: 36px;
   margin-left: 8px;
+`;
+
+const StyledContacts = styled.span`
+  word-break: break-all;
+  span {
+    word-break: keep-all;
+  }
 `;
 
 const StyledOthers = styled.span<{ darkMode: boolean }>`
@@ -96,7 +105,7 @@ const Contacts = (contacts: Array<string>, count: number) => {
   const reactors = contacts.length;
   if (reactors === 1 || reactors === 2 || reactors === 3) {
     return (
-      <span>
+      <StyledContacts>
         {window.i18n(
           reactors === 1
             ? 'reactionPopupOne'
@@ -105,18 +114,18 @@ const Contacts = (contacts: Array<string>, count: number) => {
             : 'reactionPopupThree',
           contacts
         )}{' '}
-        {window.i18n('reactionPopup')}
-      </span>
+        <span>{window.i18n('reactionPopup')}</span>
+      </StyledContacts>
     );
   } else if (reactors > 3) {
     return (
-      <span>
+      <StyledContacts>
         {window.i18n('reactionPopupMany', [contacts[0], contacts[1], contacts[3]])}{' '}
         <StyledOthers darkMode={darkMode}>
           {window.i18n(reactors === 4 ? 'otherSingular' : 'otherPlural', [`${count - 3}`])}
         </StyledOthers>{' '}
-        {window.i18n('reactionPopup')}
-      </span>
+        <span>{window.i18n('reactionPopup')}</span>
+      </StyledContacts>
     );
   } else {
     return null;

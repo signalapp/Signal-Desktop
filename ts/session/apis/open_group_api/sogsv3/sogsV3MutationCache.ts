@@ -84,7 +84,10 @@ export async function processMessagesUsingCache(
     const matchSeqno = roomMatches[i].seqno;
     if (message.seqno && matchSeqno && matchSeqno <= message.seqno) {
       const removedEntry = roomMatches.splice(i, 1)[0];
-      window.log.info('SOGS Mutation Cache: Entry ignored and removed!', removedEntry);
+      window.log.info(
+        `SOGS Mutation Cache: Entry ignored and removed in ${server}/${room} for message ${message.id}`,
+        removedEntry
+      );
       remove(sogsMutationCache, removedEntry);
     }
   }
@@ -106,7 +109,7 @@ export async function processMessagesUsingCache(
           updatedReactions[reaction].you = true;
           updatedReactions[reaction].count += 1;
           window.log.info(
-            'SOGS Mutation Cache: Added our reaction based on the cache',
+            `SOGS Mutation Cache: Added our reaction based on the cache in ${server}/${room} for message ${message.id}`,
             updatedReactions[reaction]
           );
           break;
@@ -114,18 +117,28 @@ export async function processMessagesUsingCache(
           updatedReactions[reaction].you = false;
           updatedReactions[reaction].count -= 1;
           window.log.info(
-            'SOGS Mutation Cache: Removed our reaction based on the cache',
+            `SOGS Mutation Cache: Removed our reaction based on the cache in ${server}/${room} for message ${message.id}`,
             updatedReactions[reaction]
+          );
+          break;
+        case 'CLEAR':
+          // tslint:disable-next-line: no-dynamic-delete
+          delete updatedReactions[reaction];
+          window.log.info(
+            `SOGS Mutation Cache: Cleared all ${reaction} reactions based on the cache in ${server}/${room} for message ${message.id}`
           );
           break;
         default:
           window.log.warn(
-            'SOGS Mutation Cache: Unsupported metadata action in OpenGroupMessageV4',
+            `SOGS Mutation Cache: Unsupported metadata action in OpenGroupMessageV4 in ${server}/${room} for message ${message.id}`,
             reactionMatch
           );
       }
       const removedEntry = remove(sogsMutationCache, reactionMatch);
-      window.log.info('SOGS Mutation Cache: Entry removed!', removedEntry);
+      window.log.info(
+        `SOGS Mutation Cache: Entry removed in ${server}/${room} for message ${message.id}`,
+        removedEntry
+      );
     }
   }
 
