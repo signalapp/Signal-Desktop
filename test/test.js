@@ -7,6 +7,8 @@
  * global helpers for tests
  */
 
+mocha.setup({ timeout: 10000 });
+
 function deleteIndexedDB() {
   return new Promise((resolve, reject) => {
     const idbReq = indexedDB.deleteDatabase('test');
