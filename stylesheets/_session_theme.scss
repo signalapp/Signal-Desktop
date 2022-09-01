@@ -28,6 +28,7 @@
   flex-direction: row;
   align-items: center;
   max-width: 95%;
+  color: var(--color-sent-message-text);
 
   @media (min-width: 1200px) {
     max-width: 65%;
@@ -68,17 +69,14 @@
 
       a {
         text-decoration: underline;
-        color: inherit;
       }
     }
   }
-  color: var(--color-sent-message-text);
 
   &__container--outgoing {
     .module-message__text {
       a {
         text-decoration: underline;
-        color: inherit;
       }
     }
   }

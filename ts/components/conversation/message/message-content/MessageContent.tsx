@@ -50,8 +50,8 @@ const StyledMessageOpaqueContent = styled.div<{ messageDirection: MessageModelTy
       : 'var(--color-sent-message-background)'};
   align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
 
-  padding: 7px 13px; // FIXME
-  border-radius: 16px; //FIXME
+  padding: var(--padding-message-content);
+  border-radius: var(--border-radius-message-box);
 `;
 
 export const IsMessageVisibleContext = createContext(false);
@@ -151,7 +151,7 @@ export const MessageContent = (props: Props) => {
         }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          {hasContentAfterAttachmentAndQuote ? (
+          {hasContentAfterAttachmentAndQuote && (
             <StyledMessageOpaqueContent messageDirection={direction}>
               {!isDeleted && (
                 <>
@@ -164,7 +164,7 @@ export const MessageContent = (props: Props) => {
               )}
               <MessageText messageId={props.messageId} />
             </StyledMessageOpaqueContent>
-          ) : null}
+          )}
           {!isDeleted && (
             <MessageAttachment
               messageId={props.messageId}
