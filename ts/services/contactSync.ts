@@ -60,17 +60,13 @@ async function updateConversationFromContactSync(
   }
 
   // expireTimer isn't in Storage Service so we have to rely on contact sync.
-  const { expireTimer } = details;
-  const isValidExpireTimer = typeof expireTimer === 'number';
-  if (isValidExpireTimer) {
-    await conversation.updateExpirationTimer(expireTimer, {
-      source: window.ConversationController.getOurConversationId(),
-      receivedAt: receivedAtCounter,
-      fromSync: true,
-      isInitialSync,
-      reason: 'contact sync',
-    });
-  }
+  await conversation.updateExpirationTimer(details.expireTimer, {
+    source: window.ConversationController.getOurConversationId(),
+    receivedAt: receivedAtCounter,
+    fromSync: true,
+    isInitialSync,
+    reason: 'contact sync',
+  });
 
   window.Whisper.events.trigger('incrementProgress');
 }
