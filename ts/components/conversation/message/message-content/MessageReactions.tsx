@@ -10,7 +10,7 @@ import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { SessionIcon } from '../../../icon';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 
-export const popupXDefault = -101;
+export const popupXDefault = -81;
 export const popupYDefault = -90;
 
 const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number }>`

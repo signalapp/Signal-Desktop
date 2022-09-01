@@ -8,11 +8,13 @@ import { nativeEmojiData } from '../../../../util/emoji';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
+export const POPUP_WIDTH = 216; // px
+
 export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 244px;
+  width: ${POPUP_WIDTH}px;
   height: 72px;
   z-index: 5;
 
@@ -35,10 +37,10 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
         case 'left':
           return '24px';
         case 'right':
-          return 'calc(100% - 48px)';
+          return 'calc(100% - 78px)';
         case 'center':
         default:
-          return 'calc(100% - 100px)';
+          return 'calc(100% - 118px)';
       }
     }};
     width: 22px;
