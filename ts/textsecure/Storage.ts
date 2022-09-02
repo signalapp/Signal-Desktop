@@ -122,6 +122,12 @@ export class Storage implements StorageInterface {
   }
 
   public getItemsState(): Partial<Access> {
+    if (!this.ready) {
+      log.warn('Called getItemsState before storage is ready');
+    }
+
+    log.info('Storage/getItemsState: now preparing copy of items...');
+
     const state = Object.create(null);
 
     // TypeScript isn't smart enough to figure out the types automatically.
