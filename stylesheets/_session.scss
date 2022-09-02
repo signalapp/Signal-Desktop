@@ -793,19 +793,6 @@ label {
   display: flex;
   flex-direction: column;
 
-  &-list {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  &-view {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-  }
-
   &__password-lock {
     display: flex;
     align-items: center;

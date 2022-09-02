@@ -11,7 +11,8 @@ const StyledKnob = styled.div<{ active: boolean }>`
   width: 21px;
   border-radius: 28px;
   background-color: white;
-  box-shadow: -2px 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: ${props =>
+    props.active ? '-2px 1px 3px rgba(0, 0, 0, 0.15)' : '2px 1px 3px rgba(0, 0, 0, 0.15);'};
 
   transition: transform var(--default-duration) ease, background-color var(--default-duration) ease;
 
@@ -21,7 +22,7 @@ const StyledKnob = styled.div<{ active: boolean }>`
 const StyledSessionToggle = styled.div<{ active: boolean }>`
   width: 51px;
   height: 25px;
-  border: 1.5px solid #e5e5ea;
+  border: 1px solid #e5e5ea;
   border-radius: 16px;
   position: relative;
 
@@ -29,8 +30,9 @@ const StyledSessionToggle = styled.div<{ active: boolean }>`
   background-color: rgba(0, 0, 0, 0);
   transition: var(--default-duration);
 
-  background-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
-  border-color: ${props => (props.active ? 'var(--color-accent)' : 'unset')};
+  background-color: ${props =>
+    props.active ? 'var(--color-accent)' : 'var(--color-clickable-hovered)'};
+  border-color: ${props => (props.active ? 'var(--color-accent)' : 'var(--color-cell-background)')};
 `;
 
 type Props = {

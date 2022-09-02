@@ -5,6 +5,7 @@ import { SettingsKey } from '../../../data/settings-key';
 import { isHideMenuBarSupported } from '../../../types/Settings';
 
 import { SessionToggleWithDescription } from '../SessionSettingListItem';
+import { SettingsThemeSwitcher } from '../SettingsThemeSwitcher';
 import { ZoomingSessionSlider } from '../ZoomingSessionSlider';
 
 export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null }) => {
@@ -18,7 +19,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
 
     return (
       <>
-        {/* TODO: add theme switching here */}
+        <SettingsThemeSwitcher />
         <ZoomingSessionSlider />
         {isHideMenuBarSupported() && (
           <SessionToggleWithDescription

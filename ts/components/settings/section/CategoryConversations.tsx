@@ -1,20 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
-import { unblockConvoById } from '../../../interactions/conversationInteractions';
-import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
-import { getBlockedPubkeys } from '../../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
-import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
 
-import {
-  SessionSettingButtonItem,
-  SessionSettingsItemWrapper,
-  SessionToggleWithDescription,
-} from '../SessionSettingListItem';
+import { BlockedContactsList } from '../BlockedList';
+// tslint:disable: use-simple-attributes
+
+import { SessionToggleWithDescription } from '../SessionSettingListItem';
 
 async function toggleCommunitiesPruning() {
   try {
@@ -85,57 +81,14 @@ const AudioMessageAutoPlaySetting = () => {
   );
 };
 
-const NoBlockedContacts = () => {
-  return (
-    <SessionSettingsItemWrapper
-      inline={true}
-      description={window.i18n('noBlockedContacts')}
-      title={''}
-    />
-  );
-};
-
-const BlockedEntry = (props: { blockedEntry: string; title: string }) => {
-  return (
-    <SessionSettingButtonItem
-      key={props.blockedEntry}
-      buttonColor={SessionButtonColor.Danger}
-      buttonType={SessionButtonType.Square}
-      buttonText={window.i18n('unblockUser')}
-      title={props.title}
-      onClick={async () => {
-        await unblockConvoById(props.blockedEntry);
-      }}
-    />
-  );
-};
-
-const BlockedContactsList = (props: { blockedNumbers: Array<string> }) => {
-  const blockedEntries = props.blockedNumbers.map(blockedEntry => {
-    const currentModel = getConversationController().get(blockedEntry);
-    const title =
-      currentModel?.getNicknameOrRealUsernameOrPlaceholder() || window.i18n('anonymous');
-
-    return <BlockedEntry key={blockedEntry} blockedEntry={blockedEntry} title={title} />;
-  });
-
-  return <>{blockedEntries}</>;
-};
-
 export const CategoryConversations = () => {
-  const blockedNumbers = useSelector(getBlockedPubkeys);
-
   return (
     <>
       <CommunitiesPruningSetting />
       <SpellCheckSetting />
       <AudioMessageAutoPlaySetting />
 
-      {blockedNumbers?.length ? (
-        <BlockedContactsList blockedNumbers={blockedNumbers} />
-      ) : (
-        <NoBlockedContacts />
-      )}
+      <BlockedContactsList />
     </>
   );
 };

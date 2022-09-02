@@ -3,6 +3,7 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import styled from 'styled-components';
+import { SessionIconButton } from '../icon';
 
 type ButtonSettingsProps = {
   title?: string;
@@ -14,7 +15,7 @@ type ButtonSettingsProps = {
   onClick: () => void;
 };
 
-const StyledDescription = styled.div`
+export const StyledDescriptionSettingsItem = styled.div`
   font-family: var(--font-default);
   font-size: var(--font-size-sm);
   font-weight: 400;
@@ -22,7 +23,7 @@ const StyledDescription = styled.div`
   color: var(--color-text-subtle);
 `;
 
-const StyledTitle = styled.div`
+export const StyledTitleSettingsItem = styled.div`
   line-height: 1.7;
   font-size: var(--font-size-lg);
   font-weight: bold;
@@ -32,12 +33,35 @@ const StyledInfo = styled.div`
   padding-inline-end: var(--margins-lg);
 `;
 
-const StyledDescriptionContainer = styled(StyledDescription)`
+const StyledDescriptionContainer = styled(StyledDescriptionSettingsItem)`
   display: flex;
   align-items: center;
 `;
 
-const SettingsTitleAndDescription = (props: {
+export const StyledSettingItem = styled.div`
+  font-size: var(--font-size-md);
+  padding: var(--margins-lg);
+
+  background: var(--color-cell-background);
+  color: var(--color-text);
+  border-bottom: var(--border-session);
+`;
+
+const StyledSettingItemInline = styled(StyledSettingItem)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--default-duration);
+`;
+
+const StyledSettingItemClickable = styled(StyledSettingItemInline)`
+  :hover {
+    background: var(--color-clickable-hovered);
+    cursor: pointer;
+  }
+`;
+
+export const SettingsTitleAndDescription = (props: {
   title?: string;
   description?: string;
   childrenDescription?: React.ReactNode;
@@ -45,9 +69,11 @@ const SettingsTitleAndDescription = (props: {
   const { description, childrenDescription, title } = props;
   return (
     <StyledInfo>
-      <StyledTitle>{title}</StyledTitle>
+      <StyledTitleSettingsItem>{title}</StyledTitleSettingsItem>
       <StyledDescriptionContainer>
-        {description && <StyledDescription>{description}</StyledDescription>}
+        {description && (
+          <StyledDescriptionSettingsItem>{description}</StyledDescriptionSettingsItem>
+        )}
         <>{childrenDescription}</>
       </StyledDescriptionContainer>
     </StyledInfo>
@@ -75,21 +101,15 @@ export const SessionSettingsItemWrapper = (props: {
   );
 };
 
-const StyledSettingItem = styled.div`
-  font-size: var(--font-size-md);
-  padding: var(--margins-lg);
-  margin-bottom: 20px;
-
-  background: var(--color-cell-background);
-  color: var(--color-text);
-  border-bottom: var(--border-session);
-`;
-
-const StyledSettingItemInline = styled(StyledSettingItem)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+export const SessionSettingsTitleWithLink = (props: { title: string; onClick: () => void }) => {
+  const { onClick, title } = props;
+  return (
+    <StyledSettingItemClickable onClick={onClick}>
+      <SettingsTitleAndDescription title={title} />
+      <SessionIconButton iconSize={'large'} iconType="chevron" iconRotation={270} />
+    </StyledSettingItemClickable>
+  );
+};
 
 export const SessionToggleWithDescription = (props: {
   title?: string;
