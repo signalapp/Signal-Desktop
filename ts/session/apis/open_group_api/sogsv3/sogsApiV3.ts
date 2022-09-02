@@ -34,7 +34,7 @@ import { handleOutboxMessageModel } from '../../../../receiver/dataMessage';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { createSwarmMessageSentFromUs } from '../../../../models/messageFactory';
 import { Data } from '../../../../data/data';
-import { handleOpenGroupMessageReactions } from '../../../../util/reactions';
+import { processMessagesUsingCache } from './sogsV3MutationCache';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -312,7 +312,7 @@ const handleMessagesResponseV4 = async (
       if (groupConvo && groupConvo.isOpenGroupV2()) {
         for (const message of messagesWithReactions) {
           void groupConvo.queueJob(async () => {
-            await handleOpenGroupMessageReactions(message.reactions, message.id);
+            await processMessagesUsingCache(serverUrl, roomId, message);
           });
         }
       }

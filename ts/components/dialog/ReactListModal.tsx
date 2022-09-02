@@ -3,9 +3,8 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
+import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import {
   updateReactClearAllModal,
@@ -14,9 +13,10 @@ import {
 } from '../../state/ducks/modalDialog';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
-import { sendMessageReaction } from '../../util/reactions';
+import { Reactions } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
+import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
 import { SessionIconButton } from '../icon';
@@ -36,12 +36,12 @@ const StyledReactionsContainer = styled.div`
 
 const StyledSendersContainer = styled(Flex)`
   width: 100%;
-  min-height: 350px;
+  min-height: 332px;
   height: 100%;
   max-height: 496px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 16px 32px;
+  padding: 0 16px 16px;
 `;
 
 const StyledReactionBar = styled(Flex)`
@@ -110,7 +110,7 @@ const ReactionSenders = (props: ReactionSendersProps) => {
   };
 
   const handleRemoveReaction = async () => {
-    await sendMessageReaction(messageId, currentReact);
+    await Reactions.sendMessageReaction(messageId, currentReact);
 
     if (senders.length <= 1) {
       dispatch(updateReactListModal(null));
@@ -159,13 +159,43 @@ const ReactionSenders = (props: ReactionSendersProps) => {
   );
 };
 
+const StyledCountText = styled.p`
+  color: var(--color-text-subtle);
+  text-align: center;
+  margin: 16px auto 0;
+
+  span {
+    color: var(--color-text);
+  }
+`;
+
+const CountText = ({ count, emoji }: { count: number; emoji: string }) => {
+  return (
+    <StyledCountText>
+      <SessionHtmlRenderer
+        html={
+          count > Reactions.SOGSReactorsFetchCount + 1
+            ? window.i18n('reactionListCountPlural', [
+                window.i18n('otherPlural', [String(count - Reactions.SOGSReactorsFetchCount)]),
+                emoji,
+              ])
+            : window.i18n('reactionListCountSingular', [
+                window.i18n('otherSingular', [String(count - Reactions.SOGSReactorsFetchCount)]),
+                emoji,
+              ])
+        }
+      />
+    </StyledCountText>
+  );
+};
+
 type Props = {
   reaction: string;
   messageId: string;
 };
 
 const handleSenders = (senders: Array<string>, me: string) => {
-  let updatedSenders = senders;
+  let updatedSenders = [...senders];
   const blindedMe = updatedSenders.filter(isUsAnySogsFromCache);
 
   let meIndex = -1;
@@ -182,17 +212,21 @@ const handleSenders = (senders: Array<string>, me: string) => {
   return updatedSenders;
 };
 
+// tslint:disable-next-line: max-func-body-length
 export const ReactListModal = (props: Props): ReactElement => {
   const { reaction, messageId } = props;
 
+  const dispatch = useDispatch();
   const [reactions, setReactions] = useState<SortedReactionList>([]);
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const [currentReact, setCurrentReact] = useState('');
   const [reactAriaLabel, setReactAriaLabel] = useState<string | undefined>();
+  const [count, setCount] = useState<number | null>(null);
   const [senders, setSenders] = useState<Array<string>>([]);
-  const me = UserUtils.getOurPubKeyStrFromCache();
 
   const msgProps = useMessageReactsPropsById(messageId);
+  const weAreModerator = useWeAreModerator(msgProps?.convoId);
+  const me = UserUtils.getOurPubKeyStrFromCache();
 
   // tslint:disable: cyclomatic-complexity
   useEffect(() => {
@@ -217,7 +251,7 @@ export const ReactListModal = (props: Props): ReactElement => {
 
     let _senders =
       reactionsMap && reactionsMap[currentReact] && reactionsMap[currentReact].senders
-        ? Object.keys(reactionsMap[currentReact].senders)
+        ? reactionsMap[currentReact].senders
         : null;
 
     if (_senders && !isEqual(senders, _senders)) {
@@ -230,18 +264,26 @@ export const ReactListModal = (props: Props): ReactElement => {
     if (senders.length > 0 && (!reactionsMap[currentReact]?.senders || isEmpty(_senders))) {
       setSenders([]);
     }
-  }, [currentReact, me, reaction, msgProps?.sortedReacts, reactionsMap, senders]);
+
+    if (reactionsMap[currentReact]?.count && count !== reactionsMap[currentReact]?.count) {
+      setCount(reactionsMap[currentReact].count);
+    }
+  }, [
+    count,
+    currentReact,
+    me,
+    reaction,
+    reactionsMap[currentReact]?.count,
+    msgProps?.sortedReacts,
+    reactionsMap,
+    senders,
+  ]);
 
   if (!msgProps) {
     return <></>;
   }
 
-  const dispatch = useDispatch();
-
-  const { convoId, isPublic } = msgProps;
-
-  const convo = getConversationController().get(convoId);
-  const weAreModerator = convo.getConversationModelProps().weAreModerator;
+  const { isPublic } = msgProps;
 
   const handleSelectedReaction = (emoji: string): boolean => {
     return currentReact === emoji;
@@ -319,6 +361,9 @@ export const ReactListModal = (props: Props): ReactElement => {
                 me={me}
                 handleClose={handleClose}
               />
+            )}
+            {isPublic && currentReact && count && count > Reactions.SOGSReactorsFetchCount && (
+              <CountText count={count} emoji={currentReact} />
             )}
           </StyledSendersContainer>
         )}

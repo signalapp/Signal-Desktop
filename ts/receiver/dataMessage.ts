@@ -21,7 +21,8 @@ import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { handleMessageReaction } from '../util/reactions';
+import { Reactions } from '../util/reactions';
+import { Action, Reaction } from '../types/Reaction';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -79,33 +80,34 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
   }
 }
 
-export function isMessageEmpty(message: SignalService.DataMessage) {
-  const {
-    flags,
-    body,
-    attachments,
-    group,
-    quote,
-    preview,
-    openGroupInvitation,
-    reaction,
-  } = message;
+/**
+ * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
+ *  - sometimes want to drop a message only when it is completely empty,
+ *  - and sometimes only when the message is empty but have a reaction
+ */
+function isMessageEmpty(message: SignalService.DataMessage) {
+  const { reaction } = message;
+
+  return isMessageEmptyExceptReaction(message) && isEmpty(reaction);
+}
+
+/**
+ * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
+ *  - sometimes want to drop a message only when it is completely empty,
+ *  - and sometimes only when the message is empty but have a reaction
+ */
+export function isMessageEmptyExceptReaction(message: SignalService.DataMessage) {
+  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
 
   return (
     !flags &&
-    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
-    isBodyEmpty(body) &&
+    isEmpty(body) &&
     isEmpty(attachments) &&
     isEmpty(group) &&
     isEmpty(quote) &&
     isEmpty(preview) &&
-    isEmpty(openGroupInvitation) &&
-    isEmpty(reaction)
+    isEmpty(openGroupInvitation)
   );
-}
-
-function isBodyEmpty(body: string) {
-  return isEmpty(body);
 }
 
 export function cleanIncomingDataMessage(
@@ -318,17 +320,26 @@ async function handleSwarmMessage(
 
   void convoToAddMessageTo.queueJob(async () => {
     // this call has to be made inside the queueJob!
-    if (!msgModel.get('isPublic') && rawDataMessage.reaction && rawDataMessage.syncTarget) {
-      await handleMessageReaction(
-        rawDataMessage.reaction,
-        msgModel.get('source'),
-        false,
-        messageHash
-      );
+    // We handle reaction DataMessages separately
+    if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
+      await Reactions.handleMessageReaction({
+        reaction: rawDataMessage.reaction,
+        sender: msgModel.get('source'),
+        you: isUsFromCache(msgModel.get('source')),
+        isOpenGroup: false,
+      });
+      if (
+        convoToAddMessageTo.isPrivate() &&
+        msgModel.get('unread') &&
+        rawDataMessage.reaction.action === Action.REACT
+      ) {
+        msgModel.set('reaction', rawDataMessage.reaction as Reaction);
+        convoToAddMessageTo.throttledNotify(msgModel);
+      }
+
       confirm();
       return;
     }
-
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,

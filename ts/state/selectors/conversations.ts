@@ -172,11 +172,12 @@ export const hasSelectedConversationIncomingMessages = createSelector(
   }
 );
 
-const getFirstUnreadMessageId = createSelector(getConversations, (state: ConversationsStateType):
-  | string
-  | undefined => {
-  return state.firstUnreadMessageId;
-});
+export const getFirstUnreadMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    return state.firstUnreadMessageId;
+  }
+);
 
 export const getConversationHasUnread = createSelector(getFirstUnreadMessageId, unreadId => {
   return Boolean(unreadId);
@@ -215,10 +216,11 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           ? messageTimestamp
           : undefined;
 
+      const common = { showUnreadIndicator: isFirstUnread, showDateBreak };
+
       if (msg.propsForDataExtractionNotification) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'data-extraction',
             props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
@@ -228,8 +230,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       if (msg.propsForMessageRequestResponse) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'message-request-response',
             props: { ...msg.propsForMessageRequestResponse, messageId: msg.propsForMessage.id },
@@ -239,8 +240,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       if (msg.propsForGroupInvitation) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'group-invitation',
             props: { ...msg.propsForGroupInvitation, messageId: msg.propsForMessage.id },
@@ -250,8 +250,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       if (msg.propsForGroupUpdateMessage) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'group-notification',
             props: { ...msg.propsForGroupUpdateMessage, messageId: msg.propsForMessage.id },
@@ -261,8 +260,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       if (msg.propsForTimerNotification) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'timer-notification',
             props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
@@ -272,8 +270,7 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
 
       if (msg.propsForCallNotification) {
         return {
-          showUnreadIndicator: isFirstUnread,
-          showDateBreak,
+          ...common,
           message: {
             messageType: 'call-notification',
             props: {
@@ -918,6 +915,16 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   ]);
 
   if (msgProps.reacts) {
+    // NOTE we don't want to render reactions that have 'senders' as an object this is a deprecated type used during development 25/08/2022
+    const oldReactions = Object.values(msgProps.reacts).filter(
+      reaction => !Array.isArray(reaction.senders)
+    );
+
+    if (oldReactions.length > 0) {
+      msgProps.reacts = undefined;
+      return msgProps;
+    }
+
     const sortedReacts = Object.entries(msgProps.reacts).sort((a, b) => {
       return a[1].index < b[1].index ? -1 : a[1].index > b[1].index ? 1 : 0;
     });
@@ -1082,8 +1089,6 @@ export const getMessageContentSelectorProps = createSelector(getMessagePropsByMe
   }
 
   const msgProps: MessageContentSelectorProps = {
-    firstMessageOfSeries: props.firstMessageOfSeries,
-    lastMessageOfSeries: props.lastMessageOfSeries,
     ...pick(props.propsForMessage, [
       'direction',
       'serverTimestamp',

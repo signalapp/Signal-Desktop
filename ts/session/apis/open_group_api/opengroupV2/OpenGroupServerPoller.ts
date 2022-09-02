@@ -35,6 +35,11 @@ export type OpenGroupMessageV4 = {
   reactions: Record<string, OpenGroupReaction>;
 };
 
+// seqno is not set for SOGS < 1.3.4
+export type OpenGroupReactionMessageV4 = Omit<OpenGroupMessageV4, 'seqno'> & {
+  seqno: number | undefined;
+};
+
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 
 export const invalidAuthRequiresBlinding =

@@ -5,7 +5,7 @@ import { abbreviateNumber } from '../../../../util/abbreviateNumber';
 import { nativeEmojiData } from '../../../../util/emoji';
 import styled from 'styled-components';
 import { useMouse } from 'react-use';
-import { ReactionPopup, TipPosition } from './ReactionPopup';
+import { POPUP_WIDTH, ReactionPopup, TipPosition } from './ReactionPopup';
 import { popupXDefault, popupYDefault } from '../message-content/MessageReactions';
 import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
@@ -69,15 +69,15 @@ export const Reaction = (props: ReactionProps): ReactElement => {
     handlePopupClick,
   } = props;
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
-  const senders = reactionsMap[emoji].senders ? Object.keys(reactionsMap[emoji].senders) : [];
-  const count = reactionsMap[emoji].count;
+  const senders = reactionsMap[emoji]?.senders || [];
+  const count = reactionsMap[emoji]?.count;
   const showCount = count !== undefined && (count > 1 || inGroup);
 
   const reactionRef = useRef<HTMLDivElement>(null);
   const { docX, elW } = useMouse(reactionRef);
 
   const gutterWidth = 380;
-  const tooltipMidPoint = 108; // width is 216px;
+  const tooltipMidPoint = POPUP_WIDTH / 2; // px
   const [tooltipPosition, setTooltipPosition] = useState<TipPosition>('center');
 
   const me = UserUtils.getOurPubKeyStrFromCache();
@@ -108,7 +108,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
             const { innerWidth: windowWidth } = window;
             if (handlePopupReaction) {
               // overflow on far right means we shift left
-              if (docX + tooltipMidPoint > windowWidth) {
+              if (docX + elW + tooltipMidPoint > windowWidth) {
                 handlePopupX(Math.abs(popupXDefault) * 1.5 * -1);
                 setTooltipPosition('right');
                 // overflow onto conversations means we lock to the right
@@ -138,7 +138,8 @@ export const Reaction = (props: ReactionProps): ReactElement => {
         <ReactionPopup
           messageId={messageId}
           emoji={popupReaction}
-          senders={Object.keys(reactionsMap[popupReaction].senders)}
+          count={reactionsMap[popupReaction]?.count}
+          senders={reactionsMap[popupReaction]?.senders}
           tooltipPosition={tooltipPosition}
           onClick={() => {
             if (handlePopupReaction) {

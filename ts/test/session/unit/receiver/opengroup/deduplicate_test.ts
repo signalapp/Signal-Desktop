@@ -93,20 +93,6 @@ describe('filterDuplicatesFromDbAndIncoming', () => {
       expect(filtered.length).to.be.eq(1);
       expect(filtered[0]).to.be.deep.eq(msg1);
     });
-
-    it('three duplicates in the same poll', async () => {
-      const msg1 = TestUtils.generateOpenGroupMessageV2();
-      const msg2 = TestUtils.generateOpenGroupMessageV2();
-
-      const msg3 = TestUtils.generateOpenGroupMessageV2();
-      msg2.sentTimestamp = msg1.sentTimestamp;
-      msg2.sender = msg1.sender;
-      msg3.sentTimestamp = msg1.sentTimestamp;
-      msg3.sender = msg1.sender;
-      const filtered = await filterDuplicatesFromDbAndIncoming([msg1, msg2, msg3]);
-      expect(filtered.length).to.be.eq(1);
-      expect(filtered[0]).to.be.deep.eq(msg1);
-    });
   });
 
   describe('filters duplicated message from database', () => {
