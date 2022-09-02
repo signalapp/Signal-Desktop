@@ -11,7 +11,7 @@ import {
   OceanBlueDark,
   OceanBlueLight,
   PrimaryColorIds,
-} from '../../state/ducks/SessionTheme';
+} from '../../themes/SessionTheme';
 import { ThemeStateType } from '../../state/ducks/theme';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';

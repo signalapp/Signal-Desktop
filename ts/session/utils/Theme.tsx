@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
 import { applyTheme, ThemeStateType } from '../../state/ducks/theme';
+import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../themes/SessionTheme';
 
 export async function switchThemeTo(theme: ThemeStateType, dispatch: Dispatch | null) {
   await window.setTheme(theme);

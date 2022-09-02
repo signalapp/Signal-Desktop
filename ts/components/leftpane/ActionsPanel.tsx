@@ -38,7 +38,6 @@ import { debounce, isEmpty, isString } from 'lodash';
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
-import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../themes/SessionTheme';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
