@@ -150,6 +150,10 @@
 
     @include dark-theme {
       border-color: $color-white-alpha-40;
+
+      &--unread {
+        border-color: $color-ultramarine-dawn;
+      }
     }
 
     &--unread {
