@@ -38,6 +38,7 @@ declare global {
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
+      useEmojiReacts: boolean;
       debug: {
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;

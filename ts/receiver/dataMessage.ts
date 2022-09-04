@@ -322,21 +322,22 @@ async function handleSwarmMessage(
     // this call has to be made inside the queueJob!
     // We handle reaction DataMessages separately
     if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
-      await Reactions.handleMessageReaction({
-        reaction: rawDataMessage.reaction,
-        sender: msgModel.get('source'),
-        you: isUsFromCache(msgModel.get('source')),
-        isOpenGroup: false,
-      });
-      if (
-        convoToAddMessageTo.isPrivate() &&
-        msgModel.get('unread') &&
-        rawDataMessage.reaction.action === Action.REACT
-      ) {
-        msgModel.set('reaction', rawDataMessage.reaction as Reaction);
-        convoToAddMessageTo.throttledNotify(msgModel);
+      if (window.sessionFeatureFlags.useEmojiReacts) {
+        await Reactions.handleMessageReaction({
+          reaction: rawDataMessage.reaction,
+          sender: msgModel.get('source'),
+          you: isUsFromCache(msgModel.get('source')),
+          isOpenGroup: false,
+        });
+        if (
+          convoToAddMessageTo.isPrivate() &&
+          msgModel.get('unread') &&
+          rawDataMessage.reaction.action === Action.REACT
+        ) {
+          msgModel.set('reaction', rawDataMessage.reaction as Reaction);
+          convoToAddMessageTo.throttledNotify(msgModel);
+        }
       }
-
       confirm();
       return;
     }

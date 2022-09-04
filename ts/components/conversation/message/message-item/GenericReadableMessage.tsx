@@ -142,7 +142,9 @@ const StyledReadableMessage = styled(ReadableMessage)<{
 export const GenericReadableMessage = (props: Props) => {
   const { ctxMenuID, messageId, isDetailView } = props;
 
-  const [enableReactions, setEnableReactions] = useState(true);
+  const [enableReactions, setEnableReactions] = useState(
+    window.sessionFeatureFlags.useEmojiReacts && true
+  );
 
   const msgProps = useSelector(state =>
     getGenericReadableMessageSelectorProps(state as any, props.messageId)
@@ -186,7 +188,7 @@ export const GenericReadableMessage = (props: Props) => {
   );
 
   useEffect(() => {
-    if (msgProps?.convoId) {
+    if (window.sessionFeatureFlags.useEmojiReacts && msgProps?.convoId) {
       const conversationModel = getConversationController().get(msgProps?.convoId);
       if (conversationModel) {
         setEnableReactions(conversationModel.hasReactions());

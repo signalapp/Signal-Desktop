@@ -34,6 +34,7 @@ window.sessionFeatureFlags = {
     debugNonSnodeRequests: false,
     debugOnionRequests: false,
   },
+  useEmojiReacts: false,
 };
 
 window.versionInfo = {
