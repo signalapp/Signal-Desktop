@@ -8,6 +8,7 @@ import {
 import { addJsonContentTypeToHeaders } from './sogsV3SendMessage';
 import { AbortSignal } from 'abort-controller';
 import { roomHasBlindEnabled } from './sogsV3Capabilities';
+import { Reactions } from '../../../../util/reactions';
 
 type BatchFetchRequestOptions = {
   method: 'POST' | 'PUT' | 'GET' | 'DELETE';
@@ -238,10 +239,9 @@ const makeBatchRequestPayload = (
       if (options.messages) {
         return {
           method: 'GET',
-          // TODO Consistency across platforms with fetching reactors
           path: isNumber(options.messages.sinceSeqNo)
-            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r`
-            : `/room/${options.messages.roomId}/messages/recent`,
+            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r&reactors=${Reactions.SOGSReactorsFetchCount}`
+            : `/room/${options.messages.roomId}/messages/recent?reactors=${Reactions.SOGSReactorsFetchCount}`,
         };
       }
       break;

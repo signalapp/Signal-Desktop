@@ -28,18 +28,11 @@ import { MessagePreview } from './MessagePreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
+import styled from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
-  | 'text'
-  | 'direction'
-  | 'timestamp'
-  | 'serverTimestamp'
-  | 'firstMessageOfSeries'
-  | 'lastMessageOfSeries'
-  | 'previews'
-  | 'quote'
-  | 'attachments'
+  'text' | 'direction' | 'timestamp' | 'serverTimestamp' | 'previews' | 'quote' | 'attachments'
 >;
 
 type Props = {
@@ -94,6 +87,10 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
     return;
   }
 }
+
+const StyledMessageContent = styled.div`
+  border-radius: 18px;
+`;
 
 export const IsMessageVisibleContext = createContext(false);
 
@@ -159,8 +156,6 @@ export const MessageContent = (props: Props) => {
     text,
     timestamp,
     serverTimestamp,
-    firstMessageOfSeries,
-    lastMessageOfSeries,
     previews,
     quote,
     attachments,
@@ -181,21 +176,17 @@ export const MessageContent = (props: Props) => {
 
   const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
+  // tslint:disable: use-simple-attributes
 
   return (
-    <div
+    <StyledMessageContent
       className={classNames(
         'module-message__container',
         `module-message__container--${direction}`,
         bgShouldBeTransparent
           ? `module-message__container--${direction}--transparent`
           : `module-message__container--${direction}--opaque`,
-        firstMessageOfSeries || props.isDetailView
-          ? `module-message__container--${direction}--first-of-series`
-          : '',
-        lastMessageOfSeries || props.isDetailView
-          ? `module-message__container--${direction}--last-of-series`
-          : '',
+
         flashGreen && 'flash-green-once'
       )}
       style={{
@@ -228,14 +219,14 @@ export const MessageContent = (props: Props) => {
               {!isDeleted && (
                 <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
               )}
-              <Flex padding="7px" container={true} flexDirection="column">
+              <Flex padding="7px 13px" container={true} flexDirection="column">
                 <MessageText messageId={props.messageId} />
               </Flex>
             </>
           ) : null}
         </IsMessageVisibleContext.Provider>
       </InView>
-    </div>
+    </StyledMessageContent>
   );
 };
 

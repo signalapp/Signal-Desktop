@@ -349,14 +349,6 @@ label {
   border-bottom-right-radius: 5px;
 }
 
-.module-message__container--outgoing--first-of-series {
-  border-top-right-radius: $session_message-container-border-radius;
-}
-
-.module-message__container--outgoing--last-of-series {
-  border-bottom-right-radius: $session_message-container-border-radius;
-}
-
 .conversation-header {
   .module-avatar img {
     box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);

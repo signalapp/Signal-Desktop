@@ -2,15 +2,36 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import {
+  getUsBlindedInThatServer,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
 import { getRecentReactions, saveRecentReations } from '../util/storage';
 
+const SOGSReactorsFetchCount = 5;
 const rateCountLimit = 20;
 const rateTimeLimit = 60 * 1000;
 const latestReactionTimestamps: Array<number> = [];
+
+function hitRateLimit(): boolean {
+  const timestamp = Date.now();
+  latestReactionTimestamps.push(timestamp);
+
+  if (latestReactionTimestamps.length > rateCountLimit) {
+    const firstTimestamp = latestReactionTimestamps[0];
+    if (timestamp - firstTimestamp < rateTimeLimit) {
+      latestReactionTimestamps.pop();
+      window.log.warn('Only 20 reactions are allowed per minute');
+      return true;
+    } else {
+      latestReactionTimestamps.shift();
+    }
+  }
+  return false;
+}
 
 /**
  * Retrieves the original message of a reaction
@@ -48,9 +69,9 @@ const getMessageByReaction = async (
 };
 
 /**
- * Sends a Reaction Data Message, don't use for OpenGroups
+ * Sends a Reaction Data Message
  */
-export const sendMessageReaction = async (messageId: string, emoji: string) => {
+const sendMessageReaction = async (messageId: string, emoji: string) => {
   const found = await Data.getMessageById(messageId);
   if (found) {
     const conversationModel = found?.getConversation();
@@ -64,34 +85,29 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       return;
     }
 
-    const timestamp = Date.now();
-    latestReactionTimestamps.push(timestamp);
+    if (hitRateLimit()) {
+      return;
+    }
 
-    if (latestReactionTimestamps.length > rateCountLimit) {
-      const firstTimestamp = latestReactionTimestamps[0];
-      if (timestamp - firstTimestamp < rateTimeLimit) {
-        latestReactionTimestamps.pop();
-        return;
+    let me = UserUtils.getOurPubKeyStrFromCache();
+    let id = Number(found.get('sent_at'));
+
+    if (found.get('isPublic')) {
+      if (found.get('serverId')) {
+        id = found.get('serverId') || id;
+        me = getUsBlindedInThatServer(conversationModel) || me;
       } else {
-        latestReactionTimestamps.shift();
+        window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
+        return;
       }
     }
 
-    const isOpenGroup = Boolean(found?.get('isPublic'));
-    const id = (isOpenGroup && found.get('serverId')) || Number(found.get('sent_at'));
-    const me =
-      (isOpenGroup && getUsBlindedInThatServer(conversationModel)) ||
-      UserUtils.getOurPubKeyStrFromCache();
     const author = found.get('source');
     let action: Action = Action.REACT;
 
     const reacts = found.get('reacts');
-    if (
-      reacts &&
-      Object.keys(reacts).includes(emoji) &&
-      Object.keys(reacts[emoji].senders).includes(me)
-    ) {
-      window.log.info('found matching reaction removing it');
+    if (reacts?.[emoji]?.senders?.includes(me)) {
+      window.log.info('Found matching reaction removing it');
       action = Action.REMOVE;
     } else {
       const reactions = getRecentReactions();
@@ -113,7 +129,12 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
       `You ${action === Action.REACT ? 'added' : 'removed'} a`,
       emoji,
       'reaction for message',
-      id
+      id,
+      found.get('isPublic')
+        ? `on ${conversationModel.toOpenGroupV2().serverUrl}/${
+            conversationModel.toOpenGroupV2().roomId
+          }`
+        : ''
     );
     return reaction;
   } else {
@@ -124,15 +145,21 @@ export const sendMessageReaction = async (messageId: string, emoji: string) => {
 
 /**
  * Handle reactions on the client by updating the state of the source message
+ * Used in OpenGroups for sending reactions only, not handling responses
  */
-export const handleMessageReaction = async (
-  reaction: SignalService.DataMessage.IReaction,
-  sender: string,
-  isOpenGroup: boolean,
-  messageId?: string
-) => {
+const handleMessageReaction = async ({
+  reaction,
+  sender,
+  you,
+  isOpenGroup,
+}: {
+  reaction: SignalService.DataMessage.IReaction;
+  sender: string;
+  you: boolean;
+  isOpenGroup: boolean;
+}) => {
   if (!reaction.emoji) {
-    window?.log?.warn(`There is no emoji for the reaction ${messageId}.`);
+    window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
     return;
   }
 
@@ -142,44 +169,48 @@ export const handleMessageReaction = async (
   }
 
   const reacts: ReactionList = originalMessage.get('reacts') ?? {};
-  reacts[reaction.emoji] = reacts[reaction.emoji] || { count: null, senders: {} };
+  reacts[reaction.emoji] = reacts[reaction.emoji] || { count: null, senders: [] };
   const details = reacts[reaction.emoji] ?? {};
-  const senders = Object.keys(details.senders);
+  const senders = details.senders;
+  let count = details.count || 0;
 
-  window.log.info(
-    `${sender} ${reaction.action === Action.REACT ? 'added' : 'removed'} a ${
-      reaction.emoji
-    } reaction`
-  );
+  if (details.you && senders.includes(sender)) {
+    if (reaction.action === Action.REACT) {
+      window.log.warn('Received duplicate message for your reaction. Ignoring it');
+      return;
+    } else {
+      details.you = false;
+    }
+  } else {
+    details.you = you;
+  }
 
   switch (reaction.action) {
-    case SignalService.DataMessage.Reaction.Action.REACT:
-      if (senders.includes(sender) && details.senders[sender] !== '') {
-        window?.log?.info(
-          'Received duplicate message reaction. Dropping it. id:',
-          details.senders[sender]
-        );
+    case Action.REACT:
+      if (senders.includes(sender)) {
+        window.log.warn('Received duplicate reaction message. Ignoring it', reaction, sender);
         return;
       }
-      details.senders[sender] = messageId ?? '';
+      details.senders.push(sender);
+      count += 1;
       break;
-    case SignalService.DataMessage.Reaction.Action.REMOVE:
+    case Action.REMOVE:
     default:
-      if (senders.length > 0) {
-        if (senders.indexOf(sender) >= 0) {
-          // tslint:disable-next-line: no-dynamic-delete
-          delete details.senders[sender];
+      if (senders?.length > 0) {
+        const sendersIndex = senders.indexOf(sender);
+        if (sendersIndex >= 0) {
+          details.senders.splice(sendersIndex, 1);
+          count -= 1;
         }
       }
   }
 
-  const count = Object.keys(details.senders).length;
   if (count > 0) {
     reacts[reaction.emoji].count = count;
     reacts[reaction.emoji].senders = details.senders;
+    reacts[reaction.emoji].you = details.you;
 
-    // sorting for open groups convos is handled by SOGS
-    if (!isOpenGroup && details && details.index === undefined) {
+    if (details && details.index === undefined) {
       reacts[reaction.emoji].index = originalMessage.get('reactsIndex') ?? 0;
       originalMessage.set('reactsIndex', (originalMessage.get('reactsIndex') ?? 0) + 1);
     }
@@ -193,19 +224,59 @@ export const handleMessageReaction = async (
   });
 
   await originalMessage.commit();
+
+  if (!you) {
+    window.log.info(
+      `${sender} ${reaction.action === Action.REACT ? 'added' : 'removed'} a ${
+        reaction.emoji
+      } reaction`
+    );
+  }
   return originalMessage;
 };
 
 /**
- * Handle all updates to messages reactions from the SOGS API
+ * Handles updating the UI when clearing all reactions for a certain emoji
+ * Only usable by moderators in opengroups and runs on their client
  */
-export const handleOpenGroupMessageReactions = async (
+const handleClearReaction = async (serverId: number, emoji: string) => {
+  const originalMessage = await Data.getMessageByServerId(serverId);
+  if (!originalMessage) {
+    window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    return;
+  }
+
+  const reacts: ReactionList | undefined = originalMessage.get('reacts');
+  if (reacts) {
+    // tslint:disable-next-line: no-dynamic-delete
+    delete reacts[emoji];
+  }
+
+  originalMessage.set({
+    reacts: !isEmpty(reacts) ? reacts : undefined,
+  });
+
+  await originalMessage.commit();
+
+  window.log.info(`You cleared all ${emoji} reactions on message ${serverId}`);
+  return originalMessage;
+};
+
+/**
+ * Handles all message reaction updates/responses for opengroups
+ */
+const handleOpenGroupMessageReactions = async (
   reactions: OpenGroupReactionList,
   serverId: number
 ) => {
   const originalMessage = await Data.getMessageByServerId(serverId);
   if (!originalMessage) {
     window?.log?.warn(`Cannot find the original reacted message ${serverId}.`);
+    return;
+  }
+
+  if (!originalMessage.get('isPublic')) {
+    window.log.warn('handleOpenGroupMessageReactions() should only be used in opengroups');
     return;
   }
 
@@ -219,11 +290,44 @@ export const handleOpenGroupMessageReactions = async (
     const reacts: ReactionList = {};
     Object.keys(reactions).forEach(key => {
       const emoji = decodeURI(key);
-      const senders: Record<string, string> = {};
+      const you = reactions[key].you || false;
+
+      if (you) {
+        if (reactions[key]?.reactors.length > 0) {
+          const reactorsWithoutMe = reactions[key].reactors.filter(
+            reactor => !isUsAnySogsFromCache(reactor)
+          );
+
+          // If we aren't included in the reactors then remove the extra reactor to match with the SOGSReactorsFetchCount.
+          if (reactorsWithoutMe.length === SOGSReactorsFetchCount) {
+            reactorsWithoutMe.pop();
+          }
+
+          const conversationModel = originalMessage?.getConversation();
+          if (conversationModel) {
+            const me =
+              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+            reactions[key].reactors = [me, ...reactorsWithoutMe];
+          }
+        }
+      }
+
+      const senders: Array<string> = [];
       reactions[key].reactors.forEach(reactor => {
-        senders[reactor] = String(serverId);
+        senders.push(reactor);
       });
-      reacts[emoji] = { count: reactions[key].count, index: reactions[key].index, senders };
+
+      if (reactions[key].count > 0) {
+        reacts[emoji] = {
+          count: reactions[key].count,
+          index: reactions[key].index,
+          senders,
+          you,
+        };
+      } else {
+        // tslint:disable-next-line: no-dynamic-delete
+        delete reacts[key];
+      }
     });
 
     originalMessage.set({
@@ -235,7 +339,7 @@ export const handleOpenGroupMessageReactions = async (
   return originalMessage;
 };
 
-export const updateRecentReactions = async (reactions: Array<string>, newReaction: string) => {
+const updateRecentReactions = async (reactions: Array<string>, newReaction: string) => {
   window?.log?.info('updating recent reactions with', newReaction);
   const recentReactions = new RecentReactions(reactions);
   const foundIndex = recentReactions.items.indexOf(newReaction);
@@ -248,4 +352,15 @@ export const updateRecentReactions = async (reactions: Array<string>, newReactio
     recentReactions.push(newReaction);
   }
   await saveRecentReations(recentReactions.items);
+};
+
+// exported for testing purposes
+export const Reactions = {
+  SOGSReactorsFetchCount,
+  hitRateLimit,
+  sendMessageReaction,
+  handleMessageReaction,
+  handleClearReaction,
+  handleOpenGroupMessageReactions,
+  updateRecentReactions,
 };

@@ -10,7 +10,7 @@ import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { sendMessageReaction } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
@@ -93,7 +93,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   const [popupReaction, setPopupReaction] = useState('');
 
   const handleMessageReaction = async (emoji: string) => {
-    await sendMessageReaction(messageId, emoji);
+    await Reactions.sendMessageReaction(messageId, emoji);
   };
 
   const handlePopupClick = () => {

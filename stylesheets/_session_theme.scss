@@ -40,19 +40,6 @@
       background: none;
     }
 
-    border-top-right-radius: $message-container-border-radius;
-    border-bottom-right-radius: $message-container-border-radius;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-
-    &--first-of-series {
-      border-top-left-radius: $message-container-border-radius;
-    }
-
-    &--last-of-series {
-      border-bottom-left-radius: $message-container-border-radius;
-    }
-
     .module-message__text {
       color: var(--color-received-message-text);
       display: flex;
@@ -71,25 +58,12 @@
   }
 
   &__container--outgoing {
-    border-top-left-radius: $message-container-border-radius;
-    border-bottom-left-radius: $message-container-border-radius;
-
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
     &--opaque {
       background: var(--color-sent-message-background);
     }
 
     &--transparent {
       background: none;
-    }
-
-    &--first-of-series {
-      border-top-right-radius: $message-container-border-radius;
-    }
-
-    &--last-of-series {
-      border-bottom-right-radius: $message-container-border-radius;
     }
 
     .module-message__text {
