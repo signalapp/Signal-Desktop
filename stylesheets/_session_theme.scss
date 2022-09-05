@@ -118,7 +118,7 @@
 
 h1 {
   @include session-h-title;
-  color: $session-shade-16;
+  color: var(--color-light-gray-color);
   font-size: 25px;
   margin: 0;
 
