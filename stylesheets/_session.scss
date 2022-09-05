@@ -91,7 +91,7 @@ textarea {
   white-space: nowrap;
   cursor: pointer;
   transition: var(--default-duration);
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--color-transparent-color);
 
   &.disabled {
     cursor: default;
@@ -138,7 +138,8 @@ textarea {
       background-color: $session-color-secondary;
     }
     &.success {
-      background-color: $session-color-success;
+      /* TODO is this correct? */
+      background-color: var(--color-text);
     }
     &.danger {
       background-color: var(--color-destructive);
@@ -238,8 +239,8 @@ textarea {
     background-color: $session-color-secondary;
   }
   &.success {
-    background-color: $session-color-success;
-  }
+/* TODO is this correct? */
+  background-color: var(--color-text);  }
   &.danger {
     background-color: var(--color-destructive);
   }
@@ -396,7 +397,8 @@ label {
     border-left: 4px solid $color;
   }
   &--success {
-    @include set-toast-theme($session-color-success);
+    /* TODO is this correct? */
+    @include set-toast-theme(var(--color-session-green-color));
   }
   &--info {
     @include set-toast-theme($session-color-info);

@@ -254,7 +254,7 @@ const StyledSendMessageInput = styled.div`
     margin-left: 2px;
     line-height: var(--font-size-h2);
     letter-spacing: 0.5px;
-    color: rgba(0, 0, 0, 0);
+    color: var(--color-transparent-color);
   }
 `;
 

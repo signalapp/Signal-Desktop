@@ -27,7 +27,7 @@ const StyledSessionToggle = styled.div<{ active: boolean }>`
   position: relative;
 
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: var(--color-transparent-color);
   transition: var(--default-duration);
 
   background-color: ${props =>

@@ -17,7 +17,7 @@ import { isUndefined } from 'lodash';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
-  ICON_SECONDARY: '#ccc',
+  ICON_SECONDARY: 'var(--color-light-gray-color)',
 };
 
 const colorSVG = (url: string, color: string) => {

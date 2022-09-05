@@ -68,7 +68,7 @@ button {
 }
 button.grey {
   border-radius: $border-radius;
-  border: solid 1px #ccc;
+  border: solid 1px var(--color-light-gray-color);
   cursor: pointer;
   margin: 1em auto;
   padding: 1em;

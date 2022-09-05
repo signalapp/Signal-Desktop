@@ -33,6 +33,9 @@ const darkGrayColor = '#414347';
 const darkerGrayColor = '#2f2f2f';
 const darkestGrayColor = '#17191d';
 
+// Transparent
+const transparentColor = 'transparent';
+
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
 const darkColorAccentButton = accentDarkTheme;
@@ -387,6 +390,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-darker-gray-color: ${darkerGrayColor};
     --color-darkest-gray-color: ${darkestGrayColor};
     --color-light-blue-color: ${lightBlueColor};
+    --color-transparent-color: ${transparentColor};
 
     --color-warning:  ${warning};
     --color-destructive:  ${destructive};
@@ -464,17 +468,7 @@ export const OceanBlueLight: SettingsThemeSwitcherColor = {
   received: '#B3EDF2',
 };
 
-export type PrimaryColorIds =
-  | 'green'
-  | 'blue'
-  | 'yellow'
-  | 'pink'
-  | 'purple'
-  | 'orange'
-  | 'red'
-  | 'blue'
-  | 'blue'
-  | 'blue';
+export type PrimaryColorIds = 'green' | 'blue' | 'yellow' | 'pink' | 'purple' | 'orange' | 'red';
 
 type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string };
 

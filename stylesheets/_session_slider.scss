@@ -25,11 +25,11 @@
   -ms-touch-action: none;
   touch-action: none;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--color-transparent-color);
 }
 .rc-slider * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--color-transparent-color);
 }
 .rc-slider-rail {
   position: absolute;
@@ -51,18 +51,18 @@
   margin-left: -2.3px;
   cursor: grab;
   border-radius: 4px;
-  /* border: solid 2px rgba(0, 247, 130, 0.8); */
-  background-color: rgba(0, 247, 130, 1);
+  /* TODO What should this be? */
+  background-color: var(--color-session-green-color);
   -ms-touch-action: pan-x;
   touch-action: pan-x;
 }
 .rc-slider-handle:focus {
   border-color: var(--color-session-green-color);
-  box-shadow: 0 0 0 5px rgba(white, 0.2);
+  box-shadow: 0 0 0 5px rgba(var(--color-white-color), 0.2);
   outline: none;
 }
 .rc-slider-handle-click-focused:focus {
-  border-color: rgba(white, 0.2);
+  border-color: rgba(var(--color-white-color), 0.2);
   box-shadow: unset;
 }
 .rc-slider-handle:hover {
@@ -70,7 +70,7 @@
 }
 .rc-slider-handle:active {
   border-color: var(--color-session-green-color);
-  box-shadow: 0 0 5px rgba(white, 0.2);
+  box-shadow: 0 0 5px rgba(var(--color-white-color), 0.2);
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }
@@ -87,10 +87,10 @@
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  color: #999;
+  color: var(--color-light-gray-color);
 }
 .rc-slider-mark-text-active {
-  color: #666;
+  color: var(--color-gray-color);
 }
 .rc-slider-step {
   position: absolute;
@@ -118,7 +118,7 @@
   margin-right: -2px;
 }
 .rc-slider-dot-active {
-  border-color: #96dbfa;
+  border-color: var(--color-light-blue-color);
 }
 .rc-slider-dot-reverse {
   margin-left: 0;
@@ -129,9 +129,9 @@
 }
 .rc-slider-disabled .rc-slider-handle,
 .rc-slider-disabled .rc-slider-dot {
-  border-color: #ccc;
+  border-color: var(--color-light-gray-color);
   box-shadow: none;
-  background-color: #fff;
+  background-color: var(--color-white-color);
   cursor: not-allowed;
 }
 .rc-slider-disabled .rc-slider-mark-text,
@@ -229,11 +229,11 @@
   top: -9999px;
   visibility: visible;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--color-transparent-color);
 }
 .rc-slider-tooltip * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--color-transparent-color);
 }
 .rc-slider-tooltip-hidden {
   display: none;
@@ -247,12 +247,12 @@
   height: 24px;
   font-size: 12px;
   line-height: 1;
-  color: #fff;
+  color: var(--color-white-color);
   text-align: center;
   text-decoration: none;
-  background-color: #6c6c6c;
+  background-color: var(--color-gray-color);
   border-radius: 6px;
-  box-shadow: 0 0 4px #d9d9d9;
+  box-shadow: 0 0 4px var(--color-lighter-gray-color);
 }
 .rc-slider-tooltip-arrow {
   position: absolute;
@@ -266,5 +266,5 @@
   left: 50%;
   margin-left: -4px;
   border-width: 4px 4px 0;
-  border-top-color: #6c6c6c;
+  border-top-color: var(--color-gray-color);
 }

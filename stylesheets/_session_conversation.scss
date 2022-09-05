@@ -226,7 +226,7 @@
       margin-left: 2px;
       line-height: $session-font-h2;
       letter-spacing: 0.5px;
-      color: rgba(0, 0, 0, 0);
+      color: var(--color-transparent-color);
     }
   }
 }
@@ -436,7 +436,7 @@
 /* AUDIO PLAYER */
 /* ************ */
 $rhap_theme-color: #212121 !default;
-$rhap_background-color: rgba(0, 0, 0, 0) !default;
+$rhap_background-color: var(--color-transparent-color) !default;
 $rhap_font-family: inherit !default;
 
 .rhap_container,
