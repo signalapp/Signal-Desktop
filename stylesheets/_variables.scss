@@ -7,14 +7,14 @@ $color-loki-green-gradient: linear-gradient(to right, rgb(120, 190, 32) 0%, rgb(
 $color-gray-75: #3d3e44;
 $color-gray-95: #0f1012;
 
-$color-white-015: rgba(var(--color-white-color), 0.15);
-$color-white-02: rgba(var(--color-white-color), 0.2);
-$color-white-04: rgba(var(--color-white-color), 0.4);
-$color-white-05: rgba(var(--color-white-color), 0.5);
-$color-white-06: rgba(var(--color-white-color), 0.6);
-$color-white-07: rgba(var(--color-white-color), 0.7);
-$color-white-075: rgba(var(--color-white-color), 0.75);
-$color-white-08: rgba(var(--color-white-color), 0.8);
+$color-white-015: rgba(var(--color-white-color-rgb), 0.15);
+$color-white-02: rgba(var(--color-white-color-rgb), 0.2);
+$color-white-04: rgba(var(--color-white-color-rgb), 0.4);
+$color-white-05: rgba(var(--color-white-color-rgb), 0.5);
+$color-white-06: rgba(var(--color-white-color-rgb), 0.6);
+$color-white-07: rgba(var(--color-white-color-rgb), 0.7);
+$color-white-075: rgba(var(--color-white-color-rgb), 0.75);
+$color-white-08: rgba(var(--color-white-color-rgb), 0.8);
 $color-light-20: #c1c5cd;
 $color-light-60: #62656a;
 $color-light-90: #070c14;
@@ -23,10 +23,10 @@ $color-dark-55: #88898c;
 $color-dark-60: #797a7c;
 $color-dark-72: #31343c;
 $color-dark-90: #121417;
-$color-black-008: rgba(var(--color-black-color), 0.08);
-$color-black-005: rgba(var(--color-black-color), 0.05);
-$color-black-012: rgba(var(--color-black-color), 0.12);
-$color-black-04: rgba(var(--color-black-color), 0.4);
+$color-black-008: rgba(var(--color-black-color-rgb), 0.08);
+$color-black-005: rgba(var(--color-black-color-rgb), 0.05);
+$color-black-012: rgba(var(--color-black-color-rgb), 0.12);
+$color-black-04: rgba(var(--color-black-color-rgb), 0.4);
 
 // Old colors
 

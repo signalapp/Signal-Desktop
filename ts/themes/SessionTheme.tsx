@@ -2,13 +2,14 @@ import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
 
-const white = '#ffffff';
-const whiteRGB = '255, 255, 255'; // we need rgb values if we want css variables within rgba
-const black = '#000000';
-const blackRGB = '0, 0, 0'; // we need rgb values if we want css variables within rgba
+const whiteColor = '#ffffff';
+const whiteColorRGB = '255, 255, 255'; // we need rgb values if we want css variables within rgba
+const blackColor = '#000000';
+const blackColorRGB = '0, 0, 0'; // we need rgb values if we want css variables within rgba
 const warning = '#e7b100';
 const destructive = '#ff453a';
-const destructiveAlt = '#ff4538';
+const destructiveAltColor = '#ff4538';
+const destructiveAltColorRGB = '255, 69, 56';
 const accentLightTheme = '#00e97b';
 const accentDarkTheme = '#00f782';
 const borderLightThemeColor = '#f1f1f1';
@@ -28,10 +29,12 @@ const sessionGreenColor = accentDarkTheme;
 
 // Grays
 const grayColor = '#616161';
+const grayColorRBG = '97, 97, 97';
 const lightGrayColor = '#8b8e91';
 const lighterGrayColor = '#e9e9e9';
 const lightestGrayColor = '#f3f3f3';
 const darkGrayColor = '#414347';
+const darkGrayColorRGB = '65, 67, 71';
 const darkerGrayColor = '#2f2f2f';
 const darkestGrayColor = '#17191d';
 
@@ -40,13 +43,15 @@ const transparentColor = 'transparent';
 
 // DARK COLORS
 const darkColorAccent = accentDarkTheme;
+const darkColorAccentRGB = '0, 247, 130';
 const darkColorAccentButton = accentDarkTheme;
-const darkColorText = white;
-const darkColorTextOpposite = black;
+const darkColorText = whiteColor;
+const darkColorTextRGB = whiteColorRGB;
+const darkColorTextOpposite = blackColor;
 
-const darkColorTextSubtle = `${white}99`;
+const darkColorTextSubtle = `${whiteColor}99`;
 const darkColorTextAccent = accentDarkTheme;
-const darkColorSessionShadow = `0 0 4px 0 ${white}33`;
+const darkColorSessionShadow = `0 0 4px 0 ${whiteColor}33`;
 const darkColorComposeViewBg = '#232323';
 export const darkColorSentMessageBg = accentDarkTheme;
 const darkColorClickableHovered = '#414347';
@@ -58,7 +63,7 @@ const darkColorLastSeenIndicator = accentDarkTheme;
 const darkColorQuoteBottomBarBg = '#404040';
 const darkColorCellBackground = '#1b1b1b';
 export const darkColorReceivedMessageBg = '#2d2d2d';
-const darkColorReceivedMessageText = white;
+const darkColorReceivedMessageText = whiteColor;
 
 const darkColorPillDividerText = '#a0a0a0';
 const darkInputBackground = darkColorCellBackground;
@@ -75,8 +80,8 @@ const darkConversationItemSelected = '#404040';
 const darkConversationItemHasUnread = '#2c2c2c';
 const darkConversationList = '#1b1b1b';
 
-const darkTextHighlight = `${white}88`;
-const darkForegroundPrimary = white;
+const darkTextHighlight = `${whiteColor}88`;
+const darkForegroundPrimary = whiteColor;
 const darkBackgroundPrimary = darkGrayColor;
 const darkButtonGreen = accentDarkTheme;
 const darkModalBackground = '#101011';
@@ -89,8 +94,10 @@ const darkMessageRequestBannerIcon = '#adadad';
 
 export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--color-accent', darkColorAccent);
+  document.documentElement.style.setProperty('--color-accent-rgb', darkColorAccentRGB);
   document.documentElement.style.setProperty('--color-accent-button', darkColorAccentButton);
   document.documentElement.style.setProperty('--color-text', darkColorText);
+  document.documentElement.style.setProperty('--color-text-rgb', darkColorTextRGB);
   document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', darkColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', darkColorTextAccent);
@@ -187,24 +194,26 @@ export const switchHtmlToDarkTheme = () => {
 
 // LIGHT COLORS
 const lightColorAccent = accentLightTheme;
-const lightColorAccentButton = black;
-const lightColorText = black;
-const lightColorTextOpposite = white;
-const lightColorTextSubtle = `${black}99`;
+const lightColorAccentRGB = '0, 233, 123';
+const lightColorAccentButton = blackColor;
+const lightColorText = blackColor;
+const lightColorTextRGB = blackColorRGB;
+const lightColorTextOpposite = whiteColor;
+const lightColorTextSubtle = `${blackColor}99`;
 const lightColorTextAccent = accentLightTheme;
-const lightColorSessionShadow = `0 0 4px 0 ${black}5E`;
+const lightColorSessionShadow = `0 0 4px 0 ${blackColor}5E`;
 const lightColorComposeViewBg = '#efefef';
 export const lightColorSentMessageBg = accentLightTheme;
 const lightColorClickableHovered = '#dfdfdf';
 const lightColorSessionBorderColor = borderLightThemeColor;
 const lightColorSessionBorder = `1px solid ${lightColorSessionBorderColor}`;
-const lightColorRecoveryPhraseBannerBg = white;
-const lightColorPillDivider = `${black}1A`;
-const lightColorLastSeenIndicator = black;
+const lightColorRecoveryPhraseBannerBg = whiteColor;
+const lightColorPillDivider = `${blackColor}1A`;
+const lightColorLastSeenIndicator = blackColor;
 const lightColorQuoteBottomBarBg = '#f0f0f0';
 const lightColorCellBackground = '#f9f9f9';
 export const lightColorReceivedMessageBg = '#f5f5f5';
-const lightColorReceivedMessageText = black;
+const lightColorReceivedMessageText = blackColor;
 
 const lightColorPillDividerText = '#555555';
 
@@ -216,14 +225,14 @@ const lightScrollbarThumb = darkGrayColor;
 const lightScrollbarTrack = '#fcfcfc';
 const lightFakeChatBubbleBg = '#f5f5f5';
 
-const lightInboxBackground = white;
+const lightInboxBackground = whiteColor;
 const lightLeftPaneOverlayBg = lightInboxBackground;
 const lightConversationItemSelected = '#f0f0f0';
 const lightConversationItemHasUnread = '#fcfcfc';
 const lightConversationList = '#f9f9f9';
 
-const lightTextHighlight = `${black}88`;
-const lightForegroundPrimary = white;
+const lightTextHighlight = `${blackColor}88`;
+const lightForegroundPrimary = whiteColor;
 const lightBackgroundPrimary = '#272726';
 const lightButtonGreen = '#272726';
 const lightModalBackground = '#fcfcfc';
@@ -231,12 +240,14 @@ const lightModalBackground = '#fcfcfc';
 const lightMessageRequestBannerBackground = lightColorQuoteBottomBarBg;
 const lightMessageRequestBannerIconBackground = '#585858';
 const lightMessageRequestBannerUnreadBackground = lightColorClickableHovered;
-const lightMessageRequestBannerIcon = white;
+const lightMessageRequestBannerIcon = whiteColor;
 
 export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--color-accent', lightColorAccent);
+  document.documentElement.style.setProperty('--color-accent-rgb', lightColorAccentRGB);
   document.documentElement.style.setProperty('--color-accent-button', lightColorAccentButton);
   document.documentElement.style.setProperty('--color-text', lightColorText);
+  document.documentElement.style.setProperty('--color-text-rgb', lightColorTextRGB);
   document.documentElement.style.setProperty('--color-text-menu-highlighted', lightColorText);
   document.documentElement.style.setProperty('--color-text-subtle', lightColorTextSubtle);
   document.documentElement.style.setProperty('--color-text-accent', lightColorTextAccent);
@@ -252,7 +263,7 @@ export const switchHtmlToLightTheme = () => {
     lightColorSentMessageBg
   );
   // TODO: This might be wrong. Didn't merge correctly.
-  document.documentElement.style.setProperty('--color-sent-message-text', black);
+  document.documentElement.style.setProperty('--color-sent-message-text', blackColor);
   document.documentElement.style.setProperty(
     '--color-clickable-hovered',
     lightColorClickableHovered
@@ -375,22 +386,24 @@ export const SessionGlobalStyles = createGlobalStyle`
     --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
-    --color-black-color: ${black};
-    --color-black-color-rgb: ${blackRGB};
-    --color-light-black-color: ${`rgba(${blackRGB}, 0.2)`};
-    --color-lighter-black-color: ${`rgba(${blackRGB}, 0.15)`};
-    --color-darkest-black-color: ${`rgba(${blackRGB}, 0.6)`};
+    --color-black-color: ${blackColor};
+    --color-black-color-rgb: ${blackColorRGB};
+    --color-light-black-color: ${`rgba(${blackColorRGB}, 0.2)`};
+    --color-lighter-black-color: ${`rgba(${blackColorRGB}, 0.15)`};
+    --color-darkest-black-color: ${`rgba(${blackColorRGB}, 0.6)`};
     --color-session-green-color: ${sessionGreenColor};
 
-    --color-white-color: ${white};
-    --color-white-color-rgb: ${whiteRGB};
-    --color-darkest-white-color: ${`rgba(${whiteRGB}, 0.85)`};
+    --color-white-color: ${whiteColor};
+    --color-white-color-rgb: ${whiteColorRGB};
+    --color-darkest-white-color: ${`rgba(${whiteColorRGB}, 0.85)`};
 
     --color-gray-color: ${grayColor};
+    --color-gray-color-rgb: ${grayColorRBG};
     --color-light-gray-color: ${lightGrayColor};
     --color-lighter-gray-color: ${lighterGrayColor};
     --color-lightest-gray-color: ${lightestGrayColor};
     --color-dark-gray-color: ${darkGrayColor};
+    --color-dark-gray-color-rgb: ${darkGrayColorRGB};
     --color-darker-gray-color: ${darkerGrayColor};
     --color-darkest-gray-color: ${darkestGrayColor};
     --color-light-blue-color: ${lightBlueColor};
@@ -398,12 +411,15 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     --color-warning:  ${warning};
     --color-destructive:  ${destructive};
-    --color-destructive-alt:  ${destructiveAlt};
+    --color-destructive-alt:  ${destructiveAltColor};
+    --color-destructive-alt-rgb: ${destructiveAltColorRGB};
     /* COLORS */
     --color-accent: ${lightColorAccent};
+    --color-accent-rgb: ${lightColorAccentRGB};
     --color-accent-button:  ${lightColorAccentButton};
 
     --color-text:  ${lightColorText};
+    --color-text-rgb:  ${lightColorTextRGB};
     --color-text-subtle:  ${lightColorTextSubtle};
     --color-text-accent:  ${lightColorTextAccent};
     --color-text-opposite:  ${lightColorTextOpposite};
@@ -412,7 +428,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-compose-view-button-background: ${lightColorComposeViewBg};
     --color-sent-message-background:  ${lightColorSentMessageBg};
     // TODO: this might be wrong text colour. Something happened during merge.
-    --color-sent-message-text:  ${black};
+    --color-sent-message-text:  ${blackColor};
     --color-clickable-hovered: ${lightColorClickableHovered};
     --color-session-border:  ${lightColorSessionBorderColor};
     --color-recovery-phrase-banner-background: ${lightColorRecoveryPhraseBannerBg};

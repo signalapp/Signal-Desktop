@@ -24,11 +24,11 @@
   }
 
   50% {
-    box-shadow: 0px 0px 12px 0px rgba(var(--color-destructive-alt), 1);
+    box-shadow: 0px 0px 12px 0px rgba(var(--color-destructive-alt-rgb), 1);
   }
 
   100% {
-    box-shadow: 0px 0px 0px 0px rgba(var(--color-destructive-alt), 1);
+    box-shadow: 0px 0px 0px 0px rgba(var(--color-destructive-alt-rgb), 1);
   }
 }
 
@@ -509,7 +509,7 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_progress-filled {
-  background-color: rgba(var(--color-accent), 0.6);
+  background-color: rgba(var(--color-accent-rgb), 0.6);
 
   padding-left: 5px;
 }

@@ -58,11 +58,11 @@
 }
 .rc-slider-handle:focus {
   border-color: var(--color-session-green-color);
-  box-shadow: 0 0 0 5px rgba(var(--color-white-color), 0.2);
+  box-shadow: 0 0 0 5px rgba(var(--color-white-color-rgb), 0.2);
   outline: none;
 }
 .rc-slider-handle-click-focused:focus {
-  border-color: rgba(var(--color-white-color), 0.2);
+  border-color: rgba(var(--color-white-color-rgb), 0.2);
   box-shadow: unset;
 }
 .rc-slider-handle:hover {
@@ -70,7 +70,7 @@
 }
 .rc-slider-handle:active {
   border-color: var(--color-session-green-color);
-  box-shadow: 0 0 5px rgba(var(--color-white-color), 0.2);
+  box-shadow: 0 0 5px rgba(var(--color-white-color-rgb), 0.2);
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }

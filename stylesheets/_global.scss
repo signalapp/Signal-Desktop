@@ -75,10 +75,10 @@ button.grey {
   font-family: inherit;
   color: var(--color-gray-color);
   background: var(--color-lightest-gray-color);
-  box-shadow: 0 0 10px -5px rgba(var(--color-gray-color), 0.5);
+  box-shadow: 0 0 10px -5px rgba(var(--color-gray-color-rgb), 0.5);
 
   &:hover {
-    box-shadow: 0 0 10px -3px rgba(var(--color-gray-color), 0.7);
+    box-shadow: 0 0 10px -3px rgba(var(--color-gray-color-rgb), 0.7);
   }
 
   &[disabled='disabled'] {

@@ -414,7 +414,7 @@ label {
   }
 
   .Toastify__progress-bar {
-    background-color: rgba(var(--color-text), 0.1);
+    background-color: rgba(var(--color-text-rgb), 0.1);
   }
 }
 
@@ -661,7 +661,7 @@ label {
   width: 80px;
   height: 80px;
   border-radius: 100%;
-  background-color: rgba(var(--color-black-color), 0.72);
+  background-color: rgba(var(--color-black-color-rgb), 0.72);
   opacity: 0;
   transition: var(--default-duration);
 
