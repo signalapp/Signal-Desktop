@@ -86,17 +86,7 @@ const ThemePreview = (props: { style: StyleSessionSwitcher }) => {
   );
 };
 
-const Themes = (props: { selectedAccent?: PrimaryColorIds }) => {
-  const { selectedAccent } = props;
-
-  // I am not too sure if we want to override the accent color on the Theme switcher of not.
-  // If we do, we also need a way to rollback to the default, I guess?
-  const overridenAccent = selectedAccent
-    ? getPrimaryColors().find(e => {
-        return e.id === selectedAccent;
-      })?.color
-    : undefined;
-
+const Themes = () => {
   const themes: Array<ThemeType> = [
     {
       id: 'dark',
@@ -105,7 +95,7 @@ const Themes = (props: { selectedAccent?: PrimaryColorIds }) => {
         background: '#000000',
         border: '#414141',
         receivedBg: darkColorReceivedMessageBg,
-        sentBg: overridenAccent || darkColorSentMessageBg,
+        sentBg: darkColorSentMessageBg,
       },
     },
     {
@@ -115,7 +105,7 @@ const Themes = (props: { selectedAccent?: PrimaryColorIds }) => {
         background: '#ffffff',
         border: '#414141',
         receivedBg: lightColorReceivedMessageBg,
-        sentBg: overridenAccent || lightColorSentMessageBg,
+        sentBg: lightColorSentMessageBg,
       },
     },
     {
@@ -125,7 +115,7 @@ const Themes = (props: { selectedAccent?: PrimaryColorIds }) => {
         background: OceanBlueDark.background,
         border: OceanBlueDark.border,
         receivedBg: OceanBlueDark.received,
-        sentBg: overridenAccent || OceanBlueDark.sent,
+        sentBg: OceanBlueDark.sent,
       },
     },
     {
@@ -135,7 +125,7 @@ const Themes = (props: { selectedAccent?: PrimaryColorIds }) => {
         background: OceanBlueLight.background,
         border: OceanBlueLight.border,
         receivedBg: OceanBlueLight.received,
-        sentBg: overridenAccent || OceanBlueLight.sent,
+        sentBg: OceanBlueLight.sent,
       },
     },
   ];
@@ -176,7 +166,7 @@ export const SettingsThemeSwitcher = () => {
     <StyledSwitcherContainer>
       <StyledTitleSettingsItem>{window.i18n('themesSettingTitle')}</StyledTitleSettingsItem>
       <ThemesContainer>
-        <Themes selectedAccent={selectedAccent} />
+        <Themes />
       </ThemesContainer>
       <SpacerMD />
       <StyledDescriptionSettingsItem>{window.i18n('primaryColor')}</StyledDescriptionSettingsItem>

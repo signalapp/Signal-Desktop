@@ -48,7 +48,8 @@
       width: 289px;
 
       .session-button {
-        width: 100%;
+        width: 80%;
+        margin: auto;
       }
     }
 
@@ -175,7 +176,7 @@
     }
   }
 
-  session-description-long {
+  &-description-long {
     padding-top: 0;
     padding-bottom: 20px;
 

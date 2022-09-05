@@ -8,6 +8,7 @@ type Props = {
   value: string;
   active: boolean;
   inputName?: string;
+  beforeMargins?: string;
   onClick?: (value: string) => void;
 };
 
@@ -22,8 +23,7 @@ const StyledInput = styled.input<{
   width: ${props => props.filledSize + props.outlineOffset}px;
   height: ${props => props.filledSize + props.outlineOffset}px;
 
-  :checked + label:before,
-  :hover + label:before {
+  :checked + label:before {
     background: ${props => props.selectedColor};
   }
 `;
@@ -32,6 +32,7 @@ const StyledLabel = styled.label<{
   selectedColor: string;
   filledSize: number;
   outlineOffset: number;
+  beforeMargins?: string;
 }>`
   cursor: pointer;
 
@@ -45,15 +46,12 @@ const StyledLabel = styled.label<{
     outline: var(--color-text) solid 1px;
     border: none;
     outline-offset: ${props => props.outlineOffset}px;
-
-    :hover {
-      background: ${props => props.selectedColor};
-    }
+    margin: ${props => props.beforeMargins || ''};
   }
 `;
 
 export const SessionRadio = (props: Props) => {
-  const { label, inputName, value, active, onClick } = props;
+  const { label, inputName, value, active, onClick, beforeMargins } = props;
 
   function clickHandler(e: ChangeEvent<any>) {
     if (onClick) {
@@ -76,7 +74,7 @@ export const SessionRadio = (props: Props) => {
         aria-checked={active}
         checked={active}
         onChange={clickHandler}
-        filledSize={filledSize}
+        filledSize={filledSize * 2}
         outlineOffset={outlineOffset}
         selectedColor={selectedColor}
       />
@@ -87,6 +85,7 @@ export const SessionRadio = (props: Props) => {
         selectedColor={selectedColor}
         filledSize={filledSize}
         outlineOffset={outlineOffset}
+        beforeMargins={beforeMargins}
       >
         {label}
       </StyledLabel>
