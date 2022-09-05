@@ -4,10 +4,11 @@ import { isImageAttachment } from '../../../../types/Attachment';
 import { ImageGrid } from '../../ImageGrid';
 import { Image } from '../../Image';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMessagePreviewProps } from '../../../../state/selectors/conversations';
 import { SessionIcon } from '../../../icon';
 import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
+import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
 export type MessagePreviewSelectorProps = Pick<MessageRenderingProps, 'attachments' | 'previews'>;
 
@@ -18,6 +19,8 @@ type Props = {
 
 export const MessagePreview = (props: Props) => {
   const selected = useSelector(state => getMessagePreviewProps(state as any, props.messageId));
+  const dispatch = useDispatch();
+
   if (!selected) {
     return null;
   }
@@ -41,8 +44,18 @@ export const MessagePreview = (props: Props) => {
   const width = first.image && first.image.width;
   const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
+  function openLinkFromPreview() {
+    if (previews?.length && previews[0].url) {
+      showLinkVisitWarningDialog(previews[0].url, dispatch);
+    }
+  }
+
   return (
-    <div role="button" className={classNames('module-message__link-preview')}>
+    <div
+      role="button"
+      className={classNames('module-message__link-preview')}
+      onClick={openLinkFromPreview}
+    >
       {first.image && previewHasImage && isFullSizeImage ? (
         <ImageGrid attachments={[first.image]} onError={props.handleImageError} />
       ) : null}

@@ -579,6 +579,12 @@ function updateToSessionSchemaVersion20(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
+    // First we want to drop the column friendRequestStatus if it is there, otherwise the transaction fails
+    const rows = db.pragma(`table_info(${CONVERSATIONS_TABLE});`);
+    if (rows.some((m: any) => m.name === 'friendRequestStatus')) {
+      console.info('found column friendRequestStatus. Dropping it');
+      db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN friendRequestStatus;`);
+    }
     // looking for all private conversations, with a nickname set
     const rowsToUpdate = db
       .prepare(
@@ -917,6 +923,13 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
 
   // tslint:disable-next-line: max-func-body-length
   db.transaction(() => {
+    // First we want to drop the column friendRequestStatus if it is there, otherwise the transaction fails
+    const rows = db.pragma(`table_info(${CONVERSATIONS_TABLE});`);
+    if (rows.some((m: any) => m.name === 'friendRequestStatus')) {
+      console.info('found column friendRequestStatus. Dropping it');
+      db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN friendRequestStatus;`);
+    }
+
     // We want to replace all the occurrences of the sogs server ip url (116.203.70.33 || http://116.203.70.33 || https://116.203.70.33) by its hostname: https://open.getsession.org
     // This includes change the conversationTable, the openGroupRooms tables and every single message associated with them.
     // Because the conversationId is used to link messages to conversation includes the ip/url in it...
@@ -1157,17 +1170,12 @@ function updateToSessionSchemaVersion28(currentVersion: number, db: BetterSqlite
   if (currentVersion >= targetVersion) {
     return;
   }
+
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
 
-  // some very old databases have the column friendRequestStatus still there but we are not using it anymore. So drop it if we find it.
   db.transaction(() => {
-    const rows = db.pragma(`table_info(${CONVERSATIONS_TABLE});`);
-    if (rows.some((m: any) => m.name === 'friendRequestStatus')) {
-      console.info('found column friendRequestStatus. Dropping it');
-      db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} DROP COLUMN friendRequestStatus;`);
-    }
+    // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
     writeSessionSchemaVersion(targetVersion, db);
-    console.log('... done');
   })();
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);

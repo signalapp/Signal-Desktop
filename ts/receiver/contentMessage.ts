@@ -285,20 +285,22 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise
   }
 }
 
-function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
+function shouldDropBlockedUserMessage(
+  content: SignalService.Content,
+  groupPubkey: string
+): boolean {
   // Even if the user is blocked, we should allow the message if:
   //   - it is a group message AND
   //   - the group exists already on the db (to not join a closed group created by a blocked user) AND
   //   - the group is not blocked AND
   //   - the message is only control (no body/attachments/quote/groupInvitation/contact/preview)
 
-  if (!content?.dataMessage?.group?.id) {
+  if (!groupPubkey) {
     return true;
   }
-  const groupId = toHex(content.dataMessage.group.id);
 
-  const groupConvo = getConversationController().get(groupId);
-  if (!groupConvo) {
+  const groupConvo = getConversationController().get(groupPubkey);
+  if (!groupConvo || !groupConvo.isClosedGroup()) {
     return true;
   }
 
@@ -317,7 +319,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   if (!isMessageDataMessageOnly) {
     return true;
   }
-  const data = content.dataMessage;
+  const data = content.dataMessage as SignalService.DataMessage; // forcing it as we do know this field is set based on last line
   const isControlDataMessageOnly =
     !data.body &&
     !data.preview?.length &&
@@ -343,11 +345,21 @@ export async function innerHandleSwarmContentMessage(
     const content = SignalService.Content.decode(new Uint8Array(plaintext));
     perfEnd(`SignalService.Content.decode-${envelope.id}`, 'SignalService.Content.decode');
 
-    const blocked = await isBlocked(envelope.source);
+    /**
+     * senderIdentity is set ONLY if that message is a closed group message.
+     * If the current message is a closed group message,
+     * envelope.source is going to be the real sender of that message.
+     *
+     * When receiving a message from a user which we blocked, we need to make let
+     * a control message through (if the associated closed group is not blocked)
+     */
+
+    const blocked = await isBlocked(envelope.senderIdentity || envelope.source);
     perfEnd(`isBlocked-${envelope.id}`, 'isBlocked');
     if (blocked) {
+      const envelopeSource = envelope.source;
       // We want to allow a blocked user message if that's a control message for a known group and the group is not blocked
-      if (shouldDropBlockedUserMessage(content)) {
+      if (shouldDropBlockedUserMessage(content, envelopeSource)) {
         window?.log?.info('Dropping blocked user message');
         return;
       } else {

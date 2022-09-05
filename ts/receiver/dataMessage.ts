@@ -21,7 +21,8 @@ import { isUsFromCache } from '../session/utils/User';
 import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 import { toLogFormat } from '../types/attachments/Errors';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { handleMessageReaction } from '../util/reactions';
+import { Reactions } from '../util/reactions';
+import { Action, Reaction } from '../types/Reaction';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -36,14 +37,13 @@ function cleanAttachment(attachment: any) {
 }
 
 function cleanAttachments(decrypted: SignalService.DataMessage) {
-  const { quote, group } = decrypted;
+  const { quote } = decrypted;
 
   // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
 
-  // we do not care about group.avatar on Session
-  if (group && group.avatar !== null) {
-    group.avatar = null;
-  }
+  // we do not care about group on Session
+
+  decrypted.group = null;
 
   decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment);
   decrypted.preview = (decrypted.preview || []).map((item: any) => {
@@ -79,33 +79,18 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
   }
 }
 
-export function isMessageEmpty(message: SignalService.DataMessage) {
-  const {
-    flags,
-    body,
-    attachments,
-    group,
-    quote,
-    preview,
-    openGroupInvitation,
-    reaction,
-  } = message;
+export function messageHasVisibleContent(message: SignalService.DataMessage) {
+  const { flags, body, attachments, quote, preview, openGroupInvitation, reaction } = message;
 
   return (
-    !flags &&
-    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
-    isBodyEmpty(body) &&
-    isEmpty(attachments) &&
-    isEmpty(group) &&
-    isEmpty(quote) &&
-    isEmpty(preview) &&
-    isEmpty(openGroupInvitation) &&
-    isEmpty(reaction)
+    !!flags ||
+    !isEmpty(body) ||
+    !isEmpty(attachments) ||
+    !isEmpty(quote) ||
+    !isEmpty(preview) ||
+    !isEmpty(openGroupInvitation) ||
+    !isEmpty(reaction)
   );
-}
-
-function isBodyEmpty(body: string) {
-  return isEmpty(body);
 }
 
 export function cleanIncomingDataMessage(
@@ -230,7 +215,7 @@ export async function handleSwarmDataMessage(
     );
   }
 
-  if (isMessageEmpty(cleanDataMessage)) {
+  if (!messageHasVisibleContent(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
@@ -318,17 +303,26 @@ async function handleSwarmMessage(
 
   void convoToAddMessageTo.queueJob(async () => {
     // this call has to be made inside the queueJob!
-    if (!msgModel.get('isPublic') && rawDataMessage.reaction && rawDataMessage.syncTarget) {
-      await handleMessageReaction(
-        rawDataMessage.reaction,
-        msgModel.get('source'),
-        false,
-        messageHash
-      );
+    // We handle reaction DataMessages separately
+    if (!msgModel.get('isPublic') && rawDataMessage.reaction) {
+      await Reactions.handleMessageReaction({
+        reaction: rawDataMessage.reaction,
+        sender: msgModel.get('source'),
+        you: isUsFromCache(msgModel.get('source')),
+        isOpenGroup: false,
+      });
+      if (
+        convoToAddMessageTo.isPrivate() &&
+        msgModel.get('unread') &&
+        rawDataMessage.reaction.action === Action.REACT
+      ) {
+        msgModel.set('reaction', rawDataMessage.reaction as Reaction);
+        convoToAddMessageTo.throttledNotify(msgModel);
+      }
+
       confirm();
       return;
     }
-
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,

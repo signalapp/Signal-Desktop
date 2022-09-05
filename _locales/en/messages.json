@@ -474,9 +474,15 @@
   "hideBanner": "Hide",
   "openMessageRequestInboxDescription": "View your Message Request inbox",
   "clearAllReactions": "Are you sure you want to clear all $emoji$ ?",
-  "reactionTooltip": "reacted with",
   "expandedReactionsText": "Show Less",
   "reactionNotification": "Reacts to a message with $emoji$",
-  "readableListCounterSingular": "other",
-  "readableListCounterPlural": "others"
+  "otherSingular": "$number$ other",
+  "otherPlural": "$number$ others",
+  "reactionPopup": "reacted with",
+  "reactionPopupOne": "$name$",
+  "reactionPopupTwo": "$name$ & $name2$",
+  "reactionPopupThree": "$name$, $name2$ & $name3$",
+  "reactionPopupMany": "$name$, $name2$, $name3$ &",
+  "reactionListCountSingular": "And $otherSingular$ has reacted <span>$emoji$</span> to this message",
+  "reactionListCountPlural": "And $otherPlural$ have reacted <span>$emoji$</span> to this message"
 }

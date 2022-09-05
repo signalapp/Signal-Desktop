@@ -366,6 +366,7 @@ type FetchedTopMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
   oldTopMessageId: string | null;
+  newMostRecentMessageIdInConversation: string | null;
 } | null;
 
 export const fetchTopMessagesForConversation = createAsyncThunk(
@@ -379,6 +380,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
   }): Promise<FetchedTopMessageResults> => {
     // no need to load more top if we are already at the top
     const oldestMessage = await Data.getOldestMessageInConversation(conversationKey);
+    const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!oldestMessage || oldestMessage.id === oldTopMessageId) {
       window.log.info('fetchTopMessagesForConversation: we are already at the top');
@@ -393,6 +395,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
       conversationKey,
       messagesProps,
       oldTopMessageId,
+      newMostRecentMessageIdInConversation: mostRecentMessage?.id || null,
     };
   }
 );
@@ -845,7 +848,12 @@ const conversationsSlice = createSlice({
           return { ...state, areMoreMessagesBeingFetched: false };
         }
         // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
+        const {
+          messagesProps,
+          conversationKey,
+          oldTopMessageId,
+          newMostRecentMessageIdInConversation,
+        } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
           return {
@@ -853,6 +861,7 @@ const conversationsSlice = createSlice({
             oldTopMessageId,
             messages: messagesProps,
             areMoreMessagesBeingFetched: false,
+            mostRecentMessageId: newMostRecentMessageIdInConversation,
           };
         }
         return state;

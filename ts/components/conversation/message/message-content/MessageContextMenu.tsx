@@ -25,7 +25,7 @@ import {
 import { StateType } from '../../../../state/reducer';
 import { getMessageContextMenuProps } from '../../../../state/selectors/conversations';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
-import { sendMessageReaction } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
 import { SessionEmojiPanel, StyledEmojiPanel } from '../../SessionEmojiPanel';
 import { MessageReactBar } from './MessageReactBar';
@@ -242,7 +242,7 @@ export const MessageContextMenu = (props: Props) => {
   const onEmojiClick = async (args: any) => {
     const emoji = args.native ?? args;
     onCloseEmoji();
-    await sendMessageReaction(messageId, emoji);
+    await Reactions.sendMessageReaction(messageId, emoji);
   };
 
   const onEmojiKeyDown = (event: any) => {
