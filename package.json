@@ -307,6 +307,7 @@
       "package.json",
       "config/default.json",
       "config/${env.SIGNAL_ENV}.json",
+      "config/local-${env.SIGNAL_ENV}.json",
       "background.html",
       "about.html",
       "password.html",
