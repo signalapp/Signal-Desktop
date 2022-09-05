@@ -37,14 +37,13 @@ function cleanAttachment(attachment: any) {
 }
 
 function cleanAttachments(decrypted: SignalService.DataMessage) {
-  const { quote, group } = decrypted;
+  const { quote } = decrypted;
 
   // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
 
-  // we do not care about group.avatar on Session
-  if (group && group.avatar !== null) {
-    group.avatar = null;
-  }
+  // we do not care about group on Session
+
+  decrypted.group = null;
 
   decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment);
   decrypted.preview = (decrypted.preview || []).map((item: any) => {
@@ -80,33 +79,17 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
   }
 }
 
-/**
- * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
- *  - sometimes want to drop a message only when it is completely empty,
- *  - and sometimes only when the message is empty but have a reaction
- */
-function isMessageEmpty(message: SignalService.DataMessage) {
-  const { reaction } = message;
-
-  return isMessageEmptyExceptReaction(message) && isEmpty(reaction);
-}
-
-/**
- * We separate the isMessageEmpty and the isMessageEmptyExceptReaction, because we
- *  - sometimes want to drop a message only when it is completely empty,
- *  - and sometimes only when the message is empty but have a reaction
- */
-export function isMessageEmptyExceptReaction(message: SignalService.DataMessage) {
-  const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
+export function messageHasVisibleContent(message: SignalService.DataMessage) {
+  const { flags, body, attachments, quote, preview, openGroupInvitation, reaction } = message;
 
   return (
-    !flags &&
-    isEmpty(body) &&
-    isEmpty(attachments) &&
-    isEmpty(group) &&
-    isEmpty(quote) &&
-    isEmpty(preview) &&
-    isEmpty(openGroupInvitation)
+    !!flags ||
+    !isEmpty(body) ||
+    !isEmpty(attachments) ||
+    !isEmpty(quote) ||
+    !isEmpty(preview) ||
+    !isEmpty(openGroupInvitation) ||
+    !isEmpty(reaction)
   );
 }
 
@@ -232,7 +215,7 @@ export async function handleSwarmDataMessage(
     );
   }
 
-  if (isMessageEmpty(cleanDataMessage)) {
+  if (!messageHasVisibleContent(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
