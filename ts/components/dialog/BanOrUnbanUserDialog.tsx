@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BanType, updateBanOrUnbanUserModal } from '../../state/ducks/modalDialog';
 import { SpacerSM } from '../basic/Text';
 import { getConversationController } from '../../session/conversations/ConversationController';
@@ -16,6 +16,8 @@ import {
   sogsV3BanUser,
   sogsV3UnbanUser,
 } from '../../session/apis/open_group_api/sogsv3/sogsV3BanUnban';
+import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
+import { getTheme } from '../../state/selectors/theme';
 
 // tslint:disable: use-simple-attributes
 
@@ -65,6 +67,7 @@ export const BanOrUnBanUserDialog = (props: {
   const { i18n } = window;
   const isBan = banType === 'ban';
   const dispatch = useDispatch();
+  const darkMode = useSelector(getTheme) === 'dark';
   const convo = getConversationController().get(conversationId);
   const inputRef = useRef(null);
 
@@ -126,10 +129,10 @@ export const BanOrUnBanUserDialog = (props: {
       }}
     >
       <Flex container={true} flexDirection="column" alignItems="center">
-        <input
+        <SessionHeaderSearchInput
           ref={inputRef}
           type="text"
-          className="module-main-header__search__input"
+          darkMode={darkMode}
           placeholder={i18n('enterSessionID')}
           dir="auto"
           onChange={onPubkeyBoxChanges}

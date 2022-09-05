@@ -23,6 +23,7 @@ const avatarBorderColor = '#00000059';
 
 // Blues
 const lightBlueColor = '#a2d2f4';
+const darkBlueColor = '#2090ea';
 
 // Greens
 const sessionGreenColor = accentDarkTheme;
@@ -395,6 +396,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     --color-white-color: ${whiteColor};
     --color-white-color-rgb: ${whiteColorRGB};
+    --color-lighter-white-color: ${`rgba(${whiteColorRGB}, 0.15)`};
     --color-darkest-white-color: ${`rgba(${whiteColorRGB}, 0.85)`};
 
     --color-gray-color: ${grayColor};
@@ -407,6 +409,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-darker-gray-color: ${darkerGrayColor};
     --color-darkest-gray-color: ${darkestGrayColor};
     --color-light-blue-color: ${lightBlueColor};
+    --color-dark-blue-color: ${darkBlueColor};
     --color-transparent-color: ${transparentColor};
 
     --color-warning:  ${warning};

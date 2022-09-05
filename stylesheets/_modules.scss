@@ -736,31 +736,6 @@
   color: var(--color-lighter-gray-color);
 }
 
-// Module: Main Header
-
-.module-main-header__search__input {
-  color: var(--color-lighter-gray-color);
-  background-color: $color-gray-95;
-  border: 1px solid $color-light-60;
-  padding: 0 26px 0 30px;
-  margin-inline-start: 8px;
-  margin-inline-end: 8px;
-  outline: 0;
-  height: 32px;
-  width: calc(100% - 16px);
-  outline-offset: -2px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: normal;
-
-  position: relative;
-  border-radius: 4px;
-
-  &::placeholder {
-    color: var(--color-light-gray-color);
-  }
-}
-
 // Module: Image
 
 .module-image {

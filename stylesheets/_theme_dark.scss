@@ -6,7 +6,7 @@
       .content {
         textarea {
           background-color: var(--color-darkest-gray-color);
-          border: 1px solid $color-dark-60;
+          border: 1px solid var(--color-gray-color);
           color: var(--color-lighter-gray-color);
         }
       }
@@ -14,7 +14,7 @@
 
     .result {
       .open {
-        border: solid 1px $color-dark-60;
+        border: solid 1px var(--color-gray-color);
         background-color: var(--color-darkest-gray-color);
         color: var(--color-lighter-gray-color);
 
@@ -25,7 +25,7 @@
 
       .link {
         color: var(--color-lighter-gray-color);
-        border: solid 1px $color-dark-60;
+        border: solid 1px var(--color-gray-color);
         border-right: none;
         background-color: var(--color-darkest-gray-color);
       }
@@ -59,59 +59,59 @@
 
   .x {
     &:before {
-      @include color-svg('../images/x.svg', white);
+      @include color-svg('../images/x.svg', var(--color-white-color));
     }
   }
 
   input.search {
-    border: 1px solid $color-light-60;
+    border: 1px solid var(--color-gray-color);
     color: var(--color-lighter-gray-color);
-    background-color: $color-gray-95;
+    background-color: var(--color-darkest-gray-color);
 
     &:focus {
-      outline: solid 1px $blue;
+      outline: solid 1px var(--color-dark-blue-color);
     }
   }
 
   .hint {
-    color: white;
-    border: 2px dashed white;
+    color: var(--color-white-color);
+    border: 2px dashed var(--color-white-color);
 
     &.firstRun {
       &:before,
       &:after {
-        border: solid 10px white;
-        border-color: transparent white transparent transparent;
+        border: solid 10px var(--color-white-color);
+        border-color: transparent var(--color-white-color) transparent transparent;
       }
       &:after {
-        border-color: transparent #2eace0 transparent transparent;
+        border-color: transparent var(--color-dark-blue-color) transparent transparent;
       }
     }
   }
 
   .contact.placeholder {
-    color: white;
-    border: 2px dashed white;
+    color: var(--color-white-color);
+    border: 2px dashed var(--color-white-color);
     p {
-      color: white;
+      color: var(--color-white-color);
     }
     &:before,
     &:after {
-      border: solid 10px white;
-      border-color: transparent transparent white transparent;
+      border: solid 10px var(--color-white-color);
+      border-color: transparent transparent var(--color-white-color) transparent;
     }
     &:after {
-      border-color: transparent transparent #2eace0 transparent;
+      border-color: transparent transparent var(--color-dark-blue-color) transparent;
     }
   }
   // _modal
 
   .modal {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(var(--color-black-color-rgb), 0.3);
 
     .content {
-      background-color: $color-gray-95;
-      box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+      background-color: var(--color-darkest-gray-color);
+      box-shadow: 0px 3px 5px 0px var(--color-light-black-color);
     }
   }
 
@@ -124,27 +124,28 @@
   }
 
   .module-message__img-border-overlay {
-    box-shadow: inset 0px 0px 0px 1px $color-white-015;
+    box-shadow: inset 0px 0px 0px 1px var(--color-lighter-white-color);
   }
 
   .module-message__img-overlay {
+    /* TODO does this work? */
     background-image: linear-gradient(
       to bottom,
       var(--color-transparent-color),
-      /* TODO does this work? */ var(--color-transparent-color) 9%,
-      rgba(0, 0, 0, 0.02) 17%,
-      rgba(0, 0, 0, 0.05) 24%,
-      rgba(0, 0, 0, 0.08) 31%,
-      rgba(0, 0, 0, 0.12) 37%,
-      rgba(0, 0, 0, 0.16) 44%,
-      rgba(0, 0, 0, 0.2) 50%,
-      rgba(0, 0, 0, 0.24) 56%,
-      rgba(0, 0, 0, 0.28) 63%,
-      rgba(0, 0, 0, 0.32) 69%,
-      rgba(0, 0, 0, 0.35) 76%,
-      rgba(0, 0, 0, 0.38) 83%,
-      rgba(0, 0, 0, 0.4) 91%,
-      rgba(0, 0, 0, 0.4)
+      var(--color-transparent-color) 9%,
+      rgba(var(--color-black-color-rgb), 0.02) 17%,
+      rgba(var(--color-black-color-rgb), 0.05) 24%,
+      rgba(var(--color-black-color-rgb), 0.08) 31%,
+      rgba(var(--color-black-color-rgb), 0.12) 37%,
+      rgba(var(--color-black-color-rgb), 0.16) 44%,
+      rgba(var(--color-black-color-rgb), 0.2) 50%,
+      rgba(var(--color-black-color-rgb), 0.24) 56%,
+      rgba(var(--color-black-color-rgb), 0.28) 63%,
+      rgba(var(--color-black-color-rgb), 0.32) 69%,
+      rgba(var(--color-black-color-rgb), 0.35) 76%,
+      rgba(var(--color-black-color-rgb), 0.38) 83%,
+      rgba(var(--color-black-color-rgb), 0.4) 91%,
+      rgba(var(--color-black-color-rgb), 0.4)
     );
   }
 
@@ -169,7 +170,7 @@
   }
 
   .module-message__link-preview__content {
-    background-color: $color-gray-95;
+    background-color: var(--color-darkest-gray-color);
     border: 1px solid var(--color-gray-color);
   }
 
@@ -184,7 +185,7 @@
   // Module: Contact Detail
 
   .module-contact-detail__send-message {
-    background-color: $blue;
+    background-color: var(--color-dark-blue-color);
     color: var(--color-white-color);
   }
 
@@ -207,7 +208,7 @@
   .module-message-detail__delete-button {
     background-color: var(--color-destructive);
     color: var(--color-white-color);
-    box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
+    box-shadow: 0 0 10px -3px var(--color-gray-color-rgb);
     border: solid 1px var(--color-light-gray-color);
   }
 
@@ -232,7 +233,7 @@
   }
 
   .module-document-list-item__icon {
-    @include color-svg('../images/file.svg', $color-dark-60);
+    @include color-svg('../images/file.svg', var(--color-gray-color));
   }
 
   // Module: Media Grid Item
@@ -242,21 +243,21 @@
   }
 
   .module-media-grid-item__icon-image {
-    @include color-svg('../images/image.svg', $color-dark-60);
+    @include color-svg('../images/image.svg', var(--color-gray-color));
   }
 
   .module-media-grid-item__icon-video {
-    @include color-svg('../images/movie.svg', $color-dark-60);
+    @include color-svg('../images/movie.svg', var(--color-gray-color));
   }
 
   .module-media-grid-item__icon-generic {
-    @include color-svg('../images/file.svg', $color-dark-60);
+    @include color-svg('../images/file.svg', var(--color-gray-color));
   }
 
   // Module: Empty State
 
   .module-empty-state {
-    color: $color-dark-55;
+    color: var(--color-light-gray-color);
   }
   // Module: Conversation List Item
 
@@ -286,24 +287,6 @@
     color: var(--color-lighter-gray-color);
   }
 
-  // Module: Main Header
-
-  .module-main-header__search__input {
-    background-color: $color-gray-95;
-    border-radius: 14px;
-    border: solid 1px $color-gray-75;
-    color: var(--color-lighter-gray-color);
-
-    &::placeholder {
-      color: var(--color-light-gray-color);
-    }
-
-    &:focus {
-      border: solid 1px blue;
-      outline: none;
-    }
-  }
-
   // Module: Image
 
   .module-image {
@@ -311,7 +294,7 @@
   }
 
   .module-image__loading-placeholder {
-    background-color: $color-white-015;
+    background-color: var(--color-lighter-white-color);
   }
 
   // Module: Typing Animation
@@ -327,7 +310,7 @@
   // Module: Attachments
 
   .module-attachments {
-    border-top: 1px solid $color-gray-75;
+    border-top: 1px solid var(--color-dark-gray-color);
   }
 
   .module-attachments__close-button {
@@ -338,7 +321,7 @@
 
   .module-staged-generic-attachment {
     box-shadow: inset 0px 0px 0px 1px var(--color-light-gray-color);
-    background-color: $color-gray-75;
+    background-color: var(--color-dark-gray-color);
     color: var(--color-lighter-gray-color);
   }
 
@@ -360,7 +343,7 @@
     border: 1px solid var(--color-gray-color);
 
     &:hover {
-      background: $color-gray-75;
+      background: var(--color-dark-gray-color);
     }
   }
 
