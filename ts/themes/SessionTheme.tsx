@@ -3,7 +3,9 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 const white = '#ffffff';
+const whiteRGB = '255, 255, 255'; // we need rgb values if we want css variables within rgba
 const black = '#000000';
+const blackRGB = '0, 0, 0'; // we need rgb values if we want css variables within rgba
 const warning = '#e7b100';
 const destructive = '#ff453a';
 const destructiveAlt = '#ff4538';
@@ -374,13 +376,15 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-black-color: ${black};
-    --color-light-black-color: ${`rgba(${black}, 0.2)`};
-    --color-lighter-black-color: ${`rgba(${black}, 0.15)`};
-    --color-darkest-black-color: ${`rgba(${black}, 0.6)`};
+    --color-black-color-rgb: ${blackRGB};
+    --color-light-black-color: ${`rgba(${blackRGB}, 0.2)`};
+    --color-lighter-black-color: ${`rgba(${blackRGB}, 0.15)`};
+    --color-darkest-black-color: ${`rgba(${blackRGB}, 0.6)`};
     --color-session-green-color: ${sessionGreenColor};
 
     --color-white-color: ${white};
-    --color-darkest-white-color: ${`rgba(${white}, 0.85)`};
+    --color-white-color-rgb: ${whiteRGB};
+    --color-darkest-white-color: ${`rgba(${whiteRGB}, 0.85)`};
 
     --color-gray-color: ${grayColor};
     --color-light-gray-color: ${lightGrayColor};
@@ -432,7 +436,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-button-green: ${lightButtonGreen};
     --color-modal-background: ${lightModalBackground};
     --color-avatar-border-color: ${avatarBorderColor};
-
   };
 `;
 

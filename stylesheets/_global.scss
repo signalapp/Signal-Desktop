@@ -166,7 +166,8 @@ $loading-height: 16px;
     width: $loading-height;
     border-radius: 2 * $loading-height;
     border: solid 3px;
-    border-color: var(--color-light-blue-color) var(--color-light-blue-color) var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
+    border-color: var(--color-light-blue-color) var(--color-light-blue-color)
+      var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
     animation: rotate 1s linear infinite;
   }
 

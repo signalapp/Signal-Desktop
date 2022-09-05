@@ -26,6 +26,7 @@ import _ from 'lodash';
 import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
 import { getSelectedConversationKey } from '../../state/selectors/conversations';
 import { useSelector } from 'react-redux';
+import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -41,28 +42,30 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   }
   return (
     <ContextConversationId.Provider value={selectedConversation}>
-      <Menu id={triggerId} animation={animation.fade}>
-        <AcceptMenuItem />
-        <DeclineMenuItem />
-        <DisappearingMessageMenuItem />
-        <NotificationForConvoMenuItem />
-        <PinConversationMenuItem />
-        <BlockMenuItem />
-        <CopyMenuItem />
-        <MarkAllReadMenuItem />
-        <ChangeNicknameMenuItem />
-        <ClearNicknameMenuItem />
-        <DeleteMessagesMenuItem />
-        <AddModeratorsMenuItem />
-        <RemoveModeratorsMenuItem />
-        <BanMenuItem />
-        <UnbanMenuItem />
-        <UpdateGroupNameMenuItem />
-        <LeaveGroupMenuItem />
-        <InviteContactMenuItem />
-        <DeleteContactMenuItem />
-        <ShowUserDetailsMenuItem />
-      </Menu>
+      <SessionContextMenuContainer>
+        <Menu id={triggerId} animation={animation.fade}>
+          <AcceptMenuItem />
+          <DeclineMenuItem />
+          <DisappearingMessageMenuItem />
+          <NotificationForConvoMenuItem />
+          <PinConversationMenuItem />
+          <BlockMenuItem />
+          <CopyMenuItem />
+          <MarkAllReadMenuItem />
+          <ChangeNicknameMenuItem />
+          <ClearNicknameMenuItem />
+          <DeleteMessagesMenuItem />
+          <AddModeratorsMenuItem />
+          <RemoveModeratorsMenuItem />
+          <BanMenuItem />
+          <UnbanMenuItem />
+          <UpdateGroupNameMenuItem />
+          <LeaveGroupMenuItem />
+          <InviteContactMenuItem />
+          <DeleteContactMenuItem />
+          <ShowUserDetailsMenuItem />
+        </Menu>
+      </SessionContextMenuContainer>
     </ContextConversationId.Provider>
   );
 };

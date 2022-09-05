@@ -128,14 +128,14 @@ textarea {
     }
     &.primary {
       background-color: var(--color-background-primary);
-      color: white;
+      color: var(--color-white-color);
 
       .session-icon {
         fill: var(--color-foreground-primary);
       }
     }
     &.secondary {
-      background-color: $session-color-secondary;
+      background-color: var(--color-darkest-gray-color);
     }
     &.success {
       /* TODO is this correct? */
@@ -148,7 +148,7 @@ textarea {
       background-color: var(--color-destructive-alt);
     }
     &.warning {
-      background-color: $session-color-warning;
+      background-color: var(--color-light-gray-color);
     }
   }
 
@@ -167,13 +167,13 @@ textarea {
       @include transparent-background(var(--color-dark-gray-color));
     }
     &.secondary {
-      @include transparent-background($session-color-secondary);
+      @include transparent-background(var(--color-darkest-gray-color));
     }
     &.danger {
       @include transparent-background(var(--color-destructive));
     }
     &.warning {
-      @include transparent-background($session-color-warning-alt);
+      @include transparent-background(var(--color-warning));
     }
     &.warning,
     &.danger,
@@ -227,7 +227,7 @@ textarea {
 }
 
 .session-label {
-  color: white;
+  color: var(--color-white-color);
   padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
@@ -236,16 +236,18 @@ textarea {
     background-color: var(--color-dark-gray-color);
   }
   &.secondary {
-    background-color: $session-color-secondary;
+    background-color: var(--color-darkest-gray-color);
   }
   &.success {
-/* TODO is this correct? */
-  background-color: var(--color-text);  }
+    /* TODO is this correct? */
+    background-color: var(--color-text);
+  }
   &.danger {
     background-color: var(--color-destructive);
   }
+  /* TODO Is this correct? */
   &.warning {
-    background-color: $session-color-warning-alt;
+    background-color: var(--color-warning);
   }
 }
 
@@ -360,7 +362,7 @@ label {
 
 .conversation-header {
   .module-avatar img {
-    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 5px 0px rgba(var(--color-white-color-rgb), 0.2);
   }
 
   .search-icon {
@@ -401,13 +403,14 @@ label {
     @include set-toast-theme(var(--color-session-green-color));
   }
   &--info {
-    @include set-toast-theme($session-color-info);
+    @include set-toast-theme(var(--color-darker-gray-color));
   }
   &--warning {
-    @include set-toast-theme($session-color-warning-alt);
+    @include set-toast-theme(var(--color-warning));
   }
   &--error {
-    @include set-toast-theme($session-color-error);
+    /* TODO is this correct?*/
+    @include set-toast-theme(var(--color-warning));
   }
 
   .Toastify__progress-bar {
@@ -563,40 +566,6 @@ label {
   }
 }
 
-.react-contexify {
-  // be sure it is more than the one set for the More Informations screen of messages
-  z-index: 30;
-  min-width: 200px;
-  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  background-color: var(--color-received-message-background);
-
-  &.react-contexify__theme--dark {
-    background-color: var(--color-received-message-background);
-  }
-
-  .react-contexify__item {
-    background: var(--color-received-message-background);
-  }
-
-  .react-contexify__item:not(.react-contexify__item--disabled):hover
-    > .react-contexify__item__content {
-    background: var(--color-accent);
-    color: var(--color-text-menu-highlighted);
-  }
-  .react-contexify__item__content {
-    transition: var(--default-duration);
-    color: var(--color-text);
-  }
-
-  &.react-contexify__submenu {
-    top: -28px !important; // height of an item element
-  }
-
-  .react-contexify__submenu-arrow {
-    line-height: 16px; // center the arrow for submenu
-  }
-}
-
 .session-dropdown {
   position: relative;
   width: 100%;
@@ -709,14 +678,14 @@ label {
   display: flex;
   justify-content: center;
 
-  background: white;
+  background: var(--color-white-color);
   padding: 0.5rem;
   svg {
     width: 135px;
     height: 135px;
     border-radius: 3px;
     padding: var(--margins-xs);
-    background-color: white;
+    background-color: var(--color-white-color);
   }
 }
 
@@ -824,7 +793,7 @@ label {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: var(--margins-xs);
-  background-color: white;
+  background-color: var(--color-white-color);
   border-radius: 3px;
 }
 

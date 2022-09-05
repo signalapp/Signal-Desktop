@@ -52,7 +52,8 @@
     position: relative;
     &::before {
       border: solid 3px;
-      border-color: var(--color-light-blue-color) var(--color-light-blue-color) var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
+      border-color: var(--color-light-blue-color) var(--color-light-blue-color)
+        var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
     }
   }
 
@@ -130,8 +131,7 @@
     background-image: linear-gradient(
       to bottom,
       var(--color-transparent-color),
-      /* TODO does this work? */
-      var(--color-transparent-color) 9%,
+      /* TODO does this work? */ var(--color-transparent-color) 9%,
       rgba(0, 0, 0, 0.02) 17%,
       rgba(0, 0, 0, 0.05) 24%,
       rgba(0, 0, 0, 0.08) 31%,

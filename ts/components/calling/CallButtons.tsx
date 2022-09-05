@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHasOngoingCallWithPubkey } from '../../state/selectors/call';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import styled from 'styled-components';
+import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
 const videoTriggerId = 'video-menu-trigger-id';
 const audioTriggerId = 'audio-menu-trigger-id';
@@ -108,20 +109,22 @@ const VideoInputMenu = ({
   camerasList: Array<InputItem>;
 }) => {
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {camerasList.map(m => {
-        return (
-          <Item
-            key={m.deviceId}
-            onClick={() => {
-              void CallManager.selectCameraByDeviceId(m.deviceId);
-            }}
-          >
-            {m.label.substr(0, 40)}
-          </Item>
-        );
-      })}
-    </Menu>
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {camerasList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectCameraByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
   );
 };
 
@@ -133,20 +136,22 @@ const AudioInputMenu = ({
   audioInputsList: Array<InputItem>;
 }) => {
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {audioInputsList.map(m => {
-        return (
-          <Item
-            key={m.deviceId}
-            onClick={() => {
-              void CallManager.selectAudioInputByDeviceId(m.deviceId);
-            }}
-          >
-            {m.label.substr(0, 40)}
-          </Item>
-        );
-      })}
-    </Menu>
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {audioInputsList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectAudioInputByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
   );
 };
 
@@ -158,20 +163,22 @@ const AudioOutputMenu = ({
   audioOutputsList: Array<InputItem>;
 }) => {
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {audioOutputsList.map(m => {
-        return (
-          <Item
-            key={m.deviceId}
-            onClick={() => {
-              void CallManager.selectAudioOutputByDeviceId(m.deviceId);
-            }}
-          >
-            {m.label.substr(0, 40)}
-          </Item>
-        );
-      })}
-    </Menu>
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {audioOutputsList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectAudioOutputByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
   );
 };
 

@@ -20,6 +20,7 @@ import {
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
 } from './Menu';
+import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
 export type PropsContextConversationItem = {
   triggerId: string;
@@ -29,24 +30,26 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   const { triggerId } = props;
 
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      <AcceptMenuItem />
-      <DeclineMenuItem />
-      <NotificationForConvoMenuItem />
-      <PinConversationMenuItem />
-      <BlockMenuItem />
-      <CopyMenuItem />
-      <MarkAllReadMenuItem />
-      <ChangeNicknameMenuItem />
-      <ClearNicknameMenuItem />
-      <DeleteMessagesMenuItem />
-      <BanMenuItem />
-      <UnbanMenuItem />
-      <InviteContactMenuItem />
-      <DeleteContactMenuItem />
-      <LeaveGroupMenuItem />
-      <ShowUserDetailsMenuItem />
-    </Menu>
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        <AcceptMenuItem />
+        <DeclineMenuItem />
+        <NotificationForConvoMenuItem />
+        <PinConversationMenuItem />
+        <BlockMenuItem />
+        <CopyMenuItem />
+        <MarkAllReadMenuItem />
+        <ChangeNicknameMenuItem />
+        <ClearNicknameMenuItem />
+        <DeleteMessagesMenuItem />
+        <BanMenuItem />
+        <UnbanMenuItem />
+        <InviteContactMenuItem />
+        <DeleteContactMenuItem />
+        <LeaveGroupMenuItem />
+        <ShowUserDetailsMenuItem />
+      </Menu>
+    </SessionContextMenuContainer>
   );
 };
 

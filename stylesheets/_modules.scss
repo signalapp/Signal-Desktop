@@ -820,8 +820,7 @@
   background-image: linear-gradient(
     to bottom,
     var(--color-transparent-color),
-    /* TODO does this work */
-    var(--color-transparent-color) 9%,
+    /* TODO does this work */ var(--color-transparent-color) 9%,
     rgba(0, 0, 0, 0.6)
   );
   position: absolute;
