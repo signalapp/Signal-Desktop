@@ -61,6 +61,8 @@ async function updateConversationFromContactSync(
 
   // expireTimer isn't in Storage Service so we have to rely on contact sync.
   await conversation.updateExpirationTimer(details.expireTimer, {
+    // Note: because it's our conversationId, this notification will be marked read. But
+    //   setting this will make 'isSetByOther' check true.
     source: window.ConversationController.getOurConversationId(),
     receivedAt: receivedAtCounter,
     fromSync: true,

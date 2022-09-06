@@ -4428,7 +4428,9 @@ export class ConversationModel extends window.Backbone
       }
     }
 
-    source = source || window.ConversationController.getOurConversationId();
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
+    source = source || ourConversationId;
 
     this.set({ expireTimer });
 
@@ -4442,8 +4444,13 @@ export class ConversationModel extends window.Backbone
     //   to be above the message that initiated that change, hence the subtraction.
     const sentAt = (providedSentAt || receivedAtMS) - 1;
 
+    const isFromSyncOperation =
+      reason === 'group sync' || reason === 'contact sync';
+    const isFromMe =
+      window.ConversationController.get(source)?.id === ourConversationId;
     const isNoteToSelf = isMe(this.attributes);
-    const shouldBeRead = isNoteToSelf || isInitialSync;
+    const shouldBeRead =
+      (isInitialSync && isFromSyncOperation) || isFromMe || isNoteToSelf;
 
     const model = new window.Whisper.Message({
       conversationId: this.id,

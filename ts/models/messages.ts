@@ -2663,7 +2663,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             //   point and these calls will return early.
             if (dataMessage.expireTimer) {
               conversation.updateExpirationTimer(dataMessage.expireTimer, {
-                source,
+                source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
@@ -2676,7 +2676,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               !isEndSession(message.attributes)
             ) {
               conversation.updateExpirationTimer(undefined, {
-                source,
+                source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
