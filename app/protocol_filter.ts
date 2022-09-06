@@ -84,6 +84,37 @@ function _createFileHandler({
 
     try {
       targetPath = _urlToPath(request.url, { isWindows });
+
+      // normalize() is primarily useful here for switching / to \ on windows
+      const target = normalize(targetPath);
+      // here we attempt to follow symlinks to the ultimate final path, reflective of what
+      //   we do in main.js on userDataPath and installPath
+      const realPath = existsSync(target) ? realpathSync(target) : target;
+      // finally we do case-insensitive checks on windows
+      const properCasing = isWindows ? realPath.toLowerCase() : realPath;
+
+      if (!isAbsolute(realPath)) {
+        console.log(
+          `Warning: denying request to non-absolute path '${realPath}'`
+        );
+        // This is an "Access Denied" error. See [Chromium's net error list][0].
+        //
+        // [0]: https://source.chromium.org/chromium/chromium/src/+/master:net/base/net_error_list.h;l=57;drc=a836ee9868cf1b9673fce362a82c98aba3e195de
+        callback({ error: -10 });
+        return;
+      }
+
+      for (const root of allowedRoots) {
+        if (properCasing.startsWith(isWindows ? root.toLowerCase() : root)) {
+          callback({ path: realPath });
+          return;
+        }
+      }
+
+      console.log(
+        `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots}')`
+      );
+      callback({ error: -10 });
     } catch (err) {
       const errorMessage =
         err && typeof err.message === 'string'
@@ -94,38 +125,7 @@ function _createFileHandler({
       );
 
       callback({ error: -300 });
-      return;
     }
-    // normalize() is primarily useful here for switching / to \ on windows
-    const target = normalize(targetPath);
-    // here we attempt to follow symlinks to the ultimate final path, reflective of what
-    //   we do in main.js on userDataPath and installPath
-    const realPath = existsSync(target) ? realpathSync(target) : target;
-    // finally we do case-insensitive checks on windows
-    const properCasing = isWindows ? realPath.toLowerCase() : realPath;
-
-    if (!isAbsolute(realPath)) {
-      console.log(
-        `Warning: denying request to non-absolute path '${realPath}'`
-      );
-      // This is an "Access Denied" error. See [Chromium's net error list][0].
-      //
-      // [0]: https://source.chromium.org/chromium/chromium/src/+/master:net/base/net_error_list.h;l=57;drc=a836ee9868cf1b9673fce362a82c98aba3e195de
-      callback({ error: -10 });
-      return;
-    }
-
-    for (const root of allowedRoots) {
-      if (properCasing.startsWith(isWindows ? root.toLowerCase() : root)) {
-        callback({ path: realPath });
-        return;
-      }
-    }
-
-    console.log(
-      `Warning: denying request to path '${realPath}' (allowedRoots: '${allowedRoots}')`
-    );
-    callback({ error: -10 });
   };
 }
 
