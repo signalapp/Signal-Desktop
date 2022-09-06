@@ -332,8 +332,6 @@ export async function getFileAndStoreLocally(
     screenshot: attachmentSavedLocally.screenshot,
     thumbnail: attachmentSavedLocally.thumbnail,
     size: attachmentSavedLocally.size,
-
-    // url: undefined,
     flags: attachmentFlags || undefined,
   };
 }
