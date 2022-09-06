@@ -285,9 +285,11 @@ const makeBatchRequestPayload = (
         json: {
           rooms: [options.addRemoveModerators.roomId],
           global: false,
-          // moderator: isAddMod, // currently we only support adding/removing visible admins
           visible: true,
           admin: isAddMod,
+          // currently we only support adding/removing visible admins but we still need to set the `moderator`
+          // permissions here so removing an admin works does not only devote an admin to a moderator
+          moderator: isAddMod,
         },
       }));
     case 'banUnbanUser':
