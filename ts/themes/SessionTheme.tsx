@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
+import { hexColorToRGB } from '../util/hexColorToRGB';
+import { COLORS, THEMES } from './colors';
 
 const whiteColor = '#ffffff';
 const whiteColorRGB = '255, 255, 255'; // we need rgb values if we want css variables within rgba
@@ -352,6 +354,7 @@ export const switchHtmlToLightTheme = () => {
 // default to light theme
 export const SessionGlobalStyles = createGlobalStyle`
   html {
+    /* Old Theme Variables */
     /* FONTS */
     --font-default:  'Roboto';
     --font-font-accent:  'Loor';
@@ -455,6 +458,138 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-button-green: ${lightButtonGreen};
     --color-modal-background: ${lightModalBackground};
     --color-avatar-border-color: ${avatarBorderColor};
+
+    /* New Theme Variables */
+    /* Colors */
+    /* Backgrounds */
+    --background-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
+    --background-secondary-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
+
+    /* Text */
+    --text-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR0};
+    --text-secondary-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
+
+    /* Borders */
+    --border-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+
+    /* Modals */
+    /* TODO Clarify what those transparent colors mean */
+
+    /* Text Box */
+    --text-box-background-color: var(--background-primary-color);
+    --text-box-text-control-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
+    --text-box-text-user-color: var(--text-primary-color);
+    --text-box-border-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
+
+    /* Message Bubbles */
+    --message-bubbles-outgoing-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --message-bubbles-incoming-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --message-bubbles-outgoing-text-color: var(--text-primary-color);
+    --message-bubbles-incoming-text-color: var(--text-primary-color);
+
+    /* Menu Button */
+    --menu-button-background-color: ${THEMES.CLASSIC_LIGHT.COLOR0};
+    /* TODO Make a icon fill varible that uses the background color? */
+    --menu-button-icon-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
+
+    /* Chat (Interaction) Buttons */
+    --chat-buttons-background-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --chat-buttons-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --chat-buttons-icon-color: var(--text-primary-color);
+
+    /* Settings Tabs */
+    --settings-tab-background-color: var(--background-primary-color);
+    --settings-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --settings-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --settings-tab-text-color: var(--text-primary-color);
+
+    /* TODO probably consolidate this */
+    /* Buttons */
+    /* TODO are solid buttons ever disabled? */
+    /* Solid */
+    --button-solid-background-color: var(--background-primary-color);
+    --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --button-solid-text-color: var(--text-primary-color);
+    --button-solid-text-hover-color: var(--text-primary-color);
+
+    /* Outline */
+    --button-outline-background-color: ${COLORS.TRANSPARENT};
+    --button-outline-background-hover-color: rgba(${hexColorToRGB(
+      THEMES.CLASSIC_LIGHT.COLOR0
+    )}, 0.1);
+    --button-outline-text-color: var(--text-primary-color);
+    /* TODO we might not need this */
+    --button-outline-text-hover-color: var(--text-primary-color);
+    --button-outline-border-color: var(--text-primary-color);
+    --button-outline-border-hover-color: var(--text-primary-color);
+    --button-outline-disabled-color: var(--text-secondary-color);
+
+    /* Icons */
+    --button-icon-stroke-color: var(--text-secondary-color);
+    --button-icon-stroke-hover-color: var(--text-primary-color);
+    --button-icon-stroke-selected-color: var(--text-primary-color);
+
+    /* Consolidate with code */
+    /* Conversation Tab */
+    --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
+    --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --conversation-tab-background-unread-color: var(--background-primary-color);
+    --conversation-tab-text-color: var(--text-secondary-color);
+    --conversation-tab-text-selected-color: var(--text-primary-color);
+    --conversation-tab-text-unread-color: var(--text-primary-color);
+    --conversation-tab-text-secondary-color: var(--text-secondary-color);
+    --conversation-tab-text-selected-color: var(--text-primary-color);
+    --conversation-tab-bubble-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --conversation-tab-bubble-text-color: var(--text-primary-color);
+    /* TODO account for overriding */
+    --conversation-tab-color-strip-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+
+    /* Search Bar */
+    --search-bar-background-color: var(--background-secondary-color);
+    --search-bar-text-control-color: var(--text-secondary-color);
+    --search-bar-text-user-color: var(--text-primary-color);
+    --search-bar-icon-color: var(--text-secondary-color);
+    --search-bar-icon-hover-color: var(--text-primary-color);
+
+    /* Scroll Bars */
+    /* TODO think this is the track? Should add thumb and other scroll colors here */
+    /* Default */
+    --scroll-bar-fill-color: var(--text-secondary-color);
+    /* Zoom Bar */
+    --zoom-bar-interval-color: var(--text-secondary-color);
+    /* TODO think this is the thumb? */
+    --zoom-bar-selector-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+
+    /* Toggle Switch */
+    --toggle-switch-ball-color: ;
+    /* TODO think this should be white instead of transparent */
+    --toggle-switch-off-background-color: ${COLORS.TRANSPARENT};
+    --toggle-switch-off-border-color: var(--border-color);
+    --toggle-switch-on-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --toggle-switch-on-border-color: ${COLORS.TRANSPARENT};
+
+    /* TODO Think this is part of the Convesations Tab */
+    /* Unread Messages Alert */
+    --unread-messages-alert-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --unread-messages-alert-text-color: var(--text-primary-color);
+
+    /* toggles between the Light and Dark mode for a Theme */
+    /* Color Mode Button */
+    --button-color-mode-stroke-color: var(--text-secondary-color);
+    --button-color-mode-hover-color: var(--text-primary-color);
+    --button-color-mode-fill-color: ${COLORS.TRANSPARENT};
+
+    /* Path Button */
+    --button-path-default-color: ${COLORS.PATH.DEFAULT};
+    --button-path-connecting-color: ${COLORS.PATH.CONNECTING};
+    --button-path-error-color: ${COLORS.PATH.ERROR};
+
+    /* Emoji Reaction Bar */
+    --emoji-reaction-bar-background-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    /* NOTE only used for + icon */
+    --emoji-reaction-bar-icon-background-color: var(--background-primary-color);
+    --emoji-reaction-bar-icon-color: var(--text-primary-color);
   };
 `;
 

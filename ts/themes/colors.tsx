@@ -21,7 +21,7 @@ type Colors = {
   PATH: {
     DEFAULT: string;
     CONNECTING: string;
-    HOVER: string;
+    ERROR: string;
   };
   TRANSPARENT: string;
 };
@@ -42,7 +42,7 @@ const dangerDark = '#FF3A3A';
 // Path
 const pathDefault = primaryGreen;
 const pathConnecting = primaryOrange;
-const pathHover = '#EA5545';
+const pathError = '#EA5545';
 
 // Transparent
 const transparent = 'transparent';
@@ -64,12 +64,13 @@ const COLORS: Colors = {
   PATH: {
     DEFAULT: pathDefault,
     CONNECTING: pathConnecting,
-    HOVER: pathHover,
+    ERROR: pathError,
   },
   TRANSPARENT: transparent,
 };
 
 // Themes
+type ThemeNames = 'CLASSIC_LIGHT' | 'CLASSIC_DARK' | 'OCEAN_LIGHT' | 'OCEAN_DARK';
 type ThemeColors = {
   PRIMARY: string;
   COLOR0: string;
@@ -80,7 +81,7 @@ type ThemeColors = {
   COLOR5: string;
   COLOR6: string;
 };
-type Themes = Record<string, ThemeColors>;
+type Themes = Record<ThemeNames, ThemeColors>;
 
 // Classic Light
 const classicLightPrimary = '#31F196';
