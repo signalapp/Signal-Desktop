@@ -78,32 +78,32 @@ describe('SystemTraySettingCache', () => {
     sinon.assert.notCalled(configSetStub);
   });
 
-  it('returns DoNotUseSystemTray if system tray is supported but no preference is stored', async () => {
+  it('returns Uninitialized if system tray is supported but no preference is stored', async () => {
     sandbox.stub(process, 'platform').value('win32');
 
     const cache = new SystemTraySettingCache(sql, config, [], '1.2.3');
-    assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
+    assert.strictEqual(await cache.get(), SystemTraySetting.Uninitialized);
     assert(configGetStub.calledOnceWith('system-tray-setting'));
     assert(
       configSetStub.calledOnceWith(
         'system-tray-setting',
-        SystemTraySetting.DoNotUseSystemTray
+        SystemTraySetting.Uninitialized
       )
     );
   });
 
-  it('returns DoNotUseSystemTray if system tray is supported but the stored preference is invalid', async () => {
+  it('returns Uninitialized if system tray is supported but the stored preference is invalid', async () => {
     sandbox.stub(process, 'platform').value('win32');
 
     sqlCallStub.resolves({ value: 'garbage' });
 
     const cache = new SystemTraySettingCache(sql, config, [], '1.2.3');
-    assert.strictEqual(await cache.get(), SystemTraySetting.DoNotUseSystemTray);
+    assert.strictEqual(await cache.get(), SystemTraySetting.Uninitialized);
     assert(configGetStub.calledOnceWith('system-tray-setting'));
     assert(
       configSetStub.calledOnceWith(
         'system-tray-setting',
-        SystemTraySetting.DoNotUseSystemTray
+        SystemTraySetting.Uninitialized
       )
     );
   });

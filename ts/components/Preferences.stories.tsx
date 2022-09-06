@@ -98,6 +98,7 @@ const getDefaultArgs = (): PropsDataType => ({
   isPhoneNumberSharingSupported: false,
   isSyncSupported: true,
   isSystemTraySupported: true,
+  isMinimizeToAndStartInSystemTraySupported: true,
   lastSyncTime: Date.now(),
   notificationContent: 'name',
   selectedCamera:

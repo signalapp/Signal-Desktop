@@ -95,6 +95,7 @@ export type PropsDataType = {
   isPhoneNumberSharingSupported: boolean;
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
+  isMinimizeToAndStartInSystemTraySupported: boolean;
 
   availableCameras: Array<
     Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
@@ -239,6 +240,7 @@ export const Preferences = ({
   isNotificationAttentionSupported,
   isSyncSupported,
   isSystemTraySupported,
+  isMinimizeToAndStartInSystemTraySupported,
   hasCustomTitleBar,
   lastSyncTime,
   makeSyncRequest,
@@ -371,16 +373,18 @@ export const Preferences = ({
                 name="system-tray-setting-minimize-to-system-tray"
                 onChange={onMinimizeToSystemTrayChange}
               />
-              <Checkbox
-                checked={hasMinimizeToAndStartInSystemTray}
-                disabled={!hasMinimizeToSystemTray}
-                label={i18n(
-                  'SystemTraySetting__minimize-to-and-start-in-system-tray'
-                )}
-                moduleClassName="Preferences__checkbox"
-                name="system-tray-setting-minimize-to-and-start-in-system-tray"
-                onChange={onMinimizeToAndStartInSystemTrayChange}
-              />
+              {isMinimizeToAndStartInSystemTraySupported && (
+                <Checkbox
+                  checked={hasMinimizeToAndStartInSystemTray}
+                  disabled={!hasMinimizeToSystemTray}
+                  label={i18n(
+                    'SystemTraySetting__minimize-to-and-start-in-system-tray'
+                  )}
+                  moduleClassName="Preferences__checkbox"
+                  name="system-tray-setting-minimize-to-and-start-in-system-tray"
+                  onChange={onMinimizeToAndStartInSystemTrayChange}
+                />
+              )}
             </>
           )}
         </SettingsRow>

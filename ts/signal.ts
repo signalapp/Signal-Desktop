@@ -22,7 +22,6 @@ import { MessageDetail } from './components/conversation/MessageDetail';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
-import { SystemTraySettingsCheckboxes } from './components/conversation/SystemTraySettingsCheckboxes';
 
 // State
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
@@ -409,7 +408,6 @@ export const setup = (options: {
     Quote,
     StagedLinkPreview,
     DisappearingTimeDialog,
-    SystemTraySettingsCheckboxes,
   };
 
   const Roots = {

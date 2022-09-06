@@ -154,7 +154,7 @@ window.setMenuBarVisibility = visibility =>
 window.updateSystemTraySetting = (
   systemTraySetting /* : Readonly<SystemTraySetting> */
 ) => {
-  ipc.send('update-system-tray-setting', systemTraySetting);
+  ipc.invoke('update-system-tray-setting', systemTraySetting);
 };
 
 window.restart = () => {

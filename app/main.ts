@@ -29,10 +29,12 @@ import {
   session,
   shell,
   systemPreferences,
+  Notification,
 } from 'electron';
 import type {
   MenuItemConstructorOptions,
   TitleBarOverlayOptions,
+  LoginItemSettingsOptions,
 } from 'electron';
 import { z } from 'zod';
 
@@ -82,6 +84,7 @@ import {
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
 } from '../ts/types/SystemTraySetting';
+import { isSystemTraySupported } from '../ts/types/Settings';
 import * as ephemeralConfig from './ephemeral_config';
 import * as logging from '../ts/logging/main_process_logging';
 import { MainSQL } from '../ts/sql/main';
@@ -856,6 +859,23 @@ async function createWindow() {
       await systemTraySettingCache.get()
     );
     if (!windowState.shouldQuit() && (usingTrayIcon || OS.isMacOS())) {
+      if (usingTrayIcon) {
+        const shownTrayNotice = ephemeralConfig.get('shown-tray-notice');
+        if (shownTrayNotice) {
+          getLogger().info('close: not showing tray notice');
+          return;
+        }
+
+        ephemeralConfig.set('shown-tray-notice', true);
+        getLogger().info('close: showing tray notice');
+
+        const n = new Notification({
+          title: getLocale().i18n('minimizeToTrayNotification--title'),
+          body: getLocale().i18n('minimizeToTrayNotification--body'),
+        });
+
+        n.show();
+      }
       return;
     }
 
@@ -865,6 +885,22 @@ async function createWindow() {
 
     await sql.close();
     app.quit();
+  });
+
+  mainWindow.on('minimize', async () => {
+    if (!mainWindow) {
+      getLogger().info('minimize event: no main window');
+      return;
+    }
+
+    // When tray icon is in use - close the window since it will be minimized
+    // to tray anyway.
+    const usingTrayIcon = shouldMinimizeToSystemTray(
+      await systemTraySettingCache.get()
+    );
+    if (usingTrayIcon) {
+      mainWindow.close();
+    }
   });
 
   // Emitted when the window is closed.
@@ -1566,6 +1602,26 @@ function getAppLocale(): string {
   return getEnvironment() === Environment.Test ? 'en' : app.getLocale();
 }
 
+async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
+  if (!OS.isWindows()) {
+    return {};
+  }
+
+  const systemTraySetting = await systemTraySettingCache.get();
+  if (
+    systemTraySetting !== SystemTraySetting.MinimizeToSystemTray &&
+    // This is true when we just started with `--start-in-tray`
+    systemTraySetting !== SystemTraySetting.MinimizeToAndStartInSystemTray
+  ) {
+    return {};
+  }
+
+  // The effect of this is that if both auto-launch and minimize to system tray
+  // are enabled on Windows - we will start the app in tray automatically,
+  // letting the Desktop shortcuts still start the Signal not in tray.
+  return { args: ['--start-in-tray'] };
+}
+
 // Signal doesn't really use media keys so we set this switch here to unblock
 // them so that other apps can use them if they need to.
 app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
@@ -1595,6 +1651,36 @@ app.on('ready', async () => {
   }
 
   sqlInitPromise = initializeSQL(userDataPath);
+
+  // First run: configure Signal to minimize to tray. Additionally, on Windows
+  // enable auto-start with start-in-tray so that starting from a Desktop icon
+  // would still show the window.
+  // (User can change these settings later)
+  if (
+    isSystemTraySupported(app.getVersion()) &&
+    (await systemTraySettingCache.get()) === SystemTraySetting.Uninitialized
+  ) {
+    const newValue = SystemTraySetting.MinimizeToSystemTray;
+    getLogger().info(`app.ready: setting system-tray-setting to ${newValue}`);
+    systemTraySettingCache.set(newValue);
+
+    // Update both stores
+    ephemeralConfig.set('system-tray-setting', newValue);
+    await sql.sqlCall('createOrUpdateItem', [
+      {
+        id: 'system-tray-setting',
+        value: newValue,
+      },
+    ]);
+
+    if (OS.isWindows()) {
+      getLogger().info('app.ready: enabling open at login');
+      app.setLoginItemSettings({
+        ...(await getDefaultLoginItemSettings()),
+        openAtLogin: true,
+      });
+    }
+  }
 
   const startTime = Date.now();
 
@@ -2055,9 +2141,13 @@ ipc.on(
   }
 );
 
-ipc.on(
+ipc.handle(
   'update-system-tray-setting',
-  (_event, rawSystemTraySetting /* : Readonly<unknown> */) => {
+  async (_event, rawSystemTraySetting /* : Readonly<unknown> */) => {
+    const { openAtLogin } = app.getLoginItemSettings(
+      await getDefaultLoginItemSettings()
+    );
+
     const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
     systemTraySettingCache.set(systemTraySetting);
 
@@ -2065,6 +2155,13 @@ ipc.on(
       const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
       systemTrayService.setEnabled(isEnabled);
     }
+
+    // Default login item settings might have changed, so update the object.
+    getLogger().info('refresh-auto-launch: new value', openAtLogin);
+    app.setLoginItemSettings({
+      ...(await getDefaultLoginItemSettings()),
+      openAtLogin,
+    });
   }
 );
 
@@ -2290,11 +2387,17 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 }
 
 ipc.handle('get-auto-launch', async () => {
-  return app.getLoginItemSettings().openAtLogin;
+  return app.getLoginItemSettings(await getDefaultLoginItemSettings())
+    .openAtLogin;
 });
 
 ipc.handle('set-auto-launch', async (_event, value) => {
-  app.setLoginItemSettings({ openAtLogin: Boolean(value) });
+  const openAtLogin = Boolean(value);
+  getLogger().info('set-auto-launch: new value', openAtLogin);
+  app.setLoginItemSettings({
+    ...(await getDefaultLoginItemSettings()),
+    openAtLogin,
+  });
 });
 
 ipc.on('show-message-box', (_event, { type, message }) => {

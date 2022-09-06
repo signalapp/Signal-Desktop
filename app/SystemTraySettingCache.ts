@@ -68,7 +68,7 @@ export class SystemTraySettingCache {
         result = parseSystemTraySetting(value);
         log.info(`getSystemTraySetting returning ${result}`);
       } else {
-        result = SystemTraySetting.DoNotUseSystemTray;
+        result = SystemTraySetting.Uninitialized;
         log.info(`getSystemTraySetting got no value, returning ${result}`);
       }
 

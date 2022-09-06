@@ -3067,6 +3067,14 @@
     "message": "Unanswered video call",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal is still running",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "Incoming audio call...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"

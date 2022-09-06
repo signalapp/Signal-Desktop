@@ -45,10 +45,10 @@ describe('system tray setting utilities', () => {
       );
     });
 
-    it('parses invalid strings to DoNotUseSystemTray', () => {
+    it('parses invalid strings to Uninitialized', () => {
       assert.strictEqual(
         parseSystemTraySetting('garbage'),
-        SystemTraySetting.DoNotUseSystemTray
+        SystemTraySetting.Uninitialized
       );
     });
   });

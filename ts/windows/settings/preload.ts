@@ -285,6 +285,10 @@ const renderPreferences = async () => {
     isSystemTraySupported: Settings.isSystemTraySupported(
       SignalContext.getVersion()
     ),
+    isMinimizeToAndStartInSystemTraySupported:
+      Settings.isMinimizeToAndStartInSystemTraySupported(
+        SignalContext.getVersion()
+      ),
 
     // Change handlers
     onAudioNotificationsChange: reRender(settingAudioNotification.setValue),

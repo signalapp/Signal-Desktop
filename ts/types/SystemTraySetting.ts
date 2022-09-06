@@ -5,6 +5,7 @@ import { makeEnumParser } from '../util/enum';
 
 // Be careful when changing these values, as they are persisted.
 export enum SystemTraySetting {
+  Uninitialized = 'Uninitialized',
   DoNotUseSystemTray = 'DoNotUseSystemTray',
   MinimizeToSystemTray = 'MinimizeToSystemTray',
   MinimizeToAndStartInSystemTray = 'MinimizeToAndStartInSystemTray',
@@ -18,5 +19,5 @@ export const shouldMinimizeToSystemTray = (
 
 export const parseSystemTraySetting = makeEnumParser(
   SystemTraySetting,
-  SystemTraySetting.DoNotUseSystemTray
+  SystemTraySetting.Uninitialized
 );

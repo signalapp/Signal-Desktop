@@ -53,6 +53,12 @@ export const isSystemTraySupported = (appVersion: string): boolean =>
   // We eventually want to support Linux in production.
   OS.isWindows() || (OS.isLinux() && !isProduction(appVersion));
 
+// On Windows minimize and start in system tray is default when app is selected
+// to launch at login, because we can provide `['--start-in-tray']` args.
+export const isMinimizeToAndStartInSystemTraySupported = (
+  appVersion: string
+): boolean => !OS.isWindows() && isSystemTraySupported(appVersion);
+
 export const isAutoDownloadUpdatesSupported = (): boolean =>
   OS.isWindows() || OS.isMacOS();
 
