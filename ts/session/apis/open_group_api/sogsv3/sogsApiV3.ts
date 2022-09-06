@@ -82,8 +82,7 @@ async function handlePollInfoResponse(
       hidden_moderators?: Array<string>;
     };
   },
-  serverUrl: string,
-  roomIdsStillPolled: Set<string>
+  serverUrl: string
 ) {
   if (statusCode !== 200) {
     window.log.info('handlePollInfoResponse subRequest status code is not 200:', statusCode);
@@ -101,8 +100,9 @@ async function handlePollInfoResponse(
     window.log.info('handlePollInfoResponse token and serverUrl must be set');
     return;
   }
+  const stillPolledRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);
 
-  if (!roomIdsStillPolled.has(token)) {
+  if (!stillPolledRooms?.some(r => r.roomId === token && r.serverUrl === serverUrl)) {
     window.log.info('handlePollInfoResponse room is no longer polled: ', token);
     return;
   }
@@ -188,8 +188,7 @@ const handleSogsV3DeletedMessages = async (
 const handleMessagesResponseV4 = async (
   messages: Array<OpenGroupMessageV4>,
   serverUrl: string,
-  subrequestOption: SubRequestMessagesType,
-  roomIdsStillPolled: Set<string>
+  subrequestOption: SubRequestMessagesType
 ) => {
   if (!subrequestOption || !subrequestOption.messages) {
     window?.log?.error('handleBatchPollResults - missing fields required for message subresponse');
@@ -199,7 +198,9 @@ const handleMessagesResponseV4 = async (
   try {
     const { roomId } = subrequestOption.messages;
 
-    if (!roomIdsStillPolled.has(roomId)) {
+    const stillPolledRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);
+
+    if (!stillPolledRooms?.some(r => r.roomId === roomId && r.serverUrl === serverUrl)) {
       window.log.info(`handleMessagesResponseV4: we are no longer polling for ${roomId}: skipping`);
       return;
     }
@@ -490,8 +491,7 @@ export const handleBatchPollResults = async (
   serverUrl: string,
   batchPollResults: BatchSogsReponse,
   /** using this as explicit way to ensure order  */
-  subrequestOptionsLookup: Array<OpenGroupBatchRow>,
-  roomIdsStillPolled: Set<string> // if we get anything for a room we stopped polling, we need to skip it.
+  subrequestOptionsLookup: Array<OpenGroupBatchRow>
 ) => {
   // @@: Might not need the explicit type field.
   // pro: prevents cases where accidentally two fields for the opt. e.g. capability and message fields truthy.
@@ -520,20 +520,10 @@ export const handleBatchPollResults = async (
           break;
         case 'messages':
           // this will also include deleted messages explicitly with `data: null` & edited messages with a new data field & react changes with data not existing
-          await handleMessagesResponseV4(
-            subResponse.body,
-            serverUrl,
-            subrequestOption,
-            roomIdsStillPolled
-          );
+          await handleMessagesResponseV4(subResponse.body, serverUrl, subrequestOption);
           break;
         case 'pollInfo':
-          await handlePollInfoResponse(
-            subResponse.code,
-            subResponse.body,
-            serverUrl,
-            roomIdsStillPolled
-          );
+          await handlePollInfoResponse(subResponse.code, subResponse.body, serverUrl);
           break;
         case 'inbox':
           await handleInboxOutboxMessages(subResponse.body, serverUrl, false);
