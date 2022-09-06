@@ -282,13 +282,14 @@ const makeBatchRequestPayload = (
         method: 'POST',
         path: `/user/${sessionId}/moderator`,
 
+        // An admin has moderator permissions automatically, but removing his admin permissions only will keep him as a moderator.
+        // We do not want this currently. When removing an admin from Session Desktop we want to remove all his permissions server side.
+        // We'll need to build a complete dialog with options to make the whole admins/moderator/global/visible/hidden logic work as the server was built for.
         json: {
           rooms: [options.addRemoveModerators.roomId],
           global: false,
           visible: true,
           admin: isAddMod,
-          // currently we only support adding/removing visible admins but we still need to set the `moderator`
-          // permissions here so removing an admin works does not only devote an admin to a moderator
           moderator: isAddMod,
         },
       }));
