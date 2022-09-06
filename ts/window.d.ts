@@ -3,98 +3,100 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
-import type { Cancelable } from 'lodash';
-import { Store } from 'redux';
-import * as Backbone from 'backbone';
-import * as Underscore from 'underscore';
-import PQueue from 'p-queue/dist';
-import { Ref } from 'react';
-import { assert } from 'chai';
+/* eslint-disable max-classes-per-file */
 
-import { imageToBlurHash } from './util/imageToBlurHash';
-import * as Util from './util';
-import {
+import type { Cancelable } from 'lodash';
+import type { Store } from 'redux';
+import type * as Backbone from 'backbone';
+import type * as Underscore from 'underscore';
+import type PQueue from 'p-queue/dist';
+import type { Ref } from 'react';
+import type { assert } from 'chai';
+import type * as Mustache from 'mustache';
+
+import type { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
+import type { imageToBlurHash } from './util/imageToBlurHash';
+import type * as Util from './util';
+import type {
   ConversationModelCollectionType,
   MessageModelCollectionType,
 } from './model-types.d';
-import { textsecure } from './textsecure';
-import { Storage } from './textsecure/Storage';
-import {
+import type { textsecure } from './textsecure';
+import type { Storage } from './textsecure/Storage';
+import type {
   ChallengeHandler,
   IPCRequest as IPCChallengeRequest,
 } from './challenge';
-import { WebAPIConnectType } from './textsecure/WebAPI';
-import { CallingClass } from './services/calling';
-import * as Groups from './groups';
-import * as Crypto from './Crypto';
-import * as Curve from './Curve';
-import * as RemoteConfig from './RemoteConfig';
-import * as OS from './OS';
-import { Environment, getEnvironment } from './environment';
-import { LocalizerType, ThemeType } from './types/Util';
+import type { WebAPIConnectType } from './textsecure/WebAPI';
+import type { CallingClass } from './services/calling';
+import type * as Groups from './groups';
+import type * as Crypto from './Crypto';
+import type * as Curve from './Curve';
+import type * as RemoteConfig from './RemoteConfig';
+import type * as OS from './OS';
+import type { getEnvironment } from './environment';
+import type { LocalizerType, ThemeType } from './types/Util';
 import type { Receipt } from './types/Receipt';
-import { ConversationController } from './ConversationController';
-import { ReduxActions } from './state/types';
-import { createStore } from './state/createStore';
-import { createApp } from './state/roots/createApp';
-import { createChatColorPicker } from './state/roots/createChatColorPicker';
-import { createConversationDetails } from './state/roots/createConversationDetails';
-import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
-import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
-import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
-import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
-import { createMessageDetail } from './state/roots/createMessageDetail';
-import { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
-import { createPendingInvites } from './state/roots/createPendingInvites';
-import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
-import { createStickerManager } from './state/roots/createStickerManager';
-import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
-import * as appDuck from './state/ducks/app';
-import * as callingDuck from './state/ducks/calling';
-import * as conversationsDuck from './state/ducks/conversations';
-import * as emojisDuck from './state/ducks/emojis';
-import * as expirationDuck from './state/ducks/expiration';
-import * as itemsDuck from './state/ducks/items';
-import * as linkPreviewsDuck from './state/ducks/linkPreviews';
-import * as networkDuck from './state/ducks/network';
-import * as updatesDuck from './state/ducks/updates';
-import * as userDuck from './state/ducks/user';
-import * as searchDuck from './state/ducks/search';
-import * as stickersDuck from './state/ducks/stickers';
-import * as conversationsSelectors from './state/selectors/conversations';
-import * as searchSelectors from './state/selectors/search';
-import AccountManager from './textsecure/AccountManager';
-import Data from './sql/Client';
-import { PhoneNumber, PhoneNumberFormat } from 'google-libphonenumber';
-import { MessageModel } from './models/messages';
-import { ConversationModel } from './models/conversations';
-import { BatcherType } from './util/batcher';
-import { AttachmentList } from './components/conversation/AttachmentList';
-import { ChatColorPicker } from './components/ChatColorPicker';
-import { ConfirmationDialog } from './components/ConfirmationDialog';
-import { ContactModal } from './components/conversation/ContactModal';
-import { MessageDetail } from './components/conversation/MessageDetail';
-import { Quote } from './components/conversation/Quote';
-import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
-import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
-import { SignalProtocolStore } from './SignalProtocolStore';
-import { StartupQueue } from './util/StartupQueue';
-import { SocketStatus } from './types/SocketStatus';
-import SyncRequest from './textsecure/SyncRequest';
-import { MessageController } from './util/MessageController';
-import { StateType } from './state/reducer';
-import { SystemTraySetting } from './types/SystemTraySetting';
-import { UUID } from './types/UUID';
-import { Address } from './types/Address';
-import { QualifiedAddress } from './types/QualifiedAddress';
-import { CI } from './CI';
-import { IPCEventsType } from './util/createIPCEvents';
-import { ConversationView } from './views/conversation_view';
+import type { ConversationController } from './ConversationController';
+import type { ReduxActions } from './state/types';
+import type { createStore } from './state/createStore';
+import type { createApp } from './state/roots/createApp';
+import type { createChatColorPicker } from './state/roots/createChatColorPicker';
+import type { createConversationDetails } from './state/roots/createConversationDetails';
+import type { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
+import type { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
+import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
+import type { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
+import type { createMessageDetail } from './state/roots/createMessageDetail';
+import type { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
+import type { createPendingInvites } from './state/roots/createPendingInvites';
+import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
+import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
+import type { createStickerManager } from './state/roots/createStickerManager';
+import type { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
+import type * as appDuck from './state/ducks/app';
+import type * as callingDuck from './state/ducks/calling';
+import type * as conversationsDuck from './state/ducks/conversations';
+import type * as emojisDuck from './state/ducks/emojis';
+import type * as expirationDuck from './state/ducks/expiration';
+import type * as itemsDuck from './state/ducks/items';
+import type * as linkPreviewsDuck from './state/ducks/linkPreviews';
+import type * as networkDuck from './state/ducks/network';
+import type * as updatesDuck from './state/ducks/updates';
+import type * as userDuck from './state/ducks/user';
+import type * as searchDuck from './state/ducks/search';
+import type * as stickersDuck from './state/ducks/stickers';
+import type * as conversationsSelectors from './state/selectors/conversations';
+import type * as searchSelectors from './state/selectors/search';
+import type AccountManager from './textsecure/AccountManager';
+import type Data from './sql/Client';
+import type { MessageModel } from './models/messages';
+import type { ConversationModel } from './models/conversations';
+import type { BatcherType } from './util/batcher';
+import type { AttachmentList } from './components/conversation/AttachmentList';
+import type { ChatColorPicker } from './components/ChatColorPicker';
+import type { ConfirmationDialog } from './components/ConfirmationDialog';
+import type { ContactModal } from './components/conversation/ContactModal';
+import type { MessageDetail } from './components/conversation/MessageDetail';
+import type { Quote } from './components/conversation/Quote';
+import type { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
+import type { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
+import type { SignalProtocolStore } from './SignalProtocolStore';
+import type { StartupQueue } from './util/StartupQueue';
+import type { SocketStatus } from './types/SocketStatus';
+import type SyncRequest from './textsecure/SyncRequest';
+import type { MessageController } from './util/MessageController';
+import type { StateType } from './state/reducer';
+import type { SystemTraySetting } from './types/SystemTraySetting';
+import type { UUID } from './types/UUID';
+import type { Address } from './types/Address';
+import type { QualifiedAddress } from './types/QualifiedAddress';
+import type { CI } from './CI';
+import type { IPCEventsType } from './util/createIPCEvents';
+import type { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
-import { RendererConfigType } from './types/RendererConfig';
 
 export { Long } from 'long';
 
@@ -213,8 +215,8 @@ export type SignalCoreType = {
 };
 
 declare global {
-  // We want to extend `window`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
+  // We want to extend various globals, so we need to use interfaces.
+  /* eslint-disable no-restricted-syntax */
   interface Window {
     // Used in Sticker Creator to create proper paths to emoji images
     ROOT_PATH?: string;
@@ -238,15 +240,11 @@ declare global {
     $: typeof jQuery;
 
     imageToBlurHash: typeof imageToBlurHash;
-    loadImage: any;
     isBehindProxy: () => boolean;
     getAutoLaunch: () => Promise<boolean>;
     setAutoLaunch: (value: boolean) => Promise<void>;
 
-    Mustache: {
-      render: (template: string, data: any, partials?: any) => string;
-      parse: (template: string) => void;
-    };
+    Mustache: typeof Mustache;
     WebAudioRecorder: typeof WebAudioRecorderClass;
 
     addSetupMenuItems: () => void;
@@ -358,26 +356,21 @@ declare global {
 
     // Test only
     assert: typeof assert;
-    // Used in test/index.html, and therefore not type-checked!
     testUtilities: {
-      onComplete: (data: any) => void;
+      onComplete: (info: unknown) => void;
       prepareTests: () => void;
     };
   }
 
-  // We want to extend `Error`, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
   interface Error {
     originalError?: Event;
-    reason?: any;
+    reason?: unknown;
     stackForLog?: string;
 
     // Used in sticker creator to attach messages to errors
     errorMessageI18nKey?: string;
   }
 
-  // We want to extend `Element`'s properties, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
   interface Element {
     // WebKit-specific
     scrollIntoViewIfNeeded: (bringToCenter?: boolean) => void;
@@ -390,16 +383,12 @@ declare global {
   }
 
   interface ArrayBuffer {
-    __array_buffer: never;
+    __arrayBuffer: never;
   }
 
   interface SharedArrayBuffer {
-    __array_buffer: never;
+    __arrayBuffer: never;
   }
-}
-
-export class CertificateValidatorType {
-  validate: (cerficate: any, certificateTime: number) => Promise<void>;
 }
 
 export class GumVideoCapturer {

@@ -5,8 +5,8 @@ import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import type { UUID, UUIDStringType } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
-import { GiftBadgeStates } from '../components/conversation/Message';
-import { MIMEType } from '../types/MIME';
+import type { GiftBadgeStates } from '../components/conversation/Message';
+import type { MIMEType } from '../types/MIME';
 
 export {
   IdentityKeyType,

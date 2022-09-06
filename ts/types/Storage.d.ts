@@ -12,7 +12,7 @@ import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
 import type { SystemTraySetting } from './SystemTraySetting';
-import type { ExtendedStorageID, UnknownRecord } from './StorageService';
+import type { ExtendedStorageID, UnknownRecord } from './StorageService.d';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
 import type {
@@ -21,7 +21,7 @@ import type {
 } from '../textsecure/Types.d';
 import type { ThemeSettingType } from './StorageUIKeys';
 
-import { RegisteredChallengeType } from '../challenge';
+import type { RegisteredChallengeType } from '../challenge';
 
 export type SerializedCertificateType = {
   expires: number;
@@ -41,6 +41,7 @@ export type IdentityKeyMap = Record<
 >;
 
 // This should be in sync with `STORAGE_UI_KEYS` in `ts/types/StorageUIKeys.ts`.
+/* eslint-disable camelcase */
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
@@ -144,6 +145,7 @@ export type StorageAccessType = {
   signaling_key: never;
   'challenge:retry-message-ids': never;
 };
+/* eslint-enable camelcase */
 
 export type StorageInterface = {
   onready(callback: () => void): void;

@@ -1,42 +1,39 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable max-classes-per-file */
+
 import * as Backbone from 'backbone';
 
-import { GroupV2ChangeType } from './groups';
-import { BodyRangeType, BodyRangesType } from './types/Util';
-import { CallHistoryDetailsFromDiskType } from './types/Calling';
-import { CustomColorType } from './types/Colors';
-import { DeviceType } from './textsecure/Types';
-import { SendMessageChallengeData } from './textsecure/Errors';
-import { MessageModel } from './models/messages';
-import { ConversationModel } from './models/conversations';
-import { ProfileNameChangeType } from './util/getStringForProfileChange';
-import { CapabilitiesType } from './textsecure/WebAPI';
-import { ReadStatus } from './messages/MessageReadStatus';
-import { SendStateByConversationId } from './messages/MessageSendState';
-import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
-import { ConversationColorType } from './types/Colors';
-import {
-  AttachmentDraftType,
-  AttachmentType,
-  ThumbnailType,
-} from './types/Attachment';
-import { EmbeddedContactType } from './types/EmbeddedContact';
+import type { GroupV2ChangeType } from './groups';
+import type { BodyRangeType, BodyRangesType } from './types/Util';
+import type { CallHistoryDetailsFromDiskType } from './types/Calling';
+import type { CustomColorType, ConversationColorType } from './types/Colors';
+import type { DeviceType } from './textsecure/Types.d';
+import type { SendMessageChallengeData } from './textsecure/Errors';
+import type { MessageModel } from './models/messages';
+import type { ConversationModel } from './models/conversations';
+import type { ProfileNameChangeType } from './util/getStringForProfileChange';
+import type { CapabilitiesType } from './textsecure/WebAPI';
+import type { ReadStatus } from './messages/MessageReadStatus';
+import type { SendStateByConversationId } from './messages/MessageSendState';
+import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
+
+import type { AttachmentDraftType, AttachmentType } from './types/Attachment';
+import type { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
-import { AvatarDataType } from './types/Avatar';
-import { UUIDStringType, UUIDKind } from './types/UUID';
-import { ReactionSource } from './reactions/ReactionSource';
+import type { AvatarDataType } from './types/Avatar';
+import type { UUIDStringType } from './types/UUID';
+import type { ReactionSource } from './reactions/ReactionSource';
+import type { SeenStatus } from './MessageSeenStatus';
+import type { GiftBadgeStates } from './components/conversation/Message';
+import type { LinkPreviewType } from './types/message/LinkPreviews';
+
+import type { StickerType } from './types/Stickers';
+import type { MIMEType } from './types/MIME';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
-import { SeenStatus } from './MessageSeenStatus';
-import { GiftBadgeStates } from './components/conversation/Message';
-import { LinkPreviewType } from './types/message/LinkPreviews';
-
-import type { ProcessedQuoteAttachment } from './textsecure/Types.d';
-import type { StickerType } from './types/Stickers';
-import { MIMEType } from './types/MIME';
 
 export type LastMessageStatus =
   | 'paused'
@@ -47,8 +44,6 @@ export type LastMessageStatus =
   | 'delivered'
   | 'read'
   | 'viewed';
-
-type TaskResultType = any;
 
 export type SenderKeyInfoType = {
   createdAtDate: number;
@@ -77,7 +72,7 @@ export type QuotedAttachment = {
 
 export type QuotedMessageType = {
   // TODO DESKTOP-3826
-  // eslint-disable-next-line no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attachments: Array<any>;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
@@ -121,6 +116,7 @@ export type MessageReactionType = {
   isSentByConversationId?: Record<string, boolean>;
 };
 
+/* eslint-disable camelcase */
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: BodyRangesType;
@@ -242,6 +238,7 @@ export type MessageAttributesType = {
   deletedForEveryoneSendStatus?: Record<string, boolean>;
   deletedForEveryoneFailed?: boolean;
 };
+/* eslint-enable camelcase */
 
 export type ConversationAttributesTypeType = 'private' | 'group';
 
@@ -255,6 +252,7 @@ export type ValidateConversationType = Pick<
   'e164' | 'uuid' | 'type' | 'groupId'
 >;
 
+/* eslint-disable camelcase */
 export type ConversationAttributesType = {
   accessKey?: string | null;
   addedBy?: string;
@@ -395,6 +393,7 @@ export type ConversationAttributesType = {
   //   up in that case).
   unblurredAvatarPath?: string;
 };
+/* eslint-enable camelcase */
 
 export type GroupV2MemberType = {
   uuid: UUIDStringType;

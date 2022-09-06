@@ -1,9 +1,9 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import UpdatedDelta from 'quill-delta';
-import { MentionCompletion } from './mentions/completion';
-import { EmojiCompletion } from './emoji/completion';
+import type UpdatedDelta from 'quill-delta';
+import type { MentionCompletion } from './mentions/completion';
+import type { EmojiCompletion } from './emoji/completion';
 
 declare module 'react-quill' {
   // `react-quill` uses a different but compatible version of Delta
@@ -31,6 +31,9 @@ declare module 'quill' {
 
   interface LeafBlot {
     text?: string;
+    // Quill doesn't make it easy to type this result.
+    // (It's probably doable, but not worth our time.)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value(): any;
   }
 
