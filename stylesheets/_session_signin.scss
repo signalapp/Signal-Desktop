@@ -162,7 +162,7 @@
       font-weight: bold;
       text-decoration: none;
 
-      color: rgba(var(--color-text), 0.6);
+      color: rgba(black, 0.6);
       transition: $session-transition-duration;
 
       &:visited &:link {
@@ -179,7 +179,7 @@
     padding-top: 0;
     padding-bottom: 20px;
 
-    color: rgba(var(--color-text), 0.6);
+    color: rgba(black, 0.6);
     text-align: center;
     font-size: 12px;
     line-height: 20px;

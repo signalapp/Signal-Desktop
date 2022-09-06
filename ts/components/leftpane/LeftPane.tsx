@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
+import { CSSProperties } from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
@@ -45,13 +46,18 @@ const LeftPaneSection = () => {
   return null;
 };
 
+export const leftPaneListWidth = 300;
+
 export const LeftPane = () => {
   return (
     <SessionTheme>
       <div className="module-left-pane-session">
         <ActionsPanel />
 
-        <div className="module-left-pane">
+        <div
+          className="module-left-pane"
+          style={{ '--left-pane-list-width': `${leftPaneListWidth}px` } as CSSProperties}
+        >
           <LeftPaneSection />
         </div>
       </div>

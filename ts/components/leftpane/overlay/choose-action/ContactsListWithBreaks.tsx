@@ -8,6 +8,7 @@ import {
   getDirectContactsByName,
   getDirectContactsCount,
 } from '../../../../state/selectors/conversations';
+import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
 import { ContactRow, ContactRowBreak } from './ContactRow';
 import { StyledChooseActionTitle } from './OverlayChooseAction';
@@ -97,7 +98,7 @@ const ContactListItemSection = () => {
               }
               directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}
-              width={300} // the same as session-left-pane-width
+              width={leftPaneListWidth}
               autoHeight={false}
             />
           );

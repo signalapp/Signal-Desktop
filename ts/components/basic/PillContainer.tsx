@@ -11,7 +11,6 @@ type PillContainerProps = {
 
 export const StyledPillContainerHoverable = styled.div<PillContainerProps>`
   background: none;
-
   position: relative;
   flex-direction: 'row';
   flex-shrink: 0;

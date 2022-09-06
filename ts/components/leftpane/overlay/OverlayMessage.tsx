@@ -53,7 +53,7 @@ export const OverlayMessage = () => {
       ConversationTypeEnum.PRIVATE
     );
 
-    // we now want to show a conversation we just started on the leftpane, even if we did not sent a message to it yet
+    // we now want to show a conversation we just started on the leftpane, even if we did not send a message to it yet
     if (!convo.isActive() || !convo.isApproved()) {
       convo.set({ active_at: Date.now(), isApproved: true });
       await convo.commit();
@@ -122,7 +122,7 @@ export const OverlayMessage = () => {
         justifyContent="space-between"
         alignItems="center"
         width="100%"
-        padding="0 var(--margins-md)  " // YourSessionIDSelectable already has a left margin of 15px
+        padding="0 var(--margins-md)" // YourSessionIDSelectable already has a left margin of 15px
       >
         <YourSessionIDSelectable />
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
