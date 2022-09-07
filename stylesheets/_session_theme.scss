@@ -69,6 +69,7 @@
 
       a {
         text-decoration: underline;
+        color: var(--color-received-message-text);
       }
     }
   }
@@ -76,6 +77,8 @@
   &__container--outgoing {
     .module-message__text {
       a {
+        color: var(--color-sent-message-text);
+
         text-decoration: underline;
       }
     }
