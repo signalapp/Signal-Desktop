@@ -133,6 +133,40 @@ function isScreenSource(source: PresentedSource): boolean {
   return source.id.startsWith('screen');
 }
 
+function truncateForLogging(name: string | undefined): string | undefined {
+  if (!name || name.length <= 4) {
+    return name;
+  }
+  return `${name.slice(0, 2)}...${name.slice(-2)}`;
+}
+
+function cleanForLogging(settings?: MediaDeviceSettings): unknown {
+  if (!settings) {
+    return settings;
+  }
+
+  return {
+    availableCameras: settings.availableCameras.map(camera => {
+      const { deviceId, kind, label, groupId } = camera;
+      return {
+        deviceId,
+        kind,
+        label: truncateForLogging(label),
+        groupId,
+      };
+    }),
+    availableMicrophones: settings.availableMicrophones.map(device => {
+      return truncateForLogging(device.name);
+    }),
+    availableSpeakers: settings.availableSpeakers.map(device => {
+      return truncateForLogging(device.name);
+    }),
+    selectedMicrophone: truncateForLogging(settings.selectedMicrophone?.name),
+    selectedSpeaker: truncateForLogging(settings.selectedSpeaker?.name),
+    selectedCamera: settings.selectedCamera,
+  };
+}
+
 function translateSourceName(
   i18n: LocalizerType,
   source: PresentedSource
@@ -1324,8 +1358,8 @@ export class CallingClass {
     ) {
       log.info(
         'MediaDevice: available devices changed (from->to)',
-        this.lastMediaDeviceSettings,
-        newSettings
+        cleanForLogging(this.lastMediaDeviceSettings),
+        cleanForLogging(newSettings)
       );
 
       await this.selectPreferredDevices(newSettings);
@@ -1398,13 +1432,21 @@ export class CallingClass {
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
-    log.info('MediaDevice: setPreferredMicrophone', device);
+    log.info(
+      'MediaDevice: setPreferredMicrophone',
+      device.index,
+      truncateForLogging(device.name)
+    );
     window.Events.setPreferredAudioInputDevice(device);
     RingRTC.setAudioInput(device.index);
   }
 
   setPreferredSpeaker(device: AudioDevice): void {
-    log.info('MediaDevice: setPreferredSpeaker', device);
+    log.info(
+      'MediaDevice: setPreferredSpeaker',
+      device.index,
+      truncateForLogging(device.name)
+    );
     window.Events.setPreferredAudioOutputDevice(device);
     RingRTC.setAudioOutput(device.index);
   }
@@ -1532,13 +1574,18 @@ export class CallingClass {
     if (settings.selectedMicrophone) {
       log.info(
         'MediaDevice: selecting microphone',
-        settings.selectedMicrophone
+        settings.selectedMicrophone.index,
+        truncateForLogging(settings.selectedMicrophone.name)
       );
       RingRTC.setAudioInput(settings.selectedMicrophone.index);
     }
 
     if (settings.selectedSpeaker) {
-      log.info('MediaDevice: selecting speaker', settings.selectedSpeaker);
+      log.info(
+        'MediaDevice: selecting speaker',
+        settings.selectedSpeaker.index,
+        truncateForLogging(settings.selectedSpeaker.name)
+      );
       RingRTC.setAudioOutput(settings.selectedSpeaker.index);
     }
   }
