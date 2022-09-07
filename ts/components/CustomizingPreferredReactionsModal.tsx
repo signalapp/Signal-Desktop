@@ -173,6 +173,11 @@ export function CustomizingPreferredReactionsModal({
           onClick={() => {
             resetDraftEmoji();
           }}
+          onKeyDown={event => {
+            if (event.key === 'Enter' || event.key === 'Space') {
+              resetDraftEmoji();
+            }
+          }}
           variant={ButtonVariant.SecondaryAffirmative}
         >
           {i18n('reset')}
@@ -181,6 +186,11 @@ export function CustomizingPreferredReactionsModal({
           disabled={!canSave}
           onClick={() => {
             savePreferredReactions();
+          }}
+          onKeyDown={event => {
+            if (event.key === 'Enter' || event.key === 'Space') {
+              savePreferredReactions();
+            }
           }}
         >
           {i18n('save')}

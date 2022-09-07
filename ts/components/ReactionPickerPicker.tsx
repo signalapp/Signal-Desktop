@@ -35,6 +35,13 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
       event.stopPropagation();
       onClick();
     }}
+    onKeyDown={event => {
+      if (event.key === 'Enter' || event.key === 'Space') {
+        event.stopPropagation();
+        event.preventDefault();
+        onClick();
+      }
+    }}
   >
     <Emoji size={48} emoji={emoji} title={title} />
   </button>
@@ -53,6 +60,13 @@ export const ReactionPickerPickerMoreButton = ({
     onClick={event => {
       event.stopPropagation();
       onClick();
+    }}
+    onKeyDown={event => {
+      if (event.key === 'Enter' || event.key === 'Space') {
+        event.stopPropagation();
+        event.preventDefault();
+        onClick();
+      }
     }}
     tabIndex={0}
     title={i18n('Reactions--more')}
