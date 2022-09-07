@@ -34,6 +34,9 @@ export const UploadStage: React.ComponentType = () => {
         setComplete(i => i + 1);
       };
       try {
+        if (!cover) {
+          throw new Error('UploadStage: Cover was missing on upload!');
+        }
         const packMeta = await encryptAndUpload(
           { title, author },
           orderedData,
