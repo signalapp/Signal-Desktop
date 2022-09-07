@@ -114,7 +114,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   align-items: center;
   width: 100%;
   letter-spacing: 0.03em;
-  padding: 5px var(--margins-lg) 0;
+  padding: var(--margins-xs) var(--margins-lg) 0;
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;

@@ -264,6 +264,8 @@ export type Attachment = {
   flags?: SignalService.AttachmentPointer.Flags;
   contentType?: MIME.MIMEType;
   size?: number;
+  width?: number;
+  height?: number;
   data: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 

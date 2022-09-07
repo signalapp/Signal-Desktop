@@ -26,7 +26,6 @@ import {
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
 import { AbortController } from 'abort-controller';
-import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -37,6 +36,7 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
 
   const { plainTextBuffer } = message;
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
+
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
   if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
     // this is a sync message, do not overwrite the message timestamp
@@ -288,25 +288,14 @@ export async function sendToOpenGroupV2(
     filesToLink,
   });
 
-  if (rawMessage.reaction) {
-    const msg = await sendSogsReactionOnionV4(
-      roomInfos.serverUrl,
-      roomInfos.roomId,
-      new AbortController().signal,
-      rawMessage.reaction,
-      blinded
-    );
-    return msg;
-  } else {
-    const msg = await sendSogsMessageOnionV4(
-      roomInfos.serverUrl,
-      roomInfos.roomId,
-      new AbortController().signal,
-      v2Message,
-      blinded
-    );
-    return msg;
-  }
+  const msg = await sendSogsMessageOnionV4(
+    roomInfos.serverUrl,
+    roomInfos.roomId,
+    new AbortController().signal,
+    v2Message,
+    blinded
+  );
+  return msg;
 }
 
 /**

@@ -88,6 +88,8 @@ export const Image = (props: Props) => {
       style={{
         maxHeight: `${height}px`,
         maxWidth: `${width}px`,
+        minHeight: `${height}px`,
+        minWidth: `${width}px`,
       }}
       data-attachmentindex={attachmentIndex}
     >
@@ -116,6 +118,8 @@ export const Image = (props: Props) => {
           style={{
             maxHeight: `${height}px`,
             maxWidth: `${width}px`,
+            minHeight: `${height}px`,
+            minWidth: `${width}px`,
             width: forceSquare ? `${width}px` : '',
             height: forceSquare ? `${height}px` : '',
           }}

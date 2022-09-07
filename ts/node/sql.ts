@@ -52,6 +52,7 @@ import {
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
+import { SettingsKey } from '../data/settings-key';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -420,6 +421,7 @@ function getConversationCount() {
 
 // tslint:disable-next-line: max-func-body-length
 // tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: max-func-body-length
 function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
   const formatted = assertValidConversationAttributes(data);
 
@@ -458,10 +460,13 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     conversationIdOrigin,
   } = formatted;
 
-  // shorten the last message as we never need more than 60 chars (and it bloats the redux/ipc calls uselessly
+  const maxLength = 300;
+  // shorten the last message as we never need more than `maxLength` chars (and it bloats the redux/ipc calls uselessly.
 
   const shortenedLastMessage =
-    isString(lastMessage) && lastMessage.length > 60 ? lastMessage.substring(60) : lastMessage;
+    isString(lastMessage) && lastMessage.length > maxLength
+      ? lastMessage.substring(0, maxLength)
+      : lastMessage;
   assertGlobalInstanceOrInstance(instance)
     .prepare(
       `INSERT OR REPLACE INTO ${CONVERSATIONS_TABLE} (
@@ -1090,7 +1095,7 @@ function getUnreadByConversation(conversationId: string) {
       conversationId,
     });
 
-  return rows;
+  return map(rows, row => jsonToObject(row.json));
 }
 
 function getUnreadCountByConversation(conversationId: string) {
@@ -2060,13 +2065,12 @@ function cleanUpOldOpengroupsOnStart() {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
-  const pruneSetting = getItemById('prune-setting')?.value;
+  let pruneSetting = getItemById(SettingsKey.settingsOpengroupPruning)?.value;
 
   if (pruneSetting === undefined) {
-    console.info(
-      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
-    );
-    return;
+    console.info('Prune settings is undefined (and not explicitely false), forcing it to true.');
+    createOrUpdateItem({ id: SettingsKey.settingsOpengroupPruning, value: true });
+    pruneSetting = true;
   }
 
   if (!pruneSetting) {
@@ -2080,12 +2084,19 @@ function cleanUpOldOpengroupsOnStart() {
     return;
   }
   console.info(`Count of v2 opengroup convos to clean: ${v2ConvosIds.length}`);
-
-  // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
-  // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
-  // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
-  // This is only for opengroups, and is because ALL the conversations are cached in the redux store. Having a very large number of conversations (unused) is deteriorating a lot the performance of the app.
-  // Another fix would be to not cache all the conversations in the redux store, but it ain't going to happen anytime soon as it would a pretty big change of the way we do things and would break a lot of the app.
+  // For each open group, if it has more than 2000 messages, we remove all the messages
+  // older than 6 months. So this does not limit the size of open group history to 2000
+  // messages but to 6 months.
+  //
+  // This is the only way we can clean up conversations objects from users which just
+  // sent messages a while ago and with whom we never interacted. This is only for open
+  // groups, and is because ALL the conversations are cached in the redux store. Having
+  // a very large number of conversations (unused) is causing the performance of the app
+  // to deteriorate a lot.
+  //
+  // Another fix would be to not cache all the conversations in the redux store, but it
+  // ain't going to happen any time soon as it would a pretty big change of the way we
+  // do things and would break a lot of the app.
   const maxMessagePerOpengroupConvo = 2000;
 
   // first remove very old messages for each opengroups

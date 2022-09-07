@@ -10,7 +10,7 @@ import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { sendMessageReaction } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
@@ -30,6 +30,7 @@ type Props = {
   dataTestId?: string;
   enableReactions: boolean;
 };
+// tslint:disable: use-simple-attributes
 
 const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
   display: flex;
@@ -66,17 +67,19 @@ export const MessageContentWithStatuses = (props: Props) => {
     const currentSelection = window.getSelection();
     const currentSelectionString = currentSelection?.toString() || undefined;
 
-    // if multiple word are selected, consider that this double click was actually NOT used to reply to
-    // but to select
-    if (
-      !currentSelectionString ||
-      currentSelectionString.length === 0 ||
-      !currentSelectionString.includes(' ')
-    ) {
-      void replyToMessage(messageId);
-      currentSelection?.empty();
-      e.preventDefault();
-      return;
+    if ((e.target as any).localName !== 'em-emoji-picker') {
+      if (
+        !currentSelectionString ||
+        currentSelectionString.length === 0 ||
+        !/\s/.test(currentSelectionString)
+      ) {
+        // if multiple word are selected, consider that this double click was actually NOT used to reply to
+        // but to select
+        void replyToMessage(messageId);
+        currentSelection?.empty();
+        e.preventDefault();
+        return;
+      }
     }
   };
 
@@ -90,7 +93,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   const [popupReaction, setPopupReaction] = useState('');
 
   const handleMessageReaction = async (emoji: string) => {
-    await sendMessageReaction(messageId, emoji);
+    await Reactions.sendMessageReaction(messageId, emoji);
   };
 
   const handlePopupClick = () => {

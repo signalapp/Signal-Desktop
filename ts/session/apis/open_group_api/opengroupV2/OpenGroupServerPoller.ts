@@ -36,6 +36,11 @@ export type OpenGroupMessageV4 = {
   reactions: Record<string, OpenGroupReaction>;
 };
 
+// seqno is not set for SOGS < 1.3.4
+export type OpenGroupReactionMessageV4 = Omit<OpenGroupMessageV4, 'seqno'> & {
+  seqno: number | undefined;
+};
+
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 
 export const invalidAuthRequiresBlinding =
@@ -312,12 +317,7 @@ export class OpenGroupServerPoller {
       }
 
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
-      await handleBatchPollResults(
-        this.serverUrl,
-        batchPollResults,
-        subrequestOptions,
-        this.roomIdsToPoll
-      );
+      await handleBatchPollResults(this.serverUrl, batchPollResults, subrequestOptions);
 
       if (this.serverUrl === defaultServer) {
         for (const room of subrequestOptions) {

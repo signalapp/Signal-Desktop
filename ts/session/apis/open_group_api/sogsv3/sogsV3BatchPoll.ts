@@ -8,6 +8,7 @@ import {
 import { addJsonContentTypeToHeaders } from './sogsV3SendMessage';
 import { AbortSignal } from 'abort-controller';
 import { roomHasBlindEnabled } from './sogsV3Capabilities';
+import { Reactions } from '../../../../util/reactions';
 
 type BatchFetchRequestOptions = {
   method: 'POST' | 'PUT' | 'GET' | 'DELETE';
@@ -238,10 +239,9 @@ const makeBatchRequestPayload = (
       if (options.messages) {
         return {
           method: 'GET',
-          // TODO Consistency across platforms with fetching reactors
           path: isNumber(options.messages.sinceSeqNo)
-            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r`
-            : `/room/${options.messages.roomId}/messages/recent`,
+            ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r&reactors=${Reactions.SOGSReactorsFetchCount}`
+            : `/room/${options.messages.roomId}/messages/recent?reactors=${Reactions.SOGSReactorsFetchCount}`,
         };
       }
       break;
@@ -282,12 +282,15 @@ const makeBatchRequestPayload = (
         method: 'POST',
         path: `/user/${sessionId}/moderator`,
 
+        // An admin has moderator permissions automatically, but removing his admin permissions only will keep him as a moderator.
+        // We do not want this currently. When removing an admin from Session Desktop we want to remove all his permissions server side.
+        // We'll need to build a complete dialog with options to make the whole admins/moderator/global/visible/hidden logic work as the server was built for.
         json: {
           rooms: [options.addRemoveModerators.roomId],
           global: false,
-          // moderator: isAddMod, // currently we only support adding/removing visible admins
           visible: true,
           admin: isAddMod,
+          moderator: isAddMod,
         },
       }));
     case 'banUnbanUser':

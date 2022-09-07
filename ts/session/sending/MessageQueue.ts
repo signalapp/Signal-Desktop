@@ -23,6 +23,8 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { AbortController } from 'abort-controller';
+import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -75,17 +77,24 @@ export class MessageQueue {
     // Skipping the queue for Open Groups v2; the message is sent directly
 
     try {
+      // NOTE Reactions are handled separately
+      if (message.reaction) {
+        await sendSogsReactionOnionV4(
+          roomInfos.serverUrl,
+          roomInfos.roomId,
+          new AbortController().signal,
+          message.reaction,
+          blinded
+        );
+        return;
+      }
+
       const result = await MessageSender.sendToOpenGroupV2(
         message,
         roomInfos,
         blinded,
         filesToLink
       );
-
-      // NOTE Reactions are handled in the MessageSender
-      if (message.reaction) {
-        return;
-      }
 
       const { sentTimestamp, serverId } = result as OpenGroupMessageV2;
       if (!serverId || serverId === -1) {

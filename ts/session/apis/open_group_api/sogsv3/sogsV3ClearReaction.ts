@@ -1,4 +1,6 @@
 import AbortController from 'abort-controller';
+import { OpenGroupReactionResponse } from '../../../../types/Reaction';
+import { Reactions } from '../../../../util/reactions';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import {
   batchFirstSubIsSuccess,
@@ -6,6 +8,12 @@ import {
   OpenGroupBatchRow,
   sogsBatchSend,
 } from './sogsV3BatchPoll';
+import {
+  addToMutationCache,
+  ChangeType,
+  SogsV3Mutation,
+  updateMutationCache,
+} from './sogsV3MutationCache';
 import { hasReactionSupport } from './sogsV3SendReaction';
 
 /**
@@ -18,15 +26,41 @@ export const clearSogsReactionByServerId = async (
   serverId: number,
   roomInfos: OpenGroupRequestCommonType
 ): Promise<boolean> => {
-  const canReact = await hasReactionSupport(serverId);
-  if (!canReact) {
+  const { supported, conversation } = await hasReactionSupport(serverId);
+  if (!supported) {
     return false;
   }
+
+  if (!conversation) {
+    window.log.warn(`Conversation for ${reaction} not found in db`);
+    return false;
+  }
+
+  const cacheEntry: SogsV3Mutation = {
+    server: roomInfos.serverUrl,
+    room: roomInfos.roomId,
+    changeType: ChangeType.REACTIONS,
+    seqno: null,
+    metadata: {
+      messageId: serverId,
+      emoji: reaction,
+      action: 'CLEAR',
+    },
+  };
+
+  addToMutationCache(cacheEntry);
+
+  // Since responses can take a long time we immediately update the moderators's UI and if there is a problem it is overwritten by handleOpenGroupMessageReactions later.
+  await Reactions.handleClearReaction(serverId, reaction);
 
   const options: Array<OpenGroupBatchRow> = [
     {
       type: 'deleteReaction',
-      deleteReaction: { reaction, messageId: serverId, roomId: roomInfos.roomId },
+      deleteReaction: {
+        reaction,
+        messageId: serverId,
+        roomId: roomInfos.roomId,
+      },
     },
   ];
   const result = await sogsBatchSend(
@@ -37,8 +71,22 @@ export const clearSogsReactionByServerId = async (
     'batch'
   );
 
+  if (!result) {
+    throw new Error('Could not deleteReaction, res is invalid');
+  }
+
+  const rawMessage = (result.body && (result.body[0].body as OpenGroupReactionResponse)) || null;
+  if (!rawMessage) {
+    throw new Error('deleteReaction parsing failed');
+  }
+
   try {
-    return batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result);
+    if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
+      updateMutationCache(cacheEntry, rawMessage.seqno);
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     window?.log?.error("clearSogsReactionByServerId Can't decode JSON body");
   }
