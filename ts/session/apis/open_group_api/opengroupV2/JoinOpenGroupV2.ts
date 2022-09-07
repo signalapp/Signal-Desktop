@@ -12,7 +12,7 @@ import {
   prefixify,
   publicKeyParam,
 } from '../utils/OpenGroupUtils';
-import { hasExistingOpenGroup } from './ApiUtil';
+import { defaultServer, hasExistingOpenGroup } from './ApiUtil';
 import { getOpenGroupManager } from './OpenGroupManagerV2';
 // tslint:disable: variable-name
 
@@ -154,17 +154,19 @@ export async function joinOpenGroupV2WithUIEvents(
 
     await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
-    // this is very hacky but is made so we wait for the poller to receive the first messages related to that room.
-    // once the poller added all the messages to the queue of jobs to be run, we still wait a bit for them to be processed.
-    // This won't age well, but I am not too sure how we can design better.
-    await waitForTask(done => {
-      const eventToWait = getEventSessionSogsFirstPoll(parsedRoom.roomId);
-      window.Whisper.events.on(eventToWait, async () => {
-        window.Whisper.events.off(eventToWait);
-        await sleepFor(5000);
-        done(0);
-      });
-    }, 25000);
+    if (parsedRoom.serverUrl === defaultServer) {
+      // this is very hacky but is made so we wait for the poller to receive the first messages related to that room.
+      // once the poller added all the messages to the queue of jobs to be run, we still wait a bit for them to be processed.
+      // This won't age well, but I am not too sure how we can design better.
+      await waitForTask(done => {
+        const eventToWait = getEventSessionSogsFirstPoll(parsedRoom.roomId);
+        window.Whisper.events.on(eventToWait, async () => {
+          window.Whisper.events.off(eventToWait);
+          await sleepFor(5000);
+          done(0);
+        });
+      }, 25000);
+    }
 
     const isConvoCreated = getConversationController().get(conversationID);
     if (isConvoCreated) {
