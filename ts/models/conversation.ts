@@ -1514,6 +1514,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     details: {
       admins?: Array<string>;
       image_id?: number;
+      name?: string;
       moderators?: Array<string>;
       hidden_admins?: Array<string>;
       hidden_moderators?: Array<string>;
@@ -1561,6 +1562,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       hiddenModsOrAdmins: details.hidden_moderators,
       type: 'mods',
     });
+
+    if (details.name && details.name !== this.getRealSessionUsername()) {
+      hasChange = hasChange || true;
+      this.setSessionDisplayNameNoCommit(details.name);
+    }
 
     hasChange = hasChange || modsChanged;
 
