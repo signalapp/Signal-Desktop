@@ -316,12 +316,7 @@ export class OpenGroupServerPoller {
       }
 
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
-      await handleBatchPollResults(
-        this.serverUrl,
-        batchPollResults,
-        subrequestOptions,
-        this.roomIdsToPoll
-      );
+      await handleBatchPollResults(this.serverUrl, batchPollResults, subrequestOptions);
     } catch (e) {
       window?.log?.warn('Got error while compact fetch:', e.message);
     } finally {

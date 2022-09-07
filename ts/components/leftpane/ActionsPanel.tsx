@@ -26,11 +26,7 @@ import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachm
 
 import { DURATION } from '../../session/constants';
 
-import {
-  editProfileModal,
-  onionPathModal,
-  updateConfirmModal,
-} from '../../state/ducks/modalDialog';
+import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from '../dialog/ModalContainer';
 import { debounce, isEmpty, isString } from 'lodash';
@@ -52,8 +48,6 @@ import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 import { ipcRenderer } from 'electron';
 import { UserUtils } from '../../session/utils';
 
-import { Storage } from '../../util/storage';
-import { SettingsKey } from '../../data/settings-key';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../session/utils/Theme';
 
@@ -209,8 +203,6 @@ const doAppStartUp = () => {
   void loadDefaultRooms();
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
-
-  void askEnablingOpengroupPruningIfNeeded();
 };
 
 const CallContainer = () => {
@@ -237,36 +229,6 @@ async function fetchReleaseFromFSAndUpdateMain() {
   } catch (e) {
     window.log.warn(e);
   }
-}
-
-async function askEnablingOpengroupPruningIfNeeded() {
-  if (Storage.get(SettingsKey.settingsOpengroupPruning) === undefined) {
-    const setSettingsAndCloseDialog = async (valueToSetPruningTo: boolean) => {
-      await window.setSettingValue(SettingsKey.settingsOpengroupPruning, valueToSetPruningTo);
-      await window.setOpengroupPruning(valueToSetPruningTo);
-      window.inboxStore?.dispatch(updateConfirmModal(null));
-    };
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        onClickOk: async () => {
-          await setSettingsAndCloseDialog(true);
-        },
-        onClickClose: async () => {
-          await setSettingsAndCloseDialog(false);
-        },
-        onClickCancel: async () => {
-          await setSettingsAndCloseDialog(false);
-        },
-        title: window.i18n('pruningOpengroupDialogTitle'),
-        message: window.i18n('pruningOpengroupDialogMessage'),
-        messageSub: window.i18n('pruningOpengroupDialogSubMessage'),
-        okText: window.i18n('enable'),
-        cancelText: window.i18n('keepDisabled'),
-      })
-    );
-    return;
-  }
-  // otherwise nothing to do. the settings is already on or off, but as expected by the user
 }
 
 /**

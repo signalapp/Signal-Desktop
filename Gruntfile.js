@@ -3,14 +3,6 @@
 module.exports = grunt => {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    exec: {
-      transpile: {
-        cmd: 'yarn transpile',
-      },
-      'build-protobuf': {
-        cmd: 'yarn build-protobuf',
-      },
-    },
     gitinfo: {}, // to be populated by grunt gitinfo
   });
 
@@ -45,5 +37,5 @@ module.exports = grunt => {
   });
 
   grunt.registerTask('date', ['gitinfo']);
-  grunt.registerTask('default', ['exec:build-protobuf', 'exec:transpile', 'date', 'getCommitHash']);
+  grunt.registerTask('default', ['date', 'getCommitHash']);
 };

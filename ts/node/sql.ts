@@ -52,6 +52,7 @@ import {
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
+import { SettingsKey } from '../data/settings-key';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -2064,13 +2065,12 @@ function cleanUpOldOpengroupsOnStart() {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
-  const pruneSetting = getItemById('prune-setting')?.value;
+  let pruneSetting = getItemById(SettingsKey.settingsOpengroupPruning)?.value;
 
   if (pruneSetting === undefined) {
-    console.info(
-      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
-    );
-    return;
+    console.info('Prune settings is undefined (and not explicitely false), forcing it to true.');
+    createOrUpdateItem({ id: SettingsKey.settingsOpengroupPruning, value: true });
+    pruneSetting = true;
   }
 
   if (!pruneSetting) {
