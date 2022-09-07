@@ -551,6 +551,10 @@
     "message": "مسودة محفوظة تحوي الصورة المرفقة : $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "لقد واجه الحاسوب تضاربًا في خدمة اكتشاف جهات الاتصال",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "‫لقد وقع البرنامج في خطأ يتعلق بفك التعمية انطلاقا من $name$، الجهاز $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "اِختر من يمكنه مشاهدة قصتك من معارف ‫Signal. يُمكنك تغيير هذا في إي وقت في إعدادات الخصوصية. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "حذف القصة",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "إزالة القصة؟ سَتتم إزالة القصة من لائحتك، لكن سَيبقى بإمكانك مشاهدة قِصص هذه المجموعة.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "مشاركة و إظهار القصص",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "إلغاء الكتم",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "المشاهدات غير مُشغلة",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "أُرسل $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "نسخ الطابع الزمني",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "فعّل الإيصالات المقروءة لترى من شاهد قِصصك. افتح تطبيق Signal على جهازك الجوّال وتوجّه إلى الإعدادات > الخصوصية.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "لا جواب حاليا",

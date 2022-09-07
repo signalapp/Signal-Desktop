@@ -551,6 +551,10 @@
     "message": "이미지 첨부 초안: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "데스크톱의 연락처 검색 서비스에서 일치하지 않는 부분을 발견했습니다.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "$deviceId$ 기기, $name$에서 데스크톱에 암호 해독 문제가 발생했습니다.",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "내 스토리를 볼 수 있는 Signal 커넥션을 선택하세요. 개인정보보호 설정에서 언제든지 변경할 수 있습니다. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "스토리 삭제",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "스토리를 제거할까요? 스토리는 목록에서 제거되지만 이 그룹의 스토리는 계속 볼 수 있습니다.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "스토리 공유 및 보기",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "알림 켜기",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "수신 확인 꺼짐",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "보낸 시간 $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "타임스탬프 복사",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "수신 확인을 활성화하여 내 스토리를 본 사람을 확인하세요. 모바일 기기에서 Signal 앱을 열고 설정 > 개인정보보호로 이동하세요.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "답장 없음",

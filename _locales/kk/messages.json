@@ -551,6 +551,10 @@
     "message": "Нобай сурет тіркемесі: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "Компьютерлік нұсқада Контактілерді табу қызметі бойынша әркелкілік анықталды.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Компьютер $name$, $deviceId$ құрылғысынан шифрлау қатесіне тап болды",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "Сторисіңізді Signal-дағы контактілердің қайсысы көре алатынын таңдаңыз. Ол тізімді құпиялылық параметрлерінен кез келген уақытта өзгертуге болады. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "Стористі жою",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Стористі өшіру керек пе? Сторис тізімнен өшіп қалады, бірақ бұл топтағы стористерді көре бересіз.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Стористерді бөлісу және көру",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "Дыбысын шығару",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "Кім көргенін білу функциясы өшірулі",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ рет жіберілді",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "Уақыт белгісін көшіру",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Оқылғаны туралы растаманы қосып, стористеріңізді кім көргенін біле аласыз. Мобильдік құрылғыңыздағы Signal қолданбасын ашып, \"Параметрлер > Құпиялылық\" бөліміне өтіңіз.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Ешкім жауап жазбаған",

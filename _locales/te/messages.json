@@ -551,6 +551,10 @@
     "message": "నకలుచిత్రం జోడింపు: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "కాంటాక్ట్ డిస్కవరీ సర్వీస్ అస్థిరత్వానికి డెస్క్‌టాప్ గురైంది.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "డెస్క్‌టాప్‌కు $name$, పరికరం $deviceId$ నుంచి ఒక డీక్రిప్సన్ దోషం ఏర్పడింది",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "మీ కథను ఏ Signal కనెక్షన్లు వీక్షించవచ్చు అనేది ఎంచుకోండి. మీరు దీనిని ఎప్పుడూ మీ గోప్యతా సెట్టింగ్‌లలో మార్చవచ్చు. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "కథను తొలగించండి",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "కథను తొలగించేదా? ఇది మీ జాబితా నుంచి కథను తొలగిస్తుంది, కానీ మీరు ఈ గ్రూప్ నుంచి కథలను ఇంకా వీక్షించగలుగుతారు.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "స్టోరీస్ చూడండి & పంచుకోండి",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "మ్యూట్ తీసివేయి",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "వీక్షణలు ఆఫ్ చేయబడ్డాయి",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ సార్లు పంపారు",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "టైమ్‌స్టాంప్ కాపీ చేయండి",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రీడ్ రిసిప్ట్‌లను ప్రారంభించండి. మీ మొబైల్ పరికరంపై Signal యాప్‌ను తెరవండి, సెట్టింగ్‌లు > గోప్యతకు వెళ్లండి.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ఇంకా ఎలాంటి రిప్లైలు లేవు",

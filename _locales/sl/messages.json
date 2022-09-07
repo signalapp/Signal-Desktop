@@ -551,6 +551,10 @@
     "message": "Osnutek slikovne priponke: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "Naleteli smo na nedoslednost storitve Odkrivanja stikov.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Prišlo je do napake pri dekripciji z uporabnikom_co $name$, naprava $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "Izberite, katere Signalove povezave si lahko ogledajo vašo Zgodbo. To lahko kadarkoli spremenite v nastavitvah zasebnosti. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "Izbriši zgodbo",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Želite odstraniti Zgodbo? To bo odstranilo Zgodbo s seznama, še vedno pa si boste lahko ogledovali Zgodbe iz te skupine.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Deljenje & Ogled Zgodb",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "Prekini utišanje",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "Ogledi so izklopljeni",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ poslanih",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "Kopiraj časovni žig",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Omogočite potrdila o branju, da vidite, kdo si je ogledal vaše Zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zasebnost.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Brez odgovorov",

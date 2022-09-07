@@ -551,6 +551,10 @@
     "message": "Нацрт прегледа прилога: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "Desktop je naišao na nedoslednost u servisu za otkrivanje kontakata.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Догодила се грешка дешифровања на Desktop од $name$, уређај $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "Birajte koje Signal veze mogu da vide vašu priču. Uvek to možete da promenite u podešavanjima privatnosti. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "Izbriši priču",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Želite li da uklonite priču? Ovim ćete ukloniti priču sa liste, ali i dalje ćete moći da vidite priče iz ove grupe.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Podelite i vidite priče",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "Обавести",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "Potvrde o čitanju su isključene",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "Poslato $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "Kopiraj vremensku oznaku",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Aktivirajte potvrde o čitanju da biste videli ko je video vaše priče. Otvorite aplikaciju Signal na mobilnom uređaju i idite na Podešavanja > Privatnost.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Без одговора",

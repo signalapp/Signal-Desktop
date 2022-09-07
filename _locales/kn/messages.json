@@ -551,6 +551,10 @@
     "message": "ಕರಡು ಇಮೇಜ್‌ ಲಗತ್ತು: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಕಾಂಟ್ಯಾಕ್ಟ್ ಅನ್ವೇಷಣಾ ಸೇವೆಯು ವ್ಯತ್ಯಯಗೊಂಡಿದೆ.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": " $name$, ಸಾಧನ $deviceId$ ದಿಂದ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿವರಣೆ ದೋಷಕ್ಕೆ ಒಳಗಾಗಿದೆ",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ನೀವು ಯಾವತ್ತೂ ಗೌಪ್ಯತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಲ್ಲಿ ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿ",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "ಸ್ಟೋರಿಯನ್ನು ತೆಗೆದುಹಾಕಬೇಕೇ? ಇದು ನಿಮ್ಮ ಪಟ್ಟಿಯಿಂದ ಸ್ಟೋರಿಯನ್ನು ತೆಗೆದುಹಾಕಲಿದೆ, ಆದರೆ ಈಗಲೂ ನೀವು ಈ ಗ್ರೂಪ್‍ನಿಂದ ಸ್ಟೋರೀಸ್ ಅನ್ನು ವೀಕ್ಷಿಸಬಹುದು.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ವೀಕ್ಷಿಸಿ",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಿ",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "ವೀಕ್ಷಣೆಗಳು ಆಫ್ ಆಗಿವೆ",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$ ",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "ಟೈಂಸ್ಟಾಂಪ್ ನಕಲಿಸಿ",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಯಾರು ವೀಕ್ಷಿಸಿದ್ದಾರೆ ಎಂದು ನೋಡಲು ಓದಿದ ರಸೀದಿಗಳು ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಗೌಪ್ಯತೆ ಎಂಬಲ್ಲಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ಇನ್ನೂ ಯಾವುದೇ ಉತ್ತರಗಳಿಲ್ಲ",

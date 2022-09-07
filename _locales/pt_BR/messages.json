@@ -551,6 +551,10 @@
     "message": "Rascunho de imagem anexa: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "O desktop encontrou uma inconsistência no Serviço de descoberta de contatos.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Signal encontrou um erro ao descriptografar uma mensagem de $name$, aparelho $deviceId$.",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "Escolha quais contatos do Signal podem ver o seu story. É possível mudar isso nas configurações de privacidade. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "Excluir story",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Quer remover o story? Esta ação removerá o story desta lista, mas você ainda poderá ver stories desse grupo.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Compartilhar e visualizar Stories",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "Ativar microfone",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "VIsualizações desativadas",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "Enviado à(s) $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copiar marcação horária",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Ative as confirmações de leitura para saber quem quem viu seus stories. Abra o app do Signal no seu dispositivo móvel e acesse Configurações > Privacidade.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Ainda não há respostas",

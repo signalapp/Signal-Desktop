@@ -551,6 +551,10 @@
     "message": "খসড়া চিত্র সংযুক্তি: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "ডেস্কটপ একটি কন্টাক্ট ডিসকভারি সার্ভিস সংক্রান্ত অসামঞ্জস্যতার সম্মুখীন হয়েছে।",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "$name$, ডিভাইস $deviceId$ থেকে ডেস্কটপ একটি ডিক্রিপশন ত্রুটির সম্মুখীন হয়েছে",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "কোন Signal কানেকশন আপনার স্টোরি দেখতে পাবেন তা নির্বাচন করুন৷ আপনি যেকোনো সময় গোপনীয়তা সেটিংস থেকে এটি পরিবর্তন করতে পারবেন। $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "স্টোরি মুছে ফেলুন",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "স্টোরি মুছে ফেলবেন? এটি আপনার তালিকা থেকে স্টোরিটি মুছে ফেলবে, তবে আপনি এখনও এই গ্রুপ থেকে স্টোরিটি দেখতে সক্ষম হবেন।",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "স্টোরি শেয়ার করুন এবং দেখুন",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "আনমিউট করুন",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "ভিউ বন্ধ",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ পাঠানো হয়েছে",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "টাইমস্ট্যাম্প কপি করুন",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "কে আপনার স্টোরি দেখেছেন তা দেখতে রিড রিসিপ্ট সচল করুন৷ আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > গোপনীয়তায় যান।",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "এখন পর্যন্ত কোন রিপ্লাই নেই",

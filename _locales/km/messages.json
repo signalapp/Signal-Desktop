@@ -551,6 +551,10 @@
     "message": "រូបភាពឯកសារភ្ជាប់ព្រាង៖ $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "កុំព្យូទ័រ​បានជួបបញ្ហានៃភាពមិនស៊ីសង្វាក់គ្នា​នៅក្នុង​សេវាស្វែងរកឈ្មោះទំនាក់ទំនង។",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "កុំព្យូទ័រលើតុបានជួបប្រទះបញ្ហាឌិគ្រីបពី $name$ ឧបករណ៍ $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "ជ្រើសរើសថាតើអ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ណាខ្លះដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន។ អ្នកអាចផ្លាស់ប្តូរវានៅក្នុងការកំណត់ឯកជនភាពបានជានិច្ច។ $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "លុបរឿងរ៉ាវ",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "ដករឿងរ៉ាវចេញឬ? ការធ្វើបែបនេះនឹងដករឿងរ៉ាវចេញពីបញ្ជីរបស់អ្នក ប៉ុន្តែអ្នកនៅតែអាចមើលរឿងរ៉ាវពីក្រុមនេះបាន។",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "បើកសំឡេង",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "បានបិទចំនួនមើល",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "បានផ្ញើ $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "ចម្លងត្រាពេលវេលា",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "បើកមុខងារអានសារដើម្បីមើលថានរណាខ្លះដែលបានមើលរឿងរ៉ាវរបស់អ្នក។ បើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព។",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "មិនទាន់មានការឆ្លើយតបទេ",

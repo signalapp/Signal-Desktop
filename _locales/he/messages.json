@@ -551,6 +551,10 @@
     "message": "טיוטה של צרופת תמונה: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "התוכנה נתקלה בחוסר עקביות בשירות זיהוי אנשי קשר.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "שולחן העבודה נתקל בשגיאת פיענוח מאת $name$, מכשיר $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -5559,6 +5563,14 @@
     "message": "אפשר לבחור אילו חברי Signal יכולים לראות את הסטורי שלך. תמיד אפשר לשנות את זה בהגדרות הפרטיות. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
+  "SendStoryModal__delete-story": {
+    "message": "מחיקת סטורי",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "להסיר את הסטורי? זה יסיר את הסטורי מהרשימה שלך, אבל עדיין תהיה לך אפשרות לראות סטוריז מקבוצה זו.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "שיתוף וצפיה בסטוריז",
     "description": "Select box title for the stories on/off toggle"
@@ -5591,6 +5603,10 @@
     "message": "בטל השתקה",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "אישורי קריאה מושבתים",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "נשלח $time$",
     "description": "Sent timestamp"
@@ -5602,6 +5618,10 @@
   "StoryDetailsModal__copy-timestamp": {
     "message": "העתקת חותמת זמן",
     "description": "Context menu item to help debugging"
+  },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "אפשר להפעיל אישורי קריאה כדי לראות מי צפה בסטוריז שלך. פותחים את אפליקציית Signal בנייד ומנווטים להגדרות > פרטיות.",
+    "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "אין תשובות עדין",
