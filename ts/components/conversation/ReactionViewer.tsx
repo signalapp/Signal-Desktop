@@ -193,6 +193,13 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   event.stopPropagation();
                   setSelectedReactionCategory(id);
                 }}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' || event.key === 'Space') {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    setSelectedReactionCategory(id);
+                  }
+                }}
               >
                 {isAll ? (
                   <span className="module-reaction-viewer__header__button__all">

@@ -495,9 +495,9 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public handleFocus = (): void => {
-    const { interactionMode } = this.props;
+    const { interactionMode, isSelected } = this.props;
 
-    if (interactionMode === 'keyboard') {
+    if (interactionMode === 'keyboard' && !isSelected) {
       this.setSelected();
     }
   };
@@ -1979,32 +1979,30 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
-            <StopPropagation>
-              <Popper
-                placement="top"
-                modifiers={[
-                  offsetDistanceModifier(4),
-                  this.popperPreventOverflowModifier(),
-                ]}
-              >
-                {({ ref, style }) =>
-                  renderReactionPicker({
-                    ref,
-                    style,
-                    selected: selectedReaction,
-                    onClose: this.toggleReactionPicker,
-                    onPick: emoji => {
-                      this.toggleReactionPicker(true);
-                      reactToMessage(id, {
-                        emoji,
-                        remove: emoji === selectedReaction,
-                      });
-                    },
-                    renderEmojiPicker,
-                  })
-                }
-              </Popper>
-            </StopPropagation>,
+            <Popper
+              placement="top"
+              modifiers={[
+                offsetDistanceModifier(4),
+                this.popperPreventOverflowModifier(),
+              ]}
+            >
+              {({ ref, style }) =>
+                renderReactionPicker({
+                  ref,
+                  style,
+                  selected: selectedReaction,
+                  onClose: this.toggleReactionPicker,
+                  onPick: emoji => {
+                    this.toggleReactionPicker(true);
+                    reactToMessage(id, {
+                      emoji,
+                      remove: emoji === selectedReaction,
+                    });
+                  },
+                  renderEmojiPicker,
+                })
+              }
+            </Popper>,
             reactionPickerRoot
           )}
       </Manager>
@@ -2613,28 +2611,26 @@ export class Message extends React.PureComponent<Props, State> {
         </Reference>
         {reactionViewerRoot &&
           createPortal(
-            <StopPropagation>
-              <Popper
-                placement={popperPlacement}
-                strategy="fixed"
-                modifiers={[this.popperPreventOverflowModifier()]}
-              >
-                {({ ref, style }) => (
-                  <ReactionViewer
-                    ref={ref}
-                    style={{
-                      ...style,
-                      zIndex: 2,
-                    }}
-                    getPreferredBadge={getPreferredBadge}
-                    reactions={reactions}
-                    i18n={i18n}
-                    onClose={this.toggleReactionViewer}
-                    theme={theme}
-                  />
-                )}
-              </Popper>
-            </StopPropagation>,
+            <Popper
+              placement={popperPlacement}
+              strategy="fixed"
+              modifiers={[this.popperPreventOverflowModifier()]}
+            >
+              {({ ref, style }) => (
+                <ReactionViewer
+                  ref={ref}
+                  style={{
+                    ...style,
+                    zIndex: 2,
+                  }}
+                  getPreferredBadge={getPreferredBadge}
+                  reactions={reactions}
+                  i18n={i18n}
+                  onClose={this.toggleReactionViewer}
+                  theme={theme}
+                />
+              )}
+            </Popper>,
             reactionViewerRoot
           )}
       </Manager>

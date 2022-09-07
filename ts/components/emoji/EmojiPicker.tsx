@@ -89,8 +89,14 @@ export const EmojiPicker = React.memo(
       const [selectedTone, setSelectedTone] = React.useState(skinTone);
 
       const handleToggleSearch = React.useCallback(
-        (e: React.MouseEvent) => {
+        (
+          e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLButtonElement>
+        ) => {
           e.stopPropagation();
+          e.preventDefault();
+
           setSearchText('');
           setSelectedCategory(categories[0]);
           setSearchMode(m => !m);
@@ -115,7 +121,11 @@ export const EmojiPicker = React.memo(
       );
 
       const handlePickTone = React.useCallback(
-        (e: React.MouseEvent<HTMLButtonElement>) => {
+        (
+          e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLButtonElement>
+        ) => {
           e.preventDefault();
           e.stopPropagation();
 
@@ -135,19 +145,24 @@ export const EmojiPicker = React.memo(
             | React.MouseEvent<HTMLButtonElement>
             | React.KeyboardEvent<HTMLButtonElement>
         ) => {
+          const { shortName } = e.currentTarget.dataset;
           if ('key' in e) {
-            if (e.key === 'Enter' && doSend) {
-              e.stopPropagation();
-              e.preventDefault();
-              doSend();
+            if (e.key === 'Enter') {
+              if (doSend) {
+                doSend();
+                e.stopPropagation();
+                e.preventDefault();
+              }
+              if (shortName) {
+                onPickEmoji({ skinTone: selectedTone, shortName });
+                e.stopPropagation();
+                e.preventDefault();
+              }
             }
-          } else {
-            const { shortName } = e.currentTarget.dataset;
-            if (shortName) {
-              e.stopPropagation();
-              e.preventDefault();
-              onPickEmoji({ skinTone: selectedTone, shortName });
-            }
+          } else if (shortName) {
+            e.stopPropagation();
+            e.preventDefault();
+            onPickEmoji({ skinTone: selectedTone, shortName });
           }
         },
         [doSend, onPickEmoji, selectedTone]
@@ -158,14 +173,16 @@ export const EmojiPicker = React.memo(
         const handler = (event: KeyboardEvent) => {
           if (event.key === 'Escape') {
             if (searchMode) {
+              event.preventDefault();
+              event.stopPropagation();
               setScrollToRow(0);
               setSearchText('');
               setSearchMode(false);
-            } else {
-              onClose?.();
+            } else if (onClose) {
+              event.preventDefault();
+              event.stopPropagation();
+              onClose();
             }
-            event.preventDefault();
-            event.stopPropagation();
           } else if (!searchMode && !event.ctrlKey && !event.metaKey) {
             if (
               [
@@ -251,8 +268,14 @@ export const EmojiPicker = React.memo(
       );
 
       const handleSelectCategory = React.useCallback(
-        (e: React.MouseEvent<HTMLButtonElement>) => {
+        (
+          e:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLButtonElement>
+        ) => {
           e.stopPropagation();
+          e.preventDefault();
+
           const { category } = e.currentTarget.dataset;
           if (category) {
             setSelectedCategory(category);
@@ -326,6 +349,11 @@ export const EmojiPicker = React.memo(
               <button
                 type="button"
                 onClick={handleToggleSearch}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' || event.key === 'Select') {
+                    handleToggleSearch(event);
+                  }
+                }}
                 title={i18n('EmojiPicker--search-placeholder')}
                 className={classNames(
                   'module-emoji-picker__button',
@@ -354,6 +382,11 @@ export const EmojiPicker = React.memo(
                       data-category={cat}
                       title={cat}
                       onClick={handleSelectCategory}
+                      onKeyDown={event => {
+                        if (event.key === 'Enter' || event.key === 'Space') {
+                          handleSelectCategory(event);
+                        }
+                      }}
                       className={classNames(
                         'module-emoji-picker__button',
                         'module-emoji-picker__button--icon',
@@ -412,7 +445,25 @@ export const EmojiPicker = React.memo(
                 <button
                   aria-label={i18n('CustomizingPreferredReactions__title')}
                   className="module-emoji-picker__button module-emoji-picker__button--footer module-emoji-picker__button--settings"
-                  onClick={onClickSettings}
+                  onClick={event => {
+                    if (onClickSettings) {
+                      event.preventDefault();
+                      event.stopPropagation();
+
+                      onClickSettings();
+                    }
+                  }}
+                  onKeyDown={event => {
+                    if (
+                      onClickSettings &&
+                      (event.key === 'Enter' || event.key === 'Space')
+                    ) {
+                      event.preventDefault();
+                      event.stopPropagation();
+
+                      onClickSettings();
+                    }
+                  }}
                   title={i18n('CustomizingPreferredReactions__title')}
                   type="button"
                 />
@@ -425,6 +476,11 @@ export const EmojiPicker = React.memo(
                       key={tone}
                       data-tone={tone}
                       onClick={handlePickTone}
+                      onKeyDown={event => {
+                        if (event.key === 'Enter' || event.key === 'Space') {
+                          handlePickTone(event);
+                        }
+                      }}
                       title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
                       className={classNames(
                         'module-emoji-picker__button',

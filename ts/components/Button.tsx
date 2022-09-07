@@ -1,7 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  ReactNode,
+} from 'react';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -48,6 +53,8 @@ type PropsType = {
 } & (
   | {
       onClick: MouseEventHandler<HTMLButtonElement>;
+      // TODO: DESKTOP-4121
+      onKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
     }
   | {
       type: 'submit';
