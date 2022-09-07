@@ -227,6 +227,7 @@ export type SetLocalVideoType = {
 export type SetGroupCallVideoRequestType = {
   conversationId: string;
   resolutions: Array<GroupCallVideoRequest>;
+  speakerHeight: number;
 };
 
 export type StartCallingLobbyType = {
@@ -1146,7 +1147,8 @@ function setGroupCallVideoRequest(
         // The `framerate` property in RingRTC has to be set, even if it's set to
         //   `undefined`.
         framerate: undefined,
-      }))
+      })),
+      payload.speakerHeight
     );
   };
 }

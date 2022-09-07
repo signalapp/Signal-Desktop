@@ -76,7 +76,10 @@ export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
+  setGroupCallVideoRequest: (
+    _: Array<GroupCallVideoRequest>,
+    speakerHeight: number
+  ) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
@@ -124,11 +127,13 @@ export const CallingPipRemoteVideo = ({
             };
           }
           return nonRenderedRemoteParticipant(participant);
-        })
+        }),
+        PIP_VIDEO_HEIGHT_PX
       );
     } else {
       setGroupCallVideoRequest(
-        activeCall.remoteParticipants.map(nonRenderedRemoteParticipant)
+        activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
+        0
       );
     }
   }, [

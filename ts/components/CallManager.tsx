@@ -178,10 +178,11 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   );
 
   const setGroupCallVideoRequestForConversation = useCallback(
-    (resolutions: Array<GroupCallVideoRequest>) => {
+    (resolutions: Array<GroupCallVideoRequest>, speakerHeight: number) => {
       setGroupCallVideoRequest({
         conversationId: conversation.id,
         resolutions,
+        speakerHeight,
       });
     },
     [setGroupCallVideoRequest, conversation.id]

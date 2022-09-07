@@ -56,7 +56,10 @@ export type PropsType = {
   joinedAt?: number;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
-  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
+  setGroupCallVideoRequest: (
+    _: Array<GroupCallVideoRequest>,
+    speakerHeight: number
+  ) => void;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;

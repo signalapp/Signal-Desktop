@@ -54,7 +54,10 @@ export type PropsType = {
   hangUpActiveCall: (reason: string) => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
-  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
+  setGroupCallVideoRequest: (
+    _: Array<GroupCallVideoRequest>,
+    speakerHeight: number
+  ) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   switchToPresentationView: () => void;

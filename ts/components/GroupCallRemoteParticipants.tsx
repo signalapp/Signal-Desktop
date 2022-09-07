@@ -48,7 +48,10 @@ type PropsType = {
   i18n: LocalizerType;
   isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
-  setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
+  setGroupCallVideoRequest: (
+    _: Array<GroupCallVideoRequest>,
+    speakerHeight: number
+  ) => void;
   remoteAudioLevels: Map<number, number>;
 };
 
@@ -377,7 +380,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         break;
     }
 
-    setGroupCallVideoRequest(videoRequest);
+    setGroupCallVideoRequest(videoRequest, gridParticipantHeight);
   }, [
     devicePixelRatio,
     gridParticipantHeight,
