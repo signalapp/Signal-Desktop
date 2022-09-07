@@ -26,6 +26,7 @@ import {
   pick,
 } from 'lodash';
 
+import * as Errors from '../types/errors';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { GroupV2MemberType } from '../model-types.d';
 import type { ReactionType } from '../types/Reactions';
@@ -3405,10 +3406,10 @@ async function getNextAttachmentDownloadJobs(
   const timestamp =
     options && options.timestamp ? options.timestamp : Date.now();
 
-  const rows: JSONRows = db
+  const rows: Array<{ json: string; id: string }> = db
     .prepare<Query>(
       `
-      SELECT json
+      SELECT id, json
       FROM attachment_downloads
       WHERE pending = 0 AND timestamp <= $timestamp
       ORDER BY timestamp DESC
@@ -3420,7 +3421,27 @@ async function getNextAttachmentDownloadJobs(
       timestamp,
     });
 
-  return rows.map(row => jsonToObject(row.json));
+  const INNER_ERROR = 'jsonToObject error';
+  try {
+    return rows.map(row => {
+      try {
+        return jsonToObject(row.json);
+      } catch (error) {
+        logger.error(
+          `getNextAttachmentDownloadJobs: Error with job '${row.id}', deleting. ` +
+            `JSON: '${row.json}' ` +
+            `Error: ${Errors.toLogFormat(error)}`
+        );
+        removeAttachmentDownloadJobSync(row.id);
+        throw new Error(INNER_ERROR);
+      }
+    });
+  } catch (error) {
+    if ('message' in error && error.message === INNER_ERROR) {
+      return getNextAttachmentDownloadJobs(limit, { timestamp });
+    }
+    throw error;
+  }
 }
 async function saveAttachmentDownloadJob(
   job: AttachmentDownloadJobType
@@ -3480,8 +3501,11 @@ async function resetAttachmentDownloadPending(): Promise<void> {
     `
   ).run();
 }
-async function removeAttachmentDownloadJob(id: string): Promise<void> {
+function removeAttachmentDownloadJobSync(id: string): void {
   return removeById(getInstance(), ATTACHMENT_DOWNLOADS_TABLE, id);
+}
+async function removeAttachmentDownloadJob(id: string): Promise<void> {
+  return removeAttachmentDownloadJobSync(id);
 }
 async function removeAllAttachmentDownloadJobs(): Promise<void> {
   return removeAllFromTable(getInstance(), ATTACHMENT_DOWNLOADS_TABLE);
