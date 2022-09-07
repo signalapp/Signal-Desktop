@@ -29,7 +29,7 @@ export type PackMetaData = { packId: string; key: string };
 export type EncryptAndUploadFn = (
   manifest: { title: string; author: string },
   stickers: Array<StickerData>,
-  cover: StickerImageData | undefined,
+  cover: StickerImageData,
   onProgress?: () => unknown
 ) => Promise<PackMetaData>;
 

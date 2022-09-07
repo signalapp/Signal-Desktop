@@ -167,11 +167,6 @@ window.encryptAndUpload = async (
     useWebSocket: false,
   });
 
-  const uniqueStickers = uniqBy(
-    [...stickers, { imageData: cover }],
-    'imageData'
-  );
-
   const manifestProto = new Proto.StickerPack();
   manifestProto.title = manifest.title;
   manifestProto.author = manifest.author;
@@ -185,7 +180,14 @@ window.encryptAndUpload = async (
     return s;
   });
 
-  const coverStickerId = 0;
+  const uniqueStickers = uniqBy(
+    [...stickers, { imageData: cover }],
+    'imageData'
+  );
+  const coverStickerIndex = uniqueStickers.findIndex(
+    item => item.imageData?.src === cover.src
+  );
+  const coverStickerId = coverStickerIndex >= 0 ? coverStickerIndex : 0;
   const coverStickerData = stickers[coverStickerId];
 
   if (!coverStickerData) {
