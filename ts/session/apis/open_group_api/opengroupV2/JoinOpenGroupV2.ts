@@ -134,6 +134,10 @@ export async function joinOpenGroupV2WithUIEvents(
     const alreadyExist = hasExistingOpenGroup(parsedRoom.serverUrl, parsedRoom.roomId);
     const conversationID = getOpenGroupV2ConversationId(parsedRoom.serverUrl, parsedRoom.roomId);
     if (alreadyExist || getConversationController().get(conversationID)) {
+      const existingConvo = getConversationController().get(conversationID);
+      await existingConvo.setDidApproveMe(true, false);
+      await existingConvo.setIsApproved(true, false);
+      await existingConvo.commit();
       if (showToasts) {
         ToastUtils.pushToastError('publicChatExists', window.i18n('publicChatExists'));
       }
