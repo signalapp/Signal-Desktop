@@ -56,6 +56,8 @@ async function uploadToFileServer(params: UploadParams): Promise<AttachmentPoint
     fileName: attachment.fileName,
     flags: attachment.flags,
     caption: attachment.caption,
+    width: attachment.width,
+    height: attachment.height,
   };
 
   let attachmentData: ArrayBuffer;

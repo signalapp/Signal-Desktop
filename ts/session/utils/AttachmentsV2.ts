@@ -36,6 +36,8 @@ async function uploadV3(params: UploadParamsV2): Promise<AttachmentPointerWithUr
     fileName: attachment.fileName,
     flags: attachment.flags,
     caption: attachment.caption,
+    width: attachment.width && isFinite(attachment.width) ? attachment.width : undefined,
+    height: attachment.height && isFinite(attachment.height) ? attachment.height : undefined,
   };
 
   const paddedAttachment: ArrayBuffer = !openGroup
