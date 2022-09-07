@@ -343,6 +343,11 @@ export function toAccountRecord(
     accountRecord.keepMutedChatsArchived = keepMutedChatsArchived;
   }
 
+  const hasSetMyStoriesPrivacy = window.storage.get('hasSetMyStoriesPrivacy');
+  if (hasSetMyStoriesPrivacy !== undefined) {
+    accountRecord.hasSetMyStoriesPrivacy = hasSetMyStoriesPrivacy;
+  }
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -1024,6 +1029,7 @@ export async function mergeAccountRecord(
     subscriberCurrencyCode,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
+    hasSetMyStoriesPrivacy,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1216,6 +1222,7 @@ export async function mergeAccountRecord(
   }
   window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
   window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
+  window.storage.put('hasSetMyStoriesPrivacy', Boolean(hasSetMyStoriesPrivacy));
 
   const ourID = window.ConversationController.getOurConversationId();
 

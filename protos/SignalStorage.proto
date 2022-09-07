@@ -152,6 +152,7 @@ message AccountRecord {
   optional string                 subscriberCurrencyCode       = 22;
   optional bool                   displayBadgesOnProfile       = 23;
   optional bool                   keepMutedChatsArchived       = 25;
+  optional bool                   hasSetMyStoriesPrivacy       = 26;
 }
 
 message StoryDistributionListRecord {
