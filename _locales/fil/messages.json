@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "Ang desktop ay naka-encounter ng isang Contact Discovery Service inconsistency.",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "I-delete ang story",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "Gusto mo bang tanggalin ang story na ito? Matatanggal ang story mula sa list na ito. Pero pwede ka pa ring mag-view ng stories mula sa group na ito.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "Pag-share at Pag-view ng Stories",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "I-unmute",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "Naka-disable ang views",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "Pinadala noong $time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "Copy timestamp",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "I-enable ang read receipts para makita kung sinong nag-view ng stories mo. Buksan ang Signal app sa iyong mobile device at pumunta sa Settings > Privacy.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Wala pang replies",

@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "Desktopi hasi një mospërputhje në Shërbimin e Zbulimit të Kontaktit",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "Desktopi ndeshi nëj gabim shfshehtëzimi prej $name$, pajisja $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "Fshij postimin e përkohshëm",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "Të hiqet postimi i përkohshëm? Kjo do të heqë postimin e përkohshëm nga lista jote, por ti do të mund t'i shohësh postimet e përkohshme të këtij grupi.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "Shpërndaj dhe shiko postimet e përkohshme ",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "Çheshtoji",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "Shikimet u çaktivizuan",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "Dërguar $time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "Kopjo vulën kohore",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "Aktivizo leximin e mesazheve për të parë se kush i ka parë postimet e tua të përkohshme. Hap aplikacionin e Signal në celularin tënd dhe shko te Parametrat > Privatësia.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Ende pa përgjigje",

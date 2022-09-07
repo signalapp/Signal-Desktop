@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "ஒரு தொடர்பு கண்டறிதல் சேவையின் சீரற்ற தன்மையில் டெஸ்க்டாப் இயங்கியது.",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "டெஸ்க்டாப்பில் $name$ , சாதனம் $deviceId$- இருந்து மறைகுறியாக்கப் பிழை ஏற்பட்டது",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "ஸ்டோரியை நீக்கவும்",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "ஸ்டோரியை அகற்றுவதா? இது உங்கள் பட்டியலிலிருந்து ஸ்டோரியை அகற்றும், ஆனால் இந்தக் குழுவிலுள்ள ஸ்டோரீக்களை உங்களால் இன்னும் பார்க்க முடியும்.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "ஒலியடக்கை நீக்கு",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "பார்வைகள் முடக்கப்பட்டுள்ளன",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "$time$ அனுப்பப்பட்டது ",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "நேர முத்திரையை நகலெடுக்கவும்",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "உங்கள் ஸ்டோரீக்களை யார் பார்த்தார்கள் என்பதைப் பார்க்க வாசித்ததற்கான அறிவிப்புகளை இயக்கவும். உங்கள் மொபைல் சாதனத்தில் சிக்னல் ஆப்பைத் திறந்து, அமைப்புகள் > தனியுரிமை என்பதற்குச் செல்லவும்.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "இன்னும் பதில்கள் ஏதுமில்லை",

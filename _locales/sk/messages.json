@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "Desktop zistil nekonzistentnosť služby zisťovania kontaktov.",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "Signal Desktop narazil na chybu dešifrovania z $name$, zariadenie $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "Vymazať príbeh",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "Odstrániť príbeh? Týmto sa príbeh odstráni zo zoznamu. Naďalej si však budete môcť prezerať príbehy zverejnené v tejto skupine.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "Zdieľať a zobraziť príbehy",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "Zapnúť zvuky",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "Pozretia vypnuté",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "Odoslané$time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "Kopírovať časovú pečiatku",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "Povoľte potvrdenia o prečítaní, aby ste zistili, kto si prezeral vaše príbehy. Otvorte na svojom mobilnom zariadení aplikáciu Signal a prejdite na Nastavenia > Súkromie.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Zatiaľ žiadne odpovede",

@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "ഡെസ്‌ക്‌ടോപ്പ് ഒരു കോൺടാക്റ്റ് കണ്ടെത്തൽ സേവന പൊരുത്തക്കേട്  നേരിട്ടു.",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "ഡെസ്‌ക്‌ടോപ്പ്  $name$,  $deviceId$ എന്ന ഉപകരണത്തിൽ നിന്ന് ഒരു ഡിക്രിപ്‌ഷൻ പിശക് നേരിട്ടു.",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "സ്റ്റോറി ഇല്ലാതാക്കുക",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "സ്റ്റോറി നീക്കം ചെയ്യണോ? ഇത് നിങ്ങളുടെ ലിസ്റ്റിൽ നിന്ന് സ്റ്റോറി നീക്കം ചെയ്യും, എന്നാൽ നിങ്ങൾക്ക് തുടർന്നും ഈ ഗ്രൂപ്പിൽ നിന്നുള്ള സ്റ്റോറികൾ കാണാൻ കഴിയും.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "ശബ്‌ദിപ്പിക്കുക",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "കാഴ്ച്ചകൾ ഓഫാണ്",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "അയച്ചു $time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "ടൈംസ്റ്റാമ്പ് പകർത്തുക",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "നിങ്ങളുടെ സ്റ്റോറികൾ ആരാണ് കണ്ടതെന്ന് കാണാൻ, വായിച്ചതിനുള്ള സ്ഥിരീകരണം പ്രവർത്തനസജ്ജമാക്കുക. നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ഇതുവരെ മറുപടികളൊന്നുമില്ല",

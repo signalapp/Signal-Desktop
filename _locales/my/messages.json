@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "Desktop တွင် အဆက်အသွယ် ရှာဖွေရေး ဝန်ဆောင်မှု မညီညွတ်ခြင်းဖြစ်ပေါ်နေသည်။",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "Desktop သည် $name$ ၊ စက် $deviceId$ မှ ကုဒ်ဖြေရာတွင် ချို့ယွင်းချက် ဖြစ်ပေါ်ခဲ့ပါသည်",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "စတိုရီ ဖျက်ရန်",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "စတိုရီကို ဖယ်ရှားမည်လား။ ၎င်းသည် သင့်စာရင်းမှ စတိုရီကို ဖယ်ရှားသွားမည် ဖြစ်သော်လည်း သင်သည် ဤအဖွဲ့မှ စတိုရီများကို ဆက်လက်ကြည့်ရှုနိုင်ပါမည်။",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "အသံပြန်ဖွင့်မယ်",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "ကြည့်ရှုမှုများကို ပိတ်ထားပါသည်",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "ပေးပို့ပြီး $time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "Timestamp ကူးရန်",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "သင်စတိုရီများအား ကြည့်ရှုခဲ့သူများကို ကြည့်ရန် ဖတ်ပြီးကြောင်းညွှန်ပြမှုကို ဖွင့်ပါ။ သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > ကိုယ်ပိုင်အချက်အလက်သို့ သွားပါ။",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "ပြန်စာများ မရှိသေးပါ",

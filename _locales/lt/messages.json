@@ -649,6 +649,10 @@
             }
         }
     },
+    "cdsMirroringErrorToast": {
+        "message": "Susidūrėme su Kontaktų ieškojimo paslaugos nenuoseklumu.",
+        "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+    },
     "decryptionErrorToast": {
         "message": "Signal Desktop susidūrė su iššifravimo klaida nuo $name$, įrenginio $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
@@ -7465,6 +7469,14 @@
             }
         }
     },
+    "SendStoryModal__delete-story": {
+        "message": "Ištrinti istoriją",
+        "description": "Button label to delete a story"
+    },
+    "SendStoryModal__confirm-remove-group": {
+        "message": "Pašalinti istoriją? Istorija bus pašalinta iš tavo sąrašo, bet tu vis dar galėsi žiūrėti šios grupės istorijas.",
+        "description": "Confirmation body for removing a group story"
+    },
     "Stories__settings-toggle--title": {
         "message": "Dalintis ir žiūrėti istorijas",
         "description": "Select box title for the stories on/off toggle"
@@ -7497,6 +7509,10 @@
         "message": "Įjungti pranešimus",
         "description": "Aria label for unmuting stories"
     },
+    "StoryViewer__views-off": {
+        "message": "Peržiūros išjungtos",
+        "description": "When the user has read receipts turned off"
+    },
     "StoryDetailsModal__sent-time": {
         "message": "Nusiųsta $time$",
         "description": "Sent timestamp",
@@ -7520,6 +7536,10 @@
     "StoryDetailsModal__copy-timestamp": {
         "message": "Kopijuoti laiko žymą",
         "description": "Context menu item to help debugging"
+    },
+    "StoryViewsNRepliesModal__read-receipts-off": {
+        "message": "Įjunk perskaitymo pranešimus, kad matytum, kas peržiūrėjo tavo istorijas. Atidaryk „Signal“ savo mobiliajame įrenginyje, eik į Nustatymus ir pasirink Privatumą.",
+        "description": "Instructions on how to enable read receipts"
     },
     "StoryViewsNRepliesModal__no-replies": {
         "message": "Atsakymų kol kas nėra",
