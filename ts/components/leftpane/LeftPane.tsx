@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
-import { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
@@ -11,6 +11,11 @@ import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
+
+export const leftPaneListWidth = 300;
+const StyledLeftPane = styled.div`
+  width: ${leftPaneListWidth}px;
+`;
 
 const InnerLeftPaneMessageSection = () => {
   const showSearch = useSelector(isSearching);
@@ -46,20 +51,15 @@ const LeftPaneSection = () => {
   return null;
 };
 
-export const leftPaneListWidth = 300;
-
 export const LeftPane = () => {
   return (
     <SessionTheme>
       <div className="module-left-pane-session">
         <ActionsPanel />
 
-        <div
-          className="module-left-pane"
-          style={{ '--left-pane-list-width': `${leftPaneListWidth}px` } as CSSProperties}
-        >
+        <StyledLeftPane className="module-left-pane">
           <LeftPaneSection />
-        </div>
+        </StyledLeftPane>
       </div>
     </SessionTheme>
   );

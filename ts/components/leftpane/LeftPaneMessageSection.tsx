@@ -42,6 +42,13 @@ const StyledConversationListContent = styled.div`
   background: var(--color-conversation-list);
 `;
 
+const StyledLeftPaneContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+`;
+
 const ClosableOverlay = () => {
   const overlayMode = useSelector(getOverlayMode);
 
@@ -146,10 +153,3 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     );
   }
 }
-
-const StyledLeftPaneContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-`;

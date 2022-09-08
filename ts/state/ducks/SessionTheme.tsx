@@ -2,8 +2,8 @@ import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
 
-const white = '#ffffff';
-const black = '#000000';
+export const white = '#ffffff';
+export const black = '#000000';
 const warning = '#e7b100';
 const destructive = '#ff453a';
 const accentLightTheme = '#00e97b';

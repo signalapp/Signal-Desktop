@@ -163,7 +163,7 @@ const SettingInCategory = (props: {
     case SessionSettingCategory.Permissions:
       return <SettingsCategoryPermissions hasPassword={hasPassword} />;
 
-    // those three down there have no options, they are just a button
+    // these three down there have no options, they are just a button
     case SessionSettingCategory.ClearData:
     case SessionSettingCategory.MessageRequests:
     case SessionSettingCategory.RecoveryPhrase:

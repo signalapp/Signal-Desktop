@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
 import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
@@ -18,14 +18,14 @@ const BlockedEntriesContainer = styled.div`
   overflow: auto;
   min-height: 40px;
   max-height: 100%;
-  background: var(--blocked-contact-list-bg);
+  background: var(--color-input-background); // TODO theming update
 `;
 
 const BlockedEntriesRoundedContainer = styled.div`
   overflow: hidden;
   border-radius: 16px;
   padding: var(--margins-lg);
-  background: var(--blocked-contact-list-bg);
+  background: var(--color-input-background); // TODO theming update
 `;
 
 const BlockedContactsSection = styled.div`
@@ -119,9 +119,7 @@ export const BlockedContactsList = () => {
   }
 
   return (
-    <BlockedContactsSection
-      style={{ '--blocked-contact-list-bg': 'var(--color-input-background)' } as CSSProperties}
-    >
+    <BlockedContactsSection>
       <StyledBlockedSettingItem clickable={!noBlockedNumbers}>
         <BlockedContactListTitle onClick={toggleUnblockList}>
           <SettingsTitleAndDescription title={window.i18n('blockedSettingsTitle')} />

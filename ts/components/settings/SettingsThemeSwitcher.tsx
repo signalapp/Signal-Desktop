@@ -159,7 +159,7 @@ const Themes = () => {
 };
 
 export const SettingsThemeSwitcher = () => {
-  //FIXME store that value somewhere in the theme object
+  //TODO Theming
   const [selectedAccent, setSelectedAccent] = useState<PrimaryColorIds | undefined>(undefined);
 
   return (

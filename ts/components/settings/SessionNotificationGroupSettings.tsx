@@ -57,7 +57,10 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
     Notifications.addNotification(
       {
         conversationId: `preview-notification-${Date.now()}`,
-        message: items.find(m => m.value === initialItem)?.label || 'Message body',
+        message:
+          items.find(m => m.value === initialItem)?.label ||
+          window?.i18n?.('messageBody') ||
+          'Message body',
         title: window.i18n('notificationPreview'),
         iconUrl: null,
         isExpiringMessage: false,

@@ -88,7 +88,7 @@ export class BlockedNumberController {
   }
 
   /**
-   * Unblock all thope users.
+   * Unblock all these users.
    * This will only unblock the primary device of the user.
    *
    * @param user The user to unblock.

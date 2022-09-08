@@ -47,6 +47,25 @@ const StyledOnionDescription = styled.p`
   width: 0;
 `;
 
+const StyledVerticalLine = styled.div`
+  background: rgba(#7a7a7a, 0.6);
+  position: absolute;
+  height: calc(100% - 2 * 15px);
+  margin: 15px calc(100% / 2 - 1px);
+
+  width: 1px;
+`;
+
+const StyledLightsContainer = styled.div`
+  position: relative;
+`;
+
+const StyledGrowingIcon = styled.div`
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+`;
+
 const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelText: string }) => {
   const element = (hovered: boolean) => (
     <StyledCountry>{hovered && snodeIp ? snodeIp : labelText}</StyledCountry>
@@ -119,25 +138,6 @@ const OnionPathModalInner = () => {
     </>
   );
 };
-
-const StyledVerticalLine = styled.div`
-  background: rgba(#7a7a7a, 0.6);
-  position: absolute;
-  height: calc(100% - 2 * 15px);
-  margin: 15px calc(100% / 2 - 1px);
-
-  width: 1px;
-`;
-
-const StyledLightsContainer = styled.div`
-  position: relative;
-`;
-
-const StyledGrowingIcon = styled.div`
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-`;
 
 export type OnionNodeStatusLightType = {
   glowStartDelay: number;

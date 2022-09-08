@@ -393,38 +393,6 @@
     }
   }
 
-  &--status {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    z-index: 2;
-    right: 0;
-    bottom: $composition-container-height + var(--margins-md);
-
-    .session-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 173px;
-      font-weight: 300;
-      font-family: $session-font-default;
-
-      &.primary {
-        cursor: default;
-        user-select: none;
-
-        &:hover {
-          filter: brightness(100%);
-          border: 2px solid #161819;
-        }
-
-        background-color: $session-shade-1-alt;
-        border: 2px solid #161819;
-      }
-    }
-  }
-
   &--timer {
     display: inline-flex;
     align-items: center;
