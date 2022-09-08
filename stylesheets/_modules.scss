@@ -5064,6 +5064,7 @@ button.module-image__border-overlay:focus {
 .module-left-pane__header {
   flex-grow: 0;
   flex-shrink: 0;
+  user-select: none;
 
   &__contents {
     height: calc(#{$header-height} + var(--title-bar-drag-area-height));
@@ -5158,6 +5159,7 @@ button.module-image__border-overlay:focus {
 
   flex-grow: 0;
   flex-shrink: 0;
+  user-select: none;
 
   padding: 1em;
 
