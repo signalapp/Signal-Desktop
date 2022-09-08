@@ -5568,7 +5568,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
+    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
   "Stories__settings-toggle--title": {
@@ -5620,7 +5620,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable read receipts to see who's viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Privacy.",
+    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
