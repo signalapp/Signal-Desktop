@@ -38,8 +38,8 @@ const StyledYourSessionIDSelectable = styled.p`
   user-select: none;
   text-align: center;
   word-break: break-all;
-
-  font-weight: 100;
+  padding: 0px var(--margins-lg);
+  font-weight: 300;
   color: var(--color-text);
   font-size: var(--font-size-sm);
 `;

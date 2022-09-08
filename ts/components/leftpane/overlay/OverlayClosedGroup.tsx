@@ -17,6 +17,7 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
 import { getSearchResults, isSearching } from '../../../state/selectors/search';
+import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
 
 const StyledMemberListNoContacts = styled.div`
@@ -45,26 +46,14 @@ export const OverlayClosedGroup = () => {
   const privateContactsPubkeys = useSelector(getPrivateContactsPubkeys);
   const [groupName, setGroupName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedMemberIds, setSelectedMemberIds] = useState<Array<string>>([]);
+  const {
+    uniqueValues: selectedMemberIds,
+    addTo: addToSelected,
+    removeFrom: removeFromSelected,
+  } = useSet<string>([]);
 
   function closeOverlay() {
     dispatch(resetOverlayMode());
-  }
-
-  function handleSelectMember(memberId: string) {
-    if (selectedMemberIds.includes(memberId)) {
-      return;
-    }
-
-    setSelectedMemberIds([...selectedMemberIds, memberId]);
-  }
-
-  function handleUnselectMember(unselectId: string) {
-    setSelectedMemberIds(
-      selectedMemberIds.filter(id => {
-        return id !== unselectId;
-      })
-    );
   }
 
   async function onEnterPressed() {
@@ -135,12 +124,8 @@ export const OverlayClosedGroup = () => {
                 pubkey={memberPubkey}
                 isSelected={selectedMemberIds.some(m => m === memberPubkey)}
                 key={memberPubkey}
-                onSelect={selectedMember => {
-                  handleSelectMember(selectedMember);
-                }}
-                onUnselect={unselectedMember => {
-                  handleUnselectMember(unselectedMember);
-                }}
+                onSelect={addToSelected}
+                onUnselect={removeFromSelected}
               />
             ))}
           </div>

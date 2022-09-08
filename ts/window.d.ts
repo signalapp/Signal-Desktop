@@ -27,13 +27,14 @@ declare global {
     clipboard: any;
     dcodeIO: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
-    setSettingValue: (id: string, value: any) => void;
+    setSettingValue: (id: string, value: any) => Promise<void>;
 
     i18n: LocalizerType;
     log: any;
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
+      useSettingsThemeSwitcher: boolean;
       debug: {
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;
@@ -52,7 +53,7 @@ declare global {
     getCallMediaPermissions: () => boolean;
     toggleMenuBar: () => void;
     toggleSpellCheck: any;
-    setTheme: (newTheme: string) => any;
+    setTheme: (newTheme: string) => Promise<void>;
     isDev?: () => boolean;
     userConfig: any;
     versionInfo: any;

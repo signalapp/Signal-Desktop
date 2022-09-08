@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 
 import { SessionMessagesList } from './SessionMessagesList';
 import autoBind from 'auto-bind';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { getConversationController } from '../../session/conversations';
 import {
   quotedMessageToAnimate,
   ReduxConversationType,
@@ -127,13 +125,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return null;
     }
 
-    let displayedName = null;
-    if (conversation.type === ConversationTypeEnum.PRIVATE) {
-      displayedName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        conversationKey
-      );
-    }
-
     return (
       <StyledMessagesContainer
         className="messages-container"
@@ -143,9 +134,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         data-testid="messages-container"
       >
         <TypingBubble
-          pubkey={conversationKey}
           conversationType={conversation.type}
-          displayedName={displayedName}
           isTyping={!!conversation.isTyping}
           key="typing-bubble"
         />

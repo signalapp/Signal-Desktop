@@ -69,6 +69,7 @@ export const MemberListItem = (props: {
   // this bool is used to make a zombie appear with less opacity than a normal member
   isZombie?: boolean;
   inMentions?: boolean; // set to true if we are rendering members but in the Mentions picker
+  disableBg?: boolean;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
@@ -82,6 +83,7 @@ export const MemberListItem = (props: {
     onSelect,
     onUnselect,
     inMentions,
+    disableBg,
     dataTestId,
   } = props;
 
@@ -94,7 +96,7 @@ export const MemberListItem = (props: {
         isSelected ? onUnselect?.(pubkey) : onSelect?.(pubkey);
       }}
       style={
-        !inMentions
+        !inMentions && !disableBg
           ? {
               backgroundColor: 'var(--color-cell-background)',
             }

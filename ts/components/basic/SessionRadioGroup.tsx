@@ -12,6 +12,10 @@ interface Props {
 }
 
 const StyledFieldSet = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  gap: var(--margins-xs);
+
   border: none;
   margin-inline-start: var(--margins-sm);
   margin-top: var(--margins-sm);
@@ -41,6 +45,7 @@ export const SessionRadioGroup = (props: Props) => {
               setActiveItem(value);
               props.onClick(value);
             }}
+            beforeMargins={'0 var(--margins-sm) 0 0 '}
           />
         );
       })}

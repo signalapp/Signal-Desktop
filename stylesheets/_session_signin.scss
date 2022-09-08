@@ -48,7 +48,8 @@
       width: 289px;
 
       .session-button {
-        width: 100%;
+        width: 80%;
+        margin: auto;
       }
     }
 
@@ -95,7 +96,7 @@
     color: var(--color-text);
 
     padding: 2px 0 2px 0;
-    transition: opacity $session-transition-duration;
+    transition: opacity var(--default-duration);
     opacity: 1;
     position: relative;
 
@@ -151,7 +152,7 @@
   }
 
   &-terms-conditions-agreement {
-    padding-top: $session-margin-md;
+    padding-top: var(--margins-md);
 
     color: var(--color-text-subtle);
     text-align: center;
@@ -161,9 +162,8 @@
       white-space: nowrap;
       font-weight: bold;
       text-decoration: none;
-
-      color: rgba(black, 0.6);
-      transition: $session-transition-duration;
+      color: var(--color-text-subtle);
+      transition: var(--default-duration);
 
       &:visited &:link {
         color: var(--color-text-subtle);

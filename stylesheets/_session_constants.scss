@@ -118,10 +118,6 @@ $session-shade-16: #979797;
 $session-shade-17: #a0a0a0;
 $session-shade-18: #141414;
 
-$session-opaque-dark-1: rgba(0, 0, 0, 0.25);
-$session-opaque-dark-2: rgba(0, 0, 0, 0.37);
-$session-opaque-dark-3: rgba(0, 0, 0, 0.5);
-
 $session-color-white: #fff;
 $session-color-light-grey: #a0a0a0;
 $session-color-dark-grey: #353535;
@@ -150,13 +146,8 @@ $session-overlay-opacity: 0.3;
 $session-font-xs: 11px;
 $session-font-sm: 13px;
 $session-font-md: 15px;
-$session-font-lg: 18px;
-$session-font-xl: 24px;
 
-$session-font-h1: 30px;
 $session-font-h2: 24px;
-$session-font-h3: 20px;
-$session-font-h4: 16px;
 
 // Mixins
 @mixin fontAccentBold {
@@ -201,9 +192,6 @@ $session-subtle-factor: 0.6;
 // //////////////////////////////////////////////
 // ////////////////// Sizing ////////////////////
 // //////////////////////////////////////////////
-
-// Default Components
-$main-view-header-height: 63px;
 
 // Various Components
 $session-modal-size-sm: 220px;

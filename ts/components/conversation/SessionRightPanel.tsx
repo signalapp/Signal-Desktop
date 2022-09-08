@@ -125,20 +125,18 @@ const HeaderItem = () => {
         dataTestId="back-button-conversation-options"
       />
       <Avatar size={AvatarSize.XL} pubkey={id} />
-      <div className="invite-friends-container">
-        {showInviteContacts && (
-          <SessionIconButton
-            iconType="addUser"
-            iconSize="medium"
-            onClick={() => {
-              if (selectedConversation) {
-                showInviteContactByConvoId(selectedConversation.id);
-              }
-            }}
-            dataTestId="add-user-button"
-          />
-        )}
-      </div>
+      {showInviteContacts && (
+        <SessionIconButton
+          iconType="addUser"
+          iconSize="medium"
+          onClick={() => {
+            if (selectedConversation) {
+              showInviteContactByConvoId(selectedConversation.id);
+            }
+          }}
+          dataTestId="add-user-button"
+        />
+      )}
     </div>
   );
 };

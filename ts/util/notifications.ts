@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { debounce, last } from 'lodash';
 import { getStatus } from '../notifications';
 import { UserSetting } from '../notifications/getStatus';
 import { isMacOS } from '../OS';
@@ -23,7 +23,7 @@ function filter(text?: string) {
 
 export type SessionNotification = {
   conversationId: string;
-  iconUrl: string;
+  iconUrl: string | null;
   isExpiringMessage: boolean;
   message: string;
   messageId?: string;
@@ -41,7 +41,7 @@ let currentNotifications: Array<SessionNotification> = [];
 //   to manually close them. This introduces a minimum amount of time between calls,
 //   and batches up the quick successive update() calls we get from an incoming
 //   read sync, which might have a number of messages referenced inside of it.
-const debouncedUpdate = _.debounce(update, 2000);
+const debouncedUpdate = debounce(update, 2000);
 const fastUpdate = update;
 
 function clear() {
@@ -70,7 +70,11 @@ function disable() {
   isEnabled = false;
 }
 
-function addNotification(notif: SessionNotification) {
+/**
+ *
+ * @param forceRefresh Should only be set when the user triggers a test notification from the settings
+ */
+function addNotification(notif: SessionNotification, forceRefresh = false) {
   const alreadyThere = currentNotifications.find(
     n => n.conversationId === notif.conversationId && n.messageId === notif.messageId
   );
@@ -79,7 +83,11 @@ function addNotification(notif: SessionNotification) {
     return;
   }
   currentNotifications.push(notif);
-  debouncedUpdate();
+  if (forceRefresh) {
+    update(true);
+  } else {
+    debouncedUpdate();
+  }
 }
 
 function clearByConversationID(convoId: string) {
@@ -101,7 +109,7 @@ function clearByMessageId(messageId: string) {
   }
 }
 
-function update() {
+function update(forceRefresh = false) {
   if (lastNotificationDisplayed) {
     lastNotificationDisplayed.close();
     lastNotificationDisplayed = null;
@@ -115,7 +123,7 @@ function update() {
   const userSetting = getUserSetting();
 
   const status = getStatus({
-    isAppFocused,
+    isAppFocused: forceRefresh ? false : isAppFocused,
     isAudioNotificationEnabled,
     isAudioNotificationSupported: audioNotificationSupported,
     isEnabled,
@@ -156,7 +164,7 @@ function update() {
     return;
   }
 
-  const lastNotification = _.last(currentNotifications);
+  const lastNotification = last(currentNotifications);
 
   if (!lastNotification) {
     return;
@@ -209,7 +217,7 @@ function update() {
   window.drawAttention();
   lastNotificationDisplayed = new Notification(title || '', {
     body: window.platform === 'linux' ? filter(message) : message,
-    icon: iconUrl,
+    icon: iconUrl || undefined,
     silent: !status.shouldPlayNotificationSound,
   });
   lastNotificationDisplayed.onclick = () => {

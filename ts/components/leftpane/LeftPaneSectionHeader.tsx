@@ -6,9 +6,8 @@ import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
-import { resetOverlayMode, SectionType } from '../../state/ducks/section';
+import { SectionType } from '../../state/ducks/section';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionIconButton } from '../icon';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { MenuButton } from '../button/MenuButton';
 
@@ -22,14 +21,11 @@ export const LeftPaneSectionHeader = () => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
   const overlayMode = useSelector(getOverlayMode);
-  const dispatch = useDispatch();
 
   let label: string | undefined;
 
   const isMessageSection = focusedSection === SectionType.Message;
   const isMessageRequestOverlay = overlayMode && overlayMode === 'message-requests';
-
-  const showBackButton = isMessageRequestOverlay && isMessageSection;
 
   switch (focusedSection) {
     case SectionType.Settings:
@@ -46,19 +42,8 @@ export const LeftPaneSectionHeader = () => {
   return (
     <Flex flexDirection="column">
       <div className="module-left-pane__header">
-        {showBackButton ? (
-          <SessionIconButton
-            onClick={() => {
-              dispatch(resetOverlayMode());
-            }}
-            iconType="chevron"
-            iconRotation={90}
-            iconSize="medium"
-            margin="0 0 var(--margins-xs) var(--margins-xs)"
-          />
-        ) : null}
         <SectionTitle>{label}</SectionTitle>
-        {isMessageSection && !isMessageRequestOverlay && <MenuButton />}
+        {isMessageSection && <MenuButton />}
       </div>
       {showRecoveryPhrasePrompt && <LeftPaneBanner />}
     </Flex>

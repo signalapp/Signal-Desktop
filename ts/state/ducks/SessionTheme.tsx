@@ -24,7 +24,7 @@ const darkColorTextSubtle = `${white}99`;
 const darkColorTextAccent = accentDarkTheme;
 const darkColorSessionShadow = `0 0 4px 0 ${white}33`;
 const darkColorComposeViewBg = '#232323';
-const darkColorSentMessageBg = accentDarkTheme;
+export const darkColorSentMessageBg = accentDarkTheme;
 const darkColorClickableHovered = '#414347';
 const darkColorSessionBorder = `1px solid ${borderDarkThemeColor}`;
 const darkColorSessionBorderColor = borderDarkThemeColor;
@@ -33,7 +33,7 @@ const darkColorPillDivider = '#353535';
 const darkColorLastSeenIndicator = accentDarkTheme;
 const darkColorQuoteBottomBarBg = '#404040';
 const darkColorCellBackground = '#1b1b1b';
-const darkColorReceivedMessageBg = '#2d2d2d';
+export const darkColorReceivedMessageBg = '#2d2d2d';
 const darkColorReceivedMessageText = white;
 
 const darkColorPillDividerText = '#a0a0a0';
@@ -168,7 +168,7 @@ const lightColorTextSubtle = `${black}99`;
 const lightColorTextAccent = accentLightTheme;
 const lightColorSessionShadow = `0 0 4px 0 ${black}5E`;
 const lightColorComposeViewBg = '#efefef';
-const lightColorSentMessageBg = accentLightTheme;
+export const lightColorSentMessageBg = accentLightTheme;
 const lightColorClickableHovered = '#dfdfdf';
 const lightColorSessionBorderColor = borderLightThemeColor;
 const lightColorSessionBorder = `1px solid ${lightColorSessionBorderColor}`;
@@ -177,7 +177,7 @@ const lightColorPillDivider = `${black}1A`;
 const lightColorLastSeenIndicator = black;
 const lightColorQuoteBottomBarBg = '#f0f0f0';
 const lightColorCellBackground = '#f9f9f9';
-const lightColorReceivedMessageBg = '#f5f5f5';
+export const lightColorReceivedMessageBg = '#f5f5f5';
 const lightColorReceivedMessageText = black;
 
 const lightColorPillDividerText = '#555555';
@@ -331,6 +331,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-md:  15px;
     --margins-lg:  20px;
 
+    /* SIZES */
+    --main-view-header-height: 63px;
+
     /* ANIMATIONS */
     --default-duration: 0.25s;
     /* FILTERS */
@@ -392,3 +395,54 @@ export const SessionTheme = ({ children }: { children: any }) => (
     {children}
   </>
 );
+
+/**
+ * Just putting those new theme values used in the settings to avoid having conflicts for now.
+ *
+ */
+
+type SettingsThemeSwitcherColor = {
+  background: string;
+  border: string;
+  sent: string;
+  received: string;
+};
+
+export const OceanBlueDark: SettingsThemeSwitcherColor = {
+  background: '#242735',
+  border: '#3D4A5E',
+  sent: '#57C9FA',
+  received: '#3D4A5D',
+};
+export const OceanBlueLight: SettingsThemeSwitcherColor = {
+  background: '#ECFAFB',
+  border: '#5CAACC',
+  sent: '#57C9FA',
+  received: '#B3EDF2',
+};
+
+export type PrimaryColorIds =
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'pink'
+  | 'purple'
+  | 'orange'
+  | 'red'
+  | 'blue'
+  | 'blue'
+  | 'blue';
+
+type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string };
+
+export const getPrimaryColors = (): Array<PrimaryColorType> => {
+  return [
+    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: '#31F196' },
+    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: '#57C9FA' },
+    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: '#FAD657' },
+    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: '#FF95EF' },
+    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: '#C993FF' },
+    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: '#FCB159' },
+    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: '#FF9C8E' },
+  ];
+};
