@@ -61,6 +61,9 @@ export default {
       defaultValue: Array.from(Array(42), getDefaultConversation),
     },
     toggleSignalConnectionsModal: { action: true },
+    sendStoryModalOpenStateChanged: {
+      defaultValue: () => null,
+    },
   },
 } as Meta;
 
