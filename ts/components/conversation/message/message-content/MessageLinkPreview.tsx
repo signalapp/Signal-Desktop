@@ -84,14 +84,7 @@ export const MessageLinkPreview = (props: Props) => {
             </div>
           </div>
         ) : null}
-        <div
-          className={classNames(
-            'module-message__link-preview__text',
-            previewHasImage && !isFullSizeImage
-              ? 'module-message__link-preview__text--with-icon'
-              : null
-          )}
-        >
+        <div className={classNames('module-message__link-preview__text')}>
           <div className="module-message__link-preview__title">{first.title}</div>
           <div className="module-message__link-preview__location">{first.domain}</div>
         </div>

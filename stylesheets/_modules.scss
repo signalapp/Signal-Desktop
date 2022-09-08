@@ -154,6 +154,8 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  flex-grow: 1;
+  border: 1px solid $color-black-015;
 }
 
 .module-message__link-preview__image_container {
@@ -199,10 +201,6 @@
   width: 32px;
   border-radius: 50%;
   background-color: $color-gray-05;
-}
-
-.module-message__link-preview__text--with-icon {
-  margin-top: 5px;
 }
 
 .module-message__link-preview__title {
