@@ -278,6 +278,8 @@ export async function sendStory(
           isGroupV2(messageConversation.attributes) ||
           Boolean(distributionList?.allowsReplies);
 
+        let inMemorySenderKeyInfo = distributionList?.senderKeyInfo;
+
         const sendTarget = distributionList
           ? {
               getGroupId: () => undefined,
@@ -289,12 +291,14 @@ export async function sendStory(
               idForLogging: () => `dl(${receiverId})`,
               isGroupV2: () => true,
               isValid: () => true,
-              getSenderKeyInfo: () => distributionList.senderKeyInfo,
-              saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) =>
-                dataInterface.modifyStoryDistribution({
+              getSenderKeyInfo: () => inMemorySenderKeyInfo,
+              saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) => {
+                inMemorySenderKeyInfo = senderKeyInfo;
+                await dataInterface.modifyStoryDistribution({
                   ...distributionList,
                   senderKeyInfo,
-                }),
+                });
+              },
             }
           : conversation.toSenderKeyTarget();
 
