@@ -1172,3 +1172,8 @@ export const getOldBottomMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
 );
+
+export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined): boolean => Boolean(convo?.isInitialFetchingInProgress)
+);

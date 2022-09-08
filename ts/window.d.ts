@@ -6,6 +6,7 @@ import { Store } from 'redux';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+import { StateType } from './state/reducer';
 
 export interface LibTextsecure {
   messaging: boolean;

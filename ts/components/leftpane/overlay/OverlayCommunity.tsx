@@ -17,7 +17,10 @@ import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_ap
 import { ToastUtils } from '../../../session/utils';
 import useKey from 'react-use/lib/useKey';
 import { getOverlayMode } from '../../../state/selectors/section';
-import { openConversationWithMessages } from '../../../state/ducks/conversations';
+import {
+  markConversationInitialLoadingInProgress,
+  openConversationWithMessages,
+} from '../../../state/ducks/conversations';
 
 async function joinOpenGroup(
   serverUrl: string,
@@ -60,7 +63,14 @@ export const OverlayCommunity = () => {
 
   function joinSogsUICallback(args: JoinSogsRoomUICallbackArgs) {
     setLoading(args.loadingState === 'started');
-
+    if (args.conversationKey) {
+      dispatch(
+        markConversationInitialLoadingInProgress({
+          conversationKey: args.conversationKey,
+          isInitialFetchingInProgress: true,
+        })
+      );
+    }
     if (args.loadingState === 'finished' && overlayModeIsCommunity && args.conversationKey) {
       closeOverlay();
       void openConversationWithMessages({ conversationKey: args.conversationKey, messageId: null }); // open to last unread for a session run sogs
