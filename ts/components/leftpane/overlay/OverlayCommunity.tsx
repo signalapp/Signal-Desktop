@@ -19,10 +19,13 @@ import useKey from 'react-use/lib/useKey';
 import { getOverlayMode } from '../../../state/selectors/section';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 
-async function joinOpenGroup(serverUrl: string) {
+async function joinOpenGroup(
+  serverUrl: string,
+  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
+) {
   // guess if this is an open
   if (serverUrl.match(openGroupV2CompleteURLRegex)) {
-    const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false);
+    const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false, uiCallback);
     return groupCreated;
   } else {
     ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
@@ -42,16 +45,12 @@ export const OverlayCommunity = () => {
     dispatch(resetOverlayMode());
   }
 
-  async function onEnterPressed() {
+  async function onTryJoinRoom(completeUrl?: string) {
     try {
       if (loading) {
         return;
       }
-      setLoading(true);
-      const groupCreated = await joinOpenGroup(groupUrl);
-      if (groupCreated) {
-        closeOverlay();
-      }
+      await joinOpenGroup(completeUrl || groupUrl, joinSogsUICallback);
     } catch (e) {
       window.log.warn(e);
     } finally {
@@ -59,7 +58,7 @@ export const OverlayCommunity = () => {
     }
   }
 
-  function onJoinSessionSogsRoom(args: JoinSogsRoomUICallbackArgs) {
+  function joinSogsUICallback(args: JoinSogsRoomUICallbackArgs) {
     setLoading(args.loadingState === 'started');
 
     if (args.loadingState === 'finished' && overlayModeIsCommunity && args.conversationKey) {
@@ -87,7 +86,7 @@ export const OverlayCommunity = () => {
           isGroup={true}
           maxLength={300}
           onChange={setGroupUrl}
-          onPressEnter={onEnterPressed}
+          onPressEnter={onTryJoinRoom}
         />
       </div>
 
@@ -96,14 +95,11 @@ export const OverlayCommunity = () => {
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
         disabled={!groupUrl}
-        onClick={onEnterPressed}
+        onClick={onTryJoinRoom}
       />
 
       <SessionSpinner loading={loading} />
-      <SessionJoinableRooms
-        onJoinSessionSogsRoom={onJoinSessionSogsRoom}
-        alreadyJoining={loading}
-      />
+      <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />
     </div>
   );
 };

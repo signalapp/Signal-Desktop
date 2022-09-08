@@ -1,6 +1,6 @@
 import { AbortController } from 'abort-controller';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { defaultServer, OpenGroupRequestCommonType } from './ApiUtil';
+import { OpenGroupRequestCommonType } from './ApiUtil';
 import _, { isNumber, isObject } from 'lodash';
 
 import { OpenGroupData } from '../../../../data/opengroups';
@@ -20,7 +20,7 @@ import {
   roomHasBlindEnabled,
 } from '../sogsv3/sogsV3Capabilities';
 import { OpenGroupReaction } from '../../../../types/Reaction';
-import { getEventSessionSogsFirstPoll } from '../../../utils/GlobalEvents';
+import { getEventSogsFirstPoll } from '../../../utils/GlobalEvents';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
@@ -319,10 +319,13 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleBatchPollResults(this.serverUrl, batchPollResults, subrequestOptions);
 
-      if (this.serverUrl === defaultServer) {
+      const roomsInDb = OpenGroupData.getV2OpenGroupRoomsByServerUrl(this.serverUrl);
+      if (roomsInDb?.[0]?.serverPublicKey) {
         for (const room of subrequestOptions) {
           if (room.type === 'messages' && !room.messages?.sinceSeqNo && room.messages?.roomId) {
-            window.Whisper.events.trigger(getEventSessionSogsFirstPoll(room.messages.roomId));
+            window.Whisper.events.trigger(
+              getEventSogsFirstPoll(roomsInDb[0].serverPublicKey, room.messages.roomId)
+            );
           }
         }
       }

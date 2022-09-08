@@ -2,11 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
-import {
-  joinOpenGroupV2WithUIEvents,
-  JoinSogsRoomUICallbackArgs,
-  parseOpenGroupV2,
-} from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import { parseOpenGroupV2 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { sogsV3FetchPreviewBase64 } from '../../../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { updateDefaultBase64RoomData } from '../../../state/ducks/defaultRooms';
 import { StateType } from '../../../state/reducer';
@@ -113,16 +109,10 @@ const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
 };
 
 const JoinableRooms = (props: {
-  onJoinSessionSogsRoom: (args: JoinSogsRoomUICallbackArgs) => void;
   alreadyJoining: boolean;
+  onJoinClick?: (completeUrl: string) => void;
 }) => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
-
-  const onClick = props.alreadyJoining
-    ? undefined
-    : (completeUrl: string) => {
-        void joinOpenGroupV2WithUIEvents(completeUrl, true, false, props.onJoinSessionSogsRoom);
-      };
 
   return (
     <>
@@ -135,7 +125,7 @@ const JoinableRooms = (props: {
             roomId={r.id}
             imageId={r.imageId}
             base64Data={r.base64Data}
-            onClick={onClick}
+            onClick={props.onJoinClick}
           />
         );
       })}
@@ -144,7 +134,7 @@ const JoinableRooms = (props: {
 };
 
 export const SessionJoinableRooms = (props: {
-  onJoinSessionSogsRoom: (args: JoinSogsRoomUICallbackArgs) => void;
+  onJoinClick?: (completeUrl: string) => void;
   alreadyJoining: boolean;
 }) => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);

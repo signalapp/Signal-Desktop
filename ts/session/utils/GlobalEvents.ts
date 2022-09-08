@@ -1,3 +1,3 @@
-export function getEventSessionSogsFirstPoll(roomId: string) {
-  return `first-poll-session-sogs:${roomId}`;
+export function getEventSogsFirstPoll(serverpubkey: string, roomId: string) {
+  return `first-poll-sogs:${roomId}-${serverpubkey}`;
 }
