@@ -1085,7 +1085,10 @@ export class Message extends React.PureComponent<Props, State> {
         )}
         // There's only ever one of these, so we don't want users to tab into it
         tabIndex={-1}
-        onClick={() => {
+        onClick={event => {
+          event.stopPropagation();
+          event.preventDefault();
+
           if (!isDownloaded(firstAttachment)) {
             kickOffAttachmentDownload({
               attachment: firstAttachment,
