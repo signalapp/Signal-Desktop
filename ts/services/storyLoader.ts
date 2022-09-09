@@ -10,6 +10,7 @@ import dataInterface from '../sql/Client';
 import { getAttachmentsForMessage } from '../state/selectors/message';
 import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 
 let storyData: Array<MessageAttributesType> | undefined;
 
@@ -51,6 +52,8 @@ export function getStoryDataFromMessageAttributes(
       'timestamp',
       'type',
     ]),
+    expireTimer: message.expireTimer,
+    expirationStartTimestamp: dropNull(message.expirationStartTimestamp),
   };
 }
 

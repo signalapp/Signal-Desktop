@@ -17,6 +17,7 @@ import {
 } from '../../../state/ducks/stories';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
+import { dropNull } from '../../../util/dropNull';
 
 describe('both/state/ducks/stories', () => {
   const getEmptyRootState = () => ({
@@ -119,6 +120,10 @@ describe('both/state/ducks/stories', () => {
               ...messageAttributes,
               attachment: messageAttributes.attachments[0],
               messageId: messageAttributes.id,
+              expireTimer: messageAttributes.expireTimer,
+              expirationStartTimestamp: dropNull(
+                messageAttributes.expirationStartTimestamp
+              ),
             },
           ],
         },
@@ -150,6 +155,10 @@ describe('both/state/ducks/stories', () => {
             ...messageAttributes,
             messageId: storyId,
             attachment,
+            expireTimer: messageAttributes.expireTimer,
+            expirationStartTimestamp: dropNull(
+              messageAttributes.expirationStartTimestamp
+            ),
           },
         ],
       };
@@ -191,6 +200,10 @@ describe('both/state/ducks/stories', () => {
               ...messageAttributes,
               attachment: messageAttributes.attachments[0],
               messageId: messageAttributes.id,
+              expireTimer: messageAttributes.expireTimer,
+              expirationStartTimestamp: dropNull(
+                messageAttributes.expirationStartTimestamp
+              ),
             },
           ],
         },

@@ -4855,6 +4855,10 @@
     "message": "Viewed by",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Disappears in",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "About",
     "description": "Default text for about field"
@@ -5574,6 +5578,16 @@
   "StoryDetailsModal__file-size": {
     "message": "File size $size$",
     "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Disappears in $countdown$",
+    "description": "File size description",
+    "placeholders": {
+      "countdown": {
+        "content": "$1",
+        "example": "2 weeks, 3 days"
+      }
+    }
   },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copy timestamp",

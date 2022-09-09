@@ -748,6 +748,7 @@ export const StoryViewer = ({
             sendState={sendState}
             size={attachment?.size}
             timestamp={timestamp}
+            expirationTimestamp={story.expirationTimestamp}
           />
         )}
         {hasStoryViewsNRepliesModal && (

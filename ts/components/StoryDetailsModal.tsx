@@ -17,6 +17,7 @@ import { ThemeType } from '../types/Util';
 import { Time } from './Time';
 import { formatDateTimeLong } from '../util/timestamp';
 import { groupBy } from '../util/mapUtil';
+import { format as formatRelativeTime } from '../util/expirationTimer';
 
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -25,6 +26,7 @@ export type PropsType = {
   sender: StoryViewType['sender'];
   sendState?: Array<StorySendStateType>;
   size?: number;
+  expirationTimestamp: number | undefined;
   timestamp: number;
 };
 
@@ -66,6 +68,7 @@ export const StoryDetailsModal = ({
   sendState,
   size,
   timestamp,
+  expirationTimestamp,
 }: PropsType): JSX.Element => {
   const contactsBySendStatus = sendState
     ? groupBy(sendState, contact => contact.status)
@@ -181,6 +184,10 @@ export const StoryDetailsModal = ({
     );
   }
 
+  const timeRemaining = expirationTimestamp
+    ? expirationTimestamp - Date.now()
+    : undefined;
+
   return (
     <Modal
       hasXButton
@@ -230,6 +237,21 @@ export const StoryDetailsModal = ({
                 components={[
                   <span className="StoryDetailsModal__debugger__button__text">
                     {formatFileSize(size)}
+                  </span>,
+                ]}
+              />
+            </div>
+          )}
+          {timeRemaining && timeRemaining > 0 && (
+            <div>
+              <Intl
+                i18n={i18n}
+                id="StoryDetailsModal__disappears-in"
+                components={[
+                  <span className="StoryDetailsModal__debugger__button__text">
+                    {formatRelativeTime(i18n, timeRemaining / 1000, {
+                      largest: 2,
+                    })}
                   </span>,
                 ]}
               />

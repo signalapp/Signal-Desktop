@@ -31,6 +31,7 @@ import {
 } from './conversations';
 import { getDistributionListSelector } from './storyDistributionLists';
 import { getStoriesEnabled } from './items';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -142,7 +143,10 @@ export function getStoryView(
     'title',
   ]);
 
-  const { attachment, timestamp } = pick(story, ['attachment', 'timestamp']);
+  const { attachment, timestamp, expirationStartTimestamp, expireTimer } = pick(
+    story,
+    ['attachment', 'timestamp', 'expirationStartTimestamp', 'expireTimer']
+  );
 
   const { sendStateByConversationId } = story;
   let sendState: Array<StorySendStateType> | undefined;
@@ -179,6 +183,10 @@ export function getStoryView(
     sender,
     sendState,
     timestamp,
+    expirationTimestamp: calculateExpirationTimestamp({
+      expireTimer,
+      expirationStartTimestamp,
+    }),
     views,
   };
 }

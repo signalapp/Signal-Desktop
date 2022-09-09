@@ -92,9 +92,10 @@ import {
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
-import { DAY, HOUR } from '../../util/durations';
+import { DAY, HOUR, SECOND } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
 import { isIncoming, isOutgoing, isStory } from '../../messages/helpers';
+import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -625,11 +626,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
     }: GetPropsForMessageOptions
   ): ShallowPropsType => {
     const { expireTimer, expirationStartTimestamp, conversationId } = message;
-    const expirationLength = expireTimer ? expireTimer * 1000 : undefined;
-    const expirationTimestamp =
-      expirationStartTimestamp && expirationLength
-        ? expirationStartTimestamp + expirationLength
-        : undefined;
+    const expirationLength = expireTimer ? expireTimer * SECOND : undefined;
 
     const conversation = getConversation(message, conversationSelector);
     const isGroup = conversation.type === 'group';
@@ -673,7 +670,10 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       direction: isIncoming(message) ? 'incoming' : 'outgoing',
       displayLimit: message.displayLimit,
       expirationLength,
-      expirationTimestamp,
+      expirationTimestamp: calculateExpirationTimestamp({
+        expireTimer,
+        expirationStartTimestamp,
+      }),
       giftBadge: message.giftBadge,
       id: message.id,
       isBlocked: conversation.isBlocked || false,

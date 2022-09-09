@@ -3,7 +3,10 @@
 
 import * as moment from 'moment';
 import humanizeDuration from 'humanize-duration';
+import type { Unit } from 'humanize-duration';
+import { isNumber } from 'lodash';
 import type { LocalizerType } from '../types/Util';
+import { SECOND } from './durations';
 
 const SECONDS_PER_WEEK = 604800;
 export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<number> = [
@@ -23,12 +26,13 @@ export const DEFAULT_DURATIONS_SET: ReadonlySet<number> = new Set<number>(
 
 export type FormatOptions = {
   capitalizeOff?: boolean;
+  largest?: number; // how many units to show (the largest n)
 };
 
 export function format(
   i18n: LocalizerType,
   dirtySeconds?: number,
-  { capitalizeOff = false }: FormatOptions = {}
+  { capitalizeOff = false, largest }: FormatOptions = {}
 ): string {
   let seconds = Math.abs(dirtySeconds || 0);
   if (!seconds) {
@@ -49,9 +53,31 @@ export function format(
     fallbacks.push('en');
   }
 
+  const allUnits: Array<Unit> = ['y', 'mo', 'w', 'd', 'h', 'm', 's'];
+
+  const defaultUnits: Array<Unit> =
+    seconds % SECONDS_PER_WEEK === 0 ? ['w'] : ['d', 'h', 'm', 's'];
+
   return humanizeDuration(seconds * 1000, {
-    units: seconds % SECONDS_PER_WEEK === 0 ? ['w'] : ['d', 'h', 'm', 's'],
+    // if we have an explict `largest` specified,
+    // allow it to pick from all the units
+    units: largest ? allUnits : defaultUnits,
+    largest,
     language: locale,
     ...(fallbacks.length ? { fallbacks } : {}),
   });
+}
+
+// normally we would not have undefineds all over,
+// but most use-cases start out with undefineds
+export function calculateExpirationTimestamp({
+  expireTimer,
+  expirationStartTimestamp,
+}: {
+  expireTimer: number | undefined;
+  expirationStartTimestamp: number | undefined | null;
+}): number | undefined {
+  return isNumber(expirationStartTimestamp) && isNumber(expireTimer)
+    ? expirationStartTimestamp + expireTimer * SECOND
+    : undefined;
 }

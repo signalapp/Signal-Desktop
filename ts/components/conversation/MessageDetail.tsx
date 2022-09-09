@@ -24,6 +24,7 @@ import { SendStatus } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
+import { format as formatRelativeTime } from '../../util/expirationTimer';
 
 export type Contact = Pick<
   ConversationType,
@@ -65,7 +66,13 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-} & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
+} & Pick<
+  MessagePropsType,
+  | 'getPreferredBadge'
+  | 'interactionMode'
+  | 'expirationLength'
+  | 'expirationTimestamp'
+>;
 
 export type PropsBackboneActions = Pick<
   MessagePropsType,
@@ -280,6 +287,7 @@ export class MessageDetail extends React.Component<Props> {
       contactNameColor,
       displayTapToViewMessage,
       doubleCheckMissingQuoteReference,
+      expirationTimestamp,
       getPreferredBadge,
       i18n,
       interactionMode,
@@ -306,6 +314,10 @@ export class MessageDetail extends React.Component<Props> {
       theme,
       viewStory,
     } = this.props;
+
+    const timeRemaining = expirationTimestamp
+      ? expirationTimestamp - Date.now()
+      : undefined;
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -431,6 +443,18 @@ export class MessageDetail extends React.Component<Props> {
                 </td>
               </tr>
             ) : null}
+            {timeRemaining && timeRemaining > 0 && (
+              <tr>
+                <td className="module-message-detail__label">
+                  {i18n('MessageDetail--disappears-in')}
+                </td>
+                <td>
+                  {formatRelativeTime(i18n, timeRemaining / 1000, {
+                    largest: 2,
+                  })}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         {this.renderContacts()}

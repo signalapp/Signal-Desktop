@@ -71,7 +71,11 @@ export type StoryDataType = {
   | 'storyDistributionListId'
   | 'timestamp'
   | 'type'
->;
+> & {
+    // don't want the fields to be optional as in MessageAttributesType
+    expireTimer: number | undefined;
+    expirationStartTimestamp: number | undefined;
+  };
 
 export type SelectedStoryDataType = {
   currentIndex: number;
@@ -1149,6 +1153,8 @@ export function reducer(
       'canReplyToStory',
       'conversationId',
       'deletedForEveryone',
+      'expirationStartTimestamp',
+      'expireTimer',
       'messageId',
       'reactions',
       'readStatus',

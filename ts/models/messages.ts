@@ -1,7 +1,16 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty, isEqual, mapValues, maxBy, noop, omit, union } from 'lodash';
+import {
+  isEmpty,
+  isEqual,
+  isNumber,
+  mapValues,
+  maxBy,
+  noop,
+  omit,
+  union,
+} from 'lodash';
 import type {
   CustomError,
   GroupV1Update,
@@ -163,12 +172,19 @@ import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
+import { SECOND } from '../util/durations';
 
 /* eslint-disable more/no-then */
 
 type PropsForMessageDetail = Pick<
   SmartMessageDetailPropsType,
-  'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
+  | 'sentAt'
+  | 'receivedAt'
+  | 'message'
+  | 'errors'
+  | 'contacts'
+  | 'expirationLength'
+  | 'expirationTimestamp'
 >;
 
 declare const _: typeof window._;
@@ -465,9 +481,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         };
       });
 
+    const expireTimer = this.get('expireTimer');
+    const expirationStartTimestamp = this.get('expirationStartTimestamp');
+    const expirationLength = isNumber(expireTimer)
+      ? expireTimer * SECOND
+      : undefined;
+    const expirationTimestamp = expirationTimer.calculateExpirationTimestamp({
+      expireTimer,
+      expirationStartTimestamp,
+    });
+
     return {
       sentAt: this.get('sent_at'),
       receivedAt: this.getReceivedAt(),
+      expirationLength,
+      expirationTimestamp,
       message: getPropsForMessage(this.attributes, {
         conversationSelector: findAndFormatContact,
         ourConversationId,

@@ -55,6 +55,7 @@ SomeonesStory.args = {
     messageId: '123',
     sender: getDefaultConversation(),
     timestamp: Date.now(),
+    expirationTimestamp: undefined,
   },
 };
 SomeonesStory.story = {

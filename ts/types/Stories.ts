@@ -90,6 +90,7 @@ export type StoryViewType = {
   >;
   sendState?: Array<StorySendStateType>;
   timestamp: number;
+  expirationTimestamp: number | undefined;
   views?: number;
 };
 

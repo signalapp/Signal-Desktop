@@ -52,6 +52,7 @@ export function getFakeStoryView(
     messageId: UUID.generate().toString(),
     sender,
     timestamp: timestamp || Date.now() - 2 * durations.MINUTE,
+    expirationTimestamp: undefined,
   };
 }
 
