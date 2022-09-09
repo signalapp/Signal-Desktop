@@ -281,21 +281,21 @@ export class EmojiCompletion {
           range.collapse(true);
 
           // if we can, position the popper at the beginning of the emoji text (:word)
-          const endContainerTextContent = range.endContainer.textContent;
-          const startOfEmojiText = endContainerTextContent?.lastIndexOf(':');
+          const textBeforeCursor = range.endContainer.textContent?.slice(
+            0,
+            range.startOffset
+          );
+          const startOfEmojiText = textBeforeCursor?.lastIndexOf(':');
+
           if (
-            endContainerTextContent &&
+            textBeforeCursor &&
             isNumber(startOfEmojiText) &&
             startOfEmojiText !== -1
           ) {
-            range.setStart(
-              range.endContainer,
-              range.endOffset -
-                (endContainerTextContent.length - startOfEmojiText)
-            );
+            range.setStart(range.endContainer, startOfEmojiText);
           } else {
             log.warn(
-              `Could not find the beginning of the emoji word to be completed. startOfEmojiText=${startOfEmojiText}, endContainerTextContent.length=${endContainerTextContent?.length}, range.offsets=${range.startOffset}-${range.endOffset}`
+              `Could not find the beginning of the emoji word to be completed. startOfEmojiText=${startOfEmojiText}, textBeforeCursor.length=${textBeforeCursor?.length}, range.offsets=${range.startOffset}-${range.endOffset}`
             );
           }
           return range.getClientRects()[0];
