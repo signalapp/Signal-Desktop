@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Weet je zeker dat je media van $name$ wilt downloaden?",
   "pinConversation": "Gesprek vastzetten",
   "unpinConversation": "Gesprek losmaken",
-  "pinConversationLimitTitle": "Limiet vastgezette gesprekken",
-  "pinConversationLimitToastDescription": "Je kan alleen $number$ gesprekken vastzetten",
   "showUserDetails": "Toon gebruikers informatie",
   "sendRecoveryPhraseTitle": "Herstelzin verzenden",
   "sendRecoveryPhraseMessage": "Je probeert uw herstel zin te versturen welke kan worden gebruikt om toegang te krijgen tot jou account. Weet je zeker dat je dit bericht wilt versturen?",

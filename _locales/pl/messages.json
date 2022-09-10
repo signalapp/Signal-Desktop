@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Czy na pewno chcesz pobrać multimedia wysłane przez $name$?",
   "pinConversation": "Przypnij konwersację",
   "unpinConversation": "Odepnij konwersację",
-  "pinConversationLimitTitle": "Limit przypiętych konwersacji",
-  "pinConversationLimitToastDescription": "Możesz przypiąć tylko $number$ konwersacji",
   "showUserDetails": "Pokaż szczegóły użytkownika",
   "sendRecoveryPhraseTitle": "Wysyłanie frazy odzyskiwania",
   "sendRecoveryPhraseMessage": "Próbujesz wysłać frazę odzyskiwania, która może być użyta do uzyskania dostępu do twojego konta. Czy na pewno chcesz wysłać tę wiadomość?",

@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Haluatko varmasti ladata käyttäjän $name$ lähettämän median?",
   "pinConversation": "Kiinnitä keskustelu",
   "unpinConversation": "Irroita keskustelu",
-  "pinConversationLimitTitle": "Kiinnitettyjen keskuteluiden raja",
-  "pinConversationLimitToastDescription": "Voit kiinnittää enintään $number$ keskustelua",
   "showUserDetails": "Näytä käyttäjän tiedot",
   "sendRecoveryPhraseTitle": "Palautuslausekkeen lähetys",
   "sendRecoveryPhraseMessage": "Olet lähettämässä palautuslausekettasi, jonka avulla päästään tilillesi. Haluatko varmasti lähettää viestin?",

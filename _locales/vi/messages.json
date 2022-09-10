@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Bạn có chắc bạn muốn tải tệp đa phương tiện gửi bởi $name$?",
   "pinConversation": "Ghim cuộc trò chuyện",
   "unpinConversation": "Bỏ ghim cuộc trò chuyện",
-  "pinConversationLimitTitle": "Giới hạn các cuộc trò chuyện đã ghim",
-  "pinConversationLimitToastDescription": "Bạn chỉ có thể ghim $number$ cuộc trò chuyện",
   "showUserDetails": "Hiện thông tin người dùng",
   "sendRecoveryPhraseTitle": "Đang gửi vế phục hồi",
   "sendRecoveryPhraseMessage": "Bạn đang chuẩn bị gởi vế khôi phục của bạn dùng vào mục đích truy cập tài khoản của bạn. Bạn có chắc bạn muốn gửi tin nhắn này?",

@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Sigurado ka bang nais mong i-download ang media mula kay $name$?",
   "pinConversation": "Pin Conversation",
   "unpinConversation": "Unpin Conversation",
-  "pinConversationLimitTitle": "Pinned conversations limit",
-  "pinConversationLimitToastDescription": "Maari ka lang mag-pin $number$ sa paguusap",
   "showUserDetails": "Ipakita ang Detalye ng User",
   "sendRecoveryPhraseTitle": "Ipapadala ang Recovery Phrase",
   "sendRecoveryPhraseMessage": "Sinusubukan mong ipadala ang iyong recovery phrase na pwedeng gamitin para mapasok ang iyong account. Gusto mo bang ipadala ito?",

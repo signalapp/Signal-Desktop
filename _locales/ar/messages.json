@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "هل انت متأكد من تنزيل الوسيط المرسل من طرف $name$؟",
   "pinConversation": "ثَبِت المحادثة",
   "unpinConversation": "ألغِي تثبيت المحادثة",
-  "pinConversationLimitTitle": "حدود المحادثات المثبتة",
-  "pinConversationLimitToastDescription": "يمكنك تثبيت $number$ محادثات فقط",
   "showUserDetails": "اظهر تفاصيل المستخدم",
   "sendRecoveryPhraseTitle": "أرسل جملة الاسترجاع",
   "sendRecoveryPhraseMessage": "انت تحاول ارسال جملة الاسترجاع التي تسمح بالوصول للحساب. متاكد من ارسالها؟",
