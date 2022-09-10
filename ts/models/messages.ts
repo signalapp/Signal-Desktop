@@ -2422,9 +2422,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         findStoryMessage(conversation.id, initialMessage.storyContext),
       ]);
 
-      if (initialMessage.storyContext && !storyQuote) {
+      if (
+        initialMessage.storyContext &&
+        !storyQuote &&
+        !isDirectConversation(conversation.attributes)
+      ) {
         log.warn(
-          `handleDataMessage/${idLog}: Received storyContext message but no matching story. Dropping.`
+          `handleDataMessage/${idLog}: Received storyContext message in group but no matching story. Dropping.`
         );
 
         confirm();

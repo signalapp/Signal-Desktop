@@ -1942,12 +1942,12 @@ export default class MessageReceiver
       return;
     }
 
-    const expireTimer = Math.min(
-      Math.floor((envelope.timestamp + durations.DAY - Date.now()) / 1000),
-      durations.DAY / 1000
+    const timeRemaining = Math.min(
+      Math.floor(envelope.timestamp + durations.DAY - Date.now()),
+      durations.DAY
     );
 
-    if (expireTimer <= 0) {
+    if (timeRemaining <= 0) {
       log.info(
         'MessageReceiver.handleStoryMessage: story already expired',
         logId
@@ -1959,7 +1959,7 @@ export default class MessageReceiver
     const message: ProcessedDataMessage = {
       attachments,
       canReplyToStory: Boolean(msg.allowsReplies),
-      expireTimer,
+      expireTimer: durations.DAY / 1000,
       flags: 0,
       groupV2,
       isStory: true,
