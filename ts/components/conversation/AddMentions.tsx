@@ -19,8 +19,8 @@ const StyledMentionAnother = styled.span`
 `;
 
 const StyledMentionedUs = styled(StyledMentionAnother)`
-  background-color: var(--color-text-accent);
-  color: black;
+  background-color: var(--primary-color);
+  color: var(--text-primary-color);
   border-radius: 5px;
 `;
 

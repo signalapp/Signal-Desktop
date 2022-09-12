@@ -1,5 +1,6 @@
 export const APPLY_THEME = 'APPLY_THEME';
 
+// TODO Theming - should be classic-light and classic-dark
 export type ThemeStateType = 'light' | 'dark' | 'ocean-light' | 'ocean-dark';
 
 export const applyTheme = (theme: ThemeStateType) => {

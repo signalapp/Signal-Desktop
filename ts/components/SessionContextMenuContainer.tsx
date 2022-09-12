@@ -7,6 +7,7 @@ export const SessionContextMenuContainer = styled.div.attrs({
     // be sure it is more than the one set for the More Informations screen of messages
     z-index: 30;
     min-width: 200px;
+    /* TODO Theming Update */
     box-shadow: 0 10px 16px 0 rgba(var(--color-black-color-rgb), 0.2),
       0 6px 20px 0 rgba(var(--color-black-color-rgb), 0.19) !important;
     background-color: var(--color-received-message-background);

@@ -12,8 +12,9 @@ const MessageStatusSendingContainer = styled.div`
   cursor: pointer;
 `;
 
+const iconColor = 'var(--text-primary-color)';
+
 const MessageStatusSending = ({ dataTestId }: { dataTestId?: string }) => {
-  const iconColor = 'var(--color-text)';
   return (
     <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="sending">
       <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize="tiny" />
@@ -22,8 +23,6 @@ const MessageStatusSending = ({ dataTestId }: { dataTestId?: string }) => {
 };
 
 const MessageStatusSent = ({ dataTestId }: { dataTestId?: string }) => {
-  const iconColor = 'var(--color-text)';
-
   return (
     <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="sent">
       <SessionIcon iconColor={iconColor} iconType="circleCheck" iconSize="tiny" />
@@ -32,8 +31,6 @@ const MessageStatusSent = ({ dataTestId }: { dataTestId?: string }) => {
 };
 
 const MessageStatusRead = ({ dataTestId }: { dataTestId?: string }) => {
-  const iconColor = 'var(--color-text)';
-
   return (
     <MessageStatusSendingContainer data-testid={dataTestId} data-testtype="read">
       <SessionIcon iconColor={iconColor} iconType="doubleCheckCircleFilled" iconSize="tiny" />
@@ -53,7 +50,7 @@ const MessageStatusError = ({ dataTestId }: { dataTestId?: string }) => {
       onClick={showDebugLog}
       title={window.i18n('sendFailed')}
     >
-      <SessionIcon iconColor={'var(--color-destructive'} iconType="error" iconSize="tiny" />
+      <SessionIcon iconColor={'var(--danger-color'} iconType="error" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
 };

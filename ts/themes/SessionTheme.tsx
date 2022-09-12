@@ -466,6 +466,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* TODO Theming this should be overridable */
     --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
     --danger-color: ${COLORS.DANGER.LIGHT};
+    --transparent-color: ${COLORS.TRANSPARENT};
 
     /* Backgrounds */
     --background-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
@@ -488,13 +489,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --text-box-border-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
 
     /* Message Bubbles */
-    --message-bubbles-outgoing-background-color: var(--primary-color);
-    --message-bubbles-incoming-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
-    --message-bubbles-outgoing-text-color: var(--text-primary-color);
-    --message-bubbles-incoming-text-color: var(--text-primary-color);
+    --message-bubbles-sent-background-color: var(--primary-color);
+    --message-bubbles-received-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --message-bubbles-sent-text-color: var(--text-primary-color);
+    --message-bubbles-received-text-color: var(--text-primary-color);
 
     /* Menu Button */
     --menu-button-background-color: ${THEMES.CLASSIC_LIGHT.COLOR0};
+    --menu-button-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
     /* TODO Theming Make a icon fill varible that uses the background color? */
     --menu-button-icon-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
 
@@ -519,7 +521,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-solid-text-hover-color: var(--text-primary-color);
 
     /* Outline */
-    --button-outline-background-color: ${COLORS.TRANSPARENT};
+    --button-outline-background-color: var(--transparent-color);
     --button-outline-background-hover-color: rgba(${hexColorToRGB(
       THEMES.CLASSIC_LIGHT.COLOR0
     )}, 0.1);
@@ -531,14 +533,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-outline-disabled-color: var(--text-secondary-color);
 
     /* Icons */
-    --button-icon-background-color: ${COLORS.TRANSPARENT};
+    --button-icon-background-color: var(--transparent-color);
     --button-icon-stroke-color: var(--text-secondary-color);
     --button-icon-stroke-hover-color: var(--text-primary-color);
     --button-icon-stroke-selected-color: var(--text-primary-color);
 
     /* TODO Theming Consolidate with code */
     /* Conversation Tab */
-    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items etc. */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -547,7 +549,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --conversation-tab-text-selected-color: var(--text-primary-color);
     --conversation-tab-text-unread-color: var(--text-primary-color);
     --conversation-tab-text-secondary-color: var(--text-secondary-color);
-    --conversation-tab-text-selected-color: var(--text-primary-color);
     --conversation-tab-bubble-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --conversation-tab-bubble-text-color: var(--text-primary-color);
     /* TODO Theming account for overriding */
@@ -572,10 +573,10 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Toggle Switch */
     --toggle-switch-ball-color: ;
     /* TODO Theming think this should be white instead of transparent */
-    --toggle-switch-off-background-color: ${COLORS.TRANSPARENT};
+    --toggle-switch-off-background-color: var(--transparent-color);
     --toggle-switch-off-border-color: var(--border-color);
     --toggle-switch-on-background-color: var(--primary-color);
-    --toggle-switch-on-border-color: ${COLORS.TRANSPARENT};
+    --toggle-switch-on-border-color: var(--transparent-color);
 
     /* TODO Theming Think this is part of the Convesations Tab */
     /* Unread Messages Alert */
@@ -586,7 +587,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Color Mode Button */
     --button-color-mode-stroke-color: var(--text-secondary-color);
     --button-color-mode-hover-color: var(--text-primary-color);
-    --button-color-mode-fill-color: ${COLORS.TRANSPARENT};
+    --button-color-mode-fill-color: var(--transparent-color);
 
     /* Path Button */
     --button-path-default-color: ${COLORS.PATH.DEFAULT};

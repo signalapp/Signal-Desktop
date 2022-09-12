@@ -13,7 +13,7 @@ const StyledMenuButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--bg-color);
+  background: var(--menu-button-background-color);
 
   border-radius: 2px;
   width: 51px;
@@ -23,8 +23,14 @@ const StyledMenuButton = styled.button`
   transition: var(--default-duration);
 
   :hover {
-    background: var(--hover-bg-color);
+    background: var(--menu-button-background-hover-color);
   }
+`;
+
+const StyledMenuInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
 `;
 
 /**
@@ -43,6 +49,7 @@ export const MenuButton = () => {
   return (
     <StyledMenuButton
       data-testid="new-conversation-button"
+      // TODO Theming Maybe move to StyleMenuInput
       style={
         {
           '--bg-color': 'var(--color-accent-button)',
@@ -50,12 +57,12 @@ export const MenuButton = () => {
           '--fg-color': 'white',
         } as CSSProperties
       }
-      onClick={onClickFn}
     >
+      <StyledMenuInput type="checkbox" checked={isToggled} onClick={onClickFn} />
       <SessionIcon
         iconSize="small"
         iconType="plusFat"
-        iconColor="var(--fg-color)"
+        iconColor="var(--menu-button-icon-color)"
         iconRotation={isToggled ? 45 : 0}
         aria-label={window.i18n('chooseAnAction')}
       />

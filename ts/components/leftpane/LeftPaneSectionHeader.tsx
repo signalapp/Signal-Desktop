@@ -14,41 +14,54 @@ import { MenuButton } from '../button/MenuButton';
 const SectionTitle = styled.h1`
   padding: 0 var(--margins-sm);
   flex-grow: 1;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
-export const LeftPaneSectionHeader = () => {
-  const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
-  const focusedSection = useSelector(getFocusedSection);
-  const overlayMode = useSelector(getOverlayMode);
+const StyledProgressBarContainer = styled.div`
+  width: 100%;
+  height: 5px;
+  flex-direction: row;
+  background: var(--border-color);
+`;
 
-  let label: string | undefined;
+const StyledProgressBarInner = styled.div`
+  background: var(--primary-color);
+  width: 90%;
+  transition: width 0.5s ease-in;
+  height: 100%;
+`;
 
-  const isMessageSection = focusedSection === SectionType.Message;
-  const isMessageRequestOverlay = overlayMode && overlayMode === 'message-requests';
+export const StyledBannerTitle = styled.div`
+  line-height: 1.3;
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
 
-  switch (focusedSection) {
-    case SectionType.Settings:
-      label = window.i18n('settingsHeader');
-      break;
-    case SectionType.Message:
-      label = isMessageRequestOverlay
-        ? window.i18n('messageRequests')
-        : window.i18n('messagesHeader');
-      break;
-    default:
+  span {
+    color: var(--primary-color);
+  }
+`;
+
+export const StyledLeftPaneBanner = styled.div`
+  background: var(--background-primary-color);
+  display: flex;
+  flex-direction: column;
+  border-bottom: var(--border-color);
+`;
+
+const StyledBannerInner = styled.div`
+  p {
+    margin: 0;
   }
 
-  return (
-    <Flex flexDirection="column">
-      <div className="module-left-pane__header">
-        <SectionTitle>{label}</SectionTitle>
-        {isMessageSection && <MenuButton />}
-      </div>
-      {showRecoveryPhrasePrompt && <LeftPaneBanner />}
-    </Flex>
-  );
-};
+  .left-pane-banner___phrase {
+    margin-top: var(--margins-md);
+  }
+
+  .session-button {
+    margin-top: var(--margins-sm);
+  }
+`;
 
 const BannerInner = () => {
   const dispatch = useDispatch();
@@ -94,48 +107,35 @@ export const LeftPaneBanner = () => {
   );
 };
 
-const StyledProgressBarContainer = styled.div`
-  width: 100%;
-  height: 5px;
-  flex-direction: row;
-  background: var(--color-session-border);
-`;
+export const LeftPaneSectionHeader = () => {
+  const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
+  const focusedSection = useSelector(getFocusedSection);
+  const overlayMode = useSelector(getOverlayMode);
 
-const StyledProgressBarInner = styled.div`
-  background: var(--color-accent);
-  width: 90%;
-  transition: width 0.5s ease-in;
-  height: 100%;
-`;
+  let label: string | undefined;
 
-export const StyledBannerTitle = styled.div`
-  line-height: 1.3;
-  font-size: var(--font-size-md);
-  font-weight: bold;
-  margin: var(--margins-sm) var(--margins-sm) 0 var(--margins-sm);
+  const isMessageSection = focusedSection === SectionType.Message;
+  const isMessageRequestOverlay = overlayMode && overlayMode === 'message-requests';
 
-  span {
-    color: var(--color-text-accent);
-  }
-`;
-
-export const StyledLeftPaneBanner = styled.div`
-  background: var(--color-recovery-phrase-banner-background);
-  display: flex;
-  flex-direction: column;
-  border-bottom: var(--session-border);
-`;
-
-const StyledBannerInner = styled.div`
-  p {
-    margin: 0;
+  switch (focusedSection) {
+    case SectionType.Settings:
+      label = window.i18n('settingsHeader');
+      break;
+    case SectionType.Message:
+      label = isMessageRequestOverlay
+        ? window.i18n('messageRequests')
+        : window.i18n('messagesHeader');
+      break;
+    default:
   }
 
-  .left-pane-banner___phrase {
-    margin-top: var(--margins-md);
-  }
-
-  .session-button {
-    margin-top: var(--margins-sm);
-  }
-`;
+  return (
+    <Flex flexDirection="column">
+      <div className="module-left-pane__header">
+        <SectionTitle>{label}</SectionTitle>
+        {isMessageSection && <MenuButton />}
+      </div>
+      {showRecoveryPhrasePrompt && <LeftPaneBanner />}
+    </Flex>
+  );
+};

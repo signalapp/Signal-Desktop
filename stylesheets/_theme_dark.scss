@@ -361,11 +361,12 @@
 
   // Module: Message Search Result
 
-  .module-message-search-result {
-    &:hover {
-      background-color: var(--color-dark-gray-color);
-    }
-  }
+  // TODO Theming remove
+  // .module-message-search-result {
+  //   &:hover {
+  //     background-color: var(--color-dark-gray-color);
+  //   }
+  // }
 
   .module-message__link-preview__icon-container__circle-background {
     background-color: var(--color-light-gray-color);

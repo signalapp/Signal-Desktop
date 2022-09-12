@@ -94,9 +94,8 @@ const ListItemIcons = () => {
 };
 
 const MentionAtSymbol = styled.span`
-  background-color: var(--color-accent);
-
-  color: black;
+  background-color: var(--primary-color);
+  color: var(--conversation-tab-text-color);
   text-align: center;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -114,10 +113,10 @@ const MentionAtSymbol = styled.span`
   height: 16px;
   min-width: 16px;
   border-radius: 8px;
-  /* transition: filter 0.25s linear; */
   cursor: pointer;
 
   :hover {
+    /* TODO Theming, should this be changed? */
     filter: grayscale(0.7);
   }
 `;

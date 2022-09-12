@@ -15,7 +15,7 @@ const renderNewLines: RenderTextCallbackType = ({ text, key, isGroup }) => (
 
 const SnippetHighlight = styled.span`
   font-weight: bold;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 const renderEmoji = ({
