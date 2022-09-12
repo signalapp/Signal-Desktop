@@ -5140,6 +5140,7 @@ button.module-image__border-overlay:focus {
     &__expire-timer {
       display: flex;
       flex-direction: row;
+      align-items: center;
 
       margin: 0 16px 16px 16px;
 
