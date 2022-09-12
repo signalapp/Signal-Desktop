@@ -48,13 +48,6 @@ const StyledConversationListContent = styled.div`
   transition: none;
 `;
 
-const StyledLeftPaneContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-`;
-
 const ClosableOverlay = () => {
   const overlayMode = useSelector(getOverlayMode);
 

@@ -4,7 +4,7 @@ import { createGlobalStyle } from 'styled-components';
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './colors';
 
-const whiteColor = '#ffffff';
+export const whiteColor = '#ffffff';
 const whiteColorRGB = '255, 255, 255'; // we need rgb values if we want css variables within rgba
 const blackColor = '#000000';
 const blackColorRGB = '0, 0, 0'; // we need rgb values if we want css variables within rgba
@@ -456,13 +456,13 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* New Theme Variables */
     /* Colors */
-    --green-color: ${COLORS.PRIMARY.GREEN},
-    --blue-color: ${COLORS.PRIMARY.BLUE},
-    --yellow-color: ${COLORS.PRIMARY.YELLOW},
-    --pink-color: ${COLORS.PRIMARY.PINK},
-    --purple-color: ${COLORS.PRIMARY.PURPLE},
-    --orange-color: ${COLORS.PRIMARY.ORANGE},
-    --red-color: ${COLORS.PRIMARY.RED},
+    --green-color: ${COLORS.PRIMARY.GREEN};
+    --blue-color: ${COLORS.PRIMARY.BLUE};
+    --yellow-color: ${COLORS.PRIMARY.YELLOW};
+    --pink-color: ${COLORS.PRIMARY.PINK};
+    --purple-color: ${COLORS.PRIMARY.PURPLE};
+    --orange-color: ${COLORS.PRIMARY.ORANGE};
+    --red-color: ${COLORS.PRIMARY.RED};
     /* TODO Theming this should be overridable */
     --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
     --danger-color: ${COLORS.DANGER.LIGHT};
@@ -540,7 +540,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming Consolidate with code */
     /* Conversation Tab */
-    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner etc. */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -599,6 +599,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* NOTE only used for + icon */
     --emoji-reaction-bar-icon-background-color: var(--background-primary-color);
     --emoji-reaction-bar-icon-color: var(--text-primary-color);
+
+    /* TODO Theming - Should Pills have their own colors? */
   };
 `;
 

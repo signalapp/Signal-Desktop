@@ -21,6 +21,39 @@ import {
 } from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 
+const MessageRequestListPlaceholder = styled.div`
+  color: var(--conversation-tab-text-color);
+  margin-bottom: auto;
+`;
+
+const MessageRequestListContainer = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  border: var(--border-color);
+  margin-bottom: auto;
+`;
+
+/**
+ * A request needs to be be unapproved and not blocked to be valid.
+ * @returns List of message request items
+ */
+const MessageRequestList = () => {
+  const conversationRequests = useSelector(getConversationRequests);
+  return (
+    <MessageRequestListContainer>
+      {conversationRequests.map(conversation => {
+        return (
+          <MemoConversationListItemWithDetails
+            key={conversation.id}
+            isMessageRequest={true}
+            {...conversation}
+          />
+        );
+      })}
+    </MessageRequestListContainer>
+  );
+};
+
 export const OverlayMessageRequest = () => {
   useKey('Escape', closeOverlay);
   const dispatch = useDispatch();
@@ -114,38 +147,5 @@ export const OverlayMessageRequest = () => {
         </>
       )}
     </div>
-  );
-};
-
-const MessageRequestListPlaceholder = styled.div`
-  color: var(--color-text);
-  margin-bottom: auto;
-`;
-
-const MessageRequestListContainer = styled.div`
-  width: 100%;
-  overflow-y: auto;
-  border: var(--border-session);
-  margin-bottom: auto;
-`;
-
-/**
- * A request needs to be be unapproved and not blocked to be valid.
- * @returns List of message request items
- */
-const MessageRequestList = () => {
-  const conversationRequests = useSelector(getConversationRequests);
-  return (
-    <MessageRequestListContainer>
-      {conversationRequests.map(conversation => {
-        return (
-          <MemoConversationListItemWithDetails
-            key={conversation.id}
-            isMessageRequest={true}
-            {...conversation}
-          />
-        );
-      })}
-    </MessageRequestListContainer>
   );
 };

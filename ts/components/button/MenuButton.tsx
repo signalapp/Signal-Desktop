@@ -27,12 +27,6 @@ const StyledMenuButton = styled.button`
   }
 `;
 
-const StyledMenuInput = styled.input`
-  opacity: 0;
-  width: 0;
-  height: 0;
-`;
-
 /**
  * This is the Session Menu Botton. i.e. the button on top of the conversation list to start a new conversation.
  * It has two state: selected or not and so we use an checkbox input to keep the state in sync.
@@ -57,8 +51,8 @@ export const MenuButton = () => {
           '--fg-color': 'white',
         } as CSSProperties
       }
+      onClick={onClickFn}
     >
-      <StyledMenuInput type="checkbox" checked={isToggled} onClick={onClickFn} />
       <SessionIcon
         iconSize="small"
         iconType="plusFat"

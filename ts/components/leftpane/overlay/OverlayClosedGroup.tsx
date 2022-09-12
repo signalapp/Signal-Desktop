@@ -22,7 +22,7 @@ import { VALIDATION } from '../../../session/constants';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-font-mono);
-  background: var(--color-cell-background);
+  background: var(--background-secondary-color);
   text-align: center;
   padding: 20px;
 `;
@@ -32,7 +32,7 @@ const StyledGroupMemberListContainer = styled.div`
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  border: var(--border-session);
+  border: var(--border-color);
 `;
 
 const NoContacts = () => {

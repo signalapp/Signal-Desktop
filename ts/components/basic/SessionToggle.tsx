@@ -2,7 +2,7 @@ import React from 'react';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { white } from '../../state/ducks/SessionTheme';
+import { whiteColor } from '../../themes/SessionTheme';
 
 const StyledKnob = styled.div<{ active: boolean }>`
   position: absolute;
@@ -11,7 +11,8 @@ const StyledKnob = styled.div<{ active: boolean }>`
   height: 21px;
   width: 21px;
   border-radius: 28px;
-  background-color: ${white};
+  /* TODO Theming update */
+  background-color: ${whiteColor};
   box-shadow: ${props =>
     props.active ? '-2px 1px 3px rgba(0, 0, 0, 0.15)' : '2px 1px 3px rgba(0, 0, 0, 0.15);'};
 

@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { black } from '../../state/ducks/SessionTheme';
 import { Flex } from '../basic/Flex';
 // tslint:disable: react-unused-props-and-state
 
@@ -16,7 +15,7 @@ type Props = {
 const StyledInput = styled.input<{
   filledSize: number;
   outlineOffset: number;
-  selectedColor: string;
+  selectedColor?: string;
 }>`
   opacity: 0;
   position: absolute;
@@ -25,12 +24,11 @@ const StyledInput = styled.input<{
   height: ${props => props.filledSize + props.outlineOffset}px;
 
   :checked + label:before {
-    background: ${props => props.selectedColor};
+    background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
   }
 `;
 
 const StyledLabel = styled.label<{
-  selectedColor: string;
   filledSize: number;
   outlineOffset: number;
   beforeMargins?: string;
@@ -44,7 +42,7 @@ const StyledLabel = styled.label<{
 
     transition: var(--default-duration);
     padding: ${props => props.filledSize}px;
-    outline: var(--color-text) solid 1px;
+    outline: var(--text-primary-color) solid 1px;
     border: none;
     outline-offset: ${props => props.outlineOffset}px;
     ${props => props.beforeMargins && `margin: ${props.beforeMargins};`};
@@ -62,7 +60,6 @@ export const SessionRadio = (props: Props) => {
     }
   }
 
-  const selectedColor = 'var(--color-accent)';
   const filledSize = 15 / 2;
   const outlineOffset = 2;
 
@@ -77,17 +74,15 @@ export const SessionRadio = (props: Props) => {
         onChange={clickHandler}
         filledSize={filledSize * 2}
         outlineOffset={outlineOffset}
-        selectedColor={selectedColor}
       />
 
       <StyledLabel
         role="button"
         onClick={clickHandler}
-        selectedColor={selectedColor}
         filledSize={filledSize}
         outlineOffset={outlineOffset}
         beforeMargins={beforeMargins}
-        aria-label={label}
+        // TODO Theming does this need a selected color
       >
         {label}
       </StyledLabel>
@@ -101,13 +96,13 @@ const StyledInputOutlineSelected = styled(StyledInput)`
     outline: none;
   }
   :checked + label:before {
-    outline: var(--color-text) solid 1px;
+    outline: var(--text-primary-color) solid 1px;
   }
 `;
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
   :before {
-    background: ${props => props.selectedColor};
-    outline: ${black} solid 1px;
+    background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
+    outline: var(--transparent-color) solid 1px;
   }
 `;
 
