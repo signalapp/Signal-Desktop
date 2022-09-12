@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { missingCaseError } from '../../util';
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 
@@ -26,31 +25,29 @@ const StyledHeaderTittle = styled.div`
 export const SettingsHeader = (props: Props) => {
   const { category } = props;
 
-  let categoryLocalized: LocalizerKeys | null = null;
+  let categoryTitle: string | null = null;
   switch (category) {
     case SessionSettingCategory.Appearance:
-      categoryLocalized = 'appearanceSettingsTitle';
+      categoryTitle = window.i18n('appearanceSettingsTitle');
       break;
     case SessionSettingCategory.Conversations:
-      categoryLocalized = 'conversationsSettingsTitle';
+      categoryTitle = window.i18n('conversationsSettingsTitle');
       break;
     case SessionSettingCategory.Notifications:
-      categoryLocalized = 'notificationsSettingsTitle';
+      categoryTitle = window.i18n('notificationsSettingsTitle');
       break;
     case SessionSettingCategory.Help:
-      categoryLocalized = 'helpSettingsTitle';
+      categoryTitle = window.i18n('helpSettingsTitle');
       break;
     case SessionSettingCategory.Permissions:
-      categoryLocalized = 'permissionsSettingsTitle';
+      categoryTitle = window.i18n('permissionsSettingsTitle');
       break;
     case SessionSettingCategory.Privacy:
-      categoryLocalized = 'privacySettingsTitle';
+      categoryTitle = window.i18n('privacySettingsTitle');
       break;
     default:
       throw missingCaseError('SettingsHeader' as never);
   }
-
-  const categoryTitle = window.i18n(categoryLocalized);
 
   return (
     <StyledSettingsHeader>

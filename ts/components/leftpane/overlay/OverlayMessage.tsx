@@ -45,13 +45,15 @@ export const OverlayMessage = () => {
   const subtitle = window.i18n('enterSessionIDOrONSName');
   const placeholder = window.i18n('enterSessionIDOfRecipient');
 
+  const disableNextButton = !pubkeyOrOns || loading;
+
   async function openConvoOnceResolved(resolvedSessionID: string) {
     const convo = await getConversationController().getOrCreateAndWait(
       resolvedSessionID,
       ConversationTypeEnum.PRIVATE
     );
 
-    // we now want to show a conversation we just started on the leftpane, even if we did not sent a message to it yet
+    // we now want to show a conversation we just started on the leftpane, even if we did not send a message to it yet
     if (!convo.isActive() || !convo.isApproved()) {
       convo.set({ active_at: Date.now(), isApproved: true });
       await convo.commit();
@@ -105,6 +107,7 @@ export const OverlayMessage = () => {
         placeholder={placeholder}
         onChange={setPubkeyOrOns}
         dataTestId="new-session-conversation"
+        onPressEnter={handleMessageButtonClick}
       />
 
       <SessionSpinner loading={loading} />
@@ -118,7 +121,8 @@ export const OverlayMessage = () => {
         container={true}
         justifyContent="space-between"
         alignItems="center"
-        padding="0 15px 0 0 " // YourSessionIDSelectable already has a left margin of 15px
+        width="100%"
+        padding="0 var(--margins-md)" // YourSessionIDSelectable already has a left margin of 15px
       >
         <YourSessionIDSelectable />
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
@@ -127,7 +131,7 @@ export const OverlayMessage = () => {
         buttonColor={SessionButtonColor.Green}
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
-        disabled={false}
+        disabled={disableNextButton}
         onClick={handleMessageButtonClick}
         dataTestId="next-new-conversation-button"
       />

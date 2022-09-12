@@ -41,7 +41,7 @@ const StyledContactRowName = styled.div`
   font-size: var(--font-size-lg);
 `;
 
-const StyledRowContainer = styled.div`
+const StyledRowContainer = styled.button`
   display: flex;
   align-items: center;
   padding: 0 var(--margins-lg);
@@ -64,7 +64,7 @@ const StyledBreak = styled.div`
   padding: 0 var(--margins-lg);
   color: var(--color-text-subtle);
   font-size: var(--font-size-md);
-  height: 25px; // should also be changed in rowHeight
+  height: 30px; // should also be changed in rowHeight
 
   border-bottom: 1px var(--color-session-border) solid;
 `;

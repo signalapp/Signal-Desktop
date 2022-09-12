@@ -35,23 +35,21 @@ export const YourSessionIDPill = () => {
 };
 
 const StyledYourSessionIDSelectable = styled.p`
-  user-select: text;
+  user-select: none;
   text-align: center;
   word-break: break-all;
-
-  padding: 0px var(--margins-lg);
   font-weight: 300;
   color: var(--color-text);
-
   font-size: var(--font-size-sm);
-  padding: 0px var(--margins-md);
 `;
 
 export const YourSessionIDSelectable = () => {
   const ourSessionID = UserUtils.getOurPubKeyStrFromCache();
   return (
     <StyledYourSessionIDSelectable data-testid="your-session-id">
-      {ourSessionID}
+      {ourSessionID.slice(0, 33)}
+      <br />
+      {ourSessionID.slice(33)}
     </StyledYourSessionIDSelectable>
   );
 };

@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
+import { black } from '../../state/ducks/SessionTheme';
 import { Flex } from '../basic/Flex';
 // tslint:disable: react-unused-props-and-state
 
@@ -46,7 +47,7 @@ const StyledLabel = styled.label<{
     outline: var(--color-text) solid 1px;
     border: none;
     outline-offset: ${props => props.outlineOffset}px;
-    margin: ${props => props.beforeMargins || ''};
+    ${props => props.beforeMargins && `margin: ${props.beforeMargins};`};
   }
 `;
 
@@ -86,6 +87,7 @@ export const SessionRadio = (props: Props) => {
         filledSize={filledSize}
         outlineOffset={outlineOffset}
         beforeMargins={beforeMargins}
+        aria-label={label}
       >
         {label}
       </StyledLabel>
@@ -105,7 +107,7 @@ const StyledInputOutlineSelected = styled(StyledInput)`
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
   :before {
     background: ${props => props.selectedColor};
-    outline: #0000 solid 1px;
+    outline: ${black} solid 1px;
   }
 `;
 

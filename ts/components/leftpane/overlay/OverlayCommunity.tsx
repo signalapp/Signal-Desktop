@@ -7,17 +7,28 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basi
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetOverlayMode } from '../../../state/ducks/section';
-import { joinOpenGroupV2WithUIEvents } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import {
+  joinOpenGroupV2WithUIEvents,
+  JoinSogsRoomUICallbackArgs,
+} from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ToastUtils } from '../../../session/utils';
 import useKey from 'react-use/lib/useKey';
+import { getOverlayMode } from '../../../state/selectors/section';
+import {
+  markConversationInitialLoadingInProgress,
+  openConversationWithMessages,
+} from '../../../state/ducks/conversations';
 
-async function joinOpenGroup(serverUrl: string) {
+async function joinOpenGroup(
+  serverUrl: string,
+  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
+) {
   // guess if this is an open
   if (serverUrl.match(openGroupV2CompleteURLRegex)) {
-    const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false);
+    const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false, uiCallback);
     return groupCreated;
   } else {
     ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
@@ -31,20 +42,18 @@ export const OverlayCommunity = () => {
   const [loading, setLoading] = useState(false);
   const [groupUrl, setGroupUrl] = useState('');
 
+  const overlayModeIsCommunity = useSelector(getOverlayMode) === 'open-group';
+
   function closeOverlay() {
     dispatch(resetOverlayMode());
   }
 
-  async function onEnterPressed() {
+  async function onTryJoinRoom(completeUrl?: string) {
     try {
       if (loading) {
         return;
       }
-      setLoading(true);
-      const groupCreated = await joinOpenGroup(groupUrl);
-      if (groupCreated) {
-        closeOverlay();
-      }
+      await joinOpenGroup(completeUrl || groupUrl, joinSogsUICallback);
     } catch (e) {
       window.log.warn(e);
     } finally {
@@ -52,7 +61,22 @@ export const OverlayCommunity = () => {
     }
   }
 
-  // FIXME autofocus inputref on mount
+  function joinSogsUICallback(args: JoinSogsRoomUICallbackArgs) {
+    setLoading(args.loadingState === 'started');
+    if (args.conversationKey) {
+      dispatch(
+        markConversationInitialLoadingInProgress({
+          conversationKey: args.conversationKey,
+          isInitialFetchingInProgress: true,
+        })
+      );
+    }
+    if (args.loadingState === 'finished' && overlayModeIsCommunity && args.conversationKey) {
+      closeOverlay();
+      void openConversationWithMessages({ conversationKey: args.conversationKey, messageId: null }); // open to last unread for a session run sogs
+    }
+  }
+
   useKey('Escape', closeOverlay);
 
   const title = window.i18n('joinOpenGroup');
@@ -72,20 +96,20 @@ export const OverlayCommunity = () => {
           isGroup={true}
           maxLength={300}
           onChange={setGroupUrl}
-          onPressEnter={onEnterPressed}
+          onPressEnter={onTryJoinRoom}
         />
       </div>
 
+      <SessionButton
+        buttonColor={SessionButtonColor.Green}
+        buttonType={SessionButtonType.BrandOutline}
+        text={buttonText}
+        disabled={!groupUrl}
+        onClick={onTryJoinRoom}
+      />
+
       <SessionSpinner loading={loading} />
-      <SessionJoinableRooms onRoomClicked={closeOverlay} />
-      {groupUrl && (
-        <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
-          text={buttonText}
-          onClick={onEnterPressed}
-        />
-      )}
+      <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />
     </div>
   );
 };

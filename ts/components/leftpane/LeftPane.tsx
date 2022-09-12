@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
@@ -10,6 +11,11 @@ import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
+
+export const leftPaneListWidth = 300;
+const StyledLeftPane = styled.div`
+  width: ${leftPaneListWidth}px;
+`;
 
 const InnerLeftPaneMessageSection = () => {
   const showSearch = useSelector(isSearching);
@@ -51,9 +57,9 @@ export const LeftPane = () => {
       <div className="module-left-pane-session">
         <ActionsPanel />
 
-        <div className="module-left-pane">
+        <StyledLeftPane className="module-left-pane">
           <LeftPaneSection />
-        </div>
+        </StyledLeftPane>
       </div>
     </SessionTheme>
   );

@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
 import { getSearchResults, isSearching } from '../../../state/selectors/search';
 import { useSet } from '../../../hooks/useSet';
+import { VALIDATION } from '../../../session/constants';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-font-mono);
@@ -90,6 +91,8 @@ export const OverlayClosedGroup = () => {
   }
   const contactsToRender = isSearch ? sharedWithResults : privateContactsPubkeys;
 
+  const disableCreateButton = !selectedMemberIds.length && !groupName.length;
+
   return (
     <div className="module-left-pane-overlay">
       <OverlayHeader title={title} subtitle={subtitle} />
@@ -99,7 +102,7 @@ export const OverlayClosedGroup = () => {
           placeholder={placeholder}
           value={groupName}
           isGroup={true}
-          maxLength={100}
+          maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
           onChange={setGroupName}
           onPressEnter={onEnterPressed}
           dataTestId="new-closed-group-name"
@@ -129,13 +132,13 @@ export const OverlayClosedGroup = () => {
         )}
       </StyledGroupMemberListContainer>
 
-      <SpacerLG />
+      <SpacerLG style={{ flexShrink: 0 }} />
 
       <SessionButton
         buttonColor={SessionButtonColor.Green}
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
-        disabled={noContactsForClosedGroup}
+        disabled={disableCreateButton}
         onClick={onEnterPressed}
         dataTestId="next-button"
         margin="auto 0 var(--margins-lg) 0 " // just to keep that button at the bottom of the overlay (even with an empty list)

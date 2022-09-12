@@ -8,6 +8,7 @@ import {
   getDirectContactsByName,
   getDirectContactsCount,
 } from '../../../../state/selectors/conversations';
+import { leftPaneListWidth } from '../../LeftPane';
 import { StyledLeftPaneList } from '../../LeftPaneList';
 import { ContactRow, ContactRowBreak } from './ContactRow';
 import { StyledChooseActionTitle } from './OverlayChooseAction';
@@ -93,11 +94,11 @@ const ContactListItemSection = () => {
               rowCount={length}
               rowHeight={
                 (params: Index) =>
-                  isString(directContactsByNameWithBreaks[params.index]) ? 25 : 64 // should also be changed in `ContactRowBreak`
+                  isString(directContactsByNameWithBreaks[params.index]) ? 30 : 64 // should also be changed in `ContactRowBreak`
               }
               directContactsByNameWithBreaks={directContactsByNameWithBreaks}
               rowRenderer={renderRow}
-              width={300} // the same as session-left-pane-width
+              width={leftPaneListWidth}
               autoHeight={false}
             />
           );
@@ -113,7 +114,9 @@ const ContactsTitle = () => {
     return null;
   }
 
-  return <StyledChooseActionTitle>{window.i18n('contactsHeader')}</StyledChooseActionTitle>;
+  return (
+    <StyledChooseActionTitle tabIndex={0}>{window.i18n('contactsHeader')}</StyledChooseActionTitle>
+  );
 };
 
 export const ContactsListWithBreaks = () => {

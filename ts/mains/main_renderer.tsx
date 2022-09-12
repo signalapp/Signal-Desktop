@@ -84,8 +84,6 @@ let newVersion = false;
 
 window.document.title = window.getTitle();
 
-// Whisper.events =
-// window.Whisper.events = WhisperEvents ?
 const WhisperEvents = _.clone(Backbone.Events);
 window.Whisper = window.Whisper || {};
 window.Whisper.events = WhisperEvents;

@@ -103,6 +103,11 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
   }
 }
 
+export type JoinSogsRoomUICallbackArgs = {
+  loadingState: 'started' | 'finished' | 'failed';
+  conversationKey: string | null;
+};
+
 /**
  * This function does not throw
  * This function can be used to join an opengroupv2 server, from a user initiated click or from a syncMessage.
@@ -121,7 +126,7 @@ export async function joinOpenGroupV2WithUIEvents(
   completeUrl: string,
   showToasts: boolean,
   fromConfigMessage: boolean,
-  uiCallback?: (loading: boolean) => void
+  uiCallback?: (args: JoinSogsRoomUICallbackArgs) => void
 ): Promise<boolean> {
   try {
     const parsedRoom = parseOpenGroupV2(completeUrl);
@@ -142,9 +147,9 @@ export async function joinOpenGroupV2WithUIEvents(
     if (showToasts) {
       ToastUtils.pushToastInfo('connectingToServer', window.i18n('connectingToServer'));
     }
-    if (uiCallback) {
-      uiCallback(true);
-    }
+
+    uiCallback?.({ loadingState: 'started', conversationKey: conversationID });
+
     await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
     const isConvoCreated = getConversationController().get(conversationID);
@@ -155,21 +160,21 @@ export async function joinOpenGroupV2WithUIEvents(
           window.i18n('connectToServerSuccess')
         );
       }
+      uiCallback?.({ loadingState: 'finished', conversationKey: conversationID });
+
       return true;
     } else {
       if (showToasts) {
         ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
       }
     }
+    uiCallback?.({ loadingState: 'failed', conversationKey: conversationID });
   } catch (error) {
     window?.log?.warn('got error while joining open group:', error.message);
     if (showToasts) {
       ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
     }
-  } finally {
-    if (uiCallback) {
-      uiCallback(false);
-    }
+    uiCallback?.({ loadingState: 'failed', conversationKey: null });
   }
   return false;
 }

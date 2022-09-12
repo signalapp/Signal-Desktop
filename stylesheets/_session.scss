@@ -94,7 +94,7 @@ textarea {
   background-color: var(--color-transparent-color);
 
   &.disabled {
-    cursor: default;
+    cursor: not-allowed;
   }
 
   &.default,
@@ -104,18 +104,6 @@ textarea {
 
     &:not(.disabled):hover {
       background: var(--color-clickable-hovered);
-    }
-
-    &.green,
-    &.white,
-    &.primary,
-    &.secondary,
-    &.success,
-    &.danger,
-    &.warning {
-      &.disabled {
-        filter: brightness(60%);
-      }
     }
 
     &.green {
@@ -182,10 +170,10 @@ textarea {
     &.white,
     &.green {
       &.disabled {
-        filter: brightness(60%);
+        @include transparent-background(var(--color-text-subtle));
 
         &:hover {
-          filter: brightness(60%);
+          @include transparent-background(var(--color-text-subtle));
         }
       }
     }
@@ -823,6 +811,8 @@ input {
 }
 
 .contact-selection-list {
+  display: flex;
+  flex-direction: column;
   width: 20vw;
 }
 

@@ -18,39 +18,44 @@ const AvatarItem = (props: { memberPubkey: string; isAdmin: boolean }) => {
   );
 };
 
-const StyledSessionMemberItem = styled.div<{
+const StyledSessionMemberItem = styled.button<{
   inMentions?: boolean;
   zombie?: boolean;
   selected?: boolean;
 }>`
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-shrink: 0;
+  flex-grow: 1;
   font-family: var(--font-default);
   padding: 0px var(--margins-sm);
   height: ${props => (props.inMentions ? '40px' : '50px')};
-  display: flex;
-  justify-content: space-between;
-  transition: var(--default-duration);
 
+  transition: var(--default-duration);
   opacity: ${props => (props.zombie ? 0.5 : 1)};
+  background-color: ${props =>
+    props.selected && 'var(--color-conversation-item-selected) !important'};
 
   :not(:last-child) {
     border-bottom: var(--border-session);
   }
-
-  background-color: ${props =>
-    props.selected ? 'var(--color-conversation-item-selected) !important' : null};
 `;
 
 const StyledInfo = styled.div`
   display: flex;
   align-items: center;
+  min-width: 0;
 `;
 
 const StyledName = styled.span`
   font-weight: bold;
   margin-inline-start: var(--margins-md);
   margin-inline-end: var(--margins-md);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledCheckContainer = styled.div`
@@ -97,7 +102,6 @@ export const MemberListItem = (props: {
             }
           : {}
       }
-      role="button"
       data-testid={dataTestId}
       zombie={isZombie}
       inMentions={inMentions}
@@ -105,7 +109,6 @@ export const MemberListItem = (props: {
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />
-
         <StyledName>{memberName}</StyledName>
       </StyledInfo>
 
