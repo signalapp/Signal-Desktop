@@ -456,6 +456,17 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* New Theme Variables */
     /* Colors */
+    --green-color: ${COLORS.PRIMARY.GREEN},
+    --blue-color: ${COLORS.PRIMARY.BLUE},
+    --yellow-color: ${COLORS.PRIMARY.YELLOW},
+    --pink-color: ${COLORS.PRIMARY.PINK},
+    --purple-color: ${COLORS.PRIMARY.PURPLE},
+    --orange-color: ${COLORS.PRIMARY.ORANGE},
+    --red-color: ${COLORS.PRIMARY.RED},
+    /* TODO Theming this should be overridable */
+    --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --danger-color: ${COLORS.DANGER.LIGHT};
+
     /* Backgrounds */
     --background-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --background-secondary-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
@@ -468,7 +479,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --border-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
 
     /* Modals */
-    /* TODO Clarify what those transparent colors mean */
+    /* TODO Theming Clarify what those transparent colors mean */
 
     /* Text Box */
     --text-box-background-color: var(--background-primary-color);
@@ -477,14 +488,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --text-box-border-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
 
     /* Message Bubbles */
-    --message-bubbles-outgoing-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --message-bubbles-outgoing-background-color: var(--primary-color);
     --message-bubbles-incoming-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --message-bubbles-outgoing-text-color: var(--text-primary-color);
     --message-bubbles-incoming-text-color: var(--text-primary-color);
 
     /* Menu Button */
     --menu-button-background-color: ${THEMES.CLASSIC_LIGHT.COLOR0};
-    /* TODO Make a icon fill varible that uses the background color? */
+    /* TODO Theming Make a icon fill varible that uses the background color? */
     --menu-button-icon-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
 
     /* Chat (Interaction) Buttons */
@@ -498,9 +509,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     --settings-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --settings-tab-text-color: var(--text-primary-color);
 
-    /* TODO probably consolidate this */
+    /* TODO Theming probably consolidate this */
     /* Buttons */
-    /* TODO are solid buttons ever disabled? */
+    /* TODO Theming are solid buttons ever disabled? */
     /* Solid */
     --button-solid-background-color: var(--background-primary-color);
     --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -513,19 +524,21 @@ export const SessionGlobalStyles = createGlobalStyle`
       THEMES.CLASSIC_LIGHT.COLOR0
     )}, 0.1);
     --button-outline-text-color: var(--text-primary-color);
-    /* TODO we might not need this */
+    /* TODO Theming we might not need this */
     --button-outline-text-hover-color: var(--text-primary-color);
     --button-outline-border-color: var(--text-primary-color);
     --button-outline-border-hover-color: var(--text-primary-color);
     --button-outline-disabled-color: var(--text-secondary-color);
 
     /* Icons */
+    --button-icon-background-color: ${COLORS.TRANSPARENT};
     --button-icon-stroke-color: var(--text-secondary-color);
     --button-icon-stroke-hover-color: var(--text-primary-color);
     --button-icon-stroke-selected-color: var(--text-primary-color);
 
-    /* Consolidate with code */
+    /* TODO Theming Consolidate with code */
     /* Conversation Tab */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -537,8 +550,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     --conversation-tab-text-selected-color: var(--text-primary-color);
     --conversation-tab-bubble-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --conversation-tab-bubble-text-color: var(--text-primary-color);
-    /* TODO account for overriding */
-    --conversation-tab-color-strip-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    /* TODO Theming account for overriding */
+    --conversation-tab-color-strip-color: var(--primary-color);
 
     /* Search Bar */
     --search-bar-background-color: var(--background-secondary-color);
@@ -548,25 +561,25 @@ export const SessionGlobalStyles = createGlobalStyle`
     --search-bar-icon-hover-color: var(--text-primary-color);
 
     /* Scroll Bars */
-    /* TODO think this is the track? Should add thumb and other scroll colors here */
+    /* TODO Theming think this is the track? Should add thumb and other scroll colors here */
     /* Default */
     --scroll-bar-fill-color: var(--text-secondary-color);
     /* Zoom Bar */
     --zoom-bar-interval-color: var(--text-secondary-color);
-    /* TODO think this is the thumb? */
-    --zoom-bar-selector-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    /* TODO Theming think this is the thumb? */
+    --zoom-bar-selector-color: var(--primary-color);
 
     /* Toggle Switch */
     --toggle-switch-ball-color: ;
-    /* TODO think this should be white instead of transparent */
+    /* TODO Theming think this should be white instead of transparent */
     --toggle-switch-off-background-color: ${COLORS.TRANSPARENT};
     --toggle-switch-off-border-color: var(--border-color);
-    --toggle-switch-on-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --toggle-switch-on-background-color: var(--primary-color);
     --toggle-switch-on-border-color: ${COLORS.TRANSPARENT};
 
-    /* TODO Think this is part of the Convesations Tab */
+    /* TODO Theming Think this is part of the Convesations Tab */
     /* Unread Messages Alert */
-    --unread-messages-alert-background-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
+    --unread-messages-alert-background-color: var(--primary-color);
     --unread-messages-alert-text-color: var(--text-primary-color);
 
     /* toggles between the Light and Dark mode for a Theme */
@@ -600,6 +613,7 @@ export const SessionTheme = ({ children }: { children: any }) => (
  *
  */
 
+// TODO Theming need to improve this somehow
 type SettingsThemeSwitcherColor = {
   background: string;
   border: string;
@@ -626,12 +640,12 @@ type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string 
 
 export const getPrimaryColors = (): Array<PrimaryColorType> => {
   return [
-    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: '#31F196' },
-    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: '#57C9FA' },
-    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: '#FAD657' },
-    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: '#FF95EF' },
-    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: '#C993FF' },
-    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: '#FCB159' },
-    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: '#FF9C8E' },
+    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
+    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
+    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
+    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
+    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
+    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
+    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
   ];
 };

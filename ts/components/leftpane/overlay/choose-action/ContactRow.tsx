@@ -35,6 +35,7 @@ const AvatarItem = (props: Pick<Props, 'displayName' | 'id'>) => {
 };
 
 const StyledContactRowName = styled.div`
+  color: var(--text-primary-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,14 +48,14 @@ const StyledRowContainer = styled.button`
   padding: 0 var(--margins-lg);
   transition: background-color var(--default-duration) linear;
   cursor: pointer;
-  border-bottom: 1px var(--color-session-border) solid;
+  border-bottom: 1px var(--border-color) solid;
 
   &:first-child {
-    border-top: 1px var(--color-session-border) solid;
+    border-top: 1px var(--border-color) solid;
   }
 
   :hover {
-    background-color: var(--color-clickable-hovered);
+    background-color: var(--conversation-tab-background-hover-color);
   }
 `;
 
@@ -62,11 +63,11 @@ const StyledBreak = styled.div`
   display: flex;
   align-items: center;
   padding: 0 var(--margins-lg);
-  color: var(--color-text-subtle);
+  color: var(--text-secondary-color);
   font-size: var(--font-size-md);
   height: 30px; // should also be changed in rowHeight
 
-  border-bottom: 1px var(--color-session-border) solid;
+  border-bottom: 1px var(--border-color) solid;
 `;
 
 export const ContactRowBreak = (props: { char: string; key: string; style: CSSProperties }) => {

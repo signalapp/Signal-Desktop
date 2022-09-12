@@ -20,12 +20,12 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   font-family: var(--font-default);
   border-radius: 50%;
   font-weight: 700;
-  background: var(--color-destructive);
+  /* TODO Theming Update */
+  background: var(--unread-messages-alert-background-color);
   transition: var(--default-duration);
   opacity: ${props => (props.shouldRender ? 1 : 0)};
   text-align: center;
-  color: white;
-  /* cursor:  */
+  color: var(--unread-messages-alert-text-color);
 `;
 
 const StyledCount = styled.div<{ countOverflow: boolean }>`

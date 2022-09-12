@@ -342,6 +342,7 @@ label {
 
 .conversation-header {
   .module-avatar img {
+    // TODO Theming Update
     box-shadow: 0px 0px 5px 0px rgba(var(--color-white-color-rgb), 0.2);
   }
 
@@ -693,7 +694,7 @@ label {
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: var(--color-session-green-color);
+    background: var(--primary-color);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   div:nth-child(1) {
@@ -836,17 +837,18 @@ input {
     width: 40px;
     border-radius: 50%;
     opacity: 1;
-    background-color: var(--color-cell-background);
+    background-color: var(--button-icon-background-color);
     box-shadow: var(--color-session-shadow);
 
     svg path {
       transition: var(--default-duration);
       opacity: 0.6;
-      fill: var(--color-text);
+      fill: var(--button-icon-stroke-color);
     }
 
     &:hover svg path {
       opacity: 1;
+      fill: var(--button-icon-stroke-hover-color);
     }
   }
 }

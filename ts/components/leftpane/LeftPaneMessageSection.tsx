@@ -32,14 +32,20 @@ export interface Props {
   overlayMode: OverlayMode | undefined;
 }
 
+const StyledLeftPaneContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+`;
+
 const StyledConversationListContent = styled.div`
+  background: var(--background-primary-color);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   transition: none;
-
-  background: var(--color-conversation-list);
 `;
 
 const StyledLeftPaneContent = styled.div`

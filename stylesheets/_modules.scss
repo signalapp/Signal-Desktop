@@ -42,7 +42,7 @@
   display: inline-block;
   position: absolute;
   bottom: 4px;
-  @include color-svg('../images/error.svg', var(--color-destructive));
+  @include color-svg('../images/error.svg', var(--danger-color));
 }
 
 .module-message__error--outgoing {
@@ -393,7 +393,7 @@
 .module-message-detail__delete-button {
   @include button-reset;
 
-  background-color: var(--color-destructive);
+  background-color: var(--danger-color);
   color: var(--color-white-color);
   box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
   border-radius: 5px;
@@ -421,7 +421,7 @@
 }
 
 .module-message-detail__contact__error {
-  color: var(--color-destructive);
+  color: var(--danger-color);
   font-weight: 300;
 }
 
@@ -633,17 +633,17 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-dark-gray-color);
+    background-color: var(--conversation-tab-background-hover-color);
   }
 
   &--is-blocked {
-    border-left: 4px solid var(--color-destructive) !important;
+    border-left: 4px solid var(--danger-color) !important;
   }
 }
 
 .module-conversation-list-item__unread-count {
-  color: var(--color-white-color);
-  background-color: var(--color-session-green-color);
+  background-color: var(--unread-messages-alert-background-color);
+  color: var(--unread-messages-alert-text-color);
   text-align: center;
 
   padding-top: 1px;
@@ -662,7 +662,7 @@
   min-width: 16px;
   line-height: 16px;
   border-radius: 8px;
-
+  // TODO Theming Should we remove this?
   box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
 }
 
@@ -704,7 +704,7 @@
 
 .module-conversation-list-item__header__date--has-unread {
   font-weight: 300;
-  color: var(--color-lighter-gray-color);
+  color: var(--conversation-tab-text-unread-color);
 }
 
 .module-conversation-list-item__message {
@@ -720,7 +720,7 @@
   font-size: var(--font-size-sm);
   line-height: 18px;
 
-  color: var(--color-light-gray-color);
+  color: var(--conversation-tab-text-color);
 
   height: 1.3em;
   overflow: hidden;
@@ -733,7 +733,7 @@
 
 .module-conversation-list-item__message__text--has-unread {
   font-weight: 400;
-  color: var(--color-lighter-gray-color);
+  color: var(--conversation-tab-text-unread-color);
 }
 
 // Module: Image

@@ -65,6 +65,7 @@ const Section = (props: { type: SectionType }) => {
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.Moon) {
+      // TODO Theming Toggle current theme light and dark mode with new system
       const currentTheme = window.Events.getThemeSetting();
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
