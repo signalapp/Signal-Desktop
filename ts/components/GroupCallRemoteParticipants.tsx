@@ -380,7 +380,10 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         break;
     }
 
-    setGroupCallVideoRequest(videoRequest, gridParticipantHeight);
+    setGroupCallVideoRequest(
+      videoRequest,
+      clamp(gridParticipantHeight, 0, MAX_FRAME_HEIGHT)
+    );
   }, [
     devicePixelRatio,
     gridParticipantHeight,
