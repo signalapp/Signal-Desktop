@@ -499,6 +499,7 @@ export const StoryViewer = ({
             <StoryImage
               attachment={attachment}
               firstName={firstName || title}
+              isMe={isMe}
               i18n={i18n}
               isPaused={shouldPauseViewing}
               isMuted={isStoryMuted}
@@ -584,11 +585,13 @@ export const StoryViewer = ({
                   />
                 )}
                 <div className="StoryViewer__meta--title">
-                  {group
-                    ? i18n('Stories__from-to-group', {
-                        name: title,
-                        group: group.title,
-                      })
+                  {(group &&
+                    i18n('Stories__from-to-group', {
+                      name: isMe ? i18n('you') : title,
+                      group: group.title,
+                    })) ||
+                  isMe
+                    ? i18n('you')
                     : title}
                 </div>
                 <MessageTimestamp
