@@ -30,12 +30,15 @@ export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
 
 export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
 
+/* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
 abstract class ParserBase<
   Message extends OptionalAvatar,
   Decoder extends DecoderBase<Message>,
   Result
 > implements Iterable<Result>
 {
+  /* eslint-enable @typescript-eslint/brace-style */
+
   protected readonly reader: protobuf.Reader;
 
   constructor(bytes: Uint8Array, private readonly decoder: Decoder) {

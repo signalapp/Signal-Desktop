@@ -229,10 +229,13 @@ function getEnvelopeId(envelope: ProcessedEnvelope): string {
   return `${prefix} ${timestamp} (${envelope.id})`;
 }
 
+/* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
 export default class MessageReceiver
   extends EventTarget
   implements IRequestHandler
 {
+  /* eslint-enable @typescript-eslint/brace-style */
+
   private server: WebAPIType;
 
   private storage: Storage;

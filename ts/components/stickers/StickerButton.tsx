@@ -70,7 +70,9 @@ export const StickerButton = React.memo(
     const setOpen = React.useCallback(
       (value: boolean) => {
         internalSetOpen(value);
-        if (onOpenStateChanged) onOpenStateChanged(value);
+        if (onOpenStateChanged) {
+          onOpenStateChanged(value);
+        }
       },
       [internalSetOpen, onOpenStateChanged]
     );

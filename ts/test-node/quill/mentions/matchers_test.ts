@@ -79,7 +79,9 @@ type MentionInsert = {
 
 const isMention = (insert?: unknown): insert is MentionInsert => {
   if (insert) {
-    if (Object.getOwnPropertyNames(insert).includes('mention')) return true;
+    if (Object.getOwnPropertyNames(insert).includes('mention')) {
+      return true;
+    }
   }
   return false;
 };

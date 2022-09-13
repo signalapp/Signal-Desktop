@@ -55,14 +55,18 @@ export class User {
 
   public getNumber(): string | undefined {
     const numberId = this.storage.get('number_id');
-    if (numberId === undefined) return undefined;
+    if (numberId === undefined) {
+      return undefined;
+    }
     return Helpers.unencodeNumber(numberId)[0];
   }
 
   public getUuid(uuidKind = UUIDKind.ACI): UUID | undefined {
     if (uuidKind === UUIDKind.PNI) {
       const pni = this.storage.get('pni');
-      if (pni === undefined) return undefined;
+      if (pni === undefined) {
+        return undefined;
+      }
       return new UUID(pni);
     }
 
@@ -71,7 +75,9 @@ export class User {
       `Unsupported uuid kind: ${uuidKind}`
     );
     const uuid = this.storage.get('uuid_id');
-    if (!uuid) return undefined;
+    if (!uuid) {
+      return undefined;
+    }
     return new UUID(Helpers.unencodeNumber(uuid.toLowerCase())[0]);
   }
 
@@ -161,13 +167,17 @@ export class User {
 
   private _getDeviceIdFromUuid(): string | undefined {
     const uuid = this.storage.get('uuid_id');
-    if (uuid === undefined) return undefined;
+    if (uuid === undefined) {
+      return undefined;
+    }
     return Helpers.unencodeNumber(uuid)[1];
   }
 
   private _getDeviceIdFromNumber(): string | undefined {
     const numberId = this.storage.get('number_id');
-    if (numberId === undefined) return undefined;
+    if (numberId === undefined) {
+      return undefined;
+    }
     return Helpers.unencodeNumber(numberId)[1];
   }
 }

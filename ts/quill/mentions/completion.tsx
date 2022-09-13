@@ -151,7 +151,9 @@ export class MentionCompletion {
 
     const range = this.quill.getSelection();
 
-    if (range === null) return;
+    if (range === null) {
+      return;
+    }
 
     const member = this.results[resultIndex];
 

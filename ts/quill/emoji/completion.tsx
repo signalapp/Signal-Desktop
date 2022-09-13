@@ -119,7 +119,9 @@ export class EmojiCompletion {
 
     const range = this.quill.getSelection();
 
-    if (!range) return PASS_THROUGH;
+    if (!range) {
+      return PASS_THROUGH;
+    }
 
     const [blot, index] = this.quill.getLeaf(range.index);
     const [leftTokenTextMatch, rightTokenTextMatch] = matchBlotTextPartitions(
@@ -200,14 +202,18 @@ export class EmojiCompletion {
   completeEmoji(): void {
     const range = this.quill.getSelection();
 
-    if (range === null) return;
+    if (range === null) {
+      return;
+    }
 
     const emoji = this.results[this.index];
     const [leafText] = this.getCurrentLeafTextPartitions();
 
     const tokenTextMatch = /:([-+0-9a-z_]*)(:?)$/.exec(leafText);
 
-    if (tokenTextMatch === null) return;
+    if (tokenTextMatch === null) {
+      return;
+    }
 
     const [, tokenText] = tokenTextMatch;
 
