@@ -3071,7 +3071,8 @@ export default class MessageReceiver
     const contactSync = new ContactSyncEvent(
       Array.from(contactBuffer),
       Boolean(contacts.complete),
-      envelope.receivedAtCounter
+      envelope.receivedAtCounter,
+      envelope.timestamp
     );
     await this.dispatchAndWait(contactSync);
 
