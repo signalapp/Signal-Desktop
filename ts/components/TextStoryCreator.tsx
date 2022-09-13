@@ -38,6 +38,12 @@ export type PropsType = {
   onDone: (textAttachment: TextAttachmentType) => unknown;
 };
 
+enum LinkPreviewApplied {
+  None = 'None',
+  Automatic = 'Automatic',
+  Manual = 'Manual',
+}
+
 enum TextStyle {
   Default,
   Regular,
@@ -152,25 +158,38 @@ export const TextStoryCreator = ({
     }
   );
 
-  const [hasLinkPreviewApplied, setHasLinkPreviewApplied] = useState(false);
+  const [linkPreviewApplied, setLinkPreviewApplied] = useState(
+    LinkPreviewApplied.None
+  );
+  const hasLinkPreviewApplied = linkPreviewApplied !== LinkPreviewApplied.None;
   const [linkPreviewInputValue, setLinkPreviewInputValue] = useState('');
 
   useEffect(() => {
     if (!linkPreviewInputValue) {
       return;
     }
+    if (linkPreviewApplied === LinkPreviewApplied.Manual) {
+      return;
+    }
     debouncedMaybeGrabLinkPreview(
       linkPreviewInputValue,
       LinkPreviewSourceType.StoryCreator
     );
-  }, [debouncedMaybeGrabLinkPreview, linkPreviewInputValue]);
+  }, [
+    debouncedMaybeGrabLinkPreview,
+    linkPreviewApplied,
+    linkPreviewInputValue,
+  ]);
 
   useEffect(() => {
     if (!text) {
       return;
     }
+    if (linkPreviewApplied === LinkPreviewApplied.Manual) {
+      return;
+    }
     debouncedMaybeGrabLinkPreview(text, LinkPreviewSourceType.StoryCreator);
-  }, [debouncedMaybeGrabLinkPreview, text]);
+  }, [debouncedMaybeGrabLinkPreview, linkPreviewApplied, text]);
 
   useEffect(() => {
     if (!linkPreview || !text) {
@@ -180,7 +199,15 @@ export const TextStoryCreator = ({
     const links = findLinks(text);
 
     const shouldApplyLinkPreview = links.includes(linkPreview.url);
-    setHasLinkPreviewApplied(shouldApplyLinkPreview);
+    setLinkPreviewApplied(oldValue => {
+      if (oldValue === LinkPreviewApplied.Manual) {
+        return oldValue;
+      }
+      if (shouldApplyLinkPreview) {
+        return LinkPreviewApplied.Automatic;
+      }
+      return LinkPreviewApplied.None;
+    });
   }, [linkPreview, text]);
 
   const [isLinkPreviewInputShowing, setIsLinkPreviewInputShowing] =
@@ -286,7 +313,7 @@ export const TextStoryCreator = ({
               }
             }}
             onRemoveLinkPreview={() => {
-              setHasLinkPreviewApplied(false);
+              setLinkPreviewApplied(LinkPreviewApplied.None);
             }}
             textAttachment={textAttachment}
           />
@@ -495,7 +522,7 @@ export const TextStoryCreator = ({
                         <Button
                           className="StoryCreator__link-preview-button"
                           onClick={() => {
-                            setHasLinkPreviewApplied(true);
+                            setLinkPreviewApplied(LinkPreviewApplied.Manual);
                             setIsLinkPreviewInputShowing(false);
                           }}
                           theme={Theme.Dark}
