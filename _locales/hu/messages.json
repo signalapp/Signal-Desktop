@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Biztosan le szeretnéd tölteni a(z) $name$ által küldött tartalmat?",
   "pinConversation": "Beszélgetés feltűzése",
   "unpinConversation": "Feltűzött beszélgetés eltávolítása",
-  "pinConversationLimitTitle": "Feltűzött beszélgetések limite",
-  "pinConversationLimitToastDescription": "Csak $number$ beszélgetést tudsz feltűzni",
   "showUserDetails": "Show User Details",
   "sendRecoveryPhraseTitle": "Helyreállító kódmondat küldése",
   "sendRecoveryPhraseMessage": "A helyreállító kódmondatod készülsz elküldeni, amellyel hozzá lehet férni fiókodhoz. Biztosan el akarod küldeni?",
