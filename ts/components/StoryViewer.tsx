@@ -590,9 +590,7 @@ export const StoryViewer = ({
                       name: isMe ? i18n('you') : title,
                       group: group.title,
                     })) ||
-                  isMe
-                    ? i18n('you')
-                    : title}
+                    (isMe ? i18n('you') : title)}
                 </div>
                 <MessageTimestamp
                   i18n={i18n}
