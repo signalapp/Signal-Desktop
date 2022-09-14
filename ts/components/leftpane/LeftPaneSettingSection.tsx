@@ -64,7 +64,7 @@ const LeftPaneSettingsCategoryRow = (props: {
   const dispatch = useDispatch();
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
-  const dataTestId = `${title.toLowerCase()}-settings-menu-item`;
+  const dataTestId = `${title.toLowerCase().replace(' ', '-')}-settings-menu-item`;
 
   const isClearData = id === SessionSettingCategory.ClearData;
 

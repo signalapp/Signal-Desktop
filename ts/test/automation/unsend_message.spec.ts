@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import {
@@ -13,6 +13,8 @@ const testMessage = 'A -> B: ';
 const testReply = 'B -> A: ';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Unsend message', async () => {

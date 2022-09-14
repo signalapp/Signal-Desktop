@@ -7,16 +7,20 @@ import { MULTI_PREFIX, NODE_ENV, openElectronAppOnly } from './open';
 const getDirectoriesOfSessionDataPath = (source: string) =>
   readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
-    .filter(n => n.startsWith(`Session-${NODE_ENV}-${MULTI_PREFIX}`));
+    .map(dirent => {
+      return dirent.name;
+    })
+    .filter(n => n.includes(`${NODE_ENV}-${MULTI_PREFIX}`));
 
 let alreadyCleaned = false;
+let alreadyCleanedWaiting = false;
 
-export const cleanUpOtherTest = async () => {
-  if (alreadyCleaned) {
+const cleanUpOtherTest = async () => {
+  if (alreadyCleaned || alreadyCleanedWaiting) {
     return;
   }
   alreadyCleaned = true;
+
   const electronApp = await openElectronAppOnly('start');
 
   const appPath = await electronApp.evaluate(async ({ app }) => {
@@ -24,23 +28,25 @@ export const cleanUpOtherTest = async () => {
   });
   const window = await electronApp.firstWindow();
   await window.close();
-  if (alreadyCleaned) {
+  if (alreadyCleaned && alreadyCleanedWaiting) {
     return;
   }
+  alreadyCleanedWaiting = true;
+
   if (!appPath.length) {
     throw new Error('appDataPath unset');
   }
+
   const parentFolderOfAllDataPath = dirname(appPath);
 
   if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 20) {
     throw new Error('parentFolderOfAllDataPath not found or invalid');
   }
-  console.info('cleaning other tests leftovers...');
+  console.info('cleaning other tests leftovers...', parentFolderOfAllDataPath);
 
-  if (alreadyCleaned) {
-    return;
-  }
   const allAppDataPath = getDirectoriesOfSessionDataPath(parentFolderOfAllDataPath);
+  console.info('allAppDataPath', allAppDataPath);
+
   allAppDataPath.map(folder => {
     if (!appPath) {
       throw new Error('parentFolderOfAllDataPath unset');
@@ -50,6 +56,8 @@ export const cleanUpOtherTest = async () => {
   });
   console.info('...done');
 };
+
+export const beforeAllClean = cleanUpOtherTest;
 
 export const forceCloseAllWindows = async (windows: Array<Page>) => {
   return Promise.all(windows.map(w => w.close()));
