@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "$name$ が送信したメディアをダウンロードしてもよろしいですか？",
   "pinConversation": "会話をピン留めする",
   "unpinConversation": "会話のピン留めを外す",
-  "pinConversationLimitTitle": "会話のピン留めの上限",
-  "pinConversationLimitToastDescription": "$number$ 件の会話をピン留めすることができます",
   "showUserDetails": "ユーザーの詳細を表示",
   "sendRecoveryPhraseTitle": "復元フレーズを送信中",
   "sendRecoveryPhraseMessage": "あなたのアカウントにアクセスするため復元フレーズを送信しようとしています。このメッセージを送信してもよろしいですか？",

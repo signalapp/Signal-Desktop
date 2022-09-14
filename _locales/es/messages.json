@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "¿Estás seguro de querer descargar este archivo que $name$ te ha enviado?",
   "pinConversation": "Anclar conversación",
   "unpinConversation": "Desanclar conversación",
-  "pinConversationLimitTitle": "Límite de conversaciones ancladas",
-  "pinConversationLimitToastDescription": "Solo puedes anclar $number$ conversaciones",
   "showUserDetails": "Mostrar Detalles del Usuario",
   "sendRecoveryPhraseTitle": "Enviando Frase de Recuperación",
   "sendRecoveryPhraseMessage": "Estás intentando enviar tu frase de recuperación, que puede utilizarse para acceder a tu cuenta. ¿Estás seguro de que deseas enviar este mensaje?",

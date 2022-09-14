@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Är du säker du vill hämta media skickat av $name$?",
   "pinConversation": "Fäst konversation",
   "unpinConversation": "Lossa konversation",
-  "pinConversationLimitTitle": "Gräns för fästa konversationer",
-  "pinConversationLimitToastDescription": "Du kan bara fästa $number$ konversationer",
   "showUserDetails": "Visa användardetaljer",
   "sendRecoveryPhraseTitle": "Skickar återställningsfras",
   "sendRecoveryPhraseMessage": "Du försöker skicka din återställningsfras som kan användas för att komma åt ditt konto. Är du säker på att du vill skicka detta meddelande?",
