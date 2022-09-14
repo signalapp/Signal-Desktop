@@ -20,7 +20,7 @@ const StyledSeparatorSection = styled.div`
 
   color: var(--color-text);
 
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0;
 `;

@@ -6,9 +6,9 @@ import { SessionSettingsItemWrapper } from './SessionSettingListItem';
 
 export const ZoomingSessionSlider = (props: { onSliderChange?: (value: number) => void }) => {
   const forceUpdate = useUpdate();
-  const handleSlider = (valueToForward: number) => {
+  const handleSlider = async (valueToForward: number) => {
     props?.onSliderChange?.(valueToForward);
-    window.setSettingValue('zoom-factor-setting', valueToForward);
+    await window.setSettingValue('zoom-factor-setting', valueToForward);
     window.updateZoomFactor();
     forceUpdate();
   };

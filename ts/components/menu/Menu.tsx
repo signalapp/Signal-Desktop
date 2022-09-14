@@ -42,7 +42,6 @@ import {
   ConversationNotificationSettingType,
 } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
-import { ToastUtils } from '../../session/utils';
 import {
   changeNickNameModal,
   updateConfirmModal,
@@ -50,14 +49,11 @@ import {
 } from '../../state/ducks/modalDialog';
 import { SectionType } from '../../state/ducks/section';
 import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
-import { getNumberOfPinnedConversations } from '../../state/selectors/conversations';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
-
-const maxNumberOfPinnedConversations = 5;
 
 function showTimerOptions(
   isPublic: boolean,
@@ -180,7 +176,6 @@ export const InviteContactMenuItem = (): JSX.Element | null => {
 export const PinConversationMenuItem = (): JSX.Element | null => {
   const conversationId = useContext(ContextConversationId);
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
-  const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
   const isRequest = useIsRequest(conversationId);
 
   if (isMessagesSection && !isRequest) {
@@ -188,15 +183,7 @@ export const PinConversationMenuItem = (): JSX.Element | null => {
     const isPinned = conversation?.isPinned() || false;
 
     const togglePinConversation = async () => {
-      if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
-        await conversation?.setIsPinned(!isPinned);
-      } else {
-        ToastUtils.pushToastWarning(
-          'pinConversationLimitToast',
-          window.i18n('pinConversationLimitTitle'),
-          window.i18n('pinConversationLimitToastDescription', [`${maxNumberOfPinnedConversations}`])
-        );
-      }
+      await conversation?.setIsPinned(!isPinned);
     };
 
     const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');

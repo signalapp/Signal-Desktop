@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "您确定要下载$name$发送的媒体消息吗?",
   "pinConversation": "置顶对话",
   "unpinConversation": "取消置顶对话",
-  "pinConversationLimitTitle": "置顶对话上限",
-  "pinConversationLimitToastDescription": "你只能置顶 $number$ 个聊天",
   "showUserDetails": "显示用户信息",
   "sendRecoveryPhraseTitle": "正在发送恢复口令",
   "sendRecoveryPhraseMessage": "您正在尝试发送恢复口令，它能用来登录和访问您的账号。\n您确定要发送该消息吗？",

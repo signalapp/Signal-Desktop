@@ -91,7 +91,7 @@ $borderAvatarColor: unquote(
 }
 
 .module-avatar-clickable {
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
   cursor: pointer;
   &:hover {
     filter: grayscale(0.7);

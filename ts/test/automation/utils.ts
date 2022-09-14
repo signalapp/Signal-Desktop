@@ -1,4 +1,5 @@
 import { Page } from 'playwright-core';
+// tslint:disable: no-console
 
 export async function waitForTestIdWithText(window: Page, dataTestId: string, text?: string) {
   let builtSelector = `css=[data-testid=${dataTestId}]`;
@@ -6,9 +7,9 @@ export async function waitForTestIdWithText(window: Page, dataTestId: string, te
     builtSelector += `:has-text("${text}")`;
   }
 
-  console.warn('looking for selector', builtSelector);
+  console.info('looking for selector', builtSelector);
   const found = await window.waitForSelector(builtSelector, { timeout: 55000 });
-  console.warn('found selector', builtSelector);
+  console.info('found selector', builtSelector);
 
   return found;
 }
@@ -19,11 +20,11 @@ export async function waitForReadableMessageWithText(window: Page, text: string)
 
 export async function waitForMatchingText(window: Page, text: string) {
   const builtSelector = `css=:has-text("${text}")`;
-  console.warn(`waitForMatchingText: ${text}`);
+  console.info(`waitForMatchingText: ${text}`);
 
   await window.waitForSelector(builtSelector, { timeout: 55000 });
 
-  console.warn(`got matchingText: ${text}`);
+  console.info(`got matchingText: ${text}`);
 }
 
 export async function clickOnMatchingText(window: Page, text: string, rightButton = false) {
@@ -36,6 +37,7 @@ export async function clickOnTestIdWithText(window: Page, dataTestId: string, te
   }
 
   const builtSelector = `css=[data-testid=${dataTestId}]`;
+  await window.waitForSelector(builtSelector);
   return window.click(builtSelector);
 }
 

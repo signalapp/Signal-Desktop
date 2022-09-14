@@ -116,7 +116,7 @@ async function verifyAllSignatures(
       // tslint:disable: no-console
       console.info('got an opengroup message with an invalid signature');
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 

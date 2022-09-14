@@ -1,40 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
+import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
-import { CallManager, ToastUtils } from '../../../session/utils';
+import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { toggleMessageRequests } from '../../../state/ducks/userConfig';
-import { getHideMessageRequestBanner } from '../../../state/selectors/userConfig';
-import { SessionButtonColor } from '../../basic/SessionButton';
+import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SpacerLG } from '../../basic/Text';
+import { TypingBubble } from '../../conversation/TypingBubble';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
-
-const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
-  const currentValue = window.getCallMediaPermissions();
-  if (!currentValue) {
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        message: window.i18n('callMediaPermissionsDialogContent'),
-        okTheme: SessionButtonColor.Danger,
-        onClickOk: async () => {
-          await window.toggleCallMediaPermissionsTo(true);
-          triggerUIUpdate();
-          CallManager.onTurnedOnCallMediaPermissions();
-        },
-        onClickCancel: async () => {
-          await window.toggleCallMediaPermissionsTo(false);
-          triggerUIUpdate();
-        },
-      })
-    );
-  } else {
-    await window.toggleCallMediaPermissionsTo(false);
-    triggerUIUpdate();
-  }
-};
 
 function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -50,54 +26,45 @@ function displayPasswordModal(
   );
 }
 
-async function toggleOpengroupPruning() {
-  try {
-    const newValue = !(await window.getOpengroupPruning());
-
-    // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
-    window.setSettingValue(SettingsKey.settingsOpengroupPruning, newValue);
-    await window.setOpengroupPruning(newValue);
-    ToastUtils.pushRestartNeeded();
-  } catch (e) {
-    window.log.warn('toggleOpengroupPruning change error:', e);
+async function toggleLinkPreviews() {
+  const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);
+  await window.setSettingValue(SettingsKey.settingsLinkPreview, newValue);
+  if (!newValue) {
+    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+  } else {
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('linkPreviewsTitle'),
+        message: window.i18n('linkPreviewsConfirmMessage'),
+        okTheme: SessionButtonColor.Danger,
+      })
+    );
   }
 }
+
+const TypingBubbleItem = () => {
+  return (
+    <>
+      <SpacerLG />
+      <TypingBubble conversationType={ConversationTypeEnum.PRIVATE} isTyping={true} />
+    </>
+  );
+};
 
 export const SettingsCategoryPrivacy = (props: {
   hasPassword: boolean | null;
   onPasswordUpdated: (action: string) => void;
 }) => {
   const forceUpdate = useUpdate();
-  const dispatch = useDispatch();
-  const isOpengroupPruningEnabled = Boolean(
-    window.getSettingValue(SettingsKey.settingsOpengroupPruning)
-  );
+  const isLinkPreviewsOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
+
   if (props.hasPassword !== null) {
     return (
       <>
         <SessionToggleWithDescription
           onClickToggle={async () => {
-            await window.toggleMediaPermissions();
-            forceUpdate();
-          }}
-          title={window.i18n('mediaPermissionsTitle')}
-          description={window.i18n('mediaPermissionsDescription')}
-          active={Boolean(window.getSettingValue('media-permissions'))}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await toggleCallMediaPermissions(forceUpdate);
-            forceUpdate();
-          }}
-          title={window.i18n('callMediaPermissionsTitle')}
-          description={window.i18n('callMediaPermissionsDescription')}
-          active={Boolean(window.getCallMediaPermissions())}
-        />
-
-        <SessionToggleWithDescription
-          onClickToggle={() => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
-            window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
+            await window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
             forceUpdate();
           }}
           title={window.i18n('readReceiptSettingTitle')}
@@ -105,42 +72,26 @@ export const SettingsCategoryPrivacy = (props: {
           active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
         />
         <SessionToggleWithDescription
-          onClickToggle={() => {
+          onClickToggle={async () => {
             const old = Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator));
-            window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
+            await window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
             forceUpdate();
           }}
           title={window.i18n('typingIndicatorsSettingTitle')}
           description={window.i18n('typingIndicatorsSettingDescription')}
           active={Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator))}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={() => {
-            const old = Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate));
-            window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
-            forceUpdate();
-          }}
-          title={window.i18n('autoUpdateSettingTitle')}
-          description={window.i18n('autoUpdateSettingDescription')}
-          active={Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate))}
-        />
-        <SessionToggleWithDescription
-          onClickToggle={() => {
-            dispatch(toggleMessageRequests());
-          }}
-          title={window.i18n('hideRequestBanner')}
-          description={window.i18n('hideRequestBannerDescription')}
-          active={useSelector(getHideMessageRequestBanner)}
+          childrenDescription={<TypingBubbleItem />}
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {
-            await toggleOpengroupPruning();
+            await toggleLinkPreviews();
             forceUpdate();
           }}
-          title={window.i18n('pruneSettingTitle')}
-          description={window.i18n('pruneSettingDescription')}
-          active={isOpengroupPruningEnabled}
+          title={window.i18n('linkPreviewsTitle')}
+          description={window.i18n('linkPreviewDescription')}
+          active={isLinkPreviewsOn}
         />
+
         {!props.hasPassword && (
           <SessionSettingButtonItem
             title={window.i18n('setAccountPasswordTitle')}
@@ -148,7 +99,8 @@ export const SettingsCategoryPrivacy = (props: {
             onClick={() => {
               displayPasswordModal('set', props.onPasswordUpdated);
             }}
-            buttonColor={SessionButtonColor.Primary}
+            buttonColor={SessionButtonColor.Green}
+            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('setPassword')}
             dataTestId={'set-password-button'}
           />
@@ -160,7 +112,8 @@ export const SettingsCategoryPrivacy = (props: {
             onClick={() => {
               displayPasswordModal('change', props.onPasswordUpdated);
             }}
-            buttonColor={SessionButtonColor.Primary}
+            buttonColor={SessionButtonColor.Green}
+            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('changePassword')}
           />
         )}
@@ -172,6 +125,7 @@ export const SettingsCategoryPrivacy = (props: {
               displayPasswordModal('remove', props.onPasswordUpdated);
             }}
             buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('removePassword')}
           />
         )}

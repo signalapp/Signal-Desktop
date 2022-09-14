@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Вы уверены, что хотите загрузить медиафайлы, присланные $name$?",
   "pinConversation": "Закрепить беседу",
   "unpinConversation": "Открепить беседу",
-  "pinConversationLimitTitle": "Лимит закрепленных бесед",
-  "pinConversationLimitToastDescription": "Вы можете закрепить только $number$ бесед",
   "showUserDetails": "Показывать Сведения о Пользователе",
   "sendRecoveryPhraseTitle": "Отправка секретной фразы",
   "sendRecoveryPhraseMessage": "Вы пытаетесь отправить вашу секретную фразу, которая может быть использована для доступа к вашей учетной записи. Вы уверены, что хотите отправить это сообщение?",

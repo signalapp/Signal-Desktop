@@ -19,20 +19,20 @@ body {
 
 // scrollbars
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--color-scroll-bar-thumb);
-  border: solid 2px var(--color-text-opposite);
+  border-radius: 20px;
 
   &:hover {
     background: $color-light-45;
   }
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-scroll-bar-track);
+  background: none;
 }
 
 audio {
@@ -55,6 +55,7 @@ audio {
 button {
   cursor: pointer;
   font-size: inherit;
+  border: none;
 
   &[disabled='disabled'] {
     &,
@@ -113,23 +114,6 @@ a {
     z-index: -100;
   }
 }
-
-.new-group-update {
-  .summary {
-    margin: 10px;
-  }
-
-  .members .contact {
-    box-shadow: none;
-    border-bottom: 1px solid #eee;
-    .last-message,
-    .last-timestamp {
-      display: none;
-    }
-  }
-}
-
-$unread-badge-size: 21px;
 
 .banner {
   z-index: 100;

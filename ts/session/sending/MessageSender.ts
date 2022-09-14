@@ -20,7 +20,6 @@ import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 import { EmptySwarmError } from '../utils/errors';
 import ByteBuffer from 'bytebuffer';
-import { getHasSeenHF190, getHasSeenHF191 } from '../apis/snode_api/hfHandling';
 import {
   sendMessageOnionV4BlindedRequest,
   sendSogsMessageOnionV4,
@@ -36,6 +35,7 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
 
   const { plainTextBuffer } = message;
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
+
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
   if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
     // this is a sync message, do not overwrite the message timestamp
@@ -144,17 +144,18 @@ export async function sendMessageToSnode(
   const conversation = getConversationController().get(pubKey);
   const isClosedGroup = conversation?.isClosedGroup();
 
-  const hardfork190Happened = await getHasSeenHF190();
-  const hardfork191Happened = await getHasSeenHF191();
+  // const hardfork190Happened = await getHasSeenHF190();
+  // const hardfork191Happened = await getHasSeenHF191();
   const namespace = isClosedGroup ? -10 : 0;
 
-  window?.log?.debug(
-    `Sending envelope with timestamp: ${timestamp} to ${ed25519Str(pubKey)} size base64: ${
-      data64.length
-    }; hardfork190Happened:${hardfork190Happened}; hardfork191Happened:${hardfork191Happened} to namespace:${namespace}`
-  );
+  // we could get rid of those now, but lets keep it in case we ever need to use the HF value again
+  // window?.log?.debug(
+  //   `Sending envelope with timestamp: ${timestamp} to ${ed25519Str(pubKey)} size base64: ${
+  //     data64.length
+  //   }; hardfork190Happened:${hardfork190Happened}; hardfork191Happened:${hardfork191Happened} to namespace:${namespace}`
+  // );
 
-  const isBetweenBothHF = hardfork190Happened && !hardfork191Happened;
+  const isBetweenBothHF = false; //hardfork190Happened && !hardfork191Happened;
 
   // send parameters
   const params = {

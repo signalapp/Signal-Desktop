@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Určitě chceš stáhnout obsah odeslán uživatelem $name$?",
   "pinConversation": "Připnout konverzaci",
   "unpinConversation": "Odepnout konverzaci",
-  "pinConversationLimitTitle": "Limit připnutých konverzací",
-  "pinConversationLimitToastDescription": "Můžete připnout jen $number$ konverzací",
   "showUserDetails": "Zobrazit podrobnosti uživatele",
   "sendRecoveryPhraseTitle": "Odesílání fráze pro obnovení",
   "sendRecoveryPhraseMessage": "Pokoušíš se odeslat svou frázu pro obnovení, díky které se lze přihlásit do tvého účtu. Opravdu chceš tuto zprávu odeslat?",

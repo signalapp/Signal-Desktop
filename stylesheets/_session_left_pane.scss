@@ -1,25 +1,19 @@
 $session-compose-margin: 20px;
 
-.gutter {
-  width: 380px !important;
-  transition: none;
-  background: var(--color-cell-background);
-}
-
 .module-conversation {
   // default conversation list item text color
   &__user__profile {
     &-number,
     &-name {
       font-weight: bold;
-      font-size: 15px;
+      font-size: var(--font-size-md);
 
       color: var(--color-text-subtle);
     }
   }
 
   &-list-item {
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
 
     &:hover {
       background: var(--color-clickable-hovered);
@@ -77,7 +71,6 @@ $session-compose-margin: 20px;
 }
 
 .module-left-pane {
-  width: $session-left-pane-width;
   position: relative;
   height: 100vh;
   flex-shrink: 0;
@@ -92,35 +85,16 @@ $session-compose-margin: 20px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: $main-view-header-height;
+    height: var(--main-view-header-height);
     padding-inline-end: 7px;
-    transition: $session-transition-duration;
-
-    .session-button {
-      margin-inline-start: auto;
-      @include fontAccentBold();
-    }
-
-    &-buttons {
-      margin-bottom: $session-margin-sm;
-      display: inline-flex;
-      width: 100%;
-
-      .session-button {
-        flex: 1;
-      }
-    }
+    transition: var(--default-duration);
   }
 
   &__title {
-    padding-inline-end: $session-margin-sm;
-    padding-inline-start: $session-margin-sm;
-    transition: $session-transition-duration;
+    padding-inline-end: var(--margins-sm);
+    padding-inline-start: var(--margins-sm);
+    transition: var(--default-duration);
     flex-grow: 1;
-  }
-
-  &__list {
-    height: -webkit-fill-available;
   }
 
   &-overlay {
@@ -137,58 +111,10 @@ $session-compose-margin: 20px;
       padding: 13px;
     }
 
-    h2 {
-      margin-top: 0px;
-    }
-    h3,
-    h2 {
-      text-align: center;
-    }
-
-    h3 {
-      padding-top: 22px;
-      position: relative;
-      margin-bottom: 6px;
-
-      .green-border {
-        position: absolute;
-        color: var(--color-accent);
-        background-color: var(--color-accent);
-
-        height: 5px;
-        left: -10px;
-        right: -10px;
-        margin-top: 7px;
-        border: none;
-        z-index: 1;
-      }
-    }
-
-    .white-border {
-      width: $session-left-pane-width;
-      position: relative;
-      height: 1px;
-      opacity: 0.3;
-      margin-top: 2px;
-      margin-bottom: 40px;
-    }
-
     .exit {
       margin-top: 10px;
       margin-inline-start: 13px;
       align-self: flex-start;
-    }
-
-    .session-search-input {
-      margin: 10px $session-compose-margin 0 $session-compose-margin;
-      width: -webkit-fill-available;
-    }
-
-    .session-description-long {
-      font-size: $session-font-sm;
-      line-height: $session-font-h3;
-      margin: 0px 20px;
-      font-family: $session-font-default;
     }
 
     .session-id-editable {
@@ -210,65 +136,6 @@ $session-compose-margin: 20px;
       margin-top: 1rem;
       margin-bottom: 3rem;
       flex-shrink: 0;
-    }
-  }
-}
-
-.module-conversations-list-content {
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  transition: none;
-
-  background: var(--color-conversation-list);
-
-  .left-pane-contact-bottom-buttons .session-button {
-    vertical-align: middle;
-    white-space: normal;
-    text-align: center;
-  }
-}
-
-.session-left-pane-section-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.user-search-dropdown {
-  width: 100%;
-  min-height: 34px;
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-.session-search-input {
-  height: $session-search-input-height;
-  width: 100%;
-  margin-inline-end: 1px;
-  margin-bottom: 10px;
-  display: inline-flex;
-  flex-shrink: 0;
-
-  .session-icon-button {
-    margin: auto 10px;
-  }
-
-  input {
-    width: inherit;
-    height: inherit;
-    border: none;
-    flex-grow: 1;
-    font-size: $session-font-sm;
-    font-family: $session-font-default;
-    text-overflow: ellipsis;
-    background: none;
-    color: var(--color-text);
-
-    &:focus {
-      outline: none !important;
     }
   }
 }
@@ -302,174 +169,5 @@ $session-compose-margin: 20px;
     .path {
       fill: red;
     }
-  }
-}
-
-@mixin bottom-buttons() {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  background: none;
-
-  .session-button.square-outline.square.green,
-  .session-button.square-outline.square.white,
-  .session-button.square-outline.square.danger {
-    flex-grow: 1;
-    height: $composition-container-height;
-
-    border: var(--border-session);
-  }
-}
-
-.left-pane-contact {
-  &-section,
-  &-content {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    flex: 1;
-
-    .module-conversation-list-item {
-      &__header__date,
-      &__message {
-        display: none;
-      }
-
-      &__buttons {
-        display: flex;
-
-        .session-button {
-          font-size: 11px;
-          padding: 6px;
-          height: auto;
-          margin: 0px;
-          line-height: 14px;
-        }
-      }
-    }
-  }
-
-  &-bottom-buttons {
-    @include bottom-buttons();
-
-    .session-button {
-      height: 57px;
-    }
-  }
-}
-
-.left-pane-setting {
-  &-bottom-buttons {
-    @include bottom-buttons();
-
-    .session-button {
-      vertical-align: middle;
-      white-space: normal;
-      text-align: center;
-    }
-  }
-
-  &-content,
-  &-section {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  &-category-list-item {
-    background: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 74px;
-    line-height: 1.4;
-    padding: 0px 12px;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: $session-transition-duration !important;
-
-    & > div {
-      display: block;
-    }
-
-    &.active {
-      background: var(--color-conversation-item-selected);
-    }
-
-    &:hover {
-      background: var(--color-clickable-hovered);
-    }
-
-    &__buttons {
-      display: flex;
-
-      .session-button {
-        font-size: 11px;
-        padding: 6px;
-        height: auto;
-        margin: 0px;
-        line-height: 14px;
-      }
-    }
-  }
-
-  &-input-group {
-    display: inline-flex;
-  }
-
-  &-input-button .session-button.square {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: $session-search-input-height;
-    width: $session-search-input-height;
-
-    padding: 0px;
-    margin: 0px;
-
-    svg {
-      transition: $session-transition-duration;
-    }
-
-    &:hover {
-      svg {
-        fill: $session-color-green;
-      }
-    }
-    .session-button.square-outline.square.green,
-    .session-button.square-outline.square.white {
-      flex-grow: 1;
-      border: 1px solid $session-shade-8;
-      height: 50px;
-      // line-height: 50px;
-    }
-  }
-}
-
-.panel-text-divider {
-  width: 100%;
-  text-align: center;
-  display: flex;
-  margin: 50px 0 50px;
-
-  .panel-text-divider-line {
-    border-bottom: 1px solid var(--color-pill-divider);
-
-    line-height: 0.1em;
-    flex-grow: 1;
-    height: 1px;
-    align-self: center;
-  }
-
-  span {
-    padding: 5px 10px;
-    border-radius: 50px;
-    color: var(--color-pill-divider-text);
-    border: 1px solid var(--color-pill-divider);
-
-    font-family: $session-font-default;
-    font-size: $session-font-sm;
   }
 }

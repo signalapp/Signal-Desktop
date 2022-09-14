@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "آیا مطمئنید که میخواهید رسانه های ارسال شده توسط $name$ را بارگذاری کنید؟",
   "pinConversation": "سنجاق کردن گفتگو",
   "unpinConversation": "گفتگو را از حالت پین خارج کنید",
-  "pinConversationLimitTitle": "محدودیت سنجاق کردن گفتگوها",
-  "pinConversationLimitToastDescription": "شما فقط تعداد $number$ گفتگو را میتوانید پین کنید",
   "showUserDetails": "نمایش جزئیات کاربر",
   "sendRecoveryPhraseTitle": "ارسال عبارت بازیابی",
   "sendRecoveryPhraseMessage": "شما در حال تلاش برای ارسال عبارت بازیابی خود هستید که می تواند برای دسترسی به حساب خود استفاده شود. آیا مطمئن هستید که می خواهید این پیام را ارسال کنید؟",

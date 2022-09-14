@@ -24,7 +24,6 @@ const StyledReaction = styled.button<{ selected: boolean; inModal: boolean; show
   margin: 0 4px var(--margins-sm);
   height: 24px;
   min-width: ${props => (props.showCount ? '48px' : '24px')};
-  ${props => props.inModal && 'width: 100%;'}
 
   span {
     width: 100%;
@@ -35,7 +34,7 @@ const StyledReactionContainer = styled.div<{
   inModal: boolean;
 }>`
   position: relative;
-  ${props => props.inModal && 'margin-right: 8px;'}
+  ${props => props.inModal && 'white-space: nowrap; margin-right: 8px;'}
 `;
 
 export type ReactionProps = {
@@ -52,6 +51,7 @@ export type ReactionProps = {
   handlePopupReaction?: (emoji: string) => void;
   handlePopupClick?: () => void;
 };
+// tslint:disable-next-line: use-simple-attributes
 
 export const Reaction = (props: ReactionProps): ReactElement => {
   const {

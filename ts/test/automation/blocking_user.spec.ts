@@ -1,12 +1,17 @@
-import { _electron, expect, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { _electron, Page, test } from '@playwright/test';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
-import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
-
-test.beforeEach(cleanUpOtherTest);
+import {
+  clickOnMatchingText,
+  clickOnTestIdWithText,
+  waitForMatchingText,
+  waitForTestIdWithText,
+} from './utils';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Block User', async () => {
@@ -21,7 +26,7 @@ test('Block User', async () => {
   await sendNewMessage(windowA, userB.sessionid, `A -> B: ${Date.now()}`);
   await sendNewMessage(windowB, userA.sessionid, `B -> A: ${Date.now()}`);
   // Check to see if User B is a contact
-  await clickOnTestIdWithText(windowA, 'contact-section');
+  await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await waitForTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
 
   //Click on three dots menu
@@ -35,14 +40,18 @@ test('Block User', async () => {
   // Verify the user was moved to the blocked contact list
   // Click on settings tab
   await clickOnTestIdWithText(windowA, 'settings-section');
-  // Navigate to blocked users tab'
-  await clickOnMatchingText(windowA, 'Blocked contacts');
-  // Check for user B's name
-  const blockedContact = windowA.locator('.session-settings-item__title');
 
-  await expect(blockedContact).toContainText(userB.userName);
-  // Unblock user
-  await clickOnMatchingText(windowA, 'Unblock');
+  // click on settings section 'conversation'
+  await clickOnTestIdWithText(windowA, 'conversations-settings-menu-item');
+
+  // Navigate to blocked users tab'
+  await clickOnTestIdWithText(windowA, 'reveal-blocked-user-settings');
+  // select the contact to unblock by clicking on it by name
+  await clickOnMatchingText(windowA, userB.userName);
+
+  // Unblock user by clicking on unblock
+  await clickOnTestIdWithText(windowA, 'unblock-button-settings-screen');
   // Verify toast notification says unblocked
   await waitForTestIdWithText(windowA, 'session-toast', 'Unblocked');
+  await waitForMatchingText(windowA, 'No blocked contacts');
 });

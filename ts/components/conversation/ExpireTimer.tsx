@@ -17,7 +17,7 @@ const ExpireTimerCount = styled.div<{
   color: string;
 }>`
   margin-inline-start: 6px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
@@ -27,7 +27,7 @@ const ExpireTimerCount = styled.div<{
 
 const ExpireTimerBucket = styled.div`
   margin-inline-start: 6px;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;

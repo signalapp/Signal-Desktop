@@ -3,6 +3,7 @@ import { mapDispatchToProps } from '../actions';
 import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
+  getIsSelectedConvoInitialLoadingInProgress,
   getLightBoxOptions,
   getSelectedConversation,
   getSelectedConversationKey,
@@ -29,6 +30,7 @@ const mapStateToProps = (state: StateType) => {
     lightBoxOptions: getLightBoxOptions(state),
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
+    isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
   };
 };
 

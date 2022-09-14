@@ -1,12 +1,12 @@
 import { _electron, expect, Page, test } from '@playwright/test';
 import { openAppAndWait } from './setup/open';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 let window: Page | undefined;
+test.beforeEach(beforeAllClean);
 
-test.beforeEach(cleanUpOtherTest);
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);
@@ -30,10 +30,7 @@ test('Change profile picture/avatar', async () => {
   await waitForTestIdWithText(window, 'copy-button-profile-update', 'Copy');
   await clickOnTestIdWithText(window, 'modal-close-button');
 
-  const leftpaneAvatarContainer = await waitForTestIdWithText(
-    window,
-    'img-leftpane-primary-avatar'
-  );
+  const leftpaneAvatarContainer = await waitForTestIdWithText(window, 'leftpane-primary-avatar');
   const screenshot = await leftpaneAvatarContainer.screenshot({
     type: 'jpeg',
     // path: 'avatar-updated-blue',

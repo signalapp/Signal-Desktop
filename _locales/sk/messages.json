@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Ste si istí že chcete stiahnuť média poslané od $name$?",
   "pinConversation": "Pripnúť Konverzáciu",
   "unpinConversation": "Odopnúť Konverzáciu",
-  "pinConversationLimitTitle": "Limit pripnutých konverzácií",
-  "pinConversationLimitToastDescription": "Môžete pripnúť iba $number$ konverzácii",
   "showUserDetails": "Zobraziť Detaily Používateľa",
   "sendRecoveryPhraseTitle": "Posielanie Obnovovacej Frázy",
   "sendRecoveryPhraseMessage": "Pokúšate sa poslať vašu obnovovaciu frázu ktorá môže byť použítá na prístup k Vášmu účtu. Ste si istí že chcete poslať túto správu?",

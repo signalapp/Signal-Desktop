@@ -20,7 +20,7 @@ const StyledMessageRequestBanner = styled.div`
 
   background: var(--color-request-banner-background);
 
-  transition: var(--session-transition-duration);
+  transition: var(--default-duration);
 
   &:hover {
     background: var(--color-clickable-hovered);
@@ -29,7 +29,7 @@ const StyledMessageRequestBanner = styled.div`
 
 const StyledMessageRequestBannerHeader = styled.span`
   font-weight: bold;
-  font-size: 15px;
+  font-size: var(--font-size-md);
   color: var(--color-text-subtle);
   padding-left: var(--margins-xs);
   margin-inline-start: 12px;

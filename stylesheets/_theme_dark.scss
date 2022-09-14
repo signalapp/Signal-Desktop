@@ -72,16 +72,6 @@
     }
   }
 
-  .last-timestamp {
-    color: $grey;
-  }
-
-  .index {
-    .gutter .timestamp {
-      color: $grey;
-    }
-  }
-
   .hint {
     color: white;
     border: 2px dashed white;
@@ -321,16 +311,6 @@
 
   .module-image__loading-placeholder {
     background-color: $color-white-015;
-  }
-
-  // Module: Typing Animation
-
-  .module-typing-animation__dot {
-    background-color: $color-white;
-  }
-
-  .module-typing-animation__dot--light {
-    background-color: $color-white;
   }
 
   // Module: Attachments

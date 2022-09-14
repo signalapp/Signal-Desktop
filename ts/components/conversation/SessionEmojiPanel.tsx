@@ -15,7 +15,8 @@ export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: 'light' | 
   z-index: 5;
   opacity: 0;
   visibility: hidden;
-  transition: var(--default-duration);
+  // this disables the slide-in animation when showing the emoji picker from a right click on a message
+  /* transition: var(--default-duration); */
 
   button:focus {
     outline: none;

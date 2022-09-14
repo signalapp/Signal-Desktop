@@ -10,7 +10,7 @@ import {
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
-import { SectionType, setOverlayMode, showLeftPaneSection } from '../../../state/ducks/section';
+import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
 import { BlockedNumberController } from '../../../util';
@@ -25,7 +25,7 @@ export const OverlayMessageRequest = () => {
   useKey('Escape', closeOverlay);
   const dispatch = useDispatch();
   function closeOverlay() {
-    dispatch(setOverlayMode(undefined));
+    dispatch(resetOverlayMode());
   }
   const convoRequestCount = useSelector(getConversationRequests).length;
   const messageRequests = useSelector(getConversationRequests);
@@ -81,7 +81,7 @@ export const OverlayMessageRequest = () => {
 
           // if no more requests, return to placeholder screen
           if (convoRequestCount === newConvosBlocked.length) {
-            dispatch(setOverlayMode(undefined));
+            dispatch(resetOverlayMode());
             dispatch(showLeftPaneSection(SectionType.Message));
             dispatch(resetConversationExternal());
           }

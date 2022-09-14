@@ -1,5 +1,6 @@
 // tslint:disable-next-line: no-implicit-dependencies
 import { PlaywrightTestConfig } from '@playwright/test';
+import { toNumber } from 'lodash';
 
 const config: PlaywrightTestConfig = {
   timeout: 350000,
@@ -10,7 +11,7 @@ const config: PlaywrightTestConfig = {
   outputDir: './ts/test/automation/test-results',
   retries: 1,
   repeatEach: 1,
-  workers: 1,
+  workers: toNumber(process.env.PLAYWRIGHT_WORKER_COUNT) || 1,
   reportSlowTests: null,
 };
 

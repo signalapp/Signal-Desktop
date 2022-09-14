@@ -830,6 +830,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         fileIdsToLink.push(firstQuoteAttachmentId);
       }
     }
+
+    const isFirstAttachmentVoiceMessage = finalAttachments?.[0]?.isVoiceMessage;
+    if (isFirstAttachmentVoiceMessage) {
+      attachments[0].flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+    }
+
     window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
     return {
       body,

@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "ඔබට $name$ එවන ලද මාධ්‍යය බාගැනීමට අවශ්‍ය බව විශ්වාසද?",
   "pinConversation": "පින් සංවාදය",
   "unpinConversation": "සංවාදය ඉවත් කරන්න",
-  "pinConversationLimitTitle": "අමුණන ලද සංවාද සීමාව",
-  "pinConversationLimitToastDescription": "ඔබට ඇමුණුම් කළ හැක්කේ සංවාද $number$ ක් පමණි",
   "showUserDetails": "පරිශීලක විස්තර පෙන්වන්න",
   "sendRecoveryPhraseTitle": "ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය යැවීම",
   "sendRecoveryPhraseMessage": "ඔබ ඔබේ ගිණුමට ප්‍රවේශ වීමට භාවිත කළ හැකි ඔබේ ප්‍රතිසාධන වාක්‍ය ඛණ්ඩය යැවීමට උත්සාහ කරයි. ඔබට මෙම පණිවිඩය යැවීමට අවශ්‍ය බව විශ්වාසද?",

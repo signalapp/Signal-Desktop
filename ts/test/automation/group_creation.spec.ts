@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { messageSent } from './message';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
@@ -13,9 +13,9 @@ import {
 
 const testGroupName = 'Test Group Name';
 
-test.beforeEach(cleanUpOtherTest);
-
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Create group', async () => {
@@ -32,15 +32,16 @@ test('Create group', async () => {
     sendNewMessage(windowC, userA.sessionid, `C -> A: ${Date.now()}`),
   ]);
   // Click new closed group tab
-  await clickOnMatchingText(windowA, 'New Closed Group');
-  // Enter group name
+
+  await clickOnTestIdWithText(windowA, 'new-conversation-button');
+  await clickOnTestIdWithText(windowA, 'chooser-new-group'); // Enter group name
   await typeIntoInput(windowA, 'new-closed-group-name', testGroupName);
   // Select user B
   await clickOnMatchingText(windowA, userB.userName);
   // Select user C
   await clickOnMatchingText(windowA, userC.userName);
   // Click Done
-  await clickOnMatchingText(windowA, 'Done');
+  await clickOnTestIdWithText(windowA, 'next-button');
   // Check group was successfully created
   await clickOnMatchingText(windowB, testGroupName);
   await waitForTestIdWithText(windowB, 'header-conversation-name', testGroupName);
