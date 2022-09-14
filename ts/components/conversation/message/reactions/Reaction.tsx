@@ -51,6 +51,7 @@ export type ReactionProps = {
   handlePopupReaction?: (emoji: string) => void;
   handlePopupClick?: () => void;
 };
+// tslint:disable-next-line: use-simple-attributes
 
 export const Reaction = (props: ReactionProps): ReactElement => {
   const {

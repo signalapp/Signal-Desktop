@@ -1,10 +1,8 @@
 import { _electron, expect, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
-
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
@@ -21,7 +19,8 @@ test('Block User', async () => {
   await sendNewMessage(windowA, userB.sessionid, `A -> B: ${Date.now()}`);
   await sendNewMessage(windowB, userA.sessionid, `B -> A: ${Date.now()}`);
   // Check to see if User B is a contact
-  await clickOnTestIdWithText(windowA, 'contact-section');
+
+  await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await waitForTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
 
   //Click on three dots menu

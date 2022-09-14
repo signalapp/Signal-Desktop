@@ -29,7 +29,7 @@ function jsonToArray(json: string): Array<string> {
   try {
     return JSON.parse(json);
   } catch (e) {
-    console.warn('jsontoarray failed:', e.message);
+    console.error('jsontoarray failed:', e.message);
     return [];
   }
 }
@@ -89,7 +89,10 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
   );
 
   if (foundInRowButNotInAllowed?.length) {
-    console.warn('formatRowOfConversation: foundInRowButNotInAllowed: ', foundInRowButNotInAllowed);
+    console.error(
+      'formatRowOfConversation: foundInRowButNotInAllowed: ',
+      foundInRowButNotInAllowed
+    );
 
     throw new Error(
       `formatRowOfConversation: an invalid key was given in the record: ${foundInRowButNotInAllowed[0]}`

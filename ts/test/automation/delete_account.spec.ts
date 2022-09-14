@@ -1,18 +1,10 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
-import {
-  clickOnMatchingText,
-  clickOnTestIdWithText,
-  typeIntoInput,
-  // waitForTestIdWithText,
-  // waitForMatchingText,
-  // waitForTestIdWithText,
-} from './utils';
+import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utils';
 import { sleepFor } from '../../session/utils/Promise';
-
-test.beforeEach(cleanUpOtherTest);
+// tslint:disable: no-console
 
 let windows: Array<Page> = [];
 test.afterEach(() => forceCloseAllWindows(windows));
@@ -57,7 +49,7 @@ test('Delete account from swarm', async () => {
   try {
     const elemShouldNotBeFound = restoringWindow.locator(testMessage);
     if (elemShouldNotBeFound) {
-      console.warn('Test message was not found');
+      console.error('Test message was not found');
       throw new Error(errorDesc);
     }
   } catch (e) {
@@ -65,14 +57,14 @@ test('Delete account from swarm', async () => {
       throw e;
     }
   }
-  await clickOnTestIdWithText(restoringWindow, 'contact-section');
-  // Expect contacts list to be empty
+
+  await clickOnTestIdWithText(restoringWindow, 'new-conversation-button'); // Expect contacts list to be empty
 
   const errorDesc2 = 'Should not be found';
   try {
     const elemShouldNotBeFound = restoringWindow.locator(userB.userName);
     if (elemShouldNotBeFound) {
-      console.warn('Contact not found');
+      console.error('Contact not found');
       throw new Error(errorDesc2);
     }
   } catch (e) {

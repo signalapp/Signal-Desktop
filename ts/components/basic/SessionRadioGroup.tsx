@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { SessionRadio } from './SessionRadio';
 
@@ -10,6 +11,16 @@ interface Props {
   onClick: (selectedValue: string) => any;
 }
 
+const StyledFieldSet = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  gap: var(--margins-xs);
+
+  border: none;
+  margin-inline-start: var(--margins-sm);
+  margin-top: var(--margins-sm);
+`;
+
 export const SessionRadioGroup = (props: Props) => {
   const [activeItem, setActiveItem] = useState('');
   const { items, group, initialItem } = props;
@@ -19,26 +30,25 @@ export const SessionRadioGroup = (props: Props) => {
   }, []);
 
   return (
-    <div className="session-radio-group">
-      <fieldset id={group}>
-        {items.map(item => {
-          const itemIsActive = item.value === activeItem;
+    <StyledFieldSet id={group}>
+      {items.map(item => {
+        const itemIsActive = item.value === activeItem;
 
-          return (
-            <SessionRadio
-              key={item.value}
-              label={item.label}
-              active={itemIsActive}
-              value={item.value}
-              group={group}
-              onClick={(value: string) => {
-                setActiveItem(value);
-                props.onClick(value);
-              }}
-            />
-          );
-        })}
-      </fieldset>
-    </div>
+        return (
+          <SessionRadio
+            key={item.value}
+            label={item.label}
+            active={itemIsActive}
+            value={item.value}
+            inputName={group}
+            onClick={(value: string) => {
+              setActiveItem(value);
+              props.onClick(value);
+            }}
+            beforeMargins={'0 var(--margins-sm) 0 0 '}
+          />
+        );
+      })}
+    </StyledFieldSet>
   );
 };

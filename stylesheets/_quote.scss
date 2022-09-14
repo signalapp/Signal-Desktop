@@ -104,7 +104,7 @@
 }
 
 .module-quote__primary__author {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   line-height: 18px;
   font-weight: 300;
   color: $color-gray-90;
@@ -138,7 +138,7 @@
 .module-quote__primary__type-label {
   font-style: italic;
   color: $color-gray-90;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   line-height: 18px;
 }
 
@@ -273,7 +273,7 @@
   &-warning__text {
     margin-inline-start: 6px;
     color: $color-gray-90;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     line-height: 18px;
   }
 }

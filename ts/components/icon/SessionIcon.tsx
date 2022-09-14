@@ -131,6 +131,7 @@ const Svg = React.memo(styled.svg<StyledSvgProps>`
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
   filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
   padding: ${props => (props.iconPadding ? props.iconPadding : '')};
+  transition: inherit;
 `);
 //tslint:enable no-unnecessary-callback-wrapper
 

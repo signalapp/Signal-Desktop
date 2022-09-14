@@ -52,21 +52,6 @@
   .avatar-center-inner {
     display: flex;
   }
-
-  .upload-btn-background {
-    background-color: #ffffff70;
-    align-self: center;
-    margin-inline-start: -24px;
-    margin-top: 40px;
-    z-index: 1;
-    border-radius: 8px;
-  }
-}
-
-.expired {
-  .gutter {
-    height: calc(100% - 48px);
-  }
 }
 
 .scrollable {
@@ -180,55 +165,6 @@ input.search {
 
   &::-webkit-search-cancel-button:hover {
     cursor: pointer;
-  }
-}
-
-.last-timestamp {
-  font-size: smaller;
-  float: right;
-  margin: 0 10px;
-  color: $grey;
-}
-
-.new-contact {
-  display: none;
-  cursor: pointer;
-  opacity: 0.7;
-  .contact-details .number {
-    display: block;
-    font-style: italic;
-    padding-inline-end: 8px;
-  }
-
-  &.valid {
-    opacity: 1;
-  }
-}
-
-.index {
-  .gutter .new-group-update-form {
-    display: none;
-    padding: 0.5em;
-  }
-
-  .last-message {
-    margin: 6px 0 0;
-    font-size: $font-size-small;
-  }
-
-  .gutter .timestamp {
-    position: absolute;
-    top: 14px;
-    right: 12px;
-    color: $grey;
-  }
-}
-
-.conversations .unread .contact-details {
-  .name,
-  .last-message,
-  .last-timestamp {
-    font-weight: bold;
   }
 }
 

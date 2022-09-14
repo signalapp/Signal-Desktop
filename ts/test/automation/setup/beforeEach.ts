@@ -2,6 +2,7 @@ import { _electron, Page } from '@playwright/test';
 import { readdirSync, rmdirSync } from 'fs-extra';
 import { dirname, join } from 'path';
 import { MULTI_PREFIX, NODE_ENV, openElectronAppOnly } from './open';
+// tslint:disable: no-console
 
 const getDirectoriesOfSessionDataPath = (source: string) =>
   readdirSync(source, { withFileTypes: true })
@@ -9,13 +10,23 @@ const getDirectoriesOfSessionDataPath = (source: string) =>
     .map(dirent => dirent.name)
     .filter(n => n.startsWith(`Session-${NODE_ENV}-${MULTI_PREFIX}`));
 
+let alreadyCleaned = false;
+
 export const cleanUpOtherTest = async () => {
+  if (alreadyCleaned) {
+    return;
+  }
+  alreadyCleaned = true;
   const electronApp = await openElectronAppOnly('start');
+
   const appPath = await electronApp.evaluate(async ({ app }) => {
     return app.getPath('userData');
   });
   const window = await electronApp.firstWindow();
   await window.close();
+  if (alreadyCleaned) {
+    return;
+  }
   if (!appPath.length) {
     throw new Error('appDataPath unset');
   }
@@ -24,7 +35,11 @@ export const cleanUpOtherTest = async () => {
   if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 20) {
     throw new Error('parentFolderOfAllDataPath not found or invalid');
   }
+  console.info('cleaning other tests leftovers...');
 
+  if (alreadyCleaned) {
+    return;
+  }
   const allAppDataPath = getDirectoriesOfSessionDataPath(parentFolderOfAllDataPath);
   allAppDataPath.map(folder => {
     if (!appPath) {
@@ -33,6 +48,7 @@ export const cleanUpOtherTest = async () => {
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
     rmdirSync(pathToRemove, { recursive: true });
   });
+  console.info('...done');
 };
 
 export const forceCloseAllWindows = async (windows: Array<Page>) => {

@@ -1,6 +1,7 @@
-import { _electron, Page } from '@playwright/test';
+import { _electron, Page, test } from '@playwright/test';
 import _ from 'lodash';
-import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from '../utils';
+import { clickOnMatchingText, typeIntoInput } from '../utils';
+import { cleanUpOtherTest } from './beforeEach';
 import { openAppAndWait } from './open';
 const multisAvailable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -9,6 +10,9 @@ export type UserLoggedInType = {
   sessionid: string;
   recoveryPhrase: string;
 };
+
+test.beforeAll(cleanUpOtherTest);
+test.afterAll(cleanUpOtherTest);
 
 export const newUser = async (window: Page, userName: string): Promise<UserLoggedInType> => {
   // Create User
@@ -64,27 +68,7 @@ export async function openAppsNoNewUsers(windowToCreate: number) {
   const multisToUse = multisAvailable.slice(0, windowToCreate);
   return Promise.all(
     [...multisToUse].map(async m => {
-      return openAppAndWait(m);
+      return openAppAndWait(`${m}`);
     })
   );
-}
-
-export async function existingUser() {
-  const recoveryPhraseTest =
-    'pinched total ongoing sushi etched rest gone long oilfield incur code grunt code';
-  const newUsername = 'new-username';
-  // const sessionIDTest = '05560802be231abc2fbaa860f09da4c2f20dafa4e5f560f77d61c5f587ef2c741f';
-  // const contactOne = 'Fish';
-  // const contactTwo = 'Dragon';
-  // const contactThree = 'Whale';
-  // const contactFour = 'Gopher';
-  const [windowA1] = await openAppsNoNewUsers(1);
-
-  await clickOnTestIdWithText(windowA1, 'restore-using-recovery');
-  await typeIntoInput(windowA1, 'recovery-phrase-input', recoveryPhraseTest);
-  await typeIntoInput(windowA1, 'display-name-input', newUsername);
-  await clickOnTestIdWithText(windowA1, 'continue-session-button');
-  // await clickOnTestIdWithText(windowA1, 'leftpane-primary-avatar');
-  // const sessionIDTest = await waitForTestIdWithText(windowA1, 'your-session-id');
-  return existingUser;
 }

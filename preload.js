@@ -29,6 +29,7 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
+  useSettingsThemeSwitcher: false,
   debug: {
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,

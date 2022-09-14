@@ -1182,7 +1182,7 @@ function updateToSessionSchemaVersion28(currentVersion: number, db: BetterSqlite
 }
 
 // function printTableColumns(table: string, db: BetterSqlite3.Database) {
-//   console.warn(db.pragma(`table_info('${table}');`));
+//   console.info(db.pragma(`table_info('${table}');`));
 // }
 
 function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {

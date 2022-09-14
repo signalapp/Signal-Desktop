@@ -64,10 +64,10 @@
     display: flex;
     left: 0px;
     right: 0px;
-    padding: 0px $session-margin-md;
+    padding: 0px var(--margins-md);
     align-items: center;
     justify-content: space-between;
-    height: $main-view-header-height;
+    height: var(--main-view-header-height);
     background: var(--color-cell-background);
 
     .close-button {
@@ -96,7 +96,7 @@
 
   .selection-mode {
     .messages-container > *:not(.message-selected) {
-      animation: toShadow $session-transition-duration;
+      animation: toShadow var(--default-duration);
       opacity: 0.4;
     }
   }
@@ -142,18 +142,29 @@
   }
 }
 
+.messages-container {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column-reverse;
+  position: relative;
+  overflow-x: hidden;
+  min-width: 370px;
+  scrollbar-width: 4px;
+  padding: var(--margins-sm) var(--margins-lg) var(--margins-lg);
+}
+
 .composition-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px $session-margin-md;
+  padding: 0px var(--margins-md);
   min-height: min-content;
   background: var(--color-cell-background);
   border-top: var(--border-session);
   z-index: 1;
 
   .session-icon-button {
-    margin-right: $session-margin-sm;
+    margin-right: var(--margins-sm);
 
     display: flex;
     justify-content: center;
@@ -163,14 +174,130 @@
     &:hover {
       opacity: 1;
       filter: brightness(0.9);
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
     }
 
     .send {
-      padding: $session-margin-xs;
+      padding: var(--margins-xs);
       border-radius: 50%;
       height: 30px;
       width: 30px;
+    }
+  }
+
+  .send-message-input {
+    cursor: text;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    min-height: $composition-container-height;
+    padding: var(--margins-xs) 0;
+    z-index: 1;
+    background-color: inherit;
+
+    ul {
+      max-height: 70vh;
+      overflow: auto;
+    }
+
+    textarea {
+      font-family: $session-font-default;
+      min-height: calc($composition-container-height / 3);
+      max-height: 3 * $composition-container-height;
+      margin-right: var(--margins-md);
+      color: var(--color-text);
+
+      background: transparent;
+      resize: none;
+      display: flex;
+      flex-grow: 1;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
+    }
+
+    &__emoji-overlay {
+      // Should have identical properties to the textarea above to line up perfectly.
+      position: absolute;
+      font-size: 14px;
+      font-family: $session-font-default;
+      margin-left: 2px;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
+      color: rgba(0, 0, 0, 0);
+    }
+  }
+}
+
+.session-emoji-panel {
+  position: absolute;
+  bottom: 68px;
+  right: 0px;
+  padding: var(--margins-lg);
+
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--default-duration);
+
+  button:focus {
+    outline: none;
+  }
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & > section.emoji-mart {
+    font-family: $session-font-default;
+    font-size: $session-font-sm;
+    background-color: var(--color-cell-background);
+    border: 1px solid var(--color-session-border);
+    border-radius: 8px;
+    padding-bottom: var(--margins-sm);
+
+    .emoji-mart-category-label {
+      top: -2px;
+
+      span {
+        font-family: $session-font-default;
+        padding-top: var(--margins-sm);
+        background-color: var(--color-cell-background);
+      }
+    }
+
+    .emoji-mart-scroll {
+      height: 340px;
+    }
+
+    .emoji-mart-category .emoji-mart-emoji span {
+      cursor: pointer;
+    }
+
+    .emoji-mart-bar:last-child {
+      border: none;
+
+      .emoji-mart-preview {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: calc(100% - 40px);
+      left: calc(100% - 79px);
+      width: 22px;
+      height: 22px;
+      background-color: var(--color-cell-background);
+      transform: rotate(45deg);
+      border-radius: 3px;
+      transform: scaleY(1.4) rotate(45deg);
+      border: 0.7px solid var(--color-session-border);
+      clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
     }
   }
 }
@@ -197,7 +324,7 @@
 }
 
 .send-message-button {
-  animation: fadein $session-transition-duration;
+  animation: fadein var(--default-duration);
 
   &---scale {
     animation: scaling 2s ease-in-out;
@@ -236,11 +363,11 @@
     border-radius: 50%;
 
     .session-button {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
     }
 
     .session-icon-button {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
       border-radius: 50%;
       width: $actions-element-size;
       height: $actions-element-size;
@@ -262,39 +389,7 @@
     canvas {
       position: absolute;
       width: 100%;
-      padding: 0px $session-margin-lg;
-    }
-  }
-
-  &--status {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    left: 0;
-    z-index: 2;
-    right: 0;
-    bottom: $composition-container-height + $session-margin-md;
-
-    .session-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 173px;
-      font-weight: 300;
-      font-family: $session-font-default;
-
-      &.primary {
-        cursor: default;
-        user-select: none;
-
-        &:hover {
-          filter: brightness(100%);
-          border: 2px solid #161819;
-        }
-
-        background-color: $session-shade-1-alt;
-        border: 2px solid #161819;
-      }
+      padding: 0px var(--margins-lg);
     }
   }
 
@@ -307,7 +402,7 @@
     flex-shrink: 0;
 
     &.playback-timer {
-      animation: fadein $session-transition-duration;
+      animation: fadein var(--default-duration);
 
       @media (-webkit-min-device-pixel-ratio: 1.6) {
         margin-left: auto;
@@ -315,11 +410,11 @@
     }
 
     &-light {
-      height: $session-margin-sm;
-      width: $session-margin-sm;
+      height: var(--margins-sm);
+      width: var(--margins-sm);
       border-radius: 50%;
       background-color: $session-color-danger-alt;
-      margin: 0 $session-margin-sm;
+      margin: 0 var(--margins-sm);
 
       @include pulse-color($session-color-danger-alt, 1s, infinite);
     }
@@ -350,7 +445,7 @@ $rhap_font-family: inherit !default;
   box-shadow: none;
 
   svg {
-    transition: fill $session-transition-duration;
+    transition: fill var(--default-duration);
 
     &:hover path {
       fill: #ffffff;

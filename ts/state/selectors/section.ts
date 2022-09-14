@@ -23,5 +23,5 @@ export const getIsAppFocused = createSelector(
 
 export const getOverlayMode = createSelector(
   getSection,
-  (state: SectionStateType): OverlayMode => state.overlayMode
+  (state: SectionStateType): OverlayMode | undefined => state.overlayMode
 );

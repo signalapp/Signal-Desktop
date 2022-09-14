@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import styled from 'styled-components';
 
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,6 @@ import {
 } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon } from '../icon';
 import { SessionSettingCategory } from '../settings/SessionSettings';
 import { resetConversationExternal } from '../../state/ducks/conversations';
@@ -19,24 +18,40 @@ import { resetConversationExternal } from '../../state/ducks/conversations';
 const getCategories = () => {
   return [
     {
-      id: SessionSettingCategory.Appearance,
-      title: window.i18n('appearanceSettingsTitle'),
-    },
-    {
       id: SessionSettingCategory.Privacy,
       title: window.i18n('privacySettingsTitle'),
-    },
-    {
-      id: SessionSettingCategory.Blocked,
-      title: window.i18n('blockedSettingsTitle'),
     },
     {
       id: SessionSettingCategory.Notifications,
       title: window.i18n('notificationsSettingsTitle'),
     },
     {
+      id: SessionSettingCategory.Conversations,
+      title: window.i18n('conversationsSettingsTitle'),
+    },
+    {
       id: SessionSettingCategory.MessageRequests,
       title: window.i18n('openMessageRequestInbox'),
+    },
+    {
+      id: SessionSettingCategory.Appearance,
+      title: window.i18n('appearanceSettingsTitle'),
+    },
+    {
+      id: SessionSettingCategory.Permissions,
+      title: window.i18n('permissionsSettingsTitle'),
+    },
+    {
+      id: SessionSettingCategory.Help,
+      title: window.i18n('helpSettingsTitle'),
+    },
+    {
+      id: SessionSettingCategory.RecoveryPhrase,
+      title: window.i18n('recoveryPhrase'),
+    },
+    {
+      id: SessionSettingCategory.ClearData,
+      title: window.i18n('clearDataSettingsTitle'),
     },
   ];
 };
@@ -49,39 +64,44 @@ const LeftPaneSettingsCategoryRow = (props: {
   const dispatch = useDispatch();
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
 
-  const isMessageRequestSetting = id === SessionSettingCategory.MessageRequests;
-
   const dataTestId = `${title.toLowerCase()}-settings-menu-item`;
 
+  const isClearData = id === SessionSettingCategory.ClearData;
+
   return (
-    <div
+    <StyledSettingsListItem
       data-testid={dataTestId}
       key={id}
-      className={classNames(
-        'left-pane-setting-category-list-item',
-        id === focusedSettingsSection ? 'active' : ''
-      )}
+      active={id === focusedSettingsSection}
       role="link"
       onClick={() => {
-        if (isMessageRequestSetting) {
-          dispatch(showLeftPaneSection(SectionType.Message));
-          dispatch(setOverlayMode('message-requests'));
-          dispatch(resetConversationExternal());
-        } else {
-          dispatch(showSettingsSection(id));
+        switch (id) {
+          case SessionSettingCategory.MessageRequests:
+            dispatch(showLeftPaneSection(SectionType.Message));
+            dispatch(setOverlayMode('message-requests'));
+            dispatch(resetConversationExternal());
+            break;
+          case SessionSettingCategory.RecoveryPhrase:
+            dispatch(recoveryPhraseModal({}));
+            break;
+          case SessionSettingCategory.ClearData:
+            dispatch(updateDeleteAccountModal({}));
+            break;
+          default:
+            dispatch(showSettingsSection(id));
         }
       }}
     >
-      <div>
-        <strong>{title}</strong>
-      </div>
+      <StyledSettingsSectionTitle
+        style={{ color: isClearData ? 'var(--color-destructive)' : 'unset' }}
+      >
+        {title}
+      </StyledSettingsSectionTitle>
 
-      <div>
-        {id === focusedSettingsSection && (
-          <SessionIcon iconSize="medium" iconType="chevron" iconRotation={270} />
-        )}
-      </div>
-    </div>
+      {id === focusedSettingsSection && (
+        <SessionIcon iconSize="medium" iconType="chevron" iconRotation={270} />
+      )}
+    </StyledSettingsListItem>
   );
 };
 
@@ -89,53 +109,50 @@ const LeftPaneSettingsCategories = () => {
   const categories = getCategories();
 
   return (
-    <div className="module-left-pane__list" key={0}>
-      <div className="left-pane-setting-category-list">
-        {categories.map(item => {
-          return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
-        })}
-      </div>
-    </div>
+    <>
+      {categories.map(item => {
+        return <LeftPaneSettingsCategoryRow key={item.id} item={item} />;
+      })}
+    </>
   );
 };
+const StyledContentSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+`;
 
-const LeftPaneBottomButtons = () => {
-  const dangerButtonText = window.i18n('clearAllData');
-  const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
+const StyledSettingsSectionTitle = styled.strong`
+  font-family: var(--font-font-accent);
+  font-size: var(--font-size-md);
+`;
 
-  const dispatch = useDispatch();
+const StyledSettingsListItem = styled.div<{ active: boolean }>`
+  background: ${props => (props.active ? 'var(--color-conversation-item-selected)' : 'none')};
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 74px;
+  line-height: 1.4;
+  padding: 0px var(--margins-md);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: var(--default-duration) !important;
 
-  return (
-    <div className="left-pane-setting-bottom-buttons" key={1}>
-      <SessionButton
-        text={dangerButtonText}
-        buttonType={SessionButtonType.SquareOutline}
-        buttonColor={SessionButtonColor.Danger}
-        onClick={() => {
-          dispatch(updateDeleteAccountModal({}));
-        }}
-      />
-
-      <SessionButton
-        text={showRecoveryPhrase}
-        buttonType={SessionButtonType.SquareOutline}
-        buttonColor={SessionButtonColor.White}
-        onClick={() => {
-          dispatch(recoveryPhraseModal({}));
-        }}
-      />
-    </div>
-  );
-};
+  :hover {
+    background: var(--color-clickable-hovered);
+  }
+`;
 
 export const LeftPaneSettingSection = () => {
   return (
-    <div className="left-pane-setting-section">
+    <StyledContentSection>
       <LeftPaneSectionHeader />
-      <div className="left-pane-setting-content">
+      <StyledContentSection>
         <LeftPaneSettingsCategories />
-        <LeftPaneBottomButtons />
-      </div>
-    </div>
+      </StyledContentSection>
+    </StyledContentSection>
   );
 };

@@ -20,6 +20,10 @@ import {
   roomHasBlindEnabled,
 } from '../sogsv3/sogsV3Capabilities';
 import { OpenGroupReaction } from '../../../../types/Reaction';
+import {
+  markConversationInitialLoadingInProgress,
+  openConversationWithMessages,
+} from '../../../../state/ducks/conversations';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
@@ -317,6 +321,36 @@ export class OpenGroupServerPoller {
 
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleBatchPollResults(this.serverUrl, batchPollResults, subrequestOptions);
+
+      for (const room of subrequestOptions) {
+        if (room.type === 'messages' && !room.messages?.sinceSeqNo && room.messages?.roomId) {
+          const conversationKey = getOpenGroupV2ConversationId(
+            this.serverUrl,
+            room.messages.roomId
+          );
+
+          global.setTimeout(() => {
+            const stateConversations = window.inboxStore?.getState().conversations;
+            if (
+              stateConversations.conversationLookup?.[conversationKey]?.isInitialFetchingInProgress
+            ) {
+              if (
+                stateConversations.selectedConversation &&
+                conversationKey === stateConversations.selectedConversation
+              ) {
+                void openConversationWithMessages({ conversationKey, messageId: null }).then(() => {
+                  window.inboxStore?.dispatch(
+                    markConversationInitialLoadingInProgress({
+                      conversationKey,
+                      isInitialFetchingInProgress: false,
+                    })
+                  );
+                });
+              }
+            }
+          }, 5000);
+        }
+      }
     } catch (e) {
       window?.log?.warn('Got error while compact fetch:', e.message);
     } finally {

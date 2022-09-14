@@ -4,11 +4,11 @@ export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
 export const IS_APP_FOCUSED = 'IS_APP_FOCUSED';
 export const OVERLAY_MODE = 'OVERLAY_MODE';
+export const RESET_OVERLAY_MODE = 'RESET_OVERLAY_MODE';
 
 export enum SectionType {
   Profile,
   Message,
-  Contact,
   Settings,
   Moon,
   PathIndicator,
@@ -34,6 +34,10 @@ type OverlayModeActionType = {
   payload: OverlayMode;
 };
 
+type ResetOverlayModeActionType = {
+  type: 'RESET_OVERLAY_MODE';
+};
+
 export function showLeftPaneSection(section: SectionType): FocusSectionActionType {
   return {
     type: FOCUS_SECTION,
@@ -51,16 +55,22 @@ export function setIsAppFocused(focused: boolean): IsAppFocusedActionType {
 }
 
 export type OverlayMode =
+  | 'choose-action'
   | 'message'
   | 'open-group'
   | 'closed-group'
-  | 'message-requests'
-  | undefined;
+  | 'message-requests';
 
 export function setOverlayMode(overlayMode: OverlayMode): OverlayModeActionType {
   return {
     type: OVERLAY_MODE,
     payload: overlayMode,
+  };
+}
+
+export function resetOverlayMode(): ResetOverlayModeActionType {
+  return {
+    type: RESET_OVERLAY_MODE,
   };
 }
 
@@ -77,6 +87,7 @@ export const actions = {
   showLeftPaneSection,
   showSettingsSection,
   setOverlayMode,
+  resetOverlayMode,
 };
 
 export const initialSectionState: SectionStateType = {
@@ -90,7 +101,7 @@ export type SectionStateType = {
   focusedSection: SectionType;
   focusedSettingsSection?: SessionSettingCategory;
   isAppFocused: boolean;
-  overlayMode: OverlayMode;
+  overlayMode: OverlayMode | undefined;
 };
 
 export const reducer = (
@@ -120,7 +131,7 @@ export const reducer = (
       return {
         ...state,
         focusedSection: payload,
-        focusedSettingsSection: SessionSettingCategory.Appearance,
+        focusedSettingsSection: SessionSettingCategory.Privacy,
       };
     case FOCUS_SETTINGS_SECTION:
       return {
@@ -137,6 +148,11 @@ export const reducer = (
       return {
         ...state,
         overlayMode: payload,
+      };
+    case RESET_OVERLAY_MODE:
+      return {
+        ...state,
+        overlayMode: undefined,
       };
     default:
       return state;

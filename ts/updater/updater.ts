@@ -19,6 +19,7 @@ let isUpdating = false;
 let downloadIgnored = false;
 let interval: NodeJS.Timeout | undefined;
 let stopped = false;
+// tslint:disable: no-console
 
 export async function start(
   getMainWindow: () => BrowserWindow | null,
@@ -121,7 +122,7 @@ async function checkForUpdates(
 
       const mainWindow = getMainWindow();
       if (!mainWindow) {
-        console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+        console.error('cannot showDownloadUpdateDialog, mainWindow is unset');
         return;
       }
       logger.info('[updater] showing download dialog...');
@@ -138,7 +139,7 @@ async function checkForUpdates(
     } catch (error) {
       const mainWindow = getMainWindow();
       if (!mainWindow) {
-        console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+        console.error('cannot showDownloadUpdateDialog, mainWindow is unset');
         return;
       }
       await showCannotUpdateDialog(mainWindow, messages);
@@ -146,7 +147,7 @@ async function checkForUpdates(
     }
     const window = getMainWindow();
     if (!window) {
-      console.warn('cannot showDownloadUpdateDialog, mainWindow is unset');
+      console.error('cannot showDownloadUpdateDialog, mainWindow is unset');
       return;
     }
     // Update downloaded successfully, we should ask the user to update

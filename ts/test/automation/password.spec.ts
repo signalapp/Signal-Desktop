@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
 import {
@@ -11,7 +11,6 @@ import {
 } from './utils';
 let window: Page | undefined;
 
-test.beforeEach(cleanUpOtherTest);
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);
