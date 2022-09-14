@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 
 import { sendNewMessage } from './send_message';
 import { openAppsAndNewUsers } from './setup/new_user';
@@ -9,6 +9,8 @@ const testMessage = 'A -> B';
 const testReply = 'B -> A';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 // Send message in one to one conversation with new contact

@@ -1,7 +1,6 @@
-import { _electron, Page, test } from '@playwright/test';
+import { _electron, Page } from '@playwright/test';
 import _ from 'lodash';
 import { clickOnMatchingText, typeIntoInput } from '../utils';
-import { cleanUpOtherTest } from './beforeEach';
 import { openAppAndWait } from './open';
 const multisAvailable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -10,9 +9,6 @@ export type UserLoggedInType = {
   sessionid: string;
   recoveryPhrase: string;
 };
-
-test.beforeAll(cleanUpOtherTest);
-test.afterAll(cleanUpOtherTest);
 
 export const newUser = async (window: Page, userName: string): Promise<UserLoggedInType> => {
   // Create User

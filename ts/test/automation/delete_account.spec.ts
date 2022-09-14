@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utils';
@@ -7,6 +7,8 @@ import { sleepFor } from '../../session/utils/Promise';
 // tslint:disable: no-console
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Delete account from swarm', async () => {
@@ -25,7 +27,7 @@ test('Delete account from swarm', async () => {
   // Click on settings tab
   await clickOnTestIdWithText(windowA, 'settings-section');
   // Click on clear all data
-  await clickOnMatchingText(windowA, 'Clear All Data');
+  await clickOnTestIdWithText(windowA, 'clear-data-settings-menu-item', 'Clear Data');
   // Select entire account
   await clickOnMatchingText(windowA, 'Entire Account');
   // Confirm deletion by clicking i am sure
@@ -44,6 +46,8 @@ test('Delete account from swarm', async () => {
   await typeIntoInput(restoringWindow, 'display-name-input', userA.userName);
   // Click continue
   await clickOnTestIdWithText(restoringWindow, 'continue-session-button');
+  console.log('sleeping for 20000ms');
+  await sleepFor(20000); // just to allow any messages from our swarm to show up
   // Check if message from user B is restored (we don't want it to be)
   const errorDesc = 'Test Message should not be found';
   try {

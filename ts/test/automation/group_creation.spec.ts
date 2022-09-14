@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { messageSent } from './message';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
@@ -14,6 +14,8 @@ import {
 const testGroupName = 'Test Group Name';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Create group', async () => {
@@ -39,7 +41,7 @@ test('Create group', async () => {
   // Select user C
   await clickOnMatchingText(windowA, userC.userName);
   // Click Done
-  await clickOnMatchingText(windowA, 'Done');
+  await clickOnTestIdWithText(windowA, 'next-button');
   // Check group was successfully created
   await clickOnMatchingText(windowB, testGroupName);
   await waitForTestIdWithText(windowB, 'header-conversation-name', testGroupName);

@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsNoNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
 import { logIn } from './setup/log_in';
@@ -12,6 +12,8 @@ import {
 } from './setup/test_user';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test.skip('Group upkeep', async () => {

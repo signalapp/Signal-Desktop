@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { messageSent } from './message';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { sendNewMessage } from './send_message';
@@ -12,6 +12,8 @@ import {
 } from './utils';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 // tslint:disable: no-console
 
