@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Er du sikker på at du vil laste ned medier sendt av $name$?",
   "pinConversation": "Fest samtale",
   "unpinConversation": "Løsne samtale",
-  "pinConversationLimitTitle": "Begresning på festede samtaler",
-  "pinConversationLimitToastDescription": "Du kan kun feste $number$ samtaler",
   "showUserDetails": "Show User Details",
   "sendRecoveryPhraseTitle": "Sender gjenopprettelsesfrase",
   "sendRecoveryPhraseMessage": "Du forsøker å sende gjenopprettelsesfrasen din, som kan brukes til å få tilgang til kontoen din. Er du sikker på at du vil sende denne beskjeden?",

@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Êtes-vous sûr de vouloir télécharger les médias envoyés par $name$ ?",
   "pinConversation": "Épingler la conversation",
   "unpinConversation": "Désépingler la conversation",
-  "pinConversationLimitTitle": "Limite de conversation épinglée",
-  "pinConversationLimitToastDescription": "Vous pouvez seulement épingler $number$ conversations",
   "showUserDetails": "Afficher les détails de l'utilisateur",
   "sendRecoveryPhraseTitle": "Envoyer la phrase de récupération",
   "sendRecoveryPhraseMessage": "Vous essayer actuellement d’envoyer votre phrase de récupération, qui peut être utilisée pour accéder a votre compte. Êtes-vous sûre de vouloir envoyer ce message ?",

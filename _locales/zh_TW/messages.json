@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "您確定要下載從$name$傳送的媒體嗎？",
   "pinConversation": "置頂對話",
   "unpinConversation": "取消置頂",
-  "pinConversationLimitTitle": "置頂對話限額",
-  "pinConversationLimitToastDescription": "你只能置頂$number$個對話",
   "showUserDetails": "顯示使用者詳細資料",
   "sendRecoveryPhraseTitle": "正在傳送回復用字句",
   "sendRecoveryPhraseMessage": "您將傳送用來恢復您帳戶的回復用字句，您確定要傳送這個訊息嗎？",

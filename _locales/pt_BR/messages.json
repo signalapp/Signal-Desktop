@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Tem certeza de que deseja baixar a mídia enviada por $name$?",
   "pinConversation": "Fixar conversa",
   "unpinConversation": "Desafixar conversa",
-  "pinConversationLimitTitle": "Limite de conversas fixadas",
-  "pinConversationLimitToastDescription": "Você só pode fixar $number$ conversas",
   "showUserDetails": "Mostrar Detalhes do Usuário",
   "sendRecoveryPhraseTitle": "Enviando frase de recuperação",
   "sendRecoveryPhraseMessage": "Tu estás tentando enviar a tua frase de recuperação qual pode ser utilizada para acessar a tua conta. Tu tens certeza de que queres enviar esta mensagem?",
