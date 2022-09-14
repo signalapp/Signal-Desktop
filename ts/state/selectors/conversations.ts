@@ -85,9 +85,9 @@ export const getIsTypingEnabled = createSelector(
     if (!selectedConvo) {
       return false;
     }
-    const { isBlocked, isKickedFromGroup, left } = selectedConvo;
+    const { isBlocked, isKickedFromGroup, left, isPublic, writeCapability } = selectedConvo;
 
-    return !(isBlocked || isKickedFromGroup || left);
+    return !(isBlocked || isKickedFromGroup || left || (isPublic && !writeCapability));
   }
 );
 /**

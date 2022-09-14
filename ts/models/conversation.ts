@@ -416,6 +416,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.currentNotificationSetting = currentNotificationSetting;
     }
 
+    if (this.isOpenGroupV2()) {
+      const room = OpenGroupData.getV2OpenGroupRoom(this.id);
+      if (room && isArray(room.capabilities) && room.capabilities.length) {
+        toRet.capabilities = room.capabilities;
+      }
+
+      if (this.get('writeCapability')) {
+        toRet.writeCapability = this.get('writeCapability');
+      }
+      if (this.get('readCapability')) {
+        toRet.readCapability = this.get('readCapability');
+      }
+      if (this.get('uploadCapability')) {
+        toRet.uploadCapability = this.get('uploadCapability');
+      }
+    }
+
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');

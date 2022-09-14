@@ -268,8 +268,11 @@ export interface ReduxConversationType {
   isApproved?: boolean;
   didApproveMe?: boolean;
 
-  /** Should only be present on open groups - the key (stored as hex) that should be used when sending messages to an open group */
-  blindedPublicKey?: string;
+  // Should only be present on opengroups - the capabilities we have on this room.
+  capabilities?: Array<string>;
+  readCapability?: boolean;
+  writeCapability?: boolean;
+  uploadCapability?: boolean;
 }
 
 export interface NotificationForConvoOption {
