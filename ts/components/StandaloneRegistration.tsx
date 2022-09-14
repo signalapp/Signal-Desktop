@@ -184,7 +184,7 @@ export const StandaloneRegistration = ({
         return;
       }
 
-      strictAssert(number && code, 'Missing number or code');
+      strictAssert(number != null && code.length > 0, 'Missing number or code');
 
       try {
         await registerSingleDevice(number, code);

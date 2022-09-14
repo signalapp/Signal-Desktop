@@ -163,7 +163,7 @@ describe('updater/differential', () => {
 
       server.listen(0, () => {
         const addr = server.address();
-        strictAssert(typeof addr === 'object' && addr, 'node.js apis');
+        strictAssert(typeof addr === 'object' && addr != null, 'node.js apis');
         baseUrl = `http://127.0.0.1:${addr.port}`;
 
         callback();

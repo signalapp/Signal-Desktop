@@ -242,7 +242,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   let accessKey = c.get('accessKey');
   if (profileKey) {
     strictAssert(
-      profileKeyVersion && accessKey,
+      profileKeyVersion != null && accessKey != null,
       'profileKeyVersion and accessKey are derived from profileKey'
     );
 

@@ -38,11 +38,28 @@ export function assert(condition: unknown, message: string): asserts condition {
 /**
  * Throws an error if the condition is falsy, regardless of environment.
  */
-export function strictAssert(
-  condition: unknown,
+
+/**
+ * Asserts an expression is true.
+ *
+ * @param value - An expression to assert is true.
+ * @param message - An optional message for the assertion error thrown.
+ */
+export function strictAssert(value: boolean, message: string): asserts value;
+
+/**
+ * Asserts a nullable value is non-null.
+ *
+ * @param value - A nullable value to assert is non-null.
+ * @param message - An optional message for the assertion error thrown.
+ */
+export function strictAssert<T>(
+  value: T | null | undefined,
   message: string
-): asserts condition {
-  if (!condition) {
+): asserts value is T;
+
+export function strictAssert(condition: unknown, message: string): void {
+  if (condition === false || condition == null) {
     throw new Error(message);
   }
 }

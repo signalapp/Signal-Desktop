@@ -2108,7 +2108,7 @@ export default class MessageReceiver
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
       strictAssert(
-        msg.profileKey && msg.profileKey.length > 0,
+        msg.profileKey != null && msg.profileKey.length > 0,
         'PROFILE_KEY_UPDATE without profileKey'
       );
 
