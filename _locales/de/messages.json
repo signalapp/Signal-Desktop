@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Bist du sicher, dass du die von $name$ gesendeten Medien herunterladen möchtest?",
   "pinConversation": "Unterhaltung anheften",
   "unpinConversation": "Unterhaltung abnehmen",
-  "pinConversationLimitTitle": "Limit für angeheftete Unterhaltungen",
-  "pinConversationLimitToastDescription": "Du kannst höchstens $number$ Unterhaltungen anheften",
   "showUserDetails": "Nutzerdetails ansehen",
   "sendRecoveryPhraseTitle": "Wiederherstellungsphrase zusenden",
   "sendRecoveryPhraseMessage": "Mit der Wiederherstellungsphrase kann auf deinen Account zugegriffen werden. Bist du dir sicher das du sie dir zusenden lassen möchtest?",

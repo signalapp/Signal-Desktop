@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Ești sigur că vrei să descarci fișiere multimedia trimise de $name$?",
   "pinConversation": "Fixare conversație",
   "unpinConversation": "Unpin Conversation",
-  "pinConversationLimitTitle": "Pinned conversations limit",
-  "pinConversationLimitToastDescription": "You can only pin $number$ conversations",
   "showUserDetails": "Arată detaliile utilizatorului",
   "sendRecoveryPhraseTitle": "Sending Recovery Phrase",
   "sendRecoveryPhraseMessage": "You are attempting to send your recovery phrase which can be used to access your account. Are you sure you want to send this message?",

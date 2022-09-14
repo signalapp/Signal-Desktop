@@ -411,14 +411,6 @@ export const _getSortedConversations = (
       };
     }
 
-    // Add Open Group to list as soon as the name has been set
-    if (
-      conversation.isPublic &&
-      (!conversation.displayNameInProfile || conversation.displayNameInProfile === 'Unknown group')
-    ) {
-      continue;
-    }
-
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
     if (!conversation.isPublic && !conversation.activeAt) {

@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "Da li ste sigurni da želite da preuzmete medije koje šalje $name$?",
   "pinConversation": "Zalepi konverzaciju na vrh",
   "unpinConversation": "Otkači konverzaciju sa vrha",
-  "pinConversationLimitTitle": "Limit zalepljenih konverzacija",
-  "pinConversationLimitToastDescription": "Možete zalepiti najviše $number$ konverzacija",
   "showUserDetails": "Pokaži detalje korisnika",
   "sendRecoveryPhraseTitle": "Slanje fraze za oporavak",
   "sendRecoveryPhraseMessage": "Pokušavate da pošaljete svoju frazu za oporavak koja se može koristiti za pristup vašem nalogu. Jeste li sigurni da želite poslati ovu poruku?",

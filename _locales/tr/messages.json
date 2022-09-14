@@ -384,8 +384,6 @@
   "trustThisContactDialogDescription": "$name$ tarafından gönderilen medyayı indirmek istediğine emin misin?",
   "pinConversation": "Konuşmayı sabitle",
   "unpinConversation": "Konuşmanın Sabitlemesini Kaldır",
-  "pinConversationLimitTitle": "Sabitlenmiş konuşmalalimiti",
-  "pinConversationLimitToastDescription": "Yalnızca $number$ ileti dizisini sabitleyebilirsiniz",
   "showUserDetails": "Kullanıcı Detaylarını Göster",
   "sendRecoveryPhraseTitle": "Kurtarma Sözcük Grubunu Gönder",
   "sendRecoveryPhraseMessage": "Hesabınıza erişmek için kullanılabilecek kurtarma ifadenizi göndermeye çalışıyorsunuz. Bu mesajı göndermek istediğinizden emin misiniz?",
