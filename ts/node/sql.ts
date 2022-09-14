@@ -9,6 +9,7 @@ import {
   difference,
   forEach,
   fromPairs,
+  isArray,
   isEmpty,
   isNumber,
   isObject,
@@ -646,10 +647,23 @@ function getAllOpenGroupV2ConversationsIds(): Array<string> {
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
+  const conversation = getV2OpenGroupRoom(conversationId);
+  if (!conversation) {
+    return [];
+  }
+
+  const hasBlindOn = Boolean(
+    conversation.capabilities &&
+      isArray(conversation.capabilities) &&
+      conversation.capabilities?.includes('blind')
+  );
+
+  const whereClause = hasBlindOn ? 'AND source LIKE "15%"' : '';
+
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId
+      conversationId = $conversationId ${whereClause}
      ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
     )
     .all({
