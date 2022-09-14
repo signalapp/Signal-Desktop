@@ -7,6 +7,7 @@ import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import { isEnabled } from '../RemoteConfig';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
+import { isBeta } from './version';
 
 export async function getUuidsForE164s(
   server: Pick<WebAPIType, 'cdsLookup'>,
@@ -39,7 +40,10 @@ export async function getUuidsForE164s(
   }
 
   const returnAcisWithoutUaks = isEnabled('desktop.cdsi.returnAcisWithoutUaks');
-  const isCDSI = isEnabled('desktop.cdsi');
+  const isCDSI =
+    isEnabled('desktop.cdsi') ||
+    (isBeta(window.getVersion()) && isEnabled('desktop.cdsi.beta'));
+
   const isMirroring = isEnabled('desktop.cdsi.mirroring');
 
   log.info(

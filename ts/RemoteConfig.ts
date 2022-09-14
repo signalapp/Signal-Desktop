@@ -10,6 +10,7 @@ export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.calling.audioLevelForSpeaking'
   | 'desktop.cdsi'
+  | 'desktop.cdsi.beta'
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.cdsi.mirroring'
   | 'desktop.clientExpiration'
