@@ -1895,11 +1895,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       attachments: quote.attachments.slice(),
       bodyRanges: quote.bodyRanges.map(({ start, length, mentionUuid }) => {
         strictAssert(
-          start !== undefined && start !== null,
+          start != null,
           'Received quote with a bodyRange.start == null'
         );
         strictAssert(
-          length !== undefined && length !== null,
+          length != null,
           'Received quote with a bodyRange.length == null'
         );
 
@@ -2564,7 +2564,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 }
 
                 let avatar = null;
-                if (downloadedAvatar && avatarAttachment !== null) {
+                if (downloadedAvatar && avatarAttachment != null) {
                   const onDiskAttachment =
                     await Attachment.migrateDataToFileSystem(downloadedAvatar, {
                       writeNewAttachmentData:

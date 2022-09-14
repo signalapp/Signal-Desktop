@@ -226,7 +226,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     setActiveAudioID,
   } = props;
 
-  assert(audio !== null, 'GlobalAudioContext always provides audio');
+  assert(audio != null, 'GlobalAudioContext always provides audio');
 
   const isActive =
     activeAudioID === id && activeAudioContext === renderingContext;

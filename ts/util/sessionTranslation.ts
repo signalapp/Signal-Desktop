@@ -336,7 +336,7 @@ function binaryToUint8Array(
   length: number
 ): Uint8Array {
   const target = get(object, path);
-  if (target === null || target === undefined) {
+  if (target == null) {
     throw new Error(`binaryToUint8Array: Falsey path ${path}`);
   }
 
@@ -357,7 +357,7 @@ function binaryToUint8Array(
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getInteger(object: any, path: string): number {
   const target = get(object, path);
-  if (target === null || target === undefined) {
+  if (target == null) {
     throw new Error(`getInteger: Falsey path ${path}`);
   }
 

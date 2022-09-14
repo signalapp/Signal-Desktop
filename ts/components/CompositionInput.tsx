@@ -185,7 +185,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     const range = quill.getSelection();
 
     const insertionRange = range || lastSelectionRange;
-    if (insertionRange === null) {
+    if (insertionRange == null) {
       return;
     }
 
@@ -599,7 +599,7 @@ export function CompositionInput(props: Props): React.ReactElement {
               quill.once('editor-change', () => {
                 const scroller = scrollerRef.current;
 
-                if (scroller !== null) {
+                if (scroller != null) {
                   quill.scrollingContainer = scroller;
                 }
 
@@ -613,7 +613,7 @@ export function CompositionInput(props: Props): React.ReactElement {
                 'selection-change',
                 (newRange: RangeStatic, oldRange: RangeStatic) => {
                   // If we lose focus, store the last edit point for emoji insertion
-                  if (newRange === null) {
+                  if (newRange == null) {
                     setLastSelectionRange(oldRange);
                   }
                 }

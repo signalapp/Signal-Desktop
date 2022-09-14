@@ -755,7 +755,7 @@ export default class MessageReceiver
         id: item.id,
         receivedAtCounter: item.receivedAtCounter ?? item.timestamp,
         receivedAtDate:
-          item.receivedAtCounter === null ? Date.now() : item.timestamp,
+          item.receivedAtCounter == null ? Date.now() : item.timestamp,
         messageAgeSec: item.messageAgeSec || 0,
 
         // Proto.Envelope fields

@@ -18,7 +18,7 @@ describe('getStreamWithTimeout', () => {
     stream: Readable,
     chunk: string | null
   ): Promise<unknown> => {
-    const promise = once(stream, chunk === null ? 'end' : 'data');
+    const promise = once(stream, chunk == null ? 'end' : 'data');
     stream.push(chunk);
     return promise;
   };

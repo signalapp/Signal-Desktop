@@ -76,10 +76,7 @@ function processGroupContext(
   }
 
   strictAssert(group.id, 'group context without id');
-  strictAssert(
-    group.type !== undefined && group.type !== null,
-    'group context without type'
-  );
+  strictAssert(group.type != null, 'group context without type');
 
   const masterKey = deriveMasterKeyFromGroupV1(group.id);
   const data = deriveGroupFields(masterKey);

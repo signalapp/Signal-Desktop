@@ -89,7 +89,7 @@ async function main(
   await wrapEventEmitterOnce(proxyServer, 'listening');
   const addr = proxyServer.address();
   strictAssert(
-    typeof addr === 'object' && addr !== null,
+    typeof addr === 'object' && addr != null,
     'Address has to be an object'
   );
 

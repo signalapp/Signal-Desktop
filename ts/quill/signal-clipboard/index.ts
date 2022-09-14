@@ -9,7 +9,7 @@ import { getTextFromOps } from '../util';
 const getSelectionHTML = () => {
   const selection = window.getSelection();
 
-  if (selection === null) {
+  if (selection == null) {
     return '';
   }
 
@@ -49,19 +49,19 @@ export class SignalClipboard {
   onCaptureCopy(event: ClipboardEvent, isCut = false): void {
     event.preventDefault();
 
-    if (event.clipboardData === null) {
+    if (event.clipboardData == null) {
       return;
     }
 
     const range = this.quill.getSelection();
 
-    if (range === null) {
+    if (range == null) {
       return;
     }
 
     const contents = this.quill.getContents(range.index, range.length);
 
-    if (contents === null) {
+    if (contents == null) {
       return;
     }
 
@@ -83,7 +83,7 @@ export class SignalClipboard {
   }
 
   onCapturePaste(event: ClipboardEvent): void {
-    if (event.clipboardData === null) {
+    if (event.clipboardData == null) {
       return;
     }
 
@@ -92,7 +92,7 @@ export class SignalClipboard {
     const clipboard = this.quill.getModule('clipboard');
     const selection = this.quill.getSelection();
 
-    if (selection === null) {
+    if (selection == null) {
       return;
     }
 

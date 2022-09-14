@@ -319,7 +319,7 @@ async function downloadSticker(
   { ephemeral }: { ephemeral?: boolean } = {}
 ): Promise<Omit<StickerFromDBType, 'isCoverOnly'>> {
   const { id, emoji } = proto;
-  strictAssert(id !== undefined && id !== null, "Sticker id can't be null");
+  strictAssert(id != null, "Sticker id can't be null");
 
   const { messaging } = window.textsecure;
   if (!messaging) {

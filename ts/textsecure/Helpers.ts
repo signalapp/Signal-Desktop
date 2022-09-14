@@ -56,7 +56,7 @@ function ensureStringed(thing: any): any {
 
     return res;
   }
-  if (thing === null) {
+  if (thing == null) {
     return null;
   }
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);

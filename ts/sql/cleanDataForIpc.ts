@@ -65,6 +65,7 @@ function cleanDataInner(
       //   functions but don't mark them as cleaned.
       return undefined;
     case 'object': {
+      // eslint-disable-next-line eqeqeq
       if (data === null) {
         return null;
       }
@@ -73,7 +74,7 @@ function cleanDataInner(
         const result: CleanedArray = [];
         data.forEach((item, index) => {
           const indexPath = `${path}.${index}`;
-          if (item === undefined || item === null) {
+          if (item == null) {
             pathsChanged.push(indexPath);
           } else {
             result.push(cleanDataInner(item, indexPath, pathsChanged));

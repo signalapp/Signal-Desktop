@@ -931,7 +931,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('loadSession: this.sessions not yet cached!');
       }
 
-      if (qualifiedAddress === null || qualifiedAddress === undefined) {
+      if (qualifiedAddress == null) {
         throw new Error('loadSession: qualifiedAddress was undefined/null');
       }
 
@@ -1049,7 +1049,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('storeSession: this.sessions not yet cached!');
       }
 
-      if (qualifiedAddress === null || qualifiedAddress === undefined) {
+      if (qualifiedAddress == null) {
         throw new Error('storeSession: qualifiedAddress was undefined/null');
       }
       const { uuid, deviceId } = qualifiedAddress;
@@ -1225,7 +1225,7 @@ export class SignalProtocolStore extends EventsMixin {
         throw new Error('removeAllSessions: this.sessions not yet cached!');
       }
 
-      if (identifier === null || identifier === undefined) {
+      if (identifier == null) {
         throw new Error('removeAllSessions: identifier was undefined/null');
       }
 
@@ -1491,7 +1491,7 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('isTrustedIdentity: this.identityKeys not yet cached!');
     }
 
-    if (encodedAddress === null || encodedAddress === undefined) {
+    if (encodedAddress == null) {
       throw new Error('isTrustedIdentity: encodedAddress was undefined/null');
     }
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
@@ -1553,7 +1553,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async loadIdentityKey(uuid: UUID): Promise<Uint8Array | undefined> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('loadIdentityKey: uuid was undefined/null');
     }
     const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
@@ -1566,7 +1566,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async getFingerprint(uuid: UUID): Promise<string | undefined> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('loadIdentityKey: uuid was undefined/null');
     }
 
@@ -1606,7 +1606,7 @@ export class SignalProtocolStore extends EventsMixin {
       throw new Error('saveIdentity: this.identityKeys not yet cached!');
     }
 
-    if (encodedAddress === null || encodedAddress === undefined) {
+    if (encodedAddress == null) {
       throw new Error('saveIdentity: encodedAddress was undefined/null');
     }
     if (!(publicKey instanceof Uint8Array)) {
@@ -1703,7 +1703,7 @@ export class SignalProtocolStore extends EventsMixin {
     uuid: UUID,
     attributes: Partial<IdentityKeyType>
   ): Promise<void> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('saveIdentityWithAttributes: uuid was undefined/null');
     }
 
@@ -1728,7 +1728,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async setApproval(uuid: UUID, nonblockingApproval: boolean): Promise<void> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('setApproval: uuid was undefined/null');
     }
     if (typeof nonblockingApproval !== 'boolean') {
@@ -1750,7 +1750,7 @@ export class SignalProtocolStore extends EventsMixin {
     verifiedStatus: number,
     publicKey?: Uint8Array
   ): Promise<void> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('setVerified: uuid was undefined/null');
     }
     if (!validateVerifiedStatus(verifiedStatus)) {
@@ -1775,7 +1775,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   async getVerified(uuid: UUID): Promise<number> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('getVerified: uuid was undefined/null');
     }
 
@@ -1799,7 +1799,7 @@ export class SignalProtocolStore extends EventsMixin {
     verifiedStatus: number,
     publicKey?: Uint8Array
   ): Promise<boolean> {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('processVerifiedMessage: uuid was undefined/null');
     }
     if (!validateVerifiedStatus(verifiedStatus)) {
@@ -1849,7 +1849,7 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   isUntrusted(uuid: UUID, timestampThreshold = TIMESTAMP_THRESHOLD): boolean {
-    if (uuid === null || uuid === undefined) {
+    if (uuid == null) {
       throw new Error('isUntrusted: uuid was undefined/null');
     }
 

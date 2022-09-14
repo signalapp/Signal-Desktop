@@ -56,7 +56,7 @@ function parseOptionalString(name: string, value: unknown): undefined | string {
   if (typeof value === 'string') {
     return value;
   }
-  if (value === undefined || value === null) {
+  if (value == null) {
     return undefined;
   }
   throw new Error(`${name} was not a string`);

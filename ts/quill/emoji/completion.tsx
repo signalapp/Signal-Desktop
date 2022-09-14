@@ -202,7 +202,7 @@ export class EmojiCompletion {
   completeEmoji(): void {
     const range = this.quill.getSelection();
 
-    if (range === null) {
+    if (range == null) {
       return;
     }
 
@@ -211,7 +211,7 @@ export class EmojiCompletion {
 
     const tokenTextMatch = /:([-+0-9a-z_]*)(:?)$/.exec(leafText);
 
-    if (tokenTextMatch === null) {
+    if (tokenTextMatch == null) {
       return;
     }
 
@@ -277,7 +277,7 @@ export class EmojiCompletion {
       getBoundingClientRect() {
         const selection = window.getSelection();
         // there's a selection and at least one range
-        if (selection !== null && selection.rangeCount !== 0) {
+        if (selection != null && selection.rangeCount !== 0) {
           // grab the first range, the one the user is actually on right now
           // clone it so we don't actually modify the user's selection/caret position
           const range = selection.getRangeAt(0).cloneRange();

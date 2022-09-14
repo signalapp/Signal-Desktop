@@ -19,6 +19,10 @@ const rules = {
   'brace-style': ['error', '1tbs', { allowSingleLine: false }],
   curly: ['error', 'all'],
 
+  // Always use === and !== except when directly comparing to null
+  // (which only will equal null or undefined)
+  eqeqeq: ['error', 'always', { null: 'never' }],
+
   // prevents us from accidentally checking in exclusive tests (`.only`):
   'mocha/no-exclusive-tests': 'error',
 

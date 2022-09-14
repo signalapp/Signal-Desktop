@@ -19,7 +19,7 @@ export class Address {
 
   public static parse(value: string): Address {
     const match = value.match(ADDRESS_REGEXP);
-    strictAssert(match !== null, `Invalid Address: ${value}`);
+    strictAssert(match != null, `Invalid Address: ${value}`);
     const [whole, uuid, deviceId] = match;
     strictAssert(whole === value, 'Integrity check');
     return Address.create(uuid, parseInt(deviceId, 10));

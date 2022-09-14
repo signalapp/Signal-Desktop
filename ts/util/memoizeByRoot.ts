@@ -27,7 +27,7 @@ export function memoizeByRoot<F extends Function>(
 
   const wrap = (root: unknown, ...rest: Array<unknown>): unknown => {
     strictAssert(
-      typeof root === 'object' && root !== null,
+      typeof root === 'object' && root != null,
       'Root is not object'
     );
 

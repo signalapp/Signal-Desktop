@@ -293,7 +293,7 @@ class Message {
       throw new Error('Invalid timestamp');
     }
 
-    if (this.expireTimer !== undefined && this.expireTimer !== null) {
+    if (this.expireTimer != null) {
       if (typeof this.expireTimer !== 'number' || !(this.expireTimer >= 0)) {
         throw new Error('Invalid expireTimer');
       }
@@ -311,8 +311,8 @@ class Message {
     }
     if (this.isEndSession()) {
       if (
-        this.body !== null ||
-        this.group !== null ||
+        this.body != null ||
+        this.group != null ||
         this.attachments.length !== 0
       ) {
         throw new Error('Invalid end session message');
@@ -674,7 +674,7 @@ export default class MessageSender {
     >
   ): Promise<Proto.IAttachmentPointer> {
     assert(
-      typeof attachment === 'object' && attachment !== null,
+      typeof attachment === 'object' && attachment != null,
       'Got null attachment in `makeAttachmentPointer`'
     );
 

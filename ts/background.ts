@@ -3561,7 +3561,7 @@ export async function startApp(): Promise<void> {
 
     const { storageServiceKey } = ev;
 
-    if (storageServiceKey === null) {
+    if (storageServiceKey == null) {
       log.info('onKeysSync: deleting window.storageKey');
       window.storage.remove('storageKey');
     }

@@ -39,7 +39,7 @@ export class QualifiedAddress {
 
   public static parse(value: string): QualifiedAddress {
     const match = value.match(QUALIFIED_ADDRESS_REGEXP);
-    strictAssert(match !== null, `Invalid QualifiedAddress: ${value}`);
+    strictAssert(match != null, `Invalid QualifiedAddress: ${value}`);
     const [whole, ourUuid, uuid, deviceId] = match;
     strictAssert(whole === value, 'Integrity check');
 

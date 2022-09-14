@@ -540,6 +540,7 @@ function doRecordsConflict(
     // false, empty string, or 0 for these records we do not count them as
     // conflicting.
     if (
+      // eslint-disable-next-line eqeqeq
       remoteValue === null &&
       (localValue === false ||
         localValue === '' ||

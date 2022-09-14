@@ -76,7 +76,7 @@ describe('link preview fetching', () => {
       const headersObj = new Headers();
       Object.entries({
         'Content-Type': 'text/html; charset=utf-8',
-        'Content-Length': bodyLength === null ? null : String(bodyLength),
+        'Content-Length': bodyLength == null ? null : String(bodyLength),
         ...headers,
       }).forEach(([headerName, headerValue]) => {
         if (headerValue) {

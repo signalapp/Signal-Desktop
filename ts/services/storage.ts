@@ -1640,10 +1640,7 @@ async function sync(
       return undefined;
     }
 
-    strictAssert(
-      manifest.version !== undefined && manifest.version !== null,
-      'Manifest without version'
-    );
+    strictAssert(manifest.version != null, 'Manifest without version');
     const version = manifest.version?.toNumber() ?? 0;
 
     log.info(

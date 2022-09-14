@@ -8,6 +8,7 @@ export type NullToUndefined<T> = Extract<T, null> extends never
 export function dropNull<T>(
   value: NonNullable<T> | null | undefined
 ): T | undefined {
+  // eslint-disable-next-line eqeqeq
   if (value === null) {
     return undefined;
   }
@@ -22,7 +23,7 @@ export function shallowDropNull<O extends { [key: string]: any }>(
       [Property in keyof O]: NullToUndefined<O[Property]>;
     }
   | undefined {
-  if (value === null || value === undefined) {
+  if (value == null) {
     return undefined;
   }
 
