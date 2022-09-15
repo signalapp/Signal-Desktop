@@ -274,9 +274,9 @@ export const TextStoryCreator = ({
         setIsColorPickerShowing(false);
         return true;
       },
-      { containerElements: [colorPickerPopperButtonRef] }
+      { containerElements: [colorPickerPopperRef, colorPickerPopperButtonRef] }
     );
-  }, [isColorPickerShowing, colorPickerPopperButtonRef]);
+  }, [isColorPickerShowing, colorPickerPopperRef, colorPickerPopperButtonRef]);
 
   const sliderColorNumber = getRGBANumber(sliderValue);
 
