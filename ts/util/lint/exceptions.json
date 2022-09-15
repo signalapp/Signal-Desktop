@@ -71,6 +71,20 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "ts/services/globalMessageAudio.ts",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-09T15:04:29.812Z",
+    "line": "  load({"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/state/ducks/audioPlayer.ts",
+    "line": "    globalMessageAudio.load({",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-09T15:04:29.812Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:16:19.197Z",

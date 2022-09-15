@@ -112,6 +112,16 @@ export function collect<T, S>(
   return new CollectIterable(iterable, fn);
 }
 
+export function collectFirst<T, S>(
+  iterable: Iterable<T>,
+  fn: (value: T) => S | undefined
+): S | undefined {
+  for (const v of collect(iterable, fn)) {
+    return v;
+  }
+  return undefined;
+}
+
 class CollectIterable<T, S> implements Iterable<S> {
   constructor(
     private readonly iterable: Iterable<T>,

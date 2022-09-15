@@ -116,24 +116,99 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
 
 const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
 
-const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
-  const [active, setActive] = React.useState<{
-    id?: string;
-    context?: string;
-  }>({});
-  const audio = React.useMemo(() => new Audio(), []);
+/**
+ * It doesn't handle consecutive playback
+ * since that logic mostly lives in the audioPlayer duck
+ */
+const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
+  played,
+  ...props
+}) => {
+  const [isActive, setIsActive] = React.useState<boolean>(false);
+  const [currentTime, setCurrentTime] = React.useState<number>(0);
+  const [playbackRate, setPlaybackRate] = React.useState<number>(1);
+  const [playing, setPlaying] = React.useState<boolean>(false);
+  const [_played, setPlayed] = React.useState<boolean>(played);
+
+  const audio = React.useMemo(() => {
+    const a = new Audio();
+
+    a.addEventListener('timeupdate', () => {
+      setCurrentTime(a.currentTime);
+    });
+
+    a.addEventListener('ended', () => {
+      setIsActive(false);
+    });
+
+    a.addEventListener('loadeddata', () => {
+      a.currentTime = currentTime;
+    });
+
+    return a;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadAndPlayMessageAudio = (
+    _id: string,
+    url: string,
+    _context: string,
+    position: number
+  ) => {
+    if (!active) {
+      audio.src = url;
+      setIsActive(true);
+    }
+    if (!playing) {
+      audio.play();
+      setPlaying(true);
+    }
+    audio.currentTime = audio.duration * position;
+    if (!Number.isNaN(audio.currentTime)) {
+      setCurrentTime(audio.currentTime);
+    }
+  };
+
+  const setPlaybackRateAction = (_conversationId: string, rate: number) => {
+    audio.playbackRate = rate;
+    setPlaybackRate(rate);
+  };
+
+  const setIsPlayingAction = (value: boolean) => {
+    if (value) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+    setPlaying(value);
+  };
+
+  const setCurrentTimeAction = (value: number) => {
+    audio.currentTime = value;
+    setCurrentTime(currentTime);
+  };
+
+  const active = isActive
+    ? { playing, playbackRate, currentTime, duration: audio.duration }
+    : undefined;
+
+  const setPlayedAction = () => {
+    setPlayed(true);
+  };
 
   return (
     <MessageAudio
       {...props}
       id="storybook"
       renderingContext="storybook"
-      audio={audio}
       computePeaks={computePeaks}
-      setActiveAudioID={(id, context) => setActive({ id, context })}
-      onFirstPlayed={action('onFirstPlayed')}
-      activeAudioID={active.id}
-      activeAudioContext={active.context}
+      active={active}
+      played={_played}
+      loadAndPlayMessageAudio={loadAndPlayMessageAudio}
+      onFirstPlayed={setPlayedAction}
+      setIsPlaying={setIsPlayingAction}
+      setPlaybackRate={setPlaybackRateAction}
+      setCurrentTime={setCurrentTimeAction}
     />
   );
 };
@@ -1263,6 +1338,7 @@ export const _Audio = (): JSX.Element => {
           contentType: AUDIO_MP3,
           fileName: 'incompetech-com-Agnus-Dei-X.mp3',
           url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+          path: 'somepath',
         }),
       ],
       ...(isPlayed
@@ -1305,6 +1381,7 @@ LongAudio.args = {
       contentType: AUDIO_MP3,
       fileName: 'long-audio.mp3',
       url: '/fixtures/long-audio.mp3',
+      path: 'somepath',
     }),
   ],
   status: 'sent',
@@ -1317,6 +1394,7 @@ AudioWithCaption.args = {
       contentType: AUDIO_MP3,
       fileName: 'incompetech-com-Agnus-Dei-X.mp3',
       url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+      path: 'somepath',
     }),
   ],
   status: 'sent',

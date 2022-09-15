@@ -209,6 +209,7 @@ export type ConversationType = {
   publicParams?: string;
   acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
   profileKey?: string;
+  voiceNotePlaybackRate?: number;
 
   badges: Array<
     | {
@@ -401,6 +402,9 @@ const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 const UPDATE_USERNAME_SAVE_STATE = 'conversations/UPDATE_USERNAME_SAVE_STATE';
 export const SELECTED_CONVERSATION_CHANGED =
   'conversations/SELECTED_CONVERSATION_CHANGED';
+
+export const SET_VOICE_NOTE_PLAYBACK_RATE =
+  'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 
 export type CancelVerificationDataByConversationActionType = {
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -855,6 +859,7 @@ export const actions = {
   setRecentMediaItems,
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
+  setVoiceNotePlaybackRate,
   showArchivedConversations,
   showChooseGroupMembers,
   showInbox,
@@ -1267,6 +1272,42 @@ function resetAllChatColors(): ThunkAction<
         customColorData: undefined,
       },
     });
+  };
+}
+
+// update the conversation voice note playback rate preference for the conversation
+export function setVoiceNotePlaybackRate({
+  conversationId,
+  rate,
+}: {
+  conversationId: string;
+  rate: number;
+}): ThunkAction<void, RootStateType, unknown, ConversationChangedActionType> {
+  return async dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      if (rate === 1) {
+        delete conversationModel.attributes.voiceNotePlaybackRate;
+      } else {
+        conversationModel.attributes.voiceNotePlaybackRate = rate;
+      }
+      await window.Signal.Data.updateConversation(conversationModel.attributes);
+    }
+
+    const conversation = conversationModel?.format();
+
+    if (conversation) {
+      dispatch({
+        type: 'CONVERSATION_CHANGED',
+        payload: {
+          id: conversationId,
+          data: {
+            ...conversation,
+            voiceNotePlaybackRate: rate,
+          },
+        },
+      });
+    }
   };
 }
 

@@ -298,6 +298,7 @@ export type ConversationAttributesType = {
   sealedSender?: unknown;
   sentMessageCount?: number;
   sharedGroupNames?: Array<string>;
+  voiceNotePlaybackRate?: number;
 
   id: string;
   type: ConversationAttributesTypeType;

@@ -37,3 +37,10 @@ global.window = {
 // For ducks/network.getEmptyState()
 global.navigator = {};
 global.WebSocket = {};
+
+// For GlobalAudioContext.tsx
+/* eslint max-classes-per-file: ["error", 2] */
+global.AudioContext = class {};
+global.Audio = class {
+  addEventListener() {}
+};

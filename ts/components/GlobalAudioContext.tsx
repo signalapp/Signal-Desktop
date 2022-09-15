@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -18,7 +18,6 @@ export type ComputePeaksResult = {
 };
 
 export type Contents = {
-  audio: HTMLAudioElement;
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
 };
 
@@ -168,7 +167,6 @@ export async function computePeaks(
 }
 
 const globalContents: Contents = {
-  audio: new Audio(),
   computePeaks,
 };
 
@@ -178,6 +176,7 @@ export type GlobalAudioProps = {
   conversationId: string | undefined;
   isPaused: boolean;
   children?: React.ReactNode | React.ReactChildren;
+  unloadMessageAudio: () => void;
 };
 
 /**
@@ -186,22 +185,15 @@ export type GlobalAudioProps = {
  */
 export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
   conversationId,
-  isPaused,
   children,
+  unloadMessageAudio,
 }) => {
   // When moving between conversations - stop audio
   React.useEffect(() => {
     return () => {
-      globalContents.audio.pause();
+      unloadMessageAudio();
     };
-  }, [conversationId]);
-
-  // Pause when requested by parent
-  React.useEffect(() => {
-    if (isPaused) {
-      globalContents.audio.pause();
-    }
-  }, [isPaused]);
+  }, [conversationId, unloadMessageAudio]);
 
   return (
     <GlobalAudioContext.Provider value={globalContents}>

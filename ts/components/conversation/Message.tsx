@@ -170,6 +170,7 @@ export type AudioAttachmentProps = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  conversationId: string;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
@@ -898,6 +899,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       i18n,
       id,
+      conversationId,
       isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
@@ -1044,6 +1046,7 @@ export class Message extends React.PureComponent<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
+        conversationId,
         played,
         showMessageDetail,
         status,

@@ -1871,6 +1871,7 @@ export class ConversationModel extends window.Backbone
               this.get('acknowledgedGroupNameCollisions') || {},
             sharedGroupNames: [],
           }),
+      voiceNotePlaybackRate: this.get('voiceNotePlaybackRate'),
     };
   }
 

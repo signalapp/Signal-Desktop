@@ -1,28 +1,22 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  useRef,
-  useEffect,
-  useState,
-  useReducer,
-  useCallback,
-} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { assertDev } from '../../util/assert';
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
 import { isDownloaded } from '../../types/Attachment';
-import { missingCaseError } from '../../util/missingCaseError';
 import type { DirectionType, MessageStatusType } from './Message';
 
 import type { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
 import * as log from '../../logging/log';
+import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
 
-export type Props = {
+export type OwnProps = Readonly<{
+  active: ActiveAudioPlayerStateType | undefined;
   renderingContext: string;
   i18n: LocalizerType;
   attachment: AttachmentType;
@@ -35,25 +29,33 @@ export type Props = {
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  conversationId: string;
   played: boolean;
   showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
-
-  // See: GlobalAudioContext.tsx
-  audio: HTMLAudioElement;
-
   buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
   onFirstPlayed(): void;
-
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
-  activeAudioID: string | undefined;
-  activeAudioContext: string | undefined;
-  setActiveAudioID: (id: string | undefined, context: string) => void;
-};
+}>;
+
+export type DispatchProps = Readonly<{
+  loadAndPlayMessageAudio: (
+    id: string,
+    url: string,
+    context: string,
+    position: number,
+    isConsecutive: boolean
+  ) => void;
+  setCurrentTime: (currentTime: number) => void;
+  setPlaybackRate: (conversationId: string, rate: number) => void;
+  setIsPlaying: (value: boolean) => void;
+}>;
+
+export type Props = OwnProps & DispatchProps;
 
 type ButtonProps = {
   i18n: LocalizerType;
@@ -142,45 +144,6 @@ const Button: React.FC<ButtonProps> = props => {
   );
 };
 
-type StateType = Readonly<{
-  isPlaying: boolean;
-  currentTime: number;
-  lastAriaTime: number;
-  playbackRate: number;
-}>;
-
-type ActionType = Readonly<
-  | {
-      type: 'SET_IS_PLAYING';
-      value: boolean;
-    }
-  | {
-      type: 'SET_CURRENT_TIME';
-      value: number;
-    }
-  | {
-      type: 'SET_PLAYBACK_RATE';
-      value: number;
-    }
->;
-
-function reducer(state: StateType, action: ActionType): StateType {
-  if (action.type === 'SET_IS_PLAYING') {
-    return {
-      ...state,
-      isPlaying: action.value,
-      lastAriaTime: state.currentTime,
-    };
-  }
-  if (action.type === 'SET_CURRENT_TIME') {
-    return { ...state, currentTime: action.value };
-  }
-  if (action.type === 'SET_PLAYBACK_RATE') {
-    return { ...state, playbackRate: action.value };
-  }
-  throw missingCaseError(action);
-}
-
 /**
  * Display message audio attachment along with its waveform, duration, and
  * toggle Play/Pause button.
@@ -196,10 +159,12 @@ function reducer(state: StateType, action: ActionType): StateType {
  */
 export const MessageAudio: React.FC<Props> = (props: Props) => {
   const {
+    active,
     i18n,
     renderingContext,
     attachment,
     collapseMetadata,
+    conversationId,
     withContentAbove,
     withContentBelow,
 
@@ -217,52 +182,25 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     kickOffAttachmentDownload,
     onCorrupted,
     onFirstPlayed,
-
-    audio,
     computePeaks,
-
-    activeAudioID,
-    activeAudioContext,
-    setActiveAudioID,
+    setPlaybackRate,
+    loadAndPlayMessageAudio,
+    setCurrentTime,
+    setIsPlaying,
   } = props;
 
-  assertDev(audio != null, 'GlobalAudioContext always provides audio');
-
-  const isActive =
-    activeAudioID === id && activeAudioContext === renderingContext;
-
   const waveformRef = useRef<HTMLDivElement | null>(null);
-  const [{ isPlaying, currentTime, lastAriaTime, playbackRate }, dispatch] =
-    useReducer(reducer, {
-      isPlaying: isActive && !(audio.paused || audio.ended),
-      currentTime: isActive ? audio.currentTime : 0,
-      lastAriaTime: isActive ? audio.currentTime : 0,
-      playbackRate: isActive ? audio.playbackRate : 1,
-    });
 
-  const setIsPlaying = useCallback(
-    (value: boolean) => {
-      dispatch({ type: 'SET_IS_PLAYING', value });
-    },
-    [dispatch]
-  );
+  const isPlaying = active?.playing ?? false;
 
-  const setCurrentTime = useCallback(
-    (value: number) => {
-      dispatch({ type: 'SET_CURRENT_TIME', value });
-    },
-    [dispatch]
-  );
-
-  const setPlaybackRate = useCallback(
-    (value: number) => {
-      dispatch({ type: 'SET_PLAYBACK_RATE', value });
-    },
-    [dispatch]
-  );
-
+  // if it's playing, use the duration passed as props as it might
+  // change during loading/playback (?)
   // NOTE: Avoid division by zero
-  const [duration, setDuration] = useState(1e-23);
+  const activeDuration =
+    active?.duration && !Number.isNaN(active.duration)
+      ? active.duration
+      : undefined;
+  const [duration, setDuration] = useState(activeDuration ?? 1e-23);
 
   const [hasPeaks, setHasPeaks] = useState(false);
   const [peaks, setPeaks] = useState<ReadonlyArray<number>>(
@@ -334,122 +272,23 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     state,
   ]);
 
-  // This effect attaches/detaches event listeners to the global <audio/>
-  // instance that we reuse from the GlobalAudioContext.
-  //
-  // Audio playback changes `audio.currentTime` so we have to propagate this
-  // to the waveform UI.
-  //
-  // When audio ends - we have to change state and reset the position of the
-  // waveform.
-  useEffect(() => {
-    // Owner of Audio instance changed
-    if (!isActive) {
-      log.info('MessageAudio: pausing old owner', id);
-      setIsPlaying(false);
-      setCurrentTime(0);
-      return noop;
-    }
-
-    const onTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-      if (audio.currentTime > duration) {
-        setDuration(audio.currentTime);
-      }
-    };
-
-    const onEnded = () => {
-      log.info('MessageAudio: ended, changing UI', id);
-      setIsPlaying(false);
-      setCurrentTime(0);
-    };
-
-    const onLoadedMetadata = () => {
-      assertDev(
-        !Number.isNaN(audio.duration),
-        'Audio should have definite duration on `loadedmetadata` event'
-      );
-
-      log.info('MessageAudio: `loadedmetadata` event', id);
-
-      // Sync-up audio's time in case if <audio/> loaded its source after
-      // user clicked on waveform
-      audio.currentTime = currentTime;
-    };
-
-    const onDurationChange = () => {
-      log.info('MessageAudio: `durationchange` event', id);
-
-      if (!Number.isNaN(audio.duration)) {
-        setDuration(Math.max(audio.duration, 1e-23));
-      }
-    };
-
-    audio.addEventListener('timeupdate', onTimeUpdate);
-    audio.addEventListener('ended', onEnded);
-    audio.addEventListener('loadedmetadata', onLoadedMetadata);
-    audio.addEventListener('durationchange', onDurationChange);
-
-    return () => {
-      audio.removeEventListener('timeupdate', onTimeUpdate);
-      audio.removeEventListener('ended', onEnded);
-      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
-      audio.removeEventListener('durationchange', onDurationChange);
-    };
-  }, [
-    id,
-    audio,
-    isActive,
-    currentTime,
-    duration,
-    setCurrentTime,
-    setIsPlaying,
-  ]);
-
-  // This effect detects `isPlaying` changes and starts/pauses playback when
-  // needed (+keeps waveform position and audio position in sync).
-  useEffect(() => {
-    if (!isActive) {
-      return;
-    }
-
-    audio.playbackRate = playbackRate;
-
-    if (isPlaying) {
-      if (!audio.paused) {
-        return;
-      }
-
-      log.info('MessageAudio: resuming playback for', id);
-      audio.currentTime = currentTime;
-      audio.play().catch(error => {
-        log.info('MessageAudio: resume error', id, error.stack || error);
-      });
-    } else {
-      log.info('MessageAudio: pausing playback for', id);
-      audio.pause();
-    }
-  }, [id, audio, isActive, isPlaying, currentTime, playbackRate]);
-
   const toggleIsPlaying = () => {
-    setIsPlaying(!isPlaying);
-
-    if (!isActive && !isPlaying) {
-      log.info('MessageAudio: changing owner', id);
-      setActiveAudioID(id, renderingContext);
-
-      // Pause old audio
-      if (!audio.paused) {
-        audio.pause();
-      }
-
+    if (!isPlaying) {
       if (!attachment.url) {
         throw new Error(
           'Expected attachment url in the MessageAudio with ' +
             `state: ${state}`
         );
       }
-      audio.src = attachment.url;
+
+      if (active) {
+        setIsPlaying(true);
+      } else {
+        loadAndPlayMessageAudio(id, attachment.url, renderingContext, 0, false);
+      }
+    } else {
+      // stop
+      setIsPlaying(false);
     }
   };
 
@@ -467,11 +306,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     if (state !== State.Normal) {
       return;
     }
-
-    if (!isPlaying) {
-      toggleIsPlaying();
-    }
-
     if (!waveformRef.current) {
       return;
     }
@@ -483,10 +317,16 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       progress = 0;
     }
 
-    if (isPlaying && !Number.isNaN(audio.duration)) {
-      audio.currentTime = audio.duration * progress;
+    if (attachment.url) {
+      loadAndPlayMessageAudio(
+        id,
+        attachment.url,
+        renderingContext,
+        progress,
+        false
+      );
     } else {
-      setCurrentTime(duration * progress);
+      log.warn('Waveform clicked on attachment with no url');
     }
   };
 
@@ -511,13 +351,15 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     event.stopPropagation();
 
     // There is no audio to rewind
-    if (!isActive) {
+    if (!active) {
       return;
     }
 
-    audio.currentTime = Math.min(
-      Number.isNaN(audio.duration) ? Infinity : audio.duration,
-      Math.max(0, audio.currentTime + increment)
+    setCurrentTime(
+      Math.min(
+        Number.isNaN(duration) ? Infinity : duration,
+        Math.max(0, active.currentTime + increment)
+      )
     );
 
     if (!isPlaying) {
@@ -525,7 +367,9 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     }
   };
 
-  const peakPosition = peaks.length * (currentTime / duration);
+  const currentTimeOrZero = active?.currentTime ?? 0;
+
+  const peakPosition = peaks.length * (currentTimeOrZero / duration);
 
   const waveform = (
     <div
@@ -537,10 +381,10 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       role="slider"
       aria-label={i18n('MessageAudio--slider')}
       aria-orientation="horizontal"
-      aria-valuenow={lastAriaTime}
+      aria-valuenow={currentTimeOrZero}
       aria-valuemin={0}
       aria-valuemax={duration}
-      aria-valuetext={timeToText(lastAriaTime)}
+      aria-valuetext={timeToText(currentTimeOrZero)}
     >
       {peaks.map((peak, i) => {
         let height = Math.max(BAR_MIN_HEIGHT, BAR_MAX_HEIGHT * peak);
@@ -606,7 +450,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     );
   }
 
-  const countDown = Math.max(0, duration - currentTime);
+  const countDown = Math.max(0, duration - (active?.currentTime ?? 0));
 
   const nextPlaybackRate = (currentRate: number): number => {
     // cycle through the rates
@@ -642,17 +486,20 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
             `${CSS_BASE}__dot--${played ? 'played' : 'unplayed'}`
           )}
         />
-        {isPlaying && (
+        {active && active.playing && (
           <button
             type="button"
             className={classNames(`${CSS_BASE}__playback-rate-button`)}
             onClick={ev => {
               ev.stopPropagation();
-              setPlaybackRate(nextPlaybackRate(playbackRate));
+              setPlaybackRate(
+                conversationId,
+                nextPlaybackRate(active.playbackRate)
+              );
             }}
             tabIndex={0}
           >
-            {playbackRateLabels[playbackRate]}
+            {playbackRateLabels[active.playbackRate]}
           </button>
         )}
       </div>

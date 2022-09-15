@@ -1,9 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 
-import { actions } from '../../../state/ducks/audioPlayer';
+import type { SetMessageAudioAction } from '../../../state/ducks/audioPlayer';
 import type { SelectedConversationChangedActionType } from '../../../state/ducks/conversations';
 import {
   SELECTED_CONVERSATION_CHANGED,
@@ -18,6 +18,20 @@ const { messageDeleted, messageChanged } = conversationsActions;
 
 const MESSAGE_ID = 'message-id';
 
+// can't use the actual action since it's a ThunkAction
+const setMessageAudio = (
+  id: string,
+  context: string
+): SetMessageAudioAction => ({
+  type: 'audioPlayer/SET_MESSAGE_AUDIO',
+  payload: {
+    id,
+    context,
+    playbackRate: 1,
+    duration: 100,
+  },
+});
+
 describe('both/state/ducks/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
@@ -25,14 +39,10 @@ describe('both/state/ducks/audioPlayer', () => {
 
   const getInitializedState = (): StateType => {
     const state = getEmptyRootState();
+    const updated = rootReducer(state, setMessageAudio(MESSAGE_ID, 'context'));
 
-    const updated = rootReducer(
-      state,
-      actions.setActiveAudioID(MESSAGE_ID, 'context')
-    );
-
-    assert.strictEqual(updated.audioPlayer.activeAudioID, MESSAGE_ID);
-    assert.strictEqual(updated.audioPlayer.activeAudioContext, 'context');
+    assert.strictEqual(updated.audioPlayer.active?.id, MESSAGE_ID);
+    assert.strictEqual(updated.audioPlayer.active?.context, 'context');
 
     return updated;
   };
@@ -40,14 +50,11 @@ describe('both/state/ducks/audioPlayer', () => {
   describe('setActiveAudioID', () => {
     it("updates `activeAudioID` in the audioPlayer's state", () => {
       const state = getEmptyRootState();
-      assert.strictEqual(state.audioPlayer.activeAudioID, undefined);
+      assert.strictEqual(state.audioPlayer.active, undefined);
 
-      const updated = rootReducer(
-        state,
-        actions.setActiveAudioID('test', 'context')
-      );
-      assert.strictEqual(updated.audioPlayer.activeAudioID, 'test');
-      assert.strictEqual(updated.audioPlayer.activeAudioContext, 'context');
+      const updated = rootReducer(state, setMessageAudio('test', 'context'));
+      assert.strictEqual(updated.audioPlayer.active?.id, 'test');
+      assert.strictEqual(updated.audioPlayer.active?.context, 'context');
     });
   });
 
@@ -59,8 +66,7 @@ describe('both/state/ducks/audioPlayer', () => {
       payload: { id: 'any' },
     });
 
-    assert.strictEqual(updated.audioPlayer.activeAudioID, undefined);
-    assert.strictEqual(updated.audioPlayer.activeAudioContext, 'context');
+    assert.strictEqual(updated.audioPlayer.active, undefined);
   });
 
   it('resets activeAudioID when message was deleted', () => {
@@ -71,8 +77,7 @@ describe('both/state/ducks/audioPlayer', () => {
       messageDeleted(MESSAGE_ID, 'conversation-id')
     );
 
-    assert.strictEqual(updated.audioPlayer.activeAudioID, undefined);
-    assert.strictEqual(updated.audioPlayer.activeAudioContext, 'context');
+    assert.strictEqual(updated.audioPlayer.active, undefined);
   });
 
   it('resets activeAudioID when message was erased', () => {
@@ -92,7 +97,6 @@ describe('both/state/ducks/audioPlayer', () => {
       })
     );
 
-    assert.strictEqual(updated.audioPlayer.activeAudioID, undefined);
-    assert.strictEqual(updated.audioPlayer.activeAudioContext, 'context');
+    assert.strictEqual(updated.audioPlayer.active, undefined);
   });
 });
