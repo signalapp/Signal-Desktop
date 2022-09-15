@@ -12,7 +12,7 @@
 // are not immediately retried, however, until `.onOnline()` is called from
 // when we are actually online.
 
-import { assert } from './util/assert';
+import { assertDev } from './util/assert';
 import { isOlderThan } from './util/timestamp';
 import { parseRetryAfterWithDefault } from './util/parseRetryAfter';
 import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary';
@@ -311,7 +311,7 @@ export class ChallengeHandler {
   }
 
   private async persist(): Promise<void> {
-    assert(
+    assertDev(
       this.isLoaded,
       'ChallengeHandler has to be loaded before persisting new data'
     );

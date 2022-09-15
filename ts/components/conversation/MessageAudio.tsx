@@ -11,7 +11,7 @@ import React, {
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
 import { isDownloaded } from '../../types/Attachment';
@@ -226,7 +226,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     setActiveAudioID,
   } = props;
 
-  assert(audio != null, 'GlobalAudioContext always provides audio');
+  assertDev(audio != null, 'GlobalAudioContext always provides audio');
 
   const isActive =
     activeAudioID === id && activeAudioContext === renderingContext;
@@ -365,7 +365,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     };
 
     const onLoadedMetadata = () => {
-      assert(
+      assertDev(
         !Number.isNaN(audio.duration),
         'Audio should have definite duration on `loadedmetadata` event'
       );

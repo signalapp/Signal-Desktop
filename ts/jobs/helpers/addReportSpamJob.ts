@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import * as log from '../../logging/log';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
@@ -17,7 +17,7 @@ export async function addReportSpamJob({
   ) => Promise<Array<string>>;
   jobQueue: Pick<typeof reportSpamJobQueue, 'add'>;
 }>): Promise<void> {
-  assert(
+  assertDev(
     conversation.type === 'direct',
     'addReportSpamJob: cannot report spam for non-direct conversations'
   );

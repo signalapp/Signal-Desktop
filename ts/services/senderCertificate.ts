@@ -7,7 +7,7 @@ import {
   serializedCertificateSchema,
 } from '../textsecure/OutgoingMessage';
 import * as Bytes from '../Bytes';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
@@ -84,7 +84,7 @@ export class SenderCertificateService {
     await Promise.all(this.fetchPromises.values());
 
     const { storage } = this;
-    assert(
+    assertDev(
       storage,
       'Sender certificate service method was called before it was initialized'
     );
@@ -96,7 +96,7 @@ export class SenderCertificateService {
     mode: SenderCertificateMode
   ): undefined | SerializedCertificateType {
     const { storage } = this;
-    assert(
+    assertDev(
       storage,
       'Sender certificate service method was called before it was initialized'
     );
@@ -129,7 +129,7 @@ export class SenderCertificateService {
     let promise: Promise<undefined | SerializedCertificateType>;
     const doFetch = async () => {
       const result = await this.fetchAndSaveCertificate(mode);
-      assert(
+      assertDev(
         this.fetchPromises.get(mode) === promise,
         'Sender certificate service was deleting a different promise than expected'
       );
@@ -138,7 +138,7 @@ export class SenderCertificateService {
     };
     promise = doFetch();
 
-    assert(
+    assertDev(
       !this.fetchPromises.has(mode),
       'Sender certificate service somehow already had a promise for this mode'
     );
@@ -150,7 +150,7 @@ export class SenderCertificateService {
     mode: SenderCertificateMode
   ): Promise<undefined | SerializedCertificateType> {
     const { storage, navigator, onlineEventTarget } = this;
-    assert(
+    assertDev(
       storage && navigator && onlineEventTarget,
       'Sender certificate service method was called before it was initialized'
     );
@@ -205,7 +205,7 @@ export class SenderCertificateService {
     mode: SenderCertificateMode
   ): Promise<string> {
     const { server } = this;
-    assert(
+    assertDev(
       server,
       'Sender certificate service method was called before it was initialized'
     );

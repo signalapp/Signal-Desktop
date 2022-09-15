@@ -13,7 +13,7 @@ import { ScrollDownButton } from './ScrollDownButton';
 import type { AssertProps, LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { assert, strictAssert } from '../../util/assert';
+import { assertDev, strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
@@ -522,7 +522,7 @@ export class Timeline extends React.Component<
 
     this.intersectionObserver = new IntersectionObserver(
       (entries, observer) => {
-        assert(
+        assertDev(
           this.intersectionObserver === observer,
           'observer.disconnect() should prevent callbacks from firing'
         );
@@ -630,7 +630,7 @@ export class Timeline extends React.Component<
         return { scrollBottom: 0 };
       case ScrollAnchor.ScrollToIndex:
         if (scrollToIndex === undefined) {
-          assert(
+          assertDev(
             false,
             '<Timeline> got "scroll to index" scroll anchor, but no index'
           );
@@ -674,7 +674,7 @@ export class Timeline extends React.Component<
           lastSeenIndicatorEl.scrollIntoView();
         } else {
           scrollToBottom(containerEl);
-          assert(
+          assertDev(
             false,
             '<Timeline> expected a last seen indicator but it was not found'
           );
@@ -942,7 +942,7 @@ export class Timeline extends React.Component<
       const messageId = items[itemIndex];
 
       if (!messageId) {
-        assert(
+        assertDev(
           false,
           '<Timeline> iterated through items and got an empty message ID'
         );
@@ -1058,7 +1058,7 @@ export class Timeline extends React.Component<
           bounds
           onResize={({ bounds }) => {
             if (!bounds) {
-              assert(false, 'We should be measuring the bounds');
+              assertDev(false, 'We should be measuring the bounds');
               return;
             }
             this.setState({ lastMeasuredWarningHeight: bounds.height });

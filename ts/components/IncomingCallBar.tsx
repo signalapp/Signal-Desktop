@@ -129,7 +129,6 @@ const GroupCallMessage = ({
           }}
         />
       );
-      break;
     case 3:
       return (
         <Intl
@@ -142,7 +141,6 @@ const GroupCallMessage = ({
           }}
         />
       );
-      break;
     default:
       return (
         <Intl

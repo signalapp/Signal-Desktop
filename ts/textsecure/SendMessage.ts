@@ -16,7 +16,7 @@ import {
 import type { QuotedMessageType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
-import { assert, strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -673,7 +673,7 @@ export default class MessageSender {
         Pick<AttachmentType, 'data' | 'size' | 'contentType'>
     >
   ): Promise<Proto.IAttachmentPointer> {
-    assert(
+    assertDev(
       typeof attachment === 'object' && attachment != null,
       'Got null attachment in `makeAttachmentPointer`'
     );
@@ -1300,7 +1300,7 @@ export default class MessageSender {
     timestamp: number;
     urgent: boolean;
   }>): Promise<CallbackResultType> {
-    assert(identifier, "Identifier can't be undefined");
+    assertDev(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
         if (res && res.errors && res.errors.length > 0) {

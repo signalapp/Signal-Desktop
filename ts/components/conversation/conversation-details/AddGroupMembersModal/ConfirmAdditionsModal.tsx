@@ -5,7 +5,7 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType } from '../../../../types/Util';
-import { assert } from '../../../../util/assert';
+import { assertDev } from '../../../../util/assert';
 import { ModalHost } from '../../../ModalHost';
 import { Button, ButtonVariant } from '../../../Button';
 import { Spinner } from '../../../Spinner';
@@ -35,7 +35,7 @@ export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
   selectedContacts,
 }) => {
   const firstContact = selectedContacts[0];
-  assert(
+  assertDev(
     firstContact,
     'Expected at least one conversation to be selected but none were picked'
   );

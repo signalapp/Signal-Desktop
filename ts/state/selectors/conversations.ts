@@ -28,7 +28,7 @@ import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import type { TimelineItemType } from '../../components/conversation/TimelineItem';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
 import type { ContactNameColorType } from '../../types/Colors';
@@ -344,7 +344,7 @@ export const getMaximumGroupSizeModalState = createSelector(
       case ComposerStep.SetGroupMetadata:
         return composerState.maximumGroupSizeModalState;
       default:
-        assert(
+        assertDev(
           false,
           'Can\'t get the maximum group size modal state in this composer state; returning "never shown"'
         );
@@ -361,7 +361,7 @@ export const getRecommendedGroupSizeModalState = createSelector(
       case ComposerStep.SetGroupMetadata:
         return composerState.recommendedGroupSizeModalState;
       default:
-        assert(
+        assertDev(
           false,
           'Can\'t get the recommended group size modal state in this composer state; returning "never shown"'
         );
@@ -388,11 +388,14 @@ export const getComposerConversationSearchTerm = createSelector(
   getComposerState,
   (composer): string => {
     if (!composer) {
-      assert(false, 'getComposerConversationSearchTerm: composer is not open');
+      assertDev(
+        false,
+        'getComposerConversationSearchTerm: composer is not open'
+      );
       return '';
     }
     if (composer.step === ComposerStep.SetGroupMetadata) {
-      assert(
+      assertDev(
         false,
         'getComposerConversationSearchTerm: composer does not have a search term'
       );
@@ -406,14 +409,14 @@ export const getComposerUUIDFetchState = createSelector(
   getComposerState,
   (composer): UUIDFetchStateType => {
     if (!composer) {
-      assert(false, 'getIsFetchingUsername: composer is not open');
+      assertDev(false, 'getIsFetchingUsername: composer is not open');
       return {};
     }
     if (
       composer.step !== ComposerStep.StartDirectConversation &&
       composer.step !== ComposerStep.ChooseGroupMembers
     ) {
-      assert(
+      assertDev(
         false,
         `getComposerUUIDFetchState: step ${composer.step} ` +
           'has no uuidFetchState key'
@@ -583,7 +586,7 @@ const getGroupCreationComposerState = createSelector(
       case ComposerStep.SetGroupMetadata:
         return composerState;
       default:
-        assert(
+        assertDev(
           false,
           'getSetGroupMetadataComposerState: expected step to be SetGroupMetadata'
         );

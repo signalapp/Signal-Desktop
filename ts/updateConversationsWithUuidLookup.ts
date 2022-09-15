@@ -4,7 +4,7 @@
 import type { ConversationController } from './ConversationController';
 import type { ConversationModel } from './models/conversations';
 import type { WebAPIType } from './textsecure/WebAPI';
-import { assert } from './util/assert';
+import { assertDev } from './util/assert';
 import { isNotNil } from './util/isNotNil';
 import { getUuidsForE164s } from './util/getUuidsForE164s';
 
@@ -47,7 +47,7 @@ export async function updateConversationsWithUuidLookup({
             e164,
             reason: 'updateConversationsWithUuidLookup',
           });
-        assert(
+        assertDev(
           maybeFinalConversation,
           'updateConversationsWithUuidLookup: expected a conversation to be found or created'
         );

@@ -5,7 +5,7 @@ import { PublicKey, Fingerprint } from '@signalapp/libsignal-client';
 import type { ConversationType } from '../state/ducks/conversations';
 import { UUID } from '../types/UUID';
 
-import { assert } from './assert';
+import { assertDev } from './assert';
 import * as log from '../logging/log';
 
 export async function generateSecurityNumber(
@@ -63,7 +63,7 @@ export async function generateSecurityNumberBlock(
     return [];
   }
 
-  assert(ourNumber, 'Should have our number');
+  assertDev(ourNumber, 'Should have our number');
   const securityNumber = await generateSecurityNumber(
     ourNumber,
     ourKey,

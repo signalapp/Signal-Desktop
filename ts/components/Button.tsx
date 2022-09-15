@@ -11,7 +11,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import type { Theme } from '../util/theme';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { themeClassName } from '../util/theme';
 
 export enum ButtonSize {
@@ -126,10 +126,10 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
     }
 
     const sizeClassName = SIZE_CLASS_NAMES.get(size);
-    assert(sizeClassName, '<Button> size not found');
+    assertDev(sizeClassName, '<Button> size not found');
 
     const variantClassName = VARIANT_CLASS_NAMES.get(variant);
-    assert(variantClassName, '<Button> variant not found');
+    assertDev(variantClassName, '<Button> variant not found');
 
     const buttonElement = (
       <button

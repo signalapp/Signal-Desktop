@@ -9,7 +9,7 @@ import EventTarget from './EventTarget';
 import MessageReceiver from './MessageReceiver';
 import type { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import * as log from '../logging/log';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import * as Errors from '../types/errors';
@@ -49,7 +49,10 @@ class SyncRequestInner extends EventTarget {
 
   async start(): Promise<void> {
     if (this.started) {
-      assert(false, 'SyncRequestInner: started more than once. Doing nothing');
+      assertDev(
+        false,
+        'SyncRequestInner: started more than once. Doing nothing'
+      );
       return;
     }
     this.started = true;

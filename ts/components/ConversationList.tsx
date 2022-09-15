@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import type { ParsedE164Type } from '../util/libphonenumberInstance';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
@@ -205,7 +205,7 @@ export const ConversationList: React.FC<PropsType> = ({
     ({ index }: { index: number }): number => {
       const row = getRow(index);
       if (!row) {
-        assert(false, `Expected a row at index ${index}`);
+        assertDev(false, `Expected a row at index ${index}`);
         return NORMAL_ROW_HEIGHT;
       }
       switch (row.type) {
@@ -223,7 +223,7 @@ export const ConversationList: React.FC<PropsType> = ({
     ({ key, index, style }) => {
       const row = getRow(index);
       if (!row) {
-        assert(false, `Expected a row at index ${index}`);
+        assertDev(false, `Expected a row at index ${index}`);
         return <div key={key} style={style} />;
       }
 

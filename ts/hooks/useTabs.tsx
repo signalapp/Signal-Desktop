@@ -4,7 +4,7 @@
 import type { KeyboardEvent } from 'react';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
 type Tab = {
@@ -28,7 +28,7 @@ export function useTabs({
   selectedTab: string;
   tabsHeaderElement: JSX.Element;
 } {
-  assert(tabs.length, 'Tabs needs more than 1 tab present');
+  assertDev(tabs.length, 'Tabs needs more than 1 tab present');
 
   const getClassName = getClassNamesFor('Tabs', moduleClassName);
 

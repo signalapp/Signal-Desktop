@@ -22,7 +22,10 @@ export function softAssert(condition: unknown, message: string): void {
 /**
  * In production, logs an error and continues. In all other environments, throws an error.
  */
-export function assert(condition: unknown, message: string): asserts condition {
+export function assertDev(
+  condition: unknown,
+  message: string
+): asserts condition {
   if (!condition) {
     const err = new Error(message);
     if (getEnvironment() !== Environment.Production) {

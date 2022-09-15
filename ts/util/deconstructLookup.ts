@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { getOwn } from './getOwn';
-import { assert } from './assert';
+import { assertDev } from './assert';
 
 export const deconstructLookup = <T>(
   lookup: Record<string, T>,
@@ -14,7 +14,7 @@ export const deconstructLookup = <T>(
     if (value) {
       result.push(value);
     } else {
-      assert(false, `deconstructLookup: lookup failed for ${key}; dropping`);
+      assertDev(false, `deconstructLookup: lookup failed for ${key}; dropping`);
     }
   });
   return result;

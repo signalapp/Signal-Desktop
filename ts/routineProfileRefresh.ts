@@ -5,7 +5,7 @@ import { isNil, sortBy } from 'lodash';
 import PQueue from 'p-queue';
 
 import * as log from './logging/log';
-import { assert } from './util/assert';
+import { assertDev } from './util/assert';
 import { sleep } from './util/sleep';
 import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
@@ -177,7 +177,7 @@ function timeUntilNextRefresh(storage: Pick<StorageInterface, 'get'>): number {
     return Math.min(Math.max(0, planned - now), WEEK);
   }
 
-  assert(
+  assertDev(
     false,
     `An invalid value was stored in ${STORAGE_KEY}; treating it as nil`
   );

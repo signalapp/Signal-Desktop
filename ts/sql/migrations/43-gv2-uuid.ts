@@ -7,7 +7,7 @@ import { omit } from 'lodash';
 import type { LoggerType } from '../../types/Logging';
 import type { UUIDStringType } from '../../types/UUID';
 import { isNotNil } from '../../util/isNotNil';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import {
   TableIterator,
   getCountFromTable,
@@ -225,7 +225,7 @@ export default function updateToSchemaVersion43(
     let result = message;
 
     if (groupV2Change) {
-      assert(result.groupV2Change, 'Pacify typescript');
+      assertDev(result.groupV2Change, 'Pacify typescript');
 
       const from: UUIDStringType | undefined = getConversationUuid.get({
         conversationId: groupV2Change.from,
@@ -250,7 +250,7 @@ export default function updateToSchemaVersion43(
       const details = groupV2Change.details
         .map((legacyDetail, i) => {
           const oldDetail = result.groupV2Change?.details[i];
-          assert(oldDetail, 'Pacify typescript');
+          assertDev(oldDetail, 'Pacify typescript');
           let newDetail = oldDetail;
 
           for (const key of ['conversationId' as const, 'inviter' as const]) {
@@ -276,7 +276,10 @@ export default function updateToSchemaVersion43(
               return undefined;
             }
 
-            assert(newDetail.type === legacyDetail.type, 'Pacify typescript');
+            assertDev(
+              newDetail.type === legacyDetail.type,
+              'Pacify typescript'
+            );
             newDetail = {
               ...omit(newDetail, key),
               [newKey]: newValue,
@@ -319,7 +322,7 @@ export default function updateToSchemaVersion43(
           });
           const oldMember =
             result.invitedGV2Members && result.invitedGV2Members[i];
-          assert(oldMember !== undefined, 'Pacify typescript');
+          assertDev(oldMember !== undefined, 'Pacify typescript');
 
           if (!uuid) {
             logger.warn(

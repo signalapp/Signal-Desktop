@@ -18,7 +18,7 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'stream';
 
-import { assert, strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
@@ -391,7 +391,7 @@ async function _promiseAjax(
   log.info(logId, response.status, 'Success');
 
   if (options.responseType === 'byteswithdetails') {
-    assert(result instanceof Uint8Array, 'Expected Uint8Array result');
+    assertDev(result instanceof Uint8Array, 'Expected Uint8Array result');
     const fullResult: BytesWithDetailsType = {
       data: result,
       contentType: getContentType(response),

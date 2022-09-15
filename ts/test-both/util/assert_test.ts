@@ -3,17 +3,17 @@
 
 import { assert as chaiAssert } from 'chai';
 
-import { assert, strictAssert } from '../../util/assert';
+import { assertDev, strictAssert } from '../../util/assert';
 
 describe('assert utilities', () => {
   describe('assert', () => {
     it('does nothing if the assertion passes', () => {
-      assert(true, 'foo bar');
+      assertDev(true, 'foo bar');
     });
 
     it("throws if the assertion fails, because we're in a test environment", () => {
       chaiAssert.throws(() => {
-        assert(false, 'foo bar');
+        assertDev(false, 'foo bar');
       }, 'foo bar');
     });
   });

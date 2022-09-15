@@ -15,7 +15,7 @@ import {
   waitThenMaybeUpdateGroup,
   waitThenRespondToGroupV2Migration,
 } from '../groups';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { missingCaseError } from '../util/missingCaseError';
@@ -1098,7 +1098,7 @@ export async function mergeAccountRecord(
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Nobody;
       break;
     default:
-      assert(
+      assertDev(
         false,
         `storageService.mergeAccountRecord: Got an unexpected phone number sharing mode: ${phoneNumberSharingMode}. Falling back to default`
       );
@@ -1505,14 +1505,14 @@ export async function mergeStickerPackRecord(
   );
 
   if (localStickerPack && !wasUninstalled && isUninstalled) {
-    assert(localStickerPack.key, 'Installed sticker pack has no key');
+    assertDev(localStickerPack.key, 'Installed sticker pack has no key');
     window.reduxActions.stickers.uninstallStickerPack(
       localStickerPack.id,
       localStickerPack.key,
       { fromStorageService: true }
     );
   } else if ((!localStickerPack || wasUninstalled) && !isUninstalled) {
-    assert(stickerPack.key, 'Sticker pack does not have key');
+    assertDev(stickerPack.key, 'Sticker pack does not have key');
 
     const status = Stickers.getStickerPackStatus(stickerPack.id);
     if (status === 'downloaded') {

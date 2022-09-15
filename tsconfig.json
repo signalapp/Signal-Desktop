@@ -29,6 +29,8 @@
 
     // As a temporary measure
     "useUnknownInCatchVariables": false,
+    // Temp: The `assertDev()` function doesn't run in production so we can't rely on this
+    "allowUnreachableCode": true,
 
     // Additional Checks
     "noUnusedLocals": true, // Report errors on unused locals.

@@ -5,7 +5,7 @@ import Long from 'long';
 import { ReceiptCredentialPresentation } from '@signalapp/libsignal-client/zkgroup';
 import { isNumber } from 'lodash';
 
-import { assert, strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
@@ -331,7 +331,7 @@ export async function processDataMessage(
     isExpirationTimerUpdate,
     isProfileKeyUpdate,
   ].filter(Boolean).length;
-  assert(
+  assertDev(
     flagCount <= 1,
     `Expected exactly <=1 flags to be set, but got ${flagCount}`
   );

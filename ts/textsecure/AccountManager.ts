@@ -30,7 +30,7 @@ import {
 import { UUID, UUIDKind } from '../types/UUID';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
-import { assert, strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { isNotNil } from '../util/isNotNil';
@@ -114,7 +114,7 @@ export default class AccountManager extends EventTarget {
 
     const bytes = Bytes.fromBase64(base64);
     const proto = Proto.DeviceName.decode(bytes);
-    assert(
+    assertDev(
       proto.ephemeralPublic && proto.syntheticIv && proto.ciphertext,
       'Missing required fields in DeviceName'
     );

@@ -92,7 +92,6 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
 
   if (!globalLogger) {
     throw new Error('Logger has not been initialized yet');
-    return;
   }
 
   globalLogger[levelString](msg);

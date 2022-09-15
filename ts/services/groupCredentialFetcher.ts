@@ -86,6 +86,7 @@ export async function runWithRetry(
 
   // It's important to schedule our next run here instead of the level above; otherwise we
   //   could end up with multiple endlessly-retrying runs.
+  // eslint-disable-next-line no-unreachable -- Why is this here, its unreachable
   const duration = options.scheduleAnother;
   if (duration) {
     log.info(

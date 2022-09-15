@@ -36,6 +36,9 @@ const rules = {
   // useful for unused or internal fields
   'no-underscore-dangle': 'off',
 
+  // Temp: We have because TypeScript's `allowUnreachableCode` option is on.
+  'no-unreachable': 'error',
+
   // though we have a logger, we still remap console to log to disk
   'no-console': 'error',
 

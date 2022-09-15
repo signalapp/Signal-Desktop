@@ -18,7 +18,7 @@ import * as log from './logging/log';
 import * as Errors from './types/errors';
 import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
-import { assert, strictAssert } from './util/assert';
+import { assertDev, strictAssert } from './util/assert';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import { UUID, isValidUuid, UUIDKind } from './types/UUID';
@@ -686,7 +686,7 @@ export class ConversationController {
     //   conflict case, to keep the one with activity the most recently.
     for (let i = models.length - 1; i >= 0; i -= 1) {
       const conversation = models[i];
-      assert(
+      assertDev(
         conversation,
         'Expected conversation to be found in array during iteration'
       );
@@ -781,7 +781,7 @@ export class ConversationController {
       if (isGroupV1(conversation.attributes)) {
         maybeDeriveGroupV2Id(conversation);
         groupV2Id = conversation.get('derivedGroupV2Id');
-        assert(
+        assertDev(
           groupV2Id,
           'checkForConflicts: expected the group V2 ID to have been derived, but it was falsy'
         );
@@ -842,7 +842,7 @@ export class ConversationController {
     }
 
     if (obsolete.get('type') !== conversationType) {
-      assert(
+      assertDev(
         false,
         `${logId}: cannot combine a private and group conversation. Doing nothing`
       );

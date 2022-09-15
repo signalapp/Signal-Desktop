@@ -3,7 +3,7 @@
 
 import emojiRegex from 'emoji-regex';
 
-import { assert } from './assert';
+import { assertDev } from './assert';
 import { take } from './iterables';
 
 const REGEXP = emojiRegex();
@@ -31,7 +31,7 @@ export function splitByEmoji(value: string): ReadonlyArray<SplitElement> {
 
     result.push({ type: 'emoji', value: match[0] });
 
-    assert(match.index !== undefined, '`matchAll` should provide indices');
+    assertDev(match.index !== undefined, '`matchAll` should provide indices');
     lastIndex = match.index + match[0].length;
   }
 

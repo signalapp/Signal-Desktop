@@ -18,7 +18,7 @@ import {
 
 import * as Bytes from './Bytes';
 import { constantTimeEqual, sha256 } from './Crypto';
-import { assert, strictAssert } from './util/assert';
+import { assertDev, strictAssert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
 import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
@@ -836,13 +836,16 @@ export class SignalProtocolStore extends EventsMixin {
     // Apply changes to in-memory storage after successful DB write.
 
     const { sessions } = this;
-    assert(sessions !== undefined, "Can't commit unhydrated session storage");
+    assertDev(
+      sessions !== undefined,
+      "Can't commit unhydrated session storage"
+    );
     pendingSessions.forEach((value, key) => {
       sessions.set(key, value);
     });
 
     const { senderKeys } = this;
-    assert(
+    assertDev(
       senderKeys !== undefined,
       "Can't commit unhydrated sender key storage"
     );
@@ -871,7 +874,7 @@ export class SignalProtocolStore extends EventsMixin {
   private enterZone(zone: Zone, name: string): void {
     this.currentZoneDepth += 1;
     if (this.currentZoneDepth === 1) {
-      assert(this.currentZone === undefined, 'Should not be in the zone');
+      assertDev(this.currentZone === undefined, 'Should not be in the zone');
       this.currentZone = zone;
 
       if (zone !== GLOBAL_ZONE) {
@@ -881,10 +884,13 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   private leaveZone(zone: Zone): void {
-    assert(this.currentZone === zone, 'Should be in the correct zone');
+    assertDev(this.currentZone === zone, 'Should be in the correct zone');
 
     this.currentZoneDepth -= 1;
-    assert(this.currentZoneDepth >= 0, 'Unmatched number of leaveZone calls');
+    assertDev(
+      this.currentZoneDepth >= 0,
+      'Unmatched number of leaveZone calls'
+    );
 
     // Since we allow re-entering zones we might actually be in two overlapping
     // async calls. Leave the zone and yield to another one only if there are
@@ -908,7 +914,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     while (this.zoneQueue[0]?.zone === next.zone) {
       const elem = this.zoneQueue.shift();
-      assert(elem, 'Zone element should be present');
+      assertDev(elem, 'Zone element should be present');
 
       toEnter.push(elem);
     }
@@ -1080,7 +1086,7 @@ export class SignalProtocolStore extends EventsMixin {
           item: record,
         };
 
-        assert(this.currentZone, 'Must run in the zone');
+        assertDev(this.currentZone, 'Must run in the zone');
 
         this.pendingSessions.set(id, newSession);
 
@@ -1388,7 +1394,7 @@ export class SignalProtocolStore extends EventsMixin {
       const conversation = window.ConversationController.lookupOrCreate({
         uuid: uuid.toString(),
       });
-      assert(conversation, `lightSessionReset/${id}: missing conversation`);
+      assertDev(conversation, `lightSessionReset/${id}: missing conversation`);
 
       log.warn(`lightSessionReset/${id}: Resetting session`);
 

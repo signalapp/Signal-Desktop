@@ -10,7 +10,7 @@ import { getIntl } from '../selectors/user';
 import * as log from '../../logging/log';
 import type { Loadable } from '../../util/loadable';
 import { LoadingState } from '../../util/loadable';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { explodePromise } from '../../util/explodePromise';
 import { missingCaseError } from '../../util/missingCaseError';
 import {
@@ -134,7 +134,7 @@ export function SmartInstallScreen(): ReactElement {
     let deviceName: string = normalizeDeviceName(state.deviceName);
     if (!deviceName.length) {
       // This should be impossible, but we have it here just in case.
-      assert(
+      assertDev(
         false,
         'Unexpected empty device name. Falling back to placeholder value'
       );
@@ -149,7 +149,7 @@ export function SmartInstallScreen(): ReactElement {
     let hasCleanedUp = false;
 
     const accountManager = window.getAccountManager();
-    assert(accountManager, 'Expected an account manager');
+    assertDev(accountManager, 'Expected an account manager');
 
     const updateProvisioningUrl = (value: string): void => {
       if (hasCleanedUp) {

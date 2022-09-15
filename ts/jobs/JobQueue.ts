@@ -8,7 +8,7 @@ import { noop } from 'lodash';
 import { Job } from './Job';
 import { JobError } from './JobError';
 import type { ParsedJob, StoredJob, JobQueueStore } from './types';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';
 import * as Errors from '../types/errors';
@@ -67,15 +67,15 @@ export abstract class JobQueue<T> {
   private started = false;
 
   constructor(options: Readonly<JobQueueOptions>) {
-    assert(
+    assertDev(
       Number.isInteger(options.maxAttempts) && options.maxAttempts >= 1,
       'maxAttempts should be a positive integer'
     );
-    assert(
+    assertDev(
       options.maxAttempts <= Number.MAX_SAFE_INTEGER,
       'maxAttempts is too large'
     );
-    assert(
+    assertDev(
       options.queueType.trim().length,
       'queueType should be a non-blank string'
     );
@@ -188,7 +188,7 @@ export abstract class JobQueue<T> {
   }
 
   private async enqueueStoredJob(storedJob: Readonly<StoredJob>) {
-    assert(
+    assertDev(
       storedJob.queueType === this.queueType,
       'Received a mis-matched queue type'
     );
@@ -265,7 +265,7 @@ export abstract class JobQueue<T> {
 
     await this.store.delete(storedJob.id);
 
-    assert(
+    assertDev(
       result,
       'The job never ran. This indicates a developer error in the job queue'
     );

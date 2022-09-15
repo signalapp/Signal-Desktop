@@ -3,7 +3,7 @@
 
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ProfileRequestDataType } from '../textsecure/WebAPI';
-import { assert } from './assert';
+import { assertDev } from './assert';
 import * as Bytes from '../Bytes';
 import {
   PaddedLengths,
@@ -27,8 +27,8 @@ export async function encryptProfileData(
     uuid,
   } = conversation;
 
-  assert(profileKey, 'profileKey');
-  assert(uuid, 'uuid');
+  assertDev(profileKey, 'profileKey');
+  assertDev(uuid, 'uuid');
 
   const keyBuffer = Bytes.fromBase64(profileKey);
 

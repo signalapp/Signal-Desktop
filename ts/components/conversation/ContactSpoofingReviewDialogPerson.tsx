@@ -7,7 +7,7 @@ import React from 'react';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
@@ -25,7 +25,7 @@ type PropsType = {
 export const ContactSpoofingReviewDialogPerson: FunctionComponent<
   PropsType
 > = ({ children, conversation, getPreferredBadge, i18n, onClick, theme }) => {
-  assert(
+  assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
   );

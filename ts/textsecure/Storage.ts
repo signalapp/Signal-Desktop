@@ -8,7 +8,7 @@ import type {
 import { User } from './storage/User';
 import { Blocked } from './storage/Blocked';
 
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import Data from '../sql/Client';
 import type { SignalProtocolStore } from '../SignalProtocolStore';
 import * as log from '../logging/log';
@@ -34,7 +34,7 @@ export class Storage implements StorageInterface {
   }
 
   get protocol(): SignalProtocolStore {
-    assert(
+    assertDev(
       this.privProtocol !== undefined,
       'SignalProtocolStore not initialized'
     );

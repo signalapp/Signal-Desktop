@@ -31,7 +31,7 @@ import { renderClearingDataView } from '../shims/renderClearingDataView';
 import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
-import { assert } from './assert';
+import { assertDev } from './assert';
 import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import { parseE164FromSignalDotMeHash } from './sgnlHref';
@@ -360,7 +360,7 @@ export function createIPCEvents(
       const conversationId =
         window.ConversationController.getOurConversationIdOrThrow();
       const account = window.ConversationController.get(conversationId);
-      assert(account, "Account wasn't found");
+      assertDev(account, "Account wasn't found");
 
       account.captureChange('universalExpireTimer');
 
@@ -369,7 +369,7 @@ export function createIPCEvents(
       const selectedId = state.conversations.selectedConversationId;
       if (selectedId) {
         const conversation = window.ConversationController.get(selectedId);
-        assert(conversation, "Conversation wasn't found");
+        assertDev(conversation, "Conversation wasn't found");
 
         await conversation.updateLastMessage();
       }

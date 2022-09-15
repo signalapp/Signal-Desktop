@@ -25,7 +25,7 @@ import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDia
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { StoryRecipientUpdateEvent } from '../../textsecure/messageReceiverEvents';
 import { ToastReactionFailed } from '../../components/ToastReactionFailed';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
@@ -611,11 +611,11 @@ function sendStoryMessage(
   return async (dispatch, getState) => {
     const { stories } = getState();
     const { openedAtTimestamp, sendStoryModalData } = stories;
-    assert(
+    assertDev(
       openedAtTimestamp,
       'sendStoryMessage: openedAtTimestamp is undefined, cannot send'
     );
-    assert(
+    assertDev(
       sendStoryModalData,
       'sendStoryMessage: sendStoryModalData is not defined, cannot send'
     );

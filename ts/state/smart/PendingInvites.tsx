@@ -14,7 +14,7 @@ import {
   getConversationByUuidSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import type { UUIDStringType } from '../../types/UUID';
 
 export type SmartPendingInvitesProps = {
@@ -32,7 +32,7 @@ const mapStateToProps = (
   const conversationByUuidSelector = getConversationByUuidSelector(state);
 
   const conversation = conversationSelector(props.conversationId);
-  assert(
+  assertDev(
     conversation,
     '<SmartPendingInvites> expected a conversation to be found'
   );

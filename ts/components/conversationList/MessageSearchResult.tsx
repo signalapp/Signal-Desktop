@@ -8,7 +8,7 @@ import { escapeRegExp } from 'lodash';
 import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import type {
   BodyRangesType,
   LocalizerType,
@@ -99,7 +99,7 @@ function getFilteredBodyRanges(
   const rx = new RegExp(escapeRegExp(stripped));
   const match = rx.exec(body);
 
-  assert(Boolean(match), `No match found for "${snippet}" inside "${body}"`);
+  assertDev(Boolean(match), `No match found for "${snippet}" inside "${body}"`);
 
   const delta = match ? match.index + snippet.length : 0;
 
@@ -125,7 +125,7 @@ function getFilteredBodyRanges(
         start: bodyRangeMatch.index,
       });
     } else {
-      assert(
+      assertDev(
         false,
         `Body range does not exist? Count: ${i}, Length: ${filteredBodyRanges.length}`
       );

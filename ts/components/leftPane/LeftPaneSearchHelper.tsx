@@ -19,7 +19,7 @@ import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
 import { Intl } from '../Intl';
 import { Emojify } from '../conversation/Emojify';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is
@@ -228,7 +228,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
           i18nKey: 'conversationsHeader',
         };
       }
-      assert(
+      assertDev(
         !conversationResults.isLoading,
         "We shouldn't get here with conversation results still loading"
       );
@@ -249,7 +249,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
           i18nKey: 'contactsHeader',
         };
       }
-      assert(
+      assertDev(
         !contactResults.isLoading,
         "We shouldn't get here with contact results still loading"
       );
@@ -273,7 +273,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
         i18nKey: 'messagesHeader',
       };
     }
-    assert(
+    assertDev(
       !messageResults.isLoading,
       "We shouldn't get here with message results still loading"
     );
@@ -379,7 +379,7 @@ function getRowCountForLoadedSearchResults(
   //   We could change the parameter of this function, but that adds a bunch of redundant
   //   checks that are, in the author's opinion, less clear.
   if (searchResults.isLoading) {
-    assert(
+    assertDev(
       false,
       'getRowCountForLoadedSearchResults: Expected this to be called with loaded search results. Returning 0'
     );

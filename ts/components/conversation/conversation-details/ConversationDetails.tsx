@@ -10,7 +10,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
-import { assert } from '../../../util/assert';
+import { assertDev } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
@@ -237,7 +237,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           renderConfirmAdditionsModal={renderConfirmAdditionsModal}
           clearRequestError={() => {
             setAddGroupMembersRequestState(oldRequestState => {
-              assert(
+              assertDev(
                 oldRequestState !== RequestState.Active,
                 'Should not be clearing an active request state'
               );

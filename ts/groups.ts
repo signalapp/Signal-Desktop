@@ -20,7 +20,7 @@ import {
 } from './services/groupCredentialFetcher';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
-import { assert, strictAssert } from './util/assert';
+import { assertDev, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
 import * as durations from './util/durations';
 import { normalizeUuid } from './util/normalizeUuid';
@@ -671,7 +671,7 @@ export async function buildAddMembersChange(
     conversationIds.map(async conversationId => {
       const contact = window.ConversationController.get(conversationId);
       if (!contact) {
-        assert(
+        assertDev(
           false,
           `buildAddMembersChange/${logId}: missing local contact, skipping`
         );
@@ -680,7 +680,10 @@ export async function buildAddMembersChange(
 
       const uuid = contact.getUuid();
       if (!uuid) {
-        assert(false, `buildAddMembersChange/${logId}: missing UUID; skipping`);
+        assertDev(
+          false,
+          `buildAddMembersChange/${logId}: missing UUID; skipping`
+        );
         return;
       }
 
@@ -1788,7 +1791,7 @@ export async function createGroupV2(
     ...conversationIds.map(async conversationId => {
       const contact = window.ConversationController.get(conversationId);
       if (!contact) {
-        assert(
+        assertDev(
           false,
           `createGroupV2/${logId}: missing local contact, skipping`
         );
@@ -1797,7 +1800,7 @@ export async function createGroupV2(
 
       const contactUuid = contact.get('uuid');
       if (!contactUuid) {
-        assert(false, `createGroupV2/${logId}: missing UUID; skipping`);
+        assertDev(false, `createGroupV2/${logId}: missing UUID; skipping`);
         return;
       }
 
@@ -4143,7 +4146,7 @@ async function integrateGroupChange({
       canApplyChange &&
       (groupChangeMessages.length !== 0 || newMembers.length !== 0)
     ) {
-      assert(
+      assertDev(
         groupChangeMessages.length === 0,
         'Fallback group state processing should not kick in'
       );

@@ -21,7 +21,7 @@ import {
   getBadgesSelector,
   getPreferredBadgeSelector,
 } from '../selectors/badges';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal';
@@ -78,7 +78,7 @@ const mapStateToProps = (
 ): StateProps => {
   const conversationSelector = getConversationByIdSelector(state);
   const conversation = conversationSelector(props.conversationId);
-  assert(
+  assertDev(
     conversation,
     '<SmartConversationDetails> expected a conversation to be found'
   );

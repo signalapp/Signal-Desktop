@@ -20,7 +20,7 @@ import { ContactSpoofingReviewDialogPerson } from './ContactSpoofingReviewDialog
 import { Button, ButtonVariant } from '../Button';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
@@ -133,7 +133,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<
                   });
                   break;
                 case MessageRequestState.unblocking:
-                  assert(
+                  assertDev(
                     false,
                     'Got unexpected MessageRequestState.unblocking state. Clearing confiration state'
                   );
@@ -175,11 +175,11 @@ export const ContactSpoofingReviewDialog: FunctionComponent<
   switch (props.type) {
     case ContactSpoofingType.DirectConversationWithSameTitle: {
       const { possiblyUnsafeConversation, safeConversation } = props;
-      assert(
+      assertDev(
         possiblyUnsafeConversation.type === 'direct',
         '<ContactSpoofingReviewDialog> expected a direct conversation for the "possibly unsafe" conversation'
       );
-      assert(
+      assertDev(
         safeConversation.type === 'direct',
         '<ContactSpoofingReviewDialog> expected a direct conversation for the "safe" conversation'
       );

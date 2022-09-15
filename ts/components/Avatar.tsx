@@ -20,7 +20,7 @@ import { BadgeImageTheme } from '../badges/BadgeImageTheme';
 import { HasStories } from '../types/Stories';
 import { Spinner } from './Spinner';
 import { ThemeType } from '../types/Util';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
@@ -169,9 +169,9 @@ export const Avatar: FunctionComponent<Props> = ({
       </div>
     );
   } else if (hasImage) {
-    assert(avatarPath, 'avatarPath should be defined here');
+    assertDev(avatarPath, 'avatarPath should be defined here');
 
-    assert(
+    assertDev(
       blur !== AvatarBlur.BlurPictureWithClickToView || size >= 100,
       'Rendering "click to view" for a small avatar. This may not render correctly'
     );

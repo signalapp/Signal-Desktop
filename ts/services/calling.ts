@@ -99,7 +99,7 @@ import {
   FALLBACK_NOTIFICATION_TITLE,
 } from './notifications';
 import * as log from '../logging/log';
-import { assert } from '../util/assert';
+import { assertDev } from '../util/assert';
 
 const {
   processGroupCallRingRequest,
@@ -433,7 +433,7 @@ export class CallingClass {
     switch (callMode) {
       case CallMode.Direct:
         // We could easily support this in the future if we need to.
-        assert(
+        assertDev(
           hasLocalAudio,
           'Expected local audio to be enabled for direct call lobbies'
         );

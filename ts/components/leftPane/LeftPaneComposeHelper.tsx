@@ -251,6 +251,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
           ),
         };
 
+        // eslint-disable-next-line no-unreachable -- Why is this here, its unreachable
         virtualRowIndex -= 1;
       }
     }
@@ -275,6 +276,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
           ),
         };
 
+        // eslint-disable-next-line no-unreachable -- Why is this here, its unreachable
         virtualRowIndex -= 1;
       }
     }

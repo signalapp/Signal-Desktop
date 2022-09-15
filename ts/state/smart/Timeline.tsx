@@ -38,7 +38,7 @@ import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
-import { assert } from '../../util/assert';
+import { assertDev } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import {
@@ -177,7 +177,7 @@ const getWarning = (
         const conversationsWithSameTitle = getConversationsWithTitle(
           conversation.title
         );
-        assert(
+        assertDev(
           conversationsWithSameTitle.length,
           'Expected at least 1 conversation with the same title (this one)'
         );

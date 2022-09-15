@@ -304,7 +304,6 @@ describe('JobQueue', () => {
             case 'bar':
               barAttempts += 1;
               throw new Error('bar job always fails in this test');
-              break;
             default:
               throw missingCaseError(data);
           }
