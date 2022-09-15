@@ -21,8 +21,8 @@ const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number }>`
   }
 `;
 
-export const StyledMessageReactions = styled(Flex)<{ inModal: boolean }>`
-  ${props => (props.inModal ? '' : 'max-width: 320px;')}
+export const StyledMessageReactions = styled(Flex)<{ fullWidth: boolean }>`
+  ${props => (props.fullWidth ? '' : 'max-width: 640px;')}
 `;
 
 const StyledReactionOverflow = styled.button`
@@ -63,7 +63,7 @@ const Reactions = (props: ReactionsProps): ReactElement => {
       container={true}
       flexWrap={inModal ? 'nowrap' : 'wrap'}
       alignItems={'center'}
-      inModal={inModal}
+      fullWidth={inModal}
     >
       {reactions.map(([emoji, _]) => (
         <Reaction key={`${messageId}-${emoji}`} emoji={emoji} {...props} />
@@ -83,7 +83,7 @@ const CompressedReactions = (props: ExpandReactionsProps): ReactElement => {
       container={true}
       flexWrap={inModal ? 'nowrap' : 'wrap'}
       alignItems={'center'}
-      inModal={inModal}
+      fullWidth={true}
     >
       {reactions.slice(0, 4).map(([emoji, _]) => (
         <Reaction key={`${messageId}-${emoji}`} emoji={emoji} {...props} />
