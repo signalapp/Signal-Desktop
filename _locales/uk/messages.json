@@ -5360,15 +5360,15 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Історії",
+    "message": "Сторіз",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Мої історії",
+    "message": "Мої сторіз",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Додати історію",
+    "message": "Додати сторі",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5380,15 +5380,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Приховані історії",
+    "message": "Приховані сторіз",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Нових історій немає",
+    "message": "Нових сторіз немає",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Клацніть для перегляду історії",
+    "message": "Клацніть для перегляду сторі",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5408,11 +5408,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Налаштування історії",
+    "message": "Налаштування сторі",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Нова приватна історія",
+    "message": "Нова приватна сторі",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5424,7 +5424,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Хто може бачити цю історію",
+    "message": "Хто може бачити цю сторі",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5440,7 +5440,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ця особа більше не бачитиме ваших історій.",
+    "message": "Ця особа більше не бачитиме вашу сторі.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5456,7 +5456,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Видалити приватну історію",
+    "message": "Видалити приватну сторі",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5472,11 +5472,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Назва історії (обов'язкова)",
+    "message": "Назва сторі (обов'язкова)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Сховати історію від",
+    "message": "Приховати сторі від",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5516,7 +5516,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Налаштування історії",
+    "message": "Налаштування сторі",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5536,7 +5536,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Нова приватна історія",
+    "message": "Нова приватна сторі",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5592,7 +5592,7 @@
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
-    "message": "Відповісти на історію групи",
+    "message": "Відповісти на сторі групи",
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
@@ -5636,23 +5636,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагувати на історію",
+    "message": "Реагувати на сторі",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Зреагував на історію",
+    "message": "Реагує на сторі",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Історія",
+    "message": "Сторі",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Показати історії",
+    "message": "Показати сторіз",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Сховати історію",
+    "message": "Сховати сторі",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5668,7 +5668,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Сховати історію? Оновлення історій від $name$ більше не з'являтимуться нагорі списку історій.",
+    "message": "Сховати сторі? Оновлення сторі від користувача $name$ більше не з'являтимуться нагорі списку сторіз.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5768,15 +5768,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Історія",
+    "message": "Сторі",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Реакція на історію від $name$",
+    "message": "Реакція на сторі від $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Реакції на історію",
+    "message": "Реакція на сторі",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

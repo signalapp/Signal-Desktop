@@ -5581,13 +5581,7 @@
   },
   "StoryDetailsModal__disappears-in": {
     "message": "Disappears in $countdown$",
-    "description": "File size description",
-    "placeholders": {
-      "countdown": {
-        "content": "$1",
-        "example": "2 weeks, 3 days"
-      }
-    }
+    "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copy timestamp",

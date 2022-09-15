@@ -552,7 +552,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "El Escritorio ha encontrado una inconsistencia del Servicio de descubrimiento de contactos.",
+    "message": "Desktop ha encontrado una inconsistencia del Servicio de descubrimiento de contactos.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
