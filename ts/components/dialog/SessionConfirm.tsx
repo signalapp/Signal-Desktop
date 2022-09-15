@@ -50,8 +50,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     title = '',
     message = '',
     messageSub = '',
-    okTheme = SessionButtonColor.Primary,
-    closeTheme,
+    okTheme,
+    closeTheme = SessionButtonColor.Danger,
     onClickOk,
     onClickClose,
     hideCancel = false,
@@ -138,8 +138,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         <SessionButton2
           text={okText}
           buttonColor={okTheme}
-          buttonShape={SessionButtonShape.Square}
-          buttonType={SessionButtonType.Solid}
+          buttonType={SessionButtonType.Simple}
           onClick={onClickOkHandler}
           dataTestId="session-confirm-ok-button"
         />
@@ -147,8 +146,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
           <SessionButton2
             text={cancelText}
             buttonColor={closeTheme}
-            buttonShape={SessionButtonShape.Square}
-            buttonType={SessionButtonType.Solid}
+            buttonType={SessionButtonType.Simple}
             onClick={onClickCancelHandler}
             dataTestId="session-confirm-cancel-button"
           />

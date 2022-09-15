@@ -7,7 +7,7 @@ import { getConversationController } from '../../session/conversations';
 import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
 import { getTheme } from '../../state/selectors/theme';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -66,8 +66,6 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
     .get(convoId)
     .toOpenGroupV2();
 
-  const confirmButtonColor = darkMode ? SessionButtonColor.Green : SessionButtonColor.Secondary;
-
   const handleClose = () => {
     dispatch(updateReactClearAllModal(null));
   };
@@ -97,17 +95,16 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
       >
         <p>{window.i18n('clearAllReactions', [reaction])}</p>
         <StyledButtonContainer className="session-modal__button-group">
-          <SessionButton
+          <SessionButton2
             text={window.i18n('clear')}
-            buttonColor={confirmButtonColor}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClearAll}
             disabled={clearingInProgress}
           />
-          <SessionButton
+          <SessionButton2
             text={window.i18n('cancel')}
-            buttonColor={SessionButtonColor.Danger}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClose}
             disabled={clearingInProgress}
           />

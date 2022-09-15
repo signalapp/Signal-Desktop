@@ -8,7 +8,7 @@ import { SpacerSM } from '../basic/Text';
 import { getConversationController } from '../../session/conversations/ConversationController';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { ConversationModel } from '../../models/conversation';
 import { useFocusMount } from '../../hooks/useFocusMount';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
@@ -140,9 +140,8 @@ export const BanOrUnBanUserDialog = (props: {
           value={wasGivenAPubkey ? inputTextToDisplay : inputBoxValue}
         />
         <Flex container={true}>
-          <SessionButton
-            buttonType={SessionButtonType.Square}
-            buttonColor={SessionButtonColor.Primary}
+          <SessionButton2
+            buttonType={SessionButtonType.Simple}
             onClick={banOrUnBanUser}
             text={buttonText}
             disabled={inProgress}
@@ -150,8 +149,8 @@ export const BanOrUnBanUserDialog = (props: {
           {isBan && (
             <>
               <SpacerSM />
-              <SessionButton
-                buttonType={SessionButtonType.Square}
+              <SessionButton2
+                buttonType={SessionButtonType.Simple}
                 buttonColor={SessionButtonColor.Danger}
                 onClick={startBanAndDeleteAllSequence}
                 text={i18n('banUserAndDeleteAll')}

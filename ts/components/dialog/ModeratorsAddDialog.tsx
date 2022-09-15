@@ -5,7 +5,7 @@ import { Flex } from '../basic/Flex';
 import { getConversationController } from '../../session/conversations';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
@@ -92,9 +92,8 @@ export const AddModeratorsDialog = (props: Props) => {
           value={inputBoxValue}
           autoFocus={true}
         />
-        <SessionButton
-          buttonType={SessionButtonType.Brand}
-          buttonColor={SessionButtonColor.Primary}
+        <SessionButton2
+          buttonType={SessionButtonType.Simple}
           onClick={addAsModerator}
           text={i18n('add')}
           disabled={addingInProgress}

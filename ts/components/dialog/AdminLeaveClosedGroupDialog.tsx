@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SpacerLG } from '../basic/Text';
 import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
@@ -37,8 +37,17 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
       <p>{warningAsAdmin}</p>
 
       <div className="session-modal__button-group">
-        <SessionButton text={cancelText} onClick={closeDialog} />
-        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
+        <SessionButton2
+          text={okText}
+          buttonColor={SessionButtonColor.Danger}
+          buttonType={SessionButtonType.Simple}
+          onClick={onClickOK}
+        />
+        <SessionButton2
+          text={cancelText}
+          buttonType={SessionButtonType.Simple}
+          onClick={closeDialog}
+        />
       </div>
     </SessionWrapperModal>
   );

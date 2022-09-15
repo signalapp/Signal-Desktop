@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateInviteContactModal } from '../../state/ducks/modalDialog';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
@@ -177,12 +177,17 @@ const InviteContactsDialogInner = (props: Props) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={cancelText} onClick={closeDialog} />
-        <SessionButton
+        <SessionButton2
           text={okText}
+          buttonType={SessionButtonType.Simple}
           disabled={!hasContacts}
           onClick={onClickOK}
-          buttonColor={SessionButtonColor.Green}
+        />
+        <SessionButton2
+          text={cancelText}
+          buttonColor={SessionButtonColor.Danger}
+          buttonType={SessionButtonType.Simple}
+          onClick={closeDialog}
         />
       </div>
     </SessionWrapperModal>

@@ -5,7 +5,7 @@ import { SessionIconButton } from './icon/';
 
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { SessionButton } from './basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from './basic/SessionButton2';
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -113,15 +113,19 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
               {props.children}
 
               <div className="session-modal__button-group">
-                {onClose && showClose ? (
-                  <SessionButton onClick={props.onClose}>
-                    {cancelText || window.i18n('close')}
-                  </SessionButton>
-                ) : null}
                 {onConfirm ? (
-                  <SessionButton onClick={props.onConfirm}>
+                  <SessionButton2 buttonType={SessionButtonType.Simple} onClick={props.onConfirm}>
                     {confirmText || window.i18n('ok')}
-                  </SessionButton>
+                  </SessionButton2>
+                ) : null}
+                {onClose && showClose ? (
+                  <SessionButton2
+                    buttonType={SessionButtonType.Simple}
+                    buttonColor={SessionButtonColor.Danger}
+                    onClick={props.onClose}
+                  >
+                    {cancelText || window.i18n('close')}
+                  </SessionButton2>
                 ) : null}
               </div>
             </div>

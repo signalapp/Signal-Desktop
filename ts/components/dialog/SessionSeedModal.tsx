@@ -8,7 +8,7 @@ import { mn_decode } from '../../session/crypto/mnemonic';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 
@@ -72,8 +72,17 @@ const Password = (props: PasswordProps) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={i18n('cancel')} onClick={onClose} />
-        <SessionButton text={i18n('ok')} onClick={confirmPassword} />
+        <SessionButton2
+          text={i18n('ok')}
+          buttonType={SessionButtonType.Simple}
+          onClick={confirmPassword}
+        />
+        <SessionButton2
+          text={i18n('cancel')}
+          buttonType={SessionButtonType.Simple}
+          buttonColor={SessionButtonColor.Danger}
+          onClick={onClose}
+        />
       </div>
     </>
   );
@@ -105,26 +114,25 @@ const Seed = (props: SeedProps) => {
   return (
     <>
       <div className="session-modal__centered text-center">
-        <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
-        <SpacerXS />
+        <p className="session-modal__description" style={{ marginTop: '0px' }}>
+          {i18n('recoveryPhraseSavePromptMain')}
+        </p>
 
         <i data-testid="recovery-phrase-seed-modal" className="session-modal__text-highlight">
           {recoveryPhrase}
         </i>
       </div>
-      <SpacerLG />
+      <div className="qr-image">
+        <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
+      </div>
       <div className="session-modal__button-group">
-        <SessionButton
+        <SessionButton2
           text={i18n('editMenuCopy')}
-          buttonColor={SessionButtonColor.Green}
+          buttonType={SessionButtonType.Simple}
           onClick={() => {
             copyRecoveryPhrase(recoveryPhrase);
           }}
         />
-      </div>
-      <SpacerLG />
-      <div className="qr-image">
-        <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
       </div>
     </>
   );

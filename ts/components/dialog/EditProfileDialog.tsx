@@ -13,7 +13,7 @@ import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
@@ -98,8 +98,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
           headerIconButtons={backButton}
           showExitIcon={true}
         >
-          <SpacerMD />
-
           {viewQR && <QRView sessionID={sessionID} />}
           {viewDefault && this.renderDefaultView()}
           {viewEdit && this.renderEditView()}
@@ -108,14 +106,12 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <YourSessionIDPill />
             <YourSessionIDSelectable />
 
-            <SpacerLG />
             <SessionSpinner loading={this.state.loading} />
 
             {viewDefault || viewQR ? (
-              <SessionButton
+              <SessionButton2
                 text={window.i18n('editMenuCopy')}
-                buttonType={SessionButtonType.BrandOutline}
-                buttonColor={SessionButtonColor.Green}
+                buttonType={SessionButtonType.Simple}
                 onClick={() => {
                   window.clipboard.writeText(sessionID);
                   ToastUtils.pushCopiedToClipBoard();
@@ -124,18 +120,15 @@ export class EditProfileDialog extends React.Component<{}, State> {
               />
             ) : (
               !this.state.loading && (
-                <SessionButton
+                <SessionButton2
                   text={window.i18n('save')}
-                  buttonType={SessionButtonType.BrandOutline}
-                  buttonColor={SessionButtonColor.Green}
+                  buttonType={SessionButtonType.Simple}
                   onClick={this.onClickOK}
                   disabled={this.state.loading}
                   dataTestId="save-button-profile-update"
                 />
               )
             )}
-
-            <SpacerLG />
           </div>
         </SessionWrapperModal>
       </div>
