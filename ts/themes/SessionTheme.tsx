@@ -467,6 +467,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
     --danger-color: ${COLORS.DANGER.LIGHT};
     --transparent-color: ${COLORS.TRANSPARENT};
+    --white-color: ${COLORS.WHITE};
 
     /* Backgrounds */
     --background-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
@@ -513,14 +514,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming probably consolidate this */
     /* Buttons */
-    /* TODO Theming are solid buttons ever disabled? */
-    /* Solid */
-    --button-solid-background-color: var(--background-primary-color);
-    --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
-    --button-solid-text-color: var(--text-primary-color);
-    --button-solid-text-hover-color: var(--text-primary-color);
-
-    /* Outline */
+    /* Outline (Default) */
     --button-outline-background-color: var(--transparent-color);
     --button-outline-background-hover-color: rgba(${hexColorToRGB(
       THEMES.CLASSIC_LIGHT.COLOR0
@@ -531,6 +525,18 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-outline-border-color: var(--text-primary-color);
     --button-outline-border-hover-color: var(--text-primary-color);
     --button-outline-disabled-color: var(--text-secondary-color);
+
+    /* TODO Theming are solid buttons ever disabled? */
+    /* Solid */
+    /* TODO Theming - Should Pills have their own colors */
+    /* Also used for Pills */
+    --button-solid-background-color: var(--background-primary-color);
+    --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --button-solid-text-color: var(--text-primary-color);
+    --button-solid-text-hover-color: var(--text-primary-color);
+    --button-solid-disabled-color: var(--text-secondary-color);
+      /* TODO Theming - Only light themes have shadows? */
+    --button-solid-shadow-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25);
 
     /* Icons */
     --button-icon-background-color: var(--transparent-color);

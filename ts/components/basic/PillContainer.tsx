@@ -40,10 +40,11 @@ const StyledPillInner = styled.div<PillContainerProps>`
   margin: ${props => props.margin || ''};
   border-radius: 300px;
   cursor: ${props => (props.disableHover ? 'unset' : 'pointer')};
-  border: 1px solid var(--color-pill-divider);
+  border: 1px solid var(--border-color);
   transition: var(--default-duration);
   &:hover {
-    background: ${props => (props.disableHover ? 'none' : 'var(--color-clickable-hovered)')};
+    background: ${props =>
+      props.disableHover ? 'none' : 'var(--button-solid-background-hover-color)'};
   }
 `;
 

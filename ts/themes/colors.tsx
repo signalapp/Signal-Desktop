@@ -23,8 +23,13 @@ type Colors = {
     CONNECTING: string;
     ERROR: string;
   };
+  SESSION: string;
   TRANSPARENT: string;
+  WHITE: string;
 };
+
+// Session Brand Color
+const sessionGreen = '#00f782';
 
 // Primary (can override theme default)
 const primaryGreen = '#31F196';
@@ -47,6 +52,9 @@ const pathError = '#EA5545';
 // Transparent
 const transparent = 'transparent';
 
+// White
+const white = '#FFFFFF';
+
 const COLORS: Colors = {
   PRIMARY: {
     GREEN: primaryGreen,
@@ -66,7 +74,9 @@ const COLORS: Colors = {
     CONNECTING: pathConnecting,
     ERROR: pathError,
   },
+  SESSION: sessionGreen,
   TRANSPARENT: transparent,
+  WHITE: white,
 };
 
 // Themes
