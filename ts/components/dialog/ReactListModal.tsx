@@ -55,6 +55,7 @@ const StyledReactionBar = styled(Flex)`
     span:nth-child(1) {
       margin: 0 8px;
       color: var(--color-text);
+      white-space: nowrap;
     }
 
     span:nth-child(2) {
