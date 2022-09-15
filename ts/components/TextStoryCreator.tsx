@@ -4,7 +4,7 @@
 import FocusTrap from 'focus-trap-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { get, has } from 'lodash';
+import { get, has, noop } from 'lodash';
 import { usePopper } from 'react-popper';
 
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -26,6 +26,7 @@ import {
   getBackgroundColor,
 } from '../util/getStoryBackground';
 import { objectMap } from '../util/objectMap';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -232,13 +233,6 @@ export const TextStoryCreator = ({
   );
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (!colorPickerPopperButtonRef?.contains(event.target as Node)) {
-        setIsColorPickerShowing(false);
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    };
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         if (
@@ -257,12 +251,11 @@ export const TextStoryCreator = ({
       }
     };
 
-    document.addEventListener('click', handleOutsideClick);
-    document.addEventListener('keydown', handleEscape);
+    const useCapture = true;
+    document.addEventListener('keydown', handleEscape, useCapture);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleEscape, useCapture);
     };
   }, [
     isColorPickerShowing,
@@ -271,6 +264,19 @@ export const TextStoryCreator = ({
     colorPickerPopperButtonRef,
     onClose,
   ]);
+
+  useEffect(() => {
+    if (!isColorPickerShowing) {
+      return noop;
+    }
+    return handleOutsideClick(
+      () => {
+        setIsColorPickerShowing(false);
+        return true;
+      },
+      { containerElements: [colorPickerPopperButtonRef] }
+    );
+  }, [isColorPickerShowing, colorPickerPopperButtonRef]);
 
   const sliderColorNumber = getRGBANumber(sliderValue);
 

@@ -14,6 +14,7 @@ import { StickerPicker } from './StickerPicker';
 import { countStickers } from './lib';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import { themeClassName } from '../../util/theme';
+import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 import { useRefMerger } from '../../hooks/useRefMerger';
 
@@ -136,7 +137,23 @@ export const StickerButton = React.memo(
         const root = document.createElement('div');
         setPopperRoot(root);
         document.body.appendChild(root);
-        const handleOutsideClick = ({ target }: MouseEvent) => {
+
+        return () => {
+          document.body.removeChild(root);
+          setPopperRoot(null);
+        };
+      }
+
+      return noop;
+    }, [open, setOpen, setPopperRoot]);
+
+    React.useEffect(() => {
+      if (!open) {
+        return noop;
+      }
+
+      return handleOutsideClick(
+        target => {
           const targetElement = target as HTMLElement;
           const targetClassName = targetElement
             ? targetElement.className || ''
@@ -149,25 +166,16 @@ export const StickerButton = React.memo(
             targetClassName.indexOf('module-sticker-picker__header__button') <
               0;
 
-          if (
-            !root.contains(targetElement) &&
-            isMissingButtonClass &&
-            targetElement !== buttonRef.current
-          ) {
-            setOpen(false);
+          if (!isMissingButtonClass) {
+            return false;
           }
-        };
-        document.addEventListener('click', handleOutsideClick);
 
-        return () => {
-          document.body.removeChild(root);
-          document.removeEventListener('click', handleOutsideClick);
-          setPopperRoot(null);
-        };
-      }
-
-      return noop;
-    }, [open, setOpen, setPopperRoot]);
+          setOpen(false);
+          return true;
+        },
+        { containerElements: [popperRoot, buttonRef] }
+      );
+    }, [open, popperRoot, setOpen]);
 
     // Install keyboard shortcut to open sticker picker
     React.useEffect(() => {

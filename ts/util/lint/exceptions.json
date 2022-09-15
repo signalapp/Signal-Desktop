@@ -9183,6 +9183,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/ModalHost.tsx",
+    "line": "    const containerRef = React.useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-09-14T16:20:15.384Z",
+    "reasonDetail": "Holds a reference to a container element to prevent outside clicks"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/ProfileEditor.tsx",
     "line": "  const focusInputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",

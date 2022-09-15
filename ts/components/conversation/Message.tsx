@@ -92,6 +92,7 @@ import type { UUIDStringType } from '../../types/UUID';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
+import { handleOutsideClick } from '../../util/handleOutsideClick';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -381,7 +382,9 @@ type State = {
   prevSelectedCounter?: number;
 
   reactionViewerRoot: HTMLDivElement | null;
+  reactionViewerOutsideClickDestructor?: () => void;
   reactionPickerRoot: HTMLDivElement | null;
+  reactionPickerOutsideClickDestructor?: () => void;
 
   giftBadgeCounter: number | null;
   showOutgoingGiftBadgeModal: boolean;
@@ -2394,29 +2397,34 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public toggleReactionViewer = (onlyRemove = false): void => {
-    this.setState(({ reactionViewerRoot }) => {
+    this.setState(oldState => {
+      const { reactionViewerRoot } = oldState;
       if (reactionViewerRoot) {
         document.body.removeChild(reactionViewerRoot);
-        document.body.removeEventListener(
-          'click',
-          this.handleClickOutsideReactionViewer,
-          true
-        );
 
-        return { reactionViewerRoot: null };
+        oldState.reactionViewerOutsideClickDestructor?.();
+
+        return {
+          reactionViewerRoot: null,
+          reactionViewerOutsideClickDestructor: undefined,
+        };
       }
 
       if (!onlyRemove) {
         const root = document.createElement('div');
         document.body.appendChild(root);
-        document.body.addEventListener(
-          'click',
-          this.handleClickOutsideReactionViewer,
-          true
+
+        const reactionViewerOutsideClickDestructor = handleOutsideClick(
+          () => {
+            this.toggleReactionViewer(true);
+            return true;
+          },
+          { containerElements: [root, this.reactionsContainerRef] }
         );
 
         return {
           reactionViewerRoot: root,
+          reactionViewerOutsideClickDestructor,
         };
       }
 
@@ -2425,56 +2433,39 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public toggleReactionPicker = (onlyRemove = false): void => {
-    this.setState(({ reactionPickerRoot }) => {
+    this.setState(oldState => {
+      const { reactionPickerRoot } = oldState;
       if (reactionPickerRoot) {
         document.body.removeChild(reactionPickerRoot);
-        document.body.removeEventListener(
-          'click',
-          this.handleClickOutsideReactionPicker,
-          true
-        );
 
-        return { reactionPickerRoot: null };
+        oldState.reactionPickerOutsideClickDestructor?.();
+
+        return {
+          reactionPickerRoot: null,
+          reactionPickerOutsideClickDestructor: undefined,
+        };
       }
 
       if (!onlyRemove) {
         const root = document.createElement('div');
         document.body.appendChild(root);
-        document.body.addEventListener(
-          'click',
-          this.handleClickOutsideReactionPicker,
-          true
+
+        const reactionPickerOutsideClickDestructor = handleOutsideClick(
+          () => {
+            this.toggleReactionPicker(true);
+            return true;
+          },
+          { containerElements: [root] }
         );
 
         return {
           reactionPickerRoot: root,
+          reactionPickerOutsideClickDestructor,
         };
       }
 
       return null;
     });
-  };
-
-  public handleClickOutsideReactionViewer = (e: MouseEvent): void => {
-    const { reactionViewerRoot } = this.state;
-    const { current: reactionsContainer } = this.reactionsContainerRef;
-    if (reactionViewerRoot && reactionsContainer) {
-      if (
-        !reactionViewerRoot.contains(e.target as HTMLElement) &&
-        !reactionsContainer.contains(e.target as HTMLElement)
-      ) {
-        this.toggleReactionViewer(true);
-      }
-    }
-  };
-
-  public handleClickOutsideReactionPicker = (e: MouseEvent): void => {
-    const { reactionPickerRoot } = this.state;
-    if (reactionPickerRoot) {
-      if (!reactionPickerRoot.contains(e.target as HTMLElement)) {
-        this.toggleReactionPicker(true);
-      }
-    }
   };
 
   public renderReactions(outgoing: boolean): JSX.Element | null {

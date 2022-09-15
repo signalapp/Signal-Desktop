@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { LocalizerType } from '../types/Util';
 import { useRefMerger } from '../hooks/useRefMerger';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -66,27 +67,29 @@ export const MediaQualitySelector = ({
       const root = document.createElement('div');
       setPopperRoot(root);
       document.body.appendChild(root);
-      const handleOutsideClick = (event: MouseEvent) => {
-        if (
-          !root.contains(event.target as Node) &&
-          event.target !== buttonRef.current
-        ) {
-          handleClose();
-          event.stopPropagation();
-          event.preventDefault();
-        }
-      };
-      document.addEventListener('click', handleOutsideClick);
 
       return () => {
         document.body.removeChild(root);
-        document.removeEventListener('click', handleOutsideClick);
         setPopperRoot(null);
       };
     }
 
     return noop;
   }, [menuShowing, setPopperRoot, handleClose]);
+
+  useEffect(() => {
+    if (!menuShowing) {
+      return noop;
+    }
+
+    return handleOutsideClick(
+      () => {
+        handleClose();
+        return true;
+      },
+      { containerElements: [popperRoot, buttonRef] }
+    );
+  }, [menuShowing, popperRoot, handleClose]);
 
   return (
     <Manager>

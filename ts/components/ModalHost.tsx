@@ -7,12 +7,14 @@ import FocusTrap from 'focus-trap-react';
 import type { SpringValues } from '@react-spring/web';
 import { animated } from '@react-spring/web';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import type { ModalConfigType } from '../hooks/useAnimated';
 import type { Theme } from '../util/theme';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type PropsType = Readonly<{
   children: React.ReactElement;
@@ -39,7 +41,7 @@ export const ModalHost = React.memo(
     useFocusTrap = true,
   }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
-    const [isMouseDown, setIsMouseDown] = React.useState(false);
+    const containerRef = React.useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
       const div = document.createElement('div');
@@ -53,27 +55,18 @@ export const ModalHost = React.memo(
     }, []);
 
     useEscapeHandling(onEscape || onClose);
-
-    // This makes it easier to write dialogs to be hosted here; they won't have to worry
-    //   as much about preventing propagation of mouse events.
-    const handleMouseDown = React.useCallback(
-      (e: React.MouseEvent) => {
-        if (e.target === e.currentTarget) {
-          setIsMouseDown(true);
-        }
-      },
-      [setIsMouseDown]
-    );
-    const handleMouseUp = React.useCallback(
-      (e: React.MouseEvent) => {
-        setIsMouseDown(false);
-
-        if (e.target === e.currentTarget && isMouseDown) {
+    useEffect(() => {
+      if (noMouseClose) {
+        return noop;
+      }
+      return handleOutsideClick(
+        () => {
           onClose();
-        }
-      },
-      [onClose, isMouseDown, setIsMouseDown]
-    );
+          return true;
+        },
+        { containerElements: [containerRef] }
+      );
+    }, [noMouseClose, onClose]);
 
     const className = classNames([
       theme ? themeClassName(theme) : undefined,
@@ -88,12 +81,10 @@ export const ModalHost = React.memo(
           className={getClassName('__overlay')}
           style={overlayStyles}
         />
-        <div
-          className={getClassName('__overlay-container')}
-          onMouseDown={noMouseClose ? undefined : handleMouseDown}
-          onMouseUp={noMouseClose ? undefined : handleMouseUp}
-        >
-          {children}
+        <div className={getClassName('__overlay-container')}>
+          <div ref={containerRef} className={getClassName('__width-container')}>
+            {children}
+          </div>
         </div>
       </div>
     );

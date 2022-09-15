@@ -7490,16 +7490,22 @@ button.module-image__border-overlay:focus {
 
 .module-modal-host__overlay-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: var(--window-width);
   height: var(--window-height);
   left: var(--window-border);
   top: var(--titlebar-height);
   justify-content: center;
+  align-items: center;
   overflow: hidden;
   padding: 20px;
   position: fixed;
   z-index: $z-index-modal-host;
+}
+
+.module-modal-host__width-container {
+  max-width: 360px;
+  width: 95%;
 }
 
 .module-modal-host--on-top-of-everything {

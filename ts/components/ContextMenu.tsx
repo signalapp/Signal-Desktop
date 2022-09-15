@@ -13,6 +13,7 @@ import type { Theme } from '../util/theme';
 import type { LocalizerType } from '../types/Util';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type ContextMenuOptionType<T> = {
   readonly description?: string;
@@ -104,20 +105,15 @@ export function ContextMenu<T>({
       return noop;
     }
 
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (!referenceElement?.contains(event.target as Node)) {
+    return handleOutsideClick(
+      () => {
         setIsMenuShowing(false);
         closeCurrentOpenContextMenu = undefined;
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    };
-    document.addEventListener('click', handleOutsideClick);
-
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, [isMenuShowing, referenceElement]);
+        return true;
+      },
+      { containerElements: [referenceElement, popperElement] }
+    );
+  }, [isMenuShowing, referenceElement, popperElement]);
 
   const handleKeyDown = (ev: KeyboardEvent) => {
     if (!isMenuShowing) {

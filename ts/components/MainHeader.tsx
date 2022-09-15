@@ -11,6 +11,7 @@ import { AvatarPopup } from './AvatarPopup';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 export type PropsType = {
   areStoriesEnabled: boolean;
@@ -38,6 +39,7 @@ export type PropsType = {
 type StateType = {
   showingAvatarPopup: boolean;
   popperRoot: HTMLDivElement | null;
+  outsideClickDestructor?: () => void;
 };
 
 export class MainHeader extends React.Component<PropsType, StateType> {
@@ -52,39 +54,41 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     };
   }
 
-  public handleOutsideClick = ({ target }: MouseEvent): void => {
-    const { popperRoot, showingAvatarPopup } = this.state;
-
-    if (
-      showingAvatarPopup &&
-      popperRoot &&
-      !popperRoot.contains(target as Node) &&
-      !this.containerRef.current?.contains(target as Node)
-    ) {
-      this.hideAvatarPopup();
-    }
-  };
-
   public showAvatarPopup = (): void => {
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
 
+    const outsideClickDestructor = handleOutsideClick(
+      () => {
+        const { showingAvatarPopup } = this.state;
+        if (!showingAvatarPopup) {
+          return false;
+        }
+
+        this.hideAvatarPopup();
+
+        return true;
+      },
+      { containerElements: [popperRoot, this.containerRef] }
+    );
+
     this.setState({
       showingAvatarPopup: true,
       popperRoot,
+      outsideClickDestructor,
     });
-    document.addEventListener('click', this.handleOutsideClick);
   };
 
   public hideAvatarPopup = (): void => {
-    const { popperRoot } = this.state;
-
-    document.removeEventListener('click', this.handleOutsideClick);
+    const { popperRoot, outsideClickDestructor } = this.state;
 
     this.setState({
       showingAvatarPopup: false,
       popperRoot: null,
+      outsideClickDestructor: undefined,
     });
+
+    outsideClickDestructor?.();
 
     if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);
@@ -92,14 +96,20 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   };
 
   public override componentDidMount(): void {
-    document.addEventListener('keydown', this.handleGlobalKeyDown);
+    const useCapture = true;
+    document.addEventListener('keydown', this.handleGlobalKeyDown, useCapture);
   }
 
   public override componentWillUnmount(): void {
-    const { popperRoot } = this.state;
+    const { popperRoot, outsideClickDestructor } = this.state;
 
-    document.removeEventListener('click', this.handleOutsideClick);
-    document.removeEventListener('keydown', this.handleGlobalKeyDown);
+    const useCapture = true;
+    outsideClickDestructor?.();
+    document.removeEventListener(
+      'keydown',
+      this.handleGlobalKeyDown,
+      useCapture
+    );
 
     if (popperRoot && document.body.contains(popperRoot)) {
       document.body.removeChild(popperRoot);

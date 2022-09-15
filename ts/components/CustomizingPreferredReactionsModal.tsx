@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePopper } from 'react-popper';
 import { isEqual, noop } from 'lodash';
 
@@ -17,6 +17,7 @@ import { EmojiPicker } from './emoji/EmojiPicker';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../reactions/constants';
 import { convertShortName } from './emoji/lib';
 import { offsetDistanceModifier } from '../util/popperUtil';
+import { handleOutsideClick } from '../util/handleOutsideClick';
 
 type PropsType = {
   draftPreferredReactions: Array<string>;
@@ -77,22 +78,13 @@ export function CustomizingPreferredReactionsModal({
       return noop;
     }
 
-    const onBodyClick = (event: MouseEvent) => {
-      const { target } = event;
-      if (!(target instanceof HTMLElement) || !popperElement) {
-        return;
-      }
-
-      const isClickOutsidePicker = !popperElement.contains(target);
-      if (isClickOutsidePicker) {
+    return handleOutsideClick(
+      () => {
         deselectDraftEmoji();
-      }
-    };
-
-    document.body.addEventListener('click', onBodyClick);
-    return () => {
-      document.body.removeEventListener('click', onBodyClick);
-    };
+        return true;
+      },
+      { containerElements: [popperElement] }
+    );
   }, [isSomethingSelected, popperElement, deselectDraftEmoji]);
 
   const hasChanged = !isEqual(

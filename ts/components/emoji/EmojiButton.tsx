@@ -12,6 +12,7 @@ import type { Props as EmojiPickerProps } from './EmojiPicker';
 import { EmojiPicker } from './EmojiPicker';
 import type { LocalizerType } from '../../types/Util';
 import { useRefMerger } from '../../hooks/useRefMerger';
+import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 
 export type OwnProps = Readonly<{
@@ -88,27 +89,29 @@ export const EmojiButton = React.memo(
         const root = document.createElement('div');
         setPopperRoot(root);
         document.body.appendChild(root);
-        const handleOutsideClick = (event: MouseEvent) => {
-          if (
-            !root.contains(event.target as Node) &&
-            event.target !== buttonRef.current
-          ) {
-            handleClose();
-            event.stopPropagation();
-            event.preventDefault();
-          }
-        };
-        document.addEventListener('click', handleOutsideClick);
 
         return () => {
           document.body.removeChild(root);
-          document.removeEventListener('click', handleOutsideClick);
           setPopperRoot(null);
         };
       }
 
       return noop;
     }, [open, setOpen, setPopperRoot, handleClose]);
+
+    React.useEffect(() => {
+      if (!open) {
+        return noop;
+      }
+
+      return handleOutsideClick(
+        () => {
+          handleClose();
+          return true;
+        },
+        { containerElements: [popperRoot, buttonRef] }
+      );
+    }, [open, handleClose, popperRoot]);
 
     // Install keyboard shortcut to open emoji picker
     React.useEffect(() => {
