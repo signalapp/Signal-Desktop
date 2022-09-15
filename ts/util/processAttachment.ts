@@ -15,7 +15,7 @@ import { handleImageAttachment } from './handleImageAttachment';
 import { handleVideoAttachment } from './handleVideoAttachment';
 import { isAttachmentSizeOkay } from './isAttachmentSizeOkay';
 import { isFileDangerous } from './isFileDangerous';
-import { isHeic, isImage, stringToMIMEType } from '../types/MIME';
+import { isHeic, isImage, isVideo, stringToMIMEType } from '../types/MIME';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
 
 export function getPendingAttachment(
@@ -57,19 +57,24 @@ export function preProcessAttachment(
     return AttachmentToastType.ToastMaxAttachments;
   }
 
-  const haveNonImage = draftAttachments.some(
-    (attachment: AttachmentDraftType) => !isImage(attachment.contentType)
+  const haveNonImageOrVideo = draftAttachments.some(
+    (attachment: AttachmentDraftType) => {
+      return (
+        !isImage(attachment.contentType) && !isVideo(attachment.contentType)
+      );
+    }
   );
   // You can't add another attachment if you already have a non-image staged
-  if (haveNonImage) {
-    return AttachmentToastType.ToastOneNonImageAtATime;
+  if (haveNonImageOrVideo) {
+    return AttachmentToastType.ToastUnsupportedMultiAttachment;
   }
 
   const fileType = stringToMIMEType(file.type);
+  const imageOrVideo = isImage(fileType) || isVideo(fileType);
 
   // You can't add a non-image attachment if you already have attachments staged
-  if (!isImage(fileType) && draftAttachments.length > 0) {
-    return AttachmentToastType.ToastCannotMixImageAndNonImageAttachments;
+  if (!imageOrVideo && draftAttachments.length > 0) {
+    return AttachmentToastType.ToastCannotMixMultiAndNonMultiAttachments;
   }
 
   return undefined;

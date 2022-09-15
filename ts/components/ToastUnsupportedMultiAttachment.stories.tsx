@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { ToastOneNonImageAtATime } from './ToastOneNonImageAtATime';
+import { ToastUnsupportedMultiAttachment } from './ToastUnsupportedMultiAttachment';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -16,13 +16,13 @@ const defaultProps = {
 };
 
 export default {
-  title: 'Components/ToastOneNonImageAtATime',
+  title: 'Components/ToastUnsupportedMultiAttachment',
 };
 
-export const _ToastOneNonImageAtATime = (): JSX.Element => (
-  <ToastOneNonImageAtATime {...defaultProps} />
+export const _ToastUnsupportedMultiAttachment = (): JSX.Element => (
+  <ToastUnsupportedMultiAttachment {...defaultProps} />
 );
 
-_ToastOneNonImageAtATime.story = {
-  name: 'ToastOneNonImageAtATime',
+_ToastUnsupportedMultiAttachment.story = {
+  name: 'ToastUnsupportedMultiAttachment',
 };

@@ -10,13 +10,13 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastCannotMixImageAndNonImageAttachments = ({
+export const ToastCannotMixMultiAndNonMultiAttachments = ({
   i18n,
   onClose,
 }: PropsType): JSX.Element => {
   return (
     <Toast onClose={onClose}>
-      {i18n('cannotMixImageAndNonImageAttachments')}
+      {i18n('cannotSelectPhotosAndVideosAlongWithFiles')}
     </Toast>
   );
 };

@@ -54,7 +54,7 @@ export async function handleAttachmentsProcessing({
   for (let i = 0; i < files.length; i += 1) {
     const file = files[i];
     const processingResult = preProcessAttachment(file, nextDraftAttachments);
-    if (processingResult) {
+    if (processingResult != null) {
       onShowToast(processingResult);
     } else {
       const pendingAttachment = getPendingAttachment(file);

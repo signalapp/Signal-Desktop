@@ -17,7 +17,7 @@ export const StagedPlaceholderAttachment = ({
     type="button"
     className="module-staged-placeholder-attachment"
     onClick={onClick}
-    title={i18n('add-image-attachment')}
+    title={i18n('addImageOrVideoattachment')}
   >
     <div className="module-staged-placeholder-attachment__plus-icon" />
   </button>

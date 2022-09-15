@@ -36,3 +36,13 @@ const SUPPORTED_VIDEO_MIME_TYPES: MIMETypeSupportMap = {
 // See: https://www.chromium.org/audio-video
 export const isVideoTypeSupported = (mimeType: MIME.MIMEType): boolean =>
   SUPPORTED_VIDEO_MIME_TYPES[mimeType] === true;
+
+export const getSupportedImageTypes = (): Array<MIME.MIMEType> => {
+  const keys = Object.keys(SUPPORTED_IMAGE_MIME_TYPES) as Array<MIME.MIMEType>;
+  return keys.filter(contentType => SUPPORTED_IMAGE_MIME_TYPES[contentType]);
+};
+
+export const getSupportedVideoTypes = (): Array<MIME.MIMEType> => {
+  const keys = Object.keys(SUPPORTED_VIDEO_MIME_TYPES) as Array<MIME.MIMEType>;
+  return keys.filter(contentType => SUPPORTED_VIDEO_MIME_TYPES[contentType]);
+};

@@ -60,7 +60,7 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
-import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import { ToastCannotMixMultiAndNonMultiAttachments } from '../components/ToastCannotMixMultiAndNonMultiAttachments';
 import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
@@ -73,7 +73,7 @@ import { ToastInvalidConversation } from '../components/ToastInvalidConversation
 import { ToastLeftGroup } from '../components/ToastLeftGroup';
 import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
-import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
+import { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedMultiAttachment';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
@@ -1028,13 +1028,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           showToast(ToastDangerousFileType);
         } else if (toastType === AttachmentToastType.ToastMaxAttachments) {
           showToast(ToastMaxAttachments);
-        } else if (toastType === AttachmentToastType.ToastOneNonImageAtATime) {
-          showToast(ToastOneNonImageAtATime);
+        } else if (
+          toastType === AttachmentToastType.ToastUnsupportedMultiAttachment
+        ) {
+          showToast(ToastUnsupportedMultiAttachment);
         } else if (
           toastType ===
-          AttachmentToastType.ToastCannotMixImageAndNonImageAttachments
+          AttachmentToastType.ToastCannotMixMultiAndNonMultiAttachments
         ) {
-          showToast(ToastCannotMixImageAndNonImageAttachments);
+          showToast(ToastCannotMixMultiAndNonMultiAttachments);
         } else if (
           toastType === AttachmentToastType.ToastUnableToLoadAttachment
         ) {

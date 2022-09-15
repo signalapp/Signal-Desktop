@@ -8,7 +8,7 @@ import type { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMem
 import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 import type { ToastBlocked } from '../components/ToastBlocked';
 import type { ToastBlockedGroup } from '../components/ToastBlockedGroup';
-import type { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import type { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedMultiAttachment';
 import type {
   ToastCannotOpenGiftBadge,
   ToastPropsType as ToastCannotOpenGiftBadgePropsType,
@@ -44,7 +44,7 @@ import type { ToastLinkCopied } from '../components/ToastLinkCopied';
 import type { ToastLoadingFullLogs } from '../components/ToastLoadingFullLogs';
 import type { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import type { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
-import type { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
+
 import type { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import type { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import type { ToastReactionFailed } from '../components/ToastReactionFailed';
@@ -60,9 +60,7 @@ export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
 export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
 export function showToast(Toast: typeof ToastBlocked): void;
 export function showToast(Toast: typeof ToastBlockedGroup): void;
-export function showToast(
-  Toast: typeof ToastCannotMixImageAndNonImageAttachments
-): void;
+export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
 export function showToast(Toast: typeof ToastCannotStartGroupCall): void;
 export function showToast(
   Toast: typeof ToastCannotOpenGiftBadge,
@@ -98,7 +96,7 @@ export function showToast(Toast: typeof ToastLinkCopied): void;
 export function showToast(Toast: typeof ToastLoadingFullLogs): void;
 export function showToast(Toast: typeof ToastMaxAttachments): void;
 export function showToast(Toast: typeof ToastMessageBodyTooLong): void;
-export function showToast(Toast: typeof ToastOneNonImageAtATime): void;
+export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
 export function showToast(Toast: typeof ToastOriginalMessageNotFound): void;
 export function showToast(Toast: typeof ToastPinnedConversationsFull): void;
 export function showToast(Toast: typeof ToastReactionFailed): void;

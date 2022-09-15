@@ -8,16 +8,21 @@ import type {
   InMemoryAttachmentDraftType,
   AttachmentDraftType,
 } from '../types/Attachment';
+import { isVideoAttachment, isImageAttachment } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import type { LocalizerType } from '../types/Util';
 
-import { ToastCannotMixImageAndNonImageAttachments } from './ToastCannotMixImageAndNonImageAttachments';
+import { ToastCannotMixMultiAndNonMultiAttachments } from './ToastCannotMixMultiAndNonMultiAttachments';
 import { ToastDangerousFileType } from './ToastDangerousFileType';
 import { ToastFileSize } from './ToastFileSize';
 import { ToastMaxAttachments } from './ToastMaxAttachments';
-import { ToastOneNonImageAtATime } from './ToastOneNonImageAtATime';
+import { ToastUnsupportedMultiAttachment } from './ToastUnsupportedMultiAttachment';
 import { ToastUnableToLoadAttachment } from './ToastUnableToLoadAttachment';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
+import {
+  getSupportedImageTypes,
+  getSupportedVideoTypes,
+} from '../util/GoogleChrome';
 
 export type PropsType = {
   addAttachment: (
@@ -87,14 +92,18 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
       toast = <ToastDangerousFileType i18n={i18n} onClose={closeToast} />;
     } else if (toastType === AttachmentToastType.ToastMaxAttachments) {
       toast = <ToastMaxAttachments i18n={i18n} onClose={closeToast} />;
-    } else if (toastType === AttachmentToastType.ToastOneNonImageAtATime) {
-      toast = <ToastOneNonImageAtATime i18n={i18n} onClose={closeToast} />;
     } else if (
-      toastType ===
-      AttachmentToastType.ToastCannotMixImageAndNonImageAttachments
+      toastType === AttachmentToastType.ToastUnsupportedMultiAttachment
     ) {
       toast = (
-        <ToastCannotMixImageAndNonImageAttachments
+        <ToastUnsupportedMultiAttachment i18n={i18n} onClose={closeToast} />
+      );
+    } else if (
+      toastType ===
+      AttachmentToastType.ToastCannotMixMultiAndNonMultiAttachments
+    ) {
+      toast = (
+        <ToastCannotMixMultiAndNonMultiAttachments
           i18n={i18n}
           onClose={closeToast}
         />
@@ -102,6 +111,14 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
     } else if (toastType === AttachmentToastType.ToastUnableToLoadAttachment) {
       toast = <ToastUnableToLoadAttachment i18n={i18n} onClose={closeToast} />;
     }
+
+    const anyVideoOrImageAttachments = draftAttachments.some(attachment => {
+      return isImageAttachment(attachment) || isVideoAttachment(attachment);
+    });
+
+    const acceptContentTypes = anyVideoOrImageAttachments
+      ? [...getSupportedImageTypes(), ...getSupportedVideoTypes()]
+      : null;
 
     return (
       <>
@@ -112,6 +129,7 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
           onChange={onFileInputChange}
           ref={ref}
           type="file"
+          accept={acceptContentTypes?.join(',')}
         />
       </>
     );

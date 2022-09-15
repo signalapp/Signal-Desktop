@@ -557,12 +557,8 @@
     "message": "Submit log",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "When including a non-image attachment, the limit is one attachment per message.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Close Popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Add image attachment",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {

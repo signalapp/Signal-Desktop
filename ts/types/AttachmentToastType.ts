@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export enum AttachmentToastType {
-  ToastCannotMixImageAndNonImageAttachments,
+  ToastCannotMixMultiAndNonMultiAttachments,
   ToastDangerousFileType,
   ToastFileSize,
   ToastMaxAttachments,
-  ToastOneNonImageAtATime,
+  ToastUnsupportedMultiAttachment,
   ToastUnableToLoadAttachment,
 }
