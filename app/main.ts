@@ -888,6 +888,11 @@ async function createWindow() {
   });
 
   mainWindow.on('minimize', async () => {
+    // Some window managers minimize Signal when tabbing to other window.
+    if (OS.isLinux()) {
+      return;
+    }
+
     if (!mainWindow) {
       getLogger().info('minimize event: no main window');
       return;
@@ -899,6 +904,7 @@ async function createWindow() {
       await systemTraySettingCache.get()
     );
     if (usingTrayIcon) {
+      getLogger().info('minimize event: closing main window');
       mainWindow.close();
     }
   });
