@@ -56,6 +56,7 @@ describe('ChallengeHandler', () => {
       token: '1',
       retryAt: NOW + DEFAULT_RETRY_AFTER,
       createdAt: NOW - SECOND,
+      reason: 'test',
       ...options,
     };
   };

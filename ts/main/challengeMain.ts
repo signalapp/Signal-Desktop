@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-console */
 
 import type { IpcMainEvent } from 'electron';
 import { ipcMain as ipc } from 'electron';
 
+import * as log from '../logging/log';
 import type { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
 
 export class ChallengeMainHandler {
@@ -19,6 +19,12 @@ export class ChallengeMainHandler {
 
     const { handlers } = this;
     this.handlers = [];
+
+    log.info(
+      'challengeMain.handleCaptcha: sending captcha response to ' +
+        `${handlers.length} handlers`,
+      response
+    );
     for (const resolve of handlers) {
       resolve(response);
     }
@@ -28,13 +34,17 @@ export class ChallengeMainHandler {
     event: IpcMainEvent,
     request: IPCRequest
   ): Promise<void> {
-    console.log('Received challenge request, waiting for response');
+    const logId = `challengeMain.onRequest(${request.reason})`;
+    log.info(`${logId}: received challenge request, waiting for response`);
+
+    const start = Date.now();
 
     const data = await new Promise<ChallengeResponse>(resolve => {
       this.handlers.push(resolve);
     });
 
-    console.log('Sending challenge response', data);
+    const duration = Date.now() - start;
+    log.info(`${logId}: got response after ${duration}ms`);
 
     const ipcResponse: IPCResponse = {
       seq: request.seq,

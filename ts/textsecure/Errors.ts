@@ -144,10 +144,10 @@ export class SendMessageNetworkError extends ReplayableError {
   }
 }
 
-export type SendMessageChallengeData = {
-  readonly token?: string;
-  readonly options?: ReadonlyArray<string>;
-};
+export type SendMessageChallengeData = Readonly<{
+  token?: string;
+  options?: ReadonlyArray<string>;
+}>;
 
 export class SendMessageChallengeError extends ReplayableError {
   public identifier: string;

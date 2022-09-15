@@ -133,7 +133,9 @@ export const StandaloneRegistration = ({
         setError('Captcha handler is not ready!');
         return;
       }
-      const token = await window.Signal.challengeHandler.requestCaptcha();
+      const token = await window.Signal.challengeHandler.requestCaptcha({
+        reason: 'standalone registration',
+      });
 
       try {
         requestVerification(type, number, token);

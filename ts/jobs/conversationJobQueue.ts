@@ -157,12 +157,15 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
     data: Readonly<ConversationQueueJobData>,
     insert?: (job: ParsedJob<ConversationQueueJobData>) => Promise<void>
   ): Promise<Job<ConversationQueueJobData>> {
-    const { conversationId } = data;
+    const { conversationId, type } = data;
     strictAssert(
       window.Signal.challengeHandler,
       'conversationJobQueue.add: Missing challengeHandler!'
     );
-    window.Signal.challengeHandler.maybeSolve(conversationId);
+    window.Signal.challengeHandler.maybeSolve({
+      conversationId,
+      reason: `conversationJobQueue.add(${conversationId}, ${type})`,
+    });
 
     return super.add(data, insert);
   }
@@ -382,6 +385,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
               createdAt: Date.now(),
               retryAt: toProcess.retryAt,
               token: toProcess.data?.token,
+              reason:
+                'conversationJobQueue.run(' +
+                `${conversation.idForLogging()}, ${type}, ${timestamp})`,
             },
             toProcess.data
           );
