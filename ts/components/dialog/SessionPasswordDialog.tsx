@@ -7,7 +7,12 @@ import { SpacerLG, SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import {
+  SessionButton2,
+  SessionButtonColor,
+  SessionButtonShape,
+  SessionButtonType,
+} from '../basic/SessionButton2';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
 
@@ -59,8 +64,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
           ]
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
-    const confirmButtonColor =
-      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
+    const confirmButtonColor = passwordAction === 'remove' ? SessionButtonColor.Danger : undefined;
     // do this separately so typescript's compiler likes it
     const localizedKeyAction: LocalizerKeys =
       passwordAction === 'change'
@@ -108,11 +112,18 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         {this.showError()}
 
         <div className="session-modal__button-group">
-          <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
-          <SessionButton
+          <SessionButton2
             text={window.i18n('ok')}
             buttonColor={confirmButtonColor}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
             onClick={this.setPassword}
+          />
+          <SessionButton2
+            text={window.i18n('cancel')}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
+            onClick={this.closeDialog}
           />
         </div>
       </SessionWrapperModal>

@@ -30,7 +30,7 @@ import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsMana
 import { IMAGE_JPEG } from '../types/MIME';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { SessionButtonColor } from '../components/basic/SessionButton';
+import { SessionButtonColor } from '../components/basic/SessionButton2';
 import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { processNewAttachment } from '../types/MessageAttachment';

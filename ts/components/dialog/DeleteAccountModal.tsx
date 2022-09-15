@@ -5,7 +5,12 @@ import { forceNetworkDeletion } from '../../session/apis/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import {
+  SessionButton2,
+  SessionButtonColor,
+  SessionButtonShape,
+  SessionButtonType,
+} from '../basic/SessionButton2';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -190,18 +195,21 @@ export const DeleteAccountModal = () => {
         />
         <SpacerLG />
         <div className="session-modal__button-group">
-          <SessionButton
+          <SessionButton2
             text={window.i18n('entireAccount')}
             buttonColor={SessionButtonColor.Danger}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
             onClick={() => {
               setDeleteEverythingWithNetwork(true);
             }}
             disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
           />
 
-          <SessionButton
+          <SessionButton2
             text={window.i18n('deviceOnly')}
-            buttonColor={SessionButtonColor.Primary}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
             onClick={() => {
               setDeleteDeviceOnly(true);
             }}
@@ -229,9 +237,11 @@ export const DeleteAccountModal = () => {
 
         {(deleteDeviceOnly || deleteEverythingWithNetwork) && (
           <div className="session-modal__button-group">
-            <SessionButton
+            <SessionButton2
               text={window.i18n('iAmSure')}
               buttonColor={SessionButtonColor.Danger}
+              buttonShape={SessionButtonShape.Square}
+              buttonType={SessionButtonType.Solid}
               onClick={() => {
                 if (deleteDeviceOnly) {
                   void onDeleteEverythingLocallyOnly();
@@ -242,9 +252,10 @@ export const DeleteAccountModal = () => {
               disabled={isLoading}
             />
 
-            <SessionButton
+            <SessionButton2
               text={window.i18n('cancel')}
-              buttonColor={SessionButtonColor.Primary}
+              buttonShape={SessionButtonShape.Square}
+              buttonType={SessionButtonType.Solid}
               onClick={() => {
                 dispatch(updateDeleteAccountModal(null));
               }}
