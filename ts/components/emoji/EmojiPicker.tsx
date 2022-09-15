@@ -152,8 +152,7 @@ export const EmojiPicker = React.memo(
                 doSend();
                 e.stopPropagation();
                 e.preventDefault();
-              }
-              if (shortName) {
+              } else if (shortName) {
                 onPickEmoji({ skinTone: selectedTone, shortName });
                 e.stopPropagation();
                 e.preventDefault();
