@@ -146,12 +146,9 @@ export const StoryViewsNRepliesModal = ({
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onUseEmoji(e);
-      }
+      onUseEmoji(e);
     },
-    [inputApiRef, onUseEmoji]
+    [onUseEmoji]
   );
 
   const [referenceElement, setReferenceElement] =
