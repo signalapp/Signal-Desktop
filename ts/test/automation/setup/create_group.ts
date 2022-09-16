@@ -38,8 +38,8 @@ export const createGroup = async (groupName: string) => {
   await clickOnMatchingText(windowA, userB.userName);
   // Select user C
   await clickOnMatchingText(windowA, userC.userName);
-  // Click Done
-  await clickOnMatchingText(windowA, 'Done');
+  // Click Next
+  await clickOnTestIdWithText(windowA, 'next-button');
   // Check group was successfully created
   await clickOnMatchingText(windowB, groupName);
   await waitForTestIdWithText(windowB, 'header-conversation-name', groupName);

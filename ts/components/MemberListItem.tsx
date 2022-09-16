@@ -32,7 +32,7 @@ const StyledSessionMemberItem = styled.button<{
   font-family: var(--font-default);
   padding: 0px var(--margins-sm);
   height: ${props => (props.inMentions ? '40px' : '50px')};
-
+  width: 100%;
   transition: var(--default-duration);
   opacity: ${props => (props.zombie ? 0.5 : 1)};
   background-color: ${props =>

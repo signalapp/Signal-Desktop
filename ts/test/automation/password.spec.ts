@@ -1,5 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
 import {
@@ -10,6 +10,8 @@ import {
   waitForTestIdWithText,
 } from './utils';
 let window: Page | undefined;
+
+test.beforeEach(beforeAllClean);
 
 test.afterEach(async () => {
   if (window) {

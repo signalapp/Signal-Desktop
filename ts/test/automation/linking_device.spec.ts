@@ -1,9 +1,11 @@
 import { _electron, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { linkedDevice } from './setup/linked_device';
 import { clickOnTestIdWithText, typeIntoInput, waitForTestIdWithText } from './utils';
 
 const windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 // tslint:disable: no-console
 

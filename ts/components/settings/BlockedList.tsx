@@ -132,6 +132,7 @@ export const BlockedContactsList = () => {
                   buttonColor={SessionButtonColor.Danger}
                   text={window.i18n('unblockUser')}
                   onClick={unBlockThoseUsers}
+                  dataTestId="unblock-button-settings-screen"
                 />
               ) : null}
               <SpacerLG />
@@ -140,6 +141,7 @@ export const BlockedContactsList = () => {
                 iconType={'chevron'}
                 onClick={toggleUnblockList}
                 iconRotation={expanded ? 0 : 180}
+                dataTestId="reveal-blocked-user-settings"
               />
               <SpacerLG />
             </BlockedContactListTitleButtons>
