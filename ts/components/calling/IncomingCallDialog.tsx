@@ -20,8 +20,8 @@ export const CallWindow = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  background-color: var(--color-modal-background);
-  border: var(--session-border);
+  background-color: var(--modal-background-color);
+  border: var(--border-color);
 `;
 
 const IncomingCallAvatarContainer = styled.div`

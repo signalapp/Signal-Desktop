@@ -140,7 +140,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         {!hideCancel && (
           <SessionButton
             text={cancelText}
-            buttonColor={closeTheme}
+            buttonColor={!okTheme ? closeTheme : undefined}
             buttonType={SessionButtonType.Simple}
             onClick={onClickCancelHandler}
             dataTestId="session-confirm-cancel-button"
