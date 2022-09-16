@@ -613,10 +613,11 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming - Should Pills have their own colors? */
 
-    /* Modals */
+    /* Modals / Toasts */
     --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --modal-text-color: var(--text-primary-color);
     --modal-text-danger-color: var(--danger-color);
+    --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1)
 
   };
 `;
