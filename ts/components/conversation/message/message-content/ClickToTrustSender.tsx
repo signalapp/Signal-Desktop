@@ -4,7 +4,7 @@ import { Data } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';
 import { AttachmentDownloads } from '../../../../session/utils';
 import { updateConfirmModal } from '../../../../state/ducks/modalDialog';
-import { SessionButtonColor } from '../../../basic/SessionButton2';
+import { SessionButtonColor } from '../../../basic/SessionButton';
 import { SessionIcon } from '../../../icon';
 
 const StyledTrustSenderUI = styled.div`

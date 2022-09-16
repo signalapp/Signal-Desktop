@@ -16,7 +16,7 @@ import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
@@ -348,7 +348,7 @@ export const ReactListModal = (props: Props): ReactElement => {
                 )}
               </p>
               {isPublic && weAreModerator && (
-                <SessionButton2
+                <SessionButton
                   text={window.i18n('clearAll')}
                   buttonColor={SessionButtonColor.Danger}
                   buttonType={SessionButtonType.Simple}

@@ -52,7 +52,7 @@ import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
 import { getFocusedSection } from '../../state/selectors/section';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { SessionButtonColor } from '../basic/SessionButton2';
+import { SessionButtonColor } from '../basic/SessionButton';
 import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
 
 function showTimerOptions(

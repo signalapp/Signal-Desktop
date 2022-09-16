@@ -38,7 +38,7 @@ import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAtta
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
-import { SessionButtonColor } from '../basic/SessionButton2';
+import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SessionButton2 } from '../../basic/SessionButton2';
+import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { MemberListItem } from '../../MemberListItem';
@@ -134,7 +134,7 @@ export const OverlayClosedGroup = () => {
 
       <SpacerLG style={{ flexShrink: 0 }} />
 
-      <SessionButton2
+      <SessionButton
         text={buttonText}
         disabled={disableCreateButton}
         onClick={onEnterPressed}

@@ -8,7 +8,7 @@ import { CallManager } from '../../session/utils';
 import { callTimeoutMs } from '../../session/utils/calling/CallManager';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../state/selectors/call';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export const CallWindow = styled.div`
@@ -79,12 +79,12 @@ export const IncomingCallDialog = () => {
           <Avatar size={AvatarSize.XL} pubkey={incomingCallFromPubkey} />
         </IncomingCallAvatarContainer>
         <div className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             text={window.i18n('accept')}
             buttonType={SessionButtonType.Simple}
             onClick={handleAcceptIncomingCall}
           />
-          <SessionButton2
+          <SessionButton
             text={window.i18n('decline')}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
 import { changeNickNameModal } from '../../state/ducks/modalDialog';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
@@ -70,12 +70,12 @@ export const SessionNicknameDialog = (props: Props) => {
       />
 
       <div className="session-modal__button-group">
-        <SessionButton2
+        <SessionButton
           text={window.i18n('ok')}
           buttonType={SessionButtonType.Simple}
           onClick={saveNickname}
         />
-        <SessionButton2
+        <SessionButton
           text={window.i18n('cancel')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}

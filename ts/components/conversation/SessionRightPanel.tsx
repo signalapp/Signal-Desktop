@@ -21,7 +21,7 @@ import { getSelectedConversation, isRightPanelShowing } from '../../state/select
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionDropdown } from '../basic/SessionDropdown';
 import { SpacerLG } from '../basic/Text';
 import { MediaItemType } from '../lightbox/LightboxGallery';
@@ -323,7 +323,7 @@ export const SessionRightPanelWithDetails = () => {
       {isGroup && (
         // tslint:disable-next-line: use-simple-attributes
         <StyledLeaveButton>
-          <SessionButton2
+          <SessionButton
             text={leaveGroupString}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}

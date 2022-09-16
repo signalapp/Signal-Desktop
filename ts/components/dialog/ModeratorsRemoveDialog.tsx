@@ -6,7 +6,7 @@ import { Flex } from '../basic/Flex';
 import { compact } from 'lodash';
 import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { MemberListItem } from '../MemberListItem';
 import { useDispatch } from 'react-redux';
@@ -104,13 +104,13 @@ export const RemoveModeratorsDialog = (props: Props) => {
         )}
 
         <div className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             buttonType={SessionButtonType.Simple}
             onClick={removeModsCall}
             disabled={removingInProgress}
             text={i18n('ok')}
           />
-          <SessionButton2
+          <SessionButton
             buttonType={SessionButtonType.Simple}
             buttonColor={SessionButtonColor.Danger}
             onClick={closeDialog}

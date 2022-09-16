@@ -7,7 +7,7 @@ import { getConversationController } from '../../session/conversations';
 import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
 import { getTheme } from '../../state/selectors/theme';
 import { Flex } from '../basic/Flex';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -95,14 +95,14 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
       >
         <p>{window.i18n('clearAllReactions', [reaction])}</p>
         <StyledButtonContainer className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             text={window.i18n('clear')}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}
             onClick={handleClearAll}
             disabled={clearingInProgress}
           />
-          <SessionButton2
+          <SessionButton
             text={window.i18n('cancel')}
             buttonType={SessionButtonType.Simple}
             onClick={handleClose}

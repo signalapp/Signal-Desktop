@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { SessionIcon } from './icon';
 import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
-import { SessionButton2, SessionButtonColor } from './basic/SessionButton2';
+import { SessionButton, SessionButtonColor } from './basic/SessionButton';
 import { Constants } from '../session';
 import { SessionSpinner } from './basic/SessionSpinner';
 
@@ -172,14 +172,14 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
     return (
       <div className={classNames(showResetElements && 'button-group')}>
-        <SessionButton2
+        <SessionButton
           text={window.i18n('unlock')}
           buttonColor={SessionButtonColor.Primary}
           onClick={this.initLogin}
         />
         {showResetElements && (
           <>
-            <SessionButton2
+            <SessionButton
               text="Reset Database"
               buttonColor={SessionButtonColor.Danger}
               onClick={this.initClearDataView}
@@ -193,12 +193,12 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   private renderClearDataViewButtons(): JSX.Element {
     return (
       <div className="button-group">
-        <SessionButton2
+        <SessionButton
           text={window.i18n('clearAllData')}
           buttonColor={SessionButtonColor.Danger}
           onClick={window.clearLocalData}
         />
-        <SessionButton2
+        <SessionButton
           text={window.i18n('cancel')}
           onClick={() => {
             this.setState({ clearDataView: false });

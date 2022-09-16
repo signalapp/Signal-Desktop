@@ -40,11 +40,11 @@ import {
   useIsRequest,
 } from '../../hooks/useParamSelector';
 import {
-  SessionButton2,
+  SessionButton,
   SessionButtonColor,
   SessionButtonShape,
   SessionButtonType,
-} from '../basic/SessionButton2';
+} from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
@@ -121,7 +121,7 @@ const SelectionOverlay = () => {
 
       <div className="button-group">
         {!isOnlyServerDeletable && (
-          <SessionButton2
+          <SessionButton
             buttonColor={SessionButtonColor.Danger}
             buttonShape={SessionButtonShape.Square}
             buttonType={SessionButtonType.Solid}
@@ -129,7 +129,7 @@ const SelectionOverlay = () => {
             onClick={onDeleteSelectedMessages}
           />
         )}
-        <SessionButton2
+        <SessionButton
           buttonColor={SessionButtonColor.Danger}
           buttonShape={SessionButtonShape.Square}
           buttonType={SessionButtonType.Solid}

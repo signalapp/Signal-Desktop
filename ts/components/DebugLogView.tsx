@@ -6,7 +6,7 @@ import {
   switchHtmlToLightTheme,
 } from '../themes/SessionTheme';
 import { fetch } from '../util/logging';
-import { SessionButton2, SessionButtonType } from './basic/SessionButton2';
+import { SessionButton, SessionButtonType } from './basic/SessionButton';
 
 const StyledContent = styled.div`
   background-color: var(--color-modal-background);
@@ -50,7 +50,7 @@ const DebugLogTextArea = (props: { content: string }) => {
 const DebugLogButtons = (props: { content: string }) => {
   return (
     <div className="buttons">
-      <SessionButton2
+      <SessionButton
         text={window.i18n('saveLogToDesktop')}
         buttonType={SessionButtonType.Simple}
         onClick={() => {

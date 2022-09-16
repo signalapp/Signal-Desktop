@@ -5,7 +5,7 @@ import { forceNetworkDeletion } from '../../session/apis/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -190,7 +190,7 @@ export const DeleteAccountModal = () => {
         />
         <SpacerLG />
         <div className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             text={window.i18n('entireAccount')}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}
@@ -200,7 +200,7 @@ export const DeleteAccountModal = () => {
             disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
           />
 
-          <SessionButton2
+          <SessionButton
             text={window.i18n('deviceOnly')}
             buttonType={SessionButtonType.Simple}
             onClick={() => {
@@ -230,7 +230,7 @@ export const DeleteAccountModal = () => {
 
         {(deleteDeviceOnly || deleteEverythingWithNetwork) && (
           <div className="session-modal__button-group">
-            <SessionButton2
+            <SessionButton
               text={window.i18n('iAmSure')}
               buttonColor={SessionButtonColor.Danger}
               buttonType={SessionButtonType.Simple}
@@ -244,7 +244,7 @@ export const DeleteAccountModal = () => {
               disabled={isLoading}
             />
 
-            <SessionButton2
+            <SessionButton
               text={window.i18n('cancel')}
               buttonType={SessionButtonType.Simple}
               onClick={() => {

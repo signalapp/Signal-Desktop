@@ -9,7 +9,7 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
-import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { Data } from '../../data/data';
 import { matchesHash } from '../../util/passwordUtils';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
@@ -125,7 +125,7 @@ const PasswordLock = ({
 
         {pwdLockError && <div className="session-label warning">{pwdLockError}</div>}
 
-        <SessionButton2
+        <SessionButton
           buttonType={SessionButtonType.Simple}
           text={window.i18n('ok')}
           onClick={validatePasswordLock}

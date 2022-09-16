@@ -7,7 +7,7 @@ import { SpacerLG, SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
 
@@ -106,13 +106,13 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         {this.showError()}
 
         <div className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             text={window.i18n('ok')}
             buttonColor={passwordAction === 'remove' ? SessionButtonColor.Danger : undefined}
             buttonType={SessionButtonType.Simple}
             onClick={this.setPassword}
           />
-          <SessionButton2
+          <SessionButton
             text={window.i18n('cancel')}
             buttonColor={passwordAction !== 'remove' ? SessionButtonColor.Danger : undefined}
             buttonType={SessionButtonType.Simple}

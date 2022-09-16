@@ -8,7 +8,7 @@ import { mn_decode } from '../../session/crypto/mnemonic';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 
@@ -72,12 +72,12 @@ const Password = (props: PasswordProps) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton2
+        <SessionButton
           text={i18n('ok')}
           buttonType={SessionButtonType.Simple}
           onClick={confirmPassword}
         />
-        <SessionButton2
+        <SessionButton
           text={i18n('cancel')}
           buttonType={SessionButtonType.Simple}
           buttonColor={SessionButtonColor.Danger}
@@ -126,7 +126,7 @@ const Seed = (props: SeedProps) => {
         <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
       </div>
       <div className="session-modal__button-group">
-        <SessionButton2
+        <SessionButton
           text={i18n('editMenuCopy')}
           buttonType={SessionButtonType.Simple}
           onClick={() => {

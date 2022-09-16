@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -130,7 +130,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
       </div>
 
       <div className="session-modal__button-group">
-        <SessionButton2
+        <SessionButton
           text={okText}
           buttonColor={okTheme}
           buttonType={SessionButtonType.Simple}
@@ -138,7 +138,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
           dataTestId="session-confirm-ok-button"
         />
         {!hideCancel && (
-          <SessionButton2
+          <SessionButton
             text={cancelText}
             buttonColor={closeTheme}
             buttonType={SessionButtonType.Simple}

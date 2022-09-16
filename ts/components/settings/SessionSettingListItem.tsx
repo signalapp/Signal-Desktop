@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  SessionButton2,
+  SessionButton,
   SessionButtonColor,
   SessionButtonShape,
   SessionButtonType,
-} from '../basic/SessionButton2';
+} from '../basic/SessionButton';
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
 import styled from 'styled-components';
@@ -164,7 +164,7 @@ export const SessionSettingButtonItem = (props: ButtonSettingsProps) => {
 
   return (
     <SessionSettingsItemWrapper title={title} description={description} inline={true}>
-      <SessionButton2
+      <SessionButton
         dataTestId={dataTestId}
         text={buttonText}
         buttonColor={buttonColor}

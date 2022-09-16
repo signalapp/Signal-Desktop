@@ -5,7 +5,7 @@ import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { SessionButtonColor } from '../../basic/SessionButton2';
+import { SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';

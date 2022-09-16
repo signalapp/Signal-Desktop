@@ -9,7 +9,7 @@ import {
 } from '../../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
-import { SessionButton2, SessionButtonColor } from '../../basic/SessionButton2';
+import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
@@ -129,7 +129,7 @@ export const OverlayMessageRequest = () => {
         <>
           <MessageRequestList />
           <SpacerLG />
-          <SessionButton2
+          <SessionButton
             buttonColor={SessionButtonColor.Danger}
             text={buttonText}
             onClick={() => {

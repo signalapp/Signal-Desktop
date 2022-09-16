@@ -10,7 +10,7 @@ import { ToastUtils } from '../../session/utils';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -73,12 +73,12 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
       <SessionIdEditable editable={false} text={props.conversationId} />
 
       <div className="session-modal__button-group__center">
-        <SessionButton2
+        <SessionButton
           text={window.i18n('startConversation')}
           buttonType={SessionButtonType.Simple}
           onClick={onClickStartConversation}
         />
-        <SessionButton2
+        <SessionButton
           text={window.i18n('editMenuCopy')}
           buttonType={SessionButtonType.Simple}
           onClick={() => {

@@ -8,7 +8,7 @@ import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { initiateOpenGroupUpdate } from '../../session/group/open-group';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
@@ -129,12 +129,12 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         ) : null}
 
         <div className="session-modal__button-group">
-          <SessionButton2
+          <SessionButton
             text={okText}
             onClick={this.onClickOK}
             buttonType={SessionButtonType.Simple}
           />
-          <SessionButton2
+          <SessionButton
             text={cancelText}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}

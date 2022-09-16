@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
-import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon } from '../icon';
 
 const StyledSpeedButton = styled.div`
@@ -118,7 +118,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
       customControlsSection={[
         RHAP_UI.MAIN_CONTROLS,
         <StyledSpeedButton key="togglePlaybackSpeed">
-          <SessionButton2
+          <SessionButton
             text={`${playbackSpeed}x`}
             onClick={() => {
               setPlaybackSpeed(playbackSpeed === 1 ? 1.5 : 1);

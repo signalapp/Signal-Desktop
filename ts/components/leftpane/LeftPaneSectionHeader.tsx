@@ -7,7 +7,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
-import { SessionButton2 } from '../basic/SessionButton2';
+import { SessionButton } from '../basic/SessionButton';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { MenuButton } from '../button/MenuButton';
 
@@ -74,7 +74,7 @@ const BannerInner = () => {
   return (
     <StyledBannerInner>
       <p>{window.i18n('recoveryPhraseRevealMessage')}</p>
-      <SessionButton2
+      <SessionButton
         text={window.i18n('recoveryPhraseRevealButtonText')}
         onClick={showRecoveryPhraseModal}
         dataTestId="reveal-recovery-phrase"

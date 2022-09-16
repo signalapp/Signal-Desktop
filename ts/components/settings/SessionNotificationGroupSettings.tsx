@@ -4,7 +4,7 @@ import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { SettingsKey } from '../../data/settings-key';
 import { Notifications } from '../../util/notifications';
-import { SessionButton2 } from '../basic/SessionButton2';
+import { SessionButton } from '../basic/SessionButton';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { SpacerLG } from '../basic/Text';
 import { SessionSettingsItemWrapper, SessionToggleWithDescription } from './SessionSettingListItem';
@@ -100,7 +100,7 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
           />
           <StyledButtonContainer>
             <SpacerLG />
-            <SessionButton2 text={window.i18n('notificationPreview')} onClick={onClickPreview} />
+            <SessionButton text={window.i18n('notificationPreview')} onClick={onClickPreview} />
           </StyledButtonContainer>
         </SessionSettingsItemWrapper>
       ) : null}

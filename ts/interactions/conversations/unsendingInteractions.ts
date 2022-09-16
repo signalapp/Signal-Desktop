@@ -11,7 +11,7 @@ import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionButtonColor } from '../../components/basic/SessionButton2';
+import { SessionButtonColor } from '../../components/basic/SessionButton';
 import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
 
 /**

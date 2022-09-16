@@ -12,7 +12,7 @@ import { getConversationController } from '../../session/conversations';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { SessionButton2, SessionButtonType } from '../basic/SessionButton2';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
@@ -108,7 +108,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <SessionSpinner loading={this.state.loading} />
 
             {viewDefault || viewQR ? (
-              <SessionButton2
+              <SessionButton
                 text={window.i18n('editMenuCopy')}
                 buttonType={SessionButtonType.Simple}
                 onClick={() => {
@@ -119,7 +119,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
               />
             ) : (
               !this.state.loading && (
-                <SessionButton2
+                <SessionButton
                   text={window.i18n('save')}
                   buttonType={SessionButtonType.Simple}
                   onClick={this.onClickOK}

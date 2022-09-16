@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // tslint:disable: use-simple-attributes no-submodule-imports
 
 import { useDispatch } from 'react-redux';
-import { SessionButton2 } from '../../basic/SessionButton2';
+import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
@@ -127,7 +127,7 @@ export const OverlayMessage = () => {
         <YourSessionIDSelectable />
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
       </Flex>
-      <SessionButton2
+      <SessionButton
         text={buttonText}
         disabled={disableNextButton}
         onClick={handleMessageButtonClick}
