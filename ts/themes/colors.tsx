@@ -14,10 +14,6 @@ type Colors = {
     ORANGE: string;
     RED: string;
   };
-  DANGER: {
-    LIGHT: string;
-    DARK: string;
-  };
   PATH: {
     DEFAULT: string;
     CONNECTING: string;
@@ -26,6 +22,7 @@ type Colors = {
   SESSION: string;
   TRANSPARENT: string;
   WHITE: string;
+  BLACK: string;
 };
 
 // Session Brand Color
@@ -55,6 +52,9 @@ const transparent = 'transparent';
 // White
 const white = '#FFFFFF';
 
+// Black
+const black = '#000000';
+
 const COLORS: Colors = {
   PRIMARY: {
     GREEN: primaryGreen,
@@ -65,10 +65,6 @@ const COLORS: Colors = {
     ORANGE: primaryOrange,
     RED: primaryRed,
   },
-  DANGER: {
-    LIGHT: dangerLight,
-    DARK: dangerDark,
-  },
   PATH: {
     DEFAULT: pathDefault,
     CONNECTING: pathConnecting,
@@ -77,12 +73,14 @@ const COLORS: Colors = {
   SESSION: sessionGreen,
   TRANSPARENT: transparent,
   WHITE: white,
+  BLACK: black,
 };
 
 // Themes
 type ThemeNames = 'CLASSIC_LIGHT' | 'CLASSIC_DARK' | 'OCEAN_LIGHT' | 'OCEAN_DARK';
 type ThemeColors = {
   PRIMARY: string;
+  DANGER: string;
   COLOR0: string;
   COLOR1: string;
   COLOR2: string;
@@ -95,6 +93,7 @@ type Themes = Record<ThemeNames, ThemeColors>;
 
 // Classic Light
 const classicLightPrimary = '#31F196';
+const classicLightDanger = dangerDark;
 const classicLight0 = '#000000';
 const classicLight1 = '#6D6D6D';
 const classicLight2 = '#A1A2A1';
@@ -105,6 +104,7 @@ const classicLight6 = '#FFFFFF';
 
 // Classic Dark
 const classicDarkPrimary = '#31F196';
+const classicDarkDanger = dangerLight;
 const classicDark0 = '#000000';
 const classicDark1 = '#1B1B1B';
 const classicDark2 = '#2D2D2D';
@@ -115,6 +115,7 @@ const classicDark6 = '#FFFFFF';
 
 // Ocean Light
 const oceanLightPrimary = '#57C9FA';
+const oceanLightDanger = dangerDark;
 const oceanLight0 = '#000000';
 const oceanLight1 = '#1A1C28';
 const oceanLight2 = '#252735';
@@ -125,6 +126,7 @@ const oceanLight6 = '#FFFFFF';
 
 // Ocean Dark
 const oceanDarkPrimary = '#57C9FA';
+const oceanDarkDanger = dangerLight;
 const oceanDark0 = '#19345D';
 const oceanDark1 = '#6A6E90';
 const oceanDark2 = '#5CAACC';
@@ -136,6 +138,7 @@ const oceanDark6 = '#FCFFFF';
 const THEMES: Themes = {
   CLASSIC_LIGHT: {
     PRIMARY: classicLightPrimary,
+    DANGER: classicLightDanger,
     COLOR0: classicLight0,
     COLOR1: classicLight1,
     COLOR2: classicLight2,
@@ -146,6 +149,7 @@ const THEMES: Themes = {
   },
   CLASSIC_DARK: {
     PRIMARY: classicDarkPrimary,
+    DANGER: classicDarkDanger,
     COLOR0: classicDark0,
     COLOR1: classicDark1,
     COLOR2: classicDark2,
@@ -156,6 +160,7 @@ const THEMES: Themes = {
   },
   OCEAN_LIGHT: {
     PRIMARY: oceanLightPrimary,
+    DANGER: oceanLightDanger,
     COLOR0: oceanLight0,
     COLOR1: oceanLight1,
     COLOR2: oceanLight2,
@@ -166,6 +171,7 @@ const THEMES: Themes = {
   },
   OCEAN_DARK: {
     PRIMARY: oceanDarkPrimary,
+    DANGER: oceanDarkDanger,
     COLOR0: oceanDark0,
     COLOR1: oceanDark1,
     COLOR2: oceanDark2,

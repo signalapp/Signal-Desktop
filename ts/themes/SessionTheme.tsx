@@ -465,9 +465,10 @@ export const SessionGlobalStyles = createGlobalStyle`
     --red-color: ${COLORS.PRIMARY.RED};
     /* TODO Theming this should be overridable */
     --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
-    --danger-color: ${COLORS.DANGER.LIGHT};
+    --danger-color: ${THEMES.CLASSIC_LIGHT.DANGER};
     --transparent-color: ${COLORS.TRANSPARENT};
     --white-color: ${COLORS.WHITE};
+    --black-color: ${COLORS.BLACK};
 
     /* Backgrounds */
     --background-primary-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
@@ -611,6 +612,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     --emoji-reaction-bar-icon-color: var(--text-primary-color);
 
     /* TODO Theming - Should Pills have their own colors? */
+
+    /* Modals */
+    --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
+    --modal-text-color: var(--text-primary-color);
+    --modal-text-danger-color: var(--danger-color);
+
   };
 `;
 
