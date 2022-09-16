@@ -552,7 +552,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* TODO Theming Consolidate with code */
     /* Conversation Tab */
     /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item etc. */
-    --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR5};
+    --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-unread-color: var(--background-primary-color);

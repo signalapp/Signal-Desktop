@@ -68,7 +68,7 @@
     align-items: center;
     justify-content: space-between;
     height: var(--main-view-header-height);
-    background: var(--color-cell-background);
+    background: var(--background-primary-color);
 
     .close-button {
       float: left;
@@ -159,8 +159,8 @@
   align-items: center;
   padding: 0px var(--margins-md);
   min-height: min-content;
-  background: var(--color-cell-background);
-  border-top: var(--border-session);
+  border-top: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
   z-index: 1;
 
   .session-icon-button {

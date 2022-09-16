@@ -316,7 +316,7 @@
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 
   // width of avatar (28px) and our 6px left margin
   max-width: calc(100% - 34px);
@@ -327,7 +327,7 @@
   display: flex;
   align-items: center;
 
-  -webkit-user-select: text;
+  user-select: text;
   cursor: pointer;
 
   .module-contact-name__profile-name {
@@ -347,6 +347,7 @@
 }
 
 .module-conversation-header__expiration__clock-icon {
+  // TODO Theming update
   @include color-svg('../images/timer.svg', var(--color-gray-color));
   height: 20px;
   width: 20px;
