@@ -436,20 +436,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Bişîne",
-    "description": ""
+    "message": "Bişîne"
   },
   "acceptNewKey": {
     "message": "Bipejirîne",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Wekî pejirandî nîşan bike",
-    "description": ""
+    "message": "Wekî pejirandî nîşan bike"
   },
   "unverify": {
-    "message": "Wekî nepejirandî nîşan bike",
-    "description": ""
+    "message": "Wekî nepejirandî nîşan bike"
   },
   "isVerified": {
     "message": "Te nimreya xwe ya ewlehiyê ya bi $name$ re piştrast kir.",
@@ -460,20 +457,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Hat piştrastkirin",
-    "description": ""
+    "message": "Hat piştrastkirin"
   },
   "newIdentity": {
     "message": "Nimreya ewlehiyê ya nû",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Nimreya te ya ewlehiyê ya bi vî kesî re hateguhertin. Yan yek dixwaze axiftina we qut bike yan jî belkî ev kes Signalê ji nû ve saz dike. Tu dikarî nimreya nû ya ewlehiyê ya li jêrê piştrast bikî.",
-    "description": ""
+    "message": "Nimreya te ya ewlehiyê ya bi vî kesî re hateguhertin. Yan yek dixwaze axiftina we qut bike yan jî belkî ev kes Signalê ji nû ve saz dike. Tu dikarî nimreya nû ya ewlehiyê ya li jêrê piştrast bikî."
   },
   "incomingError": {
-    "message": "Di hêrana peyama hat de çewtî derket",
-    "description": ""
+    "message": "Di hêrana peyama hat de çewtî derket"
   },
   "media": {
     "message": "Medya",
@@ -568,12 +562,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Bibore, dosyeya bijartî sînorê mezinahiya peyamê derbas dike.",
-    "description": ""
+    "message": "Bibore, dosyeya bijartî sînorê mezinahiya peyamê derbas dike."
   },
   "unableToLoadAttachment": {
-    "message": "Pêveka bijartî nehate barkirin.",
-    "description": ""
+    "message": "Pêveka bijartî nehate barkirin."
   },
   "disconnected": {
     "message": "Înternet tune",
@@ -724,8 +716,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Tu bi xêr hatî Signalê",
-    "description": ""
+    "message": "Tu bi xêr hatî Signalê"
   },
   "whatsNew": {
     "message": "See $whatsNew$ in this update",
@@ -920,52 +911,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "BAŞ E",
-    "description": ""
+    "message": "BAŞ E"
   },
   "cancel": {
-    "message": "Betal bike",
-    "description": ""
+    "message": "Betal bike"
   },
   "discard": {
-    "message": "Dev jê berde",
-    "description": ""
+    "message": "Dev jê berde"
   },
   "failedToSend": {
-    "message": "Ji hinek wergiran re nehate şandin. Girêdana înterneta xwe kontrol bike.",
-    "description": ""
+    "message": "Ji hinek wergiran re nehate şandin. Girêdana înterneta xwe kontrol bike."
   },
   "error": {
-    "message": "Çewtî",
-    "description": ""
+    "message": "Çewtî"
   },
   "messageDetail": {
-    "message": "Hûrgiliyên peyamê",
-    "description": ""
+    "message": "Hûrgiliyên peyamê"
   },
   "delete": {
-    "message": "Jê bibe",
-    "description": ""
+    "message": "Jê bibe"
   },
   "accept": {
-    "message": "Baş e",
-    "description": ""
+    "message": "Baş e"
   },
   "forward": {
-    "message": "Berhêl bike",
-    "description": ""
+    "message": "Berhêl bike"
   },
   "done": {
     "message": "Qediya",
     "description": "Label for done"
   },
   "update": {
-    "message": "Nûve bike",
-    "description": ""
+    "message": "Nûve bike"
   },
   "next2": {
-    "message": "Pêşve",
-    "description": ""
+    "message": "Pêşve"
   },
   "on": {
     "message": "Vekirî",
@@ -1008,28 +988,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Endamên komê",
-    "description": ""
+    "message": "Endamên komê"
   },
   "showMembers": {
-    "message": "Endaman nîşan bide",
-    "description": ""
+    "message": "Endaman nîşan bide"
   },
   "showSafetyNumber": {
-    "message": "Nimreya ewlehiyê bibîne",
-    "description": ""
+    "message": "Nimreya ewlehiyê bibîne"
   },
   "viewRecentMedia": {
     "message": "Medyayên dawîn nîşan bide",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
-    "description": ""
+    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device."
   },
   "theirIdentityUnknown": {
-    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
-    "description": ""
+    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "back": {
     "message": "Paşve",
@@ -1232,24 +1207,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Bibore, jixwe gelek cîhazên te yên girêdayî hene. Hinekan ji wan rake.",
-    "description": ""
+    "message": "Bibore, jixwe gelek cîhazên te yên girêdayî hene. Hinekan ji wan rake."
   },
   "installTooOld": {
-    "message": "Ji bo vê cîhazê li telefona xwe girê bidî Signalê nûve bike.",
-    "description": ""
+    "message": "Ji bo vê cîhazê li telefona xwe girê bidî Signalê nûve bike."
   },
   "installErrorHeader": {
-    "message": "Hinek tişt çewt çûn!",
-    "description": ""
+    "message": "Hinek tişt çewt çûn!"
   },
   "installUnknownError": {
-    "message": "An unexpected error occurred. Please try again.",
-    "description": ""
+    "message": "An unexpected error occurred. Please try again."
   },
   "installTryAgain": {
-    "message": "Dîsa biceribîne",
-    "description": ""
+    "message": "Dîsa biceribîne"
   },
   "Preferences--theme": {
     "message": "Rûkar",
@@ -1612,12 +1582,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reacted $emoji$ to your message",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ to your message"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reacted $emoji$ to: $message$",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ to: $message$"
   },
   "sendFailed": {
     "message": "Nehate şandin",
@@ -1988,56 +1956,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
-    "description": ""
+    "message": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
-    "message": "Girêdan hat rakirin",
-    "description": ""
+    "message": "Girêdan hat rakirin"
   },
   "relink": {
-    "message": "Dîsa girê bide",
-    "description": ""
+    "message": "Dîsa girê bide"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update available",
-    "description": ""
+    "message": "Update available"
   },
   "autoUpdateRetry": {
-    "message": "Retry update",
-    "description": ""
+    "message": "Retry update"
   },
   "autoUpdateContactSupport": {
-    "message": "contact support",
-    "description": ""
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Click to restart Signal",
-    "description": ""
+    "message": "Click to restart Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Click to download update",
-    "description": ""
+    "message": "Click to download update"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal couldn’t update. Click to try again.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Press Restart Signal to apply the updates.",
-    "description": ""
+    "message": "Press Restart Signal to apply the updates."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restart Signal",
-    "description": ""
+    "message": "Restart Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Paşê",
-    "description": ""
+    "message": "Paşê"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignore update",
-    "description": ""
+    "message": "Ignore update"
   },
   "leftTheGroup": {
     "message": "$name$ ji komê derket.",
@@ -2384,20 +2340,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
-    "description": ""
+    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
-    "description": ""
+    "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
-    "description": ""
+    "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
-    "description": ""
+    "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal."
   },
   "Message--update-signal": {
     "message": "Signalê nû bike",
@@ -2884,8 +2836,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Remove reaction",
-    "description": ""
+    "message": "Remove reaction"
   },
   "Reactions--error": {
     "message": "Bertek nehate şandin. Ji kerema xwe, dîsa biceribîne.",

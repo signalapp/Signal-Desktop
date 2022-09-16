@@ -43,9 +43,6 @@ try {
 }
 
 const BASE_DIR = join(__dirname, '../../_locales');
-const en: LocaleMessagesType = readJsonSync(
-  join(BASE_DIR, '/en/messages.json')
-);
 const locales = readdirSync(join(BASE_DIR, ''));
 
 console.log();
@@ -59,11 +56,11 @@ locales.forEach((locale: string) => {
 
   const messages: LocaleMessagesType = readJsonSync(target);
   Object.keys(messages).forEach(key => {
-    if (!en[key]) {
-      return;
-    }
-
     delete messages[key].placeholders;
+
+    if (!messages[key].description) {
+      delete messages[key].description;
+    }
   });
 
   console.log(`Writing ${target}`);

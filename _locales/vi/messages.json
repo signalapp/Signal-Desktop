@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Gửi",
-    "description": ""
+    "message": "Gửi"
   },
   "acceptNewKey": {
     "message": "Chấp nhận",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Đánh dấu đã xác minh",
-    "description": ""
+    "message": "Đánh dấu đã xác minh"
   },
   "unverify": {
-    "message": "Đánh dấu chưa xác minh",
-    "description": ""
+    "message": "Đánh dấu chưa xác minh"
   },
   "isVerified": {
     "message": "Bạn đã xác minh số an toàn của bạn với $name$",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Đã xác minh",
-    "description": ""
+    "message": "Đã xác minh"
   },
   "newIdentity": {
     "message": "Số an toàn mới",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Số an toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa là ai đó đang cố chặn liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn có thể muốn xác minh số an toàn mới bên dưới.",
-    "description": ""
+    "message": "Số an toàn của bạn với người (liên lạc) này đã thay đổi. Điều này có nghĩa là ai đó đang cố chặn liên lạc của bạn, hoặc đơn giản là người (liên lạc) này đã cài đặt lại Signal. Bạn có thể muốn xác minh số an toàn mới bên dưới."
   },
   "incomingError": {
-    "message": "Lỗi xử lý tin nhắn đến",
-    "description": ""
+    "message": "Lỗi xử lý tin nhắn đến"
   },
   "media": {
     "message": "Đa phương tiện",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
-    "description": ""
+    "message": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn."
   },
   "unableToLoadAttachment": {
-    "message": "Không thể tải tập tin đính kèm đã chọn.",
-    "description": ""
+    "message": "Không thể tải tập tin đính kèm đã chọn."
   },
   "disconnected": {
     "message": "Đã ngắt kết nối",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Chào mừng đến với Signal",
-    "description": ""
+    "message": "Chào mừng đến với Signal"
   },
   "whatsNew": {
     "message": "Nhìn xem $whatsNew$ trong bản cập nhật này",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Hủy",
-    "description": ""
+    "message": "Hủy"
   },
   "discard": {
-    "message": "Bỏ",
-    "description": ""
+    "message": "Bỏ"
   },
   "failedToSend": {
-    "message": "Không gửi được đến một số người nhận. Kiểm tra kết nối mạng của bạn.",
-    "description": ""
+    "message": "Không gửi được đến một số người nhận. Kiểm tra kết nối mạng của bạn."
   },
   "error": {
-    "message": "Lỗi",
-    "description": ""
+    "message": "Lỗi"
   },
   "messageDetail": {
-    "message": "Chi tiết Tin nhắn",
-    "description": ""
+    "message": "Chi tiết Tin nhắn"
   },
   "delete": {
-    "message": "Xóa",
-    "description": ""
+    "message": "Xóa"
   },
   "accept": {
-    "message": "Chấp nhận",
-    "description": ""
+    "message": "Chấp nhận"
   },
   "forward": {
-    "message": "Chuyển tiếp",
-    "description": ""
+    "message": "Chuyển tiếp"
   },
   "done": {
     "message": "Xong",
     "description": "Label for done"
   },
   "update": {
-    "message": "Cập nhật",
-    "description": ""
+    "message": "Cập nhật"
   },
   "next2": {
-    "message": "Tiếp",
-    "description": ""
+    "message": "Tiếp"
   },
   "on": {
     "message": "Bật",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Thành viên nhóm",
-    "description": ""
+    "message": "Thành viên nhóm"
   },
   "showMembers": {
-    "message": "Hiển thị thành viên",
-    "description": ""
+    "message": "Hiển thị thành viên"
   },
   "showSafetyNumber": {
-    "message": "Xem số an toàn",
-    "description": ""
+    "message": "Xem số an toàn"
   },
   "viewRecentMedia": {
     "message": "Xem các tập đa phương tiện gần đây",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Để xác minh tính bảo mật của mã hóa end-to-end của bạn với $name$, hãy so sánh các số ở trên với thiết bị của họ.",
-    "description": ""
+    "message": "Để xác minh tính bảo mật của mã hóa end-to-end của bạn với $name$, hãy so sánh các số ở trên với thiết bị của họ."
   },
   "theirIdentityUnknown": {
-    "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này. Số an toàn của bạn với họ sẽ được cung cấp sau tin nhắn đầu tiên.",
-    "description": ""
+    "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này. Số an toàn của bạn với họ sẽ được cung cấp sau tin nhắn đầu tiên."
   },
   "back": {
     "message": "Trở lại",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được liên kết. Hãy thử gỡ bỏ vài thiết bị.",
-    "description": ""
+    "message": "Rất tiếc, bạn có quá nhiều thiết bị đã được liên kết. Hãy thử gỡ bỏ vài thiết bị."
   },
   "installTooOld": {
-    "message": "Cập nhật Signal trên thiết bị này để kết nối với điện thoại của bạn.",
-    "description": ""
+    "message": "Cập nhật Signal trên thiết bị này để kết nối với điện thoại của bạn."
   },
   "installErrorHeader": {
-    "message": "Đã xảy ra lỗi!",
-    "description": ""
+    "message": "Đã xảy ra lỗi!"
   },
   "installUnknownError": {
-    "message": "Có lỗi không mong muốn xảy ra. Xin hãy thử lại.",
-    "description": ""
+    "message": "Có lỗi không mong muốn xảy ra. Xin hãy thử lại."
   },
   "installTryAgain": {
-    "message": "Thử lại",
-    "description": ""
+    "message": "Thử lại"
   },
   "Preferences--theme": {
     "message": "Chủ đề",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$đã bày tỏ $emoji$ trong tin nhắn của bạn",
-    "description": ""
+    "message": "$sender$đã bày tỏ $emoji$ trong tin nhắn của bạn"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ đã phản hồi $emoji$ cho: $message$",
-    "description": ""
+    "message": "$sender$ đã phản hồi $emoji$ cho: $message$"
   },
   "sendFailed": {
     "message": "Không gửi được",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Nhấp để liên kết lại Signal Desktop với thiết bị di động của bạn để tiếp tục nhắn tin.",
-    "description": ""
+    "message": "Nhấp để liên kết lại Signal Desktop với thiết bị di động của bạn để tiếp tục nhắn tin."
   },
   "unlinked": {
-    "message": "Đã bỏ liên kết",
-    "description": ""
+    "message": "Đã bỏ liên kết"
   },
   "relink": {
-    "message": "Tái liên kết",
-    "description": ""
+    "message": "Tái liên kết"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Cập nhật có sẵn",
-    "description": ""
+    "message": "Cập nhật có sẵn"
   },
   "autoUpdateRetry": {
-    "message": "Thử cập nhật lại",
-    "description": ""
+    "message": "Thử cập nhật lại"
   },
   "autoUpdateContactSupport": {
-    "message": "liên hệ bộ phận hỗ trợ",
-    "description": ""
+    "message": "liên hệ bộ phận hỗ trợ"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Nhấp để khởi động lại Signal",
-    "description": ""
+    "message": "Nhấp để khởi động lại Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Nhấp để tải bản cập nhật",
-    "description": ""
+    "message": "Nhấp để tải bản cập nhật"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal không thể cập nhật. Bấm để thử lại.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Nhấn Khởi động lại Signal để áp dụng bản cập nhật.",
-    "description": ""
+    "message": "Nhấn Khởi động lại Signal để áp dụng bản cập nhật."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Khởi động lại Signal",
-    "description": ""
+    "message": "Khởi động lại Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Lúc khác",
-    "description": ""
+    "message": "Lúc khác"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Bỏ qua bản cập nhật",
-    "description": ""
+    "message": "Bỏ qua bản cập nhật"
   },
   "leftTheGroup": {
     "message": "$name$ đã rời nhóm.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ đã gửi cho bạn một tin nhắn nhưng không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới.",
-    "description": ""
+    "message": "$contact$ đã gửi cho bạn một tin nhắn nhưng không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Bạn có thể yêu cầu $contact$ gửi lại tin nhắn này khi bạn đang sử dụng phiên bản Signal mới cập nhật.",
-    "description": ""
+    "message": "Bạn có thể yêu cầu $contact$ gửi lại tin nhắn này khi bạn đang sử dụng phiên bản Signal mới cập nhật."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Một trong những thiết bị của bạn đã gửi một tin nhắn không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới.",
-    "description": ""
+    "message": "Một trong những thiết bị của bạn đã gửi một tin nhắn không thể xử lý hoặc hiển thị vì sử dụng tính năng Signal mới."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Các tin nhắn như thế này trong tương lai sẽ được đồng bộ hóa khi bạn đang sử dụng phiên bản  Signal cập nhật.",
-    "description": ""
+    "message": "Các tin nhắn như thế này trong tương lai sẽ được đồng bộ hóa khi bạn đang sử dụng phiên bản  Signal cập nhật."
   },
   "Message--update-signal": {
     "message": "Cập nhật Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Gỡ biẻu cảm",
-    "description": ""
+    "message": "Gỡ biẻu cảm"
   },
   "Reactions--error": {
     "message": "Lỗi trong việc gửi sự bày tỏ. Xin thử lại",

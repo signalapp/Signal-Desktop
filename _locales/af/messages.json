@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Dien in",
-    "description": ""
+    "message": "Dien in"
   },
   "acceptNewKey": {
     "message": "Aanvaar",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merk as geverifieer",
-    "description": ""
+    "message": "Merk as geverifieer"
   },
   "unverify": {
-    "message": "Merk as nie geverifieer nie",
-    "description": ""
+    "message": "Merk as nie geverifieer nie"
   },
   "isVerified": {
     "message": "Jy het jou veiligheidsnommer met $name$ geverifieer.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Geverifiëer",
-    "description": ""
+    "message": "Geverifiëer"
   },
   "newIdentity": {
     "message": "Nuwe veiligheidsnommer",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Jou veiligheidsnommer met hierdie kontak het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, óf dat hierdie kontak eenvoudig Signal  herinstalleer het. Jy moet dalk die onderstaande nuwe veiligheidsnommer verifieer.",
-    "description": ""
+    "message": "Jou veiligheidsnommer met hierdie kontak het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, óf dat hierdie kontak eenvoudig Signal  herinstalleer het. Jy moet dalk die onderstaande nuwe veiligheidsnommer verifieer."
   },
   "incomingError": {
-    "message": "Kon nie die inkomende boodskap hanteer nie",
-    "description": ""
+    "message": "Kon nie die inkomende boodskap hanteer nie"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings.",
-    "description": ""
+    "message": "Jammer, die geselekteerde lêer oorskry die boodskap se groottebeperkings."
   },
   "unableToLoadAttachment": {
-    "message": "Kan nie die geselekteerde aanhegsel laai nie.",
-    "description": ""
+    "message": "Kan nie die geselekteerde aanhegsel laai nie."
   },
   "disconnected": {
     "message": "Ontkoppel",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Welkom by Signal",
-    "description": ""
+    "message": "Welkom by Signal"
   },
   "whatsNew": {
     "message": "Kyk $whatsNew$ in hierdie bywerking",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Goed",
-    "description": ""
+    "message": "Goed"
   },
   "cancel": {
-    "message": "Kanselleer",
-    "description": ""
+    "message": "Kanselleer"
   },
   "discard": {
-    "message": "Verwerp",
-    "description": ""
+    "message": "Verwerp"
   },
   "failedToSend": {
-    "message": "Kon nie na sommige ontvangers gestuur word nie. Kontroleer jou netwerkverbinding.",
-    "description": ""
+    "message": "Kon nie na sommige ontvangers gestuur word nie. Kontroleer jou netwerkverbinding."
   },
   "error": {
-    "message": "Fout",
-    "description": ""
+    "message": "Fout"
   },
   "messageDetail": {
-    "message": "Boodskapbesonderhede",
-    "description": ""
+    "message": "Boodskapbesonderhede"
   },
   "delete": {
-    "message": "Verwyder",
-    "description": ""
+    "message": "Verwyder"
   },
   "accept": {
-    "message": "Aanvaar",
-    "description": ""
+    "message": "Aanvaar"
   },
   "forward": {
-    "message": "Stuur aan",
-    "description": ""
+    "message": "Stuur aan"
   },
   "done": {
     "message": "Klaar",
     "description": "Label for done"
   },
   "update": {
-    "message": "Werk by",
-    "description": ""
+    "message": "Werk by"
   },
   "next2": {
-    "message": "Volgende",
-    "description": ""
+    "message": "Volgende"
   },
   "on": {
     "message": "Aan",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Groeplede",
-    "description": ""
+    "message": "Groeplede"
   },
   "showMembers": {
-    "message": "Wys lede",
-    "description": ""
+    "message": "Wys lede"
   },
   "showSafetyNumber": {
-    "message": "Kyk na veiligheidsnommer",
-    "description": ""
+    "message": "Kyk na veiligheidsnommer"
   },
   "viewRecentMedia": {
     "message": "Kyk na onlangse media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Om die sekuriteit van jou end-tot-end-enkriptering met $name$ te verifieer, vergelyk die nommers hierbo met hulle toestel.",
-    "description": ""
+    "message": "Om die sekuriteit van jou end-tot-end-enkriptering met $name$ te verifieer, vergelyk die nommers hierbo met hulle toestel."
   },
   "theirIdentityUnknown": {
-    "message": "Jy het nog geen boodskappe met hierdie kontak verruil nie. Jou veiligheidsnommer met hulle sal na die eerste boodskap beskikbaar wees.",
-    "description": ""
+    "message": "Jy het nog geen boodskappe met hierdie kontak verruil nie. Jou veiligheidsnommer met hulle sal na die eerste boodskap beskikbaar wees."
   },
   "back": {
     "message": "Terug",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Jammer, jy het te veel toestelle reeds gekoppel. Probeer om sommige van die toestelle te verwyder.",
-    "description": ""
+    "message": "Jammer, jy het te veel toestelle reeds gekoppel. Probeer om sommige van die toestelle te verwyder."
   },
   "installTooOld": {
-    "message": "Werk Signal op hierdie toestel by om jou selfoon te koppel.",
-    "description": ""
+    "message": "Werk Signal op hierdie toestel by om jou selfoon te koppel."
   },
   "installErrorHeader": {
-    "message": "Iets het verkeerd geloop!",
-    "description": ""
+    "message": "Iets het verkeerd geloop!"
   },
   "installUnknownError": {
-    "message": "'n Onverwagse fout het voorgekom. Probeer asb. weer.",
-    "description": ""
+    "message": "'n Onverwagse fout het voorgekom. Probeer asb. weer."
   },
   "installTryAgain": {
-    "message": "Probeer weer",
-    "description": ""
+    "message": "Probeer weer"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ het $emoji$ op jou boodskap gereageer",
-    "description": ""
+    "message": "$sender$ het $emoji$ op jou boodskap gereageer"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ het $emoji$ gereageer op: $message$",
-    "description": ""
+    "message": "$sender$ het $emoji$ gereageer op: $message$"
   },
   "sendFailed": {
     "message": "Kon nie stuur nie",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klik om Signal Desktop weer aan jou mobiele toestel te koppel om voort te gaan met boodskappe stuur.",
-    "description": ""
+    "message": "Klik om Signal Desktop weer aan jou mobiele toestel te koppel om voort te gaan met boodskappe stuur."
   },
   "unlinked": {
-    "message": "Ontkoppel",
-    "description": ""
+    "message": "Ontkoppel"
   },
   "relink": {
-    "message": "Herkoppel",
-    "description": ""
+    "message": "Herkoppel"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Bywerking nie beskikbaar nie.",
-    "description": ""
+    "message": "Bywerking nie beskikbaar nie."
   },
   "autoUpdateRetry": {
-    "message": "Probeer weer bywerking",
-    "description": ""
+    "message": "Probeer weer bywerking"
   },
   "autoUpdateContactSupport": {
-    "message": "kontak steundiens",
-    "description": ""
+    "message": "kontak steundiens"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klik om Signal te herlaai",
-    "description": ""
+    "message": "Klik om Signal te herlaai"
   },
   "downloadNewVersionMessage": {
-    "message": "Klik om bywerking af te laai",
-    "description": ""
+    "message": "Klik om bywerking af te laai"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal kon nie bygewerk word nie. Klik om weer te probeer.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Druk Herlaai Signal om die bywerkings toe te pas.",
-    "description": ""
+    "message": "Druk Herlaai Signal om die bywerkings toe te pas."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Herlaai Signal",
-    "description": ""
+    "message": "Herlaai Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Later",
-    "description": ""
+    "message": "Later"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignoreer bywerking",
-    "description": ""
+    "message": "Ignoreer bywerking"
   },
   "leftTheGroup": {
     "message": "$name$ het die groep verlaat.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ het vir jou 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit 'n gebruik maak van 'n nuwe Signal-funksie.",
-    "description": ""
+    "message": "$contact$ het vir jou 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit 'n gebruik maak van 'n nuwe Signal-funksie."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Jy kan $contact$ vra om hierdie boodskap weer te stuur nou dat jy 'n bygewerkte weergawe van Signal gebruik.",
-    "description": ""
+    "message": "Jy kan $contact$ vra om hierdie boodskap weer te stuur nou dat jy 'n bygewerkte weergawe van Signal gebruik."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Een van jou toestelle het 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit gebruik maak van 'n nuwe Signal-funksie.",
-    "description": ""
+    "message": "Een van jou toestelle het 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit gebruik maak van 'n nuwe Signal-funksie."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Toekomstige boodskappe soos hierdie sal gesinkroniseer word nou dat jy 'n bygewerkte weergawe van Signal gebruik.",
-    "description": ""
+    "message": "Toekomstige boodskappe soos hierdie sal gesinkroniseer word nou dat jy 'n bygewerkte weergawe van Signal gebruik."
   },
   "Message--update-signal": {
     "message": "Werk Signal by",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Verwyder reaksie",
-    "description": ""
+    "message": "Verwyder reaksie"
   },
   "Reactions--error": {
     "message": "Kon nie reaksie stuur nie. Probeer asseblief weer.",

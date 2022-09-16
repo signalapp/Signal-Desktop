@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Sendi",
-    "description": ""
+    "message": "Sendi"
   },
   "acceptNewKey": {
     "message": "Akcepti",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marki kiel konfirmitan",
-    "description": ""
+    "message": "Marki kiel konfirmitan"
   },
   "unverify": {
-    "message": "Marki kiel nekonfirmitan",
-    "description": ""
+    "message": "Marki kiel nekonfirmitan"
   },
   "isVerified": {
     "message": "Vi jam konfirmis la sekurigan numeron kun $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Konfirmita",
-    "description": ""
+    "message": "Konfirmita"
   },
   "newIdentity": {
     "message": "Nova sekuriga numero",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Via sekuriga numero kun tiu ĉi kontakto ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke tiu kontakto simple reinstalis Signal-on. Vi certe volos kontroli la novan sekurigan numeron ĉi-suban.",
-    "description": ""
+    "message": "Via sekuriga numero kun tiu ĉi kontakto ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke tiu kontakto simple reinstalis Signal-on. Vi certe volos kontroli la novan sekurigan numeron ĉi-suban."
   },
   "incomingError": {
-    "message": "Okazis eraro dum ricevo de mesaĝo",
-    "description": ""
+    "message": "Okazis eraro dum ricevo de mesaĝo"
   },
   "media": {
     "message": "Aŭdvidaĵo",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Bedaŭrinde, la elektita dosiero transpasas limigon pri grandeco de mesaĝo.",
-    "description": ""
+    "message": "Bedaŭrinde, la elektita dosiero transpasas limigon pri grandeco de mesaĝo."
   },
   "unableToLoadAttachment": {
-    "message": "Ne eblas ŝargi la elektitan kunsendaĵon.",
-    "description": ""
+    "message": "Ne eblas ŝargi la elektitan kunsendaĵon."
   },
   "disconnected": {
     "message": "Nekonektite",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Bonvenon al Signal",
-    "description": ""
+    "message": "Bonvenon al Signal"
   },
   "whatsNew": {
     "message": "Vidi $whatsNew$ en tiu ĝisdatigo",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Bone",
-    "description": ""
+    "message": "Bone"
   },
   "cancel": {
-    "message": "Nuligi",
-    "description": ""
+    "message": "Nuligi"
   },
   "discard": {
-    "message": "Ne konservi",
-    "description": ""
+    "message": "Ne konservi"
   },
   "failedToSend": {
-    "message": "Malsukcesis sendi al iuj ricevontoj. Kontrolu la retkonekton.",
-    "description": ""
+    "message": "Malsukcesis sendi al iuj ricevontoj. Kontrolu la retkonekton."
   },
   "error": {
-    "message": "Eraro",
-    "description": ""
+    "message": "Eraro"
   },
   "messageDetail": {
-    "message": "Detaloj de la mesaĝo",
-    "description": ""
+    "message": "Detaloj de la mesaĝo"
   },
   "delete": {
-    "message": "Forigi",
-    "description": ""
+    "message": "Forigi"
   },
   "accept": {
-    "message": "Akcepti",
-    "description": ""
+    "message": "Akcepti"
   },
   "forward": {
-    "message": "Plusendi",
-    "description": ""
+    "message": "Plusendi"
   },
   "done": {
     "message": "Farita",
     "description": "Label for done"
   },
   "update": {
-    "message": "Ĝisdatigi",
-    "description": ""
+    "message": "Ĝisdatigi"
   },
   "next2": {
-    "message": "Sekva",
-    "description": ""
+    "message": "Sekva"
   },
   "on": {
     "message": "Ŝaltita",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Grupanoj",
-    "description": ""
+    "message": "Grupanoj"
   },
   "showMembers": {
-    "message": "Montri grupanojn",
-    "description": ""
+    "message": "Montri grupanojn"
   },
   "showSafetyNumber": {
-    "message": "Montri sekurigan numeron",
-    "description": ""
+    "message": "Montri sekurigan numeron"
   },
   "viewRecentMedia": {
     "message": "Vidu lastajn aŭdvidaĵojn",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Por kontroli la sekurecon de via tutvoja ĉifrado kun $name$, komparu la ĉi-superajn nombrojn kun la nombroj el lia aŭ ŝia aparato.",
-    "description": ""
+    "message": "Por kontroli la sekurecon de via tutvoja ĉifrado kun $name$, komparu la ĉi-superajn nombrojn kun la nombroj el lia aŭ ŝia aparato."
   },
   "theirIdentityUnknown": {
-    "message": "Vi ankoraŭ ne interŝanĝis mesaĝojn kun tiu ĉi kontakto. La sekuriga numero nur disponeblos post la unua mesaĝo.",
-    "description": ""
+    "message": "Vi ankoraŭ ne interŝanĝis mesaĝojn kun tiu ĉi kontakto. La sekuriga numero nur disponeblos post la unua mesaĝo."
   },
   "back": {
     "message": "Reen",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Bedaŭrinde, vi havas tro da ligitaj aparatoj. Provu malligi kelkajn.",
-    "description": ""
+    "message": "Bedaŭrinde, vi havas tro da ligitaj aparatoj. Provu malligi kelkajn."
   },
   "installTooOld": {
-    "message": "Ĝisdatigi Signal-on ĉi-aparate por ligi vian telefonon",
-    "description": ""
+    "message": "Ĝisdatigi Signal-on ĉi-aparate por ligi vian telefonon"
   },
   "installErrorHeader": {
-    "message": "Ho ve! Okazis eraro!",
-    "description": ""
+    "message": "Ho ve! Okazis eraro!"
   },
   "installUnknownError": {
-    "message": "Neatendita eraro okazis. Bonvolu reprovi.",
-    "description": ""
+    "message": "Neatendita eraro okazis. Bonvolu reprovi."
   },
   "installTryAgain": {
-    "message": "Provi denove",
-    "description": ""
+    "message": "Provi denove"
   },
   "Preferences--theme": {
     "message": "Etoso",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagis per  $emoji$ al via mesaĝo",
-    "description": ""
+    "message": "$sender$ reagis per  $emoji$ al via mesaĝo"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagis per  $emoji$ al:  $message$",
-    "description": ""
+    "message": "$sender$ reagis per  $emoji$ al:  $message$"
   },
   "sendFailed": {
     "message": "Sendo malsukcesis",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Alklaki por re-ligi „Signal Desktop“ al via portebla aparato por daŭrigi mesaĝadon.",
-    "description": ""
+    "message": "Alklaki por re-ligi „Signal Desktop“ al via portebla aparato por daŭrigi mesaĝadon."
   },
   "unlinked": {
-    "message": "Malligita",
-    "description": ""
+    "message": "Malligita"
   },
   "relink": {
-    "message": "Re-ligi",
-    "description": ""
+    "message": "Re-ligi"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Ĝisdatigo disponeblas",
-    "description": ""
+    "message": "Ĝisdatigo disponeblas"
   },
   "autoUpdateRetry": {
-    "message": "Reprovu ĝisdatigon",
-    "description": ""
+    "message": "Reprovu ĝisdatigon"
   },
   "autoUpdateContactSupport": {
-    "message": "kontaktu la subtenon",
-    "description": ""
+    "message": "kontaktu la subtenon"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Alklaki por restartigi „Signal“",
-    "description": ""
+    "message": "Alklaki por restartigi „Signal“"
   },
   "downloadNewVersionMessage": {
-    "message": "Alklaki por elŝuti ĝisdatigon",
-    "description": ""
+    "message": "Alklaki por elŝuti ĝisdatigon"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal ne povis esti ĝisdatigita. Alklaku por reprovi.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Premu „Restartigi Signal-on“ por ĝisdatigi.",
-    "description": ""
+    "message": "Premu „Restartigi Signal-on“ por ĝisdatigi."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restartigi Signal-on",
-    "description": ""
+    "message": "Restartigi Signal-on"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Poste",
-    "description": ""
+    "message": "Poste"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignori la ĝisdatigon",
-    "description": ""
+    "message": "Ignori la ĝisdatigon"
   },
   "leftTheGroup": {
     "message": "$name$ forlasis la grupon.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sendis al vi mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton.",
-    "description": ""
+    "message": "$contact$ sendis al vi mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Vi povas peti al $contact$resendi tiun mesaĝon, ĉar vi nun uzas ĝisdatan version de Signal.",
-    "description": ""
+    "message": "Vi povas peti al $contact$resendi tiun mesaĝon, ĉar vi nun uzas ĝisdatan version de Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Unu el viaj aparatoj sendis mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton.",
-    "description": ""
+    "message": "Unu el viaj aparatoj sendis mesaĝon ne montreblan, ĉar ĝi uzas novan Signal-an trajton."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Venontaj tiaj mesaĝoj sinkroniĝos, ĉar vi nun uzas ĝisdatan version de SIgnal.",
-    "description": ""
+    "message": "Venontaj tiaj mesaĝoj sinkroniĝos, ĉar vi nun uzas ĝisdatan version de SIgnal."
   },
   "Message--update-signal": {
     "message": "Ĝisdatigi Signal-on",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Forviŝi reagon",
-    "description": ""
+    "message": "Forviŝi reagon"
   },
   "Reactions--error": {
     "message": "Sendo de reago malsukcesis. Reprovu.",
