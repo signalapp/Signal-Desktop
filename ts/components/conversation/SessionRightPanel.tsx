@@ -21,12 +21,13 @@ import { getSelectedConversation, isRightPanelShowing } from '../../state/select
 import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { SessionDropdown } from '../basic/SessionDropdown';
 import { SpacerLG } from '../basic/Text';
 import { MediaItemType } from '../lightbox/LightboxGallery';
 import { MediaGallery } from './media-gallery/MediaGallery';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
+import styled from 'styled-components';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -140,6 +141,25 @@ const HeaderItem = () => {
     </div>
   );
 };
+
+const StyledLeaveButton = styled.div`
+  width: 100%;
+  .session-button {
+    margin-top: auto;
+    width: 100%;
+    height: var(--composition-container-height);
+    flex-shrink: 0;
+    align-items: center;
+    border-top: var(--border-color);
+    border-radius: 0px;
+
+    &:not(.disabled) {
+      &:hover {
+        background-color: var(--button-solid-background-hover-color);
+      }
+    }
+  }
+`;
 
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
@@ -302,13 +322,15 @@ export const SessionRightPanelWithDetails = () => {
       <MediaGallery documents={documents} media={media} />
       {isGroup && (
         // tslint:disable-next-line: use-simple-attributes
-        <SessionButton
-          text={leaveGroupString}
-          buttonColor={SessionButtonColor.Danger}
-          disabled={isKickedFromGroup || left}
-          buttonType={SessionButtonType.SquareOutline}
-          onClick={deleteConvoAction}
-        />
+        <StyledLeaveButton>
+          <SessionButton2
+            text={leaveGroupString}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
+            disabled={isKickedFromGroup || left}
+            onClick={deleteConvoAction}
+          />
+        </StyledLeaveButton>
       )}
     </div>
   );

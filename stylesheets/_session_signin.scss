@@ -5,9 +5,6 @@
     background-color: var(--color-white-color);
   }
   &-content {
-    .session-button.brand-outline.brand.green:hover {
-      background-color: var(--color-accent);
-    }
     &-accent {
       &-text {
         font-family: $session-font-accent;
@@ -197,7 +194,7 @@
     justify-content: center;
     padding: 20px;
     border-radius: 13px;
-    border: 1px solid subtle(var(--color-darker-gray-color));
+    border: 1px solid var(--border-color);
     margin-bottom: 20px;
 
     textarea {

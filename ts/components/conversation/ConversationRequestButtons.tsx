@@ -11,7 +11,7 @@ import {
   getSelectedConversation,
   hasSelectedConversationIncomingMessages,
 } from '../../state/selectors/conversations';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor } from '../basic/SessionButton2';
 
 const handleDeclineConversationRequest = (convoId: string) => {
   declineConversationWithConfirm(convoId, true);
@@ -41,18 +41,16 @@ export const ConversationMessageRequestButtons = () => {
   return (
     <ConversationRequestBanner>
       <ConversationBannerRow>
-        <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
+        <SessionButton2
+          buttonColor={SessionButtonColor.Primary}
           onClick={async () => {
             await handleAcceptConversationRequest(selectedConversation.id);
           }}
           text={window.i18n('accept')}
           dataTestId="accept-message-request"
         />
-        <SessionButton
+        <SessionButton2
           buttonColor={SessionButtonColor.Danger}
-          buttonType={SessionButtonType.BrandOutline}
           text={window.i18n('decline')}
           onClick={() => {
             handleDeclineConversationRequest(selectedConversation.id);

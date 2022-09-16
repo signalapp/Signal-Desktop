@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2 } from '../basic/SessionButton2';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import {
@@ -24,10 +24,8 @@ export enum SignInMode {
 
 const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (
-    <SessionButton
+    <SessionButton2
       onClick={props.onLinkDeviceButtonClicked}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('linkDevice')}
       dataTestId="link-device"
     />
@@ -36,10 +34,8 @@ const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
 
 const RestoreUsingRecoveryPhraseButton = (props: { onRecoveryButtonClicked: () => any }) => {
   return (
-    <SessionButton
+    <SessionButton2
       onClick={props.onRecoveryButtonClicked}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('restoreUsingRecoveryPhrase')}
       dataTestId="restore-using-recovery"
     />
@@ -51,10 +47,8 @@ const ContinueYourSessionButton = (props: {
   disabled: boolean;
 }) => {
   return (
-    <SessionButton
+    <SessionButton2
       onClick={props.handleContinueYourSessionClick}
-      buttonType={SessionButtonType.Brand}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('continueYourSession')}
       disabled={props.disabled}
       dataTestId="continue-session-button"

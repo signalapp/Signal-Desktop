@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButton2 } from '../../basic/SessionButton2';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { MemberListItem } from '../../MemberListItem';
@@ -134,9 +134,7 @@ export const OverlayClosedGroup = () => {
 
       <SpacerLG style={{ flexShrink: 0 }} />
 
-      <SessionButton
-        buttonColor={SessionButtonColor.Green}
-        buttonType={SessionButtonType.BrandOutline}
+      <SessionButton2
         text={buttonText}
         disabled={disableCreateButton}
         onClick={onEnterPressed}

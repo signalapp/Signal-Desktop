@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import {
-  SessionButton2,
-  SessionButtonColor,
-  SessionButtonShape,
-  SessionButtonType,
-} from '../basic/SessionButton2';
+import { SessionButton2, SessionButtonColor, SessionButtonType } from '../basic/SessionButton2';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';

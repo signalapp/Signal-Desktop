@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
 import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2, SessionButtonColor } from '../basic/SessionButton2';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { MemberListItem } from '../MemberListItem';
@@ -128,9 +128,8 @@ export const BlockedContactsList = () => {
           ) : (
             <BlockedContactListTitleButtons>
               {hasAtLeastOneSelected && expanded ? (
-                <SessionButton
+                <SessionButton2
                   buttonColor={SessionButtonColor.Danger}
-                  buttonType={SessionButtonType.BrandOutline}
                   text={window.i18n('unblockUser')}
                   onClick={unBlockThoseUsers}
                 />

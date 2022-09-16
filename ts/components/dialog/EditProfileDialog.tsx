@@ -9,7 +9,6 @@ import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationModel } from '../../models/conversation';
 
 import { getConversationController } from '../../session/conversations';
-import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton2 } from '../basic/SessionButton2';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SessionIconButton } from '../icon';
 import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
@@ -16,25 +16,11 @@ export enum SignUpMode {
 }
 
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
-  return (
-    <SessionButton
-      onClick={createSessionID}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
-      text={window.i18n('createSessionID')}
-    />
-  );
+  return <SessionButton2 onClick={createSessionID} text={window.i18n('createSessionID')} />;
 };
 
 const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
-  return (
-    <SessionButton
-      onClick={continueSignUp}
-      buttonType={SessionButtonType.Brand}
-      buttonColor={SessionButtonColor.Green}
-      text={window.i18n('continue')}
-    />
-  );
+  return <SessionButton2 onClick={continueSignUp} text={window.i18n('continue')} />;
 };
 
 const SignUpDefault = (props: { createSessionID: () => void }) => {
@@ -151,10 +137,8 @@ export const SignUpTab = () => {
         }}
         stealAutoFocus={true}
       />
-      <SessionButton
+      <SessionButton2
         onClick={signUpWithDetails}
-        buttonType={SessionButtonType.Brand}
-        buttonColor={SessionButtonColor.Green}
         text={window.i18n('getStarted')}
         disabled={!enableCompleteSignUp}
       />

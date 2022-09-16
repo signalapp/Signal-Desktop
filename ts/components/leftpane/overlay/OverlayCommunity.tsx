@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButton2 } from '../../basic/SessionButton2';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
@@ -100,13 +100,7 @@ export const OverlayCommunity = () => {
         />
       </div>
 
-      <SessionButton
-        buttonColor={SessionButtonColor.Green}
-        buttonType={SessionButtonType.BrandOutline}
-        text={buttonText}
-        disabled={!groupUrl}
-        onClick={onTryJoinRoom}
-      />
+      <SessionButton2 text={buttonText} disabled={!groupUrl} onClick={onTryJoinRoom} />
 
       <SessionSpinner loading={loading} />
       <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />

@@ -26,9 +26,6 @@ export enum SessionButtonColor {
   Primary = 'primary',
   Danger = 'danger',
   None = 'transparent',
-  // Secondary
-  // Success?
-  // Warning
 }
 
 const StyledButton = styled.div<{
@@ -83,7 +80,7 @@ const StyledButton = styled.div<{
     outline: none;
     ${props =>
       props.buttonType === SessionButtonType.Solid
-        ? `background-color: var(--button-solid-disabled-color)`
+        ? 'background-color: var(--button-solid-disabled-color)'
         : props.buttonType === SessionButtonType.Outline
         ? 'border: 1px solid var(--button-outline-disabled-color)'
         : ''};
@@ -101,7 +98,7 @@ const StyledButton = styled.div<{
       ${props => props.color && `color: var(--button-${props.buttonType}-text-color);`}
       ${props =>
         props.buttonType === SessionButtonType.Outline &&
-        `outline: none; border: 1px solid var(--button-outline-border-hover-color);`};
+        'outline: none; border: 1px solid var(--button-outline-border-hover-color);'};
     }
   }
 `;

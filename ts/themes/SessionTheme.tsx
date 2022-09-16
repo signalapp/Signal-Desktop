@@ -382,7 +382,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --border-session:  ${lightColorSessionBorder};
 
     /* CONSTANTS */
-    --compositionContainerHeight: 60px;
+    --composition-container-height: 60px;
     --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
