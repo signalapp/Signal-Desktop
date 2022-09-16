@@ -382,7 +382,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --border-session:  ${lightColorSessionBorder};
 
     /* CONSTANTS */
-    --compositionContainerHeight: 60px;
+    --composition-container-height: 60px;
     --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
@@ -534,9 +534,13 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --button-solid-text-color: var(--text-primary-color);
     --button-solid-text-hover-color: var(--text-primary-color);
-    --button-solid-disabled-color: var(--text-secondary-color);
+    --button-solid-disabled-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
       /* TODO Theming - Only light themes have shadows? */
     --button-solid-shadow-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25);
+
+    /* Simple */
+    /* TODO Theming - Should this be different? */
+    --button-simple-disabled-color: var(--text-primary-color);
 
     /* Icons */
     --button-icon-background-color: var(--transparent-color);

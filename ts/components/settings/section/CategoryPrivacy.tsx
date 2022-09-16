@@ -5,7 +5,7 @@ import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { TypingBubble } from '../../conversation/TypingBubble';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
@@ -99,8 +99,6 @@ export const SettingsCategoryPrivacy = (props: {
             onClick={() => {
               displayPasswordModal('set', props.onPasswordUpdated);
             }}
-            buttonColor={SessionButtonColor.Green}
-            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('setPassword')}
             dataTestId={'set-password-button'}
           />
@@ -112,8 +110,6 @@ export const SettingsCategoryPrivacy = (props: {
             onClick={() => {
               displayPasswordModal('change', props.onPasswordUpdated);
             }}
-            buttonColor={SessionButtonColor.Green}
-            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('changePassword')}
           />
         )}
@@ -125,7 +121,6 @@ export const SettingsCategoryPrivacy = (props: {
               displayPasswordModal('remove', props.onPasswordUpdated);
             }}
             buttonColor={SessionButtonColor.Danger}
-            buttonType={SessionButtonType.BrandOutline}
             buttonText={window.i18n('removePassword')}
           />
         )}

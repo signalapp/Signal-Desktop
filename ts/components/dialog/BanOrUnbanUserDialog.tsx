@@ -141,8 +141,7 @@ export const BanOrUnBanUserDialog = (props: {
         />
         <Flex container={true}>
           <SessionButton
-            buttonType={SessionButtonType.Square}
-            buttonColor={SessionButtonColor.Primary}
+            buttonType={SessionButtonType.Simple}
             onClick={banOrUnBanUser}
             text={buttonText}
             disabled={inProgress}
@@ -151,7 +150,7 @@ export const BanOrUnBanUserDialog = (props: {
             <>
               <SpacerSM />
               <SessionButton
-                buttonType={SessionButtonType.Square}
+                buttonType={SessionButtonType.Simple}
                 buttonColor={SessionButtonColor.Danger}
                 onClick={startBanAndDeleteAllSequence}
                 text={i18n('banUserAndDeleteAll')}

@@ -39,7 +39,12 @@ import {
   useIsKickedFromGroup,
   useIsRequest,
 } from '../../hooks/useParamSelector';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import {
+  SessionButton,
+  SessionButtonColor,
+  SessionButtonShape,
+  SessionButtonType,
+} from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 import { Flex } from '../basic/Flex';
@@ -117,15 +122,17 @@ const SelectionOverlay = () => {
       <div className="button-group">
         {!isOnlyServerDeletable && (
           <SessionButton
-            buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Danger}
+            buttonShape={SessionButtonShape.Square}
+            buttonType={SessionButtonType.Solid}
             text={deleteMessageButtonText}
             onClick={onDeleteSelectedMessages}
           />
         )}
         <SessionButton
-          buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
+          buttonShape={SessionButtonShape.Square}
+          buttonType={SessionButtonType.Solid}
           text={deleteForEveryoneMessageButtonText}
           onClick={onDeleteSelectedMessagesForEveryone}
         />

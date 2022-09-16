@@ -105,15 +105,14 @@ export const RemoveModeratorsDialog = (props: Props) => {
 
         <div className="session-modal__button-group">
           <SessionButton
-            buttonType={SessionButtonType.Brand}
-            buttonColor={SessionButtonColor.Green}
+            buttonType={SessionButtonType.Simple}
             onClick={removeModsCall}
             disabled={removingInProgress}
             text={i18n('ok')}
           />
           <SessionButton
-            buttonType={SessionButtonType.Brand}
-            buttonColor={SessionButtonColor.Primary}
+            buttonType={SessionButtonType.Simple}
+            buttonColor={SessionButtonColor.Danger}
             onClick={closeDialog}
             disabled={removingInProgress}
             text={i18n('cancel')}

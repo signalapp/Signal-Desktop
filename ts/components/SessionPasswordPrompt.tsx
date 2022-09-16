@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { SessionIcon } from './icon';
 import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
+import { SessionButton, SessionButtonColor } from './basic/SessionButton';
 import { Constants } from '../session';
 import { SessionSpinner } from './basic/SessionSpinner';
 
@@ -172,22 +172,20 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
     return (
       <div className={classNames(showResetElements && 'button-group')}>
+        <SessionButton
+          text={window.i18n('unlock')}
+          buttonColor={SessionButtonColor.Primary}
+          onClick={this.initLogin}
+        />
         {showResetElements && (
           <>
             <SessionButton
               text="Reset Database"
-              buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Danger}
               onClick={this.initClearDataView}
             />
           </>
         )}
-        <SessionButton
-          text={window.i18n('unlock')}
-          buttonType={SessionButtonType.BrandOutline}
-          buttonColor={SessionButtonColor.Green}
-          onClick={this.initLogin}
-        />
       </div>
     );
   }
@@ -196,19 +194,15 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     return (
       <div className="button-group">
         <SessionButton
+          text={window.i18n('clearAllData')}
+          buttonColor={SessionButtonColor.Danger}
+          onClick={window.clearLocalData}
+        />
+        <SessionButton
           text={window.i18n('cancel')}
-          buttonType={SessionButtonType.Default}
-          buttonColor={SessionButtonColor.Primary}
           onClick={() => {
             this.setState({ clearDataView: false });
           }}
-        />
-
-        <SessionButton
-          text={window.i18n('clearAllData')}
-          buttonType={SessionButtonType.Default}
-          buttonColor={SessionButtonColor.Danger}
-          onClick={window.clearLocalData}
         />
       </div>
     );

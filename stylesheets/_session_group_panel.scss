@@ -63,18 +63,6 @@
     border-top: none;
   }
 
-  // bottom button
-  .session-button.square-outline.danger {
-    margin-top: auto;
-    width: 100%;
-    border: none;
-    height: $composition-container-height;
-    flex-shrink: 0;
-    align-items: center;
-    border: none;
-    border-top: var(--border-session);
-  }
-
   .module-empty-state {
     text-align: center;
   }

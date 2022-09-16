@@ -5,7 +5,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import _ from 'lodash';
 import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { useDispatch } from 'react-redux';
@@ -243,10 +243,15 @@ export const UpdateGroupMembersDialog = (props: Props) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={cancelText} onClick={closeDialog} />
         {weAreAdmin && (
-          <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Green} />
+          <SessionButton text={okText} onClick={onClickOK} buttonType={SessionButtonType.Simple} />
         )}
+        <SessionButton
+          text={cancelText}
+          buttonColor={weAreAdmin ? SessionButtonColor.Danger : undefined}
+          buttonType={SessionButtonType.Simple}
+          onClick={closeDialog}
+        />
       </div>
     </SessionWrapperModal>
   );
