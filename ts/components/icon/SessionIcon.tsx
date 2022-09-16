@@ -101,7 +101,7 @@ const animation = (props: {
 }) => {
   if (props.rotateDuration) {
     return css`
-      ${rotate} ${props.rotateDuration}s infinite linear;
+      ${rotate} ${props.rotateDuration}s linear infinite;
     `;
   }
   if (props.noScale) {

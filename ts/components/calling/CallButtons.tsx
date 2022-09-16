@@ -10,6 +10,47 @@ import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import styled from 'styled-components';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
+const VideoInputMenu = ({
+  triggerId,
+  camerasList,
+}: {
+  triggerId: string;
+  camerasList: Array<InputItem>;
+}) => {
+  return (
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {camerasList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectCameraByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
+  );
+};
+
+const showVideoInputMenu = (
+  currentConnectedCameras: Array<InputItem>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedCameras.length === 0) {
+    ToastUtils.pushNoCameraFound();
+    return;
+  }
+  contextMenu.show({
+    id: videoTriggerId,
+    event: e,
+  });
+};
+
 const videoTriggerId = 'video-menu-trigger-id';
 const audioTriggerId = 'audio-menu-trigger-id';
 const audioOutputTriggerId = 'audio-output-menu-trigger-id';
@@ -42,6 +83,47 @@ export const VideoInputButton = ({
   );
 };
 
+const AudioInputMenu = ({
+  triggerId,
+  audioInputsList,
+}: {
+  triggerId: string;
+  audioInputsList: Array<InputItem>;
+}) => {
+  return (
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {audioInputsList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectAudioInputByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
+  );
+};
+
+const showAudioInputMenu = (
+  currentConnectedAudioInputs: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedAudioInputs.length === 0) {
+    ToastUtils.pushNoAudioInputFound();
+    return;
+  }
+  contextMenu.show({
+    id: audioTriggerId,
+    event: e,
+  });
+};
+
 export const AudioInputButton = ({
   currentConnectedAudioInputs,
   isAudioMuted,
@@ -68,6 +150,47 @@ export const AudioInputButton = ({
       <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />
     </>
   );
+};
+
+const AudioOutputMenu = ({
+  triggerId,
+  audioOutputsList,
+}: {
+  triggerId: string;
+  audioOutputsList: Array<InputItem>;
+}) => {
+  return (
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        {audioOutputsList.map(m => {
+          return (
+            <Item
+              key={m.deviceId}
+              onClick={() => {
+                void CallManager.selectAudioOutputByDeviceId(m.deviceId);
+              }}
+            >
+              {m.label.substr(0, 40)}
+            </Item>
+          );
+        })}
+      </Menu>
+    </SessionContextMenuContainer>
+  );
+};
+
+const showAudioOutputMenu = (
+  currentConnectedAudioOutputs: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedAudioOutputs.length === 0) {
+    ToastUtils.pushNoAudioOutputFound();
+    return;
+  }
+  contextMenu.show({
+    id: audioOutputTriggerId,
+    event: e,
+  });
 };
 
 export const AudioOutputButton = ({
@@ -101,87 +224,6 @@ export const AudioOutputButton = ({
   );
 };
 
-const VideoInputMenu = ({
-  triggerId,
-  camerasList,
-}: {
-  triggerId: string;
-  camerasList: Array<InputItem>;
-}) => {
-  return (
-    <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
-        {camerasList.map(m => {
-          return (
-            <Item
-              key={m.deviceId}
-              onClick={() => {
-                void CallManager.selectCameraByDeviceId(m.deviceId);
-              }}
-            >
-              {m.label.substr(0, 40)}
-            </Item>
-          );
-        })}
-      </Menu>
-    </SessionContextMenuContainer>
-  );
-};
-
-const AudioInputMenu = ({
-  triggerId,
-  audioInputsList,
-}: {
-  triggerId: string;
-  audioInputsList: Array<InputItem>;
-}) => {
-  return (
-    <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
-        {audioInputsList.map(m => {
-          return (
-            <Item
-              key={m.deviceId}
-              onClick={() => {
-                void CallManager.selectAudioInputByDeviceId(m.deviceId);
-              }}
-            >
-              {m.label.substr(0, 40)}
-            </Item>
-          );
-        })}
-      </Menu>
-    </SessionContextMenuContainer>
-  );
-};
-
-const AudioOutputMenu = ({
-  triggerId,
-  audioOutputsList,
-}: {
-  triggerId: string;
-  audioOutputsList: Array<InputItem>;
-}) => {
-  return (
-    <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
-        {audioOutputsList.map(m => {
-          return (
-            <Item
-              key={m.deviceId}
-              onClick={() => {
-                void CallManager.selectAudioOutputByDeviceId(m.deviceId);
-              }}
-            >
-              {m.label.substr(0, 40)}
-            </Item>
-          );
-        })}
-      </Menu>
-    </SessionContextMenuContainer>
-  );
-};
-
 const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
   const dispatch = useDispatch();
 
@@ -198,10 +240,10 @@ const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => 
       iconSize={60}
       iconPadding="20px"
       iconType="fullscreen"
-      backgroundColor="white"
+      backgroundColor="var(--white-color)"
       borderRadius="50%"
       onClick={showInFullScreen}
-      iconColor="black"
+      iconColor="var(--black-color)"
       margin="10px"
     />
   );
@@ -222,55 +264,13 @@ export const HangUpButton = () => {
       iconSize={60}
       iconPadding="20px"
       iconType="hangup"
-      backgroundColor="white"
+      backgroundColor="var(--white-color)"
       borderRadius="50%"
       onClick={handleEndCall}
-      iconColor="red"
+      iconColor="var(--red-color)"
       margin="10px"
     />
   );
-};
-
-const showAudioInputMenu = (
-  currentConnectedAudioInputs: Array<any>,
-  e: React.MouseEvent<HTMLDivElement>
-) => {
-  if (currentConnectedAudioInputs.length === 0) {
-    ToastUtils.pushNoAudioInputFound();
-    return;
-  }
-  contextMenu.show({
-    id: audioTriggerId,
-    event: e,
-  });
-};
-
-const showAudioOutputMenu = (
-  currentConnectedAudioOutputs: Array<any>,
-  e: React.MouseEvent<HTMLDivElement>
-) => {
-  if (currentConnectedAudioOutputs.length === 0) {
-    ToastUtils.pushNoAudioOutputFound();
-    return;
-  }
-  contextMenu.show({
-    id: audioOutputTriggerId,
-    event: e,
-  });
-};
-
-const showVideoInputMenu = (
-  currentConnectedCameras: Array<InputItem>,
-  e: React.MouseEvent<HTMLDivElement>
-) => {
-  if (currentConnectedCameras.length === 0) {
-    ToastUtils.pushNoCameraFound();
-    return;
-  }
-  contextMenu.show({
-    id: videoTriggerId,
-    event: e,
-  });
 };
 
 const handleCameraToggle = async (

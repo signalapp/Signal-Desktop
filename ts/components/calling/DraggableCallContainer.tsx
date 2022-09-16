@@ -15,13 +15,13 @@ import { SectionType } from '../../state/ducks/section';
 export const DraggableCallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  box-shadow: 0px 0px 10px 0px #000000;
+  box-shadow: 0px 0px 10px 0px var(--black-color);
   max-height: 300px;
   width: 12vw;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-modal-background);
-  border: var(--session-border);
+  background-color: var(--modal-background-color);
+  border: var(--border-color);
 `;
 
 export const StyledVideoElement = styled.video<{ isVideoMuted: boolean }>`
