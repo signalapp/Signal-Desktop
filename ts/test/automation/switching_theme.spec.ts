@@ -1,9 +1,11 @@
 import { _electron, expect, Page, test } from '@playwright/test';
-import { forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { clickOnTestIdWithText } from './utils';
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Switch themes', async () => {

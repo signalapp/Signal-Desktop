@@ -9,6 +9,7 @@ import { PubKey } from '../../../../session/types';
 import { openConversationWithMessages } from '../../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
 import {
+  getIsTypingEnabled,
   getMessageAvatarProps,
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
@@ -36,6 +37,8 @@ export const MessageAvatar = (props: Props) => {
   const dispatch = useDispatch();
   const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
   const selectedConvoKey = useSelector(getSelectedConversationKey);
+
+  const isTypingEnabled = useSelector(getIsTypingEnabled);
 
   if (!avatarProps) {
     return null;
@@ -73,6 +76,11 @@ export const MessageAvatar = (props: Props) => {
         );
         return;
       }
+    }
+
+    if (isPublic && !isTypingEnabled) {
+      window.log.info('onMessageAvatarClick: no typing enabled. Dropping...');
+      return;
     }
 
     if (isPublic && selectedConvoKey) {
