@@ -147,6 +147,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/css-selector-tokenizer/.+',
     '^node_modules/css-tree/.+',
     '^node_modules/csso/.+',
+    '^node_modules/danger/.+',
     '^node_modules/default-gateway/.+',
     '^node_modules/degenerator/.+',
     '^node_modules/detect-port-alt/.+',
@@ -266,6 +267,25 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/find-yarn-workspace-root/.+',
     '^node_modules/update-notifier/.+',
     '^node_modules/windows-release/.+',
+
+    // used by danger
+    '^danger/node_modules/.+',
+    '^node_modules/@octokit/.+',
+    '^node_modules/test-exclude/.+',
+    '^node_modules/micromark/.+',
+    '^node_modules/micromark-extension-gfm-task-list-item/.+',
+    '^node_modules/micromark-extension-gfm-autolink-literal/.+',
+    '^node_modules/memfs-or-file-map-to-github-branch/.+',
+    '^node_modules/mdast-util-to-markdown/.+',
+    '^node_modules/mdast-util-from-markdown/.+',
+    '^node_modules/lodash.once/.+',
+    '^node_modules/gitlab/.+',
+    '^node_modules/es6-promisify/.+',
+    '^node_modules/endanger/.+',
+    '^node_modules/cpy/.+',
+    '^node_modules/buffer-equal-constant-time/.+',
+    '^node_modules/universal-url/.+',
+    '^node_modules/extglob/.+',
 
     // Used by Storybook
     '^node_modules/@emotion/.+',

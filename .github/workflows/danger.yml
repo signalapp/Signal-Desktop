@@ -1,0 +1,32 @@
+# Copyright 2020-2022 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: CI
+on:
+  pull_request:
+
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # fetch all history
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.15.0'
+      - run: npm install -g yarn@1.22.10
+      - name: Cache danger node_modules
+        id: cache-desktop-modules
+        uses: actions/cache@v3
+        with:
+          path: danger/node_modules
+          key: danger-${{ runner.os }}-${{ hashFiles('danger/package.json', 'danger/yarn.lock') }}
+      - name: Install danger node_modules
+        if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
+        run: cd danger && yarn install --frozen-lockfile
+      - name: Run DangerJS
+        run: yarn danger:ci
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT }}

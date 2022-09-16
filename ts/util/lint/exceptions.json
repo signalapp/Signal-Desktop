@@ -1795,27 +1795,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cpy/node_modules/path-type/node_modules/pify/index.js",
-    "line": "\t\t\t\tif (opts.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cpy/node_modules/path-type/node_modules/pify/index.js",
-    "line": "\t\t\t\tif (opts.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cpy/node_modules/pify/index.js",
-    "line": "\t\tif (options.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -2236,34 +2215,6 @@
     "line": "function wrap(arr, sep, opts) {",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/extglob/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-load(",
@@ -8339,69 +8290,6 @@
     "line": "      this.append(buf._bufs[i])",
     "reasonCategory": "falseMatch",
     "updated": "2022-03-22T19:29:46.099Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/test-exclude/node_modules/braces/index.js",
-    "line": "      arr.push(es6 ? tokens.after(val) : val);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/test-exclude/node_modules/braces/index.js",
-    "line": "        str = tokens.before(str, es6Regex());",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/test-exclude/node_modules/braces/index.js",
-    "line": "      return braces(str.replace(outter, wrap(segs, '|')), opts);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/test-exclude/node_modules/braces/index.js",
-    "line": "      segs[0] = wrap(segs[0], '\\\\');",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/test-exclude/node_modules/braces/index.js",
-    "line": "function wrap(val, ch) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/test-exclude/node_modules/extglob/index.js",
-    "line": "    o[id] = wrap(inner, prefix, opts.escape);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/test-exclude/node_modules/extglob/index.js",
-    "line": "function wrap(inner, prefix, esc) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/test-exclude/node_modules/parse-json/index.js",
-    "line": "\tfileName: errorEx.append('in %s')",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/test-exclude/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-07T23:11:11.870Z"
   },
   {
     "rule": "jQuery-$(",
