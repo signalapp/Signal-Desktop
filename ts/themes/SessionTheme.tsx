@@ -485,6 +485,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* TODO Theming Clarify what those transparent colors mean */
 
     /* Text Box */
+    /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
     --text-box-text-control-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
     --text-box-text-user-color: var(--text-primary-color);

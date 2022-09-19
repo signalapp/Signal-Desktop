@@ -582,6 +582,7 @@ label {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--background-secondary-color);
 
   &__password-lock {
     display: flex;
@@ -598,21 +599,22 @@ label {
       max-width: 90%;
       width: 600px;
 
-      background: var(--color-cell-background);
-      color: var(--color-text);
+      background: var(--background-primary-color);
+      color: var(--text-primary-color);
 
-      border: 1px solid var(--color-darker-gray-color);
+      border: 1px solid var(--border-color);
       border-radius: 5px;
     }
   }
 }
 
+// TODO Theming
 #qr svg,
 .qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: var(--margins-xs);
-  background-color: var(--color-white-color);
+  background-color: var(--white-color);
   border-radius: 3px;
 }
 

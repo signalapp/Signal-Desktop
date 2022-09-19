@@ -84,18 +84,22 @@ const SessionInfo = () => {
 
 const StyledPasswordInput = styled.input`
   width: 100%;
-  background: var(--color-input-background);
-  color: var(--color-text);
+  background: var(--text-box-background-color);
+  color: var(--text-box-text-user-color);
 
   padding: var(--margins-xs) var(--margins-md);
   margin-bottom: var(--margins-lg);
   outline: none;
-  border: none;
-  border-radius: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
   text-align: center;
   font-size: 24px;
   letter-spacing: 5px;
   font-family: var(--font-default);
+
+  ::placeholder {
+    color: var(--text-box-text-control-color);
+  }
 `;
 
 const StyledH3 = styled.h3`
