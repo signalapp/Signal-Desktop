@@ -1270,6 +1270,7 @@ async function processManifest(
     );
 
     if (!myStories) {
+      log.info(`storageService.process(${version}): creating my stories`);
       const storyDistribution: StoryDistributionWithMembersType = {
         allowsReplies: true,
         id: MY_STORIES_ID,

@@ -692,7 +692,7 @@ export const SendStoryModal = ({
         )}
         {page === Page.ChooseGroups && (
           <button
-            aria-label="SendStoryModal__ok"
+            aria-label={i18n('SendStoryModal__ok')}
             className="SendStoryModal__ok"
             disabled={!chosenGroupIds.size}
             onClick={() => {
@@ -705,7 +705,7 @@ export const SendStoryModal = ({
         )}
         {page === Page.SendStory && (
           <button
-            aria-label="SendStoryModal__send"
+            aria-label={i18n('SendStoryModal__send')}
             className="SendStoryModal__send"
             disabled={!selectedListIds.size && !selectedGroupIds.size}
             onClick={() => {

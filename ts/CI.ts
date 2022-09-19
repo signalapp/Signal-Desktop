@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { explodePromise } from './util/explodePromise';
 import { SECOND } from './util/durations';
 import * as log from './logging/log';
+import type { IPCResponse as ChallengeResponseType } from './challenge';
 
 type ResolveType = (data: unknown) => void;
 
@@ -83,5 +84,9 @@ export class CI {
       this.completedEvents.set(event, resultList);
     }
     resultList.push(data);
+  }
+
+  public solveChallenge(response: ChallengeResponseType): void {
+    window.Signal.challengeHandler?.onResponse(response);
   }
 }

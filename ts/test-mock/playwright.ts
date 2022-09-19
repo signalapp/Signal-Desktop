@@ -4,6 +4,11 @@
 import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 
+import type {
+  IPCRequest as ChallengeRequestType,
+  IPCResponse as ChallengeResponseType,
+} from '../challenge';
+
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
   messagesPerSec: number;
@@ -55,6 +60,18 @@ export class App {
 
   public async waitForConversationOpen(): Promise<ConversationOpenInfoType> {
     return this.waitForEvent('conversation:open');
+  }
+
+  public async waitForChallenge(): Promise<ChallengeRequestType> {
+    return this.waitForEvent('challenge');
+  }
+
+  public async solveChallenge(response: ChallengeResponseType): Promise<void> {
+    const window = await this.getWindow();
+
+    await window.evaluate(
+      `window.CI.solveChallenge(${JSON.stringify(response)})`
+    );
   }
 
   public async close(): Promise<void> {

@@ -238,6 +238,10 @@ export async function startApp(): Promise<void> {
       },
 
       requestChallenge(request) {
+        if (window.CI) {
+          window.CI.handleEvent('challenge', request);
+          return;
+        }
         window.sendChallengeRequest(request);
       },
 

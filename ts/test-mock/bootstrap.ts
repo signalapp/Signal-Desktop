@@ -62,6 +62,7 @@ export type BootstrapOptions = Readonly<{
 
   linkedDevices?: number;
   contactCount?: number;
+  contactsWithoutProfileKey?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
 }>;
@@ -71,6 +72,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     benchmark: boolean;
     linkedDevices: number;
     contactCount: number;
+    contactsWithoutProfileKey: number;
     contactNames: ReadonlyArray<string>;
   }>;
 
@@ -104,6 +106,7 @@ export class Bootstrap {
 
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
+  private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
@@ -118,13 +121,17 @@ export class Bootstrap {
     this.options = {
       linkedDevices: 5,
       contactCount: MAX_CONTACTS,
+      contactsWithoutProfileKey: 0,
       contactNames: CONTACT_NAMES,
       benchmark: false,
 
       ...options,
     };
 
-    assert(this.options.contactCount <= this.options.contactNames.length);
+    assert(
+      this.options.contactCount + this.options.contactsWithoutProfileKey <=
+        this.options.contactNames.length
+    );
   }
 
   public async init(): Promise<void> {
@@ -137,10 +144,10 @@ export class Bootstrap {
 
     const contactNames = this.options.contactNames.slice(
       0,
-      this.options.contactCount
+      this.options.contactCount + this.options.contactsWithoutProfileKey
     );
 
-    this.privContacts = await Promise.all(
+    const allContacts = await Promise.all(
       contactNames.map(async profileName => {
         const primary = await this.server.createPrimaryDevice({
           profileName,
@@ -155,9 +162,15 @@ export class Bootstrap {
       })
     );
 
+    this.privContacts = allContacts.slice(0, this.options.contactCount);
+    this.privContactsWithoutProfileKey = allContacts.slice(
+      this.contacts.length
+    );
+
     this.privPhone = await this.server.createPrimaryDevice({
       profileName: 'Myself',
       contacts: this.contacts,
+      contactsWithoutProfileKey: this.contactsWithoutProfileKey,
     });
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
@@ -307,6 +320,14 @@ export class Bootstrap {
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
     return this.privContacts;
+  }
+
+  public get contactsWithoutProfileKey(): ReadonlyArray<PrimaryDevice> {
+    assert(
+      this.privContactsWithoutProfileKey,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return this.privContactsWithoutProfileKey;
   }
 
   //
