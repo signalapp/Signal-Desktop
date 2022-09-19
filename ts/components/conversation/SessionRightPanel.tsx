@@ -147,10 +147,10 @@ const StyledLeaveButton = styled.div`
   .session-button {
     margin-top: auto;
     width: 100%;
-    height: var(--composition-container-height);
+    min-height: calc(var(--composition-container-height) + 1px); // include border in height
     flex-shrink: 0;
     align-items: center;
-    border-top: var(--border-color);
+    border-top: 1px solid var(--border-color);
     border-radius: 0px;
 
     &:not(.disabled) {

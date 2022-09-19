@@ -43,6 +43,9 @@
   width: 25vw;
   z-index: 5;
 
+  background-color: var(--background-primary-color);
+  border-left: 1px solid var(--border-color);
+
   &.show {
     transform: none;
     transition: transform 0.3s ease-in-out;
@@ -118,9 +121,7 @@
     background-color: inherit;
     outline: none;
     position: relative;
-
-    border-left: var(--border-session);
-    border-top: var(--border-session);
+    border-top: 1px solid var(--border-color);
   }
 
   .conversation-info-panel {
@@ -160,7 +161,6 @@
   padding: 0px var(--margins-md);
   min-height: min-content;
   border-top: 1px solid var(--border-color);
-  border-left: 1px solid var(--border-color);
   z-index: 1;
 
   .session-icon-button {

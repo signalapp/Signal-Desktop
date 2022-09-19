@@ -75,6 +75,8 @@ $session-compose-margin: 20px;
   position: relative;
   height: 100vh;
   flex-shrink: 0;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
 
   &-session {
     display: flex;
