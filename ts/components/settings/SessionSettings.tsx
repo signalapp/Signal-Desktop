@@ -61,21 +61,33 @@ const StyledSpanSessionInfo = styled.span`
   opacity: 0.4;
   transition: var(--default-duration);
   user-select: text;
+  cursor: pointer;
 
-  :hover {
+  &:hover {
     opacity: 1;
   }
 `;
 
 const SessionInfo = () => {
-  const openOxenWebsite = () => {
-    void shell.openExternal('https://oxen.io/');
-  };
   return (
     <StyledVersionInfo>
-      <StyledSpanSessionInfo>v{window.versionInfo.version}</StyledSpanSessionInfo>
+      <StyledSpanSessionInfo
+        onClick={() => {
+          void shell.openExternal(
+            `https://github.com/oxen-io/session-desktop/releases/tag/v${window.versionInfo.version}`
+          );
+        }}
+      >
+        v{window.versionInfo.version}
+      </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>
-        <SessionIconButton iconSize="medium" iconType="oxen" onClick={openOxenWebsite} />
+        <SessionIconButton
+          iconSize="medium"
+          iconType="oxen"
+          onClick={() => {
+            void shell.openExternal('https://oxen.io/');
+          }}
+        />
       </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>{window.versionInfo.commitHash}</StyledSpanSessionInfo>
     </StyledVersionInfo>
