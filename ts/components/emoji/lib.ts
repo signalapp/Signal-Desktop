@@ -222,7 +222,7 @@ const fuse = new Fuse(data, {
   shouldSort: true,
   threshold: 0.2,
   minMatchCharLength: 1,
-  keys: ['short_name', 'name'],
+  keys: ['short_name'],
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
