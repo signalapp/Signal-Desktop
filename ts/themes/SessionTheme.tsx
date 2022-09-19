@@ -583,7 +583,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     --zoom-bar-selector-color: var(--primary-color);
 
     /* Toggle Switch */
-    --toggle-switch-ball-color: ;
+    --toggle-switch-ball-color: var(--white-color);
+    --toggle-switch-ball-shadow-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.15);
     /* TODO Theming think this should be white instead of transparent */
     --toggle-switch-off-background-color: var(--transparent-color);
     --toggle-switch-off-border-color: var(--border-color);
