@@ -34,6 +34,8 @@ export function isCaptchaHref(
   return Boolean(url?.protocol === 'signalcaptcha:');
 }
 
+// A link to a signal 'action' domain with private data in path/hash/query. We could
+//   open a browser, but it will just link back to us. We will parse it locally instead.
 export function isSignalHttpsLink(
   value: string | URL,
   logger: LoggerType
@@ -45,7 +47,8 @@ export function isSignalHttpsLink(
       !url.password &&
       !url.port &&
       url.protocol === 'https:' &&
-      SIGNAL_HOSTS.has(url.host)
+      SIGNAL_HOSTS.has(url.host) &&
+      (url.hash || url.pathname !== '/' || url.search)
   );
 }
 

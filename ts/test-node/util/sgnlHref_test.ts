@@ -121,16 +121,32 @@ describe('sgnlHref', () => {
     });
 
     it('returns false if the protocol is not "https:"', () => {
-      assert.isFalse(isSignalHttpsLink('sgnl://signal.art', explodingLogger));
       assert.isFalse(
         isSignalHttpsLink(
-          'sgnl://signal.art/addstickers/?pack_id=abc',
+          'sgnl://signal.art/#pack_id=234234&pack_key=342342',
           explodingLogger
         )
       );
       assert.isFalse(
-        isSignalHttpsLink('signal://signal.group', explodingLogger)
+        isSignalHttpsLink(
+          'sgnl://signal.art/addstickers/#pack_id=234234&pack_key=342342',
+          explodingLogger
+        )
       );
+      assert.isFalse(
+        isSignalHttpsLink(
+          'signal://signal.group/#AD234Dq342dSDJWE',
+          explodingLogger
+        )
+      );
+    });
+
+    it('returns false if missing path/hash/query', () => {
+      assert.isFalse(
+        isSignalHttpsLink('https://signal.group/', explodingLogger)
+      );
+      assert.isFalse(isSignalHttpsLink('https://signal.art/', explodingLogger));
+      assert.isFalse(isSignalHttpsLink('https://signal.me/', explodingLogger));
     });
 
     it('returns false if the URL is not a valid Signal URL', () => {
@@ -139,10 +155,39 @@ describe('sgnlHref', () => {
     });
 
     it('returns true if the protocol is "https:"', () => {
-      assert.isTrue(isSignalHttpsLink('https://signal.group', explodingLogger));
-      assert.isTrue(isSignalHttpsLink('https://signal.art', explodingLogger));
-      assert.isTrue(isSignalHttpsLink('HTTPS://signal.art', explodingLogger));
-      assert.isTrue(isSignalHttpsLink('https://signal.me', explodingLogger));
+      assert.isTrue(
+        isSignalHttpsLink(
+          'https://signal.group/#AD234Dq342dSDJWE',
+          explodingLogger
+        )
+      );
+      assert.isTrue(
+        isSignalHttpsLink(
+          'https://signal.group/AD234Dq342dSDJWE',
+          explodingLogger
+        )
+      );
+      assert.isTrue(
+        isSignalHttpsLink(
+          'https://signal.group/?AD234Dq342dSDJWE',
+          explodingLogger
+        )
+      );
+      assert.isTrue(
+        isSignalHttpsLink(
+          'https://signal.art/addstickers/#pack_id=234234&pack_key=342342',
+          explodingLogger
+        )
+      );
+      assert.isTrue(
+        isSignalHttpsLink(
+          'HTTPS://signal.art/addstickers/#pack_id=234234&pack_key=342342',
+          explodingLogger
+        )
+      );
+      assert.isTrue(
+        isSignalHttpsLink('https://signal.me/#p/+32423432', explodingLogger)
+      );
     });
 
     it('returns false if username or password are set', () => {
@@ -153,14 +198,17 @@ describe('sgnlHref', () => {
 
     it('returns false if port is set', () => {
       assert.isFalse(
-        isSignalHttpsLink('https://signal.group:1234', explodingLogger)
+        isSignalHttpsLink(
+          'https://signal.group:1234/#AD234Dq342dSDJWE',
+          explodingLogger
+        )
       );
     });
 
     it('accepts URL objects', () => {
       const invalid = new URL('sgnl://example.com');
       assert.isFalse(isSignalHttpsLink(invalid, explodingLogger));
-      const valid = new URL('https://signal.art');
+      const valid = new URL('https://signal.art/#AD234Dq342dSDJWE');
       assert.isTrue(isSignalHttpsLink(valid, explodingLogger));
     });
   });
