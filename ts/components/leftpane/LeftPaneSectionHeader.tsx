@@ -12,7 +12,8 @@ import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { MenuButton } from '../button/MenuButton';
 
 const SectionTitle = styled.h1`
-  padding: 0 var(--margins-sm);
+  padding-top: var(--margins-xs);
+  padding-left: var(--margins-sm);
   flex-grow: 1;
   color: var(--text-primary-color);
 `;
