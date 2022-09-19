@@ -21,10 +21,6 @@
   word-break: break-all;
 }
 
-.session-icon-button svg path {
-  transition: fill 0.3s ease;
-}
-
 input,
 textarea {
   caret-color: var(--color-text) !important;
@@ -91,17 +87,7 @@ textarea {
   cursor: pointer;
   display: inline-block;
   position: relative;
-  opacity: 0.4;
   transform: translateZ(0);
-
-  &:hover {
-    opacity: 1;
-  }
-  transition: opacity var(--default-duration);
-
-  &.no-opacity {
-    opacity: 1;
-  }
 }
 
 /* CONVERSATION AND MESSAGES */
@@ -454,10 +440,6 @@ label {
 
   &:hover {
     background: var(--color-clickable-hovered);
-
-    .session-icon {
-      opacity: 1;
-    }
   }
 }
 
@@ -666,20 +648,6 @@ input {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    opacity: 1;
-    background-color: var(--button-icon-background-color);
-    box-shadow: var(--color-session-shadow);
-
-    svg path {
-      transition: var(--default-duration);
-      opacity: 0.6;
-      fill: var(--button-icon-stroke-color);
-    }
-
-    &:hover svg path {
-      opacity: 1;
-      fill: var(--button-icon-stroke-hover-color);
-    }
   }
 }
 

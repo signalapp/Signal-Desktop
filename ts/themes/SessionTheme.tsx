@@ -504,6 +504,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --menu-button-icon-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
 
     /* Chat (Interaction) Buttons */
+    /* Also used for Reaction Bar Buttons */
     --chat-buttons-background-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --chat-buttons-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --chat-buttons-icon-color: var(--text-primary-color);

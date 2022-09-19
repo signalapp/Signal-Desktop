@@ -1,54 +1,77 @@
 import React from 'react';
+import styled from 'styled-components';
 import { SessionIconButton } from '../../icon';
+
+const StyledChatButtonContainer = styled.div`
+  .session-icon-button {
+    svg {
+      background-color: var(--chat-buttons-background-color);
+    }
+
+    &:hover svg {
+      background-color: var(--chat-buttons-background-hover-color);
+    }
+  }
+`;
 
 export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   return (
-    <SessionIconButton
-      iconType="plusThin"
-      backgroundColor={'var(--color-compose-view-button-background)'}
-      iconSize={'huge2'}
-      borderRadius="300px"
-      iconPadding="8px"
-      onClick={props.onClick}
-    />
+    <StyledChatButtonContainer>
+      <SessionIconButton
+        iconType="plusThin"
+        backgroundColor={'var(--chat-buttons-background-color)'}
+        iconColor={'var(--chat-buttons-icon-color)'}
+        iconSize={'huge2'}
+        borderRadius="300px"
+        iconPadding="8px"
+        onClick={props.onClick}
+      />
+    </StyledChatButtonContainer>
   );
 };
 
 export const StartRecordingButton = (props: { onClick: () => void }) => {
   return (
-    <SessionIconButton
-      iconType="microphone"
-      iconSize={'huge2'}
-      backgroundColor={'var(--color-compose-view-button-background)'}
-      borderRadius="300px"
-      iconPadding="6px"
-      onClick={props.onClick}
-    />
+    <StyledChatButtonContainer>
+      <SessionIconButton
+        iconType="microphone"
+        iconSize={'huge2'}
+        backgroundColor={'var(--chat-buttons-background-color)'}
+        iconColor={'var(--chat-buttons-icon-color)'}
+        borderRadius="300px"
+        iconPadding="6px"
+        onClick={props.onClick}
+      />
+    </StyledChatButtonContainer>
   );
 };
 
 export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () => void }>(
   (props, ref) => {
     return (
-      <SessionIconButton
-        iconType="emoji"
-        ref={ref}
-        backgroundColor="var(--color-compose-view-button-background)"
-        iconSize={'huge2'}
-        borderRadius="300px"
-        iconPadding="6px"
-        onClick={props.onClick}
-      />
+      <StyledChatButtonContainer>
+        <SessionIconButton
+          iconType="emoji"
+          ref={ref}
+          backgroundColor={'var(--chat-buttons-background-color)'}
+          iconColor={'var(--chat-buttons-icon-color)'}
+          iconSize={'huge2'}
+          borderRadius="300px"
+          iconPadding="6px"
+          onClick={props.onClick}
+        />
+      </StyledChatButtonContainer>
     );
   }
 );
 
 export const SendMessageButton = (props: { onClick: () => void }) => {
   return (
-    <div className="send-message-button">
+    <StyledChatButtonContainer className="send-message-button">
       <SessionIconButton
         iconType="send"
-        backgroundColor={'var(--color-compose-view-button-background)'}
+        backgroundColor={'var(--chat-buttons-background-color)'}
+        iconColor={'var(--chat-buttons-icon-color)'}
         iconSize={'huge2'}
         iconRotation={90}
         borderRadius="300px"
@@ -56,6 +79,6 @@ export const SendMessageButton = (props: { onClick: () => void }) => {
         onClick={props.onClick}
         dataTestId="send-message-button"
       />
-    </div>
+    </StyledChatButtonContainer>
   );
 };

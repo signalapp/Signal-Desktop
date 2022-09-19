@@ -64,7 +64,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
 
-  const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
+  const messageSubText = messageSub ? 'session-confirm-main-message' : undefined;
 
   const onClickOkHandler = async () => {
     if (onClickOk) {
@@ -120,11 +120,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         )}
 
         <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
-        <SessionHtmlRenderer
-          tag="span"
-          className="session-confirm-sub-message subtle"
-          html={messageSub}
-        />
+        <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
 
         <SessionSpinner loading={isLoading} />
       </div>
