@@ -617,7 +617,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --modal-text-color: var(--text-primary-color);
     --modal-text-danger-color: var(--danger-color);
-    --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1)
+    --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
+
+    /* Right Panel Items */
+    --right-panel-item-background-color: var(--background-secondary-color);
+    --right-panel-item-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --right-panel-item-text-color: var(--text-primary-color);
 
   };
 `;
