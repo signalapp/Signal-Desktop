@@ -2763,6 +2763,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         window.MessageController.register(message.id, message);
         conversation.incrementMessageCount();
+
+        // If we sent a message in a given conversation, unarchive it!
+        if (type === 'outgoing') {
+          conversation.setArchived(false);
+        }
+
         window.Signal.Data.updateConversation(conversation.attributes);
 
         const reduxState = window.reduxStore.getState();
@@ -3017,9 +3023,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         !isGroupStoryReply &&
         !keepThisConversationArchived
       ) {
-        conversation.set({
-          isArchived: false,
-        });
+        conversation.setArchived(false);
       }
 
       if (!isFirstRun && this.pendingMarkRead) {
