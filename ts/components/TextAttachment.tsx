@@ -88,7 +88,7 @@ function getFont(
 
   const fontWeight = textStyle === TextAttachmentStyleType.BOLD ? 'bold ' : '';
 
-  return `${fontWeight}${fontSize}pt ${fontName}`;
+  return `${fontWeight}${fontSize}px ${fontName}`;
 }
 
 function getTextStyles(
