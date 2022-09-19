@@ -175,6 +175,9 @@ export async function toContactRecord(
   if (conversation.get('hideStory') !== undefined) {
     contactRecord.hideStory = Boolean(conversation.get('hideStory'));
   }
+  contactRecord.unregisteredAtTimestamp = getSafeLongFromTimestamp(
+    conversation.get('firstUnregisteredAt')
+  );
 
   applyUnknownFields(contactRecord, conversation);
 
@@ -985,6 +988,19 @@ export async function mergeContactRecord(
       viaStorageServiceSync: true,
     }
   );
+
+  if (
+    !contactRecord.unregisteredAtTimestamp ||
+    contactRecord.unregisteredAtTimestamp.equals(0)
+  ) {
+    conversation.setRegistered({ fromStorageService: true, shouldSave: false });
+  } else {
+    conversation.setUnregistered({
+      timestamp: getTimestampFromLong(contactRecord.unregisteredAtTimestamp),
+      fromStorageService: true,
+      shouldSave: false,
+    });
+  }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
     await toContactRecord(conversation),

@@ -270,6 +270,7 @@ export type ConversationAttributesType = {
   customColor?: CustomColorType;
   customColorId?: string;
   discoveredUnregisteredAt?: number;
+  firstUnregisteredAt?: number;
   draftChanged?: boolean;
   draftAttachments?: Array<AttachmentDraftType>;
   draftBodyRanges?: Array<BodyRangeType>;

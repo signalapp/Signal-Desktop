@@ -50,7 +50,10 @@ import { getContact } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
-import { isConversationUnregistered } from '../util/isConversationUnregistered';
+import {
+  isConversationUnregistered,
+  isConversationUnregisteredAndStale,
+} from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
@@ -790,6 +793,10 @@ export class ConversationModel extends window.Backbone
     return isConversationUnregistered(this.attributes);
   }
 
+  isUnregisteredAndStale(): boolean {
+    return isConversationUnregisteredAndStale(this.attributes);
+  }
+
   isSMSOnly(): boolean {
     return isConversationSMSOnly({
       ...this.attributes,
@@ -797,24 +804,82 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  setUnregistered(): void {
-    log.info(`Conversation ${this.idForLogging()} is now unregistered`);
+  setUnregistered({
+    timestamp = Date.now(),
+    fromStorageService = false,
+    shouldSave = true,
+  }: {
+    timestamp?: number;
+    fromStorageService?: boolean;
+    shouldSave?: boolean;
+  } = {}): void {
+    log.info(
+      `Conversation ${this.idForLogging()} is now unregistered, ` +
+        `timestamp=${timestamp}`
+    );
+
+    const oldFirstUnregisteredAt = this.get('firstUnregisteredAt');
+
     this.set({
-      discoveredUnregisteredAt: Date.now(),
+      // We always keep the latest `discoveredUnregisteredAt` because if it
+      // was less than 6 hours ago - `isUnregistered()` has to return `false`
+      // and let us retry sends.
+      discoveredUnregisteredAt: Math.max(
+        this.get('discoveredUnregisteredAt') ?? timestamp,
+        timestamp
+      ),
+
+      // Here we keep the oldest `firstUnregisteredAt` unless timestamp is
+      // coming from storage service where remote value always wins.
+      firstUnregisteredAt: fromStorageService
+        ? timestamp
+        : Math.min(this.get('firstUnregisteredAt') ?? timestamp, timestamp),
     });
-    window.Signal.Data.updateConversation(this.attributes);
+
+    if (shouldSave) {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
+
+    if (
+      !fromStorageService &&
+      oldFirstUnregisteredAt !== this.get('firstUnregisteredAt')
+    ) {
+      this.captureChange('setUnregistered');
+    }
   }
 
-  setRegistered(): void {
-    if (this.get('discoveredUnregisteredAt') === undefined) {
+  setRegistered({
+    shouldSave = true,
+    fromStorageService = false,
+  }: {
+    shouldSave?: boolean;
+    fromStorageService?: boolean;
+  } = {}): void {
+    if (
+      this.get('discoveredUnregisteredAt') === undefined &&
+      this.get('firstUnregisteredAt') === undefined
+    ) {
       return;
     }
+
+    const oldFirstUnregisteredAt = this.get('firstUnregisteredAt');
 
     log.info(`Conversation ${this.idForLogging()} is registered once again`);
     this.set({
       discoveredUnregisteredAt: undefined,
+      firstUnregisteredAt: undefined,
     });
-    window.Signal.Data.updateConversation(this.attributes);
+
+    if (shouldSave) {
+      window.Signal.Data.updateConversation(this.attributes);
+    }
+
+    if (
+      !fromStorageService &&
+      oldFirstUnregisteredAt !== this.get('firstUnregisteredAt')
+    ) {
+      this.captureChange('setRegistered');
+    }
   }
 
   isGroupV1AndDisabled(): boolean {
@@ -5090,6 +5155,7 @@ export class ConversationModel extends window.Backbone
   // [X] archived
   // [X] markedUnread
   // [X] dontNotifyForMentionsIfMuted
+  // [x] firstUnregisteredAt
   captureChange(logMessage: string): void {
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
     this.set({ needsStorageServiceSync: true });

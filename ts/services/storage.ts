@@ -262,8 +262,19 @@ async function generateManifest(
         continue;
       }
 
+      let shouldDrop = false;
+      let dropReason: string | undefined;
+
       const validationError = conversation.validate();
       if (validationError) {
+        shouldDrop = true;
+        dropReason = `local validation error=${validationError}`;
+      } else if (conversation.isUnregisteredAndStale()) {
+        shouldDrop = true;
+        dropReason = 'unregistered and stale';
+      }
+
+      if (shouldDrop) {
         const droppedID = conversation.get('storageID');
         const droppedVersion = conversation.get('storageVersion');
         if (!droppedID) {
@@ -278,8 +289,8 @@ async function generateManifest(
 
         log.warn(
           `storageService.generateManifest(${version}): ` +
-            `skipping contact=${recordID} ` +
-            `due to local validation error=${validationError}`
+            `dropping contact=${recordID} ` +
+            `due to ${dropReason}`
         );
         conversation.unset('storageID');
         deleteKeys.push(Bytes.fromBase64(droppedID));
@@ -1164,10 +1175,27 @@ async function processManifest(
         storageVersion,
         conversation
       );
-      log.info(
-        `storageService.process(${version}): localKey=${missingKey} was not ` +
-          'in remote manifest'
-      );
+
+      // Remote might have dropped this conversation already, but our value of
+      // `firstUnregisteredAt` is too high for us to drop it. Don't reupload it!
+      if (conversation.isUnregistered()) {
+        log.info(
+          `storageService.process(${version}): localKey=${missingKey} is ` +
+            'unregistered and not in remote manifest'
+        );
+        conversation.setUnregistered({
+          timestamp: Date.now() - durations.MONTH,
+          fromStorageService: true,
+
+          // Saving below
+          shouldSave: false,
+        });
+      } else {
+        log.info(
+          `storageService.process(${version}): localKey=${missingKey} ` +
+            'was not in remote manifest'
+        );
+      }
       conversation.unset('storageID');
       conversation.unset('storageVersion');
       updateConversation(conversation.attributes);
