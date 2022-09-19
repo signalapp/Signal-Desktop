@@ -73,27 +73,17 @@ textarea {
 }
 
 .session-label {
-  color: var(--color-white-color);
+  font-weight: 700;
+  color: var(--white-color);
   padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
   text-align: center;
   &.primary {
-    background-color: var(--color-dark-gray-color);
-  }
-  &.secondary {
-    background-color: var(--color-darkest-gray-color);
-  }
-  &.success {
-    /* TODO is this correct? */
-    background-color: var(--color-text);
+    background-color: var(--primary-color);
   }
   &.danger {
-    background-color: var(--color-destructive);
-  }
-  /* TODO Is this correct? */
-  &.warning {
-    background-color: var(--color-warning);
+    background-color: var(--danger-color);
   }
 }
 

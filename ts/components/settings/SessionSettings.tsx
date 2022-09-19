@@ -127,7 +127,7 @@ const PasswordLock = ({
           autoFocus={true}
         />
 
-        {pwdLockError && <div className="session-label warning">{pwdLockError}</div>}
+        {pwdLockError && <div className="session-label danger">{pwdLockError}</div>}
 
         <SessionButton
           buttonType={SessionButtonType.Simple}

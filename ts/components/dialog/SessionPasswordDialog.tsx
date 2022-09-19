@@ -140,7 +140,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       <>
         {message && (
           <>
-            <div className="session-label warning">{message}</div>
+            <div className="session-label danger">{message}</div>
             <SpacerLG />
           </>
         )}
