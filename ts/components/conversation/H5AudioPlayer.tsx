@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIcon } from '../icon';
 
 const StyledSpeedButton = styled.div`
@@ -25,10 +25,8 @@ const StyledSpeedButton = styled.div`
 
   .session-button {
     transition: none;
-
-    &:hover {
-      color: var(--color-text-opposite);
-    }
+    width: 34px;
+    padding: 0px;
   }
 `;
 
@@ -126,7 +124,6 @@ export const AudioPlayerWithEncryptedFile = (props: {
               setPlaybackSpeed(playbackSpeed === 1 ? 1.5 : 1);
             }}
             buttonType={SessionButtonType.Simple}
-            buttonColor={SessionButtonColor.None}
           />
         </StyledSpeedButton>,
       ]}

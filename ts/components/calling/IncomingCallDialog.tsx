@@ -8,7 +8,7 @@ import { CallManager } from '../../session/utils';
 import { callTimeoutMs } from '../../session/utils/calling/CallManager';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../state/selectors/call';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export const CallWindow = styled.div`
@@ -20,8 +20,8 @@ export const CallWindow = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  background-color: var(--color-modal-background);
-  border: var(--session-border);
+  background-color: var(--modal-background-color);
+  border: var(--border-color);
 `;
 
 const IncomingCallAvatarContainer = styled.div`
@@ -80,14 +80,15 @@ export const IncomingCallDialog = () => {
         </IncomingCallAvatarContainer>
         <div className="session-modal__button-group">
           <SessionButton
-            text={window.i18n('decline')}
-            buttonColor={SessionButtonColor.Danger}
-            onClick={handleDeclineIncomingCall}
+            text={window.i18n('accept')}
+            buttonType={SessionButtonType.Simple}
+            onClick={handleAcceptIncomingCall}
           />
           <SessionButton
-            text={window.i18n('accept')}
-            onClick={handleAcceptIncomingCall}
-            buttonColor={SessionButtonColor.Green}
+            text={window.i18n('decline')}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
+            onClick={handleDeclineIncomingCall}
           />
         </div>
       </SessionWrapperModal>

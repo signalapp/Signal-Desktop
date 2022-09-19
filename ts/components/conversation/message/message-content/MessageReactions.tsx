@@ -37,7 +37,7 @@ const StyledReactionOverflow = styled.button`
 
   span {
     background-color: var(--color-received-message-background);
-    border: 1px solid var(--color-inbox-background);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     overflow: hidden;
     margin-right: -9px;

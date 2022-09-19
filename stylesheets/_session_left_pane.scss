@@ -7,36 +7,35 @@ $session-compose-margin: 20px;
     &-name {
       font-weight: bold;
       font-size: var(--font-size-md);
-
-      color: var(--color-text-subtle);
     }
   }
 
   &-list-item {
+    background: var(--conversation-tab-background-color);
     transition: var(--default-duration);
 
     &:hover {
-      background: var(--color-clickable-hovered);
+      background: var(--conversation-tab-background-hover-color);
     }
 
     &--is-selected {
-      background: var(--color-conversation-item-selected);
+      background: var(--conversation-tab-background-selected-color);
 
       .module-conversation__user__profile-number,
       .module-conversation__user__profile-name,
       .module-conversation-list-item__message__text {
-        color: var(--color-text);
+        color: var(--conversation-tab-text-selected-color);
       }
     }
 
     &--has-unread {
-      border-left: var(--border-unread);
-      background: var(--color-conversation-item-has-unread);
+      background: var(--conversation-tab-background-unread-color);
+      border-left: 4px solid var(--conversation-tab-color-strip-color);
     }
 
     &__unread-count {
-      color: var(--color-text);
-      background: var(--color-clickable-hovered);
+      background: var(--conversation-tab-bubble-background-color);
+      color: var(--conversation-tab-bubble-text-color);
 
       position: static !important;
       font-weight: 700 !important;
@@ -52,9 +51,9 @@ $session-compose-margin: 20px;
     }
 
     &__message__text {
-      color: var(--color-light-gray-color);
+      color: var(--conversation-tab-text-color);
       &--has-unread {
-        color: var(--color-text);
+        color: var(--conversation-tab-text-unread-color);
       }
     }
 
@@ -65,7 +64,7 @@ $session-compose-margin: 20px;
 
     &__header__name--with-unread .module-conversation__user__profile-number,
     &__header__name--with-unread .module-conversation__user__profile-name {
-      color: var(--color-text);
+      color: var(--conversation-tab-text-unread-color);
     }
   }
 }
@@ -74,6 +73,8 @@ $session-compose-margin: 20px;
   position: relative;
   height: 100vh;
   flex-shrink: 0;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
 
   &-session {
     display: flex;
@@ -98,7 +99,7 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    background: var(--color-left-pane-overlay-background);
+    background: var(--background-primary-color);
 
     display: flex;
     flex-direction: column;
@@ -132,6 +133,7 @@ $session-compose-margin: 20px;
     }
 
     .session-button {
+      min-width: 160px;
       width: fit-content;
       margin-top: 1rem;
       margin-bottom: 3rem;
@@ -163,11 +165,7 @@ $session-compose-margin: 20px;
   .session-text-logo {
     margin-top: 10px;
     width: 250px;
-    filter: var(--filter-session-text);
-
     transition: 0s;
-    .path {
-      fill: red;
-    }
+    filter: var(--session-logo-text-current-filter);
   }
 }

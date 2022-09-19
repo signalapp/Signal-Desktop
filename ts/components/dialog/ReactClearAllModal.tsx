@@ -66,8 +66,6 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
     .get(convoId)
     .toOpenGroupV2();
 
-  const confirmButtonColor = darkMode ? SessionButtonColor.Green : SessionButtonColor.Secondary;
-
   const handleClose = () => {
     dispatch(updateReactClearAllModal(null));
   };
@@ -99,15 +97,14 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
         <StyledButtonContainer className="session-modal__button-group">
           <SessionButton
             text={window.i18n('clear')}
-            buttonColor={confirmButtonColor}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClearAll}
             disabled={clearingInProgress}
           />
           <SessionButton
             text={window.i18n('cancel')}
-            buttonColor={SessionButtonColor.Danger}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClose}
             disabled={clearingInProgress}
           />

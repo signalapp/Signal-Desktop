@@ -3,7 +3,7 @@
   background: none !important;
 }
 .module-conversation-header {
-  background: var(--color-cell-background);
+  background: var(--background-primary-color);
 }
 
 .module-message {
@@ -78,8 +78,8 @@
 }
 
 .inbox {
-  background: var(--color-inbox-background);
-  color: var(--color-text);
+  background: var(--background-primary-color);
+  color: var(--text-primary-color);
 }
 
 .conversation {

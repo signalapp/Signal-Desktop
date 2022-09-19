@@ -18,7 +18,7 @@ const StyledSeparatorSection = styled.div`
 
   margin-inline-start: 16px;
 
-  color: var(--color-text);
+  color: var(--text-secondary-color);
 
   font-size: var(--font-size-sm);
   font-weight: 400;
@@ -28,7 +28,7 @@ const StyledSeparatorSection = styled.div`
 const SearchResultsContainer = styled.div`
   overflow-y: auto;
   max-height: 100%;
-  color: var(--color-text);
+  color: var(--text-secondary-color);
   flex-grow: 1;
   width: -webkit-fill-available;
 `;

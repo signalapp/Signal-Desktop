@@ -8,6 +8,7 @@ import { getOverlayMode } from '../state/selectors/section';
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
+// TODO Theming possibly update to use Search Bar Component Colors
 const StyledSearchInput = styled.div`
   height: var(--search-input-height);
   width: 100%;
@@ -30,7 +31,7 @@ const StyledInput = styled.input`
   font-family: var(--font-default);
   text-overflow: ellipsis;
   background: none;
-  color: var(--color-text);
+  color: var(--conversation-tab-text-color);
 
   &:focus {
     outline: none !important;

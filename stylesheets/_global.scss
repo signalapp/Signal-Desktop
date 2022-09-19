@@ -254,7 +254,7 @@ $loading-height: 16px;
     }
   }
   .session-text-logo {
-    filter: brightness(0) saturate(100%);
+    filter: var(--session-logo-text-current-filter);
   }
 }
 

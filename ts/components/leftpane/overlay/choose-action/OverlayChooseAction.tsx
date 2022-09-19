@@ -12,21 +12,21 @@ const StyledActionRow = styled.button`
   border: none;
   display: flex;
   align-items: center;
-  border-bottom: 1px var(--color-session-border) solid;
+  border-bottom: 1px var(--border-color) solid;
   transition-duration: 0.25s;
   width: 100%;
 
   &:first-child {
-    border-top: 1px var(--color-session-border) solid;
+    border-top: 1px var(--border-color) solid;
   }
 
   :hover {
-    background: var(--color-clickable-hovered);
+    background: var(--conversation-tab-background-hover-color);
   }
 `;
 
 export const StyledChooseActionTitle = styled.span`
-  color: var(--color-text);
+  color: var(--text-primary-color);
   font-size: 18px;
   padding: var(--margins-xs) var(--margins-lg);
 `;

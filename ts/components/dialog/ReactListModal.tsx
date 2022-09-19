@@ -16,6 +16,7 @@ import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
@@ -62,6 +63,11 @@ const StyledReactionBar = styled(Flex)`
       margin-right: 8px;
     }
   }
+
+  .session-button {
+    font-weight: 400;
+    padding: 0px;
+  }
 `;
 
 const StyledReactionSender = styled(Flex)`
@@ -75,12 +81,6 @@ const StyledReactionSender = styled(Flex)`
     color: var(--color-text);
     font-weight: normal;
   }
-`;
-
-const StyledClearButton = styled.button`
-  font-size: var(--font-size-sm);
-  color: var(--color-destructive);
-  border: none;
 `;
 
 type ReactionSendersProps = {
@@ -349,9 +349,12 @@ export const ReactListModal = (props: Props): ReactElement => {
                 )}
               </p>
               {isPublic && weAreModerator && (
-                <StyledClearButton onClick={handleClearReactions}>
-                  {window.i18n('clearAll')}
-                </StyledClearButton>
+                <SessionButton
+                  text={window.i18n('clearAll')}
+                  buttonColor={SessionButtonColor.Danger}
+                  buttonType={SessionButtonType.Simple}
+                  onClick={handleClearReactions}
+                />
               )}
             </StyledReactionBar>
             {senders && senders.length > 0 && (

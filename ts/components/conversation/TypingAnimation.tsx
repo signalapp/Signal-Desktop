@@ -14,7 +14,7 @@ const StyledTypingContainer = styled.div`
 
 const StyledTypingDot = styled.div<{ index: number }>`
   border-radius: 50%;
-  background-color: var(--color-text-subtle); // TODO Theming update
+  background-color: var(--text-secondary-color);
 
   height: 6px;
   width: 6px;

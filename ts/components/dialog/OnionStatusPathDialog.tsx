@@ -154,7 +154,7 @@ export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Eleme
     <ModalStatusLight
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
-      color={'var(--color-accent)'}
+      color={'var(--button-path-default-color)'}
     />
   );
 };
@@ -195,15 +195,16 @@ export const ActionPanelOnionStatusLight = (props: {
   const isOnline = useSelector(getIsOnline);
 
   // Set icon color based on result
-  const red = 'var(--color-destructive)';
-  const green = 'var(--color-accent)';
-  const orange = 'var(--color-warning)';
+  const errorColor = 'var(--button-path-error-color)';
+  const defaultColor = 'var(--button-path-default-color)';
+  const connectingColor = 'var(--button-path-connecting-color)';
 
   // start with red
-  let iconColor = red;
+  let iconColor = errorColor;
   //if we are not online or the first path is not valid, we keep red as color
   if (isOnline && firstPathLength > 1) {
-    iconColor = onionPathsCount >= 2 ? green : onionPathsCount >= 1 ? orange : red;
+    iconColor =
+      onionPathsCount >= 2 ? defaultColor : onionPathsCount >= 1 ? connectingColor : errorColor;
   }
 
   return (

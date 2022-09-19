@@ -259,33 +259,35 @@
   .module-empty-state {
     color: var(--color-light-gray-color);
   }
+
+  // TODO Theming Remove
   // Module: Conversation List Item
 
-  .module-conversation-list-item--is-selected {
-    background-color: var(--color-dark-gray-color);
-  }
+  // .module-conversation-list-item--is-selected {
+  //   background-color: var(--color-dark-gray-color);
+  // }
 
-  .module-conversation-list-item__unread-count {
-    color: var(--color-white-color);
-    background-color: var(--color-session-green-color);
-    box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
-  }
+  // .module-conversation-list-item__unread-count {
+  //   color: var(--color-white-color);
+  //   background-color: var(--color-session-green-color);
+  //   box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
+  // }
 
-  .module-conversation-list-item__header__name {
-    color: var(--color-lighter-gray-color);
-  }
+  // .module-conversation-list-item__header__name {
+  //   color: var(--color-lighter-gray-color);
+  // }
 
-  .module-conversation-list-item__header__date--has-unread {
-    color: var(--color-lighter-gray-color);
-  }
+  // .module-conversation-list-item__header__date--has-unread {
+  //   color: var(--color-lighter-gray-color);
+  // }
 
-  .module-conversation-list-item__message__text {
-    color: var(--color-light-gray-color);
-  }
+  // .module-conversation-list-item__message__text {
+  //   color: var(--color-light-gray-color);
+  // }
 
-  .module-conversation-list-item__message__text--has-unread {
-    color: var(--color-lighter-gray-color);
-  }
+  // .module-conversation-list-item__message__text--has-unread {
+  //   color: var(--color-lighter-gray-color);
+  // }
 
   // Module: Image
 
@@ -359,11 +361,12 @@
 
   // Module: Message Search Result
 
-  .module-message-search-result {
-    &:hover {
-      background-color: var(--color-dark-gray-color);
-    }
-  }
+  // TODO Theming remove
+  // .module-message-search-result {
+  //   &:hover {
+  //     background-color: var(--color-dark-gray-color);
+  //   }
+  // }
 
   .module-message__link-preview__icon-container__circle-background {
     background-color: var(--color-light-gray-color);

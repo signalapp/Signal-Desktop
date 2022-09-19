@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { noop } from 'lodash';
 import { SessionIcon, SessionIconType } from '../icon';
 
+// NOTE We don't change the color strip on the left based on the type. 16/09/2022
 export enum SessionToastType {
   Info = 'info',
   Success = 'success',
@@ -26,22 +27,22 @@ const TitleDiv = styled.div`
   font-size: var(--font-size-md);
   line-height: var(--font-size-md);
   font-family: var(--font-default);
-  color: var(--color-text);
+  color: var(--text-primary-color);
   text-overflow: ellipsis;
 `;
 
 const DescriptionDiv = styled.div`
   font-size: var(--font-size-sm);
-  color: var(--color-text-subtle);
+  color: var(--text-secondary-color);
   text-overflow: ellipsis;
   font-family: var(--font-default);
-  padding-bottom: var(--font-size-xs);
-  padding-top: var(--font-size-xs);
+  padding-top: var(--margins-xs);
 `;
 
 const IconDiv = styled.div`
   flex-shrink: 0;
   padding-inline-end: var(--margins-xs);
+  margin: 0 var(--margins-xs);
 `;
 
 export const SessionToast = (props: Props) => {
@@ -78,6 +79,7 @@ export const SessionToast = (props: Props) => {
       alignItems="center"
       onClick={props?.onToastClick || noop}
       data-testid="session-toast"
+      padding="var(--margins-sm) 0"
     >
       <IconDiv>
         <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />

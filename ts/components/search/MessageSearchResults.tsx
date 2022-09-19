@@ -21,7 +21,7 @@ const StyledConversationTitleResults = styled.div`
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: var(--color-text);
+  color: var(--conversation-tab-text-color);
 `;
 
 const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)`
@@ -30,7 +30,7 @@ const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)
   line-height: 14px;
   overflow-x: hidden;
   font-weight: 700;
-  color: var(--color-text-subtle);
+  color: var(--conversation-tab-text-color);
 `;
 
 const StyledSearchResulsts = styled.div`
@@ -46,7 +46,7 @@ const StyledSearchResulsts = styled.div`
 
   cursor: pointer;
   &:hover {
-    background-color: var(--color-clickable-hovered);
+    background-color: var(--conversation-tab-background-hover-color);
   }
 `;
 
@@ -143,7 +143,7 @@ const ResultBody = styled.div`
 
   font-size: var(--font-size-sm);
 
-  color: var(--color-text-subtle);
+  color: var(--conversation-tab-text-color);
 
   max-height: 3.6em;
 
@@ -167,7 +167,7 @@ const StyledTimestampContaimer = styled.div`
 
   text-transform: uppercase;
 
-  color: var(--color-text-subtle);
+  color: var(--conversation-tab-text-color);
 `;
 
 export const MessageSearchResult = (props: MessageResultProps) => {

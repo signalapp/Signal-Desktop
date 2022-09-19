@@ -47,7 +47,6 @@ type State = {
 const StyledGutter = styled.div`
   width: 380px !important;
   transition: none;
-  background: var(--color-cell-background);
 `;
 
 export class SessionInboxView extends React.Component<any, State> {

@@ -72,148 +72,6 @@ textarea {
   margin-inline-end: 5px;
 }
 
-.session-button {
-  @mixin transparent-background($textAndBorderColor) {
-    background-color: Transparent;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    outline: none;
-    color: $textAndBorderColor;
-    border: 1px solid $textAndBorderColor;
-  }
-
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 700;
-  user-select: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: var(--default-duration);
-  background-color: var(--color-transparent-color);
-
-  &.disabled {
-    cursor: not-allowed;
-  }
-
-  &.default,
-  &.square,
-  &.brand {
-    color: var(--color-foreground-primary);
-
-    &:not(.disabled):hover {
-      background: var(--color-clickable-hovered);
-    }
-
-    &.green {
-      background-color: var(--color-accent-button);
-      color: var(--color-text-opposite);
-    }
-
-    &.white {
-      color: var(--color-text);
-    }
-    &.primary {
-      background-color: var(--color-background-primary);
-      color: var(--color-white-color);
-
-      .session-icon {
-        fill: var(--color-foreground-primary);
-      }
-    }
-    &.secondary {
-      background-color: var(--color-darkest-gray-color);
-    }
-    &.success {
-      /* TODO is this correct? */
-      background-color: var(--color-text);
-    }
-    &.danger {
-      background-color: var(--color-destructive);
-    }
-    &.danger-alt {
-      background-color: var(--color-destructive-alt);
-    }
-    &.warning {
-      background-color: var(--color-light-gray-color);
-    }
-  }
-
-  &.brand-outline,
-  &.default-outline,
-  &.square-outline {
-    border: none;
-
-    &.green {
-      @include transparent-background(var(--color-button-green));
-    }
-    &.white {
-      @include transparent-background(var(--color-text));
-    }
-    &.primary {
-      @include transparent-background(var(--color-dark-gray-color));
-    }
-    &.secondary {
-      @include transparent-background(var(--color-darkest-gray-color));
-    }
-    &.danger {
-      @include transparent-background(var(--color-destructive));
-    }
-    &.warning {
-      @include transparent-background(var(--color-warning));
-    }
-    &.warning,
-    &.danger,
-    &.secondary,
-    &.primary,
-    &.white,
-    &.green {
-      &.disabled {
-        @include transparent-background(var(--color-text-subtle));
-
-        &:hover {
-          @include transparent-background(var(--color-text-subtle));
-        }
-      }
-    }
-  }
-
-  &.brand {
-    min-width: 165px;
-    height: 34px;
-    align-items: center;
-    padding: 0px var(--margins-lg);
-    font-size: $session-font-md;
-    font-family: $session-font-accent;
-    border-radius: 500px;
-
-    &:not(.disabled):hover {
-      color: var(--color-text);
-      border-color: var(--color-text);
-    }
-  }
-
-  &.default,
-  &.square,
-  &.default-outline,
-  &.square-outline {
-    border-radius: 2px;
-    height: 33px;
-    padding: 0px 18px;
-    font-size: $session-font-sm;
-  }
-
-  &.square,
-  &.square-outline {
-    border-radius: 0px;
-  }
-
-  & > *:hover:not(svg) {
-    filter: brightness(80%);
-  }
-}
-
 .session-label {
   color: var(--color-white-color);
   padding: var(--margins-sm);
@@ -269,7 +127,7 @@ textarea {
   font-size: $session-font-md;
 
   &-text {
-    color: var(--color-text-subtle);
+    color: var(--text-primary-color);
     font-weight: 400;
     font-size: $session-font-sm;
     line-height: $session-font-sm;
@@ -342,6 +200,7 @@ label {
 
 .conversation-header {
   .module-avatar img {
+    // TODO Theming Update
     box-shadow: 0px 0px 5px 0px rgba(var(--color-white-color-rgb), 0.2);
   }
 
@@ -364,37 +223,17 @@ label {
   visibility: hidden;
 }
 
-.session-button div[role='button'] {
-  cursor: pointer;
-}
-
 .Toastify__toast {
-  background: var(--color-cell-background);
-  color: var(--color-text);
+  background: var(--modal-background-color);
+  color: var(--modal-text-color);
+  border-left: 4px solid var(--primary-color);
 
   .Toastify__close-button {
-    color: subtle(var(--color-text));
-  }
-  @mixin set-toast-theme($color) {
-    border-left: 4px solid $color;
-  }
-  &--success {
-    /* TODO is this correct? */
-    @include set-toast-theme(var(--color-session-green-color));
-  }
-  &--info {
-    @include set-toast-theme(var(--color-darker-gray-color));
-  }
-  &--warning {
-    @include set-toast-theme(var(--color-warning));
-  }
-  &--error {
-    /* TODO is this correct?*/
-    @include set-toast-theme(var(--color-warning));
+    color: var(--modal-text-color);
   }
 
   .Toastify__progress-bar {
-    background-color: rgba(var(--color-text-rgb), 0.1);
+    background-color: var(--toast-progress-color);
   }
 }
 
@@ -693,7 +532,7 @@ label {
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: var(--color-session-green-color);
+    background: var(--primary-color);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   div:nth-child(1) {
@@ -836,17 +675,18 @@ input {
     width: 40px;
     border-radius: 50%;
     opacity: 1;
-    background-color: var(--color-cell-background);
+    background-color: var(--button-icon-background-color);
     box-shadow: var(--color-session-shadow);
 
     svg path {
       transition: var(--default-duration);
       opacity: 0.6;
-      fill: var(--color-text);
+      fill: var(--button-icon-stroke-color);
     }
 
     &:hover svg path {
       opacity: 1;
+      fill: var(--button-icon-stroke-hover-color);
     }
   }
 }
@@ -872,7 +712,7 @@ input {
     }
 
     &-disabled {
-      border: 1px solid var(--color-darker-gray-color) !important;
+      border: 1px solid var(--border-color) !important;
     }
   }
 }

@@ -43,6 +43,9 @@
   width: 25vw;
   z-index: 5;
 
+  background-color: var(--background-primary-color);
+  border-left: 1px solid var(--border-color);
+
   &.show {
     transform: none;
     transition: transform 0.3s ease-in-out;
@@ -68,13 +71,13 @@
     align-items: center;
     justify-content: space-between;
     height: var(--main-view-header-height);
-    background: var(--color-cell-background);
+    background: var(--background-primary-color);
 
     .close-button {
       float: left;
     }
 
-    .session-button.default.danger {
+    .session-button.danger {
       display: flex;
     }
   }
@@ -118,9 +121,8 @@
     background-color: inherit;
     outline: none;
     position: relative;
-
-    border-left: var(--border-session);
-    border-top: var(--border-session);
+    background-color: var(--background-secondary-color);
+    border-top: 1px solid var(--border-color);
   }
 
   .conversation-info-panel {
@@ -137,7 +139,7 @@
 
     &.show {
       display: flex;
-      background: var(--color-inbox-background);
+      background: var(--background-primary-color);
     }
   }
 }
@@ -159,8 +161,7 @@
   align-items: center;
   padding: 0px var(--margins-md);
   min-height: min-content;
-  background: var(--color-cell-background);
-  border-top: var(--border-session);
+  border-top: 1px solid var(--border-color);
   z-index: 1;
 
   .session-icon-button {
@@ -182,51 +183,6 @@
       border-radius: 50%;
       height: 30px;
       width: 30px;
-    }
-  }
-
-  .send-message-input {
-    cursor: text;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    min-height: $composition-container-height;
-    padding: var(--margins-xs) 0;
-    z-index: 1;
-    background-color: inherit;
-
-    ul {
-      max-height: 70vh;
-      overflow: auto;
-    }
-
-    textarea {
-      font-family: $session-font-default;
-      min-height: calc($composition-container-height / 3);
-      max-height: 3 * $composition-container-height;
-      margin-right: var(--margins-md);
-      color: var(--color-text);
-
-      background: transparent;
-      resize: none;
-      display: flex;
-      flex-grow: 1;
-      outline: none;
-      border: none;
-      font-size: 14px;
-      line-height: $session-font-h2;
-      letter-spacing: 0.5px;
-    }
-
-    &__emoji-overlay {
-      // Should have identical properties to the textarea above to line up perfectly.
-      position: absolute;
-      font-size: 14px;
-      font-family: $session-font-default;
-      margin-left: 2px;
-      line-height: $session-font-h2;
-      letter-spacing: 0.5px;
-      color: var(--color-transparent-color);
     }
   }
 }
@@ -325,7 +281,7 @@
 }
 
 .session-recording {
-  height: $composition-container-height;
+  height: var(--composition-container-height);
   display: flex;
   justify-content: space-between;
   align-items: center;

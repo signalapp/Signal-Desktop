@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -45,8 +45,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     title = '',
     message = '',
     messageSub = '',
-    okTheme = SessionButtonColor.Primary,
-    closeTheme = SessionButtonColor.Primary,
+    okTheme,
+    closeTheme = SessionButtonColor.Danger,
     onClickOk,
     onClickClose,
     hideCancel = false,
@@ -133,13 +133,15 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         <SessionButton
           text={okText}
           buttonColor={okTheme}
+          buttonType={SessionButtonType.Simple}
           onClick={onClickOkHandler}
           dataTestId="session-confirm-ok-button"
         />
         {!hideCancel && (
           <SessionButton
             text={cancelText}
-            buttonColor={closeTheme}
+            buttonColor={!okTheme ? closeTheme : undefined}
+            buttonType={SessionButtonType.Simple}
             onClick={onClickCancelHandler}
             dataTestId="session-confirm-cancel-button"
           />

@@ -14,12 +14,12 @@ type Props = {
 const UPDATE_FREQUENCY = 60 * 1000;
 
 const TimestampContainerNotListItem = styled.div`
+  color: var(--text-secondary-color);
   font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: var(--color-text-subtle);
 `;
 
 const TimestampContainerListItem = styled(TimestampContainerNotListItem)`

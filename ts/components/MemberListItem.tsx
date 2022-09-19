@@ -39,8 +39,11 @@ const StyledSessionMemberItem = styled.button<{
     props.selected && 'var(--color-conversation-item-selected) !important'};
 
   :not(:last-child) {
-    border-bottom: var(--border-session);
+    border-bottom: var(--border-color);
   }
+
+  background-color: ${props =>
+    props.selected ? 'var(--conversation-tab-background-selected-color) !important' : null};
 `;
 
 const StyledInfo = styled.div`
@@ -98,7 +101,7 @@ export const MemberListItem = (props: {
       style={
         !inMentions && !disableBg
           ? {
-              backgroundColor: 'var(--color-cell-background)',
+              backgroundColor: 'var(--background-secondary-color)',
             }
           : {}
       }
