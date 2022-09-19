@@ -624,6 +624,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     --right-panel-item-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --right-panel-item-text-color: var(--text-primary-color);
 
+    /* Session Text Logo */
+    /* Loads SVG as IMG and uses a filter to change color */
+    --session-logo-text-light-filter: brightness(0) saturate(100%);
+    --session-logo-text-dark-filter: none;
+    --session-logo-text-current-filter: var(--session-logo-text-light-filter);
+
   };
 `;
 

@@ -165,7 +165,7 @@ $session-compose-margin: 20px;
   .session-text-logo {
     margin-top: 10px;
     width: 250px;
-    filter: var(--filter-session-text);
     transition: 0s;
+    filter: var(--session-logo-text-current-filter);
   }
 }
