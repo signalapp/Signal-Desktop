@@ -26,7 +26,6 @@ export const StyledDescriptionSettingsItem = styled.div`
   font-size: var(--font-size-sm);
   font-weight: 400;
   max-width: 700px;
-  color: var(--color-text-subtle);
 `;
 
 export const StyledTitleSettingsItem = styled.div`
@@ -47,10 +46,12 @@ const StyledDescriptionContainer = styled(StyledDescriptionSettingsItem)`
 export const StyledSettingItem = styled.div`
   font-size: var(--font-size-md);
   padding: var(--margins-lg);
+  margin-bottom: var(--margins-lg);
 
-  background: var(--color-cell-background);
-  color: var(--color-text);
-  border-bottom: var(--border-session);
+  background: var(--settings-tab-background-color);
+  color: var(--settings-tab-text-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 `;
 
 const StyledSettingItemInline = styled(StyledSettingItem)`
@@ -61,9 +62,12 @@ const StyledSettingItemInline = styled(StyledSettingItem)`
 `;
 
 const StyledSettingItemClickable = styled(StyledSettingItemInline)`
+  cursor: pointer;
   :hover {
-    background: var(--color-clickable-hovered);
-    cursor: pointer;
+    background: var(--settings-tab-background-hover-color);
+  }
+  :active {
+    background: var(--settings-tab-background-selected-color);
   }
 `;
 
