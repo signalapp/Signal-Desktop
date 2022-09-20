@@ -260,18 +260,16 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
       <div className="TitleBarContainer__padding" />
       <div className="TitleBarContainer__content">{children}</div>
 
-      {!isFullScreen ? (
-        <TitleBar
-          className="TitleBarContainer__title"
-          platform="win32"
-          iconSrc={iconSrc}
-          theme={titleBarTheme}
-          maximized={isMaximized}
-          menu={maybeMenu}
-          onDoubleClick={titleBarDoubleClick}
-          hideControls
-        />
-      ) : null}
+      <TitleBar
+        className="TitleBarContainer__title"
+        platform="win32"
+        iconSrc={iconSrc}
+        theme={titleBarTheme}
+        maximized={isMaximized}
+        menu={maybeMenu}
+        onDoubleClick={titleBarDoubleClick}
+        hideControls
+      />
     </div>
   );
 };
