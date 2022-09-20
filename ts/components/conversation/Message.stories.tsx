@@ -163,7 +163,10 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
       audio.play();
       setPlaying(true);
     }
-    audio.currentTime = audio.duration * position;
+
+    if (!Number.isNaN(audio.duration)) {
+      audio.currentTime = audio.duration * position;
+    }
     if (!Number.isNaN(audio.currentTime)) {
       setCurrentTime(audio.currentTime);
     }

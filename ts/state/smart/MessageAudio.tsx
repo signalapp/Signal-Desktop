@@ -37,8 +37,6 @@ export type Props = {
   textPending?: boolean;
   timestamp: number;
 
-  buttonRef: React.RefObject<HTMLButtonElement>;
-
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;

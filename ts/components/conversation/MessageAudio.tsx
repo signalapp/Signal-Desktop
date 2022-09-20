@@ -4,6 +4,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
+import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
@@ -35,7 +36,6 @@ export type OwnProps = Readonly<{
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
-  buttonRef: React.RefObject<HTMLButtonElement>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
   onFirstPlayed(): void;
@@ -59,11 +59,13 @@ export type Props = OwnProps & DispatchProps;
 
 type ButtonProps = {
   i18n: LocalizerType;
-  buttonRef: React.RefObject<HTMLButtonElement>;
-
-  mod: string;
+  variant: 'play' | 'playback-rate';
+  mod?: string;
   label: string;
+  visible?: boolean;
   onClick: () => void;
+  onMouseDown?: () => void;
+  onMouseUp?: () => void;
 };
 
 enum State {
@@ -89,6 +91,15 @@ const BIG_INCREMENT = 5;
 
 const PLAYBACK_RATES = [1, 1.5, 2, 0.5];
 
+const SPRING_DEFAULTS = {
+  mass: 0.5,
+  tension: 350,
+  friction: 20,
+  velocity: 0.01,
+};
+
+const DOT_DIV_WIDTH = 14;
+
 // Utils
 
 const timeToText = (time: number): string => {
@@ -107,8 +118,28 @@ const timeToText = (time: number): string => {
   return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
 };
 
+/**
+ * Handles animations, key events, and stoping event propagation
+ * for play button and playback rate button
+ */
 const Button: React.FC<ButtonProps> = props => {
-  const { i18n, buttonRef, mod, label, onClick } = props;
+  const {
+    i18n,
+    variant,
+    mod,
+    label,
+    children,
+    onClick,
+    visible = true,
+  } = props;
+  const [isDown, setIsDown] = useState(false);
+
+  const animProps = useSpring({
+    ...SPRING_DEFAULTS,
+    from: isDown ? { scale: 1 } : { scale: 0 },
+    to: isDown ? { scale: 1.3 } : { scale: visible ? 1 : 0 },
+  });
+
   // Clicking button toggle playback
   const onButtonClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -129,17 +160,59 @@ const Button: React.FC<ButtonProps> = props => {
   };
 
   return (
-    <button
-      type="button"
-      ref={buttonRef}
+    <animated.div style={animProps}>
+      <button
+        type="button"
+        className={classNames(
+          `${CSS_BASE}__${variant}-button`,
+          mod ? `${CSS_BASE}__${variant}-button--${mod}` : undefined
+        )}
+        onClick={onButtonClick}
+        onKeyDown={onButtonKeyDown}
+        onMouseDown={() => setIsDown(true)}
+        onMouseUp={() => setIsDown(false)}
+        onMouseLeave={() => setIsDown(false)}
+        tabIndex={0}
+        aria-label={i18n(label)}
+      >
+        {children}
+      </button>
+    </animated.div>
+  );
+};
+
+const PlayedDot = ({
+  played,
+  onHide,
+}: {
+  played: boolean;
+  onHide: () => void;
+}) => {
+  const start = played ? 1 : 0;
+  const end = played ? 0 : 1;
+
+  const [animProps] = useSpring(
+    {
+      ...SPRING_DEFAULTS,
+      from: { scale: start, opacity: start, width: start },
+      to: { scale: end, opacity: end, width: end * DOT_DIV_WIDTH },
+      onRest: () => {
+        if (played) {
+          onHide();
+        }
+      },
+    },
+    [played]
+  );
+
+  return (
+    <animated.div
+      style={animProps}
+      aria-hidden="true"
       className={classNames(
-        `${CSS_BASE}__button`,
-        `${CSS_BASE}__button--${mod}`
+        `${CSS_BASE}__dot`,
+        `${CSS_BASE}__dot--${played ? 'played' : 'unplayed'}`
       )}
-      onClick={onButtonClick}
-      onKeyDown={onButtonKeyDown}
-      tabIndex={0}
-      aria-label={i18n(label)}
     />
   );
 };
@@ -178,7 +251,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     textPending,
     timestamp,
 
-    buttonRef,
     kickOffAttachmentDownload,
     onCorrupted,
     onFirstPlayed,
@@ -192,6 +264,8 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   const waveformRef = useRef<HTMLDivElement | null>(null);
 
   const isPlaying = active?.playing ?? false;
+
+  const [isPlayedDotVisible, setIsPlayedDotVisible] = React.useState(!played);
 
   // if it's playing, use the duration passed as props as it might
   // change during loading/playback (?)
@@ -431,7 +505,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     button = (
       <Button
         i18n={i18n}
-        buttonRef={buttonRef}
+        variant="play"
         mod="download"
         label="MessageAudio--download"
         onClick={kickOffAttachmentDownload}
@@ -442,7 +516,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     button = (
       <Button
         i18n={i18n}
-        buttonRef={buttonRef}
+        variant="play"
         mod={isPlaying ? 'pause' : 'play'}
         label={isPlaying ? 'MessageAudio--pause' : 'MessageAudio--play'}
         onClick={toggleIsPlaying}
@@ -460,10 +534,10 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   };
 
   const playbackRateLabels: { [key: number]: string } = {
-    1: i18n('MessageAudio--playbackRate1x'),
-    1.5: i18n('MessageAudio--playbackRate1p5x'),
-    2: i18n('MessageAudio--playbackRate2x'),
-    0.5: i18n('MessageAudio--playbackRatep5x'),
+    1: i18n('MessageAudio--playbackRate1'),
+    1.5: i18n('MessageAudio--playbackRate1p5'),
+    2: i18n('MessageAudio--playbackRate2'),
+    0.5: i18n('MessageAudio--playbackRatep5'),
   };
 
   const metadata = (
@@ -479,29 +553,26 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       </div>
 
       <div className={`${CSS_BASE}__controls`}>
-        <div
-          aria-hidden="true"
-          className={classNames(
-            `${CSS_BASE}__dot`,
-            `${CSS_BASE}__dot--${played ? 'played' : 'unplayed'}`
-          )}
+        <PlayedDot
+          played={played}
+          onHide={() => setIsPlayedDotVisible(false)}
         />
-        {active && active.playing && (
-          <button
-            type="button"
-            className={classNames(`${CSS_BASE}__playback-rate-button`)}
-            onClick={ev => {
-              ev.stopPropagation();
+        <Button
+          variant="playback-rate"
+          i18n={i18n}
+          label={(active && playbackRateLabels[active.playbackRate]) ?? ''}
+          visible={isPlaying && (!played || (played && !isPlayedDotVisible))}
+          onClick={() => {
+            if (active) {
               setPlaybackRate(
                 conversationId,
                 nextPlaybackRate(active.playbackRate)
               );
-            }}
-            tabIndex={0}
-          >
-            {playbackRateLabels[active.playbackRate]}
-          </button>
-        )}
+            }
+          }}
+        >
+          {active && playbackRateLabels[active.playbackRate]}
+        </Button>
       </div>
 
       {!withContentBelow && !collapseMetadata && (
