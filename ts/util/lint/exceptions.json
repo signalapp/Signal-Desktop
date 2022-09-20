@@ -8635,7 +8635,7 @@
   {
     "rule": "React-useRef",
     "path": "sticker-creator/components/StickerFrame.js",
-    "line": "  const timerRef = React.useRef();",
+    "line": "    const timerRef = React.useRef();",
     "reasonCategory": "falseMatch",
     "updated": "2022-06-14T01:19:45.446Z"
   },
