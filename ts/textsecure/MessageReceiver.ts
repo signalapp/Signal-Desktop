@@ -2745,11 +2745,10 @@ export default class MessageReceiver
       return this.handleSentMessage(envelope, sentMessage);
     }
     if (syncMessage.contacts) {
-      // Note: we do not return here because we don't want to block the next
-      //   message on this attachment download and a lot of processing of that
-      //   attachment.
-      this.handleContacts(envelope, syncMessage.contacts);
-      return;
+      // Note: this method will download attachment and thus might block
+      // message processing, but we would like to fully process contact sync
+      // before moving on since it updates conversation state.
+      return this.handleContacts(envelope, syncMessage.contacts);
     }
     if (syncMessage.groups) {
       this.handleGroups(envelope, syncMessage.groups);
