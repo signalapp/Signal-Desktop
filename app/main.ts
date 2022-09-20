@@ -887,28 +887,6 @@ async function createWindow() {
     app.quit();
   });
 
-  mainWindow.on('minimize', async () => {
-    // Some window managers minimize Signal when tabbing to other window.
-    if (OS.isLinux()) {
-      return;
-    }
-
-    if (!mainWindow) {
-      getLogger().info('minimize event: no main window');
-      return;
-    }
-
-    // When tray icon is in use - close the window since it will be minimized
-    // to tray anyway.
-    const usingTrayIcon = shouldMinimizeToSystemTray(
-      await systemTraySettingCache.get()
-    );
-    if (usingTrayIcon) {
-      getLogger().info('minimize event: closing main window');
-      mainWindow.close();
-    }
-  });
-
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
