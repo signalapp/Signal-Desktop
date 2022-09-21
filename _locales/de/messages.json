@@ -3066,6 +3066,14 @@
     "message": "Unbeantworteter Videoanruf",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal wird immer noch ausgeführt",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal wird weiterhin im Bereich Mitteilungen ausgeführt. Du kannst das in den Signal-Einstellungen ändern.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "Eingehender Sprachanruf …",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "Angesehen von",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Verschwindet in",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Info",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Dateigröße $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Verschwindet in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

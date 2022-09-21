@@ -546,7 +546,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "Mahaigaina kontaktuen aurkikuntza zerbitzuaren inkongruentzia batekin aurkitu da.",
+    "message": "Mahaigaineko ordenagailuak kontaktuak aurkitzeko zerbitzuaren inkoherentzia bat aurkitu du.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
@@ -3066,6 +3066,14 @@
     "message": "Erantzun gabeo bideo-deia",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal abian da oraindik",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal-ek abian jarraituko du jakinarazpen-eremuan. Signal-en ezarpenetan alda dezakezu hori.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "Sarrerako audio-deia...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "Nork ikusia:",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Epe honetan desagertuko da:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Honi buruz",
     "description": "Default text for about field"
@@ -5519,7 +5531,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
+    "message": "Istorioa ezabatu nahi duzu? Istorioa zure zerrendatik ezabatuko da, baina talde honetako istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
   "Stories__settings-toggle--title": {
@@ -5566,12 +5578,16 @@
     "message": "Fitxategiaren tamaina: $size$",
     "description": "File size description"
   },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ barru desagertuko da",
+    "description": "File size description"
+  },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Kopiatu denbora-zigilua",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
+    "message": "Gaitu irakurragiriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

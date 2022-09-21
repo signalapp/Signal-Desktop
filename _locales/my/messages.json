@@ -3066,6 +3066,14 @@
     "message": "မဖြေဆိုသော ဗီဒီယိုကောလ်",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ဆက်လက်လုပ်ဆောင်နေပါသည်",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal သည် အသိပေးချက် ဧရိယာတွင် ဆက်လက်လုပ်ဆောင်နေပါမည်။ Signal ဆက်တင်တွင် ဤသည်ကို ပြောင်းနိုင်ပါသည်။",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "အော်ဒီယိုကောလ် ဝင်နေသည်...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "ကြည့်ရှုပြီး",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ပျောက်သွားမည့်အချိန်",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "အကြောင်း",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ဖိုင်အရွယ်အစား $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ တွင် ပျောက်သွားပါမည်",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

@@ -3066,6 +3066,14 @@
     "message": "ការហៅជាវីដេអូដែលមិនបានឆ្លើយតប",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal កំពុងដំណើរការនៅឡើយ",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "ការហៅចូលជាសំឡេង…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "បានបង្ហាញដោយ",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "នឹងបាត់ក្នុងរយៈពេល",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "អំពី",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ទំហំ​ឯកសារ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "នឹងបាត់ក្នុងរយៈពេល $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

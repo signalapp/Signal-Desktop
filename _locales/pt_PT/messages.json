@@ -3066,6 +3066,14 @@
     "message": "Videochamada não atendida",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "O Signal ainda está a funcionar",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "O Signal continuará a a funcionar na área das notificações. Pode alterar isto nas configurações do Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "A receber chamada de áudio...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "Vista por",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Desaparece em",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Acerca",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Tamanho do ficheiro $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Desaparece em $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

@@ -3066,6 +3066,14 @@
     "message": "Propušteni video poziv",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal je i dalje aktivan u pozadini",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal će vam i dalje slati obavijesti. To možete promijeniti u postavkama Signala.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "Dolazni zvučni poziv...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "Pregledao/la",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Nestat će za",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Opis",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Veličina datoteke $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Nestat će za $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

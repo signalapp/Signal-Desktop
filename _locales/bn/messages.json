@@ -3066,6 +3066,14 @@
     "message": "উত্তর না দেওয়া ভিডিও কল",
     "description": "Shown in conversation history when your video call is missed or declined"
   },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal এখনো চালু আছে",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "নোটিফিকেশনের অঞ্চলে Signal চালু থাকবে। আপনি Signal সেটিংস থেকে এটি পরিবর্তন করতে পারবেন।",
+    "description": "Shown in a notification body when Signal is minimized to tray"
+  },
   "incomingAudioCall": {
     "message": "অডিও কল আসছে...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
@@ -4846,6 +4854,10 @@
     "message": "যারা দেখেছেন",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "অদৃশ্য হবে",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "সম্পর্কে",
     "description": "Default text for about field"
@@ -5564,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ফাইলের আকার$size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$-এর মধ্যে অদৃশ্য হবে",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

@@ -3067,11 +3067,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal-i është ende në funksionim",
+    "message": "Signal po vepron ende",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal-i do të vazhdojë të funksionojë te zona e njoftimeve. Këtë mund ta ndryshoni te rregullimet për Signal-in.",
+    "message": "Signal do vazhdojë të veprojë në zonën e njoftimeve. Këtë mund ta ndryshoni te parametrat e Signal.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
