@@ -40,7 +40,10 @@ export function format(
   }
   seconds = Math.max(Math.floor(seconds), 1);
 
-  const locale: string = i18n.getLocale();
+  // locale strings coming from electron use a dash as separator
+  // but humanizeDuration uses an underscore
+  const locale: string = i18n.getLocale().replace('-', '_');
+
   const localeWithoutRegion: string = locale.split('_', 1)[0];
   const fallbacks: Array<string> = [];
   if (localeWithoutRegion !== locale) {
