@@ -64,6 +64,7 @@ export type StoryDataType = {
   | 'conversationId'
   | 'deletedForEveryone'
   | 'reactions'
+  | 'readAt'
   | 'readStatus'
   | 'sendStateByConversationId'
   | 'source'
@@ -140,7 +141,10 @@ type LoadStoryRepliesActionType = {
 
 type MarkStoryReadActionType = {
   type: typeof MARK_STORY_READ;
-  payload: string;
+  payload: {
+    messageId: string;
+    readAt: number;
+  };
 };
 
 type QueueStoryDownloadActionType = {
@@ -456,7 +460,10 @@ function markStoryRead(
 
     dispatch({
       type: MARK_STORY_READ,
-      payload: messageId,
+      payload: {
+        messageId,
+        readAt: storyReadDate,
+      },
     });
   };
 }
@@ -1157,6 +1164,7 @@ export function reducer(
       'expireTimer',
       'messageId',
       'reactions',
+      'readAt',
       'readStatus',
       'sendStateByConversationId',
       'source',
@@ -1228,12 +1236,15 @@ export function reducer(
   }
 
   if (action.type === MARK_STORY_READ) {
+    const { messageId, readAt } = action.payload;
+
     return {
       ...state,
       stories: state.stories.map(story => {
-        if (story.messageId === action.payload) {
+        if (story.messageId === messageId) {
           return {
             ...story,
+            readAt,
             readStatus: ReadStatus.Viewed,
           };
         }

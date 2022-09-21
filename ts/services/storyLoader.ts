@@ -44,6 +44,7 @@ export function getStoryDataFromMessageAttributes(
       'conversationId',
       'deletedForEveryone',
       'reactions',
+      'readAt',
       'readStatus',
       'sendStateByConversationId',
       'source',

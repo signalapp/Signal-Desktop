@@ -227,6 +227,7 @@ export type MessageAttributesType = {
   sendHQImages?: boolean;
 
   // Should only be present for incoming messages and errors
+  readAt?: number;
   readStatus?: ReadStatus;
   // Used for all kinds of notifications, as well as incoming messages
   seenStatus?: SeenStatus;

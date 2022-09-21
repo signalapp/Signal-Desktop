@@ -73,6 +73,7 @@ export type StoryViewType = {
   isHidden?: boolean;
   isUnread?: boolean;
   messageId: string;
+  readAt?: number;
   sender: Pick<
     ConversationType,
     | 'acceptedMessageRequest'

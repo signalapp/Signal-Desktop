@@ -73,6 +73,10 @@ function sortByRecencyAndUnread(
     return -1;
   }
 
+  if (storyA.storyView.readAt && storyB.storyView.readAt) {
+    return storyA.storyView.readAt > storyB.storyView.readAt ? -1 : 1;
+  }
+
   return storyA.storyView.timestamp > storyB.storyView.timestamp ? -1 : 1;
 }
 
@@ -145,10 +149,19 @@ export function getStoryView(
     'title',
   ]);
 
-  const { attachment, timestamp, expirationStartTimestamp, expireTimer } = pick(
-    story,
-    ['attachment', 'timestamp', 'expirationStartTimestamp', 'expireTimer']
-  );
+  const {
+    attachment,
+    expirationStartTimestamp,
+    expireTimer,
+    readAt,
+    timestamp,
+  } = pick(story, [
+    'attachment',
+    'expirationStartTimestamp',
+    'expireTimer',
+    'readAt',
+    'timestamp',
+  ]);
 
   const { sendStateByConversationId } = story;
   let sendState: Array<StorySendStateType> | undefined;
@@ -182,6 +195,7 @@ export function getStoryView(
     isHidden: Boolean(sender.hideStory),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
+    readAt,
     sender,
     sendState,
     timestamp,

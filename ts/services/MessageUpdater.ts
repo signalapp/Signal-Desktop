@@ -17,6 +17,7 @@ function markReadOrViewed(
 
   const nextMessageAttributes: MessageAttributesType = {
     ...messageAttrs,
+    readAt: timestamp,
     readStatus: newReadStatus,
     seenStatus: SeenStatus.Seen,
   };
