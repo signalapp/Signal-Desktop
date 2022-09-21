@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Odoslať",
-    "description": ""
+    "message": "Odoslať"
   },
   "acceptNewKey": {
     "message": "Prijať",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Označiť ako overené",
-    "description": ""
+    "message": "Označiť ako overené"
   },
   "unverify": {
-    "message": "Označiť ako neoverené",
-    "description": ""
+    "message": "Označiť ako neoverené"
   },
   "isVerified": {
     "message": "Overili ste bezpečnostné číslo s $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Overené",
-    "description": ""
+    "message": "Overené"
   },
   "newIdentity": {
     "message": "Nové bezpečnostné číslo",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Vaše bezpečnostné číslo sa s týmto kontaktom zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštaloval/a Signal. Odporúčame opätovné overenie bezpečnostného čísla s týmto kontaktom.",
-    "description": ""
+    "message": "Vaše bezpečnostné číslo sa s týmto kontaktom zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštaloval/a Signal. Odporúčame opätovné overenie bezpečnostného čísla s týmto kontaktom."
   },
   "incomingError": {
-    "message": "Chyba pri spracovaní prichádzajúcej správy",
-    "description": ""
+    "message": "Chyba pri spracovaní prichádzajúcej správy"
   },
   "media": {
     "message": "Médiá",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy.",
-    "description": ""
+    "message": "Ospravedlňujeme sa, vybraný súbor prekročil limit veľkosti správy."
   },
   "unableToLoadAttachment": {
-    "message": "Zvolenú prílohu sa nepodarilo načítať.",
-    "description": ""
+    "message": "Zvolenú prílohu sa nepodarilo načítať."
   },
   "disconnected": {
     "message": "Odpojený",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Vitajte v aplikácii Signal",
-    "description": ""
+    "message": "Vitajte v aplikácii Signal"
   },
   "whatsNew": {
     "message": "Pozrite sa na $whatsNew$ v tejto aktualizácii",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Zrušiť",
-    "description": ""
+    "message": "Zrušiť"
   },
   "discard": {
-    "message": "Zahodiť",
-    "description": ""
+    "message": "Zahodiť"
   },
   "failedToSend": {
-    "message": "Správu sa nepodarilo odoslať niektorým príjemcom. Skontrolujte svoje sieťové pripojenie.",
-    "description": ""
+    "message": "Správu sa nepodarilo odoslať niektorým príjemcom. Skontrolujte svoje sieťové pripojenie."
   },
   "error": {
-    "message": "Chyba",
-    "description": ""
+    "message": "Chyba"
   },
   "messageDetail": {
-    "message": "Podrobnosti správy",
-    "description": ""
+    "message": "Podrobnosti správy"
   },
   "delete": {
-    "message": "Vymazať",
-    "description": ""
+    "message": "Vymazať"
   },
   "accept": {
-    "message": "Potvrdiť",
-    "description": ""
+    "message": "Potvrdiť"
   },
   "forward": {
-    "message": "Preposlať",
-    "description": ""
+    "message": "Preposlať"
   },
   "done": {
     "message": "Hotovo",
     "description": "Label for done"
   },
   "update": {
-    "message": "Aktualizovať",
-    "description": ""
+    "message": "Aktualizovať"
   },
   "next2": {
-    "message": "Ďalší",
-    "description": ""
+    "message": "Ďalší"
   },
   "on": {
     "message": "Zapnuté",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Členy skupiny",
-    "description": ""
+    "message": "Členy skupiny"
   },
   "showMembers": {
-    "message": "Zobraziť členov",
-    "description": ""
+    "message": "Zobraziť členov"
   },
   "showSafetyNumber": {
-    "message": "Zobraziť bezpečnostné číslo",
-    "description": ""
+    "message": "Zobraziť bezpečnostné číslo"
   },
   "viewRecentMedia": {
     "message": "Zobraziť nedávne médiá",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Ak chcete overiť bezpečnosť svojho šifrovania typu end-to-end pomocou $name$, porovnajte vyššie uvedené čísla s ich zariadením.",
-    "description": ""
+    "message": "Ak chcete overiť bezpečnosť svojho šifrovania typu end-to-end pomocou $name$, porovnajte vyššie uvedené čísla s ich zariadením."
   },
   "theirIdentityUnknown": {
-    "message": "S týmto kontaktom ste si ešte nevymenili žiadne správy. Bezpečnostné číslo bude dostupné po doručení prvej správy.",
-    "description": ""
+    "message": "S týmto kontaktom ste si ešte nevymenili žiadne správy. Bezpečnostné číslo bude dostupné po doručení prvej správy."
   },
   "back": {
     "message": "Späť",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Máte prepojených príliš veľa zariadení. Skúste odstrániť niektoré z nich.",
-    "description": ""
+    "message": "Máte prepojených príliš veľa zariadení. Skúste odstrániť niektoré z nich."
   },
   "installTooOld": {
-    "message": "Na prepojenie s telefónom si aktualizujte Signal na tomto zariadení.",
-    "description": ""
+    "message": "Na prepojenie s telefónom si aktualizujte Signal na tomto zariadení."
   },
   "installErrorHeader": {
-    "message": "Niekde sa stala chyba!",
-    "description": ""
+    "message": "Niekde sa stala chyba!"
   },
   "installUnknownError": {
-    "message": "Vyskytla sa neočakávaná chyba. Prosím skúste znova.",
-    "description": ""
+    "message": "Vyskytla sa neočakávaná chyba. Prosím skúste znova."
   },
   "installTryAgain": {
-    "message": "Skúsiť znova",
-    "description": ""
+    "message": "Skúsiť znova"
   },
   "Preferences--theme": {
     "message": "Motív",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagoval/a $emoji$ na vašu správu.",
-    "description": ""
+    "message": "$sender$ reagoval/a $emoji$ na vašu správu."
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagoval/a $emoji$ na: $message$",
-    "description": ""
+    "message": "$sender$ reagoval/a $emoji$ na: $message$"
   },
   "sendFailed": {
     "message": "Odoslanie zlyhalo",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Kliknutím znova prepojíte aplikáciu Signal Desktop s mobilným zariadením a budete môcť pokračovať v odosielaní správ.",
-    "description": ""
+    "message": "Kliknutím znova prepojíte aplikáciu Signal Desktop s mobilným zariadením a budete môcť pokračovať v odosielaní správ."
   },
   "unlinked": {
-    "message": "Odpojené",
-    "description": ""
+    "message": "Odpojené"
   },
   "relink": {
-    "message": "Prepojiť znovu",
-    "description": ""
+    "message": "Prepojiť znovu"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Dostupná aktualizácia",
-    "description": ""
+    "message": "Dostupná aktualizácia"
   },
   "autoUpdateRetry": {
-    "message": "Skúste aktualizáciu znova",
-    "description": ""
+    "message": "Skúste aktualizáciu znova"
   },
   "autoUpdateContactSupport": {
-    "message": "kontaktujte podporu",
-    "description": ""
+    "message": "kontaktujte podporu"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Kliknutím reštartujete Signal",
-    "description": ""
+    "message": "Kliknutím reštartujete Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Kliknutím stiahnete aktualizáciu",
-    "description": ""
+    "message": "Kliknutím stiahnete aktualizáciu"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal sa nepodarilo aktualizovať. Kliknutím to skúste znova.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Reštartujte Signal pre dokončenie aktualizácie.",
-    "description": ""
+    "message": "Reštartujte Signal pre dokončenie aktualizácie."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Reštartovať Signal",
-    "description": ""
+    "message": "Reštartovať Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Neskôr",
-    "description": ""
+    "message": "Neskôr"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignorovať aktualizáciu",
-    "description": ""
+    "message": "Ignorovať aktualizáciu"
   },
   "leftTheGroup": {
     "message": "$name$ opustil/a skupinu.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ vám poslal/a správu, ktorú nemožno spracovať alebo zobraziť, pretože používa novú funkciu Signalu.",
-    "description": ""
+    "message": "$contact$ vám poslal/a správu, ktorú nemožno spracovať alebo zobraziť, pretože používa novú funkciu Signalu."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Teraz, keď používate najnovšiu verziu Signalu, môžete požiadať používateľa $contact$, aby znova odoslal/a túto správu.",
-    "description": ""
+    "message": "Teraz, keď používate najnovšiu verziu Signalu, môžete požiadať používateľa $contact$, aby znova odoslal/a túto správu."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Jedno z vašich zariadení odoslalo správu, ktorú nemožno spracovať alebo zobraziť, pretože používa novú funkciu Signalu.",
-    "description": ""
+    "message": "Jedno z vašich zariadení odoslalo správu, ktorú nemožno spracovať alebo zobraziť, pretože používa novú funkciu Signalu."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Teraz, keď používate najnovšiu verziu Signalu, správy ako je táto, budú synchronizované.",
-    "description": ""
+    "message": "Teraz, keď používate najnovšiu verziu Signalu, správy ako je táto, budú synchronizované."
   },
   "Message--update-signal": {
     "message": "Aktualizovať Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Odstrániť reakciu",
-    "description": ""
+    "message": "Odstrániť reakciu"
   },
   "Reactions--error": {
     "message": "Nepodarilo sa mi odoslať reakciu. Skúste to prosím znovu",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neprijatý videohovor",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal stále beží",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signál bude naďalej aktívne bežať v sekcii s oznámeniami. Môžete to zmeniť v nastaveniach.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Prichádzajúci hlasový hovor...",
@@ -4895,6 +4854,10 @@
     "message": "Zobrazené používateľom",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Zmizne o",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Informácie",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Veľkosť súboru $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Zmizne o $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

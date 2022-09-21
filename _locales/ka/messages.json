@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Submit",
-    "description": ""
+    "message": "Submit"
   },
   "acceptNewKey": {
     "message": "დასტური",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified",
-    "description": ""
+    "message": "Mark as verified"
   },
   "unverify": {
-    "message": "Mark as not verified",
-    "description": ""
+    "message": "Mark as not verified"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Verified",
-    "description": ""
+    "message": "Verified"
   },
   "newIdentity": {
     "message": "New safety number",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
-    "description": ""
+    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "incomingError": {
-    "message": "ხარვეზი შემომავალი შეტყობინების დამუშავებისას",
-    "description": ""
+    "message": "ხარვეზი შემომავალი შეტყობინების დამუშავებისას"
   },
   "media": {
     "message": "მედია-ფაილები",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions.",
-    "description": ""
+    "message": "Sorry, the selected file exceeds message size restrictions."
   },
   "unableToLoadAttachment": {
-    "message": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა.",
-    "description": ""
+    "message": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
   },
   "disconnected": {
     "message": "Disconnected",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Welcome to Signal",
-    "description": ""
+    "message": "Welcome to Signal"
   },
   "whatsNew": {
     "message": "ნახე $whatsNew$ ამ განახლებაში",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "გაუქმება",
-    "description": ""
+    "message": "გაუქმება"
   },
   "discard": {
-    "message": "გაუქმება",
-    "description": ""
+    "message": "გაუქმება"
   },
   "failedToSend": {
-    "message": "Failed to send to some recipients. Check your network connection.",
-    "description": ""
+    "message": "Failed to send to some recipients. Check your network connection."
   },
   "error": {
-    "message": "Error",
-    "description": ""
+    "message": "Error"
   },
   "messageDetail": {
-    "message": "Message Detail",
-    "description": ""
+    "message": "Message Detail"
   },
   "delete": {
-    "message": "წაშლა",
-    "description": ""
+    "message": "წაშლა"
   },
   "accept": {
-    "message": "დასტური",
-    "description": ""
+    "message": "დასტური"
   },
   "forward": {
-    "message": "გადაგზავნა",
-    "description": ""
+    "message": "გადაგზავნა"
   },
   "done": {
     "message": "შესრულებულია",
     "description": "Label for done"
   },
   "update": {
-    "message": "განახლება",
-    "description": ""
+    "message": "განახლება"
   },
   "next2": {
-    "message": "შემდეგი",
-    "description": ""
+    "message": "შემდეგი"
   },
   "on": {
     "message": "ჩართული",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "ჯგუფის წევრები",
-    "description": ""
+    "message": "ჯგუფის წევრები"
   },
   "showMembers": {
-    "message": "Show members",
-    "description": ""
+    "message": "Show members"
   },
   "showSafetyNumber": {
-    "message": "უსაფრთხოების ნომრის ნახვა",
-    "description": ""
+    "message": "უსაფრთხოების ნომრის ნახვა"
   },
   "viewRecentMedia": {
     "message": "ბოლო მედია-ფაილების ნახვა",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$-თან შენი ბოლომდე დაშიფვრის უსაფრთხოების დასადასტურებლად, შეადარე ზემოთ მოცემული ნომრები მათ მოწყობილობას.",
-    "description": ""
+    "message": "$name$-თან შენი ბოლომდე დაშიფვრის უსაფრთხოების დასადასტურებლად, შეადარე ზემოთ მოცემული ნომრები მათ მოწყობილობას."
   },
   "theirIdentityUnknown": {
-    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
-    "description": ""
+    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "back": {
     "message": "უკან",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Sorry, you have too many devices linked already. Try removing some.",
-    "description": ""
+    "message": "Sorry, you have too many devices linked already. Try removing some."
   },
   "installTooOld": {
-    "message": "განაახლე Signal-ი ამ მოწყობილობაზე, რომ შენს ტელეფონს დაუკავშირო.",
-    "description": ""
+    "message": "განაახლე Signal-ი ამ მოწყობილობაზე, რომ შენს ტელეფონს დაუკავშირო."
   },
   "installErrorHeader": {
-    "message": "Something went wrong!",
-    "description": ""
+    "message": "Something went wrong!"
   },
   "installUnknownError": {
-    "message": "მოულოდნელ ხარვეზს გადავაწყდით. გთხოვთ, თავიდან სცადე.",
-    "description": ""
+    "message": "მოულოდნელ ხარვეზს გადავაწყდით. გთხოვთ, თავიდან სცადე."
   },
   "installTryAgain": {
-    "message": "სცადეთ ახლიდან",
-    "description": ""
+    "message": "სცადეთ ახლიდან"
   },
   "Preferences--theme": {
     "message": "Theme",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$-ი შენს შეტყობინებას $emoji$-ით გამოეხმაურა",
-    "description": ""
+    "message": "$sender$-ი შენს შეტყობინებას $emoji$-ით გამოეხმაურა"
   },
   "notificationReactionMessage": {
-    "message": "$sender$-ი $message$-ს $emoji$-ით გამოეხმაურა",
-    "description": ""
+    "message": "$sender$-ი $message$-ს $emoji$-ით გამოეხმაურა"
   },
   "sendFailed": {
     "message": "გაგზავნა ჩაიშალა",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "დააწკაპუნე, რომ Signal Desktop-ი ხელახლა დააკავშირო შენს მობილურ მოწყობილობასთან და მიმოწერა განაგრძო.",
-    "description": ""
+    "message": "დააწკაპუნე, რომ Signal Desktop-ი ხელახლა დააკავშირო შენს მობილურ მოწყობილობასთან და მიმოწერა განაგრძო."
   },
   "unlinked": {
-    "message": "Unlinked",
-    "description": ""
+    "message": "Unlinked"
   },
   "relink": {
-    "message": "Relink",
-    "description": ""
+    "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "განახლება ხელმისაწვდომია",
-    "description": ""
+    "message": "განახლება ხელმისაწვდომია"
   },
   "autoUpdateRetry": {
-    "message": "განახლების ხელახლა ცდა",
-    "description": ""
+    "message": "განახლების ხელახლა ცდა"
   },
   "autoUpdateContactSupport": {
-    "message": "მხარდაჭერის გუნდთან დაკავშირება",
-    "description": ""
+    "message": "მხარდაჭერის გუნდთან დაკავშირება"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "დააჭირე Signal-ის გადასატვირტად",
-    "description": ""
+    "message": "დააჭირე Signal-ის გადასატვირტად"
   },
   "downloadNewVersionMessage": {
-    "message": "დააჭირე განახლების გადმოსაწერად",
-    "description": ""
+    "message": "დააჭირე განახლების გადმოსაწერად"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal-ი ვერ განახლდა. დააწკაპუნე თავიდან საცდელად.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "დააჭირე Signal-ის გადატვირთვას, რომ განახლებები გააქტიურო.",
-    "description": ""
+    "message": "დააჭირე Signal-ის გადატვირთვას, რომ განახლებები გააქტიურო."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restart Signal",
-    "description": ""
+    "message": "Restart Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "მოგვიანებით",
-    "description": ""
+    "message": "მოგვიანებით"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "განახლების იგნორირება",
-    "description": ""
+    "message": "განახლების იგნორირება"
   },
   "leftTheGroup": {
     "message": "$name$ -მა ჯგუფი დატოვა.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ -მა გამოგიგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის Signal-ის ახალ ფუნქციას იყენებს.",
-    "description": ""
+    "message": "$contact$ -მა გამოგიგზავნა შეტყობინება, რომლის დამუშავება ან ჩვენება შეუძლებელია, რადგან ის Signal-ის ახალ ფუნქციას იყენებს."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "შეგიძლია $contact$ -ს სთხოვო თავიდან გამოგიგზავნოს ეს შეტყობინება ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ.",
-    "description": ""
+    "message": "შეგიძლია $contact$ -ს სთხოვო თავიდან გამოგიგზავნოს ეს შეტყობინება ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ."
   },
   "Message--from-me-unsupported-message": {
-    "message": "შენი ერთ-ერთი მოწყობილობიდან გაგზავნილი შეტყობინების დამუშავება ან ჩვენება შეუძლებელია, რადგან იქ გამოყენებულია Signal-ის ახალ ფუნქცია.",
-    "description": ""
+    "message": "შენი ერთ-ერთი მოწყობილობიდან გაგზავნილი შეტყობინების დამუშავება ან ჩვენება შეუძლებელია, რადგან იქ გამოყენებულია Signal-ის ახალ ფუნქცია."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ, მსგავსი შეტყობინებები დასინქრონიზირდება.",
-    "description": ""
+    "message": "ახლა, როცა უკვე Signal-ის განახლებულ ვერსიას იყენებ, მსგავსი შეტყობინებები დასინქრონიზირდება."
   },
   "Message--update-signal": {
     "message": "Signal-ის განახლება",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "რეაქციის წაშლა",
-    "description": ""
+    "message": "რეაქციის წაშლა"
   },
   "Reactions--error": {
     "message": "რეაქციის გაგზავნა ვერ მოხერხდა. გთხოვთ კიდევ სცადო.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "უპასუხო ვიდეო ზარი",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal-ი განაგრძობს მუშაობას",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal-ი გააგრძელებს მუშაობას შეტყობინებების ჭრილში. შეცვლა შეგიძლია Signal-ის პარამეტრებიდან.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "შემომავალი აუდიო ზარი...",
@@ -4895,6 +4854,10 @@
     "message": "ნახეს ჩამოთვლილებმა",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "გაქრება",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "შესახებ",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ფაილის ზომა $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "გაქრება $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

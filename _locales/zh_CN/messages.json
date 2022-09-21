@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "提交",
-    "description": ""
+    "message": "提交"
   },
   "acceptNewKey": {
     "message": "接受",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "标记为已验证",
-    "description": ""
+    "message": "标记为已验证"
   },
   "unverify": {
-    "message": "标记为未验证",
-    "description": ""
+    "message": "标记为未验证"
   },
   "isVerified": {
     "message": "您已验证与$name$的安全码。",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "已验证",
-    "description": ""
+    "message": "已验证"
   },
   "newIdentity": {
     "message": "新的安全代码",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "您的此联系人的安全代码已更改。这可能意味着有人试图拦截你的通信，或者这个联系人重新安装了 Signal。您可能想验证以下新安全代码。",
-    "description": ""
+    "message": "您的此联系人的安全代码已更改。这可能意味着有人试图拦截你的通信，或者这个联系人重新安装了 Signal。您可能想验证以下新安全代码。"
   },
   "incomingError": {
-    "message": "处理传入消息时出错",
-    "description": ""
+    "message": "处理传入消息时出错"
   },
   "media": {
     "message": "媒体",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "对不起，所选文件超过最大限制。",
-    "description": ""
+    "message": "对不起，所选文件超过最大限制。"
   },
   "unableToLoadAttachment": {
-    "message": "无法加载选中的附件。",
-    "description": ""
+    "message": "无法加载选中的附件。"
   },
   "disconnected": {
     "message": "已断开连接",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "欢迎来到 Signal",
-    "description": ""
+    "message": "欢迎来到 Signal"
   },
   "whatsNew": {
     "message": "在此更新中查看$whatsNew$",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "好",
-    "description": ""
+    "message": "好"
   },
   "cancel": {
-    "message": "取消",
-    "description": ""
+    "message": "取消"
   },
   "discard": {
-    "message": "放弃",
-    "description": ""
+    "message": "放弃"
   },
   "failedToSend": {
-    "message": "无法发送给某些收件人，请检查您的网络连接。",
-    "description": ""
+    "message": "无法发送给某些收件人，请检查您的网络连接。"
   },
   "error": {
-    "message": "错误",
-    "description": ""
+    "message": "错误"
   },
   "messageDetail": {
-    "message": "信息属性",
-    "description": ""
+    "message": "信息属性"
   },
   "delete": {
-    "message": "删除",
-    "description": ""
+    "message": "删除"
   },
   "accept": {
-    "message": "接受",
-    "description": ""
+    "message": "接受"
   },
   "forward": {
-    "message": "转发",
-    "description": ""
+    "message": "转发"
   },
   "done": {
     "message": "完成",
     "description": "Label for done"
   },
   "update": {
-    "message": "更新",
-    "description": ""
+    "message": "更新"
   },
   "next2": {
-    "message": "下一步",
-    "description": ""
+    "message": "下一步"
   },
   "on": {
     "message": "开",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "群组成员",
-    "description": ""
+    "message": "群组成员"
   },
   "showMembers": {
-    "message": "显示成员",
-    "description": ""
+    "message": "显示成员"
   },
   "showSafetyNumber": {
-    "message": "查看安全码",
-    "description": ""
+    "message": "查看安全码"
   },
   "viewRecentMedia": {
     "message": "查看最近媒体",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "如要验证您与$name$的端对端加密安全性，请将上方的数字与对方的设备进行比对。",
-    "description": ""
+    "message": "如要验证您与$name$的端对端加密安全性，请将上方的数字与对方的设备进行比对。"
   },
   "theirIdentityUnknown": {
-    "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。",
-    "description": ""
+    "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。"
   },
   "back": {
     "message": "返回",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "很抱歉，您已连接过多的设备，请删除一些然后重试。",
-    "description": ""
+    "message": "很抱歉，您已连接过多的设备，请删除一些然后重试。"
   },
   "installTooOld": {
-    "message": "升级此设备 Signal 来关联您的手机。",
-    "description": ""
+    "message": "升级此设备 Signal 来关联您的手机。"
   },
   "installErrorHeader": {
-    "message": "出错了！",
-    "description": ""
+    "message": "出错了！"
   },
   "installUnknownError": {
-    "message": "出现意外错误，请重试。",
-    "description": ""
+    "message": "出现意外错误，请重试。"
   },
   "installTryAgain": {
-    "message": "重试",
-    "description": ""
+    "message": "重试"
   },
   "Preferences--theme": {
     "message": "主题",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$对您的消息回应了$emoji$",
-    "description": ""
+    "message": "$sender$对您的消息回应了$emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$对$message$回应了$emoji$",
-    "description": ""
+    "message": "$sender$对$message$回应了$emoji$"
   },
   "sendFailed": {
     "message": "发送失败",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "点击将 Signal Desktop 与您的移动设备重新关联，以便继续收发消息。",
-    "description": ""
+    "message": "点击将 Signal Desktop 与您的移动设备重新关联，以便继续收发消息。"
   },
   "unlinked": {
-    "message": "未连接",
-    "description": ""
+    "message": "未连接"
   },
   "relink": {
-    "message": "重新连接",
-    "description": ""
+    "message": "重新连接"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "有可用更新",
-    "description": ""
+    "message": "有可用更新"
   },
   "autoUpdateRetry": {
-    "message": "重试更新",
-    "description": ""
+    "message": "重试更新"
   },
   "autoUpdateContactSupport": {
-    "message": "联系支持团队",
-    "description": ""
+    "message": "联系支持团队"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "点击重启 Signal",
-    "description": ""
+    "message": "点击重启 Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "点击下载更新",
-    "description": ""
+    "message": "点击下载更新"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal 无法更新，请点击重试。",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "点击“重启 Signal”来安装更新。",
-    "description": ""
+    "message": "点击“重启 Signal”来安装更新。"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "重启 Signal",
-    "description": ""
+    "message": "重启 Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "稍后",
-    "description": ""
+    "message": "稍后"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "忽略更新",
-    "description": ""
+    "message": "忽略更新"
   },
   "leftTheGroup": {
     "message": "$name$ 已离开该群组。",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ 给您发送的信息无法被处理，因为它用到了新的 Signal 功能。",
-    "description": ""
+    "message": "$contact$ 给您发送的信息无法被处理，因为它用到了新的 Signal 功能。"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "您已经在使用最新版本的 Signal，可以请 $contact$ 重新发送这条信息。",
-    "description": ""
+    "message": "您已经在使用最新版本的 Signal，可以请 $contact$ 重新发送这条信息。"
   },
   "Message--from-me-unsupported-message": {
-    "message": "您的某台设备发送的信息无法被处理，因为它用到了新的 Signal 功能。",
-    "description": ""
+    "message": "您的某台设备发送的信息无法被处理，因为它用到了新的 Signal 功能。"
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "您已经在使用最新版本的 Signal，将来这种信息会被自动同步。",
-    "description": ""
+    "message": "您已经在使用最新版本的 Signal，将来这种信息会被自动同步。"
   },
   "Message--update-signal": {
     "message": "升级 Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "移除反应",
-    "description": ""
+    "message": "移除反应"
   },
   "Reactions--error": {
     "message": "发送反应失败，请重试。",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "未接视频通话",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal 仍在运行",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal 仍在通知区域保持运行状态。您可以在 Signal 设置中对此进行更改。",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "语音来电…",
@@ -4895,6 +4854,10 @@
     "message": "已查看：",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "消失倒计时",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "关于",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "文件大小 $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "消失倒计时 $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

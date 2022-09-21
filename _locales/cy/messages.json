@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Cyflwyno",
-    "description": ""
+    "message": "Cyflwyno"
   },
   "acceptNewKey": {
     "message": "Derbyn",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marcio fel y'i gwiriwyd",
-    "description": ""
+    "message": "Marcio fel y'i gwiriwyd"
   },
   "unverify": {
-    "message": "Marcio fel heb eu gwirio",
-    "description": ""
+    "message": "Marcio fel heb eu gwirio"
   },
   "isVerified": {
     "message": "Rydych wedi gwirio eich rhif diogelwch gyda $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Gwiriwyd",
-    "description": ""
+    "message": "Gwiriwyd"
   },
   "newIdentity": {
     "message": "Rhif diogelwch newydd",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Mae'ch rhif diogelwch gyda'r cysylltiad hwn wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu fod wedi ail-osod Signal. Efallai hoffech wirio'r rhif diogelwch newydd isod.",
-    "description": ""
+    "message": "Mae'ch rhif diogelwch gyda'r cysylltiad hwn wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu fod wedi ail-osod Signal. Efallai hoffech wirio'r rhif diogelwch newydd isod."
   },
   "incomingError": {
-    "message": "Gwall trin derbyn neges",
-    "description": ""
+    "message": "Gwall trin derbyn neges"
   },
   "media": {
     "message": "Cyfryngau",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Ymddiheuriadau, mae'r ffeil a ddewiswyd yn fwy na sy'n cael ei ganiatáu.",
-    "description": ""
+    "message": "Ymddiheuriadau, mae'r ffeil a ddewiswyd yn fwy na sy'n cael ei ganiatáu."
   },
   "unableToLoadAttachment": {
-    "message": "Methu llwytho'r atodiad a ddewiswyd.",
-    "description": ""
+    "message": "Methu llwytho'r atodiad a ddewiswyd."
   },
   "disconnected": {
     "message": "Datgysylltwyd",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Croeso i Signal",
-    "description": ""
+    "message": "Croeso i Signal"
   },
   "whatsNew": {
     "message": "Gweld $whatsNew$ yn y diweddariad hwn",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Iawn",
-    "description": ""
+    "message": "Iawn"
   },
   "cancel": {
-    "message": "Diddymu",
-    "description": ""
+    "message": "Diddymu"
   },
   "discard": {
-    "message": "Dileu",
-    "description": ""
+    "message": "Dileu"
   },
   "failedToSend": {
-    "message": "Methwyd anfon i rhai derbynyddion. Gwiriwch eich cysylltiad rhyngrwyd.",
-    "description": ""
+    "message": "Methwyd anfon i rhai derbynyddion. Gwiriwch eich cysylltiad rhyngrwyd."
   },
   "error": {
-    "message": "Gwall",
-    "description": ""
+    "message": "Gwall"
   },
   "messageDetail": {
-    "message": "Manylion Neges",
-    "description": ""
+    "message": "Manylion Neges"
   },
   "delete": {
-    "message": "Dileu",
-    "description": ""
+    "message": "Dileu"
   },
   "accept": {
-    "message": "Derbyn",
-    "description": ""
+    "message": "Derbyn"
   },
   "forward": {
-    "message": "Ymlaen",
-    "description": ""
+    "message": "Ymlaen"
   },
   "done": {
     "message": "Wedi Gorffen",
     "description": "Label for done"
   },
   "update": {
-    "message": "Diweddaru",
-    "description": ""
+    "message": "Diweddaru"
   },
   "next2": {
-    "message": "Nesaf",
-    "description": ""
+    "message": "Nesaf"
   },
   "on": {
     "message": "Ymlaen",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Aelodau grŵp",
-    "description": ""
+    "message": "Aelodau grŵp"
   },
   "showMembers": {
-    "message": "Dangos aelodau",
-    "description": ""
+    "message": "Dangos aelodau"
   },
   "showSafetyNumber": {
-    "message": "Gweld y rhif diogelwch",
-    "description": ""
+    "message": "Gweld y rhif diogelwch"
   },
   "viewRecentMedia": {
     "message": "Gweld cyfryngau diweddar",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "I wirio diogelwch eich amgryptio o'r dechrau i'r diwedd gyda $name$, cymharwch y rhifau uchod â'u dyfais.",
-    "description": ""
+    "message": "I wirio diogelwch eich amgryptio o'r dechrau i'r diwedd gyda $name$, cymharwch y rhifau uchod â'u dyfais."
   },
   "theirIdentityUnknown": {
-    "message": "Nid ydych wedi cyfnewid unrhyw negeseuon gyda'r cyswllt hwn eto. Bydd eich rhif diogelwch gyda nhw ar gael ar ôl y neges gyntaf.",
-    "description": ""
+    "message": "Nid ydych wedi cyfnewid unrhyw negeseuon gyda'r cyswllt hwn eto. Bydd eich rhif diogelwch gyda nhw ar gael ar ôl y neges gyntaf."
   },
   "back": {
     "message": "Nôl",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Ymddiheuriadau, mae gennych ormod o ddyfeisiau eisoes wedi cysylltu. Ceisiwch dynnu rhai.",
-    "description": ""
+    "message": "Ymddiheuriadau, mae gennych ormod o ddyfeisiau eisoes wedi cysylltu. Ceisiwch dynnu rhai."
   },
   "installTooOld": {
-    "message": "Diweddarwch Signal ar y ddyfais hon i gysylltu eich ffôn.",
-    "description": ""
+    "message": "Diweddarwch Signal ar y ddyfais hon i gysylltu eich ffôn."
   },
   "installErrorHeader": {
-    "message": "Aeth rhywbeth o'i le!",
-    "description": ""
+    "message": "Aeth rhywbeth o'i le!"
   },
   "installUnknownError": {
-    "message": "Digwyddodd gwall annisgwyl. Ceisiwch eto.",
-    "description": ""
+    "message": "Digwyddodd gwall annisgwyl. Ceisiwch eto."
   },
   "installTryAgain": {
-    "message": "Ceisiwch eto",
-    "description": ""
+    "message": "Ceisiwch eto"
   },
   "Preferences--theme": {
     "message": "Thema",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "Ymateb $sender$ yw $emoji$ i'ch neges",
-    "description": ""
+    "message": "Ymateb $sender$ yw $emoji$ i'ch neges"
   },
   "notificationReactionMessage": {
-    "message": "Ymateb $sender$ yw $emoji$ i: $message$",
-    "description": ""
+    "message": "Ymateb $sender$ yw $emoji$ i: $message$"
   },
   "sendFailed": {
     "message": "Methodd yr anfon",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Cliciwch i ail-leoli Signal Desktop i'ch dyfais symudol i barhau â negeseuon.",
-    "description": ""
+    "message": "Cliciwch i ail-leoli Signal Desktop i'ch dyfais symudol i barhau â negeseuon."
   },
   "unlinked": {
-    "message": "Datgysylltwyd",
-    "description": ""
+    "message": "Datgysylltwyd"
   },
   "relink": {
-    "message": "Ail-gysylltu",
-    "description": ""
+    "message": "Ail-gysylltu"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Diweddariad ar gael",
-    "description": ""
+    "message": "Diweddariad ar gael"
   },
   "autoUpdateRetry": {
-    "message": "Ail-ddiweddaru",
-    "description": ""
+    "message": "Ail-ddiweddaru"
   },
   "autoUpdateContactSupport": {
-    "message": "cefnogaeth",
-    "description": ""
+    "message": "cefnogaeth"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Cliciwch i ailgychwyn Signal",
-    "description": ""
+    "message": "Cliciwch i ailgychwyn Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Cliciwch i lwytho diweddariad i lawr",
-    "description": ""
+    "message": "Cliciwch i lwytho diweddariad i lawr"
   },
   "downloadFullNewVersionMessage": {
     "message": "Methwyd diweddaru Signal. Cliciwch i rhoi gynnig arall arni.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Pwyswch Ailgychwyn Signal i diweddaru.",
-    "description": ""
+    "message": "Pwyswch Ailgychwyn Signal i diweddaru."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Ail-gychwyn Signal",
-    "description": ""
+    "message": "Ail-gychwyn Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Yn hwyrach",
-    "description": ""
+    "message": "Yn hwyrach"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Anwybyddu'r diweddariad",
-    "description": ""
+    "message": "Anwybyddu'r diweddariad"
   },
   "leftTheGroup": {
     "message": "Gadawodd $name$ y grŵp.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "Anfonodd $contact$ neges atoch nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd.",
-    "description": ""
+    "message": "Anfonodd $contact$ neges atoch nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Gallwch ofyn i $contact$ ail-anfon y neges hon nawr eich bod yn defnyddio'r fersiwn ddiweddaraf o Signal.",
-    "description": ""
+    "message": "Gallwch ofyn i $contact$ ail-anfon y neges hon nawr eich bod yn defnyddio'r fersiwn ddiweddaraf o Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Anfonodd un o'ch dyfeisiau neges nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd.",
-    "description": ""
+    "message": "Anfonodd un o'ch dyfeisiau neges nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Bydd negeseuon fel hyn yn y dyfodol yn cael eu cyweddu nawr eich bod yn defnyddio'r fersiwn ddiweddaraf o Signal.",
-    "description": ""
+    "message": "Bydd negeseuon fel hyn yn y dyfodol yn cael eu cyweddu nawr eich bod yn defnyddio'r fersiwn ddiweddaraf o Signal."
   },
   "Message--update-signal": {
     "message": "Diweddaru Signal",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Tynnu adwaith",
-    "description": ""
+    "message": "Tynnu adwaith"
   },
   "Reactions--error": {
     "message": "Wedi methu anfon ymateb. Ceisiwch eto, os gwelwch yn dda.",

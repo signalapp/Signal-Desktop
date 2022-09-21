@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "ಸಲ್ಲಿಸಿ",
-    "description": ""
+    "message": "ಸಲ್ಲಿಸಿ"
   },
   "acceptNewKey": {
     "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ",
-    "description": ""
+    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಿ"
   },
   "unverify": {
-    "message": "ಪರಿಶೀಲಿಸಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ",
-    "description": ""
+    "message": "ಪರಿಶೀಲಿಸಿಲ್ಲ ಎಂದು ಗುರುತು ಮಾಡಿ"
   },
   "isVerified": {
     "message": "$name$ ಜೊತೆಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ನೀವು ಪರಿಶೀಲಿಸಿದ್ದೀರಿ",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ",
-    "description": ""
+    "message": "ಪರಿಶೀಲಿಸಲಾಗಿದೆ"
   },
   "newIdentity": {
     "message": "ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "ಈ ಸಂಪರ್ಕದೊಂದಿಗಿನ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. ನಿಮ್ಮ ಸಂವಹನವನ್ನು ಯಾರೋ ತಡೆಗಟ್ಟಲು ಬಯಸಿರುವುದು ಇದಕ್ಕೆ ಕಾರಣವಾಗಿರಬಹುದು ಅಥವಾ ಈ ಸಂಪರ್ಕವು Signal ಅನ್ನು ಪುನಃ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು. ಈ ಕೆಳಗೆ ನೀವು ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ಬಯಸಬಹುದು.",
-    "description": ""
+    "message": "ಈ ಸಂಪರ್ಕದೊಂದಿಗಿನ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. ನಿಮ್ಮ ಸಂವಹನವನ್ನು ಯಾರೋ ತಡೆಗಟ್ಟಲು ಬಯಸಿರುವುದು ಇದಕ್ಕೆ ಕಾರಣವಾಗಿರಬಹುದು ಅಥವಾ ಈ ಸಂಪರ್ಕವು Signal ಅನ್ನು ಪುನಃ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು. ಈ ಕೆಳಗೆ ನೀವು ಹೊಸ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ಬಯಸಬಹುದು."
   },
   "incomingError": {
-    "message": "ಒಳಬರುವ ಸಂದೇಶವನ್ನು ನಿರ್ವಹಿಸುವಲ್ಲಿ ದೋಷ",
-    "description": ""
+    "message": "ಒಳಬರುವ ಸಂದೇಶವನ್ನು ನಿರ್ವಹಿಸುವಲ್ಲಿ ದೋಷ"
   },
   "media": {
     "message": "ಮಾಧ್ಯಮ",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ.",
-    "description": ""
+    "message": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ."
   },
   "unableToLoadAttachment": {
-    "message": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
-    "description": ""
+    "message": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
   },
   "disconnected": {
     "message": "ಸಂಪರ್ಕ ಕಡಿತಗೊಂಡಿದೆ",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ",
-    "description": ""
+    "message": "ಸಿಗ್ನಲ್‌ಗೆ ಸ್ವಾಗತ"
   },
   "whatsNew": {
     "message": "ಈ ಅಪ್‌ಡೇಟ್‌ನಲ್ಲಿ $whatsNew$ ನೋಡಿ",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "ಸರಿ",
-    "description": ""
+    "message": "ಸರಿ"
   },
   "cancel": {
-    "message": "ರದ್ದುಗೊಳಿಸಿ",
-    "description": ""
+    "message": "ರದ್ದುಗೊಳಿಸಿ"
   },
   "discard": {
-    "message": "ತ್ಯಜಿಸಿ",
-    "description": ""
+    "message": "ತ್ಯಜಿಸಿ"
   },
   "failedToSend": {
-    "message": "ಕೆಲವು ಸ್ವೀಕೃತದಾರರಿಗೆ ಕಳುಹಿಸಲಾಗಲ್ಲಿಲ್ಲ. ನಿಮ್ಮ ಜಾಲಬಂಧವನ್ನು ಪರಿಶೀಲಿಸಿ.",
-    "description": ""
+    "message": "ಕೆಲವು ಸ್ವೀಕೃತದಾರರಿಗೆ ಕಳುಹಿಸಲಾಗಲ್ಲಿಲ್ಲ. ನಿಮ್ಮ ಜಾಲಬಂಧವನ್ನು ಪರಿಶೀಲಿಸಿ."
   },
   "error": {
-    "message": "ದೋಷ",
-    "description": ""
+    "message": "ದೋಷ"
   },
   "messageDetail": {
-    "message": "ಸಂದೇಶದ ವಿವರಗಳು",
-    "description": ""
+    "message": "ಸಂದೇಶದ ವಿವರಗಳು"
   },
   "delete": {
-    "message": "ಅಳಿಸು",
-    "description": ""
+    "message": "ಅಳಿಸು"
   },
   "accept": {
-    "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ",
-    "description": ""
+    "message": "ಒಪ್ಪಿಕೊಳ್ಳಿ"
   },
   "forward": {
-    "message": "ಫಾರ್ವರ್ಡ್",
-    "description": ""
+    "message": "ಫಾರ್ವರ್ಡ್"
   },
   "done": {
     "message": "ಮುಗಿದಿದೆ",
     "description": "Label for done"
   },
   "update": {
-    "message": "ನವೀಕರಿಸಿ",
-    "description": ""
+    "message": "ನವೀಕರಿಸಿ"
   },
   "next2": {
-    "message": "ಮುಂದೆ",
-    "description": ""
+    "message": "ಮುಂದೆ"
   },
   "on": {
     "message": "ಆನ್",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "ಗುಂಪಿನ ಸದಸ್ಯರು",
-    "description": ""
+    "message": "ಗುಂಪಿನ ಸದಸ್ಯರು"
   },
   "showMembers": {
-    "message": "ಸದಸ್ಯರನ್ನು ತೋರಿಸು",
-    "description": ""
+    "message": "ಸದಸ್ಯರನ್ನು ತೋರಿಸು"
   },
   "showSafetyNumber": {
-    "message": "ನೋಟ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ",
-    "description": ""
+    "message": "ನೋಟ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ"
   },
   "viewRecentMedia": {
     "message": "ಇತ್ತೀಚಿನ ಮಾಧ್ಯಮವನ್ನು ನೋಡಿ",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ ಜೊತೆಗಿನ ನಿಮ್ಮ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಭದ್ರತೆಯನ್ನು ದೃಢೀಕರಿಸಲು, ಅವರ ಸಾಧನಗಳೊಂದಿಗೆ ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ.",
-    "description": ""
+    "message": "$name$ ಜೊತೆಗಿನ ನಿಮ್ಮ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಭದ್ರತೆಯನ್ನು ದೃಢೀಕರಿಸಲು, ಅವರ ಸಾಧನಗಳೊಂದಿಗೆ ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ."
   },
   "theirIdentityUnknown": {
-    "message": "ನೀವು ಇನ್ನೂ ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಲ್ಲ. ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ.",
-    "description": ""
+    "message": "ನೀವು ಇನ್ನೂ ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ಯಾವುದೇ ಸಂದೇಶಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿಲ್ಲ. ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ಮೊದಲ ಸಂದೇಶದ ನಂತರ ಲಭ್ಯವಿರುತ್ತದೆ."
   },
   "back": {
     "message": "ಹಿಂದಕ್ಕೆ",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "ಕ್ಷಮಿಸಿ, ನೀವು ಹಲವಾರು ಸಾಧನಗಳು ಈಗಾಗಲೇ ಜೋಡಿಸಿದ್ದೀರಿ. ಕೆಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸಿ.",
-    "description": ""
+    "message": "ಕ್ಷಮಿಸಿ, ನೀವು ಹಲವಾರು ಸಾಧನಗಳು ಈಗಾಗಲೇ ಜೋಡಿಸಿದ್ದೀರಿ. ಕೆಲವನ್ನು ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸಿ."
   },
   "installTooOld": {
-    "message": "ನಿಮ್ಮ ಫೋನ್ ಲಿಂಕ್ ಮಾಡಲು ಈ ಸಾಧನದಲ್ಲಿ Signal ಅಪ್‌ಡೇಟ್ ಮಾಡಿ.",
-    "description": ""
+    "message": "ನಿಮ್ಮ ಫೋನ್ ಲಿಂಕ್ ಮಾಡಲು ಈ ಸಾಧನದಲ್ಲಿ Signal ಅಪ್‌ಡೇಟ್ ಮಾಡಿ."
   },
   "installErrorHeader": {
-    "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ!",
-    "description": ""
+    "message": "ಏನೋ ತಪ್ಪಾಗಿದೆ!"
   },
   "installUnknownError": {
-    "message": "ಒಂದು ಅನಿರೀಕ್ಷಿತ ದೋಷ ಉಂಟಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
-    "description": ""
+    "message": "ಒಂದು ಅನಿರೀಕ್ಷಿತ ದೋಷ ಉಂಟಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ."
   },
   "installTryAgain": {
-    "message": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
-    "description": ""
+    "message": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
   },
   "Preferences--theme": {
     "message": "ಥೀಮ್",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ಅವರು ನಿಮ್ಮ ಸಂದೇಶಕ್ಕೆ $emoji$ ಪ್ರತಿಸ್ಪಂದನೆ ನೀಡಿದ್ದಾರೆ",
-    "description": ""
+    "message": "$sender$ ಅವರು ನಿಮ್ಮ ಸಂದೇಶಕ್ಕೆ $emoji$ ಪ್ರತಿಸ್ಪಂದನೆ ನೀಡಿದ್ದಾರೆ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ಅವರು $emoji$ ಪ್ರತಿಸ್ಪಂದನೆಯನ್ನು ಇದಕ್ಕೆ ನೀಡಿದ್ದಾರೆ: $message$",
-    "description": ""
+    "message": "$sender$ ಅವರು $emoji$ ಪ್ರತಿಸ್ಪಂದನೆಯನ್ನು ಇದಕ್ಕೆ ನೀಡಿದ್ದಾರೆ: $message$"
   },
   "sendFailed": {
     "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "ಮೆಸೇಜ್ ಮಾಡುವುದನ್ನು ಮುಂದುವರಿಸಲು Signal ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನಕ್ಕೆ ಮರುಲಿಂಕ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
-    "description": ""
+    "message": "ಮೆಸೇಜ್ ಮಾಡುವುದನ್ನು ಮುಂದುವರಿಸಲು Signal ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನಕ್ಕೆ ಮರುಲಿಂಕ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ."
   },
   "unlinked": {
-    "message": "ಲಿಂಕ್‌ ಮಾಡಿಲ್ಲ",
-    "description": ""
+    "message": "ಲಿಂಕ್‌ ಮಾಡಿಲ್ಲ"
   },
   "relink": {
-    "message": "ಪುನಃ ಲಿಂಕ್ ಮಾಡಿ",
-    "description": ""
+    "message": "ಪುನಃ ಲಿಂಕ್ ಮಾಡಿ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "ಅಪ್‌ಡೇಟ್ ಲಭ್ಯವಿದೆ",
-    "description": ""
+    "message": "ಅಪ್‌ಡೇಟ್ ಲಭ್ಯವಿದೆ"
   },
   "autoUpdateRetry": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ಗೆ ಮರುಪ್ರಯತ್ನಿಸಿ",
-    "description": ""
+    "message": "ಅಪ್‌ಡೇಟ್‌ಗೆ ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "autoUpdateContactSupport": {
-    "message": "ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ",
-    "description": ""
+    "message": "ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
-    "description": ""
+    "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "downloadNewVersionMessage": {
-    "message": "ಅಪ್‌ಡೇಟ್ ಡೌನ್‍‌ಲೋಡ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
-    "description": ""
+    "message": "ಅಪ್‌ಡೇಟ್ ಡೌನ್‍‌ಲೋಡ್ ಮಾಡಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ . ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ",
-    "description": ""
+    "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": " Signal ಮರುಪ್ರಾರಂಭಿಸಿ",
-    "description": ""
+    "message": " Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "ನಂತರ",
-    "description": ""
+    "message": "ನಂತರ"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "ಅಪ್‌ಡೇಟ್‌ ನಿರ್ಲಕ್ಷಿಸಿ",
-    "description": ""
+    "message": "ಅಪ್‌ಡೇಟ್‌ ನಿರ್ಲಕ್ಷಿಸಿ"
   },
   "leftTheGroup": {
     "message": "$name$ ಗ್ರೂಪ್ ತೊರೆದಿದ್ದಾರೆ.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "ಹೊಸ Signal ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸುವುದರಿಂದ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಅಥವಾ ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಾಗದ ಸಂದೇಶವನ್ನು $contact$ ನಿಮಗೆ ಕಳುಹಿಸಿದ್ದಾರೆ.",
-    "description": ""
+    "message": "ಹೊಸ Signal ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸುವುದರಿಂದ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಅಥವಾ ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಾಗದ ಸಂದೇಶವನ್ನು $contact$ ನಿಮಗೆ ಕಳುಹಿಸಿದ್ದಾರೆ."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "ನೀವು Signal‌ ನ ನವೀಕೃತ ಆವೃತ್ತಿಯನ್ನು ಬಳಸುತ್ತಿರುವುದರಿಂದ ಈ ಸಂದೇಶವನ್ನು ಪುನಃ ಕಳುಹಿಸಲು ನೀವು $contact$ ಅವರನ್ನು ಕೇಳಬಹುದು.",
-    "description": ""
+    "message": "ನೀವು Signal‌ ನ ನವೀಕೃತ ಆವೃತ್ತಿಯನ್ನು ಬಳಸುತ್ತಿರುವುದರಿಂದ ಈ ಸಂದೇಶವನ್ನು ಪುನಃ ಕಳುಹಿಸಲು ನೀವು $contact$ ಅವರನ್ನು ಕೇಳಬಹುದು."
   },
   "Message--from-me-unsupported-message": {
-    "message": "ನಿಮ್ಮ ಒಂದು ಸಾಧನವು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿದ್ದು, ಅದನ್ನು ಇಲ್ಲಿ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಅಥವಾ ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಏಕೆಂದರೆ ಅದು ಹೊಸ Signal ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸುತ್ತದೆ.",
-    "description": ""
+    "message": "ನಿಮ್ಮ ಒಂದು ಸಾಧನವು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿದ್ದು, ಅದನ್ನು ಇಲ್ಲಿ ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಅಥವಾ ಪ್ರದರ್ಶಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಏಕೆಂದರೆ ಅದು ಹೊಸ Signal ವೈಶಿಷ್ಟ್ಯವನ್ನು ಬಳಸುತ್ತದೆ."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "ಇಂತಹ ಭವಿಷ್ಯದ ಸಂದೇಶಗಳನ್ನು, Signal ನ ಅಪ್‌ ಟು ಡೇಟ್ ಆವೃತ್ತಿಯನ್ನು ನೀವು ಬಳಸುತ್ತಿರುವಂತೆ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲಾಗುತ್ತದೆ.",
-    "description": ""
+    "message": "ಇಂತಹ ಭವಿಷ್ಯದ ಸಂದೇಶಗಳನ್ನು, Signal ನ ಅಪ್‌ ಟು ಡೇಟ್ ಆವೃತ್ತಿಯನ್ನು ನೀವು ಬಳಸುತ್ತಿರುವಂತೆ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲಾಗುತ್ತದೆ."
   },
   "Message--update-signal": {
     "message": "Signal ಅನ್ನು ನವೀಕರಿಸಿ",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ಪ್ರತಿಕ್ರಿಯೆ ತೆಗೆದುಹಾಕಿ",
-    "description": ""
+    "message": "ಪ್ರತಿಕ್ರಿಯೆ ತೆಗೆದುಹಾಕಿ"
   },
   "Reactions--error": {
     "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ಉತ್ತರಿಸದ ವೀಡಿಯೊ ಕಾಲ್",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ಈಗಲೂ ಚಾಲನೆಯಲ್ಲಿದೆ",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "ಅಧಿಸೂಚನೆ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ Signal ಚಾಲನೆಯಲ್ಲಿರುತ್ತದೆ. ನೀವು ಇದನ್ನು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ...",
@@ -4895,6 +4854,10 @@
     "message": "ವೀಕ್ಷಿಸಿದವರು",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ಇಷ್ಟು ಹೊತ್ತಲ್ಲಿ ಮರೆಯಾಗುತ್ತದೆ:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "ಬಗ್ಗೆ",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ಫೈಲ್ ಗಾತ್ರ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ ನಲ್ಲಿ ಮರೆಯಾಗುತ್ತದೆ",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

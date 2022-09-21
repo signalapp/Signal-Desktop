@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "સબમિટ કરો",
-    "description": ""
+    "message": "સબમિટ કરો"
   },
   "acceptNewKey": {
     "message": "સ્વીકાર",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ચકાસાયેલ તરીકે માર્ક કરો",
-    "description": ""
+    "message": "ચકાસાયેલ તરીકે માર્ક કરો"
   },
   "unverify": {
-    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો",
-    "description": ""
+    "message": "ન ચકાસાયેલ તરીકે માર્ક કરો"
   },
   "isVerified": {
     "message": "તમે $name$ સાથે તમારો સલામતી નંબર ચકાસી લીધો છે.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "ચકાસણી",
-    "description": ""
+    "message": "ચકાસણી"
   },
   "newIdentity": {
     "message": "નવો સલામતી નંબર",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "આ સંપર્ક સાથે તમારો સલામતી નંબર બદલાઈ ગયો છે. આનો અર્થ એ હોઈ શકે કે કોઈ તમારા સંદેશાવ્યવહારને અટકાવવાનો પ્રયાસ કરી રહ્યું છે, અથવા આ સંપર્ક ફક્ત Signal ને ફરીથી સ્થાપિત કરે છે. તમે નીચે નવો સલામતી નંબર ચકાસવા ઈચ્છો છો.",
-    "description": ""
+    "message": "આ સંપર્ક સાથે તમારો સલામતી નંબર બદલાઈ ગયો છે. આનો અર્થ એ હોઈ શકે કે કોઈ તમારા સંદેશાવ્યવહારને અટકાવવાનો પ્રયાસ કરી રહ્યું છે, અથવા આ સંપર્ક ફક્ત Signal ને ફરીથી સ્થાપિત કરે છે. તમે નીચે નવો સલામતી નંબર ચકાસવા ઈચ્છો છો."
   },
   "incomingError": {
-    "message": "આવનારા સંદેશને સંચાલિત કરવામાં ભૂલ",
-    "description": ""
+    "message": "આવનારા સંદેશને સંચાલિત કરવામાં ભૂલ"
   },
   "media": {
     "message": "મીડિયા",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "માફ કરશો, પસંદ કરેલી ફાઇલ મેસેજના કદના પ્રતિબંધોને વટાવી ગઈ છે.",
-    "description": ""
+    "message": "માફ કરશો, પસંદ કરેલી ફાઇલ મેસેજના કદના પ્રતિબંધોને વટાવી ગઈ છે."
   },
   "unableToLoadAttachment": {
-    "message": "પસંદ કરેલ અટેચમેન્ટ લોડ કરવામાં અસમર્થ.",
-    "description": ""
+    "message": "પસંદ કરેલ અટેચમેન્ટ લોડ કરવામાં અસમર્થ."
   },
   "disconnected": {
     "message": "ડિસ્કનેક્ટ",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal પર આપનું સ્વાગત છે",
-    "description": ""
+    "message": "Signal પર આપનું સ્વાગત છે"
   },
   "whatsNew": {
     "message": "આ અપડેટમાં $whatsNew$ જુઓ",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "રદ કરો",
-    "description": ""
+    "message": "રદ કરો"
   },
   "discard": {
-    "message": "કાઢી નાખો",
-    "description": ""
+    "message": "કાઢી નાખો"
   },
   "failedToSend": {
-    "message": "કેટલાક પ્રાપ્તકર્તાઓને મોકલવામાં નિષ્ફળ. તમારું નેટવર્ક કનેક્શન તપાસો.",
-    "description": ""
+    "message": "કેટલાક પ્રાપ્તકર્તાઓને મોકલવામાં નિષ્ફળ. તમારું નેટવર્ક કનેક્શન તપાસો."
   },
   "error": {
-    "message": "ભૂલ",
-    "description": ""
+    "message": "ભૂલ"
   },
   "messageDetail": {
-    "message": "મેસેજની વિગતો",
-    "description": ""
+    "message": "મેસેજની વિગતો"
   },
   "delete": {
-    "message": "કાઢી નાખો ",
-    "description": ""
+    "message": "કાઢી નાખો "
   },
   "accept": {
-    "message": "સ્વીકાર",
-    "description": ""
+    "message": "સ્વીકાર"
   },
   "forward": {
-    "message": "ફોરવર્ડ",
-    "description": ""
+    "message": "ફોરવર્ડ"
   },
   "done": {
     "message": "થઈ ગયું",
     "description": "Label for done"
   },
   "update": {
-    "message": "અપડેટ",
-    "description": ""
+    "message": "અપડેટ"
   },
   "next2": {
-    "message": "આગળ",
-    "description": ""
+    "message": "આગળ"
   },
   "on": {
     "message": "ચાલુ",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "ગ્રુપના સભ્યો",
-    "description": ""
+    "message": "ગ્રુપના સભ્યો"
   },
   "showMembers": {
-    "message": "મેમ્બર્સ શો કરો",
-    "description": ""
+    "message": "મેમ્બર્સ શો કરો"
   },
   "showSafetyNumber": {
-    "message": "સલામતી નંબર જુઓ",
-    "description": ""
+    "message": "સલામતી નંબર જુઓ"
   },
   "viewRecentMedia": {
     "message": "તાજેતરના મીડિયા જુઓ",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ સાથે તમારા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનની ચકાસણી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો.",
-    "description": ""
+    "message": "$name$ સાથે તમારા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનની ચકાસણી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો."
   },
   "theirIdentityUnknown": {
-    "message": "તમે હજી સુધી આ સંપર્ક સાથે કોઈ મેસેજની આપલે કરી નથી. પ્રથમ મેસેજ પછી તેમની સાથે તમારો સલામતી નંબર ઉપલબ્ધ થશે.",
-    "description": ""
+    "message": "તમે હજી સુધી આ સંપર્ક સાથે કોઈ મેસેજની આપલે કરી નથી. પ્રથમ મેસેજ પછી તેમની સાથે તમારો સલામતી નંબર ઉપલબ્ધ થશે."
   },
   "back": {
     "message": "પાછળ",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "માફ કરશો, તમારી પાસે પહેલાથી જ ઘણા બધા ઉપકરણો જોડાયેલા છે. કેટલાકને દૂર કરવાનો પ્રયાસ કરો.",
-    "description": ""
+    "message": "માફ કરશો, તમારી પાસે પહેલાથી જ ઘણા બધા ઉપકરણો જોડાયેલા છે. કેટલાકને દૂર કરવાનો પ્રયાસ કરો."
   },
   "installTooOld": {
-    "message": "તમારા ફોનને લિંક કરવા આ ઉપકરણ પર Signal અપડેટ કરો.",
-    "description": ""
+    "message": "તમારા ફોનને લિંક કરવા આ ઉપકરણ પર Signal અપડેટ કરો."
   },
   "installErrorHeader": {
-    "message": "કંઈક ખોટું થયું!",
-    "description": ""
+    "message": "કંઈક ખોટું થયું!"
   },
   "installUnknownError": {
-    "message": "એક અનપેક્ષિત ત્રુટિ આવી. કૃપા કરીને ફરી પ્રયાસ કરો.",
-    "description": ""
+    "message": "એક અનપેક્ષિત ત્રુટિ આવી. કૃપા કરીને ફરી પ્રયાસ કરો."
   },
   "installTryAgain": {
-    "message": "ફરીથી પ્રયત્ન કરો",
-    "description": ""
+    "message": "ફરીથી પ્રયત્ન કરો"
   },
   "Preferences--theme": {
     "message": "થીમ",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "તમારા મેસેજ પર $sender$ પ્રતિક્રિયા $emoji$",
-    "description": ""
+    "message": "તમારા મેસેજ પર $sender$ પ્રતિક્રિયા $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ એ $emoji$ ને પ્રતિક્રિયા આપી: $message$",
-    "description": ""
+    "message": "$sender$ એ $emoji$ ને પ્રતિક્રિયા આપી: $message$"
   },
   "sendFailed": {
     "message": "મોકલવામાં નિષ્ફળ",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "મેસેજ કરવાનું ચાલુ રાખવા માટે તમારા મોબાઇલ ડિવાઇસ સાથે Signal ડેસ્કટોપને ફરીથી લિંક કરવા ક્લિક કરો.",
-    "description": ""
+    "message": "મેસેજ કરવાનું ચાલુ રાખવા માટે તમારા મોબાઇલ ડિવાઇસ સાથે Signal ડેસ્કટોપને ફરીથી લિંક કરવા ક્લિક કરો."
   },
   "unlinked": {
-    "message": "અનલિંકડ",
-    "description": ""
+    "message": "અનલિંકડ"
   },
   "relink": {
-    "message": "ફરીથી લિંક કરો",
-    "description": ""
+    "message": "ફરીથી લિંક કરો"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "અપડેટ ઉપલબ્ધ છે",
-    "description": ""
+    "message": "અપડેટ ઉપલબ્ધ છે"
   },
   "autoUpdateRetry": {
-    "message": "અપડેટ કરવાનો ફરી પ્રયાસ કરો",
-    "description": ""
+    "message": "અપડેટ કરવાનો ફરી પ્રયાસ કરો"
   },
   "autoUpdateContactSupport": {
-    "message": "સપોર્ટનો સંપર્ક કરો",
-    "description": ""
+    "message": "સપોર્ટનો સંપર્ક કરો"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signalને રિસ્ટાર્ટ કરવા ક્લિક કરો",
-    "description": ""
+    "message": "Signalને રિસ્ટાર્ટ કરવા ક્લિક કરો"
   },
   "downloadNewVersionMessage": {
-    "message": "અપડેટ ડાઉનલોડ કરવા ક્લિક કરો",
-    "description": ""
+    "message": "અપડેટ ડાઉનલોડ કરવા ક્લિક કરો"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal અપડેટ ન થઈ શક્યું. ફરી પ્રયાસ કરવા ક્લિક કરો.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "અપડેટ્સ લાગુ કરવા માટે રિસ્ટાર્ટ Signal દબાવો.",
-    "description": ""
+    "message": "અપડેટ્સ લાગુ કરવા માટે રિસ્ટાર્ટ Signal દબાવો."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal ફરીથી પ્રારંભ કરો",
-    "description": ""
+    "message": "Signal ફરીથી પ્રારંભ કરો"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "પછી",
-    "description": ""
+    "message": "પછી"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "અપડેટને અવગણો",
-    "description": ""
+    "message": "અપડેટને અવગણો"
   },
   "leftTheGroup": {
     "message": "$name$ એ ગ્રુપ છોડી દીધું.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ એ તમને એક મેસેજ મોકલ્યો છે કે જે પ્રોસીડ અથવા ડિસ્પ્લે કરી શકાતો નથી કારણ કે તે નવી Signal સુવિધાનો ઉપયોગ કરે છે.",
-    "description": ""
+    "message": "$contact$ એ તમને એક મેસેજ મોકલ્યો છે કે જે પ્રોસીડ અથવા ડિસ્પ્લે કરી શકાતો નથી કારણ કે તે નવી Signal સુવિધાનો ઉપયોગ કરે છે."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "તમે Signal ના અપ-ટૂ-ડેટ વર્ઝનનો ઉપયોગ કરી રહ્યા છો ત્યારે આ મેસેજને ફરીથી મોકલવા માટે તમે $contact$ ને પૂછી શકો છો.",
-    "description": ""
+    "message": "તમે Signal ના અપ-ટૂ-ડેટ વર્ઝનનો ઉપયોગ કરી રહ્યા છો ત્યારે આ મેસેજને ફરીથી મોકલવા માટે તમે $contact$ ને પૂછી શકો છો."
   },
   "Message--from-me-unsupported-message": {
-    "message": "તમારા ઉપકરણોમાંથી એક એક મેસેજ મોકલ્યો છે જેની પ્રોસેસ અથવા ડિસ્પ્લે કરી શકાતી નથી કારણ કે તે નવી Signal સુવિધાનો ઉપયોગ કરે છે.",
-    "description": ""
+    "message": "તમારા ઉપકરણોમાંથી એક એક મેસેજ મોકલ્યો છે જેની પ્રોસેસ અથવા ડિસ્પ્લે કરી શકાતી નથી કારણ કે તે નવી Signal સુવિધાનો ઉપયોગ કરે છે."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "આના જેવા ભવિષ્યના સંદેશા હવે સિન્ક્રોનાઇઝ થશે કારણ કે તમે Signal નાં અદ્યતન વર્ઝનનો ઉપયોગ કરી રહ્યા છો.",
-    "description": ""
+    "message": "આના જેવા ભવિષ્યના સંદેશા હવે સિન્ક્રોનાઇઝ થશે કારણ કે તમે Signal નાં અદ્યતન વર્ઝનનો ઉપયોગ કરી રહ્યા છો."
   },
   "Message--update-signal": {
     "message": "Signal ને અપડેટ કરો",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "પ્રતિક્રિયા દૂર કરો",
-    "description": ""
+    "message": "પ્રતિક્રિયા દૂર કરો"
   },
   "Reactions--error": {
     "message": "પ્રતિક્રિયા મોકલવામાં નિષ્ફળ. મેહરબાની કરીને ફરીથી પ્રયાસ કરો.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "અનુત્તરિત વિડિયો કૉલ",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal હજી ચાલુ છે",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal નોટિફિકેશન એરિયામાં ચાલુ રહેશે. તમે આ Signal સેટિંગ્સમાં બદલી શકો છો.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "ઈનકમિંગ ઑડિયો કૉલ ...",
@@ -4895,6 +4854,10 @@
     "message": "દ્વારા વ્યૂ",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "આટલા સમયમાં ગાયબ થશે",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "વિશે",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ફાઇલ સાઇઝ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$માં ગાયબ થાય છે ",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

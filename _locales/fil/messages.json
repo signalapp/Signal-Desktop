@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Isumite",
-    "description": ""
+    "message": "Isumite"
   },
   "acceptNewKey": {
     "message": "Tanggapin",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified",
-    "description": ""
+    "message": "Mark as verified"
   },
   "unverify": {
-    "message": "Mark as not verified",
-    "description": ""
+    "message": "Mark as not verified"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Beripikado",
-    "description": ""
+    "message": "Beripikado"
   },
   "newIdentity": {
     "message": "Bagong numerong pangkaligtasan",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Nagbago ang safety number mo sa contact na ito. Maaaring may sumusubok na harangin ang inyong komunikasyon o in-install lang ulit ng contact na ito ang Signal. Maaari mong i-verify sa baba ang bagong safety number.",
-    "description": ""
+    "message": "Nagbago ang safety number mo sa contact na ito. Maaaring may sumusubok na harangin ang inyong komunikasyon o in-install lang ulit ng contact na ito ang Signal. Maaari mong i-verify sa baba ang bagong safety number."
   },
   "incomingError": {
-    "message": "Nagka-error sa pangangasiwa ng paparating na mensahe",
-    "description": ""
+    "message": "Nagka-error sa pangangasiwa ng paparating na mensahe"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Paumanhin, masyadong malaki ang pinili mong file.",
-    "description": ""
+    "message": "Paumanhin, masyadong malaki ang pinili mong file."
   },
   "unableToLoadAttachment": {
-    "message": "Unable to load selected attachment.",
-    "description": ""
+    "message": "Unable to load selected attachment."
   },
   "disconnected": {
     "message": "Disconnected",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Welcome sa Signal",
-    "description": ""
+    "message": "Welcome sa Signal"
   },
   "whatsNew": {
     "message": "See $whatsNew$ in this update",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Kanselahin",
-    "description": ""
+    "message": "Kanselahin"
   },
   "discard": {
-    "message": "I-discard",
-    "description": ""
+    "message": "I-discard"
   },
   "failedToSend": {
-    "message": "Hindi naipadala sa lahat ang mensahe. I-check ang iyong network connection.",
-    "description": ""
+    "message": "Hindi naipadala sa lahat ang mensahe. I-check ang iyong network connection."
   },
   "error": {
-    "message": "Error",
-    "description": ""
+    "message": "Error"
   },
   "messageDetail": {
-    "message": "Detalye ng Mensahe",
-    "description": ""
+    "message": "Detalye ng Mensahe"
   },
   "delete": {
-    "message": "Burahin",
-    "description": ""
+    "message": "Burahin"
   },
   "accept": {
-    "message": "Tanggapin",
-    "description": ""
+    "message": "Tanggapin"
   },
   "forward": {
-    "message": "Ipasa",
-    "description": ""
+    "message": "Ipasa"
   },
   "done": {
     "message": "Tapos na",
     "description": "Label for done"
   },
   "update": {
-    "message": "I-update",
-    "description": ""
+    "message": "I-update"
   },
   "next2": {
-    "message": "Susunod",
-    "description": ""
+    "message": "Susunod"
   },
   "on": {
     "message": "On",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Mga kasapi ng grupo",
-    "description": ""
+    "message": "Mga kasapi ng grupo"
   },
   "showMembers": {
-    "message": "Ipakita ang members",
-    "description": ""
+    "message": "Ipakita ang members"
   },
   "showSafetyNumber": {
-    "message": "Tingnan ang numerong pangkaligtasan",
-    "description": ""
+    "message": "Tingnan ang numerong pangkaligtasan"
   },
   "viewRecentMedia": {
     "message": "I-view ang recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Para i-verify ang security ng iyong end-to-end encryption with $name$, i-compare ang numbers sa itaas sa kanyang device.",
-    "description": ""
+    "message": "Para i-verify ang security ng iyong end-to-end encryption with $name$, i-compare ang numbers sa itaas sa kanyang device."
   },
   "theirIdentityUnknown": {
-    "message": "Hindi mo pa nakaka-chat ang contact na ito. Magiging available ang safety number mo sa kanya pagkatapos maipadala ang unang mensahe.",
-    "description": ""
+    "message": "Hindi mo pa nakaka-chat ang contact na ito. Magiging available ang safety number mo sa kanya pagkatapos maipadala ang unang mensahe."
   },
   "back": {
     "message": "Bumalik",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Paumanhin, masyado ka nang maraming devices na naka-link. Subukang magtanggal ng ilan.",
-    "description": ""
+    "message": "Paumanhin, masyado ka nang maraming devices na naka-link. Subukang magtanggal ng ilan."
   },
   "installTooOld": {
-    "message": "I-update ang Signal sa device na ito para ma-link ang iyong phone.",
-    "description": ""
+    "message": "I-update ang Signal sa device na ito para ma-link ang iyong phone."
   },
   "installErrorHeader": {
-    "message": "Nagkaroon ng problema!",
-    "description": ""
+    "message": "Nagkaroon ng problema!"
   },
   "installUnknownError": {
-    "message": "An unexpected error occurred. Subukan ulit.",
-    "description": ""
+    "message": "An unexpected error occurred. Subukan ulit."
   },
   "installTryAgain": {
-    "message": "Subukang muli",
-    "description": ""
+    "message": "Subukang muli"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reacted $emoji$ sa message mo",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ sa message mo"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reacted $emoji$ sa: $message$",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ sa: $message$"
   },
   "sendFailed": {
     "message": "Failed ang pag-send",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "I-click para ma-relink ang Signal Desktop sa iyong mobile device to continue messaging.",
-    "description": ""
+    "message": "I-click para ma-relink ang Signal Desktop sa iyong mobile device to continue messaging."
   },
   "unlinked": {
-    "message": "Unlinked",
-    "description": ""
+    "message": "Unlinked"
   },
   "relink": {
-    "message": "Relink",
-    "description": ""
+    "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Available ang update",
-    "description": ""
+    "message": "Available ang update"
   },
   "autoUpdateRetry": {
-    "message": "Retry update",
-    "description": ""
+    "message": "Retry update"
   },
   "autoUpdateContactSupport": {
-    "message": "contact support",
-    "description": ""
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Click to restart Signal",
-    "description": ""
+    "message": "Click to restart Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Click to download update",
-    "description": ""
+    "message": "Click to download update"
   },
   "downloadFullNewVersionMessage": {
     "message": "Hindi ma-update ang Signal. Subukan ulit.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "I-press ang Restart Signal para ma-apply ang updates.",
-    "description": ""
+    "message": "I-press ang Restart Signal para ma-apply ang updates."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restart Signal",
-    "description": ""
+    "message": "Restart Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Mamaya na",
-    "description": ""
+    "message": "Mamaya na"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignore update",
-    "description": ""
+    "message": "Ignore update"
   },
   "leftTheGroup": {
     "message": "Umalis si $name$ sa group.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "Nag-send ng message si $contact$ that can't be processed or displayed dahil gumagamit siya ng bagong Signal feature.",
-    "description": ""
+    "message": "Nag-send ng message si $contact$ that can't be processed or displayed dahil gumagamit siya ng bagong Signal feature."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Pwede mong sabihan si $contact$ na i-resend ang message na ito now that you are using an updated version of Signal.",
-    "description": ""
+    "message": "Pwede mong sabihan si $contact$ na i-resend ang message na ito now that you are using an updated version of Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Ang isa sa devices mo ay nag-send ng message na hindi ma-process o ma-display dahil gumagamit siya ng bagong Signal feature.",
-    "description": ""
+    "message": "Ang isa sa devices mo ay nag-send ng message na hindi ma-process o ma-display dahil gumagamit siya ng bagong Signal feature."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Future messages like this will be synchronized now dahil gumagamit ka na ng updated version of Signal.",
-    "description": ""
+    "message": "Future messages like this will be synchronized now dahil gumagamit ka na ng updated version of Signal."
   },
   "Message--update-signal": {
     "message": "I-update ang Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "I-remove ang reaction",
-    "description": ""
+    "message": "I-remove ang reaction"
   },
   "Reactions--error": {
     "message": "Failed to send reaction. Subukan ulit.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Unanswered video call",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Tumatakbo pa rin ang Signal app",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Patuloy na tatakbo ang Signal app sa notification area. Pwede mo itong baguhin sa Signal settings.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Incoming audio call...",
@@ -4895,6 +4854,10 @@
     "message": "Viewed by",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Magdi-disappear sa loob ng",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "About",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "File size $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Magdi-disappear sa loob ng $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

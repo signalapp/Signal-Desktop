@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "送信する",
-    "description": ""
+    "message": "送信する"
   },
   "acceptNewKey": {
     "message": "承認する",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "検証済みにする",
-    "description": ""
+    "message": "検証済みにする"
   },
   "unverify": {
-    "message": "未検証にする",
-    "description": ""
+    "message": "未検証にする"
   },
   "isVerified": {
     "message": "$name$ に対する安全番号を検証しました。",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "検証済み",
-    "description": ""
+    "message": "検証済み"
   },
   "newIdentity": {
     "message": "新しい安全番号",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "この連絡先に対する安全番号が変更されました。だれかが通信を傍受しようとしているかも知れませんし、連絡先がSignalを再インストールしただけかも知れません。以下から新しい安全番号を検証することをお勧めします。",
-    "description": ""
+    "message": "この連絡先に対する安全番号が変更されました。だれかが通信を傍受しようとしているかも知れませんし、連絡先がSignalを再インストールしただけかも知れません。以下から新しい安全番号を検証することをお勧めします。"
   },
   "incomingError": {
-    "message": "受信メッセージの処理エラー",
-    "description": ""
+    "message": "受信メッセージの処理エラー"
   },
   "media": {
     "message": "メディア",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "選択されたファイルは大きすぎます。",
-    "description": ""
+    "message": "選択されたファイルは大きすぎます。"
   },
   "unableToLoadAttachment": {
-    "message": "選択された添付ファイルをロードできません。",
-    "description": ""
+    "message": "選択された添付ファイルをロードできません。"
   },
   "disconnected": {
     "message": "接続していません",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signalへようこそ",
-    "description": ""
+    "message": "Signalへようこそ"
   },
   "whatsNew": {
     "message": "このアップデートの$whatsNew$をご覧ください",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "キャンセル",
-    "description": ""
+    "message": "キャンセル"
   },
   "discard": {
-    "message": "破棄",
-    "description": ""
+    "message": "破棄"
   },
   "failedToSend": {
-    "message": "いくつかの宛先に送信できませんでした。ネットワーク接続を確認してください。",
-    "description": ""
+    "message": "いくつかの宛先に送信できませんでした。ネットワーク接続を確認してください。"
   },
   "error": {
-    "message": "エラー",
-    "description": ""
+    "message": "エラー"
   },
   "messageDetail": {
-    "message": "メッセージの詳細",
-    "description": ""
+    "message": "メッセージの詳細"
   },
   "delete": {
-    "message": "削除する",
-    "description": ""
+    "message": "削除する"
   },
   "accept": {
-    "message": "承認する",
-    "description": ""
+    "message": "承認する"
   },
   "forward": {
-    "message": "転送",
-    "description": ""
+    "message": "転送"
   },
   "done": {
     "message": "完了",
     "description": "Label for done"
   },
   "update": {
-    "message": "更新する",
-    "description": ""
+    "message": "更新する"
   },
   "next2": {
-    "message": "次へ",
-    "description": ""
+    "message": "次へ"
   },
   "on": {
     "message": "オン",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "グループメンバー",
-    "description": ""
+    "message": "グループメンバー"
   },
   "showMembers": {
-    "message": "メンバーを表示する",
-    "description": ""
+    "message": "メンバーを表示する"
   },
   "showSafetyNumber": {
-    "message": "安全番号を表示する",
-    "description": ""
+    "message": "安全番号を表示する"
   },
   "viewRecentMedia": {
     "message": "最近使用したメディア",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ とのエンドツーエンド暗号化の安全性を検証するには、上記の番号が相手端末上の番号と同じか確認してください。",
-    "description": ""
+    "message": "$name$ とのエンドツーエンド暗号化の安全性を検証するには、上記の番号が相手端末上の番号と同じか確認してください。"
   },
   "theirIdentityUnknown": {
-    "message": "この連絡先とまだメッセージを交換していません。安全番号は最初のメッセージのあとに利用可能になります。",
-    "description": ""
+    "message": "この連絡先とまだメッセージを交換していません。安全番号は最初のメッセージのあとに利用可能になります。"
   },
   "back": {
     "message": "戻る",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
-    "description": ""
+    "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。"
   },
   "installTooOld": {
-    "message": "スマートフォンとリンクするために Signal を更新してください。",
-    "description": ""
+    "message": "スマートフォンとリンクするために Signal を更新してください。"
   },
   "installErrorHeader": {
-    "message": "エラーが発生しました。",
-    "description": ""
+    "message": "エラーが発生しました。"
   },
   "installUnknownError": {
-    "message": "予期せぬエラーが発生しました。再度お試しください。",
-    "description": ""
+    "message": "予期せぬエラーが発生しました。再度お試しください。"
   },
   "installTryAgain": {
-    "message": "もう一度試す",
-    "description": ""
+    "message": "もう一度試す"
   },
   "Preferences--theme": {
     "message": "テーマ",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ があなたのメッセージに $emoji$",
-    "description": ""
+    "message": "$sender$ があなたのメッセージに $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ が「$message$」に $emoji$",
-    "description": ""
+    "message": "$sender$ が「$message$」に $emoji$"
   },
   "sendFailed": {
     "message": "送信できませんでした",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "クリックすると、Signal Desktopとスマートフォンが再リンクされ、メッセージのやり取りが継続されます。",
-    "description": ""
+    "message": "クリックすると、Signal Desktopとスマートフォンが再リンクされ、メッセージのやり取りが継続されます。"
   },
   "unlinked": {
-    "message": "未リンク",
-    "description": ""
+    "message": "未リンク"
   },
   "relink": {
-    "message": "再リンク",
-    "description": ""
+    "message": "再リンク"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "アップデートがあります",
-    "description": ""
+    "message": "アップデートがあります"
   },
   "autoUpdateRetry": {
-    "message": "アップデートを再試行",
-    "description": ""
+    "message": "アップデートを再試行"
   },
   "autoUpdateContactSupport": {
-    "message": "お問い合わせ",
-    "description": ""
+    "message": "お問い合わせ"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signalを再起動する",
-    "description": ""
+    "message": "Signalを再起動する"
   },
   "downloadNewVersionMessage": {
-    "message": "アップデートをダウンロードする",
-    "description": ""
+    "message": "アップデートをダウンロードする"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signalのアップデートが失敗しました。クリックして再試行してください。",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "アップデートを適用するにはSignalを再起動してください。",
-    "description": ""
+    "message": "アップデートを適用するにはSignalを再起動してください。"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signalを再起動する",
-    "description": ""
+    "message": "Signalを再起動する"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "あとで",
-    "description": ""
+    "message": "あとで"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "アップデートを無視",
-    "description": ""
+    "message": "アップデートを無視"
   },
   "leftTheGroup": {
     "message": "$name$ がグループを抜けました。",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ からメッセージが届きましたが、Signalの新機能を利用しているため処理または表示できません。",
-    "description": ""
+    "message": "$contact$ からメッセージが届きましたが、Signalの新機能を利用しているため処理または表示できません。"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Signalを最新バージョンに更新したため、$contact$ にメッセージの再送を依頼できます。",
-    "description": ""
+    "message": "Signalを最新バージョンに更新したため、$contact$ にメッセージの再送を依頼できます。"
   },
   "Message--from-me-unsupported-message": {
-    "message": "別の端末でSignalの新機能を使用してメッセージを送信したため、処理または表示できません。",
-    "description": ""
+    "message": "別の端末でSignalの新機能を使用してメッセージを送信したため、処理または表示できません。"
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Signalを最新バージョンに更新したため、今後はこのようなメッセージも同期されます。",
-    "description": ""
+    "message": "Signalを最新バージョンに更新したため、今後はこのようなメッセージも同期されます。"
   },
   "Message--update-signal": {
     "message": "Signalをアップデート",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "リアクションを削除",
-    "description": ""
+    "message": "リアクションを削除"
   },
   "Reactions--error": {
     "message": "リアクションを送信に失敗しました。再度お試しください。",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ビデオ通話応答なし",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signalは動作中です",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signalはタスクトレイ内で動作中です。これはSignalの「設定」で変更できます",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "音声通話着信中…",
@@ -4895,6 +4854,10 @@
     "message": "閲覧済み",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "消えるまで",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "自己紹介",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ファイルサイズ$size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "消えるまで $countdown$ 秒",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

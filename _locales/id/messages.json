@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Kirim",
-    "description": ""
+    "message": "Kirim"
   },
   "acceptNewKey": {
     "message": "Terima",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Tandai terverifikasi",
-    "description": ""
+    "message": "Tandai terverifikasi"
   },
   "unverify": {
-    "message": "Tandai tidak terverifikasi",
-    "description": ""
+    "message": "Tandai tidak terverifikasi"
   },
   "isVerified": {
     "message": "Anda telah memverifikasi nomor keamanan Anda dengan $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Terverifikasi",
-    "description": ""
+    "message": "Terverifikasi"
   },
   "newIdentity": {
     "message": "Nomor keamanan baru",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Nomor keamanan Anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba mencegat komunikasi Anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru di bawah.",
-    "description": ""
+    "message": "Nomor keamanan Anda dengan kontak ini telah berubah. Ini bisa berarti ada seseorang mencoba mencegat komunikasi Anda, atau kontak telah menghapus aplikasi Signal. Anda mungkin ingin memverifikasi nomor keamanan baru di bawah."
   },
   "incomingError": {
-    "message": "Gagal menangani pesan masuk",
-    "description": ""
+    "message": "Gagal menangani pesan masuk"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Maaf, berkas tersebut melebihi batas ukuran pesan.",
-    "description": ""
+    "message": "Maaf, berkas tersebut melebihi batas ukuran pesan."
   },
   "unableToLoadAttachment": {
-    "message": "Tidak dapat memuat lampiran yang dipilih.",
-    "description": ""
+    "message": "Tidak dapat memuat lampiran yang dipilih."
   },
   "disconnected": {
     "message": "Terputus",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Selamat datang di Signal",
-    "description": ""
+    "message": "Selamat datang di Signal"
   },
   "whatsNew": {
     "message": "Lihat $whatsNew$ pada pembaruan ini",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Batal",
-    "description": ""
+    "message": "Batal"
   },
   "discard": {
-    "message": "Batalkan",
-    "description": ""
+    "message": "Batalkan"
   },
   "failedToSend": {
-    "message": "Gagal mengirim. Cek sambungan jaringan Anda.",
-    "description": ""
+    "message": "Gagal mengirim. Cek sambungan jaringan Anda."
   },
   "error": {
-    "message": "Galat",
-    "description": ""
+    "message": "Galat"
   },
   "messageDetail": {
-    "message": "Detail Pesan",
-    "description": ""
+    "message": "Detail Pesan"
   },
   "delete": {
-    "message": "Hapus",
-    "description": ""
+    "message": "Hapus"
   },
   "accept": {
-    "message": "Terima",
-    "description": ""
+    "message": "Terima"
   },
   "forward": {
-    "message": "Teruskan",
-    "description": ""
+    "message": "Teruskan"
   },
   "done": {
     "message": "Selesai",
     "description": "Label for done"
   },
   "update": {
-    "message": "Perbarui",
-    "description": ""
+    "message": "Perbarui"
   },
   "next2": {
-    "message": "Berikutnya",
-    "description": ""
+    "message": "Berikutnya"
   },
   "on": {
     "message": "Aktif",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Anggota Grup",
-    "description": ""
+    "message": "Anggota Grup"
   },
   "showMembers": {
-    "message": "Tampilkan anggota",
-    "description": ""
+    "message": "Tampilkan anggota"
   },
   "showSafetyNumber": {
-    "message": "Lihat nomor keamanan",
-    "description": ""
+    "message": "Lihat nomor keamanan"
   },
   "viewRecentMedia": {
     "message": "Lihat media terbaru",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Untuk memverifikasi keamanan enkripsi ujung-ke-ujung Anda dengan $name$, cocokkan nomor di atas dengan perangkat mereka.",
-    "description": ""
+    "message": "Untuk memverifikasi keamanan enkripsi ujung-ke-ujung Anda dengan $name$, cocokkan nomor di atas dengan perangkat mereka."
   },
   "theirIdentityUnknown": {
-    "message": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan Anda dengan kontak ini akan tersedia sesaat setelah pesan pertama.",
-    "description": ""
+    "message": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan Anda dengan kontak ini akan tersedia sesaat setelah pesan pertama."
   },
   "back": {
     "message": "Kembali",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus sebagian.",
-    "description": ""
+    "message": "Maaf, Anda menautkan perangkat terlalu banyak. Coba hapus sebagian."
   },
   "installTooOld": {
-    "message": "Perbarui Signal di perangkat ini untuk menautkan ponsel Anda.",
-    "description": ""
+    "message": "Perbarui Signal di perangkat ini untuk menautkan ponsel Anda."
   },
   "installErrorHeader": {
-    "message": "Ada yang keliru!",
-    "description": ""
+    "message": "Ada yang keliru!"
   },
   "installUnknownError": {
-    "message": "Terjadi kesalahan tak terduga. Mohon coba lagi.",
-    "description": ""
+    "message": "Terjadi kesalahan tak terduga. Mohon coba lagi."
   },
   "installTryAgain": {
-    "message": "Coba Lagi",
-    "description": ""
+    "message": "Coba Lagi"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ memberi tanggapan $emoji$ pada pesan Anda",
-    "description": ""
+    "message": "$sender$ memberi tanggapan $emoji$ pada pesan Anda"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ memberi tanggapan $emoji$ pada: $message$",
-    "description": ""
+    "message": "$sender$ memberi tanggapan $emoji$ pada: $message$"
   },
   "sendFailed": {
     "message": "Pengiriman gagal",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klik untuk menyambungkan ulang Signal Desktop dengan perangkat seluler Anda untuk melanjutkan bertukar pesan.",
-    "description": ""
+    "message": "Klik untuk menyambungkan ulang Signal Desktop dengan perangkat seluler Anda untuk melanjutkan bertukar pesan."
   },
   "unlinked": {
-    "message": "Tidak tersambung",
-    "description": ""
+    "message": "Tidak tersambung"
   },
   "relink": {
-    "message": "Sambungkan kembali",
-    "description": ""
+    "message": "Sambungkan kembali"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Pembaruan tersedia",
-    "description": ""
+    "message": "Pembaruan tersedia"
   },
   "autoUpdateRetry": {
-    "message": "Ulangi pembaruan",
-    "description": ""
+    "message": "Ulangi pembaruan"
   },
   "autoUpdateContactSupport": {
-    "message": "hubungi bantuan",
-    "description": ""
+    "message": "hubungi bantuan"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klik untuk memulai ulang Signal",
-    "description": ""
+    "message": "Klik untuk memulai ulang Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Klik untuk mengunduh pembaruan",
-    "description": ""
+    "message": "Klik untuk mengunduh pembaruan"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal tidak dapat melakukan pembaruan. Klik untuk mencoba lagi.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru.",
-    "description": ""
+    "message": "Tekan memulai awal Signal untuk mendapatkan versi terbaru."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Mulai ulang Signal",
-    "description": ""
+    "message": "Mulai ulang Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Selanjutnya",
-    "description": ""
+    "message": "Selanjutnya"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Lewati pembaruan",
-    "description": ""
+    "message": "Lewati pembaruan"
   },
   "leftTheGroup": {
     "message": "$name$ telah meninggalkan grup.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ mengirimkan Anda pesan yang tidak dapat diproses atau ditampilkan karena menggunakan fitur baru Signal.",
-    "description": ""
+    "message": "$contact$ mengirimkan Anda pesan yang tidak dapat diproses atau ditampilkan karena menggunakan fitur baru Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Anda dapat meminta $contact$ untuk mengirim ulang pesan ini saat Anda menggunakan versi Signal terbaru.",
-    "description": ""
+    "message": "Anda dapat meminta $contact$ untuk mengirim ulang pesan ini saat Anda menggunakan versi Signal terbaru."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Salah satu perangkat Anda mengirimkan pesan yang tidak dapat diproses atau ditampilkan karena menggunakan fitur baru Signal.",
-    "description": ""
+    "message": "Salah satu perangkat Anda mengirimkan pesan yang tidak dapat diproses atau ditampilkan karena menggunakan fitur baru Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Pesan-pesan seperti ini selanjutnya akan disinkronisasi saat Anda menggunakan versi Signal terbaru.",
-    "description": ""
+    "message": "Pesan-pesan seperti ini selanjutnya akan disinkronisasi saat Anda menggunakan versi Signal terbaru."
   },
   "Message--update-signal": {
     "message": "Perbarui Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Hapus tanggapan",
-    "description": ""
+    "message": "Hapus tanggapan"
   },
   "Reactions--error": {
     "message": "Gagal mengirim tanggapan. Silahkan coba lagi.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Panggilan video tidak terjawab",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal masih berjalan",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal terus berjalan di area notifikasi. Anda dapat mengubah ini di pengaturan Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Panggilan suara masuk...",
@@ -4895,6 +4854,10 @@
     "message": "Dilihat oleh",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Hilang dalam",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Tentang",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Ukuran file $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Hilang dalam $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

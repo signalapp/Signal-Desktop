@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Təqdim et",
-    "description": ""
+    "message": "Təqdim et"
   },
   "acceptNewKey": {
     "message": "Qəbul et",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Təsdiqləndi olaraq işarələ",
-    "description": ""
+    "message": "Təsdiqləndi olaraq işarələ"
   },
   "unverify": {
-    "message": "Təsdiqlənmədi olaraq işarələ",
-    "description": ""
+    "message": "Təsdiqlənmədi olaraq işarələ"
   },
   "isVerified": {
     "message": "$name$ ilə olan güvənlik nömrəniz təsdiqləndi.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Təsdiqləndi",
-    "description": ""
+    "message": "Təsdiqləndi"
   },
   "newIdentity": {
     "message": "Yeni güvənlik nömrəsi",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Bu əlaqə ilə olan güvənlik nömrəniz dəyişdirildi. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə bu əlaqənin Signal-ı yenidən quraşdırdığı mənasını verə bilər. Aşağıdakı yeni güvənlik nömrəsini təsdiqləmək istəyə bilərsiniz.",
-    "description": ""
+    "message": "Bu əlaqə ilə olan güvənlik nömrəniz dəyişdirildi. Unutmayın, bu dəyişiklik, kiminsə rabitənizi kəsməyə çaılşdığı və ya sadəcə bu əlaqənin Signal-ı yenidən quraşdırdığı mənasını verə bilər. Aşağıdakı yeni güvənlik nömrəsini təsdiqləmək istəyə bilərsiniz."
   },
   "incomingError": {
-    "message": "Gələn mesajın emal olunma xətası",
-    "description": ""
+    "message": "Gələn mesajın emal olunma xətası"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır.",
-    "description": ""
+    "message": "Təəssüf ki, seçilmiş fayl, mesaj həcm məhdudiyyətlərini aşır."
   },
   "unableToLoadAttachment": {
-    "message": "Seçilmiş qoşma yüklənilə bilmir.",
-    "description": ""
+    "message": "Seçilmiş qoşma yüklənilə bilmir."
   },
   "disconnected": {
     "message": "Bağlantı kəsildi",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal-a xoş gəldiniz",
-    "description": ""
+    "message": "Signal-a xoş gəldiniz"
   },
   "whatsNew": {
     "message": "Bu yeniləmədə $whatsNew$ baxın",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Oldu",
-    "description": ""
+    "message": "Oldu"
   },
   "cancel": {
-    "message": "İmtina",
-    "description": ""
+    "message": "İmtina"
   },
   "discard": {
-    "message": "Ləğv et",
-    "description": ""
+    "message": "Ləğv et"
   },
   "failedToSend": {
-    "message": "Bəzi alıcılara göndərilmədi. Şəbəkə bağlantınızı yoxlayın.",
-    "description": ""
+    "message": "Bəzi alıcılara göndərilmədi. Şəbəkə bağlantınızı yoxlayın."
   },
   "error": {
-    "message": "Xəta",
-    "description": ""
+    "message": "Xəta"
   },
   "messageDetail": {
-    "message": "Mesaj təfsilatı",
-    "description": ""
+    "message": "Mesaj təfsilatı"
   },
   "delete": {
-    "message": "Sil",
-    "description": ""
+    "message": "Sil"
   },
   "accept": {
-    "message": "Qəbul et",
-    "description": ""
+    "message": "Qəbul et"
   },
   "forward": {
-    "message": "Yönləndir",
-    "description": ""
+    "message": "Yönləndir"
   },
   "done": {
     "message": "Hazırdır",
     "description": "Label for done"
   },
   "update": {
-    "message": "Yenilə",
-    "description": ""
+    "message": "Yenilə"
   },
   "next2": {
-    "message": "Növbəti",
-    "description": ""
+    "message": "Növbəti"
   },
   "on": {
     "message": "Açıq",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Qrup üzvləri",
-    "description": ""
+    "message": "Qrup üzvləri"
   },
   "showMembers": {
-    "message": "Üzvləri göstər",
-    "description": ""
+    "message": "Üzvləri göstər"
   },
   "showSafetyNumber": {
-    "message": "Güvənlik nömrəsinə bax",
-    "description": ""
+    "message": "Güvənlik nömrəsinə bax"
   },
   "viewRecentMedia": {
     "message": "Son mediaya bax",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ ilə bir ucdan digərinə kimi olan şifrələmənizin güvənliyini təsdiqləmək üçün yuxarıdakı nömrələri onun cihazındakı nömrələrlə müqayisə edin.",
-    "description": ""
+    "message": "$name$ ilə bir ucdan digərinə kimi olan şifrələmənizin güvənliyini təsdiqləmək üçün yuxarıdakı nömrələri onun cihazındakı nömrələrlə müqayisə edin."
   },
   "theirIdentityUnknown": {
-    "message": "Hələ ki, bu əlaqə ilə mesajlaşmadınız. Güvənlik nömrəsi, ilk mesajdan sonra mövcud olacaq.",
-    "description": ""
+    "message": "Hələ ki, bu əlaqə ilə mesajlaşmadınız. Güvənlik nömrəsi, ilk mesajdan sonra mövcud olacaq."
   },
   "back": {
     "message": "Geri",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Təəssüf ki, həddən çox cihazla əlaqə əlaqələndirdiniz. Bəzilərini çıxartmağa çalışın",
-    "description": ""
+    "message": "Təəssüf ki, həddən çox cihazla əlaqə əlaqələndirdiniz. Bəzilərini çıxartmağa çalışın"
   },
   "installTooOld": {
-    "message": "Telefonunuzu əlaqələndirmək üçün bu cihazda Signal-ı yeniləyin.",
-    "description": ""
+    "message": "Telefonunuzu əlaqələndirmək üçün bu cihazda Signal-ı yeniləyin."
   },
   "installErrorHeader": {
-    "message": "Nəsə səhv getdi!",
-    "description": ""
+    "message": "Nəsə səhv getdi!"
   },
   "installUnknownError": {
-    "message": "Gözlənilməz bir xəta baş verdi. Zəhmət olmasa yenidən sınayın.",
-    "description": ""
+    "message": "Gözlənilməz bir xəta baş verdi. Zəhmət olmasa yenidən sınayın."
   },
   "installTryAgain": {
-    "message": "Yenidən sına",
-    "description": ""
+    "message": "Yenidən sına"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$, mesajınıza reaksiya verdi: $emoji$",
-    "description": ""
+    "message": "$sender$, mesajınıza reaksiya verdi: $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$, $message$ mesajına reaksiya verdi: $emoji$ ",
-    "description": ""
+    "message": "$sender$, $message$ mesajına reaksiya verdi: $emoji$ "
   },
   "sendFailed": {
     "message": "Göndərilmədi",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Mesajlaşmağa davam etmək üçün Signal Masaüstü ilə cihazınızı əlaqələndirmək üçün klikləyin.",
-    "description": ""
+    "message": "Mesajlaşmağa davam etmək üçün Signal Masaüstü ilə cihazınızı əlaqələndirmək üçün klikləyin."
   },
   "unlinked": {
-    "message": "Əlaqə kəsildi",
-    "description": ""
+    "message": "Əlaqə kəsildi"
   },
   "relink": {
-    "message": "Yenidən əlaqə yarat",
-    "description": ""
+    "message": "Yenidən əlaqə yarat"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Yeniləmə mövcuddur",
-    "description": ""
+    "message": "Yeniləmə mövcuddur"
   },
   "autoUpdateRetry": {
-    "message": "Yenidən sınayın",
-    "description": ""
+    "message": "Yenidən sınayın"
   },
   "autoUpdateContactSupport": {
-    "message": "dəstəklə əlaqə saxlayın",
-    "description": ""
+    "message": "dəstəklə əlaqə saxlayın"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal-ı yenidən başlatmaq üçün klikləyin",
-    "description": ""
+    "message": "Signal-ı yenidən başlatmaq üçün klikləyin"
   },
   "downloadNewVersionMessage": {
-    "message": "Yeniləməni endirmək üçün klikləyin",
-    "description": ""
+    "message": "Yeniləməni endirmək üçün klikləyin"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal yenilənə bilmədi. Yenidən sınamaq üçün klikləyin.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Yeniləmələri tətbiq etmək üçün \"Signal-ı yenidən başlat\"a basın.",
-    "description": ""
+    "message": "Yeniləmələri tətbiq etmək üçün \"Signal-ı yenidən başlat\"a basın."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal-ı yenidən başlat",
-    "description": ""
+    "message": "Signal-ı yenidən başlat"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Daha sonra",
-    "description": ""
+    "message": "Daha sonra"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Yeniləməyə əhəmiyyət vermə",
-    "description": ""
+    "message": "Yeniləməyə əhəmiyyət vermə"
   },
   "leftTheGroup": {
     "message": "$name$, qrupu tərk etdi.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$, Signal-ın yeni özəlliyini istifadə edən bir mesaj göndərdiyi üçün emal oluna və ya görüntülənə bilmir.",
-    "description": ""
+    "message": "$contact$, Signal-ın yeni özəlliyini istifadə edən bir mesaj göndərdiyi üçün emal oluna və ya görüntülənə bilmir."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Signal-ın son versiyasını istifadə etdiyinizə görə $contact$ əlaqəsindən bu mesajı təkrar göndərməsini xahiş edə bilərsiniz.",
-    "description": ""
+    "message": "Signal-ın son versiyasını istifadə etdiyinizə görə $contact$ əlaqəsindən bu mesajı təkrar göndərməsini xahiş edə bilərsiniz."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Cihazlarınızdan biri, Signal-ın yeni özəlliyini istifadə edən bir mesaj göndərdiyi üçün emal oluna və ya görüntülənə bilmir.",
-    "description": ""
+    "message": "Cihazlarınızdan biri, Signal-ın yeni özəlliyini istifadə edən bir mesaj göndərdiyi üçün emal oluna və ya görüntülənə bilmir."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Signal-ın son versiyasını istifadə etdiyinizə görə gələcəkdəki bunun kimi mesajlar artıq eyniləşdiriləcək.",
-    "description": ""
+    "message": "Signal-ın son versiyasını istifadə etdiyinizə görə gələcəkdəki bunun kimi mesajlar artıq eyniləşdiriləcək."
   },
   "Message--update-signal": {
     "message": "Signal-ı yenilə",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Reaksiyanı sil",
-    "description": ""
+    "message": "Reaksiyanı sil"
   },
   "Reactions--error": {
     "message": "Reaksiya göndərilmədi. Zəhmət olmasa yenidən sınayın.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Cavablanmamış görüntülü zəng",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal işləməyə davam edir",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal bildiriş bölməsində işləməyə davam edəcək. Bunu Signal parametrlərindən dəyişdirə bilərsiniz.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Gələn səsli zəng...",
@@ -4895,6 +4854,10 @@
     "message": "Baxıldı",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "müddətə yox olacaq",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Haqqında",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Faylın həcmi $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ müddətə yox olacaq",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

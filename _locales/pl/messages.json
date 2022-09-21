@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Wyślij",
-    "description": ""
+    "message": "Wyślij"
   },
   "acceptNewKey": {
     "message": "Akceptuj",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Oznacz jako zweryfikowany",
-    "description": ""
+    "message": "Oznacz jako zweryfikowany"
   },
   "unverify": {
-    "message": "Oznacz jako niezweryfikowany",
-    "description": ""
+    "message": "Oznacz jako niezweryfikowany"
   },
   "isVerified": {
     "message": "Zweryfikowałeś(aś) numer bezpieczeństwa z $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Zweryfikowany",
-    "description": ""
+    "message": "Zweryfikowany"
   },
   "newIdentity": {
     "message": "Nowy numer bezpieczeństwa",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Numer bezpieczeństwa dla tego kontaktu uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że kontakt po prostu przeinstalował Signal. Możesz zweryfikować nowy numer bezpieczeństwa dla niego poniżej.",
-    "description": ""
+    "message": "Numer bezpieczeństwa dla tego kontaktu uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że kontakt po prostu przeinstalował Signal. Możesz zweryfikować nowy numer bezpieczeństwa dla niego poniżej."
   },
   "incomingError": {
-    "message": "Błąd przy obsłudze przychodzącej wiadomości.",
-    "description": ""
+    "message": "Błąd przy obsłudze przychodzącej wiadomości."
   },
   "media": {
     "message": "Multimedia",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Wybrany plik przekracza ograniczenia rozmiaru wiadomości.",
-    "description": ""
+    "message": "Wybrany plik przekracza ograniczenia rozmiaru wiadomości."
   },
   "unableToLoadAttachment": {
-    "message": "Nie można załadować wybranego załącznika.",
-    "description": ""
+    "message": "Nie można załadować wybranego załącznika."
   },
   "disconnected": {
     "message": "Niepołączony",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Witamy w Signal",
-    "description": ""
+    "message": "Witamy w Signal"
   },
   "whatsNew": {
     "message": "Zobacz $whatsNew$ w tej aktualizacji",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Anuluj",
-    "description": ""
+    "message": "Anuluj"
   },
   "discard": {
-    "message": "Odrzuć",
-    "description": ""
+    "message": "Odrzuć"
   },
   "failedToSend": {
-    "message": "Nie udało się wysłać wiadomości do niektórych odbiorców. Sprawdź połączenie z siecią.",
-    "description": ""
+    "message": "Nie udało się wysłać wiadomości do niektórych odbiorców. Sprawdź połączenie z siecią."
   },
   "error": {
-    "message": "Błąd",
-    "description": ""
+    "message": "Błąd"
   },
   "messageDetail": {
-    "message": "Szczegóły wiadomości",
-    "description": ""
+    "message": "Szczegóły wiadomości"
   },
   "delete": {
-    "message": "Usuń",
-    "description": ""
+    "message": "Usuń"
   },
   "accept": {
-    "message": "Akceptuj",
-    "description": ""
+    "message": "Akceptuj"
   },
   "forward": {
-    "message": "Przekaż",
-    "description": ""
+    "message": "Przekaż"
   },
   "done": {
     "message": "Gotowe",
     "description": "Label for done"
   },
   "update": {
-    "message": "Uaktualnij",
-    "description": ""
+    "message": "Uaktualnij"
   },
   "next2": {
-    "message": "Dalej",
-    "description": ""
+    "message": "Dalej"
   },
   "on": {
     "message": "Włączone",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Członkowie grupy",
-    "description": ""
+    "message": "Członkowie grupy"
   },
   "showMembers": {
-    "message": "Pokaż członków",
-    "description": ""
+    "message": "Pokaż członków"
   },
   "showSafetyNumber": {
-    "message": "Zobacz numer bezpieczeństwa",
-    "description": ""
+    "message": "Zobacz numer bezpieczeństwa"
   },
   "viewRecentMedia": {
     "message": "Pokaż ostatnie multimedia",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Aby sprawdzić bezpieczeństwo Twojego szyfrowanego połączenia z $name$, porównaj powyższe cyfry z cyframi na  urządzeniu Twojego kontaktu.",
-    "description": ""
+    "message": "Aby sprawdzić bezpieczeństwo Twojego szyfrowanego połączenia z $name$, porównaj powyższe cyfry z cyframi na  urządzeniu Twojego kontaktu."
   },
   "theirIdentityUnknown": {
-    "message": "Nie wymieniono jeszcze żadnych wiadomości. Numer bezpieczeństwa dla tego kontaktu będzie dostępny po wymianie pierwszej wiadomości.",
-    "description": ""
+    "message": "Nie wymieniono jeszcze żadnych wiadomości. Numer bezpieczeństwa dla tego kontaktu będzie dostępny po wymianie pierwszej wiadomości."
   },
   "back": {
     "message": "Wróć",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj kilka usunąć.",
-    "description": ""
+    "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj kilka usunąć."
   },
   "installTooOld": {
-    "message": "Uaktualnij Signal na tym urządzeniu, aby połączyć z telefonem.",
-    "description": ""
+    "message": "Uaktualnij Signal na tym urządzeniu, aby połączyć z telefonem."
   },
   "installErrorHeader": {
-    "message": "Coś poszło nie tak!",
-    "description": ""
+    "message": "Coś poszło nie tak!"
   },
   "installUnknownError": {
-    "message": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
-    "description": ""
+    "message": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
   },
   "installTryAgain": {
-    "message": "Spróbuj ponownie",
-    "description": ""
+    "message": "Spróbuj ponownie"
   },
   "Preferences--theme": {
     "message": "Motyw",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ zareagował(a) tak $emoji$ na Twoją wiadomość",
-    "description": ""
+    "message": "$sender$ zareagował(a) tak $emoji$ na Twoją wiadomość"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ zareagował(a) tak $emoji$ na  $message$",
-    "description": ""
+    "message": "$sender$ zareagował(a) tak $emoji$ na  $message$"
   },
   "sendFailed": {
     "message": "Wysyłanie nie powiodło się",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Kliknij, aby ponownie połączyć Signal Desktop z Twoim urządzeniem mobilnym i móc dalej wysyłać wiadomości.",
-    "description": ""
+    "message": "Kliknij, aby ponownie połączyć Signal Desktop z Twoim urządzeniem mobilnym i móc dalej wysyłać wiadomości."
   },
   "unlinked": {
-    "message": "Odłączony",
-    "description": ""
+    "message": "Odłączony"
   },
   "relink": {
-    "message": "Połącz ponownie",
-    "description": ""
+    "message": "Połącz ponownie"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Dostępna aktualizacja",
-    "description": ""
+    "message": "Dostępna aktualizacja"
   },
   "autoUpdateRetry": {
-    "message": "Ponów aktualizację",
-    "description": ""
+    "message": "Ponów aktualizację"
   },
   "autoUpdateContactSupport": {
-    "message": "skontaktuj się z pomocą techniczną",
-    "description": ""
+    "message": "skontaktuj się z pomocą techniczną"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Kliknij, aby ponownie uruchomić Signal",
-    "description": ""
+    "message": "Kliknij, aby ponownie uruchomić Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Kliknij, aby pobrać aktualizację",
-    "description": ""
+    "message": "Kliknij, aby pobrać aktualizację"
   },
   "downloadFullNewVersionMessage": {
     "message": "Nie udało się zaktualizować Signal. Kliknij, aby spróbować ponownie.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Naciśnij \"Uruchom ponownie\", aby zakończyć aktualizację.",
-    "description": ""
+    "message": "Naciśnij \"Uruchom ponownie\", aby zakończyć aktualizację."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Uruchom ponownie",
-    "description": ""
+    "message": "Uruchom ponownie"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Później",
-    "description": ""
+    "message": "Później"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Zignoruj aktualizację",
-    "description": ""
+    "message": "Zignoruj aktualizację"
   },
   "leftTheGroup": {
     "message": "$name$ opuścił(a) grupę.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ wysłał(a) wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal.",
-    "description": ""
+    "message": "$contact$ wysłał(a) wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Używasz aktualnej wersji Signal. Możesz teraz poprosić $contact$ o ponowne wysłanie tej wiadomości.",
-    "description": ""
+    "message": "Używasz aktualnej wersji Signal. Możesz teraz poprosić $contact$ o ponowne wysłanie tej wiadomości."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Z jednego z Twoich urządzeń wysłało wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal.",
-    "description": ""
+    "message": "Z jednego z Twoich urządzeń wysłało wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Używasz aktualnej wersji Signal. Kolejne wiadomości takie jak ta, zostaną teraz zsynchronizowane.",
-    "description": ""
+    "message": "Używasz aktualnej wersji Signal. Kolejne wiadomości takie jak ta, zostaną teraz zsynchronizowane."
   },
   "Message--update-signal": {
     "message": "Zaktualizuj Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Usuń reakcję",
-    "description": ""
+    "message": "Usuń reakcję"
   },
   "Reactions--error": {
     "message": "Nie udało się zareagować. Spróbuj ponownie.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Nieodebrane połączenie wideo",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal nadal działa",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal będzie nadal działał w obszarze powiadomień. Możesz to zmienić w ustawieniach aplikacji Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Przychodzące połączenie audio...",
@@ -4895,6 +4854,10 @@
     "message": "Obejrzano przez",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Zniknie za",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "O mnie",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Rozmiar pliku $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Zniknie za $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

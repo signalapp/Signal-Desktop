@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Postita",
-    "description": ""
+    "message": "Postita"
   },
   "acceptNewKey": {
     "message": "Nõustun",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Märgi kinnitatuks",
-    "description": ""
+    "message": "Märgi kinnitatuks"
   },
   "unverify": {
-    "message": "Märgi mittekinnitatuks",
-    "description": ""
+    "message": "Märgi mittekinnitatuks"
   },
   "isVerified": {
     "message": "Sa oled kinnitanud enda turvanumbri kasutajaga $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Kontrollitud",
-    "description": ""
+    "message": "Kontrollitud"
   },
   "newIdentity": {
     "message": "Uus turvanumber",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Sinu turvanumber selle kontaktiga on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et see kontakt on lihtsalt Signali uuesti paigaldanud. Kontrolli uut turvakoodi allpool.",
-    "description": ""
+    "message": "Sinu turvanumber selle kontaktiga on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et see kontakt on lihtsalt Signali uuesti paigaldanud. Kontrolli uut turvakoodi allpool."
   },
   "incomingError": {
-    "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge.",
-    "description": ""
+    "message": "Sissetuleva sõnumi käsitlemisel tekkis tõrge."
   },
   "media": {
     "message": "Meedia",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu.",
-    "description": ""
+    "message": "Kahjuks ületab valitud fail sõnumi suuruse piirangu."
   },
   "unableToLoadAttachment": {
-    "message": "Valitud manuse laadimine ei õnnestunud.",
-    "description": ""
+    "message": "Valitud manuse laadimine ei õnnestunud."
   },
   "disconnected": {
     "message": "Ühendus katkestatud",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Tere tulemast Signalisse",
-    "description": ""
+    "message": "Tere tulemast Signalisse"
   },
   "whatsNew": {
     "message": "Vaata $whatsNew$ selles versioonis",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Sobib",
-    "description": ""
+    "message": "Sobib"
   },
   "cancel": {
-    "message": "Loobu",
-    "description": ""
+    "message": "Loobu"
   },
   "discard": {
-    "message": "Keeldu",
-    "description": ""
+    "message": "Keeldu"
   },
   "failedToSend": {
-    "message": "Mõnedele saajatele saatmine ei õnnestunud. Kontrolli enda võrguühendust.",
-    "description": ""
+    "message": "Mõnedele saajatele saatmine ei õnnestunud. Kontrolli enda võrguühendust."
   },
   "error": {
-    "message": "Tõrge",
-    "description": ""
+    "message": "Tõrge"
   },
   "messageDetail": {
-    "message": "Sõnumi üksikasjad",
-    "description": ""
+    "message": "Sõnumi üksikasjad"
   },
   "delete": {
-    "message": "Kustuta",
-    "description": ""
+    "message": "Kustuta"
   },
   "accept": {
-    "message": "Nõustun",
-    "description": ""
+    "message": "Nõustun"
   },
   "forward": {
-    "message": "Edasta",
-    "description": ""
+    "message": "Edasta"
   },
   "done": {
     "message": "Tehtud",
     "description": "Label for done"
   },
   "update": {
-    "message": "Uuenda",
-    "description": ""
+    "message": "Uuenda"
   },
   "next2": {
-    "message": "Edasi",
-    "description": ""
+    "message": "Edasi"
   },
   "on": {
     "message": "Sees",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Grupi liikmed",
-    "description": ""
+    "message": "Grupi liikmed"
   },
   "showMembers": {
-    "message": "Näita liikmeid",
-    "description": ""
+    "message": "Näita liikmeid"
   },
   "showSafetyNumber": {
-    "message": "Näita turvanumbrit",
-    "description": ""
+    "message": "Näita turvanumbrit"
   },
   "viewRecentMedia": {
     "message": "Näita hiljutist meediat",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Kasutajaga $name$ suhtluse krüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadme ekraanil olevatega.",
-    "description": ""
+    "message": "Kasutajaga $name$ suhtluse krüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadme ekraanil olevatega."
   },
   "theirIdentityUnknown": {
-    "message": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit.",
-    "description": ""
+    "message": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit."
   },
   "back": {
     "message": "Tagasi",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada.",
-    "description": ""
+    "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada."
   },
   "installTooOld": {
-    "message": "Telefoni ühendamiseks pead selles seadmes Signalit uuendama.",
-    "description": ""
+    "message": "Telefoni ühendamiseks pead selles seadmes Signalit uuendama."
   },
   "installErrorHeader": {
-    "message": "Midagi läks valesti!",
-    "description": ""
+    "message": "Midagi läks valesti!"
   },
   "installUnknownError": {
-    "message": "Tekkis ootamatu tõrge. Palun proovi uuesti.",
-    "description": ""
+    "message": "Tekkis ootamatu tõrge. Palun proovi uuesti."
   },
   "installTryAgain": {
-    "message": "Proovi uuesti",
-    "description": ""
+    "message": "Proovi uuesti"
   },
   "Preferences--theme": {
     "message": "Värviteema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reageeris $emoji$ sinu sõnumile",
-    "description": ""
+    "message": "$sender$ reageeris $emoji$ sinu sõnumile"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reageeris $emoji$ sõnumile: $message$",
-    "description": ""
+    "message": "$sender$ reageeris $emoji$ sõnumile: $message$"
   },
   "sendFailed": {
     "message": "Saatmine ei õnnestunud",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klõpsa Signal Desktopi nutiseadmega ühendamiseks, et jätkata sõnumite saatmisega.",
-    "description": ""
+    "message": "Klõpsa Signal Desktopi nutiseadmega ühendamiseks, et jätkata sõnumite saatmisega."
   },
   "unlinked": {
-    "message": "Ühendus eemaldatud",
-    "description": ""
+    "message": "Ühendus eemaldatud"
   },
   "relink": {
-    "message": "Ühenda uuesti",
-    "description": ""
+    "message": "Ühenda uuesti"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Uuendus on saadaval",
-    "description": ""
+    "message": "Uuendus on saadaval"
   },
   "autoUpdateRetry": {
-    "message": "Proovi uuesti uuendada",
-    "description": ""
+    "message": "Proovi uuesti uuendada"
   },
   "autoUpdateContactSupport": {
-    "message": "võta ühendust kasutajatoega",
-    "description": ""
+    "message": "võta ühendust kasutajatoega"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klõpsa Signali taaskäivitamiseks",
-    "description": ""
+    "message": "Klõpsa Signali taaskäivitamiseks"
   },
   "downloadNewVersionMessage": {
-    "message": "Klõpsa uuenduse allalaadimiseks",
-    "description": ""
+    "message": "Klõpsa uuenduse allalaadimiseks"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signalit ei saanud uuendada. Klõpsa, et uuesti proovida.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\".",
-    "description": ""
+    "message": "Uuenduste paigaldamiseks vajuta \"Taaskäivita Signal\"."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Taaskäivita Signal",
-    "description": ""
+    "message": "Taaskäivita Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Hiljem",
-    "description": ""
+    "message": "Hiljem"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignoreeri uuendust",
-    "description": ""
+    "message": "Ignoreeri uuendust"
   },
   "leftTheGroup": {
     "message": "$name$ lahkus grupist.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signali uut funktsionaalsust.",
-    "description": ""
+    "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signali uut funktsionaalsust."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Nüüd, kui kasutad Signali uuendatud versiooni, siis palu kontaktil $contact$ sõnum uuesti saata.",
-    "description": ""
+    "message": "Nüüd, kui kasutad Signali uuendatud versiooni, siis palu kontaktil $contact$ sõnum uuesti saata."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Üks sinu seadmetest saatis sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signali uut funktsionaalsust.",
-    "description": ""
+    "message": "Üks sinu seadmetest saatis sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signali uut funktsionaalsust."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Tulevikusõnumid nagu see sünkroniseeritakse nüüd, kui kasutad värskendatud Signali versiooni.",
-    "description": ""
+    "message": "Tulevikusõnumid nagu see sünkroniseeritakse nüüd, kui kasutad värskendatud Signali versiooni."
   },
   "Message--update-signal": {
     "message": "Uuenda Signalit",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Eemalda reaktsioon",
-    "description": ""
+    "message": "Eemalda reaktsioon"
   },
   "Reactions--error": {
     "message": "Reaktsiooni saatmine ei õnnestunud. Palun proovi uuesti.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Vastamata videokõne",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal töötab endiselt",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal jätkab teavituste alas tööd. Saad seda Signali sätetes muuta.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Sissetulev häälkõne...",
@@ -4895,6 +4854,10 @@
     "message": "Nähtud: ",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Kustumiseni aega:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Teave",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Faili suurus $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Kustumiseni aega: $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

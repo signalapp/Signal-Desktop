@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "تاپشۇر",
-    "description": ""
+    "message": "تاپشۇر"
   },
   "acceptNewKey": {
     "message": "قوشۇل",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "دەلىللەندى بەلگىسى سال",
-    "description": ""
+    "message": "دەلىللەندى بەلگىسى سال"
   },
   "unverify": {
-    "message": "دەلىللەنمىدى بەلگىسى سال",
-    "description": ""
+    "message": "دەلىللەنمىدى بەلگىسى سال"
   },
   "isVerified": {
     "message": "سىز $name$ بىلەن بولغان بىخەتەرلىك نومۇرىڭىزنى دەلىللىدىڭىز.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "دەلىللەندى",
-    "description": ""
+    "message": "دەلىللەندى"
   },
   "newIdentity": {
     "message": "يېڭى بىخەتەرلىك نومۇرى",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "سىزنىڭ بۇ ئالاقەداش بىلەن بولغان بىخەتەر نومۇرىڭىز ئۆزگەردى. باشقىلار ئالاقىڭىزگە ئېرىشىشنى سىناۋاتقان بولۇشى مۇمكىن ياكى ئالاقەداش Signal نى قايتا ئورناتقان بولۇشى مۇمكىن. سىز بۇ ئالاقەداش بىلەن بولغان بىخەتەرلىك نومۇرىنى قايتا دەلىللەشنى ئارزۇ قىلىشىڭىز مۇمكىن.",
-    "description": ""
+    "message": "سىزنىڭ بۇ ئالاقەداش بىلەن بولغان بىخەتەر نومۇرىڭىز ئۆزگەردى. باشقىلار ئالاقىڭىزگە ئېرىشىشنى سىناۋاتقان بولۇشى مۇمكىن ياكى ئالاقەداش Signal نى قايتا ئورناتقان بولۇشى مۇمكىن. سىز بۇ ئالاقەداش بىلەن بولغان بىخەتەرلىك نومۇرىنى قايتا دەلىللەشنى ئارزۇ قىلىشىڭىز مۇمكىن."
   },
   "incomingError": {
-    "message": "تاپشۇرۇۋالغان ئۇچۇرنى بىر تەرەپ قىلىۋاتقاندا خاتالىق كۆرۈلدى",
-    "description": ""
+    "message": "تاپشۇرۇۋالغان ئۇچۇرنى بىر تەرەپ قىلىۋاتقاندا خاتالىق كۆرۈلدى"
   },
   "media": {
     "message": "ۋاسىتە",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "كەچۈرۈڭ، تاللىغان ھۆججەت ئەڭ چوڭ ھۆججەت چېكىدىن ھالقىپ كەتتى.",
-    "description": ""
+    "message": "كەچۈرۈڭ، تاللىغان ھۆججەت ئەڭ چوڭ ھۆججەت چېكىدىن ھالقىپ كەتتى."
   },
   "unableToLoadAttachment": {
-    "message": "تاللىغان قوشۇمچىنى يۈكلىيەلمىدى.",
-    "description": ""
+    "message": "تاللىغان قوشۇمچىنى يۈكلىيەلمىدى."
   },
   "disconnected": {
     "message": "ئۈزۈلدى",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "‫Signal غا خۇش كەلدىڭىز",
-    "description": ""
+    "message": "‫Signal غا خۇش كەلدىڭىز"
   },
   "whatsNew": {
     "message": "See $whatsNew$ in this update",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "جەزملە",
-    "description": ""
+    "message": "جەزملە"
   },
   "cancel": {
-    "message": "ۋاز كەچ",
-    "description": ""
+    "message": "ۋاز كەچ"
   },
   "discard": {
-    "message": "تاشلىۋەت",
-    "description": ""
+    "message": "تاشلىۋەت"
   },
   "failedToSend": {
-    "message": "بەزى تاپشۇرۇۋالغۇچىلارغا ئەۋەتەلمىدى. تور باغلىنىشىڭىزنى تەكشۈرۈڭ.",
-    "description": ""
+    "message": "بەزى تاپشۇرۇۋالغۇچىلارغا ئەۋەتەلمىدى. تور باغلىنىشىڭىزنى تەكشۈرۈڭ."
   },
   "error": {
-    "message": "خاتالىق",
-    "description": ""
+    "message": "خاتالىق"
   },
   "messageDetail": {
-    "message": "ئۇچۇر تەپسىلاتى",
-    "description": ""
+    "message": "ئۇچۇر تەپسىلاتى"
   },
   "delete": {
-    "message": "ئۆچۈر",
-    "description": ""
+    "message": "ئۆچۈر"
   },
   "accept": {
-    "message": "قوشۇل",
-    "description": ""
+    "message": "قوشۇل"
   },
   "forward": {
-    "message": "ئۇلاپ يوللا",
-    "description": ""
+    "message": "ئۇلاپ يوللا"
   },
   "done": {
     "message": "بولدى",
     "description": "Label for done"
   },
   "update": {
-    "message": "يېڭىلا",
-    "description": ""
+    "message": "يېڭىلا"
   },
   "next2": {
-    "message": "كېيىنكى",
-    "description": ""
+    "message": "كېيىنكى"
   },
   "on": {
     "message": "ئاچ",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "گۇرۇپپا ئەزالىرى",
-    "description": ""
+    "message": "گۇرۇپپا ئەزالىرى"
   },
   "showMembers": {
-    "message": "ئەزالارنى كۆرسەت",
-    "description": ""
+    "message": "ئەزالارنى كۆرسەت"
   },
   "showSafetyNumber": {
-    "message": "بىخەتەرلىك نومۇرىنى كۆرسەت",
-    "description": ""
+    "message": "بىخەتەرلىك نومۇرىنى كۆرسەت"
   },
   "viewRecentMedia": {
     "message": "يېقىنقى ۋاسىتىنى كۆرسەت",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
-    "description": ""
+    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device."
   },
   "theirIdentityUnknown": {
-    "message": "سىز بۇ ئالاقەدەش بىلەن تېخى ھېچقانداق ئۇچۇر ئالماشتۇرمىغان. ئۇلار بىلەن بولغان بىخەتەرلىك نومۇرىڭىز سىلەر تۇنجى ئۇچۇرنى يوللىغاندا شەكىللىنىدۇ.",
-    "description": ""
+    "message": "سىز بۇ ئالاقەدەش بىلەن تېخى ھېچقانداق ئۇچۇر ئالماشتۇرمىغان. ئۇلار بىلەن بولغان بىخەتەرلىك نومۇرىڭىز سىلەر تۇنجى ئۇچۇرنى يوللىغاندا شەكىللىنىدۇ."
   },
   "back": {
     "message": "قايت",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "كەچۈرۈڭ، ئۇلانغان ئۈسكۈنىلىرىڭىز بەك كۆپ، بەزىلىرىنى چىقىرىۋېتىڭ.",
-    "description": ""
+    "message": "كەچۈرۈڭ، ئۇلانغان ئۈسكۈنىلىرىڭىز بەك كۆپ، بەزىلىرىنى چىقىرىۋېتىڭ."
   },
   "installTooOld": {
-    "message": "بۇ ئۈسكۈنىدىكى Signal نى يېڭىلاپ تېلېفونىڭىزغا باغلاڭ.",
-    "description": ""
+    "message": "بۇ ئۈسكۈنىدىكى Signal نى يېڭىلاپ تېلېفونىڭىزغا باغلاڭ."
   },
   "installErrorHeader": {
-    "message": "خاتالىق كۆرۈلدى!",
-    "description": ""
+    "message": "خاتالىق كۆرۈلدى!"
   },
   "installUnknownError": {
-    "message": "An unexpected error occurred. Please try again.",
-    "description": ""
+    "message": "An unexpected error occurred. Please try again."
   },
   "installTryAgain": {
-    "message": "قايتا سىنا",
-    "description": ""
+    "message": "قايتا سىنا"
   },
   "Preferences--theme": {
     "message": "ئۇسلۇب",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$  ئۇچۇرىڭىزغا $emoji$ ئىنكاسى قايتۇردى",
-    "description": ""
+    "message": "$sender$  ئۇچۇرىڭىزغا $emoji$ ئىنكاسى قايتۇردى"
   },
   "notificationReactionMessage": {
-    "message": " $sender$-$message$غا $emoji$ ئىنكاسى قايتۇردى",
-    "description": ""
+    "message": " $sender$-$message$غا $emoji$ ئىنكاسى قايتۇردى"
   },
   "sendFailed": {
     "message": "ئەۋەتەلمىدى",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
-    "description": ""
+    "message": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
-    "message": "ئۈزۈلدى",
-    "description": ""
+    "message": "ئۈزۈلدى"
   },
   "relink": {
-    "message": "قايتا باغلا",
-    "description": ""
+    "message": "قايتا باغلا"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update available",
-    "description": ""
+    "message": "Update available"
   },
   "autoUpdateRetry": {
-    "message": "Retry update",
-    "description": ""
+    "message": "Retry update"
   },
   "autoUpdateContactSupport": {
-    "message": "contact support",
-    "description": ""
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Click to restart Signal",
-    "description": ""
+    "message": "Click to restart Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Click to download update",
-    "description": ""
+    "message": "Click to download update"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal couldn’t update. Click to try again.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "«Signal نى قايتا قوزغات» نى چېكىپ يېڭىلاشنى ئورنىتىڭ.",
-    "description": ""
+    "message": "«Signal نى قايتا قوزغات» نى چېكىپ يېڭىلاشنى ئورنىتىڭ."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal نى قايتا قوزغات",
-    "description": ""
+    "message": "Signal نى قايتا قوزغات"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "كېيىن",
-    "description": ""
+    "message": "كېيىن"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignore update",
-    "description": ""
+    "message": "Ignore update"
   },
   "leftTheGroup": {
     "message": "$name$ گۇرۇپپىدىن ئايرىلدى.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ سىزگە ئەۋەتكەن ئۇچۇردا Signal نىڭ يېڭى بىر ئىقتىدارى ئىشلىتىلگەچكە، ئۇنى بىر تەرەپ قىلالمىدى ياكى كۆرسىتەلمىدى.",
-    "description": ""
+    "message": "$contact$ سىزگە ئەۋەتكەن ئۇچۇردا Signal نىڭ يېڭى بىر ئىقتىدارى ئىشلىتىلگەچكە، ئۇنى بىر تەرەپ قىلالمىدى ياكى كۆرسىتەلمىدى."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "$contact$ دىن بۇ ئۇچۇرنى قايتا ئەۋەتىشنى سوراڭ، سىز Signal نىڭ يېڭى نەشرىنى ئىشلىتىۋاتىسىز. ",
-    "description": ""
+    "message": "$contact$ دىن بۇ ئۇچۇرنى قايتا ئەۋەتىشنى سوراڭ، سىز Signal نىڭ يېڭى نەشرىنى ئىشلىتىۋاتىسىز. "
   },
   "Message--from-me-unsupported-message": {
-    "message": "بىر ئۈسكىنىڭىزدە ئەۋەتكەن ئۇچۇردا Signal نىڭ يېڭى بىر ئىقتىدارى ئىشلىتىلگەچكە ئۇنى بىر تەرەپ قىلالمىدى ياكى كۆرسىتەلمىدى.",
-    "description": ""
+    "message": "بىر ئۈسكىنىڭىزدە ئەۋەتكەن ئۇچۇردا Signal نىڭ يېڭى بىر ئىقتىدارى ئىشلىتىلگەچكە ئۇنى بىر تەرەپ قىلالمىدى ياكى كۆرسىتەلمىدى."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "كەلگۈسىدە بۇ خىل ئۇچۇرلار ئۆزلۈكىدىن قەدەمداشلىنىدۇ، سىز Signal نىڭ يېڭى نەشرىنى ئىشلىتىۋاتىسىز. ",
-    "description": ""
+    "message": "كەلگۈسىدە بۇ خىل ئۇچۇرلار ئۆزلۈكىدىن قەدەمداشلىنىدۇ، سىز Signal نىڭ يېڭى نەشرىنى ئىشلىتىۋاتىسىز. "
   },
   "Message--update-signal": {
     "message": "Signal نى يېڭىلا",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Remove reaction",
-    "description": ""
+    "message": "Remove reaction"
   },
   "Reactions--error": {
     "message": "ئىنكاس يوللىيالمىدى، قايتا سىناڭ.",

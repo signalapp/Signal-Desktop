@@ -436,20 +436,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "ສະເຫນີ",
-    "description": ""
+    "message": "ສະເຫນີ"
   },
   "acceptNewKey": {
     "message": "ຍ້ອມຮັບ",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ໝາຍຈາກການຢືນຢັ້ນ",
-    "description": ""
+    "message": "ໝາຍຈາກການຢືນຢັ້ນ"
   },
   "unverify": {
-    "message": "ບໍ່ໝາຍຈາກການາຢືນຢັ້ນ",
-    "description": ""
+    "message": "ບໍ່ໝາຍຈາກການາຢືນຢັ້ນ"
   },
   "isVerified": {
     "message": "ເຈົ້າມີການຢືນຢັ້ນ ຈຳນວນເລັກທີເໝາະສົມກັບ$name$",
@@ -460,20 +457,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "ການຢືນຢັ້ນ",
-    "description": ""
+    "message": "ການຢືນຢັ້ນ"
   },
   "newIdentity": {
     "message": "ຈຳນວນເລັກໄຫມ່ທີເໝາະສົມ",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
-    "description": ""
+    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "incomingError": {
-    "message": "ຂໍ້ຄວາມທີເຂົ້າມາມີຄວາມຜິດພາດ",
-    "description": ""
+    "message": "ຂໍ້ຄວາມທີເຂົ້າມາມີຄວາມຜິດພາດ"
   },
   "media": {
     "message": "ເຄືອງສຽງ",
@@ -568,12 +562,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions.",
-    "description": ""
+    "message": "Sorry, the selected file exceeds message size restrictions."
   },
   "unableToLoadAttachment": {
-    "message": "ມີບັນຫາການດາວໂລດເລືອກຂອງການຕິດຕັ້ງ",
-    "description": ""
+    "message": "ມີບັນຫາການດາວໂລດເລືອກຂອງການຕິດຕັ້ງ"
   },
   "disconnected": {
     "message": "ບໍສາມາດເຊື່ອມຕໍ່ໄດ້",
@@ -724,8 +716,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "ຍີນດີນຕ້ອນຮັບສີກຫນໍ",
-    "description": ""
+    "message": "ຍີນດີນຕ້ອນຮັບສີກຫນໍ"
   },
   "whatsNew": {
     "message": "See $whatsNew$ in this update",
@@ -920,52 +911,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "ໂອເຄ",
-    "description": ""
+    "message": "ໂອເຄ"
   },
   "cancel": {
-    "message": "ຍົກເລີກ",
-    "description": ""
+    "message": "ຍົກເລີກ"
   },
   "discard": {
-    "message": "ປະຕິເສດ",
-    "description": ""
+    "message": "ປະຕິເສດ"
   },
   "failedToSend": {
-    "message": "ການສົ່ງມີບັນຫານ ຕໍ່ຜູ້ທີໄດ້ຮັບ. ກວດເບີງການເຊື່ອມເຄືອຂ່າຍຂອງທ່ານ.",
-    "description": ""
+    "message": "ການສົ່ງມີບັນຫານ ຕໍ່ຜູ້ທີໄດ້ຮັບ. ກວດເບີງການເຊື່ອມເຄືອຂ່າຍຂອງທ່ານ."
   },
   "error": {
-    "message": "ຜິດພາດ",
-    "description": ""
+    "message": "ຜິດພາດ"
   },
   "messageDetail": {
-    "message": "ຂໍ້ຄວາມລາຍລະອຽດ",
-    "description": ""
+    "message": "ຂໍ້ຄວາມລາຍລະອຽດ"
   },
   "delete": {
-    "message": "ລົບ",
-    "description": ""
+    "message": "ລົບ"
   },
   "accept": {
-    "message": "ຍ້ອມຮັບ",
-    "description": ""
+    "message": "ຍ້ອມຮັບ"
   },
   "forward": {
-    "message": "Forward",
-    "description": ""
+    "message": "Forward"
   },
   "done": {
     "message": "Done",
     "description": "Label for done"
   },
   "update": {
-    "message": "Update",
-    "description": ""
+    "message": "Update"
   },
   "next2": {
-    "message": "ຕໍ່ໄປ",
-    "description": ""
+    "message": "ຕໍ່ໄປ"
   },
   "on": {
     "message": "ເປີດ",
@@ -1008,28 +988,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "ສະມາຊິກກຸ່ມ",
-    "description": ""
+    "message": "ສະມາຊິກກຸ່ມ"
   },
   "showMembers": {
-    "message": "ສະແດງສະມາຊິກ",
-    "description": ""
+    "message": "ສະແດງສະມາຊິກ"
   },
   "showSafetyNumber": {
-    "message": "ເບີງຄືນເລັກທີເໝາະສົມ",
-    "description": ""
+    "message": "ເບີງຄືນເລັກທີເໝາະສົມ"
   },
   "viewRecentMedia": {
     "message": "ເບິງຮູບພາບວີດີໂອທີຜ່ານມາ",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
-    "description": ""
+    "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device."
   },
   "theirIdentityUnknown": {
-    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
-    "description": ""
+    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "back": {
     "message": "ກັບຫຼັງ",
@@ -1232,24 +1207,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "ຂໍໂທດ ທີເຈົ້າມີການເຊື່ອມຕໍ່ຢູ່ແລ້ວ ທີຕ້ອງຍ້າຍບາງສ່ວນອອກ",
-    "description": ""
+    "message": "ຂໍໂທດ ທີເຈົ້າມີການເຊື່ອມຕໍ່ຢູ່ແລ້ວ ທີຕ້ອງຍ້າຍບາງສ່ວນອອກ"
   },
   "installTooOld": {
-    "message": "ອຸປະກອນອັບເດດສີກຫນໍລີງທີໂທລະສັບຂອງເຈົ້າ",
-    "description": ""
+    "message": "ອຸປະກອນອັບເດດສີກຫນໍລີງທີໂທລະສັບຂອງເຈົ້າ"
   },
   "installErrorHeader": {
-    "message": "ບາງຢາງມີບັນຫາ",
-    "description": ""
+    "message": "ບາງຢາງມີບັນຫາ"
   },
   "installUnknownError": {
-    "message": "An unexpected error occurred. Please try again.",
-    "description": ""
+    "message": "An unexpected error occurred. Please try again."
   },
   "installTryAgain": {
-    "message": "ລອງໄໝ່ອີກຄັ້ງ",
-    "description": ""
+    "message": "ລອງໄໝ່ອີກຄັ້ງ"
   },
   "Preferences--theme": {
     "message": "ຫົວຂໍ້",
@@ -1612,12 +1582,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ໂຕ້ຕອບ $emoji$ ໄນຂໍ້ຄວາມຂອງເຈົ້າ",
-    "description": ""
+    "message": "$sender$ ໂຕ້ຕອບ $emoji$ ໄນຂໍ້ຄວາມຂອງເຈົ້າ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ໂຕ້ຕອບ $emoji$ ເຖິງ $message$",
-    "description": ""
+    "message": "$sender$ ໂຕ້ຕອບ $emoji$ ເຖິງ $message$"
   },
   "sendFailed": {
     "message": "ການສົ່ງລົ້ມເຫລວ",
@@ -1988,56 +1956,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
-    "description": ""
+    "message": "Click to relink Signal Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
-    "message": "ບໍ່ເຊື່ອມໂຍງ",
-    "description": ""
+    "message": "ບໍ່ເຊື່ອມໂຍງ"
   },
   "relink": {
-    "message": "ກັບຄືນ",
-    "description": ""
+    "message": "ກັບຄືນ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Update available",
-    "description": ""
+    "message": "Update available"
   },
   "autoUpdateRetry": {
-    "message": "Retry update",
-    "description": ""
+    "message": "Retry update"
   },
   "autoUpdateContactSupport": {
-    "message": "contact support",
-    "description": ""
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Click to restart Signal",
-    "description": ""
+    "message": "Click to restart Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Click to download update",
-    "description": ""
+    "message": "Click to download update"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal couldn’t update. Click to try again.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ກົດປິດເປີດ ການຕອບຮັບ ສີກຫນໍ ເພືອການອັບແດັດ.",
-    "description": ""
+    "message": "ກົດປິດເປີດ ການຕອບຮັບ ສີກຫນໍ ເພືອການອັບແດັດ."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "ປິດເປິດເຄືອງສີກຫນໍໄໝ່",
-    "description": ""
+    "message": "ປິດເປິດເຄືອງສີກຫນໍໄໝ່"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "ທີຫຼັງ",
-    "description": ""
+    "message": "ທີຫຼັງ"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignore update",
-    "description": ""
+    "message": "Ignore update"
   },
   "leftTheGroup": {
     "message": "$name$ ອອກຈາກກຸ່ມ",
@@ -2384,20 +2340,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
-    "description": ""
+    "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "ທ່ານສາມາສອບຖາມ $contact$ ໄນການສົ່ງຕໍ່ ຂໍ້ຄວາມນີ້ ທ່າານສາມາດໄຊ້ ການອັບເດດ ສະບັບ ຂອງສີກຫນໍ.",
-    "description": ""
+    "message": "ທ່ານສາມາສອບຖາມ $contact$ ໄນການສົ່ງຕໍ່ ຂໍ້ຄວາມນີ້ ທ່າານສາມາດໄຊ້ ການອັບເດດ ສະບັບ ຂອງສີກຫນໍ."
   },
   "Message--from-me-unsupported-message": {
-    "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
-    "description": ""
+    "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
-    "description": ""
+    "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal."
   },
   "Message--update-signal": {
     "message": "ອັບເດດສິກຫນໍ",
@@ -2884,8 +2836,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Remove reaction",
-    "description": ""
+    "message": "Remove reaction"
   },
   "Reactions--error": {
     "message": "ການສົ່ງການເຊື່ອມຕໍ່ ມີບັນຫາ. ກະລຸນາລອງ ໄໝ່ອີກຄັ້ງ",

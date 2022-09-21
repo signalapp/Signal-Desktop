@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Iesniegt",
-    "description": ""
+    "message": "Iesniegt"
   },
   "acceptNewKey": {
     "message": "Apstiprināt",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Atzīmēt kā apstiprinātu",
-    "description": ""
+    "message": "Atzīmēt kā apstiprinātu"
   },
   "unverify": {
-    "message": "Atzīmēt kā nepārbaudītu",
-    "description": ""
+    "message": "Atzīmēt kā nepārbaudītu"
   },
   "isVerified": {
     "message": "Jūs pārbaudījāt savu drošības kodu ar $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Pārbaudīts(verificēts)",
-    "description": ""
+    "message": "Pārbaudīts(verificēts)"
   },
   "newIdentity": {
     "message": "Nav drošības numura",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Jūsu drošības numurs ar šo kontaktu ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert (noklausīties) jūsu saziņu, vai arī šī kontaktpersona savā ierīcē vienkārši pārinstalēja Signālu. Iespējams, vēlēsities pārbaudīt zemāk redzamo jauno drošības numuru.",
-    "description": ""
+    "message": "Jūsu drošības numurs ar šo kontaktu ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert (noklausīties) jūsu saziņu, vai arī šī kontaktpersona savā ierīcē vienkārši pārinstalēja Signālu. Iespējams, vēlēsities pārbaudīt zemāk redzamo jauno drošības numuru."
   },
   "incomingError": {
-    "message": "Kļūme, apstrādājot ienākošo ziņu",
-    "description": ""
+    "message": "Kļūme, apstrādājot ienākošo ziņu"
   },
   "media": {
     "message": "Multivide/multimediji",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus.",
-    "description": ""
+    "message": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus."
   },
   "unableToLoadAttachment": {
-    "message": "Neizdevās ielādēt atlasīto pielikumu.",
-    "description": ""
+    "message": "Neizdevās ielādēt atlasīto pielikumu."
   },
   "disconnected": {
     "message": "Atvienots",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Sveicināti Signālā",
-    "description": ""
+    "message": "Sveicināti Signālā"
   },
   "whatsNew": {
     "message": "Apskatiet, kādi $whatsNew$ iekļauti šajā atjauninājumā",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Ok",
-    "description": ""
+    "message": "Ok"
   },
   "cancel": {
-    "message": "Atcelt",
-    "description": ""
+    "message": "Atcelt"
   },
   "discard": {
-    "message": "Atcelt",
-    "description": ""
+    "message": "Atcelt"
   },
   "failedToSend": {
-    "message": "Neizdevās nosūtīt dažiem adresātiem. Pārbaudiet tīkla savienojumu.",
-    "description": ""
+    "message": "Neizdevās nosūtīt dažiem adresātiem. Pārbaudiet tīkla savienojumu."
   },
   "error": {
-    "message": "Kļūda",
-    "description": ""
+    "message": "Kļūda"
   },
   "messageDetail": {
-    "message": "Ziņas dati",
-    "description": ""
+    "message": "Ziņas dati"
   },
   "delete": {
-    "message": "Dzēst",
-    "description": ""
+    "message": "Dzēst"
   },
   "accept": {
-    "message": "Apstiprināt",
-    "description": ""
+    "message": "Apstiprināt"
   },
   "forward": {
-    "message": "Pārsūtīt",
-    "description": ""
+    "message": "Pārsūtīt"
   },
   "done": {
     "message": "Darīts",
     "description": "Label for done"
   },
   "update": {
-    "message": "Atjaunināt",
-    "description": ""
+    "message": "Atjaunināt"
   },
   "next2": {
-    "message": "Tālāk",
-    "description": ""
+    "message": "Tālāk"
   },
   "on": {
     "message": "Ieslēgts",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Grupas dalībnieki",
-    "description": ""
+    "message": "Grupas dalībnieki"
   },
   "showMembers": {
-    "message": "Rādīt dalībniekus",
-    "description": ""
+    "message": "Rādīt dalībniekus"
   },
   "showSafetyNumber": {
-    "message": "Skatīt drošības numuru",
-    "description": ""
+    "message": "Skatīt drošības numuru"
   },
   "viewRecentMedia": {
     "message": "Skatīt jaunāko multivides saturu",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Lai apstiprinātu pilnīgo šifrēšanu ar $name$, salīdziniet augstāk redzamos ciparus ar sarunas biedra ierīci.",
-    "description": ""
+    "message": "Lai apstiprinātu pilnīgo šifrēšanu ar $name$, salīdziniet augstāk redzamos ciparus ar sarunas biedra ierīci."
   },
   "theirIdentityUnknown": {
-    "message": "Jūs vēl neesat apmainījies ar ziņām ar šo kontaktpersonu. Jūsu drošības numurs ar viņu būs pieejams pēc pirmās ziņas.",
-    "description": ""
+    "message": "Jūs vēl neesat apmainījies ar ziņām ar šo kontaktpersonu. Jūsu drošības numurs ar viņu būs pieejams pēc pirmās ziņas."
   },
   "back": {
     "message": "Atpakaļ",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Diemžēl jums jau sasaistīts pārāk daudz ierīču. Mēģiniet kādu noņemt.",
-    "description": ""
+    "message": "Diemžēl jums jau sasaistīts pārāk daudz ierīču. Mēģiniet kādu noņemt."
   },
   "installTooOld": {
-    "message": "Atjauniniet lietotni Signal šajā ierīcē, lai saistītu savu tālruni.",
-    "description": ""
+    "message": "Atjauniniet lietotni Signal šajā ierīcē, lai saistītu savu tālruni."
   },
   "installErrorHeader": {
-    "message": "Kaut kas sagāja grīstē!",
-    "description": ""
+    "message": "Kaut kas sagāja grīstē!"
   },
   "installUnknownError": {
-    "message": "Radās neparedzēta kļūda. Lūdzu, mēģiniet vēlreiz.",
-    "description": ""
+    "message": "Radās neparedzēta kļūda. Lūdzu, mēģiniet vēlreiz."
   },
   "installTryAgain": {
-    "message": "Mēģiniet vēlreiz",
-    "description": ""
+    "message": "Mēģiniet vēlreiz"
   },
   "Preferences--theme": {
     "message": "Motīvs",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ uz jūsu ziņu reaģēja ar $emoji$ ",
-    "description": ""
+    "message": "$sender$ uz jūsu ziņu reaģēja ar $emoji$ "
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reaģēja ar$emoji$: $message$",
-    "description": ""
+    "message": "$sender$ reaģēja ar$emoji$: $message$"
   },
   "sendFailed": {
     "message": "Sūtīšana neizidevās",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Noklišķiniet, lai no jauna savienotu Signal Desktop ar jūsu mobilo ierīci un turpinātu ziņapmaiņu.",
-    "description": ""
+    "message": "Noklišķiniet, lai no jauna savienotu Signal Desktop ar jūsu mobilo ierīci un turpinātu ziņapmaiņu."
   },
   "unlinked": {
-    "message": "Atsaistīts",
-    "description": ""
+    "message": "Atsaistīts"
   },
   "relink": {
-    "message": "Atkārtoti saistīt",
-    "description": ""
+    "message": "Atkārtoti saistīt"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Pieejams atjauninājums",
-    "description": ""
+    "message": "Pieejams atjauninājums"
   },
   "autoUpdateRetry": {
-    "message": "Vēlreiz mēģināt atjaunināt",
-    "description": ""
+    "message": "Vēlreiz mēģināt atjaunināt"
   },
   "autoUpdateContactSupport": {
-    "message": "sazināties ar atbalsta dienestu",
-    "description": ""
+    "message": "sazināties ar atbalsta dienestu"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Noklikšķiniet, lai restartētu Signal",
-    "description": ""
+    "message": "Noklikšķiniet, lai restartētu Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Noklikšķiniet, lai lejupielādētu atjauninājumu",
-    "description": ""
+    "message": "Noklikšķiniet, lai lejupielādētu atjauninājumu"
   },
   "downloadFullNewVersionMessage": {
     "message": "Nevarēja atjaunināt Signal. Noklikšķiniet, lai mēģinātu vēlreiz.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Nospiediet Restartēt Signal, lai lietotu atjauninājumus.",
-    "description": ""
+    "message": "Nospiediet Restartēt Signal, lai lietotu atjauninājumus."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Pārstartēt Signālu",
-    "description": ""
+    "message": "Pārstartēt Signālu"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Vēlāk",
-    "description": ""
+    "message": "Vēlāk"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignorēt atjauninājumu",
-    "description": ""
+    "message": "Ignorēt atjauninājumu"
   },
   "leftTheGroup": {
     "message": "$name$ izstājās no grupas.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$nosūtīja jums ziņu, kuru nevar apstrādāt vai parādīt, jo tajā izmantota jauna Signal funkcija.",
-    "description": ""
+    "message": "$contact$nosūtīja jums ziņu, kuru nevar apstrādāt vai parādīt, jo tajā izmantota jauna Signal funkcija."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Jūs varat lūgt $contact$ atkārtoti nosūtīt šo ziņu tagad, kad izmantojat jaunāko Signal versiju.",
-    "description": ""
+    "message": "Jūs varat lūgt $contact$ atkārtoti nosūtīt šo ziņu tagad, kad izmantojat jaunāko Signal versiju."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Viena no jūsu ierīcēm nosūtīja ziņu, kuru šeit nevar apstrādāt vai parādīt, jo tajā izmantota jauna Signal funkcija.",
-    "description": ""
+    "message": "Viena no jūsu ierīcēm nosūtīja ziņu, kuru šeit nevar apstrādāt vai parādīt, jo tajā izmantota jauna Signal funkcija."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Tagad, kad izmantojat jaunāko Signal versiju. līdzīgas ziņas tiks sinhronizētas.",
-    "description": ""
+    "message": "Tagad, kad izmantojat jaunāko Signal versiju. līdzīgas ziņas tiks sinhronizētas."
   },
   "Message--update-signal": {
     "message": "Aktualizēt Signālu",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Noņemt reakciju",
-    "description": ""
+    "message": "Noņemt reakciju"
   },
   "Reactions--error": {
     "message": "Neizdevās nosūtīt emociju izpausmi. Mēģiniet vēlreiz.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neatbildēts videozvans",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal joprojām darbojas",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal turpinās darboties paziņojumu zonā. Varat to mainīt Signal iestatījumos.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Ienākošs audiozvans...",
@@ -4895,6 +4854,10 @@
     "message": "Skatīja",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Pazudīs pēc",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Par",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Faila izmērs $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Pazudīs pēc $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

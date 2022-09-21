@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Pateikti",
-    "description": ""
+    "message": "Pateikti"
   },
   "acceptNewKey": {
     "message": "Priimti",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Žymėti kaip patvirtintą",
-    "description": ""
+    "message": "Žymėti kaip patvirtintą"
   },
   "unverify": {
-    "message": "Žymėti kaip nepatvirtintą",
-    "description": ""
+    "message": "Žymėti kaip nepatvirtintą"
   },
   "isVerified": {
     "message": "Jūs patvirtinote savo saugumo numerį su $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Patvirtinta(s)",
-    "description": ""
+    "message": "Patvirtinta(s)"
   },
   "newIdentity": {
     "message": "Naujas saugumo numeris",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Jūsų saugumo numeris su šiuo adresatu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis adresatas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį.",
-    "description": ""
+    "message": "Jūsų saugumo numeris su šiuo adresatu pasikeitė. Tai gali reikšti, kad arba kažkas bando perimti jūsų susirašinėjimą, arba šis adresatas, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, žemiau norėtumėte patvirtinti naują saugumo numerį."
   },
   "incomingError": {
-    "message": "Klaida, apdorojant gaunamą žinutę",
-    "description": ""
+    "message": "Klaida, apdorojant gaunamą žinutę"
   },
   "media": {
     "message": "Medija",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus.",
-    "description": ""
+    "message": "Atleiskite, pasirinktas failas viršija žinutės dydžio apribojimus."
   },
   "unableToLoadAttachment": {
-    "message": "Nepavyko įkelti pasirinkto priedo.",
-    "description": ""
+    "message": "Nepavyko įkelti pasirinkto priedo."
   },
   "disconnected": {
     "message": "Atsijungta",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Sveiki atvykę į Signal",
-    "description": ""
+    "message": "Sveiki atvykę į Signal"
   },
   "whatsNew": {
     "message": "Atraskite, $whatsNew$ šiame atnaujinime",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Gerai",
-    "description": ""
+    "message": "Gerai"
   },
   "cancel": {
-    "message": "Atsisakyti",
-    "description": ""
+    "message": "Atsisakyti"
   },
   "discard": {
-    "message": "Atmesti",
-    "description": ""
+    "message": "Atmesti"
   },
   "failedToSend": {
-    "message": "Nepavyko išsiųsti kai kuriems gavėjams. Patikrinkite savo tinklo ryšį.",
-    "description": ""
+    "message": "Nepavyko išsiųsti kai kuriems gavėjams. Patikrinkite savo tinklo ryšį."
   },
   "error": {
-    "message": "Klaida",
-    "description": ""
+    "message": "Klaida"
   },
   "messageDetail": {
-    "message": "Žinutės informacija",
-    "description": ""
+    "message": "Žinutės informacija"
   },
   "delete": {
-    "message": "Ištrinti",
-    "description": ""
+    "message": "Ištrinti"
   },
   "accept": {
-    "message": "Priimti",
-    "description": ""
+    "message": "Priimti"
   },
   "forward": {
-    "message": "Persiųsti",
-    "description": ""
+    "message": "Persiųsti"
   },
   "done": {
     "message": "Atlikta",
     "description": "Label for done"
   },
   "update": {
-    "message": "Atnaujinti",
-    "description": ""
+    "message": "Atnaujinti"
   },
   "next2": {
-    "message": "Kitas",
-    "description": ""
+    "message": "Kitas"
   },
   "on": {
     "message": "Įjungta",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Grupės nariai",
-    "description": ""
+    "message": "Grupės nariai"
   },
   "showMembers": {
-    "message": "Rodyti narius",
-    "description": ""
+    "message": "Rodyti narius"
   },
   "showSafetyNumber": {
-    "message": "Rodyti saugumo numerį",
-    "description": ""
+    "message": "Rodyti saugumo numerį"
   },
   "viewRecentMedia": {
     "message": "Rodyti paskiausią mediją",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Norėdami patvirtinti savo ištisinio šifravimo su $name$ saugumą, palyginkite aukščiau esančius numerius su numeriais šio asmens įrenginyje.",
-    "description": ""
+    "message": "Norėdami patvirtinti savo ištisinio šifravimo su $name$ saugumą, palyginkite aukščiau esančius numerius su numeriais šio asmens įrenginyje."
   },
   "theirIdentityUnknown": {
-    "message": "Jūs su šiuo adresatu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės.",
-    "description": ""
+    "message": "Jūs su šiuo adresatu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės."
   },
   "back": {
     "message": "Atgal",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
-    "description": ""
+    "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti."
   },
   "installTooOld": {
-    "message": "Norėdami susieti šį įrenginį su savo telefonu, atnaujinkite jame Signal.",
-    "description": ""
+    "message": "Norėdami susieti šį įrenginį su savo telefonu, atnaujinkite jame Signal."
   },
   "installErrorHeader": {
-    "message": "Kažkas nutiko!",
-    "description": ""
+    "message": "Kažkas nutiko!"
   },
   "installUnknownError": {
-    "message": "Įvyko netikėta klaida. Bandykite dar kartą.",
-    "description": ""
+    "message": "Įvyko netikėta klaida. Bandykite dar kartą."
   },
   "installTryAgain": {
-    "message": "Bandykite dar kartą",
-    "description": ""
+    "message": "Bandykite dar kartą"
   },
   "Preferences--theme": {
     "message": "Apipavidalinimas",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ sureagavo į jūsų žinutę:  $emoji$",
-    "description": ""
+    "message": "$sender$ sureagavo į jūsų žinutę:  $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ sureagavo  $emoji$ į:  $message$",
-    "description": ""
+    "message": "$sender$ sureagavo  $emoji$ į:  $message$"
   },
   "sendFailed": {
     "message": "Išsiuntimas nepavyko",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Spustelėkite, norėdami iš naujo susieti Signal Desktop su savo mobiliuoju įrenginiu, kad tęstumėte susirašinėjimą.",
-    "description": ""
+    "message": "Spustelėkite, norėdami iš naujo susieti Signal Desktop su savo mobiliuoju įrenginiu, kad tęstumėte susirašinėjimą."
   },
   "unlinked": {
-    "message": "Atsietas",
-    "description": ""
+    "message": "Atsietas"
   },
   "relink": {
-    "message": "Susieti iš naujo",
-    "description": ""
+    "message": "Susieti iš naujo"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Yra prieinamas atnaujinimas",
-    "description": ""
+    "message": "Yra prieinamas atnaujinimas"
   },
   "autoUpdateRetry": {
-    "message": "Bandykite atnaujinti programą dar kartą",
-    "description": ""
+    "message": "Bandykite atnaujinti programą dar kartą"
   },
   "autoUpdateContactSupport": {
-    "message": "susisiekite su palaikymu",
-    "description": ""
+    "message": "susisiekite su palaikymu"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Spustelėkite, norėdami paleisti Signal iš naujo",
-    "description": ""
+    "message": "Spustelėkite, norėdami paleisti Signal iš naujo"
   },
   "downloadNewVersionMessage": {
-    "message": "Spustelėkite, norėdami atsisiųsti atnaujinimą",
-    "description": ""
+    "message": "Spustelėkite, norėdami atsisiųsti atnaujinimą"
   },
   "downloadFullNewVersionMessage": {
     "message": "Programai Signal nepavyko atsinaujinti. Spustelėkite norėdami bandyti dar kartą.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\".",
-    "description": ""
+    "message": "Norėdami pritaikyti atnaujinimus, paspauskite \"Paleisti Signal iš naujo\"."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Paleisti Signal iš naujo",
-    "description": ""
+    "message": "Paleisti Signal iš naujo"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Vėliau",
-    "description": ""
+    "message": "Vėliau"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Nepaisyti atnaujinimo",
-    "description": ""
+    "message": "Nepaisyti atnaujinimo"
   },
   "leftTheGroup": {
     "message": "$name$ išėjo iš grupės.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ išsiuntė jums žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę.",
-    "description": ""
+    "message": "$contact$ išsiuntė jums žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Dabar, kai naudojate atnaujintą Signal versiją, galite paprašyti, kad $contact$ jums iš naujo išsiųstų šią žinutę.",
-    "description": ""
+    "message": "Dabar, kai naudojate atnaujintą Signal versiją, galite paprašyti, kad $contact$ jums iš naujo išsiųstų šią žinutę."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Vienas iš jūsų įrenginių išsiuntė žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę.",
-    "description": ""
+    "message": "Vienas iš jūsų įrenginių išsiuntė žinutę, kurios nepavyksta apdoroti ar parodyti, nes žinutė naudoja naująją Signal ypatybę."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Dabar, kai naudojate atnaujintą Signal versiją, būsimos žinutės, tokios kaip ši, bus sinchronizuojamos.",
-    "description": ""
+    "message": "Dabar, kai naudojate atnaujintą Signal versiją, būsimos žinutės, tokios kaip ši, bus sinchronizuojamos."
   },
   "Message--update-signal": {
     "message": "Atnaujinti Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Šalinti reakciją",
-    "description": ""
+    "message": "Šalinti reakciją"
   },
   "Reactions--error": {
     "message": "Nepavyko išsiųsti reakcijos. Bandykite dar kartą.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Neatsakytas vaizdo skambutis",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Programėlė „Signal“ tebėra įjungta",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Programėlė „Signal“ tebebus įjungta pranešimų srityje. Gali tai pakeisti nustatymuose.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Gaunamasis garso skambutis...",
@@ -4895,6 +4854,10 @@
     "message": "Peržiūrėjo",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Dings po",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Apie",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Failo dydis $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Dings po $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

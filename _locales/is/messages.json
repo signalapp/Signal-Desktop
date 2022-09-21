@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Senda inn",
-    "description": ""
+    "message": "Senda inn"
   },
   "acceptNewKey": {
     "message": "Samþykkja",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merkja sem staðfest",
-    "description": ""
+    "message": "Merkja sem staðfest"
   },
   "unverify": {
-    "message": "Merkja sem óstaðfest",
-    "description": ""
+    "message": "Merkja sem óstaðfest"
   },
   "isVerified": {
     "message": "Þú hefur staðfest öryggisnúmer þitt og $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Sannreynt",
-    "description": ""
+    "message": "Sannreynt"
   },
   "newIdentity": {
     "message": "Nýtt öryggisnúmer",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Öryggisnúmer þitt með þessum tengilið hefur breyst. Þetta gæti þýtt að einhver sé að reyna að komast inn í samskiptin þín, eða einfaldlega að tengiliðurinn hefur sett Signal upp aftur. Þú gætir viljað sannreyna nýja öryggisnúmerið hér fyrir neðan.",
-    "description": ""
+    "message": "Öryggisnúmer þitt með þessum tengilið hefur breyst. Þetta gæti þýtt að einhver sé að reyna að komast inn í samskiptin þín, eða einfaldlega að tengiliðurinn hefur sett Signal upp aftur. Þú gætir viljað sannreyna nýja öryggisnúmerið hér fyrir neðan."
   },
   "incomingError": {
-    "message": "Villa við að meðhöndla skilaboð sem bárust",
-    "description": ""
+    "message": "Villa við að meðhöndla skilaboð sem bárust"
   },
   "media": {
     "message": "Margmiðlunarefni",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Því miður þá er stærð viðhengis meiri en er leyft.",
-    "description": ""
+    "message": "Því miður þá er stærð viðhengis meiri en er leyft."
   },
   "unableToLoadAttachment": {
-    "message": "Ekki hægt að hlaða þessu viðhengi.",
-    "description": ""
+    "message": "Ekki hægt að hlaða þessu viðhengi."
   },
   "disconnected": {
     "message": "Aftengt",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Velkomin í Signal",
-    "description": ""
+    "message": "Velkomin í Signal"
   },
   "whatsNew": {
     "message": "Skoðaðu $whatsNew$ í þessari uppfærslu",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Í lagi",
-    "description": ""
+    "message": "Í lagi"
   },
   "cancel": {
-    "message": "Hætta við",
-    "description": ""
+    "message": "Hætta við"
   },
   "discard": {
-    "message": "Henda",
-    "description": ""
+    "message": "Henda"
   },
   "failedToSend": {
-    "message": "Mistókst að senda á suma viðtakendur. Athugaðu netsambandið þitt.",
-    "description": ""
+    "message": "Mistókst að senda á suma viðtakendur. Athugaðu netsambandið þitt."
   },
   "error": {
-    "message": "Villa",
-    "description": ""
+    "message": "Villa"
   },
   "messageDetail": {
-    "message": "Nánar um skilaboð",
-    "description": ""
+    "message": "Nánar um skilaboð"
   },
   "delete": {
-    "message": "Eyða",
-    "description": ""
+    "message": "Eyða"
   },
   "accept": {
-    "message": "Samþykkja",
-    "description": ""
+    "message": "Samþykkja"
   },
   "forward": {
-    "message": "Áfram",
-    "description": ""
+    "message": "Áfram"
   },
   "done": {
     "message": "Lokið",
     "description": "Label for done"
   },
   "update": {
-    "message": "Uppfæra",
-    "description": ""
+    "message": "Uppfæra"
   },
   "next2": {
-    "message": "Næsta",
-    "description": ""
+    "message": "Næsta"
   },
   "on": {
     "message": "Kveikt",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Meðlimir í hópi",
-    "description": ""
+    "message": "Meðlimir í hópi"
   },
   "showMembers": {
-    "message": "Sýna meðlimi",
-    "description": ""
+    "message": "Sýna meðlimi"
   },
   "showSafetyNumber": {
-    "message": "Skoða öryggisnúmer",
-    "description": ""
+    "message": "Skoða öryggisnúmer"
   },
   "viewRecentMedia": {
     "message": "Skoða nýlegt efni",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Til að sannreyna öryggi enda-í-enda dulritunarinnar þinnar með $name$, skaltu bera tölurnar hér fyrir ofan saman við tölurnar á viðkomandi tækjum.",
-    "description": ""
+    "message": "Til að sannreyna öryggi enda-í-enda dulritunarinnar þinnar með $name$, skaltu bera tölurnar hér fyrir ofan saman við tölurnar á viðkomandi tækjum."
   },
   "theirIdentityUnknown": {
-    "message": "Þú hefur ekki ennþá átt í neinum samskiptum við þennan tengilið. Öryggisnúmer þitt með honum verður til taks eftir fyrstu skilaboðin.",
-    "description": ""
+    "message": "Þú hefur ekki ennþá átt í neinum samskiptum við þennan tengilið. Öryggisnúmer þitt með honum verður til taks eftir fyrstu skilaboðin."
   },
   "back": {
     "message": "Til baka",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Því miður ertu þegar með of mörg tæki tengd. Prófaðu að fækka þeim.",
-    "description": ""
+    "message": "Því miður ertu þegar með of mörg tæki tengd. Prófaðu að fækka þeim."
   },
   "installTooOld": {
-    "message": "Uppfærðu Signal á þessu tæki til að tengja símann þinn.",
-    "description": ""
+    "message": "Uppfærðu Signal á þessu tæki til að tengja símann þinn."
   },
   "installErrorHeader": {
-    "message": "Eitthvað fór úrskeiðis!",
-    "description": ""
+    "message": "Eitthvað fór úrskeiðis!"
   },
   "installUnknownError": {
-    "message": "Óvænt villa kom upp. Prófaðu aftur.",
-    "description": ""
+    "message": "Óvænt villa kom upp. Prófaðu aftur."
   },
   "installTryAgain": {
-    "message": "Reyndu aftur",
-    "description": ""
+    "message": "Reyndu aftur"
   },
   "Preferences--theme": {
     "message": "Þema",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ setti inn $emoji$ sem viðbrögð við skilaboðunum þínum",
-    "description": ""
+    "message": "$sender$ setti inn $emoji$ sem viðbrögð við skilaboðunum þínum"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ setti inn $emoji$ sem viðbrögð við: $message$",
-    "description": ""
+    "message": "$sender$ setti inn $emoji$ sem viðbrögð við: $message$"
   },
   "sendFailed": {
     "message": "Sending mistókst",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Smelltu til að endurtengja Signal Desktop við farsímann þinn svo hægt sé að halda áfram samskiptum.",
-    "description": ""
+    "message": "Smelltu til að endurtengja Signal Desktop við farsímann þinn svo hægt sé að halda áfram samskiptum."
   },
   "unlinked": {
-    "message": "Ótengt",
-    "description": ""
+    "message": "Ótengt"
   },
   "relink": {
-    "message": "Endurtengja",
-    "description": ""
+    "message": "Endurtengja"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Uppfærsla er tiltæk",
-    "description": ""
+    "message": "Uppfærsla er tiltæk"
   },
   "autoUpdateRetry": {
-    "message": "Prófaðu að uppfæra",
-    "description": ""
+    "message": "Prófaðu að uppfæra"
   },
   "autoUpdateContactSupport": {
-    "message": "hafðu samband",
-    "description": ""
+    "message": "hafðu samband"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Smelltu til að endurræsa Signal",
-    "description": ""
+    "message": "Smelltu til að endurræsa Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Smelltu til að sækja uppfærslu",
-    "description": ""
+    "message": "Smelltu til að sækja uppfærslu"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal gat ekki uppfærst. Smelltu til að reyna aftur.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Ýttu á 'Endurræsa Signal' til að setja inn uppfærslurnar.",
-    "description": ""
+    "message": "Ýttu á 'Endurræsa Signal' til að setja inn uppfærslurnar."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Endurræsa Signal",
-    "description": ""
+    "message": "Endurræsa Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Seinna",
-    "description": ""
+    "message": "Seinna"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Hunsa uppfærslu",
-    "description": ""
+    "message": "Hunsa uppfærslu"
   },
   "leftTheGroup": {
     "message": "$name$ yfirgaf hópinn.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sendi þér skilaboð sem ekki er hægt að meðhöndla eða birta því það styðst við nýja eiginleika í Signal.",
-    "description": ""
+    "message": "$contact$ sendi þér skilaboð sem ekki er hægt að meðhöndla eða birta því það styðst við nýja eiginleika í Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Þú getur beðið $contact$ um að endursenda þessi skilaboð núna þegar þú ert að nota uppfærða útgáfu af Signal.",
-    "description": ""
+    "message": "Þú getur beðið $contact$ um að endursenda þessi skilaboð núna þegar þú ert að nota uppfærða útgáfu af Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Eitt af tækjunum þínum sendi skilaboð sem ekki er hægt að meðhöndla eða birta því það styðst við nýja eiginleika í Signal.",
-    "description": ""
+    "message": "Eitt af tækjunum þínum sendi skilaboð sem ekki er hægt að meðhöndla eða birta því það styðst við nýja eiginleika í Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Í framtíðinni verða skilaboð eins og þessi samstillt þar sem þú ert að nota uppfærða útgáfu af Signal.",
-    "description": ""
+    "message": "Í framtíðinni verða skilaboð eins og þessi samstillt þar sem þú ert að nota uppfærða útgáfu af Signal."
   },
   "Message--update-signal": {
     "message": "Uppfæra Signal",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Fjarlægja viðbrögð",
-    "description": ""
+    "message": "Fjarlægja viðbrögð"
   },
   "Reactions--error": {
     "message": "Mistókst að senda viðbrögð. Prófaðu aftur síðar",

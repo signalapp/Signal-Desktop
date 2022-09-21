@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "שלח",
-    "description": ""
+    "message": "שלח"
   },
   "acceptNewKey": {
     "message": "קבל",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "סמן כמודא",
-    "description": ""
+    "message": "סמן כמודא"
   },
   "unverify": {
-    "message": "סמן כבלתי מודא",
-    "description": ""
+    "message": "סמן כבלתי מודא"
   },
   "isVerified": {
     "message": "וידאת את מספר הביטחון שלך עם $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "מודא",
-    "description": ""
+    "message": "מודא"
   },
   "newIdentity": {
     "message": "מספר ביטחון חדש",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "מספר הביטחון שלך עם איש קשר זה השתנה. זה יכול לעיד שמישהו מנסה ליירט את התקשורת שלך, או שאיש קשר זה פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון החדש למטה.",
-    "description": ""
+    "message": "מספר הביטחון שלך עם איש קשר זה השתנה. זה יכול לעיד שמישהו מנסה ליירט את התקשורת שלך, או שאיש קשר זה פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון החדש למטה."
   },
   "incomingError": {
-    "message": "שגיאה בטיפול בהודעה נכנסת",
-    "description": ""
+    "message": "שגיאה בטיפול בהודעה נכנסת"
   },
   "media": {
     "message": "מדיה",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "הקובץ עובר את מגבלת הגודל המקסימלי.",
-    "description": ""
+    "message": "הקובץ עובר את מגבלת הגודל המקסימלי."
   },
   "unableToLoadAttachment": {
-    "message": "לא היה ניתן לטעון את הצרופה הנבחרת.",
-    "description": ""
+    "message": "לא היה ניתן לטעון את הצרופה הנבחרת."
   },
   "disconnected": {
     "message": "מנותק",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "ברוך הבא אל Signal",
-    "description": ""
+    "message": "ברוך הבא אל Signal"
   },
   "whatsNew": {
     "message": "ראה $whatsNew$ בעדכון זה",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "אישור",
-    "description": ""
+    "message": "אישור"
   },
   "cancel": {
-    "message": "ביטול",
-    "description": ""
+    "message": "ביטול"
   },
   "discard": {
-    "message": "השמט",
-    "description": ""
+    "message": "השמט"
   },
   "failedToSend": {
-    "message": "נכשל בשליחה אל מספר נמענים. בדוק את חיבור הרשת שלך.",
-    "description": ""
+    "message": "נכשל בשליחה אל מספר נמענים. בדוק את חיבור הרשת שלך."
   },
   "error": {
-    "message": "שגיאה",
-    "description": ""
+    "message": "שגיאה"
   },
   "messageDetail": {
-    "message": "פרטי הודעה",
-    "description": ""
+    "message": "פרטי הודעה"
   },
   "delete": {
-    "message": "מחק",
-    "description": ""
+    "message": "מחק"
   },
   "accept": {
-    "message": "אשר",
-    "description": ""
+    "message": "אשר"
   },
   "forward": {
-    "message": "העבר הלאה",
-    "description": ""
+    "message": "העבר הלאה"
   },
   "done": {
     "message": "סיים",
     "description": "Label for done"
   },
   "update": {
-    "message": "עדכן",
-    "description": ""
+    "message": "עדכן"
   },
   "next2": {
-    "message": "הבא",
-    "description": ""
+    "message": "הבא"
   },
   "on": {
     "message": "מופעל",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "חברי קבוצה",
-    "description": ""
+    "message": "חברי קבוצה"
   },
   "showMembers": {
-    "message": "הראה חברי קבוצה",
-    "description": ""
+    "message": "הראה חברי קבוצה"
   },
   "showSafetyNumber": {
-    "message": "הצג מספר ביטחון",
-    "description": ""
+    "message": "הצג מספר ביטחון"
   },
   "viewRecentMedia": {
     "message": "הצג מדיה אחרונה",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "כדי לוודא את האבטחה של הצפנת הקצה־אל־קצה שלך עם $name$, השווה את המספרים למעלה עם המספרים במכשיר של הצד השני.",
-    "description": ""
+    "message": "כדי לוודא את האבטחה של הצפנת הקצה־אל־קצה שלך עם $name$, השווה את המספרים למעלה עם המספרים במכשיר של הצד השני."
   },
   "theirIdentityUnknown": {
-    "message": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הביטחון שלך איתו יהיה זמין לאחר ההודעה הראשונה.",
-    "description": ""
+    "message": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הביטחון שלך איתו יהיה זמין לאחר ההודעה הראשונה."
   },
   "back": {
     "message": "הקודם",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "סליחה, יש לך כבר יותר מדי מכשירים מקושרים. נסה להסיר קצת.",
-    "description": ""
+    "message": "סליחה, יש לך כבר יותר מדי מכשירים מקושרים. נסה להסיר קצת."
   },
   "installTooOld": {
-    "message": "עדכן את Signal על מכשיר זה כדי לקשר את הטלפון שלך.",
-    "description": ""
+    "message": "עדכן את Signal על מכשיר זה כדי לקשר את הטלפון שלך."
   },
   "installErrorHeader": {
-    "message": "משהו השתבש!",
-    "description": ""
+    "message": "משהו השתבש!"
   },
   "installUnknownError": {
-    "message": "שגיאה בלתי צפויה התרחשה. אנא נסה שוב.",
-    "description": ""
+    "message": "שגיאה בלתי צפויה התרחשה. אנא נסה שוב."
   },
   "installTryAgain": {
-    "message": "נסה שוב",
-    "description": ""
+    "message": "נסה שוב"
   },
   "Preferences--theme": {
     "message": "ערכת נושא",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ הגיב עם  $emoji$ אל ההודעה שלך",
-    "description": ""
+    "message": "$sender$ הגיב עם  $emoji$ אל ההודעה שלך"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ הגיב עם  $emoji$ אל:  $message$",
-    "description": ""
+    "message": "$sender$ הגיב עם  $emoji$ אל:  $message$"
   },
   "sendFailed": {
     "message": "שליחה נכשלה",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "לחץ כדי לקשר מחדש את Signal Desktop אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
-    "description": ""
+    "message": "לחץ כדי לקשר מחדש את Signal Desktop אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות."
   },
   "unlinked": {
-    "message": "לא מקושר",
-    "description": ""
+    "message": "לא מקושר"
   },
   "relink": {
-    "message": "קשר מחדש",
-    "description": ""
+    "message": "קשר מחדש"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "עדכון זמין",
-    "description": ""
+    "message": "עדכון זמין"
   },
   "autoUpdateRetry": {
-    "message": "נסה שוב עדכון",
-    "description": ""
+    "message": "נסה שוב עדכון"
   },
   "autoUpdateContactSupport": {
-    "message": "צור קשר עם התמיכה",
-    "description": ""
+    "message": "צור קשר עם התמיכה"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "לחץ כדי להפעיל מחדש את Signal",
-    "description": ""
+    "message": "לחץ כדי להפעיל מחדש את Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "לחץ כדי להוריד עדכון",
-    "description": ""
+    "message": "לחץ כדי להוריד עדכון"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal לא היה יכול להתעדכן. לחץ כדי לנסות שוב.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים.",
-    "description": ""
+    "message": "לחץ על הפעל מחדש את Signal כדי להחיל את העדכונים."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "הפעל מחדש את Signal",
-    "description": ""
+    "message": "הפעל מחדש את Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "מאוחר יותר",
-    "description": ""
+    "message": "מאוחר יותר"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "התעלם מעדכון",
-    "description": ""
+    "message": "התעלם מעדכון"
   },
   "leftTheGroup": {
     "message": "$name$ עזב/ה את הקבוצה.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ שלח לך הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal.",
-    "description": ""
+    "message": "$contact$ שלח לך הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "אתה יכול לבקש מן $contact$ לשלוח מחדש הודעה זו כעת כשאתה משתמש בגרסה עדכנית של Signal.",
-    "description": ""
+    "message": "אתה יכול לבקש מן $contact$ לשלוח מחדש הודעה זו כעת כשאתה משתמש בגרסה עדכנית של Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "אחד מהמכשירים שלך שלח הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal.",
-    "description": ""
+    "message": "אחד מהמכשירים שלך שלח הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "הודעות עתידיות כמו זאת יסונכרנו כעת כשאתה משתמש בגרסה עדכנית של Signal.",
-    "description": ""
+    "message": "הודעות עתידיות כמו זאת יסונכרנו כעת כשאתה משתמש בגרסה עדכנית של Signal."
   },
   "Message--update-signal": {
     "message": "עדכן את Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "הסר תגובה",
-    "description": ""
+    "message": "הסר תגובה"
   },
   "Reactions--error": {
     "message": "נכשל בשליחת תגובה. אנא נסה שוב.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "שיחת וידאו שלא נענתה",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal פועלת ברקע",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal תמשיך לפעול באזור ההתראות. אפשר לשנות את זה בהגדרות של Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "שיחת שמע נכנסת…",
@@ -4895,6 +4854,10 @@
     "message": "נצפה ע״י",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ההודעה תיעלם בעוד",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "אודות",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "גודל קובץ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "הסטורי ייעלם בעוד $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

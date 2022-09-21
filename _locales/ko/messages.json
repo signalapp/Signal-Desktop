@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "제출",
-    "description": ""
+    "message": "제출"
   },
   "acceptNewKey": {
     "message": "수락",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "검증으로 표시",
-    "description": ""
+    "message": "검증으로 표시"
   },
   "unverify": {
-    "message": "미검증으로 표시",
-    "description": ""
+    "message": "미검증으로 표시"
   },
   "isVerified": {
     "message": "$name$와의 안전 번호를 검증했습니다.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "검증됨",
-    "description": ""
+    "message": "검증됨"
   },
   "newIdentity": {
     "message": "새 안전 번호",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "이 연락처와의 안전 번호가 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다. 새 안전 번호가 서로 일치하는지 확인해보세요.",
-    "description": ""
+    "message": "이 연락처와의 안전 번호가 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다. 새 안전 번호가 서로 일치하는지 확인해보세요."
   },
   "incomingError": {
-    "message": "받은 메시지 처리 중 오류 발생",
-    "description": ""
+    "message": "받은 메시지 처리 중 오류 발생"
   },
   "media": {
     "message": "미디어",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다.",
-    "description": ""
+    "message": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다."
   },
   "unableToLoadAttachment": {
-    "message": "선택된 첨부 파일을 불러올 수 없습니다.",
-    "description": ""
+    "message": "선택된 첨부 파일을 불러올 수 없습니다."
   },
   "disconnected": {
     "message": "연결 끊김",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal에 오신 것을 환영합니다",
-    "description": ""
+    "message": "Signal에 오신 것을 환영합니다"
   },
   "whatsNew": {
     "message": "이 업데이트의 $whatsNew$ 보기",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "확인",
-    "description": ""
+    "message": "확인"
   },
   "cancel": {
-    "message": "취소",
-    "description": ""
+    "message": "취소"
   },
   "discard": {
-    "message": "버리기",
-    "description": ""
+    "message": "버리기"
   },
   "failedToSend": {
-    "message": "일부 수신자에게 송신을 실패했습니다. 네트워크 연결을 확인하세요.",
-    "description": ""
+    "message": "일부 수신자에게 송신을 실패했습니다. 네트워크 연결을 확인하세요."
   },
   "error": {
-    "message": "오류",
-    "description": ""
+    "message": "오류"
   },
   "messageDetail": {
-    "message": "메시지 세부 정보",
-    "description": ""
+    "message": "메시지 세부 정보"
   },
   "delete": {
-    "message": "삭제",
-    "description": ""
+    "message": "삭제"
   },
   "accept": {
-    "message": "수락",
-    "description": ""
+    "message": "수락"
   },
   "forward": {
-    "message": "전달",
-    "description": ""
+    "message": "전달"
   },
   "done": {
     "message": "확인",
     "description": "Label for done"
   },
   "update": {
-    "message": "업데이트",
-    "description": ""
+    "message": "업데이트"
   },
   "next2": {
-    "message": "다음",
-    "description": ""
+    "message": "다음"
   },
   "on": {
     "message": "켜짐",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "그룹 멤버",
-    "description": ""
+    "message": "그룹 멤버"
   },
   "showMembers": {
-    "message": "멤버 보이기",
-    "description": ""
+    "message": "멤버 보이기"
   },
   "showSafetyNumber": {
-    "message": "안전 번호 보기",
-    "description": ""
+    "message": "안전 번호 보기"
   },
   "viewRecentMedia": {
     "message": "최근 미디어 보기",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ 님과의 종단 간 암호화를 확인하려면 위 번호를 해당 사용자의 기기와 비교하세요.",
-    "description": ""
+    "message": "$name$ 님과의 종단 간 암호화를 확인하려면 위 번호를 해당 사용자의 기기와 비교하세요."
   },
   "theirIdentityUnknown": {
-    "message": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다.",
-    "description": ""
+    "message": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다."
   },
   "back": {
     "message": "뒤로",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "죄송합니다, 이미 연결된 기기가 많습니다. 안 쓰는 기기를 제거해보세요.",
-    "description": ""
+    "message": "죄송합니다, 이미 연결된 기기가 많습니다. 안 쓰는 기기를 제거해보세요."
   },
   "installTooOld": {
-    "message": "휴대전화를 연결하려면 기기에서 Signal을 업데이트하세요.",
-    "description": ""
+    "message": "휴대전화를 연결하려면 기기에서 Signal을 업데이트하세요."
   },
   "installErrorHeader": {
-    "message": "오류가 발생했습니다!",
-    "description": ""
+    "message": "오류가 발생했습니다!"
   },
   "installUnknownError": {
-    "message": "예기치 못한 오류가 발생했습니다. 다시 시도하세요.",
-    "description": ""
+    "message": "예기치 못한 오류가 발생했습니다. 다시 시도하세요."
   },
   "installTryAgain": {
-    "message": "다시 시도해 주세요.",
-    "description": ""
+    "message": "다시 시도해 주세요."
   },
   "Preferences--theme": {
     "message": "테마",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ 님이 $emoji$ 님의 메시지에 리액션했습니다.",
-    "description": ""
+    "message": "$sender$ 님이 $emoji$ 님의 메시지에 리액션했습니다."
   },
   "notificationReactionMessage": {
-    "message": "$sender$ 님이 $emoji$ 이모지로 리액션한 메시지: $message$",
-    "description": ""
+    "message": "$sender$ 님이 $emoji$ 이모지로 리액션한 메시지: $message$"
   },
   "sendFailed": {
     "message": "보내기 실패",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "클릭하여 Signal Desktop을 모바일 기기에 다시 연결하고 메시지를 계속 사용하세요.",
-    "description": ""
+    "message": "클릭하여 Signal Desktop을 모바일 기기에 다시 연결하고 메시지를 계속 사용하세요."
   },
   "unlinked": {
-    "message": "연결 해제됨",
-    "description": ""
+    "message": "연결 해제됨"
   },
   "relink": {
-    "message": "재연결",
-    "description": ""
+    "message": "재연결"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "사용할 수 있는 업데이트가 있습니다.",
-    "description": ""
+    "message": "사용할 수 있는 업데이트가 있습니다."
   },
   "autoUpdateRetry": {
-    "message": "업데이트 다시 시도",
-    "description": ""
+    "message": "업데이트 다시 시도"
   },
   "autoUpdateContactSupport": {
-    "message": "고객 지원팀에 문의",
-    "description": ""
+    "message": "고객 지원팀에 문의"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "클릭하여 Signal 다시 시작",
-    "description": ""
+    "message": "클릭하여 Signal 다시 시작"
   },
   "downloadNewVersionMessage": {
-    "message": "클릭하여 업데이트 다운로드",
-    "description": ""
+    "message": "클릭하여 업데이트 다운로드"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal을 업데이트하지 못했습니다. 클릭하여 다시 시도하세요.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Signal을 다시 시작하여 업데이트를 적용하세요.",
-    "description": ""
+    "message": "Signal을 다시 시작하여 업데이트를 적용하세요."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal 재시작",
-    "description": ""
+    "message": "Signal 재시작"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "나중에",
-    "description": ""
+    "message": "나중에"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "업데이트 무시",
-    "description": ""
+    "message": "업데이트 무시"
   },
   "leftTheGroup": {
     "message": "$name$이(가) 그룹을 떠났습니다.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ 님이 처리하거나 표시할 수 없는 메시지를 보냈습니다. 이는 메시지에서 새로운 Signal 기능을 사용하기 때문입니다.",
-    "description": ""
+    "message": "$contact$ 님이 처리하거나 표시할 수 없는 메시지를 보냈습니다. 이는 메시지에서 새로운 Signal 기능을 사용하기 때문입니다."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "귀하는 최신 버전의 Signal을 사용하고 있으므로 $contact$ 님에게 메시지를 다시 보내도록 요청할 수 있습니다.",
-    "description": ""
+    "message": "귀하는 최신 버전의 Signal을 사용하고 있으므로 $contact$ 님에게 메시지를 다시 보내도록 요청할 수 있습니다."
   },
   "Message--from-me-unsupported-message": {
-    "message": "기기 중 하나에서 처리하거나 표시할 수 없는 메시지를 보냈습니다. 이는 메시지에서 새로운 Signal 기능을 사용하기 때문입니다.",
-    "description": ""
+    "message": "기기 중 하나에서 처리하거나 표시할 수 없는 메시지를 보냈습니다. 이는 메시지에서 새로운 Signal 기능을 사용하기 때문입니다."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "향후에 이와 같은 메시지는 최신 버전의 Signal을 사용하고 있으므로 동기화됩니다.",
-    "description": ""
+    "message": "향후에 이와 같은 메시지는 최신 버전의 Signal을 사용하고 있으므로 동기화됩니다."
   },
   "Message--update-signal": {
     "message": "시그널 업데이트하기",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "반응 제거",
-    "description": ""
+    "message": "반응 제거"
   },
   "Reactions--error": {
     "message": "리액션을 보내지 못했습니다. 다시 시도하세요.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "응답하지 않은 영상 통화",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal이 계속 실행 중입니다.",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal이 알림 영역에서 계속 실행됩니다. Signal 설정에서 이 설정을 변경할 수 있습니다.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "음성 통화 수신 중...",
@@ -4895,6 +4854,10 @@
     "message": "조회자",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "사라지기까지 남은 시간",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "정보",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "파일 크기 $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ 후 사라짐",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

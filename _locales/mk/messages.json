@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Испрати",
-    "description": ""
+    "message": "Испрати"
   },
   "acceptNewKey": {
     "message": "Прифати ",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Означи како проверено",
-    "description": ""
+    "message": "Означи како проверено"
   },
   "unverify": {
-    "message": "Означи како непроверено",
-    "description": ""
+    "message": "Означи како непроверено"
   },
   "isVerified": {
     "message": "Успешна проверка на сигурносниот број со $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Проверено",
-    "description": ""
+    "message": "Проверено"
   },
   "newIdentity": {
     "message": "Нов сигурносен број",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Вашиот сигурносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите сигурносниот број подолу.",
-    "description": ""
+    "message": "Вашиот сигурносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите сигурносниот број подолу."
   },
   "incomingError": {
-    "message": "Грешка при справување со дојдовна порака",
-    "description": ""
+    "message": "Грешка при справување со дојдовна порака"
   },
   "media": {
     "message": "Медија",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Извинете, избраната датотека ги надминува рестрикциите за големина.",
-    "description": ""
+    "message": "Извинете, избраната датотека ги надминува рестрикциите за големина."
   },
   "unableToLoadAttachment": {
-    "message": "Не успеав да го вчитам избраниот прилог.",
-    "description": ""
+    "message": "Не успеав да го вчитам избраниот прилог."
   },
   "disconnected": {
     "message": "Неповрзан",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Добредојдовте во Signal",
-    "description": ""
+    "message": "Добредојдовте во Signal"
   },
   "whatsNew": {
     "message": "Видете $whatsNew$во оваа верзија ",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Во ред",
-    "description": ""
+    "message": "Во ред"
   },
   "cancel": {
-    "message": "Откажи",
-    "description": ""
+    "message": "Откажи"
   },
   "discard": {
-    "message": "Откажи",
-    "description": ""
+    "message": "Откажи"
   },
   "failedToSend": {
-    "message": "Не успеав да испратам до некои од примачите. Проверете ја Вашата мрежна врска.",
-    "description": ""
+    "message": "Не успеав да испратам до некои од примачите. Проверете ја Вашата мрежна врска."
   },
   "error": {
-    "message": "Грешка",
-    "description": ""
+    "message": "Грешка"
   },
   "messageDetail": {
-    "message": "Детали за пораката",
-    "description": ""
+    "message": "Детали за пораката"
   },
   "delete": {
-    "message": "Избриши",
-    "description": ""
+    "message": "Избриши"
   },
   "accept": {
-    "message": "Прифати ",
-    "description": ""
+    "message": "Прифати "
   },
   "forward": {
-    "message": "Препрати",
-    "description": ""
+    "message": "Препрати"
   },
   "done": {
     "message": "Готово",
     "description": "Label for done"
   },
   "update": {
-    "message": "Aжурирај",
-    "description": ""
+    "message": "Aжурирај"
   },
   "next2": {
-    "message": "Следно",
-    "description": ""
+    "message": "Следно"
   },
   "on": {
     "message": "Вклучи",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Членови на групата",
-    "description": ""
+    "message": "Членови на групата"
   },
   "showMembers": {
-    "message": "Прикажи членови",
-    "description": ""
+    "message": "Прикажи членови"
   },
   "showSafetyNumber": {
-    "message": "Види сигурносен број",
-    "description": ""
+    "message": "Види сигурносен број"
   },
   "viewRecentMedia": {
     "message": "Погледни скорешна медија",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "За да ја проверите безбедноста на целосното шифрирање со $name$, споредете ги бројките горе со нивниот уред.",
-    "description": ""
+    "message": "За да ја проверите безбедноста на целосното шифрирање со $name$, споредете ги бројките горе со нивниот уред."
   },
   "theirIdentityUnknown": {
-    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот сигурносен број за овој контакт ќе стане достапен по испраќањето на првата порака.",
-    "description": ""
+    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот сигурносен број за овој контакт ќе стане достапен по испраќањето на првата порака."
   },
   "back": {
     "message": "Назад",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Извинете, веќе имате премногу поврзани уреди. Пробајте да отстраните неколку.",
-    "description": ""
+    "message": "Извинете, веќе имате премногу поврзани уреди. Пробајте да отстраните неколку."
   },
   "installTooOld": {
-    "message": "Ажурирајте го Signal на овој уред за да го поврзете со Вашиот телефон.",
-    "description": ""
+    "message": "Ажурирајте го Signal на овој уред за да го поврзете со Вашиот телефон."
   },
   "installErrorHeader": {
-    "message": "Нешто тргна наопаку!",
-    "description": ""
+    "message": "Нешто тргна наопаку!"
   },
   "installUnknownError": {
-    "message": "Се појави неочекувана грешка. Ве молиме обидете се повторно.",
-    "description": ""
+    "message": "Се појави неочекувана грешка. Ве молиме обидете се повторно."
   },
   "installTryAgain": {
-    "message": "Обиди се повторно ",
-    "description": ""
+    "message": "Обиди се повторно "
   },
   "Preferences--theme": {
     "message": "Тема",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ реагираше $emoji$ на Вашата порака",
-    "description": ""
+    "message": "$sender$ реагираше $emoji$ на Вашата порака"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ реагираше $emoji$ на $message$",
-    "description": ""
+    "message": "$sender$ реагираше $emoji$ на $message$"
   },
   "sendFailed": {
     "message": "Испраќањето е неуспешно",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Кликнете за повторно да се поврзе Signal Desktop со вашиот мобилен уред за да продолжите со допишување.",
-    "description": ""
+    "message": "Кликнете за повторно да се поврзе Signal Desktop со вашиот мобилен уред за да продолжите со допишување."
   },
   "unlinked": {
-    "message": "Неповрзан",
-    "description": ""
+    "message": "Неповрзан"
   },
   "relink": {
-    "message": "Поврзи повторно",
-    "description": ""
+    "message": "Поврзи повторно"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Достапна е нова верзија",
-    "description": ""
+    "message": "Достапна е нова верзија"
   },
   "autoUpdateRetry": {
-    "message": "Обидете се повторно да ажурирате",
-    "description": ""
+    "message": "Обидете се повторно да ажурирате"
   },
   "autoUpdateContactSupport": {
-    "message": "контактирајте го тимот за корисничка поддршка",
-    "description": ""
+    "message": "контактирајте го тимот за корисничка поддршка"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Кликнете за да го рестартирате Signal",
-    "description": ""
+    "message": "Кликнете за да го рестартирате Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Кликнете за ја да ја преземете новата верзија",
-    "description": ""
+    "message": "Кликнете за ја да ја преземете новата верзија"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal не можеше да се ажурира. Кликнете за да се обидете повторно.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Притиснете на „Рестартирај го Signal“ за да ја примените надградбата.",
-    "description": ""
+    "message": "Притиснете на „Рестартирај го Signal“ за да ја примените надградбата."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Рестартирај го Signal",
-    "description": ""
+    "message": "Рестартирај го Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Покасно",
-    "description": ""
+    "message": "Покасно"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Игнорирајте ја новата верзија",
-    "description": ""
+    "message": "Игнорирајте ја новата верзија"
   },
   "leftTheGroup": {
     "message": "$name$ ја напушти групата.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ Ви испрати порака која што не може да се процесира или прикаже бидејќи користи нова опција во Signal.",
-    "description": ""
+    "message": "$contact$ Ви испрати порака која што не може да се процесира или прикаже бидејќи користи нова опција во Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Можете да го прашате $contact$ да ја препрати оваа порака бидејќи користите ажурирана верзија на Signal.",
-    "description": ""
+    "message": "Можете да го прашате $contact$ да ја препрати оваа порака бидејќи користите ажурирана верзија на Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Еден од Вашите уреди испрати порака која што не може да биде процесирана или прикажан бидејќи користи нова опција во Signal.",
-    "description": ""
+    "message": "Еден од Вашите уреди испрати порака која што не може да биде процесирана или прикажан бидејќи користи нова опција во Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Идните пораки како ова ќе бидат синрхонизирани сега откако користите ажурирана верзија на Signal.",
-    "description": ""
+    "message": "Идните пораки како ова ќе бидат синрхонизирани сега откако користите ажурирана верзија на Signal."
   },
   "Message--update-signal": {
     "message": "Ажурирај го Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Отстранете реакција",
-    "description": ""
+    "message": "Отстранете реакција"
   },
   "Reactions--error": {
     "message": "Не успеав да испратам реакција. Ве молиме пробајте пак.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Неодоговорен видео повик",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal сè уште работи",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal ќе продолжи да работи во центарот за нотификации. Ова можете да го смените во поставувањата на Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Дојдовен аудио повик...",
@@ -4895,6 +4854,10 @@
     "message": "Видено од",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Исчезнува за",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "За",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Големина на датотека $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Исчезнува за $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

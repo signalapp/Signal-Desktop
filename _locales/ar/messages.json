@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "إرسال",
-    "description": ""
+    "message": "إرسال"
   },
   "acceptNewKey": {
     "message": "موافقة",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "علِّم كمُتحقَّق منه",
-    "description": ""
+    "message": "علِّم كمُتحقَّق منه"
   },
   "unverify": {
-    "message": "علِّم كغير مُتحقَّق منه",
-    "description": ""
+    "message": "علِّم كغير مُتحقَّق منه"
   },
   "isVerified": {
     "message": "لقد تحققت من رقم أمانك مع $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "مُتحقَّق منه",
-    "description": ""
+    "message": "مُتحقَّق منه"
   },
   "newIdentity": {
     "message": "رقم أمان جديد",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت Signal. يمكنك التحقق من رقم الأمان الجديد أدناه.",
-    "description": ""
+    "message": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت Signal. يمكنك التحقق من رقم الأمان الجديد أدناه."
   },
   "incomingError": {
-    "message": "حدث خطأ فى التعامل مع الرسالة الواردة",
-    "description": ""
+    "message": "حدث خطأ فى التعامل مع الرسالة الواردة"
   },
   "media": {
     "message": "الوسائط",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "معذرةً، حجم الملف المختار يتجاوز الحجم الأقصى للرسالة.",
-    "description": ""
+    "message": "معذرةً، حجم الملف المختار يتجاوز الحجم الأقصى للرسالة."
   },
   "unableToLoadAttachment": {
-    "message": "فشل تنزيل المرفقات المحددة",
-    "description": ""
+    "message": "فشل تنزيل المرفقات المحددة"
   },
   "disconnected": {
     "message": "غير متّصل",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "مرحباً بك في Signal",
-    "description": ""
+    "message": "مرحباً بك في Signal"
   },
   "whatsNew": {
     "message": "يُرجى تفقد $whatsNew$ حول هذا التحديث",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "موافق",
-    "description": ""
+    "message": "موافق"
   },
   "cancel": {
-    "message": "إلغاء",
-    "description": ""
+    "message": "إلغاء"
   },
   "discard": {
-    "message": "تجاهل",
-    "description": ""
+    "message": "تجاهل"
   },
   "failedToSend": {
-    "message": "فشل الإرسال لبعض المستلمين. يُرجى التأكد من الاتصال بالشبكة.",
-    "description": ""
+    "message": "فشل الإرسال لبعض المستلمين. يُرجى التأكد من الاتصال بالشبكة."
   },
   "error": {
-    "message": "خطأ",
-    "description": ""
+    "message": "خطأ"
   },
   "messageDetail": {
-    "message": "تفاصيل الرسالة",
-    "description": ""
+    "message": "تفاصيل الرسالة"
   },
   "delete": {
-    "message": "أحذف",
-    "description": ""
+    "message": "أحذف"
   },
   "accept": {
-    "message": "قبول",
-    "description": ""
+    "message": "قبول"
   },
   "forward": {
-    "message": "إعادة التوجيه",
-    "description": ""
+    "message": "إعادة التوجيه"
   },
   "done": {
     "message": "تمّ",
     "description": "Label for done"
   },
   "update": {
-    "message": "تحديث التطبيق",
-    "description": ""
+    "message": "تحديث التطبيق"
   },
   "next2": {
-    "message": "التالي",
-    "description": ""
+    "message": "التالي"
   },
   "on": {
     "message": "مُفعَّل",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "أعضاء المجموعة",
-    "description": ""
+    "message": "أعضاء المجموعة"
   },
   "showMembers": {
-    "message": "أظهر الأعضاء",
-    "description": ""
+    "message": "أظهر الأعضاء"
   },
   "showSafetyNumber": {
-    "message": "عرض رقم الأمان",
-    "description": ""
+    "message": "عرض رقم الأمان"
   },
   "viewRecentMedia": {
     "message": "رؤية الوسائط الحديثة",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "للتحقق من أمان التشفير من طرف إلى طرف باستخدام $name$، قارن الأرقام أعلاه بأجهزتهم.",
-    "description": ""
+    "message": "للتحقق من أمان التشفير من طرف إلى طرف باستخدام $name$، قارن الأرقام أعلاه بأجهزتهم."
   },
   "theirIdentityUnknown": {
-    "message": "لم يتم تبادل أيّة رسائل مع هذا المستخدم حتى الآن. سيظهر رقم أمانك معه بعد إرسال أول رسالة.",
-    "description": ""
+    "message": "لم يتم تبادل أيّة رسائل مع هذا المستخدم حتى الآن. سيظهر رقم أمانك معه بعد إرسال أول رسالة."
   },
   "back": {
     "message": "الرجوع",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "معذرةً، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها.",
-    "description": ""
+    "message": "معذرةً، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها."
   },
   "installTooOld": {
-    "message": "قم بتحديث Signal على هذا الجهاز لتستطيع ربط هاتفك.",
-    "description": ""
+    "message": "قم بتحديث Signal على هذا الجهاز لتستطيع ربط هاتفك."
   },
   "installErrorHeader": {
-    "message": "حدث خطأٌ ما!",
-    "description": ""
+    "message": "حدث خطأٌ ما!"
   },
   "installUnknownError": {
-    "message": "‫لقد حدث خطأ غير متوقع. يُرجى إعادة المحاولة لاحقا.",
-    "description": ""
+    "message": "‫لقد حدث خطأ غير متوقع. يُرجى إعادة المحاولة لاحقا."
   },
   "installTryAgain": {
-    "message": "حاول مجدداً",
-    "description": ""
+    "message": "حاول مجدداً"
   },
   "Preferences--theme": {
     "message": "السِّمَة",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "تفاعل $sender$ مع رسالتك باستخدام $emoji$",
-    "description": ""
+    "message": "تفاعل $sender$ مع رسالتك باستخدام $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "تفاعل $sender$ مع الرسالة $message$ باستخدام $emoji$",
-    "description": ""
+    "message": "تفاعل $sender$ مع الرسالة $message$ باستخدام $emoji$"
   },
   "sendFailed": {
     "message": "فشل الإرسال",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "‫يُرجى الضغط على زر الفأرة لإعادة ربط Signal Desktop مع جهازك المحمول للاستمرار في التراسُل.",
-    "description": ""
+    "message": "‫يُرجى الضغط على زر الفأرة لإعادة ربط Signal Desktop مع جهازك المحمول للاستمرار في التراسُل."
   },
   "unlinked": {
-    "message": "غير مرتبط",
-    "description": ""
+    "message": "غير مرتبط"
   },
   "relink": {
-    "message": "إعادة الربط",
-    "description": ""
+    "message": "إعادة الربط"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "هناك تحديث جديد",
-    "description": ""
+    "message": "هناك تحديث جديد"
   },
   "autoUpdateRetry": {
-    "message": "إعادة محاولة التحديث",
-    "description": ""
+    "message": "إعادة محاولة التحديث"
   },
   "autoUpdateContactSupport": {
-    "message": "جهة اتصال الدعم",
-    "description": ""
+    "message": "جهة اتصال الدعم"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "‫يُرجى الضغط على زر الفأرة لإعادة تشغيل Signal",
-    "description": ""
+    "message": "‫يُرجى الضغط على زر الفأرة لإعادة تشغيل Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "يُرجى الضغط على زر الفأرة لتنزيل التحديث",
-    "description": ""
+    "message": "يُرجى الضغط على زر الفأرة لتنزيل التحديث"
   },
   "downloadFullNewVersionMessage": {
     "message": "‫لم يتمكن Signal من التحديث. يُرجى الضغط للمحاولة مرة أخرى.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬",
-    "description": ""
+    "message": "‫يُرجى الضغط على إعادة تشغيل Signal لتطبيق التحديثات.‬"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "‫إعادة تشغيل Signal‬",
-    "description": ""
+    "message": "‫إعادة تشغيل Signal‬"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "لاحقا",
-    "description": ""
+    "message": "لاحقا"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "تجاهل التحديث",
-    "description": ""
+    "message": "تجاهل التحديث"
   },
   "leftTheGroup": {
     "message": "غادر العضو $name$ المجموعة.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "أرسل $contact$ لك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة.",
-    "description": ""
+    "message": "أرسل $contact$ لك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "بما أنك أصبحت تستخدم إصدار Signal مُرقّى. يمكنك الطلب من $contact$ إعادة إرسال هذه الرسالة.",
-    "description": ""
+    "message": "بما أنك أصبحت تستخدم إصدار Signal مُرقّى. يمكنك الطلب من $contact$ إعادة إرسال هذه الرسالة."
   },
   "Message--from-me-unsupported-message": {
-    "message": " أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة.",
-    "description": ""
+    "message": " أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "بما أنك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية.",
-    "description": ""
+    "message": "بما أنك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية."
   },
   "Message--update-signal": {
     "message": "‫تحديث Signal‬",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "إزالة رد الفعل",
-    "description": ""
+    "message": "إزالة رد الفعل"
   },
   "Reactions--error": {
     "message": "فشل إرسال التفاعل. عليك بالمحاولة مرة أخرى.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "مكالمة فيديو لم يتم الرد عليها",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "لا يزال تطبيق Signal قيد التشغيل",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "سَيستمر تطبيق Signal في الاشتغال في قائمة الإشعارات. يُمكنك تغيير هذا في إعدادات Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "مكالمة بالصوت واردة...",
@@ -4895,6 +4854,10 @@
     "message": "اطلع عليها",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "تختفي في",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "حول",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "حجم الملف $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "تختفي في $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

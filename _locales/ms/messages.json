@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Hantar",
-    "description": ""
+    "message": "Hantar"
   },
   "acceptNewKey": {
     "message": "Terima",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Tanda sebagai disahkan",
-    "description": ""
+    "message": "Tanda sebagai disahkan"
   },
   "unverify": {
-    "message": "Tanda sebagai tidah disahkan",
-    "description": ""
+    "message": "Tanda sebagai tidah disahkan"
   },
   "isVerified": {
     "message": "Anda telah menentusahkan nombor keselamatan anda dengan $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Disahkan",
-    "description": ""
+    "message": "Disahkan"
   },
   "newIdentity": {
     "message": "Nombor selamat baru",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Nombor keselamatan dengan kenalan ini telah berubah. Ini bermaksud sama ada seseorang sedang cuba untuk memintas komunikasi anda atau kenalan ini cuma memasang semula Signal. Anda mungkin ingin mengesahkan nombor keselamatan baru di bawah ini.",
-    "description": ""
+    "message": "Nombor keselamatan dengan kenalan ini telah berubah. Ini bermaksud sama ada seseorang sedang cuba untuk memintas komunikasi anda atau kenalan ini cuma memasang semula Signal. Anda mungkin ingin mengesahkan nombor keselamatan baru di bawah ini."
   },
   "incomingError": {
-    "message": "Ralat mengendalikan mesej masuk",
-    "description": ""
+    "message": "Ralat mengendalikan mesej masuk"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Maaf, fail yang dipilih melebihi sekatan saiz mesej.",
-    "description": ""
+    "message": "Maaf, fail yang dipilih melebihi sekatan saiz mesej."
   },
   "unableToLoadAttachment": {
-    "message": "Tidak dapat memuatkan lampiran yang dipilih.",
-    "description": ""
+    "message": "Tidak dapat memuatkan lampiran yang dipilih."
   },
   "disconnected": {
     "message": "Terputus sambungan",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Selamat datang ke Signal",
-    "description": ""
+    "message": "Selamat datang ke Signal"
   },
   "whatsNew": {
     "message": "Lihat $whatsNew$ dalam kemas kini ini",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Batal",
-    "description": ""
+    "message": "Batal"
   },
   "discard": {
-    "message": "Buang",
-    "description": ""
+    "message": "Buang"
   },
   "failedToSend": {
-    "message": "Gagal menghantar kepada sesetengah kenalan. Semak sambungan rangkaian anda.",
-    "description": ""
+    "message": "Gagal menghantar kepada sesetengah kenalan. Semak sambungan rangkaian anda."
   },
   "error": {
-    "message": "Ralat",
-    "description": ""
+    "message": "Ralat"
   },
   "messageDetail": {
-    "message": "Butiran Mesej",
-    "description": ""
+    "message": "Butiran Mesej"
   },
   "delete": {
-    "message": "Padam",
-    "description": ""
+    "message": "Padam"
   },
   "accept": {
-    "message": "Terima",
-    "description": ""
+    "message": "Terima"
   },
   "forward": {
-    "message": "Majukan",
-    "description": ""
+    "message": "Majukan"
   },
   "done": {
     "message": "Selesai",
     "description": "Label for done"
   },
   "update": {
-    "message": "Kemas Kini",
-    "description": ""
+    "message": "Kemas Kini"
   },
   "next2": {
-    "message": "Seterusnya",
-    "description": ""
+    "message": "Seterusnya"
   },
   "on": {
     "message": "Hidup",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Ahli kumpulan",
-    "description": ""
+    "message": "Ahli kumpulan"
   },
   "showMembers": {
-    "message": "Paparkan ahli",
-    "description": ""
+    "message": "Paparkan ahli"
   },
   "showSafetyNumber": {
-    "message": "Lihat nombor keselamatan",
-    "description": ""
+    "message": "Lihat nombor keselamatan"
   },
   "viewRecentMedia": {
     "message": "Lihat media terkini",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Untuk mengesahkan keselamatan penyulitan hujung ke hujung anda dengan $name$, bandingkan nombor di atas dengan peranti mereka.",
-    "description": ""
+    "message": "Untuk mengesahkan keselamatan penyulitan hujung ke hujung anda dengan $name$, bandingkan nombor di atas dengan peranti mereka."
   },
   "theirIdentityUnknown": {
-    "message": "Anda belum bertukar sebarang mesej dengan kenalan ini lagi. Nombor keselamatan anda dengan mereka akan tersedia selepas mesej pertama.",
-    "description": ""
+    "message": "Anda belum bertukar sebarang mesej dengan kenalan ini lagi. Nombor keselamatan anda dengan mereka akan tersedia selepas mesej pertama."
   },
   "back": {
     "message": "Kembali",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Maaf, anda mempunyai terlalu banyak peranti dipautkan, cuba alih keluar beberapa",
-    "description": ""
+    "message": "Maaf, anda mempunyai terlalu banyak peranti dipautkan, cuba alih keluar beberapa"
   },
   "installTooOld": {
-    "message": "Kemas kini Signal pada peranti ini untuk pautkan telefon anda.",
-    "description": ""
+    "message": "Kemas kini Signal pada peranti ini untuk pautkan telefon anda."
   },
   "installErrorHeader": {
-    "message": "Ada yang tidak kena!",
-    "description": ""
+    "message": "Ada yang tidak kena!"
   },
   "installUnknownError": {
-    "message": "Ralat yang tidak dijangka berlaku. Sila cuba sekali lagi.",
-    "description": ""
+    "message": "Ralat yang tidak dijangka berlaku. Sila cuba sekali lagi."
   },
   "installTryAgain": {
-    "message": "Cuba lagi",
-    "description": ""
+    "message": "Cuba lagi"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ telah memberikan reaksi $emoji$ terhadap mesej anda",
-    "description": ""
+    "message": "$sender$ telah memberikan reaksi $emoji$ terhadap mesej anda"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ telah memberikan reaksi $emoji$ terhadap: $message$",
-    "description": ""
+    "message": "$sender$ telah memberikan reaksi $emoji$ terhadap: $message$"
   },
   "sendFailed": {
     "message": "Penghantaran gagal",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klik untuk memautkan semula Signal Desktop kepada peranti mudah alih anda untuk terus bermesej.",
-    "description": ""
+    "message": "Klik untuk memautkan semula Signal Desktop kepada peranti mudah alih anda untuk terus bermesej."
   },
   "unlinked": {
-    "message": "Dinyahpautkan",
-    "description": ""
+    "message": "Dinyahpautkan"
   },
   "relink": {
-    "message": "Pautkan semula",
-    "description": ""
+    "message": "Pautkan semula"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Kemas kini tersedia",
-    "description": ""
+    "message": "Kemas kini tersedia"
   },
   "autoUpdateRetry": {
-    "message": "Cuba semula kemas kini",
-    "description": ""
+    "message": "Cuba semula kemas kini"
   },
   "autoUpdateContactSupport": {
-    "message": "hubungi sokongan",
-    "description": ""
+    "message": "hubungi sokongan"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klik untuk membuka semula Signal",
-    "description": ""
+    "message": "Klik untuk membuka semula Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Klik untuk memuat turun kemas kini",
-    "description": ""
+    "message": "Klik untuk memuat turun kemas kini"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal tidak dapat dikemas kini. Klik untuk cuba lagi.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Tekan Mula Semula Signal untuk gunakan kemas kini.",
-    "description": ""
+    "message": "Tekan Mula Semula Signal untuk gunakan kemas kini."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Mulakan semula Signal",
-    "description": ""
+    "message": "Mulakan semula Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Kemudian",
-    "description": ""
+    "message": "Kemudian"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Abaikan kemas kini",
-    "description": ""
+    "message": "Abaikan kemas kini"
   },
   "leftTheGroup": {
     "message": "$name$ telah meninggalkan kumpulan.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ telah menghantar anda satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru.",
-    "description": ""
+    "message": "$contact$ telah menghantar anda satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Anda boleh minta $contact$ untuk menghantar semula mesej sekarang kerana anda menggunakan versi Signal yang terkini.",
-    "description": ""
+    "message": "Anda boleh minta $contact$ untuk menghantar semula mesej sekarang kerana anda menggunakan versi Signal yang terkini."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Salah satu peranti anda telah menghantar satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru.",
-    "description": ""
+    "message": "Salah satu peranti anda telah menghantar satu mesej yang tidak dapat diproses atau dipaparkan kerana ia menggunakan ciri-ciri Signal yang baru."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Mesej masa depan seperti ini akan disegerakkan bahawa anda menggunakan versi Signal terkini.",
-    "description": ""
+    "message": "Mesej masa depan seperti ini akan disegerakkan bahawa anda menggunakan versi Signal terkini."
   },
   "Message--update-signal": {
     "message": "Kemas Kini Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Singkirkan reaksi",
-    "description": ""
+    "message": "Singkirkan reaksi"
   },
   "Reactions--error": {
     "message": "Gagal menghantar reaksi. Sila cuba lagi.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Panggilan video tidak dijawab",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal masih berjalan",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal akan terus berjalan dalam kawasan pemberitahuan. Anda boleh mengubah ini dalam tetapan Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Panggilan audio masuk...",
@@ -4895,6 +4854,10 @@
     "message": "Dilihat oleh",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Menghilang dalam",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Perihal",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Saiz fail $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Menghilang dalam $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

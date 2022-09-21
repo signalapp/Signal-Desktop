@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Parashtrojeni",
-    "description": ""
+    "message": "Parashtrojeni"
   },
   "acceptNewKey": {
     "message": "Pranoje",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Vëri shenjë si i verifikuar",
-    "description": ""
+    "message": "Vëri shenjë si i verifikuar"
   },
   "unverify": {
-    "message": "Vëri shenjë si i paverifikuar",
-    "description": ""
+    "message": "Vëri shenjë si i paverifikuar"
   },
   "isVerified": {
     "message": "E verifikuat numrin tuaj të sigurisë me $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "I verifikuar",
-    "description": ""
+    "message": "I verifikuar"
   },
   "newIdentity": {
     "message": "Numër i ri sigurie",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Numri juaj i sigurisë me këtë kontakt ka ndryshuar. Kjo mund të dojë të thotë se ose dikush po rreket të përgjojë komunikimin tuaj, ose se ky kontakt thjesht riinstaloi Signal-in. Mund të donit të verifikoni numrin e ri të sigurisë më poshtë.",
-    "description": ""
+    "message": "Numri juaj i sigurisë me këtë kontakt ka ndryshuar. Kjo mund të dojë të thotë se ose dikush po rreket të përgjojë komunikimin tuaj, ose se ky kontakt thjesht riinstaloi Signal-in. Mund të donit të verifikoni numrin e ri të sigurisë më poshtë."
   },
   "incomingError": {
-    "message": "Gabim në trajtimin e mesazhit ardhës",
-    "description": ""
+    "message": "Gabim në trajtimin e mesazhit ardhës"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh.",
-    "description": ""
+    "message": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh."
   },
   "unableToLoadAttachment": {
-    "message": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur.",
-    "description": ""
+    "message": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."
   },
   "disconnected": {
     "message": "I shkëputur",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Mirë se vini te Signal-i",
-    "description": ""
+    "message": "Mirë se vini te Signal-i"
   },
   "whatsNew": {
     "message": "Shihni $whatsNew$ në këtë përditësim",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Anuloje",
-    "description": ""
+    "message": "Anuloje"
   },
   "discard": {
-    "message": "Hidhe tej",
-    "description": ""
+    "message": "Hidhe tej"
   },
   "failedToSend": {
-    "message": "Dështoi dërgimi te disa marrës. Kontrolloni lidhjen tuaj në rrjet.",
-    "description": ""
+    "message": "Dështoi dërgimi te disa marrës. Kontrolloni lidhjen tuaj në rrjet."
   },
   "error": {
-    "message": "Gabim",
-    "description": ""
+    "message": "Gabim"
   },
   "messageDetail": {
-    "message": "Hollësi Mesazhi",
-    "description": ""
+    "message": "Hollësi Mesazhi"
   },
   "delete": {
-    "message": "Fshije",
-    "description": ""
+    "message": "Fshije"
   },
   "accept": {
-    "message": "Pranoje",
-    "description": ""
+    "message": "Pranoje"
   },
   "forward": {
-    "message": "Përcjellje",
-    "description": ""
+    "message": "Përcjellje"
   },
   "done": {
     "message": "U bë",
     "description": "Label for done"
   },
   "update": {
-    "message": "Përditësoje",
-    "description": ""
+    "message": "Përditësoje"
   },
   "next2": {
-    "message": "Tjetër",
-    "description": ""
+    "message": "Tjetër"
   },
   "on": {
     "message": "On",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Anëtarë grupi",
-    "description": ""
+    "message": "Anëtarë grupi"
   },
   "showMembers": {
-    "message": "Shfaq anëtarët",
-    "description": ""
+    "message": "Shfaq anëtarët"
   },
   "showSafetyNumber": {
-    "message": "Shihni numër sigurie",
-    "description": ""
+    "message": "Shihni numër sigurie"
   },
   "viewRecentMedia": {
     "message": "Shihni media së fundi",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Që të verifikoni sigurinë e fshehtëzimit tuaj skaj-më-skaj me $name$, krahasoni numrat më sipër me pajisjen e tyre.",
-    "description": ""
+    "message": "Që të verifikoni sigurinë e fshehtëzimit tuaj skaj-më-skaj me $name$, krahasoni numrat më sipër me pajisjen e tyre."
   },
   "theirIdentityUnknown": {
-    "message": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë.",
-    "description": ""
+    "message": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë."
   },
   "back": {
     "message": "Mbrapsht",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Na ndjeni, keni shumë pajisje të lidhura tashmë. Provoni të hiqni ndoca.",
-    "description": ""
+    "message": "Na ndjeni, keni shumë pajisje të lidhura tashmë. Provoni të hiqni ndoca."
   },
   "installTooOld": {
-    "message": "Që të lidhni telefonin tuaj, përditësoni Signal-in në këtë pajisje.",
-    "description": ""
+    "message": "Që të lidhni telefonin tuaj, përditësoni Signal-in në këtë pajisje."
   },
   "installErrorHeader": {
-    "message": "Diç shkoi ters!",
-    "description": ""
+    "message": "Diç shkoi ters!"
   },
   "installUnknownError": {
-    "message": "Ndodhi një gabim i papritur. Ju lutemi, riprovoni.",
-    "description": ""
+    "message": "Ndodhi një gabim i papritur. Ju lutemi, riprovoni."
   },
   "installTryAgain": {
-    "message": "Riprovo",
-    "description": ""
+    "message": "Riprovo"
   },
   "Preferences--theme": {
     "message": "Temë",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tuaj",
-    "description": ""
+    "message": "$sender$ reagoi me $emoji$ ndaj mesazhit tuaj"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagoi $emoji$ te: $message$",
-    "description": ""
+    "message": "$sender$ reagoi $emoji$ te: $message$"
   },
   "sendFailed": {
     "message": "Dërgimi dështoi",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klikoni që të rilidhni Signal-in për Desktop me pajisjen tuaj celulare, që të vazhdohet puna me mesazhet.",
-    "description": ""
+    "message": "Klikoni që të rilidhni Signal-in për Desktop me pajisjen tuaj celulare, që të vazhdohet puna me mesazhet."
   },
   "unlinked": {
-    "message": "Jo e lidhur",
-    "description": ""
+    "message": "Jo e lidhur"
   },
   "relink": {
-    "message": "Rilidhe",
-    "description": ""
+    "message": "Rilidhe"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Ka përditësim të gatshëm",
-    "description": ""
+    "message": "Ka përditësim të gatshëm"
   },
   "autoUpdateRetry": {
-    "message": "Riprovoni përditësim",
-    "description": ""
+    "message": "Riprovoni përditësim"
   },
   "autoUpdateContactSupport": {
-    "message": "lidhuni me asistencën",
-    "description": ""
+    "message": "lidhuni me asistencën"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klikoni që të riniset Signal-i",
-    "description": ""
+    "message": "Klikoni që të riniset Signal-i"
   },
   "downloadNewVersionMessage": {
-    "message": "Klikoni që të shkarkohet përditësimi",
-    "description": ""
+    "message": "Klikoni që të shkarkohet përditësimi"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal-i s’u përditësua dot. Klikoni që të riprovohet.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet.",
-    "description": ""
+    "message": "Shtypni Rinise Signal-in që të zbatohen përditësimet."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Riniseni Signal-in",
-    "description": ""
+    "message": "Riniseni Signal-in"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Më vonë",
-    "description": ""
+    "message": "Më vonë"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Shpërfille përditësimin",
-    "description": ""
+    "message": "Shpërfille përditësimin"
   },
   "leftTheGroup": {
     "message": "$name$ e braktisi grupin.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ ju dërgoi një mesazh që s’mund të përpunohet apo shfaqet, ngaqë përdor një veçori të re të Signal-it.",
-    "description": ""
+    "message": "$contact$ ju dërgoi një mesazh që s’mund të përpunohet apo shfaqet, ngaqë përdor një veçori të re të Signal-it."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Mund t’i kërkoni $contact$ ta ridërgojë këtë mesazh tani që përdorni një version të përditësuar të Signal-it.",
-    "description": ""
+    "message": "Mund t’i kërkoni $contact$ ta ridërgojë këtë mesazh tani që përdorni një version të përditësuar të Signal-it."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Një nga pajisjet tuaja dërgoi një mesazh që s’mund të përpunohet ose shfaqet, ngaqë përdor një veçori të ri Signal-i.",
-    "description": ""
+    "message": "Një nga pajisjet tuaja dërgoi një mesazh që s’mund të përpunohet ose shfaqet, ngaqë përdor një veçori të ri Signal-i."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Mesazhe të tillë të ardhshëm do të njëkohësohen tani që përdorni një version të përditësuar të Signal-it.",
-    "description": ""
+    "message": "Mesazhe të tillë të ardhshëm do të njëkohësohen tani që përdorni një version të përditësuar të Signal-it."
   },
   "Message--update-signal": {
     "message": "Përditësoni Signal-in",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Hiqe reagimin",
-    "description": ""
+    "message": "Hiqe reagimin"
   },
   "Reactions--error": {
     "message": "S’u arrit të dërgohej reagim. Ju lutemi, riprovoni.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Thirrje video pa përgjigje",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal po vepron ende",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal do vazhdojë të veprojë në zonën e njoftimeve. Këtë mund ta ndryshoni te parametrat e Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Thirrje audio ardhëse…",
@@ -4895,6 +4854,10 @@
     "message": "Parë nga",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Zhduket pas",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Mbi",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Madhësia e skedarit $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Zhduket pas $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

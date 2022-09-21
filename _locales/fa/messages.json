@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "ارسال",
-    "description": ""
+    "message": "ارسال"
   },
   "acceptNewKey": {
     "message": "تایید",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "علامت گذاری به عنوان تایید شده",
-    "description": ""
+    "message": "علامت گذاری به عنوان تایید شده"
   },
   "unverify": {
-    "message": "علامت گذاری به عنوان تایید نشده",
-    "description": ""
+    "message": "علامت گذاری به عنوان تایید نشده"
   },
   "isVerified": {
     "message": "کدِ امنیتیِ $name$ تأیید شد.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "تایید شده",
-    "description": ""
+    "message": "تایید شده"
   },
   "newIdentity": {
     "message": "شماره‌ی امنیتی جدید",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد.",
-    "description": ""
+    "message": "شماره‌ی امنیتی این مخاطب تغییر کرده‌ است. این می‌تواند به این معنی باشد که کسی در حال نفوذ به ارتباط شما است و یا اینکه مخاطب شما سیگنال را از نو نصب کرده و حالا شماره‌ی امنیتی جدیدی دارد."
   },
   "incomingError": {
-    "message": "خطا در کنترل پیام دریافتی",
-    "description": ""
+    "message": "خطا در کنترل پیام دریافتی"
   },
   "media": {
     "message": "رسانه",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
-    "description": ""
+    "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است."
   },
   "unableToLoadAttachment": {
-    "message": "ناتوانی در بارگیری پیوست انتخابی.",
-    "description": ""
+    "message": "ناتوانی در بارگیری پیوست انتخابی."
   },
   "disconnected": {
     "message": "ارتباط قطع شد",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "به سیگنال خوش‌آمدید",
-    "description": ""
+    "message": "به سیگنال خوش‌آمدید"
   },
   "whatsNew": {
     "message": "$whatsNew$ را در این به‌روزرسانی ببینید",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "باشه",
-    "description": ""
+    "message": "باشه"
   },
   "cancel": {
-    "message": "انصراف",
-    "description": ""
+    "message": "انصراف"
   },
   "discard": {
-    "message": "ولش كن",
-    "description": ""
+    "message": "ولش كن"
   },
   "failedToSend": {
-    "message": "ارسال به برخی مخاطبین ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید.",
-    "description": ""
+    "message": "ارسال به برخی مخاطبین ناموفق بود. اتصال شبکه‌ی خود را بررسی کنید."
   },
   "error": {
-    "message": "خطا",
-    "description": ""
+    "message": "خطا"
   },
   "messageDetail": {
-    "message": "جزئیات پیام",
-    "description": ""
+    "message": "جزئیات پیام"
   },
   "delete": {
-    "message": "پاک کن",
-    "description": ""
+    "message": "پاک کن"
   },
   "accept": {
-    "message": "پذیرفتن",
-    "description": ""
+    "message": "پذیرفتن"
   },
   "forward": {
-    "message": "بازارسال",
-    "description": ""
+    "message": "بازارسال"
   },
   "done": {
     "message": "تمام",
     "description": "Label for done"
   },
   "update": {
-    "message": "به‌روزرسانی",
-    "description": ""
+    "message": "به‌روزرسانی"
   },
   "next2": {
-    "message": "بعدی",
-    "description": ""
+    "message": "بعدی"
   },
   "on": {
     "message": "روشن",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "اعضای گروه",
-    "description": ""
+    "message": "اعضای گروه"
   },
   "showMembers": {
-    "message": "نمایش اعضا",
-    "description": ""
+    "message": "نمایش اعضا"
   },
   "showSafetyNumber": {
-    "message": "دیدن شماره امنیتی",
-    "description": ""
+    "message": "دیدن شماره امنیتی"
   },
   "viewRecentMedia": {
     "message": "مشاهدهٔ رسانه‌های اخیر",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "برای بررسی امنیت رمزنگاری دوطرفه شما با $name$، شماره های فوق را با دستگاه ایشان مقایسه کنید.",
-    "description": ""
+    "message": "برای بررسی امنیت رمزنگاری دوطرفه شما با $name$، شماره های فوق را با دستگاه ایشان مقایسه کنید."
   },
   "theirIdentityUnknown": {
-    "message": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود.",
-    "description": ""
+    "message": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود."
   },
   "back": {
     "message": "عقب",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید.",
-    "description": ""
+    "message": "متاسفانه دستگاه‌های زیادی را به حسابتان متصل کرده‌اید. تعدادی را حذف کنید."
   },
   "installTooOld": {
-    "message": "برای اتصال به تلفن همراه سیگنال را در این دستگاه به‌روزرسانی کنید",
-    "description": ""
+    "message": "برای اتصال به تلفن همراه سیگنال را در این دستگاه به‌روزرسانی کنید"
   },
   "installErrorHeader": {
-    "message": "خطایی رخ داد!",
-    "description": ""
+    "message": "خطایی رخ داد!"
   },
   "installUnknownError": {
-    "message": "خطای غیرمنتظره ای رخ داد. لطفا مجددا تلاش کنید.",
-    "description": ""
+    "message": "خطای غیرمنتظره ای رخ داد. لطفا مجددا تلاش کنید."
   },
   "installTryAgain": {
-    "message": "دوباره تلاش کنید",
-    "description": ""
+    "message": "دوباره تلاش کنید"
   },
   "Preferences--theme": {
     "message": "طرح زمینه",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$به پیام شما واکنش $emoji$ نشان داد",
-    "description": ""
+    "message": "$sender$به پیام شما واکنش $emoji$ نشان داد"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ به $message$  واکنش $emoji$ نشان داد",
-    "description": ""
+    "message": "$sender$ به $message$  واکنش $emoji$ نشان داد"
   },
   "sendFailed": {
     "message": "ارسال ناموفق بود",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "برای ادامهٔ پیام‌رسانی کلیک کنید تا سیگنال دسکتاپ را به دستگاه تلفن همراه خود پیوند دهید.",
-    "description": ""
+    "message": "برای ادامهٔ پیام‌رسانی کلیک کنید تا سیگنال دسکتاپ را به دستگاه تلفن همراه خود پیوند دهید."
   },
   "unlinked": {
-    "message": "جدا شد",
-    "description": ""
+    "message": "جدا شد"
   },
   "relink": {
-    "message": "پیوند دادن دوباره",
-    "description": ""
+    "message": "پیوند دادن دوباره"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "به‌روزرسانی موجود است",
-    "description": ""
+    "message": "به‌روزرسانی موجود است"
   },
   "autoUpdateRetry": {
-    "message": "دوباره به‌روزرسانی کنید",
-    "description": ""
+    "message": "دوباره به‌روزرسانی کنید"
   },
   "autoUpdateContactSupport": {
-    "message": "تماس با پشتیبانی",
-    "description": ""
+    "message": "تماس با پشتیبانی"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "برای راه‌اندازی دوبارهٔ سیگنال کلیک کنید",
-    "description": ""
+    "message": "برای راه‌اندازی دوبارهٔ سیگنال کلیک کنید"
   },
   "downloadNewVersionMessage": {
-    "message": "برای بارگیری به‌روزرسانی کلیک کنید",
-    "description": ""
+    "message": "برای بارگیری به‌روزرسانی کلیک کنید"
   },
   "downloadFullNewVersionMessage": {
     "message": "سیگنال به‌روزرسانی نشد. برای امتحان مجدد کلیک کنید.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید.",
-    "description": ""
+    "message": "برای اعمال آپدیت ها سیگنال را ری استارت کنید."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "راه اندازی مجدد سیگنال",
-    "description": ""
+    "message": "راه اندازی مجدد سیگنال"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "بعدا",
-    "description": ""
+    "message": "بعدا"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "رد بروزرسانی",
-    "description": ""
+    "message": "رد بروزرسانی"
   },
   "leftTheGroup": {
     "message": "$name$گروه را ترک کرد.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "پیامی را برای شما ارسال کرد که پردازش یا نمایش داده نمی شود زیرا از ویژگی جدید سیگنال استفاده می کند.$contact$",
-    "description": ""
+    "message": "پیامی را برای شما ارسال کرد که پردازش یا نمایش داده نمی شود زیرا از ویژگی جدید سیگنال استفاده می کند.$contact$"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "\nاکنون که از نسخه به روز شده سیگنال استفاده می کنید ، می توانید برای تماس مجدد با این پیام از $contact$ بخواهید.",
-    "description": ""
+    "message": "\nاکنون که از نسخه به روز شده سیگنال استفاده می کنید ، می توانید برای تماس مجدد با این پیام از $contact$ بخواهید."
   },
   "Message--from-me-unsupported-message": {
-    "message": "پیامی که دریافت کرده‌اید قابل نمایش یا قابل پردازش نیست چون که به یک ویژگی جدید سیگنال نیاز دارد.",
-    "description": ""
+    "message": "پیامی که دریافت کرده‌اید قابل نمایش یا قابل پردازش نیست چون که به یک ویژگی جدید سیگنال نیاز دارد."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "حالا که از یک نسخه‌ی به‌روز سیگنال استفاده می‌کنید می‌توانید از %@ بخواهید که این پیام را دوباره برایتان بفرستد.",
-    "description": ""
+    "message": "حالا که از یک نسخه‌ی به‌روز سیگنال استفاده می‌کنید می‌توانید از %@ بخواهید که این پیام را دوباره برایتان بفرستد."
   },
   "Message--update-signal": {
     "message": "به‌روزرسانی سیگنال",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "حذف واکنش",
-    "description": ""
+    "message": "حذف واکنش"
   },
   "Reactions--error": {
     "message": "ناموفقیت در ارسال واکنش. لطفاً دوباره تلاش کنید.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "تماس تصویری بی‌پاسخ",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "سیگنال همچنان در حال اجراست",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "سیگنال در ناحیه اعلان به کار خود ادامه خواهد داد. می‌توانید این حالت را در تنظیمات سیگنال تغییر دهید.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "تماس صوتی دریافتی...",
@@ -4895,6 +4854,10 @@
     "message": "مشاهده شده توسط",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ناپدید می‌شود در",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "درباره",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "حجم فایل $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "در $countdown$ ناپدید می‌شود",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

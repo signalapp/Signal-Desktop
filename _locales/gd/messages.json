@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Cuir a-null",
-    "description": ""
+    "message": "Cuir a-null"
   },
   "acceptNewKey": {
     "message": "Gabh ris",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Cuir comharra gun deach a dhearbhadh",
-    "description": ""
+    "message": "Cuir comharra gun deach a dhearbhadh"
   },
   "unverify": {
-    "message": "Cuir comharra nach deach a dhearbhadh",
-    "description": ""
+    "message": "Cuir comharra nach deach a dhearbhadh"
   },
   "isVerified": {
     "message": "Dhearbh thu an àireamh sàbhailteachd agad còmhla ri $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Air a dhearbhadh",
-    "description": ""
+    "message": "Air a dhearbhadh"
   },
   "newIdentity": {
     "message": "Àireamh sàbhailteachd ùr",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Tha an àireamh sàbhailteachd leis an neach-aithne seo atharrachadh. ’S dòcha gu bheil cuideigin a’ feuchainn ris a’ chonaltradh agad eadar-cheapadh as adhbhar air an atharrachadh seo no nach do thachair ach gun do dh’ath-stàlaich an neach-aithne seo Signal. Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?",
-    "description": ""
+    "message": "Tha an àireamh sàbhailteachd leis an neach-aithne seo atharrachadh. ’S dòcha gu bheil cuideigin a’ feuchainn ris a’ chonaltradh agad eadar-cheapadh as adhbhar air an atharrachadh seo no nach do thachair ach gun do dh’ath-stàlaich an neach-aithne seo Signal. Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?Saoil an dearbh thu an àireamh sàbhailteachd ùr gu h-ìosal?"
   },
   "incomingError": {
-    "message": "Mearachd a’ làimhseachadh teachdaireachd a thàining a-steach",
-    "description": ""
+    "message": "Mearachd a’ làimhseachadh teachdaireachd a thàining a-steach"
   },
   "media": {
     "message": "Meadhanan",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Tha sinn duilich ach tha am faidhle a thagh thu ro mhòr a thaobh cuingeachaidhean meud nan teachdaireachd.",
-    "description": ""
+    "message": "Tha sinn duilich ach tha am faidhle a thagh thu ro mhòr a thaobh cuingeachaidhean meud nan teachdaireachd."
   },
   "unableToLoadAttachment": {
-    "message": "Cha b’ urrainn dhuinn an ceanglachan a thagh thu a luchdadh.",
-    "description": ""
+    "message": "Cha b’ urrainn dhuinn an ceanglachan a thagh thu a luchdadh."
   },
   "disconnected": {
     "message": "Gun cheangal",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Fàilte gu Signal",
-    "description": ""
+    "message": "Fàilte gu Signal"
   },
   "whatsNew": {
     "message": "Seall $whatsNew$ san ùrachadh seo",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Ceart ma-thà",
-    "description": ""
+    "message": "Ceart ma-thà"
   },
   "cancel": {
-    "message": "Sguir dheth",
-    "description": ""
+    "message": "Sguir dheth"
   },
   "discard": {
-    "message": "Tilg air falbh",
-    "description": ""
+    "message": "Tilg air falbh"
   },
   "failedToSend": {
-    "message": "Cha deach a chur dhan a h-uile faightear. Thoir sùil air a’ cheangal agad ris an lìonra.",
-    "description": ""
+    "message": "Cha deach a chur dhan a h-uile faightear. Thoir sùil air a’ cheangal agad ris an lìonra."
   },
   "error": {
-    "message": "Mearachd",
-    "description": ""
+    "message": "Mearachd"
   },
   "messageDetail": {
-    "message": "Fiosrachadh na teachdaireachd",
-    "description": ""
+    "message": "Fiosrachadh na teachdaireachd"
   },
   "delete": {
-    "message": "Sguab às",
-    "description": ""
+    "message": "Sguab às"
   },
   "accept": {
-    "message": "Gabh ris",
-    "description": ""
+    "message": "Gabh ris"
   },
   "forward": {
-    "message": "Sìn air adhart",
-    "description": ""
+    "message": "Sìn air adhart"
   },
   "done": {
     "message": "Deiseil",
     "description": "Label for done"
   },
   "update": {
-    "message": "Ùraich",
-    "description": ""
+    "message": "Ùraich"
   },
   "next2": {
-    "message": "Air adhart",
-    "description": ""
+    "message": "Air adhart"
   },
   "on": {
     "message": "Air",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Buill dhen bhuidheann",
-    "description": ""
+    "message": "Buill dhen bhuidheann"
   },
   "showMembers": {
-    "message": "Seall na buill",
-    "description": ""
+    "message": "Seall na buill"
   },
   "showSafetyNumber": {
-    "message": "Seall an àireamh sàbhailteachd",
-    "description": ""
+    "message": "Seall an àireamh sàbhailteachd"
   },
   "viewRecentMedia": {
     "message": "Seall na meadhanan o chionn goirid",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Airson tèarainteachd a’ chrioptachaidh ceann gu ceann le $name$ a dhearbhadh, dèan coimeas eadar na h-àireamhan gu h-àrd is an t-uidheam aca.",
-    "description": ""
+    "message": "Airson tèarainteachd a’ chrioptachaidh ceann gu ceann le $name$ a dhearbhadh, dèan coimeas eadar na h-àireamhan gu h-àrd is an t-uidheam aca."
   },
   "theirIdentityUnknown": {
-    "message": "Cha do rinn thusa ’s an neach-aithne seo conaltradh le teachdaireachd fhathast. Bidh an àireamh sàbhailteachd agad còmhla riutha ri faighinn às dèid na ciad teachdaireachd.",
-    "description": ""
+    "message": "Cha do rinn thusa ’s an neach-aithne seo conaltradh le teachdaireachd fhathast. Bidh an àireamh sàbhailteachd agad còmhla riutha ri faighinn às dèid na ciad teachdaireachd."
   },
   "back": {
     "message": "Air ais",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Tha sinn duilich ach cheangail thu cus uidheaman mu thràth. Feuch an doir thu air falbh cuid dhiubh.",
-    "description": ""
+    "message": "Tha sinn duilich ach cheangail thu cus uidheaman mu thràth. Feuch an doir thu air falbh cuid dhiubh."
   },
   "installTooOld": {
-    "message": "Ùraich Signal air an uidheam seo gus am fòn agad a cheangal.",
-    "description": ""
+    "message": "Ùraich Signal air an uidheam seo gus am fòn agad a cheangal."
   },
   "installErrorHeader": {
-    "message": "Chaidh rudeigin ceàrr!",
-    "description": ""
+    "message": "Chaidh rudeigin ceàrr!"
   },
   "installUnknownError": {
-    "message": "Thachair mearachd ris nach robh dùil. Feuch ris a-rithist.",
-    "description": ""
+    "message": "Thachair mearachd ris nach robh dùil. Feuch ris a-rithist."
   },
   "installTryAgain": {
-    "message": "Feuch ris a‑rithist",
-    "description": ""
+    "message": "Feuch ris a‑rithist"
   },
   "Preferences--theme": {
     "message": "Ùrlar",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "Fhreagair $sender$ le $emoji$ ris an teachdaireachd agad",
-    "description": ""
+    "message": "Fhreagair $sender$ le $emoji$ ris an teachdaireachd agad"
   },
   "notificationReactionMessage": {
-    "message": "Fhreagair $sender$ le $emoji$ ri: $message$",
-    "description": ""
+    "message": "Fhreagair $sender$ le $emoji$ ri: $message$"
   },
   "sendFailed": {
     "message": "Dh’fhàillig a chur",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Briog airson Signal Desktop a cheangal ris an uidheam mobile agad a-rithist ach an cùm thu a’ dol leis na teachdaireachdan.",
-    "description": ""
+    "message": "Briog airson Signal Desktop a cheangal ris an uidheam mobile agad a-rithist ach an cùm thu a’ dol leis na teachdaireachdan."
   },
   "unlinked": {
-    "message": "Dì-cheangailte",
-    "description": ""
+    "message": "Dì-cheangailte"
   },
   "relink": {
-    "message": "Ath-cheangail",
-    "description": ""
+    "message": "Ath-cheangail"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Tha ùrachadh ri fhaighinn",
-    "description": ""
+    "message": "Tha ùrachadh ri fhaighinn"
   },
   "autoUpdateRetry": {
-    "message": "Feuch ris an ùrachadh a-rithist",
-    "description": ""
+    "message": "Feuch ris an ùrachadh a-rithist"
   },
   "autoUpdateContactSupport": {
-    "message": "cuir fios gun sgioba taice",
-    "description": ""
+    "message": "cuir fios gun sgioba taice"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Briog airson Signal ath-thòiseachadh",
-    "description": ""
+    "message": "Briog airson Signal ath-thòiseachadh"
   },
   "downloadNewVersionMessage": {
-    "message": "Briog airson an t-ùrachadh a luchdadh a-nuas",
-    "description": ""
+    "message": "Briog airson an t-ùrachadh a luchdadh a-nuas"
   },
   "downloadFullNewVersionMessage": {
     "message": "Cha deach le ùrachadh Signal. Briog airson feuchainn ris a-rithist.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Brùth air “Ath-thòisich Signal” gus na h-ùrachaidhean a chur an sàs.",
-    "description": ""
+    "message": "Brùth air “Ath-thòisich Signal” gus na h-ùrachaidhean a chur an sàs."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Ath-thòisich Signal",
-    "description": ""
+    "message": "Ath-thòisich Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Uaireigin eile",
-    "description": ""
+    "message": "Uaireigin eile"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Leig seachad an t-ùrachadh",
-    "description": ""
+    "message": "Leig seachad an t-ùrachadh"
   },
   "leftTheGroup": {
     "message": "Dh’fhàg $name$ am buidheann.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "Chuir $contact$ teachdaireachd thugad nach gabh a pròiseasadh no sealltainn on a tha i a’ cleachdadh gleus ùr aig Signal.",
-    "description": ""
+    "message": "Chuir $contact$ teachdaireachd thugad nach gabh a pròiseasadh no sealltainn on a tha i a’ cleachdadh gleus ùr aig Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "’S urrainn dhut iarraidh air $contact$ gun cuir iad an teachdaireachd thugad a-rithist on a tha thu a’ cleachdadh tionndadh ùr dhe Signal a-nis.",
-    "description": ""
+    "message": "’S urrainn dhut iarraidh air $contact$ gun cuir iad an teachdaireachd thugad a-rithist on a tha thu a’ cleachdadh tionndadh ùr dhe Signal a-nis."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Chuir fear dhe na h-uidheaman agad teachdaireachd nach gabh a pròiseasadh no sealltainn on a tha i a’ cleachdadh gleus ùr aig Signal.",
-    "description": ""
+    "message": "Chuir fear dhe na h-uidheaman agad teachdaireachd nach gabh a pròiseasadh no sealltainn on a tha i a’ cleachdadh gleus ùr aig Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Thèid teachdaireachdan mar an tè seo a shioncronachadh o seo a-mach on a tha thu a’ cleachdadh tionndadh ùr dhe Signal a-nis.",
-    "description": ""
+    "message": "Thèid teachdaireachdan mar an tè seo a shioncronachadh o seo a-mach on a tha thu a’ cleachdadh tionndadh ùr dhe Signal a-nis."
   },
   "Message--update-signal": {
     "message": "Ùraich Signal",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Thoir an fhreagairt air falbh",
-    "description": ""
+    "message": "Thoir an fhreagairt air falbh"
   },
   "Reactions--error": {
     "message": "Cha b’ urrainn dhuinn an fhreagairt a chur. Feuch ris a-rithist.",

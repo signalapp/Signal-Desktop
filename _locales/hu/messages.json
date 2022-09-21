@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Küldés",
-    "description": ""
+    "message": "Küldés"
   },
   "acceptNewKey": {
     "message": "Elfogadás",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Megjelölés ellenőrzöttként",
-    "description": ""
+    "message": "Megjelölés ellenőrzöttként"
   },
   "unverify": {
-    "message": "Megjelölés nem ellenőrzöttként",
-    "description": ""
+    "message": "Megjelölés nem ellenőrzöttként"
   },
   "isVerified": {
     "message": "Biztonsági számodat $name$ nevű partnereddel már hitelesítetted.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Ellenőrzött",
-    "description": ""
+    "message": "Ellenőrzött"
   },
   "newIdentity": {
     "message": "Új biztonsági szám",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signalt. Lentebb lehetőséged van az új biztonsági szám hitelesítésére.",
-    "description": ""
+    "message": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signalt. Lentebb lehetőséged van az új biztonsági szám hitelesítésére."
   },
   "incomingError": {
-    "message": "Nem sikerült kezelni a bejövő üzenetet.",
-    "description": ""
+    "message": "Nem sikerült kezelni a bejövő üzenetet."
   },
   "media": {
     "message": "Média",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét.",
-    "description": ""
+    "message": "Sajnos a kiválasztott fájl túllépi az elküldhető üzenet maximális méretét."
   },
   "unableToLoadAttachment": {
-    "message": "Nem sikerült betölteni a kiválasztott csatolmányt.",
-    "description": ""
+    "message": "Nem sikerült betölteni a kiválasztott csatolmányt."
   },
   "disconnected": {
     "message": "Lecsatlakozva",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Üdvözöl a Signal!",
-    "description": ""
+    "message": "Üdvözöl a Signal!"
   },
   "whatsNew": {
     "message": "$whatsNew$ ebben a frissítésben",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Mégsem",
-    "description": ""
+    "message": "Mégsem"
   },
   "discard": {
-    "message": "Elvetés",
-    "description": ""
+    "message": "Elvetés"
   },
   "failedToSend": {
-    "message": "Nem sikerült elküldeni az üzenetet néhány címzettnek. Ellenőrizd a hálózati kapcsolatot!",
-    "description": ""
+    "message": "Nem sikerült elküldeni az üzenetet néhány címzettnek. Ellenőrizd a hálózati kapcsolatot!"
   },
   "error": {
-    "message": "Hiba",
-    "description": ""
+    "message": "Hiba"
   },
   "messageDetail": {
-    "message": "Üzenet részletei",
-    "description": ""
+    "message": "Üzenet részletei"
   },
   "delete": {
-    "message": "Törlés",
-    "description": ""
+    "message": "Törlés"
   },
   "accept": {
-    "message": "Elfogadás",
-    "description": ""
+    "message": "Elfogadás"
   },
   "forward": {
-    "message": "Továbbítás",
-    "description": ""
+    "message": "Továbbítás"
   },
   "done": {
     "message": "Befejezés",
     "description": "Label for done"
   },
   "update": {
-    "message": "Frissítés",
-    "description": ""
+    "message": "Frissítés"
   },
   "next2": {
-    "message": "Tovább",
-    "description": ""
+    "message": "Tovább"
   },
   "on": {
     "message": "Be",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Csoport tagjai",
-    "description": ""
+    "message": "Csoport tagjai"
   },
   "showMembers": {
-    "message": "Csoporttagok megjelenítése",
-    "description": ""
+    "message": "Csoporttagok megjelenítése"
   },
   "showSafetyNumber": {
-    "message": "Biztonsági szám megjelenítése",
-    "description": ""
+    "message": "Biztonsági szám megjelenítése"
   },
   "viewRecentMedia": {
     "message": "Friss médiafájlok megtekintése",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "A $name$ nevű partnereddel kialakított végpontok közti titkosítás ellenőrzése érdekében hasonlítsd össze a fenti számokat az ő eszközén megjelenő számokkal!",
-    "description": ""
+    "message": "A $name$ nevű partnereddel kialakított végpontok közti titkosítás ellenőrzése érdekében hasonlítsd össze a fenti számokat az ő eszközén megjelenő számokkal!"
   },
   "theirIdentityUnknown": {
-    "message": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető.",
-    "description": ""
+    "message": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető."
   },
   "back": {
     "message": "Vissza",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Sajnáljuk, de már túl sok párosított eszközöd van. Próbálj kitörölni néhányat!",
-    "description": ""
+    "message": "Sajnáljuk, de már túl sok párosított eszközöd van. Próbálj kitörölni néhányat!"
   },
   "installTooOld": {
-    "message": "A telefonod párosításához frissítsd a Signalt ezen az eszközön!",
-    "description": ""
+    "message": "A telefonod párosításához frissítsd a Signalt ezen az eszközön!"
   },
   "installErrorHeader": {
-    "message": "Probléma merült fel!",
-    "description": ""
+    "message": "Probléma merült fel!"
   },
   "installUnknownError": {
-    "message": "Váratlan hiba történt. Próbáld újra!",
-    "description": ""
+    "message": "Váratlan hiba történt. Próbáld újra!"
   },
   "installTryAgain": {
-    "message": "Újra",
-    "description": ""
+    "message": "Újra"
   },
   "Preferences--theme": {
     "message": "Téma",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$  $emoji$ reakciót küldött az üzenetedre",
-    "description": ""
+    "message": "$sender$  $emoji$ reakciót küldött az üzenetedre"
   },
   "notificationReactionMessage": {
-    "message": "$sender$  $emoji$-val reagált a következő üzenetre:  $message$",
-    "description": ""
+    "message": "$sender$  $emoji$-val reagált a következő üzenetre:  $message$"
   },
   "sendFailed": {
     "message": "Küldés sikertelen",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Párosítsd újra a Signal Desktopot mobilkészülékeiddel a beszélgetés folytatásához!",
-    "description": ""
+    "message": "Párosítsd újra a Signal Desktopot mobilkészülékeiddel a beszélgetés folytatásához!"
   },
   "unlinked": {
-    "message": "Nincs párosítva",
-    "description": ""
+    "message": "Nincs párosítva"
   },
   "relink": {
-    "message": "Újrapárosítás",
-    "description": ""
+    "message": "Újrapárosítás"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Frissítés érhető el",
-    "description": ""
+    "message": "Frissítés érhető el"
   },
   "autoUpdateRetry": {
-    "message": "Frissítés újra",
-    "description": ""
+    "message": "Frissítés újra"
   },
   "autoUpdateContactSupport": {
-    "message": "kapcsolatfelvétel a támogatással",
-    "description": ""
+    "message": "kapcsolatfelvétel a támogatással"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Kattints a Signal újraindításához!",
-    "description": ""
+    "message": "Kattints a Signal újraindításához!"
   },
   "downloadNewVersionMessage": {
-    "message": "Kattints a frissítés letöltéséhez!",
-    "description": ""
+    "message": "Kattints a frissítés letöltéséhez!"
   },
   "downloadFullNewVersionMessage": {
     "message": "Sikertelen frissítés. Kattints és próbáld újra.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! ",
-    "description": ""
+    "message": "Kattints a Signal újraindítására a frissítések alkalmazásához! "
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal újraindítása",
-    "description": ""
+    "message": "Signal újraindítása"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Később",
-    "description": ""
+    "message": "Később"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Frissítés kihagyása",
-    "description": ""
+    "message": "Frissítés kihagyása"
   },
   "leftTheGroup": {
     "message": "$name$ kilépett a csoportból.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ olyan Signal újdonságot tartalmazó üzenetet küldött, melyet a Signal jelenlegi verziójával nem lehet feldolgozni vagy megjeleníteni.",
-    "description": ""
+    "message": "$contact$ olyan Signal újdonságot tartalmazó üzenetet küldött, melyet a Signal jelenlegi verziójával nem lehet feldolgozni vagy megjeleníteni."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Most már megkérheted $contact$ nevű partnered, hogy küldje újra ezt az üzenetet, mivel már a Signal legfrissebb verzióját használod.",
-    "description": ""
+    "message": "Most már megkérheted $contact$ nevű partnered, hogy küldje újra ezt az üzenetet, mivel már a Signal legfrissebb verzióját használod."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Az egyik eszközödről olyan üzenetet küldtél, melyet nem lehet feldolgozni vagy megjeleníteni ezen az eszközön, mivel olyan funkciót tartalmaz, mely csak a Signal egy újabb verziójában érhető el.",
-    "description": ""
+    "message": "Az egyik eszközödről olyan üzenetet küldtél, melyet nem lehet feldolgozni vagy megjeleníteni ezen az eszközön, mivel olyan funkciót tartalmaz, mely csak a Signal egy újabb verziójában érhető el."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "A jövőben az ehhez hasonló üzenetek szinkronizálva lesznek, ugyanis a Signal legfrissebb verzióját használod.",
-    "description": ""
+    "message": "A jövőben az ehhez hasonló üzenetek szinkronizálva lesznek, ugyanis a Signal legfrissebb verzióját használod."
   },
   "Message--update-signal": {
     "message": "Signal frissítése",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Reakció eltávolítása",
-    "description": ""
+    "message": "Reakció eltávolítása"
   },
   "Reactions--error": {
     "message": "Nem sikerült a reakció elküldése. Kérlek próbáld újra!",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Nem fogadott videóhívás",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "A Signal még mindig fut",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "A Signal továbbra is futni fog az értesítési sávban. Ezt módosíthatod a Signal beállításaiban.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Bejövő hívás...",
@@ -4895,6 +4854,10 @@
     "message": "Megtekintette",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Eltűnik ekkor:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Névjegy",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Fájlméret $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ múlva eltűnik",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

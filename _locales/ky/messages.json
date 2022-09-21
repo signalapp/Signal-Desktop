@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Тапшыруу",
-    "description": ""
+    "message": "Тапшыруу"
   },
   "acceptNewKey": {
     "message": "Кабыл алуу",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Ырасталды деп белгилөө",
-    "description": ""
+    "message": "Ырасталды деп белгилөө"
   },
   "unverify": {
-    "message": "Ырасталган жок деп белгилөө",
-    "description": ""
+    "message": "Ырасталган жок деп белгилөө"
   },
   "isVerified": {
     "message": "Сиз $name$ менен коопсуздук кодун ырастадыңыз.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Ырасталды",
-    "description": ""
+    "message": "Ырасталды"
   },
   "newIdentity": {
     "message": "Жаңы коопсуздук коду",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Бул байланышыңыз менен коопсуздук кодуңуз өзгөрдү. Бул кимдир бирөө сиздин байланыштарыңызга жана чалууларыңызга бөгөт коюуга аракет кылып жатканын же байланышыңыз жөн эле Signal'ды кайра орнотуп алганын билдириши мүмкүн. Балким, бул байланыш менен төмөндөгү жаңы коопсуздук кодун текшерүүнү каалайсыз.",
-    "description": ""
+    "message": "Бул байланышыңыз менен коопсуздук кодуңуз өзгөрдү. Бул кимдир бирөө сиздин байланыштарыңызга жана чалууларыңызга бөгөт коюуга аракет кылып жатканын же байланышыңыз жөн эле Signal'ды кайра орнотуп алганын билдириши мүмкүн. Балким, бул байланыш менен төмөндөгү жаңы коопсуздук кодун текшерүүнү каалайсыз."
   },
   "incomingError": {
-    "message": "Келген билдирүүнү иштетүүдө ката кетти",
-    "description": ""
+    "message": "Келген билдирүүнү иштетүүдө ката кетти"
   },
   "media": {
     "message": "Медиа",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Кечиресиз, тандалган файл билдирүү өлчөмүнүн чегинен ашып кетти.",
-    "description": ""
+    "message": "Кечиресиз, тандалган файл билдирүү өлчөмүнүн чегинен ашып кетти."
   },
   "unableToLoadAttachment": {
-    "message": "Тандалган тиркемени жүктөп алуу мүмкүн эмес.",
-    "description": ""
+    "message": "Тандалган тиркемени жүктөп алуу мүмкүн эмес."
   },
   "disconnected": {
     "message": "Өчүк",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal'га кош келиңиз",
-    "description": ""
+    "message": "Signal'га кош келиңиз"
   },
   "whatsNew": {
     "message": "Бул жаңыртуудагы $whatsNew$ көрүңүз",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Жокко чыгаруу",
-    "description": ""
+    "message": "Жокко чыгаруу"
   },
   "discard": {
-    "message": "Жокко чыгаруу",
-    "description": ""
+    "message": "Жокко чыгаруу"
   },
   "failedToSend": {
-    "message": "Кээ бир алуучуларга жөнөтүлгөн жок. Тармак байланышыңызды текшериңиз.",
-    "description": ""
+    "message": "Кээ бир алуучуларга жөнөтүлгөн жок. Тармак байланышыңызды текшериңиз."
   },
   "error": {
-    "message": "Ката",
-    "description": ""
+    "message": "Ката"
   },
   "messageDetail": {
-    "message": "Билдирүүнүн чоо-жайы",
-    "description": ""
+    "message": "Билдирүүнүн чоо-жайы"
   },
   "delete": {
-    "message": "Өчүрүү",
-    "description": ""
+    "message": "Өчүрүү"
   },
   "accept": {
-    "message": "Кабыл алуу",
-    "description": ""
+    "message": "Кабыл алуу"
   },
   "forward": {
-    "message": "Багыттоо",
-    "description": ""
+    "message": "Багыттоо"
   },
   "done": {
     "message": "Бүттү",
     "description": "Label for done"
   },
   "update": {
-    "message": "Жаңыртуу",
-    "description": ""
+    "message": "Жаңыртуу"
   },
   "next2": {
-    "message": "Кийинки",
-    "description": ""
+    "message": "Кийинки"
   },
   "on": {
     "message": "Күйүк",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Топтун мүчөлөрү",
-    "description": ""
+    "message": "Топтун мүчөлөрү"
   },
   "showMembers": {
-    "message": "Мүчөлөрдү көрсөтүү",
-    "description": ""
+    "message": "Мүчөлөрдү көрсөтүү"
   },
   "showSafetyNumber": {
-    "message": "Коопсуздук кодун көрүү",
-    "description": ""
+    "message": "Коопсуздук кодун көрүү"
   },
   "viewRecentMedia": {
     "message": "Акыркы медианы көрүү",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ менен баштан аяк шифрлөөңүздүн коопсуздугун текшерүү үчүн жогорудагы сандарды алардын түзмөгү менен салыштырыңыз.",
-    "description": ""
+    "message": "$name$ менен баштан аяк шифрлөөңүздүн коопсуздугун текшерүү үчүн жогорудагы сандарды алардын түзмөгү менен салыштырыңыз."
   },
   "theirIdentityUnknown": {
-    "message": "Сиз бул адам менен эч кандай байланышка чыккан жоксуз. Коопсуздук коду биринчи билдирүү жөнөтүлгөндөн кийин жеткиликтүү болот.",
-    "description": ""
+    "message": "Сиз бул адам менен эч кандай байланышка чыккан жоксуз. Коопсуздук коду биринчи билдирүү жөнөтүлгөндөн кийин жеткиликтүү болот."
   },
   "back": {
     "message": "Артка",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Кечиресиз, сизде буга чейин байланышкан өтө көп түзмөк бар. Айрымдарын алып салыңыз.",
-    "description": ""
+    "message": "Кечиресиз, сизде буга чейин байланышкан өтө көп түзмөк бар. Айрымдарын алып салыңыз."
   },
   "installTooOld": {
-    "message": "Телефонуңузду байланыштыруу үчүн бул түзмөктөгү Signal'ды жаңыртыңыз.",
-    "description": ""
+    "message": "Телефонуңузду байланыштыруу үчүн бул түзмөктөгү Signal'ды жаңыртыңыз."
   },
   "installErrorHeader": {
-    "message": "Бир жерден ката кетти!",
-    "description": ""
+    "message": "Бир жерден ката кетти!"
   },
   "installUnknownError": {
-    "message": "Күтүлбөгөн ката кетти. Кайталап көрүңүз.",
-    "description": ""
+    "message": "Күтүлбөгөн ката кетти. Кайталап көрүңүз."
   },
   "installTryAgain": {
-    "message": "Кайталап көрүңүз",
-    "description": ""
+    "message": "Кайталап көрүңүз"
   },
   "Preferences--theme": {
     "message": "Тема",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ билдирүүңүзгө $emoji$ реакция кылды",
-    "description": ""
+    "message": "$sender$ билдирүүңүзгө $emoji$ реакция кылды"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ $message$ үчүн $emoji$ реакция кылды",
-    "description": ""
+    "message": "$sender$ $message$ үчүн $emoji$ реакция кылды"
   },
   "sendFailed": {
     "message": "Жөнөтүлбөй калды",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Кабарлашууну улантуу үчүн чыкылдатуу менен Signal Desktop'ту мобилдик түзмөгүңүзгө кайра туташтырыңыз.",
-    "description": ""
+    "message": "Кабарлашууну улантуу үчүн чыкылдатуу менен Signal Desktop'ту мобилдик түзмөгүңүзгө кайра туташтырыңыз."
   },
   "unlinked": {
-    "message": "Ажыратылды",
-    "description": ""
+    "message": "Ажыратылды"
   },
   "relink": {
-    "message": "Кайра туташтыруу",
-    "description": ""
+    "message": "Кайра туташтыруу"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Жаңыртуу жеткиликтүү",
-    "description": ""
+    "message": "Жаңыртуу жеткиликтүү"
   },
   "autoUpdateRetry": {
-    "message": "Жаңыртууну кайра аракет кылуу",
-    "description": ""
+    "message": "Жаңыртууну кайра аракет кылуу"
   },
   "autoUpdateContactSupport": {
-    "message": "Кардарларды колдоо кызматына кайрылуу",
-    "description": ""
+    "message": "Кардарларды колдоо кызматына кайрылуу"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal'ды кайра иштетүү үчүн басыңыз",
-    "description": ""
+    "message": "Signal'ды кайра иштетүү үчүн басыңыз"
   },
   "downloadNewVersionMessage": {
-    "message": "Жаңыртууну жүктөп алуу үчүн басыңыз",
-    "description": ""
+    "message": "Жаңыртууну жүктөп алуу үчүн басыңыз"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal жаңыртылган жок. Кайталап көрүү үчүн басыңыз.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Жаңыртууларды колдонуу үчүн \"Signal'ды кайра иштетүү\" дегенди басыңыз.",
-    "description": ""
+    "message": "Жаңыртууларды колдонуу үчүн \"Signal'ды кайра иштетүү\" дегенди басыңыз."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal'ды кайра иштетүү",
-    "description": ""
+    "message": "Signal'ды кайра иштетүү"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Азыр эмес",
-    "description": ""
+    "message": "Азыр эмес"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Жаңыртууга көңүл бурбоо",
-    "description": ""
+    "message": "Жаңыртууга көңүл бурбоо"
   },
   "leftTheGroup": {
     "message": "$name$ топтон чыгып кетти.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ сизге билдирүү жөнөттү, бирок аны иштетүүгө же көрсөтүүгө болбойт, анткени ал жаңы Signal функциясын колдонот.",
-    "description": ""
+    "message": "$contact$ сизге билдирүү жөнөттү, бирок аны иштетүүгө же көрсөтүүгө болбойт, анткени ал жаңы Signal функциясын колдонот."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Сиз азыр Signal'дын акыркы версиясын колдонуп жатканыңыз үчүн $contact$ бул билдирүүнү кайра жөнөтүүнү сурансаңыз болот.",
-    "description": ""
+    "message": "Сиз азыр Signal'дын акыркы версиясын колдонуп жатканыңыз үчүн $contact$ бул билдирүүнү кайра жөнөтүүнү сурансаңыз болот."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Түзмөктөрүңүздүн бири Signal'дын жаңы функциясын колдонуп билдирүү жөнөттү, ошондуктан ал билдирүүнү иштетүү же көрсөтүү мүмкүн эмес.",
-    "description": ""
+    "message": "Түзмөктөрүңүздүн бири Signal'дын жаңы функциясын колдонуп билдирүү жөнөттү, ошондуктан ал билдирүүнү иштетүү же көрсөтүү мүмкүн эмес."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Сиз Signal'дын акыркы версиясын колдонуп жатканыңыздан соң, ушул сыяктуу келечектеги билдирүүлөр шайкештирилет.",
-    "description": ""
+    "message": "Сиз Signal'дын акыркы версиясын колдонуп жатканыңыздан соң, ушул сыяктуу келечектеги билдирүүлөр шайкештирилет."
   },
   "Message--update-signal": {
     "message": "Signal'ды жаңыртуу",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Реакцияны алып салуу",
-    "description": ""
+    "message": "Реакцияны алып салуу"
   },
   "Reactions--error": {
     "message": "Реакция жөнөтүлбөй калды. Сураныч, кайра аракет кылыңыз.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Жоопсуз видео чалуу",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal дагы эле иштеп жатат",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal билдирмелер аймагында иштей берет. Аны өчүргүңүз келсе, Signal'дын параметрлерине кириңиз.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Кирүүчү аудио чалуу...",
@@ -4895,6 +4854,10 @@
     "message": "Ким көрдү:",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Качан өчүп калат:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Учкай маалымат",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Файлдын көлөмү $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ кийин өчүп калат",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

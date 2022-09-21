@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "സമർപ്പിക്കുക",
-    "description": ""
+    "message": "സമർപ്പിക്കുക"
   },
   "acceptNewKey": {
     "message": "സ്വീകരിക്കുക",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക",
-    "description": ""
+    "message": "പരിശോധിച്ചതായി അടയാളപ്പെടുത്തുക"
   },
   "unverify": {
-    "message": "പരിശോധിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക",
-    "description": ""
+    "message": "പരിശോധിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക"
   },
   "isVerified": {
     "message": "$name$ ഉപയോഗിച്ച് നിങ്ങളുടെ സുരക്ഷാ നമ്പർ നിങ്ങൾ പരിശോധിച്ചുറപ്പിച്ചിട്ടുണ്ട്.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "പരിശോധിച്ചു ",
-    "description": ""
+    "message": "പരിശോധിച്ചു "
   },
   "newIdentity": {
     "message": "പുതിയ സേഫ്റ്റി നമ്പർ ",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "ഈ കോൺടാക്റ്റിലുള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറി. നിങ്ങളുടെ ആശയവിനിമയം തടസ്സപ്പെടുത്താൻ ആരെങ്കിലും ശ്രമിക്കുന്നുവെന്നോ അല്ലെങ്കിൽ ഈ കോൺടാക്റ്റ് Signal പുന:സ്ഥാപിച്ചെന്നോ ഇത് അർത്ഥമാക്കാം. ചുവടെയുള്ള പുതിയ സുരക്ഷാ നമ്പർ പരിശോധിക്കാൻ നിങ്ങൾ ആഗ്രഹിച്ചേക്കാം.",
-    "description": ""
+    "message": "ഈ കോൺടാക്റ്റിലുള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറി. നിങ്ങളുടെ ആശയവിനിമയം തടസ്സപ്പെടുത്താൻ ആരെങ്കിലും ശ്രമിക്കുന്നുവെന്നോ അല്ലെങ്കിൽ ഈ കോൺടാക്റ്റ് Signal പുന:സ്ഥാപിച്ചെന്നോ ഇത് അർത്ഥമാക്കാം. ചുവടെയുള്ള പുതിയ സുരക്ഷാ നമ്പർ പരിശോധിക്കാൻ നിങ്ങൾ ആഗ്രഹിച്ചേക്കാം."
   },
   "incomingError": {
-    "message": "വരുന്ന സന്ദേശങ്ങൾ കൈകാര്യം ചെയ്യുന്നതിലുള്ള പിശക്",
-    "description": ""
+    "message": "വരുന്ന സന്ദേശങ്ങൾ കൈകാര്യം ചെയ്യുന്നതിലുള്ള പിശക്"
   },
   "media": {
     "message": "മീഡിയ",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു.",
-    "description": ""
+    "message": "ക്ഷമിക്കണം, തിരഞ്ഞെടുത്ത ഫയൽ സന്ദേശം വലുപ്പ നിയന്ത്രണങ്ങളെ മറികടക്കുന്നു."
   },
   "unableToLoadAttachment": {
-    "message": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല.",
-    "description": ""
+    "message": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
   },
   "disconnected": {
     "message": "വിച്ഛേദിച്ചു",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal-ലേക്ക് സ്വാഗതം",
-    "description": ""
+    "message": "Signal-ലേക്ക് സ്വാഗതം"
   },
   "whatsNew": {
     "message": "ഈ അപ്‌ഡേറ്റിൽ $whatsNew$ കാണുക",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "ഓകെ",
-    "description": ""
+    "message": "ഓകെ"
   },
   "cancel": {
-    "message": "റദ്ദാക്കുക",
-    "description": ""
+    "message": "റദ്ദാക്കുക"
   },
   "discard": {
-    "message": "കളയുക",
-    "description": ""
+    "message": "കളയുക"
   },
   "failedToSend": {
-    "message": "ചില സ്വീകർത്താക്കൾക്ക് അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. നിങ്ങളുടെ നെറ്റ്‌വർക്ക് കണക്ഷൻ പരിശോധിക്കുക.",
-    "description": ""
+    "message": "ചില സ്വീകർത്താക്കൾക്ക് അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. നിങ്ങളുടെ നെറ്റ്‌വർക്ക് കണക്ഷൻ പരിശോധിക്കുക."
   },
   "error": {
-    "message": "പിഴവ്",
-    "description": ""
+    "message": "പിഴവ്"
   },
   "messageDetail": {
-    "message": "സന്ദേശ വിശദാംശങ്ങൾ",
-    "description": ""
+    "message": "സന്ദേശ വിശദാംശങ്ങൾ"
   },
   "delete": {
-    "message": "ഇല്ലാതാക്കുക ",
-    "description": ""
+    "message": "ഇല്ലാതാക്കുക "
   },
   "accept": {
-    "message": "സ്വീകരിക്കുക",
-    "description": ""
+    "message": "സ്വീകരിക്കുക"
   },
   "forward": {
-    "message": "ഫോർവേഡ് ചെയ്യുക",
-    "description": ""
+    "message": "ഫോർവേഡ് ചെയ്യുക"
   },
   "done": {
     "message": "ചെയ്‌തു",
     "description": "Label for done"
   },
   "update": {
-    "message": "അപ്‌ഡേറ്റ്",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റ്"
   },
   "next2": {
-    "message": "അടുത്തത്",
-    "description": ""
+    "message": "അടുത്തത്"
   },
   "on": {
     "message": "ഓൺ",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "ഗ്രൂപ്പിലെ അംഗങ്ങൾ",
-    "description": ""
+    "message": "ഗ്രൂപ്പിലെ അംഗങ്ങൾ"
   },
   "showMembers": {
-    "message": "അംഗങ്ങളെ കാണിക്കുക",
-    "description": ""
+    "message": "അംഗങ്ങളെ കാണിക്കുക"
   },
   "showSafetyNumber": {
-    "message": "സുരക്ഷാ നമ്പർ കാണുക",
-    "description": ""
+    "message": "സുരക്ഷാ നമ്പർ കാണുക"
   },
   "viewRecentMedia": {
     "message": "സമീപകാല മീഡിയ കാണുക",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ എന്നതുമായുള്ള നിങ്ങളുടെ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്‌ഷൻ പരിശോധിച്ചുറപ്പിക്കുന്നതിന്, മുകളിൽ നൽകിയിട്ടുള്ള നമ്പരുകൾ അവരുടെ ഉപകരണത്തിലെ നമ്പരുകളുമായി ഒത്ത് നോക്കുക.",
-    "description": ""
+    "message": "$name$ എന്നതുമായുള്ള നിങ്ങളുടെ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്‌ഷൻ പരിശോധിച്ചുറപ്പിക്കുന്നതിന്, മുകളിൽ നൽകിയിട്ടുള്ള നമ്പരുകൾ അവരുടെ ഉപകരണത്തിലെ നമ്പരുകളുമായി ഒത്ത് നോക്കുക."
   },
   "theirIdentityUnknown": {
-    "message": "ഈ കോൺ‌ടാക്റ്റുമായി നിങ്ങൾ ഇതുവരെ ഒരു സന്ദേശങ്ങള്‍-ഉം കൈമാറിയിട്ടില്ല. ആദ്യ സന്ദേശം-ത്തിന് ശേഷം അവരുമായുള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ ലഭ്യമാകും.",
-    "description": ""
+    "message": "ഈ കോൺ‌ടാക്റ്റുമായി നിങ്ങൾ ഇതുവരെ ഒരു സന്ദേശങ്ങള്‍-ഉം കൈമാറിയിട്ടില്ല. ആദ്യ സന്ദേശം-ത്തിന് ശേഷം അവരുമായുള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ ലഭ്യമാകും."
   },
   "back": {
     "message": "തിരികെ പോകുക",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "ക്ഷമിക്കണം, നിങ്ങൾക്ക് ഇതിനകം ലിങ്ക് ചെയ്ത ധാരാളം ഉപകരണങ്ങൾ ഉണ്ട്. ചിലത് നീക്കം ചെയ്യാൻ ശ്രമിക്കുക.",
-    "description": ""
+    "message": "ക്ഷമിക്കണം, നിങ്ങൾക്ക് ഇതിനകം ലിങ്ക് ചെയ്ത ധാരാളം ഉപകരണങ്ങൾ ഉണ്ട്. ചിലത് നീക്കം ചെയ്യാൻ ശ്രമിക്കുക."
   },
   "installTooOld": {
-    "message": "നിങ്ങളുടെ ഫോൺ ബന്ധിപ്പിക്കുന്നതിന് ഈ ഉപകരണത്തിൽ Signal അപ്ഡേറ്റ് ചെയ്യുക.",
-    "description": ""
+    "message": "നിങ്ങളുടെ ഫോൺ ബന്ധിപ്പിക്കുന്നതിന് ഈ ഉപകരണത്തിൽ Signal അപ്ഡേറ്റ് ചെയ്യുക."
   },
   "installErrorHeader": {
-    "message": "എന്തോ കുഴപ്പം സംഭവിച്ചു!",
-    "description": ""
+    "message": "എന്തോ കുഴപ്പം സംഭവിച്ചു!"
   },
   "installUnknownError": {
-    "message": "ഒരു അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.",
-    "description": ""
+    "message": "ഒരു അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക."
   },
   "installTryAgain": {
-    "message": "വീണ്ടും ശ്രമിക്കുക",
-    "description": ""
+    "message": "വീണ്ടും ശ്രമിക്കുക"
   },
   "Preferences--theme": {
     "message": "തീം",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": " $sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു",
-    "description": ""
+    "message": " $sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ നിങ്ങളുടെ $message$-ത്തോട് $emoji$ പ്രതികരിച്ചു",
-    "description": ""
+    "message": "$sender$ നിങ്ങളുടെ $message$-ത്തോട് $emoji$ പ്രതികരിച്ചു"
   },
   "sendFailed": {
     "message": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "സന്ദേശ വിനിമയം തുടരുന്നതിന്, നിങ്ങളുടെ മൊബൈൽ ഉപകരണത്തിലേക്ക് Signal Desktop വീണ്ടും ലിങ്ക് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
-    "description": ""
+    "message": "സന്ദേശ വിനിമയം തുടരുന്നതിന്, നിങ്ങളുടെ മൊബൈൽ ഉപകരണത്തിലേക്ക് Signal Desktop വീണ്ടും ലിങ്ക് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "unlinked": {
-    "message": "ലിങ്കുചെയ്തിട്ടില്ല",
-    "description": ""
+    "message": "ലിങ്കുചെയ്തിട്ടില്ല"
   },
   "relink": {
-    "message": "വീണ്ടും ലിങ്ക്",
-    "description": ""
+    "message": "വീണ്ടും ലിങ്ക്"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "അപ്‌ഡേറ്റ് ലഭ്യമാണ് ",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റ് ലഭ്യമാണ് "
   },
   "autoUpdateRetry": {
-    "message": "അപ്‌ഡേറ്റ് ചെയ്യാൻ വീണ്ടും ശ്രമിക്കുക",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റ് ചെയ്യാൻ വീണ്ടും ശ്രമിക്കുക"
   },
   "autoUpdateContactSupport": {
-    "message": "പിന്തുണയുമായി ബന്ധപ്പെടുക",
-    "description": ""
+    "message": "പിന്തുണയുമായി ബന്ധപ്പെടുക"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal പുനരാരംഭിക്കാൻ ക്ലിക്ക് ചെയ്യുക",
-    "description": ""
+    "message": "Signal പുനരാരംഭിക്കാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "downloadNewVersionMessage": {
-    "message": "അപ്‌ഡേറ്റ് ഡൗൺലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റ് ഡൗൺലോഡ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക.",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റുകൾ ബാധകമാക്കുന്നതിന് Signal പുന:ആരംഭിക്കുക അമർത്തുക."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal പുനരാരംഭിക്കുക",
-    "description": ""
+    "message": "Signal പുനരാരംഭിക്കുക"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "പിന്നീട്",
-    "description": ""
+    "message": "പിന്നീട്"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "അപ്‌ഡേറ്റ് അവഗണിക്കുക",
-    "description": ""
+    "message": "അപ്‌ഡേറ്റ് അവഗണിക്കുക"
   },
   "leftTheGroup": {
     "message": "$name$ ഗ്രൂപ്പ് വിട്ടു.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "പുതിയ Signal ഫീച്ചർ ഉപയോഗിക്കുന്നതിനാൽ പ്രോസസ്സ് ചെയ്യാൻ കഴിയാത്തതോ പ്രദർശിപ്പിക്കാൻ കഴിയാത്തതോ ആയ ഒരു സന്ദേശം $contact$ നിങ്ങൾക്ക് അയച്ചു.",
-    "description": ""
+    "message": "പുതിയ Signal ഫീച്ചർ ഉപയോഗിക്കുന്നതിനാൽ പ്രോസസ്സ് ചെയ്യാൻ കഴിയാത്തതോ പ്രദർശിപ്പിക്കാൻ കഴിയാത്തതോ ആയ ഒരു സന്ദേശം $contact$ നിങ്ങൾക്ക് അയച്ചു."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "ഇപ്പോൾ നിങ്ങൾ Signal-ന്റെ കാലികമായ പതിപ്പ് ഉപയോഗിക്കുന്നതിനാൽ ഈ സന്ദേശം വീണ്ടും അയയ്ക്കാൻ നിങ്ങൾക്ക് $contact$-യോട് ആവശ്യപ്പെടാം.",
-    "description": ""
+    "message": "ഇപ്പോൾ നിങ്ങൾ Signal-ന്റെ കാലികമായ പതിപ്പ് ഉപയോഗിക്കുന്നതിനാൽ ഈ സന്ദേശം വീണ്ടും അയയ്ക്കാൻ നിങ്ങൾക്ക് $contact$-യോട് ആവശ്യപ്പെടാം."
   },
   "Message--from-me-unsupported-message": {
-    "message": "നിങ്ങളുടെ ഉപകരണങ്ങളിലൊന്ന് ഒരു പുതിയ Signal സവിശേഷത ഉപയോഗിക്കുന്നതിനാൽ പ്രോസസ്സ് ചെയ്യാനോ പ്രദർശിപ്പിക്കാനോ കഴിയാത്ത ഒരു സന്ദേശം അയച്ചു.",
-    "description": ""
+    "message": "നിങ്ങളുടെ ഉപകരണങ്ങളിലൊന്ന് ഒരു പുതിയ Signal സവിശേഷത ഉപയോഗിക്കുന്നതിനാൽ പ്രോസസ്സ് ചെയ്യാനോ പ്രദർശിപ്പിക്കാനോ കഴിയാത്ത ഒരു സന്ദേശം അയച്ചു."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Signal-ന്റെ കാലികമായ പതിപ്പ് നിങ്ങൾ ഉപയോഗിക്കുന്നതു കൊണ്ട് ഇതുപോലുള്ള ഭാവി സന്ദേശങ്ങള്‍ ഇപ്പോൾ സമന്വയിപ്പിക്കപ്പെടും.",
-    "description": ""
+    "message": "Signal-ന്റെ കാലികമായ പതിപ്പ് നിങ്ങൾ ഉപയോഗിക്കുന്നതു കൊണ്ട് ഇതുപോലുള്ള ഭാവി സന്ദേശങ്ങള്‍ ഇപ്പോൾ സമന്വയിപ്പിക്കപ്പെടും."
   },
   "Message--update-signal": {
     "message": "Signal അപ്ഡേറ്റ് ചെയ്യുക",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "റിയാക്ഷൻ നീക്കം ചെയ്യുക",
-    "description": ""
+    "message": "റിയാക്ഷൻ നീക്കം ചെയ്യുക"
   },
   "Reactions--error": {
     "message": "പ്രതികരണം അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ഉത്തരം ലഭിക്കാത്ത വീഡിയോ കോൾ",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ഇപ്പോഴും പ്രവർത്തിച്ച് കൊണ്ടിരിക്കുകയാണ്",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "അറിയിപ്പ് ഏരിയയിൽ Signal പ്രവർത്തിക്കുന്നത് തുടരും. നിങ്ങൾക്ക് അത് Signal ക്രമീകരണങ്ങളിൽ മാറ്റാൻ കഴിയുന്നതാണ്.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "ഇൻകമിംഗ് ഓഡിയോ കോൾ...",
@@ -4895,6 +4854,10 @@
     "message": "കണ്ടത്",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ഈ സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകും",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "ആമുഖം",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ഫയൽ വലുപ്പം $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകുന്നതാണ്",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Жіберу",
-    "description": ""
+    "message": "Жіберу"
   },
   "acceptNewKey": {
     "message": "Қабылдау",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Верификациядан өтті деп белгілеу",
-    "description": ""
+    "message": "Верификациядан өтті деп белгілеу"
   },
   "unverify": {
-    "message": "Верификациядан өтпеді деп белгілеу",
-    "description": ""
+    "message": "Верификациядан өтпеді деп белгілеу"
   },
   "isVerified": {
     "message": "Сіздің $name$ араңыздағы қауіпсіздік нөміріңізге верификация жасалды.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Тексерілді",
-    "description": ""
+    "message": "Тексерілді"
   },
   "newIdentity": {
     "message": "Жаңа қауіпсіздік нөмірі",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Сіздің осы контактпен араңыздағы қауіпсіздік нөміріңіз өзгертілді. Бұл біреу сіздің хаттарыңызға тыңшылық жасауға әрекет жасап жатқанын немесе жай ғана сол контактінің Signal-ды қайта орнатқанын білдіруі мүмкін. Төмендегі жаңа қауіпсіздік нөмірін верификациядан өткізсеңіз болады.",
-    "description": ""
+    "message": "Сіздің осы контактпен араңыздағы қауіпсіздік нөміріңіз өзгертілді. Бұл біреу сіздің хаттарыңызға тыңшылық жасауға әрекет жасап жатқанын немесе жай ғана сол контактінің Signal-ды қайта орнатқанын білдіруі мүмкін. Төмендегі жаңа қауіпсіздік нөмірін верификациядан өткізсеңіз болады."
   },
   "incomingError": {
-    "message": "Кіріс хатты өңдеу қатесі",
-    "description": ""
+    "message": "Кіріс хатты өңдеу қатесі"
   },
   "media": {
     "message": "Мультимедиа",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті.",
-    "description": ""
+    "message": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті."
   },
   "unableToLoadAttachment": {
-    "message": "Таңдалған тіркемені жүктеу мүмкін болмады.",
-    "description": ""
+    "message": "Таңдалған тіркемені жүктеу мүмкін болмады."
   },
   "disconnected": {
     "message": "Ажыратылды",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal қолданбасына қош келдіңіз",
-    "description": ""
+    "message": "Signal қолданбасына қош келдіңіз"
   },
   "whatsNew": {
     "message": "Осы жаңа нұсқадағы $whatsNew$ тізімін көру",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Бас тарту",
-    "description": ""
+    "message": "Бас тарту"
   },
   "discard": {
-    "message": "Жою",
-    "description": ""
+    "message": "Жою"
   },
   "failedToSend": {
-    "message": "Кейбір алушыларға жіберілмеді. Желімен байланысты тексеріңіз.",
-    "description": ""
+    "message": "Кейбір алушыларға жіберілмеді. Желімен байланысты тексеріңіз."
   },
   "error": {
-    "message": "Қате",
-    "description": ""
+    "message": "Қате"
   },
   "messageDetail": {
-    "message": "Хат туралы мәлімет",
-    "description": ""
+    "message": "Хат туралы мәлімет"
   },
   "delete": {
-    "message": "Жою",
-    "description": ""
+    "message": "Жою"
   },
   "accept": {
-    "message": "Қабылдау",
-    "description": ""
+    "message": "Қабылдау"
   },
   "forward": {
-    "message": "Алға",
-    "description": ""
+    "message": "Алға"
   },
   "done": {
     "message": "Дайын",
     "description": "Label for done"
   },
   "update": {
-    "message": "Жаңарту",
-    "description": ""
+    "message": "Жаңарту"
   },
   "next2": {
-    "message": "Келесі",
-    "description": ""
+    "message": "Келесі"
   },
   "on": {
     "message": "Қосу",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Топ мүшелері",
-    "description": ""
+    "message": "Топ мүшелері"
   },
   "showMembers": {
-    "message": "Мүшелерді көрсету",
-    "description": ""
+    "message": "Мүшелерді көрсету"
   },
   "showSafetyNumber": {
-    "message": "Қауіпсіздік нөмірін көру",
-    "description": ""
+    "message": "Қауіпсіздік нөмірін көру"
   },
   "viewRecentMedia": {
     "message": "Соңғы мультимедианы көру",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ деген контактімен өтпелі шифрлау қауіпсіздігін тексеру үшін, жоғарыдағы сандарды оның құрылғысымен салыстырып көріңіз.",
-    "description": ""
+    "message": "$name$ деген контактімен өтпелі шифрлау қауіпсіздігін тексеру үшін, жоғарыдағы сандарды оның құрылғысымен салыстырып көріңіз."
   },
   "theirIdentityUnknown": {
-    "message": "Бұл контактімен әлі хат алмаспадыңыз. Онымен қауіпсіздік нөміріңіз бірінші хат алмасқаннан кейін болады.",
-    "description": ""
+    "message": "Бұл контактімен әлі хат алмаспадыңыз. Онымен қауіпсіздік нөміріңіз бірінші хат алмасқаннан кейін болады."
   },
   "back": {
     "message": "Артқа",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Кешіріңіз, тым көп құрылғы байланыстырылған. Бірнешеуін өшіріңіз.",
-    "description": ""
+    "message": "Кешіріңіз, тым көп құрылғы байланыстырылған. Бірнешеуін өшіріңіз."
   },
   "installTooOld": {
-    "message": "Телефоныңызды байланыстыру үшін осы құрылғыда Signal-ды жаңартыңыз.",
-    "description": ""
+    "message": "Телефоныңызды байланыстыру үшін осы құрылғыда Signal-ды жаңартыңыз."
   },
   "installErrorHeader": {
-    "message": "Something went wrong!",
-    "description": ""
+    "message": "Something went wrong!"
   },
   "installUnknownError": {
-    "message": "Күтпеген қате шықты. Қайталап көріңіз.",
-    "description": ""
+    "message": "Күтпеген қате шықты. Қайталап көріңіз."
   },
   "installTryAgain": {
-    "message": "Қайталап көру",
-    "description": ""
+    "message": "Қайталап көру"
   },
   "Preferences--theme": {
     "message": "Тақырып",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ хатыңызға $emoji$ деп реакция қалдырды",
-    "description": ""
+    "message": "$sender$ хатыңызға $emoji$ деп реакция қалдырды"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ сіздің $message$ деп жазған хатыңызға $emoji$ деп реакция қалдырды",
-    "description": ""
+    "message": "$sender$ сіздің $message$ деп жазған хатыңызға $emoji$ деп реакция қалдырды"
   },
   "sendFailed": {
     "message": "Жіберілмеді",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Хат алмасуды жалғастыру үшін Signal-дың компьютерлік нұсқасын мобильдік құрылғыңызға қайта байланыстыру үшін басыңыз.",
-    "description": ""
+    "message": "Хат алмасуды жалғастыру үшін Signal-дың компьютерлік нұсқасын мобильдік құрылғыңызға қайта байланыстыру үшін басыңыз."
   },
   "unlinked": {
-    "message": "Байланыс ажыратылды",
-    "description": ""
+    "message": "Байланыс ажыратылды"
   },
   "relink": {
-    "message": "Қайта байланыстыру",
-    "description": ""
+    "message": "Қайта байланыстыру"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Жаңа нұсқасы шықты",
-    "description": ""
+    "message": "Жаңа нұсқасы шықты"
   },
   "autoUpdateRetry": {
-    "message": "Қайта жаңартып көру",
-    "description": ""
+    "message": "Қайта жаңартып көру"
   },
   "autoUpdateContactSupport": {
-    "message": "қолдау көрсету қызметіне хабарласу",
-    "description": ""
+    "message": "қолдау көрсету қызметіне хабарласу"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal-ды өшіріп, қайта қосу үшін басыңыз",
-    "description": ""
+    "message": "Signal-ды өшіріп, қайта қосу үшін басыңыз"
   },
   "downloadNewVersionMessage": {
-    "message": "Жаңа нұсқаны жүктеп алу үшін басыңыз",
-    "description": ""
+    "message": "Жаңа нұсқаны жүктеп алу үшін басыңыз"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal жаңартылмады. Қайталап көру үшін басыңыз.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Жаңа нұсқаны қолдану үшін \"Signal-ды өшіріп, қайта қосу\" түймесін басыңыз.",
-    "description": ""
+    "message": "Жаңа нұсқаны қолдану үшін \"Signal-ды өшіріп, қайта қосу\" түймесін басыңыз."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal-ды қайта іске қосу",
-    "description": ""
+    "message": "Signal-ды қайта іске қосу"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Кейінірек",
-    "description": ""
+    "message": "Кейінірек"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Жаңа нұсқаны елемеу",
-    "description": ""
+    "message": "Жаңа нұсқаны елемеу"
   },
   "leftTheGroup": {
     "message": "$name$ топтан шығып кетті.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ сізге жіберген хаты өңделмейді немесе көрсетілмейді, себебі жаңа Signal функциясын пайдаланады.",
-    "description": ""
+    "message": "$contact$ сізге жіберген хаты өңделмейді немесе көрсетілмейді, себебі жаңа Signal функциясын пайдаланады."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Өзіңізде Signal нұсқасын жаңартып алғаннан кейін $contact$ хатты қайта жіберуін сұрауға болады.",
-    "description": ""
+    "message": "Өзіңізде Signal нұсқасын жаңартып алғаннан кейін $contact$ хатты қайта жіберуін сұрауға болады."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Сіздің құрылғыларыңыздың бірі жіберген хат өңделмейді немесе көрсетілмейді, себебі ол жаңа Signal нұсқасын пайдаланады.",
-    "description": ""
+    "message": "Сіздің құрылғыларыңыздың бірі жіберген хат өңделмейді немесе көрсетілмейді, себебі ол жаңа Signal нұсқасын пайдаланады."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Өзіңізде Signal нұсқасын жаңартып алғаннан кейін болашақта келетін осындай хаттар синхрондалады.",
-    "description": ""
+    "message": "Өзіңізде Signal нұсқасын жаңартып алғаннан кейін болашақта келетін осындай хаттар синхрондалады."
   },
   "Message--update-signal": {
     "message": "Signal-ды жаңарту",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Реакцияны өшіру",
-    "description": ""
+    "message": "Реакцияны өшіру"
   },
   "Reactions--error": {
     "message": "Реакция жіберілмеді. Қайталап көріңіз.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Жауап берілмеген видеоқоңырау",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal әлі жұмыс істеп тұр",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal хабарландыру аймағында жұмыс істеп тұра береді. Оны Signal параметрлерінен өзгерте аласыз.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Кіріс аудиоқоңырау...",
@@ -4895,6 +4854,10 @@
     "message": "Көрген",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Жоғалатын уақыты:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Мағлұмат",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Файл өлшемі: $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Жоғалатын уақыты: $countdown$ ",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

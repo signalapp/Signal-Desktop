@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Υποβολή",
-    "description": ""
+    "message": "Υποβολή"
   },
   "acceptNewKey": {
     "message": "Αποδοχή",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Σημείωση ως επιβεβαιωμένο",
-    "description": ""
+    "message": "Σημείωση ως επιβεβαιωμένο"
   },
   "unverify": {
-    "message": "Σημείωση ως μη επιβεβαιωμένο",
-    "description": ""
+    "message": "Σημείωση ως μη επιβεβαιωμένο"
   },
   "isVerified": {
     "message": "Επιβεβαίωσες τον αριθμό ασφαλείας με τον/την $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Επιβεβαιωμένο",
-    "description": ""
+    "message": "Επιβεβαιωμένο"
   },
   "newIdentity": {
     "message": "Νέος αριθμός ασφαλείας",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Ο αριθμός ασφαλείας σου με αυτήν την επαφή έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας, είτε αυτή η επαφή απλώς επανεγκαταστήσει το Signal. Αν θες μπορείς να επαληθεύσεις το νέο αριθμό ασφαλείας παρακάτω.",
-    "description": ""
+    "message": "Ο αριθμός ασφαλείας σου με αυτήν την επαφή έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας, είτε αυτή η επαφή απλώς επανεγκαταστήσει το Signal. Αν θες μπορείς να επαληθεύσεις το νέο αριθμό ασφαλείας παρακάτω."
   },
   "incomingError": {
-    "message": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος.",
-    "description": ""
+    "message": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος."
   },
   "media": {
     "message": "Μέσα ",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων.",
-    "description": ""
+    "message": "Δυστυχώς το επιλεγμένο αρχείο υπερβαίνει το όριο μεγέθους μηνυμάτων."
   },
   "unableToLoadAttachment": {
-    "message": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου.",
-    "description": ""
+    "message": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
   },
   "disconnected": {
     "message": "Αποσυνδέθηκε",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Καλωσήλθες στο Signal",
-    "description": ""
+    "message": "Καλωσήλθες στο Signal"
   },
   "whatsNew": {
     "message": "Δες $whatsNew$ σε αυτή την αναβάθμιση",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Άκυρο",
-    "description": ""
+    "message": "Άκυρο"
   },
   "discard": {
-    "message": "Απόρριψη",
-    "description": ""
+    "message": "Απόρριψη"
   },
   "failedToSend": {
-    "message": "Αποτυχία αποστολής σε μερικούς παραλήπτες. Έλεγξε τη σύνδεση δικτύου.",
-    "description": ""
+    "message": "Αποτυχία αποστολής σε μερικούς παραλήπτες. Έλεγξε τη σύνδεση δικτύου."
   },
   "error": {
-    "message": "Σφάλμα",
-    "description": ""
+    "message": "Σφάλμα"
   },
   "messageDetail": {
-    "message": "Λεπτομέρειες μηνύματος",
-    "description": ""
+    "message": "Λεπτομέρειες μηνύματος"
   },
   "delete": {
-    "message": "Διαγραφή",
-    "description": ""
+    "message": "Διαγραφή"
   },
   "accept": {
-    "message": "Αποδοχή",
-    "description": ""
+    "message": "Αποδοχή"
   },
   "forward": {
-    "message": "Προώθηση",
-    "description": ""
+    "message": "Προώθηση"
   },
   "done": {
     "message": "Τέλος",
     "description": "Label for done"
   },
   "update": {
-    "message": "Ενημέρωση",
-    "description": ""
+    "message": "Ενημέρωση"
   },
   "next2": {
-    "message": "Επόμενο",
-    "description": ""
+    "message": "Επόμενο"
   },
   "on": {
     "message": "Ενεργό",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Μέλη ομάδας",
-    "description": ""
+    "message": "Μέλη ομάδας"
   },
   "showMembers": {
-    "message": "Εμφάνιση μελών",
-    "description": ""
+    "message": "Εμφάνιση μελών"
   },
   "showSafetyNumber": {
-    "message": "Εμφάνιση αριθμού ασφαλείας",
-    "description": ""
+    "message": "Εμφάνιση αριθμού ασφαλείας"
   },
   "viewRecentMedia": {
     "message": "Προβολή πρόσφατων πολυμέσων",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Για να επιβεβαιωθεί η κρυπτογράφηση από άκρο σε άκρο με τον/την $name$, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του/της.",
-    "description": ""
+    "message": "Για να επιβεβαιωθεί η κρυπτογράφηση από άκρο σε άκρο με τον/την $name$, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του/της."
   },
   "theirIdentityUnknown": {
-    "message": "Δεν έχεις ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σου με αυτή θα είναι διαθέσιμος μετά το πρώτο μήνυμα.",
-    "description": ""
+    "message": "Δεν έχεις ανταλλάξει ακόμα μηνύματα με αυτήν την επαφή. Ο αριθμός ασφαλείας σου με αυτή θα είναι διαθέσιμος μετά το πρώτο μήνυμα."
   },
   "back": {
     "message": "Πίσω",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Δυστυχώς, έχεις ήδη πολλές συσκευές συνδεμένες. Προσπάθησε να αφαιρέσεις μερικές.",
-    "description": ""
+    "message": "Δυστυχώς, έχεις ήδη πολλές συσκευές συνδεμένες. Προσπάθησε να αφαιρέσεις μερικές."
   },
   "installTooOld": {
-    "message": "Αναβάθμισε το Signal σε αυτή τη συσκευή για να συνδέσεις το τηλέφωνό σου.",
-    "description": ""
+    "message": "Αναβάθμισε το Signal σε αυτή τη συσκευή για να συνδέσεις το τηλέφωνό σου."
   },
   "installErrorHeader": {
-    "message": "Κάτι πήγε στραβά!",
-    "description": ""
+    "message": "Κάτι πήγε στραβά!"
   },
   "installUnknownError": {
-    "message": "Προέκυψε κάποιο αναπάντεχο σφάλμα. Παρακαλώ προσπάθησε ξανά.",
-    "description": ""
+    "message": "Προέκυψε κάποιο αναπάντεχο σφάλμα. Παρακαλώ προσπάθησε ξανά."
   },
   "installTryAgain": {
-    "message": "Ξαναπροσπάθησε",
-    "description": ""
+    "message": "Ξαναπροσπάθησε"
   },
   "Preferences--theme": {
     "message": "Θέμα",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο μήνυμά σας",
-    "description": ""
+    "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο μήνυμά σας"
   },
   "notificationReactionMessage": {
-    "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο: $message$",
-    "description": ""
+    "message": "Ο/Η $sender$ αντέδρασε με $emoji$ στο: $message$"
   },
   "sendFailed": {
     "message": "Αποτυχία αποστολής",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Κάνε κλικ για επανασύνδεση του Signal Desktop με το κινητό σου για να συνεχίσεις να συνομιλείς.",
-    "description": ""
+    "message": "Κάνε κλικ για επανασύνδεση του Signal Desktop με το κινητό σου για να συνεχίσεις να συνομιλείς."
   },
   "unlinked": {
-    "message": "Αποσυνδεμένο",
-    "description": ""
+    "message": "Αποσυνδεμένο"
   },
   "relink": {
-    "message": "Επανασύνδεση",
-    "description": ""
+    "message": "Επανασύνδεση"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Διαθέσιμη αναβάθμιση",
-    "description": ""
+    "message": "Διαθέσιμη αναβάθμιση"
   },
   "autoUpdateRetry": {
-    "message": "Επανάληψη αναβάθμισης",
-    "description": ""
+    "message": "Επανάληψη αναβάθμισης"
   },
   "autoUpdateContactSupport": {
-    "message": "επικοινώνησε με την υποστήριξη",
-    "description": ""
+    "message": "επικοινώνησε με την υποστήριξη"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Κάνε κλικ για επανεκκίνηση του Signal",
-    "description": ""
+    "message": "Κάνε κλικ για επανεκκίνηση του Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Κάνε κλικ για λήψη της αναβάθμισης",
-    "description": ""
+    "message": "Κάνε κλικ για λήψη της αναβάθμισης"
   },
   "downloadFullNewVersionMessage": {
     "message": "Το Signal δεν μπόρεσε να αναβαθμιστεί. Πάτα για να προσπαθήσεις ξανά.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Πάτα Επανεκκίνηση για να εφαρμοστούν οι αναβαθμίσεις.",
-    "description": ""
+    "message": "Πάτα Επανεκκίνηση για να εφαρμοστούν οι αναβαθμίσεις."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Επανεκκίνηση του Signal",
-    "description": ""
+    "message": "Επανεκκίνηση του Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Αργότερα",
-    "description": ""
+    "message": "Αργότερα"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Παράλειψη αναβάθμισης",
-    "description": ""
+    "message": "Παράλειψη αναβάθμισης"
   },
   "leftTheGroup": {
     "message": "Ο/Η $name$ αποχώρησε απ' την ομάδα.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "Ο/Η $contact$ σάς έστειλε ένα μήνυμα που δεν μπορεί να επεξεργαστεί ή να εμφανιστεί γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal.",
-    "description": ""
+    "message": "Ο/Η $contact$ σάς έστειλε ένα μήνυμα που δεν μπορεί να επεξεργαστεί ή να εμφανιστεί γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Μπορείς να ζητήσεις από τον/την $contact$ να σου ξαναστείλει το μήνυμα, τώρα που πλέον χρησιμοποιείς την επικαιροποιημένη έκδοση του Signal. ",
-    "description": ""
+    "message": "Μπορείς να ζητήσεις από τον/την $contact$ να σου ξαναστείλει το μήνυμα, τώρα που πλέον χρησιμοποιείς την επικαιροποιημένη έκδοση του Signal. "
   },
   "Message--from-me-unsupported-message": {
-    "message": "Κάποια από τις συσκευές σου έστειλε ένα μήνυμα που δεν μπόρεσε να επεξεργαστεί ή να εμφανιστεί, γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal.",
-    "description": ""
+    "message": "Κάποια από τις συσκευές σου έστειλε ένα μήνυμα που δεν μπόρεσε να επεξεργαστεί ή να εμφανιστεί, γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Μελλοντικά μηνύματα όπως αυτό θα συγχρονίζονται τώρα που πλέον χρησιμοποιείτε την επικαιροποιημένη έκδοση του Signal.",
-    "description": ""
+    "message": "Μελλοντικά μηνύματα όπως αυτό θα συγχρονίζονται τώρα που πλέον χρησιμοποιείτε την επικαιροποιημένη έκδοση του Signal."
   },
   "Message--update-signal": {
     "message": "Αναβάθμιση του Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Αφαίρεση αντίδρασης",
-    "description": ""
+    "message": "Αφαίρεση αντίδρασης"
   },
   "Reactions--error": {
     "message": "Αποτυχία αποστολής αντίδρασης. Παρακαλώ ξαναδοκίμασε.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Αναπάντητη βιντεοκλήση",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Το Signal λειτουργεί ακόμα",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Το Signal θα συνεχίσει να λειτουργεί στην περιοχή των ειδοποιήσεων. Μπορείς να το αλλάξεις στις ρυθμίσεις του Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Εισερχόμενη κλήση φωνής...",
@@ -4895,6 +4854,10 @@
     "message": "Διαβάστηκε από",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Εξαφανίζεται σε ",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Πληροφορίες",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Μέγεθος φακέλου $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Εξαφανίζεται σε $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

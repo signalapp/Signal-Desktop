@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Trimite",
-    "description": ""
+    "message": "Trimite"
   },
   "acceptNewKey": {
     "message": "Acceptă",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marchează ca fiind verificat",
-    "description": ""
+    "message": "Marchează ca fiind verificat"
   },
   "unverify": {
-    "message": "Marchează ca fiind neverificat",
-    "description": ""
+    "message": "Marchează ca fiind neverificat"
   },
   "isVerified": {
     "message": "Ai verificat numărul tău de siguranță cu $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Verificat",
-    "description": ""
+    "message": "Verificat"
   },
   "newIdentity": {
     "message": "Număr de siguranță nou",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Numărul de siguranță pentru acest contact s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. E posibil să vrei să verifici noul număr de siguranță de mai jos.",
-    "description": ""
+    "message": "Numărul de siguranță pentru acest contact s-a schimbat. Asta poate însemna că cineva încearcă să intercepteze comunicarea, sau contactul și-a reinstalat Signal. E posibil să vrei să verifici noul număr de siguranță de mai jos."
   },
   "incomingError": {
-    "message": "Eroare la procesarea mesajului primit",
-    "description": ""
+    "message": "Eroare la procesarea mesajului primit"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului.",
-    "description": ""
+    "message": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului."
   },
   "unableToLoadAttachment": {
-    "message": "Nu s-a putut încărca atașamentul selectat.",
-    "description": ""
+    "message": "Nu s-a putut încărca atașamentul selectat."
   },
   "disconnected": {
     "message": "Deconectat",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Bun venit la Signal",
-    "description": ""
+    "message": "Bun venit la Signal"
   },
   "whatsNew": {
     "message": "Vezi $whatsNew$ în această actualizare",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Anulează",
-    "description": ""
+    "message": "Anulează"
   },
   "discard": {
-    "message": "Renunță",
-    "description": ""
+    "message": "Renunță"
   },
   "failedToSend": {
-    "message": "Mesajul nu a putut fi trimis către unii destinatari. Verifică-ți conexiunea la rețea.",
-    "description": ""
+    "message": "Mesajul nu a putut fi trimis către unii destinatari. Verifică-ți conexiunea la rețea."
   },
   "error": {
-    "message": "Eroare",
-    "description": ""
+    "message": "Eroare"
   },
   "messageDetail": {
-    "message": "Detalii mesaj",
-    "description": ""
+    "message": "Detalii mesaj"
   },
   "delete": {
-    "message": "Șterge",
-    "description": ""
+    "message": "Șterge"
   },
   "accept": {
-    "message": "Acceptă",
-    "description": ""
+    "message": "Acceptă"
   },
   "forward": {
-    "message": "Redirecționează",
-    "description": ""
+    "message": "Redirecționează"
   },
   "done": {
     "message": "Gata",
     "description": "Label for done"
   },
   "update": {
-    "message": "Actualizează",
-    "description": ""
+    "message": "Actualizează"
   },
   "next2": {
-    "message": "Următorul",
-    "description": ""
+    "message": "Următorul"
   },
   "on": {
     "message": "Activat",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Membrii grupului",
-    "description": ""
+    "message": "Membrii grupului"
   },
   "showMembers": {
-    "message": "Afișează membrii",
-    "description": ""
+    "message": "Afișează membrii"
   },
   "showSafetyNumber": {
-    "message": "Afișează numărul de siguranță",
-    "description": ""
+    "message": "Afișează numărul de siguranță"
   },
   "viewRecentMedia": {
     "message": "Afișare media recente",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Pentru a verifica securitatea criptării integrale cu $name$, compară numerele de mai sus cu cele de pe dispozitivul lor.",
-    "description": ""
+    "message": "Pentru a verifica securitatea criptării integrale cu $name$, compară numerele de mai sus cu cele de pe dispozitivul lor."
   },
   "theirIdentityUnknown": {
-    "message": "Nu ai schimbat până acum nici un mesaj cu acest contact. Numărul de siguranță va fi disponibil după primul mesaj.",
-    "description": ""
+    "message": "Nu ai schimbat până acum nici un mesaj cu acest contact. Numărul de siguranță va fi disponibil după primul mesaj."
   },
   "back": {
     "message": "Înapoi",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Ne pare rău, ai prea multe dispozitive asociate deja. Încearcă să elimini câteva.",
-    "description": ""
+    "message": "Ne pare rău, ai prea multe dispozitive asociate deja. Încearcă să elimini câteva."
   },
   "installTooOld": {
-    "message": "Actualizează Signal de pe acest dispozitiv pentru a asocia telefonul tău.",
-    "description": ""
+    "message": "Actualizează Signal de pe acest dispozitiv pentru a asocia telefonul tău."
   },
   "installErrorHeader": {
-    "message": "Ceva a funcționat greșit!",
-    "description": ""
+    "message": "Ceva a funcționat greșit!"
   },
   "installUnknownError": {
-    "message": "A apărut o eroare neașteptată. Te rugăm să încerci din nou.",
-    "description": ""
+    "message": "A apărut o eroare neașteptată. Te rugăm să încerci din nou."
   },
   "installTryAgain": {
-    "message": "Încearcă din nou",
-    "description": ""
+    "message": "Încearcă din nou"
   },
   "Preferences--theme": {
     "message": "Temă",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ a reacționat cu  $emoji$ la mesajul tău",
-    "description": ""
+    "message": "$sender$ a reacționat cu  $emoji$ la mesajul tău"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ a reacționat cu  $emoji$ la: $message$",
-    "description": ""
+    "message": "$sender$ a reacționat cu  $emoji$ la: $message$"
   },
   "sendFailed": {
     "message": "Trimitere eșuată",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Apasă pentru a asocia din nou Signal Desktop cu dispozitivul tău mobil și pentru a continua să trimiți mesaje.",
-    "description": ""
+    "message": "Apasă pentru a asocia din nou Signal Desktop cu dispozitivul tău mobil și pentru a continua să trimiți mesaje."
   },
   "unlinked": {
-    "message": "Disociat",
-    "description": ""
+    "message": "Disociat"
   },
   "relink": {
-    "message": "Asociază din nou",
-    "description": ""
+    "message": "Asociază din nou"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Actualizare disponibilă",
-    "description": ""
+    "message": "Actualizare disponibilă"
   },
   "autoUpdateRetry": {
-    "message": "Reîncearcă actualizarea",
-    "description": ""
+    "message": "Reîncearcă actualizarea"
   },
   "autoUpdateContactSupport": {
-    "message": "Contactează asistența",
-    "description": ""
+    "message": "Contactează asistența"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Apasă pentru a reporni Signal",
-    "description": ""
+    "message": "Apasă pentru a reporni Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Apasă pentru a descărca actualizarea",
-    "description": ""
+    "message": "Apasă pentru a descărca actualizarea"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal nu a putut fi actualizat. Apasă pentru a încerca din nou.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Apasă pe Repornire Signal pentru a aplica actualizările.",
-    "description": ""
+    "message": "Apasă pe Repornire Signal pentru a aplica actualizările."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Repornește Signal",
-    "description": ""
+    "message": "Repornește Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Mai târziu",
-    "description": ""
+    "message": "Mai târziu"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignoră actualizarea",
-    "description": ""
+    "message": "Ignoră actualizarea"
   },
   "leftTheGroup": {
     "message": "$name$ a părăsit grupul.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ v-a trimis un mesaj ce nu poate fi procesat sau afișat deoarece folosește o nouă funcționalitate Signal.",
-    "description": ""
+    "message": "$contact$ v-a trimis un mesaj ce nu poate fi procesat sau afișat deoarece folosește o nouă funcționalitate Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Îl poți ruga pe $contact$ să retrimită acest mesaj acum că folosești o versiune actualizată de Signal.",
-    "description": ""
+    "message": "Îl poți ruga pe $contact$ să retrimită acest mesaj acum că folosești o versiune actualizată de Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Unul dintre dispozitivele tale a trimis un mesaj ce nu poate fi procesat sau afișat pentru că utilizează o nouă funcționalitate Signal.",
-    "description": ""
+    "message": "Unul dintre dispozitivele tale a trimis un mesaj ce nu poate fi procesat sau afișat pentru că utilizează o nouă funcționalitate Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Mesajele viitoare de acest tip vor fi sincronizate acum că folosești o versiune actualizată a Signal.",
-    "description": ""
+    "message": "Mesajele viitoare de acest tip vor fi sincronizate acum că folosești o versiune actualizată a Signal."
   },
   "Message--update-signal": {
     "message": "Actualizează Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Elimină reacția",
-    "description": ""
+    "message": "Elimină reacția"
   },
   "Reactions--error": {
     "message": "Reacția nu a putut fi transmisă. Te rugăm să încerci din nou.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Apel video nepreluat",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal încă funcționează",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal va continua să funcționeze în zona de notificări. Puteți schimba asta în setările Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Apel de intrare audio...",
@@ -4895,6 +4854,10 @@
     "message": "Vizualizat de",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Dispare în",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Despre",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Dimensiunea fișierului $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Dispare în $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

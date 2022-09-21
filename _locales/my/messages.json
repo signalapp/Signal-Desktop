@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "တင်မည်",
-    "description": ""
+    "message": "တင်မည်"
   },
   "acceptNewKey": {
     "message": "လက်ခံသည် ",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified",
-    "description": ""
+    "message": "Mark as verified"
   },
   "unverify": {
-    "message": "Mark as not verified",
-    "description": ""
+    "message": "Mark as not verified"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "အတည်ပြုပြီး",
-    "description": ""
+    "message": "အတည်ပြုပြီး"
   },
   "newIdentity": {
     "message": "လုံခြုံရေးနံပါတ် အသစ်",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below.",
-    "description": ""
+    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
   },
   "incomingError": {
-    "message": "အဝင် မက်ဆေ့ချ်ကို ကိုင်တွယ်နေစဥ် အမှားဖြစ်",
-    "description": ""
+    "message": "အဝင် မက်ဆေ့ချ်ကို ကိုင်တွယ်နေစဥ် အမှားဖြစ်"
   },
   "media": {
     "message": "ရုပ်၊သံ၊ပုံ များ",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions.",
-    "description": ""
+    "message": "Sorry, the selected file exceeds message size restrictions."
   },
   "unableToLoadAttachment": {
-    "message": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။",
-    "description": ""
+    "message": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"
   },
   "disconnected": {
     "message": "ချိတ်ဆက်ပြတ်သည်",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal သို့ ကြိုဆိုပါသည်",
-    "description": ""
+    "message": "Signal သို့ ကြိုဆိုပါသည်"
   },
   "whatsNew": {
     "message": "ဤအပ်ဒိတ်တွင် $whatsNew$ ကို ကြည့်ရန်",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "အိုကေ",
-    "description": ""
+    "message": "အိုကေ"
   },
   "cancel": {
-    "message": "မလုပ်တော့ပါ",
-    "description": ""
+    "message": "မလုပ်တော့ပါ"
   },
   "discard": {
-    "message": "စွန့်ပစ်သည် ",
-    "description": ""
+    "message": "စွန့်ပစ်သည် "
   },
   "failedToSend": {
-    "message": "Failed to send to some recipients. Check your network connection.",
-    "description": ""
+    "message": "Failed to send to some recipients. Check your network connection."
   },
   "error": {
-    "message": "အမှားဖြစ်နေသည်",
-    "description": ""
+    "message": "အမှားဖြစ်နေသည်"
   },
   "messageDetail": {
-    "message": "Message Detail",
-    "description": ""
+    "message": "Message Detail"
   },
   "delete": {
-    "message": "ဖျက်မည်",
-    "description": ""
+    "message": "ဖျက်မည်"
   },
   "accept": {
-    "message": "လက်ခံသည် ",
-    "description": ""
+    "message": "လက်ခံသည် "
   },
   "forward": {
-    "message": "ထပ်ဆင့် ပေးပို့မယ်",
-    "description": ""
+    "message": "ထပ်ဆင့် ပေးပို့မယ်"
   },
   "done": {
     "message": "ပြီးပါပြီ",
     "description": "Label for done"
   },
   "update": {
-    "message": "အပ်ဒိတ် လုပ်",
-    "description": ""
+    "message": "အပ်ဒိတ် လုပ်"
   },
   "next2": {
-    "message": "နောက်ထက်",
-    "description": ""
+    "message": "နောက်ထက်"
   },
   "on": {
     "message": "ဖွင့်ပါ",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "အုပ်စုဝင်များ ",
-    "description": ""
+    "message": "အုပ်စုဝင်များ "
   },
   "showMembers": {
-    "message": "Show members",
-    "description": ""
+    "message": "Show members"
   },
   "showSafetyNumber": {
-    "message": "လုံခြုံရေးနံပါတ်ကိုကြည့်မည် ",
-    "description": ""
+    "message": "လုံခြုံရေးနံပါတ်ကိုကြည့်မည် "
   },
   "viewRecentMedia": {
     "message": "မကြာမီက မီဒီယာကို ကြည့်ရန်",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$ ဖြင့် သင်၏ End-to-end ကုဒ်ပြောင်းဝှက်မှု လုံခြုံရေးကို အတည်ပြုရန် ၎င်းတို့၏စက်နှင့်အတူ အထက်ပါ နံပါတ်များကို နှိုင်းယှဉ်ပါ။",
-    "description": ""
+    "message": "$name$ ဖြင့် သင်၏ End-to-end ကုဒ်ပြောင်းဝှက်မှု လုံခြုံရေးကို အတည်ပြုရန် ၎င်းတို့၏စက်နှင့်အတူ အထက်ပါ နံပါတ်များကို နှိုင်းယှဉ်ပါ။"
   },
   "theirIdentityUnknown": {
-    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message.",
-    "description": ""
+    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "back": {
     "message": "နောက်သို့",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Sorry, you have too many devices linked already. Try removing some.",
-    "description": ""
+    "message": "Sorry, you have too many devices linked already. Try removing some."
   },
   "installTooOld": {
-    "message": "သင့်ဖုန်းနှင့် ချိတ်ရန် ဤစက်တွင် Signal ကို အပ်ဒိတ်လုပ်ပါ။",
-    "description": ""
+    "message": "သင့်ဖုန်းနှင့် ချိတ်ရန် ဤစက်တွင် Signal ကို အပ်ဒိတ်လုပ်ပါ။"
   },
   "installErrorHeader": {
-    "message": "Something went wrong!",
-    "description": ""
+    "message": "Something went wrong!"
   },
   "installUnknownError": {
-    "message": "မမျှော်လင့်ထားသော ချို့ယွင်းချက် ဖြစ်ပေါ်ခဲ့သည်။ ထပ်ကြိုးစားကြည့်ပါ။",
-    "description": ""
+    "message": "မမျှော်လင့်ထားသော ချို့ယွင်းချက် ဖြစ်ပေါ်ခဲ့သည်။ ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "installTryAgain": {
-    "message": "ထပ်မံကြိုးစားမည် ",
-    "description": ""
+    "message": "ထပ်မံကြိုးစားမည် "
   },
   "Preferences--theme": {
     "message": "အမြင်အပြင်အဆင်",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ သည် သင့်မက်ဆေ့ချ်တွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်",
-    "description": ""
+    "message": "$sender$ သည် သင့်မက်ဆေ့ချ်တွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ သည် ဖော်ပြပါတွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်- $message$",
-    "description": ""
+    "message": "$sender$ သည် ဖော်ပြပါတွင် $emoji$ တုံ့ပြန်မှု ပေးခဲ့သည်- $message$"
   },
   "sendFailed": {
     "message": "ပေးပို့ခြင်း မအောင်မြင်ပါ",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "မက်ဆေ့ချ် ဆက်လုပ်ရန်အတွက် Signal Desktop ကို သင့်မိုဘိုင်းစက်နှင့် ပြန်ချိတ်ရန် နှိပ်ပါ။",
-    "description": ""
+    "message": "မက်ဆေ့ချ် ဆက်လုပ်ရန်အတွက် Signal Desktop ကို သင့်မိုဘိုင်းစက်နှင့် ပြန်ချိတ်ရန် နှိပ်ပါ။"
   },
   "unlinked": {
-    "message": "Unlinked",
-    "description": ""
+    "message": "Unlinked"
   },
   "relink": {
-    "message": "Relink",
-    "description": ""
+    "message": "Relink"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ",
-    "description": ""
+    "message": "အပ်ဒိတ် ရရှိနိုင်ပါပြီ"
   },
   "autoUpdateRetry": {
-    "message": "အပ်ဒိတ်လုပ်ဆောင်မှု ပြန်ကြိုးစားရန်",
-    "description": ""
+    "message": "အပ်ဒိတ်လုပ်ဆောင်မှု ပြန်ကြိုးစားရန်"
   },
   "autoUpdateContactSupport": {
-    "message": "အကူအညီ ရယူရန် ဆက်သွယ်ပါ",
-    "description": ""
+    "message": "အကူအညီ ရယူရန် ဆက်သွယ်ပါ"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal ကို ပြန်စတင်ရန် နှိပ်ပါ",
-    "description": ""
+    "message": "Signal ကို ပြန်စတင်ရန် နှိပ်ပါ"
   },
   "downloadNewVersionMessage": {
-    "message": "အပ်ဒိတ်ကို ဒေါင်းလုဒ်လုပ်ရန် နှိပ်ပါ",
-    "description": ""
+    "message": "အပ်ဒိတ်ကို ဒေါင်းလုဒ်လုပ်ရန် နှိပ်ပါ"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal ကို အပ်ဒိတ်လုပ်မရပါ။ ထပ်ကြိုးစားရန် နှိပ်ပါ။",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "အပ်ဒိတ်များကို သုံးရန်အတွက် Signal ကို ပြန်စတင်ရန်ကို နှိပ်ပါ။",
-    "description": ""
+    "message": "အပ်ဒိတ်များကို သုံးရန်အတွက် Signal ကို ပြန်စတင်ရန်ကို နှိပ်ပါ။"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Restart Signal",
-    "description": ""
+    "message": "Restart Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "နောက်မှလုပ်မည်",
-    "description": ""
+    "message": "နောက်မှလုပ်မည်"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "အပ်ဒိတ်ကို လျစ်လျူရှုရန်",
-    "description": ""
+    "message": "အပ်ဒိတ်ကို လျစ်လျူရှုရန်"
   },
   "leftTheGroup": {
     "message": "$name$ သည် အဖွဲ့က ထွက်သွားပါပြီ။",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "စီမံလုပ်ဆောင်ခြင်း သို့မဟုတ် ပြသခြင်း မပြုလုပ်နိုင်သော မက်ဆေ့ချ်တစ်စောင်ကို $contact$ က သင့်ထံ ပို့ထားသည်၊ အကြောင်းမှာ Signal လုပ်ဆောင်ချက်အသစ်ကို သုံးသောကြောင့် ဖြစ်ပါသည်။",
-    "description": ""
+    "message": "စီမံလုပ်ဆောင်ခြင်း သို့မဟုတ် ပြသခြင်း မပြုလုပ်နိုင်သော မက်ဆေ့ချ်တစ်စောင်ကို $contact$ က သင့်ထံ ပို့ထားသည်၊ အကြောင်းမှာ Signal လုပ်ဆောင်ချက်အသစ်ကို သုံးသောကြောင့် ဖြစ်ပါသည်။"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "သင်သည် ယခု Signal အပ်ဒိတ် ဗားရှင်းကို သုံးနေသောကြောင့် ဤမက်ဆေ့ချ်ကို ပြန်ပို့ရန် $contact$ အား တောင်းဆိုနိုင်ပါသည်။",
-    "description": ""
+    "message": "သင်သည် ယခု Signal အပ်ဒိတ် ဗားရှင်းကို သုံးနေသောကြောင့် ဤမက်ဆေ့ချ်ကို ပြန်ပို့ရန် $contact$ အား တောင်းဆိုနိုင်ပါသည်။"
   },
   "Message--from-me-unsupported-message": {
-    "message": "စီမံလုပ်ဆောင်ခြင်း သို့မဟုတ် ပြသခြင်း မပြုလုပ်နိုင်သော မက်ဆေ့ချ်တစ်စောင်ကို သင့်စက်တစ်ခုခုက ပို့ထားသည်၊ အကြောင်းမှာ Signal လုပ်ဆောင်ချက်အသစ်ကို သုံးသောကြောင့် ဖြစ်ပါသည်။",
-    "description": ""
+    "message": "စီမံလုပ်ဆောင်ခြင်း သို့မဟုတ် ပြသခြင်း မပြုလုပ်နိုင်သော မက်ဆေ့ချ်တစ်စောင်ကို သင့်စက်တစ်ခုခုက ပို့ထားသည်၊ အကြောင်းမှာ Signal လုပ်ဆောင်ချက်အသစ်ကို သုံးသောကြောင့် ဖြစ်ပါသည်။"
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "သင်သည် ယခု Signal အပ်ဒိတ် ဗားရှင်းကို သုံးနေသောကြောင့် ဤကဲ့သို့သော နောင်လာမည့် မက်ဆေ့ချ်များကို ချိန်ကိုက်သွားပါမည်။",
-    "description": ""
+    "message": "သင်သည် ယခု Signal အပ်ဒိတ် ဗားရှင်းကို သုံးနေသောကြောင့် ဤကဲ့သို့သော နောင်လာမည့် မက်ဆေ့ချ်များကို ချိန်ကိုက်သွားပါမည်။"
   },
   "Message--update-signal": {
     "message": "Signal အားအဆင့်မြှင့်မယ်",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "တုံ့ပြန်မှု ဖယ်ရှားရန်",
-    "description": ""
+    "message": "တုံ့ပြန်မှု ဖယ်ရှားရန်"
   },
   "Reactions--error": {
     "message": "တုံ့ပြန်မှု ပေးပို့ရန် မအောင်မြင်ပါ။ ထပ်ကြိုးစားကြည့်ပါ။",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "မဖြေဆိုသော ဗီဒီယိုကောလ်",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ဆက်လက်လုပ်ဆောင်နေပါသည်",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal သည် အသိပေးချက် ဧရိယာတွင် ဆက်လက်လုပ်ဆောင်နေပါမည်။ Signal ဆက်တင်တွင် ဤသည်ကို ပြောင်းနိုင်ပါသည်။",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "အော်ဒီယိုကောလ် ဝင်နေသည်...",
@@ -4895,6 +4854,10 @@
     "message": "ကြည့်ရှုပြီး",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "ပျောက်သွားမည့်အချိန်",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "အကြောင်း",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ဖိုင်အရွယ်အစား $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ တွင် ပျောက်သွားပါမည်",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

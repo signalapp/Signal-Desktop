@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Tuma",
-    "description": ""
+    "message": "Tuma"
   },
   "acceptNewKey": {
     "message": "Kubali",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Weka alama kuwa imehakikishwa",
-    "description": ""
+    "message": "Weka alama kuwa imehakikishwa"
   },
   "unverify": {
-    "message": "Weka alama kuwa haijahakikishwa",
-    "description": ""
+    "message": "Weka alama kuwa haijahakikishwa"
   },
   "isVerified": {
     "message": "Haujahakikisha nambari yako ya usalama na  $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Imehakikishwa",
-    "description": ""
+    "message": "Imehakikishwa"
   },
   "newIdentity": {
     "message": "Nambari mpya ya usalama",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Nambari yako ya usalama na wasiliano huu imebadilika. Hili linaweza kumaaanisha kuwa aidha kuna mtu anayejaribu kukatiza mawasiliano yenu, ama tu wasiliano huu amesimika upya Signal. Unaweza taka kuhakikisha nambari yako mpya ya usalama hapa chini.",
-    "description": ""
+    "message": "Nambari yako ya usalama na wasiliano huu imebadilika. Hili linaweza kumaaanisha kuwa aidha kuna mtu anayejaribu kukatiza mawasiliano yenu, ama tu wasiliano huu amesimika upya Signal. Unaweza taka kuhakikisha nambari yako mpya ya usalama hapa chini."
   },
   "incomingError": {
-    "message": "Kuna hitilafu kushughulikia ujumbe unaoingia",
-    "description": ""
+    "message": "Kuna hitilafu kushughulikia ujumbe unaoingia"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe.",
-    "description": ""
+    "message": "Samahani, faili lililochaguliwa limepita vikwazo vya ukubwa wa ujumbe."
   },
   "unableToLoadAttachment": {
-    "message": "Imeshindwa kupakia kiambatisho kilichochaguliwa.",
-    "description": ""
+    "message": "Imeshindwa kupakia kiambatisho kilichochaguliwa."
   },
   "disconnected": {
     "message": "Imetenganishwa",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Karibu Signal",
-    "description": ""
+    "message": "Karibu Signal"
   },
   "whatsNew": {
     "message": "Pata $whatsNew$ katika sasisho hili",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Sawa",
-    "description": ""
+    "message": "Sawa"
   },
   "cancel": {
-    "message": "Ghairi",
-    "description": ""
+    "message": "Ghairi"
   },
   "discard": {
-    "message": "Ghairi",
-    "description": ""
+    "message": "Ghairi"
   },
   "failedToSend": {
-    "message": "Imeshindwa kutuma kwa wapokeaji wengine. Angalia muunganisho wako wa mtandao.",
-    "description": ""
+    "message": "Imeshindwa kutuma kwa wapokeaji wengine. Angalia muunganisho wako wa mtandao."
   },
   "error": {
-    "message": "Hitilafu",
-    "description": ""
+    "message": "Hitilafu"
   },
   "messageDetail": {
-    "message": "Maelezo ya Ujumbe",
-    "description": ""
+    "message": "Maelezo ya Ujumbe"
   },
   "delete": {
-    "message": "Futa",
-    "description": ""
+    "message": "Futa"
   },
   "accept": {
-    "message": "Kubali",
-    "description": ""
+    "message": "Kubali"
   },
   "forward": {
-    "message": "Shiriki kwa ",
-    "description": ""
+    "message": "Shiriki kwa "
   },
   "done": {
     "message": "Imekamilika",
     "description": "Label for done"
   },
   "update": {
-    "message": "Sasisha",
-    "description": ""
+    "message": "Sasisha"
   },
   "next2": {
-    "message": "Inayofuata",
-    "description": ""
+    "message": "Inayofuata"
   },
   "on": {
     "message": "Washwa",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Wanachama wa kikundi",
-    "description": ""
+    "message": "Wanachama wa kikundi"
   },
   "showMembers": {
-    "message": "Onyesha wanachama",
-    "description": ""
+    "message": "Onyesha wanachama"
   },
   "showSafetyNumber": {
-    "message": "Tazama nambari ya usalama",
-    "description": ""
+    "message": "Tazama nambari ya usalama"
   },
   "viewRecentMedia": {
     "message": "Tazama media za hivi majuzi",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Ili kuthibitisha usalama kwenye msimbo wa end-to-end na $name$, linganisha nambari zilizopo juu na kifaa chao.",
-    "description": ""
+    "message": "Ili kuthibitisha usalama kwenye msimbo wa end-to-end na $name$, linganisha nambari zilizopo juu na kifaa chao."
   },
   "theirIdentityUnknown": {
-    "message": "Bado haujabadilishana ujumbe na wasiliano huu. Nambari yako ya usalama na wao itapatikana baada ya ujumbe wa kwanza.",
-    "description": ""
+    "message": "Bado haujabadilishana ujumbe na wasiliano huu. Nambari yako ya usalama na wao itapatikana baada ya ujumbe wa kwanza."
   },
   "back": {
     "message": "Rudi nyuma",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Samahani, una vifaa vingi sana vilivyounganishwa tayari. Jaribu kuondoa vingine.",
-    "description": ""
+    "message": "Samahani, una vifaa vingi sana vilivyounganishwa tayari. Jaribu kuondoa vingine."
   },
   "installTooOld": {
-    "message": "Sasisha Signal kwenye kifaa hiki ili uunganishe simu yako.",
-    "description": ""
+    "message": "Sasisha Signal kwenye kifaa hiki ili uunganishe simu yako."
   },
   "installErrorHeader": {
-    "message": "Kuna kitu kimeenda kombo!",
-    "description": ""
+    "message": "Kuna kitu kimeenda kombo!"
   },
   "installUnknownError": {
-    "message": "Hitilafu isiyotarajiwa imetokea. Tafadhali jaribu tena.",
-    "description": ""
+    "message": "Hitilafu isiyotarajiwa imetokea. Tafadhali jaribu tena."
   },
   "installTryAgain": {
-    "message": "Jaribu tena",
-    "description": ""
+    "message": "Jaribu tena"
   },
   "Preferences--theme": {
     "message": "Mandhari",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ameijibu $emoji$ ujumbe wako",
-    "description": ""
+    "message": "$sender$ ameijibu $emoji$ ujumbe wako"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ amejibu kwa kutuma $emoji$ kwa $message$",
-    "description": ""
+    "message": "$sender$ amejibu kwa kutuma $emoji$ kwa $message$"
   },
   "sendFailed": {
     "message": "Kutuma kumeshindwa",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Bonyeza kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe. ",
-    "description": ""
+    "message": "Bonyeza kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe. "
   },
   "unlinked": {
-    "message": "Havijaunganishwa",
-    "description": ""
+    "message": "Havijaunganishwa"
   },
   "relink": {
-    "message": "Unganisha upya",
-    "description": ""
+    "message": "Unganisha upya"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Sasisho jipya la Signal linapatikana",
-    "description": ""
+    "message": "Sasisho jipya la Signal linapatikana"
   },
   "autoUpdateRetry": {
-    "message": "Jaribu tena sasisho",
-    "description": ""
+    "message": "Jaribu tena sasisho"
   },
   "autoUpdateContactSupport": {
-    "message": "Wasiliana na msaada",
-    "description": ""
+    "message": "Wasiliana na msaada"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Bonyeza kuanza upya Signal ",
-    "description": ""
+    "message": "Bonyeza kuanza upya Signal "
   },
   "downloadNewVersionMessage": {
-    "message": "Bonyeza kupakua sasisho",
-    "description": ""
+    "message": "Bonyeza kupakua sasisho"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal haingeweza kusasishwa. Bonyeza kujaribu tena.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Tafadhali Washa Upya Signal ili kutekeleza sasisho.",
-    "description": ""
+    "message": "Tafadhali Washa Upya Signal ili kutekeleza sasisho."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Washa upya Signal",
-    "description": ""
+    "message": "Washa upya Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Baadaye",
-    "description": ""
+    "message": "Baadaye"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Puuza sasisho",
-    "description": ""
+    "message": "Puuza sasisho"
   },
   "leftTheGroup": {
     "message": "$name$ ameondoka kwenye kikundi.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ amekutumia ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu unatumia kipengele mpya cha Signal.",
-    "description": ""
+    "message": "$contact$ amekutumia ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu unatumia kipengele mpya cha Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Unaweza kumwomba  $contact$atume ujumbe huu upya kwa vile sasa unatumia toleo lililosasishwa la Signal.",
-    "description": ""
+    "message": "Unaweza kumwomba  $contact$atume ujumbe huu upya kwa vile sasa unatumia toleo lililosasishwa la Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Moja ya kifaa chako imetuma ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu kinatumia kipengele mpya cha Signal.",
-    "description": ""
+    "message": "Moja ya kifaa chako imetuma ujumbe ambao hauwezi kuchakatishwa ama kuonyeshwa kwa sababu kinatumia kipengele mpya cha Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Ujumbe wa siku za usoni kama huu utaunganishwa kwa vile sasa unatumia toleo lililosasishwa la Signal.",
-    "description": ""
+    "message": "Ujumbe wa siku za usoni kama huu utaunganishwa kwa vile sasa unatumia toleo lililosasishwa la Signal."
   },
   "Message--update-signal": {
     "message": "Sasisha Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Ondoa reaction",
-    "description": ""
+    "message": "Ondoa reaction"
   },
   "Reactions--error": {
     "message": "Imeshindwa kutuma majibu. Tafadhali jaribu tena.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Simu ya video ambayo haikujibiwa",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal inaendelea kufanya kazi",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal itaendelea kufanya kazi kwenye eneo la arifa. Unaweza kubadili hili kwenye mipangilio ya Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Unapigiwa simu ya sauti...",
@@ -4895,6 +4854,10 @@
     "message": "Umetazamwa na",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Itatoweka ndani ya",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Kuhusu",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Ukubwa wa faili $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Itatoweka ndani ya $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

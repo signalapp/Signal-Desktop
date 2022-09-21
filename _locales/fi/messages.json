@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Lähetä",
-    "description": ""
+    "message": "Lähetä"
   },
   "acceptNewKey": {
     "message": "Hyväksy",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merkitse vahvistetuksi",
-    "description": ""
+    "message": "Merkitse vahvistetuksi"
   },
   "unverify": {
-    "message": "Merkitse vahvistamattomaksi",
-    "description": ""
+    "message": "Merkitse vahvistamattomaksi"
   },
   "isVerified": {
     "message": "Olet vahvistanut turvanumerosi yhteystiedon $name$ kanssa.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Vahvistettu",
-    "description": ""
+    "message": "Vahvistettu"
   },
   "newIdentity": {
     "message": "Uusi turvanumero",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Turvanumerosi tämän yhteystiedon kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että hän on asentanut Signalin uudelleen. Suosittelemme vahvistamaan turvanumerosi uudelleen.",
-    "description": ""
+    "message": "Turvanumerosi tämän yhteystiedon kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että hän on asentanut Signalin uudelleen. Suosittelemme vahvistamaan turvanumerosi uudelleen."
   },
   "incomingError": {
-    "message": "Viestin käsittelyvirhe",
-    "description": ""
+    "message": "Viestin käsittelyvirhe"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Tiedosto ylittää viestin kokorajoituksen.",
-    "description": ""
+    "message": "Tiedosto ylittää viestin kokorajoituksen."
   },
   "unableToLoadAttachment": {
-    "message": "Valittua liitettä ei voitu ladata.",
-    "description": ""
+    "message": "Valittua liitettä ei voitu ladata."
   },
   "disconnected": {
     "message": "Yhteys katkaistu",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Tervetuloa Signaliin",
-    "description": ""
+    "message": "Tervetuloa Signaliin"
   },
   "whatsNew": {
     "message": "Tutustu tämän version $whatsNew$",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Peruuta",
-    "description": ""
+    "message": "Peruuta"
   },
   "discard": {
-    "message": "Hylkää",
-    "description": ""
+    "message": "Hylkää"
   },
   "failedToSend": {
-    "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteys.",
-    "description": ""
+    "message": "Lähettäminen joillekin vastaanottajille epäonnistui. Tarkista verkkoyhteys."
   },
   "error": {
-    "message": "Virhe",
-    "description": ""
+    "message": "Virhe"
   },
   "messageDetail": {
-    "message": "Viestin tiedot",
-    "description": ""
+    "message": "Viestin tiedot"
   },
   "delete": {
-    "message": "Poista",
-    "description": ""
+    "message": "Poista"
   },
   "accept": {
-    "message": "Hyväksy",
-    "description": ""
+    "message": "Hyväksy"
   },
   "forward": {
-    "message": "Välitä",
-    "description": ""
+    "message": "Välitä"
   },
   "done": {
     "message": "Valmis",
     "description": "Label for done"
   },
   "update": {
-    "message": "Päivitä",
-    "description": ""
+    "message": "Päivitä"
   },
   "next2": {
-    "message": "Seuraava",
-    "description": ""
+    "message": "Seuraava"
   },
   "on": {
     "message": "Käytössä",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Ryhmän jäsenet",
-    "description": ""
+    "message": "Ryhmän jäsenet"
   },
   "showMembers": {
-    "message": "Näytä jäsenet",
-    "description": ""
+    "message": "Näytä jäsenet"
   },
   "showSafetyNumber": {
-    "message": "Näytä turvanumero",
-    "description": ""
+    "message": "Näytä turvanumero"
   },
   "viewRecentMedia": {
     "message": "Näytä äskeinen media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Vertaa yllä olevia lukuja $name$ kanssa varmistaaksesi päästä päähän -salauksen turvallisuus.",
-    "description": ""
+    "message": "Vertaa yllä olevia lukuja $name$ kanssa varmistaaksesi päästä päähän -salauksen turvallisuus."
   },
   "theirIdentityUnknown": {
-    "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen.",
-    "description": ""
+    "message": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen."
   },
   "back": {
     "message": "Takaisin",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
-    "description": ""
+    "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin."
   },
   "installTooOld": {
-    "message": "Tämän laitteen Signal on päivitettävä ennen puhelimen yhdistämistä.",
-    "description": ""
+    "message": "Tämän laitteen Signal on päivitettävä ennen puhelimen yhdistämistä."
   },
   "installErrorHeader": {
-    "message": "Jokin meni pieleen!",
-    "description": ""
+    "message": "Jokin meni pieleen!"
   },
   "installUnknownError": {
-    "message": "Tapahtui odottamaton virhe. Yritä uudelleen.",
-    "description": ""
+    "message": "Tapahtui odottamaton virhe. Yritä uudelleen."
   },
   "installTryAgain": {
-    "message": "Yritä uudelleen",
-    "description": ""
+    "message": "Yritä uudelleen"
   },
   "Preferences--theme": {
     "message": "Teema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ lähetti reaktion $emoji$ viestiisi",
-    "description": ""
+    "message": "$sender$ lähetti reaktion $emoji$ viestiisi"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ lähetti reaktion $emoji$ viestiin $message$",
-    "description": ""
+    "message": "$sender$ lähetti reaktion $emoji$ viestiin $message$"
   },
   "sendFailed": {
     "message": "Lähetys epäonnistui",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Yhdistä mobiililaite tähän tietokoneeseen napsauttamalla",
-    "description": ""
+    "message": "Yhdistä mobiililaite tähän tietokoneeseen napsauttamalla"
   },
   "unlinked": {
-    "message": "Ei yhdistetty",
-    "description": ""
+    "message": "Ei yhdistetty"
   },
   "relink": {
-    "message": "Yhdistä uudelleen",
-    "description": ""
+    "message": "Yhdistä uudelleen"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Päivitys saatavilla",
-    "description": ""
+    "message": "Päivitys saatavilla"
   },
   "autoUpdateRetry": {
-    "message": "Yritä päivitystä uudelleen",
-    "description": ""
+    "message": "Yritä päivitystä uudelleen"
   },
   "autoUpdateContactSupport": {
-    "message": "Ota yhteyttä tukeen",
-    "description": ""
+    "message": "Ota yhteyttä tukeen"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Käynnistä Signal uudelleen napsauttamalla",
-    "description": ""
+    "message": "Käynnistä Signal uudelleen napsauttamalla"
   },
   "downloadNewVersionMessage": {
-    "message": "Lataa päivitys napsauttamalla",
-    "description": ""
+    "message": "Lataa päivitys napsauttamalla"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signalin päivitys ei onnistunut. Yritä uudelleen napsauttamalla.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Asenna päivitykset napsauttamalla Käynnistä Signal uudelleen.",
-    "description": ""
+    "message": "Asenna päivitykset napsauttamalla Käynnistä Signal uudelleen."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Käynnistä Signal uudelleen",
-    "description": ""
+    "message": "Käynnistä Signal uudelleen"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Myöhemmin",
-    "description": ""
+    "message": "Myöhemmin"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ohita päivitys",
-    "description": ""
+    "message": "Ohita päivitys"
   },
   "leftTheGroup": {
     "message": "$name$ poistui ryhmästä.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ lähetti sinulle viestin, jota ei voida käsitellä tai näyttää, koska se käyttää uutta Signal-ominaisuutta.",
-    "description": ""
+    "message": "$contact$ lähetti sinulle viestin, jota ei voida käsitellä tai näyttää, koska se käyttää uutta Signal-ominaisuutta."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Voit pyytää käyttäjää $contact$ lähettämään tämän viestin uudelleen, nyt kun käytät ajantasaista Signal-versiota.",
-    "description": ""
+    "message": "Voit pyytää käyttäjää $contact$ lähettämään tämän viestin uudelleen, nyt kun käytät ajantasaista Signal-versiota."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Yksi laitteistasi lähetti viestin, jota ei voida käsitellä tai näyttää, koska se käyttää uutta Signal-ominaisuutta.",
-    "description": ""
+    "message": "Yksi laitteistasi lähetti viestin, jota ei voida käsitellä tai näyttää, koska se käyttää uutta Signal-ominaisuutta."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Tulevaisuudessa vastaavat viestit synkronoidaan, kun käytät ajantasaista Signal-versiota.",
-    "description": ""
+    "message": "Tulevaisuudessa vastaavat viestit synkronoidaan, kun käytät ajantasaista Signal-versiota."
   },
   "Message--update-signal": {
     "message": "Päivitä Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Poista reaktio",
-    "description": ""
+    "message": "Poista reaktio"
   },
   "Reactions--error": {
     "message": "Reaktion lähetys epäonnistui. Yritä uudelleen.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Vastaamaton videopuhelu",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal on yhä käynnissä",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal pysyy käynnissä ilmoitusalueella. Voit muuttaa tätä Signalin asetuksista.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Saapuva äänipuhelu…",
@@ -4895,6 +4854,10 @@
     "message": "Katsottu",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Katoamisaika:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Tietoja",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Tiedoston koko $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Katoamisaika: $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

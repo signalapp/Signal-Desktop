@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "បញ្ជូន",
-    "description": ""
+    "message": "បញ្ជូន"
   },
   "acceptNewKey": {
     "message": "យល់ព្រម",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់",
-    "description": ""
+    "message": "ដាក់ថាបានផ្ទៀងផ្ទាត់"
   },
   "unverify": {
-    "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់",
-    "description": ""
+    "message": "ដាក់ថាមិនបានផ្ទៀងផ្ទាត់"
   },
   "isVerified": {
     "message": "អ្នកបានផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "បានផ្ទៀងផ្ទាត់",
-    "description": ""
+    "message": "បានផ្ទៀងផ្ទាត់"
   },
   "newIdentity": {
     "message": "លេខសុវត្ថិភាពថ្មី",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះបានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក, ឬ លេខទំនាក់ទំនងនេះបានដំឡើង Signal ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពខាងក្រោម។",
-    "description": ""
+    "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះបានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក, ឬ លេខទំនាក់ទំនងនេះបានដំឡើង Signal ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពខាងក្រោម។"
   },
   "incomingError": {
-    "message": "បញ្ហាទទួលសារផ្ញើចូល",
-    "description": ""
+    "message": "បញ្ហាទទួលសារផ្ញើចូល"
   },
   "media": {
     "message": "ឯកសារមេឌា",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។",
-    "description": ""
+    "message": "សុំទោស, ឯកសារដែលបានជ្រើសរើស លើសពីទំហំសារដែលបានកំណត់។"
   },
   "unableToLoadAttachment": {
-    "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។",
-    "description": ""
+    "message": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
   },
   "disconnected": {
     "message": "បានផ្តាច់",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "ស្វាគមន៍មកកាន់ Signal",
-    "description": ""
+    "message": "ស្វាគមន៍មកកាន់ Signal"
   },
   "whatsNew": {
     "message": "មើល $whatsNew$ នៅក្នុងការធ្វើបច្ចុប្បន្នភាពនេះ",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "យល់ព្រម",
-    "description": ""
+    "message": "យល់ព្រម"
   },
   "cancel": {
-    "message": "លះបង់",
-    "description": ""
+    "message": "លះបង់"
   },
   "discard": {
-    "message": "បោះបង់",
-    "description": ""
+    "message": "បោះបង់"
   },
   "failedToSend": {
-    "message": "បរាជ័យក្នុងការផ្ញើទៅកាន់អ្នកទទួល។ ពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។",
-    "description": ""
+    "message": "បរាជ័យក្នុងការផ្ញើទៅកាន់អ្នកទទួល។ ពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។"
   },
   "error": {
-    "message": "បញ្ហា",
-    "description": ""
+    "message": "បញ្ហា"
   },
   "messageDetail": {
-    "message": "សារលម្អិត",
-    "description": ""
+    "message": "សារលម្អិត"
   },
   "delete": {
-    "message": "លុប",
-    "description": ""
+    "message": "លុប"
   },
   "accept": {
-    "message": "យល់ព្រម",
-    "description": ""
+    "message": "យល់ព្រម"
   },
   "forward": {
-    "message": "បញ្ជូនបន្ត",
-    "description": ""
+    "message": "បញ្ជូនបន្ត"
   },
   "done": {
     "message": "បញ្ចប់",
     "description": "Label for done"
   },
   "update": {
-    "message": "បច្ចុប្បន្នភាព",
-    "description": ""
+    "message": "បច្ចុប្បន្នភាព"
   },
   "next2": {
-    "message": "បន្ទាប់",
-    "description": ""
+    "message": "បន្ទាប់"
   },
   "on": {
     "message": "បើក",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "សមាជិកក្រុម",
-    "description": ""
+    "message": "សមាជិកក្រុម"
   },
   "showMembers": {
-    "message": "បង្ហាញសមាជិក",
-    "description": ""
+    "message": "បង្ហាញសមាជិក"
   },
   "showSafetyNumber": {
-    "message": "បង្ហាញលេខសុវត្ថិភាព",
-    "description": ""
+    "message": "បង្ហាញលេខសុវត្ថិភាព"
   },
   "viewRecentMedia": {
     "message": "បង្ហាញឯកសារមេឌាថ្មីៗ",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "ដើម្បីផ្ទៀងផ្ទាត់សុវត្ថិភាពនៃការអ៊ិនគ្រីបទាំងសងខាងរបស់អ្នកជាមួយ $name$ សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។",
-    "description": ""
+    "message": "ដើម្បីផ្ទៀងផ្ទាត់សុវត្ថិភាពនៃការអ៊ិនគ្រីបទាំងសងខាងរបស់អ្នកជាមួយ $name$ សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។"
   },
   "theirIdentityUnknown": {
-    "message": "អ្នកមិនទាន់បានផ្តោះប្តូរសារណាមួយជាមួយលេខទំនាក់ទំនងនេះទេ។ លេខសុវត្ថិភាពរបស់អ្នកជាមួយគេ នឹងមានបន្ទាប់ពីផ្ញើសារដំបូង។",
-    "description": ""
+    "message": "អ្នកមិនទាន់បានផ្តោះប្តូរសារណាមួយជាមួយលេខទំនាក់ទំនងនេះទេ។ លេខសុវត្ថិភាពរបស់អ្នកជាមួយគេ នឹងមានបន្ទាប់ពីផ្ញើសារដំបូង។"
   },
   "back": {
     "message": "ត្រលប់ក្រោយ",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "សុំទោស, អ្នកបានភ្ជាប់ឧបករណ៍ច្រើនរួចហើយ។ ព្យាយាមលុបចោលខ្លះ។",
-    "description": ""
+    "message": "សុំទោស, អ្នកបានភ្ជាប់ឧបករណ៍ច្រើនរួចហើយ។ ព្យាយាមលុបចោលខ្លះ។"
   },
   "installTooOld": {
-    "message": "ធ្វើបច្ចុប្បន្នភាព Signal លើឧបករណ៍នេះ ដើម្បីតភ្ជាប់ទូរស័ព្ទរបស់អ្នក។",
-    "description": ""
+    "message": "ធ្វើបច្ចុប្បន្នភាព Signal លើឧបករណ៍នេះ ដើម្បីតភ្ជាប់ទូរស័ព្ទរបស់អ្នក។"
   },
   "installErrorHeader": {
-    "message": "មានបញ្ហាខុសប្រក្រតី!",
-    "description": ""
+    "message": "មានបញ្ហាខុសប្រក្រតី!"
   },
   "installUnknownError": {
-    "message": "បញ្ហាដែលមិនបានរំពឹងទុកបានកើតឡើង។ សូម​ព្យាយាម​ម្តង​ទៀត។",
-    "description": ""
+    "message": "បញ្ហាដែលមិនបានរំពឹងទុកបានកើតឡើង។ សូម​ព្យាយាម​ម្តង​ទៀត។"
   },
   "installTryAgain": {
-    "message": "ព្យាយាមម្តងទៀត",
-    "description": ""
+    "message": "ព្យាយាមម្តងទៀត"
   },
   "Preferences--theme": {
     "message": "ប្តូរទម្រង់រូបរាង",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅសាររបស់អ្នក",
-    "description": ""
+    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅសាររបស់អ្នក"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅ៖ $message$",
-    "description": ""
+    "message": "$sender$ បានប្រតិកម្ម  $emoji$ ទៅ៖ $message$"
   },
   "sendFailed": {
     "message": "ផ្ញើបរាជ័យ",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "ចុចដើម្បីភ្ជាប់ Signal Desktop ឡើងវិញជាមួយឧបករណ៍ចល័តរបស់អ្នក ដើម្បីបន្តការផ្ញើសារ។",
-    "description": ""
+    "message": "ចុចដើម្បីភ្ជាប់ Signal Desktop ឡើងវិញជាមួយឧបករណ៍ចល័តរបស់អ្នក ដើម្បីបន្តការផ្ញើសារ។"
   },
   "unlinked": {
-    "message": "បានផ្តាច់",
-    "description": ""
+    "message": "បានផ្តាច់"
   },
   "relink": {
-    "message": "តភ្ជាប់ឡើងវិញ",
-    "description": ""
+    "message": "តភ្ជាប់ឡើងវិញ"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "មានកំណែថ្មី",
-    "description": ""
+    "message": "មានកំណែថ្មី"
   },
   "autoUpdateRetry": {
-    "message": "ព្យាយាមដំឡើងកំណែថ្មីម្តងទៀត",
-    "description": ""
+    "message": "ព្យាយាមដំឡើងកំណែថ្មីម្តងទៀត"
   },
   "autoUpdateContactSupport": {
-    "message": "ទាក់ទងផ្នែកជំនួយ",
-    "description": ""
+    "message": "ទាក់ទងផ្នែកជំនួយ"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "ចុចដើម្បីចាប់ផ្តើម Signal ឡើងវិញ",
-    "description": ""
+    "message": "ចុចដើម្បីចាប់ផ្តើម Signal ឡើងវិញ"
   },
   "downloadNewVersionMessage": {
-    "message": "ចុចដើម្បីទាញយកកំណែថ្មី",
-    "description": ""
+    "message": "ចុចដើម្បីទាញយកកំណែថ្មី"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal មិនអាចដំឡើងកំណែថ្មីបានទេ។ សូមចុចដើម្បីព្យាយាមម្តងទៀត។",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។",
-    "description": ""
+    "message": "ចុច បើក Signalឡើងវិញ ដើម្បីដំណើការបច្ចុប្បន្នភាព។"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "បើកSignal ឡើងវិញ",
-    "description": ""
+    "message": "បើកSignal ឡើងវិញ"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "លើកក្រោយ",
-    "description": ""
+    "message": "លើកក្រោយ"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "មិនយកចិត្តទុកដាក់នឹងកំណែថ្មី",
-    "description": ""
+    "message": "មិនយកចិត្តទុកដាក់នឹងកំណែថ្មី"
   },
   "leftTheGroup": {
     "message": "$name$ បានចាកចេញពីក្រុម។",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ បានផ្ញើសារមួយ ដែលមិនអាចដំណើរការ ឬបង្ហាញ ព្រោះវាប្រើប្រាស់មុខងារថ្មីរបស់ Signal។",
-    "description": ""
+    "message": "$contact$ បានផ្ញើសារមួយ ដែលមិនអាចដំណើរការ ឬបង្ហាញ ព្រោះវាប្រើប្រាស់មុខងារថ្មីរបស់ Signal។"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "អ្នកអាចស្នើ $contact$ ដើម្បីផ្ញើសារនេះម្តងទៀត ថាអ្នកកំពុងប្រើប្រាស់ជំនាន់ Signal ចុងក្រោយ។",
-    "description": ""
+    "message": "អ្នកអាចស្នើ $contact$ ដើម្បីផ្ញើសារនេះម្តងទៀត ថាអ្នកកំពុងប្រើប្រាស់ជំនាន់ Signal ចុងក្រោយ។"
   },
   "Message--from-me-unsupported-message": {
-    "message": "ឧបករណ៍មួយរបស់អ្នក បានផ្ញើសារមួយ ដែលមិនអាចដំណើរការ ឬបង្ហាញនៅទីនេះ ដោយសារវាប្រើប្រាស់មុខងារថ្មីរបស់ Signal។",
-    "description": ""
+    "message": "ឧបករណ៍មួយរបស់អ្នក បានផ្ញើសារមួយ ដែលមិនអាចដំណើរការ ឬបង្ហាញនៅទីនេះ ដោយសារវាប្រើប្រាស់មុខងារថ្មីរបស់ Signal។"
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "សារអនាគតបែបនេះ នឹងត្រូវធ្វើសមកាលកម្មឥឡូវនេះ ដោយអ្នកកំពុងប្រើប្រាស់ Signal ជំនាន់ចុងក្រោយ។",
-    "description": ""
+    "message": "សារអនាគតបែបនេះ នឹងត្រូវធ្វើសមកាលកម្មឥឡូវនេះ ដោយអ្នកកំពុងប្រើប្រាស់ Signal ជំនាន់ចុងក្រោយ។"
   },
   "Message--update-signal": {
     "message": "ដំឡើង Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ដកប្រតិកម្មចេញ",
-    "description": ""
+    "message": "ដកប្រតិកម្មចេញ"
   },
   "Reactions--error": {
     "message": "បរាជ័យក្នុងការផ្ញើប្រតិកម្ម។ សូមសាកល្បងម្តងទៀត។",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ការហៅជាវីដេអូដែលមិនបានឆ្លើយតប",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal កំពុងដំណើរការនៅឡើយ",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "ការហៅចូលជាសំឡេង…",
@@ -4895,6 +4854,10 @@
     "message": "បានបង្ហាញដោយ",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "នឹងបាត់ក្នុងរយៈពេល",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "អំពី",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ទំហំ​ឯកសារ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "នឹងបាត់ក្នុងរយៈពេល $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

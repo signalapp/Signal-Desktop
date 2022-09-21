@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "ส่ง",
-    "description": ""
+    "message": "ส่ง"
   },
   "acceptNewKey": {
     "message": "ยอมรับ",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ทำเครื่องหมายว่าตรวจยืนยันแล้ว",
-    "description": ""
+    "message": "ทำเครื่องหมายว่าตรวจยืนยันแล้ว"
   },
   "unverify": {
-    "message": "ทำเครื่องหมายว่ายังไม่ถูกตรวจยืนยัน",
-    "description": ""
+    "message": "ทำเครื่องหมายว่ายังไม่ถูกตรวจยืนยัน"
   },
   "isVerified": {
     "message": "คุณได้ตรวจยืนยันหมายเลขความปลอดภัยของคุณกับ $name$ แล้ว",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "ตรวจยืนยันแล้ว",
-    "description": ""
+    "message": "ตรวจยืนยันแล้ว"
   },
   "newIdentity": {
     "message": "หมายเลขความปลอดภัยใหม่",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "หมายเลขความปลอดภัยของคุณกับผู้ติดต่อรายนี้ได้เปลี่ยนไป นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ผู้ติดต่อรายนี้ได้ติดตั้งแอป Signal ใหม่ คุณอาจต้องการตรวจยืนยันหมายเลขความปลอดภัยใหม่ด้านล่างนี้",
-    "description": ""
+    "message": "หมายเลขความปลอดภัยของคุณกับผู้ติดต่อรายนี้ได้เปลี่ยนไป นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ผู้ติดต่อรายนี้ได้ติดตั้งแอป Signal ใหม่ คุณอาจต้องการตรวจยืนยันหมายเลขความปลอดภัยใหม่ด้านล่างนี้"
   },
   "incomingError": {
-    "message": "ผิดพลาดระหว่างจัดการข้อความขาเข้า",
-    "description": ""
+    "message": "ผิดพลาดระหว่างจัดการข้อความขาเข้า"
   },
   "media": {
     "message": "สื่อ",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด",
-    "description": ""
+    "message": "ขออภัย แฟ้มที่เลือกมีขนาดเกินจากที่จำกัด"
   },
   "unableToLoadAttachment": {
-    "message": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้",
-    "description": ""
+    "message": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"
   },
   "disconnected": {
     "message": "เลิกการเชื่อมต่อแล้ว",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "ยินดีต้อนรับสู่ Signal",
-    "description": ""
+    "message": "ยินดีต้อนรับสู่ Signal"
   },
   "whatsNew": {
     "message": "สัมผัส $whatsNew$ ในการปรับปรุงครั้งนี้",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "ตกลง",
-    "description": ""
+    "message": "ตกลง"
   },
   "cancel": {
-    "message": "ยกเลิก",
-    "description": ""
+    "message": "ยกเลิก"
   },
   "discard": {
-    "message": "ละทิ้ง",
-    "description": ""
+    "message": "ละทิ้ง"
   },
   "failedToSend": {
-    "message": "ส่งไปยังผู้รับบางคนไม่สำเร็จ ตรวจสอบการเชื่อมต่อเครือข่ายของคุณ",
-    "description": ""
+    "message": "ส่งไปยังผู้รับบางคนไม่สำเร็จ ตรวจสอบการเชื่อมต่อเครือข่ายของคุณ"
   },
   "error": {
-    "message": "ข้อผิดพลาด",
-    "description": ""
+    "message": "ข้อผิดพลาด"
   },
   "messageDetail": {
-    "message": "รายละเอียดข้อความ",
-    "description": ""
+    "message": "รายละเอียดข้อความ"
   },
   "delete": {
-    "message": "ลบ",
-    "description": ""
+    "message": "ลบ"
   },
   "accept": {
-    "message": "ยอมรับ",
-    "description": ""
+    "message": "ยอมรับ"
   },
   "forward": {
-    "message": "ส่งต่อ",
-    "description": ""
+    "message": "ส่งต่อ"
   },
   "done": {
     "message": "เสร็จสิ้น",
     "description": "Label for done"
   },
   "update": {
-    "message": "ปรับรุ่น",
-    "description": ""
+    "message": "ปรับรุ่น"
   },
   "next2": {
-    "message": "ถัดไป",
-    "description": ""
+    "message": "ถัดไป"
   },
   "on": {
     "message": "เปิด",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "สมาชิกกลุ่ม",
-    "description": ""
+    "message": "สมาชิกกลุ่ม"
   },
   "showMembers": {
-    "message": "แสดงสมาชิก",
-    "description": ""
+    "message": "แสดงสมาชิก"
   },
   "showSafetyNumber": {
-    "message": "แสดงหมายเลขความปลอดภัย",
-    "description": ""
+    "message": "แสดงหมายเลขความปลอดภัย"
   },
   "viewRecentMedia": {
     "message": "ดูสื่อครั้งล่าสุด",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "เพื่อตรวจยืนยันความปลอดภัยในการเข้ารหัสลับจากต้นทางถึงปลายทางระหว่างคุณกับ $name$ ให้เปรียบเทียบหมายเลขด้านบนกับหมายเลขบนอุปกรณ์ของเขา",
-    "description": ""
+    "message": "เพื่อตรวจยืนยันความปลอดภัยในการเข้ารหัสลับจากต้นทางถึงปลายทางระหว่างคุณกับ $name$ ให้เปรียบเทียบหมายเลขด้านบนกับหมายเลขบนอุปกรณ์ของเขา"
   },
   "theirIdentityUnknown": {
-    "message": "คุณยังไม่ได้แลกเปลี่ยนข้อความใดๆ กับผู้ติดต่อรายนี้ หมายเลขความปลอดภัยของคุณกับเขาจะมีให้หลังส่งข้อความแรก",
-    "description": ""
+    "message": "คุณยังไม่ได้แลกเปลี่ยนข้อความใดๆ กับผู้ติดต่อรายนี้ หมายเลขความปลอดภัยของคุณกับเขาจะมีให้หลังส่งข้อความแรก"
   },
   "back": {
     "message": "กลับ",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "ขออภัย คุณมีอุปกรณ์ที่เชื่อมโยงมากเกินไป ลองถอนการเชื่อมโยงจากบางอุปกรณ์บ้าง",
-    "description": ""
+    "message": "ขออภัย คุณมีอุปกรณ์ที่เชื่อมโยงมากเกินไป ลองถอนการเชื่อมโยงจากบางอุปกรณ์บ้าง"
   },
   "installTooOld": {
-    "message": "ปรับปรุง Signal ในอุปกรณ์นี้เพื่อเชื่อมโยงโทรศัพท์ของคุณ",
-    "description": ""
+    "message": "ปรับปรุง Signal ในอุปกรณ์นี้เพื่อเชื่อมโยงโทรศัพท์ของคุณ"
   },
   "installErrorHeader": {
-    "message": "เกิดข้อผิดพลาดบางอย่าง",
-    "description": ""
+    "message": "เกิดข้อผิดพลาดบางอย่าง"
   },
   "installUnknownError": {
-    "message": "มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น โปรดลองอีกครั้ง",
-    "description": ""
+    "message": "มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น โปรดลองอีกครั้ง"
   },
   "installTryAgain": {
-    "message": "ลองอีกครั้ง",
-    "description": ""
+    "message": "ลองอีกครั้ง"
   },
   "Preferences--theme": {
     "message": "ธีม",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ตอบ  $emoji$ กลับให้ข้อความของคุณ",
-    "description": ""
+    "message": "$sender$ ตอบ  $emoji$ กลับให้ข้อความของคุณ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ตอบกลับ  $emoji$ ถึง:  $message$",
-    "description": ""
+    "message": "$sender$ ตอบกลับ  $emoji$ ถึง:  $message$"
   },
   "sendFailed": {
     "message": "การส่งล้มเหลว",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "คลิกเพื่อเชื่อมโยง Signal Desktop กับอุปกรณ์เคลื่อนที่ของคุณอีกครั้งเพื่อใช้งานการส่งข้อความอย่างต่อเนื่อง",
-    "description": ""
+    "message": "คลิกเพื่อเชื่อมโยง Signal Desktop กับอุปกรณ์เคลื่อนที่ของคุณอีกครั้งเพื่อใช้งานการส่งข้อความอย่างต่อเนื่อง"
   },
   "unlinked": {
-    "message": "เลิกเชื่อมโยงแล้ว",
-    "description": ""
+    "message": "เลิกเชื่อมโยงแล้ว"
   },
   "relink": {
-    "message": "เชื่อมโยงอีกครั้ง",
-    "description": ""
+    "message": "เชื่อมโยงอีกครั้ง"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "การปรับรุ่นพร้อมให้บริการ",
-    "description": ""
+    "message": "การปรับรุ่นพร้อมให้บริการ"
   },
   "autoUpdateRetry": {
-    "message": "ลองปรับรุ่นอีกครั้ง",
-    "description": ""
+    "message": "ลองปรับรุ่นอีกครั้ง"
   },
   "autoUpdateContactSupport": {
-    "message": "ติดต่อฝ่ายสนับสนุน",
-    "description": ""
+    "message": "ติดต่อฝ่ายสนับสนุน"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "คลิกเพื่อเริ่ม Signal ใหม่",
-    "description": ""
+    "message": "คลิกเพื่อเริ่ม Signal ใหม่"
   },
   "downloadNewVersionMessage": {
-    "message": "คลิกเพื่อดาวน์โหลดการปรับรุ่น",
-    "description": ""
+    "message": "คลิกเพื่อดาวน์โหลดการปรับรุ่น"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal ไม่สามารถปรับรุ่นได้ คลิกเพื่อลองอีกครั้ง",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "กด เริ่ม Signal ใหม่ เพื่อเริ่มการปรับปรุง",
-    "description": ""
+    "message": "กด เริ่ม Signal ใหม่ เพื่อเริ่มการปรับปรุง"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "เริ่ม Signal ใหม่",
-    "description": ""
+    "message": "เริ่ม Signal ใหม่"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "ไว้ภายหลัง",
-    "description": ""
+    "message": "ไว้ภายหลัง"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "ไม่สนใจการปรับรุ่น",
-    "description": ""
+    "message": "ไม่สนใจการปรับรุ่น"
   },
   "leftTheGroup": {
     "message": "$name$ ได้ออกจากกลุ่ม",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ ได้ส่งข้อความหาคุณ แต่มันไม่สามารถถูกประมวลผลหรือแสดงผลได้ เพราะมันใช้ความสามารถของ Signal รุ่นใหม่",
-    "description": ""
+    "message": "$contact$ ได้ส่งข้อความหาคุณ แต่มันไม่สามารถถูกประมวลผลหรือแสดงผลได้ เพราะมันใช้ความสามารถของ Signal รุ่นใหม่"
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "ตอนนี้ คุณสามารถขอให้  $contact$ ส่งข้อความนี้ให้คุณอีกครั้ง เนื่องจากคุณได้ใช้รุ่นที่ทันสมัยของ Signal แล้ว",
-    "description": ""
+    "message": "ตอนนี้ คุณสามารถขอให้  $contact$ ส่งข้อความนี้ให้คุณอีกครั้ง เนื่องจากคุณได้ใช้รุ่นที่ทันสมัยของ Signal แล้ว"
   },
   "Message--from-me-unsupported-message": {
-    "message": "หนึ่งในอุปกรณ์ของคุณได้ส่งข้อความที่ไม่สามารถประมวลผลหรือแสดงผลได้ เพราะมันใช้ความสามารถของ Signal รุ่นใหม่",
-    "description": ""
+    "message": "หนึ่งในอุปกรณ์ของคุณได้ส่งข้อความที่ไม่สามารถประมวลผลหรือแสดงผลได้ เพราะมันใช้ความสามารถของ Signal รุ่นใหม่"
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "จากนี้ ข้อความแบบนี้ในอนาคตจะถูกปรับประสานถึงกัน เนื่องจากคุณใช้รุ่นที่ทันสมัยของ Signal แล้ว",
-    "description": ""
+    "message": "จากนี้ ข้อความแบบนี้ในอนาคตจะถูกปรับประสานถึงกัน เนื่องจากคุณใช้รุ่นที่ทันสมัยของ Signal แล้ว"
   },
   "Message--update-signal": {
     "message": "ปรับปรุง Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ลบการตอบสนอง",
-    "description": ""
+    "message": "ลบการตอบสนอง"
   },
   "Reactions--error": {
     "message": "การส่งการตอบสนองล้มเหลว กรุณาลองอีกครั้ง",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "โทรวิดีโอที่ไม่ได้รับ",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ยังทำงานอยู่",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal จะยังทำงานอยู่ในพื้นที่การแจ้งเตือน (Notification Area) คุณสามารถเปลี่ยนแปลงตัวเลือกนี้ได้ในการตั้งค่าของ Signal",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "สายเรียกเข้า...",
@@ -4895,6 +4854,10 @@
     "message": "เห็นโดย",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "จะหายไปใน",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "เกี่ยวกับ",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ขนาดไฟล์ $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "จะหายไปใน $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

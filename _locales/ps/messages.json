@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "تسلیمول",
-    "description": ""
+    "message": "تسلیمول"
   },
   "acceptNewKey": {
     "message": "منل",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "د تایید شوي په توګه په نښه کول",
-    "description": ""
+    "message": "د تایید شوي په توګه په نښه کول"
   },
   "unverify": {
-    "message": "د نا تایید شوي په توګه په نښه کول",
-    "description": ""
+    "message": "د نا تایید شوي په توګه په نښه کول"
   },
   "isVerified": {
     "message": "تاسې خپله د خونديتوب شمېره د $name$ سره تایید کړې.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "تایید شوی",
-    "description": ""
+    "message": "تایید شوی"
   },
   "newIdentity": {
     "message": "نوې خونديتوب شمېره",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "له دغه مخاطب سره ستاسې د خوندیتوب شمېره بدله شوې ده. دا په دې معنی چې یا کوم کس غواړي چې ستاسې مکالمه اخلال کړي، یا هم دا چې دغه مخاطب یوازې Signal بیرته له سره انسټال کړئ. تاسې کولای شئ چې له دغه مخاطب سره خپل د خوندیتوب شمېره تایید کړئ.",
-    "description": ""
+    "message": "له دغه مخاطب سره ستاسې د خوندیتوب شمېره بدله شوې ده. دا په دې معنی چې یا کوم کس غواړي چې ستاسې مکالمه اخلال کړي، یا هم دا چې دغه مخاطب یوازې Signal بیرته له سره انسټال کړئ. تاسې کولای شئ چې له دغه مخاطب سره خپل د خوندیتوب شمېره تایید کړئ."
   },
   "incomingError": {
-    "message": "د راغلو پیغامونو په مدیریت کې تیروتنه.",
-    "description": ""
+    "message": "د راغلو پیغامونو په مدیریت کې تیروتنه."
   },
   "media": {
     "message": "میډیا",
@@ -572,12 +566,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "وبښئ، ټاکل شوی فایل د پیغام د اندازې له حدودو څخه زیات دی.",
-    "description": ""
+    "message": "وبښئ، ټاکل شوی فایل د پیغام د اندازې له حدودو څخه زیات دی."
   },
   "unableToLoadAttachment": {
-    "message": "ټاکل شوي ضمیمې نشي را ښکته کولای.",
-    "description": ""
+    "message": "ټاکل شوي ضمیمې نشي را ښکته کولای."
   },
   "disconnected": {
     "message": "اتصال یې پرې شوی",
@@ -728,8 +720,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal  ته ښه راغلاست",
-    "description": ""
+    "message": "Signal  ته ښه راغلاست"
   },
   "whatsNew": {
     "message": "په دې اپډیټ کې $whatsNew$ ووینئ",
@@ -924,52 +915,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "هوکې",
-    "description": ""
+    "message": "هوکې"
   },
   "cancel": {
-    "message": "فسخه کول",
-    "description": ""
+    "message": "فسخه کول"
   },
   "discard": {
-    "message": "لغوه یې کړئ",
-    "description": ""
+    "message": "لغوه یې کړئ"
   },
   "failedToSend": {
-    "message": "ځینو تر لاسه کوونکو ته لیږل تر سره نشو. خپل د انټرنېټ اتصال وګورئ.",
-    "description": ""
+    "message": "ځینو تر لاسه کوونکو ته لیږل تر سره نشو. خپل د انټرنېټ اتصال وګورئ."
   },
   "error": {
-    "message": "تېروتنه",
-    "description": ""
+    "message": "تېروتنه"
   },
   "messageDetail": {
-    "message": "د پیغام جزئیات",
-    "description": ""
+    "message": "د پیغام جزئیات"
   },
   "delete": {
-    "message": "پاکول",
-    "description": ""
+    "message": "پاکول"
   },
   "accept": {
-    "message": "منل",
-    "description": ""
+    "message": "منل"
   },
   "forward": {
-    "message": "فاروارډ",
-    "description": ""
+    "message": "فاروارډ"
   },
   "done": {
     "message": "تر سره شو",
     "description": "Label for done"
   },
   "update": {
-    "message": "اپډیټ کول",
-    "description": ""
+    "message": "اپډیټ کول"
   },
   "next2": {
-    "message": "بل",
-    "description": ""
+    "message": "بل"
   },
   "on": {
     "message": "روښانه ",
@@ -1012,28 +992,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "د ګروپ غړي",
-    "description": ""
+    "message": "د ګروپ غړي"
   },
   "showMembers": {
-    "message": "غړي وښیئ",
-    "description": ""
+    "message": "غړي وښیئ"
   },
   "showSafetyNumber": {
-    "message": "د خوندیتوب د شمېرې لیدل",
-    "description": ""
+    "message": "د خوندیتوب د شمېرې لیدل"
   },
   "viewRecentMedia": {
     "message": "وروستۍ رسنۍ لیدل",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "د دې لپاره چې له $name$ سره ستاسې سرتاسرې انکرپشن امنیت تایید شي، نو د هغوی له وسیلې سره پورتنۍ شمېرې پرتله کړئ.",
-    "description": ""
+    "message": "د دې لپاره چې له $name$ سره ستاسې سرتاسرې انکرپشن امنیت تایید شي، نو د هغوی له وسیلې سره پورتنۍ شمېرې پرتله کړئ."
   },
   "theirIdentityUnknown": {
-    "message": "تاسې تر اوسه پورې له دغه مخاطب سره کوم پیغامونه نه دي تبادله کړي. له هغوی سره به ستاسې د خوندیتوب شمېره د هغوی له لومړي پیغام وروسته د لاسرسي وړ واوسي.",
-    "description": ""
+    "message": "تاسې تر اوسه پورې له دغه مخاطب سره کوم پیغامونه نه دي تبادله کړي. له هغوی سره به ستاسې د خوندیتوب شمېره د هغوی له لومړي پیغام وروسته د لاسرسي وړ واوسي."
   },
   "back": {
     "message": "شاته",
@@ -1236,24 +1211,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "وبښئ، تاسې ډېر زیات لینک شوې وسیلې لری. ځینې یې لري کړئ.",
-    "description": ""
+    "message": "وبښئ، تاسې ډېر زیات لینک شوې وسیلې لری. ځینې یې لري کړئ."
   },
   "installTooOld": {
-    "message": "په وسیله کې Signal اپډیټ کړئ تر څو خپل ټلیفون لینک کړئ.",
-    "description": ""
+    "message": "په وسیله کې Signal اپډیټ کړئ تر څو خپل ټلیفون لینک کړئ."
   },
   "installErrorHeader": {
-    "message": "کوم شی سم کار نه ورکوي!",
-    "description": ""
+    "message": "کوم شی سم کار نه ورکوي!"
   },
   "installUnknownError": {
-    "message": "An unexpected error occurred. Please try again.",
-    "description": ""
+    "message": "An unexpected error occurred. Please try again."
   },
   "installTryAgain": {
-    "message": "بیا هڅه وکړئ",
-    "description": ""
+    "message": "بیا هڅه وکړئ"
   },
   "Preferences--theme": {
     "message": "تیم",
@@ -1616,12 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ستاسې پیغام ته په $emoji$ سره غبرګون وښود",
-    "description": ""
+    "message": "$sender$ ستاسې پیغام ته په $emoji$ سره غبرګون وښود"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ $emoji$ ته غبرګون ښود: $message$",
-    "description": ""
+    "message": "$sender$ $emoji$ ته غبرګون ښود: $message$"
   },
   "sendFailed": {
     "message": "لیږل ناکامه شو",
@@ -2000,56 +1968,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "له خپل موبایل سره د ډیسکټاپ د Signal پر بیا لینک کولو باندې کلیک وکړئ تر څو خپل پیغامونه وکاروئ.",
-    "description": ""
+    "message": "له خپل موبایل سره د ډیسکټاپ د Signal پر بیا لینک کولو باندې کلیک وکړئ تر څو خپل پیغامونه وکاروئ."
   },
   "unlinked": {
-    "message": "له لینک څخه ایستل شوی",
-    "description": ""
+    "message": "له لینک څخه ایستل شوی"
   },
   "relink": {
-    "message": "بیا لینک کول",
-    "description": ""
+    "message": "بیا لینک کول"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "اپډیټ د لاسرسي وړ دی",
-    "description": ""
+    "message": "اپډیټ د لاسرسي وړ دی"
   },
   "autoUpdateRetry": {
-    "message": "Retry update",
-    "description": ""
+    "message": "Retry update"
   },
   "autoUpdateContactSupport": {
-    "message": "contact support",
-    "description": ""
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "د Signal د پیلولو لپاره کلیک وکړئ",
-    "description": ""
+    "message": "د Signal د پیلولو لپاره کلیک وکړئ"
   },
   "downloadNewVersionMessage": {
-    "message": "د اپډیټ د راښکته کولو لپاره کلیک وکړئ",
-    "description": ""
+    "message": "د اپډیټ د راښکته کولو لپاره کلیک وکړئ"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal couldn’t update. Click to try again.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "د همدې اپډیټونو د عملي کولو لپاره د Signal بیا پرانیستل کېکاږئ.",
-    "description": ""
+    "message": "د همدې اپډیټونو د عملي کولو لپاره د Signal بیا پرانیستل کېکاږئ."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal بیا پرانیزئ",
-    "description": ""
+    "message": "Signal بیا پرانیزئ"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "وروسته",
-    "description": ""
+    "message": "وروسته"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "اپډیټ نه سترګې پټې کړئ",
-    "description": ""
+    "message": "اپډیټ نه سترګې پټې کړئ"
   },
   "leftTheGroup": {
     "message": "$name$ ګروپ پرېښود.",
@@ -2396,20 +2352,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ تاسې ته یو پیغام ولیږه کوم چې نه خلاصیږي یا نه ښودل کېږي ځکه هغه د Signal نوې بڼه کاروي.",
-    "description": ""
+    "message": "$contact$ تاسې ته یو پیغام ولیږه کوم چې نه خلاصیږي یا نه ښودل کېږي ځکه هغه د Signal نوې بڼه کاروي."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "تاسې کولای شئ له $contact$ څخه وپوښتئ تر څو دغه پیغام اوس درته ولیږي کوم چې د Signal تازه نسخه کاروئ.",
-    "description": ""
+    "message": "تاسې کولای شئ له $contact$ څخه وپوښتئ تر څو دغه پیغام اوس درته ولیږي کوم چې د Signal تازه نسخه کاروئ."
   },
   "Message--from-me-unsupported-message": {
-    "message": "ستاسې یوې وسیلې داسې پیغام لیږلی چې پرانیستل کېدای یا ښکاره کېدای نشي، ځکه چې هغه د Signal نوې ځانګړنه له ځانه سره لري.",
-    "description": ""
+    "message": "ستاسې یوې وسیلې داسې پیغام لیږلی چې پرانیستل کېدای یا ښکاره کېدای نشي، ځکه چې هغه د Signal نوې ځانګړنه له ځانه سره لري."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "راتلونکي پیغامونه لکه دغه به اوس سنکرونایز شي دا چې تاسې اوس د Signal تازه نسخه کاروئ.",
-    "description": ""
+    "message": "راتلونکي پیغامونه لکه دغه به اوس سنکرونایز شي دا چې تاسې اوس د Signal تازه نسخه کاروئ."
   },
   "Message--update-signal": {
     "message": "د Signal اپډیټ کول",
@@ -2896,8 +2848,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "غبرګون ایسته کړئ",
-    "description": ""
+    "message": "غبرګون ایسته کړئ"
   },
   "Reactions--error": {
     "message": "د غبرګون لیږل تر سره نشو. مهرباني وکړئ بیا هڅه وکړئ.",

@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "సమర్పించండి",
-    "description": ""
+    "message": "సమర్పించండి"
   },
   "acceptNewKey": {
     "message": "అంగీకరించండి",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "ధృవీకరించినట్లు గుర్తించండి",
-    "description": ""
+    "message": "ధృవీకరించినట్లు గుర్తించండి"
   },
   "unverify": {
-    "message": "ధృవీకరించబడలేదని గుర్తించండి",
-    "description": ""
+    "message": "ధృవీకరించబడలేదని గుర్తించండి"
   },
   "isVerified": {
     "message": "మీరు మీ భద్రతా నంబర్‌ను $name$తో ధృవీకరించారు",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "నిర్థారించబడింది",
-    "description": ""
+    "message": "నిర్థారించబడింది"
   },
   "newIdentity": {
     "message": "నూతన భద్రతా సంఖ్య",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "ఈ పరిచయంతో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా ఈ పరిచయం Signal ను మళ్లీ ఇన్‌స్టాల్ చేసిందని దీని అర్థం. మీరు దిగువ కొత్త భద్రతా సంఖ్యను ధృవీకరించాలనుకోవచ్చు.",
-    "description": ""
+    "message": "ఈ పరిచయంతో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా ఈ పరిచయం Signal ను మళ్లీ ఇన్‌స్టాల్ చేసిందని దీని అర్థం. మీరు దిగువ కొత్త భద్రతా సంఖ్యను ధృవీకరించాలనుకోవచ్చు."
   },
   "incomingError": {
-    "message": "ఇన్‌కమింగ్ సందేశాన్ని నిర్వహించడంలో లోపం",
-    "description": ""
+    "message": "ఇన్‌కమింగ్ సందేశాన్ని నిర్వహించడంలో లోపం"
   },
   "media": {
     "message": "మీడియా",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది.",
-    "description": ""
+    "message": "క్షమించండి, ఎంచుకున్న పంక్తి సందేశ పరిమాణ పరిమితులను మించిపోయింది."
   },
   "unableToLoadAttachment": {
-    "message": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు.",
-    "description": ""
+    "message": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
   },
   "disconnected": {
     "message": "డిస్కనెక్ట్",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Signal కి స్వాగతం!",
-    "description": ""
+    "message": "Signal కి స్వాగతం!"
   },
   "whatsNew": {
     "message": "ఈ అప్‌డేట్‌లో $whatsNew$ చూడండి",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "అలాగే",
-    "description": ""
+    "message": "అలాగే"
   },
   "cancel": {
-    "message": "రద్దు",
-    "description": ""
+    "message": "రద్దు"
   },
   "discard": {
-    "message": "తీసివేయు",
-    "description": ""
+    "message": "తీసివేయు"
   },
   "failedToSend": {
-    "message": "కొంతమంది గ్రహీతలకు పంపడంలో విఫలమైంది. మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి.",
-    "description": ""
+    "message": "కొంతమంది గ్రహీతలకు పంపడంలో విఫలమైంది. మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి."
   },
   "error": {
-    "message": "లోపం",
-    "description": ""
+    "message": "లోపం"
   },
   "messageDetail": {
-    "message": "సందేశం వివరాలు",
-    "description": ""
+    "message": "సందేశం వివరాలు"
   },
   "delete": {
-    "message": "తొలగించండి",
-    "description": ""
+    "message": "తొలగించండి"
   },
   "accept": {
-    "message": "అంగీకరించండి",
-    "description": ""
+    "message": "అంగీకరించండి"
   },
   "forward": {
-    "message": "బదలాయించు",
-    "description": ""
+    "message": "బదలాయించు"
   },
   "done": {
     "message": "పూర్తి",
     "description": "Label for done"
   },
   "update": {
-    "message": "నవీకరణ ",
-    "description": ""
+    "message": "నవీకరణ "
   },
   "next2": {
-    "message": "తరువాత",
-    "description": ""
+    "message": "తరువాత"
   },
   "on": {
     "message": "ఆన్",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "సమూహ సభ్యులు",
-    "description": ""
+    "message": "సమూహ సభ్యులు"
   },
   "showMembers": {
-    "message": "సభ్యులను చూపించు",
-    "description": ""
+    "message": "సభ్యులను చూపించు"
   },
   "showSafetyNumber": {
-    "message": "భద్రతా సంఖ్యను వీక్షించండి",
-    "description": ""
+    "message": "భద్రతా సంఖ్యను వీక్షించండి"
   },
   "viewRecentMedia": {
     "message": "ఇటీవలి మీడియాను చూడండి",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$తో మీ ఎండ్ టూ ఎండ్ ఎన్‌క్రిప్షన్‌ని ధృవీకరించడానికి, పైన నెంబర్లను వారి పరికరంతో పోల్చండి.",
-    "description": ""
+    "message": "$name$తో మీ ఎండ్ టూ ఎండ్ ఎన్‌క్రిప్షన్‌ని ధృవీకరించడానికి, పైన నెంబర్లను వారి పరికరంతో పోల్చండి."
   },
   "theirIdentityUnknown": {
-    "message": "ఈ పరిచయంతో మీరు ఇంకా సందేశాలను మార్పిడి చేయలేదు. వారితో మీ భద్రతా సంఖ్య మొదటి సందేశం తర్వాత అందుబాటులో ఉంటుంది.",
-    "description": ""
+    "message": "ఈ పరిచయంతో మీరు ఇంకా సందేశాలను మార్పిడి చేయలేదు. వారితో మీ భద్రతా సంఖ్య మొదటి సందేశం తర్వాత అందుబాటులో ఉంటుంది."
   },
   "back": {
     "message": "తిరిగి",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "క్షమించండి,మీరు చాల పరికరాలను అనుసంధానం చేసారు. కొన్ని తొలగించడానికి ప్రయత్నించండి.",
-    "description": ""
+    "message": "క్షమించండి,మీరు చాల పరికరాలను అనుసంధానం చేసారు. కొన్ని తొలగించడానికి ప్రయత్నించండి."
   },
   "installTooOld": {
-    "message": "మీ ఫోన్‌ను లింక్ చేయడానికి ఈ పరికరంలో Signal‌ను నవీకరించండి.",
-    "description": ""
+    "message": "మీ ఫోన్‌ను లింక్ చేయడానికి ఈ పరికరంలో Signal‌ను నవీకరించండి."
   },
   "installErrorHeader": {
-    "message": "ఏదో తప్పు జరిగినది.",
-    "description": ""
+    "message": "ఏదో తప్పు జరిగినది."
   },
   "installUnknownError": {
-    "message": "ఊహించని దోషం ఏర్పడింది. దయచేసి మళ్లీ ప్రయత్నించండి.",
-    "description": ""
+    "message": "ఊహించని దోషం ఏర్పడింది. దయచేసి మళ్లీ ప్రయత్నించండి."
   },
   "installTryAgain": {
-    "message": "మళ్ళీ ప్రయత్నించండి",
-    "description": ""
+    "message": "మళ్ళీ ప్రయత్నించండి"
   },
   "Preferences--theme": {
     "message": "థీమ్",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ మీ సందేశానికి $emoji$ స్పందించింది",
-    "description": ""
+    "message": "$sender$ మీ సందేశానికి $emoji$ స్పందించింది"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ $emoji$ నుండి $message$ వరకు స్పందించింది",
-    "description": ""
+    "message": "$sender$ $emoji$ నుండి $message$ వరకు స్పందించింది"
   },
   "sendFailed": {
     "message": "పంపడం విఫలమైంది",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "మెసేజింగ్‌ని కొనసాగించడానికి మీ మొబైల్ పరికరానికి Signal Desktop రీలింక్ చేయడానికి క్లిక్ చేయండి.",
-    "description": ""
+    "message": "మెసేజింగ్‌ని కొనసాగించడానికి మీ మొబైల్ పరికరానికి Signal Desktop రీలింక్ చేయడానికి క్లిక్ చేయండి."
   },
   "unlinked": {
-    "message": "లింక్ తొలగించడానికి",
-    "description": ""
+    "message": "లింక్ తొలగించడానికి"
   },
   "relink": {
-    "message": "తిరిగి లింక్ చేయండి",
-    "description": ""
+    "message": "తిరిగి లింక్ చేయండి"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "అప్‌డేట్ లభ్యమవుతోంది",
-    "description": ""
+    "message": "అప్‌డేట్ లభ్యమవుతోంది"
   },
   "autoUpdateRetry": {
-    "message": "అప్‌డేట్ మళ్లీ ప్రయత్నించండి",
-    "description": ""
+    "message": "అప్‌డేట్ మళ్లీ ప్రయత్నించండి"
   },
   "autoUpdateContactSupport": {
-    "message": "సపోర్ట్‌ని సంప్రదించండి",
-    "description": ""
+    "message": "సపోర్ట్‌ని సంప్రదించండి"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Signal తిరిగి ప్రారంభించడానికి క్లిక్ చేయండి",
-    "description": ""
+    "message": "Signal తిరిగి ప్రారంభించడానికి క్లిక్ చేయండి"
   },
   "downloadNewVersionMessage": {
-    "message": "అప్‌డేట్ డౌన్‌లోడ్ చేసుకోవడానికి క్లిక్ చేయండి",
-    "description": ""
+    "message": "అప్‌డేట్ డౌన్‌లోడ్ చేసుకోవడానికి క్లిక్ చేయండి"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal ని అప్‌డేట్ చేయలేకపోయింది. మళ్లీ ప్రయత్నించడానికి క్లిక్ చేయండి.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి.",
-    "description": ""
+    "message": "నవీకరణలను వర్తింపచేయడానికి పున Sign ప్రారంభించు Signal నొక్కండి."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal పున ప్రారంభించండి",
-    "description": ""
+    "message": "Signal పున ప్రారంభించండి"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "తర్వాత",
-    "description": ""
+    "message": "తర్వాత"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "అప్‌డేట్‌ని విస్మరించండి",
-    "description": ""
+    "message": "అప్‌డేట్‌ని విస్మరించండి"
   },
   "leftTheGroup": {
     "message": "$name$ గుంపును విడిచిపెట్టారు.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ మీకు క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది.",
-    "description": ""
+    "message": "$contact$ మీకు క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఈ సందేశాన్ని తిరిగి పంపమని మీరు $contact$అడగవచ్చు.",
-    "description": ""
+    "message": "మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఈ సందేశాన్ని తిరిగి పంపమని మీరు $contact$అడగవచ్చు."
   },
   "Message--from-me-unsupported-message": {
-    "message": "మీ పరికరాల్లో ఒకటి క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది.",
-    "description": ""
+    "message": "మీ పరికరాల్లో ఒకటి క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "భవిష్యత్ సందేశాలు మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఇప్పుడు సమకాలీకరించబడతాయి.",
-    "description": ""
+    "message": "భవిష్యత్ సందేశాలు మీరు Signal యొక్క నవీనమైన సంస్కరణను ఉపయోగిస్తున్నందున ఇప్పుడు సమకాలీకరించబడతాయి."
   },
   "Message--update-signal": {
     "message": "Signal ను నవీకరించండి",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "రియాక్షన్ తొలగించండి",
-    "description": ""
+    "message": "రియాక్షన్ తొలగించండి"
   },
   "Reactions--error": {
     "message": "ప్రతిచర్య పంపడంలో విఫలమైంది. దయచేసి మళ్ళీ ప్రయత్నించండి.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "సమాధానం లేని వీడియో కాల్",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal ఇంకా నడుస్తూనే ఉంది",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal ఇంకా నోటిఫికేషన్ ప్రదేశంలో నడుస్తూనే ఉంటుంది. Signal సెట్టింగ్‌లలో దీనిని మీరు మార్చవచ్చు.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "ఇన్‌కమింగ్ ఆడియో కాల్ ...",
@@ -4895,6 +4854,10 @@
     "message": "వీక్షించారు",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "లో అదృశ్యమౌతుంది",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "గురించి",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "ఫైలు సైజు $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ లో అదృశ్యమౌతుంది",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

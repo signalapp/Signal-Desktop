@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Envia",
-    "description": ""
+    "message": "Envia"
   },
   "acceptNewKey": {
     "message": "Ho accepto",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Marca com a verificat",
-    "description": ""
+    "message": "Marca com a verificat"
   },
   "unverify": {
-    "message": "Marca com a no verificat",
-    "description": ""
+    "message": "Marca com a no verificat"
   },
   "isVerified": {
     "message": "Heu verificat el número de seguretat amb $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Verificat",
-    "description": ""
+    "message": "Verificat"
   },
   "newIdentity": {
     "message": "Número de seguretat nou",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "El número de seguretat amb aquest contacte ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que aquest contacte simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat nou.",
-    "description": ""
+    "message": "El número de seguretat amb aquest contacte ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que aquest contacte simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat nou."
   },
   "incomingError": {
-    "message": "S'ha produït un error en gestionar el missatge rebut",
-    "description": ""
+    "message": "S'ha produït un error en gestionar el missatge rebut"
   },
   "media": {
     "message": "Elements multimèdia",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges.",
-    "description": ""
+    "message": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges."
   },
   "unableToLoadAttachment": {
-    "message": "No s'ha pogut carregar l'adjunt seleccionat",
-    "description": ""
+    "message": "No s'ha pogut carregar l'adjunt seleccionat"
   },
   "disconnected": {
     "message": "Desconnectat",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Benvingut/da al Signal",
-    "description": ""
+    "message": "Benvingut/da al Signal"
   },
   "whatsNew": {
     "message": "Vegeu $whatsNew$ d'aquesta actualització.",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "D'acord",
-    "description": ""
+    "message": "D'acord"
   },
   "cancel": {
-    "message": "Cancel·la",
-    "description": ""
+    "message": "Cancel·la"
   },
   "discard": {
-    "message": "Descarta",
-    "description": ""
+    "message": "Descarta"
   },
   "failedToSend": {
-    "message": "Ha fallat l'acció d'enviar a alguns remitents. Comproveu la connexió de xarxa.",
-    "description": ""
+    "message": "Ha fallat l'acció d'enviar a alguns remitents. Comproveu la connexió de xarxa."
   },
   "error": {
-    "message": "Error",
-    "description": ""
+    "message": "Error"
   },
   "messageDetail": {
-    "message": "Detall del missatge",
-    "description": ""
+    "message": "Detall del missatge"
   },
   "delete": {
-    "message": "Suprimeix",
-    "description": ""
+    "message": "Suprimeix"
   },
   "accept": {
-    "message": "Ho accepto",
-    "description": ""
+    "message": "Ho accepto"
   },
   "forward": {
-    "message": "Reenvia",
-    "description": ""
+    "message": "Reenvia"
   },
   "done": {
     "message": "Fet",
     "description": "Label for done"
   },
   "update": {
-    "message": "Actualitza-la",
-    "description": ""
+    "message": "Actualitza-la"
   },
   "next2": {
-    "message": "Següent",
-    "description": ""
+    "message": "Següent"
   },
   "on": {
     "message": "Actiu",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Membres del grup",
-    "description": ""
+    "message": "Membres del grup"
   },
   "showMembers": {
-    "message": "Mostra els membres",
-    "description": ""
+    "message": "Mostra els membres"
   },
   "showSafetyNumber": {
-    "message": "Mostra el número de seguretat",
-    "description": ""
+    "message": "Mostra el número de seguretat"
   },
   "viewRecentMedia": {
     "message": "Mostra el contingut recent",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Per a verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb el seu dispositiu.",
-    "description": ""
+    "message": "Per a verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb el seu dispositiu."
   },
   "theirIdentityUnknown": {
-    "message": "Encara no heu intercanviat cap missatge amb aquest contacte. El vostre número de seguretat amb ells estarà disponible després del primer missatge.",
-    "description": ""
+    "message": "Encara no heu intercanviat cap missatge amb aquest contacte. El vostre número de seguretat amb ells estarà disponible després del primer missatge."
   },
   "back": {
     "message": "Enrere",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Teniu massa dipositius enllaçats. Proveu de suprimir-ne algun.",
-    "description": ""
+    "message": "Teniu massa dipositius enllaçats. Proveu de suprimir-ne algun."
   },
   "installTooOld": {
-    "message": "Actualitzeu el Signal d'aquest dispositiu per a enllaçar-lo amb el telèfon.",
-    "description": ""
+    "message": "Actualitzeu el Signal d'aquest dispositiu per a enllaçar-lo amb el telèfon."
   },
   "installErrorHeader": {
-    "message": "Alguna cosa ha anat malament!",
-    "description": ""
+    "message": "Alguna cosa ha anat malament!"
   },
   "installUnknownError": {
-    "message": "Hi ha hagut un error inesperat. Torneu-ho a provar.",
-    "description": ""
+    "message": "Hi ha hagut un error inesperat. Torneu-ho a provar."
   },
   "installTryAgain": {
-    "message": "Torna a provar-ho",
-    "description": ""
+    "message": "Torna a provar-ho"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ ha reaccionat  $emoji$ al vostre missatge.",
-    "description": ""
+    "message": "$sender$ ha reaccionat  $emoji$ al vostre missatge."
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ha reaccionat  $emoji$ a: $message$",
-    "description": ""
+    "message": "$sender$ ha reaccionat  $emoji$ a: $message$"
   },
   "sendFailed": {
     "message": "L'enviament ha fallat",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Feu clic per a tornar a enllaçar el Signal Desktop amb el dispositiu mòbil i continuar enviant missatges.",
-    "description": ""
+    "message": "Feu clic per a tornar a enllaçar el Signal Desktop amb el dispositiu mòbil i continuar enviant missatges."
   },
   "unlinked": {
-    "message": "No enllaçat",
-    "description": ""
+    "message": "No enllaçat"
   },
   "relink": {
-    "message": "Torna a enllaçar",
-    "description": ""
+    "message": "Torna a enllaçar"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Actualització disponible",
-    "description": ""
+    "message": "Actualització disponible"
   },
   "autoUpdateRetry": {
-    "message": "Torneu a intentar d'actualitzar",
-    "description": ""
+    "message": "Torneu a intentar d'actualitzar"
   },
   "autoUpdateContactSupport": {
-    "message": "contacteu amb l'assistència",
-    "description": ""
+    "message": "contacteu amb l'assistència"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Cliqueu per a reiniciar el Signal",
-    "description": ""
+    "message": "Cliqueu per a reiniciar el Signal"
   },
   "downloadNewVersionMessage": {
-    "message": "Cliqueu per a baixar l'actualització",
-    "description": ""
+    "message": "Cliqueu per a baixar l'actualització"
   },
   "downloadFullNewVersionMessage": {
     "message": "El Signal no s'ha pogut actualitzar. Feu clic per tornar-ho a provar.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions.",
-    "description": ""
+    "message": "Premeu Reinicia el Signal per a aplicar les actualitzacions."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Reinicia el Signal",
-    "description": ""
+    "message": "Reinicia el Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Més tard",
-    "description": ""
+    "message": "Més tard"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignora l'actualització",
-    "description": ""
+    "message": "Ignora l'actualització"
   },
   "leftTheGroup": {
     "message": "$name$ ha abandonat el grup.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
-    "description": ""
+    "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Signal.",
-    "description": ""
+    "message": "Podeu demanar a $contact$ que torni a enviar aquest missatge ara que useu una versió actualitzada del Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
-    "description": ""
+    "message": "Un dels vostres dispositius ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Signal.",
-    "description": ""
+    "message": "Missatges futurs com aquest se sincronitzaran ara que useu una versió actualitzada del Signal."
   },
   "Message--update-signal": {
     "message": "Actualitza el Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Suprimeix la reacció",
-    "description": ""
+    "message": "Suprimeix la reacció"
   },
   "Reactions--error": {
     "message": "Ha fallat enviar la reacció. Torneu-ho a provar.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Trucada de vídeo sense contestar",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal continua en funcionament",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal continuarà funcionant enviant notificacions. Pots canviar això als ajustos de Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Trucada d'àudio entrant...",
@@ -4895,6 +4854,10 @@
     "message": "Vist per",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Desapareix en",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Quant a",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Mida de l'arxiu $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Desapareix en $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

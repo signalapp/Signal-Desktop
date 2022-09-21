@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Uploaden",
-    "description": ""
+    "message": "Uploaden"
   },
   "acceptNewKey": {
     "message": "Aanvaarden",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Als geverifieerd markeren",
-    "description": ""
+    "message": "Als geverifieerd markeren"
   },
   "unverify": {
-    "message": "Verificatie ongedaan maken",
-    "description": ""
+    "message": "Verificatie ongedaan maken"
   },
   "isVerified": {
     "message": "Je hebt je veiligheidsnummer met $name$ geverifieerd.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Geverifieerd",
-    "description": ""
+    "message": "Geverifieerd"
   },
   "newIdentity": {
     "message": "Nieuw veiligheidsnummer",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Je veiligheidsnummer met deze contactpersoon is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contactpersoon Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om het nieuwe veiligheidsnummer hieronder met deze persoon te verifiëren.",
-    "description": ""
+    "message": "Je veiligheidsnummer met deze contactpersoon is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contactpersoon Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om het nieuwe veiligheidsnummer hieronder met deze persoon te verifiëren."
   },
   "incomingError": {
-    "message": "Fout bij het verwerken van een inkomend bericht",
-    "description": ""
+    "message": "Fout bij het verwerken van een inkomend bericht"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte.",
-    "description": ""
+    "message": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte."
   },
   "unableToLoadAttachment": {
-    "message": "Kan geselecteerde bijlage niet laden.",
-    "description": ""
+    "message": "Kan geselecteerde bijlage niet laden."
   },
   "disconnected": {
     "message": "Verbinding verbroken",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Welkom bij Signal",
-    "description": ""
+    "message": "Welkom bij Signal"
   },
   "whatsNew": {
     "message": "Lees hier $whatsNew$ in deze versie",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Begrepen",
-    "description": ""
+    "message": "Begrepen"
   },
   "cancel": {
-    "message": "Annuleren",
-    "description": ""
+    "message": "Annuleren"
   },
   "discard": {
-    "message": "Verwerpen",
-    "description": ""
+    "message": "Verwerpen"
   },
   "failedToSend": {
-    "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je apparaat met het internet is verbonden.",
-    "description": ""
+    "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je apparaat met het internet is verbonden."
   },
   "error": {
-    "message": "Fout",
-    "description": ""
+    "message": "Fout"
   },
   "messageDetail": {
-    "message": "Berichtdetails",
-    "description": ""
+    "message": "Berichtdetails"
   },
   "delete": {
-    "message": "Wissen",
-    "description": ""
+    "message": "Wissen"
   },
   "accept": {
-    "message": "Aanvaarden",
-    "description": ""
+    "message": "Aanvaarden"
   },
   "forward": {
-    "message": "Doorsturen",
-    "description": ""
+    "message": "Doorsturen"
   },
   "done": {
     "message": "Klaar",
     "description": "Label for done"
   },
   "update": {
-    "message": "Bijwerken",
-    "description": ""
+    "message": "Bijwerken"
   },
   "next2": {
-    "message": "Volgende",
-    "description": ""
+    "message": "Volgende"
   },
   "on": {
     "message": "Aan",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Groepsleden",
-    "description": ""
+    "message": "Groepsleden"
   },
   "showMembers": {
-    "message": "Leden weergeven",
-    "description": ""
+    "message": "Leden weergeven"
   },
   "showSafetyNumber": {
-    "message": "Veiligheidsnummer bekijken",
-    "description": ""
+    "message": "Veiligheidsnummer bekijken"
   },
   "viewRecentMedia": {
     "message": "Recente media weergeven",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Als je wilt verifiëren dat je rechtstreeks met $name$ communiceert zonder dat je communicatie wordt onderschept, ga dan na dat het bovenstaande nummer overeen komt met het nummer op zijn / haar apparaat.",
-    "description": ""
+    "message": "Als je wilt verifiëren dat je rechtstreeks met $name$ communiceert zonder dat je communicatie wordt onderschept, ga dan na dat het bovenstaande nummer overeen komt met het nummer op zijn / haar apparaat."
   },
   "theirIdentityUnknown": {
-    "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht.",
-    "description": ""
+    "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht."
   },
   "back": {
     "message": "Terug",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
-    "description": ""
+    "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen."
   },
   "installTooOld": {
-    "message": "Je moet Signal op dit apparaat bijwerken om Signal te kunnen koppelen aan je telefoon.",
-    "description": ""
+    "message": "Je moet Signal op dit apparaat bijwerken om Signal te kunnen koppelen aan je telefoon."
   },
   "installErrorHeader": {
-    "message": "Er ging iets mis!",
-    "description": ""
+    "message": "Er ging iets mis!"
   },
   "installUnknownError": {
-    "message": "Er is een onverwachte fout opgetreden. Probeer het opnieuw.",
-    "description": ""
+    "message": "Er is een onverwachte fout opgetreden. Probeer het opnieuw."
   },
   "installTryAgain": {
-    "message": "Opnieuw proberen",
-    "description": ""
+    "message": "Opnieuw proberen"
   },
   "Preferences--theme": {
     "message": "Thema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reageerde op je bericht met  $emoji$",
-    "description": ""
+    "message": "$sender$ reageerde op je bericht met  $emoji$"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reageerde met  $emoji$ op:  $message$",
-    "description": ""
+    "message": "$sender$ reageerde met  $emoji$ op:  $message$"
   },
   "sendFailed": {
     "message": "Verzenden mislukt",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klik hier om Signal-desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal-desktop te kunnen gebruiken.",
-    "description": ""
+    "message": "Klik hier om Signal-desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal-desktop te kunnen gebruiken."
   },
   "unlinked": {
-    "message": "Ontkoppeld",
-    "description": ""
+    "message": "Ontkoppeld"
   },
   "relink": {
-    "message": "Opnieuw koppelen",
-    "description": ""
+    "message": "Opnieuw koppelen"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Nieuwe versie beschikbaar",
-    "description": ""
+    "message": "Nieuwe versie beschikbaar"
   },
   "autoUpdateRetry": {
-    "message": "Probeer Signal opnieuw bij te werken",
-    "description": ""
+    "message": "Probeer Signal opnieuw bij te werken"
   },
   "autoUpdateContactSupport": {
-    "message": "contact op met ondersteuning",
-    "description": ""
+    "message": "contact op met ondersteuning"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klik hier om Signal opnieuw te starten",
-    "description": ""
+    "message": "Klik hier om Signal opnieuw te starten"
   },
   "downloadNewVersionMessage": {
-    "message": "Klik hier om de nieuwe versie te downloaden",
-    "description": ""
+    "message": "Klik hier om de nieuwe versie te downloaden"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal kon niet worden bijgewerkt. Klik hier om het opnieuw te proberen.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Klik op ‘Signal herstarten’ om de updates toe te passen.",
-    "description": ""
+    "message": "Klik op ‘Signal herstarten’ om de updates toe te passen."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Signal herstarten",
-    "description": ""
+    "message": "Signal herstarten"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Later",
-    "description": ""
+    "message": "Later"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Nieuwe versie negeren",
-    "description": ""
+    "message": "Nieuwe versie negeren"
   },
   "leftTheGroup": {
     "message": "$name$ heeft de groep verlaten.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weergegeven omdat het gebruik maakt van een nieuwe functie van Signal.",
-    "description": ""
+    "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weergegeven omdat het gebruik maakt van een nieuwe functie van Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Nu je een actuele versie van Signal gebruikt kun je $contact$ vragen om dit bericht opnieuw te verzenden .",
-    "description": ""
+    "message": "Nu je een actuele versie van Signal gebruikt kun je $contact$ vragen om dit bericht opnieuw te verzenden ."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Een van je apparaten heeft een bericht verstuurd welke niet kan worden verwerkt of niet kan worden weergegeven omdat dat bericht gebruik maakt van een nieuwe funcie van Signal.",
-    "description": ""
+    "message": "Een van je apparaten heeft een bericht verstuurd welke niet kan worden verwerkt of niet kan worden weergegeven omdat dat bericht gebruik maakt van een nieuwe funcie van Signal."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Nu je een actuele versie van Signal gebruikt zullen toekomstige berichten die vergelijkbaar zijn met deze worden gesynchroniseerd.",
-    "description": ""
+    "message": "Nu je een actuele versie van Signal gebruikt zullen toekomstige berichten die vergelijkbaar zijn met deze worden gesynchroniseerd."
   },
   "Message--update-signal": {
     "message": "Signal bijwerken",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Emoji verwijderen",
-    "description": ""
+    "message": "Emoji verwijderen"
   },
   "Reactions--error": {
     "message": "De emoji reactie verzenden is mislukt. Probeer het opnieuw.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Onbeantwoorde video-oproep",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal staat nog steeds aan",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal ontvangt nog steeds meldingen op de achtergrond. Je kunt dit wijzigen in de instellingen.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Inkomende audio-oproep …",
@@ -4895,6 +4854,10 @@
     "message": "Gezien door",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Verdwijnt over",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Over mij",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Bestandsgrootte $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Verdwijnt over $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

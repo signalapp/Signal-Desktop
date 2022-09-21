@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Bidali",
-    "description": ""
+    "message": "Bidali"
   },
   "acceptNewKey": {
     "message": "Onartu",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Markatu egiaztatu gisa",
-    "description": ""
+    "message": "Markatu egiaztatu gisa"
   },
   "unverify": {
-    "message": "Markatu ez egiaztatu gisa",
-    "description": ""
+    "message": "Markatu ez egiaztatu gisa"
   },
   "isVerified": {
     "message": " $name$(r)ekin duzun segurtasun zenbakia egiaztatu duzu.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Egiaztatuta",
-    "description": ""
+    "message": "Egiaztatuta"
   },
   "newIdentity": {
     "message": "Segurtasun zenbaki berria",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Kontaktu honekiko duzun segurtasun zenbakia aldatu da. gian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, erabiltzaileak Signal berrinstalatu du. Beharbada azpian dagoen segurtasun zenbaki berria egiaztatu nahiko duzu.",
-    "description": ""
+    "message": "Kontaktu honekiko duzun segurtasun zenbakia aldatu da. gian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, erabiltzaileak Signal berrinstalatu du. Beharbada azpian dagoen segurtasun zenbaki berria egiaztatu nahiko duzu."
   },
   "incomingError": {
-    "message": "Errorea sarrerako mezua kudeatzean",
-    "description": ""
+    "message": "Errorea sarrerako mezua kudeatzean"
   },
   "media": {
     "message": "Multimedia",
@@ -552,7 +546,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "Mahaigaina kontaktuen aurkikuntza zerbitzuaren inkongruentzia batekin aurkitu da.",
+    "message": "Mahaigaineko ordenagailuak kontaktuak aurkitzeko zerbitzuaren inkoherentzia bat aurkitu du.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du.",
-    "description": ""
+    "message": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du."
   },
   "unableToLoadAttachment": {
-    "message": "Ezin izan da hautatutako eranskina kargatu.",
-    "description": ""
+    "message": "Ezin izan da hautatutako eranskina kargatu."
   },
   "disconnected": {
     "message": "Deskonektatuta",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Ongi etorri Signal-era",
-    "description": ""
+    "message": "Ongi etorri Signal-era"
   },
   "whatsNew": {
     "message": "Ikusi eguneratze honen $whatsNew$ ",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "Ados",
-    "description": ""
+    "message": "Ados"
   },
   "cancel": {
-    "message": "Utzi",
-    "description": ""
+    "message": "Utzi"
   },
   "discard": {
-    "message": "Baztertu",
-    "description": ""
+    "message": "Baztertu"
   },
   "failedToSend": {
-    "message": "Hartzaile batzuei bidaltzeak huts egin du. Egiaztatu zure sareko konexioa.",
-    "description": ""
+    "message": "Hartzaile batzuei bidaltzeak huts egin du. Egiaztatu zure sareko konexioa."
   },
   "error": {
-    "message": "Errorea",
-    "description": ""
+    "message": "Errorea"
   },
   "messageDetail": {
-    "message": "Mezuaren xehetasunak",
-    "description": ""
+    "message": "Mezuaren xehetasunak"
   },
   "delete": {
-    "message": "Ezabatu",
-    "description": ""
+    "message": "Ezabatu"
   },
   "accept": {
-    "message": "Onartu",
-    "description": ""
+    "message": "Onartu"
   },
   "forward": {
-    "message": "Birbidali",
-    "description": ""
+    "message": "Birbidali"
   },
   "done": {
     "message": "Eginda",
     "description": "Label for done"
   },
   "update": {
-    "message": "Eguneratu",
-    "description": ""
+    "message": "Eguneratu"
   },
   "next2": {
-    "message": "Hurrengoa",
-    "description": ""
+    "message": "Hurrengoa"
   },
   "on": {
     "message": "Aktibatuta",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Taldeko partaideak",
-    "description": ""
+    "message": "Taldeko partaideak"
   },
   "showMembers": {
-    "message": "Erakutsi partaideak",
-    "description": ""
+    "message": "Erakutsi partaideak"
   },
   "showSafetyNumber": {
-    "message": "Segurtasun zenbakia ikusi",
-    "description": ""
+    "message": "Segurtasun zenbakia ikusi"
   },
   "viewRecentMedia": {
     "message": "Ikusi arestiko medioak",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "$name$(r)ekin duzun muturretik muturrerako enkriptatzearen segurtasuna egiaztatzeko, alderatu goiko zenbakiak haren gailuarekin.",
-    "description": ""
+    "message": "$name$(r)ekin duzun muturretik muturrerako enkriptatzearen segurtasuna egiaztatzeko, alderatu goiko zenbakiak haren gailuarekin."
   },
   "theirIdentityUnknown": {
-    "message": "Oraindik ez duzu mezurik trukatu konkaktu honekin. Zure segurtasun zenbakia eskuragarri egongo da lehenengo mezua bidali ondoren.",
-    "description": ""
+    "message": "Oraindik ez duzu mezurik trukatu konkaktu honekin. Zure segurtasun zenbakia eskuragarri egongo da lehenengo mezua bidali ondoren."
   },
   "back": {
     "message": "Atzera",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Zoritxarrez, gailu gehiegi dauzkazu lotuta, saia zaitez batzuk ezabatzen",
-    "description": ""
+    "message": "Zoritxarrez, gailu gehiegi dauzkazu lotuta, saia zaitez batzuk ezabatzen"
   },
   "installTooOld": {
-    "message": "Eguneratu Signal gailu honetan zure telefonoa lotzeko",
-    "description": ""
+    "message": "Eguneratu Signal gailu honetan zure telefonoa lotzeko"
   },
   "installErrorHeader": {
-    "message": "Zerbait oker joan da",
-    "description": ""
+    "message": "Zerbait oker joan da"
   },
   "installUnknownError": {
-    "message": "Ustekabeko errore bat gertatu da. Saiatu berriro.",
-    "description": ""
+    "message": "Ustekabeko errore bat gertatu da. Saiatu berriro."
   },
   "installTryAgain": {
-    "message": "Saiatu berriro",
-    "description": ""
+    "message": "Saiatu berriro"
   },
   "Preferences--theme": {
     "message": "Gaia",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$emoji$: $sender$ erabiltzailearen zure mezuarekiko erreakzioa",
-    "description": ""
+    "message": "$emoji$: $sender$ erabiltzailearen zure mezuarekiko erreakzioa"
   },
   "notificationReactionMessage": {
-    "message": "$emoji$ izan da $sender$ erabiltzailearen erreakzioa honekiko: $message$",
-    "description": ""
+    "message": "$emoji$ izan da $sender$ erabiltzailearen erreakzioa honekiko: $message$"
   },
   "sendFailed": {
     "message": "Bidaltzeak huts egin du",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Mezuak bidaltzen jarraitzeko, egin klik ordenagailurako Signal gailu mugikorrarekin berriro lotzeko.",
-    "description": ""
+    "message": "Mezuak bidaltzen jarraitzeko, egin klik ordenagailurako Signal gailu mugikorrarekin berriro lotzeko."
   },
   "unlinked": {
-    "message": "Lotu gabe",
-    "description": ""
+    "message": "Lotu gabe"
   },
   "relink": {
-    "message": "Birlotu",
-    "description": ""
+    "message": "Birlotu"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Eguneratze bat dago",
-    "description": ""
+    "message": "Eguneratze bat dago"
   },
   "autoUpdateRetry": {
-    "message": "Saiatu berriro eguneratzen",
-    "description": ""
+    "message": "Saiatu berriro eguneratzen"
   },
   "autoUpdateContactSupport": {
-    "message": "jarri harremanetan laguntza-zerbitzuarekin",
-    "description": ""
+    "message": "jarri harremanetan laguntza-zerbitzuarekin"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Egin klik Signal berrabiarazteko",
-    "description": ""
+    "message": "Egin klik Signal berrabiarazteko"
   },
   "downloadNewVersionMessage": {
-    "message": "Egin klik eguneratzea deskargatzeko",
-    "description": ""
+    "message": "Egin klik eguneratzea deskargatzeko"
   },
   "downloadFullNewVersionMessage": {
     "message": "Ezin izan da eguneratu Signal. Egin klik berriro saiatzeko.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Sakatu Berrabiarazi Signal egunerapenak egiteko.",
-    "description": ""
+    "message": "Sakatu Berrabiarazi Signal egunerapenak egiteko."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Berrabiarazi Signal",
-    "description": ""
+    "message": "Berrabiarazi Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Geroago",
-    "description": ""
+    "message": "Geroago"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Egin ez ikusi eguneratzeari",
-    "description": ""
+    "message": "Egin ez ikusi eguneratzeari"
   },
   "leftTheGroup": {
     "message": "$name$ erabiltzaileak utzi du.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$erabiltzaileak prozesatu edo erakusti ezin daitekeen mezu bat bidali dizu; arrazoia zera da:  mezuak Signal-en ezagarri berria erabiltzen du.",
-    "description": ""
+    "message": "$contact$erabiltzaileak prozesatu edo erakusti ezin daitekeen mezu bat bidali dizu; arrazoia zera da:  mezuak Signal-en ezagarri berria erabiltzen du."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Kontuan hartuta orain Signal-en bertsio eguneratua erabiltzen ari zarela, $contact$ erabiltzaileari eska diezaiokezu bere mezua berriro bidaltzeko.",
-    "description": ""
+    "message": "Kontuan hartuta orain Signal-en bertsio eguneratua erabiltzen ari zarela, $contact$ erabiltzaileari eska diezaiokezu bere mezua berriro bidaltzeko."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Zure gailuetako batek prozesa edo ikusi ezin daitekeen mezu bat bidali du; honen arrazioa zera da: mezuak Signal-en ezaugarri berri bat erablitzen du.",
-    "description": ""
+    "message": "Zure gailuetako batek prozesa edo ikusi ezin daitekeen mezu bat bidali du; honen arrazioa zera da: mezuak Signal-en ezaugarri berri bat erablitzen du."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Orain Signal-en bertsio eguneratua erabiltzen duzunez, hemendik aurrera horrelako mezuak sinkronizatuko dira.",
-    "description": ""
+    "message": "Orain Signal-en bertsio eguneratua erabiltzen duzunez, hemendik aurrera horrelako mezuak sinkronizatuko dira."
   },
   "Message--update-signal": {
     "message": "Eguneratu Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Kendu erreakzioa",
-    "description": ""
+    "message": "Kendu erreakzioa"
   },
   "Reactions--error": {
     "message": "Errakzioa bidaltzeak huts egin du. Mesedez, saia zaitez berriro.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Erantzun gabeo bideo-deia",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal abian da oraindik",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal-ek abian jarraituko du jakinarazpen-eremuan. Signal-en ezarpenetan alda dezakezu hori.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Sarrerako audio-deia...",
@@ -4895,6 +4854,10 @@
     "message": "Nork ikusia:",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Epe honetan desagertuko da:",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Honi buruz",
     "description": "Default text for about field"
@@ -5568,7 +5531,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
+    "message": "Istorioa ezabatu nahi duzu? Istorioa zure zerrendatik ezabatuko da, baina talde honetako istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
   "Stories__settings-toggle--title": {
@@ -5615,12 +5578,16 @@
     "message": "Fitxategiaren tamaina: $size$",
     "description": "File size description"
   },
+  "StoryDetailsModal__disappears-in": {
+    "message": "$countdown$ barru desagertuko da",
+    "description": "File size description"
+  },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Kopiatu denbora-zigilua",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
+    "message": "Gaitu irakurragiriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

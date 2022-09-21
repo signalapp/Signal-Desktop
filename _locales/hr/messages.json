@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Pošalji",
-    "description": ""
+    "message": "Pošalji"
   },
   "acceptNewKey": {
     "message": "Prihvati",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Označi kao provjereno",
-    "description": ""
+    "message": "Označi kao provjereno"
   },
   "unverify": {
-    "message": "Označi kao ne provjereno",
-    "description": ""
+    "message": "Označi kao ne provjereno"
   },
   "isVerified": {
     "message": "Potvrdili ste vaš sigurnosni broj s $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Provjeren/a",
-    "description": ""
+    "message": "Provjeren/a"
   },
   "newIdentity": {
     "message": "Novi sigurnosni broj",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Promijenio se vaš sigurnosni broj s ovim kontaktom. To može značiti da netko pokušava presresti vašu komunikaciju ili je taj kontakt jednostavno ponovo instalirao Signal. Možda ćete željeti potvrditi novi sigurnosni broj u nastavku.",
-    "description": ""
+    "message": "Promijenio se vaš sigurnosni broj s ovim kontaktom. To može značiti da netko pokušava presresti vašu komunikaciju ili je taj kontakt jednostavno ponovo instalirao Signal. Možda ćete željeti potvrditi novi sigurnosni broj u nastavku."
   },
   "incomingError": {
-    "message": "Pogreška prilikom rukovanja dolaznom porukom",
-    "description": ""
+    "message": "Pogreška prilikom rukovanja dolaznom porukom"
   },
   "media": {
     "message": "Medijski zapis",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Nažalost odabrana datoteka premašuje ograničenja veličine poruke.",
-    "description": ""
+    "message": "Nažalost odabrana datoteka premašuje ograničenja veličine poruke."
   },
   "unableToLoadAttachment": {
-    "message": "Nije moguće učitati odabrani privitak.",
-    "description": ""
+    "message": "Nije moguće učitati odabrani privitak."
   },
   "disconnected": {
     "message": "Odspojeno",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Dobrodošli u Signal",
-    "description": ""
+    "message": "Dobrodošli u Signal"
   },
   "whatsNew": {
     "message": "Pogledajte $whatsNew$ u ovom ažuriranju",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "U redu",
-    "description": ""
+    "message": "U redu"
   },
   "cancel": {
-    "message": "Poništi",
-    "description": ""
+    "message": "Poništi"
   },
   "discard": {
-    "message": "Poništi",
-    "description": ""
+    "message": "Poništi"
   },
   "failedToSend": {
-    "message": "Slanje nekim primateljima nije uspjelo. Provjerite vašu mrežnu vezu.",
-    "description": ""
+    "message": "Slanje nekim primateljima nije uspjelo. Provjerite vašu mrežnu vezu."
   },
   "error": {
-    "message": "Pogreška",
-    "description": ""
+    "message": "Pogreška"
   },
   "messageDetail": {
-    "message": "Detalji o poruci",
-    "description": ""
+    "message": "Detalji o poruci"
   },
   "delete": {
-    "message": "Izbriši",
-    "description": ""
+    "message": "Izbriši"
   },
   "accept": {
-    "message": "Prihvati",
-    "description": ""
+    "message": "Prihvati"
   },
   "forward": {
-    "message": "Proslijedi",
-    "description": ""
+    "message": "Proslijedi"
   },
   "done": {
     "message": "Gotovo",
     "description": "Label for done"
   },
   "update": {
-    "message": "Ažuriraj",
-    "description": ""
+    "message": "Ažuriraj"
   },
   "next2": {
-    "message": "Sljedeće",
-    "description": ""
+    "message": "Sljedeće"
   },
   "on": {
     "message": "Uključeno",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Članovi grupe",
-    "description": ""
+    "message": "Članovi grupe"
   },
   "showMembers": {
-    "message": "Prikaži članove",
-    "description": ""
+    "message": "Prikaži članove"
   },
   "showSafetyNumber": {
-    "message": "Prikaži sigurnosni broj",
-    "description": ""
+    "message": "Prikaži sigurnosni broj"
   },
   "viewRecentMedia": {
     "message": "Prikaži nedavne medijske zapise",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Za provjeru sigurnost vašeg sveobuhvatnog šifriranja s $name$, usporedite gore navedene brojeve s njegovim/njezinim uređajem.",
-    "description": ""
+    "message": "Za provjeru sigurnost vašeg sveobuhvatnog šifriranja s $name$, usporedite gore navedene brojeve s njegovim/njezinim uređajem."
   },
   "theirIdentityUnknown": {
-    "message": "Još niste razmijenili nijednu poruku s ovim kontaktom. Vaš zajednički sigurnosni broj će biti dostupan nakon prve poruke.",
-    "description": ""
+    "message": "Još niste razmijenili nijednu poruku s ovim kontaktom. Vaš zajednički sigurnosni broj će biti dostupan nakon prve poruke."
   },
   "back": {
     "message": "Natrag",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Nažalost, već imate previše povezanih uređaja. Pokušajte ukloniti neke.",
-    "description": ""
+    "message": "Nažalost, već imate previše povezanih uređaja. Pokušajte ukloniti neke."
   },
   "installTooOld": {
-    "message": "Ažurirajte Signal na ovom uređaju kako biste ga povezali sa svojim telefonom.",
-    "description": ""
+    "message": "Ažurirajte Signal na ovom uređaju kako biste ga povezali sa svojim telefonom."
   },
   "installErrorHeader": {
-    "message": "Nešto je pošlo po zlu.",
-    "description": ""
+    "message": "Nešto je pošlo po zlu."
   },
   "installUnknownError": {
-    "message": "Došlo je do neočekivane pogreške. Molimo pokušajte ponovno.",
-    "description": ""
+    "message": "Došlo je do neočekivane pogreške. Molimo pokušajte ponovno."
   },
   "installTryAgain": {
-    "message": "Pokušajte ponovo",
-    "description": ""
+    "message": "Pokušajte ponovo"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reagira s $emoji$ na vašu poruku",
-    "description": ""
+    "message": "$sender$ reagira s $emoji$ na vašu poruku"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reagira s $emoji$ na: $message$",
-    "description": ""
+    "message": "$sender$ reagira s $emoji$ na: $message$"
   },
   "sendFailed": {
     "message": "Slanje nije uspjelo",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Za nastavak dopisivanja kliknite i ponovno povežite Signal Desktop s vašim mobilnim uređajem.",
-    "description": ""
+    "message": "Za nastavak dopisivanja kliknite i ponovno povežite Signal Desktop s vašim mobilnim uređajem."
   },
   "unlinked": {
-    "message": "Prekinuta je veza",
-    "description": ""
+    "message": "Prekinuta je veza"
   },
   "relink": {
-    "message": "Ponovno povezivanje",
-    "description": ""
+    "message": "Ponovno povezivanje"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "Dostupno je ažuriranje",
-    "description": ""
+    "message": "Dostupno je ažuriranje"
   },
   "autoUpdateRetry": {
-    "message": "Ponoviti pokušaj ažuriranja",
-    "description": ""
+    "message": "Ponoviti pokušaj ažuriranja"
   },
   "autoUpdateContactSupport": {
-    "message": "Kontaktirati podršku",
-    "description": ""
+    "message": "Kontaktirati podršku"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Kliknite za ponovno pokretanje Signala",
-    "description": ""
+    "message": "Kliknite za ponovno pokretanje Signala"
   },
   "downloadNewVersionMessage": {
-    "message": "Kliknite za preuzimanje ažuriranja",
-    "description": ""
+    "message": "Kliknite za preuzimanje ažuriranja"
   },
   "downloadFullNewVersionMessage": {
     "message": "Ažuriranje Signala nije uspjelo. Kliknite za ponovni pokušaj.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Kliknite Ponovno pokreni Signal za primjenu ažuriranja.",
-    "description": ""
+    "message": "Kliknite Ponovno pokreni Signal za primjenu ažuriranja."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Ponovno pokreni Signal",
-    "description": ""
+    "message": "Ponovno pokreni Signal"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Kasnije",
-    "description": ""
+    "message": "Kasnije"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Zanemari ažuriranje",
-    "description": ""
+    "message": "Zanemari ažuriranje"
   },
   "leftTheGroup": {
     "message": "$name$ je napustio/la grupu.",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ vam je poslao poruku koja se ne može obraditi niti prikazati jer koristi novu značajku Signala.",
-    "description": ""
+    "message": "$contact$ vam je poslao poruku koja se ne može obraditi niti prikazati jer koristi novu značajku Signala."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Možete zatražiti od $contact$ da ponovo pošalje ovu poruku sada kada koristite najnoviju verziju Signala.",
-    "description": ""
+    "message": "Možete zatražiti od $contact$ da ponovo pošalje ovu poruku sada kada koristite najnoviju verziju Signala."
   },
   "Message--from-me-unsupported-message": {
-    "message": "Jedan od vaših uređaja je poslao poruku koja se ne može obraditi niti prikazati jer koristi novu značajku Signala.",
-    "description": ""
+    "message": "Jedan od vaših uređaja je poslao poruku koja se ne može obraditi niti prikazati jer koristi novu značajku Signala."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Buduće poruke poput ove će sada biti sinkronizirane kada upotrebljavate najnoviju verziju Signala.",
-    "description": ""
+    "message": "Buduće poruke poput ove će sada biti sinkronizirane kada upotrebljavate najnoviju verziju Signala."
   },
   "Message--update-signal": {
     "message": "Ažuriraj Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Ukloni reakciju",
-    "description": ""
+    "message": "Ukloni reakciju"
   },
   "Reactions--error": {
     "message": "Slanje reakcije nije uspjelo. Pokušajte ponovno.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Propušteni video poziv",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal je i dalje aktivan u pozadini",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal će vam i dalje slati obavijesti. To možete promijeniti u postavkama Signala.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Dolazni zvučni poziv...",
@@ -4895,6 +4854,10 @@
     "message": "Pregledao/la",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Nestat će za",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Opis",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Veličina datoteke $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Nestat će za $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {

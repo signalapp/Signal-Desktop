@@ -440,20 +440,17 @@
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
-    "message": "Send",
-    "description": ""
+    "message": "Send"
   },
   "acceptNewKey": {
     "message": "Godta",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Merk som bekreftet",
-    "description": ""
+    "message": "Merk som bekreftet"
   },
   "unverify": {
-    "message": "Merk som ikke bekreftet",
-    "description": ""
+    "message": "Merk som ikke bekreftet"
   },
   "isVerified": {
     "message": "Du har bekreftet sikkerhetsnummeret du deler med $name$.",
@@ -464,20 +461,17 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "Bekreftet",
-    "description": ""
+    "message": "Bekreftet"
   },
   "newIdentity": {
     "message": "Nytt sikkerhetsnummer",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Sikkerhetsnummeret du deler med denne kontakten er endret. Dette kan enten bety at noen forsøker å overvåke kommunikasjonen deres, eller bare at kontakten har installert Signal på nytt. Du kan bekrefte det nye sikkerhetsnummeret med kontakten.",
-    "description": ""
+    "message": "Sikkerhetsnummeret du deler med denne kontakten er endret. Dette kan enten bety at noen forsøker å overvåke kommunikasjonen deres, eller bare at kontakten har installert Signal på nytt. Du kan bekrefte det nye sikkerhetsnummeret med kontakten."
   },
   "incomingError": {
-    "message": "Feil ved håndtering av innkommende melding",
-    "description": ""
+    "message": "Feil ved håndtering av innkommende melding"
   },
   "media": {
     "message": "Media",
@@ -576,12 +570,10 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Den valgte filen overskrider begrensninger for meldingsstørrelse.",
-    "description": ""
+    "message": "Den valgte filen overskrider begrensninger for meldingsstørrelse."
   },
   "unableToLoadAttachment": {
-    "message": "Kunne ikke laste valgt vedlegg.",
-    "description": ""
+    "message": "Kunne ikke laste valgt vedlegg."
   },
   "disconnected": {
     "message": "Koplet fra",
@@ -732,8 +724,7 @@
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
-    "message": "Velkommen til Signal",
-    "description": ""
+    "message": "Velkommen til Signal"
   },
   "whatsNew": {
     "message": "Se $whatsNew$ i denne oppdateringen",
@@ -928,52 +919,41 @@
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
-    "message": "OK",
-    "description": ""
+    "message": "OK"
   },
   "cancel": {
-    "message": "Avbryt",
-    "description": ""
+    "message": "Avbryt"
   },
   "discard": {
-    "message": "Kast",
-    "description": ""
+    "message": "Kast"
   },
   "failedToSend": {
-    "message": "Klarte ikke sende til enkelte mottakere. Se til at du er koblet til internett.",
-    "description": ""
+    "message": "Klarte ikke sende til enkelte mottakere. Se til at du er koblet til internett."
   },
   "error": {
-    "message": "Feil",
-    "description": ""
+    "message": "Feil"
   },
   "messageDetail": {
-    "message": "Meldingsdetaljer",
-    "description": ""
+    "message": "Meldingsdetaljer"
   },
   "delete": {
-    "message": "Slett",
-    "description": ""
+    "message": "Slett"
   },
   "accept": {
-    "message": "Godta",
-    "description": ""
+    "message": "Godta"
   },
   "forward": {
-    "message": "Videresend",
-    "description": ""
+    "message": "Videresend"
   },
   "done": {
     "message": "Ferdig",
     "description": "Label for done"
   },
   "update": {
-    "message": "Oppdater",
-    "description": ""
+    "message": "Oppdater"
   },
   "next2": {
-    "message": "Neste",
-    "description": ""
+    "message": "Neste"
   },
   "on": {
     "message": "På",
@@ -1016,28 +996,23 @@
     "description": "Placeholder text in the message entry field"
   },
   "groupMembers": {
-    "message": "Gruppemedlemmer",
-    "description": ""
+    "message": "Gruppemedlemmer"
   },
   "showMembers": {
-    "message": "Vis medlemmer",
-    "description": ""
+    "message": "Vis medlemmer"
   },
   "showSafetyNumber": {
-    "message": "Vis sikkerhetsnummer",
-    "description": ""
+    "message": "Vis sikkerhetsnummer"
   },
   "viewRecentMedia": {
     "message": "Vis nyere media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message": "Hvis du vil sjekke sikkerheten til ende-til-ende-krypteringen du har med $name$, sammenligner du tallene ovenfor med tallene på vedkommendes enhet.",
-    "description": ""
+    "message": "Hvis du vil sjekke sikkerheten til ende-til-ende-krypteringen du har med $name$, sammenligner du tallene ovenfor med tallene på vedkommendes enhet."
   },
   "theirIdentityUnknown": {
-    "message": "Du har ikke utvekslet meldinger med denne kontakten ennå. Sikkerhetsnummeret dere deler vil være tilgjengelig etter den første meldingen.",
-    "description": ""
+    "message": "Du har ikke utvekslet meldinger med denne kontakten ennå. Sikkerhetsnummeret dere deler vil være tilgjengelig etter den første meldingen."
   },
   "back": {
     "message": "Tilbake",
@@ -1240,24 +1215,19 @@
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message": "Du har for mange enheter tilkoblet. Du kan prøve å fjerne noen av dem.",
-    "description": ""
+    "message": "Du har for mange enheter tilkoblet. Du kan prøve å fjerne noen av dem."
   },
   "installTooOld": {
-    "message": "Oppdater Signal på denne enheten for å koble den til din telefon.",
-    "description": ""
+    "message": "Oppdater Signal på denne enheten for å koble den til din telefon."
   },
   "installErrorHeader": {
-    "message": "Noe gikk galt!",
-    "description": ""
+    "message": "Noe gikk galt!"
   },
   "installUnknownError": {
-    "message": "En uventet feil oppstod. Prøv igjen.",
-    "description": ""
+    "message": "En uventet feil oppstod. Prøv igjen."
   },
   "installTryAgain": {
-    "message": "Prøv igjen",
-    "description": ""
+    "message": "Prøv igjen"
   },
   "Preferences--theme": {
     "message": "Tema",
@@ -1620,12 +1590,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ reacted $emoji$ to your message",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ to your message"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ reacted $emoji$ to: $message$",
-    "description": ""
+    "message": "$sender$ reacted $emoji$ to: $message$"
   },
   "sendFailed": {
     "message": "Sending feilet",
@@ -2004,56 +1972,44 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Klikk for å koble Signal Desktop til mobilenheten din for å fortsette samtalene.",
-    "description": ""
+    "message": "Klikk for å koble Signal Desktop til mobilenheten din for å fortsette samtalene."
   },
   "unlinked": {
-    "message": "Frakoblet enhet",
-    "description": ""
+    "message": "Frakoblet enhet"
   },
   "relink": {
-    "message": "Koble til på nytt",
-    "description": ""
+    "message": "Koble til på nytt"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "En oppdatering er tilgjengelig",
-    "description": ""
+    "message": "En oppdatering er tilgjengelig"
   },
   "autoUpdateRetry": {
-    "message": "Prøv å oppdatere på nytt",
-    "description": ""
+    "message": "Prøv å oppdatere på nytt"
   },
   "autoUpdateContactSupport": {
-    "message": "ta kontakt med kundestøtte",
-    "description": ""
+    "message": "ta kontakt med kundestøtte"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Klikk for å starte Signal på nytt",
-    "description": ""
+    "message": "Klikk for å starte Signal på nytt"
   },
   "downloadNewVersionMessage": {
-    "message": "Klikk for å laste ned oppdateringen",
-    "description": ""
+    "message": "Klikk for å laste ned oppdateringen"
   },
   "downloadFullNewVersionMessage": {
     "message": "Signal kunne ikke oppdateres. Klikk for å prøve igjen.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "autoUpdateNewVersionInstructions": {
-    "message": "Trykk «Start Signal på nytt» for å fullføre oppdateringen.",
-    "description": ""
+    "message": "Trykk «Start Signal på nytt» for å fullføre oppdateringen."
   },
   "autoUpdateRestartButtonLabel": {
-    "message": "Start Signal på nytt",
-    "description": ""
+    "message": "Start Signal på nytt"
   },
   "autoUpdateLaterButtonLabel": {
-    "message": "Senere",
-    "description": ""
+    "message": "Senere"
   },
   "autoUpdateIgnoreButtonLabel": {
-    "message": "Ignorer oppdateringen",
-    "description": ""
+    "message": "Ignorer oppdateringen"
   },
   "leftTheGroup": {
     "message": "$name$ forlot gruppen",
@@ -2400,20 +2356,16 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ sendte deg en melding som ikke kan behandles eller vises fordi den bruker en ny Signal funksjon.",
-    "description": ""
+    "message": "$contact$ sendte deg en melding som ikke kan behandles eller vises fordi den bruker en ny Signal funksjon."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Du kan spørre $contact$ å sende denne meldingen på nytt nå som du bruker en oppdatert versjon av Signal.",
-    "description": ""
+    "message": "Du kan spørre $contact$ å sende denne meldingen på nytt nå som du bruker en oppdatert versjon av Signal."
   },
   "Message--from-me-unsupported-message": {
-    "message": "En av enhetene dine sendte en melding som ikke kan behandles eller vises fordi den bruker en ny Signal funksjon.",
-    "description": ""
+    "message": "En av enhetene dine sendte en melding som ikke kan behandles eller vises fordi den bruker en ny Signal funksjon."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
-    "message": "Fremtidige meldinger som dette vil bli synkronisert nå som du bruker en oppdatert versjon av Signal.",
-    "description": ""
+    "message": "Fremtidige meldinger som dette vil bli synkronisert nå som du bruker en oppdatert versjon av Signal."
   },
   "Message--update-signal": {
     "message": "Oppdater Signal",
@@ -2900,8 +2852,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Fjern reaksjonen",
-    "description": ""
+    "message": "Fjern reaksjonen"
   },
   "Reactions--error": {
     "message": "Kunne ikke sende reaksjonen. Vennligst prøv igjen senere.",
@@ -3114,6 +3065,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Ubesvart videosamtale",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal kjører fremdeles",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal vil fremdeles kjøre i varslingsfeltet. Du kan endre dette i Signal-innstillingene.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Innkommende lydsamtale...",
@@ -4895,6 +4854,10 @@
     "message": "Sett av",
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
+  "MessageDetail--disappears-in": {
+    "message": "Forsvinner om",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
+  },
   "ProfileEditor--about": {
     "message": "Om",
     "description": "Default text for about field"
@@ -5613,6 +5576,10 @@
   },
   "StoryDetailsModal__file-size": {
     "message": "Filstørrelse $size$",
+    "description": "File size description"
+  },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Forsvinner om $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
