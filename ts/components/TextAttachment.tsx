@@ -139,140 +139,159 @@ export const TextAttachment = ({
 
   return (
     <Measure bounds>
-      {({ contentRect, measureRef }) => (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div
-          className="TextAttachment"
-          onClick={() => {
-            if (linkPreviewOffsetTop) {
-              setLinkPreviewOffsetTop(undefined);
-            }
-            onClick?.();
-          }}
-          onKeyUp={ev => {
-            if (ev.key === 'Escape' && linkPreviewOffsetTop) {
-              setLinkPreviewOffsetTop(undefined);
-            }
-          }}
-          ref={measureRef}
-          style={isThumbnail ? storyBackgroundColor : undefined}
-        >
+      {({ contentRect, measureRef }) => {
+        const scaleFactor = (contentRect.bounds?.height || 1) / 1280;
+
+        return (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
           <div
-            className="TextAttachment__story"
-            style={{
-              ...(isThumbnail ? {} : storyBackgroundColor),
-              transform: `scale(${(contentRect.bounds?.height || 1) / 1280})`,
+            className="TextAttachment"
+            onClick={() => {
+              if (linkPreviewOffsetTop) {
+                setLinkPreviewOffsetTop(undefined);
+              }
+              onClick?.();
             }}
+            onKeyUp={ev => {
+              if (ev.key === 'Escape' && linkPreviewOffsetTop) {
+                setLinkPreviewOffsetTop(undefined);
+              }
+            }}
+            ref={measureRef}
+            style={isThumbnail ? storyBackgroundColor : undefined}
           >
-            {(textContent || onChange) && (
-              <div
-                className={classNames('TextAttachment__text', {
-                  'TextAttachment__text--with-bg': Boolean(
-                    textAttachment.textBackgroundColor
-                  ),
-                })}
-                style={{
-                  backgroundColor: textAttachment.textBackgroundColor
-                    ? getHexFromNumber(textAttachment.textBackgroundColor)
-                    : 'transparent',
-                }}
-              >
-                {onChange ? (
-                  <TextareaAutosize
-                    className="TextAttachment__text__container TextAttachment__text__textarea"
-                    disabled={!isEditingText}
-                    onChange={ev => onChange(ev.currentTarget.value)}
-                    placeholder={i18n('TextAttachment__placeholder')}
-                    ref={textEditorRef}
-                    style={getTextStyles(
-                      textContent,
-                      textAttachment.textForegroundColor,
-                      textAttachment.textStyle,
-                      i18n
-                    )}
-                    value={textContent}
-                  />
-                ) : (
-                  <div
-                    className="TextAttachment__text__container"
-                    style={getTextStyles(
-                      textContent,
-                      textAttachment.textForegroundColor,
-                      textAttachment.textStyle,
-                      i18n
-                    )}
-                  >
-                    <Emojify
-                      text={textContent}
-                      renderNonEmoji={renderNewLines}
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-            {textAttachment.preview && textAttachment.preview.url && (
-              <>
-                {linkPreviewOffsetTop && !isThumbnail && (
-                  <a
-                    className="TextAttachment__preview__tooltip"
-                    href={textAttachment.preview.url}
-                    rel="noreferrer"
-                    style={{
-                      top: linkPreviewOffsetTop - 150,
-                    }}
-                    target="_blank"
-                  >
-                    <div>
-                      <div>{i18n('TextAttachment__preview__link')}</div>
-                      <div className="TextAttachment__preview__tooltip__url">
-                        {textAttachment.preview.url}
-                      </div>
+            {/* 
+            The tooltip must be outside of the scaled area, as it should not scale with 
+            the story, but it must be positioned using the scaled offset
+            */}
+            {textAttachment.preview &&
+              textAttachment.preview.url &&
+              linkPreviewOffsetTop &&
+              !isThumbnail && (
+                <a
+                  className="TextAttachment__preview__tooltip"
+                  href={textAttachment.preview.url}
+                  rel="noreferrer"
+                  style={{
+                    top: linkPreviewOffsetTop * scaleFactor - 89, // minus height of tooltip and some spacing
+                  }}
+                  target="_blank"
+                >
+                  <div>
+                    <div className="TextAttachment__preview__tooltip__title">
+                      {i18n('TextAttachment__preview__link')}
                     </div>
-                    <div className="TextAttachment__preview__tooltip__arrow" />
-                  </a>
-                )}
+                    <div className="TextAttachment__preview__tooltip__url">
+                      {textAttachment.preview.url}
+                    </div>
+                  </div>
+                  <div className="TextAttachment__preview__tooltip__arrow" />
+                </a>
+              )}
+            <div
+              className="TextAttachment__story"
+              style={{
+                ...(isThumbnail ? {} : storyBackgroundColor),
+                transform: `scale(${scaleFactor})`,
+              }}
+            >
+              {(textContent || onChange) && (
                 <div
-                  className={classNames('TextAttachment__preview-container', {
-                    'TextAttachment__preview-container--large': Boolean(
-                      textAttachment.preview.title
+                  className={classNames('TextAttachment__text', {
+                    'TextAttachment__text--with-bg': Boolean(
+                      textAttachment.textBackgroundColor
                     ),
                   })}
-                  ref={linkPreview}
-                  onFocus={() => {
-                    if (!disableLinkPreviewPopup) {
-                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
-                    }
-                  }}
-                  onMouseOver={() => {
-                    if (!disableLinkPreviewPopup) {
-                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
-                    }
+                  style={{
+                    backgroundColor: textAttachment.textBackgroundColor
+                      ? getHexFromNumber(textAttachment.textBackgroundColor)
+                      : 'transparent',
                   }}
                 >
-                  {onRemoveLinkPreview && (
-                    <div className="TextAttachment__preview__remove">
-                      <button
-                        aria-label={i18n('Keyboard--remove-draft-link-preview')}
-                        type="button"
-                        onClick={onRemoveLinkPreview}
+                  {onChange ? (
+                    <TextareaAutosize
+                      className="TextAttachment__text__container TextAttachment__text__textarea"
+                      disabled={!isEditingText}
+                      onChange={ev => onChange(ev.currentTarget.value)}
+                      placeholder={i18n('TextAttachment__placeholder')}
+                      ref={textEditorRef}
+                      style={getTextStyles(
+                        textContent,
+                        textAttachment.textForegroundColor,
+                        textAttachment.textStyle,
+                        i18n
+                      )}
+                      value={textContent}
+                    />
+                  ) : (
+                    <div
+                      className="TextAttachment__text__container"
+                      style={getTextStyles(
+                        textContent,
+                        textAttachment.textForegroundColor,
+                        textAttachment.textStyle,
+                        i18n
+                      )}
+                    >
+                      <Emojify
+                        text={textContent}
+                        renderNonEmoji={renderNewLines}
                       />
                     </div>
                   )}
-                  <StagedLinkPreview
-                    domain={getDomain(String(textAttachment.preview.url))}
-                    i18n={i18n}
-                    image={textAttachment.preview.image}
-                    imageSize={textAttachment.preview.title ? 144 : 72}
-                    moduleClassName="TextAttachment__preview"
-                    title={textAttachment.preview.title || undefined}
-                    url={textAttachment.preview.url}
-                  />
                 </div>
-              </>
-            )}
+              )}
+              {textAttachment.preview && textAttachment.preview.url && (
+                <>
+                  <div
+                    className={classNames('TextAttachment__preview-container', {
+                      'TextAttachment__preview-container--large': Boolean(
+                        textAttachment.preview.title
+                      ),
+                    })}
+                    ref={linkPreview}
+                    onFocus={() => {
+                      if (!disableLinkPreviewPopup) {
+                        setLinkPreviewOffsetTop(
+                          linkPreview?.current?.offsetTop
+                        );
+                      }
+                    }}
+                    onMouseOver={() => {
+                      if (!disableLinkPreviewPopup) {
+                        setLinkPreviewOffsetTop(
+                          linkPreview?.current?.offsetTop
+                        );
+                      }
+                    }}
+                  >
+                    {onRemoveLinkPreview && (
+                      <div className="TextAttachment__preview__remove">
+                        <button
+                          aria-label={i18n(
+                            'Keyboard--remove-draft-link-preview'
+                          )}
+                          type="button"
+                          onClick={onRemoveLinkPreview}
+                        />
+                      </div>
+                    )}
+                    <StagedLinkPreview
+                      domain={getDomain(String(textAttachment.preview.url))}
+                      i18n={i18n}
+                      image={textAttachment.preview.image}
+                      imageSize={textAttachment.preview.title ? 144 : 72}
+                      moduleClassName="TextAttachment__preview"
+                      title={textAttachment.preview.title || undefined}
+                      url={textAttachment.preview.url}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      }}
     </Measure>
   );
 };

@@ -165,11 +165,12 @@
       border-radius: 12px;
       color: $color-white;
       display: flex;
-      font-size: 30px;
+      font-size: 13px;
+      font-weight: 400;
       justify-content: center;
-      line-height: 32px;
+      line-height: 18px;
       max-width: 656px;
-      padding: 24px 32px;
+      padding: 12px;
       position: absolute;
       text-decoration: none;
       z-index: $z-index-above-base;
@@ -183,6 +184,11 @@
         margin-left: -14px;
         position: absolute;
         top: 100%;
+      }
+
+      &__title {
+        font-size: 14px;
+        font-weight: 600;
       }
 
       &__url {
