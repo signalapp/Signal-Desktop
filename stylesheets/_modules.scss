@@ -3705,6 +3705,10 @@ button.module-image__border-overlay:focus {
     color: $color-white;
     display: flex;
     z-index: $z-index-base;
+    margin-top: 10px;
+
+    // To match the icon height in ::before
+    line-height: 24px;
 
     &::before {
       content: '';
