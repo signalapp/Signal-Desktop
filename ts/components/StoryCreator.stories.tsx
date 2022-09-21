@@ -56,6 +56,7 @@ export default {
     recentStickers: {
       defaultValue: [],
     },
+    sendStoryModalOpenStateChanged: { action: true },
     setMyStoriesToAllSignalConnections: { action: true },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),

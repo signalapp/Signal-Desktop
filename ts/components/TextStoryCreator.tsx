@@ -61,22 +61,26 @@ enum TextBackground {
 }
 
 const BackgroundStyle = {
-  BG1099: { angle: 191, endColor: 4282529679, startColor: 4294260804 },
-  BG1098: { startColor: 4293938406, endColor: 4279119837, angle: 192 },
-  BG1031: { startColor: 4294950980, endColor: 4294859832, angle: 175 },
-  BG1101: { startColor: 4278227945, endColor: 4286632135, angle: 180 },
-  BG1100: { startColor: 4284861868, endColor: 4278884698, angle: 180 },
-  BG1070: { color: 4294951251 },
-  BG1080: { color: 4291607859 },
-  BG1079: { color: 4286869806 },
-  BG1083: { color: 4278825851 },
-  BG1095: { color: 4287335417 },
-  BG1088: { color: 4283519478 },
-  BG1077: { color: 4294405742 },
-  BG1094: { color: 4291315265 },
-  BG1097: { color: 4291216549 },
-  BG1074: { color: 4288976277 },
-  BG1092: { color: 4280887593 },
+  BG1: { color: 4285041620 },
+  BG2: { color: 4287006657 },
+  BG3: { color: 4290019212 },
+  BG4: { color: 4287205768 },
+  BG5: { color: 4283667331 },
+  BG6: {
+    angle: 180,
+    startColor: 4279871994,
+    endColor: 4294951785,
+  },
+  BG7: {
+    angle: 180,
+    startColor: 4282660824,
+    endColor: 4294938254,
+  },
+  BG8: {
+    angle: 180,
+    startColor: 4278206532,
+    endColor: 4287871076,
+  },
 };
 
 type BackgroundStyleType = typeof BackgroundStyle[keyof typeof BackgroundStyle];
@@ -121,7 +125,7 @@ export const TextStoryCreator = ({
 }: PropsType): JSX.Element => {
   const [isEditingText, setIsEditingText] = useState(false);
   const [selectedBackground, setSelectedBackground] =
-    useState<BackgroundStyleType>(BackgroundStyle.BG1099);
+    useState<BackgroundStyleType>(BackgroundStyle.BG1);
   const [textStyle, setTextStyle] = useState<TextStyle>(TextStyle.Regular);
   const [textBackground, setTextBackground] = useState<TextBackground>(
     TextBackground.None
