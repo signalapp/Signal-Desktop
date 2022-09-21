@@ -88,6 +88,7 @@ export type PropsType = {
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   hasReadReceiptSetting: boolean;
+  hasViewsCapability: boolean;
   i18n: LocalizerType;
   isGroupStory?: boolean;
   onClose: () => unknown;
@@ -115,6 +116,7 @@ export const StoryViewsNRepliesModal = ({
   canReply,
   getPreferredBadge,
   hasReadReceiptSetting,
+  hasViewsCapability,
   i18n,
   isGroupStory,
   onClose,
@@ -353,7 +355,7 @@ export const StoryViewsNRepliesModal = ({
   }
 
   let viewsElement: JSX.Element | undefined;
-  if (!hasReadReceiptSetting) {
+  if (hasViewsCapability && !hasReadReceiptSetting) {
     viewsElement = (
       <div className="StoryViewsNRepliesModal__read-receipts-off">
         {i18n('StoryViewsNRepliesModal__read-receipts-off')}
@@ -397,10 +399,16 @@ export const StoryViewsNRepliesModal = ({
         ))}
       </div>
     );
+  } else if (hasViewsCapability) {
+    viewsElement = (
+      <div className="StoryViewsNRepliesModal__replies--none">
+        {i18n('StoryViewsNRepliesModal__no-views')}
+      </div>
+    );
   }
 
   const tabsElement =
-    views.length && replies.length ? (
+    viewsElement && repliesElement ? (
       <Tabs
         initialSelectedTab={Tab.Views}
         moduleClassName="StoryViewsNRepliesModal__tabs"

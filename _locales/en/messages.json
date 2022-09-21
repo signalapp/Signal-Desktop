@@ -5591,6 +5591,10 @@
     "message": "No replies yet",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "No views yet",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Views",
     "description": "Title for views tab"

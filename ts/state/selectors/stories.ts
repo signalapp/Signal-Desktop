@@ -29,6 +29,7 @@ import {
   getConversationSelector,
   getMe,
 } from './conversations';
+import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
 import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
@@ -126,6 +127,7 @@ function getAvatarData(
 
 export function getStoryView(
   conversationSelector: GetConversationByIdType,
+  ourConversationId: string | undefined,
   story: StoryDataType
 ): StoryViewType {
   const sender = pick(conversationSelector(story.sourceUuid || story.source), [
@@ -176,7 +178,7 @@ export function getStoryView(
 
   return {
     attachment,
-    canReply: canReply(story, undefined, conversationSelector),
+    canReply: canReply(story, ourConversationId, conversationSelector),
     isHidden: Boolean(sender.hideStory),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
@@ -193,6 +195,7 @@ export function getStoryView(
 
 export function getConversationStory(
   conversationSelector: GetConversationByIdType,
+  ourConversationId: string | undefined,
   story: StoryDataType
 ): ConversationStoryType {
   const sender = pick(conversationSelector(story.sourceUuid || story.source), [
@@ -212,7 +215,11 @@ export function getConversationStory(
     'title',
   ]);
 
-  const storyView = getStoryView(conversationSelector, story);
+  const storyView = getStoryView(
+    conversationSelector,
+    ourConversationId,
+    story
+  );
 
   return {
     conversationId: conversation.id,
@@ -292,10 +299,12 @@ export const getStories = createSelector(
   getConversationSelector,
   getDistributionListSelector,
   getStoriesState,
+  getUserConversationId,
   (
     conversationSelector,
     distributionListSelector,
-    { stories }: Readonly<StoriesStateType>
+    { stories }: Readonly<StoriesStateType>,
+    ourConversationId
   ): {
     hiddenStories: Array<ConversationStoryType>;
     myStories: Array<MyStoryType>;
@@ -312,6 +321,7 @@ export const getStories = createSelector(
 
       const conversationStory = getConversationStory(
         conversationSelector,
+        ourConversationId,
         story
       );
 
@@ -339,7 +349,11 @@ export const getStories = createSelector(
           return;
         }
 
-        const storyView = getStoryView(conversationSelector, story);
+        const storyView = getStoryView(
+          conversationSelector,
+          ourConversationId,
+          story
+        );
 
         const existingMyStory = myStoriesById.get(sentId) || { stories: [] };
 
@@ -427,7 +441,8 @@ export const getHasStoriesSelector = createSelector(
 
 export const getStoryByIdSelector = createSelector(
   getStoriesState,
-  ({ stories }) =>
+  getUserConversationId,
+  ({ stories }, ourConversationId) =>
     (
       conversationSelector: GetConversationByIdType,
       messageId: string
@@ -441,8 +456,12 @@ export const getStoryByIdSelector = createSelector(
       }
 
       return {
-        conversationStory: getConversationStory(conversationSelector, story),
-        storyView: getStoryView(conversationSelector, story),
+        conversationStory: getConversationStory(
+          conversationSelector,
+          ourConversationId,
+          story
+        ),
+        storyView: getStoryView(conversationSelector, ourConversationId, story),
       };
     }
 );

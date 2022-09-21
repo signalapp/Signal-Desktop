@@ -1667,7 +1667,9 @@ function canReplyOrReact(
   }
 
   if (isStory(message)) {
-    return Boolean(message.canReplyToStory);
+    return (
+      Boolean(message.canReplyToStory) && conversation.id !== ourConversationId
+    );
   }
 
   // Fail safe.

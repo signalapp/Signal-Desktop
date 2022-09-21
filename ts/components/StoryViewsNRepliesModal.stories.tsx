@@ -31,6 +31,9 @@ export default {
     hasReadReceiptSetting: {
       defaultValue: true,
     },
+    hasViewsCapability: {
+      defaultValue: false,
+    },
     i18n: {
       defaultValue: i18n,
     },
@@ -168,9 +171,19 @@ CanReply.storyName = 'Can reply';
 
 export const ViewsOnly = Template.bind({});
 ViewsOnly.args = {
+  canReply: false,
+  hasViewsCapability: true,
   views: getViewsAndReplies().views,
 };
 ViewsOnly.storyName = 'Views only';
+
+export const NoViews = Template.bind({});
+NoViews.args = {
+  canReply: false,
+  hasViewsCapability: true,
+  views: [],
+};
+NoViews.storyName = 'No views';
 
 export const InAGroupNoReplies = Template.bind({});
 InAGroupNoReplies.args = {
@@ -182,6 +195,7 @@ export const InAGroup = Template.bind({});
 {
   const { views, replies } = getViewsAndReplies();
   InAGroup.args = {
+    hasViewsCapability: true,
     isGroupStory: true,
     replies,
     views,
@@ -210,6 +224,7 @@ export const ReadReceiptsTurnedOff = Template.bind({});
 ReadReceiptsTurnedOff.args = {
   canReply: false,
   hasReadReceiptSetting: false,
+  hasViewsCapability: true,
   views: getViewsAndReplies().views,
 };
 ReadReceiptsTurnedOff.storyName = 'Read receipts turned off';
@@ -219,6 +234,7 @@ export const GroupReadReceiptsOff = Template.bind({});
   const { views, replies } = getViewsAndReplies();
   GroupReadReceiptsOff.args = {
     hasReadReceiptSetting: false,
+    hasViewsCapability: true,
     isGroupStory: true,
     replies,
     views,

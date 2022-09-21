@@ -424,8 +424,10 @@ export const StoryViewer = ({
     muteClassName = 'StoryViewer__soundless';
   }
 
+  const isSent = Boolean(sendState);
+
   const contextMenuOptions: ReadonlyArray<ContextMenuOptionType<unknown>> =
-    sendState
+    isSent
       ? [
           {
             icon: 'StoryListItem__icon--info',
@@ -654,7 +656,7 @@ export const StoryViewer = ({
               ))}
             </div>
             <div className="StoryViewer__actions">
-              {(canReply || sendState) && (
+              {(canReply || isSent) && (
                 <button
                   className="StoryViewer__reply"
                   onClick={() => setHasStoryViewsNRepliesModal(true)}
@@ -662,12 +664,12 @@ export const StoryViewer = ({
                   type="button"
                 >
                   <>
-                    {sendState || replyCount > 0 ? (
+                    {isSent || replyCount > 0 ? (
                       <span className="StoryViewer__reply__chevron">
-                        {sendState && !hasReadReceiptSetting && !replyCount && (
+                        {isSent && !hasReadReceiptSetting && !replyCount && (
                           <>{i18n('StoryViewer__views-off')}</>
                         )}
-                        {sendState &&
+                        {isSent &&
                           hasReadReceiptSetting &&
                           (viewCount === 1 ? (
                             <Intl
@@ -682,7 +684,7 @@ export const StoryViewer = ({
                               components={[<strong>{viewCount}</strong>]}
                             />
                           ))}
-                        {(sendState || viewCount > 0) && replyCount > 0 && ' '}
+                        {(isSent || viewCount > 0) && replyCount > 0 && ' '}
                         {replyCount > 0 &&
                           (replyCount === 1 ? (
                             <Intl
@@ -699,7 +701,7 @@ export const StoryViewer = ({
                           ))}
                       </span>
                     ) : null}
-                    {!sendState && !replyCount && (
+                    {!isSent && !replyCount && (
                       <span className="StoryViewer__reply__arrow">
                         {isGroupStory
                           ? i18n('StoryViewer__reply-group')
@@ -758,6 +760,7 @@ export const StoryViewer = ({
             canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}
             hasReadReceiptSetting={hasReadReceiptSetting}
+            hasViewsCapability={isSent}
             i18n={i18n}
             isGroupStory={isGroupStory}
             onClose={() => setHasStoryViewsNRepliesModal(false)}
