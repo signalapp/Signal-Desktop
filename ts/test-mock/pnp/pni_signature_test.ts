@@ -21,7 +21,7 @@ export const debug = createDebug('mock:test:pni-signature');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('PNI Signature', function needsName() {
+describe('pnp/PNI Signature', function needsName() {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;

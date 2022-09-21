@@ -16,7 +16,7 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('gv2', function needsName() {
+describe('pnp/send gv2 invite', function needsName() {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;

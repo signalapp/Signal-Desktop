@@ -694,8 +694,6 @@ export type ProfileType = Readonly<{
   uuid?: string;
   credential?: string;
 
-  // Only present when `credentialType` is `pni`
-  pniCredential?: string;
   capabilities?: CapabilitiesType;
   paymentAddress?: string;
   badges?: unknown;
@@ -753,7 +751,6 @@ export type CdsLookupOptionsType = Readonly<{
 type GetProfileCommonOptionsType = Readonly<
   {
     userLanguages: ReadonlyArray<string>;
-    credentialType?: 'pni' | 'expiringProfileKey';
   } & (
     | {
         profileKeyVersion?: undefined;
@@ -1584,7 +1581,6 @@ export function initialize({
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
-        credentialType = 'expiringProfileKey',
       }: GetProfileCommonOptionsType
     ) {
       let profileUrl = `/${identifier}`;
@@ -1593,7 +1589,7 @@ export function initialize({
         if (profileKeyCredentialRequest !== undefined) {
           profileUrl +=
             `/${profileKeyCredentialRequest}` +
-            `?credentialType=${credentialType}`;
+            '?credentialType=expiringProfileKey';
         }
       } else {
         strictAssert(

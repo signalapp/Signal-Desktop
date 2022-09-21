@@ -1,10 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type {
-  ProfileKeyCredentialRequestContext,
-  PniCredentialRequestContext,
-} from '@signalapp/libsignal-client/zkgroup';
+import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
 import {
   AuthCredentialWithPni,
   ClientZkAuthOperations,
@@ -17,15 +14,11 @@ import {
   ExpiringProfileKeyCredential,
   ProfileKeyCredentialPresentation,
   ExpiringProfileKeyCredentialResponse,
-  PniCredential,
-  PniCredentialResponse,
-  PniCredentialPresentation,
   ServerPublicParams,
   UuidCiphertext,
   NotarySignature,
 } from '@signalapp/libsignal-client/zkgroup';
-import { UUID } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
+import type { UUID, UUIDStringType } from '../types/UUID';
 
 export * from '@signalapp/libsignal-client/zkgroup';
 
@@ -51,32 +44,6 @@ export function decodeProfileKeyCredentialPresentation(
   return {
     profileKey,
     userId,
-  };
-}
-
-export function decryptPniCredentialPresentation(
-  clientZkGroupCipher: ClientZkGroupCipher,
-  presentationBuffer: Uint8Array
-): { profileKey: Uint8Array; pni: UUIDStringType; aci: UUIDStringType } {
-  const presentation = new PniCredentialPresentation(
-    Buffer.from(presentationBuffer)
-  );
-
-  const pniCiphertext = presentation.getPniCiphertext();
-  const aciCiphertext = presentation.getAciCiphertext();
-  const aci = clientZkGroupCipher.decryptUuid(aciCiphertext);
-  const pni = clientZkGroupCipher.decryptUuid(pniCiphertext);
-
-  const profileKeyCiphertext = presentation.getProfileKeyCiphertext();
-  const profileKey = clientZkGroupCipher.decryptProfileKey(
-    profileKeyCiphertext,
-    aci
-  );
-
-  return {
-    profileKey: profileKey.serialize(),
-    aci: UUID.cast(aci),
-    pni: UUID.cast(pni),
   };
 }
 
@@ -185,29 +152,6 @@ export function generateProfileKeyCredentialRequest(
   };
 }
 
-export function generatePNICredentialRequest(
-  clientZkProfileCipher: ClientZkProfileOperations,
-  aci: UUIDStringType,
-  pni: UUIDStringType,
-  profileKeyBase64: string
-): { context: PniCredentialRequestContext; requestHex: string } {
-  const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
-  const profileKey = new ProfileKey(profileKeyArray);
-
-  const context = clientZkProfileCipher.createPniCredentialRequestContext(
-    aci,
-    pni,
-    profileKey
-  );
-  const request = context.getRequest();
-  const requestArray = request.serialize();
-
-  return {
-    context,
-    requestHex: requestArray.toString('hex'),
-  };
-}
-
 export function getAuthCredentialPresentation(
   clientZkAuthOperations: ClientZkAuthOperations,
   authCredentialBase64: string,
@@ -249,25 +193,6 @@ export function createProfileKeyCredentialPresentation(
       secretParams,
       profileKeyCredential
     );
-
-  return presentation.serialize();
-}
-
-export function createPNICredentialPresentation(
-  clientZkProfileCipher: ClientZkProfileOperations,
-  pniCredentialBase64: string,
-  groupSecretParamsBase64: string
-): Uint8Array {
-  const pniCredentialArray = Buffer.from(pniCredentialBase64, 'base64');
-  const pniCredential = new PniCredential(pniCredentialArray);
-  const secretParams = new GroupSecretParams(
-    Buffer.from(groupSecretParamsBase64, 'base64')
-  );
-
-  const presentation = clientZkProfileCipher.createPniCredentialPresentation(
-    secretParams,
-    pniCredential
-  );
 
   return presentation.serialize();
 }
@@ -322,24 +247,6 @@ export function handleProfileKeyCredential(
     credential: credentialArray.toString('base64'),
     expiration: profileKeyCredential.getExpirationTime().getTime(),
   };
-}
-
-export function handleProfileKeyPNICredential(
-  clientZkProfileCipher: ClientZkProfileOperations,
-  context: PniCredentialRequestContext,
-  responseBase64: string
-): string {
-  const response = new PniCredentialResponse(
-    Buffer.from(responseBase64, 'base64')
-  );
-  const pniCredential = clientZkProfileCipher.receivePniCredential(
-    context,
-    response
-  );
-
-  const credentialArray = pniCredential.serialize();
-
-  return credentialArray.toString('base64');
 }
 
 export function deriveProfileKeyCommitment(

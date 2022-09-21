@@ -12,7 +12,7 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:gv2');
 
-describe('gv2', function needsName() {
+describe('pnp/accept gv2 invite', function needsName() {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;

@@ -35,7 +35,6 @@ import type {
 } from './model-types.d';
 import {
   createProfileKeyCredentialPresentation,
-  createPNICredentialPresentation,
   decodeProfileKeyCredentialPresentation,
   decryptGroupBlob,
   decryptProfileKey,
@@ -1357,15 +1356,15 @@ export function buildPromotePendingAdminApprovalMemberChange({
 export type BuildPromoteMemberChangeOptionsType = Readonly<{
   group: ConversationAttributesType;
   serverPublicParamsBase64: string;
-  profileKeyCredentialBase64?: string;
-  pniCredentialBase64?: string;
+  profileKeyCredentialBase64: string;
+  isPendingPniAciProfileKey: boolean;
 }>;
 
 export function buildPromoteMemberChange({
   group,
   profileKeyCredentialBase64,
-  pniCredentialBase64,
   serverPublicParamsBase64,
+  isPendingPniAciProfileKey = false,
 }: BuildPromoteMemberChangeOptionsType): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
 
@@ -1381,31 +1380,20 @@ export function buildPromoteMemberChange({
     serverPublicParamsBase64
   );
 
-  let presentation: Uint8Array;
-  if (profileKeyCredentialBase64 !== undefined) {
-    presentation = createProfileKeyCredentialPresentation(
-      clientZkProfileCipher,
-      profileKeyCredentialBase64,
-      group.secretParams
-    );
+  const presentation = createProfileKeyCredentialPresentation(
+    clientZkProfileCipher,
+    profileKeyCredentialBase64,
+    group.secretParams
+  );
 
-    actions.promotePendingMembers = [
+  if (isPendingPniAciProfileKey) {
+    actions.promoteMembersPendingPniAciProfileKey = [
       {
         presentation,
       },
     ];
   } else {
-    strictAssert(
-      pniCredentialBase64,
-      'Either pniCredential or profileKeyCredential must be present'
-    );
-    presentation = createPNICredentialPresentation(
-      clientZkProfileCipher,
-      pniCredentialBase64,
-      group.secretParams
-    );
-
-    actions.promoteMembersPendingPniAciProfileKey = [
+    actions.promotePendingMembers = [
       {
         presentation,
       },

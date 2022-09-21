@@ -503,19 +503,17 @@ export class ConversationModel extends window.Backbone
     // We need the user's profileKeyCredential, which requires a roundtrip with the
     //   server, and most definitely their profileKey. A getProfiles() call will
     //   ensure that we have as much as we can get with the data we have.
+    if (!us.get('profileKeyCredential')) {
+      await us.getProfiles();
+    }
+
+    const profileKeyCredentialBase64 = us.get('profileKeyCredential');
+    strictAssert(profileKeyCredentialBase64, 'Must have profileKeyCredential');
+
     if (uuidKind === UUIDKind.ACI) {
-      if (!us.get('profileKeyCredential')) {
-        await us.getProfiles();
-      }
-
-      const profileKeyCredentialBase64 = us.get('profileKeyCredential');
-      strictAssert(
-        profileKeyCredentialBase64,
-        'Must have profileKeyCredential'
-      );
-
       return window.Signal.Groups.buildPromoteMemberChange({
         group: this.attributes,
+        isPendingPniAciProfileKey: false,
         profileKeyCredentialBase64,
         serverPublicParamsBase64: window.getServerPublicParams(),
       });
@@ -523,17 +521,10 @@ export class ConversationModel extends window.Backbone
 
     strictAssert(uuidKind === UUIDKind.PNI, 'Must be a PNI promotion');
 
-    // Similarly we need `pniCredential` even if this would require a server
-    // roundtrip.
-    if (!us.get('pniCredential')) {
-      await us.getProfiles();
-    }
-    const pniCredentialBase64 = us.get('pniCredential');
-    strictAssert(pniCredentialBase64, 'Must have pniCredential');
-
     return window.Signal.Groups.buildPromoteMemberChange({
       group: this.attributes,
-      pniCredentialBase64,
+      isPendingPniAciProfileKey: true,
+      profileKeyCredentialBase64,
       serverPublicParamsBase64: window.getServerPublicParams(),
     });
   }
@@ -1944,11 +1935,6 @@ export class ConversationModel extends window.Backbone
     const oldValue = this.get('e164');
     if (e164 !== oldValue) {
       this.set('e164', e164 || undefined);
-
-      // When our own number has changed - reset pniCredential
-      if (isMe(this.attributes)) {
-        this.set({ pniCredential: null });
-      }
 
       if (oldValue && e164) {
         this.addChangeNumberNotification(oldValue, e164);
@@ -4782,7 +4768,6 @@ export class ConversationModel extends window.Backbone
       this.set({
         profileKeyCredential: null,
         profileKeyCredentialExpiration: null,
-        pniCredential: null,
         accessKey: null,
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
