@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { useSpring, animated, to } from '@react-spring/web';
+import { Globals, useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -231,6 +231,23 @@ export const StoryViewer = ({
   useEffect(() => {
     return () => {
       unmountRef.current = true;
+    };
+  }, []);
+
+  // Currently there's no way to globally skip animations but only allow select
+  // ones. This component temporarily overrides the skipAnimation global and
+  // then sets it back when it unmounts.
+  // https://github.com/pmndrs/react-spring/issues/1982
+  useEffect(() => {
+    const { skipAnimation } = Globals;
+    Globals.assign({
+      skipAnimation: false,
+    });
+
+    return () => {
+      Globals.assign({
+        skipAnimation,
+      });
     };
   }, []);
 
