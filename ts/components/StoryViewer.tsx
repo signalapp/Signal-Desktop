@@ -326,6 +326,7 @@ export const StoryViewer = ({
 
   const canFreelyNavigateStories =
     storyViewMode === StoryViewModeType.All ||
+    storyViewMode === StoryViewModeType.Hidden ||
     storyViewMode === StoryViewModeType.Unread;
 
   const canNavigateLeft =

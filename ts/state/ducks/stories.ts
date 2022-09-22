@@ -814,6 +814,21 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
 
     const story = storiesByConversationId[currentIndex];
 
+    const hiddenConversationIds = new Set(
+      getHideStoryConversationIds(getState())
+    );
+
+    let inferredStoryViewMode: StoryViewModeType;
+    if (storyViewMode) {
+      inferredStoryViewMode = storyViewMode;
+    } else if (hiddenConversationIds.has(conversationId)) {
+      inferredStoryViewMode = StoryViewModeType.Hidden;
+    } else if (hasUnread) {
+      inferredStoryViewMode = StoryViewModeType.Unread;
+    } else {
+      inferredStoryViewMode = StoryViewModeType.All;
+    }
+
     dispatch({
       type: VIEW_STORY,
       payload: {
@@ -821,9 +836,7 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
         messageId: story.messageId,
         numStories,
         shouldShowDetailsModal,
-        storyViewMode:
-          storyViewMode ||
-          (hasUnread ? StoryViewModeType.Unread : StoryViewModeType.All),
+        storyViewMode: inferredStoryViewMode,
       },
     });
   };
@@ -1008,7 +1021,11 @@ const viewStory: ViewStoryActionCreatorType = (
       }
     }
 
-    const conversationStories = getStories(state).stories;
+    const storiesSelectorState = getStories(state);
+    const conversationStories =
+      storyViewMode === StoryViewModeType.Hidden
+        ? storiesSelectorState.hiddenStories
+        : storiesSelectorState.stories;
     const conversationStoryIndex = conversationStories.findIndex(
       item => item.conversationId === story.conversationId
     );

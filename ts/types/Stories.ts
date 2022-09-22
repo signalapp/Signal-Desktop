@@ -116,6 +116,7 @@ export enum StoryViewDirectionType {
 // User = All of a user's stories
 export enum StoryViewModeType {
   All = 'All',
+  Hidden = 'Hidden',
   Single = 'Single',
   Unread = 'Unread',
   User = 'User',

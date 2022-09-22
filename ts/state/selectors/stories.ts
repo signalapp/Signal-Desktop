@@ -405,7 +405,9 @@ export const getStories = createSelector(
     });
 
     return {
-      hiddenStories: Array.from(hiddenStoriesById.values()),
+      hiddenStories: Array.from(hiddenStoriesById.values()).sort(
+        sortByRecencyAndUnread
+      ),
       myStories: Array.from(myStoriesById.values()).sort(sortMyStories),
       stories: Array.from(storiesById.values()).sort(sortByRecencyAndUnread),
     };
