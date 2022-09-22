@@ -70,8 +70,14 @@ export const StoryDetailsModal = ({
   timestamp,
   expirationTimestamp,
 }: PropsType): JSX.Element => {
-  const contactsBySendStatus = sendState
-    ? groupBy(sendState, contact => contact.status)
+  // the sender is included in the sendState data
+  // but we don't want to show the sender in the "Sent To" list
+  const actualRecipientsSendState = sendState?.filter(
+    s => s.recipient.id !== sender.id
+  );
+
+  const contactsBySendStatus = actualRecipientsSendState
+    ? groupBy(actualRecipientsSendState, contact => contact.status)
     : undefined;
 
   let content: JSX.Element;
