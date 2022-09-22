@@ -555,12 +555,13 @@ function handleCommonWindowEvents(
 
 const DEFAULT_WIDTH = enableCI ? 1024 : 800;
 const DEFAULT_HEIGHT = enableCI ? 1024 : 610;
-// LARGEST_LEFT_PANE_WIDTH = 380
-// TIMELINE_WIDTH = 300
-// TIMELINE_MARGIN = 16 + 16
-// 712 = LARGEST_LEFT_PANE_WIDTH + TIMELINE_WIDTH + TIMELINE_MARGIN
-const MIN_WIDTH = 712;
-const MIN_HEIGHT = 550;
+
+// We allow for smaller sizes because folks with OS-level zoom and HighDPI/Large Text
+//   can really cause weirdness around window pixel-sizes. The app is very broken if you
+//   make the window this small and do nothing else. But if you zoom out and collapse the
+//   left pane, even this window size can work!
+const MIN_WIDTH = 300;
+const MIN_HEIGHT = 200;
 const BOUNDS_BUFFER = 100;
 
 type BoundsType = {
