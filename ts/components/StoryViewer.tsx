@@ -44,6 +44,7 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 export type PropsType = {
   currentIndex: number;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
+  distributionListName?: string;
   getPreferredBadge: PreferredBadgeSelectorType;
   group?: Pick<
     ConversationType,
@@ -104,6 +105,7 @@ enum Arrow {
 export const StoryViewer = ({
   currentIndex,
   deleteStoryForEveryone,
+  distributionListName,
   getPreferredBadge,
   group,
   hasActiveCall,
@@ -572,7 +574,7 @@ export const StoryViewer = ({
               </div>
             )}
             <div className="StoryViewer__meta__playback-bar">
-              <div>
+              <div className="StoryViewer__meta__playback-bar__container">
                 <Avatar
                   acceptedMessageRequest={acceptedMessageRequest}
                   avatarPath={avatarPath}
@@ -604,20 +606,27 @@ export const StoryViewer = ({
                     title={group.title}
                   />
                 )}
-                <div className="StoryViewer__meta--title">
-                  {(group &&
-                    i18n('Stories__from-to-group', {
-                      name: isMe ? i18n('you') : title,
-                      group: group.title,
-                    })) ||
-                    (isMe ? i18n('you') : title)}
+                <div>
+                  <div className="StoryViewer__meta--title">
+                    {(group &&
+                      i18n('Stories__from-to-group', {
+                        name: isMe ? i18n('you') : title,
+                        group: group.title,
+                      })) ||
+                      (isMe ? i18n('you') : title)}
+                  </div>
+                  <MessageTimestamp
+                    i18n={i18n}
+                    isRelativeTime
+                    module="StoryViewer__meta--timestamp"
+                    timestamp={timestamp}
+                  />
+                  {distributionListName && (
+                    <div className="StoryViewer__meta__list">
+                      {distributionListName}
+                    </div>
+                  )}
                 </div>
-                <MessageTimestamp
-                  i18n={i18n}
-                  isRelativeTime
-                  module="StoryViewer__meta--timestamp"
-                  timestamp={timestamp}
-                />
               </div>
               <div className="StoryViewer__meta__playback-controls">
                 <button

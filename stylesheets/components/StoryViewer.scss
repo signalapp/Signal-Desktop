@@ -56,12 +56,32 @@
   &__meta {
     bottom: 0;
     left: 50%;
+    min-width: 284px;
     padding: 0 16px;
     position: absolute;
     transform: translateX(-50%);
-    min-width: 284px;
     width: 56.25vh;
     z-index: $z-index-story-meta;
+
+    &__list {
+      @include font-body-2;
+      align-items: center;
+      display: flex;
+      color: $color-white-alpha-80;
+      margin-left: 8px;
+
+      &::before {
+        @include color-svg(
+          '../images/icons/v2/lock-solid-24.svg',
+          $color-white-alpha-80
+        );
+        content: '';
+        display: block;
+        height: 14px;
+        margin-right: 6px;
+        width: 14px;
+      }
+    }
 
     &--group-avatar {
       margin-left: -8px;
@@ -82,6 +102,12 @@
     &__playback-bar {
       display: flex;
       justify-content: space-between;
+      user-select: none;
+
+      &__container {
+        align-items: center;
+        display: flex;
+      }
     }
 
     &__playback-controls {

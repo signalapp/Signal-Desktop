@@ -67,7 +67,7 @@ export function SmartStoryViewer(): JSX.Element | null {
     storyInfo,
     'StoryViewer: selected story does not exist in stories'
   );
-  const { conversationStory, storyView } = storyInfo;
+  const { conversationStory, distributionList, storyView } = storyInfo;
 
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
@@ -84,6 +84,7 @@ export function SmartStoryViewer(): JSX.Element | null {
   return (
     <StoryViewer
       currentIndex={selectedStoryData.currentIndex}
+      distributionListName={distributionList?.name}
       getPreferredBadge={getPreferredBadge}
       group={conversationStory.group}
       hasActiveCall={hasActiveCall}

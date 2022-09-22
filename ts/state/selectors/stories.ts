@@ -11,6 +11,7 @@ import type {
   ConversationStoryType,
   MyStoryType,
   ReplyStateType,
+  StoryDistributionListWithMembersDataType,
   StorySendStateType,
   StoryViewType,
 } from '../../types/Stories';
@@ -463,17 +464,36 @@ export const getHasStoriesSelector = createSelector(
 export const getStoryByIdSelector = createSelector(
   getStoriesState,
   getUserConversationId,
-  ({ stories }, ourConversationId) =>
+  getDistributionListSelector,
+  ({ stories }, ourConversationId, distributionListSelector) =>
     (
       conversationSelector: GetConversationByIdType,
       messageId: string
     ):
-      | { conversationStory: ConversationStoryType; storyView: StoryViewType }
+      | {
+          conversationStory: ConversationStoryType;
+          distributionList:
+            | Pick<StoryDistributionListWithMembersDataType, 'id' | 'name'>
+            | undefined;
+          storyView: StoryViewType;
+        }
       | undefined => {
       const story = stories.find(item => item.messageId === messageId);
 
       if (!story) {
         return;
+      }
+
+      let distributionList:
+        | Pick<StoryDistributionListWithMembersDataType, 'id' | 'name'>
+        | undefined;
+      if (story.storyDistributionListId) {
+        distributionList =
+          story.storyDistributionListId === MY_STORIES_ID
+            ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
+            : distributionListSelector(
+                story.storyDistributionListId.toLowerCase()
+              );
       }
 
       return {
@@ -482,6 +502,7 @@ export const getStoryByIdSelector = createSelector(
           ourConversationId,
           story
         ),
+        distributionList,
         storyView: getStoryView(conversationSelector, ourConversationId, story),
       };
     }
