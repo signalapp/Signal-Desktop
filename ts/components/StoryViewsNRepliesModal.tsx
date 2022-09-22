@@ -136,6 +136,7 @@ export const StoryViewsNRepliesModal = ({
 }: PropsType): JSX.Element | null => {
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const inputApiRef = useRef<InputApi | undefined>();
+  const shouldScrollToBottomRef = useRef(false);
   const [bottom, setBottom] = useState<HTMLDivElement | null>(null);
   const [messageBodyText, setMessageBodyText] = useState('');
   const [showReactionPicker, setShowReactionPicker] = useState(false);
@@ -164,13 +165,14 @@ export const StoryViewsNRepliesModal = ({
     strategy: 'fixed',
   });
 
+  let composerElement: JSX.Element | undefined;
+
   useEffect(() => {
-    if (replies.length) {
+    if (replies.length && shouldScrollToBottomRef.current) {
       bottom?.scrollIntoView({ behavior: 'smooth' });
+      shouldScrollToBottomRef.current = false;
     }
   }, [bottom, replies.length]);
-
-  let composerElement: JSX.Element | undefined;
 
   if (canReply) {
     composerElement = (
@@ -204,6 +206,7 @@ export const StoryViewsNRepliesModal = ({
               onPickEmoji={insertEmoji}
               onSubmit={(...args) => {
                 inputApiRef.current?.reset();
+                shouldScrollToBottomRef.current = true;
                 onReply(...args);
               }}
               onTextTooLong={onTextTooLong}

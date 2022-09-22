@@ -8634,6 +8634,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const shouldScrollToBottomRef = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-09-22T03:07:22.153Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "sticker-creator/components/StickerFrame.js",
     "line": "    const timerRef = React.useRef();",
     "reasonCategory": "falseMatch",
