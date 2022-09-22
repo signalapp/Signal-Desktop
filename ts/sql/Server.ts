@@ -2169,16 +2169,18 @@ async function getUnreadByConversationAndMarkRead({
   newestUnreadAt,
   storyId,
   readAt,
+  now = Date.now(),
 }: {
   conversationId: string;
   isGroup?: boolean;
   newestUnreadAt: number;
   storyId?: UUIDStringType;
   readAt?: number;
+  now?: number;
 }): Promise<GetUnreadByConversationAndMarkReadResultType> {
   const db = getInstance();
   return db.transaction(() => {
-    const expirationStartTimestamp = Math.min(Date.now(), readAt ?? Infinity);
+    const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
     db.prepare<Query>(
       `
       UPDATE messages

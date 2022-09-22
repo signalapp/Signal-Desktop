@@ -304,6 +304,7 @@ describe('sql/markRead', () => {
   });
 
   it('properly starts disappearing message timer, even if message is already read', async () => {
+    const now = Date.now();
     assert.lengthOf(await _getAllMessages(), 0);
 
     const start = Date.now();
@@ -387,6 +388,7 @@ describe('sql/markRead', () => {
       conversationId,
       newestUnreadAt: message4.received_at,
       readAt,
+      now,
     });
 
     assert.lengthOf(markedRead, 1, 'one message marked read');
@@ -412,14 +414,14 @@ describe('sql/markRead', () => {
     assert.strictEqual(sorted[1].id, message2.id, 'checking message 2');
     assert.isAtMost(
       sorted[1].expirationStartTimestamp ?? Infinity,
-      Date.now(),
+      now,
       'checking message 2 expirationStartTimestamp'
     );
 
     assert.strictEqual(sorted[3].id, message4.id, 'checking message 4');
     assert.isAtMost(
       sorted[3].expirationStartTimestamp ?? Infinity,
-      Date.now(),
+      now,
       'checking message 4 expirationStartTimestamp'
     );
   });

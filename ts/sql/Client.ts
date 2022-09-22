@@ -1269,6 +1269,7 @@ async function getUnreadByConversationAndMarkRead(options: {
   conversationId: string;
   isGroup?: boolean;
   newestUnreadAt: number;
+  now?: number;
   readAt?: number;
   storyId?: UUIDStringType;
 }): Promise<GetUnreadByConversationAndMarkReadResultType> {

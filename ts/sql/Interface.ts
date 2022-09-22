@@ -465,6 +465,7 @@ export type DataInterface = {
     conversationId: string;
     isGroup?: boolean;
     newestUnreadAt: number;
+    now?: number;
     readAt?: number;
     storyId?: UUIDStringType;
   }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
