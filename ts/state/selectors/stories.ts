@@ -27,6 +27,7 @@ import { canReply } from './message';
 import {
   getContactNameColorSelector,
   getConversationSelector,
+  getHideStoryConversationIds,
   getMe,
 } from './conversations';
 import { getUserConversationId } from './user';
@@ -412,15 +413,19 @@ export const getStories = createSelector(
 );
 
 export const getStoriesNotificationCount = createSelector(
+  getHideStoryConversationIds,
   getStoriesState,
-  ({ lastOpenedAtTimestamp, stories }): number => {
+  (hideStoryConversationIds, { lastOpenedAtTimestamp, stories }): number => {
+    const hiddenConversationIds = new Set(hideStoryConversationIds);
+
     return new Set(
       stories
         .filter(
           story =>
             story.readStatus === ReadStatus.Unread &&
             !story.deletedForEveryone &&
-            story.timestamp > (lastOpenedAtTimestamp || 0)
+            story.timestamp > (lastOpenedAtTimestamp || 0) &&
+            !hiddenConversationIds.has(story.conversationId)
         )
         .map(story => story.conversationId)
     ).size;

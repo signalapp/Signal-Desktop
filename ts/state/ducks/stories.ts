@@ -40,7 +40,10 @@ import {
   isDownloaded,
   isDownloading,
 } from '../../types/Attachment';
-import { getConversationSelector } from '../selectors/conversations';
+import {
+  getConversationSelector,
+  getHideStoryConversationIds,
+} from '../selectors/conversations';
 import { getSendOptions } from '../../util/getSendOptions';
 import { getStories } from '../selectors/stories';
 import { getStoryDataFromMessageAttributes } from '../../services/storyLoader';
@@ -826,18 +829,24 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
   };
 };
 
+type ViewStoryOptionsType =
+  | {
+      closeViewer: true;
+    }
+  | {
+      storyId: string;
+      storyViewMode: StoryViewModeType;
+      viewDirection?: StoryViewDirectionType;
+      shouldShowDetailsModal?: boolean;
+    };
+
 export type ViewStoryActionCreatorType = (
-  opts:
-    | {
-        closeViewer: true;
-      }
-    | {
-        storyId: string;
-        storyViewMode: StoryViewModeType;
-        viewDirection?: StoryViewDirectionType;
-        shouldShowDetailsModal?: boolean;
-      }
+  opts: ViewStoryOptionsType
 ) => unknown;
+
+export type DispatchableViewStoryType = (
+  opts: ViewStoryOptionsType
+) => ThunkAction<void, RootStateType, unknown, ViewStoryActionType>;
 
 const viewStory: ViewStoryActionCreatorType = (
   opts
@@ -954,10 +963,20 @@ const viewStory: ViewStoryActionCreatorType = (
     // Are there any unviewed stories left? If so we should play the unviewed
     // stories first. But only if we're going "next"
     if (viewDirection === StoryViewDirectionType.Next) {
-      const unreadStory = stories.find(
-        item =>
-          item.readStatus === ReadStatus.Unread && !item.deletedForEveryone
+      // Only stories that succeed the current story we're on.
+      const currentStoryIndex = stories.findIndex(
+        item => item.messageId === storyId
       );
+      // No hidden stories
+      const hiddenConversationIds = new Set(getHideStoryConversationIds(state));
+      const unreadStory = stories.find(
+        (item, index) =>
+          index > currentStoryIndex &&
+          !item.deletedForEveryone &&
+          item.readStatus === ReadStatus.Unread &&
+          !hiddenConversationIds.has(item.conversationId)
+      );
+
       if (unreadStory) {
         const nextSelectedStoryData = getSelectedStoryDataForConversationId(
           dispatch,
@@ -974,6 +993,16 @@ const viewStory: ViewStoryActionCreatorType = (
             shouldShowDetailsModal: false,
             storyViewMode,
           },
+        });
+        return;
+      }
+
+      // Close the viewer if we were viewing unread stories only and we did not
+      // find any more unread.
+      if (storyViewMode === StoryViewModeType.Unread) {
+        dispatch({
+          type: VIEW_STORY,
+          payload: undefined,
         });
         return;
       }
@@ -1017,19 +1046,6 @@ const viewStory: ViewStoryActionCreatorType = (
         getState,
         conversationStory.conversationId
       );
-
-      // Close the viewer if we were viewing unread stories only and we've
-      // reached the last unread story.
-      if (
-        !nextSelectedStoryData.hasUnread &&
-        storyViewMode === StoryViewModeType.Unread
-      ) {
-        dispatch({
-          type: VIEW_STORY,
-          payload: undefined,
-        });
-        return;
-      }
 
       dispatch({
         type: VIEW_STORY,

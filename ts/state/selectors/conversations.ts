@@ -1050,3 +1050,11 @@ export const getConversationsStoppingSend = createSelector(
     return sortByTitle(conversations);
   }
 );
+
+export const getHideStoryConversationIds = createSelector(
+  getConversationLookup,
+  (conversationLookup): Array<string> =>
+    Object.keys(conversationLookup).filter(
+      conversationId => conversationLookup[conversationId].hideStory
+    )
+);
