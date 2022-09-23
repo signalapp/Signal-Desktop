@@ -60,7 +60,7 @@
     padding: 0 16px;
     position: absolute;
     transform: translateX(-50%);
-    width: 56.25vh;
+    width: clamp(0vh, 56.25vh, 100vw);
     z-index: $z-index-story-meta;
 
     &__list {
