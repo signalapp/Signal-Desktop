@@ -5794,5 +5794,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "- Facing a conversation with a long list of Voice Notes to listen to? Click play, sit back, and relax - they'll continue playing automatically!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "You can now attach some video flavor to a message along with your vacation photos!",
+    "description": "Release notes for v5.61"
   }
 }
