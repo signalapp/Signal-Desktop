@@ -151,6 +151,11 @@ function loadClassicLight() {
   );
 
   document.documentElement.style.setProperty(
+    '--button-simple-text-color',
+    'var(--text-primary-color)'
+  );
+
+  document.documentElement.style.setProperty(
     '--button-simple-disabled-color',
     'var(--text-primary-color)'
   );
@@ -489,6 +494,11 @@ function loadClassicDark() {
     THEMES.CLASSIC_DARK.COLOR4
   );
   document.documentElement.style.setProperty('--button-solid-shadow-color', 'none');
+
+  document.documentElement.style.setProperty(
+    '--button-simple-text-color',
+    'var(--text-primary-color)'
+  );
 
   document.documentElement.style.setProperty(
     '--button-simple-disabled-color',

@@ -92,10 +92,10 @@ const StyledButton = styled.div<{
 
   &:not(.disabled) {
     &:hover {
+      color: ${props => `var(--button-${props.buttonType}-text-hover-color)`};
       ${props =>
         props.buttonType &&
         `background-color: var(--button-${props.buttonType}-background-hover-color);`};
-      ${props => props.color && `color: var(--button-${props.buttonType}-text-color);`}
       ${props =>
         props.buttonType === SessionButtonType.Outline &&
         'outline: none; border: 1px solid var(--button-outline-border-hover-color);'};

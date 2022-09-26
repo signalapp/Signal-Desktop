@@ -542,7 +542,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-solid-shadow-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25);
 
     /* Simple */
-    /* TODO Theming - Should this be different? */
+    --button-simple-text-color: var(--text-primary-color);
     --button-simple-disabled-color: var(--text-primary-color);
 
     /* Icons */
