@@ -44,7 +44,7 @@
       },
       mp3: {
         mimeType: "audio/mpeg",
-        bitRate: 160            // (CBR only): bit rate = [64 .. 320]
+        bitRate: 80            // (CBR only): bit rate = [64 .. 320]
       }
     }
   };
