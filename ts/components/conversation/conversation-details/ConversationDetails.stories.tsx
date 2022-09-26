@@ -41,6 +41,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   },
   areWeASubscriber: false,
   canEditGroupInfo: false,
+  canAddNewMembers: false,
   conversation: expireTimer
     ? {
         ...conversation,
@@ -50,6 +51,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   hasActiveCall: false,
   hasGroupLink,
   getPreferredBadge: () => undefined,
+  groupsInCommon: [],
   i18n,
   isAdmin: false,
   isGroup: true,
@@ -90,6 +92,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   setMuteExpiration: action('setMuteExpiration'),
   userAvatarData: [],
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),

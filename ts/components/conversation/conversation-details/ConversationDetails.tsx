@@ -45,6 +45,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../../../types/Avatar';
 import { isConversationMuted } from '../../../util/isConversationMuted';
+import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 
 enum ModalState {
   NothingOpen,
@@ -60,6 +61,7 @@ export type StateProps = {
   areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
   canEditGroupInfo: boolean;
+  canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -68,6 +70,7 @@ export type StateProps = {
   isAdmin: boolean;
   isGroup: boolean;
   loadRecentMediaItems: (limit: number) => void;
+  groupsInCommon: Array<ConversationType>;
   memberships: Array<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
@@ -112,6 +115,7 @@ type ActionProps = {
   showContactModal: (contactId: string, conversationId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   searchInConversation: (id: string) => unknown;
+  toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
 };
 
 export type Props = StateProps & ActionProps;
@@ -121,10 +125,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   areWeASubscriber,
   badges,
   canEditGroupInfo,
+  canAddNewMembers,
   conversation,
   deleteAvatarFromDisk,
   hasGroupLink,
   getPreferredBadge,
+  groupsInCommon,
   hasActiveCall,
   i18n,
   isAdmin,
@@ -155,6 +161,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showPendingInvites,
   theme,
   toggleSafetyNumberModal,
+  toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
   userAvatarData,
 }) => {
@@ -454,7 +461,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
       {isGroup && (
         <ConversationDetailsMembershipList
-          canAddNewMembers={canEditGroupInfo}
+          canAddNewMembers={canAddNewMembers}
           conversationId={conversation.id}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
@@ -515,6 +522,15 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         showAllMedia={showAllMedia}
         showLightboxForMedia={showLightboxForMedia}
       />
+
+      {!isGroup && !conversation.isMe && (
+        <ConversationDetailsGroups
+          contactId={conversation.id}
+          i18n={i18n}
+          groupsInCommon={groupsInCommon}
+          toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
+        />
+      )}
 
       {!conversation.isMe && (
         <ConversationDetailsActions

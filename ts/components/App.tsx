@@ -11,11 +11,12 @@ import type { LocaleMessagesType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { ToastType } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
+import type { ReplacementValuesType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
 import { Inbox } from './Inbox';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
-import { ThemeType } from '../types/Util';
 import { TitleBarContainer } from './TitleBarContainer';
 import { ToastManager } from './ToastManager';
 import { usePageVisibility } from '../hooks/usePageVisibility';
@@ -47,7 +48,10 @@ type PropsType = {
   executeMenuRole: ExecuteMenuRoleType;
   executeMenuAction: (action: MenuActionType) => void;
   titleBarDoubleClick: () => void;
-  toastType?: ToastType;
+  toast?: {
+    toastType: ToastType;
+    parameters?: ReplacementValuesType;
+  };
   hideToast: () => unknown;
   toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;
@@ -84,7 +88,7 @@ export const App = ({
   showWhatsNewModal,
   theme,
   titleBarDoubleClick,
-  toastType,
+  toast,
   toggleStoriesView,
   viewStory,
 }: PropsType): JSX.Element => {
@@ -170,7 +174,7 @@ export const App = ({
           'dark-theme': theme === ThemeType.dark,
         })}
       >
-        <ToastManager hideToast={hideToast} i18n={i18n} toastType={toastType} />
+        <ToastManager hideToast={hideToast} i18n={i18n} toast={toast} />
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {isShowingStoriesView && renderStories(toggleStoriesView)}

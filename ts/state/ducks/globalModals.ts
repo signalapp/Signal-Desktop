@@ -15,23 +15,24 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 // State
 
 export type ForwardMessagePropsType = Omit<PropsForMessage, 'renderingContext'>;
-export type SafetyNumberChangedBlockingDataType = {
-  readonly promiseUuid: UUIDStringType;
-  readonly source?: SafetyNumberChangeSource;
-};
+export type SafetyNumberChangedBlockingDataType = Readonly<{
+  promiseUuid: UUIDStringType;
+  source?: SafetyNumberChangeSource;
+}>;
 
-export type GlobalModalsStateType = {
-  readonly contactModalState?: ContactModalStateType;
-  readonly forwardMessageProps?: ForwardMessagePropsType;
-  readonly isProfileEditorVisible: boolean;
-  readonly isSignalConnectionsVisible: boolean;
-  readonly isStoriesSettingsVisible: boolean;
-  readonly isWhatsNewVisible: boolean;
-  readonly profileEditorHasError: boolean;
-  readonly safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
-  readonly safetyNumberModalContactId?: string;
-  readonly userNotFoundModalState?: UserNotFoundModalStateType;
-};
+export type GlobalModalsStateType = Readonly<{
+  contactModalState?: ContactModalStateType;
+  forwardMessageProps?: ForwardMessagePropsType;
+  isProfileEditorVisible: boolean;
+  isSignalConnectionsVisible: boolean;
+  isStoriesSettingsVisible: boolean;
+  isWhatsNewVisible: boolean;
+  profileEditorHasError: boolean;
+  safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
+  safetyNumberModalContactId?: string;
+  addUserToAnotherGroupModalContactId?: string;
+  userNotFoundModalState?: UserNotFoundModalStateType;
+}>;
 
 // Actions
 
@@ -49,6 +50,8 @@ const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
 const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
+const TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL =
+  'globalModals/TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
 export const SHOW_SEND_ANYWAY_DIALOG = 'globalModals/SHOW_SEND_ANYWAY_DIALOG';
@@ -113,6 +116,11 @@ type ToggleSafetyNumberModalActionType = {
   payload: string | undefined;
 };
 
+type ToggleAddUserToAnotherGroupModalActionType = {
+  type: typeof TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL;
+  payload: string | undefined;
+};
+
 type ToggleSignalConnectionsModalActionType = {
   type: typeof TOGGLE_SIGNAL_CONNECTIONS_MODAL;
 };
@@ -151,6 +159,7 @@ export type GlobalModalsActionType =
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType
+  | ToggleAddUserToAnotherGroupModalActionType
   | ToggleSignalConnectionsModalActionType;
 
 // Action Creators
@@ -170,6 +179,7 @@ export const actions = {
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
+  toggleAddUserToAnotherGroupModal,
   toggleSignalConnectionsModal,
 };
 
@@ -282,6 +292,15 @@ function toggleSafetyNumberModal(
   };
 }
 
+function toggleAddUserToAnotherGroupModal(
+  contactId?: string
+): ToggleAddUserToAnotherGroupModalActionType {
+  return {
+    type: TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL,
+    payload: contactId,
+  };
+}
+
 function toggleSignalConnectionsModal(): ToggleSignalConnectionsModalActionType {
   return {
     type: TOGGLE_SIGNAL_CONNECTIONS_MODAL,
@@ -391,6 +410,13 @@ export function reducer(
     return {
       ...state,
       safetyNumberModalContactId: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_ADD_USER_TO_ANOTHER_GROUP_MODAL) {
+    return {
+      ...state,
+      addUserToAnotherGroupModalContactId: action.payload,
     };
   }
 

@@ -1850,6 +1850,7 @@ export class ConversationModel extends window.Backbone
       badges: this.get('badges') || [],
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
+      canAddNewMembers: this.canAddNewMembers(),
       avatarPath: this.getAbsoluteAvatarPath(),
       avatarHash: this.getAvatarHash(),
       unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
@@ -5107,6 +5108,22 @@ export class ConversationModel extends window.Backbone
     return (
       this.areWeAdmin() ||
       this.get('accessControl')?.attributes ===
+        Proto.AccessControl.AccessRequired.MEMBER
+    );
+  }
+
+  canAddNewMembers(): boolean {
+    if (!isGroupV2(this.attributes)) {
+      return false;
+    }
+
+    if (this.get('left')) {
+      return false;
+    }
+
+    return (
+      this.areWeAdmin() ||
+      this.get('accessControl')?.members ===
         Proto.AccessControl.AccessRequired.MEMBER
     );
   }

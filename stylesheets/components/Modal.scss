@@ -132,11 +132,12 @@
     @include scrollbar;
     @include font-body-1;
     margin: 0;
+    padding: 16px;
   }
 
   &--has-header {
     .module-Modal__body {
-      padding: 0 16px 16px 16px;
+      padding-top: 0;
       border-top: 1px solid transparent;
       // If there's a header, just the body scrolls
       overflow-y: overlay;
@@ -155,7 +156,6 @@
   }
 
   &--no-header {
-    padding: 16px;
     // If there's no header, the whole thing scrolls
     overflow-y: overlay;
     overflow-x: auto;

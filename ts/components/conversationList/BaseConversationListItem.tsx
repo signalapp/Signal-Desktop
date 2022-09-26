@@ -51,6 +51,7 @@ type PropsType = {
   onClick?: () => void;
   shouldShowSpinner?: boolean;
   unreadCount?: number;
+  avatarSize?: AvatarSize;
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
@@ -75,6 +76,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     const {
       acceptedMessageRequest,
       avatarPath,
+      avatarSize,
       checked,
       color,
       conversationType,
@@ -168,7 +170,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             profileName={profileName}
             title={title}
             sharedGroupNames={sharedGroupNames}
-            size={AvatarSize.FORTY_EIGHT}
+            size={avatarSize ?? AvatarSize.FORTY_EIGHT}
             unblurredAvatarPath={unblurredAvatarPath}
             // This is here to appease the type checker.
             {...(props.badge

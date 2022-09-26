@@ -130,6 +130,7 @@ export type ConversationType = {
   areWePendingApproval?: boolean;
   canChangeTimer?: boolean;
   canEditGroupInfo?: boolean;
+  canAddNewMembers?: boolean;
   color?: AvatarColorType;
   conversationColor?: ConversationColorType;
   customColor?: CustomColorType;
@@ -803,6 +804,7 @@ export type ConversationActionType =
 // Action Creators
 
 export const actions = {
+  addMemberToGroup,
   cancelConversationVerification,
   changeHasGroupLink,
   clearCancelledConversationVerification,
@@ -2001,6 +2003,25 @@ function removeMemberFromGroup(
       type: 'NOOP',
       payload: null,
     });
+  };
+}
+
+function addMemberToGroup(
+  conversationId: string,
+  contactId: string,
+  onComplete: () => void
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      const idForLogging = conversationModel.idForLogging();
+      await longRunningTaskWrapper({
+        name: 'addMemberToGroup',
+        idForLogging,
+        task: () => conversationModel.addMembersV2([contactId]),
+      });
+      onComplete();
+    }
   };
 }
 

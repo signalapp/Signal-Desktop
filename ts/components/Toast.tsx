@@ -11,6 +11,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 export type PropsType = {
   autoDismissDisabled?: boolean;
   children: ReactNode;
+  align?: 'left' | 'center';
   className?: string;
   disableCloseOnClick?: boolean;
   onClose: () => unknown;
@@ -26,6 +27,7 @@ export const Toast = memo(
   ({
     autoDismissDisabled = false,
     children,
+    align = 'center',
     className,
     disableCloseOnClick = false,
     onClose,
@@ -63,7 +65,7 @@ export const Toast = memo(
       ? createPortal(
           <div
             aria-live="assertive"
-            className={classNames('Toast', className)}
+            className={classNames('Toast', `Toast--align-${align}`, className)}
             onClick={() => {
               if (!disableCloseOnClick) {
                 onClose();

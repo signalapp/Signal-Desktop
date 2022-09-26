@@ -74,8 +74,10 @@
     @include color-bubble(20px);
   }
 
-  &-membership-list {
-    &__add-members-icon {
+  &-membership-list,
+  &-groups {
+    &__add-members-icon,
+    &__add-to-group-icon {
       @mixin plus-icon($color) {
         @include color-svg('../images/icons/v2/plus-24.svg', $color);
         content: '';

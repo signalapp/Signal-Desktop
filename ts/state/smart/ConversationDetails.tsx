@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { sortBy } from 'lodash';
 
 import type { StateType } from '../reducer';
 import { mapDispatchToProps } from '../actions';
@@ -11,6 +12,7 @@ import { ConversationDetails } from '../../components/conversation/conversation-
 import {
   getConversationByIdSelector,
   getConversationByUuidSelector,
+  getAllComposableConversations,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getActiveCallState } from '../selectors/calling';
@@ -84,6 +86,7 @@ const mapStateToProps = (
   );
 
   const canEditGroupInfo = Boolean(conversation.canEditGroupInfo);
+  const canAddNewMembers = Boolean(conversation.canAddNewMembers);
   const isAdmin = Boolean(conversation.areWeAdmin);
 
   const hasGroupLink =
@@ -98,11 +101,25 @@ const mapStateToProps = (
 
   const badges = getBadgesSelector(state)(conversation.badges);
 
+  const groupsInCommon =
+    conversation.type === 'direct'
+      ? getAllComposableConversations(state).filter(
+          c =>
+            c.type === 'group' &&
+            (c.memberships ?? []).some(
+              member => member.uuid === conversation.uuid
+            )
+        )
+      : [];
+
+  const groupsInCommonSorted = sortBy(groupsInCommon, 'title');
+
   return {
     ...props,
     areWeASubscriber: getAreWeASubscriber(state),
     badges,
     canEditGroupInfo,
+    canAddNewMembers,
     conversation: {
       ...conversation,
       ...getConversationColorAttributes(conversation),
@@ -114,6 +131,7 @@ const mapStateToProps = (
     ...groupMemberships,
     userAvatarData: conversation.avatars || [],
     hasGroupLink,
+    groupsInCommon: groupsInCommonSorted,
     isGroup: conversation.type === 'group',
     theme: getTheme(state),
     renderChooseGroupMembersModal,

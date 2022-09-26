@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useBoundActions } from '../../hooks/useBoundActions';
+import type { ReplacementValuesType } from '../../types/Util';
 
 export enum ToastType {
   Error = 'Error',
@@ -12,12 +13,17 @@ export enum ToastType {
   StoryVideoError = 'StoryVideoError',
   StoryVideoTooLong = 'StoryVideoTooLong',
   StoryVideoUnsupported = 'StoryVideoUnsupported',
+  AddingUserToGroup = 'AddingUserToGroup',
+  UserAddedToGroup = 'UserAddedToGroup',
 }
 
 // State
 
 export type ToastStateType = {
-  toastType?: ToastType;
+  toast?: {
+    toastType: ToastType;
+    parameters?: ReplacementValuesType;
+  };
 };
 
 // Actions
@@ -31,7 +37,10 @@ type HideToastActionType = {
 
 type ShowToastActionType = {
   type: typeof SHOW_TOAST;
-  payload: ToastType;
+  payload: {
+    toastType: ToastType;
+    parameters?: ReplacementValuesType;
+  };
 };
 
 export type ToastActionType = HideToastActionType | ShowToastActionType;
@@ -45,13 +54,17 @@ function hideToast(): HideToastActionType {
 }
 
 export type ShowToastActionCreatorType = (
-  toastType: ToastType
+  toastType: ToastType,
+  parameters?: ReplacementValuesType
 ) => ShowToastActionType;
 
-const showToast: ShowToastActionCreatorType = toastType => {
+const showToast: ShowToastActionCreatorType = (toastType, parameters) => {
   return {
     type: SHOW_TOAST,
-    payload: toastType,
+    payload: {
+      toastType,
+      parameters,
+    },
   };
 };
 
@@ -75,14 +88,14 @@ export function reducer(
   if (action.type === HIDE_TOAST) {
     return {
       ...state,
-      toastType: undefined,
+      toast: undefined,
     };
   }
 
   if (action.type === SHOW_TOAST) {
     return {
       ...state,
-      toastType: action.payload,
+      toast: action.payload,
     };
   }
 

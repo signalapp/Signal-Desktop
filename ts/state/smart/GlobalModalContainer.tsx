@@ -14,7 +14,8 @@ import { SmartStoriesSettingsModal } from './StoriesSettingsModal';
 import { getConversationsStoppingSend } from '../selectors/conversations';
 import { mapDispatchToProps } from '../actions';
 
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
+import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
@@ -43,6 +44,7 @@ const mapStateToProps = (state: StateType) => {
     ...state.globalModals,
     hasSafetyNumberChangeModal: getConversationsStoppingSend(state).length > 0,
     i18n,
+    theme: getTheme(state),
     renderContactModal,
     renderForwardMessageModal,
     renderProfileEditor,
@@ -52,6 +54,15 @@ const mapStateToProps = (state: StateType) => {
         contactID={String(state.globalModals.safetyNumberModalContactId)}
       />
     ),
+    renderAddUserToAnotherGroup: () => {
+      return (
+        <SmartAddUserToAnotherGroupModal
+          contactID={String(
+            state.globalModals.addUserToAnotherGroupModalContactId
+          )}
+        />
+      );
+    },
     renderSendAnywayDialog,
   };
 };

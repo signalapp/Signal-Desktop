@@ -19,10 +19,11 @@ import type { LookupConversationWithoutUuidActionsType } from '../util/lookupCon
 import type { ShowConversationType } from '../state/ducks/conversations';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
-import { ConversationListItem } from './conversationList/ConversationListItem';
-import type { ContactListItemConversationType as ContactListItemPropsType } from './conversationList/ContactListItem';
-import { ContactListItem } from './conversationList/ContactListItem';
 import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
+import type { ContactListItemConversationType as ContactListItemPropsType } from './conversationList/ContactListItem';
+import type { GroupListItemConversationType } from './conversationList/GroupListItem';
+import { ConversationListItem } from './conversationList/ConversationListItem';
+import { ContactListItem } from './conversationList/ContactListItem';
 import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
 import { PhoneNumberCheckbox as PhoneNumberCheckboxComponent } from './conversationList/PhoneNumberCheckbox';
 import { UsernameCheckbox as UsernameCheckboxComponent } from './conversationList/UsernameCheckbox';
@@ -31,6 +32,7 @@ import { StartNewConversation as StartNewConversationComponent } from './convers
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
 import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
 import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem';
+import { GroupListItem } from './conversationList/GroupListItem';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',
@@ -45,6 +47,8 @@ export enum RowType {
   MessageSearchResult = 'MessageSearchResult',
   SearchResultsLoadingFakeHeader = 'SearchResultsLoadingFakeHeader',
   SearchResultsLoadingFakeRow = 'SearchResultsLoadingFakeRow',
+  // this could later be expanded to SelectSingleConversation
+  SelectSingleGroup = 'SelectSingleGroup',
   StartNewConversation = 'StartNewConversation',
   UsernameSearchResult = 'UsernameSearchResult',
 }
@@ -110,6 +114,11 @@ type SearchResultsLoadingFakeRowType = {
   type: RowType.SearchResultsLoadingFakeRow;
 };
 
+type SelectSingleGroupRowType = {
+  type: RowType.SelectSingleGroup;
+  group: GroupListItemConversationType;
+};
+
 type StartNewConversationRowType = {
   type: RowType.StartNewConversation;
   phoneNumber: ParsedE164Type;
@@ -136,6 +145,7 @@ export type Row =
   | SearchResultsLoadingFakeHeaderType
   | SearchResultsLoadingFakeRowType
   | StartNewConversationRowType
+  | SelectSingleGroupRowType
   | UsernameRowType;
 
 export type PropsType = {
@@ -169,6 +179,7 @@ export type PropsType = {
 } & LookupConversationWithoutUuidActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;
+const SELECT_ROW_HEIGHT = 52;
 const HEADER_ROW_HEIGHT = 40;
 
 export const ConversationList: React.FC<PropsType> = ({
@@ -212,6 +223,8 @@ export const ConversationList: React.FC<PropsType> = ({
         case RowType.Header:
         case RowType.SearchResultsLoadingFakeHeader:
           return HEADER_ROW_HEIGHT;
+        case RowType.SelectSingleGroup:
+          return SELECT_ROW_HEIGHT;
         default:
           return NORMAL_ROW_HEIGHT;
       }
@@ -385,6 +398,15 @@ export const ConversationList: React.FC<PropsType> = ({
           break;
         case RowType.SearchResultsLoadingFakeRow:
           result = <SearchResultsLoadingFakeRowComponent />;
+          break;
+        case RowType.SelectSingleGroup:
+          result = (
+            <GroupListItem
+              i18n={i18n}
+              group={row.group}
+              onSelectGroup={onSelectConversation}
+            />
+          );
           break;
         case RowType.StartNewConversation:
           result = (

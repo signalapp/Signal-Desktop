@@ -8,7 +8,7 @@ import type {
   UserNotFoundModalStateType,
   SafetyNumberChangedBlockingDataType,
 } from '../state/ducks/globalModals';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ButtonVariant } from './Button';
@@ -16,8 +16,9 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
+  theme: ThemeType;
   // ContactModal
   contactModalState?: ContactModalStateType;
   renderContactModal: () => JSX.Element;
@@ -30,6 +31,9 @@ type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId?: string;
   renderSafetyNumber: () => JSX.Element;
+  // AddUserToAnotherGroupModal
+  addUserToAnotherGroupModalContactId?: string;
+  renderAddUserToAnotherGroup: () => JSX.Element;
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
@@ -62,6 +66,9 @@ export const GlobalModalContainer = ({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
+  // AddUserToAnotherGroupModal
+  addUserToAnotherGroupModalContactId,
+  renderAddUserToAnotherGroup,
   // SignalConnectionsModal
   isSignalConnectionsVisible,
   toggleSignalConnectionsModal,
@@ -87,6 +94,10 @@ export const GlobalModalContainer = ({
 
   if (safetyNumberModalContactId) {
     return renderSafetyNumber();
+  }
+
+  if (addUserToAnotherGroupModalContactId) {
+    return renderAddUserToAnotherGroup();
   }
 
   if (userNotFoundModalState) {

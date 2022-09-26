@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
-import { isNumber } from 'lodash';
+import { isNumber, pick } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
@@ -475,6 +475,18 @@ export const getAllComposableConversations = createSelector(
         conversation.title &&
         hasDisplayInfo(conversation)
     )
+);
+
+export const getAllGroupsWithInviteAccess = createSelector(
+  getConversationLookup,
+  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
+    Object.values(conversationLookup).filter(conversation => {
+      return (
+        conversation.type === 'group' &&
+        conversation.title &&
+        conversation.canAddNewMembers
+      );
+    })
 );
 
 /**
@@ -1007,6 +1019,14 @@ export const getGroupAdminsSelector = createSelector(
       });
       return admins;
     };
+  }
+);
+
+export const getContactSelector = createSelector(
+  getConversationSelector,
+  conversationSelector => {
+    return (contactId: string) =>
+      pick(conversationSelector(contactId), 'id', 'title', 'uuid');
   }
 );
 

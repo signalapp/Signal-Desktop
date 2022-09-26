@@ -43,6 +43,7 @@ type PropsActionType = {
   showConversation: ShowConversationType;
   toggleAdmin: (conversationId: string, contactId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
+  toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
   updateConversationModelSharedGroups: (conversationId: string) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
@@ -77,6 +78,7 @@ export const ContactModal = ({
   theme,
   toggleAdmin,
   toggleSafetyNumberModal,
+  toggleAddUserToAnotherGroupModal,
   updateConversationModelSharedGroups,
   viewUserStories,
 }: PropsType): JSX.Element => {
@@ -240,6 +242,21 @@ export const ContactModal = ({
                     <div className="ContactModal__safety-number__bubble-icon" />
                   </div>
                   <span>{i18n('showSafetyNumber')}</span>
+                </button>
+              )}
+              {!contact.isMe && isMember && conversation?.id && (
+                <button
+                  type="button"
+                  className="ContactModal__button"
+                  onClick={() => {
+                    hideContactModal();
+                    toggleAddUserToAnotherGroupModal(contact.id);
+                  }}
+                >
+                  <div className="ContactModal__bubble-icon">
+                    <div className="ContactModal__add-to-another-group__bubble-icon" />
+                  </div>
+                  Add to another group
                 </button>
               )}
               {!contact.isMe && areWeAdmin && isMember && conversation?.id && (

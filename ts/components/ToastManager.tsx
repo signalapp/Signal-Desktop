@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { ToastMessageBodyTooLong } from './ToastMessageBodyTooLong';
@@ -12,15 +12,20 @@ import { strictAssert } from '../util/assert';
 export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
-  toastType?: ToastType;
+  toast?: {
+    toastType: ToastType;
+    parameters?: ReplacementValuesType;
+  };
 };
+
+const SHORT_TIMEOUT = 3 * SECOND;
 
 export const ToastManager = ({
   hideToast,
   i18n,
-  toastType,
+  toast,
 }: PropsType): JSX.Element | null => {
-  if (toastType === ToastType.Error) {
+  if (toast?.toastType === ToastType.Error) {
     return (
       <Toast
         autoDismissDisabled
@@ -35,35 +40,35 @@ export const ToastManager = ({
     );
   }
 
-  if (toastType === ToastType.MessageBodyTooLong) {
+  if (toast?.toastType === ToastType.MessageBodyTooLong) {
     return <ToastMessageBodyTooLong i18n={i18n} onClose={hideToast} />;
   }
 
-  if (toastType === ToastType.StoryReact) {
+  if (toast?.toastType === ToastType.StoryReact) {
     return (
-      <Toast onClose={hideToast} timeout={3 * SECOND}>
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--sending-reaction')}
       </Toast>
     );
   }
 
-  if (toastType === ToastType.StoryReply) {
+  if (toast?.toastType === ToastType.StoryReply) {
     return (
-      <Toast onClose={hideToast} timeout={3 * SECOND}>
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--sending-reply')}
       </Toast>
     );
   }
 
-  if (toastType === ToastType.StoryMuted) {
+  if (toast?.toastType === ToastType.StoryMuted) {
     return (
-      <Toast onClose={hideToast} timeout={3 * SECOND}>
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--hasNoSound')}
       </Toast>
     );
   }
 
-  if (toastType === ToastType.StoryVideoTooLong) {
+  if (toast?.toastType === ToastType.StoryVideoTooLong) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-too-long')}
@@ -71,7 +76,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toastType === ToastType.StoryVideoUnsupported) {
+  if (toast?.toastType === ToastType.StoryVideoUnsupported) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-unsupported')}
@@ -79,7 +84,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toastType === ToastType.StoryVideoError) {
+  if (toast?.toastType === ToastType.StoryVideoError) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-error')}
@@ -87,9 +92,31 @@ export const ToastManager = ({
     );
   }
 
+  if (toast?.toastType === ToastType.AddingUserToGroup) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT} align="left">
+        {i18n(
+          'AddUserToAnotherGroupModal__toast--adding-user-to-group',
+          toast.parameters
+        )}
+      </Toast>
+    );
+  }
+
+  if (toast?.toastType === ToastType.UserAddedToGroup) {
+    return (
+      <Toast onClose={hideToast} align="left">
+        {i18n(
+          'AddUserToAnotherGroupModal__toast--user-added-to-group',
+          toast.parameters
+        )}
+      </Toast>
+    );
+  }
+
   strictAssert(
-    toastType === undefined,
-    `Unhandled toast of type: ${toastType}`
+    toast === undefined,
+    `Unhandled toast of type: ${toast?.toastType}`
   );
 
   return null;

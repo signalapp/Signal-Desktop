@@ -1,0 +1,29 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+div.AddUserToAnotherGroupModal__body {
+  padding-left: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
+.AddUserToAnotherGroupModal {
+  &__main-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+
+  &__list-wrapper {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+}
+
+.AddUserToAnotherGroupModal .module-conversation-list {
+  &__item,
+  &__item--contact-or-conversation {
+    height: 52px;
+    padding: 0 6px;
+  }
+}

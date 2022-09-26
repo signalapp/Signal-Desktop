@@ -20,7 +20,7 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
-    toastType: {
+    toast: {
       defaultValue: undefined,
     },
   },
@@ -33,35 +33,49 @@ UndefinedToast.args = {};
 
 export const InvalidToast = Template.bind({});
 InvalidToast.args = {
-  toastType: 'this is a toast that does not exist' as ToastType,
+  toast: {
+    toastType: 'this is a toast that does not exist' as ToastType,
+  },
 };
 
 export const StoryReact = Template.bind({});
 StoryReact.args = {
-  toastType: ToastType.StoryReact,
+  toast: {
+    toastType: ToastType.StoryReact,
+  },
 };
 
 export const StoryReply = Template.bind({});
 StoryReply.args = {
-  toastType: ToastType.StoryReply,
+  toast: {
+    toastType: ToastType.StoryReply,
+  },
 };
 
 export const MessageBodyTooLong = Template.bind({});
 MessageBodyTooLong.args = {
-  toastType: ToastType.MessageBodyTooLong,
+  toast: {
+    toastType: ToastType.MessageBodyTooLong,
+  },
 };
 
 export const StoryVideoTooLong = Template.bind({});
 StoryVideoTooLong.args = {
-  toastType: ToastType.StoryVideoTooLong,
+  toast: {
+    toastType: ToastType.StoryVideoTooLong,
+  },
 };
 
 export const StoryVideoUnsupported = Template.bind({});
 StoryVideoUnsupported.args = {
-  toastType: ToastType.StoryVideoUnsupported,
+  toast: {
+    toastType: ToastType.StoryVideoUnsupported,
+  },
 };
 
 export const StoryVideoError = Template.bind({});
 StoryVideoError.args = {
-  toastType: ToastType.StoryVideoError,
+  toast: {
+    toastType: ToastType.StoryVideoError,
+  },
 };
