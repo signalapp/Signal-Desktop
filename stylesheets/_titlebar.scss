@@ -22,7 +22,7 @@ body {
   --window-border: calc(var(--unscaled-window-border) / var(--zoom-factor));
   --titlebar-height: 0px;
 
-  &.os-has-custom-titlebar:not(.full-screen) {
+  &.os-has-custom-titlebar {
     &:not(.maximized) {
       --unscaled-window-border: 1px;
     }
