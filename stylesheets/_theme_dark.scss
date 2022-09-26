@@ -162,7 +162,7 @@
   }
 
   .module-message__video-overlay__play-icon {
-    @include color-svg('../images/play.svg', var(--color-session-green-color));
+    @include color-svg('../images/play.svg', var(--primary-color));
   }
 
   .module-message__broken-video-screenshot {
@@ -223,7 +223,7 @@
   }
 
   .module-media-gallery__tab--active {
-    border-bottom: 2px solid var(--color-session-green-color);
+    border-bottom: 2px solid var(--primary-color);
   }
 
   // Module: Document List Item
@@ -269,7 +269,7 @@
 
   // .module-conversation-list-item__unread-count {
   //   color: var(--color-white-color);
-  //   background-color: var(--color-session-green-color);
+  //   background-color: var(--primary-color);
   //   box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
   // }
 

@@ -644,24 +644,3 @@ export const SessionTheme = ({ children }: { children: any }) => (
     {children}
   </>
 );
-
-/**
- * Just putting those new theme values used in the settings to avoid having conflicts for now.
- *
- */
-
-export type PrimaryColorIds = 'green' | 'blue' | 'yellow' | 'pink' | 'purple' | 'orange' | 'red';
-
-type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string };
-
-export const getPrimaryColors = (): Array<PrimaryColorType> => {
-  return [
-    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
-    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
-    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
-    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
-    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
-    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
-    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
-  ];
-};

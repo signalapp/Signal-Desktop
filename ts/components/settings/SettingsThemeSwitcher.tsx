@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { switchThemeTo } from '../../session/utils/Theme';
-import { getPrimaryColors, PrimaryColorIds } from '../../themes/SessionTheme';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
-import { THEMES, ThemeStateType } from '../../themes/colors';
+import {
+  getPrimaryColors,
+  PrimaryColorStateType,
+  THEMES,
+  ThemeStateType,
+} from '../../themes/colors';
+import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
 
 // tslint:disable: use-simple-attributes
 
@@ -155,8 +160,9 @@ const Themes = () => {
 };
 
 export const SettingsThemeSwitcher = () => {
-  //TODO Theming
-  const [selectedAccent, setSelectedAccent] = useState<PrimaryColorIds | undefined>(undefined);
+  const [selectedPrimaryColor, setSelectedPrimaryColor] = useState<
+    PrimaryColorStateType | undefined
+  >(undefined);
 
   return (
     <StyledSwitcherContainer>
@@ -172,13 +178,14 @@ export const SettingsThemeSwitcher = () => {
           return (
             <SessionRadioPrimaryColors
               key={item.id}
-              active={item.id === selectedAccent}
+              active={item.id === selectedPrimaryColor}
               value={item.id}
               inputName="primary-colors"
               ariaLabel={item.ariaLabel}
               color={item.color}
               onClick={() => {
-                setSelectedAccent(item.id);
+                switchPrimaryColor(item.id);
+                setSelectedPrimaryColor(item.id);
               }}
             />
           );

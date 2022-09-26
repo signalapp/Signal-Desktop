@@ -327,9 +327,9 @@ label {
   }
 
   &__text-highlight {
-    @include text-highlight(var(--color-session-green-color));
+    @include text-highlight(var(--primary-color));
 
-    color: black;
+    color: var(--black-color);
 
     font-family: monospace;
     font-style: normal;

@@ -54,19 +54,19 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', var(--color-session-green-color));
+  @include color-svg('../images/file.svg', var(--primary-color));
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', var(--color-session-green-color));
+  @include color-svg('../images/image.svg', var(--primary-color));
 }
 .module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/microphone.svg', var(--color-session-green-color));
+  @include color-svg('../images/microphone.svg', var(--primary-color));
 }
 .module-quote__icon-container__icon--play {
-  @include color-svg('../images/play.svg', var(--color-session-green-color));
+  @include color-svg('../images/play.svg', var(--primary-color));
 }
 .module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', var(--color-session-green-color));
+  @include color-svg('../images/movie.svg', var(--primary-color));
 }
 
 .module-quote__generic-file__text {
@@ -207,19 +207,19 @@
   height: 24px;
 
   &--file {
-    @include color-svg('../images/file.svg', var(--color-session-green-color));
+    @include color-svg('../images/file.svg', var(--primary-color));
   }
   &--image {
-    @include color-svg('../images/image.svg', var(--color-session-green-color));
+    @include color-svg('../images/image.svg', var(--primary-color));
   }
   &--microphone {
-    @include color-svg('../images/microphone.svg', var(--color-session-green-color));
+    @include color-svg('../images/microphone.svg', var(--primary-color));
   }
   &--play {
-    @include color-svg('../images/play.svg', var(--color-session-green-color));
+    @include color-svg('../images/play.svg', var(--primary-color));
   }
   &--movie {
-    @include color-svg('../images/movie.svg', var(--color-session-green-color));
+    @include color-svg('../images/movie.svg', var(--primary-color));
   }
 }
 
@@ -278,7 +278,7 @@
   }
 }
 
-$session-highlight-message-shadow: 0px 0px 10px 1px var(--color-session-green-color);
+$session-highlight-message-shadow: 0px 0px 10px 1px var(--primary-color);
 
 @keyframes remove-box-shadow {
   0% {

@@ -76,6 +76,29 @@ const COLORS: Colors = {
   BLACK: black,
 };
 
+export type PrimaryColorStateType =
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'pink'
+  | 'purple'
+  | 'orange'
+  | 'red';
+
+type PrimaryColorType = { id: PrimaryColorStateType; ariaLabel: string; color: string };
+
+export const getPrimaryColors = (): Array<PrimaryColorType> => {
+  return [
+    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
+    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
+    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
+    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
+    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
+    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
+    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
+  ];
+};
+
 // Themes
 export type ThemeStateType = 'classic-light' | 'classic-dark' | 'ocean-light' | 'ocean-dark'; // used for redux state
 
@@ -95,7 +118,7 @@ type ThemeColors = {
 type Themes = Record<ThemeNames, ThemeColors>;
 
 // Classic Light
-const classicLightPrimary = '#31F196';
+const classicLightPrimary = primaryGreen;
 const classicLightDanger = dangerDark;
 const classicLight0 = '#000000';
 const classicLight1 = '#6D6D6D';
@@ -106,7 +129,7 @@ const classicLight5 = '#F9F9F9';
 const classicLight6 = '#FFFFFF';
 
 // Classic Dark
-const classicDarkPrimary = '#31F196';
+const classicDarkPrimary = primaryGreen;
 const classicDarkDanger = dangerLight;
 const classicDark0 = '#000000';
 const classicDark1 = '#1B1B1B';
@@ -117,7 +140,7 @@ const classicDark5 = '#A1A2A1';
 const classicDark6 = '#FFFFFF';
 
 // Ocean Light
-const oceanLightPrimary = '#57C9FA';
+const oceanLightPrimary = primaryBlue;
 const oceanLightDanger = dangerLight;
 const oceanLight0 = '#000000';
 const oceanLight1 = '#19345D';
@@ -129,7 +152,7 @@ const oceanLight6 = '#ECFAFB';
 const oceanLight7 = '#FCFFFF';
 
 // Ocean Dark
-const oceanDarkPrimary = '#57C9FA';
+const oceanDarkPrimary = primaryBlue;
 const oceanDarkDanger = dangerDark;
 const oceanDark0 = '#000000';
 const oceanDark1 = '#1A1C28';
