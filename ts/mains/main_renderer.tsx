@@ -100,8 +100,10 @@ function mapOldThemeToNew(theme: string) {
       return 'classic-dark';
     case 'android':
     case 'ios':
-    default:
+    case '':
       return 'classic-light';
+    default:
+      return theme;
   }
 }
 

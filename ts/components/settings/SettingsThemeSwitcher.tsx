@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { switchThemeTo } from '../../session/utils/Theme';
@@ -6,13 +6,9 @@ import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
-import {
-  getPrimaryColors,
-  PrimaryColorStateType,
-  THEMES,
-  ThemeStateType,
-} from '../../themes/colors';
+import { getPrimaryColors, THEMES, ThemeStateType } from '../../themes/colors';
 import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
+import { getPrimaryColor } from '../../state/selectors/primaryColor';
 
 // tslint:disable: use-simple-attributes
 
@@ -140,6 +136,7 @@ const Themes = () => {
         <ThemeContainer
           key={theme.id}
           onClick={() => {
+            // TODO Change to switchTheme function
             void switchThemeTo(theme.id, dispatch);
           }}
         >
@@ -160,9 +157,8 @@ const Themes = () => {
 };
 
 export const SettingsThemeSwitcher = () => {
-  const [selectedPrimaryColor, setSelectedPrimaryColor] = useState<
-    PrimaryColorStateType | undefined
-  >(undefined);
+  const selectedPrimaryColor = useSelector(getPrimaryColor);
+  const dispatch = useDispatch();
 
   return (
     <StyledSwitcherContainer>
@@ -184,8 +180,7 @@ export const SettingsThemeSwitcher = () => {
               ariaLabel={item.ariaLabel}
               color={item.color}
               onClick={() => {
-                switchPrimaryColor(item.id);
-                setSelectedPrimaryColor(item.id);
+                switchPrimaryColor(item.id, dispatch);
               }}
             />
           );
