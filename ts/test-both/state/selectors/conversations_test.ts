@@ -65,21 +65,26 @@ describe('both/state/selectors/conversations', () => {
   };
 
   function makeConversation(id: string): ConversationType {
+    const title = `${id} title`;
     return getDefaultConversation({
       id,
-      searchableTitle: `${id} title`,
-      title: `${id} title`,
+      searchableTitle: title,
+      title,
+      titleNoDefault: title,
     });
   }
 
   function makeConversationWithUuid(
     id: string
   ): ConversationType & { uuid: UUIDStringType } {
+    const title = `${id} title`;
+
     return getDefaultConversationWithUuid(
       {
         id,
-        searchableTitle: `${id} title`,
-        title: `${id} title`,
+        searchableTitle: title,
+        title,
+        titleNoDefault: title,
       },
       UUID.fromPrefix(id).toString()
     );
@@ -555,7 +560,8 @@ describe('both/state/selectors/conversations', () => {
           ...makeConversation('convo-6'),
           profileSharing: true,
           name: 'Should Be Dropped (no title)',
-          title: null,
+          title: 'Unknown group',
+          titleNoDefault: undefined,
         },
         'convo-7': {
           ...makeConversation('convo-7'),

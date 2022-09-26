@@ -36,6 +36,7 @@ export function getDefaultConversation(
     markedUnread: Boolean(overrideProps.markedUnread),
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
+    titleNoDefault: `${firstName} ${lastName}`,
     type: 'direct' as const,
     uuid: UUID.generate().toString(),
     ...overrideProps,

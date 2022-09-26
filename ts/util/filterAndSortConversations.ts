@@ -118,7 +118,9 @@ export function filterAndSortConversationsByRecent(
   if (searchTerm.length) {
     const now = Date.now();
 
-    return searchConversations(conversations, searchTerm, regionCode)
+    const withoutUnknown = conversations.filter(item => item.titleNoDefault);
+
+    return searchConversations(withoutUnknown, searchTerm, regionCode)
       .slice()
       .sort((a, b) => {
         const { activeAt: aActiveAt = 0, left: aLeft = false } = a.item;

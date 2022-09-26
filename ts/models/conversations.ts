@@ -1912,6 +1912,7 @@ export class ConversationModel extends window.Backbone
       sortedGroupMembers,
       timestamp,
       title: this.getTitle(),
+      titleNoDefault: this.getTitleNoDefault(),
       typingContactId: typingMostRecent?.senderId,
       searchableTitle: isMe(this.attributes)
         ? window.i18n('noteToSelf')
@@ -4950,7 +4951,21 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  getTitle({ isShort = false }: { isShort?: boolean } = {}): string {
+  getTitle(options?: { isShort?: boolean }): string {
+    const title = this.getTitleNoDefault(options);
+    if (title) {
+      return title;
+    }
+
+    if (isDirectConversation(this.attributes)) {
+      return window.i18n('unknownContact');
+    }
+    return window.i18n('unknownGroup');
+  }
+
+  getTitleNoDefault({ isShort = false }: { isShort?: boolean } = {}):
+    | string
+    | undefined {
     if (isDirectConversation(this.attributes)) {
       const username = this.get('username');
 
@@ -4959,11 +4974,10 @@ export class ConversationModel extends window.Backbone
         (isShort ? this.get('profileName') : undefined) ||
         this.getProfileName() ||
         this.getNumber() ||
-        (username && window.i18n('at-username', { username })) ||
-        window.i18n('unknownContact')
+        (username && window.i18n('at-username', { username }))
       );
     }
-    return this.get('name') || window.i18n('unknownGroup');
+    return this.get('name');
   }
 
   getProfileName(): string | undefined {

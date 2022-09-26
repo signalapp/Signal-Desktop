@@ -185,6 +185,7 @@ export type ConversationType = {
   // This is used by the CompositionInput for @mentions
   sortedGroupMembers?: Array<ConversationType>;
   title: string;
+  titleNoDefault?: string;
   searchableTitle?: string;
   unreadCount?: number;
   isSelected?: boolean;

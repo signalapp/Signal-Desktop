@@ -472,7 +472,7 @@ export const getAllComposableConversations = createSelector(
         !isConversationUnregistered(conversation) &&
         // All conversation should have a title except in weird cases where
         // they don't, in that case we don't want to show these for Forwarding.
-        conversation.title &&
+        conversation.titleNoDefault &&
         hasDisplayInfo(conversation)
     )
 );
