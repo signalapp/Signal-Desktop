@@ -127,6 +127,10 @@ Storage.onready(async () => {
 
   // These make key operations available to IPC handlers created in preload.js
   window.Events = {
+    getPrimaryColorSetting: () => Storage.get('primary-color-setting', 'green'),
+    setPrimaryColorSetting: async (value: any) => {
+      await Storage.put('primary-color-setting', value);
+    },
     getThemeSetting: () => Storage.get('theme-setting', 'classic-light'),
     setThemeSetting: async (value: any) => {
       await Storage.put('theme-setting', value);

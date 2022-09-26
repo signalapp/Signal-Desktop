@@ -1,8 +1,13 @@
 import { hexColorToRGB } from '../util/hexColorToRGB';
-import { COLORS, THEMES, ThemeStateType } from './colors';
+import { COLORS, PrimaryColorStateType, THEMES, ThemeStateType } from './colors';
 
-function loadClassicLight() {
-  document.documentElement.style.setProperty('--primary-color', THEMES.CLASSIC_LIGHT.PRIMARY);
+function loadClassicLight(primaryColor?: PrimaryColorStateType) {
+  document.documentElement.style.setProperty(
+    '--primary-color',
+    primaryColor && primaryColor !== THEMES.CLASSIC_LIGHT.PRIMARY
+      ? primaryColor
+      : THEMES.CLASSIC_LIGHT.PRIMARY
+  );
   document.documentElement.style.setProperty('--danger-color', THEMES.CLASSIC_LIGHT.DANGER);
 
   document.documentElement.style.setProperty(
@@ -354,8 +359,13 @@ function loadClassicLight() {
   );
 }
 
-function loadClassicDark() {
-  document.documentElement.style.setProperty('--primary-color', THEMES.CLASSIC_DARK.PRIMARY);
+function loadClassicDark(primaryColor?: PrimaryColorStateType) {
+  document.documentElement.style.setProperty(
+    '--primary-color',
+    primaryColor && primaryColor !== THEMES.CLASSIC_DARK.PRIMARY
+      ? primaryColor
+      : THEMES.CLASSIC_DARK.PRIMARY
+  );
   document.documentElement.style.setProperty('--danger-color', THEMES.CLASSIC_DARK.DANGER);
 
   document.documentElement.style.setProperty(
@@ -695,26 +705,31 @@ function loadClassicDark() {
   );
 }
 
-function loadOceanLight() {}
+function loadOceanLight(primaryColor?: PrimaryColorStateType) {}
 
-function loadOceanDark() {}
+function loadOceanDark(primaryColor?: PrimaryColorStateType) {}
 
-export const switchTheme = (theme: ThemeStateType) => {
+export async function switchTheme(theme: ThemeStateType) {
+  const selectedPrimaryColor = await window.Events.getPrimaryColorSetting();
+  const primaryColor =
+    (selectedPrimaryColor && (COLORS.PRIMARY as any)[`${selectedPrimaryColor.toUpperCase()}`]) ||
+    null;
+
   switch (theme) {
     case 'classic-light':
-      loadClassicLight();
+      loadClassicLight(primaryColor);
       break;
     case 'classic-dark':
-      loadClassicDark();
+      loadClassicDark(primaryColor);
       break;
     case 'ocean-light':
-      loadOceanLight();
+      loadOceanLight(primaryColor);
       break;
     case 'ocean-dark':
-      loadOceanDark();
+      loadOceanDark(primaryColor);
       break;
     default:
       window.log.warn('Unsupported theme:', theme);
       break;
   }
-};
+}

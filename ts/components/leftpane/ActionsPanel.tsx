@@ -52,6 +52,7 @@ import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_a
 import { switchThemeTo } from '../../session/utils/Theme';
 import { ThemeStateType } from '../../themes/colors';
 import { getTheme } from '../../state/selectors/theme';
+import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -153,6 +154,9 @@ const cleanUpMediasInterval = DURATION.MINUTES * 60;
 const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
 
 const setupTheme = async () => {
+  const primaryColor = window.Events.getPrimaryColorSetting();
+  await switchPrimaryColor(primaryColor, window?.inboxStore?.dispatch || null);
+
   const theme = window.Events.getThemeSetting();
   await switchThemeTo(theme, window?.inboxStore?.dispatch || null);
 };

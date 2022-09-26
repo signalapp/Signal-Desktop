@@ -9,8 +9,9 @@ import { getTheme } from '../../state/selectors/theme';
 import { noop } from 'lodash';
 import { loadEmojiPanelI18n } from '../../util/i18n';
 import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
+import { ThemeStateType } from '../../themes/colors.js';
 
-export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: 'light' | 'dark' }>`
+export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: ThemeStateType }>`
   padding: var(--margins-lg);
   z-index: 5;
   opacity: 0;
@@ -40,15 +41,20 @@ export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: 'light' | 
 
     ${props => {
       switch (props.theme) {
-        // TODO Theming - Add Ocean Colors
-        case 'dark':
+        case 'ocean-dark':
+          // TODO Theming
+          return ``;
+        case 'ocean-light':
+          // TODO Theming
+          return ``;
+        case 'classic-dark':
           return `
             --background-rgb: 27, 27, 27; // var(--color-cell-background)
             --rgb-background: 27, 27, 27;
             --rgb-color: 255, 255, 255; // var(--color-text)
             --rgb-input: 27, 27, 27;
           `;
-        case 'light':
+        case 'classic-light':
         default:
           return `
             --background-rgb: 249, 249, 249; // var(--color-cell-background)
@@ -97,6 +103,7 @@ const pickerProps: FixedPickerProps = {
 export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
   const { onEmojiClicked, show, isModal = false, onKeyDown } = props;
   const theme = useSelector(getTheme);
+  const emojiPanelTheme = theme.includes('light') ? 'light' : 'dark';
   const pickerRef = ref as MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
@@ -113,7 +120,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
               data,
               ref,
               i18n,
-              theme,
+              theme: emojiPanelTheme,
               onEmojiSelect: onEmojiClicked,
               onKeyDown,
               ...pickerProps,
