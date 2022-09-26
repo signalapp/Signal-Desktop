@@ -12,7 +12,6 @@ export async function switchThemeTo(theme: ThemeStateType, dispatch: Dispatch | 
   switch (theme) {
     case 'classic-dark':
       switchHtmlToDarkTheme();
-      switchTheme(theme);
       newTheme = 'classic-dark';
       break;
     case 'classic-light':

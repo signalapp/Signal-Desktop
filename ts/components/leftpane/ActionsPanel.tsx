@@ -51,6 +51,7 @@ import { UserUtils } from '../../session/utils';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../session/utils/Theme';
 import { ThemeStateType } from '../../themes/colors';
+import { getTheme } from '../../state/selectors/theme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -58,6 +59,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
+  const theme = useSelector(getTheme);
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -65,7 +67,7 @@ const Section = (props: { type: SectionType }) => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
-    } else if (type === SectionType.Moon) {
+    } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
       const newTheme = (currentTheme.includes('light')
         ? currentTheme.replace('light', 'dark')
@@ -128,11 +130,12 @@ const Section = (props: { type: SectionType }) => {
           id={'onion-path-indicator-led-id'}
         />
       );
+    case SectionType.ColorMode:
     default:
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={'moon'}
+          iconType={theme.includes('light') ? 'sun' : 'moon'}
           dataTestId="theme-section"
           notificationCount={unreadToShow}
           onClick={handleClick}
@@ -297,7 +300,7 @@ export const ActionsPanel = () => {
         <SessionToastContainer />
 
         <Section type={SectionType.PathIndicator} />
-        <Section type={SectionType.Moon} />
+        <Section type={SectionType.ColorMode} />
       </LeftPaneSectionContainer>
     </>
   );

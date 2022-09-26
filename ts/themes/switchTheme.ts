@@ -677,10 +677,7 @@ function loadClassicDark() {
     'var(--text-primary-color)'
   );
 
-  document.documentElement.style.setProperty(
-    '--session-logo-text-light-filter',
-    'brightness(0) saturate(100%)'
-  );
+  document.documentElement.style.setProperty('--session-logo-text-light-filter', 'none');
   document.documentElement.style.setProperty('--session-logo-text-dark-filter', 'none');
   document.documentElement.style.setProperty(
     '--session-logo-text-current-filter',
