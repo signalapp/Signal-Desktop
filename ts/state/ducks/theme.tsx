@@ -1,7 +1,6 @@
-export const APPLY_THEME = 'APPLY_THEME';
+import { ThemeStateType } from '../../themes/colors';
 
-// TODO Theming - should be classic-light and classic-dark
-export type ThemeStateType = 'light' | 'dark' | 'ocean-light' | 'ocean-dark';
+export const APPLY_THEME = 'APPLY_THEME';
 
 export const applyTheme = (theme: ThemeStateType) => {
   return {
@@ -10,7 +9,7 @@ export const applyTheme = (theme: ThemeStateType) => {
   };
 };
 
-export const initialThemeState: ThemeStateType = 'light';
+export const initialThemeState: ThemeStateType = 'classic-light';
 
 export const reducer = (
   state: any = initialThemeState,

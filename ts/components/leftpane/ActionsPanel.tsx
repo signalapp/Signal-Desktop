@@ -50,6 +50,7 @@ import { UserUtils } from '../../session/utils';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../session/utils/Theme';
+import { ThemeStateType } from '../../themes/colors';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -65,9 +66,10 @@ const Section = (props: { type: SectionType }) => {
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.Moon) {
-      // TODO Theming Toggle current theme light and dark mode with new system
-      const currentTheme = window.Events.getThemeSetting();
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      const currentTheme = String(window.Events.getThemeSetting());
+      const newTheme = (currentTheme.includes('light')
+        ? currentTheme.replace('light', 'dark')
+        : currentTheme.replace('dark', 'light')) as ThemeStateType;
 
       await switchThemeTo(newTheme, dispatch);
     } else if (type === SectionType.PathIndicator) {

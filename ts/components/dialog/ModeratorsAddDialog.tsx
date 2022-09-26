@@ -20,7 +20,7 @@ export const AddModeratorsDialog = (props: Props) => {
   const { conversationId } = props;
 
   const dispatch = useDispatch();
-  const darkMode = useSelector(getTheme) === 'dark';
+  const darkMode = useSelector(getTheme) === 'classic-dark';
   const convo = getConversationController().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');

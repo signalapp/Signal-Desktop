@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { reducer as search, SearchStateType } from './ducks/search';
 import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
-import { reducer as theme, ThemeStateType } from './ducks/theme';
+import { reducer as theme } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
 import { callReducer as call, CallStateType } from './ducks/call';
@@ -16,6 +16,7 @@ import {
   reducer as stagedAttachments,
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
+import { ThemeStateType } from '../themes/colors';
 
 export type StateType = {
   search: SearchStateType;

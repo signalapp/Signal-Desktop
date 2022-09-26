@@ -40,6 +40,7 @@ export const StyledEmojiPanel = styled.div<{ isModal: boolean; theme: 'light' | 
 
     ${props => {
       switch (props.theme) {
+        // TODO Theming - Add Ocean Colors
         case 'dark':
           return `
             --background-rgb: 27, 27, 27; // var(--color-cell-background)

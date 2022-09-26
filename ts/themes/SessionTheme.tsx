@@ -347,7 +347,7 @@ export const switchHtmlToLightTheme = () => {
   );
 };
 
-// default to light theme
+// default to classic light theme
 export const SessionGlobalStyles = createGlobalStyle`
   html {
     /* Old Theme Variables */
@@ -487,7 +487,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Text Box */
     /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
-    --text-box-text-control-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
+    --text-box-text-control-color: var(--text-secondary-color);
     --text-box-text-user-color: var(--text-primary-color);
     --text-box-border-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
 
@@ -616,10 +616,12 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming - Should Pills have their own colors? */
 
-    /* Modals / Toasts */
+    /* Modals */
     --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --modal-text-color: var(--text-primary-color);
     --modal-text-danger-color: var(--danger-color);
+
+    /* Toasts */
     --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
 
     /* Right Panel Items */
@@ -647,27 +649,6 @@ export const SessionTheme = ({ children }: { children: any }) => (
  * Just putting those new theme values used in the settings to avoid having conflicts for now.
  *
  */
-
-// TODO Theming need to improve this somehow
-type SettingsThemeSwitcherColor = {
-  background: string;
-  border: string;
-  sent: string;
-  received: string;
-};
-
-export const OceanBlueDark: SettingsThemeSwitcherColor = {
-  background: '#242735',
-  border: '#3D4A5E',
-  sent: '#57C9FA',
-  received: '#3D4A5D',
-};
-export const OceanBlueLight: SettingsThemeSwitcherColor = {
-  background: '#ECFAFB',
-  border: '#5CAACC',
-  sent: '#57C9FA',
-  received: '#B3EDF2',
-};
 
 export type PrimaryColorIds = 'green' | 'blue' | 'yellow' | 'pink' | 'purple' | 'orange' | 'red';
 
