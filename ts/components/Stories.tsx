@@ -24,6 +24,7 @@ import { MyStories } from './MyStories';
 import { StoriesPane } from './StoriesPane';
 import { Theme, themeClassName } from '../util/theme';
 import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
@@ -45,6 +46,8 @@ export type PropsType = {
   toggleStoriesView: () => unknown;
   viewUserStories: ViewUserStoriesActionCreatorType;
   viewStory: ViewStoryActionCreatorType;
+  isViewingStory: boolean;
+  isStoriesSettingsVisible: boolean;
 };
 
 type AddStoryType =
@@ -75,6 +78,8 @@ export const Stories = ({
   toggleStoriesView,
   viewUserStories,
   viewStory,
+  isViewingStory,
+  isStoriesSettingsVisible,
 }: PropsType): JSX.Element => {
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
     requiresFullWidth: true,
@@ -82,6 +87,15 @@ export const Stories = ({
 
   const [addStoryData, setAddStoryData] = useState<AddStoryType>();
   const [isMyStories, setIsMyStories] = useState(false);
+
+  // only handle ESC if not showing a child that handles their own ESC
+  useEscapeHandling(
+    (isMyStories && myStories.length) ||
+      isViewingStory ||
+      isStoriesSettingsVisible
+      ? undefined
+      : toggleStoriesView
+  );
 
   return (
     <div className={classNames('Stories', themeClassName(Theme.Dark))}>
