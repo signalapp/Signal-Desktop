@@ -1072,13 +1072,13 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--background-secondary-color',
-    THEMES.OCEAN_DARK.COLOR0
+    THEMES.OCEAN_DARK.COLOR2
   );
 
   document.documentElement.style.setProperty('--text-primary-color', THEMES.OCEAN_DARK.COLOR6);
   document.documentElement.style.setProperty('--text-secondary-color', THEMES.OCEAN_DARK.COLOR5);
 
-  document.documentElement.style.setProperty('--border-color', THEMES.OCEAN_DARK.COLOR3);
+  document.documentElement.style.setProperty('--border-color', THEMES.OCEAN_DARK.COLOR4);
 
   document.documentElement.style.setProperty(
     '--text-box-background-color',
@@ -1100,11 +1100,11 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--message-bubbles-received-background-color',
-    THEMES.OCEAN_DARK.COLOR2
+    THEMES.OCEAN_DARK.COLOR4
   );
   document.documentElement.style.setProperty(
     '--message-bubbles-sent-text-color',
-    'var(--background-primary-color)'
+    THEMES.OCEAN_DARK.COLOR0
   );
   document.documentElement.style.setProperty(
     '--message-bubbles-received-text-color',
@@ -1115,6 +1115,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--menu-button-background-color',
     'var(--primary-color)'
   );
+  // TODO Theming - Update with new color #5CAACC
   document.documentElement.style.setProperty(
     '--menu-button-background-hover-color',
     THEMES.OCEAN_DARK.COLOR4
@@ -1127,12 +1128,9 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--chat-buttons-background-hover-color',
-    THEMES.OCEAN_DARK.COLOR3
+    THEMES.OCEAN_DARK.COLOR4
   );
-  document.documentElement.style.setProperty(
-    '--chat-buttons-icon-color',
-    'var(--text-primary-color)'
-  );
+  document.documentElement.style.setProperty('--chat-buttons-icon-color', THEMES.OCEAN_DARK.COLOR6);
 
   document.documentElement.style.setProperty(
     '--settings-tab-background-color',
@@ -1140,8 +1138,9 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--settings-tab-background-hover-color',
-    THEMES.OCEAN_DARK.COLOR2
+    THEMES.OCEAN_DARK.COLOR3
   );
+  // TODO Theming - Confirm
   document.documentElement.style.setProperty(
     '--settings-tab-background-selected-color',
     THEMES.OCEAN_DARK.COLOR3
@@ -1174,12 +1173,12 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-disabled-color',
-    'var(--text-secondary-color)'
+    'var(--text-primary-color)'
   );
 
   document.documentElement.style.setProperty(
     '--button-solid-background-color',
-    THEMES.OCEAN_DARK.COLOR3
+    'var(--background-secondary-color)'
   );
   document.documentElement.style.setProperty(
     '--button-solid-background-hover-color',
@@ -1233,7 +1232,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--conversation-tab-background-hover-color',
-    THEMES.OCEAN_DARK.COLOR2
+    THEMES.OCEAN_DARK.COLOR3
   );
   document.documentElement.style.setProperty(
     '--conversation-tab-background-selected-color',
@@ -1261,11 +1260,11 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--conversation-tab-bubble-background-color',
-    THEMES.OCEAN_DARK.COLOR3
+    'var(--primary-color)'
   );
   document.documentElement.style.setProperty(
     '--conversation-tab-bubble-text-color',
-    'var(--text-primary-color)'
+    THEMES.OCEAN_DARK.COLOR0
   );
   document.documentElement.style.setProperty(
     '--conversation-tab-color-strip-color',
@@ -1274,7 +1273,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--search-bar-background-color',
-    'var(--background-secondary-color)'
+    THEMES.OCEAN_DARK.COLOR3
   );
   document.documentElement.style.setProperty(
     '--search-bar-text-control-color',
@@ -1293,7 +1292,10 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     'var(--text-primary-color)'
   );
 
-  document.documentElement.style.setProperty('--scroll-bar-fill-color', THEMES.OCEAN_DARK.COLOR4);
+  document.documentElement.style.setProperty(
+    '--scroll-bar-fill-color',
+    'var(text-secondary-color)'
+  );
 
   document.documentElement.style.setProperty('--zoom-bar-interval-color', THEMES.OCEAN_DARK.COLOR4);
   document.documentElement.style.setProperty('--zoom-bar-selector-color', 'var(--primary-color)');
@@ -1331,15 +1333,15 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--button-color-mode-stroke-color',
-    'var(--text-primary-color)'
+    'var(--text-secondary-color)'
   );
   document.documentElement.style.setProperty(
     '--button-color-mode-hover-color',
-    'var(--text-primary-color)'
+    'var(--text-secondary-color)'
   );
   document.documentElement.style.setProperty(
     '--button-color-mode-fill-color',
-    'var(--text-primary-color)'
+    'var(--text-secondary-color)'
   );
 
   // TODO Theming - Probably can remove this?
@@ -1352,11 +1354,11 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--emoji-reaction-bar-background-color',
-    THEMES.OCEAN_DARK.COLOR2
+    'var(--background-secondary-color)'
   );
   document.documentElement.style.setProperty(
     '--emoji-reaction-bar-icon-background-color',
-    'var(--background-secondary-color)'
+    'var(--background-primary-color)'
   );
   document.documentElement.style.setProperty(
     '--emoji-reaction-bar-icon-color',
@@ -1365,7 +1367,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--modal-background-color',
-    'var(--background-secondary-color)'
+    'var(--background-primary-color)'
   );
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
