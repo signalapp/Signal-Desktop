@@ -42,8 +42,9 @@ export default {
     },
     blur: {
       control: { type: 'radio' },
-      defaultValue: AvatarBlur.NoBlur,
+      defaultValue: undefined,
       options: {
+        Undefined: undefined,
         NoBlur: AvatarBlur.NoBlur,
         BlurPicture: AvatarBlur.BlurPicture,
         BlurPictureWithClickToView: AvatarBlur.BlurPictureWithClickToView,
@@ -79,7 +80,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     : true,
   avatarPath: overrideProps.avatarPath || '',
   badge: overrideProps.badge,
-  blur: overrideProps.blur || AvatarBlur.NoBlur,
+  blur: overrideProps.blur,
   color: overrideProps.color || AvatarColors[0],
   conversationType: overrideProps.conversationType || 'direct',
   i18n,
@@ -95,6 +96,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   size: 80,
   title: overrideProps.title || '',
   theme: overrideProps.theme || ThemeType.light,
+  storyRing: overrideProps.storyRing,
 });
 
 const sizes = Object.values(AvatarSize).filter(
@@ -238,6 +240,7 @@ BlurredBasedOnProps.args = createProps({
   acceptedMessageRequest: false,
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
 });
+
 BlurredBasedOnProps.story = {
   name: 'Blurred based on props',
 };
