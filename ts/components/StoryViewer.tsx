@@ -824,6 +824,7 @@ export const StoryViewer = ({
         )}
         {hasConfirmHideStory && (
           <ConfirmationDialog
+            dialogName="StoryViewer.confirmHideStory"
             actions={[
               {
                 action: () => {
@@ -844,6 +845,7 @@ export const StoryViewer = ({
         )}
         {confirmDeleteStory && (
           <ConfirmationDialog
+            dialogName="StoryViewer.deleteStory"
             actions={[
               {
                 text: i18n('delete'),

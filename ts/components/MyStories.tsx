@@ -42,6 +42,7 @@ export const MyStories = ({
     <>
       {confirmDeleteStory && (
         <ConfirmationDialog
+          dialogName="MyStories.delete"
           actions={[
             {
               text: i18n('delete'),

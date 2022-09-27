@@ -196,6 +196,7 @@ export const StoryDetailsModal = ({
 
   return (
     <Modal
+      modalName="StoryDetailsModal"
       hasXButton
       i18n={i18n}
       moduleClassName="StoryDetailsModal"

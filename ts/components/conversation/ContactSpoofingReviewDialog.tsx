@@ -349,6 +349,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<
 
   return (
     <Modal
+      modalName="ContactSpoofingReviewDialog"
       hasXButton
       i18n={i18n}
       moduleClassName="module-ContactSpoofingReviewDialog"

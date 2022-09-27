@@ -188,6 +188,7 @@ export const StickerPreviewModal = React.memo((props: Props) => {
         >
           {confirmingUninstall ? (
             <ConfirmationDialog
+              dialogName="StickerPreviewModal.confirmUninstall"
               i18n={i18n}
               onClose={onClose}
               actions={[

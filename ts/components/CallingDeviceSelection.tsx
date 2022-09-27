@@ -135,7 +135,12 @@ export const CallingDeviceSelection = ({
     : undefined;
 
   return (
-    <Modal i18n={i18n} theme={Theme.Dark} onClose={toggleSettings}>
+    <Modal
+      modalName="CallingDeviceSelection"
+      i18n={i18n}
+      theme={Theme.Dark}
+      onClose={toggleSettings}
+    >
       <div className="module-calling-device-selection">
         <button
           type="button"

@@ -244,6 +244,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       <>
         {showBlockInfo && (
           <ConfirmationDialog
+            dialogName="GroupCallRemoteParticipant.blockInfo"
             cancelText={i18n('ok')}
             i18n={i18n}
             onClose={() => {

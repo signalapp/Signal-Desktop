@@ -75,6 +75,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog
+          dialogName="PhoneNumberCheckbox.invalidPhoneNumber"
           cancelText={i18n('ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}

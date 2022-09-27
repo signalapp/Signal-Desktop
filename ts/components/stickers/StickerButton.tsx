@@ -173,7 +173,10 @@ export const StickerButton = React.memo(
           setOpen(false);
           return true;
         },
-        { containerElements: [popperRoot, buttonRef] }
+        {
+          containerElements: [popperRoot, buttonRef],
+          name: 'StickerButton',
+        }
       );
     }, [open, popperRoot, setOpen]);
 

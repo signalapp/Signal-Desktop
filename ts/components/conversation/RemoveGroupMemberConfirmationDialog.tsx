@@ -31,6 +31,7 @@ export const RemoveGroupMemberConfirmationDialog: FunctionComponent<
 
   return (
     <ConfirmationDialog
+      dialogName="RemoveGroupMemberConfirmationDialog"
       actions={[
         {
           action: onRemove,

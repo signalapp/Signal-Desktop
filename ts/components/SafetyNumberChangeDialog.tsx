@@ -65,7 +65,12 @@ export const SafetyNumberChangeDialog = ({
 
   if (selectedContact) {
     return (
-      <Modal hasXButton i18n={i18n} onClose={onClose}>
+      <Modal
+        modalName="SafetyNumberChangeDialog"
+        hasXButton
+        i18n={i18n}
+        onClose={onClose}
+      >
         {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
       </Modal>
     );
@@ -73,6 +78,7 @@ export const SafetyNumberChangeDialog = ({
 
   return (
     <ConfirmationDialog
+      dialogName="SafetyNumberChangeDialog.confirmSend"
       actions={[
         {
           action: onConfirm,

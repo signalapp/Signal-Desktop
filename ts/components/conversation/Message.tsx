@@ -2422,7 +2422,10 @@ export class Message extends React.PureComponent<Props, State> {
             this.toggleReactionViewer(true);
             return true;
           },
-          { containerElements: [root, this.reactionsContainerRef] }
+          {
+            containerElements: [root, this.reactionsContainerRef],
+            name: 'Message.reactionViewer',
+          }
         );
 
         return {
@@ -2458,7 +2461,7 @@ export class Message extends React.PureComponent<Props, State> {
             this.toggleReactionPicker(true);
             return true;
           },
-          { containerElements: [root] }
+          { containerElements: [root], name: 'Message.reactionPicker' }
         );
 
         return {

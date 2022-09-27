@@ -76,6 +76,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
     <>
       {hasGenerateNewLinkDialog && (
         <ConfirmationDialog
+          dialogName="GroupLinkManagement.resetLink"
           actions={[
             {
               action: () => {

@@ -111,7 +111,10 @@ export function ContextMenu<T>({
         closeCurrentOpenContextMenu = undefined;
         return true;
       },
-      { containerElements: [referenceElement, popperElement] }
+      {
+        containerElements: [referenceElement, popperElement],
+        name: 'ContextMenu',
+      }
     );
   }, [isMenuShowing, referenceElement, popperElement]);
 

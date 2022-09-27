@@ -19,6 +19,7 @@ export type ActionSpec = {
 
 export type OwnProps = Readonly<{
   actions?: Array<ActionSpec>;
+  dialogName: string;
   cancelButtonVariant?: ButtonVariant;
   cancelText?: string;
   children?: React.ReactNode;
@@ -58,6 +59,7 @@ function getButtonVariant(
 export const ConfirmationDialog = React.memo(
   ({
     actions = [],
+    dialogName,
     cancelButtonVariant,
     cancelText,
     children,
@@ -94,8 +96,11 @@ export const ConfirmationDialog = React.memo(
 
     const hasActions = Boolean(actions.length);
 
+    const modalName = `ConfirmationDialog.${dialogName}`;
+
     return (
       <ModalHost
+        modalName={modalName}
         noMouseClose={noMouseClose}
         onClose={close}
         onTopOfEverything={onTopOfEverything}
@@ -104,6 +109,7 @@ export const ConfirmationDialog = React.memo(
       >
         <animated.div style={modalStyles}>
           <ModalWindow
+            modalName={modalName}
             hasXButton={hasXButton}
             i18n={i18n}
             moduleClassName={moduleClassName}

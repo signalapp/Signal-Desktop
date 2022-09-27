@@ -118,6 +118,7 @@ export const GlobalModalContainer = ({
 
     return (
       <ConfirmationDialog
+        dialogName="GlobalModalContainer.userNotFound"
         cancelText={i18n('ok')}
         cancelButtonVariant={ButtonVariant.Secondary}
         i18n={i18n}

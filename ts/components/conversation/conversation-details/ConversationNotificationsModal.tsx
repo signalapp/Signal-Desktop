@@ -46,6 +46,7 @@ export const ConversationNotificationsModal = ({
 
   return (
     <Modal
+      modalName="ConversationNotificationsModal"
       hasStickyButtons
       hasXButton
       onClose={onClose}

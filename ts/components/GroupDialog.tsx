@@ -54,7 +54,7 @@ export function GroupDialog(props: Readonly<PropsType>): JSX.Element {
   }
 
   return (
-    <ModalHost onClose={onClose}>
+    <ModalHost modalName="GroupDialog" onClose={onClose}>
       <div className="module-GroupDialog">
         <button
           aria-label={i18n('close')}

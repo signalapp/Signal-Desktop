@@ -18,6 +18,7 @@ export const ConfirmDiscardDialog = ({
 }: PropsType): JSX.Element | null => {
   return (
     <ConfirmationDialog
+      dialogName="ConfirmDiscardDialog"
       actions={[
         {
           action: onDiscard,

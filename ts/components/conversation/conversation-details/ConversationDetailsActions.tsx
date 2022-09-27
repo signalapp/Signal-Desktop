@@ -167,6 +167,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       </PanelSection>
       {confirmLeave && (
         <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmLeave"
           actions={[
             {
               text: i18n(
@@ -186,6 +187,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
 
       {confirmGroupBlock && (
         <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmBlock"
           actions={[
             {
               text: i18n(
@@ -206,6 +208,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       )}
       {confirmGroupUnblock && (
         <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmUnblock"
           actions={[
             {
               text: i18n(
@@ -227,6 +230,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
 
       {confirmDirectBlock && (
         <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmDirectBlock"
           actions={[
             {
               text: i18n('MessageRequests--block'),
@@ -245,6 +249,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       )}
       {confirmDirectUnblock && (
         <ConfirmationDialog
+          dialogName="ConversationDetailsAction.confirmDirectUnblock"
           actions={[
             {
               text: i18n('MessageRequests--unblock'),

@@ -125,6 +125,7 @@ export const ChatColorPicker = ({
       {customColorToEdit ? renderCustomColorEditorWrapper() : null}
       {confirmResetWhat ? (
         <ConfirmationDialog
+          dialogName="ChatColorPicker.confirmReset"
           actions={[
             {
               action: resetDefaultChatColor,
@@ -151,6 +152,7 @@ export const ChatColorPicker = ({
       ) : null}
       {confirmResetAll ? (
         <ConfirmationDialog
+          dialogName="ChatColorPicker.confirmResetAll"
           actions={[
             {
               action: resetAllChatColors,
@@ -332,6 +334,7 @@ const CustomColorBubble = ({
     <>
       {confirmDeleteCount ? (
         <ConfirmationDialog
+          dialogName="ChatColorPicker.confirmDelete"
           actions={[
             {
               action: onDelete,
@@ -433,6 +436,7 @@ const CustomColorEditorWrapper = ({
 
   return (
     <Modal
+      modalName="ChatColorPicker"
       hasXButton
       i18n={i18n}
       moduleClassName="ChatColorPicker__modal"

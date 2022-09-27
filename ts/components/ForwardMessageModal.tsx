@@ -280,6 +280,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     <>
       {cannotMessage && (
         <ConfirmationDialog
+          dialogName="ForwardMessageModal.confirm"
           cancelText={i18n('Confirmation--confirm')}
           i18n={i18n}
           onClose={() => setCannotMessage(false)}
@@ -288,6 +289,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
         </ConfirmationDialog>
       )}
       <ModalHost
+        modalName="ForwardMessageModal"
         onEscape={handleBackOrClose}
         onClose={close}
         overlayStyles={overlayStyles}

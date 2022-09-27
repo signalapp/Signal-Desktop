@@ -72,6 +72,7 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
 
   return (
     <ConfirmationDialog
+      dialogName="DisappearingTimerDialog"
       moduleClassName={CSS_MODULE}
       i18n={i18n}
       theme={theme}

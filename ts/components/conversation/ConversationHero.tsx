@@ -225,6 +225,7 @@ export const ConversationHero = ({
       </div>
       {isShowingMessageRequestWarning && (
         <ConfirmationDialog
+          dialogName="ConversationHere.messageRequestWarning"
           i18n={i18n}
           onClose={closeMessageRequestWarning}
           actions={[

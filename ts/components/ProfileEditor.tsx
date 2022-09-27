@@ -822,6 +822,7 @@ export const ProfileEditor = ({
     <>
       {usernameEditState === UsernameEditState.ConfirmingDelete && (
         <ConfirmationDialog
+          dialogName="ProfileEditor.confirmDeleteUsername"
           i18n={i18n}
           onClose={() => setUsernameEditState(UsernameEditState.Editing)}
           actions={[
@@ -837,6 +838,7 @@ export const ProfileEditor = ({
       )}
       {usernameEditState === UsernameEditState.ShowingErrorPopup && (
         <ConfirmationDialog
+          dialogName="ProfileEditor.usernameError"
           cancelText={i18n('ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}

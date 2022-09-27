@@ -103,6 +103,7 @@ export { Long } from 'long';
 // Synced with the type in ts/shims/showConfirmationDialog
 // we are duplicating it here because that file cannot import/export.
 type ConfirmationDialogViewProps = {
+  dialogName: string;
   cancelText?: string;
   confirmStyle?: 'affirmative' | 'negative';
   message: string;

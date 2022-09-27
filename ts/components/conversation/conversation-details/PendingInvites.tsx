@@ -215,6 +215,7 @@ function MembershipActionConfirmation({
 
   return (
     <ConfirmationDialog
+      dialogName="PendingInvites.actionConfirmation"
       actions={[
         {
           action: modalAction,

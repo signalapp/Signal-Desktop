@@ -16,6 +16,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { MemberRepository } from '../memberRepository';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { matchBlotTextPartitions } from '../util';
+import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { sameWidthModifier } from '../../util/popperUtil';
 
 export type MentionCompletionOptions = {
@@ -42,6 +43,8 @@ export class MentionCompletion {
 
   suggestionListRef: RefObject<HTMLDivElement>;
 
+  outsideClickDestructor: () => void;
+
   constructor(quill: Quill, options: MentionCompletionOptions) {
     this.results = [];
     this.index = 0;
@@ -49,6 +52,18 @@ export class MentionCompletion {
     this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
     this.suggestionListRef = React.createRef<HTMLDivElement>();
+
+    // Just to make sure that we don't propagate outside clicks until this
+    // is closed.
+    this.outsideClickDestructor = handleOutsideClick(
+      () => {
+        return true;
+      },
+      {
+        name: 'quill.emoji.completion',
+        containerElements: [this.root],
+      }
+    );
 
     const clearResults = () => {
       if (this.results.length) {
@@ -77,6 +92,7 @@ export class MentionCompletion {
   }
 
   destroy(): void {
+    this.outsideClickDestructor();
     this.root.remove();
   }
 

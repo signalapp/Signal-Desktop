@@ -69,7 +69,10 @@ export class MainHeader extends React.Component<PropsType, StateType> {
 
         return true;
       },
-      { containerElements: [popperRoot, this.containerRef] }
+      {
+        containerElements: [popperRoot, this.containerRef],
+        name: 'MainHeader.showAvatarPopup',
+      }
     );
 
     this.setState({

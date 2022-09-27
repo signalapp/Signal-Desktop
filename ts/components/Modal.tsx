@@ -19,6 +19,7 @@ import { useRefMerger } from '../hooks/useRefMerger';
 
 type PropsType = {
   children: ReactNode;
+  modalName: string;
   hasStickyButtons?: boolean;
   hasXButton?: boolean;
   i18n: LocalizerType;
@@ -39,6 +40,7 @@ const BASE_CLASS_NAME = 'module-Modal';
 
 export function Modal({
   children,
+  modalName,
   hasStickyButtons,
   hasXButton,
   i18n,
@@ -61,6 +63,7 @@ export function Modal({
 
   return (
     <ModalHost
+      modalName={modalName}
       moduleClassName={moduleClassName}
       noMouseClose={noMouseClose}
       onClose={close}
@@ -70,6 +73,7 @@ export function Modal({
     >
       <animated.div style={modalStyles}>
         <ModalWindow
+          modalName={modalName}
           hasStickyButtons={hasStickyButtons}
           hasXButton={hasXButton}
           i18n={i18n}

@@ -41,6 +41,7 @@ export const MessageRequestActionsConfirmation = ({
   if (state === MessageRequestState.blocking) {
     return (
       <ConfirmationDialog
+        dialogName="messageRequestActionsConfirmation.blocking"
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -77,6 +78,7 @@ export const MessageRequestActionsConfirmation = ({
   if (state === MessageRequestState.unblocking) {
     return (
       <ConfirmationDialog
+        dialogName="messageRequestActionsConfirmation.unblocking"
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);
@@ -104,6 +106,7 @@ export const MessageRequestActionsConfirmation = ({
   if (state === MessageRequestState.deleting) {
     return (
       <ConfirmationDialog
+        dialogName="messageRequestActionsConfirmation.deleting"
         i18n={i18n}
         onClose={() => {
           onChangeState(MessageRequestState.default);

@@ -27,6 +27,7 @@ export const AnnouncementsOnlyGroupBanner = ({
     <>
       {isShowingAdmins && (
         <Modal
+          modalName="AnnouncmentsOnlyGroupBanner"
           i18n={i18n}
           onClose={() => setIsShowingAdmins(false)}
           title={i18n('AnnouncementsOnlyGroupBanner--modal')}

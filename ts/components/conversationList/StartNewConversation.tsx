@@ -72,6 +72,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog
+          dialogName="StartNewConversation.invalidPhoneNumber"
           cancelText={i18n('ok')}
           cancelButtonVariant={ButtonVariant.Secondary}
           i18n={i18n}

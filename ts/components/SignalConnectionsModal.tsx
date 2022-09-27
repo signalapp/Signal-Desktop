@@ -18,7 +18,12 @@ export const SignalConnectionsModal = ({
   onClose,
 }: PropsType): JSX.Element => {
   return (
-    <Modal hasXButton i18n={i18n} onClose={onClose}>
+    <Modal
+      modalName="SignalConnectionsModal"
+      hasXButton
+      i18n={i18n}
+      onClose={onClose}
+    >
       <div className="SignalConnectionsModal">
         <i className="SignalConnectionsModal__icon" />
 

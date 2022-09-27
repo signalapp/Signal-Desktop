@@ -190,6 +190,7 @@ export const StoryListItem = ({
       </ContextMenu>
       {hasConfirmHideStory && (
         <ConfirmationDialog
+          dialogName="StoryListItem.hideStory"
           actions={[
             {
               action: () => onHideStory(conversationId),

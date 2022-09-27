@@ -290,6 +290,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     case ModalState.UnmuteNotifications:
       modalNode = (
         <ConfirmationDialog
+          dialogName="ConversationDetails.unmuteNotifications"
           actions={[
             {
               action: () => setMuteExpiration(0),

@@ -87,7 +87,10 @@ export const MediaQualitySelector = ({
         handleClose();
         return true;
       },
-      { containerElements: [popperRoot, buttonRef] }
+      {
+        containerElements: [popperRoot, buttonRef],
+        name: 'MediaQualitySelector',
+      }
     );
   }, [menuShowing, popperRoot, handleClose]);
 

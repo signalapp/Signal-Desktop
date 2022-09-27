@@ -40,6 +40,7 @@ export const GroupDescription = ({
     <>
       {showFullDescription && (
         <Modal
+          modalName="GroupDescription"
           hasXButton
           i18n={i18n}
           onClose={() => setShowFullDescription(false)}

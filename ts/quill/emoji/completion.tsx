@@ -20,6 +20,7 @@ import {
 import { Emoji } from '../../components/emoji/Emoji';
 import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
+import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as log from '../../logging/log';
 
 const Keyboard = Quill.import('modules/keyboard');
@@ -41,12 +42,26 @@ export class EmojiCompletion {
 
   quill: Quill;
 
+  outsideClickDestructor: () => void;
+
   constructor(quill: Quill, options: EmojiPickerOptions) {
     this.results = [];
     this.index = 0;
     this.options = options;
     this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
+
+    // Just to make sure that we don't propagate outside clicks until this
+    // is closed.
+    this.outsideClickDestructor = handleOutsideClick(
+      () => {
+        return true;
+      },
+      {
+        name: 'quill.emoji.completion',
+        containerElements: [this.root],
+      }
+    );
 
     const clearResults = () => {
       if (this.results.length) {
@@ -93,6 +108,7 @@ export class EmojiCompletion {
   }
 
   destroy(): void {
+    this.outsideClickDestructor();
     this.root.remove();
   }
 

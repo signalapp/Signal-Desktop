@@ -32,7 +32,12 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
   const [focusRef] = useRestoreFocus();
 
   return (
-    <Modal hasXButton={false} onClose={onClose} i18n={i18n}>
+    <Modal
+      modalName="DeliveryIssueDialog"
+      hasXButton={false}
+      onClose={onClose}
+      i18n={i18n}
+    >
       <section>
         <div className="module-delivery-issue-dialog__image">
           <img

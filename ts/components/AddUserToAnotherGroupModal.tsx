@@ -142,6 +142,7 @@ export const AddUserToAnotherGroupModal = ({
     <>
       {!selectedGroup && (
         <Modal
+          modalName="AddUserToAnotherGroupModal"
           hasXButton
           i18n={i18n}
           onClose={toggleAddUserToAnotherGroupModal}
@@ -190,6 +191,7 @@ export const AddUserToAnotherGroupModal = ({
 
       {selectedGroupId && selectedGroup && (
         <ConfirmationDialog
+          dialogName="AddUserToAnotherGroupModal__confirm"
           title={i18n('AddUserToAnotherGroupModal__confirm-title')}
           i18n={i18n}
           onClose={() => setSelectedGroupId(undefined)}

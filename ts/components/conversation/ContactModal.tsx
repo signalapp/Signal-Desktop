@@ -112,6 +112,7 @@ export const ContactModal = ({
 
       modalNode = (
         <ConfirmationDialog
+          dialogName="ContactModal.toggleAdmin"
           actions={[
             {
               action: () => toggleAdmin(conversation.id, contact.id),
@@ -166,6 +167,7 @@ export const ContactModal = ({
 
       return (
         <Modal
+          modalName="ContactModal"
           moduleClassName="ContactModal__modal"
           hasXButton
           i18n={i18n}

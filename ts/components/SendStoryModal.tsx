@@ -753,6 +753,7 @@ export const SendStoryModal = ({
   return (
     <>
       <Modal
+        modalName="SendStoryModal"
         hasStickyButtons
         hasXButton
         i18n={i18n}
@@ -803,6 +804,7 @@ export const SendStoryModal = ({
       </Modal>
       {confirmRemoveGroupId && (
         <ConfirmationDialog
+          dialogName="SendStoryModal.confirmRemoveGroupId"
           actions={[
             {
               action: () => {
@@ -823,6 +825,7 @@ export const SendStoryModal = ({
       )}
       {confirmDeleteListId && (
         <ConfirmationDialog
+          dialogName="SendStoryModal.confirmDeleteList"
           actions={[
             {
               action: () => {
