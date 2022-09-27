@@ -7,6 +7,20 @@ import {
   hasSelectedConversationIncomingMessages,
 } from '../../state/selectors/conversations';
 
+const ConversationRequestTextBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--margins-lg);
+`;
+
+// TODO Theming - Confirm this is correct?
+const ConversationRequestTextInner = styled.div`
+  color: var(--text-secondary-color);
+  text-align: center;
+  max-width: 390px;
+`;
+
 export const ConversationRequestinfo = () => {
   const selectedConversation = useSelector(getSelectedConversation);
   const isIncomingMessageRequest = useIsRequest(selectedConversation?.id);
@@ -26,16 +40,3 @@ export const ConversationRequestinfo = () => {
     </ConversationRequestTextBottom>
   );
 };
-
-const ConversationRequestTextBottom = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: var(--margins-lg);
-`;
-
-const ConversationRequestTextInner = styled.div`
-  color: var(--color-text-subtle);
-  text-align: center;
-  max-width: 390px;
-`;

@@ -17,7 +17,7 @@ const Divider = styled.div`
   width: 100%;
   cursor: row-resize;
   height: 5px;
-  background-color: var(--color-cell-background);
+  background-color: var(--background-primary-color);
   margin-top: 2px;
 `;
 
@@ -25,7 +25,7 @@ const DividerHandle = styled.div`
   width: 10%;
   height: 5px;
   cursor: row-resize;
-  background-color: var(--color-text);
+  background-color: var(--text-primary-color);
   flex-shrink: 0;
   position: relative;
   left: 50%;

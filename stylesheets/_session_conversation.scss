@@ -144,17 +144,6 @@
   }
 }
 
-.messages-container {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column-reverse;
-  position: relative;
-  overflow-x: hidden;
-  min-width: 370px;
-  scrollbar-width: 4px;
-  padding: var(--margins-sm) var(--margins-lg) var(--margins-lg);
-}
-
 .composition-container {
   display: flex;
   justify-content: center;

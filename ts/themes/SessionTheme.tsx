@@ -648,6 +648,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Also used for Images */
     /* Also used for the Media Grid Items */
     /* Also used for Staged Generic Attachments */
+    /* Also used for FileDropZone */
     /* Same for all Themes */
     --message-link-preview-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06);
   };

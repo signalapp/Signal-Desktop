@@ -640,17 +640,6 @@ input {
   }
 }
 
-.messages-container {
-  .session-icon-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-  }
-}
-
 .group-member-list {
   &__selection {
     height: 100%;

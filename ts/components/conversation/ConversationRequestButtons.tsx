@@ -24,6 +24,21 @@ const handleAcceptConversationRequest = async (convoId: string) => {
   await approveConvoAndSendResponse(convoId, true);
 };
 
+const ConversationRequestBanner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--margins-lg);
+  gap: var(--margins-lg);
+`;
+
+const ConversationBannerRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: var(--margins-lg);
+  justify-content: center;
+`;
+
 export const ConversationMessageRequestButtons = () => {
   const selectedConversation = useSelector(getSelectedConversation);
 
@@ -61,18 +76,3 @@ export const ConversationMessageRequestButtons = () => {
     </ConversationRequestBanner>
   );
 };
-
-const ConversationBannerRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: var(--margins-lg);
-  justify-content: center;
-`;
-
-const ConversationRequestBanner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--margins-lg);
-  gap: var(--margins-lg);
-`;
