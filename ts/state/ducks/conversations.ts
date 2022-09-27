@@ -114,6 +114,8 @@ export type ConversationType = {
   pni?: UUIDStringType;
   e164?: string;
   name?: string;
+  systemGivenName?: string;
+  systemFamilyName?: string;
   familyName?: string;
   firstName?: string;
   profileName?: string;

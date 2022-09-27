@@ -1904,6 +1904,8 @@ export class ConversationModel extends window.Backbone
       muteExpiresAt: this.get('muteExpiresAt'),
       dontNotifyForMentionsIfMuted: this.get('dontNotifyForMentionsIfMuted'),
       name: this.get('name'),
+      systemGivenName: this.get('systemGivenName'),
+      systemFamilyName: this.get('systemFamilyName'),
       phoneNumber: this.getNumber(),
       profileName: this.getProfileName(),
       profileSharing: this.get('profileSharing'),
@@ -4971,6 +4973,7 @@ export class ConversationModel extends window.Backbone
       const username = this.get('username');
 
       return (
+        (isShort ? this.get('systemGivenName') : undefined) ||
         this.get('name') ||
         (isShort ? this.get('profileName') : undefined) ||
         this.getProfileName() ||

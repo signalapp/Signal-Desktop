@@ -165,6 +165,14 @@ export async function toContactRecord(
   if (profileFamilyName) {
     contactRecord.familyName = profileFamilyName;
   }
+  const systemGivenName = conversation.get('systemGivenName');
+  if (systemGivenName) {
+    contactRecord.systemGivenName = systemGivenName;
+  }
+  const systemFamilyName = conversation.get('systemFamilyName');
+  if (systemFamilyName) {
+    contactRecord.systemFamilyName = systemFamilyName;
+  }
   contactRecord.blocked = conversation.isBlocked();
   contactRecord.whitelisted = Boolean(conversation.get('profileSharing'));
   contactRecord.archived = Boolean(conversation.get('isArchived'));
@@ -934,6 +942,10 @@ export async function mergeContactRecord(
       details.push('updated profile name');
     }
   }
+  conversation.set({
+    systemGivenName: dropNull(contactRecord.systemGivenName),
+    systemFamilyName: dropNull(contactRecord.systemFamilyName),
+  });
 
   if (contactRecord.identityKey) {
     const verified = await conversation.safeGetVerified();

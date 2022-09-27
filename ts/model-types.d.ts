@@ -314,6 +314,8 @@ export type ConversationAttributesType = {
   isArchived?: boolean;
   lastMessage?: string | null;
   name?: string;
+  systemGivenName?: string;
+  systemFamilyName?: string;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileSharing?: boolean;
