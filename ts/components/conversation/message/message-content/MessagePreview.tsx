@@ -10,7 +10,10 @@ import { SessionIcon } from '../../../icon';
 import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
 import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
-export type MessagePreviewSelectorProps = Pick<MessageRenderingProps, 'attachments' | 'previews'>;
+export type MessagePreviewSelectorProps = Pick<
+  MessageRenderingProps,
+  'direction' | 'attachments' | 'previews'
+>;
 
 type Props = {
   handleImageError: () => void;
@@ -24,7 +27,7 @@ export const MessagePreview = (props: Props) => {
   if (!selected) {
     return null;
   }
-  const { attachments, previews } = selected;
+  const { direction, attachments, previews } = selected;
 
   // Attachments take precedence over Link Previews
   if (attachments && attachments.length) {
@@ -53,7 +56,7 @@ export const MessagePreview = (props: Props) => {
   return (
     <div
       role="button"
-      className={classNames('module-message__link-preview')}
+      className={classNames(`module-message__link-preview--${direction}`)}
       onClick={openLinkFromPreview}
     >
       {first.image && previewHasImage && isFullSizeImage ? (
