@@ -15,6 +15,7 @@ import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { isAccessControlEnabled } from '../../../groups/util';
+import { assertDev } from '../../../util/assert';
 
 export type PropsType = {
   readonly conversation?: ConversationType;
@@ -291,7 +292,7 @@ function getConfirmationMessage({
   }
 
   const inviter = members.find(
-    ({ id }) => id === firstPendingMembership.metadata.addedByUserId
+    ({ uuid }) => uuid === firstPendingMembership.metadata.addedByUserId
   );
 
   if (inviter === undefined) {
@@ -413,12 +414,15 @@ function MembersPendingProfileKey({
     groupedPendingMemberships;
 
   const otherPendingMemberships = Object.keys(otherPendingMembershipGroups)
-    .map(id => members.find(member => member.id === id))
+    .map(id => members.find(member => member.uuid === id))
     .filter((member): member is ConversationType => member !== undefined)
-    .map(member => ({
-      member,
-      pendingMemberships: otherPendingMembershipGroups[member.id],
-    }));
+    .map(member => {
+      assertDev(member.uuid, 'We just verified that member has uuid above');
+      return {
+        member,
+        pendingMemberships: otherPendingMembershipGroups[member.uuid],
+      };
+    });
 
   return (
     <PanelSection>

@@ -84,10 +84,10 @@ export function getInitialState({
         formattedConversations,
         'e164'
       ),
-      conversationsByUuid: window.Signal.Util.makeLookup(
-        formattedConversations,
-        'uuid'
-      ),
+      conversationsByUuid: {
+        ...window.Signal.Util.makeLookup(formattedConversations, 'uuid'),
+        ...window.Signal.Util.makeLookup(formattedConversations, 'pni'),
+      },
       conversationsByGroupId: window.Signal.Util.makeLookup(
         formattedConversations,
         'groupId'

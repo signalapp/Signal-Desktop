@@ -111,6 +111,7 @@ export type ConversationTypeType = typeof ConversationTypes[number];
 export type ConversationType = {
   id: string;
   uuid?: UUIDStringType;
+  pni?: UUIDStringType;
   e164?: string;
   name?: string;
   familyName?: string;
@@ -2173,6 +2174,9 @@ export function updateConversationLookups(
   if (removed && removed.uuid) {
     result.conversationsByUuid = omit(result.conversationsByUuid, removed.uuid);
   }
+  if (removed && removed.pni) {
+    result.conversationsByUuid = omit(result.conversationsByUuid, removed.pni);
+  }
   if (removed && removed.groupId) {
     result.conversationsByGroupId = omit(
       result.conversationsByGroupId,
@@ -2196,6 +2200,12 @@ export function updateConversationLookups(
     result.conversationsByUuid = {
       ...result.conversationsByUuid,
       [added.uuid]: added,
+    };
+  }
+  if (added && added.pni) {
+    result.conversationsByUuid = {
+      ...result.conversationsByUuid,
+      [added.pni]: added,
     };
   }
   if (added && added.groupId) {

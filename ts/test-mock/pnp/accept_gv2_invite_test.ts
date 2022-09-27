@@ -209,6 +209,26 @@ describe('pnp/accept gv2 invite', function needsName() {
     assert(!group.getMemberByUUID(desktop.pni));
     assert(!group.getPendingMemberByUUID(desktop.uuid));
     assert(group.getPendingMemberByUUID(desktop.pni));
+
+    debug('Verifying invite list');
+    await conversationStack
+      .locator('.module-ConversationHeader__header__info__title')
+      .click();
+    await conversationStack
+      .locator(
+        '.ConversationDetails-panel-row__root--button >> ' +
+          'text=Requests & Invites'
+      )
+      .click();
+    await conversationStack
+      .locator('.ConversationDetails__tab >> text=Invites (1)')
+      .click();
+    await conversationStack
+      .locator(
+        '.ConversationDetails-panel-row__root >> ' +
+          `text=/${first.profileName}.*Invited 1/i`
+      )
+      .waitFor();
   });
 
   it('should decline ACI invite with extra PNI on the invite list', async () => {

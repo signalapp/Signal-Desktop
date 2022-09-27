@@ -1824,6 +1824,7 @@ export class ConversationModel extends window.Backbone
     return {
       id: this.id,
       uuid: this.get('uuid'),
+      pni: this.get('pni'),
       e164: this.get('e164'),
 
       // We had previously stored `null` instead of `undefined` in some cases. We should
