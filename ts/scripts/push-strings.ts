@@ -14,7 +14,7 @@ if (!SMARTLING_SECRET) {
   process.exit(1);
 }
 
-console.log('Fetching latest strings!');
+console.log('Pushing latest strings!');
 console.log();
 execSync(
   'smartling-cli' +
@@ -22,15 +22,8 @@ execSync(
     ` --secret "${SMARTLING_SECRET}"` +
     ' --config .smartling.yml' +
     ' --verbose' +
-    ' --format "_locales/{{.Locale}}/messages.json"' +
-    ' files pull',
+    ' files push _locales/en/messages.json',
   {
     stdio: [null, process.stdout, process.stderr],
   }
 );
-
-console.log('Formatting newly-downloaded strings!');
-console.log();
-execSync('yarn format', {
-  stdio: [null, process.stdout, process.stderr],
-});

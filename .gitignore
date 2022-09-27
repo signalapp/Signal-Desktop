@@ -17,6 +17,7 @@ release/
 /start.sh
 .eslintcache
 tsconfig.tsbuildinfo
+.smartling-source.sh
 
 # generated files
 js/components.js

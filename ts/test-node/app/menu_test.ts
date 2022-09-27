@@ -196,7 +196,7 @@ const PLATFORMS = [
 ];
 
 describe('createTemplate', () => {
-  const { messages } = loadLocale({
+  const { i18n } = loadLocale({
     appLocale: 'en',
     logger: {
       error(arg: unknown) {
@@ -237,7 +237,7 @@ describe('createTemplate', () => {
           ...actions,
         };
 
-        const actual = createTemplate(options, messages);
+        const actual = createTemplate(options, i18n);
         assert.deepEqual(actual, expectedDefault);
       });
 
@@ -265,7 +265,7 @@ describe('createTemplate', () => {
           return menuItem;
         });
 
-        const actual = createTemplate(options, messages);
+        const actual = createTemplate(options, i18n);
         assert.deepEqual(actual, expected);
       });
     });

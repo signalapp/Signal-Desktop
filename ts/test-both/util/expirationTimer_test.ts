@@ -7,9 +7,9 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import esMessages from '../../../_locales/es/messages.json';
 import nbMessages from '../../../_locales/nb/messages.json';
-import nnMessages from '../../../_locales/nn/messages.json';
-import ptBrMessages from '../../../_locales/pt_BR/messages.json';
-import zhCnMessages from '../../../_locales/zh_CN/messages.json';
+import nlMessages from '../../../_locales/nl/messages.json';
+import ptBrMessages from '../../../_locales/pt-BR/messages.json';
+import zhCnMessages from '../../../_locales/zh-CN/messages.json';
 
 import * as expirationTimer from '../../util/expirationTimer';
 
@@ -67,7 +67,7 @@ describe('expiration timer utilities', () => {
       const esI18n = setupI18n('es', esMessages);
       assert.strictEqual(format(esI18n, 120), '2 minutos');
 
-      const zhCnI18n = setupI18n('zh_CN', zhCnMessages);
+      const zhCnI18n = setupI18n('zh-CN', zhCnMessages);
       assert.strictEqual(format(zhCnI18n, 60), '1 分钟');
 
       // The underlying library supports the "pt" locale, not the "pt_BR" locale. That's
@@ -80,7 +80,7 @@ describe('expiration timer utilities', () => {
 
       // The underlying library supports the Norwegian language, which is a macrolanguage
       //   for Bokmål and Nynorsk.
-      [setupI18n('nb', nbMessages), setupI18n('nn', nnMessages)].forEach(
+      [setupI18n('nb', nbMessages), setupI18n('nn', nlMessages)].forEach(
         norwegianI18n => {
           assert.strictEqual(
             format(norwegianI18n, moment.duration(6, 'hours').asSeconds()),

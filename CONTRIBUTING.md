@@ -272,15 +272,3 @@ yarn build
 ```
 
 Then, run the tests using `yarn test-release`.
-
-## Translations
-
-To pull the latest translations, follow these steps:
-
-1.  Download Transifex client:
-    https://docs.transifex.com/client/installing-the-client
-2.  Create Transifex account: https://transifex.com
-3.  Generate API token: https://www.transifex.com/user/settings/api/
-4.  Create `~/.transifexrc` configuration:
-    https://docs.transifex.com/client/client-configuration#-transifexrc
-5.  Run `yarn get-strings`.

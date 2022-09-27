@@ -5,8 +5,8 @@ import { app, dialog, clipboard } from 'electron';
 
 import * as Errors from '../ts/types/errors';
 import { redactAll } from '../ts/util/privacy';
-import type { LocaleMessagesType } from '../ts/types/I18N';
 import { reallyJsonStringify } from '../ts/util/reallyJsonStringify';
+import type { LocaleType } from './locale';
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';
@@ -39,9 +39,9 @@ function handleError(prefix: string, error: Error): void {
   app.exit(1);
 }
 
-export const updateLocale = (messages: LocaleMessagesType): void => {
-  quitText = messages.quit.message;
-  copyErrorAndQuitText = messages.copyErrorAndQuit.message;
+export const updateLocale = (locale: LocaleType): void => {
+  quitText = locale.i18n('quit');
+  copyErrorAndQuitText = locale.i18n('copyErrorAndQuit');
 };
 
 function _getError(reason: unknown): Error {

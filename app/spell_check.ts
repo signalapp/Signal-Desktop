@@ -30,7 +30,7 @@ export function getLanguages(
 
 export const setup = (
   browserWindow: BrowserWindow,
-  { name: userLocale, messages }: LocaleType
+  { name: userLocale, i18n }: LocaleType
 ): void => {
   const { session } = browserWindow.webContents;
   const availableLocales = session.availableSpellCheckerLanguages;
@@ -68,7 +68,7 @@ export const setup = (
           );
         } else {
           template.push({
-            label: messages.contextMenuNoSuggestions.message,
+            label: i18n('contextMenuNoSuggestions'),
             enabled: false,
           });
         }
@@ -77,18 +77,18 @@ export const setup = (
 
       if (params.isEditable) {
         if (editFlags.canUndo) {
-          template.push({ label: messages.editMenuUndo.message, role: 'undo' });
+          template.push({ label: i18n('editMenuUndo'), role: 'undo' });
         }
         // This is only ever `true` if undo was triggered via the context menu
         // (not ctrl/cmd+z)
         if (editFlags.canRedo) {
-          template.push({ label: messages.editMenuRedo.message, role: 'redo' });
+          template.push({ label: i18n('editMenuRedo'), role: 'redo' });
         }
         if (editFlags.canUndo || editFlags.canRedo) {
           template.push({ type: 'separator' });
         }
         if (editFlags.canCut) {
-          template.push({ label: messages.editMenuCut.message, role: 'cut' });
+          template.push({ label: i18n('editMenuCut'), role: 'cut' });
         }
       }
 
@@ -100,7 +100,7 @@ export const setup = (
           click = () => {
             clipboard.writeText(params.linkURL);
           };
-          label = messages.contextMenuCopyLink.message;
+          label = i18n('contextMenuCopyLink');
         } else if (isImage) {
           click = () => {
             const parsedSrcUrl = maybeParseUrl(params.srcURL);
@@ -113,9 +113,9 @@ export const setup = (
             );
             clipboard.writeImage(image);
           };
-          label = messages.contextMenuCopyImage.message;
+          label = i18n('contextMenuCopyImage');
         } else {
-          label = messages.editMenuCopy.message;
+          label = i18n('editMenuCopy');
         }
 
         template.push({
@@ -126,12 +126,12 @@ export const setup = (
       }
 
       if (editFlags.canPaste && !isImage) {
-        template.push({ label: messages.editMenuPaste.message, role: 'paste' });
+        template.push({ label: i18n('editMenuPaste'), role: 'paste' });
       }
 
       if (editFlags.canPaste && !isImage) {
         template.push({
-          label: messages.editMenuPasteAndMatchStyle.message,
+          label: i18n('editMenuPasteAndMatchStyle'),
           role: 'pasteAndMatchStyle',
         });
       }
@@ -140,7 +140,7 @@ export const setup = (
       // results in all the UI being selected
       if (editFlags.canSelectAll && params.isEditable) {
         template.push({
-          label: messages.editMenuSelectAll.message,
+          label: i18n('editMenuSelectAll'),
           role: 'selectAll',
         });
       }

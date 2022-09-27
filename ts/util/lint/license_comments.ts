@@ -38,6 +38,7 @@ const FILES_TO_IGNORE = new Set(
   [
     '.github/ISSUE_TEMPLATE/bug_report.md',
     '.github/PULL_REQUEST_TEMPLATE.md',
+    '.smartling-source.sh',
     'components/mp3lameencoder/lib/Mp3LameEncoder.js',
     'components/recorderjs/recorder.js',
     'components/recorderjs/recorderWorker.js',

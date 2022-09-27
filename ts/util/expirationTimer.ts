@@ -42,7 +42,7 @@ export function format(
 
   // locale strings coming from electron use a dash as separator
   // but humanizeDuration uses an underscore
-  const locale: string = i18n.getLocale().replace('-', '_');
+  const locale: string = i18n.getLocale().replace(/-/g, '_');
 
   const localeWithoutRegion: string = locale.split('_', 1)[0];
   const fallbacks: Array<string> = [];
@@ -54,6 +54,11 @@ export function format(
   }
   if (localeWithoutRegion !== 'en') {
     fallbacks.push('en');
+  }
+
+  // humanizeDuration only supports zh_CN and zh_TW
+  if (locale === 'zh_HK') {
+    fallbacks.push('zh_TW');
   }
 
   const allUnits: Array<Unit> = ['y', 'mo', 'w', 'd', 'h', 'm', 's'];

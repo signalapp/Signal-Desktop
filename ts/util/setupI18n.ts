@@ -18,7 +18,7 @@ export function setupI18n(
 
   const getMessage: LocalizerType = (key, substitutions) => {
     const entry = messages[key];
-    if (!entry) {
+    if (!entry || !('message' in entry)) {
       log.error(
         `i18n: Attempted to get translation for nonexistent key '${key}'`
       );

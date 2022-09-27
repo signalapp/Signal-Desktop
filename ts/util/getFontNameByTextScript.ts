@@ -131,9 +131,9 @@ export function getFontNameByTextScript(
   if (fontSniffer.hasCJK(text)) {
     const locale = i18n?.getLocale();
 
-    if (locale === 'zh_TW') {
+    if (locale === 'zh-TW') {
       fonts.push(FONT_MAP.zhtc[textStyleIndex]);
-    } else if (locale === 'zh_HK') {
+    } else if (locale === 'zh-HK') {
       fonts.push(FONT_MAP.zhhk[textStyleIndex]);
     } else {
       fonts.push(FONT_MAP.zhsc[textStyleIndex]);

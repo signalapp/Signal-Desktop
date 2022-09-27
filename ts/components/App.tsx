@@ -7,7 +7,6 @@ import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
 import type { ExecuteMenuRoleType } from './TitleBarContainer';
-import type { LocaleMessagesType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { ToastType } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
@@ -24,7 +23,6 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type PropsType = {
   appView: AppViewType;
-  localeMessages: LocaleMessagesType;
   openInbox: () => void;
   registerSingleDevice: (number: string, code: string) => Promise<void>;
   renderCallManager: () => JSX.Element;
@@ -71,7 +69,6 @@ export const App = ({
   isMaximized,
   isShowingStoriesView,
   hasCustomTitleBar,
-  localeMessages,
   menuOptions,
   openInbox,
   registerSingleDevice,
@@ -163,7 +160,7 @@ export const App = ({
       titleBarDoubleClick={titleBarDoubleClick}
       hasMenu
       hideMenuBar={hideMenuBar}
-      localeMessages={localeMessages}
+      i18n={i18n}
       menuOptions={menuOptions}
       executeMenuAction={executeMenuAction}
     >

@@ -5,10 +5,10 @@ import { join } from 'path';
 import type { BrowserWindow, NativeImage } from 'electron';
 import { Menu, Tray, app, nativeImage } from 'electron';
 import * as log from '../ts/logging/log';
-import type { LocaleMessagesType } from '../ts/types/I18N';
+import type { LocalizerType } from '../ts/types/I18N';
 
 export type SystemTrayServiceOptionsType = Readonly<{
-  messages: LocaleMessagesType;
+  i18n: LocalizerType;
 
   // For testing
   createTrayInstance?: (icon: NativeImage) => Tray;
@@ -24,7 +24,7 @@ export type SystemTrayServiceOptionsType = Readonly<{
 export class SystemTrayService {
   private browserWindow?: BrowserWindow;
 
-  private readonly messages: LocaleMessagesType;
+  private readonly i18n: LocalizerType;
 
   private tray?: Tray;
 
@@ -38,9 +38,9 @@ export class SystemTrayService {
 
   private createTrayInstance: (icon: NativeImage) => Tray;
 
-  constructor({ messages, createTrayInstance }: SystemTrayServiceOptionsType) {
+  constructor({ i18n, createTrayInstance }: SystemTrayServiceOptionsType) {
     log.info('System tray service: created');
-    this.messages = messages;
+    this.i18n = i18n;
     this.boundRender = this.render.bind(this);
     this.createTrayInstance = createTrayInstance || (icon => new Tray(icon));
   }
@@ -155,7 +155,7 @@ export class SystemTrayService {
           id: 'toggleWindowVisibility',
           ...(browserWindow?.isVisible()
             ? {
-                label: this.messages.hide.message,
+                label: this.i18n('hide'),
                 click: () => {
                   log.info(
                     'System tray service: hiding the window from the context menu'
@@ -167,7 +167,7 @@ export class SystemTrayService {
                 },
               }
             : {
-                label: this.messages.show.message,
+                label: this.i18n('show'),
                 click: () => {
                   log.info(
                     'System tray service: showing the window from the context menu'
@@ -181,7 +181,7 @@ export class SystemTrayService {
         },
         {
           id: 'quit',
-          label: this.messages.quit.message,
+          label: this.i18n('quit'),
           click: () => {
             log.info(
               'System tray service: quitting the app from the context menu'
@@ -225,7 +225,7 @@ export class SystemTrayService {
       forceOnTop(browserWindow);
     });
 
-    result.setToolTip(this.messages.signalDesktop.message);
+    result.setToolTip(this.i18n('signalDesktop'));
 
     return result;
   }

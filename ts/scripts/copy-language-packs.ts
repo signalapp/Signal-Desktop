@@ -19,10 +19,10 @@ export async function afterPack({
   if (electronPlatformName === 'darwin') {
     const { productFilename } = packager.appInfo;
 
-    // en.lproj/locale.pak
-    // zh_CN.lproj/locale.pak
+    // en.lproj/*
+    // zh_CN.lproj/*
     defaultLocale = 'en.lproj';
-    ourLocales = ourLocales.map(locale => `${locale}.lproj`);
+    ourLocales = ourLocales.map(locale => `${locale.replace(/-/g, '_')}.lproj`);
 
     localesPath = path.join(
       appOutDir,
@@ -35,6 +35,8 @@ export async function afterPack({
     electronPlatformName === 'win32'
   ) {
     // Shared between windows and linux
+    // en-US.pak
+    // zh-CN.pak
     defaultLocale = 'en-US.pak';
     ourLocales = ourLocales.map(locale => {
       if (locale === 'en') {

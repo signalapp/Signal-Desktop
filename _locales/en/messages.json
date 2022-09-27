@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "AddUserToAnotherGroupModal__title": {
     "message": "Add to a group",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"

@@ -20,15 +20,7 @@ function removeRegion(locale: string): string {
 }
 
 function getLocaleMessages(locale: string): LocaleMessagesType {
-  const onDiskLocale = locale.replace('-', '_');
-
-  const targetFile = join(
-    __dirname,
-    '..',
-    '_locales',
-    onDiskLocale,
-    'messages.json'
-  );
+  const targetFile = join(__dirname, '..', '_locales', locale, 'messages.json');
 
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
@@ -81,7 +73,7 @@ export function load({
   //
   // possible locales:
   // https://source.chromium.org/chromium/chromium/src/+/main:ui/base/l10n/l10n_util.cc
-  const normalized = removeRegion(appLocale);
+  const languageOnly = removeRegion(appLocale);
 
   try {
     return finalize(getLocaleMessages(appLocale), english, appLocale);
@@ -90,11 +82,11 @@ export function load({
   }
 
   try {
-    logger.warn(`Falling back to parent language: '${normalized}'`);
+    logger.warn(`Falling back to parent language: '${languageOnly}'`);
     // Note: messages are from parent language, but we still keep the region
-    return finalize(getLocaleMessages(normalized), english, appLocale);
+    return finalize(getLocaleMessages(languageOnly), english, appLocale);
   } catch (e) {
-    logger.error(`Problem loading messages for locale ${normalized}`);
+    logger.error(`Problem loading messages for locale ${languageOnly}`);
 
     logger.warn("Falling back to 'en' locale");
     return finalize(english, english, 'en');

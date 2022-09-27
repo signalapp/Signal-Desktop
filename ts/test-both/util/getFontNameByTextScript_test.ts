@@ -92,7 +92,7 @@ describe('getFontNameByTextScript', () => {
   it('returns the correct font names (chinese simplified)', () => {
     const text = '敏捷的棕色狐狸跳过了懒狗';
 
-    const actual = getFontNameByTextScript(text, 0, setupI18n('zh_CN', {}));
+    const actual = getFontNameByTextScript(text, 0, setupI18n('zh-CN', {}));
     const expected = '"PingFang SC Regular", SimHei, sans-serif';
     assert.equal(actual, expected);
   });
@@ -100,7 +100,7 @@ describe('getFontNameByTextScript', () => {
   it('returns the correct font names (chinese traditional)', () => {
     const text = '敏捷的棕色狐狸跳過了懶狗';
 
-    const actual = getFontNameByTextScript(text, 0, setupI18n('zh_TW', {}));
+    const actual = getFontNameByTextScript(text, 0, setupI18n('zh-TW', {}));
     const expected = '"PingFang TC Regular", "JhengHei TC Regular", sans-serif';
     assert.equal(actual, expected);
   });

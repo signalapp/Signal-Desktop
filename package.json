@@ -20,6 +20,7 @@
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
     "get-strings": "node ts/scripts/get-strings.js",
+    "push-strings": "node ts/scripts/push-strings.js",
     "get-expire-time": "node ts/scripts/get-expire-time.js",
     "copy-and-concat": "node ts/scripts/copy-and-concat.js",
     "sass": "sass stylesheets/manifest.scss:stylesheets/manifest.css stylesheets/manifest_bridge.scss:stylesheets/manifest_bridge.css",

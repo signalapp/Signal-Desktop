@@ -10,6 +10,11 @@ import { MINUTE } from '../../util/durations';
 
 import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService';
 import { SystemTrayService } from '../../../app/SystemTrayService';
+import { setupI18n } from '../../util/setupI18n';
+
+import enMessages from '../../../_locales/en/messages.json';
+
+const i18n = setupI18n('en', enMessages);
 
 describe('SystemTrayService', function thisNeeded() {
   // These tests take more time on CI in some cases, so we increase the timeout.
@@ -28,12 +33,7 @@ describe('SystemTrayService', function thisNeeded() {
     options?: Partial<SystemTrayServiceOptionsType>
   ): SystemTrayService {
     const result = new SystemTrayService({
-      messages: {
-        hide: { message: 'Hide' },
-        quit: { message: 'Quit' },
-        show: { message: 'Show' },
-        signalDesktop: { message: 'Signal' },
-      },
+      i18n,
       ...options,
     });
     servicesCreated.add(result);

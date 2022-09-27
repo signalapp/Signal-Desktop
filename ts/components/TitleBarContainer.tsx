@@ -10,13 +10,13 @@ import classNames from 'classnames';
 
 import { createTemplate } from '../../app/menu';
 import { ThemeType } from '../types/Util';
-import type { LocaleMessagesType } from '../types/I18N';
+import type { LocalizerType } from '../types/I18N';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import { useIsWindowActive } from '../hooks/useIsWindowActive';
 
 export type MenuPropsType = Readonly<{
   hasMenu: true;
-  localeMessages: LocaleMessagesType;
+  i18n: LocalizerType;
   menuOptions: MenuOptionsType;
   executeMenuAction: (action: MenuActionType) => void;
 }>;
@@ -64,7 +64,7 @@ ROLE_TO_ACCELERATOR.set('minimize', 'CmdOrCtrl+M');
 function convertMenu(
   menuList: ReadonlyArray<MenuItemConstructorOptions>,
   executeMenuRole: (role: MenuItemConstructorOptions['role']) => void,
-  localeMessages: LocaleMessagesType
+  i18n: LocalizerType
 ): Array<MenuItem> {
   return menuList.map(item => {
     const {
@@ -78,7 +78,7 @@ function convertMenu(
     let submenu: Array<MenuItem> | undefined;
 
     if (Array.isArray(originalSubmenu)) {
-      submenu = convertMenu(originalSubmenu, executeMenuRole, localeMessages);
+      submenu = convertMenu(originalSubmenu, executeMenuRole, i18n);
     } else if (originalSubmenu) {
       throw new Error('Non-array submenu is not supported');
     }
@@ -107,12 +107,9 @@ function convertMenu(
     // `app/main.ts`.
     accelerator = accelerator?.replace(
       /CommandOrControl|CmdOrCtrl/g,
-      localeMessages['Keyboard--Key--ctrl'].message
+      i18n('Keyboard--Key--ctrl')
     );
-    accelerator = accelerator?.replace(
-      /Shift/g,
-      localeMessages['Keyboard--Key--shift'].message
-    );
+    accelerator = accelerator?.replace(/Shift/g, i18n('Keyboard--Key--shift'));
 
     return {
       type,
@@ -221,7 +218,7 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
 
   let maybeMenu: Array<MenuItem> | undefined;
   if (hasMenu) {
-    const { localeMessages, menuOptions, executeMenuAction } = props;
+    const { i18n, menuOptions, executeMenuAction } = props;
 
     const menuTemplate = createTemplate(
       {
@@ -243,10 +240,10 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
         showStickerCreator: () => executeMenuAction('showStickerCreator'),
         showWindow: () => executeMenuAction('showWindow'),
       },
-      localeMessages
+      i18n
     );
 
-    maybeMenu = convertMenu(menuTemplate, executeMenuRole, localeMessages);
+    maybeMenu = convertMenu(menuTemplate, executeMenuRole, i18n);
   }
 
   return (
