@@ -550,6 +550,30 @@ export const StoryViewer = ({
               />
             )}
           </div>
+
+          <div className="StoryViewer__protection StoryViewer__protection--bottom" />
+
+          {canNavigateRight && (
+            <button
+              aria-label={i18n('forward')}
+              className={classNames(
+                'StoryViewer__arrow StoryViewer__arrow--right',
+                {
+                  'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
+                }
+              )}
+              onClick={() =>
+                viewStory({
+                  storyId: story.messageId,
+                  storyViewMode,
+                  viewDirection: StoryViewDirectionType.Next,
+                })
+              }
+              onMouseMove={() => setArrowToShow(Arrow.Right)}
+              type="button"
+            />
+          )}
+
           <div className="StoryViewer__meta">
             {caption && (
               <div className="StoryViewer__caption">
@@ -740,27 +764,6 @@ export const StoryViewer = ({
               )}
             </div>
           </div>
-          {canNavigateRight && (
-            <button
-              aria-label={i18n('forward')}
-              className={classNames(
-                'StoryViewer__arrow StoryViewer__arrow--right',
-                {
-                  'StoryViewer__arrow--visible': arrowToShow === Arrow.Right,
-                }
-              )}
-              onClick={() =>
-                viewStory({
-                  storyId: story.messageId,
-                  storyViewMode,
-                  viewDirection: StoryViewDirectionType.Next,
-                })
-              }
-              onMouseMove={() => setArrowToShow(Arrow.Right)}
-              type="button"
-            />
-          )}
-          <div className="StoryViewer__protection StoryViewer__protection--bottom" />
           <button
             aria-label={i18n('close')}
             className="StoryViewer__close-button"
