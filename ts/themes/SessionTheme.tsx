@@ -505,6 +505,8 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* Chat (Interaction) Buttons */
     /* Also used for Reaction Bar Buttons */
+    /* Used for Link Preview Attachment Icons */
+    /* Used for Media Grid Item Play Button */
     --chat-buttons-background-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --chat-buttons-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --chat-buttons-icon-color: var(--text-primary-color);
@@ -553,7 +555,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming Consolidate with code */
     /* Conversation Tab */
-    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item etc. */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item, Contact List Items etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -635,6 +637,19 @@ export const SessionGlobalStyles = createGlobalStyle`
     --session-logo-text-dark-filter: none;
     --session-logo-text-current-filter: var(--session-logo-text-light-filter);
 
+    /* Right Click / Context Menu) */
+    --context-menu-background-color: var(--background-primary-color);
+    --context-menu-background-hover-color: var(--primary-color);
+    --context-menu-text-color: var(--text-primary-color);
+    --context-menu-text-hover-color: var(--black-color);
+    --context-menu-shadow-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22);
+
+    /* Message Link Preview */
+    /* Also used for Images */
+    /* Also used for the Media Grid Items */
+    /* Also used for Staged Generic Attachments */
+    /* Same for all Themes */
+    --message-link-preview-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06);
   };
 `;
 

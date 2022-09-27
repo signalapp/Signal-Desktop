@@ -357,6 +357,32 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
     '--session-logo-text-current-filter',
     'var(--session-logo-text-light-filter)'
   );
+
+  document.documentElement.style.setProperty(
+    '--context-menu-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-background-hover-color',
+    'var(--primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-hover-color',
+    'var(--black-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-shadow-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--message-link-preview-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
+  );
 }
 
 function loadClassicDark(primaryColor?: PrimaryColorStateType) {
@@ -702,6 +728,32 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty(
     '--session-logo-text-current-filter',
     'var(--session-logo-text-light-filter)'
+  );
+
+  document.documentElement.style.setProperty(
+    '--context-menu-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-background-hover-color',
+    'var(--primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-hover-color',
+    'var(--black-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-shadow-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--message-link-preview-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
   );
 }
 
@@ -1055,6 +1107,32 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
     '--session-logo-text-current-filter',
     'var(--session-logo-text-light-filter)'
   );
+
+  document.documentElement.style.setProperty(
+    '--context-menu-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-background-hover-color',
+    'var(--primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-hover-color',
+    'var(--black-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-shadow-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--message-link-preview-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
+  );
 }
 
 function loadOceanDark(primaryColor?: PrimaryColorStateType) {
@@ -1396,6 +1474,32 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty(
     '--session-logo-text-current-filter',
     'var(--session-logo-text-light-filter)'
+  );
+
+  document.documentElement.style.setProperty(
+    '--context-menu-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-background-hover-color',
+    'var(--primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-text-hover-color',
+    'var(--black-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--context-menu-shadow-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--message-link-preview-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
   );
 }
 
