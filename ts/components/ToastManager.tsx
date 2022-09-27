@@ -94,7 +94,7 @@ export const ToastManager = ({
 
   if (toast?.toastType === ToastType.AddingUserToGroup) {
     return (
-      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT} align="left">
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n(
           'AddUserToAnotherGroupModal__toast--adding-user-to-group',
           toast.parameters
@@ -105,7 +105,7 @@ export const ToastManager = ({
 
   if (toast?.toastType === ToastType.UserAddedToGroup) {
     return (
-      <Toast onClose={hideToast} align="left">
+      <Toast onClose={hideToast}>
         {i18n(
           'AddUserToAnotherGroupModal__toast--user-added-to-group',
           toast.parameters
