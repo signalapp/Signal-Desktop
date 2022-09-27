@@ -441,7 +441,10 @@ export default class AccountManager extends EventTarget {
       ]);
 
       try {
-        await this.cleanSignedPreKeys();
+        await Promise.all([
+          this.cleanSignedPreKeys(UUIDKind.ACI),
+          this.cleanSignedPreKeys(UUIDKind.PNI),
+        ]);
       } catch (_error) {
         // Ignoring the error
       }
@@ -455,9 +458,10 @@ export default class AccountManager extends EventTarget {
     return this.pendingQueue.add(taskWithTimeout);
   }
 
-  async cleanSignedPreKeys(): Promise<void> {
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+  async cleanSignedPreKeys(uuidKind: UUIDKind): Promise<void> {
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid(uuidKind);
     const store = window.textsecure.storage.protocol;
+    const logId = `AccountManager.cleanSignedPreKeys(${uuidKind})`;
 
     const allKeys = await store.loadSignedPreKeys(ourUuid);
     allKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
@@ -467,15 +471,13 @@ export default class AccountManager extends EventTarget {
     const recent = allKeys[0] ? allKeys[0].keyId : 'none';
     const recentConfirmed = confirmed[0] ? confirmed[0].keyId : 'none';
     const recentUnconfirmed = unconfirmed[0] ? unconfirmed[0].keyId : 'none';
-    log.info(`cleanSignedPreKeys: Most recent signed key: ${recent}`);
+    log.info(`${logId}: Most recent signed key: ${recent}`);
+    log.info(`${logId}: Most recent confirmed signed key: ${recentConfirmed}`);
     log.info(
-      `cleanSignedPreKeys: Most recent confirmed signed key: ${recentConfirmed}`
+      `${logId}: Most recent unconfirmed signed key: ${recentUnconfirmed}`
     );
     log.info(
-      `cleanSignedPreKeys: Most recent unconfirmed signed key: ${recentUnconfirmed}`
-    );
-    log.info(
-      'cleanSignedPreKeys: Total signed key count:',
+      `${logId}: Total signed key count:`,
       allKeys.length,
       '-',
       confirmed.length,
@@ -494,7 +496,8 @@ export default class AccountManager extends EventTarget {
           const timestamp = new Date(createdAt).toJSON();
           const confirmedText = key.confirmed ? ' (confirmed)' : '';
           log.info(
-            `Removing signed prekey: ${key.keyId} with timestamp ${timestamp}${confirmedText}`
+            `${logId}: Removing signed prekey: ${key.keyId} with ` +
+              `timestamp ${timestamp}${confirmedText}`
           );
           await store.removeSignedPreKey(ourUuid, key.keyId);
         }
@@ -830,7 +833,8 @@ export default class AccountManager extends EventTarget {
     await Promise.all(promises);
 
     // This is primarily for the signed prekey summary it logs out
-    this.cleanSignedPreKeys();
+    this.cleanSignedPreKeys(UUIDKind.ACI);
+    this.cleanSignedPreKeys(UUIDKind.PNI);
 
     return {
       ...result,
