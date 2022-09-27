@@ -4711,6 +4711,14 @@ button.module-image__border-overlay:focus {
           }
 
           &__text {
+            .module-conversation-list__item--contact-or-conversation--is-checkbox
+              & {
+              /* restrict the growth so it doesn't encroach on the checkbox */
+              -webkit-line-clamp: 1;
+            }
+          }
+
+          &__text {
             flex-grow: 1;
             flex-shrink: 1;
 
@@ -4924,6 +4932,12 @@ button.module-image__border-overlay:focus {
               background: $color-gray-45;
             }
           }
+        }
+
+        &--container {
+          margin-left: 8px;
+          /* prevent sibling content from pushing this smaller (min-width: the "!important" of width) */
+          min-width: 20px;
         }
       }
 
