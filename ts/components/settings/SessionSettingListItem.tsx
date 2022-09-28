@@ -106,7 +106,7 @@ export const SessionSettingsTitleWithLink = (props: { title: string; onClick: ()
   return (
     <StyledSettingItemClickable onClick={onClick}>
       <SettingsTitleAndDescription title={title} />
-      <SessionIconButton iconSize={'large'} iconType="chevron" iconRotation={270} />
+      <SessionIconButton iconSize={'medium'} iconType="externalLink" isSelected={true} />
     </StyledSettingItemClickable>
   );
 };
