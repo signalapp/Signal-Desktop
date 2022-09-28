@@ -44,6 +44,10 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
   }
 `;
 
+const StyledMessageWithAuthor = styled.div<{ isOutgoing: boolean }>`
+  max-width: ${props => (props.isOutgoing ? 'calc(100% - 17px)' : '100%')};
+`;
+
 export const MessageContentWithStatuses = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentWithStatusesSelectorProps(state as any, props.messageId)
@@ -122,11 +126,11 @@ export const MessageContentWithStatuses = (props: Props) => {
           messageId={messageId}
           isCorrectSide={isIncoming}
         />
-        <div>
+        <StyledMessageWithAuthor isOutgoing={!isIncoming}>
           <MessageAuthorText messageId={messageId} />
 
           <MessageContent messageId={messageId} isDetailView={isDetailView} />
-        </div>
+        </StyledMessageWithAuthor>
         <MessageStatus
           dataTestId="msg-status-outgoing"
           messageId={messageId}

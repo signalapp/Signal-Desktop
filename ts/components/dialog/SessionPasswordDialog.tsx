@@ -50,14 +50,21 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
   public render() {
     const { passwordAction } = this.props;
-    const placeholders =
-      passwordAction === 'change'
-        ? [
-            window.i18n('typeInOldPassword'),
-            window.i18n('enterPassword'),
-            window.i18n('confirmPassword'),
-          ]
-        : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
+    let placeholders: Array<string> = [];
+    switch (passwordAction) {
+      case 'change':
+        placeholders = [
+          window.i18n('typeInOldPassword'),
+          window.i18n('enterPassword'),
+          window.i18n('confirmPassword'),
+        ];
+        break;
+      case 'remove':
+        placeholders = [window.i18n('enterPassword'), window.i18n('confirmPassword')];
+        break;
+      default:
+        placeholders = [window.i18n('enterNewPassword'), window.i18n('confirmNewPassword')];
+    }
 
     const confirmButtonColor =
       passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
