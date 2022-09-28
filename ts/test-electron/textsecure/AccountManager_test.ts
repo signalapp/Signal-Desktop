@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { v4 as getGuid } from 'uuid';
 
 import { getRandomBytes } from '../../Crypto';
 import AccountManager from '../../textsecure/AccountManager';
 import type { OuterSignedPrekeyType } from '../../textsecure/Types.d';
-import { UUID } from '../../types/UUID';
+import { UUID, UUIDKind } from '../../types/UUID';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -32,7 +31,7 @@ describe('AccountManager', () => {
     const identityKey = window.Signal.Curve.generateKeyPair();
 
     beforeEach(async () => {
-      const ourUuid = new UUID(getGuid());
+      const ourUuid = UUID.generate();
 
       originalGetUuid = window.textsecure.storage.user.getUuid;
       originalGetIdentityKeyPair =
@@ -107,7 +106,7 @@ describe('AccountManager', () => {
       ];
 
       // should be no calls to store.removeSignedPreKey, would cause crash
-      return accountManager.cleanSignedPreKeys();
+      return accountManager.cleanSignedPreKeys(UUIDKind.ACI);
     });
 
     it('eliminates oldest keys, even if recent key is unconfirmed', async () => {
@@ -170,7 +169,7 @@ describe('AccountManager', () => {
         count += 1;
       };
 
-      await accountManager.cleanSignedPreKeys();
+      await accountManager.cleanSignedPreKeys(UUIDKind.ACI);
       assert.strictEqual(count, 1);
     });
 
@@ -211,7 +210,7 @@ describe('AccountManager', () => {
         throw new Error('None should be removed!');
       };
 
-      await accountManager.cleanSignedPreKeys();
+      await accountManager.cleanSignedPreKeys(UUIDKind.ACI);
     });
   });
 });
