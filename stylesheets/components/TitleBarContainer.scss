@@ -48,6 +48,8 @@
       Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial,
       sans-serif;
 
+    left: env(titlebar-area-x);
+
     & button {
       font-family: inherit;
     }
