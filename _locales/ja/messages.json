@@ -557,12 +557,8 @@
     "message": "ログを送信",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "画像以外の添付ファイルを追加する場合、メッセージ1件に添付できるのは1つだけです。",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "1つのメッセージに画像と画像以外のファイルを同時に添付することはできません。",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "写真や動画をファイルと一緒に選択することはできません。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "ポップアップを閉じる",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "画像の添付ファイルを追加",
+  "addImageOrVideoattachment": {
+    "message": "画像や動画の添付ファイルを追加",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "添付の音声の再生時間",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "上にある$composeIcon$をクリックして、メッセージを送りたい相手やグループを探してください。",
@@ -5594,6 +5590,10 @@
     "message": "返信 なし",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "閲覧 なし",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "閲覧",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "絵文字検索を効率化します。絵文字ピッカーを表示したら、🔍をスキップしてキーワードを入力し始めましょう。",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "聞かなければならないボイスノートが山ほどあるなら「再生」をクリックしてください。自動的に再生し続けます。あなたは座ってくつろぐだけ！",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "休暇中の写真と一緒に、メッセージにビデオのテイストも添えられるようになりました。",
+    "description": "Release notes for v5.61"
   }
 }

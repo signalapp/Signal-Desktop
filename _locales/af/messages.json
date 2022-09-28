@@ -557,12 +557,8 @@
     "message": "Dien log in",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Wanneer jy 'n nie-beeld-aanhegsel insluit, is jy tot een aanhegsel per boodskap beperk.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Jy kan nie beeld- en nie-beeld-aanhangsels in een boodskap saamvoeg nie.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Jy kan nie foto's en video's saam met lêers selekteer nie.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Maak opspring-item toe",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Voeg beeld-aanhegsel by",
+  "addImageOrVideoattachment": {
+    "message": "Voeg foto- of video-aanhegsel by",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Afspeeltyd van oudio-aanhegsel",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klik die $composeIcon$ hier bo en soek na kontakte of groepe om ’n boodskap te stuur.",
@@ -5594,6 +5590,10 @@
     "message": "Nog geen antwoorde nie",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Nog geen kykslae nie",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Kykslae",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Vergemaklik jou emoji-soektogte. As jy eers die emoji-kieser oopgemaak het, ignoreer die 🔍 en begin sommer net sleutelwoorde tik.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Het jy 'n gesprek met 'n lang lys stemnota's waarna jy moet luister? Klik speel, sit terug en ontspan - hulle sal outomaties een na die ander speel.",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Jy kan nou so 'n video-smakie verleen aan 'n boodskap met jou vakansiefoto's!",
+    "description": "Release notes for v5.61"
   }
 }

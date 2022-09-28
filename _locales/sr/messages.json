@@ -557,12 +557,8 @@
     "message": "Пошањи извештај",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Када укључујете прилог што није слика, ограничење је један прилог по поруци.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Не можете да мешате прилоге који нису слике и слике у једној поруци.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Ne možete da izaberete fotografije i video snimke zajedno sa fajlovima.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Затвори прозорче",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Додај слику као прилог",
+  "addImageOrVideoattachment": {
+    "message": "Dodajte sliku ili video snimak u prilog",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Брзина репродукције аудио прилога",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Кликни на $composeIcon$ и потражи контакте или групе за слање поруке.",
@@ -5594,6 +5590,10 @@
     "message": "Без одговора",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Još nema pregleda",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Прегледа",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Pojednostavite pretragu emodžija. Kada pokrenete birač emodžija, preskočite 🔍 i samo krenite da kucate ključne reči.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Imate gomilu glasovnih poruka u prepisci? Kliknite na „Pusti“, sedite i opustite se, a snimci će automatski nastaviti da se puštaju!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Sada možete da dodate i video snimak u poruku zajedno sa vašim fotografijama sa putovanja!",
+    "description": "Release notes for v5.61"
   }
 }

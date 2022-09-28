@@ -557,12 +557,8 @@
     "message": "Submeter relatório",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Se o anexo não for uma imagem, apenas pode enviar um anexo por mensagem.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Não pode misturar imagens com outro tipo de anexos numa só mensagem.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Não pode selecionar fotos e vídeos ao mesmo tempo que ficheiros.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2120,7 +2116,7 @@
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "message--giftBadge--unopened--incoming": {
-    "message": "Veja esta mensagem no dispositivo móvel para a abrir",
+    "message": "Ver esta mensagem no dispositivo móvel para a abrir",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
   },
   "message--giftBadge--unopened--outgoing": {
@@ -2623,8 +2619,8 @@
     "message": "Fechar Popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Adicionar anexo de imagem",
+  "addImageOrVideoattachment": {
+    "message": "Adicionar anexo de imagem ou vídeo",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Tempo de reprodução de anexo de áudio",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Clique no $composeIcon$ acima e pesquise pela mensagem dos seus contactos ou grupos.",
@@ -5594,6 +5590,10 @@
     "message": "Ainda não existem respostas",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Ainda não existem visualizações",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Visualizações",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Otimize a pesquisa de emojis. Assim que abrir o selecionador de emojis, esqueça a 🔍 e escreva diretamente as palavras-chave.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Está numa conversa com uma longa lista de Notas de Voz para ouvir? Carregue em reproduzir, sente-se e relaxe. As notas serão todas reproduzidas automaticamente.",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Agora pode acrescentar vídeo às suas mensagens, a condizer com as fotos das férias!",
+    "description": "Release notes for v5.61"
   }
 }

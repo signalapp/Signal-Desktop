@@ -557,12 +557,8 @@
     "message": "提交記錄",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "每個訊息只可以加入一個非圖像附件。",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "你唔可以將非圖像同埋圖像附件加入同一個訊息入面。",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "如果你揀咗檔案，就唔可以同時揀埋相片同影片。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "閂咗彈出視窗",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "加入圖像附件",
+  "addImageOrVideoattachment": {
+    "message": "加入圖片或者影片附件",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "語音附件嘅播放時間",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "㩒上面嘅 $composeIcon$，就可以搵聯絡人或者群組然後傳送訊息。",
@@ -5594,6 +5590,10 @@
     "message": "未有回覆",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "暫時未有人瀏覽",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "瀏覽次數",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "搵表情符號簡單咗。當你打開表情符號選擇器之後就可以跳過 🔍，然後直接輸入關鍵字。",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "對話入面有好多語音筆記要聽？只要㩒一吓播放，應用程式就會自動播出所有連住嘅語音筆記，等你可以慢慢收聽！",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "你而家除咗可以將靚相加入訊息，仲可以加埋影片添！",
+    "description": "Release notes for v5.61"
   }
 }

@@ -557,12 +557,8 @@
     "message": "Υποβολή αρχείου",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Για συνημμένα αρχεία που δεν είναι εικόνες, το όριο είναι ένα αρχείο ανά μήνυμα.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Δεν μπορείς να επισυνάψεις εικόνες μαζί με αρχεία άλλου τύπου στο ίδιο μήνυμα.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Δεν μπορείτε να επιλέξετε φωτογραφίες και βίντεο μαζί με αρχεία. ",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Κλείσιμο αναδυόμενου παραθύρου",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Προσθήκη συνημμένης εικόνας",
+  "addImageOrVideoattachment": {
+    "message": "Προσθέστε επισυναπτόμενη εικόνα ή βίντεο",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Χρόνος αναπαραγωγής του συνημμένου ήχου",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
@@ -5594,6 +5590,10 @@
     "message": "Καμία απάντηση ακόμα",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Καμία προβολή ακόμα",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Προβολές",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Βελτιστοποίησε την αναζήτηση emoji. Μόλις ανασύρεις τον επιλογέα emoji, παράλειψε το 🔍 και απλώς ξεκίνα να πληκτρολογείς λέξεις-κλειδιά. ",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Πρέπει να ακούσεις μια συζήτηση με τεράστια λίστα Φωνητικών Σημειώσεων; Πάτα play, κάθισε αναπαυτικά και χαλάρωσε - η λίστα θα συνεχίσει να παίζει αυτόματα!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Τώρα, μπορείς να \"αναβαθμίσεις\" ένα μήνυμά σου, στέλνοντας και κάποια βίντεο μαζί με τις φωτογραφίες των διακοπών σου!",
+    "description": "Release notes for v5.61"
   }
 }

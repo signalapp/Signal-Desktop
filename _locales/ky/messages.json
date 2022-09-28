@@ -557,12 +557,8 @@
     "message": "Журналды тапшыруу",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Сүрөт эмес тиркемелер камтылганда, чектөө бир билдирүүгө бир тиркеме болот.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Бир билдирүүдө сүрөт эмес жана сүрөт тиркемелерин аралаштыра албайсыз.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Файлдар менен кошо сүрөттөр менен видеолорду тандай албайсыз.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Калкыма терезени жабуу",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Сүрөт тиркемесин кошуу",
+  "addImageOrVideoattachment": {
+    "message": "Сүрөт же видео тиркеме кошуу",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Аудио тиркеменин ойнотуу убакыты",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Жогорудагы $composeIcon$ дегенди басып, баарлаша турган байланышты же топту табыңыз.",
@@ -5594,6 +5590,10 @@
     "message": "Азырынча жооп жок",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Эч ким көрө элек",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Көрүүлөр",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Эми быйтыкчаларды оңой издейсиз. Быйтыкчаны бир жолу тандагандан кийин, аны кайра издеп 🔍 убара болбостон, жөн гана ачкыч сөздөрдү жазып баштасаңыз болот.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Аудио билдирүүлөр өтө эле көп болуп жатабы? Биринчисин уга баштасаңыз, калганы катары менен угула берет!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Эс алууда түшкөн сүрөттөрүңүзгө видеолоруңузду да тиркеп жазышсаңыз болот!",
+    "description": "Release notes for v5.61"
   }
 }

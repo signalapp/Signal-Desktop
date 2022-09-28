@@ -557,12 +557,8 @@
     "message": "ಲಾಗ್ ಸಲ್ಲಿಸಿ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ಚಿತ್ರವಲ್ಲದ ಲಗತ್ತನ್ನು ಸೇರಿಸುವಾಗ, ಮಿತಿಯು ಪ್ರತಿ ಸಂದೇಶಕ್ಕೆ ಒಂದು ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ ಆಗಿರುತ್ತದೆ.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ಚಿತ್ರವಲ್ಲದ ಮತ್ತು ಚಿತ್ರದ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಒಂದು ಸಂದೇಶದಲ್ಲಿ ನೀವು ಮಿಶ್ರಗೊಳಿಸಲಾಗದು.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ನೀವು ಫೈಲ್‌ಗಳೊಂದಿಗೆ ಫೊಟೋಗಳು ಮತ್ತು ವಿಡಿಯೋಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "ಪಾಪ್ಅಪ್‌ ಮುಚ್ಚಿ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ಚಿತ್ರದ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಸೇರಿಸಿ",
+  "addImageOrVideoattachment": {
+    "message": "ಇಮೇಜ್ ಅಥವಾ ವಿಡಿಯೋ ಲಗತ್ತು ಸೇರಿಸಿ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗೆ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯ",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ಮೇಲಿರುವ $composeIcon$ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೆಸೇಜ್ ಮಾಡಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಹುಡುಕಿ.",
@@ -5594,6 +5590,10 @@
     "message": "ಇನ್ನೂ ಯಾವುದೇ ಉತ್ತರಗಳಿಲ್ಲ",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ಇನ್ನೂ ಯಾವುದೇ ವೀಕ್ಷಣೆಗಳಿಲ್ಲ",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ವೀಕ್ಷಣೆಗಳು",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "ನಿಮ್ಮ ಎಮೋಜಿ ಹುಡುಕುವಿಕೆಯನ್ನು ಸುಗಮಗೊಳಿಸಿ. ಎಮೋಜಿ ಪಿಕರ್ ಅನ್ನು ಸೆಳೆದ ಬಳಿಕ, 🔍 ಅನ್ನು ಸ್ಕಿಪ್ ಮಾಡಿ ಮತ್ತು ಕೀವರ್ಡ್‌ಗಳನ್ನು ಟೈಪ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ಆಲಿಸಲು ವಾಯ್ಸ್ ನೋಟ್‌ಗಳ ಸುದೀರ್ಘ ಪಟ್ಟಿಯೊಂದಿಗಿನ ಸಂಭಾಷಣೆಗಳನ್ನು ಎದುರಿಸುತ್ತಿದ್ದೀರಾ? ಪ್ಲೇ ಕ್ಲಿಕ್ ಮಾಡಿ, ಆರಾಮವಾಗಿ ಕುಳಿತು ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ - ಅವುಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪ್ಲೇ ಆಗುತ್ತವೆ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "ನಿಮ್ಮ ರಜಾ ದಿನದ‌ ಫೊಟೋಗಳ ಜೊತೆಗೆ ಸ್ವಲ್ಪ ವಿಡಿಯೋ ಫ್ಲೇವರ್ ಅನ್ನು ಕೂಡ ಲಗತ್ತಿಸಬಹುದು!\n\n",
+    "description": "Release notes for v5.61"
   }
 }

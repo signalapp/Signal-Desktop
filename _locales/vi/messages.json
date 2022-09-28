@@ -557,12 +557,8 @@
     "message": "Gửi nhật ký",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Khi bao gồm một tập tin đính kèm không phải hình ảnh, giới hạn là một tập tin đính kèm cho mỗi tin nhắn.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Bạn không thể kết hợp tập tin không phải hình ảnh và tập tin hình ảnh đính kèm trong cùng một tin nhắn.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Bạn không thể chọn ảnh và video cùng các tập tin.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Đóng cửa sổ popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Thêm hình ảnh đính kèm",
+  "addImageOrVideoattachment": {
+    "message": "Thêm ảnh hoặc video đính kèm",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3065,6 +3061,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Cuộc gọi video không được trả lời",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal vẫn đang chạy",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal sẽ tiếp tục chạy ở vùng thông báo. Bạn có thể thay đổi điều này trong phần cài đặt của Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Cuộc gọi âm thanh đang đến...",
@@ -4490,21 +4494,21 @@
     "message": "Thời gian phát lại của đính kèm âm thanh",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Nhấn $composeIcon$ ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin.",
@@ -4845,6 +4849,10 @@
   "MessageDetailsHeader--Viewed": {
     "message": "Được xem bởi",
     "description": "In the message details screen, shown above contacts who have viewed this message"
+  },
+  "MessageDetail--disappears-in": {
+    "message": "Tự biến mất trong",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
     "message": "Thông tin",
@@ -5566,6 +5574,10 @@
     "message": "Kích thước tập tin $size$",
     "description": "File size description"
   },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Tự biến mất trong $countdown$",
+    "description": "File size description"
+  },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Sao chép dấu thời gian",
     "description": "Context menu item to help debugging"
@@ -5577,6 +5589,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Chưa có câu trả lời",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Chưa có lượt xem",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Lượt xem",
@@ -5777,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Cải thiện tốc độ tìm emoji. Sau khi mở bảng chọn emoji, bạn có thể bỏ qua nút 🔍 và gõ từ khóa luôn.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Bạn có một cuộc hội thoại với nhiều Tin nhắn Âm thanh để nghe? Bấm nghe, và sau đó bạn chỉ cần ngồi lắng nghe - tất cả sẽ tiếp tục tự động phát!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Giờ đây bạn có thể đính kèm video và ảnh với tin nhắn!",
+    "description": "Release notes for v5.61"
   }
 }

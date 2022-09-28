@@ -557,12 +557,8 @@
     "message": "ثبت گزارش",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "زمانی که خواستید یک پیوست غیر-تصویر را قرار بدهید،  محدودیت یک پیوست در هر پیام می باشد.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "شما نمی توانید یک پیوست تصویر و یک پیوست غیر تصویر را در یک پیام ترکیب کنید.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "شما نمی‌توانید همراه با فایل‌ها، عکس و ویدیو انتخاب کنید.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "بستن پاپ‌آپ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "افزودن پیوست تصویری",
+  "addImageOrVideoattachment": {
+    "message": "افزودن پیوست تصویر یا ویدیو",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "زمان پخش پیوست صوتی",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "۱ برابر",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "۱.۵ برابر",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "۲ برابر",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "۵. برابر",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "5.",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "روی $composeIcon$ در بالا کلیک کنید و برای مخاطبین یا گروه‌های خود برای ارسال پیام جستجو کنید.",
@@ -5594,6 +5590,10 @@
     "message": "هنوز پاسخی داده نشده است",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "هنوز بازدیدی نشده است",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "بازدیدها",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "جستجوی ایموجی خود را ساده کنید. وقتی انتخابگر ایموجی را بالا کشیدید، 🔍 را رد کنید و فقط شروع به تایپ کلمات کلیدی نمایید.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "مکالمه‌ای با فهرستی طولانی از یادداشت‌های صوتی دریافت کرده‌اید که باید به آن‌ها گوش کنید؟ روی دکمه پخش کلیک کنید، راحت و با آرامش بنشینید - آن‌ها به‌طور خودکار پخش خواهند شد!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "اکنون می‌توانید برای تنوع‌بخشی به پیام خود تعدادی ویدیو را به همراه عکس‌های تعطیلات خود به آن پیوست کنید!",
+    "description": "Release notes for v5.61"
   }
 }

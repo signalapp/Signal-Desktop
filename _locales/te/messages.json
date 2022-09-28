@@ -557,12 +557,8 @@
     "message": "లాగ్ సబ్మిట్ చేయండి",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "చిత్రంకాని జోడింపును చేర్చినప్పుడు, సందేశ పరిమితి ఒక అటాచ్మెంట్.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "మీరు ఒక సందేశంలో ణొన్-ఇమేజ్ మరియు చిత్రం జోడింపులను కలపలేరు.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "మీరు ఫైల్స్‌తో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "పాపప్ మూసివేయండి",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "చిత్ర అటాచ్మెంట్ను జోడించండి",
+  "addImageOrVideoattachment": {
+    "message": "చిత్రం లేదా వీడియో అటాచ్‌మెంట్‌ను జోడించండి",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ఆడియో జోడింపు యొక్క ప్లేబ్యాక్ సమయం",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "పై $composeIcon$ పై క్లిక్ చేసి, సందేశానికి మీ పరిచయాలు లేదా సమూహాల కోసం శోధించండి.",
@@ -5594,6 +5590,10 @@
     "message": "ఇంకా ఎలాంటి రిప్లైలు లేవు",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ఇంకా ఎలాంటి వీక్షణలు లేవు",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "వీక్షణలు",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "మీ ఎమోజీ శోధనను క్రమబద్ధం చేయండి. మీరు ఎమోజీ పికర్‌ను పైకి లాగిన తరువాత, 🔍 ను దాటవేయండి మరియు కీవర్డ్‌లు టైప్ చేయడం ప్రారంభించండి.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "వినాల్సిన వాయిస్ నోట్స్ యొక్క పెద్ద జాబితాతో సంభాషణను ఎదుర్కొంటున్నారా? ప్లే క్లిక్ చేయండి, హాయిగా కూర్చొని, విశ్రాంతి తీసుకోండి - అవి ఆటోమేటిక్‌గా ప్లే చేయడం కొనసాగుతుంది!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "మీ సెలవు ఫోటోలతో పాటుగా సందేశానికి కొంత వీడియో ఫ్లేవర్‌ను మీరు ఇప్పుడు జోడించవచ్చు!",
+    "description": "Release notes for v5.61"
   }
 }

@@ -557,12 +557,8 @@
     "message": "ਲਾਗ ਭੇਜੋ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ਕਿਸੇ ਗੈਰ-ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਨੂੰ ਸ਼ਾਮਲ ਕਰਦੇ ਸਮੇਂ, ਪ੍ਰਤੀ ਸੁਨੇਹਾ ਇੱਕ ਅਟੈਚਮੈਂਟ ਦੀ ਸੀਮਾ ਹੈ।",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ਤੁਸੀਂ ਇੱਕ ਸੁਨੇਹੇ ਵਿੱਚ ਗੈਰ-ਚਿੱਤਰ ਅਤੇ ਚਿੱਤਰ ਨੱਥੀਆਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ਤੁਸੀਂ ਫ਼ਾਈਲਾਂ ਦੇ ਨਾਲ ਫ਼ੋਟੋਆਂ ਅਤੇ ਵੀਡੀਓ ਨਹੀਂ ਚੁਣ ਸਕਦੇ ਹੋ।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "ਪੌਪਅੱਪ ਬੰਦ ਕਰੋ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਨੂੰ ਜੋੜੋ",
+  "addImageOrVideoattachment": {
+    "message": "ਚਿੱਤਰ ਜਾਂ ਵੀਡੀਓ ਅਟੈਚਮੈਂਟ ਸ਼ਾਮਲ ਕਰੋ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ਆਡੀਓ ਅਟੈਚਮੈਂਟ ਦਾ ਪਲੇਅਬੈਕ ਸਮਾਂ",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ਉੱਪਰ $composeIcon$ ’ਤੇ ਕਲਿਕ ਕਰੋ ਅਤੇ ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਆਪਣੇ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਲੱਭੋ।",
@@ -5594,6 +5590,10 @@
     "message": "ਅਜੇ ਤੱਕ ਕਿਸੇ ਨੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ਅਜੇ ਤੱਕ ਕਿਸੇ ਨੇ ਨਹੀਂ ਦੇਖਿਆ",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ਵਿਊ",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "ਇਮੋਜੀ ਖੋਜਣ ਦੇ ਤਰੀਕੇ ਨੂੰ ਸੁਚਾਰੂ ਬਣਾਓ। ਇੱਕ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇਮੋਜੀ ਪਿੱਕਰ ਨੂੰ ਖੋਲ੍ਹ ਲੈਂਦੇ ਹੋ, ਤਾਂ 🔍 ਨੂੰ ਛੱਡੋ ਅਤੇ ਸਿੱਧਾ ਕੀਵਰਡ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ।",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ਕੀ ਤੁਸੀਂ ਚੈਟ ਵਿੱਚ ਆਏ ਬਹੁਤ ਸਾਰੇ ਵੌਇਸ ਨੋਟਸ ਸੁਣਨੇ ਹਨ? ਚਲਾਓ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਆਰਾਮ ਨਾਲ਼ ਬੈਠੋ - ਉਹ ਆਪਣੇ-ਆਪ ਚੱਲਦੇ ਰਹਿਣਗੇ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "ਹੁਣ ਤੁਸੀਂ ਆਪਣੀਆਂ ਛੁੱਟੀਆਂ ਦੀਆਂ ਫ਼ੋਟੋਆਂ ਦੇ ਨਾਲ-ਨਾਲ ਸੁਨੇਹੇ ਵਿੱਚ ਵੀਡੀਓ ਵੀ ਅਟੈਚ ਕਰ ਸਕਦੇ ਹੋ!",
+    "description": "Release notes for v5.61"
   }
 }

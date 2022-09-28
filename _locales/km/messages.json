@@ -557,12 +557,8 @@
     "message": "ដាក់បញ្ជូនកំណត់ហេតុ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ពេលបញ្ចូលឯកសារភ្ជាប់មិន-រូបភាពមួយ ការកំណត់គឺឯកសារភ្ជាប់មួយ សម្រាប់សារមួយ។",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "អ្នកមិនអាចលាយឡំឯកសារភ្ជាប់ មិន-រូបភាព និងរូបភាព ក្នុងសារតែមួយទេ។",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "អ្នក​មិន​អាច​ជ្រើសរើស​រូបថត និង​វីដេអូ​រួម​ជាមួយ​ឯកសារ​បាន​ទេ។",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "បិទ ផ្ទាំងលោតឡើង",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "បន្ថែមឯកសារភ្ជាប់រូបភាព",
+  "addImageOrVideoattachment": {
+    "message": "បញ្ចូលឯកសារភ្ជាប់ជារូបភាព ឬជាវីដេអូ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "រយៈពេលចាក់ឯកសារភ្ជាប់ជាសំឡេង",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ",5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ចុច $composeIcon$ ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
@@ -5594,6 +5590,10 @@
     "message": "មិនទាន់មានការឆ្លើយតបទេ",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "មិនទាន់មានចំនួនមើលទេ",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ចំនួនមើល",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "ធ្វើឲ្យការស្វែងរករូបអារម្មណ៍របស់អ្នកកាន់តែមានប្រសិទ្ធភាព។ នៅពេលអ្នកបានបើក​ផ្ទាំងរើសរូបអារម្មណ៍ សូមរំលង 🔍 រួចគ្រាន់តែចាប់ផ្តើមវាយពាក្យគន្លឹះប៉ុណ្ណោះ។",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ពិបាកចូលស្តាប់ការសន្ទនាដែលមានកំណត់ចំណាំជាសំឡេងដ៏វែងអន្លាយមែនទេ? សូមចាក់ ហើយអង្គុយស្តាប់តាមសម្រួលចុះ - វានឹងបន្តចាក់ដោយស្វ័យប្រវត្តិ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "ឥឡូវ​នេះ អ្នក​អាច​ភ្ជាប់​រសជាតិ​វីដេអូ​មួយ​ចំនួនជាមួយ​សារបាន អម​ជាមួយ​នឹង​រូបថត​វិស្សមកាល​របស់​អ្នក​ផងដែរ!",
+    "description": "Release notes for v5.61"
   }
 }

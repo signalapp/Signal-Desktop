@@ -7,6 +7,10 @@
     "message": "Merc û Polîtîkaya Nihêniyê",
     "description": "Shown in the about box for the link to https://signal.org/legal"
   },
+  "appleSilicon": {
+    "message": "Apple silicon",
+    "description": "Shown in the about box for Apple silicon product name"
+  },
   "copyErrorAndQuit": {
     "message": "Çewtiyê kopî bike û derkeve",
     "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -541,6 +545,10 @@
     "message": "Reşnivîsa pêveka wêneyî: $path$",
     "description": "Alt text for staged attachments"
   },
+  "cdsMirroringErrorToast": {
+    "message": "Desktop ran into a Contact Discovery Service inconsistency.",
+    "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
+  },
   "decryptionErrorToast": {
     "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
@@ -549,12 +557,8 @@
     "message": "Submit log",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "When including a non-image attachment, the limit is one attachment per message.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "You cannot mix non-image and image attachments in one message.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1855,6 +1859,14 @@
     "message": "No conversations found",
     "description": "Label shown when there are no conversations to compose to"
   },
+  "Toast--error": {
+    "message": "An error has occurred",
+    "description": "Toast for general errors"
+  },
+  "Toast--error--action": {
+    "message": "Submit log",
+    "description": "Label for the error toast button"
+  },
   "Toast--failed-to-fetch-username": {
     "message": "Failed to fetch username. Check your connection and try again.",
     "description": "Shown if request to Signal servers to find username fails"
@@ -2607,8 +2619,8 @@
     "message": "Pencereya veqetok bigire",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Pêveka wêneyê tevlî bike",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3049,6 +3061,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Gerîna vîdyoyî ya nebersivandî",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal is still running",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Gerîna dengî ya tê...",
@@ -4474,6 +4494,22 @@
     "message": "Playback time of audio attachment",
     "description": "Aria label for audio attachment's playback time slider"
   },
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
+  },
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
+  },
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
+  },
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
+  },
   "emptyInboxMessage": {
     "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
     "description": "Shown in the left-pane when the inbox is empty"
@@ -4813,6 +4849,10 @@
   "MessageDetailsHeader--Viewed": {
     "message": "Viewed by",
     "description": "In the message details screen, shown above contacts who have viewed this message"
+  },
+  "MessageDetail--disappears-in": {
+    "message": "Disappears in",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
     "message": "Derbar",
@@ -5290,6 +5330,14 @@
     "message": "Add a story",
     "description": "Description hint to add a story"
   },
+  "Stories__add-story--text": {
+    "message": "Text story",
+    "description": "Label to create a new text story"
+  },
+  "Stories__add-story--media": {
+    "message": "Photo or video",
+    "description": "Label to create a new multimedia story"
+  },
   "Stories__hidden-stories": {
     "message": "Hidden stories",
     "description": "Button label to go to hidden stories pane"
@@ -5312,6 +5360,10 @@
   },
   "Stories__toast--sending-reaction": {
     "message": "Sending reaction...",
+    "description": "Toast message"
+  },
+  "Stories__toast--hasNoSound": {
+    "message": "This story has no sound",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
@@ -5426,6 +5478,58 @@
     "message": "Story settings",
     "description": "Button label to get to story settings"
   },
+  "SendStoryModal__choose-who-can-view": {
+    "message": "Choose who can view your story",
+    "description": "Shown during the first time posting a story"
+  },
+  "SendStoryModal__title": {
+    "message": "Send to",
+    "description": "Title for the send story modal"
+  },
+  "SendStoryModal__send": {
+    "message": "Send story",
+    "description": "aria-label for the send story button"
+  },
+  "SendStoryModal__new": {
+    "message": "New story",
+    "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "New private story",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-private--description": {
+    "message": "Visible only to specific people",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-group--title": {
+    "message": "New group story",
+    "description": "Select a group to send a story to"
+  },
+  "SendStoryModal__new-group--description": {
+    "message": "Share to an existing group",
+    "description": "Description of what selecting a group would do"
+  },
+  "SendStoryModal__choose-groups": {
+    "message": "Choose groups",
+    "description": "Modal title when choosing groups"
+  },
+  "SendStoryModal__my-stories-privacy": {
+    "message": "My stories privacy",
+    "description": "Modal title for setting privacy for My Stories"
+  },
+  "SendStoryModal__privacy-disclaimer": {
+    "message": "Choose which Signal connections can view your story. You can always change this in privacy settings. $learnMore$",
+    "description": "Disclaimer on how changes to story settings work"
+  },
+  "SendStoryModal__delete-story": {
+    "message": "Delete story",
+    "description": "Button label to delete a story"
+  },
+  "SendStoryModal__confirm-remove-group": {
+    "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
+    "description": "Confirmation body for removing a group story"
+  },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",
     "description": "Select box title for the stories on/off toggle"
@@ -5458,6 +5562,10 @@
     "message": "Bideng bike",
     "description": "Aria label for unmuting stories"
   },
+  "StoryViewer__views-off": {
+    "message": "Views off",
+    "description": "When the user has read receipts turned off"
+  },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",
     "description": "Sent timestamp"
@@ -5466,13 +5574,25 @@
     "message": "File size $size$",
     "description": "File size description"
   },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Disappears in $countdown$",
+    "description": "File size description"
+  },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Copy timestamp",
     "description": "Context menu item to help debugging"
   },
+  "StoryViewsNRepliesModal__read-receipts-off": {
+    "message": "Enable read receipts to see who's viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Privacy.",
+    "description": "Instructions on how to enable read receipts"
+  },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "No replies yet",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "No views yet",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Views",
@@ -5522,12 +5642,36 @@
     "message": "Veşêre",
     "description": "Action button for the confirmation dialog to hide a story"
   },
-  "StoryImage__error": {
-    "message": "Error displaying image",
-    "description": "aria-label for image errors"
+  "StoryImage__error2": {
+    "message": "Can’t download story. $name$ will need to share it again.",
+    "description": "Description for image errors"
   },
-  "StoryCreator__text-bg": {
-    "message": "Toggle text background color",
+  "StoryImage__error--you": {
+    "message": "Can’t download story. You will need to share it again.",
+    "description": "Description for image errors but when it is your own image"
+  },
+  "StoryCreator__error--video-too-long": {
+    "message": "Cannot post video to story because it is too long",
+    "description": "Error string for when a video post to story fails"
+  },
+  "StoryCreator__error--video-unsupported": {
+    "message": "Cannot post video to story as it is an unsupported file format",
+    "description": "Error string for when a video post to story fails"
+  },
+  "StoryCreator__error--video-error": {
+    "message": "Failed to load video",
+    "description": "Error string for when a video post to story fails"
+  },
+  "StoryCreator__text-bg--background": {
+    "message": "Text has a white background color",
+    "description": "Button label"
+  },
+  "StoryCreator__text-bg--inverse": {
+    "message": "Text has selected color as the background color",
+    "description": "Button label"
+  },
+  "StoryCreator__text-bg--none": {
+    "message": "Text has no background color",
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
@@ -5565,6 +5709,14 @@
   "StoryCreator__text--condensed": {
     "message": "Condensed",
     "description": "Label for font"
+  },
+  "StoryCreator__control--text": {
+    "message": "Add story text",
+    "description": "aria-label for edit text button"
+  },
+  "StoryCreator__control--link": {
+    "message": "Add a link",
+    "description": "aria-label for adding a link preview"
   },
   "StoryCreator__link-preview-placeholder": {
     "message": "Type or paste a URL",
@@ -5614,8 +5766,40 @@
     "message": "Additional small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.53--1": {
-    "message": "If you’re using the JAWS screen reading program, you can now successfully play voice memos and access longer messages that get shortened behind a “read more” button.",
-    "description": "Release notes for v5.53"
+  "WhatsNew__bugfixes--2": {
+    "message": "Handful of bug fixes to keep your app running smoothly. More exciting changes on the horizon! ",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--3": {
+    "message": "Tweaks, bug fixes, and performance enhancements. Keep on texting, calling, and video chatting as usual.",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--4": {
+    "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you. ",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--5": {
+    "message": "Additional small tweaks, bug fixes, and assorted plans for the future.",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__bugfixes--6": {
+    "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
+    "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.57--1": {
+    "message": "Change the speed of audio messages to either get to the point or catch the details.",
+    "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.57--2": {
+    "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
+    "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Facing a conversation with a long list of Voice Notes to listen to? Click play, sit back, and relax - they'll continue playing automatically!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "You can now attach some video flavor to a message along with your vacation photos!",
+    "description": "Release notes for v5.61"
   }
 }

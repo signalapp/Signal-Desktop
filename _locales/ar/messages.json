@@ -557,12 +557,8 @@
     "message": "إرسال السجل",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "عند تضمين مرفق غير صورة، يكون الحد الأقصى هو مرفق واحد لكل رسالة.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "لا يمكنك مزج مرفق لا يحوي صورة مع مرفق يحوي صورة في رسالة واحدة.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "لا يمكنك تحديد الصور ومقاطع الفيديو مع الملفات.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "إغلاق النافذة المنبثقة",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "إضافة صورة مرفقة",
+  "addImageOrVideoattachment": {
+    "message": "إضافة صورة أو فيديو مُرفَق",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "مدة تشغيل المرفق الصوتي",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "‎1 ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "‎1½ ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "‎2 ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "‎½ ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "يٌرجى الضغط على $composeIcon$ أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
@@ -5594,6 +5590,10 @@
     "message": "لا جواب حاليا",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "لا مشاهدات حتى الآن",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "المشاهدات",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "بسّط البحث عن الرموز التعبيرية. بمجرد سحب مُنتقي الرموز التعبيرية، تخطّي 🔍 وابدأ في كتابة الكلمات الرئيسية.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "توصلّت بمُحادثة تتحتوي على رسائل صوتية جد طويلة يجب أن تستمع إليها؟ انقر على تشغيل، اِسترح واِسترخِ - سَيشتغلون تِلقائِيًا!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "يُمكنك الآن إرفاق فيديو برسالة بالإضافة إلى صور عطلتك!",
+    "description": "Release notes for v5.61"
   }
 }

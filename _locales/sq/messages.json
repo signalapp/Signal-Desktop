@@ -557,12 +557,8 @@
     "message": "Parashtroni regjistër",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Kur përfshihet një bashkëngjitje që s’është figurë, kufiri është një bashkëngjitje për mesazh.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "S’mund të përzieni brenda të njëjtit mesazh bashkëngjitje figurë dhe jo figurë.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Nuk mund të zgjedhësh foto dhe video bashkë me skedarë.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Mbylleni flluskën",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Shtoni bashkëngjitje figurë",
+  "addImageOrVideoattachment": {
+    "message": "Shto imazhe ose video bashkëngjitur ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Kohë luajtje e bashkëngjitjes audio",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klikoni $composeIcon$ më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh.",
@@ -5594,6 +5590,10 @@
     "message": "Ende pa përgjigje",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Ende nuk ka shikime",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Parje",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Drejto kërkimin për emoji. Pasi të kesh nxjerrë zgjedhësin e emoji, kaloje 🔍 dhe fillo të shkruash fjalën kyçe.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Duhet të dëgjosh një bisedë me një listë të gjatë Shënimesh Zanore?  Kliko luaj, ulu dhe qetësohu - do të luhen automatikisht një pas një!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Tani mund t'i shtosh shije mesazhit, duke i bashkëngjitur video, krahas fotove të tua të pushimeve!",
+    "description": "Release notes for v5.61"
   }
 }

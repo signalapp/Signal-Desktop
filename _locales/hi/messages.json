@@ -557,12 +557,8 @@
     "message": "लॉग सबमिट करें",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "तस्वीर से अलग सारे अटैचमेंट के लिये सीमा, एक मेसेज में एक अटैचमेंट है।",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "आप तस्वीर और अन्य अटैचमेंट एक ही मेसेज में नहीं रख सकते।",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "आप फ़ाइलों के साथ फ़ोटो और वीडियो नहीं चुन सकते।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "पॉपअप बंद करें",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "तस्वीर अटैचमेंट जोड़ें ",
+  "addImageOrVideoattachment": {
+    "message": "इमेज या वीडियो अटैचमेंट जोड़ें",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ऑडियो अटैचमेंट का प्लेबैक समय",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ऊपर दिए गए $composeIcon$ पर क्लिक करें और संदेश भेजने के लिए अपने संपर्कों या समूहों को खोजें।",
@@ -5594,6 +5590,10 @@
     "message": "कोई जवाब नहीं",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "अब तक कोई व्यू नहीं",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "व्यू",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "अपनी इमोजी की खोज को व्यवस्थित करें। एक बार इमोजी पिकर चुन लेने के बाद  🔍 को छोड़ दें और केवल कीवर्ड टाइप करना शुरू करें।",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "क्या आपको सुने जाने वाले वॉयस नोट्स की एक लंबी सूची का सामना करना पड़ रहा है? चलाएँ पर क्लिक करें, और आराम करें - वे अपने आप प्ले होते रहेंगे!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "अब आप अपनी वेकेशन की फ़ोटोज़ के साथ जानेवाले मेसेज के साथ एक वीडियो का तड़का भी लगा सकते हैं! ",
+    "description": "Release notes for v5.61"
   }
 }

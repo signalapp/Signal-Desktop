@@ -557,12 +557,8 @@
     "message": "הגש יומן",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "בעת הכללת צרופת אי־תמונה, המגבלה היא צרופה אחת להודעה.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "אינך יכול לערבב צרופות של אי־תמונה ותמונה בהודעה אחת.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "לא ניתן לבחור תמונות וסרטונים יחד עם קבצים.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "סגור חלון קופץ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "הוסף צרופת תמונה",
+  "addImageOrVideoattachment": {
+    "message": "צירוף תמונה או סרטון",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "זמן ניגון של צרופת שמע",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "לחץ על $composeIcon$ למעלה וחפש אחר אנשי הקשר או הקבוצות שלך כדי לשלוח הודעה.",
@@ -5594,6 +5590,10 @@
     "message": "אין תשובות עדין",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "אין צפיות עדיין",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "צפיות",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "אפשר לייעל את חיפוש האימוג׳יז שלך. ברגע שנכנסת למקלדת האימוג׳יז, מדלגים על ה🔍 ופשוט מתחילים להקליד מילות מפתח.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "יש לך שיחה עם רשימה ארוכה של הודעות קוליות להאזין להן? אפשר פשוט ללחוץ פליי, להתרווח ולהירגע - הן ימשיכו להתנגן אוטומטית!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "עכשיו אפשר לצרף גם סרטונים להודעה יחד עם התמונות מהחופשה האחרונה!",
+    "description": "Release notes for v5.61"
   }
 }

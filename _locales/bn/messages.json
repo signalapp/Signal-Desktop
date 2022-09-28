@@ -557,12 +557,8 @@
     "message": "লগ জমা দিন",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ছবি ছাড়া অন্যান্য সংযুক্তি অন্তর্ভুক্ত করার সময়, প্রতি বার্তায় একটি মাত্র সংযুক্তি যোগ করতে পারবেন।",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "আপনি একই মেসেজের মধ্যে ছবি নেই এমন এবং ছবি রয়েছে এমন সংযুক্তি মেশাতে পারবেন না।",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "আপনি ফাইলের সাথে ছবি এবং ভিডিও নির্বাচন করতে পারবেন না।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "পপ-আপ বন্ধ করুন",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ছবি সংযুক্তি যোগ করুন",
+  "addImageOrVideoattachment": {
+    "message": "ছবি কিংবা ভিডিও সংযুক্তি যোগ করুন",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "অডিও সংযুক্তিটির বাজানোর সময়",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "উপরের $composeIcon$-এ ক্লিক করুন এবং মেসেজ পাঠানোর জন্য আপনার কন্ট্যাক্ট বা গ্রুপ খুঁজুন।",
@@ -5594,6 +5590,10 @@
     "message": "এখন পর্যন্ত কোন রিপ্লাই নেই",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "এখন পর্যন্ত কোনো ভিউ নেই",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ভিউ",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "আপনার ইমোজি অনুসন্ধান সহজ করুন। একবার আপনি ইমোজি বাছাই করে নিলে, পরবর্তীতে 🔍 এড়িয়ে যান এবং শুধু কীওয়ার্ড টাইপ করুন।",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "অনেকগুলো ভয়েস নোট শুনতে হচ্ছে এমন কোন কথোপকথনের সম্মুখীন হচ্ছেন? প্লে-তে ক্লিক করুন, ধীরেসুস্থে বসুন এবং আরাম করুন - ভয়েস নোটগুলো স্বয়ংক্রিয়ভাবে চলতে থাকবে!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "আপনি এখন আপনার ছুটির ছবি সহ একটি ম্যাসেজে কিছু ভিডিও ফ্লেভার সংযুক্ত করতে পারেন!",
+    "description": "Release notes for v5.61"
   }
 }

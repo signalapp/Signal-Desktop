@@ -557,12 +557,8 @@
     "message": "பதிவைச் சமர்ப்பிக்கவும்",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "படம் அல்லாத இணைப்பு சேர்க்கும்போது, ​​வரம்பு ஒரு செய்திக்கு ஒரு இணைப்பு.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ஒரே செய்தியில் நீங்கள் படமும் படம் அல்லாத இணப்புகளை கலந்து அனுப்ப முடியாது. ",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "கோப்புகளுடன் புகைப்படங்களையும் வீடியோக்களையும் தேர்ந்தெடுக்க முடியாது.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Popup சாளரத்தை மூடு",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "பட இணைப்பைச் சேர்க்கவும்",
+  "addImageOrVideoattachment": {
+    "message": "படம் அல்லது வீடியோ இணைப்பைச் சேர்க்கவும்",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "கேட்பொலி இணைப்பின் முழு இயக்க நேரம்",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1 எக்ஸ்",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள். ",
@@ -5594,6 +5590,10 @@
     "message": "இன்னும் பதில்கள் ஏதுமில்லை",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "இதுவரை பார்வைகள் ஏதுமில்லை",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "பார்வைகள்",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "உங்கள் ஈமோஜி தேடலை சீரமைக்கவும். ஈமோஜி பிக்கரை மேலே இழுத்தவுடன், 🔍 -ஐத் தவிர்த்துவிட்டு, முக்கிய வார்த்தைகளை டைப் செய்யத் தொடங்கவும்.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ஒரு உரையாடலில் கேட்க வேண்டிய குரல் குறிப்புகளின் பட்டியல் நீண்டதாக உள்ளதா? இயக்கு என்பதைக் கிளிக் செய்துவிட்டு, கவலை இல்லாமல் இருக்கலாம் - அவை தானாகவே தொடர்ந்து இயங்கும்!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "நீங்கள் இப்போது உங்கள் விடுமுறை புகைப்படங்களுடன் சில வீடியோ உணர்வை ஒரு செய்தியில் இணைக்கலாம்!",
+    "description": "Release notes for v5.61"
   }
 }

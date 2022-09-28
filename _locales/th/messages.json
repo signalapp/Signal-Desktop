@@ -557,12 +557,8 @@
     "message": "ส่งปูม",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "เมื่อแนบแฟ้มแนบที่ไม่ใช่รูปภาพ จะสามารถแนบแฟ้มได้เพียงหนึ่งแฟ้มต่อข้อความ",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "คุณไม่สามารถมีทั้งแฟ้มแนบที่เป็นรูปภาพและไม่ใช่รูปภาพในข้อความเดียวกัน",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "ปิดป๊อปอัป",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "เพิ่มแฟ้มแนบรูปภาพ",
+  "addImageOrVideoattachment": {
+    "message": "เพิ่มไฟล์แนบที่เป็นรูปภาพหรือวิดีโอ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "เวลาการเล่นของแฟ้มแนบเสียง",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "คลิก $composeIcon$ ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
@@ -5594,6 +5590,10 @@
     "message": "ยังไม่มีการตอบกลับ",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ยังไม่มีผู้ชม",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "รับชม",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "ปรับปรุงการค้นหาอีโมจิให้สะดวกและง่ายดายขึ้น ไม่ต้องมองหา 🔍 อีกต่อไป แค่กดปุ่มเลือกอีโมจิแล้วพิมพ์คำค้นหาได้เลย",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "หายห่วงเมื่อเจอบทสนทนาที่มีข้อความเสียงเยอะๆ แค่คลิก \"เล่น\" ก็รอฟังได้เลย! ข้อความเสียงจะเล่นต่อกันโดยอัตโนมัติ",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "นอกจากรูปทริปเก๋ๆ ตอนนี้คุณสามารถแนบลูกเล่นวิดีโอไปกับข้อความได้ด้วย",
+    "description": "Release notes for v5.61"
   }
 }

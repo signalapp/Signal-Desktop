@@ -557,12 +557,8 @@
     "message": "Pateikti žurnalą",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Įtraukiant ne paveikslų priedus, vienoje žinutėje galimas tik vienas priedas.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Negalite vienoje žinutėje maišyti paveikslų ir ne paveikslų priedus.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Nuotraukų ir vaizdo įrašų negalima pasirinkti kartu su failais.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Užverti iškylantįjį langą",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Pridėti paveikslo priedą",
+  "addImageOrVideoattachment": {
+    "message": "Pridėk nuotrauką ar vaizdo įrašą",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Garso įrašo priedo atkūrimo laikas",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Spustelėkite aukščiau ant $composeIcon$ ir ieškokite adresatų ar grupių, kuriems norite rašyti žinutę.",
@@ -5594,6 +5590,10 @@
     "message": "Atsakymų kol kas nėra",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Peržiūrų kol kas nėra",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Peržiūros",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Jaustukų ieškok paprasčiau. Atidaręs jaustukų parinkiklį, praleisk 🔍 ir tiesiog įvesk raktinius žodžius.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Laukia pokalbis su daugybe balso žinučių, kurias reikės perklausyti? Spustelėk paleisti, patogiai įsitaisyk ir nesirūpink – jos bus automatiškai leidžiamos iš eilės!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Prie žinutės su savo atostogų nuotraukomis dabar gali pridėti ir vaizdo įrašą!",
+    "description": "Release notes for v5.61"
   }
 }

@@ -557,12 +557,8 @@
     "message": "Журналды жіберу",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Суреттен басқа тіркеме қосқанда, бір хатқа тек бір тіркеме қосуға болады.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Бір хатқа суреттерді және суреттен басқа тіркемелерді араластыруға болмайды.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Фотосуреттер мен видеоларды файлдармен бірге таңдау мүмкін емес.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Қалқымалы терезені жабу",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Сурет тіркемесін қосу",
+  "addImageOrVideoattachment": {
+    "message": "Сурет немесе видео тіркеме қосу",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Аудио тіркеменің ойнатылу уақыты",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Жоғарыдағы $composeIcon$ түймесін басыңыз және хат жазатын контактілерді немесе топтарды іздеңіз.",
@@ -5594,6 +5590,10 @@
     "message": "Ешкім жауап жазбаған",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Әлі ешкім көрмеген",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Көру саны",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Эмодзи іздеу процесін жеңілдетіңіз. Эмодзилер панелін шығарған соң, 🔍 таңбасын баспай-ақ, кілт сөздерді тере бастаңыз.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Бір чатта көп дауыстық хаттарды тыңдап шығу керек болып тұр ма? Онда \"Ойнату\" түймесін басыңыз да, жайғасып отыра беріңіз. Олар автоматты түрде ойнатылады!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Енді демалыстағы фотосуреттеріңізді жібергенде, видеоларды да қоса тіркеуге болады!",
+    "description": "Release notes for v5.61"
   }
 }

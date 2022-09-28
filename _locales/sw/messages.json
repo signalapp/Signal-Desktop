@@ -557,12 +557,8 @@
     "message": "Wasilisha logi",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Wakati kiambatisho kisicho cha picha kinawekwa, kipimo ni kiambatisho kimoja kwa ujumbe mmoja.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Hauwezi kuchanganya viambatisho vya picha na visivyo na picha kwa ujumbe mmoja.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Huwezi kuchagua picha na video pamoja na mafaili.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Funga dukizo",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Ungeza kiambatisho cha taswira",
+  "addImageOrVideoattachment": {
+    "message": "Ongeza kiambatisho cha picha au video ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Muda wa kucheza wa kiambatisho cha sauti",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Bonyeza $composeIcon$ hapa juu na uwatafute waasiliani zako au vikundi vya kutumia ujumbe.",
@@ -5594,6 +5590,10 @@
     "message": "Hakuna majibu bado",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Hakuna mitazamo bado",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Mitazamo",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Rahisisha utafutaji wako wa emoji. Mara tu baada ya kupandisha juu kichagua emoji, ruka 🔍 na anza kuandika maneno muhimu.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Je unakabiliwa na mazungumzo marefu yakiwa na jumbe za sauti kadhaa ambazo unapaswa kusikiliza? Bonyeza cheza, keti na upumzike - zitaendelea kucheza zenyewe kiotomatiki!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Sasa unaweza kuambatisha ladha ya video katika ujumbe pamoja na picha za likizo yako!",
+    "description": "Release notes for v5.61"
   }
 }

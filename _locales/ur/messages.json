@@ -557,12 +557,8 @@
     "message": "لاگ جمع کروائیں",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "جب غیر تصویری اٹیچمنٹ سمیت ، ہر پیغام میں حد ایک اٹیچمنٹ ہوتی ہے۔",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "آپ غیرتصویری اور تصویری اٹیچمنٹس کو ایک پیغام میں نہیں ملا سکتے ہیں۔",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "آپ فائلز کے ساتھ تصاویر اور ویڈیوز منتخب نہیں کر سکتے۔",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "پاپ اپ بند کریں",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "تصویری attachment شامل کریں",
+  "addImageOrVideoattachment": {
+    "message": "تصویر یا ویڈیو ساتھ لگائیں",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "منسلک آڈیو کے پلے بیک وقت",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "مذکورہ $composeIcon$ پر کلک کریں اور پیغام دینے کیلئے اپنے رابطوں یا گروپس کو تلاش کریں۔",
@@ -5594,6 +5590,10 @@
     "message": "ابھی تک کوئی جوابات نہیں",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ابھی تک کوئی ویوز نہیں",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ویوز",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "اپنی ایموجی کی تلاش کو اسٹریم لائن کریں۔ آپ ایموجی پکر سامنے لانے کے بعد، 🔍 کو موخر کریں اور بس کلیدی الفاظ ٹائپ کرنا شروع کر دیں۔",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "گفتگو ہے ایسی ہے کہ سننے کے لیے وائس نوٹس کی لمبی فہرست ہے؟ پلے پر کلک کریں اور اطمینان سے بیٹھ جائیں - نوٹس خود بخود ہی چلتے رہیں گے!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "اب آپ اپنی چھٹیوں کی تصویروں کے ساتھ میسج میں کچھ ویڈیو کا تڑکا بھی لگا سکتے ہیں۔",
+    "description": "Release notes for v5.61"
   }
 }

@@ -557,12 +557,8 @@
     "message": "लॉग सादर करा",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "विना-चित्र संलग्न समाविष्ट करताना, एक संलग्न प्रती संदेशची मर्यादा आहे.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "आपण विना-चित्र आणि चित्र संलग्न एकत्र करू शकत नाही.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "आपण फाईलींसह फोटो आणि व्हिडिओज निवडू शकत नाही.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "पॉपअप बंद करा",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "चित्र संलग्न जोडा",
+  "addImageOrVideoattachment": {
+    "message": "प्रतिमा किंवा व्हिडिओ संलग्नक जोडा",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ऑडिओ संलग्नचा प्लेबॅक अवधी",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "वरील $composeIcon$ वर क्लिक करा आणि संदेश पाठवण्यासाठी आपले संपर्क किंवा गट शोधा.",
@@ -5594,6 +5590,10 @@
     "message": "अद्याप कोणतीही प्रत्युत्तरे नाहीत",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "अद्याप कोणतीही दृश्ये नाहीत",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "दृश्ये",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "आपला इमोजी शोध स्ट्रिमलाइन करा. एकदा तुम्ही इमोजी पिकर वर ओढला तर, 🔍 वगळा आणि फक्त मुख्य शब्द टाईप करून सुरुवात करा.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ध्वनी नोटस च्या एका दीर्घ सूचीसह एक संभाषण ऐकायचे आहे? प्ले ला क्लिक करा, निवांत बसा, आणि निवांत व्हा - ते स्वयंचलितपणे प्ले होत राहतील!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "आपण आपल्या सुट्टीच्या फोटोसोबत संदेशामध्ये काही व्हिडिओज चा मसाला जोडू शकता!",
+    "description": "Release notes for v5.61"
   }
 }

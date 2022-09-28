@@ -557,12 +557,8 @@
     "message": "რეესტრის გაგზავნა",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "არა-სურათის დანართის მიმაგრებისას, ლიმიტი არის ერთი დანართი თითო შეტყობინებაზე.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "არა-სურათისა და სურათის დანართების ერთ შეტყობინებაში გაგზავნა შეუძლებელია.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ფოტოებსა და ვიდეოებს ფაილებთან ერთად ვერ დაამატებ.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "ამომხტარი ფანჯრის დახურვა",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "სურათის დართვა",
+  "addImageOrVideoattachment": {
+    "message": "დაამატე სურათი ან ვიდეო დანართი",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "აუდიო დანართის დაკვრის დრო",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "დააჭირე $composeIcon$ -ზე ზემოთ და მოძებნე შენი კონტაქტები ან ჯგუფები შეტყობინების გასაგზავნად.",
@@ -5594,6 +5590,10 @@
     "message": "ჯერ პასუხები არაა",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ნახვები ჯერ არაა",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ნახვები",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "გაიმარტივე emoji-ს ძებნა. როგორც კი emoji-ის ამომრჩეველს ამოქაჩავ, გამოტოვე 🔍 და პირდაპირ საკვანძო სიტყვების აკრეფა დაიწყე.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "ჩატში ხმოვანი შეტყობინებების გრძელი სია დაგხვდა? დააწკაპუნე ჩართვაზე, მოკალათდი და დაისვენე - ისინი გადართვას ავტომატურად გააგრძელებენ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "ახლა უკვე შეგიძლია შენი შვებულების ფოტოებთან ერთად შეტყობინებას ვიდეოც დაურთო!",
+    "description": "Release notes for v5.61"
   }
 }

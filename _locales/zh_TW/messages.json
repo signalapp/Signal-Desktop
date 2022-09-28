@@ -557,12 +557,8 @@
     "message": "上傳日誌",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "若附檔不是圖片，每則訊息限制只能有一個附檔。",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "你無法在一個訊息中，同時附上非圖片及圖片檔案。",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "你無法在選擇檔案的同時選取照片和影片。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1590,10 +1586,10 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$回應了 $emoji$你的訊息"
+    "message": "$sender$ 已用 $emoji$ 回應你的訊息"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ 對 $message$ 回應了 $emoji$ "
+    "message": "$sender$ 已用 $emoji$ 回應：$message$"
   },
   "sendFailed": {
     "message": "傳送失敗",
@@ -2623,8 +2619,8 @@
     "message": "關閉彈出視窗",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "新增圖片附件",
+  "addImageOrVideoattachment": {
+    "message": "新增圖片或影片附件",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "音效附檔的播放時間",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "單擊上面$composeIcon$的內容，然後搜索要傳送訊息的聯絡人或群組。",
@@ -5594,6 +5590,10 @@
     "message": "未有回覆",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "尚未有人瀏覽",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "檢視",
     "description": "Title for views tab"
@@ -5607,7 +5607,7 @@
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "以對此報導做出回應",
+    "message": "已回應限動",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5739,11 +5739,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "對$name$ 一個限時動態的反應",
+    "message": "已對 $name$ 的限動回應",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "對一則限時動態回應",
+    "message": "已回應一則限動",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "簡化表情符號的搜尋流程。開啟表情符號挑選器時，不用再 🔍，直接輸入關鍵字即可！",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "需要聆聽一長串語音筆記嗎？只需點選播放，系統將自動播放訊息，方便你按自己的步調慢慢收聽！",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "現在，你可以在分享度假照片的同時，將影片作為附件傳送出去！",
+    "description": "Release notes for v5.61"
   }
 }

@@ -557,12 +557,8 @@
     "message": "မှတ်တမ်းကို ပေးပို့ရန်",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ပုံမဟုတ်သည့် ပူးတွဲဖိုင် ပါဝင်သည့်အခါ မက်ဆေ့ချ် တစ်စောင်လျှင် ပူးတွဲဖိုင်တစ်ခုသာ ကန့်သတ်ထားပါသည်။",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ပုံမဟုတ်သည်နှင့် ပုံ ပူးတွဲဖိုင်များကို မက်ဆေ့ချ် တစ်စောင်တွင် ရော၍မရပါ။",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ဓာတ်ပုံများ ဗီဒီယိုများကို ဖိုင်များနှင့်အတူ ရွေး၍ မရနိုင်ပါ။",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Popup ကို ပိတ်ရန်",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ပုံ ပူးတွဲဖိုင် ပေါင်းထည့်ရန်",
+  "addImageOrVideoattachment": {
+    "message": "ပုံ သို့မဟုတ် ဗီဒီယို ပူးတွဲဖိုင် ပေါင်းထည့်ရန်",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "ပူးတွဲပါ အော်ဒီယိုဖိုင် ပြန်ဖွင့်ချိန်",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "အထက်ပါ $composeIcon$ ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။",
@@ -5594,6 +5590,10 @@
     "message": "ပြန်စာများ မရှိသေးပါ",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ကြည့်ရှုမှုများ မရှိသေးပါ",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ကြည့်ရှုမှုများ",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "သင်၏ အီမိုဂျိ ရှာဖွေရေးနည်းလမ်းကို သုံးပါ။ အီမိုဂျိ ပစ်ကာကို ထုတ်ထားပြီးသည့်နောက် 🔍 ကို ကျော်ပြီး သော့ချက်စကားလုံးများကို စတင်ရိုက်ထည့်ပါ။",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "နားဆင်ရမည့် Voice Note စာရင်းရှည်ပါဝင်သော ပြောဆိုဆွေးနွေးမှုနှင့် ရင်ဆိုင်နေရပါသလား။ ဖွင့်ရန်ကိုနှိပ်ပါ၊ ထိုင်ပြီး သက်တောင့်သက်သာနေပါ - အသံဖိုင်များ အော်တိုဆက်ပွင့် နေပါလိမ့်မည်။",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "ယခုအခါ မက်ဆေ့ချ်တစ်စောင်တွင် သင့်အားလပ်ရက် အပန်းဖြေဓာတ်ပုံများနှင့်အတူ ဗီဒီယိုအချို့ကို ပူးတွဲပေါင်းထည့်နိုင်ပါပြီ။",
+    "description": "Release notes for v5.61"
   }
 }

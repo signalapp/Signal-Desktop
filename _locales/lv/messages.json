@@ -557,12 +557,8 @@
     "message": "Ieniegt žurnālu",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Iekļaujot pielikumu, kas nav attēls, vienā ziņā drīkst būt tikai viens pielikums.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Vienā ziņā nedrīkst iekļaut pielikumu, kas nav attēls, un attēla pielikumu.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Jūs nevarat atlasīt attēlus un video kopā ar failiem.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2619,8 @@
     "message": "Aizvērt uznirstošo elementu",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Pievienot attēla pielikumu",
+  "addImageOrVideoattachment": {
+    "message": "Pievienot attēlu vai video (kā pielikumu)",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -4498,21 +4494,21 @@
     "message": "Audio pielikuma atskaņošanas laiks",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Noklikšķiniet uz augstāk norādītās $composeIcon$ un meklējiet kontaktpersonas vai grupas, kurām sūtīt ziņas.",
@@ -5594,6 +5590,10 @@
     "message": "Vēl nav atbilžu",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Vēl nav skatījumu",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Skatījumi",
     "description": "Title for views tab"
@@ -5793,5 +5793,13 @@
   "WhatsNew__v5.57--2": {
     "message": "Optimizējiet emocijzīmju meklēšanu. Atverot emocijzīmju izvēli, ignorējiet 🔍 un vienkārši sāciet rakstīt atslēgvārdus.",
     "description": "Release notes for v5.57"
+  },
+  "WhatsNew__v5.61--0": {
+    "message": "Jums jānoklausās garš balss ziņu saraksts? Sāciet atskaņošanu, iekārtojieties ērtāk un neuztraucieties – atskaņošana tiks automātiski turpināta!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.61--1": {
+    "message": "Tagad ziņām varat pievienot ne tikai atvaļinājuma fotogrāfijas, bet arī kādu interesantu video.",
+    "description": "Release notes for v5.61"
   }
 }
