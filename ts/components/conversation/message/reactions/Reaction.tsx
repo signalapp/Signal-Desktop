@@ -14,10 +14,10 @@ const StyledReaction = styled.button<{ selected: boolean; inModal: boolean; show
   justify-content: ${props => (props.showCount ? 'flex-start' : 'center')};
   align-items: center;
 
-  background-color: var(--color-received-message-background);
+  background-color: var(--message-bubbles-received-background-color);
   border-width: 1px;
   border-style: solid;
-  border-color: ${props => (props.selected ? 'var(--color-accent)' : 'transparent')};
+  border-color: ${props => (props.selected ? 'var(--primary-color)' : 'var(--transparent-color)')};
   border-radius: 11px;
   box-sizing: border-box;
   padding: 0 7px;
