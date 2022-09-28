@@ -18,7 +18,6 @@ export type Props = Pick<
   | 'avatarPath'
   | 'color'
   | 'isMe'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -38,7 +37,6 @@ export function TypingBubble({
   conversationType,
   i18n,
   isMe,
-  name,
   phoneNumber,
   profileName,
   sharedGroupNames,
@@ -65,7 +63,6 @@ export function TypingBubble({
             conversationType="direct"
             i18n={i18n}
             isMe={isMe}
-            name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             theme={theme}

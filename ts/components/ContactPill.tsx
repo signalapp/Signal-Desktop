@@ -21,7 +21,6 @@ export type PropsType = {
   | 'firstName'
   | 'id'
   | 'isMe'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -37,7 +36,6 @@ export const ContactPill: FunctionComponent<PropsType> = ({
   i18n,
   isMe,
   id,
-  name,
   phoneNumber,
   profileName,
   sharedGroupNames,
@@ -58,7 +56,6 @@ export const ContactPill: FunctionComponent<PropsType> = ({
         conversationType="direct"
         i18n={i18n}
         isMe={isMe}
-        name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}

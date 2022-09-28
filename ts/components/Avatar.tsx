@@ -56,7 +56,6 @@ export type Props = {
   acceptedMessageRequest: boolean;
   conversationType: 'group' | 'direct';
   isMe: boolean;
-  name?: string;
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
@@ -302,7 +301,6 @@ export const Avatar: FunctionComponent<Props> = ({
       aria-label={i18n('contactAvatarAlt', [title])}
       className={classNames(
         'module-Avatar',
-        hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',
         Boolean(storyRing) && 'module-Avatar--with-story',
         storyRing === HasStories.Unread && 'module-Avatar--with-story--unread',
         className

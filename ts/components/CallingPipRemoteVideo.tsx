@@ -39,7 +39,6 @@ const NoVideo = ({
     avatarPath,
     color,
     isMe,
-    name,
     phoneNumber,
     profileName,
     sharedGroupNames,
@@ -59,7 +58,6 @@ const NoVideo = ({
             conversationType="direct"
             i18n={i18n}
             isMe={isMe}
-            name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}

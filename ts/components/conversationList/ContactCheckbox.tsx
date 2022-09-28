@@ -32,7 +32,6 @@ export type PropsDataType = {
   | 'color'
   | 'id'
   | 'isMe'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -64,7 +63,6 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     id,
     isChecked,
     isMe,
-    name,
     onClick,
     phoneNumber,
     profileName,
@@ -112,7 +110,6 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         isMe={isMe}
         isSelected={false}
         messageText={messageText}
-        name={name}
         onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}

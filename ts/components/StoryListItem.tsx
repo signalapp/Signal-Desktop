@@ -37,7 +37,6 @@ function StoryListItemAvatar({
   getPreferredBadge,
   i18n,
   isMe,
-  name,
   profileName,
   sharedGroupNames,
   title,
@@ -46,7 +45,6 @@ function StoryListItemAvatar({
   | 'acceptedMessageRequest'
   | 'avatarPath'
   | 'color'
-  | 'name'
   | 'profileName'
   | 'sharedGroupNames'
   | 'title'
@@ -66,7 +64,6 @@ function StoryListItemAvatar({
       conversationType="direct"
       i18n={i18n}
       isMe={Boolean(isMe)}
-      name={name}
       profileName={profileName}
       sharedGroupNames={sharedGroupNames}
       size={AvatarSize.FORTY_EIGHT}

@@ -259,7 +259,7 @@ const createConversation = (
   id: overrideProps.id || '',
   isSelected: boolean('isSelected', overrideProps.isSelected || false),
   title: text('title', overrideProps.title || 'Some Person'),
-  name: overrideProps.name || 'Some Person',
+  profileName: overrideProps.profileName || 'Some Person',
   type: overrideProps.type || 'direct',
   markedUnread: boolean('markedUnread', overrideProps.markedUnread || false),
   lastMessage: overrideProps.lastMessage || {
@@ -313,7 +313,7 @@ export const ConversationWithYourself = (): JSX.Element =>
       status: 'read',
       deletedForEveryone: false,
     },
-    name: 'Myself',
+    profileName: 'Myself',
     title: 'Myself',
     isMe: true,
   });
@@ -451,7 +451,6 @@ export const ConversationLongName = (): JSX.Element => {
     'Long contact name. Esquire. The third. And stuff. And more! And more!';
 
   return renderConversation({
-    name,
     title: name,
   });
 };

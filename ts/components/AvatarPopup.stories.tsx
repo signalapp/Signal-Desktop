@@ -43,7 +43,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   hasPendingUpdate: Boolean(overrideProps.hasPendingUpdate),
   i18n,
   isMe: true,
-  name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onEditProfile: action('onEditProfile'),
   onViewArchive: action('onViewArchive'),

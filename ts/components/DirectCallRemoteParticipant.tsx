@@ -47,7 +47,6 @@ function renderAvatar(
     avatarPath,
     color,
     isMe,
-    name,
     phoneNumber,
     profileName,
     sharedGroupNames,
@@ -58,7 +57,6 @@ function renderAvatar(
     | 'avatarPath'
     | 'color'
     | 'isMe'
-    | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
@@ -76,7 +74,6 @@ function renderAvatar(
         conversationType="direct"
         i18n={i18n}
         isMe={isMe}
-        name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}

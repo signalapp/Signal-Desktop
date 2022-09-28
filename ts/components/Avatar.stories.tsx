@@ -86,7 +86,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   isMe: false,
   loading: Boolean(overrideProps.loading),
-  name: overrideProps.name || '',
   noteToSelf: Boolean(overrideProps.noteToSelf),
   onClick: action('onClick'),
   onClickBadge: action('onClickBadge'),

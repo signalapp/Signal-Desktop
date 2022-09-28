@@ -478,7 +478,6 @@ const renderContactSpoofingReviewDialog = (
 
 const getAbout = () => text('about', '👍 Free to chat');
 const getTitle = () => text('name', 'Cayce Bollard');
-const getName = () => text('name', 'Cayce Bollard');
 const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
 const getAvatarPath = () =>
   text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
@@ -497,7 +496,6 @@ const renderHeroRow = () => {
         id={getDefaultConversation().id}
         i18n={i18n}
         isMe={false}
-        name={getName()}
         phoneNumber={getPhoneNumber()}
         profileName={getProfileName()}
         sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}

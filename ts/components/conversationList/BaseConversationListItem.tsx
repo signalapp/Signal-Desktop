@@ -59,7 +59,6 @@ type PropsType = {
   | 'color'
   | 'isMe'
   | 'markedUnread'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -93,7 +92,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       messageStatusIcon,
       messageText,
       messageTextIsAlwaysFullSize,
-      name,
       onClick,
       phoneNumber,
       profileName,
@@ -165,7 +163,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             searchResult={isUsernameSearchResult}
             i18n={i18n}
             isMe={isMe}
-            name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}

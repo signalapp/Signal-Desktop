@@ -41,7 +41,6 @@ export const MyStoriesButton = ({
     avatarPath,
     color,
     isMe,
-    name,
     profileName,
     sharedGroupNames,
     title,
@@ -64,7 +63,6 @@ export const MyStoriesButton = ({
             conversationType="direct"
             i18n={i18n}
             isMe={Boolean(isMe)}
-            name={name}
             profileName={profileName}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}
@@ -106,7 +104,6 @@ export const MyStoriesButton = ({
             conversationType="direct"
             i18n={i18n}
             isMe={Boolean(isMe)}
-            name={name}
             profileName={profileName}
             sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}

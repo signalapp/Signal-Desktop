@@ -691,7 +691,6 @@ function LightboxHeader({
           conversationType={conversation.type}
           i18n={i18n}
           isMe={conversation.isMe}
-          name={conversation.name}
           phoneNumber={conversation.e164}
           profileName={conversation.profileName}
           sharedGroupNames={conversation.sharedGroupNames}

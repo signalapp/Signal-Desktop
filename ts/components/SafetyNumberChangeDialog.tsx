@@ -112,7 +112,6 @@ export const SafetyNumberChangeDialog = ({
                 conversationType="direct"
                 i18n={i18n}
                 isMe={contact.isMe}
-                name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 theme={theme}

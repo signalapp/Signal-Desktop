@@ -34,7 +34,6 @@ export type Contact = Pick<
   | 'color'
   | 'id'
   | 'isMe'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -138,7 +137,6 @@ export class MessageDetail extends React.Component<Props> {
       badges,
       color,
       isMe,
-      name,
       phoneNumber,
       profileName,
       sharedGroupNames,
@@ -155,7 +153,6 @@ export class MessageDetail extends React.Component<Props> {
         conversationType="direct"
         i18n={i18n}
         isMe={isMe}
-        name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
         theme={theme}

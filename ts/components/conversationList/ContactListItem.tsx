@@ -23,7 +23,6 @@ export type ContactListItemConversationType = Pick<
   | 'color'
   | 'id'
   | 'isMe'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -56,7 +55,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     i18n,
     id,
     isMe,
-    name,
     onClick,
     phoneNumber,
     profileName,
@@ -90,7 +88,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
         isMe={isMe}
         isSelected={false}
         messageText={messageText}
-        name={name}
         onClick={onClick ? () => onClick(id) : undefined}
         phoneNumber={phoneNumber}
         profileName={profileName}

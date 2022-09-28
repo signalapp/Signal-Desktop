@@ -27,7 +27,6 @@ export type Reaction = {
     | 'color'
     | 'id'
     | 'isMe'
-    | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
@@ -234,7 +233,6 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   size={32}
                   isMe={from.isMe}
                   color={from.color}
-                  name={from.name}
                   profileName={from.profileName}
                   phoneNumber={from.phoneNumber}
                   theme={theme}

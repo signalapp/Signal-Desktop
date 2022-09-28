@@ -40,7 +40,6 @@ export type PropsDataType = {
     | 'badges'
     | 'color'
     | 'isMe'
-    | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
@@ -53,7 +52,6 @@ export type PropsDataType = {
     phoneNumber?: string;
     title: string;
     isMe?: boolean;
-    name?: string;
     profileName?: string;
   };
 };
@@ -200,7 +198,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         isMe={from.isMe}
         isSelected={false}
         messageText={messageText}
-        name={from.name}
         onClick={onClickItem}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}

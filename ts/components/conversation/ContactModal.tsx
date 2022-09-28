@@ -182,7 +182,6 @@ export const ContactModal = ({
               conversationType="direct"
               i18n={i18n}
               isMe={contact.isMe}
-              name={contact.name}
               onClick={() => {
                 if (conversation && hasStories) {
                   viewUserStories({

@@ -221,7 +221,6 @@ export type PropsData = {
     | 'color'
     | 'id'
     | 'isMe'
-    | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
@@ -1715,7 +1714,6 @@ export class Message extends React.PureComponent<Props, State> {
             conversationType="direct"
             i18n={i18n}
             isMe={author.isMe}
-            name={author.name}
             onClick={event => {
               event.stopPropagation();
               event.preventDefault();

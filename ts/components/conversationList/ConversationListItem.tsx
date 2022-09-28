@@ -49,7 +49,6 @@ export type PropsData = Pick<
   | 'lastUpdated'
   | 'markedUnread'
   | 'muteExpiresAt'
-  | 'name'
   | 'phoneNumber'
   | 'profileName'
   | 'sharedGroupNames'
@@ -86,7 +85,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     lastUpdated,
     markedUnread,
     muteExpiresAt,
-    name,
     onClick,
     phoneNumber,
     profileName,
@@ -185,7 +183,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         messageStatusIcon={messageStatusIcon}
         messageText={messageText}
         messageTextIsAlwaysFullSize
-        name={name}
         onClick={onClickItem}
         phoneNumber={phoneNumber}
         profileName={profileName}

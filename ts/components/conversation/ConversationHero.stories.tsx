@@ -102,7 +102,6 @@ DirectNoGroupsJustProfile.story = {
 
 export const DirectNoGroupsJustPhoneNumber = Template.bind({});
 DirectNoGroupsJustPhoneNumber.args = {
-  name: '',
   phoneNumber: casual.phone,
   profileName: '',
   title: '',
@@ -114,7 +113,6 @@ DirectNoGroupsJustPhoneNumber.story = {
 export const DirectNoGroupsNoData = Template.bind({});
 DirectNoGroupsNoData.args = {
   avatarPath: undefined,
-  name: '',
   phoneNumber: '',
   profileName: '',
   title: '',
@@ -127,7 +125,6 @@ export const DirectNoGroupsNoDataNotAccepted = Template.bind({});
 DirectNoGroupsNoDataNotAccepted.args = {
   acceptedMessageRequest: false,
   avatarPath: undefined,
-  name: '',
   phoneNumber: '',
   profileName: '',
   title: '',
@@ -187,7 +184,6 @@ export const GroupNoName = Template.bind({});
 GroupNoName.args = {
   conversationType: 'group',
   membersCount: 0,
-  name: '',
   title: '',
 };
 GroupNoName.story = {

@@ -823,7 +823,6 @@ export const EditDistributionList = ({
                 i18n={i18n}
                 id={contact.id}
                 isMe={contact.isMe}
-                name={contact.name}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
                 sharedGroupNames={contact.sharedGroupNames}

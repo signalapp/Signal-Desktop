@@ -26,6 +26,7 @@ export type Props = {
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
+  name?: string;
   phoneNumber?: string;
   sharedGroupNames?: Array<string>;
   unblurAvatar: () => void;
@@ -173,7 +174,6 @@ export const ConversationHero = ({
           conversationType={conversationType}
           i18n={i18n}
           isMe={isMe}
-          name={name}
           noteToSelf={isMe}
           onClick={avatarOnClick}
           profileName={profileName}

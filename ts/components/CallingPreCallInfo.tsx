@@ -23,7 +23,6 @@ type PropsType = {
     | 'avatarPath'
     | 'color'
     | 'isMe'
-    | 'name'
     | 'phoneNumber'
     | 'profileName'
     | 'sharedGroupNames'
@@ -169,7 +168,6 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
         acceptedMessageRequest={conversation.acceptedMessageRequest}
         conversationType={conversation.type}
         isMe={conversation.isMe}
-        name={conversation.name}
         noteToSelf={false}
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}

@@ -168,7 +168,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                   conversationType="direct"
                   i18n={i18n}
                   isMe
-                  name={name}
                   phoneNumber={phoneNumber}
                   profileName={profileName}
                   theme={theme}

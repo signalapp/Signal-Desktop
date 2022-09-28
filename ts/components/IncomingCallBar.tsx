@@ -173,7 +173,6 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
     avatarPath,
     color,
     isMe,
-    name,
     phoneNumber,
     profileName,
     sharedGroupNames,
@@ -257,7 +256,6 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
               conversationType={conversationType}
               i18n={i18n}
               isMe={isMe}
-              name={name}
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}

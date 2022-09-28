@@ -25,6 +25,7 @@ export type Props = {
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
+  name?: string;
 } & Omit<AvatarProps, 'onClick'>;
 
 export const AvatarPopup = (props: Props): JSX.Element => {

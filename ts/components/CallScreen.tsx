@@ -352,7 +352,6 @@ export const CallScreen: React.FC<PropsType> = ({
               conversationType="direct"
               i18n={i18n}
               isMe
-              name={me.name}
               phoneNumber={me.phoneNumber}
               profileName={me.profileName}
               title={me.title}
@@ -390,7 +389,6 @@ export const CallScreen: React.FC<PropsType> = ({
           conversationType="direct"
           i18n={i18n}
           isMe
-          name={me.name}
           phoneNumber={me.phoneNumber}
           profileName={me.profileName}
           title={me.title}

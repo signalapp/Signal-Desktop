@@ -338,7 +338,6 @@ export const ConversationList: React.FC<PropsType> = ({
             'lastUpdated',
             'markedUnread',
             'muteExpiresAt',
-            'name',
             'phoneNumber',
             'profileName',
             'sharedGroupNames',

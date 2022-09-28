@@ -152,7 +152,6 @@ export const StoryViewer = ({
     color,
     isMe,
     firstName,
-    name,
     profileName,
     sharedGroupNames,
     title,
@@ -614,7 +613,6 @@ export const StoryViewer = ({
                   conversationType="direct"
                   i18n={i18n}
                   isMe={Boolean(isMe)}
-                  name={name}
                   profileName={profileName}
                   sharedGroupNames={sharedGroupNames}
                   size={AvatarSize.TWENTY_EIGHT}
@@ -630,7 +628,6 @@ export const StoryViewer = ({
                     conversationType="group"
                     i18n={i18n}
                     isMe={false}
-                    name={group.name}
                     profileName={group.profileName}
                     sharedGroupNames={group.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
