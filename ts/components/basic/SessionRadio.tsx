@@ -28,6 +28,7 @@ const StyledInput = styled.input<{
     background: ${props => props.selectedColor};
   }
 `;
+// tslint:disable: use-simple-attributes
 
 const StyledLabel = styled.label<{
   selectedColor: string;
@@ -79,12 +80,11 @@ export const SessionRadio = (props: Props) => {
         outlineOffset={outlineOffset}
         selectedColor={selectedColor}
       />
-
       <StyledLabel
         role="button"
         onClick={clickHandler}
         selectedColor={selectedColor}
-        filledSize={filledSize}
+        filledSize={filledSize - 1}
         outlineOffset={outlineOffset}
         beforeMargins={beforeMargins}
         aria-label={label}

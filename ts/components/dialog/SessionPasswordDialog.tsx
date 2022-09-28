@@ -55,15 +55,15 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       case 'change':
         placeholders = [
           window.i18n('typeInOldPassword'),
-          window.i18n('enterPassword'),
-          window.i18n('confirmPassword'),
+          window.i18n('enterNewPassword'),
+          window.i18n('confirmNewPassword'),
         ];
         break;
       case 'remove':
-        placeholders = [window.i18n('enterPassword'), window.i18n('confirmPassword')];
+        placeholders = [window.i18n('enterPassword')];
         break;
       default:
-        placeholders = [window.i18n('enterNewPassword'), window.i18n('confirmNewPassword')];
+        placeholders = [window.i18n('createPassword'), window.i18n('confirmPassword')];
     }
 
     const confirmButtonColor =
@@ -184,8 +184,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('setPasswordTitle'),
-      window.i18n('setPasswordToastDescription'),
-      'lock'
+      window.i18n('setPasswordToastDescription')
     );
 
     this.props.onOk();
@@ -223,8 +222,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('changePasswordTitle'),
-      window.i18n('changePasswordToastDescription'),
-      'lock'
+      window.i18n('changePasswordToastDescription')
     );
 
     this.props.onOk();
