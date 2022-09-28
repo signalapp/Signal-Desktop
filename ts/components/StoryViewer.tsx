@@ -342,6 +342,12 @@ export const StoryViewer = ({
 
   const navigateStories = useCallback(
     (ev: KeyboardEvent) => {
+      // the replies modal can consume arrow keys
+      // we don't want to navigate while someone is typing a reply
+      if (hasStoryViewsNRepliesModal) {
+        return;
+      }
+
       if (canNavigateRight && ev.key === 'ArrowRight') {
         viewStory({
           storyId: story.messageId,
@@ -361,6 +367,7 @@ export const StoryViewer = ({
       }
     },
     [
+      hasStoryViewsNRepliesModal,
       canNavigateLeft,
       canNavigateRight,
       story.messageId,
