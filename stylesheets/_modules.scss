@@ -1251,3 +1251,77 @@
 .module-left-pane__virtual-list {
   outline: none;
 }
+
+// TODO Theming - Needs Improvement
+// Module H5AudioPlayer
+.module-message__container--outgoing {
+  .rhap_container {
+    .rhap_play-pause-button,
+    .session-button {
+      color: var(--message-bubbles-sent-text-color);
+      &:hover {
+        color: var(--message-bubbles-sent-text-color);
+      }
+    }
+  }
+
+  .rhap_volume-button {
+    color: var(--message-bubbles-sent-text-color);
+  }
+
+  .rhap_time {
+    color: var(--message-bubbles-sent-text-color);
+  }
+
+  .rhap_progress-bar {
+    background-color: var(--button-icon-stroke-color);
+  }
+
+  .rhap_progress-filled {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_download-progress {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_progress-indicator {
+    background: var(--primary-color);
+  }
+}
+
+.module-message__container--incoming {
+  .rhap_container {
+    .rhap_play-pause-button,
+    .session-button {
+      color: var(--message-bubbles-received-text-color);
+      &:hover {
+        color: var(--message-bubbles-received-text-color);
+      }
+    }
+  }
+
+  .rhap_volume-button {
+    color: var(--message-bubbles-received-text-color);
+  }
+
+  .rhap_time {
+    color: var(--message-bubbles-received-text-color);
+  }
+
+  .rhap_progress-bar {
+    background-color: var(--button-icon-stroke-color);
+  }
+
+  .rhap_progress-filled {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_download-progress {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_progress-indicator {
+    background: var(--primary-color);
+  }
+}

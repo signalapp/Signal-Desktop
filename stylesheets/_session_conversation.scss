@@ -20,9 +20,10 @@
 
 @keyframes pulseLight {
   0% {
-    box-shadow: 0px 0px 0px 0px var(--color-destructive-alt);
+    box-shadow: 0px 0px 0px 0px var(--danger-color);
   }
 
+  // TODO Theming - Needs fixing
   50% {
     box-shadow: 0px 0px 12px 0px rgba(var(--color-destructive-alt-rgb), 1);
   }
@@ -330,10 +331,10 @@
       height: var(--margins-sm);
       width: var(--margins-sm);
       border-radius: 50%;
-      background-color: var(--color-destructive-alt);
+      background-color: var(--danger-color);
       margin: 0 var(--margins-sm);
 
-      @include pulse-color(var(--color-destructive-alt), 1s, infinite);
+      @include pulse-color(var(--danger-color), 1s, infinite);
     }
   }
 }
@@ -341,8 +342,7 @@
 /* ************ */
 /* AUDIO PLAYER */
 /* ************ */
-$rhap_theme-color: #212121 !default;
-$rhap_background-color: var(--color-transparent-color) !default;
+$rhap_background-color: var(--transparent-color) !default;
 $rhap_font-family: inherit !default;
 
 .rhap_container,
@@ -363,10 +363,6 @@ $rhap_font-family: inherit !default;
 
   svg {
     transition: fill var(--default-duration);
-
-    &:hover path {
-      fill: var(--color-white-color);
-    }
   }
 }
 
@@ -389,17 +385,11 @@ $rhap_font-family: inherit !default;
   display: none;
 }
 
-.rhap_volume-button {
-  color: subtle(var(--color-text));
-}
-
 .rhap_volume-container div[role='progressbar'] {
   display: none;
 }
 
 .rhap_time {
-  color: subtle(var(--color-text));
-
   font-size: 12px;
 }
 
@@ -409,14 +399,10 @@ $rhap_font-family: inherit !default;
   z-index: 0;
   width: 100%;
   height: 5px;
-  background-color: var(--color-text);
-
   border-radius: 2px;
 }
 
 .rhap_progress-filled {
-  background-color: rgba(var(--color-accent-rgb), 0.6);
-
   padding-left: 5px;
 }
 
@@ -424,8 +410,6 @@ $rhap_font-family: inherit !default;
   height: 100%;
   position: absolute;
   z-index: 1;
-  background-color: subtle(var(--color-text));
-
   border-radius: 2px;
 }
 
@@ -435,9 +419,7 @@ $rhap_font-family: inherit !default;
   height: 15px;
   top: -5px;
   margin-left: -10px;
-  background: var(--primary-color);
-  box-shadow: none;
-  box-shadow: rgba($rhap_theme-color, 0.5) 0 0 5px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 5px !important;
 }
 
 .rhap_controls-section {

@@ -16,12 +16,7 @@ import { SessionIcon } from '../icon';
 
 const StyledSpeedButton = styled.div`
   padding: var(--margins-xs);
-  opacity: 0.6;
   transition: none;
-
-  :hover {
-    opacity: 1;
-  }
 
   .session-button {
     transition: none;
@@ -80,6 +75,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
       dispatch(setNextMessageToPlayId(undefined));
       return;
     }
+
     // justEndedMessageIndex cannot be -1 nor 0, so it is >= 1
     const nextMessageIndex = justEndedMessageIndex - 1;
     // stop auto-playing when the audio messages change author.
@@ -128,12 +124,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
         </StyledSpeedButton>,
       ]}
       customIcons={{
-        play: (
-          <SessionIcon iconType="play" iconSize="small" iconColor={'var(--color-text-subtle)'} />
-        ),
-        pause: (
-          <SessionIcon iconType="pause" iconSize="small" iconColor={'var(--color-text-subtle)'} />
-        ),
+        play: <SessionIcon iconType="play" iconSize="small" />,
+        pause: <SessionIcon iconType="pause" iconSize="small" />,
       }}
     />
   );
