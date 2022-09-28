@@ -32,7 +32,7 @@ const ExpireTimerBucket = styled.div`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 export const ExpireTimer = (props: Props) => {
@@ -57,7 +57,7 @@ export const ExpireTimer = (props: Props) => {
     return null;
   }
 
-  const expireTimerColor = 'var(--color-text)';
+  const expireTimerColor = 'var(--primary-text-color)';
 
   if (timeLeft <= 60) {
     return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;

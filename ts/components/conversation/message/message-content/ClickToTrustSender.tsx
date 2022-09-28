@@ -38,7 +38,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
         message: window.i18n('trustThisContactDialogDescription', [
           convo.getContactProfileNameOrShortenedPubKey(),
         ]),
-        okTheme: SessionButtonColor.Green,
+        okTheme: SessionButtonColor.Primary,
         onClickOk: async () => {
           convo.set({ isTrustedForAttachmentDownload: true });
           await convo.commit();

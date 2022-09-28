@@ -10,6 +10,10 @@ const SessionScrollButtonDiv = styled.div`
   z-index: 2;
   right: 60px;
   animation: fadein var(--default-duration);
+
+  .session-icon-button {
+    background-color: var(--message-bubbles-received-background-color);
+  }
 `;
 
 export const SessionScrollButton = (props: { onClickScrollBottom: () => void }) => {
