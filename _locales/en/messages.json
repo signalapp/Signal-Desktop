@@ -5845,14 +5845,6 @@
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Change the speed of audio messages to either get to the point or catch the details.",
-    "description": "Release notes for v5.57"
-  },
-  "WhatsNew__v5.57--2": {
-    "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
-    "description": "Release notes for v5.57"
-  },
   "WhatsNew__v5.61--0": {
     "message": "- Facing a conversation with a long list of Voice Notes to listen to? Click play, sit back, and relax - they'll continue playing automatically!",
     "description": "Release notes for v5.61"
@@ -5860,5 +5852,13 @@
   "WhatsNew__v5.61--1": {
     "message": "You can now attach some video flavor to a message along with your vacation photos!",
     "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Can’t remember which of your friends named Lou is on your basketball team? Check contact details to see shared groups between you and a friend.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Easily add a friend to a group from their contact details screen to keep the conversation exciting.",
+    "description": "Release notes for v5.62"
   }
 }
