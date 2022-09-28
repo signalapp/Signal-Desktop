@@ -1614,6 +1614,12 @@ app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling');
 // If we don't set this, Desktop will ask for access to keychain/keyring on startup
 app.commandLine.appendSwitch('password-store', 'basic');
 
+// <canvas/> rendering is often utterly broken on Linux when using GPU
+// acceleration.
+if (OS.isLinux()) {
+  app.disableHardwareAcceleration();
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
