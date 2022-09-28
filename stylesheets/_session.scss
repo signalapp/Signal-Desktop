@@ -832,7 +832,11 @@ label {
   padding: 0px 5px 20px 5px;
 
   &.session-id-editable-textarea:placeholder-shown {
-    padding: 10px 5px 0px 5px;
+    height: 38px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-family: var(--font-default);
   }
 
