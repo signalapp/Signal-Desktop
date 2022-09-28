@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "សេចក្តីថ្លែងអំណរគុណ​ចំពោះ​សូហ្វវែរ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "ដាក់បញ្ជូនកំណត់ហេតុ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ពេលបញ្ចូលឯកសារភ្ជាប់មិន-រូបភាពមួយ ការកំណត់គឺឯកសារភ្ជាប់មួយ សម្រាប់សារមួយ។",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "អ្នកមិនអាចលាយឡំឯកសារភ្ជាប់ មិន-រូបភាព និងរូបភាព ក្នុងសារតែមួយទេ។",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1095,7 +1101,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": " សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុង​ការជជែកនេះបានទេ។",
+    "message": "សារ ស្ទីគ័រ ការប្រតិកម្ម ការអានសារ ឬមេឌៀមិនអាចបញ្ជូនពី $sender$ ទៅអ្នកនៅក្នុង​ការជជែកនេះបានទេ។",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1354,7 +1360,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--many-people-in-call": {
-    "message": "$first$, $second$ និង $others$ នាក់ផ្សេងទៀតកំពុងនៅក្នុងការហៅនេះ ",
+    "message": "$first$, $second$ និង $others$ នាក់ផ្សេងទៀតកំពុងនៅក្នុងការហៅនេះ",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--will-ring-1": {
@@ -1426,7 +1432,7 @@
     "description": "Body text for the share screen notification"
   },
   "calling__presenting--info": {
-    "message": "Signal កំពុងចែករំលែក $window$។ ",
+    "message": "Signal កំពុងចែករំលែក $window$។",
     "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
   },
   "calling__presenting--stop": {
@@ -2623,8 +2629,8 @@
     "message": "បិទ ផ្ទាំងលោតឡើង",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "បន្ថែមឯកសារភ្ជាប់រូបភាព",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ដកប្រតិកម្មចេញ"
+    "message": "ដកប្រតិកម្មចេញ",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "បរាជ័យក្នុងការផ្ញើប្រតិកម្ម។ សូមសាកល្បងម្តងទៀត។",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal កំពុងដំណើរការនៅឡើយ",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4463,7 +4470,7 @@
     "description": "The text of the button to create new groups"
   },
   "selectContact": {
-    "message": " ជ្រើសរើសឈ្មោះទំនាក់ទំនង $name$",
+    "message": "ជ្រើសរើសឈ្មោះទំនាក់ទំនង $name$",
     "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
   },
   "deselectContact": {
@@ -4498,21 +4505,21 @@
     "message": "រយៈពេលចាក់ឯកសារភ្ជាប់ជាសំឡេង",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ",5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ចុច $composeIcon$ ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "នឹងបាត់ក្នុងរយៈពេល",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "នឹងបាត់ក្នុងរយៈពេល $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "មិនទាន់មានការឆ្លើយតបទេ",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "មិនទាន់មានចំនួនមើលទេ",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ចំនួនមើល",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "បញ្ហាមួយចំនួនតូចត្រូវបានដោះស្រាយដើម្បីរក្សា​ឲ្យ​កម្មវិធី​របស់​អ្នក​ដំណើរការ​ដោយ​រលូន។ នឹងមានការផ្លាស់ប្តូរដ៏គួរឲ្យរំភើបរីករាយបន្ថែមទៀតនាពេលខាងមុខនេះ!",
+    "message": "បញ្ហាមួយចំនួនតូចត្រូវបានដោះស្រាយដើម្បីរក្សា​ឲ្យ​កម្មវិធី​របស់​អ្នក​ដំណើរការ​ដោយ​រលូន។ នឹងមានការផ្លាស់ប្តូរដ៏គួរឲ្យរំភើបរីករាយបន្ថែមទៀតនាពេលខាងមុខនេះ! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
+    "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។ ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

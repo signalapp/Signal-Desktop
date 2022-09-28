@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Nhìn nhận về Phần mềm",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -40,7 +50,7 @@
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuEdit": {
-    "message": "&Sửa ",
+    "message": "&Sửa",
     "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuView": {
@@ -557,12 +567,8 @@
     "message": "Gửi nhật ký",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Khi bao gồm một tập tin đính kèm không phải hình ảnh, giới hạn là một tập tin đính kèm cho mỗi tin nhắn.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Bạn không thể kết hợp tập tin không phải hình ảnh và tập tin hình ảnh đính kèm trong cùng một tin nhắn.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Bạn không thể chọn ảnh và video cùng các tập tin.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -608,7 +614,7 @@
     "description": "View menu item to open the debug log (title case)"
   },
   "forceUpdate": {
-    "message": "Buộc Cập nhật ",
+    "message": "Buộc Cập nhật",
     "description": "View menu item to force the app to update download and install"
   },
   "helpMenuShowKeyboardShortcuts": {
@@ -1350,7 +1356,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--3-people-in-call": {
-    "message": "$first$, $second$, và $third$ \u001dđang trong cuộc gọi này",
+    "message": "$first$, $second$, và $third$ \u001Dđang trong cuộc gọi này",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--many-people-in-call": {
@@ -1680,7 +1686,7 @@
     "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
   },
   "hoursAgo": {
-    "message": "$hours$ giờ ",
+    "message": "$hours$ giờ",
     "description": "Contracted form of 'X hours ago' which works both for singular and plural"
   },
   "minutesAgo": {
@@ -1908,7 +1914,7 @@
     "description": "The 'next' button text in the 'choose group members' left pane screen"
   },
   "chooseGroupMembers__maximum-group-size__title": {
-    "message": "Đã đạt kích cỡ nhóm tối đa ",
+    "message": "Đã đạt kích cỡ nhóm tối đa",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-group-size__body": {
@@ -2284,7 +2290,7 @@
     "description": "Shown in the sticker picker the first time you have received new packs you can install."
   },
   "stickers--StickerPicker--NoPacks": {
-    "message": "Không tìm thấy gói nhãn dán ",
+    "message": "Không tìm thấy gói nhãn dán",
     "description": "Shown in the sticker picker when there are no installed sticker packs."
   },
   "stickers--StickerPicker--NoRecents": {
@@ -2488,7 +2494,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "\u001dChuyển đổi bộ chọn emoji phản hồi cho tin nhắn đã chọn",
+    "message": "Chuyển đổi bộ chọn emoji phản hồi cho tin nhắn đã chọn",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -2592,7 +2598,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-video": {
-    "message": "Chuyển đổi bật tắt video ",
+    "message": "Chuyển đổi bật tắt video",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
@@ -2623,8 +2629,8 @@
     "message": "Đóng cửa sổ popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Thêm hình ảnh đính kèm",
+  "addImageOrVideoattachment": {
+    "message": "Thêm ảnh hoặc video đính kèm",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Gỡ biẻu cảm"
+    "message": "Gỡ biẻu cảm",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Lỗi trong việc gửi sự bày tỏ. Xin thử lại",
@@ -3065,6 +3072,14 @@
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Cuộc gọi video không được trả lời",
     "description": "Shown in conversation history when your video call is missed or declined"
+  },
+  "minimizeToTrayNotification--title": {
+    "message": "Signal vẫn đang chạy",
+    "description": "Shown in a notification title when Signal is minimized to tray"
+  },
+  "minimizeToTrayNotification--body": {
+    "message": "Signal sẽ tiếp tục chạy ở vùng thông báo. Bạn có thể thay đổi trong mục cài đặt của Signal.",
+    "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
     "message": "Cuộc gọi âm thanh đang đến...",
@@ -3283,7 +3298,7 @@
     "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
   },
   "GroupV2--join--invalid-link--title": {
-    "message": "Đường dẫn \u001dVô hiệu lực",
+    "message": "Đường dẫn \u001DVô hiệu lực",
     "description": "Shown if we are unable to parse a group link"
   },
   "GroupV2--join--invalid-link": {
@@ -3419,7 +3434,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
-    "message": "$memberName$ đã \u001dgỡ bỏ tên nhóm.",
+    "message": "$memberName$ đã \u001Dgỡ bỏ tên nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--you": {
@@ -3579,7 +3594,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--you--unknown": {
-    "message": "Bạn đã được thêm vào nhóm. ",
+    "message": "Bạn đã được thêm vào nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-link--you--you": {
@@ -3603,7 +3618,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--other--other": {
-    "message": "$adminName$ đã chấp duyệt yêu cầu tham gia nhóm từ $joinerName$. ",
+    "message": "$adminName$ đã chấp duyệt yêu cầu tham gia nhóm từ $joinerName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--other--unknown": {
@@ -3703,7 +3718,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--you": {
-    "message": "Bạn đã mời $count$ người vào nhóm. ",
+    "message": "Bạn đã mời $count$ người vào nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--unknown": {
@@ -3711,7 +3726,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--decline--other": {
-    "message": "1 người được mời bởi $memberName$ đã từ chối \u001d\u001dlời mời vào nhóm. ",
+    "message": "1 người được mời bởi $memberName$ đã từ chối \u001D\u001Dlời mời vào nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--decline--you": {
@@ -4490,21 +4505,21 @@
     "message": "Thời gian phát lại của đính kèm âm thanh",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Nhấn $composeIcon$ ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin.",
@@ -4845,6 +4860,10 @@
   "MessageDetailsHeader--Viewed": {
     "message": "Được xem bởi",
     "description": "In the message details screen, shown above contacts who have viewed this message"
+  },
+  "MessageDetail--disappears-in": {
+    "message": "Tự biến mất trong",
+    "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
     "message": "Thông tin",
@@ -5566,6 +5585,10 @@
     "message": "Kích thước tập tin $size$",
     "description": "File size description"
   },
+  "StoryDetailsModal__disappears-in": {
+    "message": "Tự biến mất trong $countdown$",
+    "description": "File size description"
+  },
   "StoryDetailsModal__copy-timestamp": {
     "message": "Sao chép dấu thời gian",
     "description": "Context menu item to help debugging"
@@ -5577,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Chưa có câu trả lời",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Chưa có lượt xem",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Lượt xem",
@@ -5751,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Nhiều lỗi được sửa để ứng dụng của bạn có thể chạy một cách trơn tru. Các thay đổi thú vị hơn nữa sắp xuất hiện!",
+    "message": "Nhiều lỗi được sửa để ứng dụng của bạn có thể chạy một cách trơn tru. Các thay đổi thú vị hơn nữa sắp xuất hiện! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5759,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Nỗ lực sửa các lỗi và cải thiện hiệu năng để ứng dụng của bạn có thể chạy một cách trơn tru.",
+    "message": "Nỗ lực sửa các lỗi và cải thiện hiệu năng để ứng dụng của bạn có thể chạy một cách trơn tru. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

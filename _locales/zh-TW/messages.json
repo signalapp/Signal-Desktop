@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "軟體致謝",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "上傳日誌",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "若附檔不是圖片，每則訊息限制只能有一個附檔。",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "你無法在一個訊息中，同時附上非圖片及圖片檔案。",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -859,7 +865,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "要傳送語音訊息，須授權 Siganl 桌面版可以使用您設備的麥克風。 ",
+    "message": "要傳送語音訊息，須授權 Siganl 桌面版可以使用您設備的麥克風。",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1354,7 +1360,7 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--many-people-in-call": {
-    "message": "$first$, $second$, 和 $others$ 其他人等都在此通話中 ",
+    "message": "$first$, $second$, 和 $others$ 其他人等都在此通話中",
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "calling__pre-call-info--will-ring-1": {
@@ -1593,7 +1599,7 @@
     "message": "$sender$回應了 $emoji$你的訊息"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ 對 $message$ 回應了 $emoji$ "
+    "message": "$sender$ 對 $message$ 回應了 $emoji$"
   },
   "sendFailed": {
     "message": "傳送失敗",
@@ -1796,7 +1802,7 @@
     "description": "Title for safety number changed modal"
   },
   "safetyNumberChangedGroup": {
-    "message": " $name$ 的安全碼已變更",
+    "message": "$name$ 的安全碼已變更",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "verifyNewNumber": {
@@ -2623,8 +2629,8 @@
     "message": "關閉彈出視窗",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "新增圖片附件",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "移除回應"
+    "message": "移除回應",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "傳送回應失敗。請再試一次。",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal 仍在運作",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal 仍然會在通知專區中運作；你可以前往 Signal 設定來進行變更。",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4498,21 +4505,21 @@
     "message": "音效附檔的播放時間",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "單擊上面$composeIcon$的內容，然後搜索要傳送訊息的聯絡人或群組。",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "銷毀時間剩下",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5303,7 +5310,7 @@
     "description": "The phrase/term: 'Signal Connections'"
   },
   "SignalConnectionsModal__header": {
-    "message": "$connections$是你選擇信賴的對象，並透過下列方式建立關係： ",
+    "message": "$connections$是你選擇信賴的對象，並透過下列方式建立關係：",
     "description": "The beginning sentence to list the different ways a signal connection is formed"
   },
   "SignalConnectionsModal__bullet--1": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "銷毀時間剩下 $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "未有回覆",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "尚未觀看",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "檢視",
@@ -5643,7 +5654,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "無法下載限動。$name$ 必須再次分享該限動。 ",
+    "message": "無法下載限動。$name$ 必須再次分享該限動。",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "修復了多項問題，提升 App 運作的順暢度。未來，還有許多精彩的更新內容待你挖掘！",
+    "message": "修復了多項問題，提升 App 運作的順暢度。未來，還有許多精彩的更新內容待你挖掘！ ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
+    "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。 ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

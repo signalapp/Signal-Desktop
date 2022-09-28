@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Software aitortza",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -348,7 +358,7 @@
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "youMarkedAsNotVerified": {
-    "message": " $name$ erabiltzailearekin duzun segurtasun zenbakia ez egiaztatu gisa markatu duzu",
+    "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia ez egiaztatu gisa markatu duzu",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "youMarkedAsVerifiedOtherDevice": {
@@ -392,7 +402,7 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "noLongerVerified": {
-    "message": " $name$(r)ekin duzun segurtasun zenbakia aldatu da eta egiaztatu gabe dago. Klik erakusteko.",
+    "message": "$name$(r)ekin duzun segurtasun zenbakia aldatu da eta egiaztatu gabe dago. Klik erakusteko.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
@@ -453,11 +463,11 @@
     "message": "Markatu ez egiaztatu gisa"
   },
   "isVerified": {
-    "message": " $name$(r)ekin duzun segurtasun zenbakia egiaztatu duzu.",
+    "message": "$name$(r)ekin duzun segurtasun zenbakia egiaztatu duzu.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "isNotVerified": {
-    "message": " $name$(r)ekin duzun segurtasun zenbakia ez duzu egiaztatu.",
+    "message": "$name$(r)ekin duzun segurtasun zenbakia ez duzu egiaztatu.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
@@ -546,7 +556,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "Mahaigaineko ordenagailuak kontaktuak aurkitzeko zerbitzuaren inkoherentzia bat aurkitu du.",
+    "message": "Mahaigaina kontaktuen aurkikuntza zerbitzuaren inkongruentzia batekin aurkitu da.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
@@ -557,12 +567,8 @@
     "message": "Bidali erregistroa",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Irudia ez den eranskin bat atxikitzerakoan, muga mezu bakoitzeko eranskin bat da.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Ezin duzu irudia ez diren eta irudia diren eranskinak mezu bakar batean.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -727,7 +733,7 @@
     "message": "Ongi etorri Signal-era"
   },
   "whatsNew": {
-    "message": "Ikusi eguneratze honen $whatsNew$ ",
+    "message": "Ikusi eguneratze honen $whatsNew$",
     "description": "Shown in the main window"
   },
   "viewReleaseNotes": {
@@ -799,11 +805,11 @@
     "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
   },
   "originalMessageNotFound": {
-    "message": "Jatorrizko mezua ez da aurkitu ",
+    "message": "Jatorrizko mezua ez da aurkitu",
     "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
   "originalMessageNotAvailable": {
-    "message": "Jatorrizko mezua ez dago eskuragarri jada ",
+    "message": "Jatorrizko mezua ez dago eskuragarri jada",
     "description": "Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
@@ -1386,7 +1392,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-many": {
-    "message": "$first$, $second$ eta beste $others$(e)k jakinarazpen bat jasoko dute ",
+    "message": "$first$, $second$ eta beste $others$(e)k jakinarazpen bat jasoko dute",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__in-this-call--zero": {
@@ -1808,7 +1814,7 @@
     "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
   },
   "yourSafetyNumberWith": {
-    "message": " $name1$ erabiltzailearekin duzun segurtasun zenbakia:",
+    "message": "$name1$ erabiltzailearekin duzun segurtasun zenbakia:",
     "description": "Heading for safety number view"
   },
   "themeLight": {
@@ -2623,8 +2629,8 @@
     "message": "Itxi Popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Gehitu irudi eranskin bat",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2656,7 +2662,7 @@
     "description": "The title of the Sticker Pack Creator window"
   },
   "StickerCreator--DropZone--staticText": {
-    "message": "Klik egin irudiak hemen gehitu edo askatzeko ",
+    "message": "Klik egin irudiak hemen gehitu edo askatzeko",
     "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
   },
   "StickerCreator--DropZone--activeText": {
@@ -2712,7 +2718,7 @@
     "description": "Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
-    "message": "Eranskailuek ondoko baldintzak bete behar dituzte: PNG, APNG edo WebP formatuan egon, atzeko plano garden bat izan eta 512x512 pixel. Gomendatutako marjina 16px-koa da. ",
+    "message": "Eranskailuek ondoko baldintzak bete behar dituzte: PNG, APNG edo WebP formatuan egon, atzeko plano garden bat izan eta 512x512 pixel. Gomendatutako marjina 16px-koa da.",
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Kendu erreakzioa"
+    "message": "Kendu erreakzioa",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Errakzioa bidaltzeak huts egin du. Mesedez, saia zaitez berriro.",
@@ -2915,7 +2922,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Blokeatutako pertsonek ezingo dizute deitu edo mezuak bidali. ",
+    "message": "Blokeatutako pertsonek ezingo dizute deitu edo mezuak bidali.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal abian da oraindik",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal-ek abian jarraituko du jakinarazpen-eremuan. Signal-en ezarpenetan alda dezakezu hori.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3099,7 +3106,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-many": {
-    "message": "$ringer$ zuri, $first$(r)i, $second$(r)i eta beste $remaining$(r)i deika ari da ",
+    "message": "$ringer$ zuri, $first$(r)i, $second$(r)i eta beste $remaining$(r)i deika ari da",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
@@ -3239,7 +3246,7 @@
     "description": "Label for muting the conversation"
   },
   "muteDay": {
-    "message": "Egun bat isildu ",
+    "message": "Egun bat isildu",
     "description": "Label for muting the conversation"
   },
   "muteWeek": {
@@ -4311,7 +4318,7 @@
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "PendingRequests--deny-for--with-link": {
-    "message": "\"$name$\"(r)en eskaera ukatu nahi duzu? Ezingo du egin taldearen estekaren bidez sartzeko beste eskaerarik. ",
+    "message": "\"$name$\"(r)en eskaera ukatu nahi duzu? Ezingo du egin taldearen estekaren bidez sartzeko beste eskaerarik.",
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "PendingInvites--invites": {
@@ -4498,21 +4505,21 @@
     "message": "Audio eranskinaren erreprodukzio-denbora",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Egin klik $composeIcon$goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko.",
@@ -4671,7 +4678,7 @@
     "description": "Button label for resetting all chat colors"
   },
   "ChatColorPicker__confirm-reset-default": {
-    "message": " Berrezarri lehenetsia",
+    "message": "Berrezarri lehenetsia",
     "description": "Button label for resetting only global chat color"
   },
   "ChatColorPicker__confirm-reset": {
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Epe honetan desagertuko da:",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5139,7 +5146,7 @@
     "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
   },
   "NSIS__appRunning": {
-    "message": "$appName$martxan dago.\nEgin klik Ados ixteko.\nEz bada ixten, saiatu eskuz ixten.\n",
+    "message": "$appName$martxan dago.\nEgin klik Ados ixteko.\nEz bada ixten, saiatu eskuz ixten.",
     "description": "The contents of a dialog displayed when Windows installer detect that the application is running and asks user to close it. Note: please keep the line breaks so that the text occupies three separate lines"
   },
   "NSIS__decompressionFailed": {
@@ -5531,7 +5538,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Istorioa ezabatu nahi duzu? Istorioa zure zerrendatik ezabatuko da, baina talde honetako istorioak ikusten jarraitu ahalko duzu.",
+    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
   "Stories__settings-toggle--title": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$ barru desagertuko da",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5587,12 +5594,16 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Gaitu irakurragiriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
+    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Erantzunik ez oraindik",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Ikustaldirik ez oraindik",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Ikustaldiak",
@@ -5675,7 +5686,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "Aldatu istorioen atzeko planoko kolorea ",
+    "message": "Aldatu istorioen atzeko planoko kolorea",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Zenbait akats konpondu dira, aplikazioak modu egokian funtziona dezan. Aldaketa zirraragarri gehiago laster!",
+    "message": "Zenbait akats konpondu dira, aplikazioak modu egokian funtziona dezan. Aldaketa zirraragarri gehiago laster! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun.",
+    "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "மென்பொருள் ஒப்புதல்கள்",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -24,7 +34,7 @@
     "description": "Shown as the name of a group if we don't have any information about it"
   },
   "databaseError": {
-    "message": " தரவுத் தளம் பிழை",
+    "message": "தரவுத் தளம் பிழை",
     "description": "Shown in a popup if the database cannot start up properly"
   },
   "deleteAndRestart": {
@@ -148,7 +158,7 @@
     "description": "View menu command to make everything smaller"
   },
   "viewMenuToggleFullScreen": {
-    "message": "முழுத்திரையை நிலைமாற்று ",
+    "message": "முழுத்திரையை நிலைமாற்று",
     "description": "View menu command to enter or leave Full Screen mode"
   },
   "viewMenuToggleDevTools": {
@@ -244,7 +254,7 @@
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "pinnedConversationsFull": {
-    "message": " 4 உரையாடல்கள் மட்டுமே பாதுகாக்கமுடியும். ",
+    "message": "4 உரையாடல்கள் மட்டுமே பாதுகாக்கமுடியும்.",
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
@@ -557,12 +567,8 @@
     "message": "பதிவைச் சமர்ப்பிக்கவும்",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "படம் அல்லாத இணைப்பு சேர்க்கும்போது, ​​வரம்பு ஒரு செய்திக்கு ஒரு இணைப்பு.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ஒரே செய்தியில் நீங்கள் படமும் படம் அல்லாத இணப்புகளை கலந்து அனுப்ப முடியாது. ",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -664,7 +670,7 @@
     "description": "Command in the tray icon menu, to hide the window"
   },
   "quit": {
-    "message": "விட்டுவிடு ",
+    "message": "விட்டுவிடு",
     "description": "Command in the tray icon menu, to quit the application"
   },
   "signalDesktop": {
@@ -731,7 +737,7 @@
     "description": "Shown in the main window"
   },
   "viewReleaseNotes": {
-    "message": "புதிதாக என்ன உள்ளது ",
+    "message": "புதிதாக என்ன உள்ளது",
     "description": "Clickable link that displays the latest release notes"
   },
   "typingAlt": {
@@ -937,7 +943,7 @@
     "message": "செய்தி விவரம்"
   },
   "delete": {
-    "message": "அழி"
+    "message": "நீக்கு"
   },
   "accept": {
     "message": "ஒப்புக்கொள்"
@@ -1039,7 +1045,7 @@
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
-    "message": " செய்தியை எனக்கு மட்டும் நீக்கு",
+    "message": "செய்தியை எனக்கு மட்டும் நீக்கு",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "deleteMessageForEveryone": {
@@ -1159,7 +1165,7 @@
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2": {
-    "message": "$settings$-ஐத் தட்டவும், பிறகு $linkedDevices$-ஐத் தட்டவும் ",
+    "message": "$settings$-ஐத் தட்டவும், பிறகு $linkedDevices$-ஐத் தட்டவும்",
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2__settings": {
@@ -1234,7 +1240,7 @@
     "description": "Header for theme settings"
   },
   "calling": {
-    "message": "அழைக்கிறது ",
+    "message": "அழைக்கிறது",
     "description": "Header for calling options on the settings screen"
   },
   "calling__call-back": {
@@ -1378,7 +1384,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-2": {
-    "message": "$first$ மற்றும் $second$ -க்கு அறிவிக்கப்படும் ",
+    "message": "$first$ மற்றும் $second$ -க்கு அறிவிக்கப்படும்",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-3": {
@@ -1696,11 +1702,11 @@
     "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "timestampFormat__long__today": {
-    "message": "[இன்று] LT ",
+    "message": "[இன்று] LT",
     "description": "Timestamp format string for displaying \"Today\" and the time"
   },
   "timestampFormat__long__yesterday": {
-    "message": "[நேற்று] LT ",
+    "message": "[நேற்று] LT",
     "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "messageBodyTooLong": {
@@ -1748,7 +1754,7 @@
     "description": "Displayed in the left pane when the timer is turned off"
   },
   "disabledDisappearingMessages": {
-    "message": "$name$ காணாமல் போன செய்திகளை அவர் முடக்கியுள்ளார். ",
+    "message": "$name$ காணாமல் போன செய்திகளை அவர் முடக்கியுள்ளார்.",
     "description": "Displayed in the conversation list when the timer is turned off"
   },
   "youDisabledDisappearingMessages": {
@@ -1776,11 +1782,11 @@
     "description": "Description for incoming calls setting"
   },
   "contactChangedProfileName": {
-    "message": " $sender$ அவர்கள் தங்கள் சுயவிவரப் பெயரை $oldProfile$ இலிருந்து $newProfile$ ஆக மாற்றினர்.",
+    "message": "$sender$ அவர்கள் தங்கள் சுயவிவரப் பெயரை $oldProfile$ இலிருந்து $newProfile$ ஆக மாற்றினர்.",
     "description": "Description for incoming calls setting"
   },
   "changedProfileName": {
-    "message": " $oldProfile$ தங்கள் சுயவிவரப் பெயரை $newProfile$ ஆக மாற்றினர் .",
+    "message": "$oldProfile$ தங்கள் சுயவிவரப் பெயரை $newProfile$ ஆக மாற்றினர் .",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "SafetyNumberModal__title": {
@@ -1912,7 +1918,7 @@
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-group-size__body": {
-    "message": "Signal குழுக்களில் அதிகபட்சம்  $max$ உறுப்பினர்கள் இருக்கலாம்.\n",
+    "message": "Signal குழுக்களில் அதிகபட்சம்  $max$ உறுப்பினர்கள் இருக்கலாம்.",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-recommended-group-size__title": {
@@ -2020,7 +2026,7 @@
     "description": "Shown in the conversation history when multiple people leave the group"
   },
   "updatedTheGroup": {
-    "message": "$name$ அவர்கள் குழுவைப் புதுப்பித்தனர். ",
+    "message": "$name$ அவர்கள் குழுவைப் புதுப்பித்தனர்.",
     "description": "Shown in the conversation history when someone updates the group"
   },
   "youUpdatedTheGroup": {
@@ -2072,7 +2078,7 @@
     "description": "Shown in notifications and in the left pane when a GIF is received."
   },
   "message--getNotificationText--photo": {
-    "message": "புகைப்படம் ",
+    "message": "புகைப்படம்",
     "description": "Shown in notifications and in the left pane when a photo is received."
   },
   "message--getNotificationText--video": {
@@ -2164,7 +2170,7 @@
     "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for days > 1)"
   },
   "message--giftBadge--remaining--hours": {
-    "message": "$hours$ மணிநேரம் மீதம் ",
+    "message": "$hours$ மணிநேரம் மீதம்",
     "description": "Describes how long remains for the gift badge you've redeemed on another device (only rendered for hours > 1)"
   },
   "message--giftBadge--remaining--minutes": {
@@ -2448,7 +2454,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search": {
-    "message": "தேடு ",
+    "message": "தேடு",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--search-in-conversation": {
@@ -2584,7 +2590,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--calling-header": {
-    "message": "அழைக்கிறது ",
+    "message": "அழைக்கிறது",
     "description": "Header of the keyboard shortcuts guide - calling section"
   },
   "Keyboard--toggle-audio": {
@@ -2616,15 +2622,15 @@
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--hang-up": {
-    "message": "அழைப்பை முடி ",
+    "message": "அழைப்பை முடி",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "close-popup": {
     "message": "Popup சாளரத்தை மூடு",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "பட இணைப்பைச் சேர்க்கவும்",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "எதிர்வினையை அகற்று"
+    "message": "எதிர்வினையை அகற்று",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "உணர்வு வெளிப்பாடு அனுப்புவதில் தோல்வி. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
@@ -2883,11 +2890,11 @@
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "தடு ",
+    "message": "தடு",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "தடைநீக்கு ",
+    "message": "தடைநீக்கு",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
@@ -2911,7 +2918,7 @@
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": " $name$ தடு?",
+    "message": "$name$ தடு?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
@@ -3055,7 +3062,7 @@
     "description": "Shown in conversation history when you made an outgoing audio call"
   },
   "acceptedOutgoingVideoCall": {
-    "message": " வெளிச்செல்லும் காணொளி அழைப்பு ",
+    "message": "வெளிச்செல்லும் காணொளி அழைப்பு",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "சிக்னல் இன்னும் இயங்கிக் கொண்டிருக்கிறது",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "அறிவிப்பு பகுதியில் சிக்னல் தொடர்ந்து இயங்கி கொண்டிருக்கும். சிக்னல் அமைப்புகளில் இதை நீங்கள் மாற்றலாம்.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3087,7 +3094,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-1-other": {
-    "message": "$ringer$ உங்களை மற்றும் $otherMember$-ஐ அழைக்கிறார் ",
+    "message": "$ringer$ உங்களை மற்றும் $otherMember$-ஐ அழைக்கிறார்",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-2-others": {
@@ -3095,11 +3102,11 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-3-others": {
-    "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் வேறு ஒருவரை அழைக்கிறார் ",
+    "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் வேறு ஒருவரை அழைக்கிறார்",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-many": {
-    "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் $remaining$ நபர்களை அழைக்கிறார்  ",
+    "message": "$ringer$ உங்களை, $first$, $second$, மற்றும் $remaining$ நபர்களை அழைக்கிறார்",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
@@ -3843,11 +3850,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-bounce--one": {
-    "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான அவர்களின் கோரிக்கையை விடுத்தார் மற்றும் ரத்து செய்தார் ",
+    "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான அவர்களின் கோரிக்கையை விடுத்தார் மற்றும் ரத்து செய்தார்",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-bounce": {
-    "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான கோரிக்கையை விடுத்தார் மற்றும் $numberOfRequests$ கோரிக்கைகளை ரத்து செய்தார் ",
+    "message": "$joinerName$ குழு இணைப்பு மூலம் சேருவதற்கான கோரிக்கையை விடுத்தார் மற்றும் $numberOfRequests$ கோரிக்கைகளை ரத்து செய்தார்",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--disabled--you": {
@@ -4219,7 +4226,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "தடு ",
+    "message": "தடு",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4227,7 +4234,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "தடைநீக்கு ",
+    "message": "தடைநீக்கு",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4379,7 +4386,7 @@
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "கோரிக்கையை ரத்து செய்யவும் ",
+    "message": "கோரிக்கையை ரத்து செய்யவும்",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -4498,24 +4505,24 @@
     "message": "கேட்பொலி இணைப்பின் முழு இயக்க நேரம்",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1 எக்ஸ்",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
-    "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள். ",
+    "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள்.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4527,7 +4534,7 @@
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
   },
   "TimelineDateHeader--date-in-last-6-months": {
-    "message": "ddd, MMM D ",
+    "message": "ddd, MMM D",
     "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "TimelineDateHeader--date-older-than-6-months": {
@@ -4739,7 +4746,7 @@
     "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
   },
   "DisappearingTimeDialog__label--value": {
-    "message": "எண் ",
+    "message": "எண்",
     "description": "aria-label for the number select box"
   },
   "DisappearingTimeDialog__label--units": {
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "-இல் மறைந்துவிடும்",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5031,7 +5038,7 @@
     "description": "Button to switch the settings view"
   },
   "Preferences--lastSynced": {
-    "message": "கடைசியாக இறக்குமதி $date$ $time$ இல் ",
+    "message": "கடைசியாக இறக்குமதி $date$ $time$ இல்",
     "description": "Label for date and time of last sync operation"
   },
   "Preferences--system": {
@@ -5063,11 +5070,11 @@
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
-    "message": "$num$ தொடர்பு ",
+    "message": "$num$ தொடர்பு",
     "description": "Number of contacts blocked singular"
   },
   "Preferences--blocked-count-plural": {
-    "message": "$num$ தொடர்புகள் ",
+    "message": "$num$ தொடர்புகள்",
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
@@ -5099,7 +5106,7 @@
     "description": "Label for the see my phone number setting"
   },
   "Preferences--find-me": {
-    "message": "எனது தொலைபேசி எண் மூலம் என்னைக் கண்டறியுங்கள் ",
+    "message": "எனது தொலைபேசி எண் மூலம் என்னைக் கண்டறியுங்கள்",
     "description": "Label for the find me by my phone number setting"
   },
   "Preferences--read-receipts": {
@@ -5111,7 +5118,7 @@
     "description": "Label for the typing indicators setting"
   },
   "Preferences--updates": {
-    "message": "புதுப்பிப்புகள் ",
+    "message": "புதுப்பிப்புகள்",
     "description": "Header for settings having to do with updates"
   },
   "Preferences__download-update": {
@@ -5119,7 +5126,7 @@
     "description": "Label for checkbox for the auto download updates setting"
   },
   "Preferences__enable-notifications": {
-    "message": "அறிவிப்புகளை இயக்கவும் ",
+    "message": "அறிவிப்புகளை இயக்கவும்",
     "description": "Label for checkbox for the notifications setting"
   },
   "Preferences__devices": {
@@ -5127,7 +5134,7 @@
     "description": "Label for Device list in call settings pane"
   },
   "DialogUpdate--version-available": {
-    "message": " பதிப்புக்குப் புதுப்பிக்கவும் $version$ கிடைக்கிறது",
+    "message": "பதிப்புக்குப் புதுப்பிக்கவும் $version$ கிடைக்கிறது",
     "description": "Tooltip for new update available"
   },
   "NSIS__retry-dialog--first-line": {
@@ -5163,7 +5170,7 @@
     "description": "A button label for submission of the crash reporter data after a recent crash"
   },
   "CrashReportDialog__erase": {
-    "message": "அனுப்ப வேண்டாம் ",
+    "message": "அனுப்ப வேண்டாம்",
     "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
   },
   "CustomizingPreferredReactions__title": {
@@ -5191,7 +5198,7 @@
     "description": "Label for the sticker button in the media editor"
   },
   "MediaEditor__control--crop": {
-    "message": "வெட்டு மற்றும் திருப்பு ",
+    "message": "வெட்டு மற்றும் திருப்பு",
     "description": "Label for the crop & rotate button in the media editor"
   },
   "MediaEditor__control--undo": {
@@ -5211,19 +5218,19 @@
     "description": "Describes what attribute the color picker will change on the text"
   },
   "MediaEditor__text--outline": {
-    "message": "அவுட்லைன் ",
+    "message": "அவுட்லைன்",
     "description": "Describes what attribute the color picker will change on the text"
   },
   "MediaEditor__text--underline": {
-    "message": "அடிக்கோடு ",
+    "message": "அடிக்கோடு",
     "description": "Describes what attribute the color picker will change on the text"
   },
   "MediaEditor__draw--pen": {
-    "message": "பேனா ",
+    "message": "பேனா",
     "description": "Type of brush to free draw"
   },
   "MediaEditor__draw--highlighter": {
-    "message": "ஹைலைட்டர் ",
+    "message": "ஹைலைட்டர்",
     "description": "Type of brush to free draw"
   },
   "MediaEditor__draw--thin": {
@@ -5239,7 +5246,7 @@
     "description": "Tip width of the brush"
   },
   "MediaEditor__draw--heavy": {
-    "message": "கனம் ",
+    "message": "கனம்",
     "description": "Tip width of the brush"
   },
   "MediaEditor__crop--reset": {
@@ -5247,7 +5254,7 @@
     "description": "Reset the crop state"
   },
   "MediaEditor__crop--rotate": {
-    "message": "திருப்பு ",
+    "message": "திருப்பு",
     "description": "Rotate the canvas"
   },
   "MediaEditor__crop--flip": {
@@ -5267,11 +5274,11 @@
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "உங்கள் ஸ்டோரி ",
+    "message": "உங்கள் ஸ்டோரி",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "ஸ்டோரியைப் பதிவிறக்கவும் ",
+    "message": "ஸ்டோரியைப் பதிவிறக்கவும்",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5279,15 +5286,15 @@
     "description": "aria-label for the more button"
   },
   "MyStories__views--singular": {
-    "message": "$num$ பார்வை ",
+    "message": "$num$ பார்வை",
     "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
-    "message": "$num$ பார்வைகள் ",
+    "message": "$num$ பார்வைகள்",
     "description": "Number of views your story has"
   },
   "MyStories__replies--singular": {
-    "message": "$num$ பதில் ",
+    "message": "$num$ பதில்",
     "description": "Number of replies your story has"
   },
   "MyStories__replies--plural": {
@@ -5391,7 +5398,7 @@
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
-    "message": "பார்வையாளரைச் சேர்க்கவும் ",
+    "message": "பார்வையாளரைச் சேர்க்கவும்",
     "description": "Button label to add a viewer to a story"
   },
   "StoriesSettings__remove--action": {
@@ -5399,7 +5406,7 @@
     "description": "Button to remove a member from a private list"
   },
   "StoriesSettings__remove--title": {
-    "message": "$title$அகற்று ",
+    "message": "$title$அகற்று",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5467,7 +5474,7 @@
     "description": "Description of button StoriesSettings__mine__only--label"
   },
   "StoriesSettings__mine__only--description--people": {
-    "message": "$num$ நபர்கள் ",
+    "message": "$num$ நபர்கள்",
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
@@ -5507,7 +5514,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "புதிய குழு ஸ்டோரி ",
+    "message": "புதிய குழு ஸ்டோரி",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5543,11 +5550,11 @@
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
-    "message": "நிறுத்து ",
+    "message": "நிறுத்து",
     "description": "Aria label for pausing a story"
   },
   "StoryViewer__play": {
-    "message": "இயக்கு ",
+    "message": "இயக்கு",
     "description": "Aria label for playing a story"
   },
   "StoryViewer__reply": {
@@ -5555,7 +5562,7 @@
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
-    "message": "குழுவிற்கு பதிலளிக்கவும் ",
+    "message": "குழுவிற்கு பதிலளிக்கவும்",
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
@@ -5571,7 +5578,7 @@
     "description": "When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
-    "message": "$time$ அனுப்பப்பட்டது ",
+    "message": "$time$ அனுப்பப்பட்டது",
     "description": "Sent timestamp"
   },
   "StoryDetailsModal__file-size": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$ இல் மறைந்துவிடும்",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5594,6 +5601,10 @@
     "message": "இன்னும் பதில்கள் ஏதுமில்லை",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "இதுவரை பார்வைகள் ஏதுமில்லை",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "பார்வைகள்",
     "description": "Title for views tab"
@@ -5603,7 +5614,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ஒரு ஸ்டோரிக்கு பதிலளிக்கவும் ",
+    "message": "ஒரு ஸ்டோரிக்கு பதிலளிக்கவும்",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5611,7 +5622,7 @@
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "ஸ்டோரி ",
+    "message": "ஸ்டோரி",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
@@ -5623,7 +5634,7 @@
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
-    "message": "சாட்டிற்குச் செல் ",
+    "message": "சாட்டிற்குச் செல்",
     "description": "Label for menu item to go to conversation"
   },
   "StoryListItem__delete": {
@@ -5703,7 +5714,7 @@
     "description": "Label for font"
   },
   "StoryCreator__text--script": {
-    "message": "ஸ்கிரிப்ட் ",
+    "message": "ஸ்கிரிப்ட்",
     "description": "Label for font"
   },
   "StoryCreator__text--condensed": {
@@ -5735,11 +5746,11 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "ஸ்டோரி ",
+    "message": "ஸ்டோரி",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$-இடமிருந்து ஒரு ஸ்டோரிக்குப் பதிலளித்துள்ளார் ",
+    "message": "$name$-இடமிருந்து ஒரு ஸ்டோரிக்குப் பதிலளித்துள்ளார்",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
@@ -5755,7 +5766,7 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "WhatsNew__modal-title": {
-    "message": "புதிதாக என்ன உள்ளது ",
+    "message": "புதிதாக என்ன உள்ளது",
     "description": "Title for the whats new modal"
   },
   "WhatsNew__bugfixes": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "உங்கள் ஆப்பை சீராக இயங்க வைக்க சில பிழை திருத்தங்கள்.  மேலும் அற்புதமான மாற்றங்கள் விரைவில்!",
+    "message": "உங்கள் ஆப்பை சீராக இயங்க வைக்க சில பிழை திருத்தங்கள்.  மேலும் அற்புதமான மாற்றங்கள் விரைவில்! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "பிழை திருத்தம் செய்யவும் மற்றும் உங்களுக்காக ஆப்பை சீராக இயங்க வைப்பதற்கான செயல்திறன் மேம்பாடுகளைச் செய்யவும் கடினமாக உழைக்கிறோம்.",
+    "message": "பிழை திருத்தம் செய்யவும் மற்றும் உங்களுக்காக ஆப்பை சீராக இயங்க வைப்பதற்கான செயல்திறன் மேம்பாடுகளைச் செய்யவும் கடினமாக உழைக்கிறோம். ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

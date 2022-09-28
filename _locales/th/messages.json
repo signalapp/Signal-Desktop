@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "คำขอบคุณสำหรับซอฟต์แวร์",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -200,7 +210,7 @@
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "จัดระเบียบข้อความ... สำเร็จ  $status$ ",
+    "message": "จัดระเบียบข้อความ... สำเร็จ  $status$",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -557,12 +567,8 @@
     "message": "ส่งปูม",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "เมื่อแนบแฟ้มแนบที่ไม่ใช่รูปภาพ จะสามารถแนบแฟ้มได้เพียงหนึ่งแฟ้มต่อข้อความ",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "คุณไม่สามารถมีทั้งแฟ้มแนบที่เป็นรูปภาพและไม่ใช่รูปภาพในข้อความเดียวกัน",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ไม่สามารถเลือกรูปภาพและวิดีโอพร้อมกับไฟล์อื่นได้",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2623,8 +2629,8 @@
     "message": "ปิดป๊อปอัป",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "เพิ่มแฟ้มแนบรูปภาพ",
+  "addImageOrVideoattachment": {
+    "message": "เพิ่มไฟล์แนบเป็นรูปภาพหรือวิดีโอ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2828,7 +2834,7 @@
     "description": "Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
-    "message": "ขนาดสติกเกอร์ PNG แบบเคลื่อนไหวเล็กเกินไป ",
+    "message": "ขนาดสติกเกอร์ PNG แบบเคลื่อนไหวเล็กเกินไป",
     "description": "Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ลบการตอบสนอง"
+    "message": "ลบการตอบสนอง",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "การส่งการตอบสนองล้มเหลว กรุณาลองอีกครั้ง",
@@ -3379,7 +3386,7 @@
     "description": "Shown in composition area when you've requested to join a group"
   },
   "GroupV2--join--general-join-failure--title": {
-    "message": " ลิงก์เกิดข้อผิดพลาด",
+    "message": "ลิงก์เกิดข้อผิดพลาด",
     "description": "Shown if something went wrong when you try to join via a group link"
   },
   "GroupV2--join--general-join-failure": {
@@ -3415,15 +3422,15 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--other": {
-    "message": "$memberName$ ได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
+    "message": "$memberName$ ได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--you": {
-    "message": "คุณได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
+    "message": "คุณได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--unknown": {
-    "message": "สมาชิกได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\" ",
+    "message": "สมาชิกได้เปลี่ยนชื่อกลุ่มเป็น \"$newTitle$\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
@@ -3491,11 +3498,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--admins--you": {
-    "message": " คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
+    "message": "คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--admins--unknown": {
-    "message": " ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
+    "message": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--all--other": {
@@ -3503,11 +3510,11 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--all--you": {
-    "message": " คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
+    "message": "คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-members--all--unknown": {
-    "message": " ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
+    "message": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--disabled--you": {
@@ -3563,7 +3570,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--from-you": {
-    "message": "$inviteeName$ได้ตอบรับคำเชิญเข้ากลุ่มของคุณ ",
+    "message": "$inviteeName$ได้ตอบรับคำเชิญเข้ากลุ่มของคุณ",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--other": {
@@ -3739,7 +3746,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke--one--you": {
-    "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับคน 1 คน ",
+    "message": "คุณได้เพิกถอนคำเชิญเข้ากลุ่มสำหรับคน 1 คน",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-own--to-you": {
@@ -3947,7 +3954,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV1--Migration--disabled": {
-    "message": "ปรับรุ่นกลุ่มนี้เพื่อเปิดใช้ความสามารถใหม่ เช่น @กล่าวถึง และระบบผู้ดูแล สมาชิกที่ไม่ได้เปิดเผยชื่อหรือรูปภาพในกลุ่มนี้จะได้รับคำเชิญให้เข้าร่วม $learnMore$ ",
+    "message": "ปรับรุ่นกลุ่มนี้เพื่อเปิดใช้ความสามารถใหม่ เช่น @กล่าวถึง และระบบผู้ดูแล สมาชิกที่ไม่ได้เปิดเผยชื่อหรือรูปภาพในกลุ่มนี้จะได้รับคำเชิญให้เข้าร่วม $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -4215,7 +4222,7 @@
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
-    "message": "คุณจะไม่ได้รับข้อความหรือความเคลื่อนไหวจากกลุ่มนี้อีกต่อไป ",
+    "message": "คุณจะไม่ได้รับข้อความหรือความเคลื่อนไหวจากกลุ่มนี้อีกต่อไป",
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
@@ -4498,21 +4505,21 @@
     "message": "เวลาการเล่นของแฟ้มแนบเสียง",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "คลิก $composeIcon$ ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
@@ -5447,7 +5454,7 @@
     "description": "Input label to describe all signal connections"
   },
   "StoriesSettings__mine__all--description": {
-    "message": " แบ่งปันกับผู้ติดต่อทั้งหมด",
+    "message": "แบ่งปันกับผู้ติดต่อทั้งหมด",
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ยังไม่มีการตอบกลับ",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ยังไม่มีคนดู",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "รับชม",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "แก้ไขบั๊กต่างๆ เพื่อให้แอปของคุณทำงานได้อย่างราบรื่นไร้ปัญหา พร้อมการเปลี่ยนแปลงที่น่าตื่นเต้นอีกมากมาย เร็วๆ นี้!",
+    "message": "แก้ไขบั๊กต่างๆ เพื่อให้แอปของคุณทำงานได้อย่างราบรื่นไร้ปัญหา พร้อมการเปลี่ยนแปลงที่น่าตื่นเต้นอีกมากมาย เร็วๆ นี้! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "เรามุ่งมั่นทุ่มเททำงานอย่างหนักเพื่อแก้ไขบั๊กต่างๆ และปรับปรุงประสิทธิภาพอื่นๆ เพื่อให้แอปทำงานได้ราบรื่นไร้ปัญหา",
+    "message": "เรามุ่งมั่นทุ่มเททำงานอย่างหนักเพื่อแก้ไขบั๊กต่างๆ และปรับปรุงประสิทธิภาพอื่นๆ เพื่อให้แอปทำงานได้ราบรื่นไร้ปัญหา ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

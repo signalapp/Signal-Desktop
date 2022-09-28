@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "സോഫ്റ്റ്വെയർ അംഗീകാരം",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -104,11 +114,11 @@
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
-    "message": "ഇല്ലാതാക്കുക ",
+    "message": "ഇല്ലാതാക്കുക",
     "description": "Edit menu command to remove the selected text"
   },
   "editMenuSelectAll": {
-    "message": "എല്ലാം തിരഞ്ഞെടുക്കുക ",
+    "message": "എല്ലാം തിരഞ്ഞെടുക്കുക",
     "description": "Edit menu command to select all of the text in selected text box"
   },
   "editMenuStartSpeaking": {
@@ -248,7 +258,7 @@
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
-    "message": "ഫോൾഡർ തിരഞ്ഞെടുക്കുക ",
+    "message": "ഫോൾഡർ തിരഞ്ഞെടുക്കുക",
     "description": "Button to allow the user to find a folder on disk"
   },
   "chooseFile": {
@@ -264,7 +274,7 @@
     "description": "Introduction to the process of importing messages and contacts from disk"
   },
   "importChooserTitle": {
-    "message": "കയറ്റുമതി ചെയ്ത ഡാറ്റഉപയോഗിച്ച് ഡയറക്ടറി തിരഞ്ഞെടുക്കുക ",
+    "message": "കയറ്റുമതി ചെയ്ത ഡാറ്റഉപയോഗിച്ച് ഡയറക്ടറി തിരഞ്ഞെടുക്കുക",
     "description": "Title of the popup window used to select data previously exported"
   },
   "importErrorHeader": {
@@ -276,7 +286,7 @@
     "description": "Header of screen shown as data is import"
   },
   "importErrorFirst": {
-    "message": "Signal ആപ്ലിക്കേഷന്റെ വിവരങ്ങൾ സൂക്ഷിച്ചിരിക്കുന്ന ഡയറക്റ്ററി തന്നെയാണ് നിങ്ങൾ തിരഞ്ഞെടുത്തിരിക്കുന്നത് എന്ന് ഉറപ്പ് വരുത്തുക . ഡയറക്റ്ററിയുടെ പേര് Signal Export എന്നാണ് തുടങ്ങേണ്ടത് .കൂടാതെ നിങ്ങളുടെ വിവരങ്ങളുടെ ഒരു  പുതിയ copy Chrome App-ൽ നിന്നും സൂക്ഷിച്ചുവെക്കാവുന്നതാണ് ",
+    "message": "Signal ആപ്ലിക്കേഷന്റെ വിവരങ്ങൾ സൂക്ഷിച്ചിരിക്കുന്ന ഡയറക്റ്ററി തന്നെയാണ് നിങ്ങൾ തിരഞ്ഞെടുത്തിരിക്കുന്നത് എന്ന് ഉറപ്പ് വരുത്തുക . ഡയറക്റ്ററിയുടെ പേര് Signal Export എന്നാണ് തുടങ്ങേണ്ടത് .കൂടാതെ നിങ്ങളുടെ വിവരങ്ങളുടെ ഒരു  പുതിയ copy Chrome App-ൽ നിന്നും സൂക്ഷിച്ചുവെക്കാവുന്നതാണ്",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "importErrorSecond": {
@@ -328,7 +338,7 @@
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messagesBelow": {
-    "message": "പുതിയ സന്ദേശങ്ങൾ താഴെ ",
+    "message": "പുതിയ സന്ദേശങ്ങൾ താഴെ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "unreadMessage": {
@@ -461,10 +471,10 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
-    "message": "പരിശോധിച്ചു "
+    "message": "പരിശോധിച്ചു"
   },
   "newIdentity": {
-    "message": "പുതിയ സേഫ്റ്റി നമ്പർ ",
+    "message": "പുതിയ സേഫ്റ്റി നമ്പർ",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
@@ -557,12 +567,8 @@
     "message": "ലോഗ് സമർപ്പിക്കുക",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ഒരു അറ്റാച്ച്മെന്റ് ഇമേജ് ഇല്ലാതെ ഉൾപ്പെടുത്തുമ്പോൾ, ഒരു സന്ദേശം-ത്തിന് ഒരു അറ്റാച്ച്മെന്റ് ആണ് പരിധി.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ഒരു സന്ദേശം-ത്തിൽ നിങ്ങൾക്ക് ഇമേജ് അല്ലാത്തതും ഇമേജ് അറ്റാച്ചുമെന്റുകളും മിക്സ് ചെയ്യാൻ കഴിയില്ല.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "നിങ്ങൾക്ക് ഫയലുകൾക്കൊപ്പം ഫോട്ടോകളും വീഡിയോകളും തിരഞ്ഞെടുക്കാനാകില്ല.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -612,7 +618,7 @@
     "description": "View menu item to force the app to update download and install"
   },
   "helpMenuShowKeyboardShortcuts": {
-    "message": "കീബോർഡ് എളുപ്പവഴികൾ കാണിക്കുക ",
+    "message": "കീബോർഡ് എളുപ്പവഴികൾ കാണിക്കുക",
     "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
   },
   "contactUs": {
@@ -620,11 +626,11 @@
     "description": "Item under the help menu, takes you to the contact us support page"
   },
   "goToReleaseNotes": {
-    "message": "പ്രസിദ്ധപ്പെടുത്തിയ വിവരങ്ങളിലേക്കു പോവുക ",
+    "message": "പ്രസിദ്ധപ്പെടുത്തിയ വിവരങ്ങളിലേക്കു പോവുക",
     "description": "Item under the help menu, takes you to GitHub page for release notes"
   },
   "goToForums": {
-    "message": "ചർച്ച ചെയ്യുന്നിടത്തേക്കു പോവുക ",
+    "message": "ചർച്ച ചെയ്യുന്നിടത്തേക്കു പോവുക",
     "description": "Item under the Help menu, takes you to the forums"
   },
   "goToSupportPage": {
@@ -652,7 +658,7 @@
     "description": "Title for screen sharing window"
   },
   "speech": {
-    "message": "സംസാരം ",
+    "message": "സംസാരം",
     "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
   },
   "show": {
@@ -664,7 +670,7 @@
     "description": "Command in the tray icon menu, to hide the window"
   },
   "quit": {
-    "message": "പുറത്തുകടക്കുക ",
+    "message": "പുറത്തുകടക്കുക",
     "description": "Command in the tray icon menu, to quit the application"
   },
   "signalDesktop": {
@@ -720,7 +726,7 @@
     "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "at-username": {
-    "message": "@$username$ ",
+    "message": "@$username$",
     "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
   },
   "welcomeToSignal": {
@@ -739,7 +745,7 @@
     "description": "Used as the 'title' attribute for the typing animation"
   },
   "contactInAddressBook": {
-    "message": "ഈ വ്യക്തി നിങ്ങളുടെ കോണ്ടാക്ടിലുണ്ട് ",
+    "message": "ഈ വ്യക്തി നിങ്ങളുടെ കോണ്ടാക്ടിലുണ്ട്",
     "description": "Description of icon denoting that contact is from your address book"
   },
   "contactAvatarAlt": {
@@ -827,7 +833,7 @@
     "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
   },
   "voiceRecordingInterruptedBlur": {
-    "message": " നിങ്ങൾ മറ്റൊരു ആപ്ലിക്കേഷനിലേക്കു പോയതിനാൽ  ശബ്ദ സന്ദേശം രേഖപ്പെടുത്തുന്നത് നിറുത്തിയിരിക്കുന്നു .",
+    "message": "നിങ്ങൾ മറ്റൊരു ആപ്ലിക്കേഷനിലേക്കു പോയതിനാൽ  ശബ്ദ സന്ദേശം രേഖപ്പെടുത്തുന്നത് നിറുത്തിയിരിക്കുന്നു .",
     "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
   },
   "voiceNoteLimit": {
@@ -859,7 +865,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": " ശബ്ദ സന്ദേശങ്ങള്‍ അയക്കുന്നതിനു വേണ്ടി Signal Desktop-നെ മൈക്രോഫോൺ ഉപയോഗിക്കാൻ അനുവദിക്കുക ",
+    "message": "ശബ്ദ സന്ദേശങ്ങള്‍ അയക്കുന്നതിനു വേണ്ടി Signal Desktop-നെ മൈക്രോഫോൺ ഉപയോഗിക്കാൻ അനുവദിക്കുക",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -907,11 +913,11 @@
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
-    "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. $retry$അല്ലെങ്കിൽ അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, $url$ സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് $support$ ",
+    "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. $retry$അല്ലെങ്കിൽ അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, $url$ സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് $support$",
     "description": "Shown if a general error happened while trying to install update package"
   },
   "cannotUpdateRequireManualDetail": {
-    "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, $url$ സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് $support$ ",
+    "message": "Signal അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല. അത് മാനുവലായി ഇൻസ്റ്റാൾ ചെയ്യാൻ, $url$ സന്ദർശിക്കൂ. തുടർന്ന്, ഈ പ്രശ്‌നത്തെ കുറിച്ച് $support$",
     "description": "Shown if a general error happened while trying to install update package and manual update is required"
   },
   "readOnlyVolume": {
@@ -937,7 +943,7 @@
     "message": "സന്ദേശ വിശദാംശങ്ങൾ"
   },
   "delete": {
-    "message": "ഇല്ലാതാക്കുക "
+    "message": "ഇല്ലാതാക്കൂ"
   },
   "accept": {
     "message": "സ്വീകരിക്കുക"
@@ -1027,7 +1033,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "retrySend": {
-    "message": "അയക്കുവാൻ  വീണ്ടും ശ്രമിക്കുക ",
+    "message": "അയക്കുവാൻ  വീണ്ടും ശ്രമിക്കുക",
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "retryDeleteForEveryone": {
@@ -1047,7 +1053,7 @@
     "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
-    "message": "ഇല്ലാതാക്കുക ",
+    "message": "ഇല്ലാതാക്കുക",
     "description": "Menu item for deleting messages, title case."
   },
   "deleteConversationConfirmation": {
@@ -1167,7 +1173,7 @@
     "description": "Part of the 2nd instruction on the device link screen"
   },
   "Install__instructions__3": {
-    "message": " $plusButton$ (Android) അല്ലെങ്കിൽ $linkNewDevice$(iPhone) ടാപ്പ് ചെയ്യുക",
+    "message": "$plusButton$ (Android) അല്ലെങ്കിൽ $linkNewDevice$(iPhone) ടാപ്പ് ചെയ്യുക",
     "description": "Instructions on the device link screen"
   },
   "Install__qr-failed": {
@@ -1270,11 +1276,11 @@
     "description": "Label under the video button"
   },
   "calling__button--video-disabled": {
-    "message": "കാമറ  പ്രവർത്തനരഹിതമാണ് ",
+    "message": "കാമറ  പ്രവർത്തനരഹിതമാണ്",
     "description": "Button tooltip label when the camera is disabled"
   },
   "calling__button--video-off": {
-    "message": "കാമറ ഓഫ് ചെയ്യുക ",
+    "message": "കാമറ ഓഫ് ചെയ്യുക",
     "description": "Button tooltip label for turning off the camera"
   },
   "calling__button--video-on": {
@@ -1286,7 +1292,7 @@
     "description": "Label under the audio button"
   },
   "calling__button--audio-disabled": {
-    "message": "മൈക്രോഫോൺ പ്രവർത്തനരഹിതമാണ് ",
+    "message": "മൈക്രോഫോൺ പ്രവർത്തനരഹിതമാണ്",
     "description": "Button tooltip label when the microphone is disabled"
   },
   "calling__button--audio-off": {
@@ -1590,7 +1596,7 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": " $sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു"
+    "message": "$sender$ നിങ്ങളുടെ സന്ദേശം-ത്തോട് $emoji$ പ്രതികരിച്ചു"
   },
   "notificationReactionMessage": {
     "message": "$sender$ നിങ്ങളുടെ $message$-ത്തോട് $emoji$ പ്രതികരിച്ചു"
@@ -1981,7 +1987,7 @@
     "message": "വീണ്ടും ലിങ്ക്"
   },
   "autoUpdateNewVersionTitle": {
-    "message": "അപ്‌ഡേറ്റ് ലഭ്യമാണ് "
+    "message": "അപ്‌ഡേറ്റ് ലഭ്യമാണ്"
   },
   "autoUpdateRetry": {
     "message": "അപ്‌ഡേറ്റ് ചെയ്യാൻ വീണ്ടും ശ്രമിക്കുക"
@@ -2056,7 +2062,7 @@
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
-    "message": " $title$ എന്നയാളുമായുള്ള സംഭാഷണത്തിലേക്ക് പോകുക",
+    "message": "$title$ എന്നയാളുമായുള്ള സംഭാഷണത്തിലേക്ക് പോകുക",
     "description": "Aria label for the conversation list item button"
   },
   "ConversationListItem--message-request": {
@@ -2623,8 +2629,8 @@
     "message": "പോപ്പ്അപ്പ് അടയ്ക്കുക",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ഇമേജ് അറ്റാച്ച്മെന്റ് ചേർക്കുക",
+  "addImageOrVideoattachment": {
+    "message": "ഇമേജ് അല്ലെങ്കിൽ വീഡിയോ അറ്റാച്ച്‌മെന്റ് ചേർക്കുക.",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "റിയാക്ഷൻ നീക്കം ചെയ്യുക"
+    "message": "റിയാക്ഷൻ നീക്കം ചെയ്യുക",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "പ്രതികരണം അയയ്ക്കുന്നതിൽ പരാജയപ്പെട്ടു. ദയവായി വീണ്ടും ശ്രമിക്കുക.",
@@ -2907,7 +2914,7 @@
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "സ്പാം ആയും ബ്ലോക്ക് ചെയ്തതായും റിപ്പോർട്ട് ചെയ്തു.\n\n",
+    "message": "സ്പാം ആയും ബ്ലോക്ക് ചെയ്തതായും റിപ്പോർട്ട് ചെയ്തു.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -2927,7 +2934,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "ഇല്ലാതാക്കുക ",
+    "message": "ഇല്ലാതാക്കുക",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
@@ -2943,7 +2950,7 @@
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
-    "message": "ഇല്ലാതാക്കുക ",
+    "message": "ഇല്ലാതാക്കുക",
     "description": "Shown as a button to let the user delete a direct message request"
   },
   "MessageRequests--delete-group": {
@@ -2995,7 +3002,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups"
   },
   "member-of-more-than-3-groups--one-more": {
-    "message": " $group1$, $group2$, $group3$ എന്നിവ കൂടാതെ മറ്റൊരു ഗ്രൂപ്പിലെയും അംഗമാണ്",
+    "message": "$group1$, $group2$, $group3$ എന്നിവ കൂടാതെ മറ്റൊരു ഗ്രൂപ്പിലെയും അംഗമാണ്",
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "member-of-more-than-3-groups--multiple-more": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal ഇപ്പോഴും പ്രവർത്തിച്ച് കൊണ്ടിരിക്കുകയാണ്",
+    "message": "Signal ഇപ്പോഴും പ്രവർത്തിക്കുന്നുണ്ട്",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "അറിയിപ്പ് ഏരിയയിൽ Signal പ്രവർത്തിക്കുന്നത് തുടരും. നിങ്ങൾക്ക് അത് Signal ക്രമീകരണങ്ങളിൽ മാറ്റാൻ കഴിയുന്നതാണ്.",
+    "message": "അറിയിപ്പ് ഏരിയയിൽ Signal പ്രവർത്തിക്കുന്നത് തുടരുന്നതാണ്. നിങ്ങൾക്ക് ഇത് Signal ക്രമീകരണങ്ങളിൽ മാറ്റാൻ കഴിയുന്നതാണ്.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3139,7 +3146,7 @@
     "description": "Title for participants list toggle"
   },
   "calling__call-notification__ended": {
-    "message": "ഗ്രൂപ്പ് കോൾ അവസാനിച്ചു ",
+    "message": "ഗ്രൂപ്പ് കോൾ അവസാനിച്ചു",
     "description": "Notification message when a group call has ended"
   },
   "calling__call-notification__started-by-someone": {
@@ -3343,7 +3350,7 @@
     "description": "The button to join the group"
   },
   "GroupV2--join--request-to-join-button": {
-    "message": "ചേരുവാൻ അഭ്യർത്ഥിക്കുക ",
+    "message": "ചേരുവാൻ അഭ്യർത്ഥിക്കുക",
     "description": "The button to join the group, if approval is required"
   },
   "GroupV2--join--cancel-request-to-join": {
@@ -3423,7 +3430,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--unknown": {
-    "message": " ഒരംഗം ഗ്രൂപ്പിന്റെ പേര് $newTitle$ എന്നാക്കി മാറ്റിയിരിക്കുന്നു ",
+    "message": "ഒരംഗം ഗ്രൂപ്പിന്റെ പേര് $newTitle$ എന്നാക്കി മാറ്റിയിരിക്കുന്നു ",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--remove--other": {
@@ -3547,7 +3554,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--other": {
-    "message": " $inviteeName$ $inviterName$-യിൽ നിന്ന് ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം സ്വീകരിച്ചു.",
+    "message": "$inviteeName$ $inviterName$-യിൽ നിന്ന് ഗ്രൂപ്പിലേക്കുള്ള ക്ഷണം സ്വീകരിച്ചു.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--other-no-from": {
@@ -3571,7 +3578,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--you": {
-    "message": "നിങ്ങൾ $memberName$-നെ ചേർത്തിരിക്കുന്നു ",
+    "message": "നിങ്ങൾ $memberName$-നെ ചേർത്തിരിക്കുന്നു",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--other--unknown": {
@@ -3599,7 +3606,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--you--other": {
-    "message": "$adminName$ഗ്രൂപ്പിൽ ചേരുവാനുള്ള താങ്കളുടെ അഭ്യർത്ഥന അംഗീകരിച്ചിരിക്കുന്നു ",
+    "message": "$adminName$ഗ്രൂപ്പിൽ ചേരുവാനുള്ള താങ്കളുടെ അഭ്യർത്ഥന അംഗീകരിച്ചിരിക്കുന്നു",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add-from-admin-approval--you--unknown": {
@@ -3835,7 +3842,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--own": {
-    "message": " ഗ്രൂപ്പിൽ ചേരാനുള്ള അവരുടെ അഭ്യർത്ഥന $joinerName$ റദ്ദാക്കി.",
+    "message": "ഗ്രൂപ്പിൽ ചേരാനുള്ള അവരുടെ അഭ്യർത്ഥന $joinerName$ റദ്ദാക്കി.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--other": {
@@ -4107,7 +4114,7 @@
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "ContactModal--rm-admin-info": {
-    "message": " $contact$ എന്നയാളെ  ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
+    "message": "$contact$ എന്നയാളെ  ഗ്രൂപ്പ് അഡ്‌മിൻ സ്ഥാനത്ത് നിന്ന് നീക്കം ചെയ്യണോ?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "ContactModal--remove-from-group": {
@@ -4131,7 +4138,7 @@
     "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
-    "message": "ഗ്രൂപ്പിന്റെ ലിങ്ക് ",
+    "message": "ഗ്രൂപ്പിന്റെ ലിങ്ക്",
     "description": "This is the label for the group link management panel"
   },
   "ConversationDetails--disappearing-messages-label": {
@@ -4283,7 +4290,7 @@
     "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
   },
   "GroupLinkManagement--reset": {
-    "message": "ലിങ്ക് പുനഃസജ്ജമാക്കുക്ക ",
+    "message": "ലിങ്ക് പുനഃസജ്ജമാക്കുക്ക",
     "description": "This lets users generate a new group link"
   },
   "GroupLinkManagement--approve-label": {
@@ -4351,7 +4358,7 @@
     "description": "This is the modal button to confirm revoking invites"
   },
   "PendingRequests--approve": {
-    "message": "അഭ്യർത്ഥന അംഗീകരിക്കുക ",
+    "message": "അഭ്യർത്ഥന അംഗീകരിക്കുക",
     "description": "This is the modal button to approve group request to join"
   },
   "PendingRequests--deny": {
@@ -4498,21 +4505,21 @@
     "message": "ഓഡിയോ അറ്റാച്ച്‌മെന്റിന്റെ പ്ലേബാക്ക് സമയം",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "മുകളിലുള്ള $composeIcon$'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക.",
@@ -4567,7 +4574,7 @@
     "description": "Title for the contact name spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__description": {
-    "message": "അഭ്യർത്ഥന ആരാണ് നിങ്ങൾക്ക് അയച്ചതെന്ന് ഉറപ്പില്ലെങ്കിൽ, ചുവടെയുള്ള കോൺടാക്റ്റുകൾ അവലോകനം ചെയ്ത് നടപടിയെടുക്കുക. ",
+    "message": "അഭ്യർത്ഥന ആരാണ് നിങ്ങൾക്ക് അയച്ചതെന്ന് ഉറപ്പില്ലെങ്കിൽ, ചുവടെയുള്ള കോൺടാക്റ്റുകൾ അവലോകനം ചെയ്ത് നടപടിയെടുക്കുക.",
     "description": "Description for the contact spoofing review dialog"
   },
   "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "ഈ സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകും",
+    "message": "ഇനിപ്പറയുന്ന സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകും",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5031,7 +5038,7 @@
     "description": "Button to switch the settings view"
   },
   "Preferences--lastSynced": {
-    "message": "അവസാനം ഇമ്പോർട്ട് ചെയ്‌തത് $date$ $time$ ",
+    "message": "അവസാനം ഇമ്പോർട്ട് ചെയ്‌തത് $date$ $time$",
     "description": "Label for date and time of last sync operation"
   },
   "Preferences--system": {
@@ -5399,7 +5406,7 @@
     "description": "Button to remove a member from a private list"
   },
   "StoriesSettings__remove--title": {
-    "message": " $title$ എന്നയാളെ നീക്കം ചെയ്യുക",
+    "message": "$title$ എന്നയാളെ നീക്കം ചെയ്യുക",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$ സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകുന്നതാണ്",
+    "message": "$countdown$ സമയത്തിനുള്ളിൽ അപ്രത്യക്ഷമാകും",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ഇതുവരെ മറുപടികളൊന്നുമില്ല",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ഇതുവരെ കാഴ്ച്ചകളൊന്നുമില്ല",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "കാഴ്ച്ചകൾ",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "നിങ്ങളുടെ ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഒരുപറ്റം ബഗ് പരിഹരിക്കലുകൾ. കൂടുതൽ ആവേശകരമായ മാറ്റങ്ങൾ ഉടൻ!",
+    "message": "നിങ്ങളുടെ ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഒരുപറ്റം ബഗ് പരിഹരിക്കലുകൾ. കൂടുതൽ ആവേശകരമായ മാറ്റങ്ങൾ ഉടൻ! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
+    "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

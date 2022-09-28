@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "პროგრამული უზრუნველყოფის გააზრება",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "რეესტრის გაგზავნა",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "არა-სურათის დანართის მიმაგრებისას, ლიმიტი არის ერთი დანართი თითო შეტყობინებაზე.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "არა-სურათისა და სურათის დანართების ერთ შეტყობინებაში გაგზავნა შეუძლებელია.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1632,7 +1638,7 @@
     "description": "Warning notification that this version of the app has expired"
   },
   "upgrade": {
-    "message": " დააჭირე signal.org/download-ზე გადასასვლელად",
+    "message": "დააჭირე signal.org/download-ზე გადასასვლელად",
     "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
@@ -2456,7 +2462,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--focus-composer": {
-    "message": " შეყვანის ველზე ფოკუსირება",
+    "message": "შეყვანის ველზე ფოკუსირება",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--open-all-media-view": {
@@ -2484,7 +2490,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reply": {
-    "message": "პასუხზე გადართვა შერჩეული შეტყობინებისთვის ",
+    "message": "პასუხზე გადართვა შერჩეული შეტყობინებისთვის",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
@@ -2623,8 +2629,8 @@
     "message": "ამომხტარი ფანჯრის დახურვა",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "სურათის დართვა",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2768,7 +2774,7 @@
     "description": "Title for the upload stage of the sticker creator"
   },
   "StickerCreator--UploadStage-uploaded": {
-    "message": " $total$ -დან $count$ აიტვირთა",
+    "message": "$total$ -დან $count$ აიტვირთა",
     "description": "Title for the upload stage of the sticker creator"
   },
   "StickerCreator--ShareStage--title": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "რეაქციის წაშლა"
+    "message": "რეაქციის წაშლა",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "რეაქციის გაგზავნა ვერ მოხერხდა. გთხოვთ კიდევ სცადო.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal-ი განაგრძობს მუშაობას",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal-ი გააგრძელებს მუშაობას შეტყობინებების ჭრილში. შეცვლა შეგიძლია Signal-ის პარამეტრებიდან.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3371,7 +3378,7 @@
     "description": "Shown in the metadata section if group has more than one member"
   },
   "GroupV2--join--group-metadata": {
-    "message": "ჯგუფი · $memberCount$ ",
+    "message": "ჯგუფი · $memberCount$",
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
@@ -4327,7 +4334,7 @@
     "description": "This is the title for the list of members who have invited other people"
   },
   "PendingInvites--invited-count": {
-    "message": " $number$ მოწვეული",
+    "message": "$number$ მოწვეული",
     "description": "This is the label for the number of members someone has invited"
   },
   "PendingInvites--revoke-for-label": {
@@ -4498,21 +4505,21 @@
     "message": "აუდიო დანართის დაკვრის დრო",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "დააჭირე $composeIcon$ -ზე ზემოთ და მოძებნე შენი კონტაქტები ან ჯგუფები შეტყობინების გასაგზავნად.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "გაქრება",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5439,11 +5446,11 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "ამათგან Story-ის დამალვა ",
+    "message": "ამათგან Story-ის დამალვა",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
-    "message": "Signal-ის ყველა კონტაქტი ",
+    "message": "Signal-ის ყველა კონტაქტი",
     "description": "Input label to describe all signal connections"
   },
   "StoriesSettings__mine__all--description": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "გაქრება $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ჯერ პასუხები არაა",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ნახვები ჯერ არაა",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ნახვები",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "შენი აპის შეუფერხებლად მუშაობისთვის უამრავი ბაგი გამოვასწორეთ. ჰორიზონტზე უფრო საინტერესო ცვლილებები გელოდება!",
+    "message": "შენი აპის შეუფერხებლად მუშაობისთვის უამრავი ბაგი გამოვასწორეთ. ჰორიზონტზე უფრო საინტერესო ცვლილებები გელოდება! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "ხარვეზების გამოსწორებასა და წარმადობის სხვამხრივ გაუმჯობესებაზე დაუღალავად ვშრომობთ, რათა შენმა აპმა შეუფერხებლად იმუშაოს.",
+    "message": "ხარვეზების გამოსწორებასა და წარმადობის სხვამხრივ გაუმჯობესებაზე დაუღალავად ვშრომობთ, რათა შენმა აპმა შეუფერხებლად იმუშაოს. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

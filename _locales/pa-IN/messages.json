@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "ਸਾਫਟਵੇਅਰ ਆਭਾਰ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -332,11 +342,11 @@
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "unreadMessage": {
-    "message": "1 ਨਾ-ਪੜ੍ਹਿਆ ਸੁਨੇਹਾ ",
+    "message": "1 ਨਾ-ਪੜ੍ਹਿਆ ਸੁਨੇਹਾ",
     "description": "Text for unread message separator, just one message"
   },
   "unreadMessages": {
-    "message": "$count$ ਨਾ-ਪੜ੍ਹੇ ਸੁਨੇਹੇ ",
+    "message": "$count$ ਨਾ-ਪੜ੍ਹੇ ਸੁਨੇਹੇ",
     "description": "Text for unread message separator, with count"
   },
   "messageHistoryUnsynced": {
@@ -494,11 +504,11 @@
     "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
-    "message": "ਅੱਜ ",
+    "message": "ਅੱਜ",
     "description": "The string \"today\""
   },
   "yesterday": {
-    "message": "ਕੱਲ੍ਹ ",
+    "message": "ਕੱਲ੍ਹ",
     "description": "The string \"yesterday\""
   },
   "thisWeek": {
@@ -534,11 +544,11 @@
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
-    "message": " $domain$ ਦੇ ਲਈ ਡ੍ਰਾਫ਼ਟ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
+    "message": "$domain$ ਦੇ ਲਈ ਡ੍ਰਾਫ਼ਟ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "previewThumbnail": {
-    "message": " $domain$  ਦੇ ਲਈ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
+    "message": "$domain$  ਦੇ ਲਈ ਥੰਬਨੇਲ ਲਿੰਕ ਦੀ ਝਲਕ",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedImageAttachment": {
@@ -557,12 +567,8 @@
     "message": "ਲਾਗ ਭੇਜੋ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ਕਿਸੇ ਗੈਰ-ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਨੂੰ ਸ਼ਾਮਲ ਕਰਦੇ ਸਮੇਂ, ਪ੍ਰਤੀ ਸੁਨੇਹਾ ਇੱਕ ਅਟੈਚਮੈਂਟ ਦੀ ਸੀਮਾ ਹੈ।",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ਤੁਸੀਂ ਇੱਕ ਸੁਨੇਹੇ ਵਿੱਚ ਗੈਰ-ਚਿੱਤਰ ਅਤੇ ਚਿੱਤਰ ਨੱਥੀਆਂ ਨੂੰ ਰਲਾ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ਤੁਸੀਂ ਫ਼ਾਈਲਾਂ ਦੇ ਨਾਲ-ਨਾਲ ਫ਼ੋਟੋੋਆਂ ਅਤੇ ਵੀਡੀਓ ਚੁਣ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -696,7 +702,7 @@
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
-    "message": "ਗੱਲਬਾਤਾਂ ",
+    "message": "ਗੱਲਬਾਤਾਂ",
     "description": "Shown to separate the types of search results"
   },
   "contactsHeader": {
@@ -727,7 +733,7 @@
     "message": "Signal ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ"
   },
   "whatsNew": {
-    "message": "ਇਸ ਅੱਪਡੇਟ ਲਈ $whatsNew$ਨੂੰ ਵੇਖੋ ",
+    "message": "ਇਸ ਅੱਪਡੇਟ ਲਈ $whatsNew$ਨੂੰ ਵੇਖੋ",
     "description": "Shown in the main window"
   },
   "viewReleaseNotes": {
@@ -937,7 +943,7 @@
     "message": "ਸੁਨੇਹਾ ਵੇਰਵਾ"
   },
   "delete": {
-    "message": "ਮਿਟਾਓ"
+    "message": "ਹਟਾਓ"
   },
   "accept": {
     "message": "ਮਨਜ਼ੂਰ ਕਰੋ"
@@ -984,7 +990,7 @@
     "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
   },
   "sent": {
-    "message": "ਭੇਜਿਆ ਗਿਆ ",
+    "message": "ਭੇਜਿਆ ਗਿਆ",
     "description": "Label for the time a message was sent"
   },
   "received": {
@@ -1266,7 +1272,7 @@
     "description": "Text in the call lobby when you can't join because the call is full"
   },
   "calling__button--video__label": {
-    "message": "ਕੈਮਰਾ ",
+    "message": "ਕੈਮਰਾ",
     "description": "Label under the video button"
   },
   "calling__button--video-disabled": {
@@ -1593,7 +1599,7 @@
     "message": "$sender$ ਨੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ’ਤੇ $emoji$ ਨਾਲ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ"
   },
   "notificationReactionMessage": {
-    "message": "$sender$ ਨੇ $message$ ਨੂੰ ਇਹ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ: $emoji$ "
+    "message": "$sender$ ਨੇ $message$ ਨੂੰ ਇਹ ਪ੍ਰਤਿਕਿਰਿਆ ਦਿੱਤੀ: $emoji$"
   },
   "sendFailed": {
     "message": "ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ",
@@ -1732,7 +1738,7 @@
     "description": "Message displayed when someone else changes the message expiration timer in a conversation."
   },
   "disappearingMessages__off": {
-    "message": "ਬੰਦ ",
+    "message": "ਬੰਦ",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
   "disappearingMessages": {
@@ -1824,7 +1830,7 @@
     "description": "Label text for system theme"
   },
   "noteToSelf": {
-    "message": "ਆਪਣੇ ਆਪ ਨੂੰ ਨੋਟ ",
+    "message": "ਆਪਣੇ ਆਪ ਨੂੰ ਨੋਟ",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -2564,7 +2570,7 @@
     "description": "Header of the keyboard shortcuts guide - navigation section"
   },
   "Keyboard--messages-header": {
-    "message": "ਸੁਨੇਹੇ ",
+    "message": "ਸੁਨੇਹੇ",
     "description": "Header of the keyboard shortcuts guide - messages section"
   },
   "Keyboard--composer-header": {
@@ -2623,8 +2629,8 @@
     "message": "ਪੌਪਅੱਪ ਬੰਦ ਕਰੋ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਨੂੰ ਜੋੜੋ",
+  "addImageOrVideoattachment": {
+    "message": "ਫ਼ੋਟੋੋ ਜਾਂ ਵੀਡੀਓ ਅਟੈਚਮੈਂਟ ਸ਼ਾਮਲ ਕਰੋ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2748,7 +2754,7 @@
     "description": "Label for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--cover--help": {
-    "message": " ਇਹ ਚਿੱਤਰ ਉਦੋਂ ਦਿਖਾਈ ਦੇਵੇਗਾ ਜਦੋਂ ਤੁਸੀਂ ਆਪਣੇ ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਸਾਂਝਾ ਕਰੋਗੇ",
+    "message": "ਇਹ ਚਿੱਤਰ ਉਦੋਂ ਦਿਖਾਈ ਦੇਵੇਗਾ ਜਦੋਂ ਤੁਸੀਂ ਆਪਣੇ ਸਟਿੱਕਰ ਪੈਕ ਨੂੰ ਸਾਂਝਾ ਕਰੋਗੇ",
     "description": "Help text for the cover image picker of the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--ConfirmDialog--title": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ਰਿਐਕਸ਼ਨ ਹਟਾਓ"
+    "message": "ਰਿਐਕਸ਼ਨ ਹਟਾਓ",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "ਪ੍ਰਤਿਕਿਰਿਆ ਭੇਜਣ ਵਿੱਚ ਅਸਫ਼ਲ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
@@ -2899,7 +2906,7 @@
     "description": "Shown as the body in the confirmation modal for unblocking a private message request"
   },
   "MessageRequests--unblock-group-confirm-body": {
-    "message": "ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ। ",
+    "message": "ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਦੁਬਾਰਾ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ।",
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
@@ -3019,7 +3026,7 @@
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ਵੀਡੀਓ ਤੋਂ  ਬਿਨਾ ਜਵਾਬ ਦਿਓ ",
+    "message": "ਵੀਡੀਓ ਤੋਂ  ਬਿਨਾ ਜਵਾਬ ਦਿਓ",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3091,7 +3098,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-2-others": {
-    "message": "$ringer$ਤੁਹਾਨੂੰ, $first$ ਤੇ $second$ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ ",
+    "message": "$ringer$ਤੁਹਾਨੂੰ, $first$ ਤੇ $second$ ਨੂੰ ਕਾਲ ਕਰ ਰਹੇ ਹਨ",
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "incomingGroupCall__ringing-3-others": {
@@ -3359,7 +3366,7 @@
     "description": "Choosing to continue in the cancel join confirmation dialog"
   },
   "GroupV2--join--cancel-request-to-join--no": {
-    "message": "ਨਹੀਂ ",
+    "message": "ਨਹੀਂ",
     "description": "Choosing not to continue in the cancel join confirmation dialog"
   },
   "GroupV2--join--member-count--single": {
@@ -3375,7 +3382,7 @@
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
-    "message": "ਤੁਹਾਡੀ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਗਰੁੱਪ ਐਡਮਿਨ ਨੂੰ ਭੇਜ ਦਿੱਤੀ ਗਈ ਹੈ। ਜਦੋਂ ਉਹ ਕਾਰਵਾਈ ਕਰਨਗੇ ਤਾਂ ਤੂਹਾਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ। ",
+    "message": "ਤੁਹਾਡੀ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਬੇਨਤੀ ਗਰੁੱਪ ਐਡਮਿਨ ਨੂੰ ਭੇਜ ਦਿੱਤੀ ਗਈ ਹੈ। ਜਦੋਂ ਉਹ ਕਾਰਵਾਈ ਕਰਨਗੇ ਤਾਂ ਤੂਹਾਨੂੰ ਸੂਚਿਤ ਕੀਤਾ ਜਾਵੇਗਾ।",
     "description": "Shown in composition area when you've requested to join a group"
   },
   "GroupV2--join--general-join-failure--title": {
@@ -4059,7 +4066,7 @@
     "description": "In the instructions for becoming a sustainer. First instruction."
   },
   "BadgeSustainerInstructions__instructions__2": {
-    "message": "ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹਣ ਲਈ ਉੱਪਰ ਖੱਬੇ ਪਾਸੇ ਆਪਣੀ ਪ੍ਰੋਫ਼ਾਈਲ ਫ਼ੋਟੋ 'ਤੇ ਟੈਪ ਕਰੋ ",
+    "message": "ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹਣ ਲਈ ਉੱਪਰ ਖੱਬੇ ਪਾਸੇ ਆਪਣੀ ਪ੍ਰੋਫ਼ਾਈਲ ਫ਼ੋਟੋ 'ਤੇ ਟੈਪ ਕਰੋ",
     "description": "In the instructions for becoming a sustainer. Second instruction."
   },
   "BadgeSustainerInstructions__instructions__3": {
@@ -4223,7 +4230,7 @@
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
-    "message": "ਤੁਹਾਡੇ ਸੰਪਰਕ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ। ",
+    "message": "ਤੁਹਾਡੇ ਸੰਪਰਕ ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰ ਸਕਣਗੇ।",
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -4279,7 +4286,7 @@
     "description": "This lets users share their group link"
   },
   "GroupLinkManagement--confirm-reset": {
-    "message": "ਕੀ ਤੁਸੀਂ ਯਕੀਨਨ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਰੀਸੈੱਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ? ਲੋਕ ਹੁਣ ਮੌਜੂਦਾ ਲਿੰਕ ਦੀ ਵਰਤੋਂ ਨਾਲ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕਣਗੇੇ। ",
+    "message": "ਕੀ ਤੁਸੀਂ ਯਕੀਨਨ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਰੀਸੈੱਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ? ਲੋਕ ਹੁਣ ਮੌਜੂਦਾ ਲਿੰਕ ਦੀ ਵਰਤੋਂ ਨਾਲ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕਣਗੇੇ।",
     "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
   },
   "GroupLinkManagement--reset": {
@@ -4498,21 +4505,21 @@
     "message": "ਆਡੀਓ ਅਟੈਚਮੈਂਟ ਦਾ ਪਲੇਅਬੈਕ ਸਮਾਂ",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ਉੱਪਰ $composeIcon$ ’ਤੇ ਕਲਿਕ ਕਰੋ ਅਤੇ ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਆਪਣੇ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਲੱਭੋ।",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "ਗਾਇਬ ਹੋਣ ਵਿੱਚ ਸਮਾਂ",
+    "message": "ਗਾਇਬ ਹੋ ਜਾਵੇਗਾ",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5019,7 +5026,7 @@
     "description": "Button to switch the settings view (and a title of pane)"
   },
   "Preferences__button--calls": {
-    "message": "ਕਾਲਾਂ ",
+    "message": "ਕਾਲਾਂ",
     "description": "Button to switch the settings view"
   },
   "Preferences__button--notifications": {
@@ -5547,7 +5554,7 @@
     "description": "Aria label for pausing a story"
   },
   "StoryViewer__play": {
-    "message": "ਚਲਾਓ ",
+    "message": "ਚਲਾਓ",
     "description": "Aria label for playing a story"
   },
   "StoryViewer__reply": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$ ਵਿੱਚ ਗਾਇਬ ਹੋ ਜਾਂਦੇ ਹਨ",
+    "message": "$countdown$ ਵਿੱਚ ਗਾਇਬ ਹੋ ਜਾਵੇਗਾ",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ਅਜੇ ਤੱਕ ਕਿਸੇ ਨੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ਅਜੇ ਤੱਕ ਕਿਸੇ ਨੇ ਨਹੀਂ ਦੇਖਿਆ",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ਵਿਊ",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "ਤੁਹਾਡੀ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ। ਛੇਤੀ ਹੀ ਕੁਝ ਸ਼ਾਨਦਾਰ ਬਦਲਾਅ ਵੀ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ।",
+    "message": "ਤੁਹਾਡੀ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕੀਤਾ ਗਿਆ ਹੈ। ਛੇਤੀ ਹੀ ਕੁਝ ਸ਼ਾਨਦਾਰ ਬਦਲਾਅ ਵੀ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ। ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "ਤੁਹਾਡੇ ਲਈ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕਰਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕਰਨ ਲਈ ਨਿਰੰਤਰ ਮਿਹਨਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।",
+    "message": "ਤੁਹਾਡੇ ਲਈ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕਰਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕਰਨ ਲਈ ਨਿਰੰਤਰ ਮਿਹਨਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ। ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

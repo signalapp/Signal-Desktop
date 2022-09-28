@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "شكر وتقدير لفريق البرنامج",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -332,7 +342,7 @@
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "unreadMessage": {
-    "message": " رسالة واحدة غير مقروءة",
+    "message": "رسالة واحدة غير مقروءة",
     "description": "Text for unread message separator, just one message"
   },
   "unreadMessages": {
@@ -344,11 +354,11 @@
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
-    "message": "لقد حددت أن رقم أمانك مع $name$ تم التحقق منه ",
+    "message": "لقد حددت أن رقم أمانك مع $name$ تم التحقق منه",
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "youMarkedAsNotVerified": {
-    "message": "لقد حددت أن رقم أمانك مع $name$ لم يتم التحقق منه ",
+    "message": "لقد حددت أن رقم أمانك مع $name$ لم يتم التحقق منه",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "youMarkedAsVerifiedOtherDevice": {
@@ -428,7 +438,7 @@
     "description": "Shown as the text for the download button on the debug log screen"
   },
   "debugLogLinkCopied": {
-    "message": "تم نسخ الوصلة ",
+    "message": "تم نسخ الوصلة",
     "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
   },
   "reportIssue": {
@@ -557,12 +567,8 @@
     "message": "إرسال السجل",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "عند تضمين مرفق غير صورة، يكون الحد الأقصى هو مرفق واحد لكل رسالة.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "لا يمكنك مزج مرفق لا يحوي صورة مع مرفق يحوي صورة في رسالة واحدة.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -592,7 +598,7 @@
     "description": "Subtext description for when the client is connecting to the server."
   },
   "offline": {
-    "message": "غير متصل بالانترنت  ",
+    "message": "غير متصل بالانترنت",
     "description": "Displayed when the desktop client has no network connection."
   },
   "checkNetworkConnection": {
@@ -937,7 +943,7 @@
     "message": "تفاصيل الرسالة"
   },
   "delete": {
-    "message": "أحذف"
+    "message": "حذف"
   },
   "accept": {
     "message": "قبول"
@@ -1079,7 +1085,7 @@
     "description": "Shown in left pane preview when message delivery issue happens"
   },
   "DeliveryIssue--notification": {
-    "message": "تعذر توصيل رسالة من $sender$ ",
+    "message": "تعذر توصيل رسالة من $sender$",
     "description": "Shown in timeline when message delivery issue happens"
   },
   "DeliveryIssue--learnMore": {
@@ -1370,7 +1376,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-ring-many": {
-    "message": "سوف يرن Signal على $first$، $second$ و $others$ آخرين ",
+    "message": "سوف يرن Signal على $first$، $second$ و $others$ آخرين",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-notify-1": {
@@ -1652,7 +1658,7 @@
     "description": "Explanatory text for sync settings"
   },
   "lastSynced": {
-    "message": "‫آخر استيراد، منذ ",
+    "message": "‫آخر استيراد، منذ",
     "description": "Label for date and time of last sync operation"
   },
   "syncNow": {
@@ -1964,7 +1970,7 @@
     "description": "Label underneath number informing user that SMS is not supported on desktop"
   },
   "newPhoneNumber": {
-    "message": " لإضافة جهة الاتصال، يُرجى إدخال رقم الهاتف.‏",
+    "message": "لإضافة جهة الاتصال، يُرجى إدخال رقم الهاتف.‏",
     "description": "Placeholder for adding a new number to a contact"
   },
   "invalidNumberError": {
@@ -2362,7 +2368,7 @@
     "message": "بما أنك أصبحت تستخدم إصدار Signal مُرقّى. يمكنك الطلب من $contact$ إعادة إرسال هذه الرسالة."
   },
   "Message--from-me-unsupported-message": {
-    "message": " أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
+    "message": "أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
   },
   "Message--from-me-unsupported-message-ask-to-resend": {
     "message": "بما أنك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية."
@@ -2623,8 +2629,8 @@
     "message": "إغلاق النافذة المنبثقة",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "إضافة صورة مرفقة",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "إزالة رد الفعل"
+    "message": "إزالة رد الفعل",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "فشل إرسال التفاعل. عليك بالمحاولة مرة أخرى.",
@@ -2927,7 +2934,7 @@
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
-    "message": "حذف  ",
+    "message": "حذف",
     "description": "Shown as a button to let the user delete any message request"
   },
   "MessageRequests--delete-direct-confirm-title": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "لا يزال تطبيق Signal قيد التشغيل",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "سَيستمر تطبيق Signal في الاشتغال في قائمة الإشعارات. يُمكنك تغيير هذا في إعدادات Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3227,7 +3234,7 @@
     "description": "Label for the mute notifications drop-down selector"
   },
   "notMuted": {
-    "message": "لم يُكتم ",
+    "message": "لم يُكتم",
     "description": "Label when the conversation is not muted"
   },
   "muteHour": {
@@ -4191,7 +4198,7 @@
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "message": "قبل أن تغادر، يجب عليك أن تختار على الأقل مشرفا واحدا لهذه المجموعة.  ",
+    "message": "قبل أن تغادر، يجب عليك أن تختار على الأقل مشرفا واحدا لهذه المجموعة.",
     "description": "Shown if, before leaving a group, you need to choose an admin"
   },
   "ConversationDetailsActions--leave-group-modal-title": {
@@ -4475,7 +4482,7 @@
     "description": "The label for contact checkboxes that are disabled"
   },
   "alreadyAMember": {
-    "message": "إنَّهُ بِالفِعل عُضو ",
+    "message": "إنَّهُ بِالفِعل عُضو",
     "description": "The label for contact checkboxes that are disabled because they're already a member"
   },
   "MessageAudio--play": {
@@ -4498,21 +4505,21 @@
     "message": "مدة تشغيل المرفق الصوتي",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "‎1 ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "‎1½ ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "‎2 ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "‎½ ×‎",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "يٌرجى الضغط على $composeIcon$ أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
@@ -4707,7 +4714,7 @@
     "description": "Option in the custom color bubble context menu"
   },
   "ChatColorPicker__context--delete": {
-    "message": "حذف  ",
+    "message": "حذف",
     "description": "Option in the custom color bubble context menu"
   },
   "CustomColorEditor__solid": {
@@ -4823,7 +4830,7 @@
     "description": "Description of standard quality selector"
   },
   "MediaQualitySelector--high-quality-title": {
-    "message": "بالغ الأهميّة ",
+    "message": "بالغ الأهميّة",
     "description": "Title for option for high quality"
   },
   "MediaQualitySelector--high-quality-description": {
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "تختفي في",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5207,7 +5214,7 @@
     "description": "Describes what attribute the color picker will change on the text"
   },
   "MediaEditor__text--highlight": {
-    "message": " إبراز",
+    "message": "إبراز",
     "description": "Describes what attribute the color picker will change on the text"
   },
   "MediaEditor__text--outline": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "تختفي في $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "لا جواب حاليا",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "لا مشاهدة حاليا",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "المشاهدات",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "مجموعة من إصلاحات الأعطال ليبقى التطبيق مُشتغلا بسلاسة. مزيد من التغييرات في الأفق!",
+    "message": "مجموعة من إصلاحات الأعطال ليبقى التطبيق مُشتغلا بسلاسة. مزيد من التغييرات في الأفق! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك.",
+    "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Podziękowania",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -364,7 +374,7 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedRightAfterVerify": {
-    "message": "Weryfikowany przez Ciebie numer bezpieczeństwa uległ zmianie. Potwierdź go z $name1$. Pamiętaj, że ta zmiana może oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name2$ po prostu przeinstalował(a) Signal. ",
+    "message": "Weryfikowany przez Ciebie numer bezpieczeństwa uległ zmianie. Potwierdź go z $name1$. Pamiętaj, że ta zmiana może oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name2$ po prostu przeinstalował(a) Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "changedVerificationWarning": {
@@ -557,12 +567,8 @@
     "message": "Wyślij logi debugowania",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Gdy załącznik nie jest obrazem, możesz wysłać tylko jeden na raz.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Nie można łączyć obrazów z innymi załącznikami w jednej wiadomości.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1079,7 +1085,7 @@
     "description": "Shown in left pane preview when message delivery issue happens"
   },
   "DeliveryIssue--notification": {
-    "message": "Nie udało się dostarczyć wiadomości od $sender$ ",
+    "message": "Nie udało się dostarczyć wiadomości od $sender$",
     "description": "Shown in timeline when message delivery issue happens"
   },
   "DeliveryIssue--learnMore": {
@@ -1250,7 +1256,7 @@
     "description": "Button label in the call lobby for starting a call"
   },
   "calling__join": {
-    "message": "Dołącz ",
+    "message": "Dołącz",
     "description": "Button label in the call lobby for joining a call"
   },
   "calling__return": {
@@ -2623,8 +2629,8 @@
     "message": "Zamknij wyskakujące okienko",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Dołącz obraz",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Usuń reakcję"
+    "message": "Usuń reakcję",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Nie udało się zareagować. Spróbuj ponownie.",
@@ -2939,7 +2946,7 @@
     "description": "Shown as the body in the confirmation modal for deleting a private message request"
   },
   "MessageRequests--delete-group-confirm-title": {
-    "message": "Usunąć i opuścić $group$? ",
+    "message": "Usunąć i opuścić $group$?",
     "description": "Shown as the title in the confirmation modal for deleting a group message request"
   },
   "MessageRequests--delete-direct": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal nadal działa",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal będzie nadal działał w obszarze powiadomień. Możesz to zmienić w ustawieniach aplikacji Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3303,7 +3310,7 @@
     "description": "Shown when you click on a group link to confirm"
   },
   "GroupV2--join--already-in-group": {
-    "message": "Jesteś już w tej grupie. ",
+    "message": "Jesteś już w tej grupie.",
     "description": "Shown if you click a group link for a group where you're already a member"
   },
   "GroupV2--join--already-awaiting-approval": {
@@ -4498,21 +4505,21 @@
     "message": "Czas odtwarzania załącznika audio",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Kliknij $composeIcon$ powyżej i wyszukaj kontakty l;ub grupy, aby wysłać wiadomość.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Zniknie za",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Zniknie za $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Brak odpowiedzi",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Brak odsłon",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Odsłony",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Naprawiliśmy kilka błędów, żeby aplikacja działała jeszcze płynniej. Kolejne ekscytujące zmiany już wkrótce!",
+    "message": "Naprawiliśmy kilka błędów, żeby aplikacja działała jeszcze płynniej. Kolejne ekscytujące zmiany już wkrótce! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Pracujemy w pocie czoła nad poprawieniem błędów i wprowadzeniem innych ulepszeń, dzięki którym apka będzie działała płynnie.",
+    "message": "Pracujemy w pocie czoła nad poprawieniem błędów i wprowadzeniem innych ulepszeń, dzięki którym apka będzie działała płynnie. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

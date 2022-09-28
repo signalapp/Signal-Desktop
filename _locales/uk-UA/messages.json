@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Подяки програмному забезпеченню",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -336,7 +346,7 @@
     "description": "Text for unread message separator, just one message"
   },
   "unreadMessages": {
-    "message": "$count$ непрочитаних повідомлень ",
+    "message": "$count$ непрочитаних повідомлень",
     "description": "Text for unread message separator, with count"
   },
   "messageHistoryUnsynced": {
@@ -453,7 +463,7 @@
     "message": "Відмітити непідтвердженим"
   },
   "isVerified": {
-    "message": "Ви підтвердили код безпеки, який $name$ використовує для зв’язку з вами. ",
+    "message": "Ви підтвердили код безпеки, який $name$ використовує для зв’язку з вами.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "isNotVerified": {
@@ -557,12 +567,8 @@
     "message": "Передати журнал",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "При включенні вкладень, що не відносяться до зображень, обмеження становить по одному вкладенню на повідомлення.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Ви не можете змішувати вкладення, що не належать до зображень, із зображеннями в одному повідомленні.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -584,7 +590,7 @@
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
-    "message": "Натисніть для повторного підключення. ",
+    "message": "Натисніть для повторного підключення.",
     "description": "Shown to allow the user to manually attempt a reconnect."
   },
   "connectingHangOn": {
@@ -1079,7 +1085,7 @@
     "description": "Shown in left pane preview when message delivery issue happens"
   },
   "DeliveryIssue--notification": {
-    "message": "Повідомлення від $sender$ не вдалось доставити ",
+    "message": "Повідомлення від $sender$ не вдалось доставити",
     "description": "Shown in timeline when message delivery issue happens"
   },
   "DeliveryIssue--learnMore": {
@@ -1095,7 +1101,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не  вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від $sender$  вам в цьому чаті. ",
+    "message": "Не  вдалося доставити повідомлення, стікер, реакцію, повідомлення про прочитання або медіа файл від $sender$  вам в цьому чаті.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1736,7 +1742,7 @@
     "description": "Label for option to turn off message expiration in the timer menu"
   },
   "disappearingMessages": {
-    "message": "Зникаючі повідомлення ",
+    "message": "Зникаючі повідомлення",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -2568,7 +2574,7 @@
     "description": "Header of the keyboard shortcuts guide - messages section"
   },
   "Keyboard--composer-header": {
-    "message": "Панель набору ",
+    "message": "Панель набору",
     "description": "Header of the keyboard shortcuts guide - composer section"
   },
   "Keyboard--scroll-to-top": {
@@ -2623,8 +2629,8 @@
     "message": "Закрити спливаюче вікно",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Додати зображення (як вкладення)",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2700,7 +2706,7 @@
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
   "StickerCreator--DropStage--title": {
-    "message": "Додайте ваші наліпки ",
+    "message": "Додайте ваші наліпки",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2824,7 +2830,7 @@
     "description": "Text for the toast when an image in the sticker creator does not animate forever"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
-    "message": "Розміри анімованої PNG наліпки є занадто великими ",
+    "message": "Розміри анімованої PNG наліпки є занадто великими",
     "description": "Text for the toast when an APNG image in the sticker creator is too large"
   },
   "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Прибрати реакцію"
+    "message": "Прибрати реакцію",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Не вдалось відправити реакцію. Будь ласка, пробуйте ще раз.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal продовжує працювати",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal продовжить працювати в області сповіщень. Це можливо змінити в налаштуваннях Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3467,7 +3474,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--you": {
-    "message": " Ви змінили хто може редагувати інформацію групи, на \"Тільки адміністратори\".",
+    "message": "Ви змінили хто може редагувати інформацію групи, на \"Тільки адміністратори\".",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--admins--unknown": {
@@ -3479,7 +3486,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--all--you": {
-    "message": " Ви змінили хто може редагувати інформацію групи, на \"Всі учасники\".",
+    "message": "Ви змінили хто може редагувати інформацію групи, на \"Всі учасники\".",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-attributes--all--unknown": {
@@ -3895,7 +3902,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-reset--unknown": {
-    "message": "Посилання на групу була скинута. ",
+    "message": "Посилання на групу була скинута.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--you": {
@@ -4059,7 +4066,7 @@
     "description": "In the instructions for becoming a sustainer. First instruction."
   },
   "BadgeSustainerInstructions__instructions__2": {
-    "message": "Натисніть фото свого профілю в лівому верхньому кутку, щоб відкрити Настройки ",
+    "message": "Натисніть фото свого профілю в лівому верхньому кутку, щоб відкрити Настройки",
     "description": "In the instructions for becoming a sustainer. Second instruction."
   },
   "BadgeSustainerInstructions__instructions__3": {
@@ -4135,7 +4142,7 @@
     "description": "This is the label for the group link management panel"
   },
   "ConversationDetails--disappearing-messages-label": {
-    "message": "Зникаючі повідомлення ",
+    "message": "Зникаючі повідомлення",
     "description": "This is the label for the disappearing messages setting panel"
   },
   "ConversationDetails--disappearing-messages-info--group": {
@@ -4498,21 +4505,21 @@
     "message": "Час відтворення аудіо вмісту",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Натисніть на $composeIcon$ вище і пошукайте ваші контакти або групи для спілкування.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Зникне через",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5043,7 +5050,7 @@
     "description": "Label for changing the zoom level"
   },
   "Preferences__link-previews--title": {
-    "message": "Генерувати посилання попереднього перегляду ",
+    "message": "Генерувати посилання попереднього перегляду",
     "description": "Title for the generate link previews setting"
   },
   "Preferences__link-previews--description": {
@@ -5323,15 +5330,15 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Сторіз",
+    "message": "Історії",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Мої сторіз",
+    "message": "Мої історії",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Додати сторі",
+    "message": "Додати історію",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5343,15 +5350,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Приховані сторіз",
+    "message": "Приховані історії",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Нових сторіз немає",
+    "message": "Нових історій немає",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Клацніть для перегляду сторі",
+    "message": "Клацніть для перегляду історії",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5371,11 +5378,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Налаштування сторі",
+    "message": "Налаштування історії",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Нова приватна сторі",
+    "message": "Нова приватна історія",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5387,7 +5394,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Хто може бачити цю сторі",
+    "message": "Хто може бачити цю історію",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5403,7 +5410,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ця особа більше не бачитиме вашу сторі.",
+    "message": "Ця особа більше не бачитиме ваших історій.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5419,7 +5426,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Видалити приватну сторі",
+    "message": "Видалити приватну історію",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5435,11 +5442,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Назва сторі (обов'язкова)",
+    "message": "Назва історії (обов'язкова)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Приховати сторі від",
+    "message": "Сховати історію від",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5479,7 +5486,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Налаштування сторі",
+    "message": "Налаштування історії",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5499,7 +5506,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Нова приватна сторі",
+    "message": "Нова приватна історія",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5555,7 +5562,7 @@
     "description": "Button label to reply to a story"
   },
   "StoryViewer__reply-group": {
-    "message": "Відповісти на сторі групи",
+    "message": "Відповісти на історію групи",
     "description": "Button label to reply to a group story"
   },
   "StoryViewer__mute": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Зникне через $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5594,6 +5601,10 @@
     "message": "Ще немає відповідей",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Ще немає переглядів",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Перегляди",
     "description": "Title for views tab"
@@ -5603,23 +5614,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагувати на сторі",
+    "message": "Реагувати на історію",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Реагує на сторі",
+    "message": "Зреагував на історію",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Сторі",
+    "message": "Історія",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Показати сторіз",
+    "message": "Показати історії",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Сховати сторі",
+    "message": "Сховати історію",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5635,7 +5646,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Сховати сторі? Оновлення сторі від користувача $name$ більше не з'являтимуться нагорі списку сторіз.",
+    "message": "Сховати історію? Оновлення історій від $name$ більше не з'являтимуться нагорі списку історій.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5735,15 +5746,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Сторі",
+    "message": "Історія",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Реакція на сторі від $name$",
+    "message": "Реакція на історію від $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Реакція на сторі",
+    "message": "Реакції на історію",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Трохи виправлень помилок для того, щоб застосунок працював належним чином. Попереду більше цікавих змін!",
+    "message": "Трохи виправлень помилок для того, щоб застосунок працював належним чином. Попереду більше цікавих змін! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Невтомно працюємо, виправляючи помилки і додаючи інші поліпшення, аби ви користувалися застосунком із задоволенням.",
+    "message": "Невтомно працюємо, виправляючи помилки і додаючи інші поліпшення, аби ви користувалися застосунком із задоволенням. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

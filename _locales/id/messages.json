@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Pernyataan Resmi Perangkat Lunak",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "Kirim catatan",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Ketika menyertakan lampiran bukan gambar, batasnya adalah satu lampiran per pesan.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Anda tidak bisa menggabungkan lampiran gambar dan bukan gambar dalam satu pesan.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Anda tidak dapat memilih foto dan video disertai file.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1159,7 +1165,7 @@
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2": {
-    "message": "Ketuk pada $settings$, kemudian ketuk $linkedDevices$ ",
+    "message": "Ketuk pada $settings$, kemudian ketuk $linkedDevices$",
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2__settings": {
@@ -2623,8 +2629,8 @@
     "message": "Tutup Popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Tambahkan lampiran gambar",
+  "addImageOrVideoattachment": {
+    "message": "Tambahkan lampiran gambar atau video",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Hapus tanggapan"
+    "message": "Hapus tanggapan",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Gagal mengirim tanggapan. Silahkan coba lagi.",
@@ -2891,7 +2898,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Buka blokir $name$? ",
+    "message": "Buka blokir $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -3071,7 +3078,7 @@
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal terus berjalan di area notifikasi. Anda dapat mengubah ini di pengaturan Signal.",
+    "message": "Signal akan terus berjalan di area notifikasi. Anda dapat mengubahnya di pengaturan Signal.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3119,7 +3126,7 @@
     "description": "Text that appears in a group when a call is active"
   },
   "callNeedPermission": {
-    "message": "$title$ akan mendapatkan permintaan pesan dari Anda. Anda dapat memanggil saat permintaan pesan Anda telah diterima. ",
+    "message": "$title$ akan mendapatkan permintaan pesan dari Anda. Anda dapat memanggil saat permintaan pesan Anda telah diterima.",
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
@@ -3515,7 +3522,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--disabled--other": {
-    "message": "$adminName$ menonaktifkan persetujuan admin untuk tautan grup. ",
+    "message": "$adminName$ menonaktifkan persetujuan admin untuk tautan grup.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--disabled--unknown": {
@@ -3811,7 +3818,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-    "message": "Seorang admin membatalkan undangan masuk ke grup yang Anda kirimkan ke $count$ orang. ",
+    "message": "Seorang admin membatalkan undangan masuk ke grup yang Anda kirimkan ke $count$ orang.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-add-one--you": {
@@ -4498,21 +4505,21 @@
     "message": "Durasi dari lampiran audio",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ",5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klik $composeIcon$ di atas dan cari kontak atau grup Anda untuk mengirimkan pesan.",
@@ -5183,7 +5190,7 @@
     "description": "Label for the draw button in the media editor"
   },
   "MediaEditor__control--text": {
-    "message": "Tambah teks\n",
+    "message": "Tambah teks",
     "description": "Label for the text button in the media editor"
   },
   "MediaEditor__control--sticker": {
@@ -5594,6 +5601,10 @@
     "message": "Belum ada balasan",
     "description": "Placeholder text for when there are no replies"
   },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Belum ada penonton",
+    "description": "Placeholder text for when there are no views"
+  },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Dilihat",
     "description": "Title for views tab"
@@ -5687,7 +5698,7 @@
     "description": "Button label to apply the link preview to story"
   },
   "StoryCreator__input-placeholder": {
-    "message": "Tambah teks\n",
+    "message": "Tambah teks",
     "description": "Placeholder to add text"
   },
   "StoryCreator__text--regular": {
@@ -5727,7 +5738,7 @@
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
-    "message": "Tambah teks\n",
+    "message": "Tambah teks",
     "description": "Placeholder for the add text input"
   },
   "TextAttachment__preview__link": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Beberapa perbaikan bug untuk memastikan aplikasi berjalan lancar. Perubahan menarik lain akan segera diterapkan!",
+    "message": "Beberapa perbaikan bug untuk memastikan aplikasi berjalan lancar. Perubahan menarik lain akan segera diterapkan! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Kami berupaya memperbaiki bug dan memberikan peningkatan performa lain agar aplikasi bisa berjalan lancar untuk Anda.",
+    "message": "Kami berupaya memperbaiki bug dan memberikan peningkatan performa lain agar aplikasi bisa berjalan lancar untuk Anda. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

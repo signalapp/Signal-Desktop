@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Erkenningen bij deze software",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "Foutopsporingslog indienen",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Wanneer je een bijlage insluit die geen afbeelding is, is de limiet één bijlage per bericht.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Je kunt geen combinatie van afbeeldingen en niet-afbeeldingen insluiten als bijlagen van één bericht.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Je kunt geen foto's en video's samen met bestanden selecteren.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -911,7 +917,7 @@
     "description": "Shown if a general error happened while trying to install update package"
   },
   "cannotUpdateRequireManualDetail": {
-    "message": "Signal kan niet worden bijgewerkt. Bezoek $url$ om handmatig een nieuwere versie te installeren. Neem vervolgens over dit probleem $support$.  ",
+    "message": "Signal kan niet worden bijgewerkt. Bezoek $url$ om handmatig een nieuwere versie te installeren. Neem vervolgens over dit probleem $support$.",
     "description": "Shown if a general error happened while trying to install update package and manual update is required"
   },
   "readOnlyVolume": {
@@ -1095,7 +1101,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Een bericht, media, sticker, emoji-reactie, of een bevestiging dat een bericht gelezen is van $sender$ kan in dit gesprek niet aan jou worden afgeleverd. ",
+    "message": "Een bericht, media, sticker, emoji-reactie, of een bevestiging dat een bericht gelezen is van $sender$ kan in dit gesprek niet aan jou worden afgeleverd.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1924,7 +1930,7 @@
     "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "setGroupMetadata__title": {
-    "message": "Geef dit groepsgesprek een naam ",
+    "message": "Geef dit groepsgesprek een naam",
     "description": "The title for the 'set group metadata' left pane screen"
   },
   "setGroupMetadata__back-button": {
@@ -2623,8 +2629,8 @@
     "message": "Verschijning sluiten",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Afbeeldings-bijlage toevoegen",
+  "addImageOrVideoattachment": {
+    "message": "Afbeelding of video toevoegen",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Emoji verwijderen"
+    "message": "Emoji verwijderen",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "De emoji reactie verzenden is mislukt. Probeer het opnieuw.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal staat nog steeds aan",
+    "message": "Signal is nog steeds actief",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal ontvangt nog steeds meldingen op de achtergrond. Je kunt dit wijzigen in de instellingen.",
+    "message": "Signal blijft actief in het meldingencentrum. Je kunt dit wijzigen in de instellingen van Signal.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3331,7 +3338,7 @@
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--link-forbidden": {
-    "message": "Je kunt niet door middel van een groepslink lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd. ",
+    "message": "Je kunt niet door middel van een groepslink lid worden van deze groep omdat je door een beheerder uit deze groep bent verwijderd.",
     "description": "Shown if you click a group link and you have been forbidden from joining via the link"
   },
   "GroupV2--join--prompt-with-approval": {
@@ -4498,21 +4505,21 @@
     "message": "Afspeellengte van het audiobericht",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": "0,5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klik op de $composeIcon$ hierboven en zoek een contactpersoon of groep om een bericht naar te verzenden.",
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Nog geen reacties",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Nog door niemand gezien",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Aantal weergaven",

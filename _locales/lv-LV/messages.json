@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Programmatūras apliecinājumi",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "Ieniegt žurnālu",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Iekļaujot pielikumu, kas nav attēls, vienā ziņā drīkst būt tikai viens pielikums.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Vienā ziņā nedrīkst iekļaut pielikumu, kas nav attēls, un attēla pielikumu.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -907,7 +913,7 @@
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
-    "message": "Signal nevarēja atjaunināt. $retry$ vai apmeklējiet$url$, lai instalētu atjauninājumu manuāli. Pēc tam $support$ par šo problēmu ",
+    "message": "Signal nevarēja atjaunināt. $retry$ vai apmeklējiet$url$, lai instalētu atjauninājumu manuāli. Pēc tam $support$ par šo problēmu",
     "description": "Shown if a general error happened while trying to install update package"
   },
   "cannotUpdateRequireManualDetail": {
@@ -1362,7 +1368,7 @@
     "description": "Shown in the calling lobby to describe who will be rung"
   },
   "calling__pre-call-info--will-ring-2": {
-    "message": "Signal atskaņos zvana signālu $first$ un $second$ ",
+    "message": "Signal atskaņos zvana signālu $first$ un $second$",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-ring-3": {
@@ -1590,7 +1596,7 @@
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
-    "message": "$sender$ uz jūsu ziņu reaģēja ar $emoji$ "
+    "message": "$sender$ uz jūsu ziņu reaģēja ar $emoji$"
   },
   "notificationReactionMessage": {
     "message": "$sender$ reaģēja ar$emoji$: $message$"
@@ -2623,8 +2629,8 @@
     "message": "Aizvērt uznirstošo elementu",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Pievienot attēla pielikumu",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Noņemt reakciju"
+    "message": "Noņemt reakciju",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Neizdevās nosūtīt emociju izpausmi. Mēģiniet vēlreiz.",
@@ -2923,7 +2930,7 @@
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
-    "message": "Jūs turpmāk nesaņemsiet ziņas vai atjauninājumus no šīs grupas, un dalībnieki nevarēs jūs pievienot šai grupai atkal. ",
+    "message": "Jūs turpmāk nesaņemsiet ziņas vai atjauninājumus no šīs grupas, un dalībnieki nevarēs jūs pievienot šai grupai atkal.",
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--delete": {
@@ -2991,7 +2998,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups"
   },
   "member-of-3-groups": {
-    "message": "$group1$, $group2$ un $group3$ dalībnieks ",
+    "message": "$group1$, $group2$ un $group3$ dalībnieks",
     "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups"
   },
   "member-of-more-than-3-groups--one-more": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal joprojām darbojas",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal turpinās darboties paziņojumu zonā. Varat to mainīt Signal iestatījumos.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4498,21 +4505,21 @@
     "message": "Audio pielikuma atskaņošanas laiks",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Noklikšķiniet uz augstāk norādītās $composeIcon$ un meklējiet kontaktpersonas vai grupas, kurām sūtīt ziņas.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Pazudīs pēc",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Pazudīs pēc $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Vēl nav atbilžu",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Vēl nav skatījumu",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Skatījumi",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Vairāki kļūdu labojumi vienmērīgai lietotnes darbībai. Vairāk aizraujošu izmaiņu jau tuvākajā nākotnē!",
+    "message": "Vairāki kļūdu labojumi vienmērīgai lietotnes darbībai. Vairāk aizraujošu izmaiņu jau tuvākajā nākotnē! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
+    "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

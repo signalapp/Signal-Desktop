@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "ಸಾಫ್ಟ್‌ವೇರ್ ಸ್ವೀಕೃತಿಗಳು",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -392,7 +402,7 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "noLongerVerified": {
-    "message": "$name$ ಜೊತೆಗಿನ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯು ಬದಲಾಗಿದೆ ಮತ್ತು ಇದನ್ನು ಎಂದಿಗೂ ಪರಿಶೀಲಿಸಲ್ಪಟ್ಟಿಲ್ಲ. ತೋರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ. ",
+    "message": "$name$ ಜೊತೆಗಿನ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯು ಬದಲಾಗಿದೆ ಮತ್ತು ಇದನ್ನು ಎಂದಿಗೂ ಪರಿಶೀಲಿಸಲ್ಪಟ್ಟಿಲ್ಲ. ತೋರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
@@ -550,19 +560,15 @@
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
-    "message": " $name$, ಸಾಧನ $deviceId$ ದಿಂದ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿವರಣೆ ದೋಷಕ್ಕೆ ಒಳಗಾಗಿದೆ",
+    "message": "$name$, ಸಾಧನ $deviceId$ ದಿಂದ ಡೆಸ್ಕ್‌ಟಾಪ್ ವಿವರಣೆ ದೋಷಕ್ಕೆ ಒಳಗಾಗಿದೆ",
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
   },
   "decryptionErrorToastAction": {
     "message": "ಲಾಗ್ ಸಲ್ಲಿಸಿ",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ಚಿತ್ರವಲ್ಲದ ಲಗತ್ತನ್ನು ಸೇರಿಸುವಾಗ, ಮಿತಿಯು ಪ್ರತಿ ಸಂದೇಶಕ್ಕೆ ಒಂದು ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ ಆಗಿರುತ್ತದೆ.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "ಚಿತ್ರವಲ್ಲದ ಮತ್ತು ಚಿತ್ರದ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಒಂದು ಸಂದೇಶದಲ್ಲಿ ನೀವು ಮಿಶ್ರಗೊಳಿಸಲಾಗದು.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "ಫೈಲ್ ಗಳ ಜೊತೆಗೆ ಫೊಟೋ ಮತ್ತು ವಿಡಿಯೋಗಳನ್ನು ನೀವು ಆಯ್ಕೆ ಮಾಡಲಾಗುವುದಿಲ್ಲ.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -907,11 +913,11 @@
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
-    "message": "Signal ಅಪ್‌ಡೇಟ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಅದನ್ನು ಮ್ಯಾನುವಲ್ ಆಗಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು $retry$ ಅಥವಾ $url$ ಗೆ ಭೇಟಿ ನೀಡಿ. ಬಳಿಕ, ಈ ಸಮಸ್ಯೆಯ ಬಗ್ಗೆ $support$ ",
+    "message": "Signal ಅಪ್‌ಡೇಟ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಅದನ್ನು ಮ್ಯಾನುವಲ್ ಆಗಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು $retry$ ಅಥವಾ $url$ ಗೆ ಭೇಟಿ ನೀಡಿ. ಬಳಿಕ, ಈ ಸಮಸ್ಯೆಯ ಬಗ್ಗೆ $support$",
     "description": "Shown if a general error happened while trying to install update package"
   },
   "cannotUpdateRequireManualDetail": {
-    "message": "Signal ಅಪ್‌ಡೇಟ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಅದನ್ನು ಮ್ಯಾನುವಲ್ ಆಗಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು $url$ ಗೆ ಭೇಟಿ ನೀಡಿ. ಬಳಿಕ, ಈ ಸಮಸ್ಯೆಯ ಬಗ್ಗೆ $support$ ",
+    "message": "Signal ಅಪ್‌ಡೇಟ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಅದನ್ನು ಮ್ಯಾನುವಲ್ ಆಗಿ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲು $url$ ಗೆ ಭೇಟಿ ನೀಡಿ. ಬಳಿಕ, ಈ ಸಮಸ್ಯೆಯ ಬಗ್ಗೆ $support$",
     "description": "Shown if a general error happened while trying to install update package and manual update is required"
   },
   "readOnlyVolume": {
@@ -1298,7 +1304,7 @@
     "description": "Button tooltip label for turning on the microphone"
   },
   "calling__button--presenting__label": {
-    "message": "ಹಂಚಿಕೊಳ್ಳಿ ",
+    "message": "ಹಂಚಿಕೊಳ್ಳಿ",
     "description": "Label under the share screen button"
   },
   "calling__button--presenting-disabled": {
@@ -1756,7 +1762,7 @@
     "description": "Displayed in the conversation list when the timer is turned off"
   },
   "timerSetTo": {
-    "message": " $time$ ಗೆ ಟೈಮರ್ ನಿಗದಿಸಲಾಗಿದೆ",
+    "message": "$time$ ಗೆ ಟೈಮರ್ ನಿಗದಿಸಲಾಗಿದೆ",
     "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane"
   },
   "audioNotificationDescription": {
@@ -2003,7 +2009,7 @@
     "message": "ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲು Signal ರಿಸ್ಟಾರ್ಟ್‌ ಒತ್ತಿ"
   },
   "autoUpdateRestartButtonLabel": {
-    "message": " Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
+    "message": "Signal ಮರುಪ್ರಾರಂಭಿಸಿ"
   },
   "autoUpdateLaterButtonLabel": {
     "message": "ನಂತರ"
@@ -2016,7 +2022,7 @@
     "description": "Shown in the conversation history when a single person leaves the group"
   },
   "multipleLeftTheGroup": {
-    "message": "$name$ ಗ್ರೂಪ್ ತೊರೆದಿದ್ದಾರೆ. ",
+    "message": "$name$ ಗ್ರೂಪ್ ತೊರೆದಿದ್ದಾರೆ.",
     "description": "Shown in the conversation history when multiple people leave the group"
   },
   "updatedTheGroup": {
@@ -2623,8 +2629,8 @@
     "message": "ಪಾಪ್ಅಪ್‌ ಮುಚ್ಚಿ",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ಚಿತ್ರದ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಸೇರಿಸಿ",
+  "addImageOrVideoattachment": {
+    "message": "ಇಮೇಜ್ ಅಥವಾ ವಿಡಿಯೋ ಲಗತ್ತನ್ನು ಸೇರಿಸಿ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2712,7 +2718,7 @@
     "description": "Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
-    "message": "ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಪಾರದರ್ಶಕ ಹಿನ್ನೆಲೆ ಹೊಂದಿದ್ದು, PNG, APNG ಅಥವಾ WebP ಫಾರ್ಮ್ಯಾಟ್‌ನಲ್ಲಿರಬೇಕು ಮತ್ತು 512x512 ಪಿಕ್ಸೆಲ್‌ಗಳು ಇರಬೇಕು. ಶಿಫಾರಸು ಮಾಡಿದ ಮಾರ್ಜಿನ್ 16px ಆಗಿದೆ. ",
+    "message": "ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಪಾರದರ್ಶಕ ಹಿನ್ನೆಲೆ ಹೊಂದಿದ್ದು, PNG, APNG ಅಥವಾ WebP ಫಾರ್ಮ್ಯಾಟ್‌ನಲ್ಲಿರಬೇಕು ಮತ್ತು 512x512 ಪಿಕ್ಸೆಲ್‌ಗಳು ಇರಬೇಕು. ಶಿಫಾರಸು ಮಾಡಿದ ಮಾರ್ಜಿನ್ 16px ಆಗಿದೆ.",
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "ಪ್ರತಿಕ್ರಿಯೆ ತೆಗೆದುಹಾಕಿ"
+    "message": "ಪ್ರತಿಕ್ರಿಯೆ ತೆಗೆದುಹಾಕಿ",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.",
@@ -2891,7 +2898,7 @@
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": " $name$ ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
+    "message": "$name$ ಅನ್‌ಬ್ಲಾಕ್ ಮಾಡುವುದೇ?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -2999,7 +3006,7 @@
     "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups"
   },
   "member-of-more-than-3-groups--multiple-more": {
-    "message": " $group1$, $group2$, $group3$ ಮತ್ತು $remainingCount$ ಇನ್ನಷ್ಟು ಸದಸ್ಯರು",
+    "message": "$group1$, $group2$, $group3$ ಮತ್ತು $remainingCount$ ಇನ್ನಷ್ಟು ಸದಸ್ಯರು",
     "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups."
   },
   "ConversationHero--membership-added": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal ಈಗಲೂ ಚಾಲನೆಯಲ್ಲಿದೆ",
+    "message": "Signal ಇನ್ನೂ ಚಾಲನೆಯಲ್ಲಿದೆ",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "ಅಧಿಸೂಚನೆ ವ್ಯಾಪ್ತಿಯಲ್ಲಿ Signal ಚಾಲನೆಯಲ್ಲಿರುತ್ತದೆ. ನೀವು ಇದನ್ನು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು.",
+    "message": "ಅಧಿಸೂಚನೆ ಪ್ರದೇಶದಲ್ಲಿ Signal ಚಾಲನೆಯಲ್ಲಿ ಇರಲಿದೆ. Signal ಸೆಟ್ಟಿಂಗ್‌ ಗಳಲ್ಲಿ ಇದನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3831,7 +3838,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--you": {
-    "message": "$joinerName$ ಇಂದ ಗ್ರೂಪ್‌ಗೆ ಸೇರುವ ವಿನಂತಿಯನ್ನು ನೀವು ನಿರಾಕರಿಸಿದ್ದೀರಿ. ",
+    "message": "$joinerName$ ಇಂದ ಗ್ರೂಪ್‌ಗೆ ಸೇರುವ ವಿನಂತಿಯನ್ನು ನೀವು ನಿರಾಕರಿಸಿದ್ದೀರಿ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--admin-approval-remove-one--other--own": {
@@ -3927,7 +3934,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--admin--other": {
-    "message": " ಅಡ್ಮಿನ್‌ಗಳು ಮಾತ್ರ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಅನುಮತಿಸುವಂತೆ $memberName$ ಅವರು ಗ್ರೂಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿದ್ದಾರೆ.",
+    "message": "ಅಡ್ಮಿನ್‌ಗಳು ಮಾತ್ರ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಅನುಮತಿಸುವಂತೆ $memberName$ ಅವರು ಗ್ರೂಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿದ್ದಾರೆ.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--admin--unknown": {
@@ -3947,7 +3954,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV1--Migration--disabled": {
-    "message": " @ಮೆನ್ಷನ್‌ಗಳು ಮತ್ತು ಅಡ್ಮಿನ್‌ಗಳಂತಹ ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಈ ಗ್ರೂಪ್ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ. ಈ ಗ್ರೂಪ್‌ನಲ್ಲಿ ತಮ್ಮ ಹೆಸರು ಅಥವಾ ಫೋಟೋ ಹಂಚಿಕೊಂಡಿಲ್ಲದ ಸದಸ್ಯರನ್ನು ಸೇರಲು ಆಹ್ವಾನಿಸಲಾಗುತ್ತದೆ. $learnMore$",
+    "message": "@ಮೆನ್ಷನ್‌ಗಳು ಮತ್ತು ಅಡ್ಮಿನ್‌ಗಳಂತಹ ಹೊಸ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಈ ಗ್ರೂಪ್ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ. ಈ ಗ್ರೂಪ್‌ನಲ್ಲಿ ತಮ್ಮ ಹೆಸರು ಅಥವಾ ಫೋಟೋ ಹಂಚಿಕೊಂಡಿಲ್ಲದ ಸದಸ್ಯರನ್ನು ಸೇರಲು ಆಹ್ವಾನಿಸಲಾಗುತ್ತದೆ. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
@@ -3995,7 +4002,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
-    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ . ಆದ್ದರಿಂದ ಈ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆಯಲಾಗುವುದು ",
+    "message": "ಈ ಸದಸ್ಯರು ಹೊಸ ಗುಂಪುಗಳನ್ನು ಸೇರಲು ಅರ್ಹರಿಲ್ಲ . ಆದ್ದರಿಂದ ಈ ಗುಂಪಿನಿಂದ ಅವರನ್ನು ತೆಗೆಯಲಾಗುವುದು",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--one": {
@@ -4179,7 +4186,7 @@
     "description": "This is a button to display which members have been invited but have not joined yet"
   },
   "ConversationDetailsActions--leave-group": {
-    "message": "ಗುಂಪನ್ನು ತೊರೆಯಿರಿ ",
+    "message": "ಗುಂಪನ್ನು ತೊರೆಯಿರಿ",
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
@@ -4203,7 +4210,7 @@
     "description": "This is the modal content for confirming leaving a group"
   },
   "ConversationDetailsActions--leave-group-modal-confirm": {
-    "message": "ತೊರೆಯಿರಿ ",
+    "message": "ತೊರೆಯಿರಿ",
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
@@ -4307,7 +4314,7 @@
     "description": "This is the modal content when confirming approving a group request to join"
   },
   "PendingRequests--deny-for": {
-    "message": " \"$name$\" ಇಂದ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸುವುದೇ?",
+    "message": "\"$name$\" ಇಂದ ವಿನಂತಿಯನ್ನು ನಿರಾಕರಿಸುವುದೇ?",
     "description": "This is the modal content when confirming denying a group request to join"
   },
   "PendingRequests--deny-for--with-link": {
@@ -4498,21 +4505,21 @@
     "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್‌ಗೆ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯ",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "ಮೇಲಿರುವ $composeIcon$ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೆಸೇಜ್ ಮಾಡಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಹುಡುಕಿ.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "ಇಷ್ಟು ಹೊತ್ತಲ್ಲಿ ಮರೆಯಾಗುತ್ತದೆ:",
+    "message": "ಇಷ್ಟರಲ್ಲಿ ಕಣ್ಮರೆಯಾಗುತ್ತದೆ",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -4995,7 +5002,7 @@
     "description": "Clickable text describing administrators of a group, used in the message an admin label"
   },
   "AvatarEditor--choose": {
-    "message": "ಒಂದು ಅವತಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ\n",
+    "message": "ಒಂದು ಅವತಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
     "description": "Label for the avatar selector"
   },
   "AvatarColorPicker--choose": {
@@ -5571,7 +5578,7 @@
     "description": "When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
-    "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$ ",
+    "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$",
     "description": "Sent timestamp"
   },
   "StoryDetailsModal__file-size": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$ ನಲ್ಲಿ ಮರೆಯಾಗುತ್ತದೆ",
+    "message": "$countdown$ ರಲ್ಲಿ ಕಣ್ಮರೆಯಾಗುತ್ತದೆ",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "ಇನ್ನೂ ಯಾವುದೇ ಉತ್ತರಗಳಿಲ್ಲ",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "ಇನ್ನೂ ಯಾವುದೇ ವೀಕ್ಷಣೆಗಳಿಲ್ಲ",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ವೀಕ್ಷಣೆಗಳು",
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "ನಿಮ್ಮ‌ ಆ್ಯಪ್ ಅನ್ನು ಸರಾಗವಾಗಿರಿಸಲು ಬಗ್ ಫಿಕ್ಸಿಂಗ್ ಮತ್ತು ಇತರೆ ನಿರ್ವಹಣಾ ಸುಧಾರಣೆಗಳನ್ನು ಮಾಡುವ ಕೆಲಸದಲ್ಲಿ ನಿರತರಾಗಿದ್ದೇವೆ.",
+    "message": "ನಿಮ್ಮ‌ ಆ್ಯಪ್ ಅನ್ನು ಸರಾಗವಾಗಿರಿಸಲು ಬಗ್ ಫಿಕ್ಸಿಂಗ್ ಮತ್ತು ಇತರೆ ನಿರ್ವಹಣಾ ಸುಧಾರಣೆಗಳನ್ನು ಮಾಡುವ ಕೆಲಸದಲ್ಲಿ ನಿರತರಾಗಿದ್ದೇವೆ. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

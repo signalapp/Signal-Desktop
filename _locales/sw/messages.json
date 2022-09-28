@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Shukrani wa Wasadini Programu",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -100,7 +110,7 @@
     "description": "Edit menu command to insert text from clipboard at cursor location"
   },
   "editMenuPasteAndMatchStyle": {
-    "message": "Mtindo wa Bandika na Fananisha ",
+    "message": "Mtindo wa Bandika na Fananisha",
     "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
@@ -168,7 +178,7 @@
     "description": "Label for context button next to each message"
   },
   "contextMenuCopyLink": {
-    "message": "Nakili Kiungo ",
+    "message": "Nakili Kiungo",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
   },
   "contextMenuCopyImage": {
@@ -420,7 +430,7 @@
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
-    "message": "Nakili Kiungo ",
+    "message": "Nakili Kiungo",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogSave": {
@@ -557,12 +567,8 @@
     "message": "Wasilisha logi",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Wakati kiambatisho kisicho cha picha kinawekwa, kipimo ni kiambatisho kimoja kwa ujumbe mmoja.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Hauwezi kuchanganya viambatisho vya picha na visivyo na picha kwa ujumbe mmoja.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -620,7 +626,7 @@
     "description": "Item under the help menu, takes you to the contact us support page"
   },
   "goToReleaseNotes": {
-    "message": "Enda kwa Kutoa Vidokezo ",
+    "message": "Enda kwa Kutoa Vidokezo",
     "description": "Item under the help menu, takes you to GitHub page for release notes"
   },
   "goToForums": {
@@ -712,7 +718,7 @@
     "description": "Shown to separate the types of search results"
   },
   "findByUsernameHeader": {
-    "message": "Tafuta kwa jina la mtumiaji ",
+    "message": "Tafuta kwa jina la mtumiaji",
     "description": "Shown when search could be a valid username, with one sub-item that will kick off the search"
   },
   "findByPhoneNumberHeader": {
@@ -943,7 +949,7 @@
     "message": "Kubali"
   },
   "forward": {
-    "message": "Shiriki kwa "
+    "message": "Shiriki kwa"
   },
   "done": {
     "message": "Imekamilika",
@@ -1035,7 +1041,7 @@
     "description": "Shown on the drop-down menu for an individual message, but only if a previous delete for everyone failed to send"
   },
   "forwardMessage": {
-    "message": "Tuma ujumbe ",
+    "message": "Tuma ujumbe",
     "description": "Shown on the drop-down menu for an individual message, forwards a message"
   },
   "deleteMessage": {
@@ -1522,7 +1528,7 @@
     "description": "Description for the automatic launch setting"
   },
   "clearDataHeader": {
-    "message": "Futa data ",
+    "message": "Futa data",
     "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "clearDataExplanation": {
@@ -1972,7 +1978,7 @@
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
-    "message": "Bonyeza kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe. "
+    "message": "Bonyeza kuelekeza Signal Desktop kwenye kifaa chao chako cha mkononi ili kuendelea kutuma ujumbe."
   },
   "unlinked": {
     "message": "Havijaunganishwa"
@@ -1990,7 +1996,7 @@
     "message": "Wasiliana na msaada"
   },
   "autoUpdateNewVersionMessage": {
-    "message": "Bonyeza kuanza upya Signal "
+    "message": "Bonyeza kuanza upya Signal"
   },
   "downloadNewVersionMessage": {
     "message": "Bonyeza kupakua sasisho"
@@ -2623,8 +2629,8 @@
     "message": "Funga dukizo",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Ungeza kiambatisho cha taswira",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2708,7 +2714,7 @@
     "description": "Label for the X button used to remove a staged sticker"
   },
   "StickerCreator--DropStage--dragDrop": {
-    "message": "Bonyeza au vuruta/angusha faili ili kuongeza kibandiko ",
+    "message": "Bonyeza au vuruta/angusha faili ili kuongeza kibandiko",
     "description": "Shown on the + section of the file addition stage of sticker pack creation"
   },
   "StickerCreator--DropStage--help": {
@@ -2848,11 +2854,12 @@
     "description": "Text for the sticker preview for the dark theme"
   },
   "StickerCreator--Authentication--error": {
-    "message": "Tafadhali weka Signal kwenye simu yako na dawati ili utumie Kiumbaji cha Pakiti ya Vibandiko ya Signal ",
+    "message": "Tafadhali weka Signal kwenye simu yako na dawati ili utumie Kiumbaji cha Pakiti ya Vibandiko ya Signal",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Ondoa reaction"
+    "message": "Ondoa reaction",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Imeshindwa kutuma majibu. Tafadhali jaribu tena.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal inaendelea kufanya kazi",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal itaendelea kufanya kazi kwenye eneo la arifa. Unaweza kubadili hili kwenye mipangilio ya Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3251,7 +3258,7 @@
     "description": "Label for muting the conversation"
   },
   "unmute": {
-    "message": "Washa ",
+    "message": "Washa",
     "description": "Label for unmuting the conversation"
   },
   "muteExpirationLabelAlways": {
@@ -4223,7 +4230,7 @@
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
-    "message": "Wawasiliani wako wataweza kukuongeza kwenye kikundi hiki. ",
+    "message": "Wawasiliani wako wataweza kukuongeza kwenye kikundi hiki.",
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
@@ -4498,21 +4505,21 @@
     "message": "Muda wa kucheza wa kiambatisho cha sauti",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Bonyeza $composeIcon$ hapa juu na uwatafute waasiliani zako au vikundi vya kutumia ujumbe.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Itatoweka ndani ya",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -4971,7 +4978,7 @@
     "description": "Title for about editing"
   },
   "ProfileEditorModal--avatar": {
-    "message": "Avatar yako ",
+    "message": "Avatar yako",
     "description": "Title for profile avatar editing"
   },
   "ProfileEditorModal--username": {
@@ -5123,7 +5130,7 @@
     "description": "Label for checkbox for the notifications setting"
   },
   "Preferences__devices": {
-    "message": "Vifaa ",
+    "message": "Vifaa",
     "description": "Label for Device list in call settings pane"
   },
   "DialogUpdate--version-available": {
@@ -5259,7 +5266,7 @@
     "description": "Lock the aspect ratio"
   },
   "MediaEditor__crop--crop": {
-    "message": "Kata ",
+    "message": "Kata",
     "description": "Performs the crop"
   },
   "MyStories__title": {
@@ -5279,7 +5286,7 @@
     "description": "aria-label for the more button"
   },
   "MyStories__views--singular": {
-    "message": "Mtazamo $num$ ",
+    "message": "Mtazamo $num$",
     "description": "Number of views your story has"
   },
   "MyStories__views--plural": {
@@ -5359,7 +5366,7 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Tuma jibu .. ",
+    "message": "Tuma jibu ..",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
@@ -5379,7 +5386,7 @@
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
-    "message": "mtazamaji $num$ ",
+    "message": "mtazamaji $num$",
     "description": "A single viewer"
   },
   "StoriesSettings__viewers--plural": {
@@ -5439,7 +5446,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Ficha stori kutoka kwa ",
+    "message": "Ficha stori kutoka kwa",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5487,7 +5494,7 @@
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
-    "message": "Tuma kwa ",
+    "message": "Tuma kwa",
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
@@ -5495,7 +5502,7 @@
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "Stori mpya ",
+    "message": "Stori mpya",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
@@ -5507,7 +5514,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Stori mpya ya kikundi ",
+    "message": "Stori mpya ya kikundi",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5563,7 +5570,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Washa ",
+    "message": "Washa",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Itatoweka ndani ya $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Hakuna majibu bado",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Hakuna watazamaji bado",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Mitazamo",
@@ -5635,7 +5646,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Ficha Stori? Stori mpya kutoka kwa $name$ hazitaonekana tena kwenye orodha ya juu ya stori. ",
+    "message": "Ficha Stori? Stori mpya kutoka kwa $name$ hazitaonekana tena kwenye orodha ya juu ya stori.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5663,7 +5674,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__text-bg--background": {
-    "message": "Maandishi yana background ya rangi nyeupe. ",
+    "message": "Maandishi yana background ya rangi nyeupe.",
     "description": "Button label"
   },
   "StoryCreator__text-bg--inverse": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Marekebisho kadhaa ya bugs kuifanya programu yako iendeshwe vizuri. Mabadiliko mazuri zaida yanatarajiwa!",
+    "message": "Marekebisho kadhaa ya bugs kuifanya programu yako iendeshwe vizuri. Mabadiliko mazuri zaida yanatarajiwa! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Tunafanya kazi kwa bidii kurekebisha hitilafu na maboresho mengine ya kiutendaji ili kuifanya programu iwe vizuri kwa ajili yako.",
+    "message": "Tunafanya kazi kwa bidii kurekebisha hitilafu na maboresho mengine ya kiutendaji ili kuifanya programu iwe vizuri kwa ajili yako. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

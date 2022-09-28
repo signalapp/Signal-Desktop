@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Agradecimientos del software usado",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -412,7 +422,7 @@
     "description": "Title of the success page for submitting a debug log"
   },
   "debugLogSuccessNextSteps": {
-    "message": "Registro de depuración transferido. Cuando contactes con el soporte, copia la URL debajo y adjúntala con una descripción del problema que has tenido y los pasos para reproducirlo. ",
+    "message": "Registro de depuración transferido. Cuando contactes con el soporte, copia la URL debajo y adjúntala con una descripción del problema que has tenido y los pasos para reproducirlo.",
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
@@ -546,7 +556,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "Desktop ha encontrado una inconsistencia del Servicio de descubrimiento de contactos.",
+    "message": "El Escritorio ha encontrado una inconsistencia del Servicio de descubrimiento de contactos.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
@@ -557,12 +567,8 @@
     "message": "Enviar el registro de depuración",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Al incluir un archivo que no sea una imagen, el límite es un adjunto por mensaje.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "No se pueden combinar archivos adjuntos de otro tipo junto a imágenes.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -823,7 +829,7 @@
     "description": "Tooltip for red button to cancel voice message"
   },
   "voiceRecordingInterruptedMax": {
-    "message": "La grabación de la nota de voz se ha detenido al alcanzar el tiempo máximo permitido. ",
+    "message": "La grabación de la nota de voz se ha detenido al alcanzar el tiempo máximo permitido.",
     "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
   },
   "voiceRecordingInterruptedBlur": {
@@ -839,7 +845,7 @@
     "description": "Shown in toast if tries to record a voice note with any staged attachments"
   },
   "voiceNoteError": {
-    "message": "Ha ocurrido un fallo al grabar la nota de voz. ",
+    "message": "Ha ocurrido un fallo al grabar la nota de voz.",
     "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
   },
   "attachmentSaved": {
@@ -968,7 +974,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "Este mensaje se eliminará para tod@s en el chat, si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado. ",
+    "message": "Este mensaje se eliminará para tod@s en el chat, si usan una versión reciente de Signal. En el chat se mostrará que lo has eliminado.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "from": {
@@ -1550,7 +1556,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "deleteOldIndexedDBData": {
-    "message": "Hemos encontrado datos antiguos de una versión obsoleta de Signal Desktop. Si decides continuar, se eliminarán esos datos y tu nueva instalación de Signal no los mostrará. ",
+    "message": "Hemos encontrado datos antiguos de una versión obsoleta de Signal Desktop. Si decides continuar, se eliminarán esos datos y tu nueva instalación de Signal no los mostrará.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "deleteOldData": {
@@ -1652,7 +1658,7 @@
     "description": "Explanatory text for sync settings"
   },
   "lastSynced": {
-    "message": "Última actualización:  ",
+    "message": "Última actualización:",
     "description": "Label for date and time of last sync operation"
   },
   "syncNow": {
@@ -2052,7 +2058,7 @@
     "description": "Aria label for the conversation list item"
   },
   "ConversationList__last-message-undefined": {
-    "message": "Probablemente se ha eliminado el último mensaje. ",
+    "message": "Probablemente se ha eliminado el último mensaje.",
     "description": "For aria-label within conversation list. Describes if last message is not defined."
   },
   "BaseConversationListItem__aria-label": {
@@ -2204,7 +2210,7 @@
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
-    "message": "No hay ningún paquete de stickers instalado ",
+    "message": "No hay ningún paquete de stickers instalado",
     "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
   },
   "stickers--StickerManager--BlessedPacks": {
@@ -2280,7 +2286,7 @@
     "description": "Shown in the sticker picker when there are no stickers to show."
   },
   "stickers--StickerPicker--Hint": {
-    "message": "Hay paquetes de stickers disponibles en tus mensajes listos para instalar ",
+    "message": "Hay paquetes de stickers disponibles en tus mensajes listos para instalar",
     "description": "Shown in the sticker picker the first time you have received new packs you can install."
   },
   "stickers--StickerPicker--NoPacks": {
@@ -2488,7 +2494,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--toggle-reaction-picker": {
-    "message": "Muestra la paleta de reacciones para el mensaje seleccionado ",
+    "message": "Muestra la paleta de reacciones para el mensaje seleccionado",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--save-attachment": {
@@ -2623,8 +2629,8 @@
     "message": "Cerrar ventana emergente",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Adjuntar imagen",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2796,7 +2802,7 @@
     "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
   },
   "StickerCreator--ShareStage--socialMessage": {
-    "message": "Mira este paquete de stickers que he creado en Signal. #makeprivacystick ",
+    "message": "Mira este paquete de stickers que he creado en Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
   "StickerCreator--Toasts--imagesAdded": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Eliminar reacción"
+    "message": "Eliminar reacción",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Fallo al enviar la reacción. Inténtalo de nuevo.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal aún está en funcionamiento",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal seguirá funcionando mandando notificaciones. Puedes cambiar esto en los ajustes de Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3375,7 +3382,7 @@
     "description": "A holder for two pieces of information - the type of conversation, and the member count"
   },
   "GroupV2--join--requested": {
-    "message": "Se ha enviado tu solicitud para unirte al grupo a l@s admins. Te llegará una notificación con su respuesta. ",
+    "message": "Se ha enviado tu solicitud para unirte al grupo a l@s admins. Te llegará una notificación con su respuesta.",
     "description": "Shown in composition area when you've requested to join a group"
   },
   "GroupV2--join--general-join-failure--title": {
@@ -3439,7 +3446,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--other": {
-    "message": "$memberName$ ha modificado la imagen del grupo. ",
+    "message": "$memberName$ ha modificado la imagen del grupo.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--avatar--change--you": {
@@ -3803,7 +3810,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-    "message": "$adminName$ ha retirado las invitaciones al grupo que has enviadas a $count$ personas. ",
+    "message": "$adminName$ ha retirado las invitaciones al grupo que has enviadas a $count$ personas.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
@@ -4443,7 +4450,7 @@
     "description": "When adding new members to an existing group, this is shown in the dialog"
   },
   "AddGroupMembersModal--confirm-title--one": {
-    "message": "¿Añadir a $person$ a «$group$»? ",
+    "message": "¿Añadir a $person$ a «$group$»?",
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-title--many": {
@@ -4498,21 +4505,21 @@
     "message": "Tiempo de reproducción de la nota de voz",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0,5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Haz clic sobre el $composeIcon$ arriba para buscar con quién o con qué grupo chatear.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Desaparece en",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Desaparece en $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Sin respuestas por ahora",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Sin vistas por ahora",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Vistas",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Varios errores solucionados para mantener tu app funcionando sin problema. ¡Se vienen más cambios emocionantes!",
+    "message": "Varios errores solucionados para mantener tu app funcionando sin problema. ¡Se vienen más cambios emocionantes! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Trabajando duro para solucionar errores y hacer otras mejoras al desempeño para que la app te funcione sin problema.",
+    "message": "Trabajando duro para solucionar errores y hacer otras mejoras al desempeño para que la app te funcione sin problema. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "সফ্টওয়্যার প্রাপ্তিস্বীকার",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "লগ জমা দিন",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "ছবি ছাড়া অন্যান্য সংযুক্তি অন্তর্ভুক্ত করার সময়, প্রতি বার্তায় একটি মাত্র সংযুক্তি যোগ করতে পারবেন।",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "আপনি একই মেসেজের মধ্যে ছবি নেই এমন এবং ছবি রয়েছে এমন সংযুক্তি মেশাতে পারবেন না।",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1123,7 +1129,7 @@
     "description": "Used for the icon layered on top of an image in message bubbles"
   },
   "save": {
-    "message": "সংরক্ষন",
+    "message": "সংরক্ষণ",
     "description": "Used on save buttons"
   },
   "reset": {
@@ -1586,7 +1592,7 @@
     "description": "Displayed in notifications for only 1 message"
   },
   "notificationSenderInGroup": {
-    "message": " $group$-এ $sender$",
+    "message": "$group$-এ $sender$",
     "description": "Displayed in notifications for messages in a group"
   },
   "notificationReaction": {
@@ -2192,7 +2198,7 @@
     "description": "The title of the outgoing gift badge detail dialog"
   },
   "modal--giftBadge--description": {
-    "message": "আপনি $name$-কে একটি ব্যাজ উপহার দিয়েছেন। তিনি এটি গ্রহণ করলে, ব্যাজটি দেখানো বা লুকিয়ে রাখার জন্য তাদেরকে একটি অপশন দেওয়া হবে। ",
+    "message": "আপনি $name$-কে একটি ব্যাজ উপহার দিয়েছেন। তিনি এটি গ্রহণ করলে, ব্যাজটি দেখানো বা লুকিয়ে রাখার জন্য তাদেরকে একটি অপশন দেওয়া হবে।",
     "description": "The description of the outgoing gift badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
@@ -2623,8 +2629,8 @@
     "message": "পপ-আপ বন্ধ করুন",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "ছবি সংযুক্তি যোগ করুন",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "প্রতিক্রিয়া সরান"
+    "message": "প্রতিক্রিয়া সরান",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "প্রতিক্রিয়া পাঠাতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
@@ -2907,7 +2914,7 @@
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "স্প্যাম হিসেবে রিপোর্ট এবং ব্লক করা হয়েছে। ",
+    "message": "স্প্যাম হিসেবে রিপোর্ট এবং ব্লক করা হয়েছে।",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal এখনো চালু আছে",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "নোটিফিকেশনের অঞ্চলে Signal চালু থাকবে। আপনি Signal সেটিংস থেকে এটি পরিবর্তন করতে পারবেন।",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3531,7 +3538,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--access-invite-link--enabled--unknown": {
-    "message": " গ্রুপ লিংকের জন্য অ্যাডমিনের অনুমোদন সক্রিয় করা হয়েছে।",
+    "message": "গ্রুপ লিংকের জন্য অ্যাডমিনের অনুমোদন সক্রিয় করা হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--you": {
@@ -3867,7 +3874,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--enabled--other": {
-    "message": " $adminName$ অ্যাডমিনের অনুমোদন সক্রিয় থাকা অবস্থায় গ্রুপ লিংক চালু করেছেন।",
+    "message": "$adminName$ অ্যাডমিনের অনুমোদন সক্রিয় থাকা অবস্থায় গ্রুপ লিংক চালু করেছেন।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--group-link-add--enabled--unknown": {
@@ -3907,7 +3914,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--remove--unknown": {
-    "message": " গ্রুপের বিবরণ সরানো হয়েছে।",
+    "message": "গ্রুপের বিবরণ সরানো হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--you": {
@@ -3919,7 +3926,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--description--change--unknown": {
-    "message": " গ্রুপের বিবরণটি পরিবর্তন করা হয়েছে।",
+    "message": "গ্রুপের বিবরণটি পরিবর্তন করা হয়েছে।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--announcements--admin--you": {
@@ -4498,21 +4505,21 @@
     "message": "অডিও সংযুক্তিটির বাজানোর সময়",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "১",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "২",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "উপরের $composeIcon$-এ ক্লিক করুন এবং মেসেজ পাঠানোর জন্য আপনার কন্ট্যাক্ট বা গ্রুপ খুঁজুন।",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "অদৃশ্য হবে",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "$countdown$-এর মধ্যে অদৃশ্য হবে",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "এখন পর্যন্ত কোন রিপ্লাই নেই",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "এখন পর্যন্ত কোন ভিউ নেই",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "ভিউ",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "আপনার অ্যাপটি নিরবিচ্ছিন্নভাবে সচল রাখতে কয়েকটি বাগ সংশোধন করা হয়েছে৷ সামনে আরো দারুণ সব পরিবর্তন আসছে!",
+    "message": "আপনার অ্যাপটি নিরবিচ্ছিন্নভাবে সচল রাখতে কয়েকটি বাগ সংশোধন করা হয়েছে৷ সামনে আরো দারুণ সব পরিবর্তন আসছে! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "আপনার জন্য অ্যাপটি নিরবিচ্ছিন্নভাবে সচল রাখতে বাগ সংশোধন এবং অন্যান্য পারফর্মেন্স উন্নত করতে কঠোর পরিশ্রম করা হয়েছে৷",
+    "message": "আপনার জন্য অ্যাপটি নিরবিচ্ছিন্নভাবে সচল রাখতে বাগ সংশোধন এবং অন্যান্য পারফর্মেন্স উন্নত করতে কঠোর পরিশ্রম করা হয়েছে৷ ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

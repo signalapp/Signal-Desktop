@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Sagteware-erkennings",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -392,7 +402,7 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "noLongerVerified": {
-    "message": "Jou veiligheidsnommer met $name$ het verander en is nie meer geverifieer nie. Klik om te wys.",
+    "message": "Jou veiligheidsnommer met $name$ het verander en is nie meer geverifieer nie. Klik om to wys.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
@@ -557,12 +567,8 @@
     "message": "Dien log in",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Wanneer jy 'n nie-beeld-aanhegsel insluit, is jy tot een aanhegsel per boodskap beperk.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Jy kan nie beeld- en nie-beeld-aanhangsels in een boodskap saamvoeg nie.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -867,7 +873,7 @@
     "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
   },
   "videoCallingPermissionNeeded": {
-    "message": "Om video-oproepe te maak, moet jy vir Signal Desktop toegang tot jou kamera gee.",
+    "message": "Om video-oproepe te maak, moet jy vir Signal Desktop toegang tot jou mikrofoon gee.",
     "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
   },
   "allowAccess": {
@@ -1402,7 +1408,7 @@
     "description": "Shown in the participants list to describe how many people are in the call"
   },
   "calling__you-have-blocked": {
-    "message": "Jy het $name$ versper",
+    "message": "Jy het $name$ geblokkeer",
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
@@ -1708,11 +1714,11 @@
     "description": "Shown if the user tries to send more than 64kb of text"
   },
   "unblockToSend": {
-    "message": "Ontsper hierdie kontak om 'n boodskap te stuur.",
+    "message": "Deblokkeer hierdie kontak om 'n boodskap te stuur.",
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message": "Ontsper hierdie groep om 'n boodskap te stuur.",
+    "message": "Deblokkeer hierdie groep om 'n boodskap te stuur.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
@@ -2356,7 +2362,7 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "Message--unsupported-message": {
-    "message": "$contact$ het vir jou 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit gebruik maak van 'n nuwe Signal-funksie."
+    "message": "$contact$ het vir jou 'n boodskap gestuur wat nie verwerk of vertoon kan word nie, omdat dit 'n gebruik maak van 'n nuwe Signal-funksie."
   },
   "Message--unsupported-message-ask-to-resend": {
     "message": "Jy kan $contact$ vra om hierdie boodskap weer te stuur nou dat jy 'n bygewerkte weergawe van Signal gebruik."
@@ -2623,8 +2629,8 @@
     "message": "Maak opspring-item toe",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Voeg beeld-aanhegsel by",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Verwyder reaksie"
+    "message": "Verwyder reaksie",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Kon nie reaksie stuur nie. Probeer asseblief weer.",
@@ -2871,7 +2878,7 @@
     "description": "Shown as the message for a message request in a direct message"
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy hulle ontsper, sal jy geen boodskappe ontvang nie.",
+    "message": "Laat $name$ toe om vir jou boodskappe te stuur, en deel jou naam en foto met hulle? Tot jy hulle ontblokkeer, sal jy geen boodskappe ontvang nie.",
     "description": "Shown as the message for a message request in a direct message with a blocked account"
   },
   "MessageRequests--message-group": {
@@ -2879,19 +2886,19 @@
     "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Deblokkeer hierdie groep en deel jou naam en foto met die lede? Tot jy hulle ontsper, sal jy geen boodskappe ontvang nie.",
+    "message": "Deblokkeer hierdie groep en deel jou naam en foto met die lede? Tot jy hulle ontblokkeer, sal jy geen boodskappe ontvang nie.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {
-    "message": "Versper",
+    "message": "Blokkeer",
     "description": "Shown as a button to let the user block a message request"
   },
   "MessageRequests--unblock": {
-    "message": "Ontsper",
+    "message": "Ontblokkeer",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-title": {
-    "message": "Ontsper $name$?",
+    "message": "Ontblokkeer $name$?",
     "description": "Shown as a button to let the user unblock a message request"
   },
   "MessageRequests--unblock-direct-confirm-body": {
@@ -2903,23 +2910,23 @@
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
-    "message": "Rapporteer gemorspos en versper",
+    "message": "Rapporteer gemorspos en blokkeer",
     "description": "Shown as a button to let the user block a message request and report spam"
   },
   "MessageRequests--block-and-report-spam-success-toast": {
-    "message": "Rapporteer as gemorspos en versper.",
+    "message": "Rapporteer as gemorspos en blokkeer.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
   },
   "MessageRequests--block-direct-confirm-title": {
-    "message": "Versper $name$?",
+    "message": "Blokkeer $name$?",
     "description": "Shown as the title in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Versperde mense kan nie bel of vir jou boodskappe stuur nie.",
+    "message": "Geblokkeerde mense kan nie bel of vir jou boodskappe stuur nie.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
-    "message": "Versper en verlaat $group$?",
+    "message": "Blokkeer en verlaat $group$?",
     "description": "Shown as the title in the confirmation modal for blocking a group message request"
   },
   "MessageRequests--block-group-confirm-body": {
@@ -3011,7 +3018,7 @@
     "description": "Shown to indicate this user is not a member of any groups"
   },
   "no-groups-in-common-warning": {
-    "message": "Geen groepe in gemeen nie. Gaan versoeke noukeurig na.",
+    "message": "Geen groepe in gemeen nie. Gaan versoeke noukeuring na.",
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is steeds oop",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal sal steeds in die kennisgewingafdeling oop wees. Jy kan dit in Signal-instellings verander.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3951,7 +3958,7 @@
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
   },
   "GroupV1--Migration--was-upgraded": {
-    "message": "Hierdie groep is na ’n Nuwe Groep opgegradeer.",
+    "message": "Hierdie groep is na ’n nuwe groep opgegradeer.",
     "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
   },
   "GroupV1--Migration--learn-more": {
@@ -3971,7 +3978,7 @@
     "description": "Shown on Migration popup after choosing to migrate group"
   },
   "GroupV1--Migration--info--summary": {
-    "message": "Nuwe Groepe het funksies soos @vermeldings en groepadmin, en sal in die toekoms nog funksies ondersteun.",
+    "message": "Nuwe groepe het funksies soos @vermeldings en groepadmin, en sal in die toekoms nog funksies ondersteun.",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--keep-history": {
@@ -4183,11 +4190,11 @@
     "description": "This is a button to leave a group"
   },
   "ConversationDetailsActions--block-group": {
-    "message": "Versper groep",
+    "message": "Blokkeer groep",
     "description": "This is a button to block a group"
   },
   "ConversationDetailsActions--unblock-group": {
-    "message": "Versperde groep",
+    "message": "Ontblokkeer groep",
     "description": "This is a button to unblock a group"
   },
   "ConversationDetailsActions--leave-group-must-choose-new-admin": {
@@ -4207,11 +4214,11 @@
     "description": "This is the modal button to confirm leaving a group"
   },
   "ConversationDetailsActions--unblock-group-modal-title": {
-    "message": "Ontsper die \"$groupName$\"-groep?",
+    "message": "Ontblokkeer die \"$groupName$\"-groep?",
     "description": "This is the modal title for confirming unblock of a group"
   },
   "ConversationDetailsActions--block-group-modal-title": {
-    "message": "Versper en verlaat die “$groupName$”-groep?",
+    "message": "Blokkeer en verlaat die “$groupName$”-groep?",
     "description": "This is the modal title for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-content": {
@@ -4219,7 +4226,7 @@
     "description": "This is the modal content for confirming blocking a group"
   },
   "ConversationDetailsActions--block-group-modal-confirm": {
-    "message": "Versper",
+    "message": "Blokkeer",
     "description": "This is the modal button to confirm blocking a group"
   },
   "ConversationDetailsActions--unblock-group-modal-content": {
@@ -4227,7 +4234,7 @@
     "description": "This is the modal content for confirming unblock of a group"
   },
   "ConversationDetailsActions--unblock-group-modal-confirm": {
-    "message": "Ontsper",
+    "message": "Ontblokkeer",
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
@@ -4367,19 +4374,19 @@
     "description": "Information shown below the invite list"
   },
   "PendingRequests--block--button": {
-    "message": "Versper versoek",
+    "message": "Blokkeer versoek",
     "description": "Shown in timeline if users cancel their request to join a group via a group link"
   },
   "PendingRequests--block--title": {
-    "message": "Versper versoek?",
+    "message": "Blokkeer versoek?",
     "description": "Title of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--contents": {
-    "message": "$name$ sal nie d.m.v. die groepskakel by hierdie groep kan aansluit of versoek om aan te sluit nie. Hulle kan steeds met die hand by die groep gevoeg word.",
+    "message": "$name$ sal nie d.m.v. die groepskakel by hierdie groep kan aansluit of versoek om aan te sluit nie. Hulle kan steeds met die hand by die groep bygevoeg word.",
     "description": "Details of dialog to block a user from requesting to join via the link again"
   },
   "PendingRequests--block--confirm": {
-    "message": "Versper versoek",
+    "message": "Blokkeer versoek",
     "description": "Confirmation button of dialog to block a user from requesting to join via the link again"
   },
   "AvatarInput--no-photo-label--group": {
@@ -4498,21 +4505,21 @@
     "message": "Afspeeltyd van oudio-aanhegsel",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klik die $composeIcon$ hier bo en soek na kontakte of groepe om ’n boodskap te stuur.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Verdwyn oor",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -4979,7 +4986,7 @@
     "description": "Title for username editing"
   },
   "ProfileEditorModal--error": {
-    "message": "Jou profiel kan nie bygewerk word nie. Probeer asb. weer.",
+    "message": "U profiel kan nie bygewerk word nie. Probeer asb. weer.",
     "description": "Error message when something goes wrong updating your profile."
   },
   "AnnouncementsOnlyGroupBanner--modal": {
@@ -5059,7 +5066,7 @@
     "description": "Label for the notification content setting select box"
   },
   "Preferences--blocked": {
-    "message": "Versper",
+    "message": "Geblokkeer",
     "description": "Label for blocked contacts setting"
   },
   "Preferences--blocked-count-singular": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Verdwyn oor $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Nog geen antwoorde nie",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Nog geen kykslae nie",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Kykslae",
@@ -5635,7 +5646,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Versteek storie? Nuwe storiebywerkings van $name$ sal nie meer boaan die storielys verskyn nie. ",
+    "message": "Versteek storie? Nuwe storiebywerkings van $name$ sal nie meer boaan die storielys verskyn nie.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5687,7 +5698,7 @@
     "description": "Button label to apply the link preview to story"
   },
   "StoryCreator__input-placeholder": {
-    "message": "Voeg teks by",
+    "message": "Voeg teks toe",
     "description": "Placeholder to add text"
   },
   "StoryCreator__text--regular": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "'n Handvol foutregstellings om jou toepassing glad te laat werk. Nog meer opwindende veranderings is op die horison!",
+    "message": "'n Handvol foutregstellings om jou toepassing glad te laat werk. Nog meer opwindende veranderings is op die horison! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Hard aan die werk om foute reg te stel en ander prestasieverbeterings aan te bring om die toepassing vir jou glad te laat werk.",
+    "message": "Hard aan die werk om foute reg te stel en ander prestasieverbeterings aan te bring om die toepassing vir jou glad te laat werk. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Признанија за софтверот",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -288,7 +298,7 @@
     "description": "Button shown if the user runs into an error during import, allowing them to start over"
   },
   "importCompleteHeader": {
-    "message": "Успех! ",
+    "message": "Успех!",
     "description": "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
@@ -360,7 +370,7 @@
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "membersNeedingVerification": {
-    "message": "Вашите сигурносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите Вашиот сигурносен број со нив. ",
+    "message": "Вашите сигурносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите Вашиот сигурносен број со нив.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedRightAfterVerify": {
@@ -412,7 +422,7 @@
     "description": "Title of the success page for submitting a debug log"
   },
   "debugLogSuccessNextSteps": {
-    "message": "Записот за дебагирање е префрлен. Кога ќе го контактирате тимот за поддршка, копирајте ја URL-адресата подолу и прикачете ја заедно со опис на проблемот кој го видовте и чекори за повторување на проблемот. ",
+    "message": "Записот за дебагирање е префрлен. Кога ќе го контактирате тимот за поддршка, копирајте ја URL-адресата подолу и прикачете ја заедно со опис на проблемот кој го видовте и чекори за повторување на проблемот.",
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
@@ -443,7 +453,7 @@
     "message": "Испрати"
   },
   "acceptNewKey": {
-    "message": "Прифати ",
+    "message": "Прифати",
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
@@ -522,7 +532,7 @@
     "description": "Hover text for attachment filenames"
   },
   "voiceMessage": {
-    "message": "Гласовна порака ",
+    "message": "Гласовна порака",
     "description": "Name for a voice message attachment"
   },
   "dangerousFileType": {
@@ -557,12 +567,8 @@
     "message": "Испрати запис",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Кога вклучувате прилог што не е слика, ограничувањето е еден прилог по порака.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Не можете да мешате слики и други прилози во една порака.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "Не можете да изберете слики и видеа заедно со датотеки.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -580,7 +586,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Поврзување... ",
+    "message": "Поврзување...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -592,7 +598,7 @@
     "description": "Subtext description for when the client is connecting to the server."
   },
   "offline": {
-    "message": "Неприклучен ",
+    "message": "Неприклучен",
     "description": "Displayed when the desktop client has no network connection."
   },
   "checkNetworkConnection": {
@@ -727,7 +733,7 @@
     "message": "Добредојдовте во Signal"
   },
   "whatsNew": {
-    "message": "Видете $whatsNew$во оваа верзија ",
+    "message": "Видете $whatsNew$во оваа верзија",
     "description": "Shown in the main window"
   },
   "viewReleaseNotes": {
@@ -940,7 +946,7 @@
     "message": "Избриши"
   },
   "accept": {
-    "message": "Прифати "
+    "message": "Прифати"
   },
   "forward": {
     "message": "Препрати"
@@ -1227,7 +1233,7 @@
     "message": "Се појави неочекувана грешка. Ве молиме обидете се повторно."
   },
   "installTryAgain": {
-    "message": "Обиди се повторно "
+    "message": "Обиди се повторно"
   },
   "Preferences--theme": {
     "message": "Тема",
@@ -1386,7 +1392,7 @@
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__pre-call-info--will-notify-many": {
-    "message": "Ќе се известат $first$, $second$ и $others$други ",
+    "message": "Ќе се известат $first$, $second$ и $others$други",
     "description": "Shown in the calling lobby to describe who will be notified"
   },
   "calling__in-this-call--zero": {
@@ -1558,7 +1564,7 @@
     "description": "Button to make the delete happen"
   },
   "notifications": {
-    "message": "Известувања ",
+    "message": "Известувања",
     "description": "Header for notification settings"
   },
   "notificationSettingsDialog": {
@@ -1566,7 +1572,7 @@
     "description": "Explain the purpose of the notification settings"
   },
   "disableNotifications": {
-    "message": "Исклучи известувања ",
+    "message": "Исклучи известувања",
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
@@ -1968,7 +1974,7 @@
     "description": "Placeholder for adding a new number to a contact"
   },
   "invalidNumberError": {
-    "message": "Погрешен број ",
+    "message": "Погрешен број",
     "description": "When a person inputs a number that is invalid"
   },
   "unlinkedWarning": {
@@ -2136,7 +2142,7 @@
     "description": "Shown when you've clicked on an incoming gift badge you haven't yet redeemed"
   },
   "message--giftBadge--unopened--toast--outgoing": {
-    "message": "Проверете го телефонот за да го видите подарокот ",
+    "message": "Проверете го телефонот за да го видите подарокот",
     "description": "Shown when you've clicked on an outgoing gift badge"
   },
   "message--giftBadge--preview--unopened": {
@@ -2623,8 +2629,8 @@
     "message": "Затвори скокачки прозорец",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Додај прилог со слика",
+  "addImageOrVideoattachment": {
+    "message": "Додајте слика или видео прилог",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Отстранете реакција"
+    "message": "Отстранете реакција",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Не успеав да испратам реакција. Ве молиме пробајте пак.",
@@ -3219,7 +3226,7 @@
     "description": "Message for when there are no available devices to select for input/output audio or video"
   },
   "callingDeviceSelection__select--default": {
-    "message": "Стандардно ",
+    "message": "Стандардно",
     "description": "Shown when the device is the default device"
   },
   "muteNotificationsTitle": {
@@ -3639,7 +3646,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--you": {
-    "message": "Ја напуштивте групата. ",
+    "message": "Ја напуштивте групата.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
@@ -4147,7 +4154,7 @@
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
-    "message": "Известувања ",
+    "message": "Известувања",
     "description": "This is the label for notifications in the conversation details screen"
   },
   "ConversationDetails--group-info-label": {
@@ -4498,21 +4505,21 @@
     "message": "Време за репродукција на аудио прилог",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Кликнете на $composeIcon$ погоре и пребарајте контакти или групи на кои сакате да им пишете",
@@ -5023,7 +5030,7 @@
     "description": "Button to switch the settings view"
   },
   "Preferences__button--notifications": {
-    "message": "Известувања ",
+    "message": "Известувања",
     "description": "Button to switch the settings view"
   },
   "Preferences__button--privacy": {
@@ -5563,7 +5570,7 @@
     "description": "Aria label for muting stories"
   },
   "StoryViewer__unmute": {
-    "message": "Вклучи ",
+    "message": "Вклучи",
     "description": "Aria label for unmuting stories"
   },
   "StoryViewer__views-off": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Сè уште нема одговори",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Сè уште нема прегледи",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Прегледи",
@@ -5659,7 +5670,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
-    "message": "Вчитувањето на видеото е неуспешно ",
+    "message": "Вчитувањето на видеото е неуспешно",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__text-bg--background": {
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Грст решени багови за апликацијата да продолжи да функционира беспрекорно. Повеќе интересни промени на повидок!",
+    "message": "Грст решени багови за апликацијата да продолжи да функционира беспрекорно. Повеќе интересни промени на повидок! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Напорно работиме за да ги решиме баговите и да го подобриме перформансот за апликацијата да продолжи да работи беспрекорно за вас.",
+    "message": "Напорно работиме за да ги решиме баговите и да го подобриме перформансот за апликацијата да продолжи да работи беспрекорно за вас. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {

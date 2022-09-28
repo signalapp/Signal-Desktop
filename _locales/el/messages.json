@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Λογισμικό τρίτων",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -376,7 +386,7 @@
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
   "identityKeyErrorOnSend": {
-    "message": "Ο αριθμός ασφαλείας σου με τον/την $name1$ έχει αλλάξει. Αυτό μπορεί να σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε απλά ότι ο/η $name2$ επανεγκατέστησε το Signal. Ίσως θες να επαληθεύσεις τον αριθμό ασφαλείας σου με αυτή την επαφή. ",
+    "message": "Ο αριθμός ασφαλείας σου με τον/την $name1$ έχει αλλάξει. Αυτό μπορεί να σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε απλά ότι ο/η $name2$ επανεγκατέστησε το Signal. Ίσως θες να επαληθεύσεις τον αριθμό ασφαλείας σου με αυτή την επαφή.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
@@ -474,7 +484,7 @@
     "message": "Σφάλμα κατά την διαχείριση εισερχόμενου μηνύματος."
   },
   "media": {
-    "message": "Μέσα ",
+    "message": "Μέσα",
     "description": "Header of the default pane in the media gallery, showing images and videos"
   },
   "mediaEmptyState": {
@@ -546,7 +556,7 @@
     "description": "Alt text for staged attachments"
   },
   "cdsMirroringErrorToast": {
-    "message": "Ο υπολογιστής αντιμετώπισε μια ασυνέπεια στην υπηρεσία ανακάλυψης επαφών. ",
+    "message": "Ο υπολογιστής αντιμετώπισε μια ασυνέπεια στην υπηρεσία ανακάλυψης επαφών.",
     "description": "An error popup when we discovered an inconsistency between mirrored Contact Discovery Service requests."
   },
   "decryptionErrorToast": {
@@ -557,12 +567,8 @@
     "message": "Υποβολή αρχείου",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Για συνημμένα αρχεία που δεν είναι εικόνες, το όριο είναι ένα αρχείο ανά μήνυμα.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Δεν μπορείς να επισυνάψεις εικόνες μαζί με αρχεία άλλου τύπου στο ίδιο μήνυμα.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -795,7 +801,7 @@
     "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
   },
   "replyToMessage": {
-    "message": "Απάντηση στο μήνυμα ",
+    "message": "Απάντηση στο μήνυμα",
     "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
   },
   "originalMessageNotFound": {
@@ -887,7 +893,7 @@
     "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
   },
   "photo": {
-    "message": "Φωτογραφία ",
+    "message": "Φωτογραφία",
     "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
   "text": {
@@ -1143,7 +1149,7 @@
     "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkedDevices": {
-    "message": "Συνδεμένες συσκευές ",
+    "message": "Συνδεμένες συσκευές",
     "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
   "linkNewDevice": {
@@ -1159,7 +1165,7 @@
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2": {
-    "message": "Πάτα στις $settings$, και μετά πάτα στις $linkedDevices$ ",
+    "message": "Πάτα στις $settings$, και μετά πάτα στις $linkedDevices$",
     "description": "Instructions on the device link screen"
   },
   "Install__instructions__2__settings": {
@@ -1195,7 +1201,7 @@
     "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "chooseDeviceName": {
-    "message": "Διάλεξε το όνομα αυτής της συσκευής ",
+    "message": "Διάλεξε το όνομα αυτής της συσκευής",
     "description": "The header shown on the 'choose device name' screen in the device linking process"
   },
   "finishLinkingPhone": {
@@ -2359,7 +2365,7 @@
     "message": "Ο/Η $contact$ σάς έστειλε ένα μήνυμα που δεν μπορεί να επεξεργαστεί ή να εμφανιστεί γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal."
   },
   "Message--unsupported-message-ask-to-resend": {
-    "message": "Μπορείς να ζητήσεις από τον/την $contact$ να σου ξαναστείλει το μήνυμα, τώρα που πλέον χρησιμοποιείς την επικαιροποιημένη έκδοση του Signal. "
+    "message": "Μπορείς να ζητήσεις από τον/την $contact$ να σου ξαναστείλει το μήνυμα, τώρα που πλέον χρησιμοποιείς την επικαιροποιημένη έκδοση του Signal."
   },
   "Message--from-me-unsupported-message": {
     "message": "Κάποια από τις συσκευές σου έστειλε ένα μήνυμα που δεν μπόρεσε να επεξεργαστεί ή να εμφανιστεί, γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal."
@@ -2623,8 +2629,8 @@
     "message": "Κλείσιμο αναδυόμενου παραθύρου",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Προσθήκη συνημμένης εικόνας",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Αφαίρεση αντίδρασης"
+    "message": "Αφαίρεση αντίδρασης",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Αποτυχία αποστολής αντίδρασης. Παρακαλώ ξαναδοκίμασε.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Το Signal λειτουργεί ακόμα",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Το Signal θα συνεχίσει να λειτουργεί στην περιοχή των ειδοποιήσεων. Μπορείς να το αλλάξεις στις ρυθμίσεις του Signal.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3539,7 +3546,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--other": {
-    "message": "Ο/Η $memberName$ πρόσθεσε το προσκεκλημένο μέλος $inviteeName$. ",
+    "message": "Ο/Η $memberName$ πρόσθεσε το προσκεκλημένο μέλος $inviteeName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--invited--unknown": {
@@ -4447,7 +4454,7 @@
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-title--many": {
-    "message": "Προσθήκη $count$ μελών στο \"$group$\"; ",
+    "message": "Προσθήκη $count$ μελών στο \"$group$\";",
     "description": "When adding new members to an existing group, this is shown in the confirmation dialog"
   },
   "AddGroupMembersModal--confirm-button--one": {
@@ -4498,21 +4505,21 @@
     "message": "Χρόνος αναπαραγωγής του συνημμένου ήχου",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": ".5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Εξαφανίζεται σε ",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Εξαφανίζεται σε $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Καμία απάντηση ακόμα",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Καμία προβολή ακόμα",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Προβολές",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Αρκετές διορθώσεις σφαλμάτων για την ομαλή λειτουργία της εφαρμογής σας. Έρχονται περισσότερες συναρπαστικές αλλαγές!",
+    "message": "Αρκετές διορθώσεις σφαλμάτων για την ομαλή λειτουργία της εφαρμογής σας. Έρχονται περισσότερες συναρπαστικές αλλαγές! ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Δουλεύουμε σκληρά για να την επιδιόρθωση σφαλμάτων και τη δημιουργία άλλων βελτιώσεων απόδοσης για να διατηρηθεί η ομαλή λειτουργία της εφαρμογής για εσάς.",
+    "message": "Δουλεύουμε σκληρά για να την επιδιόρθωση σφαλμάτων και τη δημιουργία άλλων βελτιώσεων απόδοσης για να διατηρηθεί η ομαλή λειτουργία της εφαρμογής για εσάς. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {
@@ -5791,7 +5802,7 @@
     "description": "Release notes for v5.57"
   },
   "WhatsNew__v5.57--2": {
-    "message": "Βελτιστοποίησε την αναζήτηση emoji. Μόλις ανασύρεις τον επιλογέα emoji, παράλειψε το 🔍 και απλώς ξεκίνα να πληκτρολογείς λέξεις-κλειδιά. ",
+    "message": "Βελτιστοποίησε την αναζήτηση emoji. Μόλις ανασύρεις τον επιλογέα emoji, παράλειψε το 🔍 και απλώς ξεκίνα να πληκτρολογείς λέξεις-κλειδιά.",
     "description": "Release notes for v5.57"
   }
 }

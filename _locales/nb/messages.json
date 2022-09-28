@@ -1,4 +1,14 @@
 {
+  "smartling": {
+    "placeholder_format_custom": "(\\$.+?\\$)",
+    "translate_paths": [
+      {
+        "key": "{*}/message",
+        "path": "*/message",
+        "instruction": "*/description"
+      }
+    ]
+  },
   "softwareAcknowledgments": {
     "message": "Kildekode henvisninger",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -557,12 +567,8 @@
     "message": "Send inn logg",
     "description": "Label for the decryption error toast button"
   },
-  "oneNonImageAtATimeToast": {
-    "message": "Når du inkluderer et vedlegg som ikke er et bilde, er begrensningen ett vedlegg per melding.",
-    "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "cannotMixImageAndNonImageAttachments": {
-    "message": "Du kan ikke blande vedlegg som er bilder med vedlegg som ikke er bilder i samme melding.",
+  "cannotSelectPhotosAndVideosAlongWithFiles": {
+    "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -1370,7 +1376,7 @@
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-ring-many": {
-    "message": "Signal ringer $first$, $second$ og $others$ andre ",
+    "message": "Signal ringer $first$, $second$ og $others$ andre",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "calling__pre-call-info--will-notify-1": {
@@ -1908,7 +1914,7 @@
     "description": "The 'next' button text in the 'choose group members' left pane screen"
   },
   "chooseGroupMembers__maximum-group-size__title": {
-    "message": "Maksimum antall på gruppestørrelse er oppnådd ",
+    "message": "Maksimum antall på gruppestørrelse er oppnådd",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "chooseGroupMembers__maximum-group-size__body": {
@@ -2623,8 +2629,8 @@
     "message": "Close Popup",
     "description": "Used as alt text for any button closing a popup"
   },
-  "add-image-attachment": {
-    "message": "Legg til bildevedlegg",
+  "addImageOrVideoattachment": {
+    "message": "Add image or video attachment",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2852,7 +2858,8 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "Fjern reaksjonen"
+    "message": "Fjern reaksjonen",
+    "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
     "message": "Kunne ikke sende reaksjonen. Vennligst prøv igjen senere.",
@@ -3067,11 +3074,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal kjører fremdeles",
+    "message": "Signal is still running",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal vil fremdeles kjøre i varslingsfeltet. Du kan endre dette i Signal-innstillingene.",
+    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -3175,7 +3182,7 @@
     "description": "Title for grid/speaker view toggle when on a call"
   },
   "calling__switch-view--to-speaker": {
-    "message": "Bytt til talervisning ",
+    "message": "Bytt til talervisning",
     "description": "Title for grid/speaker view toggle when on a call"
   },
   "calling__hangup": {
@@ -3987,11 +3994,11 @@
     "description": "Shown on Learn More popup after GV1 migration"
   },
   "GroupV1--Migration--info--invited--many": {
-    "message": "Disse medlemmene må akseptere en invitasjon for å bli med i gruppen igjen, og vil ikke få gruppemeldinger før de har akseptert: ",
+    "message": "Disse medlemmene må akseptere en invitasjon for å bli med i gruppen igjen, og vil ikke få gruppemeldinger før de har akseptert:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--invited--one": {
-    "message": "Dette medlemmet må akseptere en invitasjon for å bli med i gruppen igjen, og vil ikke få gruppemeldinger før de har akseptert: ",
+    "message": "Dette medlemmet må akseptere en invitasjon for å bli med i gruppen igjen, og vil ikke få gruppemeldinger før de har akseptert:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--before--many": {
@@ -4007,7 +4014,7 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--removed--after--one": {
-    "message": "Dette medlemmet var ikke i stand til å bli med i nye grupper, og ble fjernet fra gruppen: ",
+    "message": "Dette medlemmet var ikke i stand til å bli med i nye grupper, og ble fjernet fra gruppen:",
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--invited--you": {
@@ -4498,21 +4505,21 @@
     "message": "Spilletid for lydvedlegg",
     "description": "Aria label for audio attachment's playback time slider"
   },
-  "MessageAudio--playbackRate1x": {
-    "message": "1x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1": {
+    "message": "1",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate1p5x": {
-    "message": "1.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate1p5": {
+    "message": "1.5",
+    "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRate2x": {
-    "message": "2x",
-    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRate2": {
+    "message": "2",
+    "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "MessageAudio--playbackRatep5x": {
-    "message": "0.5x",
-    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate"
+  "MessageAudio--playbackRatep5": {
+    "message": ".5",
+    "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
     "message": "Klikk på $composeIcon$ ovenfor og søk etter kontakter eller grupper å melde til.",
@@ -4855,7 +4862,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Forsvinner om",
+    "message": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5579,7 +5586,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Forsvinner om $countdown$",
+    "message": "Disappears in $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5593,6 +5600,10 @@
   "StoryViewsNRepliesModal__no-replies": {
     "message": "Ingen svar ennå",
     "description": "Placeholder text for when there are no replies"
+  },
+  "StoryViewsNRepliesModal__no-views": {
+    "message": "Ingen visninger ennå",
+    "description": "Placeholder text for when there are no views"
   },
   "StoryViewsNRepliesModal__tab--views": {
     "message": "Visninger",
@@ -5767,7 +5778,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--2": {
-    "message": "Et knippe feilrettinger som sørger for at appen fungerer optimalt. Flere spennende oppdateringer er i vente.",
+    "message": "Et knippe feilrettinger som sørger for at appen fungerer optimalt. Flere spennende oppdateringer er i vente. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--3": {
@@ -5775,7 +5786,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--4": {
-    "message": "Jobber iherdig med å fikse feil og andre ytelsesforbedringer som sørger for at appen fungerer optimalt.",
+    "message": "Jobber iherdig med å fikse feil og andre ytelsesforbedringer som sørger for at appen fungerer optimalt. ",
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__bugfixes--5": {
