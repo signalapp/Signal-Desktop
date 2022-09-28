@@ -21,7 +21,7 @@ const style: StyleType = {
   'missed-call': {
     notificationTextKey: 'callMissed',
     iconType: 'callMissed',
-    iconColor: 'var(--color-destructive)',
+    iconColor: 'var(--danger-color)',
   },
   'started-call': {
     notificationTextKey: 'startedACall',

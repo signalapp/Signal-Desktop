@@ -712,11 +712,11 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--right-panel-item-background-color',
-    'var(--background-secondary-color)'
+    THEMES.CLASSIC_DARK.COLOR2
   );
   document.documentElement.style.setProperty(
     '--right-panel-item-background-hover-color',
-    THEMES.CLASSIC_DARK.COLOR4
+    THEMES.CLASSIC_DARK.COLOR3
   );
   document.documentElement.style.setProperty(
     '--right-panel-item-text-color',

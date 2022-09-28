@@ -555,7 +555,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming Consolidate with code */
     /* Conversation Tab */
-    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item, Contact List Items etc. */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item, Contact List Items, Message Right Click Highlighting etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -627,6 +627,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
 
     /* Right Panel Items */
+    /* Also used for Session Dropdown */
     --right-panel-item-background-color: var(--background-secondary-color);
     --right-panel-item-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --right-panel-item-text-color: var(--text-primary-color);
@@ -651,6 +652,11 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Also used for FileDropZone */
     /* Same for all Themes */
     --message-link-preview-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06);
+
+    /* Shadows */
+    /* Used across all themes */
+    --shadow-color: var(--black-color);
+    --drop-shadow: 0 0 4px 0 var(--shadow-color);
   };
 `;
 

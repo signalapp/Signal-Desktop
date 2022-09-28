@@ -372,13 +372,13 @@ label {
     justify-content: space-between;
     height: 50px;
     padding: 0px var(--margins-md);
-    font-size: $session-font-sm;
+    font-size: var(--font-size-md);
 
-    color: var(--color-text);
-    background: var(--color-cell-background);
+    background-color: var(--right-panel-item-background-color);
+    color: var(--right-panel-item-text-color);
 
     &:hover {
-      background: var(--color-clickable-hovered);
+      background: var(--right-panel-item-background-hover-color);
     }
   }
 
@@ -403,22 +403,18 @@ label {
     justify-content: center;
     height: 35px;
     padding: 0 var(--margins-md);
-    background: var(--color-cell-background);
-    color: var(--color-text);
+    background: var(--right-panel-item-background-color);
+    color: var(--right-panel-item-text-color);
 
     font-size: 0.8rem;
     width: -webkit-fill-available;
     transition: var(--default-duration);
 
     &:first-child {
-      border-top: var(--border-session);
+      border-top: var(--border-color);
     }
     &:last-child {
-      border-top: var(--border-session);
-    }
-
-    &:hover {
-      background: var(--color-clickable-hovered);
+      border-top: var(--border-color);
     }
 
     .session-icon {
@@ -430,16 +426,16 @@ label {
 
     &.active,
     &:hover {
-      background: var(--color-clickable-hovered);
+      background: var(--right-panel-item-background-hover-color);
     }
 
     &.danger {
-      color: var(--color-destructive);
+      color: var(--danger-color);
     }
   }
 
   &:hover {
-    background: var(--color-clickable-hovered);
+    background: var(--right-panel-item-background-hover-color);
   }
 }
 
@@ -469,14 +465,14 @@ label {
   display: flex;
   justify-content: center;
 
-  background: var(--color-white-color);
+  background: var(--white-color);
   padding: 0.5rem;
   svg {
     width: 135px;
     height: 135px;
     border-radius: 3px;
     padding: var(--margins-xs);
-    background-color: var(--color-white-color);
+    background-color: var(--white-color);
   }
 }
 

@@ -88,6 +88,37 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
+function getWidth(
+  props: Pick<MessageRenderingProps, 'attachments' | 'previews'>
+): number | undefined {
+  const { attachments, previews } = props;
+
+  if (attachments && attachments.length) {
+    const dimensions = getGridDimensions(attachments);
+    if (dimensions) {
+      return dimensions.width;
+    }
+  }
+
+  if (previews && previews.length) {
+    const first = previews[0];
+
+    if (!first || !first.image) {
+      return;
+    }
+    const { width } = first.image;
+
+    if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
+      const dimensions = getImageDimensionsInAttachment(first.image);
+      if (dimensions) {
+        return dimensions.width;
+      }
+    }
+  }
+
+  return;
+}
+
 const StyledMessageContent = styled.div`
   border-radius: 18px;
 `;
@@ -187,7 +218,7 @@ export const MessageContent = (props: Props) => {
           ? `module-message__container--${direction}--transparent`
           : `module-message__container--${direction}--opaque`,
 
-        flashGreen && 'flash-green-once'
+        flashGreen && 'flash-primary-once'
       )}
       style={{
         width: isShowingImage ? width : undefined,
@@ -229,34 +260,3 @@ export const MessageContent = (props: Props) => {
     </StyledMessageContent>
   );
 };
-
-function getWidth(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews'>
-): number | undefined {
-  const { attachments, previews } = props;
-
-  if (attachments && attachments.length) {
-    const dimensions = getGridDimensions(attachments);
-    if (dimensions) {
-      return dimensions.width;
-    }
-  }
-
-  if (previews && previews.length) {
-    const first = previews[0];
-
-    if (!first || !first.image) {
-      return;
-    }
-    const { width } = first.image;
-
-    if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensionsInAttachment(first.image);
-      if (dimensions) {
-        return dimensions.width;
-      }
-    }
-  }
-
-  return;
-}

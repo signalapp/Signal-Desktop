@@ -11,7 +11,7 @@
   border-left-style: solid;
 
   &__primary__type-label {
-    border-color: var(--color-text);
+    border-color: var(--text-primary-color);
   }
 }
 
@@ -19,7 +19,7 @@
 .module-quote {
   &--outgoing {
     .module-quote__primary__author {
-      color: var(--color-sent-message-text);
+      color: var(--message-bubbles-sent-text-color);
       font-weight: bold;
 
       .module-contact-name {
@@ -27,27 +27,27 @@
       }
     }
     .module-quote__primary__text {
-      color: var(--color-sent-message-text);
+      color: var(--message-bubbles-sent-text-color);
 
       a {
-        color: var(--color-sent-message-text);
+        color: var(--message-bubbles-sent-text-color);
       }
     }
   }
 
   &--incoming {
     .module-quote__primary__author {
-      color: var(--color-received-message-text);
+      color: var(--message-bubbles-sent-text-color);
       font-weight: bold;
       .module-contact-name {
         font-weight: bold;
       }
     }
     .module-quote__primary__text {
-      color: var(--color-received-message-text);
+      color: var(--message-bubbles-sent-text-color);
 
       a {
-        color: var(--color-received-message-text);
+        color: var(--message-bubbles-sent-text-color);
       }
     }
   }
@@ -295,7 +295,7 @@ $session-highlight-message-shadow: 0px 0px 10px 1px var(--primary-color);
   }
 }
 
-.flash-green-once {
+.flash-primary-once {
   animation-name: remove-box-shadow;
   animation-timing-function: linear;
   animation-duration: 2s;
