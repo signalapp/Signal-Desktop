@@ -12,7 +12,7 @@ import {
   SortedMessageModelProps,
 } from '../ducks/conversations';
 
-import { getIntl, getOurNumber } from './user';
+import { getIntl } from './user';
 import { BlockedNumberController } from '../../util';
 import { ConversationModel } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
@@ -34,8 +34,9 @@ import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { filter, isEmpty, pick } from 'lodash';
+import { filter, isEmpty, pick, sortBy } from 'lodash';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -49,15 +50,6 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
-
-export const getBlockedPubkeys = createSelector(
-  // make sure to extends this selector to we are rerun on conversation changes
-  getConversationLookup,
-
-  (_state): Array<string> => {
-    return BlockedNumberController.getBlockedNumbers();
-  }
-);
 
 export const getSelectedConversationKey = createSelector(
   getConversations,
@@ -93,9 +85,9 @@ export const getIsTypingEnabled = createSelector(
     if (!selectedConvo) {
       return false;
     }
-    const { isBlocked, isKickedFromGroup, left } = selectedConvo;
+    const { isBlocked, isKickedFromGroup, left, isPublic, writeCapability } = selectedConvo;
 
-    return !(isBlocked || isKickedFromGroup || left);
+    return !(isBlocked || isKickedFromGroup || left || (isPublic && !writeCapability));
   }
 );
 /**
@@ -419,14 +411,6 @@ export const _getSortedConversations = (
       };
     }
 
-    // Add Open Group to list as soon as the name has been set
-    if (
-      conversation.isPublic &&
-      (!conversation.displayNameInProfile || conversation.displayNameInProfile === 'Unknown group')
-    ) {
-      continue;
-    }
-
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
     if (!conversation.isPublic && !conversation.activeAt) {
@@ -515,13 +499,6 @@ export const getPrivateContactsPubkeys = createSelector(
 
 export const getLeftPaneLists = createSelector(getSortedConversations, _getLeftPaneLists);
 
-export const getMe = createSelector(
-  [getConversationLookup, getOurNumber],
-  (lookup: ConversationLookupType, ourNumber: string): ReduxConversationType => {
-    return lookup[ourNumber];
-  }
-);
-
 export const getDirectContacts = createSelector(
   getLeftPaneLists,
   (state: {
@@ -529,6 +506,41 @@ export const getDirectContacts = createSelector(
     contacts: Array<ReduxConversationType>;
     unreadCount: number;
   }) => state.contacts
+);
+
+export const getDirectContactsCount = createSelector(
+  getDirectContacts,
+  (contacts: Array<ReduxConversationType>) => contacts.length
+);
+
+export type DirectContactsByNameType = {
+  displayName?: string;
+  id: string;
+};
+
+// make sure that createSelector is called here so this function is memoized
+export const getDirectContactsByName = createSelector(
+  getDirectContacts,
+  (contacts: Array<ReduxConversationType>): Array<DirectContactsByNameType> => {
+    const extractedContacts = contacts
+      .filter(m => m.id !== UserUtils.getOurPubKeyStrFromCache())
+      .map(m => {
+        return {
+          id: m.id,
+          displayName: m.nickname || m.displayNameInProfile,
+        };
+      });
+    const extractedContactsNoDisplayName = sortBy(
+      extractedContacts.filter(m => !m.displayName),
+      'id'
+    );
+    const extractedContactsWithDisplayName = sortBy(
+      extractedContacts.filter(m => Boolean(m.displayName)),
+      'displayName'
+    );
+
+    return [...extractedContactsWithDisplayName, ...extractedContactsNoDisplayName];
+  }
 );
 
 export const getUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
@@ -1150,4 +1162,9 @@ export const getOldTopMessageId = createSelector(
 export const getOldBottomMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
+);
+
+export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined): boolean => Boolean(convo?.isInitialFetchingInProgress)
 );

@@ -10,7 +10,7 @@ import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { sendMessageReaction } from '../../../../util/reactions';
+import { Reactions } from '../../../../util/reactions';
 
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
@@ -42,6 +42,10 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
   ${StyledMessageReactions} {
     margin-right: var(--margins-sm);
   }
+`;
+
+const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
+  max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -93,7 +97,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   const [popupReaction, setPopupReaction] = useState('');
 
   const handleMessageReaction = async (emoji: string) => {
-    await sendMessageReaction(messageId, emoji);
+    await Reactions.sendMessageReaction(messageId, emoji);
   };
 
   const handlePopupClick = () => {
@@ -119,11 +123,11 @@ export const MessageContentWithStatuses = (props: Props) => {
           messageId={messageId}
           isCorrectSide={isIncoming}
         />
-        <div>
+        <StyledMessageWithAuthor isIncoming={isIncoming}>
           <MessageAuthorText messageId={messageId} />
 
           <MessageContent messageId={messageId} isDetailView={isDetailView} />
-        </div>
+        </StyledMessageWithAuthor>
         <MessageStatus
           dataTestId="msg-status-outgoing"
           messageId={messageId}

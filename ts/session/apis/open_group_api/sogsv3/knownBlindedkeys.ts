@@ -151,34 +151,43 @@ export function tryMatchBlindWithStandardKey(
   if (!blindedSessionId.startsWith(KeyPrefixType.blinded)) {
     throw new Error('blindedKey must be a blinded key (starting with 15)');
   }
-  // tslint:disable: no-bitwise
 
-  const sessionIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(standardSessionId).key);
-  const blindedIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(blindedSessionId).key);
-  const kBytes = generateBlindingFactor(serverPubKey, sodium);
+  // We don't want to stop iterating even if an error happens while looking for a blind/standard match.
+  // That's why we catch any errors and return false if it happens.
+  try {
+    // tslint:disable: no-bitwise
 
-  // From the session id (ignoring 05 prefix) we have two possible ed25519 pubkeys; the first is
-  // the positive(which is what Signal's XEd25519 conversion always uses)
+    const sessionIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(standardSessionId).key);
+    const blindedIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(blindedSessionId).key);
+    const kBytes = generateBlindingFactor(serverPubKey, sodium);
 
-  const inbin = from_hex(sessionIdNoPrefix);
-  // Note: The below method is code we have exposed from the  method within the Curve25519-js library
-  // rather than custom code we have written
-  const xEd25519Key = crypto_sign_curve25519_pk_to_ed25519(inbin);
+    // From the session id (ignoring 05 prefix) we have two possible ed25519 pubkeys; the first is
+    // the positive(which is what Signal's XEd25519 conversion always uses)
 
-  // Blind it:
-  const pk1 = combineKeys(kBytes, xEd25519Key, sodium);
-  //  For the negative, what we're going to get out of the above is simply the negative of pk1, so
-  // flip the sign bit to get pk2:
-  const pk2 = cloneDeep(pk1);
-  pk2[31] = pk1[31] ^ 0b1000_0000;
+    const inbin = from_hex(sessionIdNoPrefix);
+    // Note: The below method is code we have exposed from the method within the Curve25519-js library
+    // rather than custom code we have written
+    const xEd25519Key = crypto_sign_curve25519_pk_to_ed25519(inbin);
 
-  const match = isEqual(blindedIdNoPrefix, to_hex(pk1)) || isEqual(blindedIdNoPrefix, to_hex(pk2));
+    // Blind it:
+    const pk1 = combineKeys(kBytes, xEd25519Key, sodium);
+    //  For the negative, what we're going to get out of the above is simply the negative of pk1, so
+    // flip the sign bit to get pk2:
+    const pk2 = cloneDeep(pk1);
+    pk2[31] = pk1[31] ^ 0b1000_0000;
 
-  if (!match) {
+    const match =
+      isEqual(blindedIdNoPrefix, to_hex(pk1)) || isEqual(blindedIdNoPrefix, to_hex(pk2));
+
+    if (!match) {
+      return false;
+    }
+
+    return true;
+  } catch (e) {
+    window.log.warn('Failed to do crypto tryMatchBlindWithStandardKey with ', e.message);
     return false;
   }
-
-  return true;
 }
 
 /**

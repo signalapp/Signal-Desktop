@@ -41,7 +41,7 @@
   margin: 0px 0px 0px -1px;
 }
 .rc-slider-handle {
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
   position: absolute;
   width: 6px;
   height: 25px;

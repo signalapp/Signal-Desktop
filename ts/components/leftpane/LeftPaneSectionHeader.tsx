@@ -6,10 +6,10 @@ import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
-import { SectionType, setOverlayMode } from '../../state/ducks/section';
+import { SectionType } from '../../state/ducks/section';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionIcon, SessionIconButton } from '../icon';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
+import { MenuButton } from '../button/MenuButton';
 
 const SectionTitle = styled.h1`
   padding: 0 var(--margins-sm);
@@ -17,23 +17,17 @@ const SectionTitle = styled.h1`
   color: var(--color-text);
 `;
 
-export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
+export const LeftPaneSectionHeader = () => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
   const overlayMode = useSelector(getOverlayMode);
-  const dispatch = useDispatch();
 
   let label: string | undefined;
 
   const isMessageSection = focusedSection === SectionType.Message;
-  const isMessageRequestOverlay = overlayMode === 'message-requests';
-
-  const showBackButton = isMessageRequestOverlay && isMessageSection;
+  const isMessageRequestOverlay = overlayMode && overlayMode === 'message-requests';
 
   switch (focusedSection) {
-    case SectionType.Contact:
-      label = window.i18n('contactsHeader');
-      break;
     case SectionType.Settings:
       label = window.i18n('settingsHeader');
       break;
@@ -48,23 +42,8 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   return (
     <Flex flexDirection="column">
       <div className="module-left-pane__header">
-        {showBackButton && (
-          <SessionIconButton
-            onClick={() => {
-              dispatch(setOverlayMode(undefined));
-            }}
-            iconType="chevron"
-            iconRotation={90}
-            iconSize="medium"
-            margin="0 0 var(--margins-xs) var(--margins-xs)"
-          />
-        )}
         <SectionTitle>{label}</SectionTitle>
-        {isMessageSection && !isMessageRequestOverlay && (
-          <SessionButton onClick={props.buttonClicked} dataTestId="new-conversation-button">
-            <SessionIcon iconType="plus" iconSize="small" iconColor="white" />
-          </SessionButton>
-        )}
+        {isMessageSection && <MenuButton />}
       </div>
       {showRecoveryPhrasePrompt && <LeftPaneBanner />}
     </Flex>

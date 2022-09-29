@@ -63,6 +63,7 @@ const DebugLogButtons = (props: { content: string }) => {
     </div>
   );
 };
+// tslint:disable: no-console
 
 const DebugLogViewAndSave = () => {
   const [content, setContent] = useState(window.i18n('loading'));
@@ -80,7 +81,7 @@ const DebugLogViewAndSave = () => {
         const debugLogWithSystemInfo = `${operatingSystemInfo} ${commitHashInfo} ${text}`;
         setContent(debugLogWithSystemInfo);
       })
-      .catch(console.warn);
+      .catch(console.error);
   }, []);
 
   return (

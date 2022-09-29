@@ -177,7 +177,8 @@ describe('Promise Utils', () => {
         await allowOnlyOneAtATime('testing', spy, 5);
         throw new Error('should not get here');
       } catch (e) {
-        console.warn(e);
+        // tslint:disable-next-line: no-console
+        console.error(e);
         expect(e).to.be.be.eql(undefined, 'should be undefined');
       }
 

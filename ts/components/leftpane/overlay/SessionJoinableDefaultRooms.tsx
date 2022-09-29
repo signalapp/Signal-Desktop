@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
-import {
-  joinOpenGroupV2WithUIEvents,
-  parseOpenGroupV2,
-} from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import { parseOpenGroupV2 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { sogsV3FetchPreviewBase64 } from '../../../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { updateDefaultBase64RoomData } from '../../../state/ducks/defaultRooms';
 import { StateType } from '../../../state/reducer';
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 import { Flex } from '../../basic/Flex';
-import { PillContainerHoverable, PillTooltipWrapper } from '../../basic/PillContainer';
+import { PillContainerHoverable, StyledPillContainerHoverable } from '../../basic/PillContainer';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { H3 } from '../../basic/Text';
 // tslint:disable: no-void-expression
@@ -21,7 +18,7 @@ export type JoinableRoomProps = {
   name: string;
   roomId: string;
   imageId?: string;
-  onClick: (completeUrl: string) => void;
+  onClick?: (completeUrl: string) => void;
   base64Data?: string;
 };
 
@@ -77,7 +74,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
       base64Data={props.base64Data}
       {...props}
       pubkey=""
-      onAvatarClick={() => props.onClick(props.completeUrl)}
+      onAvatarClick={() => props.onClick?.(props.completeUrl)}
     />
   );
 };
@@ -94,64 +91,68 @@ const SessionJoinableRoomName = (props: JoinableRoomProps) => {
 };
 
 const SessionJoinableRoomRow = (props: JoinableRoomProps) => {
+  const { onClick, completeUrl } = props;
+  const onClickWithUrl = onClick
+    ? () => {
+        onClick?.(completeUrl);
+      }
+    : undefined;
+
   return (
-    <PillTooltipWrapper>
-      <PillContainerHoverable
-        onClick={() => {
-          props.onClick(props.completeUrl);
-        }}
-        margin="5px"
-        padding="5px"
-      >
+    <StyledPillContainerHoverable>
+      <PillContainerHoverable onClick={onClickWithUrl} margin="5px" padding="5px">
         <SessionJoinableRoomAvatar {...props} />
         <SessionJoinableRoomName {...props} />
       </PillContainerHoverable>
-    </PillTooltipWrapper>
+    </StyledPillContainerHoverable>
   );
 };
 
-export const SessionJoinableRooms = (props: { onRoomClicked: () => void }) => {
+const JoinableRooms = (props: {
+  alreadyJoining: boolean;
+  onJoinClick?: (completeUrl: string) => void;
+}) => {
   const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
-  const onRoomClicked = useCallback(
-    (loading: boolean) => {
-      if (loading) {
-        props.onRoomClicked();
-      }
-    },
-    [props.onRoomClicked]
+  return (
+    <>
+      {joinableRooms.rooms.map(r => {
+        return (
+          <SessionJoinableRoomRow
+            key={r.id}
+            completeUrl={r.completeUrl}
+            name={r.name}
+            roomId={r.id}
+            imageId={r.imageId}
+            base64Data={r.base64Data}
+            onClick={props.onJoinClick}
+          />
+        );
+      })}
+    </>
   );
+};
+
+export const SessionJoinableRooms = (props: {
+  onJoinClick?: (completeUrl: string) => void;
+  alreadyJoining: boolean;
+}) => {
+  const joinableRooms = useSelector((state: StateType) => state.defaultRooms);
 
   if (!joinableRooms.inProgress && !joinableRooms.rooms?.length) {
     window?.log?.info('no default joinable rooms yet and not in progress');
     return null;
   }
 
-  const componentToRender = joinableRooms.inProgress ? (
-    <SessionSpinner loading={true} />
-  ) : (
-    joinableRooms.rooms.map(r => {
-      return (
-        <SessionJoinableRoomRow
-          key={r.id}
-          completeUrl={r.completeUrl}
-          name={r.name}
-          roomId={r.id}
-          imageId={r.imageId}
-          base64Data={r.base64Data}
-          onClick={completeUrl => {
-            void joinOpenGroupV2WithUIEvents(completeUrl, true, false, onRoomClicked);
-          }}
-        />
-      );
-    })
-  );
-
   return (
     <Flex container={true} flexGrow={1} flexDirection="column" width="93%">
       <H3 text={window.i18n('orJoinOneOfThese')} />
       <Flex container={true} flexGrow={0} flexWrap="wrap" justifyContent="center">
-        {componentToRender}
+        {joinableRooms.inProgress ? (
+          <SessionSpinner loading={true} />
+        ) : (
+          <JoinableRooms {...props} />
+        )}
       </Flex>
     </Flex>
   );

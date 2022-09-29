@@ -1,6 +1,7 @@
 export const APPLY_THEME = 'APPLY_THEME';
 
-export type ThemeStateType = 'light' | 'dark';
+export type ThemeStateType = 'light' | 'dark' | 'ocean-light' | 'ocean-dark';
+
 export const applyTheme = (theme: ThemeStateType) => {
   return {
     type: APPLY_THEME,

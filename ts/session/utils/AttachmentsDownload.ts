@@ -245,7 +245,7 @@ async function _runJob(job: any) {
       try {
         _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
       } catch (e) {
-        // just swallow any exceptions here, as it would be an unhandled one
+        // just swallow this exception. We don't want to throw it from the catch block here as this will endup being a Uncaught global promise
       }
       await _finishJob(found || null, id);
 

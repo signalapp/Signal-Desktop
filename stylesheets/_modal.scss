@@ -31,6 +31,10 @@
     width: 100%;
     min-width: 300px;
   }
+
+  &__input-group {
+    min-width: 300px;
+  }
 }
 
 .create-group-dialog,
@@ -127,8 +131,15 @@
   //   }
   // }
 
-  input {
+  input[type='radio'] {
+    width: inherit;
+  }
+
+  input:not([type='radio']) {
     width: 100%;
+  }
+
+  input {
     padding: 8px;
     margin-bottom: 15px;
     border: 0;
@@ -147,38 +158,6 @@
   }
 }
 
-.nickname-dialog {
-  .message {
-    font-style: italic;
-    color: $grey;
-    font-size: 12px;
-    margin-bottom: 16px;
-  }
-}
-
-.seed-dialog {
-  .title {
-    font-weight: bold;
-  }
-
-  .fields {
-    margin-top: 20px;
-  }
-
-  .seed {
-    padding: 20px 0;
-    font-style: oblique;
-  }
-
-  .qr-image {
-    transition: $session-transition-duration;
-    opacity: 10%;
-    &:hover {
-      opacity: 100%;
-    }
-  }
-}
-
 .loki-dialog {
   & ~ .index.inbox {
     // filter: blur(2px); // FIXME enable back once modals are moved to react
@@ -193,15 +172,9 @@
   }
 }
 
-.nickname-dialog {
-  .message {
-    color: $color-light-35;
-  }
-}
-
 .edit-profile-dialog {
   .session-modal__header__title {
-    font-size: $session-font-lg;
+    font-size: var(--font-size-lg);
   }
 
   .session-modal {
@@ -230,7 +203,7 @@
       width: 30px;
       border-radius: 50%;
       background-color: $session-color-white;
-      transition: $session-transition-duration;
+      transition: var(--default-duration);
 
       &:hover {
         filter: brightness(90%);
@@ -246,26 +219,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-
-    .panel-text-divider {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    &-display {
-      user-select: text;
-      text-align: center;
-      word-break: break-all;
-      font-size: $session-font-md;
-      padding: 0px $session-margin-lg;
-      font-family: $session-font-default;
-      font-weight: 400;
-      color: var(--color-text);
-
-      font-size: $session-font-md;
-      padding: 0px $session-margin-sm;
-    }
-
     .session-button {
       width: 148px;
     }
@@ -274,7 +227,7 @@
   .profile-name {
     display: flex;
     justify-content: center;
-    margin-top: $session-margin-lg;
+    margin-top: var(--margins-lg);
 
     input {
       height: 38px;
@@ -293,7 +246,7 @@
 
       p {
         font-size: $session-font-md;
-        padding: 0px $session-margin-sm;
+        padding: 0px var(--margins-sm);
       }
 
       .session-icon-button {
@@ -305,7 +258,7 @@
 
 .onion-status-dialog {
   .session-modal__header__title {
-    font-size: $session-font-lg;
+    font-size: var(--font-size-lg);
   }
 
   .session-modal {

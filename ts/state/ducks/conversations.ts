@@ -264,11 +264,15 @@ export interface ReduxConversationType {
   currentNotificationSetting?: ConversationNotificationSettingType;
 
   isPinned?: boolean;
+  isInitialFetchingInProgress?: boolean;
   isApproved?: boolean;
   didApproveMe?: boolean;
 
-  /** Should only be present on open groups - the key (stored as hex) that should be used when sending messages to an open group */
-  blindedPublicKey?: string;
+  // Should only be present on opengroups - the capabilities we have on this room.
+  capabilities?: Array<string>;
+  readCapability?: boolean;
+  writeCapability?: boolean;
+  uploadCapability?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -717,10 +721,6 @@ const conversationsSlice = createSlice({
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
       }>
     ) {
-      if (state.selectedConversation === action.payload.conversationKey) {
-        return state;
-      }
-
       // this is quite hacky, but we don't want to show the showScrollButton if we have only a small amount of messages,
       // or if the first unread message is not far from the most recent one.
       // this is because when a new message get added, we do not add it to redux depending on the showScrollButton state.
@@ -835,6 +835,20 @@ const conversationsSlice = createSlice({
       state.mentionMembers = action.payload;
       return state;
     },
+    markConversationInitialLoadingInProgress(
+      state: ConversationsStateType,
+      action: PayloadAction<{ conversationKey: string; isInitialFetchingInProgress: boolean }>
+    ) {
+      window?.log?.info(
+        `mark conversation initialLoading ${action.payload.conversationKey}: ${action.payload.isInitialFetchingInProgress}`
+      );
+      if (state.conversationLookup[action.payload.conversationKey]) {
+        state.conversationLookup[action.payload.conversationKey].isInitialFetchingInProgress =
+          action.payload.isInitialFetchingInProgress;
+      }
+
+      return state;
+    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -945,7 +959,7 @@ function applyConversationChanged(
     selectedConversation,
     conversationLookup: {
       ...conversationLookup,
-      [id]: data,
+      [id]: { ...data, isInitialFetchingInProgress: existing.isInitialFetchingInProgress },
     },
   };
 }
@@ -981,6 +995,7 @@ export const {
   setNextMessageToPlayId,
   updateMentionsMembers,
   resetConversationExternal,
+  markConversationInitialLoadingInProgress,
 } = actions;
 
 export async function openConversationWithMessages(args: {

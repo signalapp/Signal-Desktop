@@ -9,6 +9,7 @@ import {
   difference,
   forEach,
   fromPairs,
+  isArray,
   isEmpty,
   isNumber,
   isObject,
@@ -52,6 +53,7 @@ import {
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
+import { SettingsKey } from '../data/settings-key';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -645,10 +647,23 @@ function getAllOpenGroupV2ConversationsIds(): Array<string> {
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
+  const conversation = getV2OpenGroupRoom(conversationId);
+  if (!conversation) {
+    return [];
+  }
+
+  const hasBlindOn = Boolean(
+    conversation.capabilities &&
+      isArray(conversation.capabilities) &&
+      conversation.capabilities?.includes('blind')
+  );
+
+  const whereClause = hasBlindOn ? 'AND source LIKE "15%"' : '';
+
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId
+      conversationId = $conversationId ${whereClause}
      ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
     )
     .all({
@@ -1972,7 +1987,7 @@ function getEntriesCountInTable(tbl: string) {
       .get();
     return row['count(*)'];
   } catch (e) {
-    console.warn(e);
+    console.error(e);
     return 0;
   }
 }
@@ -2064,13 +2079,12 @@ function cleanUpOldOpengroupsOnStart() {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
-  const pruneSetting = getItemById('prune-setting')?.value;
+  let pruneSetting = getItemById(SettingsKey.settingsOpengroupPruning)?.value;
 
   if (pruneSetting === undefined) {
-    console.info(
-      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
-    );
-    return;
+    console.info('Prune settings is undefined (and not explicitely false), forcing it to true.');
+    createOrUpdateItem({ id: SettingsKey.settingsOpengroupPruning, value: true });
+    pruneSetting = true;
   }
 
   if (!pruneSetting) {
@@ -2281,7 +2295,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       saveConversation(convoObjToAdd);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
   // eslint-disable-next-line no-plusplus

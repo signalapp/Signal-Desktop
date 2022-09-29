@@ -66,7 +66,7 @@ nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
 yarn install --frozen-lockfile # install all dependecies of this project
-yarn grunt # transpile and assemble files
+yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```
 
@@ -116,7 +116,7 @@ nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
 npm install -g yarn # install yarn globally for this node version
 yarn install --frozen-lockfile # install all dependecies of this project
-yarn grunt # transpile and assemble files
+yarn build-everything # transpile and assemble files
 yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```
 
@@ -125,20 +125,21 @@ yarn start-prod # start the app on production mode (currently this is the only o
 ### Commands
 
 The `rpm` package is required for running the build-release script. Run the appropriate command to install the `rpm` package:
+
 ```sh
 sudo pacman -S rpm    # Arch
 ```
+
 ```sh
 sudo apt install rpm  # Ubuntu/Debian
 ```
-
 
 Run the following to build the binaries for your specific system OS.
 
 ```
 npm install yarn --no-save
 yarn install --frozen-lockfile
-yarn generate
+yarn build-everything
 yarn build-release
 ```
 

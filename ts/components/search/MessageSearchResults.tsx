@@ -141,7 +141,7 @@ const ResultBody = styled.div`
   margin-top: 1px;
   flex-shrink: 1;
 
-  font-size: 13px;
+  font-size: var(--font-size-sm);
 
   color: var(--color-text-subtle);
 
@@ -157,7 +157,7 @@ const StyledTimestampContaimer = styled.div`
   flex-shrink: 0;
   margin-inline-start: 6px;
 
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
 

@@ -6,6 +6,7 @@ import { Store } from 'redux';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
+import { StateType } from './state/reducer';
 
 export interface LibTextsecure {
   messaging: boolean;
@@ -21,23 +22,20 @@ declare global {
     CONSTANTS: any;
     Events: any;
     Lodash: any;
-    SessionSnodeAPI: any;
     Session: any;
-    StubAppDotNetApi: any;
-    StringView: any;
-    StubMessageAPI: any;
     Whisper: any;
     clearLocalData: any;
     clipboard: any;
     dcodeIO: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
-    setSettingValue: (id: string, value: any) => void;
+    setSettingValue: (id: string, value: any) => Promise<void>;
 
     i18n: LocalizerType;
     log: any;
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
+      useSettingsThemeSwitcher: boolean;
       debug: {
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;
@@ -56,7 +54,7 @@ declare global {
     getCallMediaPermissions: () => boolean;
     toggleMenuBar: () => void;
     toggleSpellCheck: any;
-    setTheme: (newTheme: string) => any;
+    setTheme: (newTheme: string) => Promise<void>;
     isDev?: () => boolean;
     userConfig: any;
     versionInfo: any;

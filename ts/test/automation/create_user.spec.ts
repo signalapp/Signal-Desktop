@@ -2,11 +2,12 @@ import { _electron, Page, test } from '@playwright/test';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
 import { sleepFor } from '../../session/utils/Promise';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 let window: Page | undefined;
-test.beforeEach(cleanUpOtherTest);
+test.beforeEach(beforeAllClean);
+
 test.afterEach(async () => {
   if (window) {
     await forceCloseAllWindows([window]);

@@ -9,38 +9,51 @@ import { MemberListItem } from '../../MemberListItem';
 import { OverlayHeader } from './OverlayHeader';
 // tslint:disable: no-submodule-imports use-simple-attributes
 
-import { setOverlayMode } from '../../../state/ducks/section';
+import { resetOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
 import { SpacerLG } from '../../basic/Text';
 import { MainViewController } from '../../MainViewController';
 import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
+import { SessionSearchInput } from '../../SessionSearchInput';
+import { getSearchResults, isSearching } from '../../../state/selectors/search';
+import { useSet } from '../../../hooks/useSet';
+import { VALIDATION } from '../../../session/constants';
+
+const StyledMemberListNoContacts = styled.div`
+  font-family: var(--font-font-mono);
+  background: var(--color-cell-background);
+  text-align: center;
+  padding: 20px;
+`;
+
+const StyledGroupMemberListContainer = styled.div`
+  padding: 2px 0px;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  border: var(--border-session);
+`;
+
+const NoContacts = () => {
+  return (
+    <StyledMemberListNoContacts>{window.i18n('noContactsForGroup')}</StyledMemberListNoContacts>
+  );
+};
 
 export const OverlayClosedGroup = () => {
   const dispatch = useDispatch();
   const privateContactsPubkeys = useSelector(getPrivateContactsPubkeys);
-  // FIXME autofocus inputref on mount
   const [groupName, setGroupName] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedMemberIds, setSelectedMemberIds] = useState<Array<string>>([]);
+  const {
+    uniqueValues: selectedMemberIds,
+    addTo: addToSelected,
+    removeFrom: removeFromSelected,
+  } = useSet<string>([]);
 
   function closeOverlay() {
-    dispatch(setOverlayMode(undefined));
-  }
-
-  function handleSelectMember(memberId: string) {
-    if (selectedMemberIds.includes(memberId)) {
-      return;
-    }
-
-    setSelectedMemberIds([...selectedMemberIds, memberId]);
-  }
-
-  function handleUnselectMember(unselectId: string) {
-    setSelectedMemberIds(
-      selectedMemberIds.filter(id => {
-        return id !== unselectId;
-      })
-    );
+    dispatch(resetOverlayMode());
   }
 
   async function onEnterPressed() {
@@ -59,12 +72,26 @@ export const OverlayClosedGroup = () => {
 
   useKey('Escape', closeOverlay);
 
-  const title = window.i18n('newClosedGroup');
-  const buttonText = window.i18n('done');
+  const title = window.i18n('createGroup');
+  const buttonText = window.i18n('create');
   const subtitle = window.i18n('createClosedGroupNamePrompt');
   const placeholder = window.i18n('createClosedGroupPlaceholder');
 
   const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
+
+  const isSearch = useSelector(isSearching);
+  const searchResultsSelected = useSelector(getSearchResults);
+  const searchResults = isSearch ? searchResultsSelected : undefined;
+  let sharedWithResults: Array<string> = [];
+
+  if (searchResults && searchResults.contactsAndGroups.length) {
+    sharedWithResults = searchResults.contactsAndGroups
+      .filter(convo => convo.isPrivate)
+      .map(convo => convo.id);
+  }
+  const contactsToRender = isSearch ? sharedWithResults : privateContactsPubkeys;
+
+  const disableCreateButton = !selectedMemberIds.length && !groupName.length;
 
   return (
     <div className="module-left-pane-overlay">
@@ -75,7 +102,7 @@ export const OverlayClosedGroup = () => {
           placeholder={placeholder}
           value={groupName}
           isGroup={true}
-          maxLength={100}
+          maxLength={VALIDATION.MAX_GROUP_NAME_LENGTH}
           onChange={setGroupName}
           onPressEnter={onEnterPressed}
           dataTestId="new-closed-group-name"
@@ -85,37 +112,36 @@ export const OverlayClosedGroup = () => {
       <SessionSpinner loading={loading} />
 
       <SpacerLG />
-      <div className="group-member-list__container">
+      <SessionSearchInput />
+
+      <StyledGroupMemberListContainer>
         {noContactsForClosedGroup ? (
-          <div className="group-member-list__no-contacts">{window.i18n('noContactsForGroup')}</div>
+          <NoContacts />
         ) : (
           <div className="group-member-list__selection">
-            {privateContactsPubkeys.map((memberPubkey: string) => (
+            {contactsToRender.map((memberPubkey: string) => (
               <MemberListItem
                 pubkey={memberPubkey}
                 isSelected={selectedMemberIds.some(m => m === memberPubkey)}
                 key={memberPubkey}
-                onSelect={selectedMember => {
-                  handleSelectMember(selectedMember);
-                }}
-                onUnselect={unselectedMember => {
-                  handleUnselectMember(unselectedMember);
-                }}
+                onSelect={addToSelected}
+                onUnselect={removeFromSelected}
               />
             ))}
           </div>
         )}
-      </div>
+      </StyledGroupMemberListContainer>
 
-      <SpacerLG />
+      <SpacerLG style={{ flexShrink: 0 }} />
 
       <SessionButton
         buttonColor={SessionButtonColor.Green}
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
-        disabled={noContactsForClosedGroup}
+        disabled={disableCreateButton}
         onClick={onEnterPressed}
         dataTestId="next-button"
+        margin="auto 0 var(--margins-lg) 0 " // just to keep that button at the bottom of the overlay (even with an empty list)
       />
     </div>
   );

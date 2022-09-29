@@ -1,5 +1,3 @@
-$onionPathLineColor: rgba(#7a7a7a, 0.6);
-
 #root {
   height: 100%;
 }
@@ -81,7 +79,7 @@ textarea {
     overflow: hidden;
     outline: none;
     color: $textAndBorderColor;
-    border: 2px solid $textAndBorderColor;
+    border: 1px solid $textAndBorderColor;
   }
 
   width: auto;
@@ -92,11 +90,11 @@ textarea {
   user-select: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
   background-color: rgba(0, 0, 0, 0);
 
   &.disabled {
-    cursor: default;
+    cursor: not-allowed;
   }
 
   &.default,
@@ -106,18 +104,6 @@ textarea {
 
     &:not(.disabled):hover {
       background: var(--color-clickable-hovered);
-    }
-
-    &.green,
-    &.white,
-    &.primary,
-    &.secondary,
-    &.success,
-    &.danger,
-    &.warning {
-      &.disabled {
-        filter: brightness(60%);
-      }
     }
 
     &.green {
@@ -183,10 +169,10 @@ textarea {
     &.white,
     &.green {
       &.disabled {
-        filter: brightness(60%);
+        @include transparent-background(var(--color-text-subtle));
 
         &:hover {
-          filter: brightness(60%);
+          @include transparent-background(var(--color-text-subtle));
         }
       }
     }
@@ -194,9 +180,9 @@ textarea {
 
   &.brand {
     min-width: 165px;
-    height: 45px;
+    height: 34px;
     align-items: center;
-    padding: 0px $session-margin-lg;
+    padding: 0px var(--margins-lg);
     font-size: $session-font-md;
     font-family: $session-font-accent;
     border-radius: 500px;
@@ -229,7 +215,7 @@ textarea {
 
 .session-label {
   color: $session-color-white;
-  padding: $session-margin-sm;
+  padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
   text-align: center;
@@ -260,7 +246,7 @@ textarea {
   &:hover {
     opacity: 1;
   }
-  transition: opacity $session-transition-duration;
+  transition: opacity var(--default-duration);
 
   &.no-opacity {
     opacity: 1;
@@ -269,7 +255,7 @@ textarea {
 
 /* CONVERSATION AND MESSAGES */
 .module-conversation-header {
-  height: $main-view-header-height;
+  height: var(--main-view-header-height);
 }
 
 .module-conversation-header__title-flex,
@@ -280,8 +266,7 @@ textarea {
   font-size: $session-font-md;
 
   &-text {
-    @include session-color-subtle(var(--color-text));
-
+    color: var(--color-text-subtle);
     font-weight: 400;
     font-size: $session-font-sm;
     line-height: $session-font-sm;
@@ -329,7 +314,7 @@ textarea {
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
-  max-width: calc(100vw - 380px - 50px);
+  max-width: 100%;
   align-items: center;
 }
 label {
@@ -348,7 +333,7 @@ label {
 
 .module-conversation-header {
   position: relative;
-  padding: 0px $session-margin-lg 0px $session-margin-sm;
+  padding: 0px var(--margins-lg) 0px var(--margins-sm);
 }
 
 .title-wrapper {
@@ -393,7 +378,7 @@ label {
 }
 
 .session-modal {
-  animation: fadein $session-transition-duration;
+  animation: fadein var(--default-duration);
   z-index: 150;
   min-width: 300px;
   box-sizing: border-box;
@@ -416,7 +401,7 @@ label {
     justify-content: space-between;
     align-items: center;
 
-    padding: $session-margin-lg;
+    padding: var(--margins-lg);
 
     font-family: $session-font-default;
     text-align: center;
@@ -447,7 +432,7 @@ label {
     }
     &__close > div {
       float: left;
-      padding: $session-margin-xs;
+      padding: var(--margins-xs);
       margin: 0px;
     }
     &__icons > div {
@@ -457,7 +442,7 @@ label {
   }
 
   &__body {
-    padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
+    padding: 0px var(--margins-lg) var(--margins-lg) var(--margins-lg);
     font-family: $session-font-default;
     line-height: $session-font-md;
     font-size: $session-font-md;
@@ -492,7 +477,7 @@ label {
     justify-content: flex-end;
 
     .session-button {
-      margin: $session-margin-xs;
+      margin: var(--margins-xs);
     }
 
     &__center {
@@ -500,7 +485,7 @@ label {
       justify-content: center;
 
       .session-button {
-        margin: $session-margin-xs;
+        margin: var(--margins-xs);
       }
     }
   }
@@ -524,7 +509,7 @@ label {
 .session-confirm {
   &-wrapper {
     .session-modal__body .session-modal__centered {
-      margin: $session-margin-lg;
+      margin: var(--margins-lg);
       text-align: center;
     }
   }
@@ -541,37 +526,9 @@ label {
 }
 
 .session-toggle {
-  width: 51px;
-  height: 31px;
-  border: 1.5px solid #e5e5ea;
-  border-radius: 16px;
-  position: relative;
-
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0);
-
-  .knob {
-    position: absolute;
-    top: 0.5px;
-    left: 0.5px;
-    height: 27px;
-    width: 27px;
-    border-radius: 28px;
-    background-color: $session-color-white;
-    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
-      0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
-
-    transition: transform $session-transition-duration ease,
-      background-color $session-transition-duration ease;
-  }
-
   &.active {
     background-color: $session-color-green;
     border-color: $session-color-green;
-
-    .knob {
-      transform: translateX(20px);
-    }
   }
 }
 
@@ -596,7 +553,7 @@ label {
     color: var(--color-text-menu-highlighted);
   }
   .react-contexify__item__content {
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
     color: var(--color-text);
   }
 
@@ -619,7 +576,7 @@ label {
     align-items: center;
     justify-content: space-between;
     height: 50px;
-    padding: 0px $session-margin-md;
+    padding: 0px var(--margins-md);
     font-size: $session-font-sm;
 
     color: var(--color-text);
@@ -650,13 +607,13 @@ label {
     align-items: center;
     justify-content: center;
     height: 35px;
-    padding: 0 $session-margin-md;
+    padding: 0 var(--margins-md);
     background: var(--color-cell-background);
     color: var(--color-text);
 
     font-size: 0.8rem;
     width: -webkit-fill-available;
-    transition: $session-transition-duration;
+    transition: var(--default-duration);
 
     &:first-child {
       border-top: var(--border-session);
@@ -706,7 +663,7 @@ label {
   border-radius: 100%;
   background-color: rgba($session-color-black, 0.72);
   opacity: 0;
-  transition: $session-transition-duration;
+  transition: var(--default-duration);
 
   &:after {
     content: 'Edit';
@@ -727,7 +684,7 @@ label {
     width: 135px;
     height: 135px;
     border-radius: 3px;
-    padding: $session-margin-xs;
+    padding: var(--margins-xs);
     background-color: $session-color-white;
   }
 }
@@ -807,104 +764,6 @@ label {
   display: flex;
   flex-direction: column;
 
-  &-list {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  &-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: $main-view-header-height;
-    background: var(--color-cell-background);
-
-    &-title {
-      line-height: $main-view-header-height;
-      font-weight: bold;
-      font-size: $session-font-lg;
-      text-align: center;
-      flex-grow: 1;
-    }
-
-    .session-button,
-    .session-icon-button {
-      margin-inline-end: $session-margin-lg;
-    }
-  }
-
-  &-item {
-    font-size: $session-font-md;
-    padding: $session-margin-lg;
-    margin-bottom: 20px;
-
-    background: var(--color-cell-background);
-    color: var(--color-text);
-    border-bottom: var(--border-session);
-
-    &.inline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    &__info {
-      padding-inline-end: $session-margin-lg;
-    }
-
-    &__title {
-      line-height: 1.7;
-      font-size: $session-font-lg;
-      font-weight: bold;
-    }
-
-    &__description {
-      font-family: $session-font-default;
-      font-size: $session-font-sm;
-      font-weight: 400;
-      max-width: 700px;
-      @include session-color-subtle(var(--color-text));
-    }
-
-    &__content {
-      label {
-        @include session-color-subtle(var(--color-text));
-      }
-    }
-    &__selection {
-      .session-toggle {
-        transition: $session-transition-duration;
-      }
-    }
-  }
-
-  &-view {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-  }
-
-  &__version-info {
-    display: flex;
-    justify-content: space-between;
-
-    padding: $session-margin-sm $session-margin-md;
-    background: none;
-    font-size: $session-font-xs;
-
-    span {
-      opacity: 0.4;
-      transition: $session-transition-duration;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
   &__password-lock {
     display: flex;
     align-items: center;
@@ -918,34 +777,13 @@ label {
       align-items: center;
 
       max-width: 90%;
-      width: 600px;
+      min-width: 400px;
 
       background: var(--color-cell-background);
       color: var(--color-text);
 
       border: 1px solid $session-shade-8;
       border-radius: 5px;
-
-      h3 {
-        padding: 0px;
-        margin-bottom: $session-margin-lg;
-      }
-
-      input {
-        width: 100%;
-        background: var(--color-input-background);
-        color: var(--color-text);
-
-        padding: $session-margin-xs $session-margin-md;
-        margin-bottom: $session-margin-lg;
-        outline: none;
-        border: none;
-        border-radius: 2px;
-        text-align: center;
-        font-size: $session-font-xl;
-        letter-spacing: 5px;
-        font-family: $session-font-default;
-      }
     }
   }
 }
@@ -954,67 +792,17 @@ label {
 .qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
-  padding: $session-margin-xs;
+  padding: var(--margins-xs);
   background-color: $session-color-white;
   border-radius: 3px;
 }
 
-.seed-dialog {
-  &__description {
-    max-width: $session-modal-size-lg;
-  }
-}
-
 .messages li {
-  transition: $session-transition-duration !important;
-}
-
-.session-radio-group fieldset {
-  border: none;
-  margin-inline-start: $session-margin-sm;
-  margin-top: $session-margin-sm;
-}
-
-.session-radio-group fieldset {
-  input[type='radio'] {
-    opacity: 0;
-    position: absolute;
-    cursor: pointer;
-  }
-
-  label {
-    margin-inline-end: 1em;
-    cursor: pointer;
-  }
-
-  label:before {
-    content: '';
-    display: inline-block;
-    width: 0.5em;
-    height: 0.5em;
-    margin-inline-end: 0.8em;
-    border-radius: 100%;
-    vertical-align: 0px;
-    border: 2px solid rgba($session-color-white, 0.6);
-    padding: 0.2em;
-    background: none;
-    border-color: var(--color-accent);
-
-    background-clip: content-box;
-    transition: $session-transition-duration;
-  }
-
-  input:hover + label:before {
-    background: var(--color-accent);
-  }
-
-  input:checked + label:before {
-    background: var(--color-accent);
-  }
+  transition: var(--default-duration) !important;
 }
 
 .session-id-editable {
-  padding: $session-margin-lg;
+  padding: var(--margins-lg);
 
   textarea {
     width: 30vh;
@@ -1028,7 +816,12 @@ label {
   padding: 0px 5px 20px 5px;
 
   &.session-id-editable-textarea:placeholder-shown {
-    padding: 10px 5px 0px 5px;
+    height: 38px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: var(--font-default);
   }
 
   &.group-id-editable-textarea {
@@ -1042,6 +835,8 @@ input {
 }
 
 .contact-selection-list {
+  display: flex;
+  flex-direction: column;
   width: 20vw;
 }
 
@@ -1056,94 +851,35 @@ input {
   }
 }
 
-.onion__description {
-  min-width: 400px;
-  width: 0;
-}
-
-.onion__node-list {
-  display: flex;
-  flex-direction: column;
-  margin: $session-margin-sm;
-  align-items: center;
-  min-width: 10vw;
-  position: relative;
-
-  .onion__node {
+.messages-container {
+  .session-icon-button {
     display: flex;
-    flex-grow: 1;
+    justify-content: center;
     align-items: center;
-    margin: $session-margin-xs;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    background-color: var(--color-cell-background);
+    box-shadow: var(--color-session-shadow);
 
-    &:nth-child(2) {
-      margin-top: 0;
+    svg path {
+      transition: var(--default-duration);
+      opacity: 0.6;
+      fill: var(--color-text);
     }
 
-    &:nth-last-child(2) {
-      margin-bottom: 0;
+    &:hover svg path {
+      opacity: 1;
     }
-
-    .session-icon-button {
-      margin: $session-margin-sm !important;
-    }
-  }
-
-  .onion__node-list-lights {
-    position: relative;
-  }
-  .onion__node__country {
-    margin: $session-margin-sm;
-    min-width: 150px;
-  }
-
-  .onion__growing-icon {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .onion__vertical-line {
-    background: $onionPathLineColor;
-    position: absolute;
-    height: calc(100% - 2 * 15px);
-    margin: 15px calc(100% / 2 - 1px);
-
-    width: 1px;
-  }
-}
-
-.session-nickname-wrapper {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: flex;
-
-  .session-modal {
-    margin: auto auto;
   }
 }
 
 .group-member-list {
-  &__container {
-    padding: 2px 0px;
-    width: 100%;
-    max-height: 400px;
-    overflow-y: auto;
-    border: var(--border-session);
-  }
-
   &__selection {
     height: 100%;
     display: flex;
     flex-direction: column;
-  }
-
-  &__no-contacts {
-    font-family: $session-font-mono;
-    background: var(--color-cell-background);
-
-    text-align: center;
-    padding: 20px;
   }
 }
 
@@ -1165,65 +901,6 @@ input {
   }
 }
 
-.session-member-item.compact {
-  height: 40px;
-}
-
-.session-member-item {
-  cursor: pointer;
-  flex-shrink: 0;
-  font-family: $session-font-default;
-  padding: 0px $session-margin-sm;
-  height: 50px;
-  display: flex;
-  justify-content: space-between;
-  transition: $session-transition-duration;
-
-  &:not(:last-child) {
-    border-bottom: var(--border-session);
-  }
-
-  &.selected {
-    background-color: var(--color-conversation-item-selected) !important;
-  }
-
-  &.zombie {
-    opacity: 0.5;
-  }
-
-  &__checkmark {
-    opacity: 0;
-    transition: $session-transition-duration;
-
-    &.selected {
-      opacity: 1;
-      svg {
-        fill: var(--color-accent) !important;
-      }
-    }
-  }
-
-  &__info,
-  &__checkmark {
-    display: flex;
-    align-items: center;
-  }
-
-  &__name {
-    font-weight: bold;
-    margin-inline-start: $session-margin-md;
-    margin-inline-end: $session-margin-md;
-  }
-  &__pubkey {
-    margin-inline-start: 5px;
-    opacity: 0.8;
-  }
-
-  &__avatar > div {
-    margin-bottom: 0px !important;
-  }
-}
-
 .module-message-detail {
   .module-message {
     pointer-events: none;
@@ -1232,21 +909,4 @@ input {
 
 .module-message__text {
   white-space: pre-wrap;
-}
-
-.speedButton {
-  padding: $session-margin-xs;
-  opacity: 0.6;
-  transition: none;
-  &:hover {
-    opacity: 1;
-  }
-
-  .session-button {
-    transition: none;
-
-    &:hover {
-      color: var(--color-text-opposite);
-    }
-  }
 }

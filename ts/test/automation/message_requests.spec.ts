@@ -1,13 +1,14 @@
 import { _electron, Page, test } from '@playwright/test';
 import { sendNewMessage } from './send_message';
-import { cleanUpOtherTest, forceCloseAllWindows } from './setup/beforeEach';
+import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { openAppsAndNewUsers } from './setup/new_user';
 import { clickOnTestIdWithText, waitForMatchingText, waitForTestIdWithText } from './utils';
 
 const testMessage = 'A -> B';
-test.beforeEach(cleanUpOtherTest);
 
 let windows: Array<Page> = [];
+test.beforeEach(beforeAllClean);
+
 test.afterEach(() => forceCloseAllWindows(windows));
 // Open two windows and log into 2 separate accounts
 test.describe('Message requests', () => {

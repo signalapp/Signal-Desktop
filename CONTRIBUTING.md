@@ -9,6 +9,9 @@ easily reviewed changes with clear and specific intentions. See below for more
 It's a good idea to gauge interest in your intended work by finding the current issue
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
+If you intend to make a pull request for a new feature and the feature is user facing,
+please let us know in a new, or existing issue, so we can guide your efforts around 
+UX/UI considerations.
 
 You're most likely to have your pull request accepted easily if it addresses bugs already
 in the [Next Steps project](https://github.com/oxen-io/session-desktop/projects/1),
@@ -60,10 +63,9 @@ git clone https://github.com/oxen-io/session-desktop.git
 cd session-desktop
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
-yarn grunt                     # Generate final JS and CSS assets
-yarn icon-gen                  # Generate full set of icons for Electron
+yarn build-everything
 yarn test                      # A good idea to make sure tests run first
-yarn start                     # Start Session!
+yarn start-prod                # Start Session!
 ```
 
 You'll need to restart the application regularly to see your changes, as there
@@ -72,14 +74,10 @@ is no automatic restart mechanism. Alternatively, keep the developer tools open
 <kbd>Cmd</kbd> + <kbd>R</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd>R</kbd>
 (Windows & Linux).
 
-Also, note that the assets loaded by the application are not necessarily the same files
-you’re touching. You may not see your changes until you run `yarn grunt` on the
-command-line like you did during setup. You can make it easier on yourself by generating
-the latest built assets when you change a file. Run this in its own terminal instance
-while you make changes:
-
 ```
-yarn grunt dev # runs until you stop it, re-generating built assets on file changes
+yarn build-everything:watch # runs until you stop it, re-generating built assets on file changes
+# Once this command is waiting for changes, you will need to run in another terminal `yarn parcel-util-worker` to fix the "exports undefined" error on start.
+# If you do change the sass while this command is running, it won't pick it up. You need to either run `yarn sass` or have `yarn sass:watch` running in a separate terminal.
 ```
 
 ## Multiple instances
@@ -93,8 +91,6 @@ directory from `%appData%/Session` to `%appData%/Session-{environment}-{instance
 There are a few scripts which you can use:
 
 ```
-yarn start - Start development
-MULTI=1 yarn start - Start second instance of development
 yarn start-prod - Start production but in development mode
 MULTI=1 yarn start-prod - Start another instance of production
 ```
@@ -103,7 +99,7 @@ For more than 2 clients, you may run the above command with `NODE_APP_INSTANCE` 
 For example, running:
 
 ```
-NODE_APP_INSTANCE=alice yarn start
+NODE_APP_INSTANCE=alice yarn start-prod
 ```
 
 Will run the development environment with the `alice` instance and thus create a seperate storage profile.
@@ -188,6 +184,6 @@ see how they did things.
 You can build a production binary by running the following:
 
 ```
-yarn generate
+yarn build-everything
 yarn build-release
 ```

@@ -78,12 +78,12 @@ export async function handleHardforkResult(json: Record<string, any>) {
     isNumber(json.hf[1])
   ) {
     if (!hasSeenHardfork190 && json.hf[0] >= 19 && json.hf[1] >= 0) {
-      window.log.info('[HF]: We just detected HF 19.0 on "retrieve"');
+      // window.log.info('[HF]: We just detected HF 19.0 on "retrieve"');
       await Data.createOrUpdateItem({ id: 'hasSeenHardfork190', value: true });
       hasSeenHardfork190 = true;
     }
     if (!hasSeenHardfork191 && json.hf[0] >= 19 && json.hf[1] >= 1) {
-      window.log.info('[HF]: We just detected HF 19.1 on "retrieve"');
+      // window.log.info('[HF]: We just detected HF 19.1 on "retrieve"');
       await Data.createOrUpdateItem({ id: 'hasSeenHardfork191', value: true });
       hasSeenHardfork191 = true;
     }

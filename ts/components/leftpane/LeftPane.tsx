@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
@@ -8,19 +9,13 @@ import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { ActionsPanel } from './ActionsPanel';
-import { LeftPaneContactSection } from './LeftPaneContactSection';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
 
-// from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
-export type RowRendererParamsType = {
-  index: number;
-  isScrolling: boolean;
-  isVisible: boolean;
-  key: string;
-  parent: Object;
-  style: Object;
-};
+export const leftPaneListWidth = 300;
+const StyledLeftPane = styled.div`
+  width: ${leftPaneListWidth}px;
+`;
 
 const InnerLeftPaneMessageSection = () => {
   const showSearch = useSelector(isSearching);
@@ -43,10 +38,6 @@ const InnerLeftPaneMessageSection = () => {
   );
 };
 
-const InnerLeftPaneContactSection = () => {
-  return <LeftPaneContactSection />;
-};
-
 const LeftPaneSection = () => {
   const focusedSection = useSelector(getFocusedSection);
 
@@ -54,9 +45,6 @@ const LeftPaneSection = () => {
     return <InnerLeftPaneMessageSection />;
   }
 
-  if (focusedSection === SectionType.Contact) {
-    return <InnerLeftPaneContactSection />;
-  }
   if (focusedSection === SectionType.Settings) {
     return <LeftPaneSettingSection />;
   }
@@ -69,9 +57,9 @@ export const LeftPane = () => {
       <div className="module-left-pane-session">
         <ActionsPanel />
 
-        <div className="module-left-pane">
+        <StyledLeftPane className="module-left-pane">
           <LeftPaneSection />
-        </div>
+        </StyledLeftPane>
       </div>
     </SessionTheme>
   );

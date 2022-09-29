@@ -2,8 +2,8 @@ import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
 
-const white = '#ffffff';
-const black = '#000000';
+export const white = '#ffffff';
+export const black = '#000000';
 const warning = '#e7b100';
 const destructive = '#ff453a';
 const accentLightTheme = '#00e97b';
@@ -24,7 +24,7 @@ const darkColorTextSubtle = `${white}99`;
 const darkColorTextAccent = accentDarkTheme;
 const darkColorSessionShadow = `0 0 4px 0 ${white}33`;
 const darkColorComposeViewBg = '#232323';
-const darkColorSentMessageBg = accentDarkTheme;
+export const darkColorSentMessageBg = accentDarkTheme;
 const darkColorClickableHovered = '#414347';
 const darkColorSessionBorder = `1px solid ${borderDarkThemeColor}`;
 const darkColorSessionBorderColor = borderDarkThemeColor;
@@ -33,7 +33,7 @@ const darkColorPillDivider = '#353535';
 const darkColorLastSeenIndicator = accentDarkTheme;
 const darkColorQuoteBottomBarBg = '#404040';
 const darkColorCellBackground = '#1b1b1b';
-const darkColorReceivedMessageBg = '#2d2d2d';
+export const darkColorReceivedMessageBg = '#2d2d2d';
 const darkColorReceivedMessageText = white;
 
 const darkColorPillDividerText = '#a0a0a0';
@@ -41,8 +41,7 @@ const darkInputBackground = darkColorCellBackground;
 const darkFilterSessionText = 'none';
 const darkUnreadBorder = `4px solid ${accentDarkTheme}`;
 
-const darkScrollbarThumb = '#474646';
-const darkScrollbarTrack = '#1b1b1b';
+const darkScrollbarThumb = '#767676';
 const darkFakeChatBubbleBg = '#212121';
 
 const darkInboxBackground = '#171717';
@@ -116,7 +115,6 @@ export const switchHtmlToDarkTheme = () => {
   document.documentElement.style.setProperty('--border-unread', darkUnreadBorder);
 
   document.documentElement.style.setProperty('--color-scroll-bar-thumb', darkScrollbarThumb);
-  document.documentElement.style.setProperty('--color-scroll-bar-track', darkScrollbarTrack);
   document.documentElement.style.setProperty(
     '--color-fake-chat-bubble-background',
     darkFakeChatBubbleBg
@@ -170,7 +168,7 @@ const lightColorTextSubtle = `${black}99`;
 const lightColorTextAccent = accentLightTheme;
 const lightColorSessionShadow = `0 0 4px 0 ${black}5E`;
 const lightColorComposeViewBg = '#efefef';
-const lightColorSentMessageBg = accentLightTheme;
+export const lightColorSentMessageBg = accentLightTheme;
 const lightColorClickableHovered = '#dfdfdf';
 const lightColorSessionBorderColor = borderLightThemeColor;
 const lightColorSessionBorder = `1px solid ${lightColorSessionBorderColor}`;
@@ -179,7 +177,7 @@ const lightColorPillDivider = `${black}1A`;
 const lightColorLastSeenIndicator = black;
 const lightColorQuoteBottomBarBg = '#f0f0f0';
 const lightColorCellBackground = '#f9f9f9';
-const lightColorReceivedMessageBg = '#f5f5f5';
+export const lightColorReceivedMessageBg = '#f5f5f5';
 const lightColorReceivedMessageText = black;
 
 const lightColorPillDividerText = '#555555';
@@ -188,8 +186,7 @@ const lightInputBackground = '#efefef';
 const lightFilterSessionText = 'brightness(0) saturate(100%)';
 const lightUnreadBorder = `4px solid ${accentLightTheme}`;
 
-const lightScrollbarThumb = '#474646';
-const lightScrollbarTrack = '#fcfcfc';
+const lightScrollbarThumb = '#6D6D6D';
 const lightFakeChatBubbleBg = '#f5f5f5';
 
 const lightInboxBackground = white;
@@ -269,7 +266,6 @@ export const switchHtmlToLightTheme = () => {
   document.documentElement.style.setProperty('--border-unread', lightUnreadBorder);
 
   document.documentElement.style.setProperty('--color-scroll-bar-thumb', lightScrollbarThumb);
-  document.documentElement.style.setProperty('--color-scroll-bar-track', lightScrollbarTrack);
   document.documentElement.style.setProperty(
     '--color-fake-chat-bubble-background',
     lightFakeChatBubbleBg
@@ -320,9 +316,10 @@ export const SessionGlobalStyles = createGlobalStyle`
     --font-default:  'Roboto';
     --font-font-accent:  'Loor';
     --font-font-mono:  'SpaceMono';
-    --font-size-xs:  11px;
-    --font-size-sm:  13px;
-    --font-size-md:  15px;
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 17px;
     --font-size-h1: 30px;
     --font-size-h2: 24px;
     --font-size-h3: 20px;
@@ -338,8 +335,11 @@ export const SessionGlobalStyles = createGlobalStyle`
     --padding-message-content: 7px 13px;
     --border-radius-message-box: 16px;
 
+    /* SIZES */
+    --main-view-header-height: 63px;
+
     /* ANIMATIONS */
-    --default-duration: '0.25s';
+    --default-duration: 0.25s;
 
     /* FILTERS */
     --filter-session-text: ${lightFilterSessionText};
@@ -350,6 +350,7 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* CONSTANTS */
     --compositionContainerHeight: 60px;
+    --search-input-height: 34px;
 
     /* COLORS NOT CHANGING BETWEEN THEMES */
     --color-warning:  ${warning};
@@ -378,7 +379,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-pill-divider-text:  ${lightColorPillDividerText};
     --color-input-background: ${lightInputBackground};
     --color-scroll-bar-thumb: ${lightScrollbarThumb};
-    --color-scroll-bar-track: ${lightScrollbarTrack};
     --color-fake-chat-bubble-background: ${lightFakeChatBubbleBg};
     --color-inbox-background: ${lightInboxBackground};
     --color-left-pane-overlay-background: ${lightLeftPaneOverlayBg};
@@ -401,3 +401,54 @@ export const SessionTheme = ({ children }: { children: any }) => (
     {children}
   </>
 );
+
+/**
+ * Just putting those new theme values used in the settings to avoid having conflicts for now.
+ *
+ */
+
+type SettingsThemeSwitcherColor = {
+  background: string;
+  border: string;
+  sent: string;
+  received: string;
+};
+
+export const OceanBlueDark: SettingsThemeSwitcherColor = {
+  background: '#242735',
+  border: '#3D4A5E',
+  sent: '#57C9FA',
+  received: '#3D4A5D',
+};
+export const OceanBlueLight: SettingsThemeSwitcherColor = {
+  background: '#ECFAFB',
+  border: '#5CAACC',
+  sent: '#57C9FA',
+  received: '#B3EDF2',
+};
+
+export type PrimaryColorIds =
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'pink'
+  | 'purple'
+  | 'orange'
+  | 'red'
+  | 'blue'
+  | 'blue'
+  | 'blue';
+
+type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string };
+
+export const getPrimaryColors = (): Array<PrimaryColorType> => {
+  return [
+    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: '#31F196' },
+    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: '#57C9FA' },
+    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: '#FAD657' },
+    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: '#FF95EF' },
+    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: '#C993FF' },
+    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: '#FCB159' },
+    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: '#FF9C8E' },
+  ];
+};
