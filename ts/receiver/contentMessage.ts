@@ -533,6 +533,7 @@ async function handleTypingMessage(
       isTyping: started,
       sender: source,
     });
+    await conversation.commit();
   }
 }
 
@@ -621,11 +622,11 @@ async function handleMessageRequestResponse(
   );
   const mostRecentActiveAt =
     Math.max(...compact(convosToMerge.map(m => m.get('active_at')))) || Date.now();
+
   conversationToApprove.set({
     active_at: mostRecentActiveAt,
     isApproved: true,
     didApproveMe: true,
-    isTrustedForAttachmentDownload: true,
   });
 
   if (convosToMerge.length) {
