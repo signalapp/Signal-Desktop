@@ -281,26 +281,4 @@
   }
 }
 
-$session-highlight-message-shadow: 0px 0px 10px 1px $session-color-green;
 
-@keyframes remove-box-shadow {
-  0% {
-    box-shadow: none;
-  }
-  10% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  75% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  100% {
-    box-shadow: none;
-  }
-}
-
-.flash-green-once {
-  animation-name: remove-box-shadow;
-  animation-timing-function: linear;
-  animation-duration: 2s;
-  box-shadow: $session-highlight-message-shadow;
-}

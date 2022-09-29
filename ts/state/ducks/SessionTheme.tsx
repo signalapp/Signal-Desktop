@@ -332,7 +332,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-lg:  20px;
 
     /* PADDING */
+     // TODO Theming
     --padding-message-content: 7px 13px;
+    --padding-link-preview: -7px -13px 7px -13px; // bottom has positive value because a link preview has always a body below
     --border-radius-message-box: 16px;
 
     /* SIZES */

@@ -16,7 +16,7 @@ import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -42,7 +42,10 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-const StyledMessageOpaqueContent = styled.div<{ messageDirection: MessageModelType }>`
+const StyledMessageOpaqueContent = styled.div<{
+  messageDirection: MessageModelType;
+  highlight: boolean;
+}>`
   background: ${props =>
     props.messageDirection === 'incoming'
       ? 'var(--color-received-message-background)'
@@ -51,6 +54,36 @@ const StyledMessageOpaqueContent = styled.div<{ messageDirection: MessageModelTy
 
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
+
+  @keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+  ${props => {
+    return props.highlight
+      ? css`
+          animation-name: highlight;
+          animation-timing-function: linear;
+          animation-duration: 1s;
+          border-radius: 'var(--border-radius-message-box)';
+        `
+      : '';
+  }}
+}
 `;
 
 export const IsMessageVisibleContext = createContext(false);
@@ -128,11 +161,7 @@ export const MessageContent = (props: Props) => {
 
   return (
     <div
-      className={classNames(
-        'module-message__container',
-        `module-message__container--${direction}`,
-        flashGreen && 'flash-green-once'
-      )}
+      className={classNames('module-message__container', `module-message__container--${direction}`)}
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
@@ -151,7 +180,7 @@ export const MessageContent = (props: Props) => {
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {hasContentAfterAttachmentAndQuote && (
-            <StyledMessageOpaqueContent messageDirection={direction}>
+            <StyledMessageOpaqueContent messageDirection={direction} highlight={flashGreen}>
               {!isDeleted && (
                 <>
                   <MessageQuote messageId={props.messageId} />

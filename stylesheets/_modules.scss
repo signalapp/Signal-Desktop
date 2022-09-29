@@ -147,15 +147,26 @@
 
 .module-message__link-preview {
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  background: white;
+  color: black;
+  border-radius: var(--border-radius-message-box);
+  margin: var(--padding-link-preview);
+
+  .module-image {
+    margin: -1px;
+  }
 }
 
 .module-message__link-preview__content {
-  padding: 0 0 5px 0;
+  padding: 0 0 var(--margins-xs) 0;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   flex-grow: 1;
-  border: 1px solid $color-black-015;
+  margin-left: var(--margins-sm);
 }
 
 .module-message__link-preview__image_container {
