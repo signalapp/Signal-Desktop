@@ -149,9 +149,12 @@ export const StoryViewsNRepliesModal = ({
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
-      onUseEmoji(e);
+      if (inputApiRef.current) {
+        inputApiRef.current.insertEmoji(e);
+        onUseEmoji(e);
+      }
     },
-    [onUseEmoji]
+    [inputApiRef, onUseEmoji]
   );
 
   const [referenceElement, setReferenceElement] =
@@ -203,7 +206,7 @@ export const StoryViewsNRepliesModal = ({
               onEditorStateChange={messageText => {
                 setMessageBodyText(messageText);
               }}
-              onPickEmoji={insertEmoji}
+              onPickEmoji={onUseEmoji}
               onSubmit={(...args) => {
                 inputApiRef.current?.reset();
                 shouldScrollToBottomRef.current = true;
@@ -446,6 +449,7 @@ export const StoryViewsNRepliesModal = ({
 
   return (
     <Modal
+      modalName="StoryViewsNRepliesModal"
       i18n={i18n}
       moduleClassName="StoryViewsNRepliesModal"
       onClose={onClose}

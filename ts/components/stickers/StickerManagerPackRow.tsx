@@ -92,6 +92,7 @@ export const StickerManagerPackRow = React.memo(
       <>
         {uninstalling ? (
           <ConfirmationDialog
+            dialogName="StickerManagerPackRow.confirmUninstall"
             i18n={i18n}
             onClose={clearUninstalling}
             actions={[

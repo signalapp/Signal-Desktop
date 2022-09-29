@@ -18,7 +18,7 @@ export const createGroupV2JoinModal = (
 
   return (
     <Provider store={store}>
-      <ModalHost onClose={onClose}>
+      <ModalHost modalName="createGroupV2JoinModal" onClose={onClose}>
         <SmartGroupV2JoinDialog {...props} />
       </ModalHost>
     </Provider>

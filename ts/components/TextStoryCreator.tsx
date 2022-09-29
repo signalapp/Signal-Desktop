@@ -278,7 +278,10 @@ export const TextStoryCreator = ({
         setIsColorPickerShowing(false);
         return true;
       },
-      { containerElements: [colorPickerPopperRef, colorPickerPopperButtonRef] }
+      {
+        containerElements: [colorPickerPopperRef, colorPickerPopperButtonRef],
+        name: 'TextStoryCreator.colorPicker',
+      }
     );
   }, [isColorPickerShowing, colorPickerPopperRef, colorPickerPopperButtonRef]);
 

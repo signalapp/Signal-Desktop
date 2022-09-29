@@ -19,6 +19,7 @@ function runFakeClickHandlers(event: MouseEvent): void {
 }
 
 export type HandleOutsideClickOptionsType = Readonly<{
+  name: string;
   containerElements: ReadonlyArray<ContainerElementType>;
 }>;
 
@@ -38,16 +39,14 @@ export const handleOutsideClick = (
       }
       return elem.current?.contains(target);
     });
+
+    // Clicked inside of one of container elements - stop processing
     if (isInside) {
-      return false;
+      return true;
     }
 
-    const isHandled = handler(target);
-    if (!isHandled) {
-      return false;
-    }
-
-    return true;
+    // Stop processing if requested by handler function
+    return handler(target);
   };
 
   fakeClickHandlers.push(handleEvent);

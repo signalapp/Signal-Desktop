@@ -227,6 +227,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
 
   return (
     <Modal
+      modalName="EditConversationAttributesModal"
       hasStickyButtons
       hasXButton
       i18n={i18n}

@@ -93,6 +93,7 @@ function BadgeDialogWithBadges({
 
   return (
     <Modal
+      modalName="BadgeDialog"
       hasXButton
       moduleClassName="BadgeDialog"
       i18n={i18n}

@@ -11,13 +11,17 @@ import { noop } from 'lodash';
 
 import type { ModalConfigType } from '../hooks/useAnimated';
 import type { Theme } from '../util/theme';
+import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { usePrevious } from '../hooks/usePrevious';
 import { handleOutsideClick } from '../util/handleOutsideClick';
+import * as log from '../logging/log';
 
 export type PropsType = Readonly<{
   children: React.ReactElement;
+  modalName: string;
   moduleClassName?: string;
   noMouseClose?: boolean;
   onClose: () => unknown;
@@ -31,6 +35,7 @@ export type PropsType = Readonly<{
 export const ModalHost = React.memo(
   ({
     children,
+    modalName,
     moduleClassName,
     noMouseClose,
     onClose,
@@ -42,6 +47,15 @@ export const ModalHost = React.memo(
   }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const containerRef = React.useRef<HTMLDivElement | null>(null);
+    const previousModalName = usePrevious(modalName, modalName);
+
+    if (previousModalName !== modalName) {
+      log.error(
+        `ModalHost detected conflict between ${previousModalName} ` +
+          `and ${modalName}. Consider using "key" attributes on both modals.`
+      );
+      assertDev(false, 'Modal conflict');
+    }
 
     useEffect(() => {
       const div = document.createElement('div');
@@ -64,9 +78,9 @@ export const ModalHost = React.memo(
           onClose();
           return true;
         },
-        { containerElements: [containerRef] }
+        { containerElements: [containerRef], name: modalName }
       );
-    }, [noMouseClose, onClose]);
+    }, [noMouseClose, onClose, containerRef, modalName]);
 
     const className = classNames([
       theme ? themeClassName(theme) : undefined,
@@ -99,10 +113,14 @@ export const ModalHost = React.memo(
                     return false;
                   }
 
-                  const titleBar = document.querySelector(
-                    '.TitleBarContainer__title'
+                  // TitleBar should always receive clicks. Quill suggestions
+                  // are placed in the document.body so they should be exempt
+                  // too.
+                  const exemptParent = target.closest(
+                    '.TitleBarContainer__title, ' +
+                      '.module-composition-input__suggestions'
                   );
-                  if (titleBar?.contains(target)) {
+                  if (exemptParent) {
                     return true;
                   }
                   return false;

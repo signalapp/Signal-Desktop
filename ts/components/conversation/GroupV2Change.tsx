@@ -176,6 +176,7 @@ function GroupV2Detail({
 
       modalNode = (
         <Modal
+          modalName="GroupV2Change.ViewingGroupDescription"
           hasXButton
           i18n={i18n}
           title={groupName}
@@ -200,6 +201,7 @@ function GroupV2Detail({
 
       modalNode = (
         <ConfirmationDialog
+          dialogName="GroupV2Change.confirmBlockLinkRequests"
           title={i18n('PendingRequests--block--title')}
           actions={[
             {

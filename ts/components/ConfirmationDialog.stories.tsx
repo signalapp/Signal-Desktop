@@ -18,6 +18,7 @@ export default {
 export const _ConfirmationDialog = (): JSX.Element => {
   return (
     <ConfirmationDialog
+      dialogName="test"
       i18n={i18n}
       onClose={action('onClose')}
       title={text('Title', 'Foo bar banana baz?')}
@@ -46,6 +47,7 @@ _ConfirmationDialog.story = {
 export const CustomCancelText = (): JSX.Element => {
   return (
     <ConfirmationDialog
+      dialogName="test"
       cancelText="Nah"
       i18n={i18n}
       onClose={action('onClose')}

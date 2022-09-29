@@ -27,6 +27,7 @@ export const ErrorModal = (props: PropsType): JSX.Element => {
 
   return (
     <Modal
+      modalName="ErrorModal"
       i18n={i18n}
       onClose={onClose}
       title={title || i18n('ErrorModal--title')}

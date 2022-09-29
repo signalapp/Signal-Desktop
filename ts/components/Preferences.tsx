@@ -1021,6 +1021,7 @@ export const Preferences = ({
         </SettingsRow>
         {confirmDelete ? (
           <ConfirmationDialog
+            dialogName="Preference.deleteAllData"
             actions={[
               {
                 action: doDeleteAllData,

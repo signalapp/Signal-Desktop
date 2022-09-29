@@ -78,6 +78,7 @@ export const WhatsNewModal = ({
 
   return (
     <Modal
+      modalName="WhatsNewModal"
       hasXButton
       i18n={i18n}
       onClose={hideWhatsNewModal}

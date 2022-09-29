@@ -79,7 +79,10 @@ export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
   }
 
   return (
-    <ModalHost onClose={onClose}>
+    <ModalHost
+      modalName="AddGroupMemberModal.ConfirmAdditionsModal"
+      onClose={onClose}
+    >
       <div className="module-AddGroupMembersModal module-AddGroupMembersModal--confirm-adds">
         <h1 className="module-AddGroupMembersModal__header">{headerText}</h1>
         {requestState === RequestState.InactiveWithError && (

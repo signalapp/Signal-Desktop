@@ -109,7 +109,7 @@ export const EmojiButton = React.memo(
           handleClose();
           return true;
         },
-        { containerElements: [popperRoot, buttonRef] }
+        { containerElements: [popperRoot, buttonRef], name: 'EmojiButton' }
       );
     }, [open, handleClose, popperRoot]);
 

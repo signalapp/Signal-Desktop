@@ -273,6 +273,7 @@ export const StoriesSettingsModal = ({
   return (
     <>
       <Modal
+        modalName="StoriesSettingsModal"
         hasStickyButtons={hasStickyButtons}
         hasXButton
         i18n={i18n}
@@ -300,6 +301,7 @@ export const StoriesSettingsModal = ({
       </Modal>
       {confirmDeleteListId && (
         <ConfirmationDialog
+          dialogName="StoriesSettings.deleteList"
           actions={[
             {
               action: () => {
@@ -496,6 +498,7 @@ export const DistributionListSettings = ({
 
       {confirmRemoveMember && (
         <ConfirmationDialog
+          dialogName="StoriesSettings.confirmRemoveMember"
           actions={[
             {
               action: () =>

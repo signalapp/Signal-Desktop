@@ -17,6 +17,7 @@ export const SafetyNumberModal = ({
 }: PropsType): JSX.Element | null => {
   return (
     <Modal
+      modalName="SafetyNumberModal"
       hasXButton
       i18n={i18n}
       moduleClassName="module-SafetyNumberViewer__modal"

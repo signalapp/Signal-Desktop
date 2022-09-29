@@ -269,7 +269,10 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   };
 
   return (
-    <ModalHost onClose={onClose}>
+    <ModalHost
+      modalName="AddGroupMembersModal.ChooseGroupMembersModal"
+      onClose={onClose}
+    >
       <div className="module-AddGroupMembersModal module-AddGroupMembersModal--choose-members">
         <button
           aria-label={i18n('close')}

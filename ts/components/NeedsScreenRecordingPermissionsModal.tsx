@@ -26,6 +26,7 @@ export const NeedsScreenRecordingPermissionsModal = ({
 }: PropsType): JSX.Element => {
   return (
     <Modal
+      modalName="NeedsScreenRecordingPermissionsModal"
       i18n={i18n}
       title={i18n('calling__presenting--permission-title')}
       theme={Theme.Dark}

@@ -36,6 +36,7 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
   if (isClosing && !isPending) {
     return (
       <Modal
+        modalName="CaptchaDialog"
         moduleClassName="module-Modal"
         i18n={i18n}
         title={i18n('CaptchaDialog--can-close__title')}
@@ -72,6 +73,7 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
 
   return (
     <Modal
+      modalName="CaptchaDialog.pending"
       moduleClassName="module-Modal--important"
       i18n={i18n}
       title={i18n('CaptchaDialog__title')}

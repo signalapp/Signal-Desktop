@@ -12,6 +12,7 @@ export function BadgeSustainerInstructionsDialog({
 }: Readonly<{ i18n: LocalizerType; onClose: () => unknown }>): ReactElement {
   return (
     <Modal
+      modalName="BadgeSustainerInstructionsDialog"
       hasXButton
       moduleClassName="BadgeSustainerInstructionsDialog"
       i18n={i18n}

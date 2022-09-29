@@ -168,6 +168,7 @@ export const AudioCapture = ({
 
     confirmationDialog = (
       <ConfirmationDialog
+        dialogName="AudioCapture.sendAnyway"
         i18n={i18n}
         onCancel={clickCancel}
         onClose={noop}
@@ -188,6 +189,7 @@ export const AudioCapture = ({
   ) {
     confirmationDialog = (
       <ConfirmationDialog
+        dialogName="AudioCapture.error"
         i18n={i18n}
         onCancel={clickCancel}
         onClose={noop}

@@ -83,7 +83,10 @@ export function CustomizingPreferredReactionsModal({
         deselectDraftEmoji();
         return true;
       },
-      { containerElements: [popperElement] }
+      {
+        containerElements: [popperElement],
+        name: 'CustomizingPreferredReactionsModal.draftEmoji',
+      }
     );
   }, [isSomethingSelected, popperElement, deselectDraftEmoji]);
 
@@ -103,6 +106,7 @@ export function CustomizingPreferredReactionsModal({
 
   return (
     <Modal
+      modalName="CustomizingPreferredReactionsModal"
       moduleClassName="module-CustomizingPreferredReactionsModal"
       hasXButton
       i18n={i18n}

@@ -54,6 +54,7 @@ export const OutgoingGiftBadgeModal = ({
 
   return (
     <Modal
+      modalName="OutgoingGiftBadgeModal"
       i18n={i18n}
       moduleClassName={`${CLASS_NAME}__container`}
       onClose={hideOutgoingGiftBadgeModal}

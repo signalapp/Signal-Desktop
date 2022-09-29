@@ -25,7 +25,12 @@ export function ChatSessionRefreshedDialog(
   const [focusRef] = useRestoreFocus();
 
   return (
-    <Modal hasXButton={false} onClose={onClose} i18n={i18n}>
+    <Modal
+      modalName="ChatSessionRefreshedDialog"
+      hasXButton={false}
+      onClose={onClose}
+      i18n={i18n}
+    >
       <div className="module-chat-session-refreshed-dialog">
         <div className="module-chat-session-refreshed-dialog__image">
           <img

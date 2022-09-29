@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { SpringValues } from '@react-spring/web';
 import { useChain, useSpring, useSpringRef } from '@react-spring/web';
 
@@ -59,9 +59,10 @@ export function useAnimated(
   });
 
   useChain(isOpen ? [overlayRef, modalRef] : [modalRef, overlayRef]);
+  const close = useCallback(() => setIsOpen(false), []);
 
   return {
-    close: () => setIsOpen(false),
+    close,
     overlayStyles,
     modalStyles,
   };

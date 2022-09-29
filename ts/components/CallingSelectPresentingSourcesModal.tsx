@@ -84,6 +84,7 @@ export const CallingSelectPresentingSourcesModal = ({
 
   return (
     <Modal
+      modalName="CallingSelectPresentingSourcesModal"
       hasXButton
       i18n={i18n}
       moduleClassName="module-CallingSelectPresentingSourcesModal"

@@ -47,6 +47,7 @@ export const ProfileEditorModal = ({
   if (hasError) {
     return (
       <ConfirmationDialog
+        dialogName="ProfileEditorModal.error"
         cancelText={i18n('Confirmation--confirm')}
         i18n={i18n}
         onClose={toggleProfileEditorHasError}
@@ -59,6 +60,7 @@ export const ProfileEditorModal = ({
   return (
     <>
       <Modal
+        modalName="ProfileEditorModal"
         hasStickyButtons
         hasXButton
         i18n={i18n}

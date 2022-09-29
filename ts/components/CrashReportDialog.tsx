@@ -35,6 +35,7 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
 
   return (
     <Modal
+      modalName="CrashReportDialog"
       moduleClassName="module-Modal--important"
       i18n={i18n}
       title={i18n('CrashReportDialog__title')}

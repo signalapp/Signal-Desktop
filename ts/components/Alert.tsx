@@ -21,7 +21,7 @@ export const Alert: FunctionComponent<PropsType> = ({
   onClose,
   title,
 }) => (
-  <Modal i18n={i18n} onClose={onClose} title={title}>
+  <Modal modalName="Alert" i18n={i18n} onClose={onClose} title={title}>
     {body}
     <Modal.ButtonFooter>
       <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
