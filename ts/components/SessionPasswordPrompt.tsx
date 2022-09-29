@@ -5,8 +5,8 @@ import { SessionIcon } from './icon';
 import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
-import { Constants } from '../session';
 import { SessionSpinner } from './basic/SessionSpinner';
+import { switchHtmlToDarkTheme } from '../state/ducks/SessionTheme';
 
 interface State {
   error: string;
@@ -41,6 +41,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   }
 
   public componentDidMount() {
+    switchHtmlToDarkTheme();
     setTimeout(() => {
       this.inputRef?.focus();
     }, 100);
@@ -70,17 +71,15 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         id="password-prompt-input"
         type="password"
         defaultValue=""
-        placeholder={' '}
+        placeholder={window.i18n('enterPassword')}
         onKeyUp={this.onKeyUp}
         ref={input => {
           this.inputRef = input;
         }}
       />
     );
-    const infoIcon = this.state.clearDataView ? (
+    const infoIcon = this.state.clearDataView ?? (
       <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" />
-    ) : (
-      <SessionIcon iconType="lock" iconSize={35} iconColor={Constants.UI.COLORS.GREEN} />
     );
     const errorSection = !this.state.clearDataView && (
       <div className="password-prompt-error-section">
@@ -183,7 +182,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
           </>
         )}
         <SessionButton
-          text={window.i18n('unlock')}
+          text={window.i18n('done')}
           buttonType={SessionButtonType.BrandOutline}
           buttonColor={SessionButtonColor.Green}
           onClick={this.initLogin}

@@ -26,10 +26,10 @@ const StyledSessionToggle = styled.div<{ active: boolean }>`
   border: 1px solid #e5e5ea; // TODO Theming update
   border-radius: 16px;
   position: relative;
-
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0);
   transition: var(--default-duration);
+  flex-shrink: 0;
 
   background-color: ${props =>
     props.active ? 'var(--color-accent)' : 'var(--color-clickable-hovered)'};

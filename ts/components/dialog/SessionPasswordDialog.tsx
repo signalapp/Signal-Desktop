@@ -50,14 +50,21 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
   public render() {
     const { passwordAction } = this.props;
-    const placeholders =
-      passwordAction === 'change'
-        ? [
-            window.i18n('typeInOldPassword'),
-            window.i18n('enterPassword'),
-            window.i18n('confirmPassword'),
-          ]
-        : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
+    let placeholders: Array<string> = [];
+    switch (passwordAction) {
+      case 'change':
+        placeholders = [
+          window.i18n('typeInOldPassword'),
+          window.i18n('enterNewPassword'),
+          window.i18n('confirmNewPassword'),
+        ];
+        break;
+      case 'remove':
+        placeholders = [window.i18n('enterPassword')];
+        break;
+      default:
+        placeholders = [window.i18n('createPassword'), window.i18n('confirmPassword')];
+    }
 
     const confirmButtonColor =
       passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
@@ -177,8 +184,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('setPasswordTitle'),
-      window.i18n('setPasswordToastDescription'),
-      'lock'
+      window.i18n('setPasswordToastDescription')
     );
 
     this.props.onOk();
@@ -216,8 +222,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('changePasswordTitle'),
-      window.i18n('changePasswordToastDescription'),
-      'lock'
+      window.i18n('changePasswordToastDescription')
     );
 
     this.props.onOk();

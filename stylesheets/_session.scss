@@ -319,7 +319,7 @@ pre {
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
-  max-width: calc(100vw - 380px - 100px);
+  max-width: 100%;
   align-items: center;
 }
 label {
@@ -793,7 +793,7 @@ label {
       align-items: center;
 
       max-width: 90%;
-      width: 600px;
+      min-width: 400px;
 
       background: var(--color-cell-background);
       color: var(--color-text);
@@ -832,7 +832,11 @@ label {
   padding: 0px 5px 20px 5px;
 
   &.session-id-editable-textarea:placeholder-shown {
-    padding: 10px 5px 0px 5px;
+    height: 38px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     font-family: var(--font-default);
   }
 

@@ -265,5 +265,3 @@ window.addEventListener('contextmenu', e => {
     e.preventDefault();
   }
 });
-
-// Blocking

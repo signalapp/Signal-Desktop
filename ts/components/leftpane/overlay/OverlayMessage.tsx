@@ -19,6 +19,16 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSess
 import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
 import { SpacerMD } from '../../basic/Text';
+import styled from 'styled-components';
+
+const SessionIDDescription = styled.div`
+  color: var(--color-text-subtle);
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  text-align: center;
+`;
 
 function copyOurSessionID() {
   const ourSessionId = UserUtils.getOurPubKeyStrFromCache();
@@ -42,8 +52,8 @@ export const OverlayMessage = () => {
 
   const title = window.i18n('newMessage');
   const buttonText = window.i18n('next');
-  const subtitle = window.i18n('enterSessionIDOrONSName');
-  const placeholder = window.i18n('enterSessionIDOfRecipient');
+  const subtitle = window.i18n('enterSessionID');
+  const placeholder = window.i18n('enterSessionIDOrONSName');
 
   const disableNextButton = !pubkeyOrOns || loading;
 
@@ -111,6 +121,8 @@ export const OverlayMessage = () => {
       />
 
       <SessionSpinner loading={loading} />
+
+      <SessionIDDescription>{window.i18n('startNewConversationBy...')}</SessionIDDescription>
 
       <Flex container={true} width="100%">
         <SpacerMD />
