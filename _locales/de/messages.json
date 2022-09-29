@@ -5607,7 +5607,7 @@
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Auf Story reagiert",
+    "message": "Hat auf die Story reagiert",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5739,11 +5739,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Auf eine Story von $name$ reagiert",
+    "message": "Hat auf eine Story von $name$ reagiert",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Auf eine Story reagiert",
+    "message": "Hat auf eine Story reagiert",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {
