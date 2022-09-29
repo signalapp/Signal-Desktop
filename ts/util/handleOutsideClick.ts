@@ -8,11 +8,15 @@ export type ContainerElementType = Node | RefObject<Node> | null | undefined;
 
 // TODO(indutny): DESKTOP-4177
 // A stack of handlers. Handlers are executed from the top to the bottom
-const fakeClickHandlers = new Array<(event: MouseEvent) => boolean>();
+const fakeClickHandlers = new Array<{
+  name: string;
+  handleEvent: (event: MouseEvent) => boolean;
+}>();
 
 function runFakeClickHandlers(event: MouseEvent): void {
-  for (const handler of fakeClickHandlers.slice().reverse()) {
-    if (handler(event)) {
+  for (const entry of fakeClickHandlers.slice().reverse()) {
+    const { handleEvent } = entry;
+    if (handleEvent(event)) {
       break;
     }
   }
@@ -25,7 +29,7 @@ export type HandleOutsideClickOptionsType = Readonly<{
 
 export const handleOutsideClick = (
   handler: ClickHandlerType,
-  { containerElements }: HandleOutsideClickOptionsType
+  { name, containerElements }: HandleOutsideClickOptionsType
 ): (() => void) => {
   const handleEvent = (event: MouseEvent) => {
     const target = event.target as Node;
@@ -49,19 +53,20 @@ export const handleOutsideClick = (
     return handler(target);
   };
 
-  fakeClickHandlers.push(handleEvent);
+  const fakeHandler = { name, handleEvent };
+  fakeClickHandlers.push(fakeHandler);
   if (fakeClickHandlers.length === 1) {
     const useCapture = true;
     document.addEventListener('click', runFakeClickHandlers, useCapture);
   }
 
   return () => {
-    const index = fakeClickHandlers.indexOf(handleEvent);
+    const index = fakeClickHandlers.indexOf(fakeHandler);
     fakeClickHandlers.splice(index, 1);
 
     if (fakeClickHandlers.length === 0) {
       const useCapture = true;
-      document.removeEventListener('click', handleEvent, useCapture);
+      document.removeEventListener('click', runFakeClickHandlers, useCapture);
     }
   };
 };

@@ -43,7 +43,7 @@ export class MentionCompletion {
 
   suggestionListRef: RefObject<HTMLDivElement>;
 
-  outsideClickDestructor: () => void;
+  outsideClickDestructor?: () => void;
 
   constructor(quill: Quill, options: MentionCompletionOptions) {
     this.results = [];
@@ -52,18 +52,6 @@ export class MentionCompletion {
     this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
     this.suggestionListRef = React.createRef<HTMLDivElement>();
-
-    // Just to make sure that we don't propagate outside clicks until this
-    // is closed.
-    this.outsideClickDestructor = handleOutsideClick(
-      () => {
-        return true;
-      },
-      {
-        name: 'quill.emoji.completion',
-        containerElements: [this.root],
-      }
-    );
 
     const clearResults = () => {
       if (this.results.length) {
@@ -92,7 +80,9 @@ export class MentionCompletion {
   }
 
   destroy(): void {
-    this.outsideClickDestructor();
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = undefined;
+
     this.root.remove();
   }
 
@@ -220,7 +210,9 @@ export class MentionCompletion {
   }
 
   onUnmount(): void {
-    document.body.removeChild(this.root);
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = undefined;
+    this.options.setMentionPickerElement(null);
   }
 
   render(): void {
@@ -228,7 +220,7 @@ export class MentionCompletion {
     const { getPreferredBadge, theme } = this.options;
 
     if (memberResults.length === 0) {
-      this.options.setMentionPickerElement(null);
+      this.onUnmount();
       return;
     }
 
@@ -291,6 +283,20 @@ export class MentionCompletion {
         )}
       </Popper>,
       this.root
+    );
+
+    // Just to make sure that we don't propagate outside clicks until this
+    // is closed.
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = handleOutsideClick(
+      () => {
+        this.onUnmount();
+        return true;
+      },
+      {
+        name: 'quill.mentions.completion',
+        containerElements: [this.root],
+      }
     );
 
     this.options.setMentionPickerElement(element);

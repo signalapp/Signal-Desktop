@@ -42,7 +42,7 @@ export class EmojiCompletion {
 
   quill: Quill;
 
-  outsideClickDestructor: () => void;
+  outsideClickDestructor?: () => void;
 
   constructor(quill: Quill, options: EmojiPickerOptions) {
     this.results = [];
@@ -50,18 +50,6 @@ export class EmojiCompletion {
     this.options = options;
     this.root = document.body.appendChild(document.createElement('div'));
     this.quill = quill;
-
-    // Just to make sure that we don't propagate outside clicks until this
-    // is closed.
-    this.outsideClickDestructor = handleOutsideClick(
-      () => {
-        return true;
-      },
-      {
-        name: 'quill.emoji.completion',
-        containerElements: [this.root],
-      }
-    );
 
     const clearResults = () => {
       if (this.results.length) {
@@ -108,7 +96,8 @@ export class EmojiCompletion {
   }
 
   destroy(): void {
-    this.outsideClickDestructor();
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = undefined;
     this.root.remove();
   }
 
@@ -277,14 +266,16 @@ export class EmojiCompletion {
   }
 
   onUnmount(): void {
-    document.body.removeChild(this.root);
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = undefined;
+    this.options.setEmojiPickerElement(null);
   }
 
   render(): void {
     const { results: emojiResults, index: emojiResultsIndex } = this;
 
     if (emojiResults.length === 0) {
-      this.options.setEmojiPickerElement(null);
+      this.onUnmount();
       return;
     }
 
@@ -374,7 +365,21 @@ export class EmojiCompletion {
           </div>
         )}
       </Popper>,
-      document.body
+      this.root
+    );
+
+    // Just to make sure that we don't propagate outside clicks until this
+    // is closed.
+    this.outsideClickDestructor?.();
+    this.outsideClickDestructor = handleOutsideClick(
+      () => {
+        this.onUnmount();
+        return true;
+      },
+      {
+        name: 'quill.emoji.completion',
+        containerElements: [this.root],
+      }
     );
 
     this.options.setEmojiPickerElement(element);
