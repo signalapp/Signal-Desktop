@@ -6,6 +6,7 @@ import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionSpinner } from './basic/SessionSpinner';
+import { switchHtmlToDarkTheme } from '../state/ducks/SessionTheme';
 
 interface State {
   error: string;
@@ -40,6 +41,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   }
 
   public componentDidMount() {
+    switchHtmlToDarkTheme();
     setTimeout(() => {
       this.inputRef?.focus();
     }, 100);
