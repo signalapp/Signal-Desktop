@@ -131,8 +131,15 @@
   //   }
   // }
 
-  input {
+  input[type='radio'] {
+    width: inherit;
+  }
+
+  input:not([type='radio']) {
     width: 100%;
+  }
+
+  input {
     padding: 8px;
     margin-bottom: 15px;
     border: 0;

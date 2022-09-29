@@ -79,6 +79,7 @@ export const SessionRadio = (props: Props) => {
         filledSize={filledSize * 2}
         outlineOffset={outlineOffset}
         selectedColor={selectedColor}
+        data-testid={`input-${value}`}
       />
       <StyledLabel
         role="button"
@@ -88,6 +89,7 @@ export const SessionRadio = (props: Props) => {
         outlineOffset={outlineOffset}
         beforeMargins={beforeMargins}
         aria-label={label}
+        data-testid={`label-${value}`}
       >
         {label}
       </StyledLabel>
