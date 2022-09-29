@@ -82,6 +82,20 @@ export const CallingSelectPresentingSourcesModal = ({
     source => source.isScreen
   );
 
+  const footer = (
+    <>
+      <Button onClick={() => setPresenting()} variant={ButtonVariant.Secondary}>
+        {i18n('cancel')}
+      </Button>
+      <Button
+        disabled={!sourceToPresent}
+        onClick={() => setPresenting(sourceToPresent)}
+      >
+        {i18n('calling__SelectPresentingSourcesModal--confirm')}
+      </Button>
+    </>
+  );
+
   return (
     <Modal
       modalName="CallingSelectPresentingSourcesModal"
@@ -93,6 +107,7 @@ export const CallingSelectPresentingSourcesModal = ({
       }}
       theme={Theme.Dark}
       title={i18n('calling__SelectPresentingSourcesModal--title')}
+      modalFooter={footer}
     >
       <div className="module-CallingSelectPresentingSourcesModal__title">
         {i18n('calling__SelectPresentingSourcesModal--entireScreen')}
@@ -120,20 +135,6 @@ export const CallingSelectPresentingSourcesModal = ({
           />
         ))}
       </div>
-      <Modal.ButtonFooter moduleClassName="module-CallingSelectPresentingSourcesModal">
-        <Button
-          onClick={() => setPresenting()}
-          variant={ButtonVariant.Secondary}
-        >
-          {i18n('cancel')}
-        </Button>
-        <Button
-          disabled={!sourceToPresent}
-          onClick={() => setPresenting(sourceToPresent)}
-        >
-          {i18n('calling__SelectPresentingSourcesModal--confirm')}
-        </Button>
-      </Modal.ButtonFooter>
     </Modal>
   );
 };

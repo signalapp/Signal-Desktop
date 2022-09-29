@@ -34,6 +34,16 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
   };
 
   if (isClosing && !isPending) {
+    const footer = (
+      <>
+        <Button onClick={onCancelClick} variant={ButtonVariant.Secondary}>
+          {i18n('cancel')}
+        </Button>
+        <Button onClick={onSkipClick} variant={ButtonVariant.Destructive}>
+          {i18n('CaptchaDialog--can_close__skip-verification')}
+        </Button>
+      </>
+    );
     return (
       <Modal
         modalName="CaptchaDialog"
@@ -42,18 +52,11 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
         title={i18n('CaptchaDialog--can-close__title')}
         onClose={() => setIsClosing(false)}
         key="skip"
+        modalFooter={footer}
       >
         <section>
           <p>{i18n('CaptchaDialog--can-close__body')}</p>
         </section>
-        <Modal.ButtonFooter>
-          <Button onClick={onCancelClick} variant={ButtonVariant.Secondary}>
-            {i18n('cancel')}
-          </Button>
-          <Button onClick={onSkipClick} variant={ButtonVariant.Destructive}>
-            {i18n('CaptchaDialog--can_close__skip-verification')}
-          </Button>
-        </Modal.ButtonFooter>
       </Modal>
     );
   }
@@ -71,6 +74,21 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
     }
   };
 
+  const footer = (
+    <Button
+      disabled={isPending}
+      onClick={onContinueClick}
+      ref={updateButtonRef}
+      variant={ButtonVariant.Primary}
+    >
+      {isPending ? (
+        <Spinner size="22px" svgSize="small" direction="on-captcha" />
+      ) : (
+        'Continue'
+      )}
+    </Button>
+  );
+
   return (
     <Modal
       modalName="CaptchaDialog.pending"
@@ -80,25 +98,12 @@ export function CaptchaDialog(props: Readonly<PropsType>): JSX.Element {
       hasXButton
       onClose={() => setIsClosing(true)}
       key="primary"
+      modalFooter={footer}
     >
       <section>
         <p>{i18n('CaptchaDialog__first-paragraph')}</p>
         <p>{i18n('CaptchaDialog__second-paragraph')}</p>
       </section>
-      <Modal.ButtonFooter>
-        <Button
-          disabled={isPending}
-          onClick={onContinueClick}
-          ref={updateButtonRef}
-          variant={ButtonVariant.Primary}
-        >
-          {isPending ? (
-            <Spinner size="22px" svgSize="small" direction="on-captcha" />
-          ) : (
-            'Continue'
-          )}
-        </Button>
-      </Modal.ButtonFooter>
     </Modal>
   );
 }

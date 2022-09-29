@@ -31,12 +31,34 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
   // Focus first button after initial render, restore focus on teardown
   const [focusRef] = useRestoreFocus();
 
+  const footer = (
+    <>
+      <Button
+        onClick={learnMoreAboutDeliveryIssue}
+        size={ButtonSize.Medium}
+        variant={ButtonVariant.Secondary}
+      >
+        {i18n('DeliveryIssue--learnMore')}
+      </Button>
+      <Button
+        onClick={onClose}
+        ref={focusRef}
+        size={ButtonSize.Medium}
+        variant={ButtonVariant.Primary}
+        className="module-delivery-issue-dialog__close-button"
+      >
+        {i18n('Confirmation--confirm')}
+      </Button>
+    </>
+  );
+
   return (
     <Modal
       modalName="DeliveryIssueDialog"
       hasXButton={false}
       onClose={onClose}
       i18n={i18n}
+      modalFooter={footer}
     >
       <section>
         <div className="module-delivery-issue-dialog__image">
@@ -60,24 +82,6 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
           />
         </div>
       </section>
-      <Modal.ButtonFooter>
-        <Button
-          onClick={learnMoreAboutDeliveryIssue}
-          size={ButtonSize.Medium}
-          variant={ButtonVariant.Secondary}
-        >
-          {i18n('DeliveryIssue--learnMore')}
-        </Button>
-        <Button
-          onClick={onClose}
-          ref={focusRef}
-          size={ButtonSize.Medium}
-          variant={ButtonVariant.Primary}
-          className="module-delivery-issue-dialog__close-button"
-        >
-          {i18n('Confirmation--confirm')}
-        </Button>
-      </Modal.ButtonFooter>
     </Modal>
   );
 }

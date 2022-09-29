@@ -4,8 +4,7 @@
 .BadgeSustainerInstructionsDialog {
   user-select: none;
 
-  // We use this selector for specificity.
-  &.module-Modal {
+  &__width-container {
     max-width: 420px;
   }
 

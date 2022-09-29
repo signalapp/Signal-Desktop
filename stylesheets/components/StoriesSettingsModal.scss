@@ -2,9 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoriesSettingsModal {
+  &__modal__body {
+    display: flex;
+    flex-direction: column;
+  }
+
   &__conversation-list {
-    .module-conversation-list,
-    .module-conversation-list__item--contact-or-conversation {
+    .module-conversation-list {
       padding-left: 0;
       padding-right: 0;
     }
@@ -192,20 +196,6 @@
     flex-grow: 1;
     min-height: 300px;
     overflow: hidden;
-  }
-
-  &__search {
-    &__container {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
-  &__tags {
-    margin: 0 -4px;
-
-    // Override .module-ContactPills
-    padding: 0;
   }
 
   &__name-story-avatar-container {

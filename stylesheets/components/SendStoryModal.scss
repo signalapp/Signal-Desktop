@@ -2,6 +2,27 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .SendStoryModal {
+  &__body {
+    // force
+    .module-Modal & {
+      padding-bottom: 0;
+    }
+  }
+
+  // don't re-layout buttons on wrap,
+  // since we have things beyond same-sized-rectangles in the footer
+  .module-Modal__button-footer {
+    &--one-button-per-line {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__item--contact-or-conversation {
+    height: 52px;
+    padding: 0 6px;
+  }
+
   &__top-bar {
     align-items: center;
     display: flex;
@@ -85,7 +106,6 @@
       justify-content: space-between;
       margin: 8px 0;
       user-select: none;
-      width: 100%;
     }
 
     &__info {
@@ -164,8 +184,9 @@
   &__selected-lists {
     @include font-body-2;
     color: $color-gray-15;
-    max-width: 280px;
+    padding-right: 16px;
     user-select: none;
+    flex: 1;
   }
 
   &__ok {
@@ -211,12 +232,4 @@
       width: 18px;
     }
   }
-}
-
-.module-Modal--sticky-buttons .SendStoryModal__button-footer {
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0;
-  padding-left: 16px;
-  padding-right: 16px;
 }

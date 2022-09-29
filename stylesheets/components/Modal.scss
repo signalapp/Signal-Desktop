@@ -4,6 +4,7 @@
 .module-Modal {
   @include popper-shadow();
   border-radius: 8px;
+  overflow: hidden;
   // We need this to be a number not divisible by 5 so that if we have sticky
   // buttons the bottom doesn't bleed through by 1px.
   max-height: 89vh;
@@ -23,9 +24,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1em;
-    padding: 16px 16px 0 16px;
-    position: sticky;
+    padding: 16px 16px 1em 16px;
 
     &--with-back-button .module-Modal__title {
       text-align: center;
@@ -132,16 +131,20 @@
     @include scrollbar;
     @include font-body-1;
     margin: 0;
-    padding: 16px;
+    overflow-y: overlay;
+    overflow-x: auto;
+  }
+
+  &--padded {
+    .module-Modal__body {
+      padding: 16px;
+    }
   }
 
   &--has-header {
     .module-Modal__body {
       padding-top: 0;
       border-top: 1px solid transparent;
-      // If there's a header, just the body scrolls
-      overflow-y: overlay;
-      overflow-x: auto;
 
       &--scrolled {
         @include light-theme {
@@ -155,64 +158,21 @@
     }
   }
 
-  &--no-header {
-    // If there's no header, the whole thing scrolls
-    overflow-y: overlay;
-    overflow-x: auto;
-  }
-
   &__button-footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    margin-top: 8px;
+    align-items: center;
+    padding: 1em 16px 16px 16px;
+    gap: 8px;
 
     .module-Button {
       margin-left: 8px;
-      margin-top: 8px;
     }
 
     &--one-button-per-line {
       flex-direction: column;
       align-items: flex-end;
-    }
-
-    .module-Modal--sticky-buttons & {
-      bottom: 0;
-      display: flex;
-      justify-content: flex-end;
-      padding: 16px 0;
-      position: sticky;
-      right: 0;
-      width: 100%;
-      z-index: $z-index-above-popup;
-
-      @include light-theme() {
-        background: $color-white;
-      }
-
-      @include dark-theme() {
-        background: $color-gray-80;
-      }
-    }
-  }
-
-  &--sticky-buttons {
-    .module-Modal__body {
-      padding-bottom: 0;
-    }
-    position: relative;
-
-    .module-Modal__body--overflow {
-      .module-Modal__button-footer {
-        @include light-theme {
-          border-top: 1px solid $color-gray-05;
-        }
-
-        @include dark-theme {
-          border-top: 1px solid $color-gray-80;
-        }
-      }
     }
   }
 
@@ -251,6 +211,7 @@
       margin-top: 27px;
       flex-grow: 0;
       flex-shrink: 0;
+      padding: 0 12px 4px 12px;
 
       .module-Button {
         flex-grow: 1;

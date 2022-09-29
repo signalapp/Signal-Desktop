@@ -104,6 +104,38 @@ export function CustomizingPreferredReactionsModal({
     );
   const canSave = !isSaving && hasChanged;
 
+  const footer = (
+    <>
+      <Button
+        disabled={!canReset}
+        onClick={() => {
+          resetDraftEmoji();
+        }}
+        onKeyDown={event => {
+          if (event.key === 'Enter' || event.key === 'Space') {
+            resetDraftEmoji();
+          }
+        }}
+        variant={ButtonVariant.SecondaryAffirmative}
+      >
+        {i18n('reset')}
+      </Button>
+      <Button
+        disabled={!canSave}
+        onClick={() => {
+          savePreferredReactions();
+        }}
+        onKeyDown={event => {
+          if (event.key === 'Enter' || event.key === 'Space') {
+            savePreferredReactions();
+          }
+        }}
+      >
+        {i18n('save')}
+      </Button>
+    </>
+  );
+
   return (
     <Modal
       modalName="CustomizingPreferredReactionsModal"
@@ -114,6 +146,7 @@ export function CustomizingPreferredReactionsModal({
         cancelCustomizePreferredReactionsModal();
       }}
       title={i18n('CustomizingPreferredReactions__title')}
+      modalFooter={footer}
     >
       <div className="module-CustomizingPreferredReactionsModal__small-emoji-picker-wrapper">
         <ReactionPickerPicker
@@ -163,35 +196,6 @@ export function CustomizingPreferredReactionsModal({
           />
         </div>
       )}
-      <Modal.ButtonFooter>
-        <Button
-          disabled={!canReset}
-          onClick={() => {
-            resetDraftEmoji();
-          }}
-          onKeyDown={event => {
-            if (event.key === 'Enter' || event.key === 'Space') {
-              resetDraftEmoji();
-            }
-          }}
-          variant={ButtonVariant.SecondaryAffirmative}
-        >
-          {i18n('reset')}
-        </Button>
-        <Button
-          disabled={!canSave}
-          onClick={() => {
-            savePreferredReactions();
-          }}
-          onKeyDown={event => {
-            if (event.key === 'Enter' || event.key === 'Space') {
-              savePreferredReactions();
-            }
-          }}
-        >
-          {i18n('save')}
-        </Button>
-      </Modal.ButtonFooter>
     </Modal>
   );
 }

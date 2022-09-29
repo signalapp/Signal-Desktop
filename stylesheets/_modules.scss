@@ -3,6 +3,9 @@
 
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
+// CAUTION: these styles are often overridden by other components
+// if you make changes to these, you must check EVERY component that uses <Modal.../>
+
 .module-title-bar-drag-area {
   -webkit-app-region: drag;
   height: var(--title-bar-drag-area-height);

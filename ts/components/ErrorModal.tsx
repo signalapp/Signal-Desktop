@@ -25,27 +25,23 @@ function focusRef(el: HTMLElement | null) {
 export const ErrorModal = (props: PropsType): JSX.Element => {
   const { buttonText, description, i18n, onClose, title } = props;
 
+  const footer = (
+    <Button onClick={onClose} ref={focusRef} variant={ButtonVariant.Secondary}>
+      {buttonText || i18n('Confirmation--confirm')}
+    </Button>
+  );
+
   return (
     <Modal
       modalName="ErrorModal"
       i18n={i18n}
       onClose={onClose}
       title={title || i18n('ErrorModal--title')}
+      modalFooter={footer}
     >
-      <>
-        <div className="module-error-modal__description">
-          {description || i18n('ErrorModal--description')}
-        </div>
-        <Modal.ButtonFooter>
-          <Button
-            onClick={onClose}
-            ref={focusRef}
-            variant={ButtonVariant.Secondary}
-          >
-            {buttonText || i18n('Confirmation--confirm')}
-          </Button>
-        </Modal.ButtonFooter>
-      </>
+      <div className="module-error-modal__description">
+        {description || i18n('ErrorModal--description')}
+      </div>
     </Modal>
   );
 };

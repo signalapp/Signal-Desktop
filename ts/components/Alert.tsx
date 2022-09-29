@@ -21,10 +21,15 @@ export const Alert: FunctionComponent<PropsType> = ({
   onClose,
   title,
 }) => (
-  <Modal modalName="Alert" i18n={i18n} onClose={onClose} title={title}>
-    {body}
-    <Modal.ButtonFooter>
+  <Modal
+    modalName="Alert"
+    i18n={i18n}
+    onClose={onClose}
+    title={title}
+    modalFooter={
       <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
-    </Modal.ButtonFooter>
+    }
+  >
+    {body}
   </Modal>
 );

@@ -20,7 +20,6 @@ import { useRefMerger } from '../hooks/useRefMerger';
 type PropsType = {
   children: ReactNode;
   modalName: string;
-  hasStickyButtons?: boolean;
   hasXButton?: boolean;
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
@@ -29,9 +28,10 @@ type PropsType = {
   onClose?: () => void;
   title?: ReactNode;
   useFocusTrap?: boolean;
+  padded?: boolean;
 };
 
-type ModalPropsType = PropsType & {
+export type ModalPropsType = PropsType & {
   noMouseClose?: boolean;
   theme?: Theme;
 };
@@ -41,7 +41,6 @@ const BASE_CLASS_NAME = 'module-Modal';
 export function Modal({
   children,
   modalName,
-  hasStickyButtons,
   hasXButton,
   i18n,
   modalFooter,
@@ -52,6 +51,7 @@ export function Modal({
   theme,
   title,
   useFocusTrap,
+  padded = true,
 }: Readonly<ModalPropsType>): ReactElement {
   const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
@@ -72,9 +72,8 @@ export function Modal({
       useFocusTrap={useFocusTrap}
     >
       <animated.div style={modalStyles}>
-        <ModalWindow
+        <ModalPage
           modalName={modalName}
-          hasStickyButtons={hasStickyButtons}
           hasXButton={hasXButton}
           i18n={i18n}
           modalFooter={modalFooter}
@@ -82,25 +81,46 @@ export function Modal({
           onBackButtonClick={onBackButtonClick}
           onClose={close}
           title={title}
+          padded={padded}
         >
           {children}
-        </ModalWindow>
+        </ModalPage>
       </animated.div>
     </ModalHost>
   );
 }
 
-export function ModalWindow({
+type ModalPageProps = Readonly<{
+  // should be the one provided by PagedModal
+  onClose: () => void;
+}> &
+  Omit<Readonly<PropsType>, 'onClose'>;
+
+/**
+ * Represents a single instance (or page) of a modal window.
+ *
+ * It should not be used by itself, either wrap it with PagedModal,
+ * render it in a component that has PagedModal as an ancestor, or
+ * use Modal instead.
+ *
+ * It does not provide open/close animation.
+ *
+ * NOTE: When used in conjunction with PagedModal (almost always the case):
+ * onClose" handler should be the one provided by the parent PagedModal,
+ * not one that has any logic. If you have some logic to execute when the
+ * modal closes, pass it to PagedModal.
+ */
+export function ModalPage({
   children,
-  hasStickyButtons,
   hasXButton,
   i18n,
   modalFooter,
   moduleClassName,
   onBackButtonClick,
-  onClose = noop,
+  onClose,
   title,
-}: Readonly<PropsType>): JSX.Element {
+  padded = true,
+}: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const refMerger = useRefMerger();
@@ -131,7 +151,7 @@ export function ModalWindow({
         className={classNames(
           getClassName(''),
           getClassName(hasHeader ? '--has-header' : '--no-header'),
-          hasStickyButtons && getClassName('--sticky-buttons')
+          padded && getClassName('--padded')
         )}
         ref={modalRef}
         onClick={event => {
@@ -200,7 +220,7 @@ export function ModalWindow({
             </div>
           )}
         </Measure>
-        {modalFooter}
+        {modalFooter && <Modal.ButtonFooter>{modalFooter}</Modal.ButtonFooter>}
       </div>
     </>
   );
@@ -208,17 +228,12 @@ export function ModalWindow({
 
 Modal.ButtonFooter = function ButtonFooter({
   children,
-  moduleClassName,
 }: Readonly<{
   children: ReactNode;
-  moduleClassName?: string;
 }>): ReactElement {
   const [ref, hasWrapped] = useHasWrapped<HTMLDivElement>();
 
-  const className = getClassNamesFor(
-    BASE_CLASS_NAME,
-    moduleClassName
-  )('__button-footer');
+  const className = getClassNamesFor(BASE_CLASS_NAME)('__button-footer');
 
   return (
     <div
@@ -232,3 +247,55 @@ Modal.ButtonFooter = function ButtonFooter({
     </div>
   );
 };
+
+type PagedModalProps = Readonly<{
+  modalName: string;
+  children: RenderModalPage;
+  moduleClassName?: string;
+  onClose?: () => void;
+  useFocusTrap?: boolean;
+  noMouseClose?: boolean;
+  theme?: Theme;
+}>;
+
+/**
+ * Provides modal animation and click to close functionality to a
+ * ModalPage descendant.
+ *
+ * Useful when we want to swap between different ModalPages (possibly
+ * rendered by different components) without triggering an open/close
+ * transition animation.
+ */
+export function PagedModal({
+  modalName,
+  children,
+  moduleClassName,
+  noMouseClose,
+  onClose = noop,
+  theme,
+  useFocusTrap,
+}: PagedModalProps): ReactElement {
+  const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
+    getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
+    getTo: isOpen =>
+      isOpen
+        ? { opacity: 1, transform: 'translateY(0px)' }
+        : { opacity: 0, transform: 'translateY(48px)' },
+  });
+
+  return (
+    <ModalHost
+      modalName={modalName}
+      moduleClassName={moduleClassName}
+      noMouseClose={noMouseClose}
+      onClose={close}
+      overlayStyles={overlayStyles}
+      theme={theme}
+      useFocusTrap={useFocusTrap}
+    >
+      <animated.div style={modalStyles}>{children(close)}</animated.div>
+    </ModalHost>
+  );
+}
+
+export type RenderModalPage = (onClose: () => void) => JSX.Element;

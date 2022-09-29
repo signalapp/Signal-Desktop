@@ -12,6 +12,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Row } from './ConversationList';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
 import type { UUIDStringType } from '../types/UUID';
+import type { RenderModalPage, ModalPropsType } from './Modal';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
@@ -22,7 +23,7 @@ import { ConversationList, RowType } from './ConversationList';
 import { Input } from './Input';
 import { Intl } from './Intl';
 import { MY_STORIES_ID, getStoryDistributionListName } from '../types/Stories';
-import { Modal } from './Modal';
+import { PagedModal, ModalPage } from './Modal';
 import { SearchInput } from './SearchInput';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { Theme } from '../util/theme';
@@ -80,6 +81,12 @@ function filterConversations(
   ).filter(conversation => conversation.uuid);
 }
 
+const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'moduleClassName'> =
+  {
+    hasXButton: true,
+    moduleClassName: 'StoriesSettingsModal__modal',
+  };
+
 export const StoriesSettingsModal = ({
   candidateConversations,
   distributionLists,
@@ -120,17 +127,33 @@ export const StoriesSettingsModal = ({
     string | undefined
   >();
 
-  let content: JSX.Element | null;
+  let modal: RenderModalPage | null;
 
   if (page !== Page.DistributionLists) {
-    content = (
-      <EditDistributionList
+    const isChoosingViewers =
+      page === Page.ChooseViewers || page === Page.AddViewer;
+
+    modal = onClose => (
+      <EditDistributionListModal
         candidateConversations={candidateConversations}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
+        page={page}
+        onClose={onClose}
         onCreateList={(name, uuids) => {
           onDistributionListCreated(name, uuids);
           resetChooseViewersScreen();
+        }}
+        onBackButtonClick={() => {
+          if (page === Page.HideStoryFrom) {
+            resetChooseViewersScreen();
+          } else if (page === Page.NameStory) {
+            setPage(Page.ChooseViewers);
+          } else if (isChoosingViewers) {
+            resetChooseViewersScreen();
+          } else if (listToEdit) {
+            setListToEditId(undefined);
+          }
         }}
         onViewersUpdated={uuids => {
           if (listToEditId && page === Page.AddViewer) {
@@ -147,14 +170,14 @@ export const StoriesSettingsModal = ({
             resetChooseViewersScreen();
           }
         }}
-        page={page}
         selectedContacts={selectedContacts}
         setSelectedContacts={setSelectedContacts}
       />
     );
   } else if (listToEdit) {
-    content = (
-      <DistributionListSettings
+    modal = onClose => (
+      <DistributionListSettingsModal
+        key="settings-modal"
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         listToEdit={listToEdit}
@@ -165,6 +188,8 @@ export const StoriesSettingsModal = ({
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        onBackButtonClick={() => setListToEditId(undefined)}
+        onClose={onClose}
       />
     );
   } else {
@@ -172,8 +197,14 @@ export const StoriesSettingsModal = ({
       list => list.id !== MY_STORIES_ID
     );
 
-    content = (
-      <>
+    modal = onClose => (
+      <ModalPage
+        modalName="StoriesSettingsModal__list"
+        i18n={i18n}
+        onClose={onClose}
+        title={i18n('StoriesSettings__title')}
+        {...modalCommonProps}
+      >
         <button
           className="StoriesSettingsModal__list"
           onClick={() => {
@@ -244,61 +275,19 @@ export const StoriesSettingsModal = ({
             </span>
           </button>
         ))}
-      </>
+      </ModalPage>
     );
   }
-
-  const isChoosingViewers =
-    page === Page.ChooseViewers || page === Page.AddViewer;
-
-  let modalTitle: string = i18n('StoriesSettings__title');
-  if (page === Page.HideStoryFrom) {
-    modalTitle = i18n('StoriesSettings__hide-story');
-  } else if (page === Page.NameStory) {
-    modalTitle = i18n('StoriesSettings__name-story');
-  } else if (isChoosingViewers) {
-    modalTitle = i18n('StoriesSettings__choose-viewers');
-  } else if (listToEdit) {
-    modalTitle = getStoryDistributionListName(
-      i18n,
-      listToEdit.id,
-      listToEdit.name
-    );
-  }
-
-  const hasBackButton = page !== Page.DistributionLists || listToEdit;
-  const hasStickyButtons =
-    isChoosingViewers || page === Page.NameStory || page === Page.HideStoryFrom;
 
   return (
     <>
-      <Modal
+      <PagedModal
         modalName="StoriesSettingsModal"
-        hasStickyButtons={hasStickyButtons}
-        hasXButton
-        i18n={i18n}
-        moduleClassName="StoriesSettingsModal__modal"
-        onBackButtonClick={
-          hasBackButton
-            ? () => {
-                if (page === Page.HideStoryFrom) {
-                  resetChooseViewersScreen();
-                } else if (page === Page.NameStory) {
-                  setPage(Page.ChooseViewers);
-                } else if (isChoosingViewers) {
-                  resetChooseViewersScreen();
-                } else if (listToEdit) {
-                  setListToEditId(undefined);
-                }
-              }
-            : undefined
-        }
-        onClose={hideStoriesSettings}
         theme={Theme.Dark}
-        title={modalTitle}
+        onClose={hideStoriesSettings}
       >
-        {content}
-      </Modal>
+        {modal}
+      </PagedModal>
       {confirmDeleteListId && (
         <ConfirmationDialog
           dialogName="StoriesSettings.deleteList"
@@ -324,12 +313,14 @@ export const StoriesSettingsModal = ({
   );
 };
 
-type DistributionListSettingsPropsType = {
+type DistributionListSettingsModalPropsType = {
   i18n: LocalizerType;
   listToEdit: StoryDistributionListWithMembersDataType;
   setConfirmDeleteListId: (id: string) => unknown;
   setPage: (page: Page) => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+  onBackButtonClick: (() => void) | undefined;
+  onClose: () => void;
 } & Pick<
   PropsType,
   | 'getPreferredBadge'
@@ -339,18 +330,20 @@ type DistributionListSettingsPropsType = {
   | 'toggleSignalConnectionsModal'
 >;
 
-export const DistributionListSettings = ({
+export const DistributionListSettingsModal = ({
   getPreferredBadge,
   i18n,
   listToEdit,
   onRemoveMember,
   onRepliesNReactionsChanged,
+  onBackButtonClick,
+  onClose,
   setConfirmDeleteListId,
   setMyStoriesToAllSignalConnections,
   setPage,
   setSelectedContacts,
   toggleSignalConnectionsModal,
-}: DistributionListSettingsPropsType): JSX.Element => {
+}: DistributionListSettingsModalPropsType): JSX.Element => {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
     | {
@@ -362,8 +355,21 @@ export const DistributionListSettings = ({
 
   const isMyStories = listToEdit.id === MY_STORIES_ID;
 
+  const modalTitle = getStoryDistributionListName(
+    i18n,
+    listToEdit.id,
+    listToEdit.name
+  );
+
   return (
-    <>
+    <ModalPage
+      modalName="DistributionListSettingsModal"
+      i18n={i18n}
+      onBackButtonClick={onBackButtonClick}
+      onClose={onClose}
+      title={modalTitle}
+      {...modalCommonProps}
+    >
       {!isMyStories && (
         <>
           <div className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer">
@@ -521,7 +527,7 @@ export const DistributionListSettings = ({
           {i18n('StoriesSettings__remove--body')}
         </ConfirmationDialog>
       )}
-    </>
+    </ModalPage>
   );
 };
 
@@ -630,24 +636,37 @@ export const EditMyStoriesPrivacy = ({
   );
 };
 
-type EditDistributionListPropsType = {
+type EditDistributionListModalPropsType = {
   onCreateList: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
   onViewersUpdated: (viewerUuids: Array<UUIDStringType>) => unknown;
-  page: Page;
+  page:
+    | Page.AddViewer
+    | Page.ChooseViewers
+    | Page.HideStoryFrom
+    | Page.NameStory;
   selectedContacts: Array<ConversationType>;
+  onClose: () => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+  onBackButtonClick: () => void;
 } & Pick<PropsType, 'candidateConversations' | 'getPreferredBadge' | 'i18n'>;
 
-export const EditDistributionList = ({
+/**
+ *
+ * @param param0
+ * @returns
+ */
+export const EditDistributionListModal = ({
   candidateConversations,
   getPreferredBadge,
   i18n,
   onCreateList,
   onViewersUpdated,
   page,
+  onClose,
   selectedContacts,
   setSelectedContacts,
-}: EditDistributionListPropsType): JSX.Element | null => {
+  onBackButtonClick,
+}: EditDistributionListModalPropsType): JSX.Element => {
   const [storyName, setStoryName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -667,18 +686,6 @@ export const EditDistributionList = ({
       clearTimeout(timeout);
     };
   }, [candidateConversations, normalizedSearchTerm, setFilteredConversations]);
-
-  const isEditingDistributionList =
-    page === Page.AddViewer ||
-    page === Page.ChooseViewers ||
-    page === Page.NameStory ||
-    page === Page.HideStoryFrom;
-
-  useEffect(() => {
-    if (!isEditingDistributionList) {
-      setSearchTerm('');
-    }
-  }, [isEditingDistributionList]);
 
   const contactLookup = useMemo(() => {
     const map = new Map();
@@ -720,8 +727,29 @@ export const EditDistributionList = ({
     page === Page.ChooseViewers || page === Page.AddViewer;
 
   if (page === Page.NameStory) {
+    const footer = (
+      <Button
+        disabled={!storyName}
+        onClick={() => {
+          onCreateList(storyName, Array.from(selectedConversationUuids));
+          setStoryName('');
+        }}
+        variant={ButtonVariant.Primary}
+      >
+        {i18n('done')}
+      </Button>
+    );
+
     return (
-      <>
+      <ModalPage
+        modalName="StoriesSettings__name-story"
+        title={i18n('StoriesSettings__name-story')}
+        modalFooter={footer}
+        i18n={i18n}
+        onBackButtonClick={onBackButtonClick}
+        onClose={onClose}
+        {...modalCommonProps}
+      >
         <div className="StoriesSettingsModal__name-story-avatar-container">
           <div className="StoriesSettingsModal__list__avatar--private StoriesSettingsModal__list__avatar--private--large" />
         </div>
@@ -762,143 +790,137 @@ export const EditDistributionList = ({
             </span>
           </div>
         ))}
-        <Modal.ButtonFooter>
-          <Button
-            disabled={!storyName}
-            onClick={() => {
-              onCreateList(storyName, Array.from(selectedConversationUuids));
-              setStoryName('');
-            }}
-            variant={ButtonVariant.Primary}
-          >
-            {i18n('done')}
-          </Button>
-        </Modal.ButtonFooter>
-      </>
+      </ModalPage>
     );
   }
 
-  if (
-    page === Page.AddViewer ||
-    page === Page.ChooseViewers ||
-    page === Page.HideStoryFrom
-  ) {
-    const rowCount = filteredConversations.length;
-    const getRow = (index: number): undefined | Row => {
-      const contact = filteredConversations[index];
-      if (!contact || !contact.uuid) {
-        return undefined;
-      }
+  const rowCount = filteredConversations.length;
+  const getRow = (index: number): undefined | Row => {
+    const contact = filteredConversations[index];
+    if (!contact || !contact.uuid) {
+      return undefined;
+    }
 
-      const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
+    const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
 
-      return {
-        type: RowType.ContactCheckbox,
-        contact,
-        isChecked: isSelected,
-      };
+    return {
+      type: RowType.ContactCheckbox,
+      contact,
+      isChecked: isSelected,
     };
+  };
 
-    return (
-      <>
-        <SearchInput
-          disabled={candidateConversations.length === 0}
-          i18n={i18n}
-          placeholder={i18n('contactSearchPlaceholder')}
-          moduleClassName="StoriesSettingsModal__search"
-          onChange={event => {
-            setSearchTerm(event.target.value);
-          }}
-          value={searchTerm}
-        />
-        {selectedContacts.length ? (
-          <ContactPills moduleClassName="StoriesSettingsModal__tags">
-            {selectedContacts.map(contact => (
-              <ContactPill
-                key={contact.id}
-                acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
-                color={contact.color}
-                firstName={contact.systemGivenName ?? contact.firstName}
-                i18n={i18n}
-                id={contact.id}
-                isMe={contact.isMe}
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                sharedGroupNames={contact.sharedGroupNames}
-                title={contact.title}
-                onClickRemove={() => toggleSelectedConversation(contact.id)}
-              />
-            ))}
-          </ContactPills>
-        ) : undefined}
-        {candidateConversations.length ? (
-          <Measure bounds>
-            {({ contentRect, measureRef }: MeasuredComponentProps) => (
-              <div
-                className="StoriesSettingsModal__conversation-list"
-                ref={measureRef}
-              >
-                <ConversationList
-                  dimensions={contentRect.bounds}
-                  getPreferredBadge={getPreferredBadge}
-                  getRow={getRow}
-                  i18n={i18n}
-                  onClickArchiveButton={shouldNeverBeCalled}
-                  onClickContactCheckbox={(conversationId: string) => {
-                    toggleSelectedConversation(conversationId);
-                  }}
-                  lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
-                  showConversation={shouldNeverBeCalled}
-                  showUserNotFoundModal={shouldNeverBeCalled}
-                  setIsFetchingUUID={shouldNeverBeCalled}
-                  onSelectConversation={shouldNeverBeCalled}
-                  renderMessageSearchResult={() => {
-                    shouldNeverBeCalled();
-                    return <div />;
-                  }}
-                  rowCount={rowCount}
-                  shouldRecomputeRowHeights={false}
-                  showChooseGroupMembers={shouldNeverBeCalled}
-                  theme={ThemeType.dark}
-                />
-              </div>
-            )}
-          </Measure>
-        ) : (
-          <div className="module-ForwardMessageModal__no-candidate-contacts">
-            {i18n('noContactsFound')}
-          </div>
-        )}
-        {isChoosingViewers && (
-          <Modal.ButtonFooter>
-            <Button
-              disabled={selectedContacts.length === 0}
-              onClick={() => {
-                onViewersUpdated(Array.from(selectedConversationUuids));
-              }}
-              variant={ButtonVariant.Primary}
-            >
-              {page === Page.AddViewer ? i18n('done') : i18n('next2')}
-            </Button>
-          </Modal.ButtonFooter>
-        )}
-        {page === Page.HideStoryFrom && (
-          <Modal.ButtonFooter>
-            <Button
-              disabled={selectedContacts.length === 0}
-              onClick={() => {
-                onViewersUpdated(Array.from(selectedConversationUuids));
-              }}
-              variant={ButtonVariant.Primary}
-            >
-              {i18n('update')}
-            </Button>
-          </Modal.ButtonFooter>
-        )}
-      </>
+  let footer: JSX.Element | undefined;
+  if (isChoosingViewers) {
+    footer = (
+      <Button
+        disabled={selectedContacts.length === 0}
+        onClick={() => {
+          onViewersUpdated(Array.from(selectedConversationUuids));
+        }}
+        variant={ButtonVariant.Primary}
+      >
+        {page === Page.AddViewer ? i18n('done') : i18n('next2')}
+      </Button>
+    );
+  } else if (page === Page.HideStoryFrom) {
+    footer = (
+      <Button
+        disabled={selectedContacts.length === 0}
+        onClick={() => {
+          onViewersUpdated(Array.from(selectedConversationUuids));
+        }}
+        variant={ButtonVariant.Primary}
+      >
+        {i18n('update')}
+      </Button>
     );
   }
 
-  return null;
+  return (
+    <ModalPage
+      modalName={`EditDistributionListModal__${page}`}
+      i18n={i18n}
+      modalFooter={footer}
+      onBackButtonClick={onBackButtonClick}
+      onClose={onClose}
+      title={
+        page === Page.HideStoryFrom
+          ? i18n('StoriesSettings__hide-story')
+          : i18n('StoriesSettings__choose-viewers')
+      }
+      padded={page !== Page.ChooseViewers && page !== Page.AddViewer}
+      {...modalCommonProps}
+    >
+      <SearchInput
+        disabled={candidateConversations.length === 0}
+        i18n={i18n}
+        placeholder={i18n('contactSearchPlaceholder')}
+        moduleClassName="StoriesSettingsModal__search"
+        onChange={event => {
+          setSearchTerm(event.target.value);
+        }}
+        value={searchTerm}
+      />
+      {selectedContacts.length ? (
+        <ContactPills moduleClassName="StoriesSettingsModal__tags">
+          {selectedContacts.map(contact => (
+            <ContactPill
+              key={contact.id}
+              acceptedMessageRequest={contact.acceptedMessageRequest}
+              avatarPath={contact.avatarPath}
+              color={contact.color}
+              firstName={contact.firstName}
+              i18n={i18n}
+              id={contact.id}
+              isMe={contact.isMe}
+              phoneNumber={contact.phoneNumber}
+              profileName={contact.profileName}
+              sharedGroupNames={contact.sharedGroupNames}
+              title={contact.title}
+              onClickRemove={() => toggleSelectedConversation(contact.id)}
+            />
+          ))}
+        </ContactPills>
+      ) : undefined}
+      {candidateConversations.length ? (
+        <Measure bounds>
+          {({ contentRect, measureRef }: MeasuredComponentProps) => (
+            <div
+              className="StoriesSettingsModal__conversation-list"
+              ref={measureRef}
+            >
+              <ConversationList
+                dimensions={contentRect.bounds}
+                getPreferredBadge={getPreferredBadge}
+                getRow={getRow}
+                i18n={i18n}
+                onClickArchiveButton={shouldNeverBeCalled}
+                onClickContactCheckbox={(conversationId: string) => {
+                  toggleSelectedConversation(conversationId);
+                }}
+                lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                showConversation={shouldNeverBeCalled}
+                showUserNotFoundModal={shouldNeverBeCalled}
+                setIsFetchingUUID={shouldNeverBeCalled}
+                onSelectConversation={shouldNeverBeCalled}
+                renderMessageSearchResult={() => {
+                  shouldNeverBeCalled();
+                  return <div />;
+                }}
+                rowCount={rowCount}
+                shouldRecomputeRowHeights={false}
+                showChooseGroupMembers={shouldNeverBeCalled}
+                theme={ThemeType.dark}
+              />
+            </div>
+          )}
+        </Measure>
+      ) : (
+        <div className="module-ForwardMessageModal__no-candidate-contacts">
+          {i18n('noContactsFound')}
+        </div>
+      )}
+    </ModalPage>
+  );
 };

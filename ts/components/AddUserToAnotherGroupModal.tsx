@@ -148,6 +148,7 @@ export const AddUserToAnotherGroupModal = ({
           onClose={toggleAddUserToAnotherGroupModal}
           title={i18n('AddUserToAnotherGroupModal__title')}
           moduleClassName="AddUserToAnotherGroupModal"
+          padded={false}
         >
           <div className="AddUserToAnotherGroupModal__main-body">
             <SearchInput

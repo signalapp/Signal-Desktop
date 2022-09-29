@@ -172,6 +172,7 @@ export const ContactModal = ({
           hasXButton
           i18n={i18n}
           onClose={hideContactModal}
+          padded={false}
         >
           <div className="ContactModal">
             <Avatar

@@ -33,6 +33,30 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
     uploadCrashReports();
   };
 
+  const footer = (
+    <>
+      <Button
+        disabled={isPending}
+        onClick={onEraseClick}
+        variant={ButtonVariant.Secondary}
+      >
+        {i18n('CrashReportDialog__erase')}
+      </Button>
+      <Button
+        disabled={isPending}
+        onClick={onSubmitClick}
+        ref={button => button?.focus()}
+        variant={ButtonVariant.Primary}
+      >
+        {isPending ? (
+          <Spinner size="22px" svgSize="small" />
+        ) : (
+          i18n('CrashReportDialog__submit')
+        )}
+      </Button>
+    </>
+  );
+
   return (
     <Modal
       modalName="CrashReportDialog"
@@ -41,29 +65,9 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
       title={i18n('CrashReportDialog__title')}
       hasXButton
       onClose={eraseCrashReports}
+      modalFooter={footer}
     >
       <section>{i18n('CrashReportDialog__body')}</section>
-      <Modal.ButtonFooter>
-        <Button
-          disabled={isPending}
-          onClick={onEraseClick}
-          variant={ButtonVariant.Secondary}
-        >
-          {i18n('CrashReportDialog__erase')}
-        </Button>
-        <Button
-          disabled={isPending}
-          onClick={onSubmitClick}
-          ref={button => button?.focus()}
-          variant={ButtonVariant.Primary}
-        >
-          {isPending ? (
-            <Spinner size="22px" svgSize="small" />
-          ) : (
-            i18n('CrashReportDialog__submit')
-          )}
-        </Button>
-      </Modal.ButtonFooter>
     </Modal>
   );
 }

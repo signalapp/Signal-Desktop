@@ -7,7 +7,7 @@ import { animated } from '@react-spring/web';
 import { Button, ButtonVariant } from './Button';
 import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
-import { Modal, ModalWindow } from './Modal';
+import { ModalPage } from './Modal';
 import type { Theme } from '../util/theme';
 import { useAnimated } from '../hooks/useAnimated';
 
@@ -96,6 +96,34 @@ export const ConfirmationDialog = React.memo(
 
     const hasActions = Boolean(actions.length);
 
+    const footer = (
+      <>
+        <Button
+          onClick={handleCancel}
+          ref={focusRef}
+          variant={
+            cancelButtonVariant ||
+            (hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary)
+          }
+        >
+          {cancelText || i18n('confirmation-dialog--Cancel')}
+        </Button>
+        {actions.map((action, i) => (
+          <Button
+            key={action.text}
+            onClick={() => {
+              action.action();
+              close();
+            }}
+            data-action={i}
+            variant={getButtonVariant(action.style)}
+          >
+            {action.text}
+          </Button>
+        ))}
+      </>
+    );
+
     const modalName = `ConfirmationDialog.${dialogName}`;
 
     return (
@@ -108,41 +136,17 @@ export const ConfirmationDialog = React.memo(
         theme={theme}
       >
         <animated.div style={modalStyles}>
-          <ModalWindow
+          <ModalPage
             modalName={modalName}
             hasXButton={hasXButton}
             i18n={i18n}
             moduleClassName={moduleClassName}
             onClose={cancelAndClose}
             title={title}
+            modalFooter={footer}
           >
             {children}
-            <Modal.ButtonFooter>
-              <Button
-                onClick={handleCancel}
-                ref={focusRef}
-                variant={
-                  cancelButtonVariant ||
-                  (hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary)
-                }
-              >
-                {cancelText || i18n('confirmation-dialog--Cancel')}
-              </Button>
-              {actions.map((action, i) => (
-                <Button
-                  key={action.text}
-                  onClick={() => {
-                    action.action();
-                    close();
-                  }}
-                  data-action={i}
-                  variant={getButtonVariant(action.style)}
-                >
-                  {action.text}
-                </Button>
-              ))}
-            </Modal.ButtonFooter>
-          </ModalWindow>
+          </ModalPage>
         </animated.div>
       </ModalHost>
     );

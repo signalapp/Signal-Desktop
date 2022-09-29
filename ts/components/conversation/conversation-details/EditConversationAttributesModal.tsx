@@ -155,6 +155,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   } else {
     content = (
       <form
+        id="edit-conversation-form"
         onSubmit={onSubmit}
         className="module-EditConversationAttributesModal"
       >
@@ -199,40 +200,43 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
             {i18n('updateGroupAttributes__error-message')}
           </div>
         )}
-
-        <Modal.ButtonFooter>
-          <Button
-            disabled={isRequestActive}
-            onClick={onClose}
-            variant={ButtonVariant.Secondary}
-          >
-            {i18n('cancel')}
-          </Button>
-
-          <Button
-            type="submit"
-            variant={ButtonVariant.Primary}
-            disabled={!canSubmit}
-          >
-            {isRequestActive ? (
-              <Spinner size="20px" svgSize="small" direction="on-avatar" />
-            ) : (
-              i18n('save')
-            )}
-          </Button>
-        </Modal.ButtonFooter>
       </form>
     );
   }
 
+  const modalFooter = (
+    <>
+      <Button
+        disabled={isRequestActive}
+        onClick={onClose}
+        variant={ButtonVariant.Secondary}
+      >
+        {i18n('cancel')}
+      </Button>
+
+      <Button
+        type="submit"
+        form="edit-conversation-form"
+        variant={ButtonVariant.Primary}
+        disabled={!canSubmit}
+      >
+        {isRequestActive ? (
+          <Spinner size="20px" svgSize="small" direction="on-avatar" />
+        ) : (
+          i18n('save')
+        )}
+      </Button>
+    </>
+  );
+
   return (
     <Modal
       modalName="EditConversationAttributesModal"
-      hasStickyButtons
       hasXButton
       i18n={i18n}
       onClose={onClose}
       title={i18n('updateGroupAttributes__title')}
+      modalFooter={modalFooter}
     >
       {content}
     </Modal>

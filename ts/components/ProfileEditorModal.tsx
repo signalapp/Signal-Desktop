@@ -61,7 +61,6 @@ export const ProfileEditorModal = ({
     <>
       <Modal
         modalName="ProfileEditorModal"
-        hasStickyButtons
         hasXButton
         i18n={i18n}
         onClose={toggleProfileEditor}

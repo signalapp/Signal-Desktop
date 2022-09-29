@@ -152,7 +152,6 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
         {this.isEditingAvatar && (
           <Modal
             modalName="LeftPaneSetGroupMetadataHelper.AvatarEditor"
-            hasStickyButtons
             hasXButton
             i18n={i18n}
             onClose={toggleComposeEditingAvatar}

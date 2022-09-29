@@ -58,6 +58,7 @@ type PropsType = {
     }
   | {
       type: 'submit';
+      form?: string;
     }
 ) &
   (
@@ -117,12 +118,14 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
 
     let onClick: undefined | MouseEventHandler<HTMLButtonElement>;
     let type: 'button' | 'submit';
+    let form;
     if ('onClick' in props) {
       ({ onClick } = props);
       type = 'button';
     } else {
       onClick = undefined;
       ({ type } = props);
+      ({ form } = props);
     }
 
     const sizeClassName = SIZE_CLASS_NAMES.get(size);
@@ -143,6 +146,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
         )}
         disabled={disabled}
         onClick={onClick}
+        form={form}
         ref={ref}
         style={style}
         tabIndex={tabIndex}

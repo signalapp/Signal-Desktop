@@ -46,14 +46,15 @@ BareBonesLong.story = {
 };
 
 export const BareBonesLongWithButton = (): JSX.Element => (
-  <Modal modalName="test" i18n={i18n}>
+  <Modal
+    modalName="test"
+    i18n={i18n}
+    modalFooter={<Button onClick={noop}>Okay</Button>}
+  >
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -68,11 +69,9 @@ export const TitleXButtonBodyAndButtonFooter = (): JSX.Element => (
     title="Hello world"
     onClose={onClose}
     hasXButton
+    modalFooter={<Button onClick={noop}>Okay</Button>}
   >
     {LOREM_IPSUM}
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -81,21 +80,27 @@ TitleXButtonBodyAndButtonFooter.story = {
 };
 
 export const LotsOfButtonsInTheFooter = (): JSX.Element => (
-  <Modal modalName="test" i18n={i18n} onClose={onClose}>
+  <Modal
+    modalName="test"
+    i18n={i18n}
+    onClose={onClose}
+    modalFooter={
+      <>
+        <Button onClick={noop}>Okay X</Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>
+          This is a button with a fairly large amount of text
+        </Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>
+          This is a button with a fairly large amount of text
+        </Button>
+        <Button onClick={noop}>Okay</Button>
+      </>
+    }
+  >
     Hello world!
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>
-        This is a button with a fairly large amount of text
-      </Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>
-        This is a button with a fairly large amount of text
-      </Button>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -123,14 +128,17 @@ LongBodyWithTitle.story = {
 };
 
 export const LongBodyWithTitleAndButton = (): JSX.Element => (
-  <Modal modalName="test" i18n={i18n} title="Hello world" onClose={onClose}>
+  <Modal
+    modalName="test"
+    i18n={i18n}
+    title="Hello world"
+    onClose={onClose}
+    modalFooter={<Button onClick={noop}>Okay</Button>}
+  >
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -160,19 +168,20 @@ LongBodyWithLongTitleAndXButton.story = {
 export const WithStickyButtonsLongBody = (): JSX.Element => (
   <Modal
     modalName="test"
-    hasStickyButtons
     hasXButton
     i18n={i18n}
     onClose={onClose}
+    modalFooter={
+      <>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>Okay</Button>
+      </>
+    }
   >
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
     <p>{LOREM_IPSUM}</p>
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -183,16 +192,17 @@ WithStickyButtonsLongBody.story = {
 export const WithStickyButtonsShortBody = (): JSX.Element => (
   <Modal
     modalName="test"
-    hasStickyButtons
     hasXButton
     i18n={i18n}
     onClose={onClose}
+    modalFooter={
+      <>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>Okay</Button>
+      </>
+    }
   >
     <p>{LOREM_IPSUM.slice(0, 140)}</p>
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 
@@ -203,25 +213,26 @@ WithStickyButtonsShortBody.story = {
 export const StickyFooterLotsOfButtons = (): JSX.Element => (
   <Modal
     modalName="test"
-    hasStickyButtons
     i18n={i18n}
     onClose={onClose}
     title="OK"
+    modalFooter={
+      <>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>
+          This is a button with a fairly large amount of text
+        </Button>
+        <Button onClick={noop}>Okay</Button>
+        <Button onClick={noop}>
+          This is a button with a fairly large amount of text
+        </Button>
+        <Button onClick={noop}>Okay</Button>
+      </>
+    }
   >
     <p>{LOREM_IPSUM}</p>
-    <Modal.ButtonFooter>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>
-        This is a button with a fairly large amount of text
-      </Button>
-      <Button onClick={noop}>Okay</Button>
-      <Button onClick={noop}>
-        This is a button with a fairly large amount of text
-      </Button>
-      <Button onClick={noop}>Okay</Button>
-    </Modal.ButtonFooter>
   </Modal>
 );
 

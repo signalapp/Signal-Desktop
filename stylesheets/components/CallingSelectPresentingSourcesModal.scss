@@ -2,27 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-CallingSelectPresentingSourcesModal {
-  // specificity
-  &.module-Modal {
+  &__width-container {
     max-width: 665px;
     position: relative;
-    padding-bottom: 48px;
   }
 
-  &__button-footer {
+  // there's no module-class-name on the footer,
+  // so we have to reference it using the generic selector
+  .module-Modal__button-footer {
     background-color: $color-gray-95;
-    bottom: 0;
-    margin-left: -16px;
-    margin-top: 0;
-    padding: 16px;
-    position: absolute;
-    width: 100%;
   }
 
   &__sources {
-    margin-bottom: 20px;
-    margin-left: -6px;
-    margin-right: -6px;
+    margin-bottom: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
 
     &:last-child {
       margin-bottom: 0;
@@ -38,9 +34,6 @@
 
     border-radius: 4px;
     border: 1px solid $color-gray-60;
-    margin-bottom: 14px;
-    margin-left: 6px;
-    margin-right: 6px;
     overflow: hidden;
     padding: 8px;
     text-align: center;
