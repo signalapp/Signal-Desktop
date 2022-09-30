@@ -21,10 +21,6 @@
   word-break: break-all;
 }
 
-.session-icon-button svg path {
-  transition: fill 0.3s ease;
-}
-
 input,
 textarea {
   caret-color: var(--color-text) !important;
@@ -73,27 +69,17 @@ textarea {
 }
 
 .session-label {
-  color: var(--color-white-color);
+  font-weight: 700;
+  color: var(--white-color);
   padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
   text-align: center;
   &.primary {
-    background-color: var(--color-dark-gray-color);
-  }
-  &.secondary {
-    background-color: var(--color-darkest-gray-color);
-  }
-  &.success {
-    /* TODO is this correct? */
-    background-color: var(--color-text);
+    background-color: var(--primary-color);
   }
   &.danger {
-    background-color: var(--color-destructive);
-  }
-  /* TODO Is this correct? */
-  &.warning {
-    background-color: var(--color-warning);
+    background-color: var(--danger-color);
   }
 }
 
@@ -101,17 +87,7 @@ textarea {
   cursor: pointer;
   display: inline-block;
   position: relative;
-  opacity: 0.4;
   transform: translateZ(0);
-
-  &:hover {
-    opacity: 1;
-  }
-  transition: opacity var(--default-duration);
-
-  &.no-opacity {
-    opacity: 1;
-  }
 }
 
 /* CONVERSATION AND MESSAGES */
@@ -464,10 +440,6 @@ label {
 
   &:hover {
     background: var(--color-clickable-hovered);
-
-    .session-icon {
-      opacity: 1;
-    }
   }
 }
 
@@ -582,6 +554,7 @@ label {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--background-secondary-color);
 
   &__password-lock {
     display: flex;
@@ -598,21 +571,22 @@ label {
       max-width: 90%;
       width: 600px;
 
-      background: var(--color-cell-background);
-      color: var(--color-text);
+      background: var(--background-primary-color);
+      color: var(--text-primary-color);
 
-      border: 1px solid var(--color-darker-gray-color);
+      border: 1px solid var(--border-color);
       border-radius: 5px;
     }
   }
 }
 
+// TODO Theming
 #qr svg,
 .qr-image svg {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: var(--margins-xs);
-  background-color: var(--color-white-color);
+  background-color: var(--white-color);
   border-radius: 3px;
 }
 
@@ -674,20 +648,6 @@ input {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    opacity: 1;
-    background-color: var(--button-icon-background-color);
-    box-shadow: var(--color-session-shadow);
-
-    svg path {
-      transition: var(--default-duration);
-      opacity: 0.6;
-      fill: var(--button-icon-stroke-color);
-    }
-
-    &:hover svg path {
-      opacity: 1;
-      fill: var(--button-icon-stroke-hover-color);
-    }
   }
 }
 

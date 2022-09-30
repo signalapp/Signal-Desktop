@@ -165,18 +165,11 @@
   z-index: 1;
 
   .session-icon-button {
-    margin-right: var(--margins-sm);
-
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.7;
 
-    &:hover {
-      opacity: 1;
-      filter: brightness(0.9);
-      transition: var(--default-duration);
-    }
+    margin-right: var(--margins-sm);
 
     .send {
       padding: var(--margins-xs);

@@ -61,21 +61,33 @@ const StyledSpanSessionInfo = styled.span`
   opacity: 0.4;
   transition: var(--default-duration);
   user-select: text;
+  cursor: pointer;
 
-  :hover {
+  &:hover {
     opacity: 1;
   }
 `;
 
 const SessionInfo = () => {
-  const openOxenWebsite = () => {
-    void shell.openExternal('https://oxen.io/');
-  };
   return (
     <StyledVersionInfo>
-      <StyledSpanSessionInfo>v{window.versionInfo.version}</StyledSpanSessionInfo>
+      <StyledSpanSessionInfo
+        onClick={() => {
+          void shell.openExternal(
+            `https://github.com/oxen-io/session-desktop/releases/tag/v${window.versionInfo.version}`
+          );
+        }}
+      >
+        v{window.versionInfo.version}
+      </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>
-        <SessionIconButton iconSize="medium" iconType="oxen" onClick={openOxenWebsite} />
+        <SessionIconButton
+          iconSize="medium"
+          iconType="oxen"
+          onClick={() => {
+            void shell.openExternal('https://oxen.io/');
+          }}
+        />
       </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>{window.versionInfo.commitHash}</StyledSpanSessionInfo>
     </StyledVersionInfo>
@@ -84,18 +96,22 @@ const SessionInfo = () => {
 
 const StyledPasswordInput = styled.input`
   width: 100%;
-  background: var(--color-input-background);
-  color: var(--color-text);
+  background: var(--text-box-background-color);
+  color: var(--text-box-text-user-color);
 
   padding: var(--margins-xs) var(--margins-md);
   margin-bottom: var(--margins-lg);
   outline: none;
-  border: none;
-  border-radius: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
   text-align: center;
   font-size: 24px;
   letter-spacing: 5px;
   font-family: var(--font-default);
+
+  ::placeholder {
+    color: var(--text-box-text-control-color);
+  }
 `;
 
 const StyledH3 = styled.h3`
@@ -123,7 +139,7 @@ const PasswordLock = ({
           autoFocus={true}
         />
 
-        {pwdLockError && <div className="session-label warning">{pwdLockError}</div>}
+        {pwdLockError && <div className="session-label danger">{pwdLockError}</div>}
 
         <SessionButton
           buttonType={SessionButtonType.Simple}

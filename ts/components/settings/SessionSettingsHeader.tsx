@@ -11,7 +11,6 @@ const StyledSettingsHeader = styled.div`
   justify-content: center;
   align-items: center;
   height: var(--main-view-header-height);
-  background: var(--color-cell-background);
 `;
 
 const StyledHeaderTittle = styled.div`

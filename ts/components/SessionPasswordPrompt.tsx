@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
 import { SessionIcon } from './icon';
-import { withTheme } from 'styled-components';
 import autoBind from 'auto-bind';
-import { SessionButton, SessionButtonColor } from './basic/SessionButton';
-import { Constants } from '../session';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionSpinner } from './basic/SessionSpinner';
+import {
+  SessionTheme,
+  switchHtmlToDarkTheme,
+  switchHtmlToLightTheme,
+} from '../themes/SessionTheme';
+import styled from 'styled-components';
 
 interface State {
   error: string;
@@ -17,11 +21,16 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
+const StyledTextPleaseWait = styled.div`
+  margin: var(--margins-sm) 0;
+  font-weight: 700;
+`;
+
 const TextPleaseWait = (props: { isLoading: boolean }) => {
   if (!props.isLoading) {
     return null;
   }
-  return <div>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</div>;
+  return <StyledTextPleaseWait>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</StyledTextPleaseWait>;
 };
 
 class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
@@ -78,18 +87,18 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       />
     );
     const infoIcon = this.state.clearDataView ? (
-      <SessionIcon iconType="warning" iconSize={35} iconColor="#ce0000" />
+      <SessionIcon iconType="warning" iconSize={35} iconColor="var(--danger-color)" />
     ) : (
-      <SessionIcon iconType="lock" iconSize={35} iconColor={Constants.UI.COLORS.GREEN} />
+      <SessionIcon iconType="lock" iconSize={35} iconColor={'var(--primary-color)'} />
     );
     const errorSection = !this.state.clearDataView && (
       <div className="password-prompt-error-section">
         {this.state.error && (
           <>
             {showResetElements ? (
-              <div className="session-label warning">{window.i18n('maxPasswordAttempts')}</div>
+              <div className="session-label danger">{window.i18n('maxPasswordAttempts')}</div>
             ) : (
-              <div className="session-label primary">{this.state.error}</div>
+              <div className="session-label danger">{this.state.error}</div>
             )}
           </>
         )}
@@ -174,7 +183,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       <div className={classNames(showResetElements && 'button-group')}>
         <SessionButton
           text={window.i18n('unlock')}
-          buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Simple}
           onClick={this.initLogin}
         />
         {showResetElements && (
@@ -182,6 +191,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
             <SessionButton
               text="Reset Database"
               buttonColor={SessionButtonColor.Danger}
+              buttonType={SessionButtonType.Simple}
               onClick={this.initClearDataView}
             />
           </>
@@ -196,10 +206,12 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         <SessionButton
           text={window.i18n('clearAllData')}
           buttonColor={SessionButtonColor.Danger}
+          buttonType={SessionButtonType.Simple}
           onClick={window.clearLocalData}
         />
         <SessionButton
           text={window.i18n('cancel')}
+          buttonType={SessionButtonType.Simple}
           onClick={() => {
             this.setState({ clearDataView: false });
           }}
@@ -209,4 +221,18 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   }
 }
 
-export const SessionPasswordPrompt = withTheme(SessionPasswordPromptInner);
+export const SessionPasswordPrompt = () => {
+  useEffect(() => {
+    if ((window as any).theme === 'dark') {
+      switchHtmlToDarkTheme();
+    } else {
+      switchHtmlToLightTheme();
+    }
+  }, []);
+
+  return (
+    <SessionTheme>
+      <SessionPasswordPromptInner />
+    </SessionTheme>
+  );
+};

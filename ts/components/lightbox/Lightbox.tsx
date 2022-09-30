@@ -14,6 +14,7 @@ import { Flex } from '../basic/Flex';
 import { SessionIconButton, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
 import { isUndefined } from 'lodash';
+import styled from 'styled-components';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -127,6 +128,17 @@ const styles = {
   },
 };
 
+const StyledIconButton = styled.div`
+  .session-icon-button {
+    opacity: 0.4;
+    transition: opacity var(--default-duration);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
+
 interface IconButtonProps {
   onClick?: () => void;
   style?: React.CSSProperties;
@@ -162,14 +174,16 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
   }
 
   return (
-    <SessionIconButton
-      iconType={iconType}
-      iconSize={'huge'}
-      iconRotation={iconRotation}
-      // the lightbox has a dark background
-      iconColor="white"
-      onClick={clickHandler}
-    />
+    <StyledIconButton>
+      <SessionIconButton
+        iconType={iconType}
+        iconSize={'huge'}
+        iconRotation={iconRotation}
+        // the lightbox has a dark background
+        iconColor="var(--white-color)"
+        onClick={clickHandler}
+      />
+    </StyledIconButton>
   );
 };
 

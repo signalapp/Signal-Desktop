@@ -25,8 +25,8 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
         <div className={classNames(classes)}>
           <div className="contents">
             <SessionIconButton
+              iconColor="var(--background-secondary-color)"
               iconType="plus"
-              iconColor={'var(--color-accent)'}
               iconSize={'large'}
               onClick={() => {
                 acceptOpenGroupInvitation(props.acceptUrl, props.serverName);

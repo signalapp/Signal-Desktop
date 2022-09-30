@@ -55,16 +55,7 @@
     }
 
     .session-icon-button {
-      background-color: var(--button-icon-background-color);
-      box-shadow: none;
-
-      filter: brightness(1.05);
-      svg path {
-        transition: var(--default-duration);
-        opacity: 0.6;
-        // TODO Theming remove
-        fill: var(--color-text-opposite);
-      }
+      background-color: var(--primary-color);
     }
   }
 }

@@ -485,6 +485,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* TODO Theming Clarify what those transparent colors mean */
 
     /* Text Box */
+    /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
     --text-box-text-control-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
     --text-box-text-user-color: var(--text-primary-color);
@@ -503,6 +504,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --menu-button-icon-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
 
     /* Chat (Interaction) Buttons */
+    /* Also used for Reaction Bar Buttons */
     --chat-buttons-background-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --chat-buttons-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --chat-buttons-icon-color: var(--text-primary-color);
@@ -582,7 +584,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     --zoom-bar-selector-color: var(--primary-color);
 
     /* Toggle Switch */
-    --toggle-switch-ball-color: ;
+    --toggle-switch-ball-color: var(--white-color);
+    --toggle-switch-ball-shadow-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.15);
     /* TODO Theming think this should be white instead of transparent */
     --toggle-switch-off-background-color: var(--transparent-color);
     --toggle-switch-off-border-color: var(--border-color);
