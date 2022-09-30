@@ -67,7 +67,7 @@ export const BanOrUnBanUserDialog = (props: {
   const { i18n } = window;
   const isBan = banType === 'ban';
   const dispatch = useDispatch();
-  const darkMode = useSelector(getTheme) === 'dark';
+  const darkMode = useSelector(getTheme).includes('dark');
   const convo = getConversationController().get(conversationId);
   const inputRef = useRef(null);
 

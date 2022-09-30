@@ -95,13 +95,15 @@ function mapOldThemeToNew(theme: string) {
   switch (theme) {
     case 'dark':
     case 'light':
-      return theme;
+      return `classic-${theme}`;
     case 'android-dark':
-      return 'dark';
+      return 'classic-dark';
     case 'android':
     case 'ios':
+    case '':
+      return 'classic-light';
     default:
-      return 'light';
+      return theme;
   }
 }
 
@@ -125,7 +127,11 @@ Storage.onready(async () => {
 
   // These make key operations available to IPC handlers created in preload.js
   window.Events = {
-    getThemeSetting: () => Storage.get('theme-setting', 'light'),
+    getPrimaryColorSetting: () => Storage.get('primary-color-setting', 'green'),
+    setPrimaryColorSetting: async (value: any) => {
+      await Storage.put('primary-color-setting', value);
+    },
+    getThemeSetting: () => Storage.get('theme-setting', 'classic-light'),
     setThemeSetting: async (value: any) => {
       await Storage.put('theme-setting', value);
     },

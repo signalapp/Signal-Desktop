@@ -96,7 +96,7 @@ const generateContactsString = async (
 };
 
 const Contacts = (contacts: Array<string>, count: number) => {
-  const darkMode = useSelector(getTheme) === 'dark';
+  const darkMode = useSelector(getTheme).includes('dark');
 
   if (!Boolean(contacts?.length > 0)) {
     return;

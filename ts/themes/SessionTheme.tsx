@@ -347,7 +347,7 @@ export const switchHtmlToLightTheme = () => {
   );
 };
 
-// default to light theme
+// default to classic light theme
 export const SessionGlobalStyles = createGlobalStyle`
   html {
     /* Old Theme Variables */
@@ -487,7 +487,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Text Box */
     /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
-    --text-box-text-control-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
+    --text-box-text-control-color: var(--text-secondary-color);
     --text-box-text-user-color: var(--text-primary-color);
     --text-box-border-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
 
@@ -542,7 +542,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-solid-shadow-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25);
 
     /* Simple */
-    /* TODO Theming - Should this be different? */
+    --button-simple-text-color: var(--text-primary-color);
     --button-simple-disabled-color: var(--text-primary-color);
 
     /* Icons */
@@ -616,10 +616,12 @@ export const SessionGlobalStyles = createGlobalStyle`
 
     /* TODO Theming - Should Pills have their own colors? */
 
-    /* Modals / Toasts */
+    /* Modals */
     --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --modal-text-color: var(--text-primary-color);
     --modal-text-danger-color: var(--danger-color);
+
+    /* Toasts */
     --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
 
     /* Right Panel Items */
@@ -642,45 +644,3 @@ export const SessionTheme = ({ children }: { children: any }) => (
     {children}
   </>
 );
-
-/**
- * Just putting those new theme values used in the settings to avoid having conflicts for now.
- *
- */
-
-// TODO Theming need to improve this somehow
-type SettingsThemeSwitcherColor = {
-  background: string;
-  border: string;
-  sent: string;
-  received: string;
-};
-
-export const OceanBlueDark: SettingsThemeSwitcherColor = {
-  background: '#242735',
-  border: '#3D4A5E',
-  sent: '#57C9FA',
-  received: '#3D4A5D',
-};
-export const OceanBlueLight: SettingsThemeSwitcherColor = {
-  background: '#ECFAFB',
-  border: '#5CAACC',
-  sent: '#57C9FA',
-  received: '#B3EDF2',
-};
-
-export type PrimaryColorIds = 'green' | 'blue' | 'yellow' | 'pink' | 'purple' | 'orange' | 'red';
-
-type PrimaryColorType = { id: PrimaryColorIds; ariaLabel: string; color: string };
-
-export const getPrimaryColors = (): Array<PrimaryColorType> => {
-  return [
-    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
-    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
-    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
-    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
-    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
-    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
-    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
-  ];
-};

@@ -1,26 +1,36 @@
 import { Dispatch } from 'redux';
-import { applyTheme, ThemeStateType } from '../../state/ducks/theme';
+import { applyTheme } from '../../state/ducks/theme';
+import { ThemeStateType } from '../../themes/colors';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../themes/SessionTheme';
+import { switchTheme } from '../../themes/switchTheme';
 
 export async function switchThemeTo(theme: ThemeStateType, dispatch: Dispatch | null) {
   await window.setTheme(theme);
 
-  // for now, do not switch to ocean light nor dark theme as the SessionTheme associated with them is not complete
   let newTheme: ThemeStateType | null = null;
 
   switch (theme) {
-    case 'dark':
+    case 'classic-dark':
       switchHtmlToDarkTheme();
-      newTheme = 'dark';
+      newTheme = 'classic-dark';
       break;
-    case 'light':
+    case 'classic-light':
       switchHtmlToLightTheme();
-      newTheme = 'light';
+      newTheme = 'classic-light';
       break;
-
+    case 'ocean-dark':
+      switchHtmlToDarkTheme();
+      newTheme = 'ocean-dark';
+      break;
+    case 'ocean-light':
+      switchHtmlToLightTheme();
+      newTheme = 'ocean-light';
+      break;
     default:
       window.log.warn('Unsupported theme: ', theme);
   }
+
+  switchTheme(theme);
 
   if (newTheme) {
     dispatch?.(applyTheme(newTheme));

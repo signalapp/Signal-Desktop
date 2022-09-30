@@ -641,6 +641,8 @@ async function showDebugLogWindow() {
     return;
   }
 
+  // TODO Theming - Use on debug and about pages
+  const primaryColor = await getPrimaryColorFromMainWindow();
   const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
@@ -667,6 +669,7 @@ async function showDebugLogWindow() {
 
   captureClicks(debugLogWindow);
 
+  // TODO Theming - Check if it needs the priary color
   await debugLogWindow.loadURL(prepareURL([getAppRootPath(), 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
@@ -1098,6 +1101,15 @@ ipc.on('set-auto-update-setting', async (_event, enabled) => {
     isReadyForUpdates = false;
   }
 });
+
+async function getPrimaryColorFromMainWindow() {
+  return new Promise(resolve => {
+    ipc.once('get-success-primary-color-setting', (_event, value) => {
+      resolve(value);
+    });
+    mainWindow?.webContents.send('get-primary-color-setting');
+  });
+}
 
 async function getThemeFromMainWindow() {
   return new Promise(resolve => {

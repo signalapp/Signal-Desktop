@@ -50,6 +50,9 @@ import { UserUtils } from '../../session/utils';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../session/utils/Theme';
+import { ThemeStateType } from '../../themes/colors';
+import { getTheme } from '../../state/selectors/theme';
+import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -57,6 +60,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
+  const theme = useSelector(getTheme);
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -64,10 +68,11 @@ const Section = (props: { type: SectionType }) => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
-    } else if (type === SectionType.Moon) {
-      // TODO Theming Toggle current theme light and dark mode with new system
-      const currentTheme = window.Events.getThemeSetting();
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    } else if (type === SectionType.ColorMode) {
+      const currentTheme = String(window.Events.getThemeSetting());
+      const newTheme = (currentTheme.includes('light')
+        ? currentTheme.replace('light', 'dark')
+        : currentTheme.replace('dark', 'light')) as ThemeStateType;
 
       await switchThemeTo(newTheme, dispatch);
     } else if (type === SectionType.PathIndicator) {
@@ -126,11 +131,12 @@ const Section = (props: { type: SectionType }) => {
           id={'onion-path-indicator-led-id'}
         />
       );
+    case SectionType.ColorMode:
     default:
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={'moon'}
+          iconType={theme.includes('light') ? 'sun' : 'moon'}
           dataTestId="theme-section"
           notificationCount={unreadToShow}
           onClick={handleClick}
@@ -148,6 +154,9 @@ const cleanUpMediasInterval = DURATION.MINUTES * 60;
 const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
 
 const setupTheme = async () => {
+  const primaryColor = window.Events.getPrimaryColorSetting();
+  await switchPrimaryColor(primaryColor, window?.inboxStore?.dispatch || null);
+
   const theme = window.Events.getThemeSetting();
   await switchThemeTo(theme, window?.inboxStore?.dispatch || null);
 };
@@ -295,7 +304,7 @@ export const ActionsPanel = () => {
         <SessionToastContainer />
 
         <Section type={SectionType.PathIndicator} />
-        <Section type={SectionType.Moon} />
+        <Section type={SectionType.ColorMode} />
       </LeftPaneSectionContainer>
     </>
   );

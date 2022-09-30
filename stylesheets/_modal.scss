@@ -108,18 +108,18 @@
   // button {
   //   float: right;
   //   margin-inline-start: 10px;
-  //   background-color: var(--color-session-green-color);
+  //   background-color: var(--primary-color);
   //   border-radius: 100px;
   //   padding: 5px 15px;
-  //   border: 1px solid var(--color-session-green-color);
+  //   border: 1px solid var(--primary-color);
   //   color: white;
   //   outline: none;
   //   user-select: none;
 
   //   &:hover,
   //   &:disabled {
-  //     background-color: var(--color-session-green-color)-dark;
-  //     border-color: var(--color-session-green-color)-dark;
+  //     background-color: var(--primary-color)-dark;
+  //     border-color: var(--primary-color)-dark;
   //   }
 
   //   &:disabled {

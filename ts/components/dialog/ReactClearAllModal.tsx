@@ -54,7 +54,7 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
   const [clearingInProgress, setClearingInProgress] = useState(false);
 
   const dispatch = useDispatch();
-  const darkMode = useSelector(getTheme) === 'dark';
+  const darkMode = useSelector(getTheme).includes('dark');
   const msgProps = useMessageReactsPropsById(messageId);
 
   if (!msgProps) {

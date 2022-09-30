@@ -597,7 +597,7 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', var(--color-session-green-color));
+  @include color-svg('../images/play.svg', var(--primary-color));
 }
 
 .module-media-grid-item__icon-video {
@@ -826,7 +826,7 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', var(--color-session-green-color));
+  @include color-svg('../images/play.svg', var(--primary-color));
 }
 
 .module-image__text-container {
