@@ -134,6 +134,8 @@ export default class OutgoingMessage {
 
   urgent: boolean;
 
+  story?: boolean;
+
   recipients: Record<string, Array<number>>;
 
   sendLogCallback?: SendLogCallbackType;
@@ -147,6 +149,7 @@ export default class OutgoingMessage {
     options,
     sendLogCallback,
     server,
+    story,
     timestamp,
     urgent,
   }: {
@@ -158,6 +161,7 @@ export default class OutgoingMessage {
     options?: OutgoingMessageOptionsType;
     sendLogCallback?: SendLogCallbackType;
     server: WebAPIType;
+    story?: boolean;
     timestamp: number;
     urgent: boolean;
   }) {
@@ -175,6 +179,7 @@ export default class OutgoingMessage {
     this.contentHint = contentHint;
     this.groupId = groupId;
     this.callback = callback;
+    this.story = story;
     this.urgent = urgent;
 
     this.identifiersCompleted = 0;
@@ -310,11 +315,17 @@ export default class OutgoingMessage {
         identifier,
         jsonData,
         timestamp,
-        { accessKey, online: this.online, urgent: this.urgent }
+        {
+          accessKey,
+          online: this.online,
+          story: this.story,
+          urgent: this.urgent,
+        }
       );
     } else {
       promise = this.server.sendMessages(identifier, jsonData, timestamp, {
         online: this.online,
+        story: this.story,
         urgent: this.urgent,
       });
     }

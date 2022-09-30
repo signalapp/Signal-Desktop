@@ -156,6 +156,7 @@ export async function sendContentMessageToGroup({
   sendOptions,
   sendTarget,
   sendType,
+  story,
   timestamp,
   urgent,
 }: {
@@ -168,6 +169,7 @@ export async function sendContentMessageToGroup({
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
+  story?: boolean;
   timestamp: number;
   urgent: boolean;
 }): Promise<CallbackResultType> {
@@ -199,6 +201,7 @@ export async function sendContentMessageToGroup({
         sendOptions,
         sendTarget,
         sendType,
+        story,
         timestamp,
         urgent,
       });
@@ -235,6 +238,7 @@ export async function sendContentMessageToGroup({
     proto: contentMessage,
     recipients,
     sendLogCallback,
+    story,
     timestamp,
     urgent,
   });
@@ -253,6 +257,7 @@ export async function sendToGroupViaSenderKey(options: {
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
+  story?: boolean;
   timestamp: number;
   urgent: boolean;
 }): Promise<CallbackResultType> {
@@ -267,6 +272,7 @@ export async function sendToGroupViaSenderKey(options: {
     sendOptions,
     sendTarget,
     sendType,
+    story,
     timestamp,
     urgent,
   } = options;
@@ -433,6 +439,7 @@ export async function sendToGroupViaSenderKey(options: {
             distributionId,
             groupId,
             identifiers: newToMemberUuids,
+            story,
             urgent,
           },
           sendOptions ? { ...sendOptions, online: false } : undefined

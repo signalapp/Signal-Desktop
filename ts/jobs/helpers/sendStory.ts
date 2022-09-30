@@ -71,10 +71,11 @@ export async function sendStory(
       return;
     }
 
+    const messageTimestamp = message.get('timestamp');
     const messageConversation = message.getConversation();
     if (messageConversation !== conversation) {
       log.error(
-        `stories.sendStory(${messageId}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+        `stories.sendStory(${messageTimestamp}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
       );
       return;
     }
@@ -84,7 +85,7 @@ export async function sendStory(
 
     if (!attachment) {
       log.info(
-        `stories.sendStory(${messageId}): message does not have any attachments to send. Giving up on sending it`
+        `stories.sendStory(${messageTimestamp}): message does not have any attachments to send. Giving up on sending it`
       );
       return;
     }
@@ -163,17 +164,18 @@ export async function sendStory(
         return;
       }
 
+      const messageTimestamp = message.get('timestamp');
       const messageConversation = message.getConversation();
       if (messageConversation !== conversation) {
         log.error(
-          `stories.sendStory(${messageId}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+          `stories.sendStory(${messageTimestamp}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
         );
         return;
       }
 
       if (message.isErased() || message.get('deletedForEveryone')) {
         log.info(
-          `stories.sendStory(${messageId}): message was erased. Giving up on sending it`
+          `stories.sendStory(${messageTimestamp}): message was erased. Giving up on sending it`
         );
         return;
       }
@@ -185,7 +187,7 @@ export async function sendStory(
 
       if (!receiverId) {
         log.info(
-          `stories.sendStory(${messageId}): did not get a valid recipient ID for message. Giving up on sending it`
+          `stories.sendStory(${messageTimestamp}): did not get a valid recipient ID for message. Giving up on sending it`
         );
         return;
       }
@@ -212,7 +214,7 @@ export async function sendStory(
 
       if (!shouldContinue) {
         log.info(
-          `stories.sendStory(${messageId}): ran out of time. Giving up on sending it`
+          `stories.sendStory(${messageTimestamp}): ran out of time. Giving up on sending it`
         );
         await markMessageFailed(message, [
           new Error('Message send ran out of time'),
@@ -242,7 +244,7 @@ export async function sendStory(
             }
           );
           throw new Error(
-            `stories.sendStory(${messageId}): sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+            `stories.sendStory(${messageTimestamp}): sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
           );
         }
 
@@ -266,7 +268,7 @@ export async function sendStory(
         );
 
         log.info(
-          `stories.sendStory(${messageId}): sending story to ${receiverId}`
+          `stories.sendStory(${messageTimestamp}): sending story to ${receiverId}`
         );
 
         const storyMessage = new Proto.StoryMessage();
@@ -314,6 +316,7 @@ export async function sendStory(
           sendOptions,
           sendTarget,
           sendType: 'story',
+          story: true,
           timestamp: message.get('timestamp'),
           urgent: false,
         });

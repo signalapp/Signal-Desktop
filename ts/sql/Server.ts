@@ -4556,7 +4556,7 @@ async function getStoryDistributionWithMembers(
   id: string
 ): Promise<StoryDistributionWithMembersType | undefined> {
   const db = getInstance();
-  const storyDistribution = prepare(
+  const storyDistribution: StoryDistributionForDatabase | undefined = prepare(
     db,
     'SELECT * FROM storyDistributions WHERE id = $id;'
   ).get({
@@ -4575,7 +4575,7 @@ async function getStoryDistributionWithMembers(
   });
 
   return {
-    ...storyDistribution,
+    ...hydrateStoryDistribution(storyDistribution),
     members: members.map(({ uuid }) => uuid),
   };
 }

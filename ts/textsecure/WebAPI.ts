@@ -917,13 +917,18 @@ export type WebAPIType = {
     destination: string,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
-    options: { online?: boolean; urgent?: boolean }
+    options: { online?: boolean; story?: boolean; urgent?: boolean }
   ) => Promise<void>;
   sendMessagesUnauth: (
     destination: string,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
-    options: { accessKey?: string; online?: boolean; urgent?: boolean }
+    options: {
+      accessKey?: string;
+      online?: boolean;
+      story?: boolean;
+      urgent?: boolean;
+    }
   ) => Promise<void>;
   sendWithSenderKey: (
     payload: Uint8Array,
@@ -2084,12 +2089,19 @@ export function initialize({
         accessKey,
         online,
         urgent = true,
-      }: { accessKey?: string; online?: boolean; urgent?: boolean }
+        story = false,
+      }: {
+        accessKey?: string;
+        online?: boolean;
+        story?: boolean;
+        urgent?: boolean;
+      }
     ) {
       const jsonData = {
         messages,
         timestamp,
         online: Boolean(online),
+        story,
         urgent,
       };
 
@@ -2108,12 +2120,17 @@ export function initialize({
       destination: string,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
-      { online, urgent = true }: { online?: boolean; urgent?: boolean }
+      {
+        online,
+        urgent = true,
+        story = false,
+      }: { online?: boolean; story?: boolean; urgent?: boolean }
     ) {
       const jsonData = {
         messages,
         timestamp,
         online: Boolean(online),
+        story,
         urgent,
       };
 

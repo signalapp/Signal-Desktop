@@ -1203,6 +1203,7 @@ export default class MessageSender {
     proto,
     recipients,
     sendLogCallback,
+    story,
     timestamp,
     urgent,
   }: Readonly<{
@@ -1213,6 +1214,7 @@ export default class MessageSender {
     proto: Proto.Content | Proto.DataMessage | PlaintextContent;
     recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
+    story?: boolean;
     timestamp: number;
     urgent: boolean;
   }>): void {
@@ -1233,6 +1235,7 @@ export default class MessageSender {
       options,
       sendLogCallback,
       server: this.server,
+      story,
       timestamp,
       urgent,
     });
@@ -2220,6 +2223,7 @@ export default class MessageSender {
     proto,
     recipients,
     sendLogCallback,
+    story,
     timestamp = Date.now(),
     urgent,
   }: Readonly<{
@@ -2229,6 +2233,7 @@ export default class MessageSender {
     proto: Proto.Content;
     recipients: ReadonlyArray<string>;
     sendLogCallback?: SendLogCallbackType;
+    story?: boolean;
     timestamp: number;
     urgent: boolean;
   }>): Promise<CallbackResultType> {
@@ -2269,6 +2274,7 @@ export default class MessageSender {
         proto,
         recipients: identifiers,
         sendLogCallback,
+        story,
         timestamp,
         urgent,
       });
@@ -2341,6 +2347,7 @@ export default class MessageSender {
       groupId,
       identifiers,
       throwIfNotInDatabase,
+      story,
       urgent,
     }: Readonly<{
       contentHint: number;
@@ -2348,6 +2355,7 @@ export default class MessageSender {
       groupId: string | undefined;
       identifiers: ReadonlyArray<string>;
       throwIfNotInDatabase?: boolean;
+      story?: boolean;
       urgent: boolean;
     }>,
     options?: Readonly<SendOptionsType>
@@ -2380,6 +2388,7 @@ export default class MessageSender {
       proto: contentMessage,
       recipients: identifiers,
       sendLogCallback,
+      story,
       timestamp,
       urgent,
     });

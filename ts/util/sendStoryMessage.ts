@@ -17,7 +17,6 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import { formatJobForInsert } from '../jobs/formatJobForInsert';
 import { getRecipients } from './getRecipients';
 import { getSignalConnections } from './getSignalConnections';
 import { incrementMessageCounter } from './incrementMessageCounter';
@@ -144,6 +143,8 @@ export async function sendStoryMessage(
           );
         }
 
+        // Note: we use the same sent_at for these messages because we want de-duplication
+        //   on the receiver side.
         return window.Signal.Migrations.upgradeMessageSchema({
           attachments,
           conversationId: ourConversation.id,
@@ -247,7 +248,9 @@ export async function sendStoryMessage(
 
       ourConversation.addSingleMessage(model, { isJustSent: true });
 
-      log.info(`stories.sendStoryMessage: saving message ${message.id}`);
+      log.info(
+        `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
+      );
       return dataInterface.saveMessage(message.attributes, {
         forceSave: true,
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
@@ -258,18 +261,12 @@ export async function sendStoryMessage(
   // * Send to the distribution lists
   // * Place into job queue
   // * Save the job
-  await conversationJobQueue.add(
-    {
-      type: conversationQueueJobEnum.enum.Story,
-      conversationId: ourConversation.id,
-      messageIds: distributionListMessages.map(m => m.id),
-      timestamp,
-    },
-    async jobToInsert => {
-      log.info(`stories.sendStoryMessage: saving job ${jobToInsert.id}`);
-      await dataInterface.insertJob(formatJobForInsert(jobToInsert));
-    }
-  );
+  await conversationJobQueue.add({
+    type: conversationQueueJobEnum.enum.Story,
+    conversationId: ourConversation.id,
+    messageIds: distributionListMessages.map(m => m.id),
+    timestamp,
+  });
 
   // * Send to groups
   // * Save the message models
@@ -301,7 +298,9 @@ export async function sendStoryMessage(
           const conversation = message.getConversation();
           conversation?.addSingleMessage(model, { isJustSent: true });
 
-          log.info(`stories.sendStoryMessage: saving message ${message.id}`);
+          log.info(
+            `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
+          );
           await dataInterface.saveMessage(message.attributes, {
             forceSave: true,
             jobToInsert,
