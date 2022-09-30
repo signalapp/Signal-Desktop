@@ -600,11 +600,13 @@ export async function sendToGroupViaSenderKey(options: {
       }
     }
 
-    throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Returned unexpected error ${
+    log.error(
+      `sendToGroupViaSenderKey/${logId}: Returned unexpected error code: ${
         error.code
-      }. Failing over. ${error.stack || error}`
+      }, error class: ${typeof error}`
     );
+
+    throw error;
   }
 
   // 11. Return early if there are no normal send recipients
