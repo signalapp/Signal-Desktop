@@ -1,4 +1,4 @@
-import { EmojiSet } from 'emoji-mart';
+import { EmojiSet, PartialI18n } from 'emoji-mart';
 
 export const reactionLimit: number = 6;
 
@@ -76,6 +76,7 @@ export interface FixedPickerProps {
   noResultsEmoji?: string | undefined;
   previewPosition?: 'bottom' | 'top' | 'none' | undefined;
   skinTonePosition?: 'preview' | 'search' | 'none';
+  i18n?: PartialI18n | undefined;
   onEmojiSelect?: (emoji: FixedBaseEmoji) => void;
   onClickOutside?: () => void;
   onKeyDown?: (event: any) => void;
@@ -83,7 +84,6 @@ export interface FixedPickerProps {
   getImageURL?: () => void;
   getSpritesheetURL?: () => void;
   // Below here I'm currently unsure of usage
-  // i18n?: PartialI18n | undefined;
   // style?: React.CSSProperties | undefined;
   // color?: string | undefined;
   // skin?: EmojiSkin | undefined;

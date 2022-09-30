@@ -1,4 +1,7 @@
 import { FixedBaseEmoji, NativeEmojiData } from '../types/Reaction';
+// @ts-ignore
+import { init, PartialI18n } from 'emoji-mart';
+import { loadEmojiPanelI18n } from './i18n';
 
 export type SizeClassType = 'default' | 'small' | 'medium' | 'large' | 'jumbo';
 
@@ -40,8 +43,9 @@ export function getEmojiSizeClass(str: string): SizeClassType {
 }
 
 export let nativeEmojiData: NativeEmojiData | null = null;
+export let i18nEmojiData: PartialI18n | null = null;
 
-export function initialiseEmojiData(data: any) {
+export async function initialiseEmojiData(data: any): Promise<void> {
   const ariaLabels: Record<string, string> = {};
   Object.entries(data.emojis).forEach(([key, value]: [string, any]) => {
     value.search = `,${[
@@ -73,6 +77,11 @@ export function initialiseEmojiData(data: any) {
 
   data.ariaLabels = ariaLabels;
   nativeEmojiData = data;
+
+  i18nEmojiData = await loadEmojiPanelI18n();
+  // Data needs to be initialised once per page load for the emoji components
+  // See https://github.com/missive/emoji-mart#%EF%B8%8F%EF%B8%8F-headless-search
+  init({ data, i18n: i18nEmojiData });
 }
 
 // Synchronous version of Emoji Mart's SearchIndex.search()
@@ -147,24 +156,4 @@ export function searchSync(query: string, args?: any): Array<any> {
     results = results.slice(0, maxResults);
   }
   return results;
-}
-
-// No longer exists on emoji-mart v5.1
-export function getEmojiDataFromNative(nativeString: string): FixedBaseEmoji | null {
-  if (!nativeEmojiData) {
-    return null;
-  }
-
-  const matches = Object.values(nativeEmojiData.emojis).filter((emoji: any) => {
-    const skinMatches = (emoji as FixedBaseEmoji).skins.filter((skin: any) => {
-      return skin.native === nativeString;
-    });
-    return skinMatches.length > 0;
-  });
-
-  if (matches.length === 0) {
-    return null;
-  }
-
-  return matches[0] as FixedBaseEmoji;
 }

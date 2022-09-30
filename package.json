@@ -83,7 +83,8 @@
     "rebuild-curve25519-js": "cd node_modules/curve25519-js && yarn install && yarn build && cd ../../"
   },
   "dependencies": {
-    "@emoji-mart/data": "1.0.2",
+    "@emoji-mart/data": "^1.0.6",
+    "@emoji-mart/react": "^1.0.1",
     "@reduxjs/toolkit": "^1.4.0",
     "abort-controller": "3.0.0",
     "auto-bind": "^4.0.0",
@@ -104,7 +105,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-localshortcut": "^3.2.1",
     "electron-updater": "^4.2.2",
-    "emoji-mart": "5.1.0",
+    "emoji-mart": "^5.2.2",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
     "fs-extra": "9.0.0",

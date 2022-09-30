@@ -109,7 +109,7 @@ export const MessageContextMenu = (props: Props) => {
 
   const emojiPanelRef = useRef<HTMLDivElement>(null);
   const [showEmojiPanel, setShowEmojiPanel] = useState(false);
-  // emoji-mart v5.1 default dimensions
+  // emoji-mart v5.2.2 default dimensions
   const emojiPanelWidth = 354;
   const emojiPanelHeight = 435;
 

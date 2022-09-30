@@ -21,7 +21,6 @@ import { OpenGroupData } from '../data/opengroups';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
-import { loadEmojiPanelI18n } from '../util/i18n';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -176,7 +175,7 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
-    initialiseEmojiData(nativeEmojiData);
+    await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
 
     await Promise.all([
@@ -184,7 +183,6 @@ Storage.onready(async () => {
       BlockedNumberController.load(),
       OpenGroupData.opengroupRoomsLoad(),
       loadKnownBlindedKeys(),
-      loadEmojiPanelI18n(),
     ]);
   } catch (error) {
     window.log.error(
