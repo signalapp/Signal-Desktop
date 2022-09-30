@@ -84,8 +84,6 @@ let newVersion = false;
 
 window.document.title = window.getTitle();
 
-// Whisper.events =
-// window.Whisper.events = WhisperEvents ?
 const WhisperEvents = _.clone(Backbone.Events);
 window.Whisper = window.Whisper || {};
 window.Whisper.events = WhisperEvents;
@@ -169,7 +167,7 @@ Storage.onready(async () => {
 
   const themeSetting = window.Events.getThemeSetting();
   const newThemeSetting = mapOldThemeToNew(themeSetting);
-  window.Events.setThemeSetting(newThemeSetting);
+  await window.Events.setThemeSetting(newThemeSetting);
 
   try {
     initialiseEmojiData(nativeEmojiData);
@@ -280,17 +278,9 @@ async function start() {
   const prevLaunchCount = window.getSettingValue('launch-count');
   // tslint:disable-next-line: restrict-plus-operands
   const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
-  window.setSettingValue('launch-count', launchCount);
 
-  // On first launch
-  if (launchCount === 1) {
-    // Initialise default settings
-    window.setSettingValue('hide-menu-bar', true);
-    window.setSettingValue('link-preview-setting', false);
-  }
-
-  window.setTheme = newTheme => {
-    window.Events.setThemeSetting(newTheme);
+  window.setTheme = async newTheme => {
+    await window.Events.setThemeSetting(newTheme);
   };
 
   window.toggleMenuBar = () => {
@@ -356,6 +346,14 @@ async function start() {
       openInbox();
     }
   };
+  await window.setSettingValue('launch-count', launchCount);
+
+  // On first launch
+  if (launchCount === 1) {
+    // Initialise default settings
+    await window.setSettingValue('hide-menu-bar', true);
+    await window.setSettingValue('link-preview-setting', false);
+  }
 
   WhisperEvents.on('openInbox', () => {
     openInbox();

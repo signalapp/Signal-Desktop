@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { shell } from 'electron';
 import LinkifyIt from 'linkify-it';
 
 import { RenderTextCallbackType } from '../../../../types/Util';
@@ -8,9 +7,9 @@ import { getEmojiSizeClass, SizeClassType } from '../../../../util/emoji';
 import { AddMentions } from '../../AddMentions';
 import { AddNewLines } from '../../AddNewLines';
 import { Emojify } from '../../Emojify';
-import { MessageInteraction } from '../../../../interactions';
-import { updateConfirmModal } from '../../../../state/ducks/modalDialog';
 import { LinkPreviews } from '../../../../util/linkPreviews';
+import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
+import styled from 'styled-components';
 
 const linkify = LinkifyIt();
 
@@ -90,6 +89,12 @@ const JsxSelectable = (jsx: JSX.Element): JSX.Element => {
   );
 };
 
+const StyledPre = styled.pre`
+  backdrop-filter: brightness(0.8);
+  padding: var(--margins-xs);
+  user-select: text;
+`;
+
 export const MessageBody = (props: Props) => {
   const { text, disableJumbomoji, disableLinks, isGroup } = props;
   const sizeClass: SizeClassType = disableJumbomoji ? 'default' : getEmojiSizeClass(text);
@@ -107,7 +112,7 @@ export const MessageBody = (props: Props) => {
   }
 
   if (text && text.startsWith('```') && text.endsWith('```') && text.length > 6) {
-    return <pre className="text-selectable">{text.substring(4, text.length - 3)}</pre>;
+    return <StyledPre>{text.substring(4, text.length - 3)}</StyledPre>;
   }
 
   return JsxSelectable(
@@ -152,27 +157,7 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
 
     const url = e.target.href;
 
-    const openLink = () => {
-      void shell.openExternal(url);
-    };
-
-    dispatch(
-      updateConfirmModal({
-        title: window.i18n('linkVisitWarningTitle'),
-        message: window.i18n('linkVisitWarningMessage', url),
-        okText: window.i18n('open'),
-        cancelText: window.i18n('editMenuCopy'),
-        showExitIcon: true,
-        onClickOk: openLink,
-        onClickClose: () => {
-          dispatch(updateConfirmModal(null));
-        },
-
-        onClickCancel: () => {
-          MessageInteraction.copyBodyToClipboard(url);
-        },
-      })
-    );
+    showLinkVisitWarningDialog(url, dispatch);
   }, []);
 
   if (matchData.length === 0) {

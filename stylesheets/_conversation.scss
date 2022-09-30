@@ -27,7 +27,7 @@
   margin: 4px 16px;
   padding: 4px;
 
-  border-radius: 15px;
+  border-radius: var(--border-radius-message-box);
 
   align-self: flex-start;
 
@@ -67,7 +67,7 @@
 
       filter: brightness(1.05);
       svg path {
-        transition: $session-transition-duration;
+        transition: var(--default-duration);
         opacity: 0.6;
         fill: var(--color-text-opposite);
       }

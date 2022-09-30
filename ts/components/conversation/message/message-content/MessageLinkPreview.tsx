@@ -4,20 +4,26 @@ import { isImageAttachment } from '../../../../types/Attachment';
 import { ImageGrid } from '../../ImageGrid';
 import { Image } from '../../Image';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { useSelector } from 'react-redux';
-import { getMessagePreviewProps } from '../../../../state/selectors/conversations';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMessageLinkPreviewProps } from '../../../../state/selectors/conversations';
 import { SessionIcon } from '../../../icon';
 import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
+import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
-export type MessagePreviewSelectorProps = Pick<MessageRenderingProps, 'attachments' | 'previews'>;
+export type MessageLinkPreviewSelectorProps = Pick<
+  MessageRenderingProps,
+  'attachments' | 'previews'
+>;
 
 type Props = {
   handleImageError: () => void;
   messageId: string;
 };
 
-export const MessagePreview = (props: Props) => {
-  const selected = useSelector(state => getMessagePreviewProps(state as any, props.messageId));
+export const MessageLinkPreview = (props: Props) => {
+  const selected = useSelector(state => getMessageLinkPreviewProps(state as any, props.messageId));
+  const dispatch = useDispatch();
+
   if (!selected) {
     return null;
   }
@@ -41,8 +47,18 @@ export const MessagePreview = (props: Props) => {
   const width = first.image && first.image.width;
   const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
+  function openLinkFromPreview() {
+    if (previews?.length && previews[0].url) {
+      showLinkVisitWarningDialog(previews[0].url, dispatch);
+    }
+  }
+
   return (
-    <div role="button" className={classNames('module-message__link-preview')}>
+    <div
+      role="button"
+      className={classNames('module-message__link-preview')}
+      onClick={openLinkFromPreview}
+    >
       {first.image && previewHasImage && isFullSizeImage ? (
         <ImageGrid attachments={[first.image]} onError={props.handleImageError} />
       ) : null}
@@ -68,14 +84,7 @@ export const MessagePreview = (props: Props) => {
             </div>
           </div>
         ) : null}
-        <div
-          className={classNames(
-            'module-message__link-preview__text',
-            previewHasImage && !isFullSizeImage
-              ? 'module-message__link-preview__text--with-icon'
-              : null
-          )}
-        >
+        <div className={classNames('module-message__link-preview__text')}>
           <div className="module-message__link-preview__title">{first.title}</div>
           <div className="module-message__link-preview__location">{first.domain}</div>
         </div>

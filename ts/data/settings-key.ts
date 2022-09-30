@@ -7,6 +7,7 @@ const settingsSpellCheck = 'spell-check';
 const settingsLinkPreview = 'link-preview-setting';
 const settingsStartInTray = 'start-in-tray-setting';
 const settingsOpengroupPruning = 'prune-setting';
+const settingsNotification = 'notification-setting';
 
 export const SettingsKey = {
   settingsReadReceipt,
@@ -17,4 +18,5 @@ export const SettingsKey = {
   settingsLinkPreview,
   settingsStartInTray,
   settingsOpengroupPruning,
+  settingsNotification,
 };

@@ -1,10 +1,9 @@
 import React, { ChangeEvent } from 'react';
-import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { PillDivider } from '../basic/PillDivider';
+import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 
 import { ConversationModel } from '../../models/conversation';
@@ -106,13 +105,8 @@ export class EditProfileDialog extends React.Component<{}, State> {
           {viewEdit && this.renderEditView()}
 
           <div className="session-id-section">
-            <PillDivider text={window.i18n('yourSessionID')} />
-            <p
-              className={classNames('text-selectable', 'session-id-section-display')}
-              data-testid="your-session-id"
-            >
-              {sessionID}
-            </p>
+            <YourSessionIDPill />
+            <YourSessionIDSelectable />
 
             <SpacerLG />
             <SessionSpinner loading={this.state.loading} />
@@ -123,7 +117,8 @@ export class EditProfileDialog extends React.Component<{}, State> {
                 buttonType={SessionButtonType.BrandOutline}
                 buttonColor={SessionButtonColor.Green}
                 onClick={() => {
-                  copySessionID(sessionID);
+                  window.clipboard.writeText(sessionID);
+                  ToastUtils.pushCopiedToClipBoard();
                 }}
                 dataTestId="copy-button-profile-update"
               />
@@ -330,9 +325,4 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
   await conversation.commit();
   await setLastProfileUpdateTimestamp(Date.now());
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
-}
-
-function copySessionID(sessionID: string) {
-  window.clipboard.writeText(sessionID);
-  ToastUtils.pushCopiedToClipBoard();
 }

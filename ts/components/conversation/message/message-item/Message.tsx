@@ -5,9 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import { getGenericReadableMessageSelectorProps } from '../../../../state/selectors/conversations';
 import { GenericReadableMessage } from './GenericReadableMessage';
+import { THUMBNAIL_SIDE } from '../../../../types/attachments/VisualAttachment';
 
 // Same as MIN_WIDTH in ImageGrid.tsx
-export const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
+export const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = THUMBNAIL_SIDE;
 
 type Props = {
   messageId: string;

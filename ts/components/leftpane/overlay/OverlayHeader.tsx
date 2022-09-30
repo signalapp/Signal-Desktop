@@ -1,34 +1,71 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { setOverlayMode } from '../../../state/ducks/section';
-import { SpacerMD } from '../../basic/Text';
+import { Flex } from '../../basic/Flex';
+import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
+
+const StyledGreenBorder = styled.hr`
+  position: absolute;
+  color: var(--color-accent);
+  background-color: var(--color-accent);
+
+  height: 5px;
+  left: -10px;
+  right: -10px;
+  margin-top: 7px;
+  border: none;
+  z-index: 1;
+`;
+
+const StyledWhiteBorder = styled.hr`
+  width: 100%;
+  position: relative;
+  height: 1px;
+  opacity: 0.3;
+  margin-top: 2px;
+  margin-bottom: 40px;
+`;
+
+const StyledTitle = styled.h2`
+  text-align: center;
+  margin-top: 0px;
+`;
+
+const StyledSubTitle = styled.h3`
+  text-align: center;
+  padding-top: 22px;
+  position: relative;
+  margin-bottom: 6px;
+`;
 
 export const OverlayHeader = ({ subtitle, title }: { title: string; subtitle: string }) => {
   const dispatch = useDispatch();
+  const returnToActionChooser = () => {
+    dispatch(setOverlayMode('choose-action'));
+  };
 
   return (
     <>
-      <div className="exit">
+      <Flex container={true} width="100%" padding="var(--margins-xs)">
         <SessionIconButton
-          iconSize="small"
+          iconSize="medium"
           iconType="chevron"
           iconRotation={90}
-          onClick={() => {
-            dispatch(setOverlayMode(undefined));
-          }}
+          onClick={returnToActionChooser}
         />
-      </div>
+      </Flex>
 
-      <SpacerMD />
+      <SpacerSM />
 
-      <h2>{title}</h2>
+      <StyledTitle>{title}</StyledTitle>
 
-      <h3>
+      <StyledSubTitle>
         {subtitle}
-        <hr className="green-border" />
-      </h3>
-      <hr className="white-border" />
+        <StyledGreenBorder />
+      </StyledSubTitle>
+      <StyledWhiteBorder />
     </>
   );
 };

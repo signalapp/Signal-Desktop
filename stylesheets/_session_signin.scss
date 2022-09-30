@@ -48,7 +48,8 @@
       width: 289px;
 
       .session-button {
-        width: 100%;
+        width: 80%;
+        margin: auto;
       }
     }
 
@@ -95,7 +96,7 @@
     color: var(--color-text);
 
     padding: 2px 0 2px 0;
-    transition: opacity $session-transition-duration;
+    transition: opacity var(--default-duration);
     opacity: 1;
     position: relative;
 
@@ -151,9 +152,9 @@
   }
 
   &-terms-conditions-agreement {
-    padding-top: $session-margin-md;
-    @include session-color-subtle(var(--color-text));
+    padding-top: var(--margins-md);
 
+    color: var(--color-text-subtle);
     text-align: center;
     font-size: 12px;
 
@@ -161,12 +162,11 @@
       white-space: nowrap;
       font-weight: bold;
       text-decoration: none;
-      @include session-color-subtle(var(--color-text));
-
-      transition: $session-transition-duration;
+      color: var(--color-text-subtle);
+      transition: var(--default-duration);
 
       &:visited &:link {
-        @include session-color-subtle(var(--color-text));
+        color: var(--color-text-subtle);
       }
 
       &:hover {
@@ -178,8 +178,8 @@
   &-description-long {
     padding-top: 0;
     padding-bottom: 20px;
-    @include session-color-subtle(var(--color-text));
-
+    // TODO Theming needs to be updated
+    color: rgba(black, 0.6);
     text-align: center;
     font-size: 12px;
     line-height: 20px;
@@ -196,7 +196,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 13px;
     border: 1px solid subtle(#353535);
     margin-bottom: 20px;
 
@@ -206,8 +206,7 @@
       border: none;
       background: transparent;
       color: var(--color-text);
-
-      font-size: 15px;
+      font-size: var(--font-size-md);
       line-height: 18px;
       text-align: center;
       overflow-wrap: break-word;
@@ -223,7 +222,7 @@
 
 [contenteditable='true']:empty::before {
   content: attr(placeholder);
-  @include session-color-subtle(var(--color-text));
 
-  font-size: 13px;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-sm);
 }

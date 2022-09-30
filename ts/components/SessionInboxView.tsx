@@ -29,6 +29,7 @@ import { ExpirationTimerOptions } from '../util/expiringMessages';
 
 // moment does not support es-419 correctly (and cause white screen on app start)
 import moment from 'moment';
+import styled from 'styled-components';
 
 // Default to the locale from env. It will be overriden if moment
 // does not recognize it with what moment knows which is the closest.
@@ -42,6 +43,12 @@ moment.locale((window.i18n as any).getLocale());
 type State = {
   isInitialLoadComplete: boolean;
 };
+
+const StyledGutter = styled.div`
+  width: 380px !important;
+  transition: none;
+  background: var(--color-cell-background);
+`;
 
 export class SessionInboxView extends React.Component<any, State> {
   private store: any;
@@ -69,10 +76,7 @@ export class SessionInboxView extends React.Component<any, State> {
       <div className="inbox index">
         <Provider store={this.store}>
           <PersistGate loading={null} persistor={persistor}>
-            <div className="gutter">
-              <div className="network-status-container" />
-              {this.renderLeftPane()}
-            </div>
+            <StyledGutter>{this.renderLeftPane()}</StyledGutter>
             <SessionMainPanel />
           </PersistGate>
         </Provider>

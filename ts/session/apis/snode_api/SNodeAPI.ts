@@ -582,6 +582,7 @@ export const getNetworkTime = async (snode: Snode): Promise<string | number> => 
   if (!timestamp) {
     throw new Error(`getNetworkTime returned invalid timestamp: ${timestamp}`);
   }
+  handleTimestampOffset('getNetworkTime', timestamp);
   return timestamp;
 };
 

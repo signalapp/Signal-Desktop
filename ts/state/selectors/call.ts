@@ -4,21 +4,16 @@ import { ConversationsStateType, ReduxConversationType } from '../ducks/conversa
 import { StateType } from '../reducer';
 import { getConversations, getSelectedConversationKey } from './conversations';
 
-export const getCallState = (state: StateType): CallStateType => state.call;
+const getCallState = (state: StateType): CallStateType => state.call;
 
 // --- INCOMING CALLS
-export const getHasIncomingCallFrom = createSelector(getCallState, (state: CallStateType):
-  | string
-  | undefined => {
-  return state.ongoingWith && state.ongoingCallStatus === 'incoming'
-    ? state.ongoingWith
+export const getHasIncomingCallFrom = (state: StateType) => {
+  return state.call.ongoingWith && state.call.ongoingCallStatus === 'incoming'
+    ? state.call.ongoingWith
     : undefined;
-});
+};
 
-export const getHasIncomingCall = createSelector(
-  getHasIncomingCallFrom,
-  (withConvo: string | undefined): boolean => !!withConvo
-);
+export const getHasIncomingCall = (state: StateType) => !!getHasIncomingCallFrom(state);
 
 // --- ONGOING CALLS
 export const getHasOngoingCallWith = createSelector(
@@ -55,21 +50,14 @@ export const getHasOngoingCallWithFocusedConvo = createSelector(
   }
 );
 
-const getCallStateWithFocusedConvo = createSelector(
-  getCallState,
-  getSelectedConversationKey,
-  (callState: CallStateType, selectedConvoPubkey?: string): CallStatusEnum => {
-    if (
-      selectedConvoPubkey &&
-      callState.ongoingWith &&
-      selectedConvoPubkey === callState.ongoingWith
-    ) {
-      return callState.ongoingCallStatus;
-    }
-
-    return undefined;
+const getCallStateWithFocusedConvo = (state: StateType): CallStatusEnum => {
+  const selected = state.conversations.selectedConversation;
+  const ongoingWith = state.call.ongoingWith;
+  if (selected && ongoingWith && selected === ongoingWith) {
+    return state.call.ongoingCallStatus;
   }
-);
+  return undefined;
+};
 
 export const getCallWithFocusedConvoIsOffering = createSelector(
   getCallStateWithFocusedConvo,

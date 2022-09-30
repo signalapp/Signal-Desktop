@@ -10,6 +10,7 @@ import {
   difference,
   forEach,
   fromPairs,
+  isArray,
   isEmpty,
   isNumber,
   isObject,
@@ -53,6 +54,7 @@ import {
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
+import { SettingsKey } from '../data/settings-key';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -646,10 +648,23 @@ function getAllOpenGroupV2ConversationsIds(): Array<string> {
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
+  const conversation = getV2OpenGroupRoom(conversationId);
+  if (!conversation) {
+    return [];
+  }
+
+  const hasBlindOn = Boolean(
+    conversation.capabilities &&
+      isArray(conversation.capabilities) &&
+      conversation.capabilities?.includes('blind')
+  );
+
+  const whereClause = hasBlindOn ? 'AND source LIKE "15%"' : '';
+
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId
+      conversationId = $conversationId ${whereClause}
      ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
     )
     .all({
@@ -2005,7 +2020,7 @@ function getEntriesCountInTable(tbl: string) {
       .get();
     return row['count(*)'];
   } catch (e) {
-    console.warn(e);
+    console.error(e);
     return 0;
   }
 }
@@ -2097,13 +2112,12 @@ function cleanUpOldOpengroupsOnStart() {
     console.info('cleanUpOldOpengroups: ourNumber is not set');
     return;
   }
-  const pruneSetting = getItemById('prune-setting')?.value;
+  let pruneSetting = getItemById(SettingsKey.settingsOpengroupPruning)?.value;
 
   if (pruneSetting === undefined) {
-    console.info(
-      'Prune settings is undefined, skipping cleanUpOldOpengroups but we will need to ask user'
-    );
-    return;
+    console.info('Prune settings is undefined (and not explicitely false), forcing it to true.');
+    createOrUpdateItem({ id: SettingsKey.settingsOpengroupPruning, value: true });
+    pruneSetting = true;
   }
 
   if (!pruneSetting) {
@@ -2117,12 +2131,19 @@ function cleanUpOldOpengroupsOnStart() {
     return;
   }
   console.info(`Count of v2 opengroup convos to clean: ${v2ConvosIds.length}`);
-
-  // For each opengroups, if it has more than 1000 messages, we remove all the messages older than 2 months.
-  // So this does not limit the size of opengroup history to 1000 messages but to 2 months.
-  // This is the only way we can cleanup conversations objects from users which just sent messages a while ago and with whom we never interacted.
-  // This is only for opengroups, and is because ALL the conversations are cached in the redux store. Having a very large number of conversations (unused) is deteriorating a lot the performance of the app.
-  // Another fix would be to not cache all the conversations in the redux store, but it ain't going to happen anytime soon as it would a pretty big change of the way we do things and would break a lot of the app.
+  // For each open group, if it has more than 2000 messages, we remove all the messages
+  // older than 6 months. So this does not limit the size of open group history to 2000
+  // messages but to 6 months.
+  //
+  // This is the only way we can clean up conversations objects from users which just
+  // sent messages a while ago and with whom we never interacted. This is only for open
+  // groups, and is because ALL the conversations are cached in the redux store. Having
+  // a very large number of conversations (unused) is causing the performance of the app
+  // to deteriorate a lot.
+  //
+  // Another fix would be to not cache all the conversations in the redux store, but it
+  // ain't going to happen any time soon as it would a pretty big change of the way we
+  // do things and would break a lot of the app.
   const maxMessagePerOpengroupConvo = 2000;
 
   // first remove very old messages for each opengroups
@@ -2307,7 +2328,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       saveConversation(convoObjToAdd);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
   // eslint-disable-next-line no-plusplus

@@ -6,13 +6,11 @@ type PillContainerProps = {
   margin?: string;
   padding?: string;
   onClick?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
+  disableHover?: boolean;
 };
 
-const StyledPillContainerHoverable = styled.div<PillContainerProps>`
+export const StyledPillContainerHoverable = styled.div<PillContainerProps>`
   background: none;
-
   position: relative;
   flex-direction: 'row';
   flex-shrink: 0;
@@ -26,7 +24,6 @@ const StyledPillContainerHoverable = styled.div<PillContainerProps>`
 `;
 
 const StyledPillInner = styled.div<PillContainerProps>`
-  background: green;
   background: none;
 
   display: flex;
@@ -42,18 +39,18 @@ const StyledPillInner = styled.div<PillContainerProps>`
   padding: ${props => props.padding || ''};
   margin: ${props => props.margin || ''};
   border-radius: 300px;
-  cursor: pointer;
+  cursor: ${props => (props.disableHover ? 'unset' : 'pointer')};
   border: 1px solid var(--color-pill-divider);
   transition: var(--default-duration);
   &:hover {
-    background: var(--color-clickable-hovered);
+    background: ${props => (props.disableHover ? 'none' : 'var(--color-clickable-hovered)')};
   }
 `;
 
-export const PillTooltipWrapper = (props: PillContainerProps) => {
-  return <StyledPillContainerHoverable {...props}>{props.children}</StyledPillContainerHoverable>;
-};
-
-export const PillContainerHoverable = (props: PillContainerProps) => {
-  return <StyledPillInner {...props}>{props.children}</StyledPillInner>;
+export const PillContainerHoverable = (props: Omit<PillContainerProps, 'disableHover'>) => {
+  return (
+    <StyledPillInner {...props} disableHover={!props.onClick}>
+      {props.children}
+    </StyledPillInner>
+  );
 };

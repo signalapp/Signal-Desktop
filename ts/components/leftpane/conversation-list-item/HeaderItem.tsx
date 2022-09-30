@@ -96,7 +96,7 @@ const MentionAtSymbol = styled.span`
   margin-inline-start: 5px;
 
   font-weight: 300;
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   letter-spacing: 0.25px;
 
   height: 16px;

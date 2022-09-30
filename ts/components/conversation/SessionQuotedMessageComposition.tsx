@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { SessionIcon, SessionIconButton } from '../icon';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import { getAlt, isAudio } from '../../types/Attachment';
 import { AUDIO_MP3 } from '../../types/MIME';
 import { Flex } from '../basic/Flex';
 import { Image } from '../../../ts/components/conversation/Image';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 
 const QuotedMessageComposition = styled.div`
   width: 100%;
@@ -58,9 +60,11 @@ export const SessionQuotedMessageComposition = () => {
   const hasAudioAttachment =
     hasAttachments && attachments && attachments.length > 0 && isAudio(attachments);
 
-  const removeQuotedMessage = useCallback(() => {
+  const removeQuotedMessage = () => {
     dispatch(quoteMessage(undefined));
-  }, []);
+  };
+
+  useKey('Escape', removeQuotedMessage, undefined, []);
 
   if (!quotedMessageProps?.id) {
     return null;
@@ -88,6 +92,7 @@ export const SessionQuotedMessageComposition = () => {
               height={100}
               width={100}
               url={firstImageAttachment.thumbnail.objectUrl}
+              softCorners={false}
             />
           )}
 

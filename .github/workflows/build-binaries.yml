@@ -61,7 +61,7 @@ jobs:
         run: yarn install --frozen-lockfile --network-timeout 600000 --force
 
       - name: Generate and concat files
-        run: yarn generate && yarn transpile
+        run: yarn build-everything
 
       - name: Lint Files
         # no need to lint files on all platforms. Just do it once on the quicker one

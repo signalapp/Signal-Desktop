@@ -498,8 +498,8 @@ export async function showLinkSharingConfirmationModalDialog(e: any) {
           title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: SessionButtonColor.Danger,
-          onClickOk: () => {
-            window.setSettingValue('link-preview-setting', true);
+          onClickOk: async () => {
+            await window.setSettingValue('link-preview-setting', true);
           },
           onClickClose: async () => {
             await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });

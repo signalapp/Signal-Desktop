@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 type TextProps = {
   text: string;
@@ -28,6 +28,7 @@ export const Text = (props: TextProps) => {
 
 type SpacerProps = {
   size: 'lg' | 'md' | 'sm' | 'xs';
+  style?: CSSProperties;
 };
 
 const SpacerStyled = styled.div<SpacerProps>`
@@ -54,19 +55,19 @@ const Spacer = (props: SpacerProps) => {
   return <SpacerStyled {...props} />;
 };
 
-export const SpacerLG = () => {
-  return <Spacer size="lg" />;
+export const SpacerLG = (props: { style?: CSSProperties }) => {
+  return <Spacer size="lg" style={props.style} />;
 };
 
-export const SpacerMD = () => {
-  return <Spacer size="md" />;
+export const SpacerMD = (props: { style?: CSSProperties }) => {
+  return <Spacer size="md" style={props.style} />;
 };
-export const SpacerSM = () => {
-  return <Spacer size="sm" />;
+export const SpacerSM = (props: { style?: CSSProperties }) => {
+  return <Spacer size="sm" style={props.style} />;
 };
 
-export const SpacerXS = () => {
-  return <Spacer size="xs" />;
+export const SpacerXS = (props: { style?: CSSProperties }) => {
+  return <Spacer size="xs" style={props.style} />;
 };
 
 type H3Props = {

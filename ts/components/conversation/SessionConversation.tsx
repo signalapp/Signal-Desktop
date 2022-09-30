@@ -55,6 +55,9 @@ import { ConversationRequestinfo } from './ConversationRequestInfo';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import loadImage from 'blueimp-load-image';
 import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+
+import { SessionSpinner } from '../basic/SessionSpinner';
+import styled from 'styled-components';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -79,7 +82,24 @@ interface Props {
   lightBoxOptions?: LightBoxOptions;
 
   stagedAttachments: Array<StagedAttachmentType>;
+  isSelectedConvoInitialLoadingInProgress: boolean;
 }
+
+const StyledSpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+`;
+
+const ConvoLoadingSpinner = () => {
+  return (
+    <StyledSpinnerContainer>
+      <SessionSpinner loading={true} />
+    </StyledSpinnerContainer>
+  );
+};
 
 export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
@@ -220,6 +240,7 @@ export class SessionConversation extends React.Component<Props, State> {
       selectedMessages,
       isRightPanelShowing,
       lightBoxOptions,
+      isSelectedConvoInitialLoadingInProgress,
     } = this.props;
 
     if (!selectedConversation || !messagesProps) {
@@ -234,46 +255,55 @@ export class SessionConversation extends React.Component<Props, State> {
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
         </div>
-        <div
-          // if you change the classname, also update it on onKeyDown
-          className={classNames('conversation-content', selectionMode && 'selection-mode')}
-          tabIndex={0}
-          onKeyDown={this.onKeyDown}
-          role="navigation"
-        >
-          <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
-            <MessageDetail />
-          </div>
-          {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
+        {isSelectedConvoInitialLoadingInProgress ? (
+          <ConvoLoadingSpinner />
+        ) : (
+          <>
+            <div
+              // if you change the classname, also update it on onKeyDown
+              className={classNames('conversation-content', selectionMode && 'selection-mode')}
+              tabIndex={0}
+              onKeyDown={this.onKeyDown}
+              role="navigation"
+            >
+              <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
+                <MessageDetail />
+              </div>
+              {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
-          <div className="conversation-messages">
-            <ConversationMessageRequestButtons />
-            <SplitViewContainer
-              top={<InConversationCallContainer />}
-              bottom={
-                <SessionMessagesListContainer
-                  messageContainerRef={this.messageContainerRef}
-                  scrollToNow={this.scrollToNow}
+              <div className="conversation-messages">
+                <ConversationMessageRequestButtons />
+                <SplitViewContainer
+                  top={<InConversationCallContainer />}
+                  bottom={
+                    <SessionMessagesListContainer
+                      messageContainerRef={this.messageContainerRef}
+                      scrollToNow={this.scrollToNow}
+                    />
+                  }
+                  disableTop={!this.props.hasOngoingCallWithFocusedConvo}
                 />
-              }
-              disableTop={!this.props.hasOngoingCallWithFocusedConvo}
-            />
 
-            {isDraggingFile && <SessionFileDropzone />}
-          </div>
+                {isDraggingFile && <SessionFileDropzone />}
+              </div>
 
-          <ConversationRequestinfo />
-          <CompositionBox
-            sendMessage={this.sendMessageFn}
-            stagedAttachments={this.props.stagedAttachments}
-            onChoseAttachments={this.onChoseAttachments}
-          />
-        </div>
-        <div
-          className={classNames('conversation-item__options-pane', isRightPanelShowing && 'show')}
-        >
-          <SessionRightPanelWithDetails />
-        </div>
+              <ConversationRequestinfo />
+              <CompositionBox
+                sendMessage={this.sendMessageFn}
+                stagedAttachments={this.props.stagedAttachments}
+                onChoseAttachments={this.onChoseAttachments}
+              />
+            </div>
+            <div
+              className={classNames(
+                'conversation-item__options-pane',
+                isRightPanelShowing && 'show'
+              )}
+            >
+              <SessionRightPanelWithDetails />
+            </div>
+          </>
+        )}
       </SessionTheme>
     );
   }

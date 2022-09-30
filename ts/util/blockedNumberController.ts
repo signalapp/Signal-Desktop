@@ -87,6 +87,29 @@ export class BlockedNumberController {
     }
   }
 
+  /**
+   * Unblock all these users.
+   * This will only unblock the primary device of the user.
+   *
+   * @param user The user to unblock.
+   */
+  public static async unblockAll(users: Array<string>): Promise<void> {
+    await this.load();
+    let changes = false;
+    users.forEach(user => {
+      const toUnblock = PubKey.cast(user);
+
+      if (this.blockedNumbers.has(toUnblock.key)) {
+        this.blockedNumbers.delete(toUnblock.key);
+        changes = true;
+      }
+    });
+
+    if (changes) {
+      await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+    }
+  }
+
   public static async setBlocked(user: string | PubKey, blocked: boolean): Promise<void> {
     if (blocked) {
       return BlockedNumberController.block(user);

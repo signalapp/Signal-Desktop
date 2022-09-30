@@ -1,7 +1,6 @@
 import { fromHexToArray } from '../utils/String';
 
-export const getStoragePubKey = (key: string) =>
-  window.sessionFeatureFlags.useTestNet ? key.substring(2) : key;
+export const getStoragePubKey = (key: string) => key;
 
 export enum KeyPrefixType {
   /**

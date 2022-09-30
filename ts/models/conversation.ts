@@ -94,7 +94,7 @@ import {
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
-import { handleMessageReaction } from '../util/reactions';
+import { Reactions } from '../util/reactions';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -194,7 +194,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPublic()) {
-      return `opengroup(${this.id})`;
+      const opengroup = this.toOpenGroupV2();
+      return `${opengroup.serverUrl}/${opengroup.roomId}`;
     }
 
     return `group(${ed25519Str(this.id)})`;
@@ -414,6 +415,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       currentNotificationSetting !== ConversationNotificationSetting[0]
     ) {
       toRet.currentNotificationSetting = currentNotificationSetting;
+    }
+
+    if (this.isOpenGroupV2()) {
+      const room = OpenGroupData.getV2OpenGroupRoom(this.id);
+      if (room && isArray(room.capabilities) && room.capabilities.length) {
+        toRet.capabilities = room.capabilities;
+      }
+
+      if (this.get('writeCapability')) {
+        toRet.writeCapability = this.get('writeCapability');
+      }
+      if (this.get('readCapability')) {
+        toRet.readCapability = this.get('readCapability');
+      }
+      if (this.get('uploadCapability')) {
+        toRet.uploadCapability = this.get('uploadCapability');
+      }
     }
 
     const lastMessageText = this.get('lastMessage');
@@ -738,7 +756,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
+        await Reactions.handleMessageReaction({
+          reaction,
+          sender: UserUtils.getOurPubKeyStrFromCache(),
+          you: true,
+          isOpenGroup: false,
+        });
         return;
       }
 
@@ -750,7 +773,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
-        await handleMessageReaction(reaction, UserUtils.getOurPubKeyStrFromCache(), true);
+        await Reactions.handleMessageReaction({
+          reaction,
+          sender: UserUtils.getOurPubKeyStrFromCache(),
+          you: true,
+          isOpenGroup: false,
+        });
         return;
       }
 
@@ -1538,6 +1566,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     details: {
       admins?: Array<string>;
       image_id?: number;
+      name?: string;
       moderators?: Array<string>;
       hidden_admins?: Array<string>;
       hidden_moderators?: Array<string>;
@@ -1585,6 +1614,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       hiddenModsOrAdmins: details.hidden_moderators,
       type: 'mods',
     });
+
+    if (details.name && details.name !== this.getRealSessionUsername()) {
+      hasChange = hasChange || true;
+      this.setSessionDisplayNameNoCommit(details.name);
+    }
 
     hasChange = hasChange || modsChanged;
 
@@ -2070,11 +2104,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         attachments
           .filter(
             (attachment: any) =>
-              attachment &&
-              attachment.contentType &&
-              !attachment.pending &&
-              !attachment.error &&
-              attachment?.thumbnail?.path // loadAttachmentData throws if the thumbnail.path is not set
+              attachment && attachment.contentType && !attachment.pending && !attachment.error
           )
           .slice(0, 1)
           .map(async (attachment: any) => {
@@ -2085,7 +2115,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               // Our protos library complains about this field being undefined, so we
               //   force it to null
               fileName: fileName || null,
-              thumbnail: thumbnail
+              thumbnail: attachment?.thumbnail?.path // loadAttachmentData throws if the thumbnail.path is not set
                 ? {
                     ...(await loadAttachmentData(thumbnail)),
                     objectUrl: getAbsoluteAttachmentPath(thumbnail.path),
