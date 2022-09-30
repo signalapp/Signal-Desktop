@@ -38,14 +38,7 @@ export const MessageText = (props: Props) => {
   }
 
   return (
-    <div
-      dir="auto"
-      className={classNames(
-        'module-message__text',
-        `module-message__text--${direction}`,
-        status === 'error' && direction === 'incoming' ? 'module-message__text--error' : null
-      )}
-    >
+    <div dir="auto" className={classNames('module-message__text')}>
       {isDeleted && <SessionIcon iconType="delete" iconSize="small" />}
       <MessageBody
         text={contents || ''}

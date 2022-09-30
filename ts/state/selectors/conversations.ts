@@ -24,7 +24,7 @@ import { MessageAvatarSelectorProps } from '../../components/conversation/messag
 import { MessageContentSelectorProps } from '../../components/conversation/message/message-content/MessageContent';
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
 import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
-import { MessagePreviewSelectorProps } from '../../components/conversation/message/message-content/MessagePreview';
+import { MessageLinkPreviewSelectorProps } from '../../components/conversation/message/message-content/MessageLinkPreview';
 import { MessageQuoteSelectorProps } from '../../components/conversation/message/message-content/MessageQuote';
 import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
@@ -946,14 +946,14 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   return msgProps;
 });
 
-export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessagePreviewSelectorProps
+export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessageId, (props):
+  | MessageLinkPreviewSelectorProps
   | undefined => {
   if (!props || isEmpty(props)) {
     return undefined;
   }
 
-  const msgProps: MessagePreviewSelectorProps = pick(props.propsForMessage, [
+  const msgProps: MessageLinkPreviewSelectorProps = pick(props.propsForMessage, [
     'attachments',
     'previews',
   ]);
@@ -1123,8 +1123,7 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
     }
 
     const msgProps: MessageContentWithStatusSelectorProps = {
-      hasAttachments: Boolean(props.propsForMessage.attachments?.length) || false,
-      ...pick(props.propsForMessage, ['direction', 'isDeleted', 'isTrustedForAttachmentDownload']),
+      ...pick(props.propsForMessage, ['direction', 'isDeleted']),
     };
 
     return msgProps;

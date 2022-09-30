@@ -115,6 +115,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     padding: 10,
+    height: '50px', // force it so the buttons stick to the bottom
   } as React.CSSProperties,
   saveButton: {
     marginTop: 10,
@@ -122,8 +123,8 @@ const styles = {
   iconButtonPlaceholder: {
     // Dimensions match `.iconButton`:
     display: 'inline-block',
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
 };
 

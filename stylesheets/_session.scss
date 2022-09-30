@@ -308,11 +308,6 @@ textarea {
   margin-inline-start: auto;
 }
 
-pre {
-  backdrop-filter: brightness(0.8);
-  padding: var(--margins-xs);
-}
-
 .module-message__container {
   position: relative;
   display: inline-block;
@@ -324,17 +319,6 @@ pre {
 }
 label {
   user-select: none;
-}
-.module-message__attachment-container {
-  // Entirely to ensure that images are centered if they aren't full width of bubble
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  border-top-left-radius: $session_message-container-border-radius;
-  border-bottom-left-radius: $session_message-container-border-radius;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
 }
 
 .conversation-header {

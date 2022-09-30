@@ -567,6 +567,23 @@ async function processOnionResponse({
   }
 }
 
+async function processNoSymmetricKeyError(
+  guardNode: Snode,
+  symmetricKey?: ArrayBuffer
+): Promise<ArrayBuffer> {
+  if (!symmetricKey) {
+    const errorMsg =
+      'No symmetric key to decode response, probably a time out on the onion request itself';
+
+    window?.log?.error(errorMsg);
+
+    await incrementBadPathCountOrDrop(guardNode.pubkey_ed25519);
+
+    throw new Error(errorMsg);
+  }
+  return symmetricKey;
+}
+
 async function processOnionResponseV4({
   response,
   symmetricKey,
@@ -583,11 +600,8 @@ async function processOnionResponseV4({
   associatedWith?: string;
 }): Promise<SnodeResponseV4 | undefined> {
   processAbortedRequest(abortSignal);
+  const validSymmetricKey = await processNoSymmetricKeyError(guardNode, symmetricKey);
 
-  if (!symmetricKey) {
-    window?.log?.error('No symmetric key to decode response.');
-    return undefined;
-  }
   const cipherText = (await response?.arrayBuffer()) || new ArrayBuffer(0);
 
   if (!cipherText) {
@@ -610,7 +624,7 @@ async function processOnionResponseV4({
 
   const plaintextBuffer = await callUtilsWorker(
     'DecryptAESGCM',
-    new Uint8Array(symmetricKey),
+    new Uint8Array(validSymmetricKey),
     new Uint8Array(cipherText)
   );
 
