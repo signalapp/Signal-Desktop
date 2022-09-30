@@ -41,7 +41,7 @@ describe('sql/markRead', () => {
     const conversationId = getUuid();
     const ourUuid = getUuid();
 
-    const message1: MessageAttributesType = {
+    const oldest: MessageAttributesType = {
       id: getUuid(),
       body: 'message 1',
       type: 'incoming',
@@ -51,7 +51,7 @@ describe('sql/markRead', () => {
       timestamp: start + 1,
       readStatus: ReadStatus.Read,
     };
-    const message2: MessageAttributesType = {
+    const oldestUnread: MessageAttributesType = {
       id: getUuid(),
       body: 'message 2',
       type: 'incoming',
@@ -61,7 +61,7 @@ describe('sql/markRead', () => {
       timestamp: start + 2,
       readStatus: ReadStatus.Unread,
     };
-    const message3: MessageAttributesType = {
+    const unreadInAnotherConvo: MessageAttributesType = {
       id: getUuid(),
       body: 'message 3',
       type: 'incoming',
@@ -71,7 +71,7 @@ describe('sql/markRead', () => {
       timestamp: start + 3,
       readStatus: ReadStatus.Unread,
     };
-    const message4: MessageAttributesType = {
+    const unread: MessageAttributesType = {
       id: getUuid(),
       body: 'message 4',
       type: 'incoming',
@@ -81,7 +81,7 @@ describe('sql/markRead', () => {
       timestamp: start + 4,
       readStatus: ReadStatus.Unread,
     };
-    const message5: MessageAttributesType = {
+    const unreadStory: MessageAttributesType = {
       id: getUuid(),
       body: 'message 5',
       type: 'story',
@@ -92,7 +92,7 @@ describe('sql/markRead', () => {
       readStatus: ReadStatus.Unread,
       storyId: getUuid(),
     };
-    const message6: MessageAttributesType = {
+    const unreadStoryReply: MessageAttributesType = {
       id: getUuid(),
       body: 'message 6',
       type: 'incoming',
@@ -103,7 +103,7 @@ describe('sql/markRead', () => {
       readStatus: ReadStatus.Unread,
       storyId: getUuid(),
     };
-    const message7: MessageAttributesType = {
+    const newestUnread: MessageAttributesType = {
       id: getUuid(),
       body: 'message 7',
       type: 'incoming',
@@ -115,7 +115,15 @@ describe('sql/markRead', () => {
     };
 
     await saveMessages(
-      [message1, message2, message3, message4, message5, message6, message7],
+      [
+        oldest,
+        oldestUnread,
+        unreadInAnotherConvo,
+        unread,
+        unreadStory,
+        unreadStoryReply,
+        newestUnread,
+      ],
       {
         forceSave: true,
         ourUuid,
@@ -126,56 +134,68 @@ describe('sql/markRead', () => {
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId, {
         storyId: undefined,
-        isGroup: false,
+        includeStoryReplies: false,
       }),
-      4,
-      'unread count'
+      3,
+      'no stories/unread count - before'
     );
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: message4.received_at,
+      newestUnreadAt: unreadStoryReply.received_at,
       readAt,
+      includeStoryReplies: false,
     });
 
-    assert.lengthOf(markedRead, 2, 'two messages marked read');
+    assert.lengthOf(markedRead, 2, 'no stories/two messages marked read');
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId, {
         storyId: undefined,
-        isGroup: false,
+        includeStoryReplies: false,
       }),
-      2,
-      'unread count'
+      1,
+      'no stories/unread count - after'
     );
 
     // Sorted in descending order
     assert.strictEqual(
       markedRead[0].id,
-      message4.id,
-      'first should be message4'
+      unread.id,
+      'no stories/first should be "unread" message'
     );
     assert.strictEqual(
       markedRead[1].id,
-      message2.id,
-      'second should be message2'
+      oldestUnread.id,
+      'no stories/second should be oldestUnread'
     );
 
     const markedRead2 = await getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadAt: message7.received_at,
+      newestUnreadAt: newestUnread.received_at,
       readAt,
+      includeStoryReplies: true,
     });
 
-    assert.lengthOf(markedRead2, 2, 'two messages marked read');
-    assert.strictEqual(markedRead2[0].id, message7.id, 'should be message7');
+    assert.lengthOf(markedRead2, 2, 'with stories/two messages marked read');
+
+    assert.strictEqual(
+      markedRead2[0].id,
+      newestUnread.id,
+      'with stories/should be newestUnread'
+    );
+    assert.strictEqual(
+      markedRead2[1].id,
+      unreadStoryReply.id,
+      'with stories/should be unreadStoryReply'
+    );
 
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId, {
         storyId: undefined,
-        isGroup: false,
+        includeStoryReplies: true,
       }),
       0,
-      'unread count'
+      'with stories/unread count'
     );
   });
 
@@ -281,6 +301,7 @@ describe('sql/markRead', () => {
       newestUnreadAt: message7.received_at,
       readAt,
       storyId,
+      includeStoryReplies: false,
     });
 
     assert.lengthOf(markedRead, 3, 'three messages marked read');
@@ -377,7 +398,7 @@ describe('sql/markRead', () => {
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId, {
         storyId: undefined,
-        isGroup: false,
+        includeStoryReplies: true,
       }),
       2,
       'unread count'
@@ -388,6 +409,7 @@ describe('sql/markRead', () => {
       conversationId,
       newestUnreadAt: message4.received_at,
       readAt,
+      includeStoryReplies: false,
       now,
     });
 
@@ -400,7 +422,7 @@ describe('sql/markRead', () => {
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId, {
         storyId: undefined,
-        isGroup: false,
+        includeStoryReplies: true,
       }),
       1,
       'unread count'
@@ -798,7 +820,7 @@ describe('sql/markRead', () => {
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
-      isGroup: true,
+      includeStoryReplies: false,
       newestUnreadAt: message4.received_at,
       readAt,
     });

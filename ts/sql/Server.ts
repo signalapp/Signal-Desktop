@@ -1757,6 +1757,8 @@ async function getMessageCount(conversationId?: string): Promise<number> {
   return getMessageCountSync(conversationId);
 }
 
+// Note: we really only use this in 1:1 conversations, where story replies are always
+//   shown, so this has no need to be story-aware.
 function hasUserInitiatedMessages(conversationId: string): boolean {
   const db = getInstance();
 
@@ -2151,27 +2153,30 @@ async function getMessageBySender({
 
 export function _storyIdPredicate(
   storyId: string | undefined,
-  isGroup?: boolean
+  includeStoryReplies: boolean
 ): string {
-  if (!isGroup && storyId === undefined) {
-    // We could use 'TRUE' here, but it is better to require `$storyId`
-    // parameter
+  // This is unintuitive, but 'including story replies' means that we need replies to
+  //   lots of different stories. So, we remove the storyId check with a clause that will
+  //   always be true. We don't just return TRUE because we want to use our passed-in
+  //   $storyId parameter.
+  if (includeStoryReplies && storyId === undefined) {
     return '$storyId IS NULL';
   }
 
+  // In constrast to: replies to a specific story
   return 'storyId IS $storyId';
 }
 
 async function getUnreadByConversationAndMarkRead({
   conversationId,
-  isGroup,
+  includeStoryReplies,
   newestUnreadAt,
   storyId,
   readAt,
   now = Date.now(),
 }: {
   conversationId: string;
-  isGroup?: boolean;
+  includeStoryReplies: boolean;
   newestUnreadAt: number;
   storyId?: UUIDStringType;
   readAt?: number;
@@ -2189,7 +2194,7 @@ async function getUnreadByConversationAndMarkRead({
         json = json_patch(json, $jsonPatch)
       WHERE
         conversationId = $conversationId AND
-        (${_storyIdPredicate(storyId, isGroup)}) AND
+        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         isStory IS 0 AND
         type IS 'incoming' AND
         (
@@ -2215,7 +2220,7 @@ async function getUnreadByConversationAndMarkRead({
           conversationId = $conversationId AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, isGroup)}) AND
+          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
           received_at <= $newestUnreadAt
         ORDER BY received_at DESC, sent_at DESC;
         `
@@ -2237,7 +2242,7 @@ async function getUnreadByConversationAndMarkRead({
           conversationId = $conversationId AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, isGroup)}) AND
+          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
           received_at <= $newestUnreadAt;
         `
     ).run({
@@ -2439,7 +2444,7 @@ async function _removeAllReactions(): Promise<void> {
 async function getOlderMessagesByConversation(
   conversationId: string,
   options: {
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     messageId?: string;
     receivedAt?: number;
@@ -2452,14 +2457,14 @@ async function getOlderMessagesByConversation(
 function getOlderMessagesByConversationSync(
   conversationId: string,
   {
-    isGroup,
+    includeStoryReplies,
     limit = 100,
     messageId,
     receivedAt = Number.MAX_VALUE,
     sentAt = Number.MAX_VALUE,
     storyId,
   }: {
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     messageId?: string;
     receivedAt?: number;
@@ -2476,7 +2481,7 @@ function getOlderMessagesByConversationSync(
         conversationId = $conversationId AND
         ($messageId IS NULL OR id IS NOT $messageId) AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)}) AND
+        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         (
           (received_at = $received_at AND sent_at < $sent_at) OR
           received_at < $received_at
@@ -2540,7 +2545,7 @@ async function getOlderStories({
 async function getNewerMessagesByConversation(
   conversationId: string,
   options: {
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
@@ -2552,13 +2557,13 @@ async function getNewerMessagesByConversation(
 function getNewerMessagesByConversationSync(
   conversationId: string,
   {
-    isGroup,
+    includeStoryReplies,
     limit = 100,
     receivedAt = 0,
     sentAt = 0,
     storyId,
   }: {
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     receivedAt?: number;
     sentAt?: number;
@@ -2572,7 +2577,7 @@ function getNewerMessagesByConversationSync(
       SELECT json FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)}) AND
+        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
         (
           (received_at = $received_at AND sent_at > $sent_at) OR
           received_at > $received_at
@@ -2593,8 +2598,13 @@ function getNewerMessagesByConversationSync(
 }
 function getOldestMessageForConversation(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    includeStoryReplies,
+  }: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): MessageMetricsType | undefined {
   const db = getInstance();
   const row = db
@@ -2603,7 +2613,7 @@ function getOldestMessageForConversation(
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)})
+        (${_storyIdPredicate(storyId, includeStoryReplies)})
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
       `
@@ -2621,8 +2631,13 @@ function getOldestMessageForConversation(
 }
 function getNewestMessageForConversation(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    includeStoryReplies,
+  }: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): MessageMetricsType | undefined {
   const db = getInstance();
   const row = db
@@ -2631,7 +2646,7 @@ function getNewestMessageForConversation(
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)})
+        (${_storyIdPredicate(storyId, includeStoryReplies)})
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
       `
@@ -2650,11 +2665,11 @@ function getNewestMessageForConversation(
 
 function getLastConversationActivity({
   conversationId,
-  isGroup,
+  includeStoryReplies,
   ourUuid,
 }: {
   conversationId: string;
-  isGroup?: boolean;
+  includeStoryReplies: boolean;
   ourUuid: UUIDStringType;
 }): MessageType | undefined {
   const db = getInstance();
@@ -2666,7 +2681,7 @@ function getLastConversationActivity({
         conversationId = $conversationId AND
         shouldAffectActivity IS 1 AND
         isTimerChangeFromSync IS 0 AND
-        ${isGroup ? 'storyId IS NULL AND' : ''}
+        ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
         isGroupLeaveEventFromOther IS 0
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
@@ -2684,10 +2699,10 @@ function getLastConversationActivity({
 }
 function getLastConversationPreview({
   conversationId,
-  isGroup,
+  includeStoryReplies,
 }: {
   conversationId: string;
-  isGroup?: boolean;
+  includeStoryReplies: boolean;
 }): MessageType | undefined {
   const db = getInstance();
   const row = prepare(
@@ -2698,7 +2713,7 @@ function getLastConversationPreview({
         conversationId = $conversationId AND
         shouldAffectPreview IS 1 AND
         isGroupLeaveEventFromOther IS 0 AND
-        ${isGroup ? 'storyId IS NULL AND' : ''}
+        ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
         (
           expiresAt IS NULL
           OR
@@ -2721,11 +2736,11 @@ function getLastConversationPreview({
 
 async function getConversationMessageStats({
   conversationId,
-  isGroup,
+  includeStoryReplies,
   ourUuid,
 }: {
   conversationId: string;
-  isGroup?: boolean;
+  includeStoryReplies: boolean;
   ourUuid: UUIDStringType;
 }): Promise<ConversationMessageStatsType> {
   const db = getInstance();
@@ -2734,10 +2749,13 @@ async function getConversationMessageStats({
     return {
       activity: getLastConversationActivity({
         conversationId,
-        isGroup,
+        includeStoryReplies,
         ourUuid,
       }),
-      preview: getLastConversationPreview({ conversationId, isGroup }),
+      preview: getLastConversationPreview({
+        conversationId,
+        includeStoryReplies,
+      }),
       hasUserInitiatedMessages: hasUserInitiatedMessages(conversationId),
     };
   })();
@@ -2771,8 +2789,13 @@ async function getLastConversationMessage({
 
 function getOldestUnseenMessageForConversation(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    includeStoryReplies,
+  }: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): MessageMetricsType | undefined {
   const db = getInstance();
   const row = db
@@ -2782,7 +2805,7 @@ function getOldestUnseenMessageForConversation(
         conversationId = $conversationId AND
         seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)})
+        (${_storyIdPredicate(storyId, includeStoryReplies)})
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
       `
@@ -2803,7 +2826,7 @@ async function getTotalUnreadForConversation(
   conversationId: string,
   options: {
     storyId: UUIDStringType | undefined;
-    isGroup: boolean;
+    includeStoryReplies: boolean;
   }
 ): Promise<number> {
   return getTotalUnreadForConversationSync(conversationId, options);
@@ -2812,10 +2835,10 @@ function getTotalUnreadForConversationSync(
   conversationId: string,
   {
     storyId,
-    isGroup,
+    includeStoryReplies,
   }: {
     storyId: UUIDStringType | undefined;
-    isGroup: boolean;
+    includeStoryReplies: boolean;
   }
 ): number {
   const db = getInstance();
@@ -2828,7 +2851,7 @@ function getTotalUnreadForConversationSync(
         conversationId = $conversationId AND
         readStatus = ${ReadStatus.Unread} AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)})
+        (${_storyIdPredicate(storyId, includeStoryReplies)})
       `
     )
     .get({
@@ -2844,8 +2867,13 @@ function getTotalUnreadForConversationSync(
 }
 function getTotalUnseenForConversationSync(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  {
+    storyId,
+    includeStoryReplies,
+  }: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): number {
   const db = getInstance();
   const row = db
@@ -2857,7 +2885,7 @@ function getTotalUnseenForConversationSync(
         conversationId = $conversationId AND
         seenStatus = ${SeenStatus.Unseen} AND
         isStory IS 0 AND
-        (${_storyIdPredicate(storyId, isGroup)})
+        (${_storyIdPredicate(storyId, includeStoryReplies)})
       `
     )
     .get({
@@ -2874,35 +2902,29 @@ function getTotalUnseenForConversationSync(
 
 async function getMessageMetricsForConversation(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  options: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): Promise<ConversationMetricsType> {
-  return getMessageMetricsForConversationSync(conversationId, storyId, isGroup);
+  return getMessageMetricsForConversationSync(conversationId, options);
 }
 function getMessageMetricsForConversationSync(
   conversationId: string,
-  storyId?: UUIDStringType,
-  isGroup?: boolean
+  options: {
+    storyId?: UUIDStringType;
+    includeStoryReplies: boolean;
+  }
 ): ConversationMetricsType {
-  const oldest = getOldestMessageForConversation(
-    conversationId,
-    storyId,
-    isGroup
-  );
-  const newest = getNewestMessageForConversation(
-    conversationId,
-    storyId,
-    isGroup
-  );
+  const oldest = getOldestMessageForConversation(conversationId, options);
+  const newest = getNewestMessageForConversation(conversationId, options);
   const oldestUnseen = getOldestUnseenMessageForConversation(
     conversationId,
-    storyId,
-    isGroup
+    options
   );
   const totalUnseen = getTotalUnseenForConversationSync(
     conversationId,
-    storyId,
-    isGroup
+    options
   );
 
   return {
@@ -2917,7 +2939,7 @@ function getMessageMetricsForConversationSync(
 
 async function getConversationRangeCenteredOnMessage({
   conversationId,
-  isGroup,
+  includeStoryReplies,
   limit,
   messageId,
   receivedAt,
@@ -2925,7 +2947,7 @@ async function getConversationRangeCenteredOnMessage({
   storyId,
 }: {
   conversationId: string;
-  isGroup: boolean;
+  includeStoryReplies: boolean;
   limit?: number;
   messageId: string;
   receivedAt: number;
@@ -2939,7 +2961,7 @@ async function getConversationRangeCenteredOnMessage({
   return db.transaction(() => {
     return {
       older: getOlderMessagesByConversationSync(conversationId, {
-        isGroup,
+        includeStoryReplies,
         limit,
         messageId,
         receivedAt,
@@ -2947,17 +2969,16 @@ async function getConversationRangeCenteredOnMessage({
         storyId,
       }),
       newer: getNewerMessagesByConversationSync(conversationId, {
-        isGroup,
+        includeStoryReplies,
         limit,
         receivedAt,
         sentAt,
         storyId,
       }),
-      metrics: getMessageMetricsForConversationSync(
-        conversationId,
+      metrics: getMessageMetricsForConversationSync(conversationId, {
         storyId,
-        isGroup
-      ),
+        includeStoryReplies,
+      }),
     };
   })();
 }

@@ -33,7 +33,7 @@ export async function markConversationRead(
       conversationId,
       newestUnreadAt,
       readAt: options.readAt,
-      isGroup: isGroup(conversationAttrs),
+      includeStoryReplies: !isGroup(conversationAttrs),
     }),
     window.Signal.Data.getUnreadReactionsAndMarkRead({
       conversationId,

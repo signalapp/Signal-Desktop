@@ -1457,11 +1457,9 @@ export class ConversationModel extends window.Backbone
         }
       }
 
-      const metrics = await getMessageMetricsForConversation(
-        conversationId,
-        undefined,
-        isGroup(this.attributes)
-      );
+      const metrics = await getMessageMetricsForConversation(conversationId, {
+        includeStoryReplies: !isGroup(this.attributes),
+      });
 
       // If this is a message request that has not yet been accepted, we always show the
       //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
@@ -1480,7 +1478,7 @@ export class ConversationModel extends window.Backbone
       }
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        isGroup: isGroup(this.attributes),
+        includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         storyId: undefined,
       });
@@ -1533,7 +1531,7 @@ export class ConversationModel extends window.Backbone
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
       const models = await getOlderMessagesByConversation(conversationId, {
-        isGroup: isGroup(this.attributes),
+        includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         messageId: oldestMessageId,
         receivedAt,
@@ -1588,7 +1586,7 @@ export class ConversationModel extends window.Backbone
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
       const models = await getNewerMessagesByConversation(conversationId, {
-        isGroup: isGroup(this.attributes),
+        includeStoryReplies: !isGroup(this.attributes),
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         receivedAt,
         sentAt,
@@ -1646,7 +1644,7 @@ export class ConversationModel extends window.Backbone
       const { older, newer, metrics } =
         await getConversationRangeCenteredOnMessage({
           conversationId,
-          isGroup: isGroup(this.attributes),
+          includeStoryReplies: !isGroup(this.attributes),
           limit: MESSAGE_LOAD_CHUNK_SIZE,
           messageId,
           receivedAt,
@@ -2067,7 +2065,7 @@ export class ConversationModel extends window.Backbone
       messages = await window.Signal.Data.getOlderMessagesByConversation(
         this.get('id'),
         {
-          isGroup: isGroup(this.attributes),
+          includeStoryReplies: !isGroup(this.attributes),
           limit: 100,
           messageId: first ? first.id : undefined,
           receivedAt: first ? first.received_at : undefined,
@@ -4134,7 +4132,7 @@ export class ConversationModel extends window.Backbone
     const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     const stats = await window.Signal.Data.getConversationMessageStats({
       conversationId,
-      isGroup: isGroup(this.attributes),
+      includeStoryReplies: !isGroup(this.attributes),
       ourUuid,
     });
 
@@ -4621,7 +4619,7 @@ export class ConversationModel extends window.Backbone
       this.id,
       {
         storyId: undefined,
-        isGroup: isGroup(this.attributes),
+        includeStoryReplies: !isGroup(this.attributes),
       }
     );
 

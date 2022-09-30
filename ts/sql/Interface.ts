@@ -458,12 +458,12 @@ export type DataInterface = {
     conversationId: string,
     options: {
       storyId: UUIDStringType | undefined;
-      isGroup: boolean;
+      includeStoryReplies: boolean;
     }
   ) => Promise<number>;
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
-    isGroup?: boolean;
+    includeStoryReplies: boolean;
     newestUnreadAt: number;
     now?: number;
     readAt?: number;
@@ -517,13 +517,15 @@ export type DataInterface = {
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (
     conversationId: string,
-    storyId?: UUIDStringType,
-    isGroup?: boolean
+    options: {
+      storyId?: UUIDStringType;
+      includeStoryReplies: boolean;
+    }
   ) => Promise<ConversationMetricsType>;
   // getConversationRangeCenteredOnMessage is JSON on server, full message on client
   getConversationMessageStats: (options: {
     conversationId: string;
-    isGroup?: boolean;
+    includeStoryReplies: boolean;
     ourUuid: UUIDStringType;
   }) => Promise<ConversationMessageStatsType>;
   getLastConversationMessage(options: {
@@ -706,7 +708,7 @@ export type ServerInterface = DataInterface & {
   getOlderMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup: boolean;
+      includeStoryReplies: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
@@ -717,7 +719,7 @@ export type ServerInterface = DataInterface & {
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup: boolean;
+      includeStoryReplies: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;
@@ -726,7 +728,7 @@ export type ServerInterface = DataInterface & {
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getConversationRangeCenteredOnMessage: (options: {
     conversationId: string;
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     messageId: string;
     receivedAt: number;
@@ -804,7 +806,7 @@ export type ClientInterface = DataInterface & {
   getOlderMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup: boolean;
+      includeStoryReplies: boolean;
       limit?: number;
       messageId?: string;
       receivedAt?: number;
@@ -815,7 +817,7 @@ export type ClientInterface = DataInterface & {
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
-      isGroup: boolean;
+      includeStoryReplies: boolean;
       limit?: number;
       receivedAt?: number;
       sentAt?: number;
@@ -824,7 +826,7 @@ export type ClientInterface = DataInterface & {
   ) => Promise<Array<MessageAttributesType>>;
   getConversationRangeCenteredOnMessage: (options: {
     conversationId: string;
-    isGroup: boolean;
+    includeStoryReplies: boolean;
     limit?: number;
     messageId: string;
     receivedAt: number;

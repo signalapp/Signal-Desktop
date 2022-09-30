@@ -392,7 +392,11 @@ function loadStoryReplies(
     const conversation = getConversationSelector(getState())(conversationId);
     const replies = await dataInterface.getOlderMessagesByConversation(
       conversationId,
-      { limit: 9000, storyId: messageId, isGroup: isGroup(conversation) }
+      {
+        limit: 9000,
+        storyId: messageId,
+        includeStoryReplies: !isGroup(conversation),
+      }
     );
 
     dispatch({

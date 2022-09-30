@@ -70,6 +70,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.activity?.body, message2.body, 'activity');
@@ -122,7 +123,7 @@ describe('sql/conversationSummary', () => {
 
       const messages = await getConversationMessageStats({
         conversationId,
-        isGroup: true,
+        includeStoryReplies: false,
         ourUuid,
       });
 
@@ -215,6 +216,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.preview?.body, message1.body);
@@ -322,6 +324,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.activity?.body, message1.body);
@@ -370,6 +373,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.activity?.body, message1.body);
@@ -419,6 +423,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.activity?.body, message1.body);
@@ -461,6 +466,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.preview?.body, message1.body);
@@ -505,6 +511,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.preview?.body, message1.body);
@@ -564,6 +571,7 @@ describe('sql/conversationSummary', () => {
       const messages = await getConversationMessageStats({
         conversationId,
         ourUuid,
+        includeStoryReplies: false,
       });
 
       assert.strictEqual(messages.activity?.body, message1.body, 'activity');

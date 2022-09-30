@@ -1643,11 +1643,12 @@ describe('SQL migrations test', () => {
 
     function insertPredicate(
       query: string,
-      storyId: string | undefined
+      storyId: string | undefined,
+      includeStoryReplies: boolean
     ): string {
       return query.replaceAll(
         ':story_id_predicate:',
-        _storyIdPredicate(storyId)
+        _storyIdPredicate(storyId, includeStoryReplies)
       );
     }
 
@@ -1657,7 +1658,7 @@ describe('SQL migrations test', () => {
       for (const storyId of ['123', undefined]) {
         for (const { query, index } of queries) {
           const details = db
-            .prepare(insertPredicate(query, storyId))
+            .prepare(insertPredicate(query, storyId, true))
             .all({ storyId })
             .map(({ detail }) => detail)
             .join('\n');
