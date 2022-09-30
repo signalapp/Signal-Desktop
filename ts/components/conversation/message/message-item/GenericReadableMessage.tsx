@@ -102,7 +102,7 @@ type Props = {
 
 const highlightedMessageAnimation = keyframes`
   1% {
-      background-color: #00f782;
+      background-color: var(--primary-color);
   }
 `;
 
@@ -123,7 +123,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   ${props =>
     props.isRightClicked &&
     `
-    background-color: var(--color-compose-view-button-background);
+    background-color: var(--conversation-tab-background-selected-color);
   `}
 
   ${props =>
@@ -132,7 +132,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
     &.message-selected {
       .module-message {
         &__container {
-          box-shadow: var(--color-session-shadow);
+          box-shadow: var(--drop-shadow);
         }
       }
     }
@@ -229,8 +229,7 @@ export const GenericReadableMessage = (props: Props) => {
       isRightClicked={isRightClicked}
       className={classNames(
         selected && 'message-selected',
-        isGroup && 'public-chat-message-wrapper',
-        isIncoming ? 'session-message-wrapper-incoming' : 'session-message-wrapper-outgoing'
+        isGroup && 'public-chat-message-wrapper'
       )}
       onContextMenu={handleContextMenu}
       receivedAt={receivedAt}

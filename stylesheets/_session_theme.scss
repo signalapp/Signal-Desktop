@@ -33,15 +33,15 @@
 
   &__container--incoming {
     &--opaque {
-      background: var(--color-received-message-background);
+      background: var(--message-bubbles-received-background-color);
     }
 
     &--transparent {
-      background: none;
+      background: var(--transparent-color);
     }
 
     .module-message__text {
-      color: var(--color-received-message-text);
+      color: var(--message-bubbles-received-text-color);
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -52,26 +52,26 @@
 
       a {
         text-decoration: underline;
-        color: var(--color-received-message-text);
+        color: var(--message-bubbles-received-text-color);
       }
     }
   }
 
   &__container--outgoing {
     &--opaque {
-      background: var(--color-sent-message-background);
+      background: var(--message-bubbles-sent-background-color);
     }
 
     &--transparent {
-      background: none;
+      background: var(--transparent-color);
     }
 
     .module-message__text {
-      color: var(--color-sent-message-text);
+      color: var(--message-bubbles-sent-text-color);
 
       a {
         text-decoration: underline;
-        color: var(--color-sent-message-text);
+        color: var(--message-bubbles-sent-text-color);
       }
     }
   }
@@ -90,20 +90,21 @@
   @include fontAccentBold();
 }
 
+// TODO Theming - Confirm this works
 h1 {
   @include session-h-title;
-  color: var(--color-light-gray-color);
+  color: var(--text-secondary-color);
   font-size: 25px;
   margin: 0;
 
   &.active {
-    color: var(--color-text);
+    color: var(--text-primary-color);
   }
 }
 
 h2 {
   @include session-h-title;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 
   font-size: 22px;
   text-align: center;
@@ -111,7 +112,7 @@ h2 {
 
 h3 {
   @include session-h-title;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 
   font-size: 18px;
   padding-top: 22px;
@@ -119,7 +120,7 @@ h3 {
 
 h4 {
   @include session-h-title;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 
   font-size: 17px;
   text-align: center;

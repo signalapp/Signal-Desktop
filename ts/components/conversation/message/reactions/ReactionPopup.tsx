@@ -18,8 +18,8 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
   height: 72px;
   z-index: 5;
 
-  background-color: var(--color-received-message-background);
-  color: var(--color-pill-divider-text);
+  background-color: var(--message-bubbles-received-background-color);
+  color: var(--message-bubbles-received-text-color);
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.51);
   font-size: 12px;
   font-weight: 600;
@@ -45,7 +45,7 @@ export const StyledPopupContainer = styled.div<{ tooltipPosition: TipPosition }>
     }};
     width: 22px;
     height: 22px;
-    background-color: var(--color-received-message-background);
+    background-color: var(--message-bubbles-received-background-color);
     transform: rotate(45deg);
     border-radius: 3px;
     transform: scaleY(1.4) rotate(45deg);
@@ -66,7 +66,7 @@ const StyledContacts = styled.span`
 `;
 
 const StyledOthers = styled.span<{ darkMode: boolean }>`
-  color: ${props => (props.darkMode ? 'var(--color-accent)' : 'var(--color-text)')};
+  color: ${props => (props.darkMode ? 'var(--primary-color)' : 'var(--text-primary-color)')};
 `;
 
 const generateContactsString = async (

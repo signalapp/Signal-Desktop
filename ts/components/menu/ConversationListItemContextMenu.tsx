@@ -29,7 +29,6 @@ export type PropsContextConversationItem = {
 const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const { triggerId } = props;
 
-  // TODO Theming - Waiting on Session Components for correct colors
   return (
     <SessionContextMenuContainer>
       <Menu id={triggerId} animation={animation.fade}>

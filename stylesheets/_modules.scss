@@ -104,7 +104,7 @@
   white-space: nowrap;
   text-overflow: clip;
 
-  color: var(--color-darkest-gray-color);
+  color: var(--black-color);
 }
 
 .module-message__generic-attachment__text {
@@ -115,7 +115,6 @@
 }
 
 .module-message__generic-attachment__file-name {
-  color: var(--color-darkest-gray-color);
   font-size: 14px;
   line-height: 18px;
   font-weight: 300;
@@ -126,13 +125,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-.module-message__generic-attachment__file-size,
-.module-message__generic-attachment__file-name--outgoing,
-.module-message__generic-attachment__file-size--incoming,
-.module-message__generic-attachment__file-size--outgoing,
-.module-message__generic-attachment__file-name--incoming {
-  color: var(--color-text);
+.module-message__generic-attachment__file-name,
+.module-message__generic-attachment__file-size {
+  color: var(--text-primary-color);
 }
 
 .module-message__generic-attachment__file-size {
@@ -143,6 +138,18 @@
   white-space: nowrap;
 }
 
+.module-message__generic-attachment__file-name--incoming,
+.module-message__generic-attachment__file-size--incoming,
+.module-message__link-preview--incoming {
+  color: var(--message-bubbles-received-text-color);
+}
+
+.module-message__generic-attachment__file-name--outgoing,
+.module-message__generic-attachment__file-size--outgoing,
+.module-message__link-preview--outgoing {
+  color: var(--message-bubbles-sent-text-color);
+}
+
 .module-message__link-preview {
   cursor: pointer;
   border-top-left-radius: $session_message-container-border-radius;
@@ -151,11 +158,9 @@
 
 .module-message__link-preview__content {
   padding: 8px;
-  background-color: var(--color-white-color);
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  border: 1px solid var(--color-lighter-black-color);
 }
 
 .module-message__link-preview__image_container {
@@ -200,7 +205,7 @@
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: var(--color-lighter-gray-color);
+  background-color: var(--message-link-preview-background-color);
 }
 
 .module-message__link-preview__text--with-icon {
@@ -208,9 +213,8 @@
 }
 
 .module-message__link-preview__title {
-  color: var(--color-darkest-gray-color);
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.15px;
   line-height: 22px;
 
@@ -222,13 +226,12 @@
 
 .module-message__link-preview__location {
   margin-top: 4px;
-  color: var(--color-gray-color);
   font-size: 12px;
   height: 16px;
   letter-spacing: 0.4px;
   line-height: 16px;
-  text-transform: uppercase;
 }
+
 .module-conversation__user,
 .module-message__author {
   margin-top: var(--margins-sm);
@@ -241,6 +244,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .module-conversation__user__profile-name,
 .module-message__author__profile-name {
   font-style: italic;
@@ -255,7 +259,7 @@
   flex-direction: row;
   align-items: center;
 
-  color: var(--color-gray-color);
+  color: var(--conversation-tab-text-color);
 }
 
 .module-contact-list-item--with-click-handler {
@@ -347,8 +351,7 @@
 }
 
 .module-conversation-header__expiration__clock-icon {
-  // TODO Theming update
-  @include color-svg('../images/timer.svg', var(--color-gray-color));
+  @include color-svg('../images/timer.svg', var(--button-icon-stroke-color));
   height: 20px;
   width: 20px;
   display: inline-block;
@@ -389,19 +392,11 @@
 .module-message-detail__delete-button-container {
   text-align: center;
   margin-top: 10px;
-}
 
-.module-message-detail__delete-button {
-  @include button-reset;
-
-  background-color: var(--danger-color);
-  color: var(--color-white-color);
-  box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
-  border-radius: 5px;
-  border: solid 1px var(--color-light-gray-color);
-  cursor: pointer;
-  margin: 1em auto;
-  padding: 1em;
+  .session-button {
+    width: 160px;
+    margin: 1em auto;
+  }
 }
 
 .module-message-detail__contact-container {
@@ -494,7 +489,7 @@
 }
 
 .module-document-list-item--with-separator {
-  border-bottom: 1px solid var(--color-lightest-gray-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .module-document-list-item__content {
@@ -511,7 +506,7 @@
 
   width: 48px;
   height: 48px;
-  @include color-svg('../images/file.svg', var(--color-light-gray-color));
+  @include color-svg('../images/file.svg', var(--button-icon-stroke-color));
 }
 
 .module-document-list-item__metadata {
@@ -547,7 +542,7 @@
   height: 94px;
   width: 94px;
   cursor: pointer;
-  background-color: var(--color-lighter-gray-color);
+  background-color: var(--message-link-preview-background-color);
   margin-inline-end: 4px;
   margin-bottom: 4px;
   position: relative;
@@ -568,7 +563,7 @@
 }
 
 .module-media-grid-item__icon-image {
-  @include color-svg('../images/image.svg', var(--color-light-gray-color));
+  @include color-svg('../images/image.svg', var(--button-icon-stroke-color));
 }
 
 .module-media-grid-item__image-container {
@@ -585,8 +580,12 @@
 
   width: 42px;
   height: 42px;
-  background-color: var(--color-white-color);
+  background-color: var(--chat-buttons-background-color);
   border-radius: 21px;
+
+  &:hover {
+    background-color: var(--chat-buttons-background-hover-color);
+  }
 }
 
 .module-media-grid-item__play-overlay {
@@ -597,15 +596,15 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', var(--primary-color));
+  @include color-svg('../images/play.svg', var(--chat-buttons-icon-color));
 }
 
 .module-media-grid-item__icon-video {
-  @include color-svg('../images/movie.svg', var(--color-light-gray-color));
+  @include color-svg('../images/movie.svg', var(--button-icon-stroke-color));
 }
 
 .module-media-grid-item__icon-generic {
-  @include color-svg('../images/file.svg', var(--color-light-gray-color));
+  @include color-svg('../images/file.svg', var(--button-icon-stroke-color));
 }
 
 /* Module: Empty State*/
@@ -616,7 +615,6 @@
   align-items: center;
   flex-grow: 1;
   font-size: 28px;
-  color: var(--color-light-gray-color);
 }
 
 // Module: Conversation List Item
@@ -663,8 +661,6 @@
   min-width: 16px;
   line-height: 16px;
   border-radius: 8px;
-  // TODO Theming Should we remove this?
-  box-shadow: 0px 0px 0px 1px var(--color-darkest-gray-color);
 }
 
 .module-conversation-list-item__content {
@@ -772,14 +768,15 @@
 }
 
 .module-image__border-overlay--dark {
-  background-color: var(--color-light-black-color);
+  // TODO Theming - Is this correct?
+  background-color: var(--message-link-preview-background-color);
 }
 
 .module-image__loading-placeholder {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  background-color: var(--color-lighter-black-color);
+  background-color: var(--message-link-preview-background-color);
 }
 
 .module-image__image {
@@ -791,12 +788,13 @@
   }
 }
 
+// NOTE This isn't currently used anywhere
 .module-image__bottom-overlay {
   height: 48px;
   background-image: linear-gradient(
     to bottom,
     var(--color-transparent-color),
-    /* TODO does this work */ var(--color-transparent-color) 9%,
+    var(--color-transparent-color) 9%,
     rgba(0, 0, 0, 0.6)
   );
   position: absolute;
@@ -814,8 +812,13 @@
 
   width: 48px;
   height: 48px;
-  background-color: var(--color-white-color);
+  background-color: var(--chat-buttons-background-color);
   border-radius: 24px;
+  z-index: 1;
+
+  &:hover {
+    background-color: var(--chat-buttons-background-hover-color);
+  }
 }
 
 .module-image__play-overlay__icon {
@@ -826,7 +829,7 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', var(--primary-color));
+  @include color-svg('../images/play.svg', var(--chat-buttons-icon-color));
 }
 
 .module-image__text-container {
@@ -837,7 +840,7 @@
   bottom: 0;
   z-index: 2;
 
-  color: var(--color-white-color);
+  color: var(--white-color);
 
   font-size: 20px;
   font-weight: normal;
@@ -969,7 +972,7 @@
 // Module: Attachments
 
 .module-attachments {
-  border-top: 1px solid var(--color-lighter-black-color);
+  border-top: 1px solid var(--border-color);
 }
 
 .module-attachments__header {
@@ -987,7 +990,7 @@
   height: 20px;
 
   z-index: 2;
-  @include color-svg('../images/x-16.svg', var(--color-black-color));
+  @include color-svg('../images/x-16.svg', var(--button-icon-stroke-color));
 }
 
 .module-attachments__rail {
@@ -1010,8 +1013,8 @@
   display: inline-block;
   position: relative;
   border-radius: 4px;
-  box-shadow: inset 0px 0px 0px 1px var(--color-lighter-black-color);
-  background-color: var(--color-lighter-gray-color);
+  box-shadow: inset 0px 0px 0px 1px var(--border-color);
+  background-color: var(--message-link-preview-background-color);
   vertical-align: middle;
 }
 
@@ -1023,7 +1026,7 @@
   width: 16px;
   height: 16px;
   z-index: 2;
-  @include color-svg('../images/x-16.svg', var(--color-black-color));
+  @include color-svg('../images/x-16.svg', var(--button-icon-stroke-color));
 }
 
 .module-staged-generic-attachment__icon {
@@ -1059,7 +1062,7 @@
   white-space: nowrap;
   text-overflow: clip;
 
-  color: var(--color-darkest-gray-color);
+  color: var(--black-color);
 }
 
 .module-staged-generic-attachment__filename {
@@ -1067,7 +1070,7 @@
   margin-top: 5px;
   text-align: center;
 
-  font-family: $session-font-default;
+  font-family: var(--font-default);
   font-size: 14px;
 
   overflow: hidden;
@@ -1079,7 +1082,7 @@
 }
 
 // Module: Caption Editor
-
+// TODO Theming We don't seem to use this can we delete?
 .module-caption-editor {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
@@ -1110,9 +1113,8 @@
   height: 30px;
   z-index: 2;
   // the background of the lightbox is dark
-  @include color-svg('../images/x-16.svg', white);
+  @include color-svg('../images/x-16.svg', var(--white-color));
 }
-
 .module-caption-editor__media-container {
   flex-grow: 1;
   flex-shrink: 1;
@@ -1121,7 +1123,6 @@
   overflow: hidden;
   height: 100%;
 }
-
 .module-caption-editor__image {
   width: 100%;
   height: 100%;
@@ -1146,12 +1147,13 @@
   flex-grow: 1;
   flex-shrink: 1;
 }
+
 // Module: Staged Placeholder Attachment
 
 .module-staged-placeholder-attachment {
   margin: 1px;
   border-radius: 4px;
-  border: 1px solid var(--color-light-gray-color);
+  border: 1px solid var(--border-color);
   height: 120px;
   width: 120px;
   display: inline-block;
@@ -1160,7 +1162,7 @@
   position: relative;
 
   &:hover {
-    background: var(--color-lighter-gray-color);
+    background-color: var(--background-secondary-color);
   }
 }
 
@@ -1174,7 +1176,7 @@
   height: 36px;
   width: 36px;
 
-  @include color-svg('../images/plus-36.svg', var(--color-light-gray-color));
+  @include color-svg('../images/plus-36.svg', var(--button-icon-stroke-color));
 }
 
 // Module: Staged Link Preview
@@ -1188,20 +1190,18 @@
   min-height: 65px;
   margin: var(--margins-xs);
 }
-
 .module-staged-link-preview--is-loading {
   align-items: center;
   justify-content: center;
 }
 .module-staged-link-preview__loading {
-  color: var(--color-text);
+  color: var(--text-primary-color);
 
   font-size: 14px;
   text-align: center;
   flex-grow: 1;
   flex-shrink: 1;
 }
-
 .module-staged-link-preview__icon-container {
   margin-inline-end: 8px;
   padding: var(--margins-sm);
@@ -1211,8 +1211,7 @@
   padding: var(--margins-sm);
 }
 .module-staged-link-preview__title {
-  color: var(--color-darkest-gray-color);
-  font-weight: 300;
+  font-weight: 500;
   font-size: 14px;
   line-height: 18px;
 
@@ -1223,7 +1222,6 @@
 }
 .module-staged-link-preview__location {
   margin-top: 4px;
-  color: var(--color-gray-color);
   font-size: var(--font-size-xs);
   height: 16px;
   letter-spacing: 0.25px;
@@ -1238,7 +1236,7 @@
   height: 16px;
   width: 16px;
 
-  @include color-svg('../images/x-16.svg', var(--color-gray-color));
+  @include color-svg('../images/x-16.svg', var(--button-icon-stroke-color));
 }
 
 // Module: Left Pane
@@ -1252,4 +1250,78 @@
 
 .module-left-pane__virtual-list {
   outline: none;
+}
+
+// TODO Theming - Needs Improvement
+// Module H5AudioPlayer
+.module-message__container--outgoing {
+  .rhap_container {
+    .rhap_play-pause-button,
+    .session-button {
+      color: var(--message-bubbles-sent-text-color);
+      &:hover {
+        color: var(--message-bubbles-sent-text-color);
+      }
+    }
+  }
+
+  .rhap_volume-button {
+    color: var(--message-bubbles-sent-text-color);
+  }
+
+  .rhap_time {
+    color: var(--message-bubbles-sent-text-color);
+  }
+
+  .rhap_progress-bar {
+    background-color: var(--button-icon-stroke-color);
+  }
+
+  .rhap_progress-filled {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_download-progress {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_progress-indicator {
+    background: var(--primary-color);
+  }
+}
+
+.module-message__container--incoming {
+  .rhap_container {
+    .rhap_play-pause-button,
+    .session-button {
+      color: var(--message-bubbles-received-text-color);
+      &:hover {
+        color: var(--message-bubbles-received-text-color);
+      }
+    }
+  }
+
+  .rhap_volume-button {
+    color: var(--message-bubbles-received-text-color);
+  }
+
+  .rhap_time {
+    color: var(--message-bubbles-received-text-color);
+  }
+
+  .rhap_progress-bar {
+    background-color: var(--button-icon-stroke-color);
+  }
+
+  .rhap_progress-filled {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_download-progress {
+    background-color: var(--button-icon-stroke-hover-color);
+  }
+
+  .rhap_progress-indicator {
+    background: var(--primary-color);
+  }
 }

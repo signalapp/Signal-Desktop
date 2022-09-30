@@ -954,6 +954,7 @@ export const getMessagePreviewProps = createSelector(getMessagePropsByMessageId,
   }
 
   const msgProps: MessagePreviewSelectorProps = pick(props.propsForMessage, [
+    'direction',
     'attachments',
     'previews',
   ]);

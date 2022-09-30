@@ -17,6 +17,7 @@ import {
 import { ContactName } from '../../ContactName';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../../../basic/SessionButton';
 
 const AvatarItem = (props: { pubkey: string }) => {
   const { pubkey } = props;
@@ -29,14 +30,14 @@ const DeleteButtonItem = (props: { messageId: string; convoId: string; isDeletab
 
   return props.isDeletable ? (
     <div className="module-message-detail__delete-button-container">
-      <button
+      <SessionButton
+        text={i18n('delete')}
+        buttonColor={SessionButtonColor.Danger}
+        buttonType={SessionButtonType.Solid}
         onClick={async () => {
           await deleteMessagesById([props.messageId], props.convoId);
         }}
-        className="module-message-detail__delete-button"
-      >
-        {i18n('delete')}
-      </button>
+      />
     </div>
   ) : null;
 };

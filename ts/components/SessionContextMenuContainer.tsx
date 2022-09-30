@@ -7,27 +7,25 @@ export const SessionContextMenuContainer = styled.div.attrs({
     // be sure it is more than the one set for the More Informations screen of messages
     z-index: 30;
     min-width: 200px;
-    /* TODO Theming Update */
-    box-shadow: 0 10px 16px 0 rgba(var(--color-black-color-rgb), 0.2),
-      0 6px 20px 0 rgba(var(--color-black-color-rgb), 0.19) !important;
-    background-color: var(--color-received-message-background);
+    box-shadow: 0px 0px 10px var(--context-menu-shadow-color) !important;
+    background-color: var(--context-menu-background-color);
 
     &.react-contexify__theme--dark {
-      background-color: var(--color-received-message-background);
+      background-color: var(--context-menu-background-color);
     }
 
     .react-contexify__item {
-      background: var(--color-received-message-background);
+      background: var(--context-menu-background-color);
     }
 
     .react-contexify__item:not(.react-contexify__item--disabled):hover
       > .react-contexify__item__content {
-      background: var(--color-accent);
-      color: var(--color-text-menu-highlighted);
+      background: var(--context-menu-background-hover-color);
+      color: var(--context-menu-text-hover-color);
     }
     .react-contexify__item__content {
       transition: var(--default-duration);
-      color: var(--color-text);
+      color: var(--context-menu-text-color);
     }
 
     &.react-contexify__submenu {

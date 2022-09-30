@@ -16,10 +16,10 @@
 }
 
 .group-invitation {
-  background: var(--color-received-message-background);
+  background-color: var(--message-bubbles-received-background-color);
 
   &.invitation-outgoing {
-    background: var(--color-sent-message-background);
+    background-color: var(--message-bubbles-sent-background-color);
     align-self: flex-end;
   }
 
@@ -62,12 +62,12 @@
 
 .group-invitation {
   .group-details {
-    color: var(--color-received-message-text);
+    color: var(--message-bubbles-received-text-color);
   }
 }
 
 .group-invitation.invitation-outgoing {
   .group-details {
-    color: var(--color-sent-message-text);
+    color: var(--message-bubbles-sent-text-color);
   }
 }

@@ -88,43 +88,6 @@ const JsxSelectable = (jsx: JSX.Element): JSX.Element => {
   );
 };
 
-export const MessageBody = (props: Props) => {
-  const { text, disableJumbomoji, disableLinks, isGroup } = props;
-  const sizeClass: SizeClassType = disableJumbomoji ? 'default' : getEmojiSizeClass(text);
-
-  if (disableLinks) {
-    return JsxSelectable(
-      renderEmoji({
-        text,
-        sizeClass,
-        key: 0,
-        renderNonEmoji: renderNewLines,
-        isGroup,
-      })
-    );
-  }
-
-  if (text && text.startsWith('```') && text.endsWith('```') && text.length > 6) {
-    return <pre className="text-selectable">{text.substring(4, text.length - 3)}</pre>;
-  }
-
-  return JsxSelectable(
-    <Linkify
-      text={text}
-      isGroup={isGroup}
-      renderNonLink={({ key, text: nonLinkText }) => {
-        return renderEmoji({
-          text: nonLinkText,
-          sizeClass,
-          key,
-          renderNonEmoji: renderNewLines,
-          isGroup,
-        });
-      }}
-    />
-  );
-};
-
 type LinkifyProps = {
   text: string;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
@@ -183,4 +146,41 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
   }
 
   return <>{results}</>;
+};
+
+export const MessageBody = (props: Props) => {
+  const { text, disableJumbomoji, disableLinks, isGroup } = props;
+  const sizeClass: SizeClassType = disableJumbomoji ? 'default' : getEmojiSizeClass(text);
+
+  if (disableLinks) {
+    return JsxSelectable(
+      renderEmoji({
+        text,
+        sizeClass,
+        key: 0,
+        renderNonEmoji: renderNewLines,
+        isGroup,
+      })
+    );
+  }
+
+  if (text && text.startsWith('```') && text.endsWith('```') && text.length > 6) {
+    return <pre className="text-selectable">{text.substring(4, text.length - 3)}</pre>;
+  }
+
+  return JsxSelectable(
+    <Linkify
+      text={text}
+      isGroup={isGroup}
+      renderNonLink={({ key, text: nonLinkText }) => {
+        return renderEmoji({
+          text: nonLinkText,
+          sizeClass,
+          key,
+          renderNonEmoji: renderNewLines,
+          isGroup,
+        });
+      }}
+    />
+  );
 };

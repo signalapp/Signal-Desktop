@@ -141,6 +141,12 @@ const SelectionOverlay = () => {
   );
 };
 
+const TripleDotContainer = styled.div`
+  user-select: none;
+  flex-grow: 0;
+  flex-shrink: 0;
+`;
+
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
   if (showBackButton) {
@@ -161,12 +167,6 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
     </TripleDotContainer>
   );
 };
-
-const TripleDotContainer = styled.div`
-  user-select: none;
-  flex-grow: 0;
-  flex-shrink: 0;
-`;
 
 const ExpirationLength = (props: { expirationSettingName?: string }) => {
   const { expirationSettingName } = props;
@@ -281,6 +281,19 @@ export type ConversationHeaderTitleProps = {
   currentNotificationSetting?: ConversationNotificationSettingType;
 };
 
+/**
+ * The subtitle beneath a conversation title when looking at a conversation screen.
+ * @param props props for subtitle. Text to be displayed
+ * @returns JSX Element of the subtitle of conversation header
+ */
+export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX.Element | null => {
+  const { text } = props;
+  if (!text) {
+    return null;
+  }
+  return <span className="module-conversation-header__title-text">{text}</span>;
+};
+
 const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
@@ -342,19 +355,6 @@ const ConversationHeaderTitle = () => {
       </StyledSubtitleContainer>
     </div>
   );
-};
-
-/**
- * The subtitle beneath a conversation title when looking at a conversation screen.
- * @param props props for subtitle. Text to be displayed
- * @returns JSX Element of the subtitle of conversation header
- */
-export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX.Element | null => {
-  const { text } = props;
-  if (!text) {
-    return null;
-  }
-  return <span className="module-conversation-header__title-text">{text}</span>;
 };
 
 export const ConversationHeaderWithDetails = () => {
