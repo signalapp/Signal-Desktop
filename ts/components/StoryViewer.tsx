@@ -29,22 +29,23 @@ import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryDetailsModal } from './StoryDetailsModal';
-import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
+import { StoryDistributionListName } from './StoryDistributionListName';
 import { StoryImage } from './StoryImage';
 import { StoryViewDirectionType, StoryViewModeType } from '../types/Stories';
+import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { Theme } from '../util/theme';
 import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
-import { isVideoAttachment } from '../types/Attachment';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
+import { isVideoAttachment } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   currentIndex: number;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
-  distributionListName?: string;
+  distributionList?: { id: string; name: string };
   getPreferredBadge: PreferredBadgeSelectorType;
   group?: Pick<
     ConversationType,
@@ -105,7 +106,7 @@ enum Arrow {
 export const StoryViewer = ({
   currentIndex,
   deleteStoryForEveryone,
-  distributionListName,
+  distributionList,
   getPreferredBadge,
   group,
   hasActiveCall,
@@ -649,9 +650,13 @@ export const StoryViewer = ({
                     module="StoryViewer__meta--timestamp"
                     timestamp={timestamp}
                   />
-                  {distributionListName && (
+                  {distributionList && (
                     <div className="StoryViewer__meta__list">
-                      {distributionListName}
+                      <StoryDistributionListName
+                        id={distributionList.id}
+                        name={distributionList.name}
+                        i18n={i18n}
+                      />
                     </div>
                   )}
                 </div>

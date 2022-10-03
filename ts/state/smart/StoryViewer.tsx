@@ -84,7 +84,7 @@ export function SmartStoryViewer(): JSX.Element | null {
   return (
     <StoryViewer
       currentIndex={selectedStoryData.currentIndex}
-      distributionListName={distributionList?.name}
+      distributionList={distributionList}
       getPreferredBadge={getPreferredBadge}
       group={conversationStory.group}
       hasActiveCall={hasActiveCall}

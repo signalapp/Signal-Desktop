@@ -147,7 +147,7 @@ export const YourStory = Template.bind({});
   );
 
   YourStory.args = {
-    distributionListName: 'Close Friends',
+    distributionList: { id: '123', name: 'Close Friends' },
     story: {
       ...storyView,
       sender: {
