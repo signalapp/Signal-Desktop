@@ -926,7 +926,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const messageRequestResponseParams: MessageRequestResponseParams = {
       timestamp,
-      // lokiProfile: UserUtils.getOurProfile(), // we can't curently include our profile in that response
+      lokiProfile: UserUtils.getOurProfile(),
     };
 
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
