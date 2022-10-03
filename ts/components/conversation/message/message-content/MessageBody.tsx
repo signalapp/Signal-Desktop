@@ -9,6 +9,7 @@ import { AddNewLines } from '../../AddNewLines';
 import { Emojify } from '../../Emojify';
 import { LinkPreviews } from '../../../../util/linkPreviews';
 import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
+import styled from 'styled-components';
 
 const linkify = LinkifyIt();
 
@@ -148,6 +149,12 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
   return <>{results}</>;
 };
 
+const StyledPre = styled.pre`
+  backdrop-filter: brightness(0.8);
+  padding: var(--margins-xs);
+  user-select: text;
+`;
+
 export const MessageBody = (props: Props) => {
   const { text, disableJumbomoji, disableLinks, isGroup } = props;
   const sizeClass: SizeClassType = disableJumbomoji ? 'default' : getEmojiSizeClass(text);
@@ -165,7 +172,7 @@ export const MessageBody = (props: Props) => {
   }
 
   if (text && text.startsWith('```') && text.endsWith('```') && text.length > 6) {
-    return <pre className="text-selectable">{text.substring(4, text.length - 3)}</pre>;
+    return <StyledPre className="text-selectable">{text.substring(4, text.length - 3)}</StyledPre>;
   }
 
   return JsxSelectable(

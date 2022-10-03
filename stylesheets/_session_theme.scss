@@ -11,7 +11,11 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  max-width: 65%;
+  max-width: 95%;
+
+  @media (min-width: 1200px) {
+    max-width: 65%;
+  }
 
   &__text-error {
     font-style: italic;
@@ -26,19 +30,16 @@
     word-break: break-word;
     white-space: pre-wrap;
 
+    padding: var(--padding-message-content);
+    border-radius: var(--border-radius-message-box);
+
     a {
       text-decoration: underline;
     }
   }
 
   &__container--incoming {
-    &--opaque {
-      background: var(--message-bubbles-received-background-color);
-    }
-
-    &--transparent {
-      background: var(--transparent-color);
-    }
+    color: var(--message-bubbles-received-text-color);
 
     .module-message__text {
       color: var(--message-bubbles-received-text-color);
@@ -58,14 +59,7 @@
   }
 
   &__container--outgoing {
-    &--opaque {
-      background: var(--message-bubbles-sent-background-color);
-    }
-
-    &--transparent {
-      background: var(--transparent-color);
-    }
-
+    color: var(--message-bubbles-sent-text-color);
     .module-message__text {
       color: var(--message-bubbles-sent-text-color);
 

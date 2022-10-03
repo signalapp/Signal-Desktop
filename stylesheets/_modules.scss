@@ -62,6 +62,17 @@
   flex-direction: row;
   align-items: center;
   padding: 10px;
+  border-radius: var(--border-radius-message-box);
+
+  .module-message__container--outgoing & {
+    color: var(--message-bubbles-sent-text-color);
+    background: var(--message-bubbles-sent-background-color);
+  }
+
+  .module-message__container--incoming & {
+    color: var(--message-bubbles-received-text-color);
+    background: var(--message-bubbles-received-background-color);
+  }
 }
 
 .module-message__generic-attachment__icon-container {
@@ -88,7 +99,7 @@
 }
 
 .module-message__generic-attachment__icon__extension {
-  font-size: 10px;
+  font-size: 9px;
   line-height: 13px;
   letter-spacing: 0.1px;
   text-transform: uppercase;
@@ -117,7 +128,7 @@
 .module-message__generic-attachment__file-name {
   font-size: 14px;
   line-height: 18px;
-  font-weight: 300;
+  font-weight: 500;
   margin-top: 2px;
 
   // Handling really long filenames - cut them off
@@ -152,15 +163,24 @@
 
 .module-message__link-preview {
   cursor: pointer;
-  border-top-left-radius: $session_message-container-border-radius;
-  border-top-right-radius: $session_message-container-border-radius;
+  // TODO Theming - Fix after clearnet fix is made
+  display: flex;
+  align-items: center;
+  border-radius: var(--border-radius-message-box);
+  margin: var(--padding-link-preview);
+
+  .module-image {
+    margin: -1px;
+  }
 }
 
 .module-message__link-preview__content {
-  padding: 8px;
+  padding: 0 0 var(--margins-xs) 0;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  flex-grow: 1;
+  margin-left: var(--margins-sm);
 }
 
 .module-message__link-preview__image_container {
@@ -206,10 +226,6 @@
   width: 32px;
   border-radius: 50%;
   background-color: var(--message-link-preview-background-color);
-}
-
-.module-message__link-preview__text--with-icon {
-  margin-top: 5px;
 }
 
 .module-message__link-preview__title {
@@ -755,21 +771,7 @@
 }
 
 .module-image--soft-corners {
-  border-radius: 4px;
-}
-
-.module-image__border-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-  right: 0;
-}
-
-.module-image__border-overlay--dark {
-  // TODO Theming - Is this correct?
-  background-color: var(--message-link-preview-background-color);
+  border-radius: var(--border-radius-message-box);
 }
 
 .module-image__loading-placeholder {
@@ -786,22 +788,6 @@
   &-cover {
     object-fit: cover;
   }
-}
-
-// NOTE This isn't currently used anywhere
-.module-image__bottom-overlay {
-  height: 48px;
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-transparent-color),
-    var(--color-transparent-color) 9%,
-    rgba(0, 0, 0, 0.6)
-  );
-  position: absolute;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-  right: 0;
 }
 
 .module-image__play-overlay__circle {
@@ -854,119 +840,10 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   z-index: 2;
   background-image: url('../images/x-shadow-16.svg');
-}
-
-// Module: Image Grid
-
-.module-image-grid {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  margin: -1px;
-}
-
-.module-image-grid__column {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.module-image-grid__row {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  flex-grow: 1;
-}
-
-// Module: Typing Animation
-
-.module-typing-animation {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  height: 8px;
-  width: 38px;
-  padding-inline-start: 1px;
-  padding-inline-end: 1px;
-}
-
-.module-typing-animation__dot {
-  border-radius: 50%;
-  background-color: var(--text-secondary-color);
-
-  height: 6px;
-  width: 6px;
-  opacity: 0.4;
-}
-
-.module-typing-animation__dot--light {
-  border-radius: 50%;
-  background-color: var(--background-primary-color);
-
-  height: 6px;
-  width: 6px;
-  opacity: 0.4;
-}
-
-@keyframes typing-animation-first {
-  0% {
-    opacity: 0.4;
-  }
-  20% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  40% {
-    opacity: 0.4;
-  }
-}
-
-@keyframes typing-animation-second {
-  10% {
-    opacity: 0.4;
-  }
-  30% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-}
-
-@keyframes typing-animation-third {
-  20% {
-    opacity: 0.4;
-  }
-  40% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  60% {
-    opacity: 0.4;
-  }
-}
-
-.module-typing-animation__dot--first {
-  animation: typing-animation-first 1600ms ease infinite;
-}
-
-.module-typing-animation__dot--second {
-  animation: typing-animation-second 1600ms ease infinite;
-}
-
-.module-typing-animation__dot--third {
-  animation: typing-animation-third 1600ms ease infinite;
-}
-
-.module-typing-animation__spacer {
-  flex-grow: 1;
 }
 
 // Module: Attachments
@@ -1256,6 +1133,7 @@
 // Module H5AudioPlayer
 .module-message__container--outgoing {
   .rhap_container {
+    background-color: var(--message-bubbles-sent-background-color);
     .rhap_play-pause-button,
     .session-button {
       color: var(--message-bubbles-sent-text-color);
@@ -1292,6 +1170,7 @@
 
 .module-message__container--incoming {
   .rhap_container {
+    background-color: var(--message-bubbles-received-background-color);
     .rhap_play-pause-button,
     .session-button {
       color: var(--message-bubbles-received-text-color);

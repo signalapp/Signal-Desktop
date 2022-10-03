@@ -1,263 +1,136 @@
 import React, { useContext } from 'react';
-import classNames from 'classnames';
 
 import {
   areAllAttachmentsVisual,
   AttachmentType,
   AttachmentTypeWithPath,
   getAlt,
-  getImageDimensionsInAttachment,
   getThumbnailUrl,
   isVideoAttachment,
 } from '../../types/Attachment';
 
 import { Image } from './Image';
 import { IsMessageVisibleContext } from './message/message-content/MessageContent';
+import styled from 'styled-components';
+import { THUMBNAIL_SIDE } from '../../types/attachments/VisualAttachment';
 
 type Props = {
   attachments: Array<AttachmentTypeWithPath>;
-  bottomOverlay?: boolean;
   onError: () => void;
   onClickAttachment?: (attachment: AttachmentTypeWithPath | AttachmentType) => void;
 };
+
+const StyledImageGrid = styled.div<{ flexDirection: 'row' | 'column' }>`
+  display: inline-flex;
+  align-items: center;
+  gap: var(--margins-sm);
+  flex-direction: ${props => props.flexDirection};
+`;
 // tslint:disable: cyclomatic-complexity max-func-body-length use-simple-attributes
-export const ImageGrid = (props: Props) => {
-  const { attachments, bottomOverlay, onError, onClickAttachment } = props;
 
+const Row = (
+  props: Props & { renderedSize: number; startIndex: number; totalAttachmentsCount: number }
+) => {
+  const {
+    attachments,
+    onError,
+    renderedSize,
+    startIndex,
+    onClickAttachment,
+    totalAttachmentsCount,
+  } = props;
   const isMessageVisible = useContext(IsMessageVisibleContext);
+  const moreMessagesOverlay = totalAttachmentsCount > 3;
+  const moreMessagesOverlayText = moreMessagesOverlay ? `+${totalAttachmentsCount - 3}` : undefined;
 
-  const withBottomOverlay = Boolean(bottomOverlay);
+  return (
+    <>
+      {attachments.map((attachment, index) => {
+        const showOverlay = index === 1 && moreMessagesOverlay;
+        return (
+          <Image
+            alt={getAlt(attachment)}
+            attachment={attachment}
+            playIconOverlay={isVideoAttachment(attachment)}
+            height={renderedSize}
+            key={attachment.id}
+            width={renderedSize}
+            url={isMessageVisible ? getThumbnailUrl(attachment) : undefined}
+            attachmentIndex={startIndex + index}
+            onClick={onClickAttachment}
+            onError={onError}
+            softCorners={true}
+            darkOverlay={showOverlay}
+            overlayText={showOverlay ? moreMessagesOverlayText : undefined}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+export const ImageGrid = (props: Props) => {
+  const { attachments, onError, onClickAttachment } = props;
 
   if (!attachments || !attachments.length) {
     return null;
   }
 
   if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
-    const { height, width } = getImageDimensionsInAttachment(attachments[0]);
-
     return (
-      <div className={classNames('module-image-grid', 'module-image-grid--one-image')}>
-        <Image
-          alt={getAlt(attachments[0])}
-          bottomOverlay={withBottomOverlay}
-          attachment={attachments[0]}
-          playIconOverlay={isVideoAttachment(attachments[0])}
-          height={height}
-          width={width}
-          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
-          onClick={onClickAttachment}
+      <StyledImageGrid flexDirection={'row'}>
+        <Row
+          attachments={attachments.slice(0, 1)}
           onError={onError}
-          attachmentIndex={0}
+          onClickAttachment={onClickAttachment}
+          renderedSize={THUMBNAIL_SIDE}
+          startIndex={0}
+          totalAttachmentsCount={attachments.length}
         />
-      </div>
+      </StyledImageGrid>
     );
   }
 
   if (attachments.length === 2) {
+    // when we got 2 attachments we render them side by side with the full size of THUMBNAIL_SIDE
     return (
-      <div className="module-image-grid">
-        <Image
-          alt={getAlt(attachments[0])}
-          attachment={attachments[0]}
-          bottomOverlay={withBottomOverlay}
-          playIconOverlay={isVideoAttachment(attachments[0])}
-          height={149}
-          width={149}
-          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
-          onClick={onClickAttachment}
+      <StyledImageGrid flexDirection={'row'}>
+        <Row
+          attachments={attachments.slice(0, 2)}
           onError={onError}
-          attachmentIndex={0}
+          onClickAttachment={onClickAttachment}
+          renderedSize={THUMBNAIL_SIDE}
+          startIndex={0}
+          totalAttachmentsCount={attachments.length}
         />
-        <Image
-          alt={getAlt(attachments[1])}
-          bottomOverlay={withBottomOverlay}
-          playIconOverlay={isVideoAttachment(attachments[1])}
-          height={149}
-          width={149}
-          attachment={attachments[1]}
-          url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
-          onClick={onClickAttachment}
-          onError={onError}
-          attachmentIndex={1}
-        />
-      </div>
+      </StyledImageGrid>
     );
   }
 
-  if (attachments.length === 3) {
-    return (
-      <div className="module-image-grid">
-        <Image
-          alt={getAlt(attachments[0])}
-          bottomOverlay={withBottomOverlay}
-          attachment={attachments[0]}
-          playIconOverlay={isVideoAttachment(attachments[0])}
-          height={200}
-          width={199}
-          url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
-          onClick={onClickAttachment}
-          onError={onError}
-          attachmentIndex={0}
-        />
-        <div className="module-image-grid__column">
-          <Image
-            alt={getAlt(attachments[1])}
-            height={99}
-            width={99}
-            attachment={attachments[1]}
-            playIconOverlay={isVideoAttachment(attachments[1])}
-            url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={1}
-          />
-          <Image
-            alt={getAlt(attachments[2])}
-            bottomOverlay={withBottomOverlay}
-            height={99}
-            width={99}
-            attachment={attachments[2]}
-            playIconOverlay={isVideoAttachment(attachments[2])}
-            url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={2}
-          />
-        </div>
-      </div>
-    );
-  }
+  const columnImageSide = THUMBNAIL_SIDE / 2 - 5;
 
-  if (attachments.length === 4) {
-    return (
-      <div className="module-image-grid">
-        <div className="module-image-grid__column">
-          <div className="module-image-grid__row">
-            <Image
-              alt={getAlt(attachments[0])}
-              attachment={attachments[0]}
-              playIconOverlay={isVideoAttachment(attachments[0])}
-              height={149}
-              width={149}
-              url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
-              onClick={onClickAttachment}
-              onError={onError}
-              attachmentIndex={0}
-            />
-            <Image
-              alt={getAlt(attachments[1])}
-              playIconOverlay={isVideoAttachment(attachments[1])}
-              height={149}
-              width={149}
-              attachment={attachments[1]}
-              url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
-              onClick={onClickAttachment}
-              onError={onError}
-              attachmentIndex={1}
-            />
-          </div>
-          <div className="module-image-grid__row">
-            <Image
-              alt={getAlt(attachments[2])}
-              bottomOverlay={withBottomOverlay}
-              playIconOverlay={isVideoAttachment(attachments[2])}
-              height={149}
-              width={149}
-              attachment={attachments[2]}
-              url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
-              onClick={onClickAttachment}
-              onError={onError}
-              attachmentIndex={2}
-            />
-            <Image
-              alt={getAlt(attachments[3])}
-              bottomOverlay={withBottomOverlay}
-              playIconOverlay={isVideoAttachment(attachments[3])}
-              height={149}
-              width={149}
-              attachment={attachments[3]}
-              url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
-              onClick={onClickAttachment}
-              onError={onError}
-              attachmentIndex={3}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const moreMessagesOverlay = attachments.length > 5;
-  const moreMessagesOverlayText = moreMessagesOverlay ? `+${attachments.length - 5}` : undefined;
-
+  // we know only support having 3 attachments displayed at most, the rest are on the overlay
   return (
-    <div className="module-image-grid">
-      <div className="module-image-grid__column">
-        <div className="module-image-grid__row">
-          <Image
-            alt={getAlt(attachments[0])}
-            attachment={attachments[0]}
-            playIconOverlay={isVideoAttachment(attachments[0])}
-            height={149}
-            width={149}
-            url={isMessageVisible ? getThumbnailUrl(attachments[0]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={0}
-          />
-          <Image
-            alt={getAlt(attachments[1])}
-            playIconOverlay={isVideoAttachment(attachments[1])}
-            height={149}
-            width={149}
-            attachment={attachments[1]}
-            url={isMessageVisible ? getThumbnailUrl(attachments[1]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={1}
-          />
-        </div>
-        <div className="module-image-grid__row">
-          <Image
-            alt={getAlt(attachments[2])}
-            bottomOverlay={withBottomOverlay}
-            playIconOverlay={isVideoAttachment(attachments[2])}
-            height={99}
-            width={99}
-            attachment={attachments[2]}
-            url={isMessageVisible ? getThumbnailUrl(attachments[2]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={2}
-          />
-          <Image
-            alt={getAlt(attachments[3])}
-            bottomOverlay={withBottomOverlay}
-            playIconOverlay={isVideoAttachment(attachments[3])}
-            height={99}
-            width={98}
-            attachment={attachments[3]}
-            url={isMessageVisible ? getThumbnailUrl(attachments[3]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={3}
-          />
-          <Image
-            alt={getAlt(attachments[4])}
-            bottomOverlay={withBottomOverlay}
-            playIconOverlay={isVideoAttachment(attachments[4])}
-            height={99}
-            width={99}
-            darkOverlay={moreMessagesOverlay}
-            overlayText={moreMessagesOverlayText}
-            attachment={attachments[4]}
-            url={isMessageVisible ? getThumbnailUrl(attachments[4]) : undefined}
-            onClick={onClickAttachment}
-            onError={onError}
-            attachmentIndex={4}
-          />
-        </div>
-      </div>
-    </div>
+    <StyledImageGrid flexDirection={'row'}>
+      <Row
+        attachments={attachments.slice(0, 1)}
+        onError={onError}
+        onClickAttachment={onClickAttachment}
+        renderedSize={THUMBNAIL_SIDE}
+        startIndex={0}
+        totalAttachmentsCount={attachments.length}
+      />
+
+      <StyledImageGrid flexDirection={'column'}>
+        <Row
+          attachments={attachments.slice(1, 3)}
+          onError={onError}
+          onClickAttachment={onClickAttachment}
+          renderedSize={columnImageSide}
+          startIndex={1}
+          totalAttachmentsCount={attachments.length}
+        />
+      </StyledImageGrid>
+    </StyledImageGrid>
   );
 };

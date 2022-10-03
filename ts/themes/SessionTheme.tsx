@@ -370,13 +370,21 @@ export const SessionGlobalStyles = createGlobalStyle`
     --margins-md:  15px;
     --margins-lg:  20px;
 
+    /* PADDING */
+     // TODO Theming - review and update after Audric has done link preview fix
+    --padding-message-content: 7px 13px;
+    --padding-link-preview: -7px -13px 7px -13px; // bottom has positive value because a link preview has always a body below
+    --border-radius-message-box: 16px;
+
     /* SIZES */
     --main-view-header-height: 63px;
 
     /* ANIMATIONS */
     --default-duration: 0.25s;
+
     /* FILTERS */
     --filter-session-text: ${lightFilterSessionText};
+
     /* BORDERS */
     --border-unread: ${lightUnreadBorder};
     --border-session:  ${lightColorSessionBorder};
@@ -429,7 +437,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --color-session-shadow: ${lightColorSessionShadow};
     --color-compose-view-button-background: ${lightColorComposeViewBg};
     --color-sent-message-background:  ${lightColorSentMessageBg};
-    // TODO: this might be wrong text colour. Something happened during merge.
     --color-sent-message-text:  ${blackColor};
     --color-clickable-hovered: ${lightColorClickableHovered};
     --color-session-border:  ${lightColorSessionBorderColor};

@@ -1,36 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 
 import { SessionRadio } from './SessionRadio';
 
 interface Props {
   // tslint:disable: react-unused-props-and-state
   initialItem: string;
-  items: Array<any>;
+  items: Array<{ value: string; label: string }>;
   group: string;
   onClick: (selectedValue: string) => any;
+  style?: CSSProperties;
 }
 
 const StyledFieldSet = styled.fieldset`
   display: flex;
   flex-direction: column;
-  gap: var(--margins-xs);
 
   border: none;
   margin-inline-start: var(--margins-sm);
   margin-top: var(--margins-sm);
+
+  & > div {
+    padding: var(--margins-md) 7px;
+  }
+  & > div + div {
+    border-top: 1px solid var(--border-color);
+  }
 `;
 
 export const SessionRadioGroup = (props: Props) => {
+  const { items, group, initialItem, style } = props;
   const [activeItem, setActiveItem] = useState('');
-  const { items, group, initialItem } = props;
 
   useEffect(() => {
     setActiveItem(initialItem);
   }, []);
 
   return (
-    <StyledFieldSet id={group}>
+    <StyledFieldSet id={group} style={style}>
       {items.map(item => {
         const itemIsActive = item.value === activeItem;
 

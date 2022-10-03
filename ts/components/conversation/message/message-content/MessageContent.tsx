@@ -4,31 +4,19 @@ import React, { createContext, useCallback, useContext, useLayoutEffect, useStat
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { MessageRenderingProps } from '../../../../models/messageType';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
   getMessageTextProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
-import {
-  canDisplayImage,
-  getGridDimensions,
-  getImageDimensionsInAttachment,
-  hasImage,
-  hasVideoScreenshot,
-  isImage,
-  isImageAttachment,
-  isVideo,
-} from '../../../../types/Attachment';
-import { Flex } from '../../../basic/Flex';
-import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
 import { MessageAttachment } from './MessageAttachment';
-import { MessagePreview } from './MessagePreview';
+import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -39,40 +27,6 @@ type Props = {
   messageId: string;
   isDetailView?: boolean;
 };
-
-function getIsShowingImage(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews' | 'text'> & { imageBroken: boolean }
-): boolean {
-  const { attachments, previews, text, imageBroken } = props;
-
-  if (imageBroken) {
-    return false;
-  }
-
-  if (attachments && attachments.length) {
-    const displayImage = canDisplayImage(attachments);
-    const hasText = text?.length;
-    return Boolean(
-      displayImage &&
-        !hasText &&
-        ((isImage(attachments) && hasImage(attachments)) ||
-          (isVideo(attachments) && hasVideoScreenshot(attachments)))
-    );
-  }
-
-  if (previews && previews.length) {
-    const first = previews[0];
-    const { image } = first;
-
-    if (!image) {
-      return false;
-    }
-
-    return isImageAttachment(image);
-  }
-
-  return false;
-}
 
 function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>) {
   const selection = window.getSelection();
@@ -88,45 +42,55 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
-function getWidth(
-  props: Pick<MessageRenderingProps, 'attachments' | 'previews'>
-): number | undefined {
-  const { attachments, previews } = props;
+const StyledMessageContent = styled.div``;
 
-  if (attachments && attachments.length) {
-    const dimensions = getGridDimensions(attachments);
-    if (dimensions) {
-      return dimensions.width;
+const StyledMessageOpaqueContent = styled.div<{
+  messageDirection: MessageModelType;
+  highlight: boolean;
+}>`
+  background: ${props =>
+    props.messageDirection === 'incoming'
+      ? 'var(--message-bubbles-received-background-color)'
+      : 'var(--message-bubbles-sent-background-color)'};
+  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+  padding: var(--padding-message-content);
+  border-radius: var(--border-radius-message-box);
+
+  @keyframes highlight {
+    0% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
     }
   }
 
-  if (previews && previews.length) {
-    const first = previews[0];
-
-    if (!first || !first.image) {
-      return;
-    }
-    const { width } = first.image;
-
-    if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensionsInAttachment(first.image);
-      if (dimensions) {
-        return dimensions.width;
-      }
-    }
-  }
-
-  return;
-}
-
-const StyledMessageContent = styled.div`
-  border-radius: 18px;
+  ${props => {
+    return (
+      props.highlight &&
+      css`
+        animation-name: highlight;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+        border-radius: 'var(--border-radius-message-box)';
+      `
+    );
+  }}
 `;
 
 export const IsMessageVisibleContext = createContext(false);
 
 export const MessageContent = (props: Props) => {
-  const [flashGreen, setFlashGreen] = useState(false);
+  const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
@@ -158,18 +122,18 @@ export const MessageContent = (props: Props) => {
 
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
-      if (!flashGreen && !didScroll) {
+      if (!highlight && !didScroll) {
         //scroll to me and flash me
         scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
         setDidScroll(true);
         if (shouldHighlightMessage) {
-          setFlashGreen(true);
+          setHighlight(true);
         }
       }
       return;
     }
-    if (flashGreen) {
-      setFlashGreen(false);
+    if (highlight) {
+      setHighlight(false);
     }
 
     if (didScroll) {
@@ -182,15 +146,7 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const {
-    direction,
-    text,
-    timestamp,
-    serverTimestamp,
-    previews,
-    quote,
-    attachments,
-  } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
 
@@ -199,30 +155,13 @@ export const MessageContent = (props: Props) => {
     isDeleted = selectedMsg.isDeleted;
   }
 
-  const width = getWidth({ previews, attachments });
-  const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
-  const hasText = Boolean(text);
-  const hasQuote = !isEmpty(quote);
   const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
 
-  const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
-  // tslint:disable: use-simple-attributes
 
   return (
     <StyledMessageContent
-      className={classNames(
-        'module-message__container',
-        `module-message__container--${direction}`,
-        bgShouldBeTransparent
-          ? `module-message__container--${direction}--transparent`
-          : `module-message__container--${direction}--opaque`,
-
-        flashGreen && 'flash-primary-once'
-      )}
-      style={{
-        width: isShowingImage ? width : undefined,
-      }}
+      className={classNames('module-message__container', `module-message__container--${direction}`)}
       role="button"
       onClick={onClickOnMessageInnerContainer}
       title={toolTipTitle}
@@ -233,28 +172,34 @@ export const MessageContent = (props: Props) => {
         threshold={0}
         rootMargin="500px 0px 500px 0px"
         triggerOnce={false}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--margins-xs)',
+        }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          {!isDeleted && (
-            <>
-              <MessageQuote messageId={props.messageId} />
-              <MessageAttachment
-                messageId={props.messageId}
-                imageBroken={imageBroken}
-                handleImageError={handleImageError}
-              />
-            </>
-          )}
-          {hasContentAfterAttachmentAndQuote ? (
-            <>
+          {hasContentAfterAttachmentAndQuote && (
+            <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
-                <MessagePreview messageId={props.messageId} handleImageError={handleImageError} />
+                <>
+                  <MessageQuote messageId={props.messageId} />
+                  <MessageLinkPreview
+                    messageId={props.messageId}
+                    handleImageError={handleImageError}
+                  />
+                </>
               )}
-              <Flex padding="7px 13px" container={true} flexDirection="column">
-                <MessageText messageId={props.messageId} />
-              </Flex>
-            </>
-          ) : null}
+              <MessageText messageId={props.messageId} />
+            </StyledMessageOpaqueContent>
+          )}
+          {!isDeleted && (
+            <MessageAttachment
+              messageId={props.messageId}
+              imageBroken={imageBroken}
+              handleImageError={handleImageError}
+            />
+          )}
         </IsMessageVisibleContext.Provider>
       </InView>
     </StyledMessageContent>

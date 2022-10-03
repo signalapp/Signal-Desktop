@@ -2069,11 +2069,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         attachments
           .filter(
             (attachment: any) =>
-              attachment &&
-              attachment.contentType &&
-              !attachment.pending &&
-              !attachment.error &&
-              attachment?.thumbnail?.path // loadAttachmentData throws if the thumbnail.path is not set
+              attachment && attachment.contentType && !attachment.pending && !attachment.error
           )
           .slice(0, 1)
           .map(async (attachment: any) => {
@@ -2084,7 +2080,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               // Our protos library complains about this field being undefined, so we
               //   force it to null
               fileName: fileName || null,
-              thumbnail: thumbnail
+              thumbnail: attachment?.thumbnail?.path // loadAttachmentData throws if the thumbnail.path is not set
                 ? {
                     ...(await loadAttachmentData(thumbnail)),
                     objectUrl: getAbsoluteAttachmentPath(thumbnail.path),

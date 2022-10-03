@@ -289,6 +289,8 @@ $rhap_font-family: inherit !default;
   padding: 0px;
   background-color: transparent;
   box-shadow: none;
+  padding: var(--padding-message-content);
+  border-radius: var(--border-radius-message-box);
 
   svg {
     transition: fill var(--default-duration);
@@ -314,11 +316,27 @@ $rhap_font-family: inherit !default;
   display: none;
 }
 
+.rhap_volume-button {
+  .module-message__container--incoming & {
+    color: var(--message-bubbles-received-text-color);
+  }
+  .module-message__container--outgoing & {
+    color: var(--message-bubbles-sent-text-color);
+  }
+}
+
 .rhap_volume-container div[role='progressbar'] {
   display: none;
 }
 
 .rhap_time {
+  .module-message__container--incoming & {
+    color: var(--message-bubbles-received-text-color);
+  }
+  .module-message__container--outgoing & {
+    color: var(--message-bubbles-sent-text-color);
+  }
+
   font-size: 12px;
 }
 

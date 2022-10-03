@@ -5,12 +5,12 @@ import { ImageGrid } from '../../ImageGrid';
 import { Image } from '../../Image';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMessagePreviewProps } from '../../../../state/selectors/conversations';
+import { getMessageLinkPreviewProps } from '../../../../state/selectors/conversations';
 import { SessionIcon } from '../../../icon';
 import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
 import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
-export type MessagePreviewSelectorProps = Pick<
+export type MessageLinkPreviewSelectorProps = Pick<
   MessageRenderingProps,
   'direction' | 'attachments' | 'previews'
 >;
@@ -20,8 +20,8 @@ type Props = {
   messageId: string;
 };
 
-export const MessagePreview = (props: Props) => {
-  const selected = useSelector(state => getMessagePreviewProps(state as any, props.messageId));
+export const MessageLinkPreview = (props: Props) => {
+  const selected = useSelector(state => getMessageLinkPreviewProps(state as any, props.messageId));
   const dispatch = useDispatch();
 
   if (!selected) {
@@ -84,14 +84,8 @@ export const MessagePreview = (props: Props) => {
             </div>
           </div>
         ) : null}
-        <div
-          className={classNames(
-            'module-message__link-preview__text',
-            previewHasImage && !isFullSizeImage
-              ? 'module-message__link-preview__text--with-icon'
-              : null
-          )}
-        >
+        {/* TODO Theming Confirm all this works */}
+        <div className={classNames('module-message__link-preview__text')}>
           <div className="module-message__link-preview__title">{first.title}</div>
           <div className="module-message__link-preview__location">{first.domain}</div>
         </div>

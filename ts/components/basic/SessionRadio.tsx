@@ -27,6 +27,7 @@ const StyledInput = styled.input<{
     background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
   }
 `;
+// tslint:disable: use-simple-attributes
 
 const StyledLabel = styled.label<{
   filledSize: number;
@@ -74,14 +75,16 @@ export const SessionRadio = (props: Props) => {
         onChange={clickHandler}
         filledSize={filledSize * 2}
         outlineOffset={outlineOffset}
+        data-testid={`input-${value}`}
       />
-
       <StyledLabel
         role="button"
         onClick={clickHandler}
-        filledSize={filledSize}
+        filledSize={filledSize - 1}
         outlineOffset={outlineOffset}
         beforeMargins={beforeMargins}
+        aria-label={label}
+        data-testid={`label-${value}`}
         // TODO Theming does this need a selected color
       >
         {label}

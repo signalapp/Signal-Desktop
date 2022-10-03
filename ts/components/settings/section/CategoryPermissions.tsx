@@ -13,6 +13,7 @@ const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
   if (!currentValue) {
     window.inboxStore?.dispatch(
       updateConfirmModal({
+        title: window.i18n('callMediaPermissionsDialogTitle'),
         message: window.i18n('callMediaPermissionsDialogContent'),
         okTheme: SessionButtonColor.Danger,
         onClickOk: async () => {

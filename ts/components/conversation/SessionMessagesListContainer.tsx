@@ -173,7 +173,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     if (messageId !== undefined) {
       this.timeoutResetQuotedScroll = global.setTimeout(() => {
         window.inboxStore?.dispatch(quotedMessageToAnimate(undefined));
-      }, 2000); // should match .flash-primary-once
+      }, 1000); // should match StyledMessageOpaqueContent
     }
   }
 

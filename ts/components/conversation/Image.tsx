@@ -5,6 +5,7 @@ import { Spinner } from '../basic/Spinner';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
+import styled from 'styled-components';
 
 type Props = {
   alt: string;
@@ -16,12 +17,11 @@ type Props = {
 
   overlayText?: string;
 
-  bottomOverlay?: boolean;
   closeButton?: boolean;
 
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
-  softCorners?: boolean;
+  softCorners: boolean;
   forceSquare?: boolean;
   attachmentIndex?: number;
 
@@ -30,12 +30,21 @@ type Props = {
   onError?: () => void;
 };
 
+const StyledOverlay = styled.div<Pick<Props, 'darkOverlay' | 'softCorners'>>`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  background-color: ${props =>
+    props.darkOverlay ? 'var(--message-link-preview-background-color)' : 'unset'};
+`;
 export const Image = (props: Props) => {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   const {
     alt,
     attachment,
-    bottomOverlay,
     closeButton,
     darkOverlay,
     height,
@@ -135,12 +144,10 @@ export const Image = (props: Props) => {
           onDragStart={disableDrag}
         />
       ) : null}
-      <div
-        className={classNames(
-          'module-image__border-overlay',
-          softCorners ? 'module-image--soft-corners' : null,
-          darkOverlay ? 'module-image__border-overlay--dark' : null
-        )}
+      <StyledOverlay
+        className={classNames(softCorners ? 'module-image--soft-corners' : null)}
+        darkOverlay={darkOverlay}
+        softCorners={softCorners}
       />
       {closeButton ? (
         <div
@@ -154,7 +161,6 @@ export const Image = (props: Props) => {
           className="module-image__close-button"
         />
       ) : null}
-      {bottomOverlay ? <div className={classNames('module-image__bottom-overlay')} /> : null}
       {!(pending || loading) && playIconOverlay ? (
         <div className="module-image__play-overlay__circle">
           <div className="module-image__play-overlay__icon" />

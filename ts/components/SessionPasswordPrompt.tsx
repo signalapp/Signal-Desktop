@@ -10,7 +10,6 @@ import {
   switchHtmlToDarkTheme,
   switchHtmlToLightTheme,
 } from '../themes/SessionTheme';
-import styled from 'styled-components';
 
 interface State {
   error: string;
@@ -21,16 +20,11 @@ interface State {
 
 export const MAX_LOGIN_TRIES = 3;
 
-const StyledTextPleaseWait = styled.div`
-  margin: var(--margins-sm) 0;
-  font-weight: 700;
-`;
-
 const TextPleaseWait = (props: { isLoading: boolean }) => {
   if (!props.isLoading) {
     return null;
   }
-  return <StyledTextPleaseWait>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</StyledTextPleaseWait>;
+  return <div>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</div>;
 };
 
 class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
@@ -79,26 +73,24 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         id="password-prompt-input"
         type="password"
         defaultValue=""
-        placeholder={' '}
+        placeholder={window.i18n('enterPassword')}
         onKeyUp={this.onKeyUp}
         ref={input => {
           this.inputRef = input;
         }}
       />
     );
-    const infoIcon = this.state.clearDataView ? (
+    const infoIcon = this.state.clearDataView ?? (
       <SessionIcon iconType="warning" iconSize={35} iconColor="var(--danger-color)" />
-    ) : (
-      <SessionIcon iconType="lock" iconSize={35} iconColor={'var(--primary-color)'} />
     );
     const errorSection = !this.state.clearDataView && (
       <div className="password-prompt-error-section">
         {this.state.error && (
           <>
             {showResetElements ? (
-              <div className="session-label danger">{window.i18n('maxPasswordAttempts')}</div>
+              <div className="session-label warning">{window.i18n('maxPasswordAttempts')}</div>
             ) : (
-              <div className="session-label danger">{this.state.error}</div>
+              <div className="session-label primary">{this.state.error}</div>
             )}
           </>
         )}
@@ -181,11 +173,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
     return (
       <div className={classNames(showResetElements && 'button-group')}>
-        <SessionButton
-          text={window.i18n('unlock')}
-          buttonType={SessionButtonType.Simple}
-          onClick={this.initLogin}
-        />
         {showResetElements && (
           <>
             <SessionButton
@@ -196,6 +183,12 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
             />
           </>
         )}
+        {/* TODO Theming - Fix */}
+        <SessionButton
+          text={window.i18n('done')}
+          buttonType={SessionButtonType.Simple}
+          onClick={this.initLogin}
+        />
       </div>
     );
   }

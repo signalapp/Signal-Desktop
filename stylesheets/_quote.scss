@@ -222,8 +222,9 @@
 
 .module-quote-container {
   margin-bottom: 5px;
-  margin-top: 10px;
-  padding-left: 10px;
+  margin-top: var(--margins-xs);
+  min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
+  padding-right: var(--margins-xs);
 
   /* This is not within the module-quote class so we handle it separately */
   .module-quote__reference-warning--outgoing {
@@ -234,28 +235,4 @@
       @include color-svg('../images/broken-link.svg', var(--message-bubbles-sent-text-color));
     }
   }
-}
-
-$session-highlight-message-shadow: 0px 0px 10px 1px var(--button-icon-stroke-color);
-
-@keyframes remove-box-shadow {
-  0% {
-    box-shadow: none;
-  }
-  10% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  75% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  100% {
-    box-shadow: none;
-  }
-}
-
-.flash-primary-once {
-  animation-name: remove-box-shadow;
-  animation-timing-function: linear;
-  animation-duration: 2s;
-  box-shadow: $session-highlight-message-shadow;
 }

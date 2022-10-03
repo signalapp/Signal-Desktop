@@ -48,8 +48,7 @@ const StyledUnreadCounter = styled.div`
   font-weight: bold;
   border-radius: var(--margins-sm);
   background-color: var(--conversation-tab-bubble-background-color);
-  color: var(--conversation-tab-bubble-text-color);
-  margin-left: 10px;
+  margin-left: var(--margins-sm);
   min-width: 20px;
   height: 20px;
   line-height: 25px;

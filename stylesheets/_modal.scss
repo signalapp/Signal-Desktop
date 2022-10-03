@@ -31,6 +31,10 @@
     width: 100%;
     min-width: 300px;
   }
+
+  &__input-group {
+    min-width: 300px;
+  }
 }
 
 .create-group-dialog,
@@ -104,31 +108,15 @@
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
   }
 
-  // TODO is this being used anywhere? Seems not
-  // button {
-  //   float: right;
-  //   margin-inline-start: 10px;
-  //   background-color: var(--primary-color);
-  //   border-radius: 100px;
-  //   padding: 5px 15px;
-  //   border: 1px solid var(--primary-color);
-  //   color: white;
-  //   outline: none;
-  //   user-select: none;
+  input[type='radio'] {
+    width: inherit;
+  }
 
-  //   &:hover,
-  //   &:disabled {
-  //     background-color: var(--primary-color)-dark;
-  //     border-color: var(--primary-color)-dark;
-  //   }
-
-  //   &:disabled {
-  //     cursor: not-allowed;
-  //   }
-  // }
+  input:not([type='radio']) {
+    width: 100%;
+  }
 
   input {
-    width: 100%;
     padding: 8px;
     margin-bottom: 15px;
     border: 0;

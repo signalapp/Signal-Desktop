@@ -6,12 +6,12 @@ import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
 import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
+import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
@@ -127,10 +127,54 @@ async function deleteEverythingAndNetworkData() {
   }
 }
 
+const DEVICE_ONLY = 'device_only';
+const DEVICE_AND_NETWORK = 'device_and_network';
+type DeleteModes = typeof DEVICE_ONLY | typeof DEVICE_AND_NETWORK;
+
+const DescriptionBeforeAskingConfirmation = (props: {
+  deleteMode: DeleteModes;
+  setDeleteMode: (deleteMode: DeleteModes) => void;
+}) => {
+  const { deleteMode, setDeleteMode } = props;
+  return (
+    <>
+      <span className="session-confirm-main-message">{window.i18n('deleteAccountWarning')}</span>
+      <span className="session-confirm-main-message">
+        {window.i18n('dialogClearAllDataDeletionQuestion')}
+      </span>
+
+      <SpacerLG />
+      <SessionRadioGroup
+        group="delete_account"
+        initialItem={deleteMode}
+        onClick={value => {
+          if (value === DEVICE_ONLY || value === DEVICE_AND_NETWORK) {
+            setDeleteMode(value);
+          }
+        }}
+        items={[
+          { label: window.i18n('deviceOnly'), value: DEVICE_ONLY },
+          { label: window.i18n('entireAccount'), value: 'device_and_network' },
+        ]}
+      />
+    </>
+  );
+};
+
+const DescriptionWhenAskingConfirmation = (props: { deleteMode: DeleteModes }) => {
+  return (
+    <span className="session-confirm-main-message">
+      {props.deleteMode === 'device_and_network'
+        ? window.i18n('areYouSureDeleteEntireAccount')
+        : window.i18n('areYouSureDeleteDeviceOnly')}
+    </span>
+  );
+};
+
 export const DeleteAccountModal = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteDeviceOnly, setDeleteDeviceOnly] = useState(false);
-  const [deleteEverythingWithNetwork, setDeleteEverythingWithNetwork] = useState(false);
+  const [askingConfirmation, setAskingConfirmation] = useState(false);
+  const [deleteMode, setDeleteMode] = useState<DeleteModes>(DEVICE_ONLY);
 
   const dispatch = useDispatch();
 
@@ -175,86 +219,44 @@ export const DeleteAccountModal = () => {
       onClose={onClickCancelHandler}
       showExitIcon={true}
     >
-      <SpacerLG />
-
+      {askingConfirmation ? (
+        <DescriptionWhenAskingConfirmation deleteMode={deleteMode} />
+      ) : (
+        <DescriptionBeforeAskingConfirmation
+          deleteMode={deleteMode}
+          setDeleteMode={setDeleteMode}
+        />
+      )}
       <div className="session-modal__centered">
-        <SessionHtmlRenderer
-          tag="span"
-          className="session-confirm-main-message"
-          html={window.i18n('deleteAccountWarning')}
-        />
-        <SessionHtmlRenderer
-          tag="span"
-          className="session-confirm-main-message"
-          html={window.i18n('dialogClearAllDataDeletionQuestion')}
-        />
-        <SpacerLG />
         <div className="session-modal__button-group">
           <SessionButton
-            text={window.i18n('entireAccount')}
+            text={window.i18n('clear')}
             buttonColor={SessionButtonColor.Danger}
             buttonType={SessionButtonType.Simple}
             onClick={() => {
-              setDeleteEverythingWithNetwork(true);
+              if (!askingConfirmation) {
+                setAskingConfirmation(true);
+                return;
+              }
+              if (deleteMode === 'device_only') {
+                void onDeleteEverythingLocallyOnly();
+              } else if (deleteMode === 'device_and_network') {
+                void onDeleteEverythingAndNetworkData();
+              }
             }}
-            disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
+            disabled={isLoading}
           />
 
           <SessionButton
-            text={window.i18n('deviceOnly')}
+            text={window.i18n('cancel')}
             buttonType={SessionButtonType.Simple}
             onClick={() => {
-              setDeleteDeviceOnly(true);
+              dispatch(updateDeleteAccountModal(null));
             }}
-            disabled={deleteEverythingWithNetwork || deleteDeviceOnly}
+            disabled={isLoading}
           />
         </div>
         <SpacerLG />
-
-        {deleteEverythingWithNetwork && (
-          <SessionHtmlRenderer
-            tag="span"
-            className="session-confirm-main-message"
-            html={window.i18n('areYouSureDeleteEntireAccount')}
-          />
-        )}
-
-        {deleteDeviceOnly && (
-          <SessionHtmlRenderer
-            tag="span"
-            className="session-confirm-main-message"
-            html={window.i18n('areYouSureDeleteDeviceOnly')}
-          />
-        )}
-        <SpacerLG />
-
-        {(deleteDeviceOnly || deleteEverythingWithNetwork) && (
-          <div className="session-modal__button-group">
-            <SessionButton
-              text={window.i18n('iAmSure')}
-              buttonColor={SessionButtonColor.Danger}
-              buttonType={SessionButtonType.Simple}
-              onClick={() => {
-                if (deleteDeviceOnly) {
-                  void onDeleteEverythingLocallyOnly();
-                } else if (deleteEverythingWithNetwork) {
-                  void onDeleteEverythingAndNetworkData();
-                }
-              }}
-              disabled={isLoading}
-            />
-
-            <SessionButton
-              text={window.i18n('cancel')}
-              buttonType={SessionButtonType.Simple}
-              onClick={() => {
-                dispatch(updateDeleteAccountModal(null));
-              }}
-              disabled={isLoading}
-            />
-          </div>
-        )}
-
         <SessionSpinner loading={isLoading} />
       </div>
     </SessionWrapperModal>

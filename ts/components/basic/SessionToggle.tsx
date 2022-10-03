@@ -28,9 +28,9 @@ const StyledSessionToggle = styled.div<{ active: boolean }>`
   border: 1px solid var(--toggle-switch-off-border-color);
   border-radius: 16px;
   position: relative;
-
   cursor: pointer;
   transition: var(--default-duration);
+  flex-shrink: 0;
 
   background-color: ${props =>
     props.active
