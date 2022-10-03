@@ -81,8 +81,7 @@ export class VisibleMessage extends DataMessage {
   private readonly body?: string;
   private readonly quote?: Quote;
   private readonly profileKey?: Uint8Array;
-  private readonly displayName?: string;
-  private readonly avatarPointer?: string;
+  private readonly profile?: SignalService.DataMessage.ILokiProfile;
   private readonly preview?: Array<PreviewWithAttachmentUrl>;
 
   /// In the case of a sync message, the public key of the person the message was targeted at.
@@ -95,25 +94,11 @@ export class VisibleMessage extends DataMessage {
     this.body = params.body;
     this.quote = params.quote;
     this.expireTimer = params.expireTimer;
-    if (params.lokiProfile && params.lokiProfile.profileKey) {
-      if (
-        params.lokiProfile.profileKey instanceof Uint8Array ||
-        (params.lokiProfile.profileKey as any) instanceof ByteBuffer
-      ) {
-        this.profileKey = new Uint8Array(params.lokiProfile.profileKey);
-      } else {
-        this.profileKey = new Uint8Array(
-          ByteBuffer.wrap(params.lokiProfile.profileKey).toArrayBuffer()
-        );
-      }
-    }
 
-    this.displayName = params.lokiProfile && params.lokiProfile.displayName;
-    // no need to iclude the avatarPointer if there is no profileKey associated with it.
-    this.avatarPointer =
-      params.lokiProfile?.avatarPointer && !isEmpty(this.profileKey)
-        ? params.lokiProfile.avatarPointer
-        : undefined;
+    const profile = buildProfileForOutgoingMessage(params);
+
+    this.profile = profile.lokiProfile;
+    this.profileKey = profile.profileKey;
 
     this.preview = params.preview;
     this.reaction = params.reaction;
@@ -143,17 +128,8 @@ export class VisibleMessage extends DataMessage {
       dataMessage.syncTarget = this.syncTarget;
     }
 
-    if (this.avatarPointer || this.displayName) {
-      const profile = new SignalService.DataMessage.LokiProfile();
-
-      if (this.avatarPointer) {
-        profile.profilePicture = this.avatarPointer;
-      }
-
-      if (this.displayName) {
-        profile.displayName = this.displayName;
-      }
-      dataMessage.profile = profile;
+    if (this.profile) {
+      dataMessage.profile = this.profile;
     }
 
     if (this.profileKey && this.profileKey.length) {
@@ -207,4 +183,48 @@ export class VisibleMessage extends DataMessage {
   public isEqual(comparator: VisibleMessage): boolean {
     return this.identifier === comparator.identifier && this.timestamp === comparator.timestamp;
   }
+}
+
+export function buildProfileForOutgoingMessage(params: { lokiProfile?: LokiProfile }) {
+  let profileKey: Uint8Array | undefined;
+  if (params.lokiProfile && params.lokiProfile.profileKey) {
+    if (
+      params.lokiProfile.profileKey instanceof Uint8Array ||
+      (params.lokiProfile.profileKey as any) instanceof ByteBuffer
+    ) {
+      profileKey = new Uint8Array(params.lokiProfile.profileKey);
+    } else {
+      profileKey = new Uint8Array(ByteBuffer.wrap(params.lokiProfile.profileKey).toArrayBuffer());
+    }
+  }
+
+  const displayName = params.lokiProfile?.displayName;
+
+  // no need to iclude the avatarPointer if there is no profileKey associated with it.
+  const avatarPointer =
+    params.lokiProfile?.avatarPointer &&
+    !isEmpty(profileKey) &&
+    params.lokiProfile.avatarPointer &&
+    !isEmpty(params.lokiProfile.avatarPointer)
+      ? params.lokiProfile.avatarPointer
+      : undefined;
+
+  let lokiProfile: SignalService.DataMessage.ILokiProfile | undefined;
+  if (avatarPointer || displayName) {
+    lokiProfile = new SignalService.DataMessage.LokiProfile();
+
+    // we always need a profileKey tom decode an avatar pointer
+    if (avatarPointer && avatarPointer.length && profileKey) {
+      lokiProfile.profilePicture = avatarPointer;
+    }
+
+    if (displayName) {
+      lokiProfile.displayName = displayName;
+    }
+  }
+
+  return {
+    lokiProfile,
+    profileKey: lokiProfile?.profilePicture ? profileKey : undefined,
+  };
 }
