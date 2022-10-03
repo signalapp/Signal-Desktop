@@ -76,6 +76,7 @@ import {
   OneTimeModalState,
   UsernameSaveState,
 } from './conversationsEnums';
+import { markViewed as messageUpdaterMarkViewed } from '../../services/MessageUpdater';
 import { showToast } from '../../util/showToast';
 import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -83,8 +84,15 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import type { NoopActionType } from './noop';
 import { conversationJobQueue } from '../../jobs/conversationJobQueue';
 import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
-import { isGroup } from '../../util/whatTypeOfConversation';
+import {
+  isDirectConversation,
+  isGroup,
+} from '../../util/whatTypeOfConversation';
 import { missingCaseError } from '../../util/missingCaseError';
+import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
+import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
+import { ReadStatus } from '../../messages/MessageReadStatus';
+import { isIncoming } from '../selectors/message';
 
 // State
 
@@ -1002,6 +1010,56 @@ function generateNewGroupLink(
     });
   };
 }
+
+/**
+ * Not an actual redux action creator, so it doesn't produce an action (or dispatch
+ * itself) because updates are managed through the backbone model, which will trigger
+ * necessary updates and refresh conversation_view.
+ *
+ * In practice, it's similar to an already-connected thunk action. Later on we will
+ * replace it with an actual action that fits in with the redux approach.
+ */
+export const markViewed = (messageId: string): void => {
+  const message = window.MessageController.getById(messageId);
+  if (!message) {
+    throw new Error(`markViewed: Message ${messageId} missing!`);
+  }
+
+  if (message.get('readStatus') === ReadStatus.Viewed) {
+    return;
+  }
+
+  const senderE164 = message.get('source');
+  const senderUuid = message.get('sourceUuid');
+  const timestamp = message.get('sent_at');
+
+  message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
+
+  if (isIncoming(message.attributes)) {
+    viewedReceiptsJobQueue.add({
+      viewedReceipt: {
+        messageId,
+        senderE164,
+        senderUuid,
+        timestamp,
+        isDirectConversation: isDirectConversation(
+          message.getConversation()?.attributes
+        ),
+      },
+    });
+  }
+
+  viewSyncJobQueue.add({
+    viewSyncs: [
+      {
+        messageId,
+        senderE164,
+        senderUuid,
+        timestamp,
+      },
+    ],
+  });
+};
 
 function setAccessControlAddFromInviteLinkSetting(
   conversationId: string,

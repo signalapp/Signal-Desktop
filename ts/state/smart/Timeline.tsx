@@ -50,6 +50,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { markViewed } from '../ducks/conversations';
 
 type ExternalProps = {
   id: string;
@@ -76,7 +77,6 @@ export type TimelinePropsType = ExternalProps &
     | 'loadOlderMessages'
     | 'markAttachmentAsCorrupted'
     | 'markMessageRead'
-    | 'markViewed'
     | 'onBlock'
     | 'onBlockAndReportSpam'
     | 'onDelete'
@@ -317,6 +317,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     renderContactSpoofingReviewDialog,
     renderHeroRow,
     renderTypingBubble,
+    markViewed,
     ...actions,
   };
 };

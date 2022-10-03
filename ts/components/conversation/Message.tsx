@@ -18,7 +18,7 @@ import type {
 } from '../../state/ducks/conversations';
 import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
 import type { TimelineItemType } from './TimelineItem';
-import { ReadStatus } from '../../messages/MessageReadStatus';
+import type { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar, AvatarSize } from '../Avatar';
 import { AvatarSpacer } from '../AvatarSpacer';
 import { Spinner } from '../Spinner';
@@ -61,6 +61,7 @@ import {
   isImageAttachment,
   isVideo,
   isGIF,
+  isPlayed,
 } from '../../types/Attachment';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
@@ -179,7 +180,6 @@ export type AudioAttachmentProps = {
 
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
-  onFirstPlayed(): void;
 };
 
 export enum GiftBadgeStates {
@@ -902,7 +902,6 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
-      markViewed,
       quote,
       readStatus,
       reducedMotion,
@@ -1017,19 +1016,7 @@ export class Message extends React.PureComponent<Props, State> {
       }
     }
     if (isAudio(attachments)) {
-      let played: boolean;
-      switch (direction) {
-        case 'outgoing':
-          played = status === 'viewed';
-          break;
-        case 'incoming':
-          played = readStatus === ReadStatus.Viewed;
-          break;
-        default:
-          log.error(missingCaseError(direction));
-          played = false;
-          break;
-      }
+      const played = isPlayed(direction, status, readStatus);
 
       return renderAudioAttachment({
         i18n,
@@ -1063,9 +1050,6 @@ export class Message extends React.PureComponent<Props, State> {
             attachment: firstAttachment,
             messageId: id,
           });
-        },
-        onFirstPlayed() {
-          markViewed(id);
         },
       });
     }

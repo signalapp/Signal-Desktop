@@ -1,7 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated, useSpring } from '@react-spring/web';
@@ -38,7 +38,6 @@ export type OwnProps = Readonly<{
   timestamp: number;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
-  onFirstPlayed(): void;
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
 }>;
 
@@ -63,6 +62,7 @@ type ButtonProps = {
   mod?: string;
   label: string;
   visible?: boolean;
+  animateClick?: boolean;
   onClick: () => void;
   onMouseDown?: () => void;
   onMouseUp?: () => void;
@@ -91,7 +91,7 @@ const BIG_INCREMENT = 5;
 
 const PLAYBACK_RATES = [1, 1.5, 2, 0.5];
 
-const SPRING_DEFAULTS = {
+const SPRING_CONFIG = {
   mass: 0.5,
   tension: 350,
   friction: 20,
@@ -131,33 +131,42 @@ const Button: React.FC<ButtonProps> = props => {
     children,
     onClick,
     visible = true,
+    animateClick = true,
   } = props;
   const [isDown, setIsDown] = useState(false);
 
-  const animProps = useSpring({
-    ...SPRING_DEFAULTS,
-    from: isDown ? { scale: 1 } : { scale: 0 },
-    to: isDown ? { scale: 1.3 } : { scale: visible ? 1 : 0 },
-  });
+  const [animProps] = useSpring(
+    {
+      config: SPRING_CONFIG,
+      to: isDown && animateClick ? { scale: 1.3 } : { scale: visible ? 1 : 0 },
+    },
+    [visible, isDown, animateClick]
+  );
 
   // Clicking button toggle playback
-  const onButtonClick = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const onButtonClick = useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
 
-    onClick();
-  };
+      onClick();
+    },
+    [onClick]
+  );
 
   // Keyboard playback toggle
-  const onButtonKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key !== 'Enter' && event.key !== 'Space') {
-      return;
-    }
-    event.stopPropagation();
-    event.preventDefault();
+  const onButtonKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key !== 'Enter' && event.key !== 'Space') {
+        return;
+      }
+      event.stopPropagation();
+      event.preventDefault();
 
-    onClick();
-  };
+      onClick();
+    },
+    [onClick]
+  );
 
   return (
     <animated.div style={animProps}>
@@ -193,7 +202,7 @@ const PlayedDot = ({
 
   const [animProps] = useSpring(
     {
-      ...SPRING_DEFAULTS,
+      config: SPRING_CONFIG,
       from: { scale: start, opacity: start, width: start },
       to: { scale: end, opacity: end, width: end * DOT_DIV_WIDTH },
       onRest: () => {
@@ -253,7 +262,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
 
     kickOffAttachmentDownload,
     onCorrupted,
-    onFirstPlayed,
     computePeaks,
     setPlaybackRate,
     loadAndPlayMessageAudio,
@@ -365,12 +373,6 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       setIsPlaying(false);
     }
   };
-
-  useEffect(() => {
-    if (!played && isPlaying) {
-      onFirstPlayed();
-    }
-  }, [played, isPlaying, onFirstPlayed]);
 
   // Clicking waveform moves playback head position and starts playback.
   const onWaveformClick = (event: React.MouseEvent) => {
@@ -508,6 +510,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         variant="play"
         mod="download"
         label="MessageAudio--download"
+        animateClick={false}
         onClick={kickOffAttachmentDownload}
       />
     );
@@ -519,6 +522,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         variant="play"
         mod={isPlaying ? 'pause' : 'play'}
         label={isPlaying ? 'MessageAudio--pause' : 'MessageAudio--play'}
+        animateClick={false}
         onClick={toggleIsPlaying}
       />
     );
@@ -561,7 +565,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
           variant="playback-rate"
           i18n={i18n}
           label={(active && playbackRateLabels[active.playbackRate]) ?? ''}
-          visible={isPlaying && (!played || (played && !isPlayedDotVisible))}
+          visible={isPlaying && (!played || !isPlayedDotVisible)}
           onClick={() => {
             if (active) {
               setPlaybackRate(

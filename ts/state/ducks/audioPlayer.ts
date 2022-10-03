@@ -22,11 +22,15 @@ import type {
 import {
   SELECTED_CONVERSATION_CHANGED,
   setVoiceNotePlaybackRate,
+  markViewed,
 } from './conversations';
 import * as log from '../../logging/log';
 
 import { strictAssert } from '../../util/assert';
 import { globalMessageAudio } from '../../services/globalMessageAudio';
+import { isPlayed } from '../../types/Attachment';
+import { getMessageIdForLogging } from '../../util/idForLogging';
+import { getMessagePropStatus } from '../selectors/message';
 
 // State
 
@@ -253,6 +257,33 @@ function loadAndPlayMessageAudio(
         }
       },
     });
+
+    // mark the message as played
+    const message = getState().conversations.messagesLookup[id];
+    if (message) {
+      const messageIdForLogging = getMessageIdForLogging(message);
+      const status = getMessagePropStatus(message, message.conversationId);
+
+      if (message.type === 'incoming' || message.type === 'outgoing') {
+        if (!isPlayed(message.type, status, message.readStatus)) {
+          markViewed(id);
+        } else {
+          log.info(
+            'audioPlayer.loadAndPlayMessageAudio: message already played',
+            { message: messageIdForLogging }
+          );
+        }
+      } else {
+        log.warn(
+          `audioPlayer.loadAndPlayMessageAudio: message wrong type: ${message.type}`,
+          { message: messageIdForLogging }
+        );
+      }
+    } else {
+      log.warn('audioPlayer.loadAndPlayMessageAudio: message not found', {
+        message: id,
+      });
+    }
 
     // set the playback rate to the stored value for the selected conversation
     const conversationId = getSelectedConversationId(getState());
