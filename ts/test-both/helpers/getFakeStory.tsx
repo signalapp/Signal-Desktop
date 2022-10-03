@@ -43,13 +43,16 @@ export function getFakeStoryView(
 ): StoryViewType {
   const sender = getDefaultConversation();
 
+  const messageId = UUID.generate().toString();
+
   return {
     attachment: getAttachmentWithThumbnail(
       attachmentUrl || '/fixtures/tina-rolf-269345-unsplash.jpg'
     ),
     hasReplies: Boolean(casual.coin_flip),
     isUnread: Boolean(casual.coin_flip),
-    messageId: UUID.generate().toString(),
+    messageId,
+    messageIdForLogging: `${messageId} (for logging)`,
     sender,
     timestamp: timestamp || Date.now() - 2 * durations.MINUTE,
     expirationTimestamp: undefined,

@@ -8,7 +8,12 @@ import type {
 import { getSource, getSourceDevice, getSourceUuid } from '../messages/helpers';
 import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
 
-export function getMessageIdForLogging(message: MessageAttributesType): string {
+export function getMessageIdForLogging(
+  message: Pick<
+    MessageAttributesType,
+    'type' | 'sourceUuid' | 'sourceDevice' | 'sent_at'
+  >
+): string {
   const account = getSourceUuid(message) || getSource(message);
   const device = getSourceDevice(message);
   const timestamp = message.sent_at;

@@ -35,6 +35,7 @@ import { getUserConversationId } from './user';
 import { getDistributionListSelector } from './storyDistributionLists';
 import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
+import { getMessageIdForLogging } from '../../util/idForLogging';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -191,12 +192,18 @@ export function getStoryView(
     views = innerViews;
   }
 
+  const messageIdForLogging = getMessageIdForLogging({
+    ...pick(story, 'type', 'sourceUuid', 'sourceDevice'),
+    sent_at: story.timestamp,
+  });
+
   return {
     attachment,
     canReply: canReply(story, ourConversationId, conversationSelector),
     isHidden: Boolean(sender.hideStory),
     isUnread: story.readStatus === ReadStatus.Unread,
     messageId: story.messageId,
+    messageIdForLogging,
     readAt,
     sender,
     sendState,

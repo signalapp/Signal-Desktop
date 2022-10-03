@@ -145,8 +145,15 @@ export const StoryViewer = ({
     StoryViewType | undefined
   >();
 
-  const { attachment, canReply, isHidden, messageId, sendState, timestamp } =
-    story;
+  const {
+    attachment,
+    canReply,
+    isHidden,
+    messageId,
+    messageIdForLogging,
+    sendState,
+    timestamp,
+  } = story;
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -323,8 +330,8 @@ export const StoryViewer = ({
 
   useEffect(() => {
     markStoryRead(messageId);
-    log.info('stories.markStoryRead', { messageId });
-  }, [markStoryRead, messageId]);
+    log.info('stories.markStoryRead', { message: messageIdForLogging });
+  }, [markStoryRead, messageId, messageIdForLogging]);
 
   const canFreelyNavigateStories =
     storyViewMode === StoryViewModeType.All ||

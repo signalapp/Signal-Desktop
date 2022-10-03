@@ -53,6 +53,7 @@ SomeonesStory.args = {
     hasReplies: true,
     isUnread: true,
     messageId: '123',
+    messageIdForLogging: 'for logging 123',
     sender: getDefaultConversation(),
     timestamp: Date.now(),
     expirationTimestamp: undefined,
