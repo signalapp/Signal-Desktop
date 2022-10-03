@@ -2,17 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { LocaleMessagesType } from '../../ts/types/I18N';
 import type { LocalizerType, ReplacementValuesType } from '../../ts/types/Util';
+import {
+  classifyMessages,
+  createCachedIntl,
+  formatIcuMessage,
+} from '../../ts/util/setupI18n';
 
 const placeholder = () => 'NO LOCALE LOADED';
 placeholder.getLocale = () => 'none';
+placeholder.isLegacyFormat = () => {
+  throw new Error("Can't call isLegacyFormat on placeholder");
+};
+placeholder.getIntl = () => {
+  throw new Error("Can't call getIntl on placeholder");
+};
 
 const I18nContext = React.createContext<LocalizerType>(placeholder);
 
 export type I18nProps = {
   children: React.ReactNode;
   locale: string;
-  messages: { [key: string]: { message: string } };
+  messages: LocaleMessagesType;
 };
 
 export const I18n = ({
@@ -20,6 +32,13 @@ export const I18n = ({
   locale,
   children,
 }: I18nProps): JSX.Element => {
+  const { icuMessages, legacyMessages } = React.useMemo(() => {
+    return classifyMessages(messages);
+  }, [messages]);
+  const intl = React.useMemo(() => {
+    return createCachedIntl(locale, icuMessages);
+  }, [locale, icuMessages]);
+
   const callback = (key: string, substitutions?: ReplacementValuesType) => {
     if (Array.isArray(substitutions) && substitutions.length > 1) {
       throw new Error(
@@ -27,15 +46,18 @@ export const I18n = ({
       );
     }
 
-    const stringInfo = messages[key];
-    if (!stringInfo) {
+    const messageformat = icuMessages[key];
+    if (messageformat != null) {
+      return formatIcuMessage(intl, key, substitutions);
+    }
+
+    const message = legacyMessages[key];
+    if (message == null) {
       window.SignalContext.log.warn(
         `getMessage: No string found for key ${key}`
       );
       return '';
     }
-
-    const { message } = stringInfo;
     if (!substitutions) {
       return message;
     }
@@ -79,8 +101,16 @@ export const I18n = ({
     return builder;
   };
   callback.getLocale = () => locale;
+  callback.isLegacyFormat = (key: string) => {
+    return legacyMessages[key] != null;
+  };
+  callback.getIntl = () => intl;
 
-  const getMessage = React.useCallback<LocalizerType>(callback, [messages]);
+  const getMessage = React.useCallback<LocalizerType>(callback, [
+    icuMessages,
+    legacyMessages,
+    intl,
+  ]);
 
   return (
     <I18nContext.Provider value={getMessage}>{children}</I18nContext.Provider>

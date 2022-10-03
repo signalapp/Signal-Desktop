@@ -915,7 +915,7 @@ export const Preferences = ({
             onSubmit={onUniversalExpireTimerChange}
           />
         )}
-        <SettingsRow title={i18n('disappearingMessages')}>
+        <SettingsRow title={i18n('icu:disappearingMessages')}>
           <Control
             left={
               <>

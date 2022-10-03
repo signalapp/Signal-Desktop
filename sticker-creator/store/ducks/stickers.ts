@@ -49,7 +49,7 @@ export const setPackMeta = createAction<PackMetaData>('stickers/setPackMeta');
 
 export const addToast = createAction<{
   key: string;
-  subs?: Array<string>;
+  subs?: Record<string, string>;
 }>('stickers/addToast');
 export const dismissToast = createAction<void>('stickers/dismissToast');
 
@@ -67,7 +67,7 @@ type StateStickerData = {
 
 type StateToastData = {
   key: string;
-  subs?: Array<string>;
+  subs?: Record<string, string>;
 };
 
 export type State = {
@@ -150,7 +150,7 @@ export const reducer = reduceReducers<State>(
         if (data && !data.imageData) {
           data.imageData = payload;
 
-          const key = 'StickerCreator--Toasts--imagesAdded';
+          const key = 'icu:StickerCreator--Toasts--imagesAdded';
 
           const toast = (() => {
             const oldToast = find(state.toasts, { key });
@@ -159,21 +159,21 @@ export const reducer = reduceReducers<State>(
               return oldToast;
             }
 
-            const newToast = { key, subs: ['0'] };
+            const newToast = { key, subs: { count: '0' } };
             state.toasts.push(newToast);
 
             return newToast;
           })();
 
-          const previousSub = toast?.subs?.[0];
+          const previousSub = toast?.subs?.count;
           if (toast && isString(previousSub)) {
             const previousCount = parseInt(previousSub, 10);
             const newCount = Number.isFinite(previousCount)
               ? previousCount + 1
               : 1;
 
-            toast.subs = toast.subs || [];
-            toast.subs[0] = newCount.toString();
+            toast.subs = toast.subs || {};
+            toast.subs.count = newCount.toString();
           }
         }
       }

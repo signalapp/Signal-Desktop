@@ -9,6 +9,7 @@ export type { LocalizerType } from './Util';
 
 type SmartlingConfigType = {
   placeholder_format_custom: string;
+  string_format_paths?: string;
   translate_paths: Array<{
     key: string;
     path: string;
@@ -16,15 +17,10 @@ type SmartlingConfigType = {
   }>;
 };
 
-type LocaleMessageType = {
-  message: string;
+export type LocaleMessageType = {
+  message?: string;
+  messageformat?: string;
   description?: string;
-  placeholders?: {
-    [name: string]: {
-      content: string;
-      example: string;
-    };
-  };
 };
 
 export type LocaleMessagesType = {

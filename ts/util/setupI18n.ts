@@ -1,9 +1,87 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LocaleMessagesType } from '../types/I18N';
-import type { LocalizerType } from '../types/Util';
+import memoize from '@formatjs/fast-memoize';
+import type { IntlShape } from 'react-intl';
+import { createIntl, createIntlCache } from 'react-intl';
+import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
+import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import * as log from '../logging/log';
+import { strictAssert } from './assert';
+
+export const formatters = {
+  getNumberFormat: memoize((locale, opts) => {
+    return new Intl.NumberFormat(locale, opts);
+  }),
+  getDateTimeFormat: memoize((locale, opts) => {
+    return new Intl.DateTimeFormat(locale, opts);
+  }),
+  getPluralRules: memoize((locale, opts) => {
+    return new Intl.PluralRules(locale, opts);
+  }),
+};
+
+export function isLocaleMessageType(
+  value: unknown
+): value is LocaleMessageType {
+  return (
+    typeof value === 'object' &&
+    value != null &&
+    (Object.hasOwn(value, 'message') || Object.hasOwn(value, 'messageformat'))
+  );
+}
+
+export function classifyMessages(messages: LocaleMessagesType): {
+  icuMessages: Record<string, string>;
+  legacyMessages: Record<string, string>;
+} {
+  const icuMessages: Record<string, string> = {};
+  const legacyMessages: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(messages)) {
+    if (isLocaleMessageType(value)) {
+      if (value.messageformat != null) {
+        icuMessages[key] = value.messageformat;
+      } else if (value.message != null) {
+        legacyMessages[key] = value.message;
+      }
+    }
+  }
+
+  return { icuMessages, legacyMessages };
+}
+
+export function createCachedIntl(
+  locale: string,
+  icuMessages: Record<string, string>
+): IntlShape {
+  const intlCache = createIntlCache();
+  const intl = createIntl(
+    {
+      locale: locale.replace('_', '-'), // normalize supported locales to browser format
+      messages: icuMessages,
+    },
+    intlCache
+  );
+  return intl;
+}
+
+export function formatIcuMessage(
+  intl: IntlShape,
+  id: string,
+  substitutions: ReplacementValuesType | undefined
+): string {
+  strictAssert(
+    !Array.isArray(substitutions),
+    `substitutions must be an object for ICU message ${id}`
+  );
+  const result = intl.formatMessage({ id }, substitutions);
+  strictAssert(
+    typeof result === 'string',
+    'i18n: formatted translation result must be a string, must use <Intl/> component to render JSX'
+  );
+  return result;
+}
 
 export function setupI18n(
   locale: string,
@@ -16,14 +94,24 @@ export function setupI18n(
     throw new Error('i18n: messages parameter is required');
   }
 
+  const { icuMessages, legacyMessages } = classifyMessages(messages);
+  const intl = createCachedIntl(locale, icuMessages);
+
   const getMessage: LocalizerType = (key, substitutions) => {
-    const entry = messages[key];
-    if (!entry || !('message' in entry)) {
+    const messageformat = icuMessages[key];
+
+    if (messageformat != null) {
+      return formatIcuMessage(intl, key, substitutions);
+    }
+
+    const message = legacyMessages[key];
+    if (message == null) {
       log.error(
         `i18n: Attempted to get translation for nonexistent key '${key}'`
       );
       return '';
     }
+
     if (Array.isArray(substitutions) && substitutions.length > 1) {
       throw new Error(
         'Array syntax is not supported with more than one placeholder'
@@ -35,8 +123,6 @@ export function setupI18n(
     ) {
       throw new Error('You must provide either a map or an array');
     }
-
-    const { message } = entry;
     if (!substitutions) {
       return message;
     }
@@ -78,6 +164,12 @@ export function setupI18n(
     return builder;
   };
 
+  getMessage.getIntl = () => {
+    return intl;
+  };
+  getMessage.isLegacyFormat = (key: string) => {
+    return legacyMessages[key] != null;
+  };
   getMessage.getLocale = () => locale;
 
   return getMessage;

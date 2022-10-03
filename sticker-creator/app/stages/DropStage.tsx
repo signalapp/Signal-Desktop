@@ -24,7 +24,7 @@ export const DropStage: React.ComponentType = () => {
 
   return (
     <AppStage next="/add-emojis" nextActive={stickersReady}>
-      <H2>{i18n('StickerCreator--DropStage--title')}</H2>
+      <H2>{i18n('icu:StickerCreator--DropStage--title')}</H2>
       <div className={styles.info}>
         <Text className={styles.message}>
           {i18n('StickerCreator--DropStage--help')}

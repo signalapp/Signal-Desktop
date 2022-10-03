@@ -1,6 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { IntlShape } from 'react-intl';
 import type { UUIDStringType } from './UUID';
 
 export type BodyRangeType = {
@@ -31,6 +32,8 @@ export type ReplacementValuesType =
 
 export type LocalizerType = {
   (key: string, values?: ReplacementValuesType): string;
+  getIntl(): IntlShape;
+  isLegacyFormat(key: string): boolean;
   getLocale(): string;
 };
 

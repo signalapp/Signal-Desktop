@@ -5,6 +5,10 @@
 
 Signal Desktop makes use of the following open source projects.
 
+## @formatjs/fast-memoize
+
+    License: MIT
+
 ## @indutny/frameless-titlebar
 
     MIT License
@@ -2862,6 +2866,10 @@ Signal Desktop makes use of the following open source projects.
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+
+## react-intl
+
+    License: BSD-3-Clause
 
 ## react-measure
 

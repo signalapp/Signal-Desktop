@@ -191,6 +191,7 @@ module.exports = {
         'app/**/*.ts',
         'sticker-creator/**/*.ts',
         'sticker-creator/**/*.tsx',
+        'build/intl-linter/**/*.ts',
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
@@ -211,7 +212,12 @@ module.exports = {
       rules: typescriptRules,
     },
     {
-      files: ['**/*.stories.tsx', 'ts/build/**', 'ts/test-*/**'],
+      files: [
+        '**/*.stories.tsx',
+        'ts/build/**',
+        'ts/test-*/**',
+        'build/intl-linter/**/*.ts',
+      ],
       rules: {
         ...typescriptRules,
         'import/no-extraneous-dependencies': 'off',

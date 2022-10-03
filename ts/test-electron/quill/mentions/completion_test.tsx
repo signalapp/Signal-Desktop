@@ -67,7 +67,11 @@ describe('MentionCompletion', () => {
 
     const options: MentionCompletionOptions = {
       getPreferredBadge: () => undefined,
-      i18n: Object.assign(sinon.stub(), { getLocale: sinon.stub() }),
+      i18n: Object.assign(sinon.stub(), {
+        getLocale: sinon.stub(),
+        getIntl: sinon.stub(),
+        isLegacyFormat: sinon.stub(),
+      }),
       me,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),

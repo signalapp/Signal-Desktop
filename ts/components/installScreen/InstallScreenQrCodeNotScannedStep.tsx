@@ -98,12 +98,12 @@ function InstallScreenQrCode(
         <span className={classNames(getQrCodeClassName('__error-message'))}>
           <Intl
             i18n={i18n}
-            id="Install__qr-failed"
-            components={[
-              <a href={QR_CODE_FAILED_LINK}>
-                {i18n('Install__qr-failed__learn-more')}
-              </a>,
-            ]}
+            id="icu:Install__qr-failed"
+            components={{
+              learnMoreLink: children => (
+                <a href={QR_CODE_FAILED_LINK}>{children}</a>
+              ),
+            }}
           />
         </span>
       );

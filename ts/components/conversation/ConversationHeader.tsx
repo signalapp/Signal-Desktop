@@ -347,7 +347,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const disappearingTitle = i18n('disappearingMessages') as any;
+    const disappearingTitle = i18n('icu:disappearingMessages') as any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const muteTitle = i18n('muteNotificationsTitle') as any;
     const isGroup = type === 'group';

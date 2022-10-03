@@ -148,7 +148,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     if (searchConversationName) {
       noResults = (
         <Intl
-          id="noSearchResultsInConversation"
+          id="icu:noSearchResultsInConversation"
           i18n={i18n}
           components={{
             searchTerm,

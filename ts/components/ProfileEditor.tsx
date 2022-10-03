@@ -798,7 +798,7 @@ export const ProfileEditor = ({
         <div className="ProfileEditor__info">
           <Intl
             i18n={i18n}
-            id="ProfileEditor--info"
+            id="icu:ProfileEditor--info"
             components={{
               learnMore: (
                 <a

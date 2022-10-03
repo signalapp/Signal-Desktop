@@ -199,7 +199,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
         <section className="module-left-pane__header__form__expire-timer">
           <div className="module-left-pane__header__form__expire-timer__label">
-            {i18n('disappearingMessages')}
+            {i18n('icu:disappearingMessages')}
           </div>
           <DisappearingTimerSelect
             i18n={i18n}

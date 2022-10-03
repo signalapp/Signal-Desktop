@@ -52,7 +52,7 @@ export const UploadStage: React.ComponentType = () => {
         );
         actions.addToast({
           key: 'StickerCreator--Toasts--errorUploading',
-          subs: [e.message],
+          subs: { message: e.message },
         });
         history.push('/add-meta');
       }

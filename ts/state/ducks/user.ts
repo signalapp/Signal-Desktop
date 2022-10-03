@@ -89,6 +89,10 @@ function manualReconnect(): NoopActionType {
   };
 }
 
+const intlNotSetup = () => {
+  throw new Error('i18n not yet set up');
+};
+
 // Reducer
 
 export function getEmptyState(): UserStateType {
@@ -114,16 +118,11 @@ export function getEmptyState(): UserStateType {
       platform: 'unknown',
     },
     theme: ThemeType.light,
-    i18n: Object.assign(
-      () => {
-        throw new Error('i18n not yet set up');
-      },
-      {
-        getLocale() {
-          throw new Error('i18n not yet set up');
-        },
-      }
-    ),
+    i18n: Object.assign(intlNotSetup, {
+      getLocale: intlNotSetup,
+      getIntl: intlNotSetup,
+      isLegacyFormat: intlNotSetup,
+    }),
     localeMessages: {},
     version: '0.0.0',
   };

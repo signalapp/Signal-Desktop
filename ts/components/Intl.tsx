@@ -3,11 +3,17 @@
 
 import React from 'react';
 
+import type { FormatXMLElementFn } from 'intl-messageformat';
 import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
 import type { ReplacementValuesType } from '../types/I18N';
 import * as log from '../logging/log';
+import { strictAssert } from '../util/assert';
 
-export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
+export type FullJSXType =
+  | FormatXMLElementFn<JSX.Element | string>
+  | Array<JSX.Element | string>
+  | JSX.Element
+  | string;
 export type IntlComponentsType =
   | undefined
   | Array<FullJSXType>
@@ -32,7 +38,7 @@ export class Intl extends React.Component<Props> {
     index: number,
     placeholderName: string,
     key: number
-  ): FullJSXType | null {
+  ): JSX.Element | null {
     const { id, components } = this.props;
 
     if (!components) {
@@ -73,6 +79,15 @@ export class Intl extends React.Component<Props> {
     if (!id) {
       log.error('Error: Intl id prop not provided');
       return null;
+    }
+
+    if (!i18n.isLegacyFormat(id)) {
+      strictAssert(
+        !Array.isArray(components),
+        `components cannot be an array for ICU message ${id}`
+      );
+      const intl = i18n.getIntl();
+      return intl.formatMessage({ id }, components);
     }
 
     const text = i18n(id);

@@ -1,7 +1,13 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
       {
         "key": "{*}/message",
         "path": "*/message",
@@ -733,8 +739,8 @@
     "message": "SMS/MMS contacts are not available on Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "No results for \"$searchTerm$\" in $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "No results for \"{searchTerm}\" in {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1218,8 @@
     "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Learn more",
+  "icu:Install__qr-failed": {
+    "messageformat": "The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1779,8 @@
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Disappearing messages",
+  "icu:disappearingMessages": {
+    "messageformat": "Disappearing messages",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -2741,8 +2743,8 @@
     "message": "Back",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Add your stickers",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Add your stickers",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2763,8 @@
     "message": "Show margins",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Add $count$ or more",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Add {count, number} or more",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2843,8 @@
     "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ image(s) added",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 image} other {# images}} added",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4571,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Click the {composeIcon} above and search for your contacts or groups to message.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +4987,8 @@
     "message": "Would you like to discard these changes?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {

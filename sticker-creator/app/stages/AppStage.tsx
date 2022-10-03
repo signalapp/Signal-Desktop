@@ -75,9 +75,9 @@ export const AppStage: React.ComponentType<Props> = props => {
         ) : null}
         {addMoreCount > 0 ? (
           <Text secondary>
-            {i18n('StickerCreator--DropStage--addMore', [
-              addMoreCount.toString(),
-            ])}
+            {i18n('icu:StickerCreator--DropStage--addMore', {
+              count: addMoreCount,
+            })}
           </Text>
         ) : null}
         {next || onNext ? (
