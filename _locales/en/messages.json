@@ -5183,6 +5183,22 @@
     "message": "Devices",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Turn on stories",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Turn off stories",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Turn off",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "You will no longer be able to share or view stories.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Update to version $version$ available",
     "description": "Tooltip for new update available"
