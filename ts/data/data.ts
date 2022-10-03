@@ -148,6 +148,7 @@ export const Data = {
   getMessageBySenderAndTimestamp,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  markAllAsReadByConversationNoExpiration,
   getMessageCountByType,
   getMessagesByConversation,
   getLastMessagesByConversation,
@@ -472,6 +473,7 @@ async function getMessageBySenderAndTimestamp({
     source,
     timestamp,
   });
+
   if (!messages || !messages.length) {
     return null;
   }
@@ -482,6 +484,13 @@ async function getMessageBySenderAndTimestamp({
 async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
   const messages = await channels.getUnreadByConversation(conversationId);
   return new MessageCollection(messages);
+}
+
+async function markAllAsReadByConversationNoExpiration(
+  conversationId: string
+): Promise<Array<number>> {
+  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(conversationId);
+  return messagesIds;
 }
 
 // might throw
