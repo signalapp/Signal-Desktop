@@ -140,7 +140,6 @@ export const CallingDeviceSelection = ({
       i18n={i18n}
       theme={Theme.Dark}
       onClose={toggleSettings}
-      padded={false}
     >
       <div className="module-calling-device-selection">
         <button
