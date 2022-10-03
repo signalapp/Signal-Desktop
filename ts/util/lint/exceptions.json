@@ -71,20 +71,6 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/services/globalMessageAudio.ts",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-09-09T15:04:29.812Z",
-    "line": "  load({"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "ts/state/ducks/audioPlayer.ts",
-    "line": "    globalMessageAudio.load({",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-09-09T15:04:29.812Z"
-  },
-  {
-    "rule": "jQuery-load(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:16:19.197Z",
@@ -5968,6 +5954,34 @@
   },
   {
     "rule": "jQuery-wrap(",
+    "path": "node_modules/pino-abstract-transport/node_modules/readable-stream/lib/internal/streams/duplexify.js",
+    "line": "  const r = pair.readable && typeof pair.readable.read !== 'function' ? Readable.wrap(pair.readable) : pair.readable",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pino-abstract-transport/node_modules/readable-stream/lib/internal/streams/readable.js",
+    "line": "  // a static factory method, e.g. Readable.wrap(stream).",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pino-abstract-transport/node_modules/readable-stream/lib/internal/streams/readable.js",
+    "line": "    stream = Readable.wrap(stream, {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/pino-abstract-transport/node_modules/readable-stream/lib/internal/streams/readable.js",
+    "line": "  }).wrap(src)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
     "path": "node_modules/pino/browser.js",
     "line": "  wrap(opts, logger, level)",
     "reasonCategory": "falseMatch",
@@ -8292,6 +8306,132 @@
     "updated": "2022-03-22T19:29:46.099Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "  const writeIndex = Atomics.load(stream[kImpl].state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    this[kImpl].needDrain = this[kImpl].data.length - this[kImpl].buf.length - Atomics.load(this[kImpl].state, WRITE_INDEX) <= 0",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    const writeIndex = Atomics.load(this[kImpl].state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    // process._rawDebug(`(flush) readIndex (${Atomics.load(this.state, READ_INDEX)}) writeIndex (${Atomics.load(this.state, WRITE_INDEX)})`)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "  const current = Atomics.load(stream[kImpl].state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    let readIndex = Atomics.load(stream[kImpl].state, READ_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    // process._rawDebug(`(end) readIndex (${Atomics.load(stream.state, READ_INDEX)}) writeIndex (${Atomics.load(stream.state, WRITE_INDEX)})`)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "      readIndex = Atomics.load(stream[kImpl].state, READ_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    const writeIndex = Atomics.load(stream[kImpl].state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "  const writeIndex = Atomics.load(stream[kImpl].state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/index.js",
+    "line": "    const readIndex = Atomics.load(stream[kImpl].state, READ_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/wait.js",
+    "line": "  let current = Atomics.load(state, index)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/wait.js",
+    "line": "        current = Atomics.load(state, index)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/wait.js",
+    "line": "  let current = Atomics.load(state, index)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/wait.js",
+    "line": "        current = Atomics.load(state, index)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/worker.js",
+    "line": "    const end = Atomics.load(state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/worker.js",
+    "line": "  const current = Atomics.load(state, READ_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/thread-stream/lib/worker.js",
+    "line": "  const end = Atomics.load(state, WRITE_INDEX)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-30T01:25:09.543Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/type-check/lib/parse-type.js",
     "line": "    if (in$('->', tokens)) {",
@@ -8631,13 +8771,6 @@
     "line": "        replacementToken = /\\$(?:{([\\w$]+)}|(\\d\\d?|[\\s\\S]))/g,",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const shouldScrollToBottomRef = useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-09-22T03:07:22.153Z"
   },
   {
     "rule": "React-useRef",
@@ -9178,6 +9311,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const shouldScrollToBottomRef = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-09-22T03:07:22.153Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -9442,10 +9582,24 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "ts/services/globalMessageAudio.ts",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-09T15:04:29.812Z",
+    "line": "  load({"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "ts/state/ducks/app.ts",
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/state/ducks/audioPlayer.ts",
+    "line": "    globalMessageAudio.load({",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-09-09T15:04:29.812Z"
   },
   {
     "rule": "React-useRef",

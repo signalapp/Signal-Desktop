@@ -8,7 +8,6 @@
 import { ipcRenderer as ipc } from 'electron';
 import * as path from 'path';
 import pino from 'pino';
-import { createStream } from 'rotating-file-stream';
 
 import {
   initLogger,
@@ -23,6 +22,7 @@ import {
 } from './shared';
 import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
 // Backwards-compatible logging, simple strings and no level (defaulted to INFO)
 function now() {
@@ -53,10 +53,6 @@ export function initialize(): void {
 
   const basePath = ipc.sendSync('get-user-data-path');
   const logFile = path.join(basePath, 'logs', 'app.log');
-  const stream = createStream(logFile, {
-    interval: '1d',
-    rotate: 3,
-  });
 
   const onClose = () => {
     globalLogger = undefined;
@@ -66,11 +62,19 @@ export function initialize(): void {
     }
   };
 
+  const stream = createRotatingPinoDest({
+    logFile,
+  });
+
   stream.on('close', onClose);
   stream.on('error', onClose);
 
   globalLogger = pino(
     {
+      formatters: {
+        // No point in saving pid or hostname
+        bindings: () => ({}),
+      },
       timestamp: pino.stdTimeFunctions.isoTime,
     },
     stream

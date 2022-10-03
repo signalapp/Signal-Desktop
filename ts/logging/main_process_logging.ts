@@ -10,17 +10,17 @@ import split2 from 'split2';
 import { readdirSync, createReadStream, unlinkSync, writeFileSync } from 'fs';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
-import pinoms from 'pino-multi-stream';
 import pino from 'pino';
+import type { StreamEntry } from 'pino';
 import * as mkdirp from 'mkdirp';
 import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
-import { createStream } from 'rotating-file-stream';
 
 import type { LoggerType } from '../types/Logging';
 import * as durations from '../util/durations';
+import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
 import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
@@ -80,9 +80,8 @@ export async function initialize(
   }
 
   const logFile = join(logPath, 'main.log');
-  const stream = createStream(logFile, {
-    interval: '1d',
-    rotate: 3,
+  const rotatingStream = createRotatingPinoDest({
+    logFile,
   });
 
   const onClose = () => {
@@ -93,11 +92,11 @@ export async function initialize(
     }
   };
 
-  stream.on('close', onClose);
-  stream.on('error', onClose);
+  rotatingStream.on('close', onClose);
+  rotatingStream.on('error', onClose);
 
-  const streams: pinoms.Streams = [];
-  streams.push({ stream });
+  const streams = new Array<StreamEntry>();
+  streams.push({ stream: rotatingStream });
 
   if (isRunningFromConsole) {
     streams.push({
@@ -106,10 +105,16 @@ export async function initialize(
     });
   }
 
-  const logger = pinoms({
-    streams,
-    timestamp: pino.stdTimeFunctions.isoTime,
-  });
+  const logger = pino(
+    {
+      formatters: {
+        // No point in saving pid or hostname
+        bindings: () => ({}),
+      },
+      timestamp: pino.stdTimeFunctions.isoTime,
+    },
+    pino.multistream(streams)
+  );
 
   ipc.removeHandler('fetch-log');
   ipc.handle('fetch-log', async () => {
