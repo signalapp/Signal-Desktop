@@ -1,4 +1,5 @@
 import ByteBuffer from 'bytebuffer';
+import { isEmpty } from 'lodash';
 import { DataMessage } from '..';
 import { SignalService } from '../../../../protobuf';
 import { LokiProfile } from '../../../../types/Message';
@@ -108,7 +109,12 @@ export class VisibleMessage extends DataMessage {
     }
 
     this.displayName = params.lokiProfile && params.lokiProfile.displayName;
-    this.avatarPointer = params.lokiProfile && params.lokiProfile.avatarPointer;
+    // no need to iclude the avatarPointer if there is no profileKey associated with it.
+    this.avatarPointer =
+      params.lokiProfile?.avatarPointer && !isEmpty(this.profileKey)
+        ? params.lokiProfile.avatarPointer
+        : undefined;
+
     this.preview = params.preview;
     this.reaction = params.reaction;
     this.syncTarget = params.syncTarget;
@@ -149,6 +155,7 @@ export class VisibleMessage extends DataMessage {
       }
       dataMessage.profile = profile;
     }
+
     if (this.profileKey && this.profileKey.length) {
       dataMessage.profileKey = this.profileKey;
     }

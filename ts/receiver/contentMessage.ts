@@ -27,6 +27,7 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -604,6 +605,11 @@ async function handleMessageRequestResponse(
   messageRequestResponse: SignalService.MessageRequestResponse
 ) {
   const { isApproved } = messageRequestResponse;
+  if (!isApproved) {
+    window?.log?.error('handleMessageRequestResponse: isApproved is false -- dropping message.');
+    await removeFromCache(envelope);
+    return;
+  }
   if (!messageRequestResponse) {
     window?.log?.error('handleMessageRequestResponse: Invalid parameters -- dropping message.');
     await removeFromCache(envelope);
@@ -672,6 +678,14 @@ async function handleMessageRequestResponse(
       const element = convosToMerge[index];
       await getConversationController().deleteBlindedContact(element.id);
     }
+  }
+
+  if (messageRequestResponse.profile && !isEmpty(messageRequestResponse.profile)) {
+    void appendFetchAvatarAndProfileJob(
+      conversationToApprove,
+      messageRequestResponse.profile,
+      messageRequestResponse.profileKey
+    );
   }
 
   if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
