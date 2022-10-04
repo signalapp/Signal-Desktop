@@ -70,7 +70,7 @@ const withModeAndThemeProvider = (Story, context) => {
 };
 
 const withI18n = (Story, context) => (
-  <I18n messages={messages}>
+  <I18n messages={messages} locale="en">
     <Story {...context} />
   </I18n>
 );
