@@ -147,7 +147,6 @@
 
 .module-message__link-preview {
   cursor: pointer;
-
   display: flex;
   align-items: center;
   background: white;
@@ -158,13 +157,17 @@
   .module-image {
     margin: -1px;
   }
+
+  &__text {
+    padding-block: var(--margins-sm);
+  }
 }
 
 .module-message__link-preview__content {
   padding: 0 0 var(--margins-xs) 0;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   flex-grow: 1;
   margin-left: var(--margins-sm);
 }
