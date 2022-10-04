@@ -18,14 +18,15 @@ const BlockedEntriesContainer = styled.div`
   overflow: auto;
   min-height: 40px;
   max-height: 100%;
-  background: var(--color-input-background); // TODO theming update
+  background: inherit; // TODO theming update
 `;
 
 const BlockedEntriesRoundedContainer = styled.div`
   overflow: hidden;
   border-radius: 16px;
   padding: var(--margins-lg);
-  background: var(--color-input-background); // TODO theming update
+  background: none; // TODO theming update
+  border: 1px solid #e5e5ea; // TODO Theming update
 `;
 
 const BlockedContactsSection = styled.div`

@@ -20,7 +20,9 @@ type Props = {
   messageId: string;
 };
 
-const StyledAuthorContainer = styled(Flex)`color: var(--color-text)`;
+const StyledAuthorContainer = styled(Flex)`
+  color: var(--color-text);
+`;
 
 export const MessageAuthorText = (props: Props) => {
   const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
