@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { ToastUtils } from '../../session/utils';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -144,10 +145,16 @@ export const SignUpTab = () => {
         displayName={displayName}
         handlePressEnter={signUpWithDetails}
         onDisplayNameChanged={(name: string) => {
-          const sanitizedName = sanitizeSessionUsername(name);
-          const trimName = sanitizedName.trim();
-          setDisplayName(sanitizedName);
-          setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+          try {
+            const sanitizedName = sanitizeSessionUsername(name);
+            const trimName = sanitizedName.trim();
+            setDisplayName(sanitizedName);
+            setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+          } catch (e) {
+            setDisplayName(name);
+            setDisplayNameError(window.i18n('displayNameTooLong'));
+            ToastUtils.pushToastError('toolong', window.i18n('displayNameTooLong'));
+          }
         }}
         stealAutoFocus={true}
       />

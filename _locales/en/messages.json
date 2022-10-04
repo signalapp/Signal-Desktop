@@ -360,6 +360,7 @@
   "notificationPreview": "Preview",
   "recoveryPhraseEmpty": "Enter your recovery phrase",
   "displayNameEmpty": "Please enter a display name",
+  "displayNameTooLong": "Display name is too long",
   "members": "$count$ members",
   "join": "Join",
   "joinOpenGroup": "Join Community",
