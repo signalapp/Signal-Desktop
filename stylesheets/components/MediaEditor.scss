@@ -131,6 +131,27 @@
       height: $tools-height;
       margin-bottom: 22px;
     }
+
+    &__caption {
+      height: $tools-height;
+      margin-bottom: 22px;
+
+      &__add-caption-button {
+        @include button-reset;
+        border-radius: 9999px;
+        background: $color-gray-90;
+        color: $color-gray-15;
+        padding: 8px 15px;
+        border: none;
+
+        & > span {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+          overflow: hidden;
+        }
+      }
+    }
   }
 
   &__controls {

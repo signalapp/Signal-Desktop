@@ -21,6 +21,8 @@ type PropsType = {
   children: ReactNode;
   modalName: string;
   hasXButton?: boolean;
+  hasHeaderDivider?: boolean;
+  hasFooterDivider?: boolean;
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
   moduleClassName?: string;
@@ -51,6 +53,8 @@ export function Modal({
   theme,
   title,
   useFocusTrap,
+  hasHeaderDivider = false,
+  hasFooterDivider = false,
   padded = true,
 }: Readonly<ModalPropsType>): ReactElement {
   const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
@@ -82,6 +86,8 @@ export function Modal({
           onClose={close}
           title={title}
           padded={padded}
+          hasHeaderDivider={hasHeaderDivider}
+          hasFooterDivider={hasFooterDivider}
         >
           {children}
         </ModalPage>
@@ -120,6 +126,8 @@ export function ModalPage({
   onClose,
   title,
   padded = true,
+  hasHeaderDivider = false,
+  hasFooterDivider = false,
 }: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -151,7 +159,10 @@ export function ModalPage({
         className={classNames(
           getClassName(''),
           getClassName(hasHeader ? '--has-header' : '--no-header'),
-          padded && getClassName('--padded')
+          Boolean(modalFooter) && getClassName('--has-footer'),
+          padded && getClassName('--padded'),
+          hasHeaderDivider && getClassName('--header-divider'),
+          hasFooterDivider && getClassName('--footer-divider')
         )}
         ref={modalRef}
         onClick={event => {

@@ -31,41 +31,6 @@
     }
   }
 
-  &__input {
-    &__input {
-      background: inherit;
-      border: none;
-      border-radius: 0;
-      height: 100%;
-
-      &:focus-within {
-        border: none;
-      }
-
-      @include dark-theme() {
-        border: none;
-
-        &:focus-within {
-          border: none;
-        }
-      }
-
-      @include keyboard-mode {
-        &:focus-within {
-          border: solid 1px $color-ultramarine;
-        }
-      }
-    }
-
-    &__input__scroller {
-      max-height: 300px;
-      min-height: 300px;
-      padding: 16px;
-      // Need more padding on the right to make room for floating emoji button
-      padding-right: 36px;
-    }
-  }
-
   &__header {
     align-items: center;
     display: flex;
@@ -160,11 +125,6 @@
     min-height: 300px;
   }
 
-  &__text-edit-area {
-    height: 100%;
-    position: relative;
-  }
-
   &__no-candidate-contacts {
     flex-grow: 1;
     display: flex;
@@ -203,16 +163,6 @@
       &::after {
         @include color-svg('../images/icons/v2/send-24.svg', $color-white);
       }
-    }
-  }
-
-  &__emoji {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-
-    button::after {
-      background-color: $color-black;
     }
   }
 

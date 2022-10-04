@@ -39,6 +39,7 @@ import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import * as log from '../logging/log';
+import { useRefMerger } from '../hooks/useRefMerger';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -55,6 +56,7 @@ type HistoryStatic = {
 export type InputApi = {
   focus: () => void;
   insertEmoji: (e: EmojiPickDataType) => void;
+  setText: (text: string, cursorToEnd?: boolean) => void;
   reset: () => void;
   resetEmojiResults: () => void;
   submit: () => void;
@@ -74,6 +76,7 @@ export type Props = {
   readonly theme: ThemeType;
   readonly placeholder?: string;
   sortedGroupMembers?: Array<ConversationType>;
+  scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
     messageText: string,
@@ -87,6 +90,7 @@ export type Props = {
     mentions: Array<BodyRangeType>,
     timestamp: number
   ): unknown;
+  onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
 };
@@ -104,6 +108,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     moduleClassName,
     onPickEmoji,
     onSubmit,
+    onScroll,
     placeholder,
     skinTone,
     draftText,
@@ -115,6 +120,8 @@ export function CompositionInput(props: Props): React.ReactElement {
     theme,
   } = props;
 
+  const refMerger = useRefMerger();
+
   const [emojiCompletionElement, setEmojiCompletionElement] =
     React.useState<JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
@@ -125,7 +132,9 @@ export function CompositionInput(props: Props): React.ReactElement {
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const mentionCompletionRef = React.useRef<MentionCompletion>();
   const quillRef = React.useRef<Quill>();
-  const scrollerRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollerRefInner = React.useRef<HTMLDivElement>(null);
+
   const propsRef = React.useRef<Props>(props);
   const canSendRef = React.useRef<boolean>(false);
   const memberRepositoryRef = React.useRef<MemberRepository>(
@@ -219,6 +228,20 @@ export function CompositionInput(props: Props): React.ReactElement {
     historyModule.clear();
   };
 
+  const setText = (text: string, cursorToEnd?: boolean) => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    canSendRef.current = true;
+    quill.setText(text);
+    if (cursorToEnd) {
+      quill.setSelection(quill.getLength(), 0);
+    }
+  };
+
   const resetEmojiResults = () => {
     const emojiCompletion = emojiCompletionRef.current;
 
@@ -257,6 +280,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     inputApi.current = {
       focus,
       insertEmoji,
+      setText,
       reset,
       resetEmojiResults,
       submit,
@@ -597,7 +621,7 @@ export function CompositionInput(props: Props): React.ReactElement {
               // When loading a multi-line message out of a draft, the cursor
               // position needs to be pushed to the end of the input manually.
               quill.once('editor-change', () => {
-                const scroller = scrollerRef.current;
+                const scroller = scrollerRefInner.current;
 
                 if (scroller != null) {
                   quill.scrollingContainer = scroller;
@@ -648,8 +672,13 @@ export function CompositionInput(props: Props): React.ReactElement {
         {({ ref }) => (
           <div className={getClassName('__input')} ref={ref}>
             <div
-              ref={scrollerRef}
+              ref={
+                props.scrollerRef
+                  ? refMerger(scrollerRefInner, props.scrollerRef)
+                  : scrollerRefInner
+              }
               onClick={focus}
+              onScroll={onScroll}
               className={classNames(
                 getClassName('__input__scroller'),
                 large ? getClassName('__input__scroller--large') : null,

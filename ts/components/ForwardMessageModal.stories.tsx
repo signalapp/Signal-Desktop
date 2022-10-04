@@ -14,6 +14,7 @@ import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { CompositionTextArea } from './CompositionTextArea';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
@@ -55,12 +56,18 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   messageBody: text('messageBody', overrideProps.messageBody || ''),
   onClose: action('onClose'),
   onEditorStateChange: action('onEditorStateChange'),
-  onPickEmoji: action('onPickEmoji'),
-  onTextTooLong: action('onTextTooLong'),
-  onSetSkinTone: action('onSetSkinTone'),
-  recentEmojis: [],
   removeLinkPreview: action('removeLinkPreview'),
-  skinTone: 0,
+  RenderCompositionTextArea: props => (
+    <CompositionTextArea
+      {...props}
+      i18n={i18n}
+      onPickEmoji={action('onPickEmoji')}
+      skinTone={0}
+      onSetSkinTone={action('onSetSkinTone')}
+      onTextTooLong={action('onTextTooLong')}
+      getPreferredBadge={() => undefined}
+    />
+  ),
   theme: React.useContext(StorybookThemeContext),
   regionCode: 'US',
 });

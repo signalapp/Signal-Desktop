@@ -30,6 +30,7 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { useStoriesActions } from '../ducks/stories';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
+import { SmartCompositionTextArea } from './CompositionTextArea';
 
 export type PropsType = {
   file?: File;
@@ -96,6 +97,7 @@ export function SmartStoryCreator({
       onViewersUpdated={updateStoryViewers}
       processAttachment={processAttachment}
       recentStickers={recentStickers}
+      renderCompositionTextArea={SmartCompositionTextArea}
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}

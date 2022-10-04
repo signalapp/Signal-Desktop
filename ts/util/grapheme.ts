@@ -1,7 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { map, size } from './iterables';
+import { map, size, take, join } from './iterables';
 
 export function getGraphemes(str: string): Iterable<string> {
   const segments = new Intl.Segmenter().segment(str);
@@ -11,6 +11,25 @@ export function getGraphemes(str: string): Iterable<string> {
 export function count(str: string): number {
   const segments = new Intl.Segmenter().segment(str);
   return size(segments);
+}
+
+/** @return truncated string and size (after any truncation) */
+export function truncateAndSize(
+  str: string,
+  toSize?: number
+): [string, number] {
+  const segments = new Intl.Segmenter().segment(str);
+  const originalSize = size(segments);
+  if (toSize === undefined || originalSize <= toSize) {
+    return [str, originalSize];
+  }
+  return [
+    join(
+      map(take(segments, toSize), s => s.segment),
+      ''
+    ),
+    toSize,
+  ];
 }
 
 export function isSingleGrapheme(str: string): boolean {

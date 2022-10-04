@@ -21,6 +21,7 @@ import { SendStoryModal } from './SendStoryModal';
 
 import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -39,6 +40,9 @@ export type PropsType = {
   processAttachment: (
     file: File
   ) => Promise<void | InMemoryAttachmentDraftType>;
+  renderCompositionTextArea: (
+    props: SmartCompositionTextAreaProps
+  ) => JSX.Element;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
   Pick<
@@ -87,6 +91,7 @@ export const StoryCreator = ({
   onViewersUpdated,
   processAttachment,
   recentStickers,
+  renderCompositionTextArea,
   sendStoryModalOpenStateChanged,
   setMyStoriesToAllSignalConnections,
   signalConnections,
@@ -174,11 +179,14 @@ export const StoryCreator = ({
           imageSrc={attachmentUrl}
           installedPacks={installedPacks}
           onClose={onClose}
-          onDone={data => {
+          supportsCaption
+          renderCompositionTextArea={renderCompositionTextArea}
+          onDone={(data, caption) => {
             setDraftAttachment({
               contentType: IMAGE_JPEG,
               data,
               size: data.byteLength,
+              caption,
             });
           }}
           recentStickers={recentStickers}

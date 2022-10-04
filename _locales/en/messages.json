@@ -15,6 +15,18 @@
       }
     ]
   },
+  "AddCaptionModal__title": {
+    "message": "Add a message",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Message",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Done",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+  },
   "AddUserToAnotherGroupModal__title": {
     "message": "Add to a group",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
@@ -5334,6 +5346,10 @@
   "MediaEditor__crop--crop": {
     "message": "Crop",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Add a message",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "My Stories",

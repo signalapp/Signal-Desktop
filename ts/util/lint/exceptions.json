@@ -16,6 +16,27 @@
     "reasonDetail": "Part of runtime library for C++ transpiled code"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/AddCaptionModal.tsx",
+    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const scrollerRefInner = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionTextArea.tsx",
+    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "line": "            bb.append((new Uint8Array(byteArray)).buffer); // we need to pass a buffer, and must copy the array to get the right data range",
@@ -8989,13 +9010,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/CompositionInput.tsx",
-    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
     "line": "  const propsRef = React.useRef<Props>(props);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
@@ -9047,13 +9061,6 @@
     "rule": "React-useRef",
     "path": "ts/components/ForwardMessageModal.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/ForwardMessageModal.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },

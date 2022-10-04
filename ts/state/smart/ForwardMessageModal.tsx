@@ -9,13 +9,11 @@ import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
 import { ForwardMessageModal } from '../../components/ForwardMessageModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
-import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
 import type { GetConversationByIdType } from '../selectors/conversations';
 import {
   getAllComposableConversations,
   getConversationSelector,
 } from '../selectors/conversations';
-import { getEmojiSkinTone } from '../selectors/items';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getMessageById } from '../../messages/getMessageById';
@@ -25,14 +23,11 @@ import {
   maybeGrabLinkPreview,
   resetLinkPreview,
 } from '../../services/LinkPreview';
-import { selectRecentEmojis } from '../selectors/emojis';
-import { showToast } from '../../util/showToast';
-import { useActions as useEmojiActions } from '../ducks/emojis';
-import { useActions as useItemsActions } from '../ducks/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { processBodyRanges } from '../selectors/message';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
+import { SmartCompositionTextArea } from './CompositionTextArea';
 
 function renderMentions(
   message: ForwardMessagePropsType,
@@ -65,14 +60,10 @@ export function SmartForwardMessageModal(): JSX.Element | null {
   const getConversation = useSelector(getConversationSelector);
   const i18n = useSelector(getIntl);
   const linkPreviewForSource = useSelector(getLinkPreview);
-  const recentEmojis = useSelector(selectRecentEmojis);
   const regionCode = useSelector(getRegionCode);
-  const skinTone = useSelector(getEmojiSkinTone);
   const theme = useSelector(getTheme);
 
   const { removeLinkPreview } = useLinkPreviewActions();
-  const { onUseEmoji: onPickEmoji } = useEmojiActions();
-  const { onSetSkinTone } = useItemsActions();
   const { toggleForwardMessageModal } = useGlobalModalActions();
 
   if (!forwardMessageProps) {
@@ -141,13 +132,9 @@ export function SmartForwardMessageModal(): JSX.Element | null {
           );
         }
       }}
-      onPickEmoji={onPickEmoji}
-      onSetSkinTone={onSetSkinTone}
-      onTextTooLong={() => showToast(ToastMessageBodyTooLong)}
-      recentEmojis={recentEmojis}
       regionCode={regionCode}
+      RenderCompositionTextArea={SmartCompositionTextArea}
       removeLinkPreview={removeLinkPreview}
-      skinTone={skinTone}
       theme={theme}
     />
   );

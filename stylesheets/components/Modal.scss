@@ -133,11 +133,23 @@
     margin: 0;
     overflow-y: overlay;
     overflow-x: auto;
+    transition: border-color 150ms ease-in-out;
   }
 
   &--padded {
     .module-Modal__body {
       padding: 16px;
+    }
+  }
+
+  &--has-header#{&}--header-divider {
+    .module-Modal__body {
+      @include light-theme() {
+        border-top-color: $color-gray-15;
+      }
+      @include dark-theme() {
+        border-top-color: $color-gray-60;
+      }
     }
   }
 
@@ -155,6 +167,23 @@
           border-top-color: $color-gray-80;
         }
       }
+    }
+  }
+
+  &--has-footer#{&}--footer-divider {
+    .module-Modal__body {
+      @include light-theme() {
+        border-bottom-color: $color-gray-15;
+      }
+      @include dark-theme() {
+        border-bottom-color: $color-gray-60;
+      }
+    }
+  }
+
+  &--has-footer {
+    .module-Modal__body {
+      border-bottom: 1px solid transparent;
     }
   }
 

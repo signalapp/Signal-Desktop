@@ -11,26 +11,21 @@ import React, {
 } from 'react';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
-import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
 import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList';
 import type { AttachmentType } from '../types/Attachment';
 import { Button } from './Button';
-import type { InputApi } from './CompositionInput';
-import { CompositionInput } from './CompositionInput';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import type { Row } from './ConversationList';
 import { ConversationList, RowType } from './ConversationList';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
-import { EmojiButton } from './emoji/EmojiButton';
-import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { BodyRangeType, LocalizerType, ThemeType } from '../types/Util';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -62,15 +57,14 @@ export type DataPropsType = {
     bodyRanges: Array<BodyRangeType>,
     caretLocation?: number
   ) => unknown;
-  onTextTooLong: () => void;
   theme: ThemeType;
   regionCode: string | undefined;
-} & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
+  RenderCompositionTextArea: (
+    props: SmartCompositionTextAreaProps
+  ) => JSX.Element;
+};
 
-type ActionPropsType = Pick<
-  EmojiButtonProps,
-  'onPickEmoji' | 'onSetSkinTone'
-> & {
+type ActionPropsType = {
   removeLinkPreview: () => void;
 };
 
@@ -90,17 +84,12 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   messageBody,
   onClose,
   onEditorStateChange,
-  onPickEmoji,
-  onSetSkinTone,
-  onTextTooLong,
-  recentEmojis,
   removeLinkPreview,
-  skinTone,
+  RenderCompositionTextArea,
   theme,
   regionCode,
 }) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
-  const inputApiRef = React.useRef<InputApi | undefined>();
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
   >([]);
@@ -123,22 +112,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   const selectedConversationIdsSet: Set<string> = useMemo(
     () => new Set(selectedContacts.map(contact => contact.id)),
     [selectedContacts]
-  );
-
-  const focusTextEditInput = React.useCallback(() => {
-    if (inputApiRef.current) {
-      inputApiRef.current.focus();
-    }
-  }, [inputApiRef]);
-
-  const insertEmoji = React.useCallback(
-    (e: EmojiPickDataType) => {
-      if (inputApiRef.current) {
-        inputApiRef.current.insertEmoji(e);
-        onPickEmoji(e);
-      }
-    },
-    [inputApiRef, onPickEmoji]
   );
 
   const hasContactsSelected = Boolean(selectedContacts.length);
@@ -351,40 +324,16 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                   }}
                 />
               ) : null}
-              <div className="module-ForwardMessageModal__text-edit-area">
-                <CompositionInput
-                  clearQuotedMessage={shouldNeverBeCalled}
-                  draftText={messageBodyText}
-                  getPreferredBadge={getPreferredBadge}
-                  getQuotedMessage={noop}
-                  i18n={i18n}
-                  inputApi={inputApiRef}
-                  large
-                  moduleClassName="module-ForwardMessageModal__input"
-                  onEditorStateChange={(
-                    messageText,
-                    bodyRanges,
-                    caretLocation
-                  ) => {
-                    setMessageBodyText(messageText);
-                    onEditorStateChange(messageText, bodyRanges, caretLocation);
-                  }}
-                  onPickEmoji={onPickEmoji}
-                  onSubmit={forwardMessage}
-                  onTextTooLong={onTextTooLong}
-                  theme={theme}
-                />
-                <div className="module-ForwardMessageModal__emoji">
-                  <EmojiButton
-                    i18n={i18n}
-                    onClose={focusTextEditInput}
-                    onPickEmoji={insertEmoji}
-                    onSetSkinTone={onSetSkinTone}
-                    recentEmojis={recentEmojis}
-                    skinTone={skinTone}
-                  />
-                </div>
-              </div>
+
+              <RenderCompositionTextArea
+                draftText={messageBodyText}
+                onChange={(messageText, bodyRanges, caretLocation?) => {
+                  setMessageBodyText(messageText);
+                  onEditorStateChange(messageText, bodyRanges, caretLocation);
+                }}
+                onSubmit={forwardMessage}
+                theme={theme}
+              />
             </div>
           ) : (
             <div className="module-ForwardMessageModal__main-body">

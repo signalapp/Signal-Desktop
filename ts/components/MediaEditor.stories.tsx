@@ -9,6 +9,7 @@ import { MediaEditor } from './MediaEditor';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 import { Stickers, installedPacks } from '../test-both/helpers/getStickerPacks';
+import { CompositionTextArea } from './CompositionTextArea';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -46,4 +47,21 @@ export const Smol = (): JSX.Element => (
 
 export const Portrait = (): JSX.Element => (
   <MediaEditor {...getDefaultProps()} imageSrc={IMAGE_4} />
+);
+
+export const WithCaption = (): JSX.Element => (
+  <MediaEditor
+    {...getDefaultProps()}
+    supportsCaption
+    renderCompositionTextArea={props => (
+      <CompositionTextArea
+        {...props}
+        i18n={i18n}
+        onPickEmoji={action('onPickEmoji')}
+        onSetSkinTone={action('onSetSkinTone')}
+        onTextTooLong={action('onTextTooLong')}
+        getPreferredBadge={() => undefined}
+      />
+    )}
+  />
 );

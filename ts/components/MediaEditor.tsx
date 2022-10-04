@@ -9,6 +9,7 @@ import { fabric } from 'fabric';
 import { get, has, noop } from 'lodash';
 
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { ImageStateType } from '../mediaEditor/ImageStateType';
 
@@ -33,14 +34,30 @@ import {
   TextStyle,
   getTextStyleAttributes,
 } from '../mediaEditor/util/getTextStyleAttributes';
+import { AddCaptionModal } from './AddCaptionModal';
+import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
+import { Emojify } from './conversation/Emojify';
+import { AddNewLines } from './conversation/AddNewLines';
 
 export type PropsType = {
   doneButtonLabel?: string;
   i18n: LocalizerType;
   imageSrc: string;
   onClose: () => unknown;
-  onDone: (data: Uint8Array) => unknown;
-} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'>;
+  onDone: (data: Uint8Array, caption?: string | undefined) => unknown;
+} & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
+  (
+    | {
+        supportsCaption: true;
+        renderCompositionTextArea: (
+          props: SmartCompositionTextAreaProps
+        ) => JSX.Element;
+      }
+    | {
+        supportsCaption?: false;
+        renderCompositionTextArea?: undefined;
+      }
+  );
 
 const INITIAL_IMAGE_STATE: ImageStateType = {
   angle: 0,
@@ -94,11 +111,16 @@ export const MediaEditor = ({
   // StickerButtonProps
   installedPacks,
   recentStickers,
+  ...props
 }: PropsType): JSX.Element | null => {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
   const [isStickerPopperOpen, setIsStickerPopperOpen] =
     useState<boolean>(false);
+
+  const [caption, setCaption] = useState('');
+
+  const [showAddCaptionModal, setShowAddCaptionModal] = useState(false);
 
   const canvasId = useUniqueId();
 
@@ -892,7 +914,46 @@ export const MediaEditor = ({
         {tooling ? (
           <div className="MediaEditor__tools">{tooling}</div>
         ) : (
-          <div className="MediaEditor__toolbar--space" />
+          <>
+            {props.supportsCaption ? (
+              <div className="MediaEditor__toolbar__caption">
+                <button
+                  type="button"
+                  className="MediaEditor__toolbar__caption__add-caption-button"
+                  onClick={() => setShowAddCaptionModal(true)}
+                >
+                  {caption !== '' ? (
+                    <span>
+                      <AddNewLines
+                        text={caption}
+                        renderNonNewLine={({ key, text }) => (
+                          <Emojify key={key} text={text} />
+                        )}
+                      />
+                    </span>
+                  ) : (
+                    i18n('MediaEditor__caption-button')
+                  )}
+                </button>
+
+                {showAddCaptionModal && (
+                  <AddCaptionModal
+                    i18n={i18n}
+                    draftText={caption}
+                    onSubmit={messageText => {
+                      setCaption(messageText.trim());
+                      setShowAddCaptionModal(false);
+                    }}
+                    onClose={() => setShowAddCaptionModal(false)}
+                    RenderCompositionTextArea={props.renderCompositionTextArea}
+                    theme={ThemeType.dark}
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="MediaEditor__toolbar--space" />
+            )}
+          </>
         )}
         <div className="MediaEditor__toolbar--buttons">
           <Button
@@ -1087,7 +1148,7 @@ export const MediaEditor = ({
                 setIsSaving(false);
               }
 
-              onDone(data);
+              onDone(data, caption !== '' ? caption : undefined);
             }}
             theme={Theme.Dark}
             variant={ButtonVariant.Primary}

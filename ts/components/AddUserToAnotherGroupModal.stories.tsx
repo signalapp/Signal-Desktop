@@ -1,8 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
 import React from 'react';
+import type { Meta, Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import type { Props } from './AddUserToAnotherGroupModal';
