@@ -117,7 +117,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         <div className="session-modal__button-group">
           <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
           <SessionButton
-            text={window.i18n('ok')}
+            text={window.i18n('done')}
             buttonColor={confirmButtonColor}
             onClick={this.setPassword}
           />
