@@ -16,11 +16,6 @@ import * as MIME from '../../types/MIME';
 import { isUndefined } from 'lodash';
 import styled from 'styled-components';
 
-const Colors = {
-  TEXT_SECONDARY: '#bbb',
-  ICON_SECONDARY: 'var(--color-light-gray-color)',
-};
-
 const colorSVG = (url: string, color: string) => {
   return {
     WebkitMask: `url(${url}) no-repeat center`,
@@ -53,7 +48,7 @@ const styles = {
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'var(--lightbox-background-color)',
   } as React.CSSProperties,
   mainContainer: {
     display: 'flex',
@@ -95,7 +90,7 @@ const styles = {
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
-    backgroundColor: 'rgba(192, 192, 192, .40)',
+    backgroundColor: 'var(--lightbox-caption-background-color)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -181,7 +176,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
         iconSize={'huge'}
         iconRotation={iconRotation}
         // the lightbox has a dark background
-        iconColor="var(--white-color)"
+        iconColor="var(--lightbox-icon-stroke-color)"
         onClick={clickHandler}
       />
     </StyledIconButton>
@@ -200,7 +195,7 @@ const Icon = ({
   <div
     style={{
       ...(styles.object as any),
-      ...colorSVG(url, Colors.ICON_SECONDARY),
+      ...colorSVG(url, 'var(--lightbox-icon-stroke-color)'),
       maxWidth: 200,
     }}
     onClick={onClick}

@@ -671,6 +671,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     --suggestions-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --suggestions-text-color: var(--text-primary-color);
     --suggestions-shadow: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px;
+
+  /* Lightbox */
+  --lightbox-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8);
+  --lightbox-caption-background-color: 'rgba(192, 192, 192, .40)';
+  --lightbox-icon-stroke-color: var(--white-color);
+
   };
 `;
 

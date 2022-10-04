@@ -400,6 +400,16 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
     '--suggestions-shadow',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
+
+  document.documentElement.style.setProperty(
+    '--lightbox-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`
+  );
+  document.documentElement.style.setProperty(
+    '--lightbox-caption-background-color',
+    'rgba(192, 192, 192, .40)'
+  );
+  document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
 }
 
 function loadClassicDark(primaryColor?: PrimaryColorStateType) {
@@ -789,6 +799,16 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
     '--suggestions-shadow',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
+
+  document.documentElement.style.setProperty(
+    '--lightbox-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`
+  );
+  document.documentElement.style.setProperty(
+    '--lightbox-caption-background-color',
+    'rgba(192, 192, 192, .40)'
+  );
+  document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
 }
 
 function loadOceanLight(primaryColor?: PrimaryColorStateType) {
@@ -1184,6 +1204,16 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
     '--suggestions-shadow',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
+
+  document.documentElement.style.setProperty(
+    '--lightbox-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`
+  );
+  document.documentElement.style.setProperty(
+    '--lightbox-caption-background-color',
+    'rgba(192, 192, 192, .40)'
+  );
+  document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
 }
 
 function loadOceanDark(primaryColor?: PrimaryColorStateType) {
@@ -1569,6 +1599,16 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--suggestions-shadow',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
+
+  document.documentElement.style.setProperty(
+    '--lightbox-background-color',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`
+  );
+  document.documentElement.style.setProperty(
+    '--lightbox-caption-background-color',
+    'rgba(192, 192, 192, .40)'
+  );
+  document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
 }
 
 export async function switchTheme(theme: ThemeStateType) {
