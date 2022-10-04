@@ -233,7 +233,7 @@ const StyledSendMessageInput = styled.div`
     min-height: calc(var(--composition-container-height) / 3);
     max-height: 3 * var(--composition-container-height);
     margin-right: var(--margins-md);
-    color: var(--color-text);
+    color: var(--text-color-primary);
 
     background: transparent;
     resize: none;
@@ -254,7 +254,7 @@ const StyledSendMessageInput = styled.div`
     margin-left: 2px;
     line-height: var(--font-size-h2);
     letter-spacing: 0.5px;
-    color: var(--color-transparent-color);
+    color: var(--transparent-color);
   }
 `;
 

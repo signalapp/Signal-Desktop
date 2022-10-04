@@ -665,6 +665,12 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Used across all themes */
     --shadow-color: var(--black-color);
     --drop-shadow: 0 0 4px 0 var(--shadow-color);
+
+    /* Suggestions i.e. Mentions and Emojis */
+    --suggestions-background-color: var(--background-secondary-color);
+    --suggestions-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
+    --suggestions-text-color: var(--text-primary-color);
+    --suggestions-shadow: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px;
   };
 `;
 

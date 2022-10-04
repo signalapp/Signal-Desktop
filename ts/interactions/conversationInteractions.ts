@@ -490,6 +490,7 @@ export async function showLinkSharingConfirmationModalDialog(e: any) {
     const alreadyDisplayedPopup =
       (await Data.getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
     if (!alreadyDisplayedPopup) {
+      // TODO Theming possibly update
       window.inboxStore?.dispatch(
         updateConfirmModal({
           shouldShowConfirm:

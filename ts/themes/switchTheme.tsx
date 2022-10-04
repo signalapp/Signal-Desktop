@@ -383,6 +383,23 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
     '--message-link-preview-background-color',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
   );
+
+  document.documentElement.style.setProperty(
+    '--suggestions-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-background-hover-color',
+    THEMES.CLASSIC_LIGHT.COLOR4
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-shadow',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
+  );
 }
 
 function loadClassicDark(primaryColor?: PrimaryColorStateType) {
@@ -754,6 +771,23 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty(
     '--message-link-preview-background-color',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--suggestions-background-color',
+    THEMES.CLASSIC_DARK.COLOR2
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-background-hover-color',
+    THEMES.CLASSIC_DARK.COLOR3
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-shadow',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
 }
 
@@ -1133,6 +1167,23 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
     '--message-link-preview-background-color',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
   );
+
+  document.documentElement.style.setProperty(
+    '--suggestions-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-background-hover-color',
+    THEMES.OCEAN_LIGHT.COLOR4
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-shadow',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
+  );
 }
 
 function loadOceanDark(primaryColor?: PrimaryColorStateType) {
@@ -1500,6 +1551,23 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty(
     '--message-link-preview-background-color',
     `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`
+  );
+
+  document.documentElement.style.setProperty(
+    '--suggestions-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-background-hover-color',
+    THEMES.OCEAN_DARK.COLOR4
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-text-color',
+    'var(--text-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--suggestions-shadow',
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`
   );
 }
 
