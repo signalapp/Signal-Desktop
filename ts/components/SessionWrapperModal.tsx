@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton } from './icon/';
@@ -63,17 +63,11 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClick);
-    };
-  }, []);
-
   return (
     <div
       className={classNames('loki-dialog modal', additionalClassName ? additionalClassName : null)}
+      onClick={handleClick}
+      role="dialog"
     >
       <div className="session-confirm-wrapper">
         <div ref={modalRef} className="session-modal">

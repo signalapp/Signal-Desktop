@@ -12,6 +12,7 @@ import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer'
 import { DraggableCallContainer } from '../calling/DraggableCallContainer';
 import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { ModalContainer } from '../dialog/ModalContainer';
+import { SessionToastContainer } from '../SessionToastContainer';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
@@ -71,6 +72,7 @@ export const LeftPane = () => {
       <div className="module-left-pane-session">
         <ModalContainer />
         <CallContainer />
+        <SessionToastContainer />
         <ActionsPanel />
 
         <StyledLeftPane className="module-left-pane">

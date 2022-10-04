@@ -39,7 +39,6 @@ import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionIconButton } from '../icon';
-import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 import { ipcRenderer } from 'electron';
 import { UserUtils } from '../../session/utils';
@@ -276,8 +275,6 @@ export const ActionsPanel = () => {
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Settings} />
-
-        <SessionToastContainer />
 
         <Section type={SectionType.PathIndicator} />
         <Section type={SectionType.Moon} />

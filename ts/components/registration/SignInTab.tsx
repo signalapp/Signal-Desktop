@@ -96,6 +96,23 @@ const SignInButtons = (props: {
   );
 };
 
+export function sanitizeDisplayNameOrToast(
+  displayName: string,
+  setDisplayName: (sanitized: string) => void,
+  setDisplayNameError: (error: string | undefined) => void
+) {
+  try {
+    const sanitizedName = sanitizeSessionUsername(displayName);
+    const trimName = sanitizedName.trim();
+    setDisplayName(sanitizedName);
+    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+  } catch (e) {
+    setDisplayName(displayName);
+    setDisplayNameError(window.i18n('displayNameTooLong'));
+    ToastUtils.pushToastError('toolong', window.i18n('displayNameTooLong'));
+  }
+}
+
 export const SignInTab = () => {
   const { setRegistrationPhase, signInMode, setSignInMode } = useContext(RegistrationContext);
 
@@ -149,16 +166,7 @@ export const SignInTab = () => {
             displayName={displayName}
             handlePressEnter={continueYourSession}
             onDisplayNameChanged={(name: string) => {
-              try {
-                const sanitizedName = sanitizeSessionUsername(name);
-                const trimName = sanitizedName.trim();
-                setDisplayName(sanitizedName);
-                setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
-              } catch (e) {
-                setDisplayName(name);
-                setDisplayNameError(window.i18n('displayNameTooLong'));
-                ToastUtils.pushToastError('toolong', window.i18n('displayNameTooLong'));
-              }
+              sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
             }}
             onSeedChanged={(seed: string) => {
               setRecoveryPhrase(seed);

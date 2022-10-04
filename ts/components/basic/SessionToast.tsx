@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Flex } from '../basic/Flex';
 import styled from 'styled-components';
-import { noop } from 'lodash';
 import { SessionIcon, SessionIconType } from '../icon';
+import { noop } from 'lodash';
 
 export enum SessionToastType {
   Info = 'info',
@@ -44,6 +44,8 @@ const IconDiv = styled.div`
   padding-inline-end: var(--margins-xs);
 `;
 
+// tslint:disable: use-simple-attributes
+
 export const SessionToast = (props: Props) => {
   const { title, description, type, icon } = props;
 
@@ -71,14 +73,10 @@ export const SessionToast = (props: Props) => {
     }
   }
 
+  const onToastClick = props?.onToastClick || noop;
+
   return (
-    // tslint:disable-next-line: use-simple-attributes
-    <Flex
-      container={true}
-      alignItems="center"
-      onClick={props?.onToastClick || noop}
-      data-testid="session-toast"
-    >
+    <Flex container={true} alignItems="center" onClick={onToastClick} data-testid="session-toast">
       <IconDiv>
         <SessionIcon iconType={toastIcon} iconSize={toastIconSize} />
       </IconDiv>
