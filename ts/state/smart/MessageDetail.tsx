@@ -14,6 +14,7 @@ import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 import { getContactNameColorSelector } from '../selectors/conversations';
+import { markViewed } from '../ducks/conversations';
 
 export { Contact } from '../../components/conversation/MessageDetail';
 export type OwnProps = Omit<
@@ -25,6 +26,7 @@ export type OwnProps = Omit<
   | 'renderEmojiPicker'
   | 'renderReactionPicker'
   | 'theme'
+  | 'markViewed'
 >;
 
 const mapStateToProps = (
@@ -43,7 +45,6 @@ const mapStateToProps = (
     displayTapToViewMessage,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
-    markViewed,
     openConversation,
     openGiftBadge,
     openLink,

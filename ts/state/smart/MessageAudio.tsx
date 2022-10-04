@@ -40,7 +40,6 @@ export type Props = {
   computePeaks(url: string, barCount: number): Promise<ComputePeaksResult>;
   kickOffAttachmentDownload(): void;
   onCorrupted(): void;
-  onFirstPlayed(): void;
 };
 
 const mapStateToProps = (

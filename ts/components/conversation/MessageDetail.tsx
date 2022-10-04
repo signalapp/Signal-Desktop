@@ -65,6 +65,7 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
+  markViewed: (messageId: string) => void;
 } & Pick<
   MessagePropsType,
   | 'getPreferredBadge'
@@ -78,7 +79,6 @@ export type PropsBackboneActions = Pick<
   | 'displayTapToViewMessage'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
-  | 'markViewed'
   | 'openConversation'
   | 'openGiftBadge'
   | 'openLink'

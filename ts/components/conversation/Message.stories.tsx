@@ -162,6 +162,7 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
     if (!playing) {
       audio.play();
       setPlaying(true);
+      setPlayed(true);
     }
 
     if (!Number.isNaN(audio.duration)) {
@@ -195,10 +196,6 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
     ? { playing, playbackRate, currentTime, duration: audio.duration }
     : undefined;
 
-  const setPlayedAction = () => {
-    setPlayed(true);
-  };
-
   return (
     <MessageAudio
       {...props}
@@ -208,7 +205,6 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
       active={active}
       played={_played}
       loadAndPlayMessageAudio={loadAndPlayMessageAudio}
-      onFirstPlayed={setPlayedAction}
       setIsPlaying={setIsPlayingAction}
       setPlaybackRate={setPlaybackRateAction}
       setCurrentTime={setCurrentTimeAction}

@@ -29,6 +29,8 @@ import * as GoogleChrome from '../util/GoogleChrome';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { getValue } from '../RemoteConfig';
 import { isRecord } from '../util/isRecord';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import type { MessageStatusType } from '../components/conversation/Message';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -650,6 +652,17 @@ export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
       !attachments[0].isCorrupted &&
       MIME.isAudio(attachments[0].contentType)
   );
+}
+
+export function isPlayed(
+  direction: 'outgoing' | 'incoming',
+  status: MessageStatusType | undefined,
+  readStatus: ReadStatus | undefined
+): boolean {
+  if (direction === 'outgoing') {
+    return status === 'viewed';
+  }
+  return readStatus === ReadStatus.Viewed;
 }
 
 export function canDisplayImage(

@@ -56,7 +56,6 @@ import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import type { CompositionAPIType } from '../components/CompositionArea';
-import { ReadStatus } from '../messages/MessageReadStatus';
 import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
@@ -85,12 +84,9 @@ import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { retryMessageSend } from '../util/retryMessageSend';
 import { isNotNil } from '../util/isNotNil';
-import { markViewed } from '../services/MessageUpdater';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { resolveAttachmentDraftData } from '../util/resolveAttachmentDraftData';
 import { showToast } from '../util/showToast';
-import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
-import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 import { RecordingState } from '../state/ducks/audioRecorder';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
@@ -152,7 +148,6 @@ type MessageActionsType = {
     options: Readonly<{ messageId: string }>
   ) => unknown;
   markAttachmentAsCorrupted: (options: AttachmentOptions) => unknown;
-  markViewed: (messageId: string) => unknown;
   openConversation: (conversationId: string, messageId?: string) => unknown;
   openGiftBadge: (messageId: string) => unknown;
   openLink: (url: string) => unknown;
@@ -793,45 +788,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
       message.markAttachmentAsCorrupted(options.attachment);
     };
-    const onMarkViewed = (messageId: string): void => {
-      const message = window.MessageController.getById(messageId);
-      if (!message) {
-        throw new Error(`onMarkViewed: Message ${messageId} missing!`);
-      }
 
-      if (message.get('readStatus') === ReadStatus.Viewed) {
-        return;
-      }
-
-      const senderE164 = message.get('source');
-      const senderUuid = message.get('sourceUuid');
-      const timestamp = message.get('sent_at');
-
-      message.set(markViewed(message.attributes, Date.now()));
-
-      if (isIncoming(message.attributes)) {
-        viewedReceiptsJobQueue.add({
-          viewedReceipt: {
-            messageId,
-            senderE164,
-            senderUuid,
-            timestamp,
-            isDirectConversation: isDirectConversation(this.model.attributes),
-          },
-        });
-      }
-
-      viewSyncJobQueue.add({
-        viewSyncs: [
-          {
-            messageId,
-            senderE164,
-            senderUuid,
-            timestamp,
-          },
-        ],
-      });
-    };
     const showVisualAttachment = (options: {
       attachment: AttachmentType;
       messageId: string;
@@ -889,7 +846,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       downloadNewVersion,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
-      markViewed: onMarkViewed,
       openConversation,
       openGiftBadge,
       openLink,
