@@ -155,6 +155,8 @@ message AccountRecord {
   optional bool                   displayBadgesOnProfile       = 23;
   optional bool                   keepMutedChatsArchived       = 25;
   optional bool                   hasSetMyStoriesPrivacy       = 26;
+  reserved                     /* hasViewedOnboardingStory */    27;
+  optional bool                   storiesDisabled              = 28;
 }
 
 message StoryDistributionListRecord {

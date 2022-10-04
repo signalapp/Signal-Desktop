@@ -50,7 +50,7 @@ const settingSystemTraySetting = createSetting('systemTraySetting');
 
 const settingLastSyncTime = createSetting('lastSyncTime');
 
-const settingHasStoriesEnabled = createSetting('hasStoriesEnabled');
+const settingHasStoriesDisabled = createSetting('hasStoriesDisabled');
 const settingZoomFactor = createSetting('zoomFactor');
 
 // Getters only.
@@ -150,7 +150,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
-    hasStoriesEnabled,
+    hasStoriesDisabled,
     hasTypingIndicators,
     isPhoneNumberSharingSupported,
     lastSyncTime,
@@ -188,7 +188,7 @@ const renderPreferences = async () => {
     hasReadReceipts: settingReadReceipts.getValue(),
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
-    hasStoriesEnabled: settingHasStoriesEnabled.getValue(),
+    hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -244,7 +244,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
-    hasStoriesEnabled,
+    hasStoriesDisabled,
     hasTypingIndicators,
     lastSyncTime,
     notificationContent,
@@ -301,7 +301,7 @@ const renderPreferences = async () => {
     onCountMutedConversationsChange: reRender(
       settingCountMutedConversations.setValue
     ),
-    onHasStoriesEnabledChanged: reRender(settingHasStoriesEnabled.setValue),
+    onHasStoriesDisabledChanged: reRender(settingHasStoriesDisabled.setValue),
     onHideMenuBarChange: reRender(settingHideMenuBar.setValue),
     onIncomingCallNotificationsChange: reRender(
       settingIncomingCallNotification.setValue

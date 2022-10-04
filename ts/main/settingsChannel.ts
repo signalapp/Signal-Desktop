@@ -104,7 +104,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('lastSyncTime');
     this.installSetting('universalExpireTimer');
 
-    this.installSetting('hasStoriesEnabled');
+    this.installSetting('hasStoriesDisabled');
     this.installSetting('zoomFactor');
 
     installPermissionsHandler({ session, userConfig });

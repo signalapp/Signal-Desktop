@@ -68,7 +68,7 @@ export type PropsDataType = {
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean;
-  hasStoriesEnabled: boolean;
+  hasStoriesDisabled: boolean;
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -133,7 +133,7 @@ type PropsFunctionType = {
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
-  onHasStoriesEnabledChanged: SelectChangeHandlerType<boolean>;
+  onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
   onLastSyncTimeChange: (time: number) => unknown;
@@ -228,7 +228,7 @@ export const Preferences = ({
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
-  hasStoriesEnabled,
+  hasStoriesDisabled,
   hasTypingIndicators,
   i18n,
   initialSpellCheckSetting,
@@ -251,7 +251,7 @@ export const Preferences = ({
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onCountMutedConversationsChange,
-  onHasStoriesEnabledChanged,
+  onHasStoriesDisabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
   onLastSyncTimeChange,
@@ -977,20 +977,20 @@ export const Preferences = ({
                 </label>
               }
               right={
-                hasStoriesEnabled ? (
+                hasStoriesDisabled ? (
+                  <Button
+                    onClick={() => onHasStoriesDisabledChanged(false)}
+                    variant={ButtonVariant.Secondary}
+                  >
+                    {i18n('Preferences__turn-stories-on')}
+                  </Button>
+                ) : (
                   <Button
                     className="Preferences__stories-off"
                     onClick={() => setConfirmStoriesOff(true)}
                     variant={ButtonVariant.SecondaryDestructive}
                   >
                     {i18n('Preferences__turn-stories-off')}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => onHasStoriesEnabledChanged(true)}
-                    variant={ButtonVariant.Secondary}
-                  >
-                    {i18n('Preferences__turn-stories-on')}
                   </Button>
                 )
               }
@@ -1043,7 +1043,7 @@ export const Preferences = ({
             dialogName="Preference.turnStoriesOff"
             actions={[
               {
-                action: () => onHasStoriesEnabledChanged(false),
+                action: () => onHasStoriesDisabledChanged(true),
                 style: 'negative',
                 text: i18n('Preferences__turn-stories-off--action'),
               },

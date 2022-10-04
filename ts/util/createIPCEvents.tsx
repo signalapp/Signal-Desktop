@@ -48,7 +48,7 @@ export type IPCEventsValuesType = {
   callRingtoneNotification: boolean;
   callSystemNotification: boolean;
   countMutedConversations: boolean;
-  hasStoriesEnabled: boolean;
+  hasStoriesDisabled: boolean;
   hideMenuBar: boolean | undefined;
   incomingCallNotification: boolean;
   lastSyncTime: number | undefined;
@@ -178,9 +178,13 @@ export function createIPCEvents(
       webFrame.setZoomFactor(zoomFactor);
     },
 
-    getHasStoriesEnabled: () => window.storage.get('hasStoriesEnabled', true),
-    setHasStoriesEnabled: (value: boolean) =>
-      window.storage.put('hasStoriesEnabled', value),
+    getHasStoriesDisabled: () =>
+      window.storage.get('hasStoriesDisabled', false),
+    setHasStoriesDisabled: async (value: boolean) => {
+      await window.storage.put('hasStoriesDisabled', value);
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('hasStoriesDisabled');
+    },
 
     getPreferredAudioInputDevice: () =>
       window.storage.get('preferred-audio-input-device'),
@@ -357,11 +361,7 @@ export function createIPCEvents(
       await universalExpireTimer.set(newValue);
 
       // Update account in Storage Service
-      const conversationId =
-        window.ConversationController.getOurConversationIdOrThrow();
-      const account = window.ConversationController.get(conversationId);
-      assertDev(account, "Account wasn't found");
-
+      const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('universalExpireTimer');
 
       // Add a notification to the currently open conversation

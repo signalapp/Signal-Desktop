@@ -67,7 +67,7 @@ export type StorageAccessType = {
   device_name: string;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
-  hasStoriesEnabled: boolean;
+  hasStoriesDisabled: boolean;
   identityKeyMap: IdentityKeyMap;
   lastHeartbeat: number;
   lastStartup: number;

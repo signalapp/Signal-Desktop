@@ -52,7 +52,7 @@ installSetting('callRingtoneNotification');
 installSetting('callSystemNotification');
 installSetting('countMutedConversations');
 installSetting('deviceName');
-installSetting('hasStoriesEnabled');
+installSetting('hasStoriesDisabled');
 installSetting('hideMenuBar');
 installSetting('incomingCallNotification');
 installSetting('lastSyncTime');

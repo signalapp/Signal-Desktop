@@ -67,7 +67,7 @@ export const getStoriesEnabled = createSelector(
   getItems,
   getRemoteConfig,
   (state: ItemsStateType, remoteConfig: ConfigMapType): boolean =>
-    state.hasStoriesEnabled !== false &&
+    !state.hasStoriesDisabled &&
     (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser') ||
       isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories'))
 );

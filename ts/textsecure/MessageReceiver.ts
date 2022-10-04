@@ -1904,7 +1904,7 @@ export default class MessageReceiver
 
     const attachments: Array<ProcessedAttachment> = [];
 
-    if (!window.Events.getHasStoriesEnabled()) {
+    if (window.Events.getHasStoriesDisabled()) {
       log.info('MessageReceiver.handleStoryMessage: dropping', logId);
       this.removeFromCache(envelope);
       return;
@@ -2697,7 +2697,7 @@ export default class MessageReceiver
       }
 
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
-        if (!window.Events.getHasStoriesEnabled()) {
+        if (window.Events.getHasStoriesDisabled()) {
           log.info(
             'MessageReceiver.handleSyncMessage: dropping story recipients update'
           );
