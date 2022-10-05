@@ -4,8 +4,14 @@ import { ThemeStateType } from '../../themes/colors';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../themes/SessionTheme';
 import { switchTheme } from '../../themes/switchTheme';
 
-export async function switchThemeTo(theme: ThemeStateType, dispatch: Dispatch | null) {
-  await window.setTheme(theme);
+export async function switchThemeTo(
+  theme: ThemeStateType,
+  dispatch: Dispatch | null,
+  mainWindow: boolean = true
+) {
+  if (mainWindow) {
+    await window.setTheme(theme);
+  }
 
   let newTheme: ThemeStateType | null = null;
 
@@ -30,9 +36,10 @@ export async function switchThemeTo(theme: ThemeStateType, dispatch: Dispatch | 
       window.log.warn('Unsupported theme: ', theme);
   }
 
-  switchTheme(theme);
-
   if (newTheme) {
-    dispatch?.(applyTheme(newTheme));
+    switchTheme(newTheme, mainWindow);
+    if (dispatch) {
+      dispatch?.(applyTheme(newTheme));
+    }
   }
 }

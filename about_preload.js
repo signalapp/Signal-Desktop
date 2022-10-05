@@ -8,13 +8,25 @@ const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
+window.React = require('react');
+window.ReactDOM = require('react-dom');
+
+window.theme = config.theme;
+window.i18n = i18n.setupi18n(locale, localeMessages);
+
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getCommitHash = () => config.commitHash;
 window.getAppInstance = () => config.appInstance;
 
-window.closeAbout = () => ipcRenderer.send('close-about');
+const { AboutView } = require('./ts/components/AboutView');
 
-window.i18n = i18n.setupi18n(locale, localeMessages);
+window.Signal = {
+  Components: {
+    AboutView,
+  },
+};
+
+window.closeAbout = () => ipcRenderer.send('close-about');
 
 require('./ts/util/logging');

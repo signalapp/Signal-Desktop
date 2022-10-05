@@ -1687,11 +1687,14 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty('--input-border-color', 'var(--border-color)');
 }
 
-export async function switchTheme(theme: ThemeStateType) {
-  const selectedPrimaryColor = await window.Events.getPrimaryColorSetting();
-  const primaryColor =
-    (selectedPrimaryColor && (COLORS.PRIMARY as any)[`${selectedPrimaryColor.toUpperCase()}`]) ||
-    null;
+export async function switchTheme(theme: ThemeStateType, mainWindow: boolean = true) {
+  let primaryColor = null;
+
+  if (mainWindow) {
+    const selectedPrimaryColor = await window.Events.getPrimaryColorSetting();
+    primaryColor =
+      selectedPrimaryColor && (COLORS.PRIMARY as any)[`${selectedPrimaryColor.toUpperCase()}`];
+  }
 
   switch (theme) {
     case 'classic-light':

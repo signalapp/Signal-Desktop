@@ -150,11 +150,6 @@ window.readyForUpdates = () => {
   ipc.send('ready-for-updates');
 };
 
-ipc.on('get-primary-color-setting', () => {
-  const primaryColor = window.Events.getPrimaryColorSetting();
-  ipc.send('get-success-primary-color-setting', primaryColor);
-});
-
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
   ipc.send('get-success-theme-setting', theme);
