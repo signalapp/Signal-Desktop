@@ -47,7 +47,7 @@ export const StyledLeftPaneBanner = styled.div`
   background: var(--background-primary-color);
   display: flex;
   flex-direction: column;
-  border-bottom: var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 `;
 
 const StyledBannerInner = styled.div`

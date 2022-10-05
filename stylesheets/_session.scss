@@ -183,8 +183,9 @@ label {
   visibility: hidden;
 }
 
+// TODO Theming update
 .Toastify__toast {
-  background: var(--modal-background-color);
+  background: var(--modal-background-content-color);
   color: var(--modal-text-color);
   border-left: 4px solid var(--primary-color);
 
@@ -205,11 +206,11 @@ label {
   max-height: 70vh;
   max-width: calc(min(70vw, 800px));
   font-family: $session-font-default;
-  background-color: var(--color-modal-background);
-  color: var(--color-text);
-  border: var(--border-session);
+  background-color: var(--modal-background-content-color);
+  color: var(--modal-text-color);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
-  box-shadow: var(--color-session-shadow);
+  box-shadow: var(--modal-drop-shadow);
 
   overflow: hidden;
   display: flex;
@@ -313,7 +314,7 @@ label {
   &__text-highlight {
     @include text-highlight(var(--primary-color));
 
-    color: var(--black-color);
+    color: var(--modal-text-color);
 
     font-family: monospace;
     font-style: normal;
@@ -395,10 +396,10 @@ label {
     transition: var(--default-duration);
 
     &:first-child {
-      border-top: var(--border-color);
+      border-top: 1px solid var(--border-color);
     }
     &:last-child {
-      border-top: var(--border-color);
+      border-top: 1px solid var(--border-color);
     }
 
     .session-icon {

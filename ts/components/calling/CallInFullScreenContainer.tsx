@@ -22,7 +22,7 @@ const CallInFullScreenVisible = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--black-color);
-  border: var(--border-color);
+  border: 1px solid var(--border-color);
   opacity: 1;
 `;
 

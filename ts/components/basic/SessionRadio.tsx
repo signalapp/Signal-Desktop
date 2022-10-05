@@ -35,6 +35,7 @@ const StyledLabel = styled.label<{
   beforeMargins?: string;
 }>`
   cursor: pointer;
+  color: var(--text-primary-color);
 
   :before {
     content: '';
@@ -43,8 +44,8 @@ const StyledLabel = styled.label<{
 
     transition: var(--default-duration);
     padding: ${props => props.filledSize}px;
-    outline: var(--text-primary-color) solid 1px;
     border: none;
+    outline: 1px solid currentColor; /* CSS varibles didn't work here */
     outline-offset: ${props => props.outlineOffset}px;
     ${props => props.beforeMargins && `margin: ${props.beforeMargins};`};
   }
@@ -85,7 +86,6 @@ export const SessionRadio = (props: Props) => {
         beforeMargins={beforeMargins}
         aria-label={label}
         data-testid={`label-${value}`}
-        // TODO Theming does this need a selected color
       >
         {label}
       </StyledLabel>
@@ -94,12 +94,13 @@ export const SessionRadio = (props: Props) => {
 };
 
 const StyledInputOutlineSelected = styled(StyledInput)`
+  color: var(--text-primary-color);
   label:before,
   label:before {
     outline: none;
   }
   :checked + label:before {
-    outline: var(--text-primary-color) solid 1px;
+    outline-color: 1px solid currentColor;
   }
 `;
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`

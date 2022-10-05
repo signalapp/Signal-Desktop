@@ -626,9 +626,11 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* TODO Theming - Should Pills have their own colors? */
 
     /* Modals */
-    --modal-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
+    --modal-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.3);
+    --modal-background-content-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --modal-text-color: var(--text-primary-color);
     --modal-text-danger-color: var(--danger-color);
+    --modal-drop-shadow: 0px 0px 10px  rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22);
 
     /* Toasts */
     --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
@@ -676,6 +678,14 @@ export const SessionGlobalStyles = createGlobalStyle`
   --lightbox-background-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8);
   --lightbox-caption-background-color: 'rgba(192, 192, 192, .40)';
   --lightbox-icon-stroke-color: var(--white-color);
+
+  /* Inputs */
+  /* Also used for some TextAreas */
+  --input-background-color: var(--background-secondary-color);
+  --input-background-hover-color: var(--background-secondary-color);
+  --input-text-placeholder-color: var(--text-secondary-color);
+  --input-text-color:  var(--text-primary-color);
+  --input-border-color: var(--border-color);
 
   };
 `;

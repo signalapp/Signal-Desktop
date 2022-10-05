@@ -1,110 +1,103 @@
 .dark-theme {
   // _debugLog
 
+  // TODO Theming - Most of this should be removed when the debug window is properly styled
   .debug-log {
     &.modal {
       .content {
         textarea {
-          background-color: var(--color-darkest-gray-color);
-          border: 1px solid var(--color-gray-color);
-          color: var(--color-lighter-gray-color);
+          background-color: var(--input-background-color);
+          border: 1px solid var(--border-color);
+          color: var(--input-text-color);
         }
       }
     }
 
     .result {
       .open {
-        border: solid 1px var(--color-gray-color);
-        background-color: var(--color-darkest-gray-color);
-        color: var(--color-lighter-gray-color);
+        textarea {
+          background-color: var(--input-background-color);
+          border: 1px solid var(--border-color);
+          color: var(--input-text-color);
 
-        &:before {
-          @include header-icon-white('../images/open_link.svg');
+          &:before {
+            @include color-svg('../images/open_link.svg', var(--button-icon-stroke-color));
+          }
+        }
+
+        .link {
+          color: var(--text-primary-color);
+          border: 1px solid var(--border-color);
+          border-right: none;
+          background-color: var(--background-primary-color);
         }
       }
+    }
 
-      .link {
-        color: var(--color-lighter-gray-color);
-        border: solid 1px var(--color-gray-color);
-        border-right: none;
-        background-color: var(--color-darkest-gray-color);
+    // _global
+    .title-bar {
+      color: var(--text-primary-color);
+    }
+
+    // TODO Theming - Do we still use this?
+    button.grey {
+      border: 1px solid var(--color-light-gray-color);
+      color: var(--color-gray-color);
+      background: var(--color-lightest-gray-color);
+      box-shadow: 0 0 10px -5px rgba(var(--color-gray-color-rgb), 0.5);
+
+      &:hover {
+        box-shadow: 0 0 10px -3px rgba(var(--color-gray-color-rgb), 0.7);
       }
     }
-  }
 
-  // _global
-  .title-bar {
-    color: var(--color-lighter-gray-color);
-  }
-
-  button.grey {
-    border: solid 1px var(--color-light-gray-color);
-    color: var(--color-gray-color);
-    background: var(--color-lightest-gray-color);
-    box-shadow: 0 0 10px -5px rgba(var(--color-gray-color-rgb), 0.5);
-
-    &:hover {
-      box-shadow: 0 0 10px -3px rgba(var(--color-gray-color-rgb), 0.7);
+    .loading {
+      position: relative;
+      // TODO Theming - Review
+      &::before {
+        border: 3px solid;
+        border-color: var(--color-light-blue-color) var(--color-light-blue-color)
+          var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
+      }
     }
-  }
 
-  .loading {
-    position: relative;
-    &::before {
-      border: solid 3px;
-      border-color: var(--color-light-blue-color) var(--color-light-blue-color)
-        var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
+    .x {
+      &:before {
+        @include color-svg('../images/x.svg', var(--white-color));
+      }
     }
-  }
 
-  .x {
-    &:before {
-      @include color-svg('../images/x.svg', var(--color-white-color));
-    }
-  }
+    // TODO Theming - Do we use this anywhere?
+    // .hint {
+    //   color: var(--color-white-color);
+    //   border: 2px dashed var(--color-white-color);
 
-  // TODO Theming - Do we use this anywhere?
-  // .hint {
-  //   color: var(--color-white-color);
-  //   border: 2px dashed var(--color-white-color);
+    //   &.firstRun {
+    //     &:before,
+    //     &:after {
+    //       border: solid 10px var(--color-white-color);
+    //       border-color: transparent var(--color-white-color) transparent transparent;
+    //     }
+    //     &:after {
+    //       border-color: transparent var(--color-dark-blue-color) transparent transparent;
+    //     }
+    //   }
+    // }
 
-  //   &.firstRun {
-  //     &:before,
-  //     &:after {
-  //       border: solid 10px var(--color-white-color);
-  //       border-color: transparent var(--color-white-color) transparent transparent;
-  //     }
-  //     &:after {
-  //       border-color: transparent var(--color-dark-blue-color) transparent transparent;
-  //     }
-  //   }
-  // }
-
-  // TODO Theming - I don't think we use this.
-  // .contact.placeholder {
-  //   color: var(--color-white-color);
-  //   border: 2px dashed var(--color-white-color);
-  //   p {
-  //     color: var(--color-white-color);
-  //   }
-  //   &:before,
-  //   &:after {
-  //     border: solid 10px var(--color-white-color);
-  //     border-color: transparent transparent var(--color-white-color) transparent;
-  //   }
-  //   &:after {
-  //     border-color: transparent transparent var(--color-dark-blue-color) transparent;
-  //   }
-  // }
-  // _modal
-
-  // TODO Theming
-  .modal {
-    background-color: rgba(var(--color-black-color-rgb), 0.3);
-
-    .content {
-      background-color: var(--color-darkest-gray-color);
-      box-shadow: 0px 3px 5px 0px var(--color-light-black-color);
-    }
+    // TODO Theming - I don't think we use this.
+    // .contact.placeholder {
+    //   color: var(--color-white-color);
+    //   border: 2px dashed var(--color-white-color);
+    //   p {
+    //     color: var(--color-white-color);
+    //   }
+    //   &:before,
+    //   &:after {
+    //     border: solid 10px var(--color-white-color);
+    //     border-color: transparent transparent var(--color-white-color) transparent;
+    //   }
+    //   &:after {
+    //     border-color: transparent transparent var(--color-dark-blue-color) transparent;
+    //   }
   }
 }

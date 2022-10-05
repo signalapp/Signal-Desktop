@@ -32,7 +32,8 @@ const StyledGroupMemberListContainer = styled.div`
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  border: var(--border-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 `;
 
 const NoContacts = () => {

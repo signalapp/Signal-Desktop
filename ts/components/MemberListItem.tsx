@@ -42,7 +42,7 @@ const StyledSessionMemberItem = styled.button<{
       : null};
 
   :not(:last-child) {
-    border-bottom: var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
 `;
 
@@ -101,7 +101,7 @@ export const MemberListItem = (props: {
       style={
         !inMentions && !disableBg
           ? {
-              backgroundColor: 'var(--background-secondary-color)',
+              backgroundColor: 'var(--background-primary-color)',
             }
           : {}
       }

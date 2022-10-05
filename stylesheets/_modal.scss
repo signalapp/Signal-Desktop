@@ -4,7 +4,7 @@
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--modal-background-color);
   padding: 0 20px;
   z-index: 100;
   overflow-y: auto;
@@ -14,10 +14,10 @@
     max-width: 350px;
     margin: 100px auto;
     padding: 1em;
-    background-color: white;
+    background-color: var(--modal-background-content-color);
     border-radius: $border-radius;
     overflow: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--modal-drop-shadow);
   }
 }
 
@@ -76,7 +76,7 @@
 .edit-profile-dialog {
   .error-message {
     text-align: center;
-    color: red;
+    color: var(--danger-color);
     display: block;
     user-select: none;
   }
@@ -102,10 +102,10 @@
     max-width: 75%;
     min-width: 60%;
     padding: 1em;
-    background: white;
+    background: var(--modal-background-content-color);
     border-radius: $border-radius;
     overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 15px 0px var(--modal-background-color);
   }
 
   input[type='radio'] {
@@ -122,7 +122,6 @@
     border: 0;
     outline: none;
     border-radius: 4px;
-    background-color: var(--color-lighter-gray-color);
 
     &:focus {
       outline: none;
@@ -143,9 +142,13 @@
   }
 
   input {
-    background-color: var(--color-input-background);
-    color: var(--color-text);
-    border: var(--border-session);
+    background-color: var(--input-background-color);
+    color: var(--input-text-color);
+    border: 1px solid var(--input-border-color);
+
+    &::placeholder {
+      color: var(--input-text-placeholder-color);
+    }
   }
 }
 
@@ -180,7 +183,7 @@
       height: 30px;
       width: 30px;
       border-radius: 50%;
-      background-color: white;
+      background-color: var(--white-color);
       transition: var(--default-duration);
 
       &:hover {
@@ -212,9 +215,10 @@
       border-radius: 5px;
       text-align: center;
       font-size: $session-font-md;
-      background: var(--color-input-background);
-      color: var(--color-text);
-      border: var(--border-session);
+      // TODO Theming - Is this redundant?
+      background-color: var(--input-background-color);
+      color: var(--input-text-color);
+      border: 1px solid var(--input-border-color);
     }
 
     &-uneditable {

@@ -5,7 +5,6 @@ export const LeftPaneSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: var(--border-color);
   overflow-y: auto;
 
   .session-icon-button {

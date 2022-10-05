@@ -1,14 +1,9 @@
 import styled from 'styled-components';
 
 export const SessionHeaderSearchInput = styled.input<{ darkMode: boolean }>`
-  color: var(
-    ${props => (props.darkMode ? '--color-lighter-gray-color' : '--color-lighter-gray-color')}
-  );
-  background-color: var(
-    ${props => (props.darkMode ? '--color-darkest-gray-color' : '--color-darkest-gray-color')}
-  );
-  border: 1px solid
-    var(${props => (props.darkMode ? '--color-dark-gray-color' : '--color-gray-color')});
+  color: var(--input-text-color);
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
   padding: 0 26px 0 30px;
   margin-inline-start: 8px;
   margin-inline-end: 8px;
@@ -21,14 +16,14 @@ export const SessionHeaderSearchInput = styled.input<{ darkMode: boolean }>`
   font-weight: normal;
 
   position: relative;
-  border-radius: ${props => (props.darkMode ? '14px' : '4px')};
+  border-radius: '4px';
 
   &::placeholder {
-    color: var(--color-light-gray-color);
+    color: var(--input-text-placeholder-color);
   }
 
   &:focus {
-    border: solid 1px var(${props => (props.darkMode ? '--color-accent' : '--color-text')});
+    border: solid 1px var(${props => (props.darkMode ? '--primary-color' : '--input-text-color')});
     outline: none;
   }
 `;

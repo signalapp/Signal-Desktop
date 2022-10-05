@@ -20,8 +20,8 @@ export const DraggableCallWindow = styled.div`
   width: 12vw;
   display: flex;
   flex-direction: column;
-  background-color: var(--modal-background-color);
-  border: var(--border-color);
+  background-color: var(--modal-background-content-color);
+  border: 1px solid var(--border-color);
 `;
 
 export const StyledVideoElement = styled.video<{ isVideoMuted: boolean }>`

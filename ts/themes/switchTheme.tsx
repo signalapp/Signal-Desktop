@@ -324,7 +324,7 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
   );
 
   document.documentElement.style.setProperty(
-    '--modal-background-color',
+    '--modal-background-content-color',
     THEMES.CLASSIC_LIGHT.COLOR6
   );
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
@@ -410,6 +410,21 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
     'rgba(192, 192, 192, .40)'
   );
   document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
+
+  document.documentElement.style.setProperty(
+    '--input-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-background-hover-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-text-placeholder-color',
+    'var(--text-secondary-color)'
+  );
+  document.documentElement.style.setProperty('--input-text-color', ' var(--text-primary-color)');
+  document.documentElement.style.setProperty('--input-border-color', 'var(--border-color)');
 }
 
 function loadClassicDark(primaryColor?: PrimaryColorStateType) {
@@ -725,8 +740,8 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
   );
 
   document.documentElement.style.setProperty(
-    '--modal-background-color',
-    'var(--background-secondary-color)'
+    '--modal-background-content-color',
+    'var(--background-primary-color)'
   );
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
@@ -809,6 +824,21 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
     'rgba(192, 192, 192, .40)'
   );
   document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
+
+  document.documentElement.style.setProperty(
+    '--input-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-background-hover-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-text-placeholder-color',
+    'var(--text-secondary-color)'
+  );
+  document.documentElement.style.setProperty('--input-text-color', ' var(--text-primary-color)');
+  document.documentElement.style.setProperty('--input-border-color', 'var(--border-color)');
 }
 
 function loadOceanLight(primaryColor?: PrimaryColorStateType) {
@@ -1128,7 +1158,7 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
   );
 
   document.documentElement.style.setProperty(
-    '--modal-background-color',
+    '--modal-background-content-color',
     'var(--background-primary-color)'
   );
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
@@ -1214,6 +1244,18 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
     'rgba(192, 192, 192, .40)'
   );
   document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
+
+  document.documentElement.style.setProperty('--input-background-color', THEMES.OCEAN_LIGHT.COLOR5);
+  document.documentElement.style.setProperty(
+    '--input-background-hover-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-text-placeholder-color',
+    'var(--text-secondary-color)'
+  );
+  document.documentElement.style.setProperty('--input-text-color', ' var(--text-primary-color)');
+  document.documentElement.style.setProperty('--input-border-color', 'var(--border-color)');
 }
 
 function loadOceanDark(primaryColor?: PrimaryColorStateType) {
@@ -1525,8 +1567,8 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
 
   document.documentElement.style.setProperty(
-    '--modal-background-color',
-    'var(--background-primary-color)'
+    '--modal-background-content-color',
+    'var(--background-secondary-color)'
   );
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
@@ -1609,6 +1651,18 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     'rgba(192, 192, 192, .40)'
   );
   document.documentElement.style.setProperty('--lightbox-icon-stroke-color', 'var(--white-color)');
+
+  document.documentElement.style.setProperty('--input-background-color', THEMES.OCEAN_DARK.COLOR3);
+  document.documentElement.style.setProperty(
+    '--input-background-hover-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty(
+    '--input-text-placeholder-color',
+    'var(--text-secondary-color)'
+  );
+  document.documentElement.style.setProperty('--input-text-color', ' var(--text-primary-color)');
+  document.documentElement.style.setProperty('--input-border-color', 'var(--border-color)');
 }
 
 export async function switchTheme(theme: ThemeStateType) {
