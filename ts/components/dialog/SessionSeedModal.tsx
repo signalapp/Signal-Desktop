@@ -96,8 +96,8 @@ interface SeedProps {
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
   const i18n = window.i18n;
-  const bgColor = '#FFFFFF';
-  const fgColor = '#1B1B1B';
+  const bgColor = 'var(--white-color)';
+  const fgColor = 'var(--black-color)';
   const dispatch = useDispatch();
 
   const hexEncodedSeed = mn_decode(recoveryPhrase, 'english');

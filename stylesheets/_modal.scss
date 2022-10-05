@@ -37,7 +37,6 @@
   }
 }
 
-.create-group-dialog,
 .add-moderators-dialog,
 .remove-moderators-dialog,
 .invite-friends-dialog {
@@ -70,7 +69,6 @@
   }
 }
 
-.create-group-dialog,
 .add-moderators-dialog,
 .remove-moderators-dialog,
 .edit-profile-dialog {
@@ -168,11 +166,6 @@
   .avatar-center-inner {
     position: relative;
 
-    .module-avatar {
-      // TODO Theming update
-      box-shadow: 0px 0px 13px 0.5px var(--color-session-shadow);
-    }
-
     .qr-view-button {
       cursor: pointer;
       display: flex;
@@ -215,10 +208,6 @@
       border-radius: 5px;
       text-align: center;
       font-size: $session-font-md;
-      // TODO Theming - Is this redundant?
-      background-color: var(--input-background-color);
-      color: var(--input-text-color);
-      border: 1px solid var(--input-border-color);
     }
 
     &-uneditable {
@@ -234,67 +223,6 @@
       .session-icon-button {
         padding: 0px;
       }
-    }
-  }
-}
-
-.onion-status-dialog {
-  .session-modal__header__title {
-    font-size: var(--font-size-lg);
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
-    }
-  }
-
-  .session-modal__body {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    line-height: 1.5em;
-
-    .onionDescriptionContainer {
-      text-align: center;
-      margin-top: 0;
-    }
-
-    .onionPath {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      margin: 2em auto;
-
-      .dotContainer:not(:last-child) {
-        padding-bottom: 2em;
-      }
-
-      .dotContainer {
-        display: flex;
-        align-items: center;
-        width: 100%;
-
-        p {
-          margin-bottom: 0 !important;
-          margin-top: 0;
-          margin-left: 2em;
-          text-align: left;
-        }
-
-        .dot {
-          height: 15px;
-          width: 15px;
-          border-radius: 50%;
-          display: inline-block;
-        }
-      }
-    }
-
-    .lineContainer {
-      height: 50px;
     }
   }
 }

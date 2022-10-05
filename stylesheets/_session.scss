@@ -23,7 +23,7 @@
 
 input,
 textarea {
-  caret-color: var(--color-text) !important;
+  caret-color: var(--input-text-color) !important;
 }
 
 * {
@@ -433,12 +433,13 @@ label {
   width: 80px;
   height: 80px;
   border-radius: 100%;
-  background-color: rgba(var(--color-black-color-rgb), 0.72);
+  background-color: var(--lightbox-background-color);
   opacity: 0;
   transition: var(--default-duration);
 
   &:after {
     content: 'Edit';
+    color: var(--white-color);
   }
 
   &:hover {
@@ -561,7 +562,6 @@ label {
   }
 }
 
-// TODO Theming
 #qr svg,
 .qr-image svg {
   width: $session-modal-size-sm;
@@ -577,6 +577,8 @@ label {
 
 .session-id-editable {
   padding: var(--margins-lg);
+  background: var(--input-background-color);
+  color: var(--input-text-color);
 
   textarea {
     width: 30vh;
@@ -596,6 +598,7 @@ label {
     padding-left: 5px;
     padding-right: 5px;
     font-family: var(--font-default);
+    color: var(--input-text-placeholder-color);
   }
 
   &.group-id-editable-textarea {

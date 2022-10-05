@@ -48,7 +48,7 @@ const StyledOnionDescription = styled.p`
 `;
 
 const StyledVerticalLine = styled.div`
-  background: rgba(#7a7a7a, 0.6);
+  background: var(--border-color);
   position: absolute;
   height: calc(100% - 2 * 15px);
   margin: 15px calc(100% / 2 - 1px);

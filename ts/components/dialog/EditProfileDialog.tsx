@@ -34,7 +34,12 @@ interface State {
 const QRView = ({ sessionID }: { sessionID: string }) => {
   return (
     <div className="qr-image">
-      <QRCode value={sessionID} bgColor="#FFFFFF" fgColor="#1B1B1B" level="L" />
+      <QRCode
+        value={sessionID}
+        bgColor="var(--white-color)"
+        fgColor="var(--black-color)"
+        level="L"
+      />
     </div>
   );
 };
@@ -153,7 +158,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
               }}
               role="button"
             >
-              <SessionIconButton iconType="qr" iconSize="small" iconColor={'rgb(0, 0, 0)'} />
+              <SessionIconButton iconType="qr" iconSize="small" iconColor="var(--black-color)" />
             </div>
           </div>
         </div>

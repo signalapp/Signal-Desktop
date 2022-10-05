@@ -10,10 +10,7 @@
 }
 
 .edit-profile-dialog,
-.create-group-dialog,
-.user-details-dialog,
-.update-group-dialog,
-.onion-status-dialog {
+.update-group-dialog {
   .content {
     max-width: 100% !important;
   }
@@ -30,13 +27,6 @@
   .title-text {
     font-size: large;
     text-align: center;
-  }
-
-  .message {
-    font-style: italic;
-    color: var(--color-gray-color);
-    font-size: 12px;
-    margin-bottom: 16px;
   }
 
   .module-avatar {
