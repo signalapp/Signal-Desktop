@@ -520,6 +520,7 @@ export default class AccountManager extends EventTarget {
     let password = Bytes.toBase64(getRandomBytes(16));
     password = password.substring(0, password.length - 2);
     const registrationId = generateRegistrationId();
+    const pniRegistrationId = generateRegistrationId();
 
     const previousNumber = storage.user.getNumber();
     const previousACI = storage.user.getUuid(UUIDKind.ACI)?.toString();
@@ -537,14 +538,15 @@ export default class AccountManager extends EventTarget {
       }`
     );
 
-    const response = await this.server.confirmCode(
+    const response = await this.server.confirmCode({
       number,
-      verificationCode,
-      password,
+      code: verificationCode,
+      newPassword: password,
       registrationId,
-      encryptedDeviceName,
-      { accessKey }
-    );
+      pniRegistrationId,
+      deviceName: encryptedDeviceName,
+      accessKey,
+    });
 
     const ourUuid = UUID.cast(response.uuid);
     const ourPni = UUID.cast(response.pni);
@@ -663,9 +665,7 @@ export default class AccountManager extends EventTarget {
     const registrationIdMap = {
       ...(storage.get('registrationIdMap') || {}),
       [ourUuid]: registrationId,
-
-      // TODO: DESKTOP-3318
-      [ourPni]: registrationId,
+      [ourPni]: pniRegistrationId,
     };
 
     await storage.put('identityKeyMap', identityKeyMap);
@@ -714,20 +714,7 @@ export default class AccountManager extends EventTarget {
         [pni.toString()]: identityKeyPair,
       };
 
-      const aci = storage.user.getCheckedUuid(UUIDKind.ACI);
-      const oldRegistrationIdMap = storage.get('registrationIdMap') || {};
-      const registrationIdMap = {
-        ...oldRegistrationIdMap,
-
-        // TODO: DESKTOP-3318
-        [pni.toString()]: oldRegistrationIdMap[aci.toString()],
-      };
-
-      await Promise.all([
-        storage.put('identityKeyMap', identityKeyMap),
-        storage.put('registrationIdMap', registrationIdMap),
-      ]);
-
+      await storage.put('identityKeyMap', identityKeyMap);
       await storage.protocol.hydrateCaches();
     });
 
@@ -743,6 +730,33 @@ export default class AccountManager extends EventTarget {
         );
         await this.server.registerKeys(keys, UUIDKind.PNI);
         await this.confirmKeys(keys, UUIDKind.PNI);
+
+        const pni = storage.user.getCheckedUuid(UUIDKind.PNI);
+
+        // Repair registration id
+        const deviceId = storage.user.getDeviceId();
+        const { devices } = await this.server.getKeysForIdentifier(
+          pni.toString(),
+          deviceId
+        );
+        const us = devices.find(
+          remoteDevice => remoteDevice.deviceId === deviceId
+        );
+        if (us) {
+          const oldRegistrationIdMap = storage.get('registrationIdMap') || {};
+          const oldRegistrationId = oldRegistrationIdMap[pni.toString()];
+          if (oldRegistrationId !== us.registrationId) {
+            log.warn(
+              'updatePNIIdentity: repairing PNI registration id from ' +
+                `${oldRegistrationId} to ${us.registrationId}`
+            );
+          }
+          const registrationIdMap = {
+            ...oldRegistrationIdMap,
+            [pni.toString()]: us.registrationId,
+          };
+          await storage.put('registrationIdMap', registrationIdMap);
+        }
       } catch (error) {
         log.error(
           'updatePNIIdentity: Failed to upload PNI prekeys. Moving on',

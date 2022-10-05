@@ -798,17 +798,22 @@ const verifyAciResponse = z
 export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
 export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
 
+export type ConfirmCodeOptionsType = Readonly<{
+  number: string;
+  code: string;
+  newPassword: string;
+  registrationId: number;
+  pniRegistrationId: number;
+  deviceName?: string | null;
+  accessKey?: Uint8Array;
+}>;
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
   cdsLookup: (options: CdsLookupOptionsType) => Promise<CDSResponseType>;
   confirmCode: (
-    number: string,
-    code: string,
-    newPassword: string,
-    registrationId: number,
-    deviceName?: string | null,
-    options?: { accessKey?: Uint8Array }
+    options: ConfirmCodeOptionsType
   ) => Promise<ConfirmCodeResultType>;
   createGroup: (
     group: Proto.IGroup,
@@ -1845,14 +1850,15 @@ export function initialize({
       current.resolve();
     }
 
-    async function confirmCode(
-      number: string,
-      code: string,
-      newPassword: string,
-      registrationId: number,
-      deviceName?: string | null,
-      options: { accessKey?: Uint8Array } = {}
-    ) {
+    async function confirmCode({
+      number,
+      code,
+      newPassword,
+      registrationId,
+      pniRegistrationId,
+      deviceName,
+      accessKey,
+    }: ConfirmCodeOptionsType) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
         giftBadges: true,
@@ -1863,12 +1869,12 @@ export function initialize({
         stories: true,
       };
 
-      const { accessKey } = options;
       const jsonData = {
         capabilities,
         fetchesMessages: true,
         name: deviceName || undefined,
         registrationId,
+        pniRegistrationId,
         supportsSms: false,
         unidentifiedAccessKey: accessKey
           ? Bytes.toBase64(accessKey)
