@@ -35,7 +35,7 @@ import type { UUID, UUIDStringType } from '../types/UUID';
 import { UUIDKind } from '../types/UUID';
 import type { DirectoryConfigType } from '../types/RendererConfig';
 import * as Bytes from '../Bytes';
-import { getRandomValue } from '../Crypto';
+import { randomInt } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
@@ -2431,11 +2431,11 @@ export function initialize({
     }
 
     function getHeaderPadding() {
-      const max = getRandomValue(1, 64);
+      const max = randomInt(1, 64);
       let characters = '';
 
       for (let i = 0; i < max; i += 1) {
-        characters += String.fromCharCode(getRandomValue(65, 122));
+        characters += String.fromCharCode(randomInt(65, 122));
       }
 
       return characters;

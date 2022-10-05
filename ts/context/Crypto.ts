@@ -119,6 +119,10 @@ export class Crypto {
     return Buffer.concat([decipher.update(input), decipher.final()]);
   }
 
+  public randomInt(min: number, max: number): number {
+    return crypto.randomInt(min, max);
+  }
+
   public getRandomBytes(size: number): Uint8Array {
     return crypto.randomBytes(size);
   }

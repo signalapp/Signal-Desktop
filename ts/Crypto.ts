@@ -34,17 +34,8 @@ export type EncryptedAttachment = {
   digest: Uint8Array;
 };
 
-// Generate a number between zero and 16383
 export function generateRegistrationId(): number {
-  const bytes = getRandomBytes(2);
-  const id = new Uint16Array(
-    bytes.buffer,
-    bytes.byteOffset,
-    bytes.byteLength / 2
-  )[0];
-
-  // eslint-disable-next-line no-bitwise
-  return id & 0x3fff;
+  return randomInt(1, 16383);
 }
 
 export function deriveStickerPackKey(packKey: Uint8Array): Uint8Array {
@@ -341,16 +332,6 @@ export function sha256(data: Uint8Array): Uint8Array {
 }
 
 // Utility
-
-export function getRandomValue(low: number, high: number): number {
-  const diff = high - low;
-  const bytes = getRandomBytes(1);
-
-  // Because high and low are inclusive
-  const mod = diff + 1;
-
-  return (bytes[0] % mod) + low;
-}
 
 export function getZeroes(n: number): Uint8Array {
   return new Uint8Array(n);
@@ -681,6 +662,13 @@ export function decrypt(
   ...args: Parameters<typeof crypto.decrypt>
 ): Uint8Array {
   return crypto.decrypt(...args);
+}
+
+/**
+ * Generate an integer between `min` and `max`, inclusive.
+ */
+export function randomInt(min: number, max: number): number {
+  return crypto.randomInt(min, max + 1);
 }
 
 export function getRandomBytes(size: number): Uint8Array {

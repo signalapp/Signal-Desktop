@@ -25,6 +25,7 @@ import {
   decryptSymmetric,
   hmacSha256,
   verifyHmacSha256,
+  randomInt,
   uuidToBytes,
   bytesToUuid,
 } from '../Crypto';
@@ -164,11 +165,11 @@ describe('Crypto', () => {
   });
 
   describe('generateRegistrationId', () => {
-    it('generates an integer between 0 and 16383 (inclusive)', () => {
-      let max = 0;
+    it('generates an integer between 1 and 16383 (inclusive)', () => {
+      let max = -1;
       for (let i = 0; i < 100; i += 1) {
         const id = generateRegistrationId();
-        assert.isAtLeast(id, 0);
+        assert.isAtLeast(id, 1);
         assert.isAtMost(id, 16383);
         assert(Number.isInteger(id));
 
@@ -438,6 +439,17 @@ describe('Crypto', () => {
         theirMac.byteLength
       );
       assert.isUndefined(result);
+    });
+  });
+
+  describe('randomInt', () => {
+    it('returns random integers in a range (inclusive)', () => {
+      const seen = new Set<number>();
+      for (let i = 0; i < 1_000_000 || seen.size < 3; i += 1) {
+        seen.add(randomInt(1, 3));
+      }
+
+      assert.deepStrictEqual(seen, new Set([1, 2, 3]));
     });
   });
 
