@@ -13,6 +13,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
 import type { UUIDStringType } from '../types/UUID';
+import { Alert } from './Alert';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
@@ -199,6 +200,8 @@ export const SendStoryModal = ({
     Array<ConversationType>
   >([]);
 
+  const [hasAnnouncementsOnlyAlert, setHasAnnouncementsOnlyAlert] =
+    useState(false);
   const [confirmRemoveGroupId, setConfirmRemoveGroupId] = useState<
     string | undefined
   >();
@@ -481,6 +484,11 @@ export const SendStoryModal = ({
               moduleClassName="SendStoryModal__distribution-list"
               name="SendStoryModal__distribution-list"
               onChange={(value: boolean) => {
+                if (group.announcementsOnly && !group.areWeAdmin) {
+                  setHasAnnouncementsOnlyAlert(true);
+                  return;
+                }
+
                 setChosenGroupIds(groupIds => {
                   if (value) {
                     groupIds.add(group.id);
@@ -531,7 +539,7 @@ export const SendStoryModal = ({
           ))
         ) : (
           <div className="module-ForwardMessageModal__no-candidate-contacts">
-            {i18n('noContactsFound')}
+            {i18n('noGroupsFound')}
           </div>
         )}
       </ModalPage>
@@ -708,6 +716,11 @@ export const SendStoryModal = ({
                 return;
               }
 
+              if (group.announcementsOnly && !group.areWeAdmin) {
+                setHasAnnouncementsOnlyAlert(true);
+                return;
+              }
+
               setSelectedGroupIds(groupIds => {
                 if (value) {
                   groupIds.add(group.id);
@@ -788,6 +801,14 @@ export const SendStoryModal = ({
       >
         {modal}
       </PagedModal>
+      {hasAnnouncementsOnlyAlert && (
+        <Alert
+          body={i18n('SendStoryModal__announcements-only')}
+          i18n={i18n}
+          onClose={() => setHasAnnouncementsOnlyAlert(false)}
+          theme={Theme.Dark}
+        />
+      )}
       {confirmRemoveGroupId && (
         <ConfirmationDialog
           dialogName="SendStoryModal.confirmRemoveGroupId"

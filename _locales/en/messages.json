@@ -1915,6 +1915,10 @@
     "message": "No contacts found",
     "description": "Label shown when there are no contacts to compose to"
   },
+  "noGroupsFound": {
+    "message": "No groups found",
+    "description": "Label shown when there are no groups to compose to"
+  },
   "noConversationsFound": {
     "message": "No conversations found",
     "description": "Label shown when there are no conversations to compose to"
@@ -5622,6 +5626,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Only admins can send stories to this group.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",

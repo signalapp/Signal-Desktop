@@ -5,30 +5,34 @@ import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
+import type { Theme } from '../util/theme';
 import { Button } from './Button';
 import { Modal } from './Modal';
 
 type PropsType = {
-  title?: string;
   body: ReactNode;
   i18n: LocalizerType;
   onClose: () => void;
+  theme?: Theme;
+  title?: string;
 };
 
 export const Alert: FunctionComponent<PropsType> = ({
   body,
   i18n,
   onClose,
+  theme,
   title,
 }) => (
   <Modal
-    modalName="Alert"
     i18n={i18n}
-    onClose={onClose}
-    title={title}
     modalFooter={
       <Button onClick={onClose}>{i18n('Confirmation--confirm')}</Button>
     }
+    modalName="Alert"
+    onClose={onClose}
+    theme={theme}
+    title={title}
   >
     {body}
   </Modal>

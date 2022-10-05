@@ -190,6 +190,14 @@ export async function sendStoryMessage(
         return;
       }
 
+      if (group.get('announcementsOnly') && !group.areWeAdmin()) {
+        log.warn(
+          'stories.sendStoryMessage: cannot send to an announcement only group as a non-admin',
+          conversationId
+        );
+        return;
+      }
+
       const groupTimestamp = timestamp + index;
 
       const myId = window.ConversationController.getOurConversationIdOrThrow();
