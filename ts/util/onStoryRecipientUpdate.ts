@@ -26,6 +26,7 @@ export async function onStoryRecipientUpdate(
   const conversation = window.ConversationController.get(destinationUuid);
 
   if (!conversation) {
+    log.info(`onStoryRecipientUpdate no conversation for ${destinationUuid}`);
     return;
   }
 

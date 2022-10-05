@@ -1447,7 +1447,7 @@ export default class MessageReceiver
       new DeliveryEvent(
         {
           timestamp: envelope.timestamp,
-          envelopeTimestamp: envelope.serverTimestamp,
+          envelopeTimestamp: envelope.timestamp,
           source: envelope.source,
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
@@ -1974,6 +1974,7 @@ export default class MessageReceiver
       const ev = new SentEvent(
         {
           destinationUuid: envelope.destinationUuid.toString(),
+          device: envelope.sourceDevice,
           isRecipientUpdate: Boolean(sentMessage.isRecipientUpdate),
           message,
           receivedAtCounter: envelope.receivedAtCounter,
