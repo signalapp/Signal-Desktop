@@ -179,7 +179,8 @@ export const ConversationHero = ({
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={112}
-          storyRing={hasStories}
+          // user may have stories, but we don't show that on Note to Self conversation
+          storyRing={isMe ? undefined : hasStories}
           theme={theme}
           title={title}
         />

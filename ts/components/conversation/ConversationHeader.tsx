@@ -243,7 +243,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
-          storyRing={hasStories}
+          // user may have stories, but we don't show that on Note to Self conversation
+          storyRing={isMe ? undefined : hasStories}
           theme={theme}
           title={title}
           unblurredAvatarPath={unblurredAvatarPath}
