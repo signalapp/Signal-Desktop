@@ -100,13 +100,13 @@ const StyledInputOutlineSelected = styled(StyledInput)`
     outline: none;
   }
   :checked + label:before {
-    outline-color: 1px solid currentColor;
+    outline: 1px solid currentColor;
   }
 `;
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
   :before {
     background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
-    outline: var(--transparent-color) solid 1px;
+    outline: 1px solid transparent; /* CSS varibles didn't work here */
   }
 `;
 
