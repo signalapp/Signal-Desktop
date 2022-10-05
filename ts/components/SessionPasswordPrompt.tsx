@@ -5,11 +5,9 @@ import { SessionIcon } from './icon';
 import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionSpinner } from './basic/SessionSpinner';
-import {
-  SessionTheme,
-  switchHtmlToDarkTheme,
-  switchHtmlToLightTheme,
-} from '../themes/SessionTheme';
+import { SessionTheme } from '../themes/SessionTheme';
+import { switchThemeTo } from '../session/utils/Theme';
+import styled from 'styled-components';
 
 interface State {
   error: string;
@@ -26,6 +24,12 @@ const TextPleaseWait = (props: { isLoading: boolean }) => {
   }
   return <div>{window.i18n('pleaseWaitOpenAndOptimizeDb')}</div>;
 };
+
+const StyledContent = styled.div`
+  background-color: var(--background-primary-color);
+  height: 100%;
+  width: 100%;
+`;
 
 class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   private inputRef?: any;
@@ -216,16 +220,16 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
 export const SessionPasswordPrompt = () => {
   useEffect(() => {
-    if ((window as any).theme === 'dark') {
-      switchHtmlToDarkTheme();
-    } else {
-      switchHtmlToLightTheme();
+    if ((window as any).theme) {
+      void switchThemeTo((window as any).theme, null, false);
     }
   }, []);
 
   return (
     <SessionTheme>
-      <SessionPasswordPromptInner />
+      <StyledContent>
+        <SessionPasswordPromptInner />
+      </StyledContent>
     </SessionTheme>
   );
 };

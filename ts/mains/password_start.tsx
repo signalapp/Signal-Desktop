@@ -3,11 +3,5 @@
 
 import React from 'react';
 import { SessionPasswordPrompt } from '../components/SessionPasswordPrompt';
-import { SessionTheme } from '../themes/SessionTheme';
 
-window.ReactDOM.render(
-  <SessionTheme>
-    <SessionPasswordPrompt />
-  </SessionTheme>,
-  document.getElementById('root')
-);
+window.ReactDOM.render(<SessionPasswordPrompt />, document.getElementById('root'));
