@@ -331,8 +331,14 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
 
   document.documentElement.style.setProperty(
+    '--toast-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty('--toast-text-color', 'var(--text-primary-color)');
+  document.documentElement.style.setProperty('--toast-color-strip-color', 'var(--primary-color)');
+  document.documentElement.style.setProperty(
     '--toast-progress-color',
-    `rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1)`
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1)`
   );
 
   document.documentElement.style.setProperty(
@@ -746,10 +752,15 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
 
-  // TODO Theming - Update
+  document.documentElement.style.setProperty(
+    '--toast-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty('--toast-text-color', 'var(--text-primary-color)');
+  document.documentElement.style.setProperty('--toast-color-strip-color', 'var(--primary-color)');
   document.documentElement.style.setProperty(
     '--toast-progress-color',
-    `rgba(${hexColorToRGB(THEMES.CLASSIC_DARK.COLOR0)}, 0.1)`
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1)`
   );
 
   document.documentElement.style.setProperty(
@@ -1165,8 +1176,14 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
 
   document.documentElement.style.setProperty(
+    '--toast-background-color',
+    'var(--background-primary-color)'
+  );
+  document.documentElement.style.setProperty('--toast-text-color', 'var(--text-primary-color)');
+  document.documentElement.style.setProperty('--toast-color-strip-color', 'var(--primary-color)');
+  document.documentElement.style.setProperty(
     '--toast-progress-color',
-    `rgba(${hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR0)}, 0.1)`
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1)`
   );
 
   document.documentElement.style.setProperty(
@@ -1573,10 +1590,15 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   document.documentElement.style.setProperty('--modal-text-color', 'var(--text-primary-color)');
   document.documentElement.style.setProperty('--modal-text-danger-color', 'var(--danger-color)');
 
-  // TODO Theming - Update
+  document.documentElement.style.setProperty(
+    '--toast-background-color',
+    'var(--background-secondary-color)'
+  );
+  document.documentElement.style.setProperty('--toast-text-color', 'var(--text-primary-color)');
+  document.documentElement.style.setProperty('--toast-color-strip-color', 'var(--primary-color)');
   document.documentElement.style.setProperty(
     '--toast-progress-color',
-    `rgba(${hexColorToRGB(THEMES.OCEAN_DARK.COLOR0)}, 0.1)`
+    `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1)`
   );
 
   document.documentElement.style.setProperty(

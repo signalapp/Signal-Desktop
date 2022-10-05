@@ -630,7 +630,10 @@ export const SessionGlobalStyles = createGlobalStyle`
     --modal-drop-shadow: 0px 0px 10px  rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22);
 
     /* Toasts */
-    --toast-progress-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.1);
+    --toast-background-color: 'var(--background-primary-color)';
+    --toast-text-color: 'var(--text-primary-color)';
+    --toast-color-strip-color: 'var(--primary-color)';
+    --toast-progress-color: rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1);
 
     /* Right Panel Items */
     /* Also used for Session Dropdown */

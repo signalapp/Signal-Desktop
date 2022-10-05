@@ -183,14 +183,13 @@ label {
   visibility: hidden;
 }
 
-// TODO Theming update
 .Toastify__toast {
-  background: var(--modal-background-content-color);
-  color: var(--modal-text-color);
-  border-left: 4px solid var(--primary-color);
+  background: var(--toast-background-color);
+  color: var(--toast-text-color);
+  border-left: 4px solid var(--toast-color-strip-color);
 
   .Toastify__close-button {
-    color: var(--modal-text-color);
+    color: var(--toast-text-color);
   }
 
   .Toastify__progress-bar {
