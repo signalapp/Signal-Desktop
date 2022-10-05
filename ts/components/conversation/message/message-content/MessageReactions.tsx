@@ -207,7 +207,7 @@ export const MessageReactions = (props: Props): ReactElement => {
       y={popupY}
     >
       {sortedReacts &&
-        sortedReacts !== [] &&
+        sortedReacts?.length !== 0 &&
         (!hasReactLimit || sortedReacts.length <= reactLimit ? (
           <Reactions {...reactionsProps} />
         ) : (

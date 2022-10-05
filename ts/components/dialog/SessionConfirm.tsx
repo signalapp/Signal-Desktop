@@ -157,6 +157,7 @@ export const showLinkVisitWarningDialog = (urlToOpen: string, dispatch: Dispatch
       title: window.i18n('linkVisitWarningTitle'),
       message: window.i18n('linkVisitWarningMessage', [urlToOpen]),
       okText: window.i18n('open'),
+      okTheme: SessionButtonColor.Primary,
       cancelText: window.i18n('editMenuCopy'),
       showExitIcon: true,
       onClickOk,

@@ -488,9 +488,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     /* Borders */
     --border-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
 
-    /* Modals */
-    /* TODO Theming Clarify what those transparent colors mean */
-
     /* Text Box */
     /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
