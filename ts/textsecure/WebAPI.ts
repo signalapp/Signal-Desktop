@@ -612,6 +612,7 @@ type AjaxOptionsType = {
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
   useWebSocket?: boolean;
+  hasStoriesDisabled: boolean;
 };
 
 export type WebAPIConnectType = {
@@ -962,9 +963,11 @@ export type WebAPIType = {
   getSocketStatus: () => SocketStatus;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
+  onHasStoriesDisabledChange: (newValue: boolean) => void;
   checkSockets: () => void;
   onOnline: () => Promise<void>;
-  onOffline: () => Promise<void>;
+  onOffline: () => void;
+  reconnect: () => Promise<void>;
 };
 
 export type SignedPreKeyType = {
@@ -1074,6 +1077,7 @@ export function initialize({
     username: initialUsername,
     password: initialPassword,
     useWebSocket = true,
+    hasStoriesDisabled,
   }: WebAPIConnectOptionsType) {
     let username = initialUsername;
     let password = initialPassword;
@@ -1088,6 +1092,7 @@ export function initialize({
       certificateAuthority,
       version,
       proxyUrl,
+      hasStoriesDisabled,
     });
 
     socketManager.on('statusChange', () => {
@@ -1228,8 +1233,10 @@ export function initialize({
       checkSockets,
       onOnline,
       onOffline,
+      reconnect,
       registerRequestHandler,
       unregisterRequestHandler,
+      onHasStoriesDisabledChange,
       authenticate,
       logout,
       cdsLookup,
@@ -1430,8 +1437,12 @@ export function initialize({
       await socketManager.onOnline();
     }
 
-    async function onOffline(): Promise<void> {
-      await socketManager.onOffline();
+    function onOffline(): void {
+      socketManager.onOffline();
+    }
+
+    async function reconnect(): Promise<void> {
+      await socketManager.reconnect();
     }
 
     function registerRequestHandler(handler: IRequestHandler): void {
@@ -1440,6 +1451,10 @@ export function initialize({
 
     function unregisterRequestHandler(handler: IRequestHandler): void {
       socketManager.unregisterRequestHandler(handler);
+    }
+
+    function onHasStoriesDisabledChange(newValue: boolean): void {
+      socketManager.onHasStoriesDisabledChange(newValue);
     }
 
     async function getConfig() {

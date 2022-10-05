@@ -37,6 +37,7 @@ export type SocketManagerOptions = Readonly<{
   certificateAuthority: string;
   version: string;
   proxyUrl?: string;
+  hasStoriesDisabled: boolean;
 }>;
 
 // This class manages two websocket resources:
@@ -76,12 +77,16 @@ export class SocketManager extends EventListener {
 
   private isOffline = false;
 
+  private hasStoriesDisabled: boolean;
+
   constructor(private readonly options: SocketManagerOptions) {
     super();
 
     if (options.proxyUrl) {
       this.proxyAgent = new ProxyAgent(options.proxyUrl);
     }
+
+    this.hasStoriesDisabled = options.hasStoriesDisabled;
   }
 
   public getStatus(): SocketStatus {
@@ -124,7 +129,10 @@ export class SocketManager extends EventListener {
 
     this.credentials = credentials;
 
-    log.info('SocketManager: connecting authenticated socket');
+    log.info(
+      'SocketManager: connecting authenticated socket ' +
+        `(hasStoriesDisabled=${this.hasStoriesDisabled})`
+    );
 
     this.setStatus(SocketStatus.CONNECTING);
 
@@ -137,6 +145,9 @@ export class SocketManager extends EventListener {
         handleRequest: (req: IncomingWebSocketRequest): void => {
           this.queueOrHandleRequest(req);
         },
+      },
+      extraHeaders: {
+        'X-Signal-Receive-Stories': String(!this.hasStoriesDisabled),
       },
     });
 
@@ -348,6 +359,25 @@ export class SocketManager extends EventListener {
     this.requestHandlers.delete(handler);
   }
 
+  public async onHasStoriesDisabledChange(newValue: boolean): Promise<void> {
+    if (this.hasStoriesDisabled === newValue) {
+      return;
+    }
+
+    this.hasStoriesDisabled = newValue;
+    log.info(
+      `SocketManager: reconnecting after setting hasStoriesDisabled=${newValue}`
+    );
+    await this.reconnect();
+  }
+
+  public async reconnect(): Promise<void> {
+    log.info('SocketManager.reconnect: starting...');
+    this.onOffline();
+    await this.onOnline();
+    log.info('SocketManager.reconnect: complete.');
+  }
+
   // Force keep-alive checks on WebSocketResources
   public async check(): Promise<void> {
     if (this.isOffline) {
@@ -374,7 +404,7 @@ export class SocketManager extends EventListener {
 
   // Puts SocketManager into "offline" state and gracefully disconnects both
   // unauthenticated and authenticated resources.
-  public async onOffline(): Promise<void> {
+  public onOffline(): void {
     log.info('SocketManager.onOffline');
     this.isOffline = true;
 
@@ -471,11 +501,13 @@ export class SocketManager extends EventListener {
     path,
     resourceOptions,
     query = {},
+    extraHeaders = {},
   }: {
     name: string;
     path: string;
     resourceOptions: WebSocketResourceOptions;
     query?: Record<string, string>;
+    extraHeaders?: Record<string, string>;
   }): AbortableProcess<WebSocketResource> {
     const queryWithDefaults = {
       agent: 'OWD',
@@ -491,6 +523,8 @@ export class SocketManager extends EventListener {
       certificateAuthority: this.options.certificateAuthority,
       version: this.options.version,
       proxyAgent: this.proxyAgent,
+
+      extraHeaders,
 
       createResource(socket: WebSocket): WebSocketResource {
         return new WebSocketResource(socket, resourceOptions);

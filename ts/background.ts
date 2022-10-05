@@ -221,9 +221,10 @@ export async function startApp(): Promise<void> {
   let routineProfileRefresher: RoutineProfileRefresher | undefined;
 
   window.storage.onready(() => {
-    server = window.WebAPI.connect(
-      window.textsecure.storage.user.getWebAPICredentials()
-    );
+    server = window.WebAPI.connect({
+      ...window.textsecure.storage.user.getWebAPICredentials(),
+      hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
+    });
     window.textsecure.server = server;
 
     initializeAllJobQueues({
@@ -1722,9 +1723,7 @@ export async function startApp(): Promise<void> {
       }
 
       log.info('reconnectToWebSocket starting...');
-      await server.onOffline();
-      await server.onOnline();
-      log.info('reconnectToWebSocket complete.');
+      await server.reconnect();
     });
   };
 

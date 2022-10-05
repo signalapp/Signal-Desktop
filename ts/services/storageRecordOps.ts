@@ -1256,7 +1256,11 @@ export async function mergeAccountRecord(
   window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
   window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
   window.storage.put('hasSetMyStoriesPrivacy', Boolean(hasSetMyStoriesPrivacy));
-  window.storage.put('hasStoriesDisabled', Boolean(storiesDisabled));
+  {
+    const hasStoriesDisabled = Boolean(storiesDisabled);
+    window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
+    window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
+  }
 
   const ourID = window.ConversationController.getOurConversationId();
 

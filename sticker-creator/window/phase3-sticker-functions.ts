@@ -165,6 +165,7 @@ window.encryptAndUpload = async (
     username,
     password,
     useWebSocket: false,
+    hasStoriesDisabled: true,
   });
 
   const manifestProto = new Proto.StickerPack();

@@ -184,6 +184,7 @@ export function createIPCEvents(
       await window.storage.put('hasStoriesDisabled', value);
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
+      window.textsecure.server?.onHasStoriesDisabledChange(value);
     },
 
     getPreferredAudioInputDevice: () =>
