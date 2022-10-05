@@ -284,7 +284,8 @@ export async function markAllReadByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
   perfStart(`markAllReadByConvoId-${conversationId}`);
 
-  await conversation.markReadBouncy(Date.now());
+  await conversation?.markAllAsRead();
+
   perfEnd(`markAllReadByConvoId-${conversationId}`, 'markAllReadByConvoId');
 }
 

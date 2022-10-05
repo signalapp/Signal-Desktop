@@ -144,17 +144,17 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           const found = await Data.getMessageById(messageId);
 
           if (found && Boolean(found.get('unread'))) {
-            const foundReceivedAt = found.get('received_at');
+            const foundSentAt = found.get('sent_at');
             // mark the message as read.
             // this will trigger the expire timer.
             await found.markRead(Date.now());
 
             // we should stack those and send them in a single message once every 5secs or something.
             // this would be part of an redesign of the sending pipeline
-            if (foundReceivedAt) {
+            if (foundSentAt && selectedConversationKey) {
               void getConversationController()
-                .get(found.id)
-                ?.sendReadReceiptsIfNeeded([foundReceivedAt]);
+                .get(selectedConversationKey)
+                ?.sendReadReceiptsIfNeeded([foundSentAt]);
             }
           }
         }

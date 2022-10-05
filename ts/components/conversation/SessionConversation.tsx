@@ -54,6 +54,8 @@ import { ConversationMessageRequestButtons } from './ConversationRequestButtons'
 import { ConversationRequestinfo } from './ConversationRequestInfo';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
 import loadImage from 'blueimp-load-image';
+import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+
 import { SessionSpinner } from '../basic/SessionSpinner';
 import styled from 'styled-components';
 // tslint:disable: jsx-curly-spacing
@@ -307,17 +309,18 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   private async scrollToNow() {
-    if (!this.props.selectedConversationKey) {
+    const conversationKey = this.props.selectedConversationKey;
+    if (!conversationKey) {
       return;
     }
-    const mostNowMessage = await Data.getLastMessageInConversation(
-      this.props.selectedConversationKey
-    );
 
-    if (mostNowMessage) {
+    await markAllReadByConvoId(conversationKey);
+    const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
+
+    if (mostRecentMessage) {
       await openConversationToSpecificMessage({
-        conversationKey: this.props.selectedConversationKey,
-        messageIdToNavigateTo: mostNowMessage.id,
+        conversationKey,
+        messageIdToNavigateTo: mostRecentMessage.id,
         shouldHighlightMessage: false,
       });
       const messageContainer = this.messageContainerRef.current;

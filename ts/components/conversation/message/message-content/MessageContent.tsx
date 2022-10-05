@@ -88,6 +88,7 @@ const StyledMessageOpaqueContent = styled.div<{
 `;
 
 export const IsMessageVisibleContext = createContext(false);
+// tslint:disable: use-simple-attributes
 
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);

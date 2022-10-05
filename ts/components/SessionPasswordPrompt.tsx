@@ -8,15 +8,18 @@ import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionTheme } from '../themes/SessionTheme';
 import { switchThemeTo } from '../session/utils/Theme';
 import styled from 'styled-components';
+import { ToastUtils } from '../session/utils';
+import { isString } from 'lodash';
+import { SessionToastContainer } from './SessionToastContainer';
 
 interface State {
-  error: string;
   errorCount: number;
   clearDataView: boolean;
   loading: boolean;
 }
 
 export const MAX_LOGIN_TRIES = 3;
+// tslint:disable: use-simple-attributes
 
 const TextPleaseWait = (props: { isLoading: boolean }) => {
   if (!props.isLoading) {
@@ -38,7 +41,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     super(props);
 
     this.state = {
-      error: '',
       errorCount: 0,
       clearDataView: false,
       loading: false,
@@ -54,7 +56,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
   }
 
   public render() {
-    const showResetElements = this.state.errorCount >= MAX_LOGIN_TRIES;
     const isLoading = this.state.loading;
 
     const wrapperClass = this.state.clearDataView
@@ -65,13 +66,13 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
       : 'password-prompt-container';
     const infoAreaClass = this.state.clearDataView ? 'warning-info-area' : 'password-info-area';
     const infoTitle = this.state.clearDataView
-      ? window.i18n('clearAllData')
+      ? window.i18n('clearDevice')
       : window.i18n('passwordViewTitle');
     const buttonGroup = this.state.clearDataView
       ? this.renderClearDataViewButtons()
       : this.renderPasswordViewButtons();
     const featureElement = this.state.clearDataView ? (
-      <p className="text-center">{window.i18n('deleteAccountWarning')}</p>
+      <p className="text-center">{window.i18n('deleteAccountFromLogin')}</p>
     ) : (
       <input
         id="password-prompt-input"
@@ -87,19 +88,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     const infoIcon = this.state.clearDataView ?? (
       <SessionIcon iconType="warning" iconSize={35} iconColor="var(--danger-color)" />
     );
-    const errorSection = !this.state.clearDataView && (
-      <div className="password-prompt-error-section">
-        {this.state.error && (
-          <>
-            {showResetElements ? (
-              <div className="session-label warning">{window.i18n('maxPasswordAttempts')}</div>
-            ) : (
-              <div className="session-label primary">{this.state.error}</div>
-            )}
-          </>
-        )}
-      </div>
-    );
+
     const spinner = isLoading ? <SessionSpinner loading={true} /> : null;
 
     return (
@@ -114,7 +103,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
             {spinner || featureElement}
             <TextPleaseWait isLoading={isLoading} />
 
-            {errorSection}
             {buttonGroup}
           </div>
         </div>
@@ -143,7 +131,12 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         errorCount: this.state.errorCount + 1,
       });
 
-      this.setState({ error });
+      if (error && isString(error)) {
+        ToastUtils.pushToastError('onLogin', error);
+      } else if (error?.message && isString(error.message)) {
+        ToastUtils.pushToastError('onLogin', error.message);
+      }
+
       global.setTimeout(() => {
         document.getElementById('password-prompt-input')?.focus();
       }, 50);
@@ -166,7 +159,6 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
   private initClearDataView() {
     this.setState({
-      error: '',
       errorCount: 0,
       clearDataView: true,
     });
@@ -180,7 +172,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         {showResetElements && (
           <>
             <SessionButton
-              text="Reset Database"
+              text={window.i18n('clearDevice')}
               buttonColor={SessionButtonColor.Danger}
               buttonType={SessionButtonType.Simple}
               onClick={this.initClearDataView}
@@ -189,7 +181,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
         )}
         {/* TODO Theming - Fix */}
         <SessionButton
-          text={window.i18n('done')}
+          text={showResetElements ? window.i18n('tryAgain') : window.i18n('done')}
           buttonType={SessionButtonType.Simple}
           onClick={this.initLogin}
         />
@@ -201,7 +193,7 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
     return (
       <div className="button-group">
         <SessionButton
-          text={window.i18n('clearAllData')}
+          text={window.i18n('clearDevice')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}
           onClick={window.clearLocalData}
@@ -227,6 +219,7 @@ export const SessionPasswordPrompt = () => {
 
   return (
     <SessionTheme>
+      <SessionToastContainer />
       <StyledContent>
         <SessionPasswordPromptInner />
       </StyledContent>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import {
@@ -18,6 +19,11 @@ export type MessageAuthorSelectorProps = Pick<
 type Props = {
   messageId: string;
 };
+
+const StyledAuthorContainer = styled(Flex)`
+  /* TODO Theming - Verify */
+  color: var(--text-primary-color);
+`;
 
 export const MessageAuthorText = (props: Props) => {
   const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
@@ -38,7 +44,7 @@ export const MessageAuthorText = (props: Props) => {
   const displayedPubkey = authorProfileName ? PubKey.shorten(sender) : sender;
 
   return (
-    <Flex container={true}>
+    <StyledAuthorContainer container={true}>
       <ContactName
         pubkey={displayedPubkey}
         name={authorName}
@@ -47,6 +53,6 @@ export const MessageAuthorText = (props: Props) => {
         boldProfileName={true}
         shouldShowPubkey={Boolean(isPublic)}
       />
-    </Flex>
+    </StyledAuthorContainer>
   );
 };

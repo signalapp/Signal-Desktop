@@ -37,7 +37,9 @@ message Unsend {
 
 message MessageRequestResponse {
   // @required
-  required bool isApproved = 1;
+  required bool                      isApproved                = 1;
+  optional bytes                     profileKey                = 2;
+  optional DataMessage.LokiProfile   profile                   = 3;
 }
 
 message Content {

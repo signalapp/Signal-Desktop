@@ -114,7 +114,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
         <div className="session-modal__button-group">
           <SessionButton
-            text={window.i18n('ok')}
+            text={window.i18n('done')}
             buttonColor={passwordAction === 'remove' ? SessionButtonColor.Danger : undefined}
             buttonType={SessionButtonType.Simple}
             onClick={this.setPassword}
