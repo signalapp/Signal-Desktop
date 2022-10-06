@@ -9,6 +9,8 @@ import { nativeEmojiData } from '../../../../util/emoji';
 import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { SessionIcon } from '../../../icon';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
+import { getSelectedConversationIsGroup } from '../../../../state/selectors/conversations';
+import { useSelector } from 'react-redux';
 
 export const popupXDefault = -81;
 export const popupYDefault = -90;
@@ -125,7 +127,7 @@ const ExpandedReactions = (props: ExpandReactionsProps): ReactElement => {
 
 export type MessageReactsSelectorProps = Pick<
   MessageRenderingProps,
-  'convoId' | 'conversationType' | 'isPublic' | 'serverId' | 'reacts' | 'sortedReacts'
+  'convoId' | 'serverId' | 'reacts' | 'sortedReacts'
 >;
 
 type Props = {
@@ -162,6 +164,8 @@ export const MessageReactions = (props: Props): ReactElement => {
 
   const msgProps = useMessageReactsPropsById(messageId);
 
+  const inGroup = useSelector(getSelectedConversationIsGroup);
+
   useEffect(() => {
     if (msgProps?.sortedReacts && !isEqual(reactions, msgProps?.sortedReacts)) {
       setReactions(msgProps?.sortedReacts);
@@ -176,8 +180,7 @@ export const MessageReactions = (props: Props): ReactElement => {
     return <></>;
   }
 
-  const { conversationType, sortedReacts } = msgProps;
-  const inGroup = conversationType === 'group';
+  const { sortedReacts } = msgProps;
 
   const reactLimit = 6;
 

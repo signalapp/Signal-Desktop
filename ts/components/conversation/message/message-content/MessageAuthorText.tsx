@@ -5,7 +5,7 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import {
   getMessageAuthorProps,
-  isGroupConversation,
+  getSelectedConversationIsGroup,
   isPublicGroupConversation,
 } from '../../../../state/selectors/conversations';
 import { Flex } from '../../../basic/Flex';
@@ -28,7 +28,7 @@ export const MessageAuthorText = (props: Props) => {
   const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
 
   const isPublic = useSelector(isPublicGroupConversation);
-  const isGroup = useSelector(isGroupConversation);
+  const isGroup = useSelector(getSelectedConversationIsGroup);
   if (!selected) {
     return null;
   }

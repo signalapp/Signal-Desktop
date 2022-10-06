@@ -6,7 +6,7 @@ import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { shell } from 'electron';
 import { MessageInteraction } from '../../interactions';
 
