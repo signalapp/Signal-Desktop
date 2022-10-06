@@ -8,6 +8,8 @@ import type {
   LinkPreviewImage,
   LinkPreviewResult,
   LinkPreviewSourceType,
+  MaybeGrabLinkPreviewOptionsType,
+  AddLinkPreviewOptionsType,
 } from '../types/LinkPreview';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import type { MIMEType } from '../types/MIME';
@@ -45,10 +47,11 @@ export const maybeGrabLinkPreview = debounce(_maybeGrabLinkPreview, 200);
 function _maybeGrabLinkPreview(
   message: string,
   source: LinkPreviewSourceType,
-  caretLocation?: number
+  { caretLocation, mode = 'conversation' }: MaybeGrabLinkPreviewOptionsType = {}
 ): void {
-  // Don't generate link previews if user has turned them off
-  if (!window.Events.getLinkPreviewSetting()) {
+  // Don't generate link previews if user has turned them off. When posting a
+  // story we should return minimal (url-only) link previews.
+  if (!window.Events.getLinkPreviewSetting() && mode === 'conversation') {
     return;
   }
 
@@ -88,7 +91,9 @@ function _maybeGrabLinkPreview(
     return;
   }
 
-  addLinkPreview(link, source);
+  addLinkPreview(link, source, {
+    disableFetch: !window.Events.getLinkPreviewSetting(),
+  });
 }
 
 export function resetLinkPreview(): void {
@@ -113,7 +118,8 @@ export function removeLinkPreview(): void {
 
 export async function addLinkPreview(
   url: string,
-  source: LinkPreviewSourceType
+  source: LinkPreviewSourceType,
+  { disableFetch }: AddLinkPreviewOptionsType = {}
 ): Promise<void> {
   if (currentlyMatchedLink === url) {
     log.warn('addLinkPreview should not be called with the same URL like this');
@@ -153,7 +159,17 @@ export async function addLinkPreview(
   );
 
   try {
-    const result = await getPreview(url, thisRequestAbortController.signal);
+    let result: LinkPreviewResult | null;
+    if (disableFetch) {
+      result = {
+        title: null,
+        url,
+        description: null,
+        date: null,
+      };
+    } else {
+      result = await getPreview(url, thisRequestAbortController.signal);
+    }
 
     if (!result) {
       log.info(
@@ -179,7 +195,7 @@ export async function addLinkPreview(
         type: result.image.contentType,
       });
       result.image.url = URL.createObjectURL(blob);
-    } else if (!result.title) {
+    } else if (!result.title && !disableFetch) {
       // A link preview isn't worth showing unless we have either a title or an image
       removeLinkPreview();
       return;
@@ -188,6 +204,7 @@ export async function addLinkPreview(
     window.reduxActions.linkPreviews.addLinkPreview(
       {
         ...result,
+        title: dropNull(result.title),
         description: dropNull(result.description),
         date: dropNull(result.date),
         domain: LinkPreview.getDomain(result.url),
@@ -232,6 +249,7 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
           return {
             ...item,
             image: omit(item.image, 'url'),
+            title: dropNull(item.title),
             description: dropNull(item.description),
             date: dropNull(item.date),
             domain: LinkPreview.getDomain(item.url),
@@ -241,6 +259,7 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
 
         return {
           ...item,
+          title: dropNull(item.title),
           description: dropNull(item.description),
           date: dropNull(item.date),
           domain: LinkPreview.getDomain(item.url),

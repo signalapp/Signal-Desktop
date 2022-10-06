@@ -2575,11 +2575,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // If we have attachments, don't add link preview
     if (!this.hasFiles({ includePending: true })) {
-      maybeGrabLinkPreview(
-        messageText,
-        LinkPreviewSourceType.Composer,
-        caretLocation
-      );
+      maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
+        caretLocation,
+      });
     }
   }
 

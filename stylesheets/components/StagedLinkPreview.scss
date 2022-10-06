@@ -52,6 +52,10 @@
   display: flex;
   flex-direction: column;
   margin-right: 20px;
+
+  &--only-url {
+    justify-content: center;
+  }
 }
 .module-staged-link-preview__title {
   @include font-body-1-bold;

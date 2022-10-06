@@ -14,6 +14,7 @@ import type { TextAttachmentType } from '../types/Attachment';
 import { Button, ButtonVariant } from './Button';
 import { ContextMenu } from './ContextMenu';
 import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview';
+import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview';
 import { Input } from './Input';
 import { Slider } from './Slider';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -31,7 +32,8 @@ import { handleOutsideClick } from '../util/handleOutsideClick';
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
     message: string,
-    source: LinkPreviewSourceType
+    source: LinkPreviewSourceType,
+    options?: MaybeGrabLinkPreviewOptionsType
   ) => unknown;
   i18n: LocalizerType;
   linkPreview?: LinkPreviewType;
@@ -178,7 +180,10 @@ export const TextStoryCreator = ({
     }
     debouncedMaybeGrabLinkPreview(
       linkPreviewInputValue,
-      LinkPreviewSourceType.StoryCreator
+      LinkPreviewSourceType.StoryCreator,
+      {
+        mode: 'story',
+      }
     );
   }, [
     debouncedMaybeGrabLinkPreview,
@@ -525,12 +530,9 @@ export const TextStoryCreator = ({
                     {linkPreview ? (
                       <>
                         <StagedLinkPreview
-                          domain={linkPreview.domain}
+                          {...linkPreview}
                           i18n={i18n}
-                          image={linkPreview.image}
                           moduleClassName="StoryCreator__link-preview"
-                          title={linkPreview.title}
-                          url={linkPreview.url}
                         />
                         <Button
                           className="StoryCreator__link-preview-button"
