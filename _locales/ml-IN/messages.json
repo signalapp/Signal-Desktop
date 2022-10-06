@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "പുതിയ അംഗത്തെ ചേർക്കണോ?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "ചേർക്കുക",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "“$group$” ഗ്രൂപ്പിലേക്ക് “$contact$” എന്നയാളെ ചേർക്കുക",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$-നെ $group$-ലേക്ക് ചേർത്തു",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ എന്നയാളെ ചേർക്കുന്നു...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ അംഗങ്ങൾ",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "ഇതിനകം അംഗമാണ്",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "അംഗത്വം തീർച്ചപ്പെടുത്തിയിട്ടില്ല",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "സോഫ്റ്റ്വെയർ അംഗീകാരം",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "എല്ലാം കാണുക",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "പൊതുവായി $number$ ഗ്രൂപ്പുകൾ ഉണ്ട്",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "എല്ലാം കാണുക",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "സൂചനകൾ",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "പോയിന്‍റിലേക്ക് എത്താനോ വിശദാംശങ്ങൾ മനസ്സിലാക്കാനോ ഓഡിയോ സന്ദേശങ്ങളുടെ വേഗത മാറ്റുക.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- കേൾക്കാൻ വോയ്‌സ് നോട്ടുകളുടെ ഒരു നീണ്ട ലിസ്റ്റ് ഉള്ള ഒരു സംഭാഷണം അഭിമുഖീകരിക്കുകയാണോ? പ്ലേ എന്നതിൽ ക്ലിക്ക് ചെയ്യുക, ഇരിക്കുക, വിശ്രമിക്കുക - അവ സ്വയമേവ പ്ലേയായിക്കൊണ്ടിരിക്കും!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "നിങ്ങളുടെ ഇമോജി തിരയൽ കാര്യക്ഷമമാക്കുക. ഇമോജി പിക്കർ തുറന്നുകഴിഞ്ഞാൽ, 🔍 ഒഴിവാക്കി, കീവേഡുകൾ ടൈപ്പ് ചെയ്യുക.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "നിങ്ങൾക്ക് ഇപ്പോൾ നിങ്ങളുടെ അവധിക്കാല ഫോട്ടോകൾക്കൊപ്പം ഒരു സന്ദേശത്തിലേക്ക് കുറച്ച് വീഡിയോ ഫ്ലേവർ അറ്റാച്ച് ചെയ്യാൻ കഴിയും!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "നിങ്ങളുടെ സുഹൃത്തുക്കളിൽ ലൂ എന്ന് പേരുള്ളതിൽ ആരാണ് നിങ്ങളുടെ ബാസ്‌ക്കറ്റ്ബോൾ ടീമിൽ ഉള്ളതെന്ന് ഓർമ്മയില്ലേ? നിങ്ങളും നിങ്ങളുടെ ഒരു സുഹൃത്തും പങ്കിടുന്ന ഗ്രൂപ്പുകൾ കാണുന്നതിന് കോൺടാക്റ്റ് വിശദാംശങ്ങൾ പരിശോധിക്കുക.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "സംഭാഷണം ആവേശകരമാക്കാൻ, ഒരു സുഹൃത്തിനെ അവരുടെ കോൺടാക്റ്റ് വിശദാംശങ്ങളുടെ സ്ക്രീനിൽ നിന്ന് ഒരു ഗ്രൂപ്പിലേക്ക് എളുപ്പത്തിൽ ചേർക്കുക.",
+    "description": "Release notes for v5.62"
   }
 }

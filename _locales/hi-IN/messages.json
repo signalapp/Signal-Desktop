@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "किसी समूह में शामिल करें",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "नया सदस्य जोड़ना है?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "जोड़ें",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "\"$contact$\" को \"$group$\" में जोड़ें",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ को $group$ में शामिल किया गया था",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ जोड़े जा रहे हैं…",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ मेंबर्स",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "पहले से सदस्य हैं",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "सदस्यता लंबित है",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "सॉफ्टवेयर स्वीकृतियाँ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "सभी देखें",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ साझा समूह",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "किसी समूह में शामिल करें",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "सभी देखें",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "मेंछन",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "ऑडियो संदेशों की गति बदलें ताकि या तो सीधे मुद्दे की बात पर पहुँच सकें या जानकारी ले सकें।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- ऐसे वॉयस नोट्स की एक लंबी सूची का सामना करना पड़ रहा है, जिन्हें सुना जाना है? चलाएँ पर क्लिक करके आराम से बैठ जाएँ - वे अपने आप चलते रहेंगे!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "अपनी इमोजी की खोज को व्यवस्थित करें। एक बार इमोजी पिकर चुन लेने के बाद  🔍 को छोड़ दें और केवल कीवर्ड टाइप करना शुरू करें।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "अब आप अपनी छुट्टियों की तस्वीरों के साथ किसी मेसेज में किसी वीडियो का तड़का भी लगा सकते हैं।",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "याद नहीं आ रहा है कि लू नाम का आपका कौनसा दोस्त आपकी बास्केटबॉल टीम है? आपके और किसी मित्र के बीच के साझा किए गए समूहों को देखने के लिए संपर्क विवरण जाँचें।",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "बातचीत को रोमांचक बनाए रखने के लिए किसी मित्र को उनकी संपर्क विवरण स्क्रीन से किसी समूह में जोड़ें।",
+    "description": "Release notes for v5.62"
   }
 }
