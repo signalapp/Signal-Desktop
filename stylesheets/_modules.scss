@@ -163,14 +163,19 @@
 
 .module-message__link-preview {
   cursor: pointer;
-  // TODO Theming - Fix after clearnet fix is made
   display: flex;
   align-items: center;
   border-radius: var(--border-radius-message-box);
+  border-bottom-right-radius: 0;
   margin: var(--padding-link-preview);
+  background-color: var(--message-link-preview-background-color);
 
   .module-image {
-    margin: -1px;
+    margin-top: -1px;
+    margin-left: -1px;
+    margin-bottom: 0;
+    border-radius: 0;
+    border-top-left-radius: var(--border-radius-message-box);
   }
 
   &__text {
@@ -184,7 +189,7 @@
   flex-direction: row;
   align-items: center;
   flex-grow: 1;
-  margin-left: var(--margins-sm);
+  margin: 0 var(--margins-sm);
 }
 
 .module-message__link-preview__image_container {

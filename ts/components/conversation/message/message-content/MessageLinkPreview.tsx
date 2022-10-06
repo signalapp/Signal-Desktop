@@ -56,7 +56,9 @@ export const MessageLinkPreview = (props: Props) => {
   return (
     <div
       role="button"
-      className={classNames(`module-message__link-preview--${direction}`)}
+      className={classNames(
+        `module-message__link-preview module-message__link-preview--${direction}`
+      )}
       onClick={openLinkFromPreview}
     >
       {first.image && previewHasImage && isFullSizeImage ? (
@@ -84,7 +86,6 @@ export const MessageLinkPreview = (props: Props) => {
             </div>
           </div>
         ) : null}
-        {/* TODO Theming Confirm all this works */}
         <div className={classNames('module-message__link-preview__text')}>
           <div className="module-message__link-preview__title">{first.title}</div>
           <div className="module-message__link-preview__location">{first.domain}</div>
