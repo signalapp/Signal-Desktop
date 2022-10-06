@@ -8,6 +8,10 @@ import { getLeftPaneLists } from '../../state/selectors/conversations';
 import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
+import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
+import { DraggableCallContainer } from '../calling/DraggableCallContainer';
+import { IncomingCallDialog } from '../calling/IncomingCallDialog';
+import { ModalContainer } from '../dialog/ModalContainer';
 import { ActionsPanel } from './ActionsPanel';
 import { LeftPaneMessageSection } from './LeftPaneMessageSection';
 import { LeftPaneSettingSection } from './LeftPaneSettingSection';
@@ -51,10 +55,22 @@ const LeftPaneSection = () => {
   return null;
 };
 
+const CallContainer = () => {
+  return (
+    <>
+      <DraggableCallContainer />
+      <IncomingCallDialog />
+      <CallInFullScreenContainer />
+    </>
+  );
+};
+
 export const LeftPane = () => {
   return (
     <SessionTheme>
       <div className="module-left-pane-session">
+        <ModalContainer />
+        <CallContainer />
         <ActionsPanel />
 
         <StyledLeftPane className="module-left-pane">

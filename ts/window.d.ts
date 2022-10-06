@@ -2,7 +2,7 @@ import {} from 'styled-components/cssprop';
 
 import { LocalizerType } from '../ts/types/Util';
 
-import { Store } from 'redux';
+import { Store } from '@reduxjs/toolkit';
 
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';

@@ -1,6 +1,6 @@
 import { StateType } from '../reducer';
 import { UserConfigState } from '../ducks/userConfig';
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const getUserConfig = (state: StateType): UserConfigState => state.userConfig;
 

@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { StateType } from '../reducer';
 import {
@@ -94,7 +94,7 @@ export const getIsTypingEnabled = createSelector(
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected
  */
-export const isGroupConversation = createSelector(
+export const getSelectedConversationIsGroup = createSelector(
   getSelectedConversation,
   (state: ReduxConversationType | undefined): boolean => {
     return state?.type === 'group' || false;

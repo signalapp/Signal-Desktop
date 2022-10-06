@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from '@reduxjs/toolkit';
 
 import { reducer as search, SearchStateType } from './ducks/search';
 import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
