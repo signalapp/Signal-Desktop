@@ -1,4 +1,5 @@
 import { debounce, last } from 'lodash';
+import { SettingsKey } from '../data/settings-key';
 import { getStatus } from '../notifications';
 import { UserSetting } from '../notifications/getStatus';
 import { isMacOS } from '../OS';
@@ -117,7 +118,8 @@ function update(forceRefresh = false) {
   }
 
   const isAppFocused = isWindowFocused();
-  const isAudioNotificationEnabled = (Storage.get('audio-notification') as boolean) || false;
+  const isAudioNotificationEnabled =
+    (Storage.get(SettingsKey.settingsAudioNotification) as boolean) || false;
   const audioNotificationSupported = isAudioNotificationSupported();
   // const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
   const numNotifications = currentNotifications.length;
