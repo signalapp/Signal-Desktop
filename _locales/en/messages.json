@@ -5902,5 +5902,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Easily add a friend to a group from their contact details screen to keep the conversation exciting.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Start using and testing our new stories feature. You can use the feature with other beta testers and let us know how it's working.",
+    "description": "Release notes for v5.63"
   }
 }
