@@ -212,8 +212,10 @@ async function start() {
   );
 
   window.log.info(`Cleanup: Found ${messagesForCleanup.length} messages for cleanup`);
+
+  const idsToCleanUp: Array<string> = [];
   await Promise.all(
-    messagesForCleanup.map(async (message: MessageModel) => {
+    messagesForCleanup.map((message: MessageModel) => {
       const sentAt = message.get('sent_at');
 
       if (message.hasErrors()) {
@@ -221,9 +223,12 @@ async function start() {
       }
 
       window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
-      await Data.removeMessage(message.id);
+      idsToCleanUp.push(message.id);
     })
   );
+  if (idsToCleanUp.length) {
+    await Data.removeMessagesByIds(idsToCleanUp);
+  }
   window.log.info('Cleanup: complete');
 
   window.log.info('listening for registration events');

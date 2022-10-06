@@ -945,21 +945,44 @@ function saveMessages(arrayOfMessages: Array<any>) {
 }
 
 function removeMessage(id: string, instance?: BetterSqlite3.Database) {
-  if (!Array.isArray(id)) {
-    assertGlobalInstanceOrInstance(instance)
-      .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`)
-      .run({ id });
+  if (!isString(id)) {
+    throw new Error('removeMessage: only takes single message to delete!');
+
     return;
   }
 
-  if (!id.length) {
-    throw new Error('removeMessages: No ids to delete!');
+  assertGlobalInstanceOrInstance(instance)
+    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id = $id;`)
+    .run({ id });
+}
+
+function removeMessagesByIds(ids: Array<string>, instance?: BetterSqlite3.Database) {
+  if (!Array.isArray(ids)) {
+    throw new Error('removeMessagesByIds only allowed an array of strings');
+  }
+
+  if (!ids.length) {
+    throw new Error('removeMessagesByIds: No ids to delete!');
   }
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
   assertGlobalInstanceOrInstance(instance)
-    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
-    .run(id);
+    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
+    .run(ids);
+}
+
+function removeAllMessagesInConversation(
+  conversationId: string,
+  instance?: BetterSqlite3.Database
+) {
+  if (!conversationId) {
+    return;
+  }
+
+  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  assertGlobalInstanceOrInstance(instance)
+    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
+    .run({ conversationId });
 }
 
 function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversationId: string) {
@@ -2435,6 +2458,8 @@ export const sqlNode = {
   updateLastHash,
   saveMessages,
   removeMessage,
+  removeMessagesByIds,
+  removeAllMessagesInConversation,
   getUnreadByConversation,
   markAllAsReadByConversationNoExpiration,
   getUnreadCountByConversation,

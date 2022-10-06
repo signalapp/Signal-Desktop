@@ -248,12 +248,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await deleteExternalFilesOfConversation(this.attributes);
   }
 
-  public async onExpired(_message: MessageModel) {
-    await this.updateLastMessage();
-
-    // removeMessage();
-  }
-
   public getGroupAdmins(): Array<string> {
     const groupAdmins = this.get('groupAdmins');
 
@@ -1681,15 +1675,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('type') === ConversationTypeEnum.GROUP;
   }
 
-  public async removeMessage(messageId: any) {
+  public async removeMessage(messageId: string) {
     await Data.removeMessage(messageId);
     this.updateLastMessage();
 
     window.inboxStore?.dispatch(
-      conversationActions.messageDeleted({
-        conversationKey: this.id,
-        messageId,
-      })
+      conversationActions.messagesDeleted([
+        {
+          conversationKey: this.id,
+          messageId,
+        },
+      ])
     );
   }
 
