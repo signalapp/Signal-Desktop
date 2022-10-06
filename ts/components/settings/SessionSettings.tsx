@@ -9,13 +9,26 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
-import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { Data } from '../../data/data';
-import { matchesHash } from '../../util/passwordUtils';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import styled from 'styled-components';
-import { ToastUtils } from '../../session/utils';
+import { sessionPassword } from '../../state/ducks/modalDialog';
+import { PasswordAction } from '../dialog/SessionPasswordDialog';
+
+export function displayPasswordModal(
+  passwordAction: PasswordAction,
+  onPasswordUpdated: (action: string) => void
+) {
+  window.inboxStore?.dispatch(
+    sessionPassword({
+      passwordAction,
+      onOk: () => {
+        onPasswordUpdated(passwordAction);
+      },
+    })
+  );
+}
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -92,58 +105,6 @@ const SessionInfo = () => {
   );
 };
 
-const StyledPasswordInput = styled.input`
-  width: 100%;
-  background: var(--text-box-background-color);
-  color: var(--text-box-text-user-color);
-
-  padding: var(--margins-xs) var(--margins-md);
-  margin-bottom: var(--margins-lg);
-  outline: none;
-  border: 1px solid var(--border-color);
-  border-radius: 7px;
-  text-align: center;
-  font-size: 16px;
-  font-family: var(--font-default);
-
-  ::placeholder {
-    color: var(--text-box-text-control-color);
-  }
-`;
-
-const StyledH3 = styled.h3`
-  padding: 0px;
-  margin-bottom: var(--margins-lg);
-`;
-
-const PasswordLock = ({
-  validatePasswordLock,
-}: {
-  validatePasswordLock: () => Promise<boolean>;
-}) => {
-  return (
-    <div className="session-settings__password-lock">
-      <div className="session-settings__password-lock-box">
-        <StyledH3>{window.i18n('passwordViewTitle')}</StyledH3>
-        <StyledPasswordInput
-          type="password"
-          id="password-lock-input"
-          defaultValue=""
-          placeholder={window.i18n('enterPassword')}
-          data-testid="password-lock-input"
-          autoFocus={true}
-        />
-
-        <SessionButton
-          buttonType={SessionButtonType.Simple}
-          text={window.i18n('done')}
-          onClick={validatePasswordLock}
-        />
-      </div>
-    </div>
-  );
-};
-
 const SettingInCategory = (props: {
   category: SessionSettingCategory;
   hasPassword: boolean;
@@ -216,38 +177,23 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     });
   }
 
-  public componentDidMount() {
-    window.addEventListener('keyup', this.onKeyUp);
-  }
+  public componentDidUpdate(_: SettingsViewProps, _prevState: State) {
+    const oldShouldRenderPasswordLock = _prevState.shouldLockSettings && _prevState.hasPassword;
+    const newShouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
 
-  public componentWillUnmount() {
-    window.removeEventListener('keyup', this.onKeyUp);
-  }
-
-  public async validatePasswordLock() {
-    const enteredPassword = String(
-      (document.getElementById('password-lock-input') as HTMLInputElement)?.value
-    );
-
-    if (!enteredPassword) {
-      ToastUtils.pushToastError('validatePassword', window.i18n('noGivenPassword'));
-
-      return false;
+    if (
+      newShouldRenderPasswordLock &&
+      newShouldRenderPasswordLock !== oldShouldRenderPasswordLock
+    ) {
+      displayPasswordModal('enter', action => {
+        if (action === 'enter') {
+          // Unlocked settings
+          this.setState({
+            shouldLockSettings: false,
+          });
+        }
+      });
     }
-
-    // Check if the password matches the hash we have stored
-    const hash = await Data.getPasswordHash();
-    if (hash && !matchesHash(enteredPassword, hash)) {
-      ToastUtils.pushToastError('validatePassword', window.i18n('invalidPassword'));
-      return false;
-    }
-
-    // Unlocked settings
-    this.setState({
-      shouldLockSettings: false,
-    });
-
-    return true;
   }
 
   public render() {
@@ -256,22 +202,23 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
     return (
       <div className="session-settings">
-        <SettingsHeader category={category} />
-
-        <StyledSettingsView>
-          {shouldRenderPasswordLock ? (
-            <PasswordLock validatePasswordLock={this.validatePasswordLock} />
-          ) : (
-            <StyledSettingsList ref={this.settingsViewRef}>
-              <SettingInCategory
-                category={category}
-                onPasswordUpdated={this.onPasswordUpdated}
-                hasPassword={Boolean(this.state.hasPassword)}
-              />
-            </StyledSettingsList>
-          )}
-          <SessionInfo />
-        </StyledSettingsView>
+        {shouldRenderPasswordLock ? (
+          <></>
+        ) : (
+          <>
+            <SettingsHeader category={category} />
+            <StyledSettingsView>
+              <StyledSettingsList ref={this.settingsViewRef}>
+                <SettingInCategory
+                  category={category}
+                  onPasswordUpdated={this.onPasswordUpdated}
+                  hasPassword={Boolean(this.state.hasPassword)}
+                />
+              </StyledSettingsList>
+              <SessionInfo />
+            </StyledSettingsView>
+          </>
+        )}
       </div>
     );
   }
@@ -289,15 +236,5 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
         hasPassword: false,
       });
     }
-  }
-
-  private async onKeyUp(event: any) {
-    const lockPasswordVisible = Boolean(document.getElementById('password-lock-input'));
-
-    if (event.key === 'Enter' && lockPasswordVisible) {
-      await this.validatePasswordLock();
-    }
-
-    event.preventDefault();
   }
 }

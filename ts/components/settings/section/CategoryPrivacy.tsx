@@ -4,27 +4,13 @@ import useUpdate from 'react-use/lib/useUpdate';
 import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
-import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { TypingBubble } from '../../conversation/TypingBubble';
-import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
-
-function displayPasswordModal(
-  passwordAction: PasswordAction,
-  onPasswordUpdated: (action: string) => void
-) {
-  window.inboxStore?.dispatch(
-    sessionPassword({
-      passwordAction,
-      onOk: () => {
-        onPasswordUpdated(passwordAction);
-      },
-    })
-  );
-}
+import { displayPasswordModal } from '../SessionSettings';
 
 async function toggleLinkPreviews() {
   const newValue = !window.getSettingValue(SettingsKey.settingsLinkPreview);

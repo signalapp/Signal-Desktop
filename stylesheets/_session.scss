@@ -536,29 +536,6 @@ label {
   display: flex;
   flex-direction: column;
   background-color: var(--background-secondary-color);
-
-  &__password-lock {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-
-    &-box {
-      padding: 45px 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      max-width: 90%;
-      min-width: 400px;
-
-      background: var(--background-primary-color);
-      color: var(--text-primary-color);
-
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-    }
-  }
 }
 
 #qr svg,
