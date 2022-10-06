@@ -6,7 +6,10 @@ import React, { useState } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
-import type { ConversationType } from '../../../state/ducks/conversations';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
@@ -113,6 +116,7 @@ type ActionProps = {
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   showContactModal: (contactId: string, conversationId?: string) => void;
+  showConversation: ShowConversationType;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   searchInConversation: (id: string) => unknown;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
@@ -155,6 +159,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showChatColorEditor,
   showContactModal,
   showConversationNotificationsSettings,
+  showConversation,
   showGroupLinkManagement,
   showGroupV2Permissions,
   showLightboxForMedia,
@@ -530,6 +535,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           i18n={i18n}
           groupsInCommon={groupsInCommon}
           toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
+          showConversation={showConversation}
         />
       )}
 

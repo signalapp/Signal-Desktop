@@ -78,6 +78,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   showConversationNotificationsSettings: action(
     'showConversationNotificationsSettings'
   ),
+  showConversation: action('showConversation'),
   showPendingInvites: action('showPendingInvites'),
   showLightboxForMedia: action('showLightboxForMedia'),
   updateGroupAttributes: async () => {
