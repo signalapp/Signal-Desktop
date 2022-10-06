@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "Топқа қосу",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "Жаңа мүше қосу керек пе?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "Қосу",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "$contact$ деген кісіні $group$ тобына қосу",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ $group$ тобына қосылды",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ қосылуда...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ мүше",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "Топ мүшесі",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "Мүше болуға рұқсат күтілуде",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "Бағдарламалық құрал растамалары",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "Бұл файлдармен бірге фотосуреттерді және видеоларды таңдай алмайсыз.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "Сурет немесе видео тіркеме қосыңыз",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal әлі жұмыс істеп тұр",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "Signal хабарландырулар аймағында жұмыс істеп тұра береді. Signal параметрлеріне кіріп, оны өзгертуіңізге болады.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "Барлығын көру",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ ортақ топ бар",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "Топқа қосу",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "Барлығын көру",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "Атап өтулер",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4510,7 +4558,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate1p5": {
-    "message": "1.5",
+    "message": "1,5",
     "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate2": {
@@ -4518,7 +4566,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRatep5": {
-    "message": ".5",
+    "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "Жоғалатын уақыты",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "Мына уақыттан кейін жоғалып кетеді: $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Аудио хаттарда не айтылғанын жылдам түсініп алу үшін немесе дұрыстап тыңдап алу үшін жылдамдығын өзгертіп тыңдаңыз.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- Чатта көп дауыстық хаттарды тыңдау керек болып тұр ма? Ойнату түймесін басыңыз да, арқаны кеңге салып отыра беріңіз. Олар бірінен кейін бірі автоматты түрде ойнатылады!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "Эмодзи іздеу процесін жеңілдетіңіз. Эмодзилер панелін шығарған соң, 🔍 таңбасын баспай-ақ, кілт сөздерді тере бастаңыз.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "Енді хатқа демалысыңыздағы суреттер мен видеоларды қосып жібере аласыз!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Баскетбол чатындағы Ерік деген жігіттің кім екенін есіңізге түсіре алмай тұрсыз ба? Контакт туралы мәліметті ашып, екеуіңіз қандай ортақ топтардың мүшесі екендеріңізді көріңіз.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Әңгіме қызықты өрбуі үшін топқа контакт туралы мәлімет экранынан досыңызды қосыңыз.",
+    "description": "Release notes for v5.62"
   }
 }

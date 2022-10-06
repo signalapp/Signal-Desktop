@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "Dodaj v skupino",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "Želite dodati novo_ega člana_ico?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "Dodaj",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "Dodaj uporabnika_ico “$contact$” v skupino “$group$”",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ je bil dodan/-a v skupino $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "Dodajanje uporabnika_ice $contact$ ...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "Članov: $count$",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "Uporabnik_ca je že član_ica skupine",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "Potrditev članstva je v teku",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "Informacije o programski opremi",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "Poleg datotek ne morete izbrati fotografij in videoposnetkov.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "Dodajte sliko ali video prilogo",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal še vedno deluje",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "Signal bo še naprej deloval v območju za obvestila. To lahko spremenite v nastavitvah Signala.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "Prikaz vseh",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ skupnih skupin",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "Dodaj v skupino",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "Prikaz vseh",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "Omembe",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4510,7 +4558,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate1p5": {
-    "message": "1.5",
+    "message": "1,5",
     "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate2": {
@@ -4518,7 +4566,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRatep5": {
-    "message": ".5",
+    "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "emptyInboxMessage": {
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "Izgine v",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "Izgine v $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Spremenite hitrost glasovnih sporočil, da preskočite do bistva ali ulovite podrobnosti.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- Se soočate s pogovorom z dolgim seznamom glasovnih sporočil za poslušanje? Kliknite \"predvajaj\", sedite in se sprostite; samodejno se bodo predvajali en za drugim!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "Poenostavite iskanje emojijev. Ko odprete izbirnik emojijev, preskočite 🔍 in preprosto začnite vnašati ključne besede.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "Zdaj lahko sporočilu skupaj s fotografijami s počitnic priložite še video!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Se ne morete spomniti, kateri od vaših prijateljev po imenu Žiga je v vaši košarkarski ekipi? Preverite kontaktne podatke, če si želite ogledati vajine skupne skupine.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Preprosto dodajte prijatelja_ico v skupino z zaslona z njegovimi_nimi kontaktnimi podatki, da bo pogovor še naprej zanimiv.",
+    "description": "Release notes for v5.62"
   }
 }

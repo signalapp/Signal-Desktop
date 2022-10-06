@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "సమూహంకి కలపండి",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "కొత్త సభ్యుడిని జోడించేదా?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "చేర్చు",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "“$group$” గ్రూప్‌కు “$contact$” ను జోడించండి",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ ను $group$ కి చేర్చారు",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ జోడిస్తోంది...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ సభ్యులు",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "ఇప్పటికే సభ్యుడు",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "సభ్యత్వం పెండింగ్‌లో ఉంది",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "సాఫ్ట్వేర్ అంగీకారములు",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "మీరు ఫైళ్ళతో పాటుగా ఫోటోలు మరియు వీడియోలను ఎంపిక చేసుకోలేరు.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "చిత్రం లేదా వీడియో అటాచ్‌మెంట్‌ను జోడించండి",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal ఇంకా నడుస్తోంది",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "నోటిఫికేషన్ ప్రాంతంలో Signal నడుస్తూనే ఉంటుంది. మీరు దీనిని Signal సెట్టింగ్‌లలో మార్చవచ్చు.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "అన్నింటిని చూడు",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ గ్రూప్‌లు ఉమ్మడిగా ఉన్నాయి",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "సమూహంకి కలపండి",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "అన్నింటిని చూడు",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "ప్రస్తావనలు",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "లో అదృశ్యమౌతుంది",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "$countdown$ లో అదృశ్యమౌతుంది",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "ముఖ్యమైన విషయాలను లేదా వివరాలను సరిగ్గా అర్థం చేసుకోవడానికి ఆడియో సందేశాల వేగాన్ని మార్చండి.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- వినడానికి వాయిస్ నోట్‌ల సుదీర్ఘమైన జాబితాతో సంభాషణను ఎదుర్కొంటున్నారా? ప్లే చేయండిపై క్లిక్ చేయండి, విశ్రాంతిగా కూర్చోండి - అవి ఆటోమేటిక్‌గా ప్లే చేయడాన్ని కొనసాగిస్తాయి!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "మీ ఎమోజీ శోధనను క్రమబద్ధం చేయండి. మీరు ఎమోజీ పికర్‌ను పైకి లాగిన తరువాత, 🔍 ను దాటవేయండి మరియు కీవర్డ్‌లు టైప్ చేయడం ప్రారంభించండి.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "మీ విహారయాత్ర ఫోటోలతో పాటుగా ఒక సందేశానికి మీరు ఇప్పుడు కొంత వీడియో ఫ్లేవర్‌ను జోడించవచ్చు!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "మీ బాస్కెట్‌బాల్ జట్టులో మీ స్నేహితుల్లో లౌ అనే పేరు గల వారు ఎవరు ఉన్నారో గుర్తు పెట్టుకోలేెకపోతున్నారా? మీకు మరియు ఒక స్నేహితుడి మధ్య పంచుకోబడ్డ గ్రూపులను చూడటానికి సంప్రదింపు వివరాలను తనిఖీ చేయండి.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "సంభాషణను ఉత్తేజకరంగా ఉంచడానికి వారి సంప్రదింపు వివరాల స్క్రీన్ నుంచి ఒక గ్రూపుకు స్నేహితుడిని సులభంగా జోడించండి.",
+    "description": "Release notes for v5.62"
   }
 }

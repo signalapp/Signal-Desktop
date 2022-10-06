@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "បន្ថែមទៅក្រុមមួយ",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "បញ្ចូលសមាជិកថ្មីឬ?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "បន្ថែម",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "បញ្ចូល “$contact$” ទៅក្នុងក្រុម “$group$”",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ បានបន្ថែមទៅ $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "កំពុងបញ្ចូល $contact$…",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "សមាជិក $count$ នាក់",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "សមាជិករួចហើយ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "សមាជិកភាពកំពុងរង់ចាំ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "សេចក្តីថ្លែងអំណរគុណ​ចំពោះ​សូហ្វវែរ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "អ្នកមិនអាចជ្រើសរើសរូបថត និងវីដេអូរួមជាមួយឯកសារបានទេ។",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "បញ្ចូលឯកសារភ្ជាប់ជារូបភាព ឬជាវីដេអូ",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal កំពុងដំណើរការនៅឡើយ",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "Signal នឹងបន្តដំណើរការក្នុងទំព័រជូនដំណឹង។ អ្នកអាចផ្លាស់ប្តូរវាបាននៅក្នុងការកំណត់របស់ Signal។",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "មើលទាំងអស់",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ ក្រុមរួមគ្នា",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "បន្ថែមទៅក្រុមមួយ",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "មើលទាំងអស់",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "ហៅ",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "បាត់ក្នុងរយៈពេល",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "បាត់ក្នុងរយៈពេល $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "ផ្លាស់ប្តូរល្បឿននៃសារជាសំឡេងដើម្បីចាប់យកចំណុចសំខាន់ ឬព័ត៌មានលម្អិត។",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- ពិបាកចូលស្តាប់ការសន្ទនាដែលមានកំណត់ចំណាំជាសំឡេងដ៏វែងអន្លាយមែនទេ? សូមចាក់ ហើយអង្គុយស្តាប់តាមសម្រួលចុះ - វានឹងបន្តចាក់ដោយស្វ័យប្រវត្តិ!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "ធ្វើឲ្យការស្វែងរករូបអារម្មណ៍របស់អ្នកកាន់តែមានប្រសិទ្ធភាព។ នៅពេលអ្នកបានបើក​ផ្ទាំងរើសរូបអារម្មណ៍ សូមរំលង 🔍 រួចគ្រាន់តែចាប់ផ្តើមវាយពាក្យគន្លឹះប៉ុណ្ណោះ។",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "ឥឡូវនេះ អ្នកអាចភ្ជាប់រសជាតិវីដេអូមួយចំនួនជាមួយសារបាន អមជាមួយនឹងរូបថតវិស្សមកាលរបស់អ្នកផងដែរ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "នៅក្នុងក្រុមបាល់បោះរបស់អ្នក អត់ចាំថាមិត្តភក្តិមួយណារបស់អ្នកមានឈ្មោះថា Lou មែនទេ? សូមមើលព័ត៌មានទំនាក់ទំនងលម្អិត ដើម្បីមើលឃើញក្រុមទាំងឡាយដែលមានអ្នក និងមិត្តភក្តិណាម្នាក់នៅក្នុងនោះដែរ។",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "ងាយស្រួលបញ្ចូលមិត្តភក្តិទៅក្នុងក្រុមពីអេក្រង់ព័ត៌មានទំនាក់ទំនងលម្អិតរបស់ពួកគេ ដើម្បីធ្វើឲ្យការសន្ទនាមានភាពរំភើបរីករាយរហូត។",
+    "description": "Release notes for v5.62"
   }
 }

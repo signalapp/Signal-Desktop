@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "ਕੀ ਨਵੇਂ ਮੈਂਬਰ ਨੂੰ ਸ਼ਾਮਲ ਕਰਨਾ ਹੈ?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "ਜੋੜੋ",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "“$contact$” ਨੂੰ \"$group$\" ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ ਨੂੰ $group$ ਵਿੱਚ ਜੋੜਿਆ ਗਿਆ ਸੀ",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ ਮੈਂਬਰ",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਮੈਂਬਰ ਹੈ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "ਮੈਂਬਰਸ਼ਿਪ ਬਾਕੀ ਹੈ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "ਸਾਫਟਵੇਅਰ ਆਭਾਰ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "ਸਾਰੇ ਵੇਖੋ",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ ਗਰੁੱਪ ਸਾਂਝੇ ਹਨ",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "ਸਾਰੇ ਵੇਖੋ",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "ਹਵਾਲੇ",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "ਸਿੱਧਾ ਮੁੱਦੇ ਦੀ ਗੱਲ ਉੱਤੇ ਪਹੁੰਚਣ ਲਈ ਜਾਂ ਕੋਈ ਜ਼ਰੂਰੀ ਜਾਣਕਾਰੀ ਸੁਣਨ ਲਈ ਆਡੀਓ ਸੁਨੇਹਿਆਂ ਦੀ ਗਤੀ ਵਧਾਓ।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- ਕੀ ਚੈਟ ਵਿੱਚ ਸੁਣਨ ਲਈ ਬਹੁਤ ਸਾਰੇ ਵੌਇਸ ਨੋਟ ਆਏ ਹਨ? ਬਸ ਪਲੇ 'ਤੇ ਕਲਿੱਕ ਕਰੋ, ਆਰਾਮ ਨਾਲ ਬੈਠੋ - ਵੌਇਸ ਨੋਟ ਇੱਕ ਤੋਂ ਬਾਅਦ ਇੱਕ ਆਪਣੇ-ਆਪ ਚਲਦੇ ਰਹਿਣਗੇ!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "ਇਮੋਜੀ ਖੋਜਣ ਦੇ ਤਰੀਕੇ ਨੂੰ ਸੁਚਾਰੂ ਬਣਾਓ। ਇੱਕ ਵਾਰ ਜਦੋਂ ਤੁਸੀਂ ਇਮੋਜੀ ਪਿੱਕਰ ਨੂੰ ਖੋਲ੍ਹ ਲੈਂਦੇ ਹੋ, ਤਾਂ 🔍 ਨੂੰ ਛੱਡੋ ਅਤੇ ਸਿੱਧਾ ਕੀਵਰਡ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "ਹੁਣ ਤੁਸੀਂ ਆਪਣੀਆਂ ਛੁੱਟੀਆਂ ਦੀਆਂ ਫ਼ੋਟੋਆਂ ਦੇ ਨਾਲ ਸੁਨੇਹਿਆਂ ਵਿੱਚ ਵੀਡੀਓ ਵੀ ਅਟੈਚ ਕਰ ਸਕਦੇ ਹੋ!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "ਕੀ ਤੁਹਾਨੂੰ ਯਾਦ ਨਹੀਂ ਆ ਰਿਹਾ ਕਿ ਜੱਸੀ ਨਾਮ ਦਾ ਕਿਹੜਾ ਦੋਸਤ ਤੁਹਾਡੀ ਹਾਕੀ ਦੀ ਟੀਮ ਵਿੱਚ ਹੈ? ਤਾਂ ਬਸ ਆਪਣੇ ਅਤੇ ਆਪਣੇ ਦੋਸਤ ਦੇ ਸਾਂਝੇ ਗਰੁੱਪ ਦੇਖਣ ਲਈ ਸੰਪਰਕ ਦੇ ਵੇਰਵੇ ਦੇਖੋ।",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "ਗੱਲਬਾਤ ਨੂੰ ਦਿਲਚਸਪ ਰੱਖਣ ਲਈ ਸੰਪਰਕ ਦੇ ਵੇਰਵਿਆਂ ਵਾਲੀ ਸਕ੍ਰੀਨ 'ਤੇ ਜਾ ਕੇ ਕਿਸੇ ਦੋਸਤ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਕਿਸੇ ਵੀ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ।",
+    "description": "Release notes for v5.62"
   }
 }

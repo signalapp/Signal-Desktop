@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "Додај у групу",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "Želite li da dodate novog člana?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "Додај",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "Dodaj korisnika ($contact$) u grupu „$group$“",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ је додат/a у $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "Dodajemo korisnika ($contact$)",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ члан(ов)а",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "Већ је члан",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "Članstvo je na čekanju",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "Software Acknowledgments",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "Погледај све",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "Broj zajedničkih grupa: $number$",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "Додај у групу",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "Погледај све",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "Помињања",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "Obavili smo manja podešavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Change the speed of audio messages to either get to the point or catch the details.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- Imate gomilu glasovnih poruka u prepisci? Kliknite na „Pusti“, sedite i opustite se, a snimci će automatski nastaviti da se puštaju!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "Sada možete da dodate i video snimak u poruku zajedno sa vašim fotografijama sa putovanja!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Ne možete da se setite koji Miloš je u vašem košarkaškom timu? Proverite kontakt podatke da vidite podeljene grupe između vas i prijatelja.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Na ekranu sa kontakt podacima lako dodajte prijatelja u grupu da razgovor ostane uzbudljiv.",
+    "description": "Release notes for v5.62"
   }
 }

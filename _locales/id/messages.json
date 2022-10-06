@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "Tambahkan ke grup",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "Tambah anggota baru?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "Tambahkan",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "Tambahkan “$contact$” ke grup “$group$”",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ ditambahkan ke $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "Menambahkan $contact$…",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ anggota",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "Telah menjadi anggota",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "Keanggotaan tertunda",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "Pernyataan Resmi Perangkat Lunak",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "Lihat semua",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ grup yang sama",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "Tambahkan ke grup",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "Lihat semua",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "Menyebut",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Ubah kecepatan pesan audio agar bisa langsung menangkap intinya atau mendapat detail pesan.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- Ada percakapan dengan begitu banyak Catatan Suara yang perlu didengarkan? Klik putar, duduk, dan rileks - Catatan Suara akan terus diputar secara otomatis!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "Permudah pencarian emoji Anda. Begitu pemilih emoji ditampilkan, tak perlu lagi mencari-cari 🔍 dan langsung saja ketik kata kuncinya.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "Kini Anda dapat menambahkan video ke dalam pesan, lengkap dengan foto-foto liburan Anda!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Tidak ingat teman yang bernama Lou di tim bola basket Anda? Cek detail kontak untuk melihat grup bersama di antara Anda dan seorang teman.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Dengan mudah tambahkan teman ke sebuah grup dari layar detail kontak mereka agar percakapan makin seru.",
+    "description": "Release notes for v5.62"
   }
 }

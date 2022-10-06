@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "ಹೊಸ ಸದಸ್ಯರನ್ನು ಸೇರಿಸುವುದೇ?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "ಸೇರಿಸಿ",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "“$contact$” ಅವರನ್ನು ಗ್ರೂಪ್ “$group$” ಗೆ ಸೇರಿಸಿ",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ ಅವರನ್ನು $group$ ಗೆ ಸೇರಿಸಲಾಗಿದೆ",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ ಅವರನ್ನು ಸೇರಿಸಲಾಗುತ್ತಿದೆ...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ ಸದಸ್ಯರು",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "ಈಗಾಗಲೇ ಸದಸ್ಯರಾಗಿದ್ದಾರೆ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "ಸದಸ್ಯತ್ವ ಬಾಕಿಯಿದೆ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "ಸಾಫ್ಟ್‌ವೇರ್ ಸ್ವೀಕೃತಿಗಳು",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "ಎಲ್ಲವನ್ನು ನೋಡಿ",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "ಎಲ್ಲವನ್ನು ನೋಡಿ",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "ಉಲ್ಲೇಖಗಳು",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "ಪಾಯಿಂಟ್ ಅನ್ನು ಪಡೆಯಲು ಅಥವಾ ವಿವರಗಳನ್ನು ಗ್ರಹಿಸಲು ಆಡಿಯೋ ಮೆಸೇಜ್‌ಗಳ ವೇಗವನ್ನು ಬದಲಾಯಿಸಿ.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- ವಾಯ್ಸ್ ನೋಟ್ ಗಳ ಸುದೀರ್ಘ ಪಟ್ಟಿಯೊಂದಿಗಿನ ಸಂಭಾಷೆಯನ್ನು ಎದುರಿಗಿದ್ದೀರೇನು? ಪ್ಲೇ ಕ್ಲಿಕ್ ಮಾಡಿ, ಕುಳಿತು ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ - ಅವು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪ್ಲೇ ಆಗುತ್ತಾ ಹೋಗುತ್ತವೆ!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "ನಿಮ್ಮ ಎಮೋಜಿ ಹುಡುಕುವಿಕೆಯನ್ನು ಸುಗಮಗೊಳಿಸಿ. ಎಮೋಜಿ ಪಿಕರ್ ಅನ್ನು ಸೆಳೆದ ಬಳಿಕ, 🔍 ಅನ್ನು ಸ್ಕಿಪ್ ಮಾಡಿ ಮತ್ತು ಕೀವರ್ಡ್‌ಗಳನ್ನು ಟೈಪ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "ನಿಮ್ಮ ರಜೆಯ ಫೋಟೋಗಳೊಂದಿಗೆ ವೀಡಿಯೋವನ್ನೂ ಲಗತ್ತಿಸುವ ಮೂಲಕ ಮೆಸೇಜ್ ಅನ್ನು ಇನ್ನಷ್ಟು ಆಕರ್ಷಕಗೊಳಿಸಬಹುದು!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Lou ಹೆಸರಿನ ನಿಮ್ಮ ಗೆಳೆಯರಲ್ಲಿ ನಿಮ್ಮ ಬಾಸ್ಕೆಟ್ ಬಾಲ್ ತಂಡದಲ್ಲಿ ಇದ್ದವ ಯಾರು ಅಂತ ನೆನಪಾಗುತ್ತಿಲ್ಲವೇ? ನೀವು ಹಾಗೂ ನಿಮ್ಮ ಫ್ರೆಂಡ್ ಮಧ್ಯೆ ಶೇರ್ ಮಾಡಿದ ಗ್ರೂಪ್ ಗಳನ್ನು ನೋಡಲು ಸಂಪರ್ಕ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "ಸಂಭಾಷಣೆಯನ್ನು ರೋಚಕವಾಗಿಸಲು ಫ್ರೆಂಡ್ ಅನ್ನು ಅವರ ಸಂಪರ್ಕ ವಿವರಗಳ ಸ್ಕ್ರೀನ್ ನಿಂದ ಸುಲಭವಾಗಿ ಗ್ರೂಪ್‍ಗೆ ಸೇರಿಸಿ.",
+    "description": "Release notes for v5.62"
   }
 }

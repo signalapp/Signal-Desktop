@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "کسی گروپ میں شامل کریں",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "نیا ممبر شامل کریں؟",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "شامل کریں",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "\"$contact$\" کو گروپ \"$group$\" میں شامل کریں",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ میں $group$ شامل کیا گیا تھا",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ شامل کر رہے ہیں...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ممبران",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "پہلے سے ہی رکن",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "ممبر شپ زیر التواء ہے",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "سافٹ ویئر ایکنالج منٹس",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "آپ فائلز کے ساتھ تصاویر اور ویڈیوز منتخب نہیں کر سکتے۔",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "تصویر یا ویڈیو منسلکہ شامل کریں",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal اب بھی چل رہی ہے",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "Signal نوٹیفکیشن ایریا میں چلتی رہے گی۔ آپ اسے Signal سیٹنگز میں تبدیل کر سکتے ہیں۔",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "تمام دیکھیں",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ مشترکہ گروپس",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "کسی گروپ میں شامل کریں",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "تمام دیکھیں",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "ذکر",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "اتنی دیر میں غائب ہوتا ہے",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "$countdown$ میں غائب ہوتا ہے",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "مطلب کی بات پر آنے یا تفصیلات جاننے کے لیے آڈیو میسجز کی رفتار تبدیل کریں۔",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- ایسی گفتگو کا سامنا کر رہے ہیں جس میں سننے کے لیے وائس نوٹس کی طویل فہرست موجود ہے؟ پلے پر کلک کریں، سکون سے بیٹھ جائیں، اور آرام کریں - یہ خود کار طور پر چلتے رہیں گے!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "اپنی ایموجی کی تلاش کو اسٹریم لائن کریں۔ آپ ایموجی پکر سامنے لانے کے بعد، 🔍 کو موخر کریں اور بس کلیدی الفاظ ٹائپ کرنا شروع کر دیں۔",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "اب آپ اپنی تعطیلات کی تصاویر کے ساتھ پیغام میں کچھ ویڈیو کا تڑکا بھی لگا سکتے ہیں!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "یاد نہیں کہ آپ کی باسکٹ بال ٹیم میں لو نام کا آپ کا کون سا دوست شامل تھا؟ اپنے اور دوست کے درمیان شیئر کردہ گروپس دیکھنے کے لیے رابطے کی تفصیلات چیک کریں۔",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "گفتگو کو دلچسپ رکھنے کے لیے دوست کو آسانی کے ساتھ ان کے رابطے کی تفصیلات کی اسکرین سے گروپ میں شامل کریں۔",
+    "description": "Release notes for v5.62"
   }
 }

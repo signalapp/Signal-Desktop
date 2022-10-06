@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "เพิ่มเข้ากลุ่ม",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "เพิ่มสมาชิกใหม่ใช่หรือไม่",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "เพิ่ม",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "เพิ่ม “$contact$” เข้ากลุ่ม “$group$” ใช่หรือไม่",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$ ถูกเพิ่มเข้า $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "กำลังเพิ่ม $contact$…",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ สมาชิก",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "เป็นสมาชิกแล้ว",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "สถานะสมาชิกยังไม่สมบูรณ์",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "คำขอบคุณสำหรับซอฟต์แวร์",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -4261,6 +4297,18 @@
     "message": "ดูทั้งหมด",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "มี $number$ กลุ่มร่วมกัน",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "เพิ่มเข้ากลุ่ม",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "ดูทั้งหมด",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "การกล่าวถึง",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -5797,12 +5845,20 @@
     "message": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "เปลี่ยนความเร็วในการเล่นข้อความเสียงได้ตามต้องการ จะเล่นแบบเร็วเพื่อจับเอาใจความสำคัญหรือจะเล่นแบบปกติเพื่อฟังรายละเอียดทั้งหมดก็ได้",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- หายห่วงเมื่อเจอบทสนทนาที่มีข้อความเสียงเยอะๆ แค่คลิก \"เล่น\" ก็รอฟังได้เลย! ข้อความเสียงจะเล่นต่อกันโดยอัตโนมัติ",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "ปรับปรุงการค้นหาอีโมจิให้สะดวกและง่ายดายขึ้น ไม่ต้องมองหา 🔍 อีกต่อไป แค่กดปุ่มเลือกอีโมจิแล้วพิมพ์คำค้นหาได้เลย",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "นอกจากรูปทริปเก๋ๆ ตอนนี้คุณสามารถแนบวิดีโอไปกับข้อความได้ด้วย",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "ไม่ต้องกังวลไป ถ้าจำไม่ได้ว่าเพื่อนชื่อ “เบิร์ด” คนไหนกันแน่ที่เตะบอลทีมเดียวกับคุณ แค่เปิดดูข้อมูลผู้ติดต่อก็จะรู้ได้เลยว่าคุณและเพื่อนมีกลุ่มไหนร่วมกันบ้าง",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "เพิ่มเพื่อนเข้ากลุ่มได้ง่ายๆ จากหน้าข้อมูลผู้ติดต่อของเพื่อน เพื่อการพูดคุยที่ราบรื่นไม่มีสะดุดและสนุกทุกเมื่อ",
+    "description": "Release notes for v5.62"
   }
 }

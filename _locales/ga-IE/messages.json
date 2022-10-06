@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "Add to a Group",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "Cuir ball nua leis?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "Cuir leis",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "Cuir “$contact$” leis an ngrúpa “$group$”",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "Cuireadh $contact$ le $group$",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$ á c(h)ur leis...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "Baill de chuid $count$",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "Already a member",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "Tá an bhallraíocht ar feitheamh",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "Software Acknowledgments",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -2982,7 +3018,7 @@
     "description": "Shown at the end of profile sharing messages as a link."
   },
   "ConversationHero--members": {
-    "message": "$count$ members",
+    "message": "Baill de chuid $count$",
     "description": "Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
@@ -3374,7 +3410,7 @@
     "description": "Shown in the metadata section if group has just one member"
   },
   "GroupV2--join--member-count--multiple": {
-    "message": "$count$ members",
+    "message": "Baill de chuid $count$",
     "description": "Shown in the metadata section if group has more than one member"
   },
   "GroupV2--join--group-metadata": {
@@ -4238,7 +4274,7 @@
     "description": "This is the modal button to confirm unblock of a group"
   },
   "ConversationDetailsHeader--members": {
-    "message": "$number$ members",
+    "message": "Baill de chuid $number$",
     "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
@@ -4250,7 +4286,7 @@
     "description": "This is a button on the conversation details to show all media"
   },
   "ConversationDetailsMembershipList--title": {
-    "message": "$number$ members",
+    "message": "Baill de chuid $number$",
     "description": "The title of the membership list panel"
   },
   "ConversationDetailsMembershipList--add-members": {
@@ -4260,6 +4296,18 @@
   "ConversationDetailsMembershipList--show-all": {
     "message": "See All",
     "description": "This is a button on the conversation details to show all members"
+  },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$ grúpa i bpáirt",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "Add to a Group",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "See All",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
   },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "Nuair a luaitear mé",
@@ -5490,7 +5538,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Choose who can view your story",
+    "message": "Roghnaigh cé atá in ann do scéal a fheiceáil",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5797,12 +5845,20 @@
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "Change the speed of audio messages to either get to the point or catch the details.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- An bhfuil comhrá le liosta fada Nótaí Gutha agat le éisteacht leo? Cliceáil 'Seinn', suigh siar agus lig do scíth - seinnfear iad go huathoibríoch!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "Streamline your emoji searching. Once you’ve pulled up the emoji picker, skip the 🔍 and just start typing keywords.",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "Is féidir leat blas físe a chur le teachtaireacht anois, mar aon le do ghrianghraif saoire!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "Nach féidir leat cuimhneamh ar cé acu cairde darb ainm Seán ar d'fhoireann chispheile? Seiceáil sonraí teagmhála chun grúpaí comhroinnte idir tú féin agus cara a fheiceáil.",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "Cuir cara le grúpa go héasca óna scáileán sonraí teagmhála chun an comhrá a choinneáil spreagúil.",
+    "description": "Release notes for v5.62"
   }
 }

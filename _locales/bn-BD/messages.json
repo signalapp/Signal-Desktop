@@ -9,6 +9,42 @@
       }
     ]
   },
+  "AddUserToAnotherGroupModal__title": {
+    "message": "গ্রুপে যোগ করো",
+    "description": "Shown as the title of the dialog that allows you to add a contact to an group"
+  },
+  "AddUserToAnotherGroupModal__confirm-title": {
+    "message": "নতুন সদস্য যোগ করবেন?",
+    "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
+  },
+  "AddUserToAnotherGroupModal__confirm-add": {
+    "message": "যোগ করুন",
+    "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__confirm-message": {
+    "message": "\"$group$\" গ্ৰুপে \"$contact$\" যোগ করুন",
+    "description": "Shown in the confirmation dialog body when adding a contact to a group"
+  },
+  "AddUserToAnotherGroupModal__toast--user-added-to-group": {
+    "message": "$contact$-কে $group$-এ যোগ করা হয়েছে",
+    "description": "Shown in toast after a user is added to an existing group"
+  },
+  "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
+    "message": "$contact$-কে যোগ করা হচ্ছে...",
+    "description": "Shown in toast while a user is being added to a group"
+  },
+  "GroupListItem__message-default": {
+    "message": "$count$ জন সদস্য",
+    "description": "Shown below the group name when selecting a group to invite a contact to"
+  },
+  "GroupListItem__message-already-member": {
+    "message": "ইতিমধ্যেই সদস্য হয়েছেন",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
+  "GroupListItem__message-pending": {
+    "message": "সদস্যতা অপেক্ষমাণ",
+    "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
+  },
   "softwareAcknowledgments": {
     "message": "সফ্টওয়্যার প্রাপ্তিস্বীকার",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -568,7 +604,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "আপনি ফাইল সহ ছবি এবং ভিডিও নির্বাচন করতে পারবেন না।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -2630,7 +2666,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "ছবি বা ভিডিও সংযুক্তি যোগ করুন",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -3074,11 +3110,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal এখনও সচল আছে",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "নোটিফিকেশন অংশে Signal চলতে থাকবে। আপনি Signal সেটিংস থেকে এটি পরিবর্তন করতে পারবেন।",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4261,6 +4297,18 @@
     "message": "সব দেখুন",
     "description": "This is a button on the conversation details to show all members"
   },
+  "ConversationDetailsGroups--title": {
+    "message": "$number$-টি একই গ্রুপ আছে",
+    "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "ConversationDetailsGroups--add-to-group": {
+    "message": "গ্রুপে যোগ করো",
+    "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
+  },
+  "ConversationDetailsGroups--show-all": {
+    "message": "সব দেখুন",
+    "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
+  },
   "ConversationNotificationsSettings__mentions__label": {
     "message": "উল্লেখ",
     "description": "In the conversation notifications settings, this is the label for the mentions option"
@@ -4862,7 +4910,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "অদৃশ্য হবে",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -5586,7 +5634,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "$countdown$ সময়ের মধ্যে অদৃশ্য হবে",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5797,12 +5845,20 @@
     "message": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.57--1": {
-    "message": "কাঙ্ক্ষিত অংশে পৌঁছাতে কিংবা খুঁটিনাটি বিষয়বস্তু বুঝতে অডিও ম্যাসেজের গতি পরিবর্তন করুন।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--0": {
+    "message": "- এমন একটি কথোপকথনের সম্মুখীন হয়েছেন যেখানে আপনাকে অনেকগুলো ভয়েস নোট শুনতে হবে? প্লে ক্লিক করুন, স্বাচ্ছন্দ্যে বসুন এবং আরাম করুন - ভয়েস নোটগুলো স্বয়ংক্রিয়ভাবে চলতে থাকবে!",
+    "description": "Release notes for v5.61"
   },
-  "WhatsNew__v5.57--2": {
-    "message": "আপনার ইমোজি অনুসন্ধান সহজ করুন। একবার আপনি ইমোজি বাছাই করে নিলে, পরবর্তীতে 🔍 এড়িয়ে যান এবং শুধু কীওয়ার্ড টাইপ করুন।",
-    "description": "Release notes for v5.57"
+  "WhatsNew__v5.61--1": {
+    "message": "আপনি এখন আপনার ভ্যাকেশনের ছবি সমেত কোনো ম্যাসেজে কিছু ভিডিও ফ্লেভার সংযুক্ত করতে পারবেন!",
+    "description": "Release notes for v5.61"
+  },
+  "WhatsNew__v5.62--0": {
+    "message": "আপনার বাস্কেটবল দলের কোন বন্ধুটির নাম লাবিব তা মনে করতে পারছেন না? আপনি এবং আপনার বন্ধু কোন গ্ৰুপগুলোতে সহাবস্থান করছেন তা দেখতে ও জানতে কন্টাক্টের বিস্তারিত দেখুন।",
+    "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.62--1": {
+    "message": "কথোপকথনকে আরো জমজমাট করে তুলতে কন্টাক্টের বিস্তারিত স্ক্রীন থেকে সহজেই একজন বন্ধুকে একটি গ্ৰুপে যোগ করুন।",
+    "description": "Release notes for v5.62"
   }
 }
