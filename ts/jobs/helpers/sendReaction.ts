@@ -105,6 +105,7 @@ export async function sendReaction(
       return;
     }
 
+    const expireTimer = messageConversation.get('expireTimer');
     const {
       allRecipientIdentifiers,
       recipientIdentifiersWithoutMe,
@@ -123,7 +124,6 @@ export async function sendReaction(
       );
     }
 
-    const expireTimer = message.get('expireTimer');
     const profileKey = conversation.get('profileSharing')
       ? await ourProfileKeyService.get()
       : undefined;
