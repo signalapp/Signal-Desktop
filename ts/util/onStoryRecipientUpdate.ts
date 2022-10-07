@@ -76,15 +76,15 @@ export async function onStoryRecipientUpdate(
     const messages = await window.Signal.Data.getMessagesBySentAt(timestamp);
 
     // Now we figure out who needs to be added and who needs to removed
-    messages.forEach(item => {
+    const handledMessages = messages.filter(item => {
       if (!isStory(item)) {
-        return;
+        return false;
       }
 
       const { sendStateByConversationId, storyDistributionListId } = item;
 
       if (!sendStateByConversationId || !storyDistributionListId) {
-        return;
+        return false;
       }
 
       const nextSendStateByConversationId = {
@@ -136,7 +136,7 @@ export async function onStoryRecipientUpdate(
         log.info(
           'onStoryRecipientUpdate: sendStateByConversationId does not need update'
         );
-        return;
+        return true;
       }
 
       const message = window.MessageController.register(item.id, item);
@@ -170,9 +170,13 @@ export async function onStoryRecipientUpdate(
         });
         queueUpdateMessage(message.attributes);
       }
+
+      return true;
     });
 
-    window.Whisper.events.trigger('incrementProgress');
-    confirm();
+    if (handledMessages.length) {
+      window.Whisper.events.trigger('incrementProgress');
+      confirm();
+    }
   });
 }
