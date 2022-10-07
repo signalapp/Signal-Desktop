@@ -2,12 +2,12 @@ import { RingBuffer } from '../../../utils/RingBuffer';
 
 const rollingDeletedMessageIds: Map<string, RingBuffer<number>> = new Map();
 
-// keep 2000 deleted message ids in memory
-const perRoomRollingRemovedIds = 2000;
-
 const addMessageDeletedId = (conversationId: string, messageDeletedId: number) => {
   if (!rollingDeletedMessageIds.has(conversationId)) {
-    rollingDeletedMessageIds.set(conversationId, new RingBuffer<number>(perRoomRollingRemovedIds));
+    rollingDeletedMessageIds.set(
+      conversationId,
+      new RingBuffer<number>(sogsRollingDeletions.getPerRoomCount())
+    );
   }
   const ringBuffer = rollingDeletedMessageIds.get(conversationId);
   if (!ringBuffer) {
@@ -15,7 +15,6 @@ const addMessageDeletedId = (conversationId: string, messageDeletedId: number) =
   }
   ringBuffer.add(messageDeletedId);
 };
-
 
 const hasMessageDeletedId = (conversationId: string, messageDeletedId: number) => {
   if (!rollingDeletedMessageIds.has(conversationId)) {
@@ -29,4 +28,21 @@ const hasMessageDeletedId = (conversationId: string, messageDeletedId: number) =
   return messageIdWasDeletedRecently;
 };
 
-export const sogsRollingDeletions = { addMessageDeletedId, hasMessageDeletedId };
+/**
+ * emptyMessageDeleteIds should only be used for testing purposes.
+ */
+const emptyMessageDeleteIds = () => {
+  rollingDeletedMessageIds.clear();
+};
+
+export const sogsRollingDeletions = {
+  addMessageDeletedId,
+  hasMessageDeletedId,
+  emptyMessageDeleteIds,
+  getPerRoomCount,
+};
+
+// keep 2000 deleted message ids in memory
+function getPerRoomCount() {
+  return 2000;
+}

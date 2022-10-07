@@ -241,8 +241,7 @@ const makeBatchRequestPayload = (
           method: 'GET',
           path: isNumber(options.messages.sinceSeqNo)
             ? `/room/${options.messages.roomId}/messages/since/${options.messages.sinceSeqNo}?t=r&reactors=${Reactions.SOGSReactorsFetchCount}`
-            : // : `/room/${options.messages.roomId}/messages/since/180000?t=r&reactors=${Reactions.SOGSReactorsFetchCount}`,
-              `/room/${options.messages.roomId}/messages/recent?reactors=${Reactions.SOGSReactorsFetchCount}`,
+            : `/room/${options.messages.roomId}/messages/recent?reactors=${Reactions.SOGSReactorsFetchCount}`,
         };
       }
       break;
