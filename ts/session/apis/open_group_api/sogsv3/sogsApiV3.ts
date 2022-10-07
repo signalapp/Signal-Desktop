@@ -36,6 +36,7 @@ import { createSwarmMessageSentFromUs } from '../../../../models/messageFactory'
 import { Data } from '../../../../data/data';
 import { processMessagesUsingCache } from './sogsV3MutationCache';
 import { destroyMessagesAndUpdateRedux } from '../../../../util/expiringMessages';
+import { sogsRollingDeletions } from './sogsRollingDeletions';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -155,28 +156,27 @@ async function filterOutMessagesInvalidSignature(
   return signaturesValidMessages;
 }
 
-let totalDeletedMessages = 0;
 const handleSogsV3DeletedMessages = async (
   messages: Array<OpenGroupMessageV4>,
   serverUrl: string,
   roomId: string
 ) => {
-  const deletions = messages.filter(m => Boolean(m.deleted));
-  const exceptDeletion = messages.filter(m => !m.deleted);
-  if (!deletions.length) {
-    return messages;
+  const messagesDeleted = messages.filter(m => Boolean(m.deleted));
+  const messagesWithoutDeleted = messages.filter(m => !m.deleted);
+  if (!messagesDeleted.length) {
+    return messagesWithoutDeleted;
   }
-  totalDeletedMessages += deletions.length;
-  console.warn(
-    JSON.stringify({
-      totalDeletedMessages,
-    })
-  );
-  const allIdsRemoved = deletions.map(m => m.id);
+
+  const allIdsRemoved = messagesDeleted.map(m => m.id);
+
   try {
     const convoId = getOpenGroupV2ConversationId(serverUrl, roomId);
     const convo = getConversationController().get(convoId);
     const messageIds = await Data.getMessageIdsFromServerIds(allIdsRemoved, convo.id);
+
+    allIdsRemoved.forEach(removedId => {
+      sogsRollingDeletions.addMessageDeletedId(convoId, removedId);
+    });
 
     if (messageIds && messageIds.length) {
       await destroyMessagesAndUpdateRedux(
@@ -189,13 +189,8 @@ const handleSogsV3DeletedMessages = async (
   } catch (e) {
     window?.log?.warn('handleDeletions failed:', e);
   }
-  return exceptDeletion;
+  return messagesWithoutDeleted;
 };
-
-// tslint:disable-next-line: one-variable-per-declaration
-let totalEmptyReactions = 0,
-  totalMessagesWithResolvedBlindedIdsIfFound = 0,
-  totalMessageReactions = 0;
 
 // tslint:disable-next-line: max-func-body-length cyclomatic-complexity
 const handleMessagesResponseV4 = async (
@@ -296,8 +291,6 @@ const handleMessagesResponseV4 = async (
     const incomingMessageSeqNo = compact(messages.map(n => n.seqno));
     const maxNewMessageSeqNo = Math.max(...incomingMessageSeqNo);
 
-    totalMessagesWithResolvedBlindedIdsIfFound += messagesWithResolvedBlindedIdsIfFound.length;
-
     for (let index = 0; index < messagesWithResolvedBlindedIdsIfFound.length; index++) {
       const msgToHandle = messagesWithResolvedBlindedIdsIfFound[index];
       try {
@@ -323,25 +316,24 @@ const handleMessagesResponseV4 = async (
     await OpenGroupData.saveV2OpenGroupRoom(roomInfosRefreshed);
 
     const messagesWithReactions = messages.filter(m => m.reactions !== undefined);
-    const messagesWithEmptyReactions = messagesWithReactions.filter(m => isEmpty(m.reactions));
-
-    totalMessageReactions += messagesWithReactions.length;
-    totalEmptyReactions += messagesWithEmptyReactions.length;
-    console.warn(
-      JSON.stringify({
-        totalMessagesWithResolvedBlindedIdsIfFound,
-        totalMessageReactions,
-        totalEmptyReactions,
-      })
-    );
 
     if (messagesWithReactions.length > 0) {
       const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
       const groupConvo = getConversationController().get(conversationId);
       if (groupConvo && groupConvo.isOpenGroupV2()) {
-        for (const message of messagesWithReactions) {
+        for (const messageWithReaction of messagesWithReactions) {
+          if (isEmpty(messageWithReaction.reactions)) {
+            /*
+             * When a message is deleted from the server, we get the deleted event as a data: null on the message itself
+             * and an update on its reactions.
+             * But, because we just deleted that message, we can skip trying to udpate its reactions: it's not in the DB anymore.
+             */
+            if (sogsRollingDeletions.hasMessageDeletedId(conversationId, messageWithReaction.id)) {
+              continue;
+            }
+          }
           void groupConvo.queueJob(async () => {
-            await processMessagesUsingCache(serverUrl, roomId, message);
+            await processMessagesUsingCache(serverUrl, roomId, messageWithReaction);
           });
         }
       }
