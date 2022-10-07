@@ -94,6 +94,7 @@ export type ProcessedEnvelope = Readonly<{
   serverTimestamp: number;
   groupId?: string;
   urgent?: boolean;
+  story?: boolean;
 }>;
 
 export type ProcessedAttachment = {

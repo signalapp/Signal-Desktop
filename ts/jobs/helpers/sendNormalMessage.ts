@@ -183,6 +183,7 @@ export async function sendNormalMessage(
         quote,
         recipients: allRecipientIdentifiers,
         sticker,
+        // No storyContext; you can't reply to your own stories
         timestamp: messageTimestamp,
       });
       messageSendPromise = message.sendSyncMessageOnly(dataMessage, saveErrors);
@@ -234,6 +235,7 @@ export async function sendNormalMessage(
               sendOptions,
               sendTarget: conversation.toSenderKeyTarget(),
               sendType: 'message',
+              story: Boolean(storyContext),
               urgent: true,
             })
         );
@@ -282,6 +284,7 @@ export async function sendNormalMessage(
           sticker,
           storyContext,
           timestamp: messageTimestamp,
+          // Note: 1:1 story replies should not set story=true -   they aren't group sends
           urgent: true,
           includePniSignatureMessage: true,
         });

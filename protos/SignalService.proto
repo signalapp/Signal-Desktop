@@ -35,7 +35,8 @@ message Envelope {
   optional bool ephemeral = 12; // indicates that the message should not be persisted if the recipient is offline
   optional bool urgent = 14 [default=true];  // indicates that the content is considered timely by the sender; defaults to true so senders have to opt-out to say something isn't time critical
   optional string updated_pni = 15;
-  // next: 16
+  optional bool story = 16;  // indicates that the content is a story.
+  // next: 17
 }
 
 message Content {

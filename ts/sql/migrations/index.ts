@@ -42,6 +42,7 @@ import updateToSchemaVersion63 from './63-add-urgent-to-unprocessed';
 import updateToSchemaVersion64 from './64-uuid-column-for-pre-keys';
 import updateToSchemaVersion65 from './65-add-storage-id-to-stickers';
 import updateToSchemaVersion66 from './66-add-pni-signature-to-sent-protos';
+import updateToSchemaVersion67 from './67-add-story-to-unprocessed';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1947,6 +1948,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion64,
   updateToSchemaVersion65,
   updateToSchemaVersion66,
+  updateToSchemaVersion67,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

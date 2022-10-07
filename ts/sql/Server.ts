@@ -3178,6 +3178,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     serverTimestamp,
     decrypted,
     urgent,
+    story,
   } = data;
   if (!id) {
     throw new Error('saveUnprocessedSync: id was falsey');
@@ -3204,7 +3205,8 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       serverGuid,
       serverTimestamp,
       decrypted,
-      urgent
+      urgent,
+      story
     ) values (
       $id,
       $timestamp,
@@ -3218,7 +3220,8 @@ function saveUnprocessedSync(data: UnprocessedType): string {
       $serverGuid,
       $serverTimestamp,
       $decrypted,
-      $urgent
+      $urgent,
+      $story
     );
     `
   ).run({
@@ -3235,6 +3238,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     serverTimestamp: serverTimestamp || null,
     decrypted: decrypted || null,
     urgent: urgent || !isBoolean(urgent) ? 1 : 0,
+    story: story ? 1 : 0,
   });
 
   return id;
@@ -3309,6 +3313,7 @@ async function getUnprocessedById(
   return {
     ...row,
     urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+    story: Boolean(row.story),
   };
 }
 
@@ -3370,6 +3375,7 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
       .map(row => ({
         ...row,
         urgent: isNumber(row.urgent) ? Boolean(row.urgent) : true,
+        story: Boolean(row.story),
       }));
   })();
 }

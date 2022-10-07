@@ -7,7 +7,7 @@ import type {
   SendOptionsType,
 } from '../textsecure/SendMessage';
 import * as Bytes from '../Bytes';
-import { getRandomBytes } from '../Crypto';
+import { getRandomBytes, getZeroes } from '../Crypto';
 import { getConversationMembers } from './getConversationMembers';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { senderCertificateService } from '../services/senderCertificate';
@@ -24,14 +24,17 @@ const SEALED_SENDER = {
 };
 
 export async function getSendOptionsForRecipients(
-  recipients: ReadonlyArray<string>
+  recipients: ReadonlyArray<string>,
+  options?: { story?: boolean }
 ): Promise<SendOptionsType> {
   const conversations = recipients
     .map(identifier => window.ConversationController.get(identifier))
     .filter(isNotNil);
 
   const metadataList = await Promise.all(
-    conversations.map(conversation => getSendOptions(conversation.attributes))
+    conversations.map(conversation =>
+      getSendOptions(conversation.attributes, options)
+    )
   );
 
   return metadataList.reduce(
@@ -58,9 +61,9 @@ export async function getSendOptionsForRecipients(
 
 export async function getSendOptions(
   conversationAttrs: ConversationAttributesType,
-  options: { syncMessage?: boolean } = {}
+  options: { syncMessage?: boolean; story?: boolean } = {}
 ): Promise<SendOptionsType> {
-  const { syncMessage } = options;
+  const { syncMessage, story } = options;
 
   if (!isDirectConversation(conversationAttrs)) {
     const contactCollection = getConversationMembers(conversationAttrs);
@@ -97,9 +100,13 @@ export async function getSendOptions(
   );
 
   // If we've never fetched user's profile, we default to what we have
-  if (sealedSender === SEALED_SENDER.UNKNOWN) {
+  if (sealedSender === SEALED_SENDER.UNKNOWN || story) {
     const identifierData = {
-      accessKey: accessKey || Bytes.toBase64(getRandomBytes(16)),
+      accessKey:
+        accessKey ||
+        (story
+          ? Bytes.toBase64(getZeroes(16))
+          : Bytes.toBase64(getRandomBytes(16))),
       senderCertificate,
     };
     return {

@@ -942,6 +942,7 @@ export type WebAPIType = {
     timestamp: number,
     options: {
       online?: boolean;
+      story?: boolean;
       urgent?: boolean;
     }
   ) => Promise<MultiRecipient200ResponseType>;
@@ -2122,14 +2123,13 @@ export function initialize({
         messages,
         timestamp,
         online: Boolean(online),
-        story,
         urgent,
       };
 
       await _ajax({
         call: 'messages',
         httpType: 'PUT',
-        urlParameters: `/${destination}`,
+        urlParameters: `/${destination}?story=${booleanToString(story)}`,
         jsonData,
         responseType: 'json',
         unauthenticated: true,
@@ -2151,14 +2151,13 @@ export function initialize({
         messages,
         timestamp,
         online: Boolean(online),
-        story,
         urgent,
       };
 
       await _ajax({
         call: 'messages',
         httpType: 'PUT',
-        urlParameters: `/${destination}`,
+        urlParameters: `/${destination}?story=${booleanToString(story)}`,
         jsonData,
         responseType: 'json',
       });
@@ -2175,20 +2174,23 @@ export function initialize({
       {
         online,
         urgent = true,
+        story = false,
       }: {
         online?: boolean;
+        story?: boolean;
         urgent?: boolean;
       }
     ): Promise<MultiRecipient200ResponseType> {
       const onlineParam = `&online=${booleanToString(online)}`;
       const urgentParam = `&urgent=${booleanToString(urgent)}`;
+      const storyParam = `&story=${booleanToString(story)}`;
 
       const response = await _ajax({
         call: 'multiRecipient',
         httpType: 'PUT',
         contentType: 'application/vnd.signal-messenger.mrm',
         data,
-        urlParameters: `?ts=${timestamp}${onlineParam}${urgentParam}`,
+        urlParameters: `?ts=${timestamp}${onlineParam}${urgentParam}${storyParam}`,
         responseType: 'json',
         unauthenticated: true,
         accessKey: Bytes.toBase64(accessKeys),

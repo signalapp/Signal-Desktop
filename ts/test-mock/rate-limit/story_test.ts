@@ -15,7 +15,7 @@ export const debug = createDebug('mock:test:rate-limit');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('rate-limit/story', function needsName() {
+describe('story/no-sender-key', function needsName() {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -65,7 +65,7 @@ describe('rate-limit/story', function needsName() {
     await bootstrap.teardown();
   });
 
-  it('should request challenge and accept solution', async () => {
+  it('should successfully send story', async () => {
     const {
       server,
       contactsWithoutProfileKey: contacts,
@@ -114,29 +114,6 @@ describe('rate-limit/story', function needsName() {
       debug('Hitting Send');
       await window.locator('button.SendStoryModal__send').click();
     }
-
-    debug('Waiting for challenge');
-    const request = await app.waitForChallenge();
-
-    debug('Checking for presence of captcha modal');
-    await window
-      .locator('.module-Modal__title >> "Verify to continue messaging"')
-      .waitFor();
-
-    debug('Removing rate-limiting');
-    for (const contact of contacts) {
-      const failedMessages = server.stopRateLimiting({
-        source: desktop.uuid,
-        target: contact.device.uuid,
-      });
-      assert.isAtMost(failedMessages ?? 0, 1);
-    }
-
-    debug('Solving challenge');
-    app.solveChallenge({
-      seq: request.seq,
-      data: { captcha: 'anything' },
-    });
 
     debug('Verifying that all contacts received story');
     await Promise.all(
