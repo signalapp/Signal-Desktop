@@ -30,11 +30,13 @@ export type ConfigKeyType =
   | 'desktop.showUserBadges.beta'
   | 'desktop.showUserBadges2'
   | 'desktop.stories'
+  | 'desktop.stories.beta'
   | 'desktop.usernames'
   | 'global.attachments.maxBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize';
+
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
