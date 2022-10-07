@@ -484,6 +484,7 @@
   "clearAllReactions": "Are you sure you want to clear all $emoji$ ?",
   "expandedReactionsText": "Show Less",
   "reactionNotification": "Reacts to a message with $emoji$",
+  "rateLimitReactMessage": "Slow down! You've sent too many emoji reacts. Try again soon",
   "otherSingular": "$number$ other",
   "otherPlural": "$number$ others",
   "reactionPopup": "reacted with",
