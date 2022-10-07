@@ -2688,15 +2688,6 @@ export default class MessageReceiver
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
 
-      if (sentMessage.storyMessage) {
-        this.handleStoryMessage(
-          envelope,
-          sentMessage.storyMessage,
-          sentMessage
-        );
-        return;
-      }
-
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
         if (window.Events.getHasStoriesDisabled()) {
           log.info(
@@ -2719,6 +2710,15 @@ export default class MessageReceiver
           this.removeFromCache.bind(this, envelope)
         );
         return this.dispatchAndWait(ev);
+      }
+
+      if (sentMessage.storyMessage) {
+        this.handleStoryMessage(
+          envelope,
+          sentMessage.storyMessage,
+          sentMessage
+        );
+        return;
       }
 
       if (!sentMessage || !sentMessage.message) {
