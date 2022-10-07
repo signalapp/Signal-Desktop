@@ -97,7 +97,7 @@
   .selection-mode {
     .messages-container > *:not(.message-selected) {
       animation: toShadow var(--default-duration);
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
 }
