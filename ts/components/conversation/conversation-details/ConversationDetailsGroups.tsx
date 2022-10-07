@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { ConversationType } from '../../../state/ducks/conversations';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
@@ -14,6 +17,7 @@ type Props = {
   i18n: LocalizerType;
   groupsInCommon: Array<ConversationType>;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
+  showConversation: ShowConversationType;
 };
 
 export const ConversationDetailsGroups = ({
@@ -21,6 +25,7 @@ export const ConversationDetailsGroups = ({
   i18n,
   groupsInCommon,
   toggleAddUserToAnotherGroupModal,
+  showConversation,
 }: Props): JSX.Element => {
   const [showAllGroups, setShowAllGroups] = React.useState(false);
 
@@ -44,6 +49,12 @@ export const ConversationDetailsGroups = ({
       {groupsInCommon.slice(0, groupsToShow).map(group => (
         <PanelRow
           key={group.id}
+          onClick={() =>
+            showConversation({
+              conversationId: group.id,
+              switchToAssociatedView: true,
+            })
+          }
           icon={
             <Avatar
               conversationType="group"
