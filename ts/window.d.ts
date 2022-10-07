@@ -43,7 +43,7 @@ declare global {
       };
     };
     SessionSnodeAPI: SessionSnodeAPI;
-    onLogin: any;
+    onLogin: (pw: string) => Promise<void>;
     persistStore?: Persistor;
     restart: any;
     getSeedNodeList: () => Array<string> | undefined;

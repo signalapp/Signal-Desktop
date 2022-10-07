@@ -647,6 +647,11 @@ export const getSelectedMessageIds = createSelector(
   (state: ConversationsStateType): Array<string> => state.selectedMessageIds
 );
 
+export const getIsMessageSelectionMode = createSelector(
+  getSelectedMessageIds,
+  (state: Array<string>): boolean => Boolean(state.length)
+);
+
 export const getLightBoxOptions = createSelector(
   getConversations,
   (state: ConversationsStateType): LightBoxOptions | undefined => state.lightBox
