@@ -87,6 +87,7 @@ export type LocalizerKeys =
   | 'enterNewPassword'
   | 'expandedReactionsText'
   | 'openMessageRequestInbox'
+  | 'rateLimitReactMessage'
   | 'enterPassword'
   | 'enterSessionIDOfRecipient'
   | 'join'
