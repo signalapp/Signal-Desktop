@@ -128,7 +128,7 @@ export function SmartForwardMessageModal(): JSX.Element | null {
           maybeGrabLinkPreview(
             messageText,
             LinkPreviewSourceType.ForwardMessageModal,
-            caretLocation
+            { caretLocation }
           );
         }
       }}

@@ -15,7 +15,7 @@ export type LinkPreviewImage = AttachmentType & {
 };
 
 export type LinkPreviewResult = {
-  title: string;
+  title: string | null;
   url: string;
   image?: LinkPreviewImage;
   description: string | null;
@@ -31,6 +31,15 @@ export enum LinkPreviewSourceType {
   ForwardMessageModal,
   StoryCreator,
 }
+
+export type MaybeGrabLinkPreviewOptionsType = Readonly<{
+  caretLocation?: number;
+  mode?: 'conversation' | 'story';
+}>;
+
+export type AddLinkPreviewOptionsType = Readonly<{
+  disableFetch?: boolean;
+}>;
 
 const linkify = LinkifyIt();
 

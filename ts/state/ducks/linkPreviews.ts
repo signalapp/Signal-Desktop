@@ -6,7 +6,10 @@ import type { ThunkAction } from 'redux-thunk';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type { LinkPreviewSourceType } from '../../types/LinkPreview';
+import type {
+  LinkPreviewSourceType,
+  MaybeGrabLinkPreviewOptionsType,
+} from '../../types/LinkPreview';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 import { maybeGrabLinkPreview } from '../../services/LinkPreview';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -43,10 +46,11 @@ type LinkPreviewsActionType =
 
 function debouncedMaybeGrabLinkPreview(
   message: string,
-  source: LinkPreviewSourceType
+  source: LinkPreviewSourceType,
+  options?: MaybeGrabLinkPreviewOptionsType
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return dispatch => {
-    maybeGrabLinkPreview(message, source);
+    maybeGrabLinkPreview(message, source, options);
 
     dispatch({
       type: 'NOOP',
