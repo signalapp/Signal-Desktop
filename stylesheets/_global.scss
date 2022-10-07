@@ -23,16 +23,17 @@ body {
   height: 6px;
 }
 
+::-webkit-scrollbar-track {
+  background-color: var(--scroll-bar-track-color);
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-scroll-bar-thumb);
+  background: var(--scroll-bar-thumb-color);
   border-radius: 20px;
 
   &:hover {
-    background: var(--color-light-gray-color);
+    background: var(--scroll-bar-thumb-hover-color);
   }
-}
-::-webkit-scrollbar-track {
-  background: none;
 }
 
 audio {

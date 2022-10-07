@@ -580,13 +580,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --search-bar-icon-hover-color: var(--text-primary-color);
 
     /* Scroll Bars */
-    /* TODO Theming think this is the track? Should add thumb and other scroll colors here */
-    /* Default */
-    --scroll-bar-fill-color: var(--text-secondary-color);
+    --scroll-bar-track-color: none;
+    --scroll-bar-thumb-color: ${THEMES.CLASSIC_LIGHT.COLOR2};
+    --scroll-bar-thumb-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR1};
+
     /* Zoom Bar */
+    --zoom-bar-track-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
+    --zoom-bar-thumb-color: var(--primary-color);
     --zoom-bar-interval-color: var(--text-secondary-color);
-    /* TODO Theming think this is the thumb? */
-    --zoom-bar-selector-color: var(--primary-color);
 
     /* Toggle Switch */
     --toggle-switch-ball-color: var(--white-color);

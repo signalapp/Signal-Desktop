@@ -248,16 +248,22 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
     'var(--text-primary-color)'
   );
 
+  document.documentElement.style.setProperty('--scroll-bar-track-color', 'none');
   document.documentElement.style.setProperty(
-    '--scroll-bar-fill-color',
-    'var(--text-secondary-color)'
+    '--scroll-bar-thumb-color',
+    THEMES.CLASSIC_LIGHT.COLOR2
+  );
+  document.documentElement.style.setProperty(
+    '--scroll-bar-thumb-hover-color',
+    THEMES.CLASSIC_LIGHT.COLOR1
   );
 
+  document.documentElement.style.setProperty('--zoom-bar-track-color', THEMES.CLASSIC_LIGHT.COLOR3);
+  document.documentElement.style.setProperty('--zoom-bar-thumb-color', 'var(--primary-color)');
   document.documentElement.style.setProperty(
     '--zoom-bar-interval-color',
     'var(--text-secondary-color)'
   );
-  document.documentElement.style.setProperty('--zoom-bar-selector-color', 'var(--primary-color)');
 
   document.documentElement.style.setProperty('--toggle-switch-ball-color', 'var(--white-color)');
   document.documentElement.style.setProperty(
@@ -672,13 +678,19 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
     'var(--text-primary-color)'
   );
 
-  document.documentElement.style.setProperty('--scroll-bar-fill-color', THEMES.CLASSIC_DARK.COLOR4);
-
+  document.documentElement.style.setProperty('--scroll-bar-track-color', 'none');
   document.documentElement.style.setProperty(
-    '--zoom-bar-interval-color',
+    '--scroll-bar-thumb-color',
+    THEMES.CLASSIC_DARK.COLOR3
+  );
+  document.documentElement.style.setProperty(
+    '--scroll-bar-thumb-hover-color',
     THEMES.CLASSIC_DARK.COLOR4
   );
-  document.documentElement.style.setProperty('--zoom-bar-selector-color', 'var(--primary-color)');
+
+  document.documentElement.style.setProperty('--zoom-bar-track-color', THEMES.CLASSIC_DARK.COLOR3);
+  document.documentElement.style.setProperty('--zoom-bar-thumb-color', 'var(--primary-color)');
+  document.documentElement.style.setProperty('--zoom-bar-interval-color', 'var(--primary-color)');
 
   document.documentElement.style.setProperty('--toggle-switch-ball-color', 'var(--white-color)');
   document.documentElement.style.setProperty(
@@ -1092,16 +1104,19 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
     'var(--text-primary-color)'
   );
 
+  document.documentElement.style.setProperty('--scroll-bar-track-color', 'none');
+  document.documentElement.style.setProperty('--scroll-bar-thumb-color', THEMES.OCEAN_LIGHT.COLOR4);
   document.documentElement.style.setProperty(
-    '--scroll-bar-fill-color',
-    'var(--text-secondary-color)'
+    '--scroll-bar-thumb-hover-color',
+    THEMES.OCEAN_LIGHT.COLOR3
   );
 
+  document.documentElement.style.setProperty('--zoom-bar-track-color', THEMES.OCEAN_LIGHT.COLOR4);
+  document.documentElement.style.setProperty('--zoom-bar-thumb-color', 'var(--primary-color)');
   document.documentElement.style.setProperty(
     '--zoom-bar-interval-color',
     'var(--text-secondary-color)'
   );
-  document.documentElement.style.setProperty('--zoom-bar-selector-color', 'var(--primary-color)');
 
   document.documentElement.style.setProperty('--toggle-switch-ball-color', 'var(--white-color)');
   document.documentElement.style.setProperty(
@@ -1510,13 +1525,16 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     'var(--text-primary-color)'
   );
 
+  document.documentElement.style.setProperty('--scroll-bar-track-color', 'none');
+  document.documentElement.style.setProperty('--scroll-bar-thumb-color', THEMES.OCEAN_DARK.COLOR4);
   document.documentElement.style.setProperty(
-    '--scroll-bar-fill-color',
-    'var(text-secondary-color)'
+    '--scroll-bar-thumb-hover-color',
+    THEMES.OCEAN_DARK.COLOR5
   );
 
-  document.documentElement.style.setProperty('--zoom-bar-interval-color', THEMES.OCEAN_DARK.COLOR4);
-  document.documentElement.style.setProperty('--zoom-bar-selector-color', 'var(--primary-color)');
+  document.documentElement.style.setProperty('--zoom-bar-track-color', THEMES.OCEAN_DARK.COLOR4);
+  document.documentElement.style.setProperty('--zoom-bar-thumb-color', 'var(--primary-color)');
+  document.documentElement.style.setProperty('--zoom-bar-interval-color', 'var(--primary-color)');
 
   document.documentElement.style.setProperty('--toggle-switch-ball-color', 'var(--white-color)');
   document.documentElement.style.setProperty(

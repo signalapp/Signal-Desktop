@@ -34,7 +34,7 @@
 .rc-slider-rail {
   position: absolute;
   width: 100%;
-  background: var(--scroll-bar-fill-color);
+  background: var(--zoom-bar-track-color);
 
   height: 8px;
   border-radius: 6px;
@@ -51,24 +51,24 @@
   margin-left: -2.3px;
   cursor: grab;
   border-radius: 4px;
-  background-color: var(--zoom-bar-selector-color);
+  background-color: var(--zoom-bar-thumb-color);
   -ms-touch-action: pan-x;
   touch-action: pan-x;
 }
 .rc-slider-handle:focus {
-  border-color: var(--zoom-bar-selector-color);
+  border-color: var(--zoom-bar-thumb-color);
   box-shadow: none;
   outline: none;
 }
 .rc-slider-handle-click-focused:focus {
-  border-color: var(--zoom-bar-selector-color);
+  border-color: var(--zoom-bar-thumb-color);
   box-shadow: unset;
 }
 .rc-slider-handle:hover {
-  border-color: var(--zoom-bar-selector-color);
+  border-color: var(--zoom-bar-thumb-color);
 }
 .rc-slider-handle:active {
-  border-color: var(--zoom-bar-selector-color);
+  border-color: var(--zoom-bar-thumb-color);
   box-shadow: none;
   cursor: -webkit-grabbing;
   cursor: grabbing;
@@ -124,7 +124,7 @@
   margin-right: -4px;
 }
 .rc-slider-disabled {
-  background-color: var(--scroll-bar-fill-color);
+  background-color: var(--zoom-bar-track-color);
 }
 .rc-slider-disabled .rc-slider-handle,
 .rc-slider-disabled .rc-slider-dot {
