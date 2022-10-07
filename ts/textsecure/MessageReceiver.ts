@@ -52,7 +52,6 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
 import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
-import { isEnabled } from '../RemoteConfig';
 
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
@@ -115,6 +114,8 @@ import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
+import { isConversationAccepted } from '../util/isConversationAccepted';
+import { getStoriesBlocked } from '../types/Stories';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -394,6 +395,7 @@ export default class MessageReceiver
           serverGuid: decoded.serverGuid,
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
+          story: decoded.story,
         };
 
         // After this point, decoding errors are not the server's
@@ -777,6 +779,7 @@ export default class MessageReceiver
         serverTimestamp:
           item.serverTimestamp || decoded.serverTimestamp?.toNumber(),
         urgent: isBoolean(item.urgent) ? item.urgent : true,
+        story: Boolean(item.story),
       };
 
       const { decrypted } = item;
@@ -1043,6 +1046,7 @@ export default class MessageReceiver
       receivedAtCounter: envelope.receivedAtCounter,
       timestamp: envelope.timestamp,
       urgent: envelope.urgent,
+      story: envelope.story,
     };
     this.decryptAndCacheBatcher.add({
       request,
@@ -1271,10 +1275,10 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     uuidKind: UUIDKind
   ): Promise<DecryptResult> {
-    const logId = getEnvelopeId(envelope);
+    const logId = `MessageReceiver.decryptEnvelope(${getEnvelopeId(envelope)})`;
 
     if (this.stoppingProcessing) {
-      log.warn(`MessageReceiver.decryptEnvelope(${logId}): dropping unsealed`);
+      log.warn(`${logId}: dropping unsealed`);
       throw new Error('Unsealed envelope dropped due to stopping processing');
     }
 
@@ -1298,7 +1302,7 @@ export default class MessageReceiver
       );
     }
 
-    log.info(`MessageReceiver.decryptEnvelope(${logId})`);
+    log.info(logId);
     const plaintext = await this.decrypt(
       stores,
       envelope,
@@ -1307,7 +1311,7 @@ export default class MessageReceiver
     );
 
     if (!plaintext) {
-      log.warn('MessageReceiver.decryptEnvelope: plaintext was falsey');
+      log.warn(`${logId}: plaintext was falsey`);
       return { plaintext, envelope };
     }
 
@@ -1331,6 +1335,53 @@ export default class MessageReceiver
           envelope,
           content.senderKeyDistributionMessage
         );
+      } else {
+        // Note: `story = true` can be set for sender key distribution messages
+
+        const isStoryReply = Boolean(content.dataMessage?.storyContext);
+        const isGroupStoryReply = Boolean(
+          isStoryReply && content.dataMessage?.groupV2
+        );
+        const isStory = Boolean(content.storyMessage);
+        const isGroupStorySend = isGroupStoryReply || isStory;
+        const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+
+        if (envelope.story && !isGroupStorySend && !isDeleteForEveryone) {
+          log.warn(
+            `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
+          );
+          this.removeFromCache(envelope);
+          return { plaintext: undefined, envelope };
+        }
+
+        if (!envelope.story && isGroupStorySend) {
+          log.warn(
+            `${logId}: Malformed story - story=false on envelope, but was a group story send`
+          );
+        }
+
+        const areStoriesBlocked = getStoriesBlocked();
+        // Note that there are other story-related message types which aren't captured
+        //   here. Look for other calls to getStoriesBlocked down-file.
+        if (areStoriesBlocked && (isStoryReply || isStory)) {
+          log.warn(
+            `${logId}: Dropping story message - stories are disabled or unavailable`
+          );
+          this.removeFromCache(envelope);
+          return { plaintext: undefined, envelope };
+        }
+
+        const sender = window.ConversationController.get(
+          envelope.sourceUuid || envelope.source
+        );
+        if (
+          (!sender || !isConversationAccepted(sender.attributes)) &&
+          (isStoryReply || isStory)
+        ) {
+          log.warn(`${logId}: Dropping story message - !accepted for sender`);
+          this.removeFromCache(envelope);
+          return { plaintext: undefined, envelope };
+        }
       }
 
       if (content.pniSignatureMessage) {
@@ -1359,8 +1410,7 @@ export default class MessageReceiver
       inProgressMessageType = '';
     } catch (error) {
       log.error(
-        'MessageReceiver.decryptEnvelope: ' +
-          `Failed to process ${inProgressMessageType} ` +
+        `${logId}: Failed to process ${inProgressMessageType} ` +
           `message: ${Errors.toLogFormat(error)}`
       );
     }
@@ -1371,9 +1421,7 @@ export default class MessageReceiver
       ((envelope.source && this.isBlocked(envelope.source)) ||
         (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid)))
     ) {
-      log.info(
-        'MessageReceiver.decryptEnvelope: Dropping non-GV2 message from blocked sender'
-      );
+      log.info(`${logId}: Dropping non-GV2 message from blocked sender`);
       return { plaintext: undefined, envelope };
     }
 
@@ -1900,15 +1948,18 @@ export default class MessageReceiver
     sentMessage?: ProcessedSent
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
-    log.info('MessageReceiver.handleStoryMessage', logId);
 
-    const attachments: Array<ProcessedAttachment> = [];
+    logUnexpectedUrgentValue(envelope, 'story');
 
-    if (window.Events.getHasStoriesDisabled()) {
+    if (getStoriesBlocked()) {
       log.info('MessageReceiver.handleStoryMessage: dropping', logId);
       this.removeFromCache(envelope);
       return;
     }
+
+    log.info('MessageReceiver.handleStoryMessage', logId);
+
+    const attachments: Array<ProcessedAttachment> = [];
 
     if (msg.fileAttachment) {
       const attachment = processAttachment(msg.fileAttachment);
@@ -2076,16 +2127,12 @@ export default class MessageReceiver
     const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleDataMessage', logId);
 
-    const isStoriesEnabled =
-      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
-    if (!isStoriesEnabled && msg.storyContext) {
-      logUnexpectedUrgentValue(envelope, 'story');
-
+    if (getStoriesBlocked() && msg.storyContext) {
       log.info(
         `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
       );
       this.removeFromCache(envelope);
-      return undefined;
+      return;
     }
 
     let p: Promise<void> = Promise.resolve();
@@ -2129,9 +2176,7 @@ export default class MessageReceiver
 
     let type: SendTypesType = 'message';
 
-    if (msg.storyContext) {
-      type = 'story';
-    } else if (msg.body) {
+    if (msg.storyContext || msg.body) {
       type = 'message';
     } else if (msg.reaction) {
       type = 'reaction';
@@ -2294,19 +2339,8 @@ export default class MessageReceiver
       return;
     }
 
-    const isStoriesEnabled =
-      isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
     if (content.storyMessage) {
-      if (isStoriesEnabled) {
-        await this.handleStoryMessage(envelope, content.storyMessage);
-        return;
-      }
-
-      const logId = getEnvelopeId(envelope);
-      log.info(
-        `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
-      );
-      this.removeFromCache(envelope);
+      await this.handleStoryMessage(envelope, content.storyMessage);
       return;
     }
 
@@ -2689,16 +2723,17 @@ export default class MessageReceiver
       const sentMessage = syncMessage.sent;
 
       if (sentMessage.storyMessageRecipients && sentMessage.isRecipientUpdate) {
-        if (window.Events.getHasStoriesDisabled()) {
+        if (getStoriesBlocked()) {
           log.info(
-            'MessageReceiver.handleSyncMessage: dropping story recipients update'
+            'MessageReceiver.handleSyncMessage: dropping story recipients update',
+            getEnvelopeId(envelope)
           );
           this.removeFromCache(envelope);
           return;
         }
 
         log.info(
-          'MessageReceiver.handleSyncMessage: handling storyMessageRecipients isRecipientUpdate sync message',
+          'MessageReceiver.handleSyncMessage: handling story recipients update',
           getEnvelopeId(envelope)
         );
         const ev = new StoryRecipientUpdateEvent(

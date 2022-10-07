@@ -99,6 +99,7 @@ export async function sendToGroup({
   sendOptions,
   sendTarget,
   sendType,
+  story,
   urgent,
 }: {
   abortSignal?: AbortSignal;
@@ -109,6 +110,7 @@ export async function sendToGroup({
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
+  story?: boolean;
   urgent: boolean;
 }): Promise<CallbackResultType> {
   strictAssert(
@@ -141,6 +143,7 @@ export async function sendToGroup({
     sendOptions,
     sendTarget,
     sendType,
+    story,
     timestamp,
     urgent,
   });
@@ -377,7 +380,7 @@ export async function sendToGroupViaSenderKey(options: {
   // 4. Partition devices into sender key and non-sender key groups
   const [devicesForSenderKey, devicesForNormalSend] = partition(
     currentDevices,
-    device => isValidSenderKeyRecipient(memberSet, device.identifier)
+    device => isValidSenderKeyRecipient(memberSet, device.identifier, { story })
   );
 
   const senderKeyRecipients = getUuidsFromDevices(devicesForSenderKey);
@@ -513,13 +516,13 @@ export async function sendToGroupViaSenderKey(options: {
       contentMessage: Proto.Content.encode(contentMessage).finish(),
       groupId,
     });
-    const accessKeys = getXorOfAccessKeys(devicesForSenderKey);
+    const accessKeys = getXorOfAccessKeys(devicesForSenderKey, { story });
 
     const result = await window.textsecure.messaging.server.sendWithSenderKey(
       messageBuffer,
       accessKeys,
       timestamp,
-      { online, urgent }
+      { online, story, urgent }
     );
 
     const parsed = multiRecipient200ResponseSchema.safeParse(result);
@@ -977,7 +980,10 @@ async function handle410Response(
   }
 }
 
-function getXorOfAccessKeys(devices: Array<DeviceType>): Buffer {
+function getXorOfAccessKeys(
+  devices: Array<DeviceType>,
+  { story }: { story?: boolean } = {}
+): Buffer {
   const uuids = getUuidsFromDevices(devices);
 
   const result = Buffer.alloc(ACCESS_KEY_LENGTH);
@@ -994,7 +1000,7 @@ function getXorOfAccessKeys(devices: Array<DeviceType>): Buffer {
       );
     }
 
-    const accessKey = getAccessKey(conversation.attributes);
+    const accessKey = getAccessKey(conversation.attributes, { story });
     if (!accessKey) {
       throw new Error(`getXorOfAccessKeys: No accessKey for UUID ${uuid}`);
     }
@@ -1099,7 +1105,8 @@ async function encryptForSenderKey({
 
 function isValidSenderKeyRecipient(
   members: Set<ConversationModel>,
-  uuid: string
+  uuid: string,
+  { story }: { story?: boolean } = {}
 ): boolean {
   const memberConversation = window.ConversationController.get(uuid);
   if (!memberConversation) {
@@ -1121,7 +1128,7 @@ function isValidSenderKeyRecipient(
     return false;
   }
 
-  if (!getAccessKey(memberConversation.attributes)) {
+  if (!getAccessKey(memberConversation.attributes, { story })) {
     return false;
   }
 
@@ -1247,9 +1254,14 @@ async function resetSenderKey(sendTarget: SenderKeyTargetType): Promise<void> {
 }
 
 function getAccessKey(
-  attributes: ConversationAttributesType
+  attributes: ConversationAttributesType,
+  { story }: { story?: boolean }
 ): string | undefined {
   const { sealedSender, accessKey } = attributes;
+
+  if (story) {
+    return accessKey || ZERO_ACCESS_KEY;
+  }
 
   if (sealedSender === SEALED_SENDER.ENABLED) {
     return accessKey || undefined;
@@ -1307,11 +1319,13 @@ async function fetchKeysForIdentifier(
   );
 
   try {
+    // Note: we have no way to make an unrestricted unathenticated key fetch as part of a
+    //   story send, so we hardcode story=false.
     const { accessKeyFailed } = await getKeysForIdentifier(
       identifier,
       window.textsecure?.messaging?.server,
       devices,
-      getAccessKey(emptyConversation.attributes)
+      getAccessKey(emptyConversation.attributes, { story: false })
     );
     if (accessKeyFailed) {
       log.info(

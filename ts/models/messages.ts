@@ -159,7 +159,6 @@ import { getMessageIdForLogging } from '../util/idForLogging';
 import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { findStoryMessage } from '../util/findStoryMessage';
-import { isConversationAccepted } from '../util/isConversationAccepted';
 import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { getMessageById } from '../messages/getMessageById';
@@ -2097,20 +2096,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await conversation.queueJob('handleDataMessage', async () => {
       log.info(`${idLog}: starting processing in queue`);
 
-      if (
-        isStory(message.attributes) &&
-        !isConversationAccepted(conversation.attributes, {
-          ignoreEmptyConvo: true,
-        })
-      ) {
-        log.info(
-          `${idLog}: dropping story from !accepted`,
-          this.getSenderIdentifier()
-        );
-        confirm();
-        return;
-      }
-
       // First, check for duplicates. If we find one, stop processing here.
       const inMemoryMessage = window.MessageController.findBySender(
         this.getSenderIdentifier()
@@ -2387,8 +2372,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const messageId = message.get('id') || UUID.generate().toString();
 
-      // Send delivery receipts, but only for incoming sealed sender messages
-      // and not for messages from unaccepted conversations
+      // Send delivery receipts, but only for non-story sealed sender messages
+      //   and not for messages from unaccepted conversations
       if (
         type === 'incoming' &&
         this.get('unidentifiedDeliveryReceived') &&

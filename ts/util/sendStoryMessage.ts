@@ -8,7 +8,7 @@ import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { DAY, SECOND } from './durations';
-import { MY_STORIES_ID } from '../types/Stories';
+import { getStoriesBlocked, MY_STORIES_ID } from '../types/Stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
 import { SendStatus } from '../messages/MessageSendState';
@@ -28,10 +28,17 @@ export async function sendStoryMessage(
   conversationIds: Array<string>,
   attachment: AttachmentType
 ): Promise<void> {
+  if (getStoriesBlocked()) {
+    log.warn('stories.sendStoryMessage: stories disabled, returning early');
+    return;
+  }
+
   const { messaging } = window.textsecure;
 
   if (!messaging) {
-    log.warn('stories.sendStoryMessage: messaging not available');
+    log.warn(
+      'stories.sendStoryMessage: messaging not available, returning early'
+    );
     return;
   }
 

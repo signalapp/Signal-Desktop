@@ -179,11 +179,13 @@ export class Reactions extends Collection<ReactionModel> {
             storyReactionEmoji: reaction.get('emoji'),
           });
 
-          const [generatedMessageId] = await Promise.all([
+          // Note: generatedMessage comes with an id, so we have to force this save
+          await Promise.all([
             window.Signal.Data.saveMessage(generatedMessage.attributes, {
               ourUuid: window.textsecure.storage.user
                 .getCheckedUuid()
                 .toString(),
+              forceSave: true,
             }),
             generatedMessage.hydrateStoryContext(message),
           ]);
@@ -197,10 +199,8 @@ export class Reactions extends Collection<ReactionModel> {
             timestamp: reaction.get('timestamp'),
           });
 
-          generatedMessage.set({ id: generatedMessageId });
-
           const messageToAdd = window.MessageController.register(
-            generatedMessageId,
+            generatedMessage.id,
             generatedMessage
           );
           targetConversation.addSingleMessage(messageToAdd);

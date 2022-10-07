@@ -1255,6 +1255,7 @@ export default class MessageSender {
     groupId,
     options,
     urgent,
+    story,
   }: Readonly<{
     timestamp: number;
     recipients: Array<string>;
@@ -1263,6 +1264,7 @@ export default class MessageSender {
     groupId: string | undefined;
     options?: SendOptionsType;
     urgent: boolean;
+    story?: boolean;
   }>): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
@@ -1282,6 +1284,7 @@ export default class MessageSender {
         recipients,
         timestamp,
         urgent,
+        story,
       });
     });
   }

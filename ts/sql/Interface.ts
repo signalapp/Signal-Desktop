@@ -265,6 +265,7 @@ export type UnprocessedType = {
   serverTimestamp?: number;
   decrypted?: string;
   urgent?: boolean;
+  story?: boolean;
 };
 
 export type UnprocessedUpdateType = {

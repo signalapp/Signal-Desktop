@@ -264,7 +264,8 @@ export async function sendStory(
         const recipientsSet = new Set(pendingSendRecipientIds);
 
         const sendOptions = await getSendOptionsForRecipients(
-          pendingSendRecipientIds
+          pendingSendRecipientIds,
+          { story: true }
         );
 
         log.info(

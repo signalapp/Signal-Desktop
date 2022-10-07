@@ -9,6 +9,7 @@ import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStatus } from '../messages/MessageSendState';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import type { UUIDStringType } from './UUID';
+import { isEnabled } from '../RemoteConfig';
 
 export type ReplyType = {
   author: Pick<
@@ -142,3 +143,9 @@ export enum HasStories {
   Read = 'Read',
   Unread = 'Unread',
 }
+
+const getStoriesAvailable = () =>
+  isEnabled('desktop.stories') || isEnabled('desktop.internalUser');
+const getStoriesDisabled = () => window.Events.getHasStoriesDisabled();
+export const getStoriesBlocked = (): boolean =>
+  !getStoriesAvailable() || getStoriesDisabled();
