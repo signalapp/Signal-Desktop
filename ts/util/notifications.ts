@@ -22,6 +22,8 @@ function filter(text?: string) {
     .replace(/>/g, '&gt;');
 }
 
+let sound: any;
+
 export type SessionNotification = {
   conversationId: string;
   iconUrl: string | null;
@@ -218,10 +220,16 @@ function update(forceRefresh = false) {
   }
 
   window.drawAttention();
+  if (status.shouldPlayNotificationSound) {
+    if (!sound) {
+      sound = new Audio('sound/new_message.mp3');
+    }
+    void sound.play();
+  }
   lastNotificationDisplayed = new Notification(title || '', {
     body: window.platform === 'linux' ? filter(message) : message,
     icon: iconUrl || undefined,
-    silent: !status.shouldPlayNotificationSound,
+    silent: true,
   });
   lastNotificationDisplayed.onclick = () => {
     window.openFromNotification(lastNotification.conversationId);
