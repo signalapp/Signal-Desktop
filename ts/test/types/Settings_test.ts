@@ -4,6 +4,7 @@ import { assert } from 'chai';
 
 import * as Settings from '../../../ts/types/Settings';
 
+// tslint:disable-next-line: max-func-body-length
 describe('Settings', () => {
   describe('isAudioNotificationSupported', () => {
     context('on macOS', () => {
@@ -61,7 +62,7 @@ describe('Settings', () => {
         Sinon.restore();
       });
 
-      it('should return false', () => {
+      it('should return true', () => {
         assert.isFalse(Settings.isAudioNotificationSupported());
       });
     });
