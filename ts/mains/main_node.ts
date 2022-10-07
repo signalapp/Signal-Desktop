@@ -957,8 +957,8 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse(undefined);
   } catch (e) {
-    const localisedError = locale.messages.invalidPassword;
-    sendResponse(localisedError || 'Invalid password');
+    const localisedError = locale.messages.removePasswordInvalid;
+    sendResponse(localisedError);
   }
 });
 

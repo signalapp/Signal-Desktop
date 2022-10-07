@@ -489,7 +489,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --border-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
 
     /* Text Box */
-    /* Also used for inputs specifically password box input */
     --text-box-background-color: var(--background-primary-color);
     --text-box-text-control-color: var(--text-secondary-color);
     --text-box-text-user-color: var(--text-primary-color);
