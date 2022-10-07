@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 import { isImageAttachment } from '../../../../types/Attachment';
-import { ImageGrid } from '../../ImageGrid';
 import { Image } from '../../Image';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMessageLinkPreviewProps } from '../../../../state/selectors/conversations';
+import {
+  getIsMessageSelectionMode,
+  getMessageLinkPreviewProps,
+} from '../../../../state/selectors/conversations';
 import { SessionIcon } from '../../../icon';
-import { MINIMUM_LINK_PREVIEW_IMAGE_WIDTH } from '../message-item/Message';
 import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
 export type MessageLinkPreviewSelectorProps = Pick<
@@ -20,9 +21,12 @@ type Props = {
   messageId: string;
 };
 
+const linkPreviewsImageSize = 100;
+
 export const MessageLinkPreview = (props: Props) => {
   const selected = useSelector(state => getMessageLinkPreviewProps(state as any, props.messageId));
   const dispatch = useDispatch();
+  const isMessageSelectionMode = useSelector(getIsMessageSelectionMode);
 
   if (!selected) {
     return null;
@@ -44,10 +48,11 @@ export const MessageLinkPreview = (props: Props) => {
   }
 
   const previewHasImage = first.image && isImageAttachment(first.image);
-  const width = first.image && first.image.width;
-  const isFullSizeImage = width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
   function openLinkFromPreview() {
+    if (isMessageSelectionMode) {
+      return;
+    }
     if (previews?.length && previews[0].url) {
       showLinkVisitWarningDialog(previews[0].url, dispatch);
     }
@@ -59,23 +64,20 @@ export const MessageLinkPreview = (props: Props) => {
       className={classNames('module-message__link-preview')}
       onClick={openLinkFromPreview}
     >
-      {first.image && previewHasImage && isFullSizeImage ? (
-        <ImageGrid attachments={[first.image]} onError={props.handleImageError} />
-      ) : null}
       <div className={classNames('module-message__link-preview__content')}>
-        {first.image && previewHasImage && !isFullSizeImage ? (
+        {previewHasImage ? (
           <div className="module-message__link-preview__image_container">
             <Image
               softCorners={true}
               alt={window.i18n('previewThumbnail', [first.domain])}
-              height={72}
-              width={72}
+              height={linkPreviewsImageSize}
+              width={linkPreviewsImageSize}
               url={first.image.url}
               attachment={first.image}
               onError={props.handleImageError}
             />
           </div>
-        ) : !first.image || !previewHasImage ? (
+        ) : (
           <div className="module-message__link-preview__icon_container">
             <div className="module-message__link-preview__icon_container__inner">
               <div className="module-message__link-preview__icon-container__circle-background">
@@ -83,7 +85,7 @@ export const MessageLinkPreview = (props: Props) => {
               </div>
             </div>
           </div>
-        ) : null}
+        )}
         <div className={classNames('module-message__link-preview__text')}>
           <div className="module-message__link-preview__title">{first.title}</div>
           <div className="module-message__link-preview__location">{first.domain}</div>
