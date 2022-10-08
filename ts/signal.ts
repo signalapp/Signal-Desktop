@@ -69,12 +69,7 @@ import { initializeGroupCredentialFetcher } from './services/groupCredentialFetc
 import { initializeNetworkObserver } from './services/networkObserver';
 import { initializeUpdateListener } from './services/updateListener';
 import { calling } from './services/calling';
-import {
-  enableStorageService,
-  eraseAllStorageServiceState,
-  runStorageServiceSyncJob,
-  storageServiceUploadJob,
-} from './services/storage';
+import * as storage from './services/storage';
 
 import type { LoggerType } from './types/Logging';
 import type {
@@ -449,13 +444,12 @@ export const setup = (options: {
 
   const Services = {
     calling,
-    enableStorageService,
-    eraseAllStorageServiceState,
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
-    runStorageServiceSyncJob,
-    storageServiceUploadJob,
+
+    // Testing
+    storage,
   };
 
   const State = {

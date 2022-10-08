@@ -101,14 +101,22 @@ message GroupV1Record {
 }
 
 message GroupV2Record {
-  optional bytes  masterKey                    = 1;
-  optional bool   blocked                      = 2;
-  optional bool   whitelisted                  = 3;
-  optional bool   archived                     = 4;
-  optional bool   markedUnread                 = 5;
-  optional uint64 mutedUntilTimestamp          = 6;
-  optional bool   dontNotifyForMentionsIfMuted = 7;
-  optional bool   hideStory                    = 8;
+  enum StorySendMode {
+    DEFAULT = 0;
+    DISABLED = 1;
+    ENABLED = 2;
+  }
+
+  optional bytes masterKey = 1;
+  optional bool blocked = 2;
+  optional bool whitelisted = 3;
+  optional bool archived = 4;
+  optional bool markedUnread = 5;
+  optional uint64 mutedUntilTimestamp = 6;
+  optional bool dontNotifyForMentionsIfMuted = 7;
+  optional bool hideStory = 8;
+  reserved /* storySendEnabled */ 9; // removed
+  optional StorySendMode storySendMode = 10;
 }
 
 message AccountRecord {

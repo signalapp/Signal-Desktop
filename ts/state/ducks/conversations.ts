@@ -49,6 +49,7 @@ import type { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
+import { StorySendMode } from '../../types/Stories';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -215,7 +216,7 @@ export type ConversationType = {
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
-  isGroupStorySendReady?: boolean;
+  storySendMode?: StorySendMode;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest: boolean;
   secretParams?: string;
@@ -2098,10 +2099,17 @@ function toggleGroupsForStorySend(
           return;
         }
 
+        const oldStorySendMode = conversation.getStorySendMode();
+        const newStorySendMode =
+          oldStorySendMode === StorySendMode.Always
+            ? StorySendMode.Never
+            : StorySendMode.Always;
+
         conversation.set({
-          isGroupStorySendReady: !conversation.get('isGroupStorySendReady'),
+          storySendMode: newStorySendMode,
         });
         await window.Signal.Data.updateConversation(conversation.attributes);
+        conversation.captureChange('storySendMode');
       })
     );
 

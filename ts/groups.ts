@@ -18,6 +18,7 @@ import {
   getCheckedCredentialsForToday,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher';
+import { storageServiceUploadJob } from './services/storage';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assertDev, strictAssert } from './util/assert';
@@ -1933,7 +1934,7 @@ export async function createGroupV2(
   );
 
   await conversation.queueJob('storageServiceUploadJob', async () => {
-    await window.Signal.Services.storageServiceUploadJob();
+    await storageServiceUploadJob();
   });
 
   const timestamp = Date.now();

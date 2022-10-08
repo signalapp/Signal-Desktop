@@ -5,7 +5,6 @@
 
 /* eslint-disable max-classes-per-file */
 
-import type { Cancelable } from 'lodash';
 import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type * as Underscore from 'underscore';
@@ -29,6 +28,7 @@ import type {
 } from './challenge';
 import type { WebAPIConnectType } from './textsecure/WebAPI';
 import type { CallingClass } from './services/calling';
+import type * as StorageService from './services/storage';
 import type * as Groups from './groups';
 import type * as Crypto from './Crypto';
 import type * as Curve from './Curve';
@@ -143,17 +143,12 @@ export type SignalCoreType = {
   RemoteConfig: typeof RemoteConfig;
   Services: {
     calling: CallingClass;
-    enableStorageService: () => void;
-    eraseAllStorageServiceState: (options?: {
-      keepUnknownFields?: boolean | undefined;
-    }) => Promise<void>;
     initializeGroupCredentialFetcher: () => Promise<void>;
     initializeNetworkObserver: (network: ReduxActions['network']) => void;
     initializeUpdateListener: (updates: ReduxActions['updates']) => void;
     retryPlaceholders?: Util.RetryPlaceholders;
     lightSessionResetQueue?: PQueue;
-    runStorageServiceSyncJob: (() => void) & Cancelable;
-    storageServiceUploadJob: (() => void) & Cancelable;
+    storage: typeof StorageService;
   };
   Migrations: ReturnType<typeof initializeMigrations>;
   Types: {

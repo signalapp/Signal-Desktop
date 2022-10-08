@@ -8,6 +8,9 @@ export type ExtendedStorageID = {
 
 export type RemoteRecord = ExtendedStorageID & {
   itemType: number;
+
+  // For compatibility with MergeableItemType
+  storageRecord?: void;
 };
 
 export type UnknownRecord = RemoteRecord;
