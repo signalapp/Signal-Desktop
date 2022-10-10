@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { createGlobalStyle } from 'styled-components';
-import { classicLight } from './classicLight';
+import { classicLight } from './';
 import { declareCSSVariables, THEME_GLOBALS } from './globals';
 
 export const whiteColor = '#ffffff';
@@ -350,7 +350,6 @@ export const switchHtmlToLightTheme = () => {
 // default to classic light theme
 export const SessionGlobalStyles = createGlobalStyle`
   html {
-    /* Old Theme Variables */
     /* FONTS */
     --font-default:  'Roboto';
     --font-font-accent:  'Loor';

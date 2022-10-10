@@ -2,7 +2,7 @@ import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
-export const classicDark: ThemeColorVariables = {
+const classicDark: ThemeColorVariables = {
   '--primary-color': THEMES.CLASSIC_DARK.PRIMARY,
   '--danger-color': THEMES.CLASSIC_DARK.DANGER,
   '--disabled-color': THEMES.CLASSIC_DARK.DISABLED,
@@ -142,3 +142,5 @@ export const classicDark: ThemeColorVariables = {
   '--input-text-color': 'var(--text-primary-color)',
   '--input-border-color': 'var(--border-color)',
 };
+
+export default classicDark;

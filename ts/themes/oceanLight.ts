@@ -2,7 +2,7 @@ import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
-export const oceanLight: ThemeColorVariables = {
+const oceanLight: ThemeColorVariables = {
   '--primary-color': THEMES.OCEAN_LIGHT.PRIMARY,
   '--danger-color': THEMES.OCEAN_LIGHT.DANGER,
   '--disabled-color': THEMES.OCEAN_LIGHT.DISABLED,
@@ -142,3 +142,5 @@ export const oceanLight: ThemeColorVariables = {
   '--input-text-color': 'var(--text-primary-color)',
   '--input-border-color': 'var(--border-color)',
 };
+
+export default oceanLight;
