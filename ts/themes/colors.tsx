@@ -41,6 +41,10 @@ const primaryRed = '#FF9C8E';
 const dangerLight = '#E12D19';
 const dangerDark = '#FF3A3A';
 
+// Disabled
+const disabledLight = '#6D6D6D';
+const disabledDark = '#A1A2A1';
+
 // Path
 const pathDefault = primaryGreen;
 const pathConnecting = primaryOrange;
@@ -106,6 +110,7 @@ type ThemeNames = 'CLASSIC_LIGHT' | 'CLASSIC_DARK' | 'OCEAN_LIGHT' | 'OCEAN_DARK
 type ThemeColors = {
   PRIMARY: string;
   DANGER: string;
+  DISABLED: string;
   COLOR0: string;
   COLOR1: string;
   COLOR2: string;
@@ -119,7 +124,8 @@ type Themes = Record<ThemeNames, ThemeColors>;
 
 // Classic Light
 const classicLightPrimary = primaryGreen;
-const classicLightDanger = dangerDark;
+const classicLightDanger = dangerLight;
+const classicLightDisabled = disabledLight;
 const classicLight0 = '#000000';
 const classicLight1 = '#6D6D6D';
 const classicLight2 = '#A1A2A1';
@@ -130,7 +136,8 @@ const classicLight6 = '#FFFFFF';
 
 // Classic Dark
 const classicDarkPrimary = primaryGreen;
-const classicDarkDanger = dangerLight;
+const classicDarkDanger = dangerDark;
+const classicDarkDisabled = disabledDark;
 const classicDark0 = '#000000';
 const classicDark1 = '#1B1B1B';
 const classicDark2 = '#2D2D2D';
@@ -142,6 +149,7 @@ const classicDark6 = '#FFFFFF';
 // Ocean Light
 const oceanLightPrimary = primaryBlue;
 const oceanLightDanger = dangerLight;
+const oceanLightDisabled = disabledLight;
 const oceanLight0 = '#000000';
 const oceanLight1 = '#19345D';
 const oceanLight2 = '#6A6E90';
@@ -154,6 +162,7 @@ const oceanLight7 = '#FCFFFF';
 // Ocean Dark
 const oceanDarkPrimary = primaryBlue;
 const oceanDarkDanger = dangerDark;
+const oceanDarkDisabled = disabledDark;
 const oceanDark0 = '#000000';
 const oceanDark1 = '#1A1C28';
 const oceanDark2 = '#252735';
@@ -166,6 +175,7 @@ const THEMES: Themes = {
   CLASSIC_LIGHT: {
     PRIMARY: classicLightPrimary,
     DANGER: classicLightDanger,
+    DISABLED: classicLightDisabled,
     COLOR0: classicLight0,
     COLOR1: classicLight1,
     COLOR2: classicLight2,
@@ -177,6 +187,7 @@ const THEMES: Themes = {
   CLASSIC_DARK: {
     PRIMARY: classicDarkPrimary,
     DANGER: classicDarkDanger,
+    DISABLED: classicDarkDisabled,
     COLOR0: classicDark0,
     COLOR1: classicDark1,
     COLOR2: classicDark2,
@@ -188,6 +199,7 @@ const THEMES: Themes = {
   OCEAN_LIGHT: {
     PRIMARY: oceanLightPrimary,
     DANGER: oceanLightDanger,
+    DISABLED: oceanLightDisabled,
     COLOR0: oceanLight0,
     COLOR1: oceanLight1,
     COLOR2: oceanLight2,
@@ -200,6 +212,7 @@ const THEMES: Themes = {
   OCEAN_DARK: {
     PRIMARY: oceanDarkPrimary,
     DANGER: oceanDarkDanger,
+    DISABLED: oceanDarkDisabled,
     COLOR0: oceanDark0,
     COLOR1: oceanDark1,
     COLOR2: oceanDark2,

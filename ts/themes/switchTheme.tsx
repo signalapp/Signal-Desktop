@@ -9,6 +9,7 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
       : THEMES.CLASSIC_LIGHT.PRIMARY
   );
   document.documentElement.style.setProperty('--danger-color', THEMES.CLASSIC_LIGHT.DANGER);
+  document.documentElement.style.setProperty('--disabled-color', THEMES.CLASSIC_LIGHT.DISABLED);
 
   document.documentElement.style.setProperty(
     '--background-primary-color',
@@ -127,7 +128,7 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-disabled-color',
-    'var(--text-secondary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -162,7 +163,7 @@ function loadClassicLight(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--button-simple-disabled-color',
-    'var(--text-primary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -447,6 +448,7 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
       : THEMES.CLASSIC_DARK.PRIMARY
   );
   document.documentElement.style.setProperty('--danger-color', THEMES.CLASSIC_DARK.DANGER);
+  document.documentElement.style.setProperty('--disabled-color', THEMES.CLASSIC_DARK.DISABLED);
 
   document.documentElement.style.setProperty(
     '--background-primary-color',
@@ -559,7 +561,7 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-disabled-color',
-    'var(--text-secondary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -592,7 +594,7 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--button-simple-disabled-color',
-    'var(--text-primary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -872,6 +874,7 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
       : THEMES.OCEAN_LIGHT.PRIMARY
   );
   document.documentElement.style.setProperty('--danger-color', THEMES.OCEAN_LIGHT.DANGER);
+  document.documentElement.style.setProperty('--disabled-color', THEMES.OCEAN_LIGHT.DISABLED);
 
   document.documentElement.style.setProperty(
     '--background-primary-color',
@@ -984,7 +987,7 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-disabled-color',
-    'var(--text-secondary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -1018,7 +1021,7 @@ function loadOceanLight(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-simple-disabled-color',
-    'var(--text-primary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -1298,6 +1301,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
       : THEMES.OCEAN_DARK.PRIMARY
   );
   document.documentElement.style.setProperty('--danger-color', THEMES.OCEAN_DARK.DANGER);
+  document.documentElement.style.setProperty('--disabled-color', THEMES.OCEAN_DARK.DISABLED);
 
   document.documentElement.style.setProperty(
     '--background-primary-color',
@@ -1406,7 +1410,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-disabled-color',
-    'var(--text-primary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(
@@ -1439,7 +1443,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
 
   document.documentElement.style.setProperty(
     '--button-simple-disabled-color',
-    'var(--text-primary-color)'
+    'var(--disabled-color)'
   );
 
   document.documentElement.style.setProperty(

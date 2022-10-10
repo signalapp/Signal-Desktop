@@ -470,9 +470,9 @@ export const SessionGlobalStyles = createGlobalStyle`
     --purple-color: ${COLORS.PRIMARY.PURPLE};
     --orange-color: ${COLORS.PRIMARY.ORANGE};
     --red-color: ${COLORS.PRIMARY.RED};
-    /* TODO Theming this should be overridable */
     --primary-color: ${THEMES.CLASSIC_LIGHT.PRIMARY};
     --danger-color: ${THEMES.CLASSIC_LIGHT.DANGER};
+    --disabled-color: ${THEMES.CLASSIC_LIGHT.DISABLED};
     --transparent-color: ${COLORS.TRANSPARENT};
     --white-color: ${COLORS.WHITE};
     --black-color: ${COLORS.BLACK};
@@ -532,9 +532,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-outline-text-hover-color: var(--text-primary-color);
     --button-outline-border-color: var(--text-primary-color);
     --button-outline-border-hover-color: var(--text-primary-color);
-    --button-outline-disabled-color: var(--text-secondary-color);
+    --button-outline-disabled-color: var(--disabled-color);
 
-    /* TODO Theming are solid buttons ever disabled? */
     /* Solid */
     /* TODO Theming - Should Pills have their own colors */
     /* Also used for Pills */
@@ -542,13 +541,14 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-solid-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --button-solid-text-color: var(--text-primary-color);
     --button-solid-text-hover-color: var(--text-primary-color);
+    /* Solid buttons stay the same and rely on the disabled pointer */
     --button-solid-disabled-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
       /* TODO Theming - Only light themes have shadows? */
     --button-solid-shadow-color: rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25);
 
     /* Simple */
     --button-simple-text-color: var(--text-primary-color);
-    --button-simple-disabled-color: var(--text-primary-color);
+    --button-simple-disabled-color: var(--disabled-color);
 
     /* Icons */
     --button-icon-background-color: var(--transparent-color);
