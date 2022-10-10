@@ -191,7 +191,7 @@ export const SignInTab = () => {
             left: 0,
             right: 0,
             pointerEvents: 'all',
-            backgroundColor: '#00000088',
+            backgroundColor: 'var(--background-primary-color)',
           }}
         >
           <SessionSpinner loading={true} />

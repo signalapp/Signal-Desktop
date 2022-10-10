@@ -118,7 +118,7 @@ type ThemeColors = {
   COLOR4: string;
   COLOR5: string;
   COLOR6: string;
-  COLOR7?: string; // Only used with Ocean Light
+  COLOR7?: string; // Only used with Ocean Themes
 };
 type Themes = Record<ThemeNames, ThemeColors>;
 
