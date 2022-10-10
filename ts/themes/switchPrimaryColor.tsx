@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { applyPrimaryColor } from '../state/ducks/primaryColor';
-import { COLORS, PrimaryColorStateType } from './colors';
+import { COLORS, PrimaryColorStateType } from './constants/colors';
 
 export async function switchPrimaryColor(color: PrimaryColorStateType, dispatch: Dispatch | null) {
   await window.Events.setPrimaryColorSetting(color);

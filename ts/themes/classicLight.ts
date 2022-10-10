@@ -1,0 +1,144 @@
+import { hexColorToRGB } from '../util/hexColorToRGB';
+import { COLORS, THEMES } from './constants/colors';
+import { ThemeColorVariables } from './variableColors';
+
+export const classicLight: ThemeColorVariables = {
+  '--primary-color': THEMES.CLASSIC_LIGHT.PRIMARY,
+  '--danger-color': THEMES.CLASSIC_LIGHT.DANGER,
+  '--disabled-color': THEMES.CLASSIC_LIGHT.DISABLED,
+
+  '--background-primary-color': THEMES.CLASSIC_LIGHT.COLOR6,
+  '--background-secondary-color': THEMES.CLASSIC_LIGHT.COLOR5,
+
+  '--text-primary-color': THEMES.CLASSIC_LIGHT.COLOR0,
+  '--text-secondary-color': THEMES.CLASSIC_LIGHT.COLOR1,
+
+  '--border-color': THEMES.CLASSIC_LIGHT.COLOR3,
+
+  '--text-box-background-color': 'var(--background-primary-color)',
+  '--text-box-text-control-color': 'var(--text-secondary-color)',
+  '--text-box-text-user-color': 'var(--text-primary-color)',
+  '--text-box-border-color': THEMES.CLASSIC_LIGHT.COLOR2,
+
+  '--message-bubbles-sent-background-color': 'var(--primary-color)',
+  '--message-bubbles-received-background-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--message-bubbles-sent-text-color': 'var(--text-primary-color)',
+  '--message-bubbles-received-text-color': 'var(--text-primary-color)',
+
+  '--menu-button-background-color': THEMES.CLASSIC_LIGHT.COLOR0,
+  '--menu-button-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR1,
+  '--menu-button-icon-color': THEMES.CLASSIC_LIGHT.COLOR6,
+
+  '--chat-buttons-background-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--chat-buttons-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--chat-buttons-icon-color': 'var(--text-primary-color)',
+
+  '--settings-tab-background-color': 'var(--background-primary-color)',
+  '--settings-tab-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--settings-tab-background-selected-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--settings-tab-text-color': 'var(--text-primary-color)',
+
+  '--button-outline-background-color': 'var(--transparent-color)',
+  '--button-outline-background-hover-color': `rgba(${hexColorToRGB(
+    THEMES.CLASSIC_LIGHT.COLOR0
+  )}, 0.1)`,
+  '--button-outline-text-color': 'var(--text-primary-color)',
+  '--button-outline-text-hover-color': 'var(--text-primary-color)',
+  '--button-outline-border-color': 'var(--text-primary-color)',
+  '--button-outline-border-hover-color': 'var(--text-primary-color)',
+  '--button-outline-disabled-color': 'var(--disabled-color)',
+
+  '--button-solid-background-color': 'var(--background-primary-color)',
+  '--button-solid-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--button-solid-text-color': 'var(--text-primary-color)',
+  '--button-solid-text-hover-color': 'var(--text-primary-color)',
+  '--button-solid-disabled-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--button-solid-shadow-color': `rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.25)`,
+
+  '--button-simple-text-color': 'var(--text-primary-color)',
+  '--button-simple-disabled-color': 'var(--disabled-color)',
+
+  '--button-icon-background-color': 'var(--transparent-color)',
+  '--button-icon-stroke-color': 'var(--text-secondary-color)',
+  '--button-icon-stroke-hover-color': 'var(--text-primary-color)',
+  '--button-icon-stroke-selected-color': 'var(--text-primary-color)',
+
+  '--conversation-tab-background-color': THEMES.CLASSIC_LIGHT.COLOR6,
+  '--conversation-tab-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--conversation-tab-background-selected-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--conversation-tab-background-unread-color': 'var(--background-primary-color)',
+  '--conversation-tab-text-color': 'var(--text-secondary-color)',
+  '--conversation-tab-text-selected-color': 'var(--text-primary-color)',
+  '--conversation-tab-text-unread-color': 'var(--text-primary-color)',
+  '--conversation-tab-text-secondary-color': 'var(--text-secondary-color)',
+  '--conversation-tab-bubble-background-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--conversation-tab-bubble-text-color': 'var(--text-primary-color)',
+  '--conversation-tab-color-strip-color': 'var(--primary-color)',
+
+  '--search-bar-background-color': 'var(--background-secondary-color)',
+  '--search-bar-text-control-color': 'var(--text-secondary-color)',
+  '--search-bar-text-user-color': 'var(--text-primary-color)',
+  '--search-bar-icon-color': 'var(--text-secondary-color)',
+  '--search-bar-icon-hover-color': 'var(--text-primary-color)',
+
+  '--scroll-bar-track-color': 'none',
+  '--scroll-bar-thumb-color': THEMES.CLASSIC_LIGHT.COLOR2,
+  '--scroll-bar-thumb-hover-color': THEMES.CLASSIC_LIGHT.COLOR1,
+
+  '--zoom-bar-track-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--zoom-bar-thumb-color': 'var(--primary-color)',
+  '--zoom-bar-interval-color': 'var(--text-secondary-color)',
+
+  '--toggle-switch-ball-color': 'var(--white-color)',
+  '--toggle-switch-ball-shadow-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.15)`,
+  '--toggle-switch-off-background-color': 'var(--transparent-color)',
+  '--toggle-switch-off-border-color': 'var(--border-color)',
+  '--toggle-switch-on-background-color': 'var(--primary-color)',
+  '--toggle-switch-on-border-color': 'var(--transparent-color)',
+
+  '--unread-messages-alert-background-color': 'var(--primary-color)',
+  '--unread-messages-alert-text-color': THEMES.CLASSIC_LIGHT.COLOR0,
+
+  '--button-color-mode-stroke-color': 'var(--text-secondary-color)',
+  '--button-color-mode-hover-color': 'var(--text-primary-color)',
+  '--button-color-mode-fill-color': 'var(--transparent-color)',
+
+  '--emoji-reaction-bar-background-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--emoji-reaction-bar-icon-background-color': 'var(--background-primary-color)',
+  '--emoji-reaction-bar-icon-color': 'var(--text-primary-color)',
+
+  '--modal-background-content-color': THEMES.CLASSIC_LIGHT.COLOR6,
+  '--modal-text-color': 'var(--text-primary-color)',
+  '--modal-text-danger-color': 'var(--danger-color)',
+
+  '--toast-background-color': 'var(--background-primary-color)',
+  '--toast-text-color': 'var(--text-primary-color)',
+  '--toast-color-strip-color': 'var(--primary-color)',
+  '--toast-progress-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.1)`,
+
+  '--right-panel-item-background-color': 'var(--background-secondary-color)',
+  '--right-panel-item-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--right-panel-item-text-color': 'var(--text-primary-color)',
+
+  '--session-logo-text-light-filter': 'brightness(0) saturate(100%)',
+  '--session-logo-text-dark-filter': 'none',
+  '--session-logo-text-current-filter': 'var(--session-logo-text-light-filter)',
+
+  '--context-menu-background-color': 'var(--background-primary-color)',
+  '--context-menu-background-hover-color': 'var(--primary-color)',
+  '--context-menu-text-color': 'var(--text-primary-color)',
+  '--context-menu-text-hover-color': 'var(--black-color)',
+
+  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
+
+  '--suggestions-background-color': 'var(--background-secondary-color)',
+  '--suggestions-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
+  '--suggestions-text-color': 'var(--text-primary-color)',
+  '--suggestions-shadow': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`,
+
+  '--input-background-color': 'var(--background-secondary-color)',
+  '--input-background-hover-color': 'var(--background-secondary-color)',
+  '--input-text-placeholder-color': 'var(--text-secondary-color)',
+  '--input-text-color': 'var(--text-primary-color)',
+  '--input-border-color': 'var(--border-color)',
+};
