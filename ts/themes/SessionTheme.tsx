@@ -556,9 +556,8 @@ export const SessionGlobalStyles = createGlobalStyle`
     --button-icon-stroke-hover-color: var(--text-primary-color);
     --button-icon-stroke-selected-color: var(--text-primary-color);
 
-    /* TODO Theming Consolidate with code */
     /* Conversation Tab */
-    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Session Search Input?, Message Requests Banner, Member List Item, Contact List Items, Message Right Click Highlighting etc. */
+    /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Message Requests Banner, Member List Item, Contact List Items, Message Right Click Highlighting etc. */
     --conversation-tab-background-color: ${THEMES.CLASSIC_LIGHT.COLOR6};
     --conversation-tab-background-hover-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
     --conversation-tab-background-selected-color: ${THEMES.CLASSIC_LIGHT.COLOR4};
@@ -569,7 +568,6 @@ export const SessionGlobalStyles = createGlobalStyle`
     --conversation-tab-text-secondary-color: var(--text-secondary-color);
     --conversation-tab-bubble-background-color: ${THEMES.CLASSIC_LIGHT.COLOR3};
     --conversation-tab-bubble-text-color: var(--text-primary-color);
-    /* TODO Theming account for overriding */
     --conversation-tab-color-strip-color: var(--primary-color);
 
     /* Search Bar */

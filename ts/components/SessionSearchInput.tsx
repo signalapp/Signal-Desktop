@@ -8,7 +8,6 @@ import { getOverlayMode } from '../state/selectors/section';
 import { cleanSearchTerm } from '../util/cleanSearchTerm';
 import { SessionIconButton } from './icon';
 
-// TODO Theming possibly update to use Search Bar Component Colors
 const StyledSearchInput = styled.div`
   height: var(--search-input-height);
   width: 100%;
@@ -19,6 +18,15 @@ const StyledSearchInput = styled.div`
 
   .session-icon-button {
     margin: auto 10px;
+    &:hover svg path {
+      fill: var(--search-bar-icon-hover-color);
+    }
+  }
+
+  &:hover {
+    svg path:first-child {
+      fill: var(--search-bar-icon-hover-color);
+    }
   }
 `;
 
@@ -31,9 +39,10 @@ const StyledInput = styled.input`
   font-family: var(--font-default);
   text-overflow: ellipsis;
   background: none;
-  color: var(--conversation-tab-text-color);
+  color: var(--search-bar-text-control-color);
 
   &:focus {
+    color: var(--search-bar-text-user-color);
     outline: none !important;
   }
 `;
@@ -81,7 +90,11 @@ export const SessionSearchInput = () => {
 
   return (
     <StyledSearchInput>
-      <SessionIconButton iconSize="medium" iconType="search" />
+      <SessionIconButton
+        iconColor="var(--search-bar-icon-color)"
+        iconSize="medium"
+        iconType="search"
+      />
       <StyledInput
         value={currentSearchTerm}
         onChange={e => {
@@ -93,6 +106,7 @@ export const SessionSearchInput = () => {
       />
       {Boolean(currentSearchTerm.length) && (
         <SessionIconButton
+          iconColor="var(--search-bar-icon-color)"
           iconSize="tiny"
           iconType="exit"
           onClick={() => {
