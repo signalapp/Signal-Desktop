@@ -392,7 +392,7 @@ async function removeMessage(id: string): Promise<void> {
 
 /**
  * Note: this method will not clean up external files, just delete from SQL.
- * File are cleaned up on app start if they are not linked to any messages
+ * Files are cleaned up on app start if they are not linked to any messages
  *
  */
 async function removeMessagesByIds(ids: Array<string>): Promise<void> {

@@ -13,7 +13,7 @@ const addMessageDeletedId = (conversationId: string, messageDeletedId: number) =
   if (!ringBuffer) {
     return;
   }
-  ringBuffer.add(messageDeletedId);
+  ringBuffer.insert(messageDeletedId);
 };
 
 const hasMessageDeletedId = (conversationId: string, messageDeletedId: number) => {

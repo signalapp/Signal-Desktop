@@ -326,7 +326,7 @@ const handleMessagesResponseV4 = async (
             /*
              * When a message is deleted from the server, we get the deleted event as a data: null on the message itself
              * and an update on its reactions.
-             * But, because we just deleted that message, we can skip trying to udpate its reactions: it's not in the DB anymore.
+             * But, because we just deleted that message, we can skip trying to update its reactions: it's not in the DB anymore.
              */
             if (sogsRollingDeletions.hasMessageDeletedId(conversationId, messageWithReaction.id)) {
               continue;
