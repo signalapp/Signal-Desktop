@@ -777,7 +777,7 @@ const getSelectedStoryDataForConversationId = (
   // Find the index of the storyId provided, or if none provided then find the
   // oldest unread story from the user. If all stories are read then we can
   // start at the first story.
-  let currentIndex = 0;
+  let currentIndex: number | undefined;
   let hasUnread = false;
   storiesByConversationId.forEach((item, index) => {
     if (selectedStoryId && item.messageId === selectedStoryId) {
@@ -786,7 +786,7 @@ const getSelectedStoryDataForConversationId = (
 
     if (
       !selectedStoryId &&
-      !currentIndex &&
+      currentIndex === undefined &&
       item.readStatus === ReadStatus.Unread
     ) {
       hasUnread = true;
@@ -806,7 +806,7 @@ const getSelectedStoryDataForConversationId = (
   });
 
   return {
-    currentIndex,
+    currentIndex: currentIndex ?? 0,
     hasUnread,
     numStories,
     storiesByConversationId,
@@ -989,35 +989,38 @@ const viewStory: ViewStoryActionCreatorType = (
       return;
     }
 
+    const storiesSelectorState = getStories(state);
+    const conversationStories =
+      storyViewMode === StoryViewModeType.Hidden
+        ? storiesSelectorState.hiddenStories
+        : storiesSelectorState.stories;
+    const conversationStoryIndex = conversationStories.findIndex(
+      item => item.conversationId === story.conversationId
+    );
+
     // Are there any unviewed stories left? If so we should play the unviewed
     // stories first. But only if we're going "next"
     if (viewDirection === StoryViewDirectionType.Next) {
-      // Only stories that succeed the current story we're on.
-      const currentStoryIndex = stories.findIndex(
-        item => item.messageId === storyId
-      );
-      // No hidden stories
-      const hiddenConversationIds = new Set(getHideStoryConversationIds(state));
-      const unreadStory = stories.find(
-        (item, index) =>
-          index > currentStoryIndex &&
-          !item.deletedForEveryone &&
-          item.readStatus === ReadStatus.Unread &&
-          !hiddenConversationIds.has(item.conversationId)
+      // TODO: DESKTOP-4341 only stories that succeed the current story we're on.
+      const unreadStory = conversationStories.find(
+        item => item.storyView.isUnread
       );
 
       if (unreadStory) {
         const nextSelectedStoryData = getSelectedStoryDataForConversationId(
           dispatch,
           getState,
-          unreadStory.conversationId,
-          unreadStory.messageId
+          unreadStory.conversationId
         );
+
         dispatch({
           type: VIEW_STORY,
           payload: {
             currentIndex: nextSelectedStoryData.currentIndex,
-            messageId: unreadStory.messageId,
+            messageId:
+              nextSelectedStoryData.storiesByConversationId[
+                nextSelectedStoryData.currentIndex
+              ].messageId,
             numStories: nextSelectedStoryData.numStories,
             shouldShowDetailsModal: false,
             storyViewMode,
@@ -1036,15 +1039,6 @@ const viewStory: ViewStoryActionCreatorType = (
         return;
       }
     }
-
-    const storiesSelectorState = getStories(state);
-    const conversationStories =
-      storyViewMode === StoryViewModeType.Hidden
-        ? storiesSelectorState.hiddenStories
-        : storiesSelectorState.stories;
-    const conversationStoryIndex = conversationStories.findIndex(
-      item => item.conversationId === story.conversationId
-    );
 
     if (conversationStoryIndex < 0) {
       log.warn('stories.viewStory: No stories found for conversation', {

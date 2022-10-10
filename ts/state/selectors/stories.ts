@@ -394,7 +394,6 @@ export const getStories = createSelector(
       }
 
       let storiesMap: Map<string, ConversationStoryType>;
-
       if (conversationStory.isHidden) {
         storiesMap = hiddenStoriesById;
       } else {
