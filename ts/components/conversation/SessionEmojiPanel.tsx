@@ -103,7 +103,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
     switch (theme) {
       case 'ocean-dark':
         setPanelBackgroundRGB(hexColorToRGB(THEMES.OCEAN_DARK.COLOR1));
-        setPanelTextRGB(hexColorToRGB(THEMES.OCEAN_DARK.COLOR6));
+        setPanelTextRGB(hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!));
         break;
       case 'ocean-light':
         setPanelBackgroundRGB(hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR7!));

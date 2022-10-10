@@ -580,7 +580,6 @@ function loadClassicDark(primaryColor?: PrimaryColorStateType) {
     '--button-solid-text-hover-color',
     'var(--text-primary-color)'
   );
-  // TODO Theming - Confirm this
   document.documentElement.style.setProperty(
     '--button-solid-disabled-color',
     THEMES.CLASSIC_DARK.COLOR4
@@ -1312,7 +1311,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     THEMES.OCEAN_DARK.COLOR2
   );
 
-  document.documentElement.style.setProperty('--text-primary-color', THEMES.OCEAN_DARK.COLOR6);
+  document.documentElement.style.setProperty('--text-primary-color', THEMES.OCEAN_DARK.COLOR7!);
   document.documentElement.style.setProperty('--text-secondary-color', THEMES.OCEAN_DARK.COLOR5);
 
   document.documentElement.style.setProperty('--border-color', THEMES.OCEAN_DARK.COLOR4);
@@ -1352,12 +1351,11 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--menu-button-background-color',
     'var(--primary-color)'
   );
-  // TODO Theming - Update with new color #5CAACC
   document.documentElement.style.setProperty(
     '--menu-button-background-hover-color',
-    THEMES.OCEAN_DARK.COLOR4
+    THEMES.OCEAN_DARK.COLOR6
   );
-  document.documentElement.style.setProperty('--menu-button-icon-color', THEMES.OCEAN_DARK.COLOR6);
+  document.documentElement.style.setProperty('--menu-button-icon-color', THEMES.OCEAN_DARK.COLOR7!);
 
   document.documentElement.style.setProperty(
     '--chat-buttons-background-color',
@@ -1367,7 +1365,10 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--chat-buttons-background-hover-color',
     THEMES.OCEAN_DARK.COLOR4
   );
-  document.documentElement.style.setProperty('--chat-buttons-icon-color', THEMES.OCEAN_DARK.COLOR6);
+  document.documentElement.style.setProperty(
+    '--chat-buttons-icon-color',
+    THEMES.OCEAN_DARK.COLOR7!
+  );
 
   document.documentElement.style.setProperty(
     '--settings-tab-background-color',
@@ -1377,7 +1378,6 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--settings-tab-background-hover-color',
     THEMES.OCEAN_DARK.COLOR3
   );
-  // TODO Theming - Confirm
   document.documentElement.style.setProperty(
     '--settings-tab-background-selected-color',
     THEMES.OCEAN_DARK.COLOR3
@@ -1393,7 +1393,7 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
   );
   document.documentElement.style.setProperty(
     '--button-outline-background-hover-color',
-    `rgba(${hexColorToRGB(THEMES.OCEAN_DARK.COLOR6)}, 0.3)`
+    `rgba(${hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!)}, 0.3)`
   );
   document.documentElement.style.setProperty('--button-outline-text-color', 'var(--primary-color)');
   document.documentElement.style.setProperty(
@@ -1429,7 +1429,6 @@ function loadOceanDark(primaryColor?: PrimaryColorStateType) {
     '--button-solid-text-hover-color',
     'var(--text-primary-color)'
   );
-  // TODO Theming - Confirm this
   document.documentElement.style.setProperty(
     '--button-solid-disabled-color',
     THEMES.OCEAN_DARK.COLOR4

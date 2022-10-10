@@ -169,7 +169,8 @@ const oceanDark2 = '#252735';
 const oceanDark3 = '#2B2D40';
 const oceanDark4 = '#3D4A5D';
 const oceanDark5 = '#A6A9CE';
-const oceanDark6 = '#FFFFFF';
+const oceanDark6 = '#5CAACC';
+const oceanDark7 = '#FFFFFF';
 
 const THEMES: Themes = {
   CLASSIC_LIGHT: {
@@ -220,6 +221,7 @@ const THEMES: Themes = {
     COLOR4: oceanDark4,
     COLOR5: oceanDark5,
     COLOR6: oceanDark6,
+    COLOR7: oceanDark7,
   },
 };
 
