@@ -21,7 +21,6 @@ type Props = {
 };
 
 const StyledAuthorContainer = styled(Flex)`
-  /* TODO Theming - Verify */
   color: var(--text-primary-color);
 `;
 
