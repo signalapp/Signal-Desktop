@@ -35,27 +35,27 @@ type Test = {
 };
 
 const tests: Record<string, Test> = {
-  err1: {
+  'icu:err1': {
     messageformat: '{a, plural, other {a}} {b, plural, other {b}}',
     expectErrors: ['onePlural'],
   },
-  err2: {
+  'icu:err2': {
     messageformat: '{a, plural, other {{b, plural, other {b}}}}',
     expectErrors: ['noNestedChoice', 'onePlural'],
   },
-  err3: {
+  'icu:err3': {
     messageformat: '{a, select, other {{b, select, other {b}}}}',
     expectErrors: ['noNestedChoice'],
   },
-  err4: {
+  'icu:err4': {
     messageformat: '{a, plural, offset:1 other {a}}',
     expectErrors: ['noOffset'],
   },
-  err5: {
+  'icu:err5': {
     messageformat: '{a, selectordinal, other {a}}',
     expectErrors: ['noOrdinal'],
   },
-  err6: {
+  'icu:err6': {
     messageformat: '$a$',
     expectErrors: ['noLegacyVariables'],
   },
