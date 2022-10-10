@@ -17,7 +17,7 @@ import {
   reducer as stagedAttachments,
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
-import { PrimaryColorStateType, ThemeStateType } from '../themes/colors';
+import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
 
 export type StateType = {
   search: SearchStateType;

@@ -50,7 +50,7 @@ import { UserUtils } from '../../session/utils';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../session/utils/Theme';
-import { ThemeStateType } from '../../themes/colors';
+import { ThemeStateType } from '../../themes/constants/colors';
 import { getTheme } from '../../state/selectors/theme';
 import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
 

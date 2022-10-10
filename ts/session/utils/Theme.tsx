@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { applyTheme } from '../../state/ducks/theme';
-import { ThemeStateType } from '../../themes/colors';
+import { ThemeStateType } from '../../themes/constants/colors';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../themes/SessionTheme';
 import { switchTheme } from '../../themes/switchTheme';
 

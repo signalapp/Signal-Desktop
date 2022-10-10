@@ -6,7 +6,12 @@ import Picker from '@emoji-mart/react';
 import { useSelector } from 'react-redux';
 import { getTheme } from '../../state/selectors/theme';
 import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
-import { COLORS, PrimaryColorStateType, THEMES, ThemeStateType } from '../../themes/colors.js';
+import {
+  COLORS,
+  PrimaryColorStateType,
+  THEMES,
+  ThemeStateType,
+} from '../../themes/constants/colors.js';
 import { hexColorToRGB } from '../../util/hexColorToRGB';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 import { i18nEmojiData } from '../../util/emoji';

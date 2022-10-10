@@ -6,7 +6,7 @@ import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
-import { getPrimaryColors, THEMES, ThemeStateType } from '../../themes/colors';
+import { getPrimaryColors, THEMES, ThemeStateType } from '../../themes/constants/colors';
 import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 

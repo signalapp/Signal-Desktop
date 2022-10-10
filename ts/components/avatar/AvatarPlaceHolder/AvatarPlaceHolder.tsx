@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { COLORS } from '../../../themes/colors';
+import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
 
 type Props = {
