@@ -393,6 +393,7 @@
         "StartupWMClass": "Signal"
       },
       "target": [
+        "AppImage",
         "deb"
       ],
       "icon": "build/icons/png"
