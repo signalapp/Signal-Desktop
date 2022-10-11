@@ -40,7 +40,8 @@ textarea {
 }
 
 ::selection {
-  background: var(--color-text-highlight);
+  // TODO Theming - See color
+  // background: var(--color-text-highlight);
 }
 
 .shadowed {
@@ -160,8 +161,7 @@ label {
 
 .conversation-header {
   .module-avatar img {
-    // TODO Theming Update
-    box-shadow: 0px 0px 5px 0px rgba(var(--color-white-color-rgb), 0.2);
+    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.2);
   }
 
   .search-icon {
