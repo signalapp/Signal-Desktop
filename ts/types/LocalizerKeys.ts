@@ -118,6 +118,7 @@ export type LocalizerKeys =
   | 'appMenuUnhide'
   | 'timerOption_30_minutes_abbreviated'
   | 'pruneSettingDescription'
+  | 'audioNotificationsSettingsTitle'
   | 'voiceMessage'
   | 'primaryColorPink'
   | 'changePasswordTitle'

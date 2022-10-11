@@ -358,6 +358,7 @@
   "appearanceSettingsTitle": "Appearance",
   "privacySettingsTitle": "Privacy",
   "notificationsSettingsTitle": "Notifications",
+  "audioNotificationsSettingsTitle": "Audio Notifications",
   "notificationsSettingsContent": "Notification Content",
   "notificationPreview": "Preview",
   "recoveryPhraseEmpty": "Enter your recovery phrase",

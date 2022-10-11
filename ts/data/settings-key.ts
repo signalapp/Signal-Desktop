@@ -8,6 +8,7 @@ const settingsLinkPreview = 'link-preview-setting';
 const settingsStartInTray = 'start-in-tray-setting';
 const settingsOpengroupPruning = 'prune-setting';
 const settingsNotification = 'notification-setting';
+const settingsAudioNotification = 'audio-notification-setting';
 
 export const SettingsKey = {
   settingsReadReceipt,
@@ -19,4 +20,5 @@ export const SettingsKey = {
   settingsStartInTray,
   settingsOpengroupPruning,
   settingsNotification,
+  settingsAudioNotification,
 };
