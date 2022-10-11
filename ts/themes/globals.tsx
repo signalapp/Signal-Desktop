@@ -72,6 +72,14 @@ export type ThemeGlobals = {
 
   /* Avatar Border */
   '--avatar-border-color': string;
+
+  /* Message Link Preview */
+  /* Also used for Images */
+  /* Also used for the Media Grid Items */
+  /* Also used for Staged Generic Attachments */
+  /* Also used for FileDropZone */
+  /* Used for Quote References Not Found */
+  '--message-link-preview-background-color': string;
 };
 
 // These are only set once in the global style (at root).
@@ -133,6 +141,8 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--lightbox-icon-stroke-color': 'var(--white-color)',
 
   '--avatar-border-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.59)`,
+
+  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 };
 
 // These should only be needed for the global style (at root).

@@ -130,8 +130,6 @@ const classicLight: ThemeColorVariables = {
   '--context-menu-text-color': 'var(--text-primary-color)',
   '--context-menu-text-hover-color': 'var(--black-color)',
 
-  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
-
   '--suggestions-background-color': 'var(--background-secondary-color)',
   '--suggestions-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,
   '--suggestions-text-color': 'var(--text-primary-color)',
