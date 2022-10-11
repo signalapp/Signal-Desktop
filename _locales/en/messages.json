@@ -363,6 +363,7 @@
   "recoveryPhraseEmpty": "Enter your recovery phrase",
   "displayNameEmpty": "Please enter a display name",
   "members": "$count$ members",
+  "activeMembers": "$count$ active members",
   "join": "Join",
   "joinOpenGroup": "Join Community",
   "createGroup": "Create Group",
