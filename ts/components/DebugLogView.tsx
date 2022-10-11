@@ -103,8 +103,6 @@ export const DebugLogView = () => {
     if ((window as any).theme) {
       void switchThemeTo({
         theme: (window as any).theme,
-        mainWindow: false,
-        resetPrimaryColor: false,
       });
     }
   }, []);

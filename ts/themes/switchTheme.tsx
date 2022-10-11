@@ -8,13 +8,13 @@ import { findPrimaryColorId, switchPrimaryColorTo } from './switchPrimaryColor';
 
 type SwitchThemeProps = {
   theme: ThemeStateType;
-  mainWindow: boolean;
-  resetPrimaryColor: boolean;
+  mainWindow?: boolean;
+  resetPrimaryColor?: boolean;
   dispatch?: Dispatch;
 };
 
 export async function switchThemeTo(props: SwitchThemeProps) {
-  const { theme, mainWindow = true, resetPrimaryColor = true, dispatch } = props;
+  const { theme, mainWindow, resetPrimaryColor, dispatch } = props;
   let newTheme: ThemeStateType | null = null;
 
   switch (theme) {

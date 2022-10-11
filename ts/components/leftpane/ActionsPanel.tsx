@@ -164,7 +164,6 @@ const setupTheme = async () => {
   await switchThemeTo({
     theme,
     mainWindow: true,
-    resetPrimaryColor: false,
     dispatch: window?.inboxStore?.dispatch || undefined,
   });
 
