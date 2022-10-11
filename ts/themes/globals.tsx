@@ -14,6 +14,7 @@ export type ThemeGlobals = {
   '--transparent-color': string;
   '--white-color': string;
   '--black-color': string;
+  '--grey-color': string;
 
   /* Shadows */
   '--shadow-color': string;
@@ -47,6 +48,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--transparent-color': COLORS.TRANSPARENT,
   '--white-color': COLORS.WHITE,
   '--black-color': COLORS.BLACK,
+  '--grey-color': COLORS.GREY,
 
   '--shadow-color': 'var(--black-color)',
   '--drop-shadow': `0 0 4px 0 var(--shadow-color)`,
@@ -62,6 +64,9 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--lightbox-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`,
   '--lightbox-caption-background-color': 'rgba(192, 192, 192, .40)',
   '--lightbox-icon-stroke-color': 'var(--white-color)',
+
+  // TODO Theming - Add selection colors for dark and light themes
+  // Current light uses #00000088 and dark uses #FFFFFF88
 };
 
 // These should only be needed for the global style (at root).
