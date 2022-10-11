@@ -51,6 +51,7 @@ import {
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
+import * as StorageService from './services/storage';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -786,7 +787,7 @@ export async function startApp(): Promise<void> {
         window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
       ) {
-        await window.Signal.Services.eraseAllStorageServiceState();
+        await StorageService.eraseAllStorageServiceState();
       }
 
       if (window.isBeforeVersion(lastVersion, 'v5.2.0')) {
@@ -846,6 +847,8 @@ export async function startApp(): Promise<void> {
 
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
+
+      StorageService.reprocessUnknownFields();
     }
 
     try {
@@ -1737,7 +1740,7 @@ export async function startApp(): Promise<void> {
   });
 
   async function runStorageService() {
-    window.Signal.Services.enableStorageService();
+    StorageService.enableStorageService();
 
     if (window.ConversationController.areWePrimaryDevice()) {
       log.warn(
@@ -3548,7 +3551,7 @@ export async function startApp(): Promise<void> {
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         log.info('onFetchLatestSync: fetching latest manifest');
-        await window.Signal.Services.runStorageServiceSyncJob();
+        await StorageService.runStorageServiceSyncJob();
         break;
       case FETCH_LATEST_ENUM.SUBSCRIPTION_STATUS:
         log.info('onFetchLatestSync: fetching latest subscription status');
@@ -3582,12 +3585,12 @@ export async function startApp(): Promise<void> {
           'onKeysSync: updated storage service key, erasing state and fetching'
         );
         await window.storage.put('storageKey', storageServiceKeyBase64);
-        await window.Signal.Services.eraseAllStorageServiceState({
+        await StorageService.eraseAllStorageServiceState({
           keepUnknownFields: true,
         });
       }
 
-      await window.Signal.Services.runStorageServiceSyncJob();
+      await StorageService.runStorageServiceSyncJob();
     }
   }
 

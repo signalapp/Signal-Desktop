@@ -50,7 +50,7 @@ import type {
   StickerPackInfoType,
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
-import { MY_STORIES_ID } from '../types/Stories';
+import { MY_STORIES_ID, StorySendMode } from '../types/Stories';
 import * as RemoteConfig from '../RemoteConfig';
 
 const MY_STORIES_BYTES = uuidToBytes(MY_STORIES_ID);
@@ -406,6 +406,18 @@ export function toGroupV2Record(
     conversation.get('dontNotifyForMentionsIfMuted')
   );
   groupV2Record.hideStory = Boolean(conversation.get('hideStory'));
+  const storySendMode = conversation.get('storySendMode');
+  if (storySendMode !== undefined) {
+    if (storySendMode === StorySendMode.IfActive) {
+      groupV2Record.storySendMode = Proto.GroupV2Record.StorySendMode.DEFAULT;
+    } else if (storySendMode === StorySendMode.Never) {
+      groupV2Record.storySendMode = Proto.GroupV2Record.StorySendMode.DISABLED;
+    } else if (storySendMode === StorySendMode.Always) {
+      groupV2Record.storySendMode = Proto.GroupV2Record.StorySendMode.ENABLED;
+    } else {
+      throw missingCaseError(storySendMode);
+    }
+  }
 
   applyUnknownFields(groupV2Record, conversation);
 
@@ -785,6 +797,23 @@ export async function mergeGroupV2Record(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
+  const recordStorySendMode =
+    groupV2Record.storySendMode ?? Proto.GroupV2Record.StorySendMode.DEFAULT;
+  let storySendMode: StorySendMode;
+  if (recordStorySendMode === Proto.GroupV2Record.StorySendMode.DEFAULT) {
+    storySendMode = StorySendMode.IfActive;
+  } else if (
+    recordStorySendMode === Proto.GroupV2Record.StorySendMode.DISABLED
+  ) {
+    storySendMode = StorySendMode.Never;
+  } else if (
+    recordStorySendMode === Proto.GroupV2Record.StorySendMode.ENABLED
+  ) {
+    storySendMode = StorySendMode.Always;
+  } else {
+    throw missingCaseError(recordStorySendMode);
+  }
+
   conversation.set({
     hideStory: Boolean(groupV2Record.hideStory),
     isArchived: Boolean(groupV2Record.archived),
@@ -794,6 +823,7 @@ export async function mergeGroupV2Record(
     ),
     storageID,
     storageVersion,
+    storySendMode,
   });
 
   conversation.setMuteExpiration(

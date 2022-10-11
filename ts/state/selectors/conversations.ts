@@ -17,6 +17,7 @@ import type {
   MessagesByConversationType,
   PreJoinConversationType,
 } from '../ducks/conversations';
+import type { StoriesStateType } from '../ducks/stories';
 import type { UsernameSaveState } from '../ducks/conversationsEnums';
 import {
   ComposerStep,
@@ -43,6 +44,7 @@ import {
   isGroupV1,
   isGroupV2,
 } from '../../util/whatTypeOfConversation';
+import { isGroupInStoryMode } from '../../util/isGroupInStoryMode';
 
 import {
   getIntl,
@@ -531,18 +533,37 @@ export const getComposableGroups = createSelector(
     )
 );
 
+const getConversationIdsWithStories = createSelector(
+  (state: StateType): StoriesStateType => state.stories,
+  (stories: StoriesStateType): Set<string> => {
+    return new Set(stories.stories.map(({ conversationId }) => conversationId));
+  }
+);
+
 export const getNonGroupStories = createSelector(
   getComposableGroups,
-  (groups: Array<ConversationType>): Array<ConversationType> =>
-    groups.filter(group => !group.isGroupStorySendReady)
+  getConversationIdsWithStories,
+  (
+    groups: Array<ConversationType>,
+    conversationIdsWithStories: Set<string>
+  ): Array<ConversationType> => {
+    return groups.filter(
+      group => !isGroupInStoryMode(group, conversationIdsWithStories)
+    );
+  }
 );
 
 export const getGroupStories = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
-      conversation => conversation.isGroupStorySendReady
-    )
+  getConversationIdsWithStories,
+  (
+    conversationLookup: ConversationLookupType,
+    conversationIdsWithStories: Set<string>
+  ): Array<ConversationType> => {
+    return Object.values(conversationLookup).filter(conversation =>
+      isGroupInStoryMode(conversation, conversationIdsWithStories)
+    );
+  }
 );
 
 const getNormalizedComposerConversationSearchTerm = createSelector(

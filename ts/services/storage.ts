@@ -39,6 +39,7 @@ import { BackOff } from '../util/BackOff';
 import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
+import { map, filter } from '../util/iterables';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
@@ -61,6 +62,7 @@ import type {
   UninstalledStickerPackType,
 } from '../sql/Interface';
 import { MY_STORIES_ID } from '../types/Stories';
+import { isNotNil } from '../util/isNotNil';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -119,7 +121,7 @@ function encryptRecord(
   const storageItem = new Proto.StorageItem();
 
   const storageKeyBuffer = storageID
-    ? Bytes.fromBase64(String(storageID))
+    ? Bytes.fromBase64(storageID)
     : generateStorageID();
 
   const storageKeyBase64 = window.storage.get('storageKey');
@@ -149,9 +151,9 @@ function generateStorageID(): Uint8Array {
 
 type GeneratedManifestType = {
   postUploadUpdateFunctions: Array<() => unknown>;
-  deleteKeys: Array<Uint8Array>;
-  newItems: Set<Proto.IStorageItem>;
-  storageManifest: Proto.IStorageManifest;
+  recordsByID: Map<string, MergeableItemType | RemoteRecord>;
+  insertKeys: Set<string>;
+  deleteKeys: Set<string>;
 };
 
 async function generateManifest(
@@ -169,10 +171,9 @@ async function generateManifest(
   const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
 
   const postUploadUpdateFunctions: Array<() => unknown> = [];
-  const insertKeys: Array<string> = [];
-  const deleteKeys: Array<Uint8Array> = [];
-  const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
-  const newItems: Set<Proto.IStorageItem> = new Set();
+  const insertKeys = new Set<string>();
+  const deleteKeys = new Set<string>();
+  const recordsByID = new Map<string, MergeableItemType | RemoteRecord>();
 
   function processStorageRecord({
     conversation,
@@ -189,9 +190,6 @@ async function generateManifest(
     storageNeedsSync: boolean;
     storageRecord: Proto.IStorageRecord;
   }) {
-    const identifier = new Proto.ManifestRecord.Identifier();
-    identifier.type = identifierType;
-
     const currentRedactedID = currentStorageID
       ? redactStorageID(currentStorageID, currentStorageVersion)
       : undefined;
@@ -202,24 +200,16 @@ async function generateManifest(
       ? Bytes.toBase64(generateStorageID())
       : currentStorageID;
 
-    let storageItem;
-    try {
-      storageItem = encryptRecord(storageID, storageRecord);
-    } catch (err) {
-      log.error(
-        `storageService.upload(${version}): encrypt record failed:`,
-        Errors.toLogFormat(err)
-      );
-      throw err;
-    }
-    identifier.raw = storageItem.key;
+    recordsByID.set(storageID, {
+      itemType: identifierType,
+      storageID,
+      storageRecord,
+    });
 
     // When a client needs to update a given record it should create it
     // under a new key and delete the existing key.
     if (isNewItem) {
-      newItems.add(storageItem);
-
-      insertKeys.push(storageID);
+      insertKeys.add(storageID);
       const newRedactedID = redactStorageID(storageID, version, conversation);
       if (currentStorageID) {
         log.info(
@@ -227,15 +217,13 @@ async function generateManifest(
             `updating from=${currentRedactedID} ` +
             `to=${newRedactedID}`
         );
-        deleteKeys.push(Bytes.fromBase64(currentStorageID));
+        deleteKeys.add(currentStorageID);
       } else {
         log.info(
           `storageService.upload(${version}): adding key=${newRedactedID}`
         );
       }
     }
-
-    manifestRecordKeys.add(identifier);
 
     return {
       isNewItem,
@@ -293,7 +281,7 @@ async function generateManifest(
             `due to ${dropReason}`
         );
         conversation.unset('storageID');
-        deleteKeys.push(Bytes.fromBase64(droppedID));
+        deleteKeys.add(droppedID);
         continue;
       }
 
@@ -468,11 +456,7 @@ async function generateManifest(
   // When updating the manifest, ensure all "unknown" keys are added to the
   // new manifest, so we don't inadvertently delete something we don't understand
   unknownRecordsArray.forEach((record: UnknownRecord) => {
-    const identifier = new Proto.ManifestRecord.Identifier();
-    identifier.type = record.itemType;
-    identifier.raw = Bytes.fromBase64(record.storageID);
-
-    manifestRecordKeys.add(identifier);
+    recordsByID.set(record.storageID, record);
   });
 
   const recordsWithErrors: ReadonlyArray<UnknownRecord> = window.storage.get(
@@ -489,11 +473,7 @@ async function generateManifest(
   // These records failed to merge in the previous fetchManifest, but we still
   // need to include them so that the manifest is complete
   recordsWithErrors.forEach((record: UnknownRecord) => {
-    const identifier = new Proto.ManifestRecord.Identifier();
-    identifier.type = record.itemType;
-    identifier.raw = Bytes.fromBase64(record.storageID);
-
-    manifestRecordKeys.add(identifier);
+    recordsByID.set(record.storageID, record);
   });
 
   // Delete keys that we wanted to drop during the processing of the manifest.
@@ -511,83 +491,73 @@ async function generateManifest(
   );
 
   for (const { storageID } of storedPendingDeletes) {
-    deleteKeys.push(Bytes.fromBase64(storageID));
+    deleteKeys.add(storageID);
   }
 
   // Validate before writing
 
-  const rawDuplicates = new Set();
-  const typeRawDuplicates = new Set();
+  const duplicates = new Set<string>();
+  const typeDuplicates = new Set();
   let hasAccountType = false;
-  manifestRecordKeys.forEach(identifier => {
+  for (const [storageID, { itemType }] of recordsByID) {
     // Ensure there are no duplicate StorageIdentifiers in your manifest
     //   This can be broken down into two parts:
     //     There are no duplicate type+raw pairs
     //     There are no duplicate raw bytes
-    strictAssert(identifier.raw, 'manifest record key without raw identifier');
-    const storageID = Bytes.toBase64(identifier.raw);
-    const typeAndRaw = `${identifier.type}+${storageID}`;
-    if (
-      rawDuplicates.has(identifier.raw) ||
-      typeRawDuplicates.has(typeAndRaw)
-    ) {
+    const typeAndID = `${itemType}+${storageID}`;
+    if (duplicates.has(storageID) || typeDuplicates.has(typeAndID)) {
       log.warn(
         `storageService.upload(${version}): removing from duplicate item ` +
           'from the manifest',
         redactStorageID(storageID),
-        identifier.type
+        itemType
       );
-      manifestRecordKeys.delete(identifier);
+      recordsByID.delete(storageID);
     }
-    rawDuplicates.add(identifier.raw);
-    typeRawDuplicates.add(typeAndRaw);
+    duplicates.add(storageID);
+    typeDuplicates.add(typeAndID);
 
     // Ensure all deletes are not present in the manifest
-    const hasDeleteKey = deleteKeys.find(
-      key => Bytes.toBase64(key) === storageID
-    );
+    const hasDeleteKey = deleteKeys.has(storageID);
     if (hasDeleteKey) {
       log.warn(
         `storageService.upload(${version}): removing key which has been deleted`,
         redactStorageID(storageID),
-        identifier.type
+        itemType
       );
-      manifestRecordKeys.delete(identifier);
+      recordsByID.delete(storageID);
     }
 
     // Ensure that there is *exactly* one Account type in the manifest
-    if (identifier.type === ITEM_TYPE.ACCOUNT) {
+    if (itemType === ITEM_TYPE.ACCOUNT) {
       if (hasAccountType) {
         log.warn(
           `storageService.upload(${version}): removing duplicate account`,
           redactStorageID(storageID)
         );
-        manifestRecordKeys.delete(identifier);
+        recordsByID.delete(storageID);
       }
       hasAccountType = true;
     }
-  });
+  }
 
-  rawDuplicates.clear();
-  typeRawDuplicates.clear();
+  duplicates.clear();
+  typeDuplicates.clear();
 
   const storageKeyDuplicates = new Set<string>();
 
-  newItems.forEach(storageItem => {
+  for (const storageID of insertKeys) {
     // Ensure there are no duplicate StorageIdentifiers in your list of inserts
-    strictAssert(storageItem.key, 'New storage item without key');
-
-    const storageID = Bytes.toBase64(storageItem.key);
     if (storageKeyDuplicates.has(storageID)) {
       log.warn(
         `storageService.upload(${version}): ` +
           'removing duplicate identifier from inserts',
         redactStorageID(storageID)
       );
-      newItems.delete(storageItem);
+      insertKeys.delete(storageID);
     }
     storageKeyDuplicates.add(storageID);
-  });
+  }
 
   storageKeyDuplicates.clear();
 
@@ -608,15 +578,13 @@ async function generateManifest(
     );
 
     const localKeys: Set<string> = new Set();
-    manifestRecordKeys.forEach((identifier: IManifestRecordIdentifier) => {
-      strictAssert(identifier.raw, 'Identifier without raw field');
-      const storageID = Bytes.toBase64(identifier.raw);
+    for (const storageID of recordsByID.keys()) {
       localKeys.add(storageID);
 
       if (!remoteKeys.has(storageID)) {
         pendingInserts.add(storageID);
       }
-    });
+    }
 
     remoteKeys.forEach(storageID => {
       if (!localKeys.has(storageID)) {
@@ -624,9 +592,9 @@ async function generateManifest(
       }
     });
 
-    if (deleteKeys.length !== pendingDeletes.size) {
-      const localDeletes = deleteKeys.map(key =>
-        redactStorageID(Bytes.toBase64(key))
+    if (deleteKeys.size !== pendingDeletes.size) {
+      const localDeletes = Array.from(deleteKeys).map(key =>
+        redactStorageID(key)
       );
       const remoteDeletes: Array<string> = [];
       pendingDeletes.forEach(id => remoteDeletes.push(redactStorageID(id)));
@@ -639,24 +607,77 @@ async function generateManifest(
       );
       throw new Error('invalid write delete keys length do not match');
     }
-    if (newItems.size !== pendingInserts.size) {
+    if (insertKeys.size !== pendingInserts.size) {
       throw new Error('invalid write insert items length do not match');
     }
-    deleteKeys.forEach(key => {
-      const storageID = Bytes.toBase64(key);
+    for (const storageID of deleteKeys) {
       if (!pendingDeletes.has(storageID)) {
         throw new Error(
           'invalid write delete key missing from pending deletes'
         );
       }
-    });
-    insertKeys.forEach(storageID => {
+    }
+    for (const storageID of insertKeys) {
       if (!pendingInserts.has(storageID)) {
         throw new Error(
           'invalid write insert key missing from pending inserts'
         );
       }
+    }
+  }
+
+  return {
+    postUploadUpdateFunctions,
+    recordsByID,
+    insertKeys,
+    deleteKeys,
+  };
+}
+
+type EncryptManifestOptionsType = {
+  recordsByID: Map<string, MergeableItemType | RemoteRecord>;
+  insertKeys: Set<string>;
+};
+
+type EncryptedManifestType = {
+  newItems: Set<Proto.IStorageItem>;
+  storageManifest: Proto.IStorageManifest;
+};
+
+async function encryptManifest(
+  version: number,
+  { recordsByID, insertKeys }: EncryptManifestOptionsType
+): Promise<EncryptedManifestType> {
+  const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
+  const newItems: Set<Proto.IStorageItem> = new Set();
+
+  for (const [storageID, { itemType, storageRecord }] of recordsByID) {
+    const identifier = new Proto.ManifestRecord.Identifier({
+      type: itemType,
+      raw: Bytes.fromBase64(storageID),
     });
+
+    manifestRecordKeys.add(identifier);
+
+    if (insertKeys.has(storageID)) {
+      strictAssert(
+        storageRecord !== undefined,
+        'Inserted items must have an associated record'
+      );
+
+      let storageItem;
+      try {
+        storageItem = encryptRecord(storageID, storageRecord);
+      } catch (err) {
+        log.error(
+          `storageService.upload(${version}): encrypt record failed:`,
+          Errors.toLogFormat(err)
+        );
+        throw err;
+      }
+
+      newItems.add(storageItem);
+    }
   }
 
   const manifestRecord = new Proto.ManifestRecord();
@@ -683,8 +704,6 @@ async function generateManifest(
   storageManifest.value = encryptedManifest;
 
   return {
-    postUploadUpdateFunctions,
-    deleteKeys,
     newItems,
     storageManifest,
   };
@@ -692,18 +711,14 @@ async function generateManifest(
 
 async function uploadManifest(
   version: number,
-  {
-    postUploadUpdateFunctions,
-    deleteKeys,
-    newItems,
-    storageManifest,
-  }: GeneratedManifestType
+  { postUploadUpdateFunctions, deleteKeys }: GeneratedManifestType,
+  { newItems, storageManifest }: EncryptedManifestType
 ): Promise<void> {
   if (!window.textsecure.messaging) {
     throw new Error('storageService.uploadManifest: We are offline!');
   }
 
-  if (newItems.size === 0 && deleteKeys.length === 0) {
+  if (newItems.size === 0 && deleteKeys.size === 0) {
     log.info(`storageService.upload(${version}): nothing to upload`);
     return;
   }
@@ -712,13 +727,15 @@ async function uploadManifest(
   try {
     log.info(
       `storageService.upload(${version}): inserting=${newItems.size} ` +
-        `deleting=${deleteKeys.length}`
+        `deleting=${deleteKeys.size}`
     );
 
     const writeOperation = new Proto.WriteOperation();
     writeOperation.manifest = storageManifest;
     writeOperation.insertItem = Array.from(newItems);
-    writeOperation.deleteKey = deleteKeys;
+    writeOperation.deleteKey = Array.from(deleteKeys).map(storageID =>
+      Bytes.fromBase64(storageID)
+    );
 
     await window.textsecure.messaging.modifyStorageRecords(
       Proto.WriteOperation.encode(writeOperation).finish(),
@@ -813,16 +830,19 @@ async function createNewManifest() {
 
   const version = window.storage.get('manifestVersion', 0);
 
-  const { postUploadUpdateFunctions, newItems, storageManifest } =
-    await generateManifest(version, undefined, true);
+  const generatedManifest = await generateManifest(version, undefined, true);
 
-  await uploadManifest(version, {
-    postUploadUpdateFunctions,
-    // we have created a new manifest, there should be no keys to delete
-    deleteKeys: [],
-    newItems,
-    storageManifest,
-  });
+  const encryptedManifest = await encryptManifest(version, generatedManifest);
+
+  await uploadManifest(
+    version,
+    {
+      ...generatedManifest,
+      // we have created a new manifest, there should be no keys to delete
+      deleteKeys: new Set(),
+    },
+    encryptedManifest
+  );
 }
 
 async function decryptManifest(
@@ -1158,7 +1178,8 @@ async function processManifest(
 
   let conflictCount = 0;
   if (remoteOnlyRecords.size) {
-    conflictCount = await processRemoteRecords(version, remoteOnlyRecords);
+    const fetchResult = await fetchRemoteRecords(version, remoteOnlyRecords);
+    conflictCount = await processRemoteRecords(version, fetchResult);
   }
 
   // Post-merge, if our local records contain any storage IDs that were not
@@ -1302,10 +1323,15 @@ async function processManifest(
   return conflictCount;
 }
 
-async function processRemoteRecords(
+export type FetchRemoteRecordsResultType = Readonly<{
+  missingKeys: Set<string>;
+  decryptedItems: ReadonlyArray<MergeableItemType>;
+}>;
+
+async function fetchRemoteRecords(
   storageVersion: number,
   remoteOnlyRecords: Map<string, RemoteRecord>
-): Promise<number> {
+): Promise<FetchRemoteRecordsResultType> {
   const storageKeyBase64 = window.storage.get('storageKey');
   if (!storageKeyBase64) {
     throw new Error('No storage key');
@@ -1318,8 +1344,8 @@ async function processRemoteRecords(
   const storageKey = Bytes.fromBase64(storageKeyBase64);
 
   log.info(
-    `storageService.process(${storageVersion}): fetching remote keys ` +
-      `count=${remoteOnlyRecords.size}`
+    `storageService.fetchRemoteRecords(${storageVersion}): ` +
+      `fetching remote keys count=${remoteOnlyRecords.size}`
   );
 
   const credentials = window.storage.get('storageCredentials');
@@ -1349,7 +1375,7 @@ async function processRemoteRecords(
 
   const missingKeys = new Set<string>(remoteOnlyRecords.keys());
 
-  const decryptedStorageItems = await pMap(
+  const decryptedItems = await pMap(
     storageItems,
     async (
       storageRecordWrapper: Proto.IStorageItem
@@ -1410,17 +1436,24 @@ async function processRemoteRecords(
   );
 
   log.info(
-    `storageService.process(${storageVersion}): missing remote ` +
+    `storageService.fetchRemoteRecords(${storageVersion}): missing remote ` +
       `keys=${JSON.stringify(redactedMissingKeys)} ` +
       `count=${missingKeys.size}`
   );
 
+  return { decryptedItems, missingKeys };
+}
+
+async function processRemoteRecords(
+  storageVersion: number,
+  { decryptedItems, missingKeys }: FetchRemoteRecordsResultType
+): Promise<number> {
   const ITEM_TYPE = Proto.ManifestRecord.Identifier.Type;
   const droppedKeys = new Set<string>();
 
   // Drop all GV1 records for which we have GV2 record in the same manifest
   const masterKeys = new Map<string, string>();
-  for (const { itemType, storageID, storageRecord } of decryptedStorageItems) {
+  for (const { itemType, storageID, storageRecord } of decryptedItems) {
     if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2?.masterKey) {
       masterKeys.set(
         Bytes.toBase64(storageRecord.groupV2.masterKey),
@@ -1431,7 +1464,7 @@ async function processRemoteRecords(
 
   let accountItem: MergeableItemType | undefined;
 
-  const prunedStorageItems = decryptedStorageItems.filter(item => {
+  const prunedStorageItems = decryptedItems.filter(item => {
     const { itemType, storageID, storageRecord } = item;
     if (itemType === ITEM_TYPE.ACCOUNT) {
       if (accountItem !== undefined) {
@@ -1775,7 +1808,8 @@ async function upload(fromSync = false): Promise<void> {
       previousManifest,
       false
     );
-    await uploadManifest(version, generatedManifest);
+    const encryptedManifest = await encryptManifest(version, generatedManifest);
+    await uploadManifest(version, generatedManifest, encryptedManifest);
 
     // Clear pending delete keys after successful upload
     await window.storage.put('storage-service-pending-deletes', []);
@@ -1817,6 +1851,67 @@ export async function eraseAllStorageServiceState({
   ]);
   await eraseStorageServiceStateFromConversations();
   log.info('storageService.eraseAllStorageServiceState: complete');
+}
+
+export async function reprocessUnknownFields(): Promise<void> {
+  ourProfileKeyService.blockGetWithPromise(
+    storageJobQueue(async () => {
+      const version = window.storage.get('manifestVersion') ?? 0;
+
+      log.info(`storageService.reprocessUnknownFields(${version}): starting`);
+
+      const { recordsByID, insertKeys } = await generateManifest(
+        version,
+        undefined,
+        true
+      );
+
+      const newRecords = Array.from(
+        filter(
+          map(recordsByID, ([key, item]): MergeableItemType | undefined => {
+            if (!insertKeys.has(key)) {
+              return undefined;
+            }
+            strictAssert(
+              item.storageRecord !== undefined,
+              'Inserted records must have storageRecord'
+            );
+
+            if (!item.storageRecord.__unknownFields?.length) {
+              return undefined;
+            }
+
+            return {
+              ...item,
+
+              storageRecord: Proto.StorageRecord.decode(
+                Proto.StorageRecord.encode(item.storageRecord).finish()
+              ),
+            };
+          }),
+          isNotNil
+        )
+      );
+
+      const conflictCount = await processRemoteRecords(version, {
+        decryptedItems: newRecords,
+        missingKeys: new Set(),
+      });
+
+      log.info(
+        `storageService.reprocessUnknownFields(${version}): done, ` +
+          `conflictCount=${conflictCount}`
+      );
+
+      const hasConflicts = conflictCount !== 0;
+      if (hasConflicts) {
+        log.info(
+          `storageService.reprocessUnknownFields(${version}): uploading`
+        );
+        await upload();
+      }
+    })
+  );
 }
 
 export const storageServiceUploadJob = debounce(() => {

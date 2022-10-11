@@ -444,7 +444,7 @@ export const SendStoryModal = ({
       <>
         <div className="SendStoryModal__selected-lists">{selectedNames}</div>
         <button
-          aria-label={i18n('SendStoryModal__ok')}
+          aria-label={i18n('ok')}
           className="SendStoryModal__ok"
           disabled={!chosenGroupIds.size}
           onClick={() => {

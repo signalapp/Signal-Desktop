@@ -28,6 +28,7 @@ import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
+import { StorySendMode } from '../types/Stories';
 import type {
   ContactWithHydratedAvatar,
   GroupV1InfoType,
@@ -69,6 +70,7 @@ import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
 import { notificationService } from '../services/notifications';
+import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
 import { markConversationRead } from '../util/markConversationRead';
@@ -132,7 +134,7 @@ import { validateConversation } from '../util/validateConversation';
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
 
-const { Services, Util } = window.Signal;
+const { Util } = window.Signal;
 const { Message } = window.Signal.Types;
 const {
   deleteAttachmentData,
@@ -1868,7 +1870,7 @@ export class ConversationModel extends window.Backbone
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
-      isGroupStorySendReady: Boolean(this.get('isGroupStorySendReady')),
+      storySendMode: this.getStorySendMode(),
       hideStory: Boolean(this.get('hideStory')),
       inboxPosition,
       isArchived: this.get('isArchived'),
@@ -5182,7 +5184,7 @@ export class ConversationModel extends window.Backbone
     this.set({ needsStorageServiceSync: true });
 
     this.queueJob('captureChange', async () => {
-      Services.storageServiceUploadJob();
+      storageServiceUploadJob();
     });
   }
 
@@ -5497,6 +5499,14 @@ export class ConversationModel extends window.Backbone
       return undefined;
     }
     return window.textsecure.storage.protocol.signAlternateIdentity();
+  }
+
+  getStorySendMode(): StorySendMode | undefined {
+    if (!isGroup(this.attributes)) {
+      return undefined;
+    }
+
+    return this.get('storySendMode') ?? StorySendMode.IfActive;
   }
 }
 

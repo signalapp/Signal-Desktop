@@ -145,6 +145,12 @@ export enum HasStories {
   Unread = 'Unread',
 }
 
+export enum StorySendMode {
+  IfActive = 'IfActive',
+  Always = 'Always',
+  Never = 'Never',
+}
+
 const getStoriesAvailable = () =>
   isEnabled('desktop.stories') ||
   isEnabled('desktop.internalUser') ||
