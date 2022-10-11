@@ -112,6 +112,12 @@ export enum StoryViewDirectionType {
   Previous = 'Previous',
 }
 
+export enum StoryViewTargetType {
+  Details = 'Details',
+  Views = 'Views',
+  Replies = 'Replies',
+}
+
 // Type of stories to view before closing the viewer
 // All = All the stories in order
 // Single = A single story. Like when clicking on a qouted story

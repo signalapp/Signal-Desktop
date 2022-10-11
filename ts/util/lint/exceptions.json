@@ -16,27 +16,6 @@
     "reasonDetail": "Part of runtime library for C++ transpiled code"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/AddCaptionModal.tsx",
-    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionInput.tsx",
-    "line": "  const scrollerRefInner = React.useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionTextArea.tsx",
-    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "line": "            bb.append((new Uint8Array(byteArray)).buffer); // we need to pass a buffer, and must copy the array to get the right data range",
@@ -8860,6 +8839,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/AddCaptionModal.tsx",
+    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -9028,6 +9014,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-25T00:06:19.860Z",
     "reasonDetail": "Not used for DOM manipulation"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionInput.tsx",
+    "line": "  const scrollerRefInner = React.useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CompositionTextArea.tsx",
+    "line": "  const inputApiRef = React.useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-03T16:06:12.837Z"
   },
   {
     "rule": "React-useRef",
@@ -9315,13 +9315,6 @@
     "line": "  const containerElementRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-08-04T00:52:01.080Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const shouldScrollToBottomRef = useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-09-22T03:07:22.153Z"
   },
   {
     "rule": "React-useRef",
@@ -9690,5 +9683,19 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const shouldScrollToBottomRef = useRef(true);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2022-10-05T18:51:56.411Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const bottomRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2022-10-05T18:51:56.411Z"
   }
 ]

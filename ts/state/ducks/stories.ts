@@ -14,7 +14,7 @@ import type {
 } from './conversations';
 import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
-import type { StoryViewType } from '../../types/Stories';
+import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
@@ -86,7 +86,7 @@ export type SelectedStoryDataType = {
   currentIndex: number;
   messageId: string;
   numStories: number;
-  shouldShowDetailsModal: boolean;
+  viewTarget?: StoryViewTargetType;
   storyViewMode: StoryViewModeType;
 };
 
@@ -815,13 +815,13 @@ const getSelectedStoryDataForConversationId = (
 
 export type ViewUserStoriesActionCreatorType = (opts: {
   conversationId: string;
-  shouldShowDetailsModal?: boolean;
+  viewTarget?: StoryViewTargetType;
   storyViewMode?: StoryViewModeType;
 }) => unknown;
 
 const viewUserStories: ViewUserStoriesActionCreatorType = ({
   conversationId,
-  shouldShowDetailsModal = false,
+  viewTarget,
   storyViewMode,
 }): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
@@ -851,7 +851,7 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
         currentIndex,
         messageId: story.messageId,
         numStories,
-        shouldShowDetailsModal,
+        viewTarget,
         storyViewMode: inferredStoryViewMode,
       },
     });
@@ -866,7 +866,7 @@ type ViewStoryOptionsType =
       storyId: string;
       storyViewMode: StoryViewModeType;
       viewDirection?: StoryViewDirectionType;
-      shouldShowDetailsModal?: boolean;
+      viewTarget?: StoryViewTargetType;
     };
 
 export type ViewStoryActionCreatorType = (
@@ -889,12 +889,7 @@ const viewStory: ViewStoryActionCreatorType = (
       return;
     }
 
-    const {
-      shouldShowDetailsModal = false,
-      storyId,
-      storyViewMode,
-      viewDirection,
-    } = opts;
+    const { viewTarget, storyId, storyViewMode, viewDirection } = opts;
 
     const state = getState();
     const { stories } = state.stories;
@@ -934,7 +929,7 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex,
           messageId: storyId,
           numStories,
-          shouldShowDetailsModal,
+          viewTarget,
           storyViewMode,
         },
       });
@@ -955,7 +950,6 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex: nextIndex,
           messageId: nextStory.messageId,
           numStories,
-          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -973,7 +967,6 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex: nextIndex,
           messageId: nextStory.messageId,
           numStories,
-          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -1022,7 +1015,6 @@ const viewStory: ViewStoryActionCreatorType = (
                 nextSelectedStoryData.currentIndex
               ].messageId,
             numStories: nextSelectedStoryData.numStories,
-            shouldShowDetailsModal: false,
             storyViewMode,
           },
         });
@@ -1080,7 +1072,6 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex: 0,
           messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
           numStories: nextSelectedStoryData.numStories,
-          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });
@@ -1115,7 +1106,6 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex: 0,
           messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
           numStories: nextSelectedStoryData.numStories,
-          shouldShowDetailsModal: false,
           storyViewMode,
         },
       });

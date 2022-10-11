@@ -3,11 +3,12 @@
 
 import React, { useState } from 'react';
 import type { MyStoryType, StoryViewType } from '../types/Stories';
+import { StoryViewTargetType, StoryViewModeType } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { StoryViewModeType } from '../types/Stories';
+
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { StoryImage } from './StoryImage';
@@ -151,7 +152,7 @@ export const MyStories = ({
                         viewStory({
                           storyId: story.messageId,
                           storyViewMode: StoryViewModeType.User,
-                          shouldShowDetailsModal: true,
+                          viewTarget: StoryViewTargetType.Details,
                         });
                       },
                     },

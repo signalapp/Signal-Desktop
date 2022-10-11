@@ -31,7 +31,11 @@ import { SendStatus } from '../messages/MessageSendState';
 import { StoryDetailsModal } from './StoryDetailsModal';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { StoryImage } from './StoryImage';
-import { StoryViewDirectionType, StoryViewModeType } from '../types/Stories';
+import {
+  StoryViewDirectionType,
+  StoryViewModeType,
+  StoryViewTargetType,
+} from '../types/Stories';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal';
 import { Theme } from '../util/theme';
 import { ToastType } from '../state/ducks/toast';
@@ -83,7 +87,7 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
-  shouldShowDetailsModal?: boolean;
+  viewTarget?: StoryViewTargetType;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;
   story: StoryViewType;
@@ -128,7 +132,7 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
-  shouldShowDetailsModal,
+  viewTarget,
   showToast,
   skinTone,
   story,
@@ -167,11 +171,13 @@ export const StoryViewer = ({
 
   const conversationId = group?.id || story.sender.id;
 
-  const [hasStoryViewsNRepliesModal, setHasStoryViewsNRepliesModal] =
-    useState(false);
-  const [hasStoryDetailsModal, setHasStoryDetailsModal] = useState(
-    Boolean(shouldShowDetailsModal)
+  const [currentViewTarget, setCurrentViewTarget] = useState(
+    viewTarget ?? null
   );
+
+  useEffect(() => {
+    setCurrentViewTarget(viewTarget ?? null);
+  }, [viewTarget]);
 
   const onClose = useCallback(() => {
     viewStory({
@@ -180,12 +186,12 @@ export const StoryViewer = ({
   }, [viewStory]);
 
   const onEscape = useCallback(() => {
-    if (hasStoryViewsNRepliesModal) {
-      setHasStoryViewsNRepliesModal(false);
+    if (currentViewTarget != null) {
+      setCurrentViewTarget(null);
     } else {
       onClose();
     }
-  }, [hasStoryViewsNRepliesModal, onClose]);
+  }, [currentViewTarget, onClose]);
 
   useEscapeHandling(onEscape);
 
@@ -314,8 +320,7 @@ export const StoryViewer = ({
     hasActiveCall ||
     hasConfirmHideStory ||
     hasExpandedCaption ||
-    hasStoryDetailsModal ||
-    hasStoryViewsNRepliesModal ||
+    currentViewTarget != null ||
     isShowingContextMenu ||
     pauseStory ||
     Boolean(reactionEmoji);
@@ -351,7 +356,7 @@ export const StoryViewer = ({
     (ev: KeyboardEvent) => {
       // the replies modal can consume arrow keys
       // we don't want to navigate while someone is typing a reply
-      if (hasStoryViewsNRepliesModal) {
+      if (currentViewTarget != null) {
         return;
       }
 
@@ -374,7 +379,7 @@ export const StoryViewer = ({
       }
     },
     [
-      hasStoryViewsNRepliesModal,
+      currentViewTarget,
       canNavigateLeft,
       canNavigateRight,
       story.messageId,
@@ -466,7 +471,7 @@ export const StoryViewer = ({
           {
             icon: 'StoryListItem__icon--info',
             label: i18n('StoryListItem__info'),
-            onClick: () => setHasStoryDetailsModal(true),
+            onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
           },
           {
             icon: 'StoryListItem__icon--delete',
@@ -478,7 +483,7 @@ export const StoryViewer = ({
           {
             icon: 'StoryListItem__icon--info',
             label: i18n('StoryListItem__info'),
-            onClick: () => setHasStoryDetailsModal(true),
+            onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
           },
           {
             icon: 'StoryListItem__icon--hide',
@@ -726,7 +731,9 @@ export const StoryViewer = ({
               {(canReply || isSent) && (
                 <button
                   className="StoryViewer__reply"
-                  onClick={() => setHasStoryViewsNRepliesModal(true)}
+                  onClick={() =>
+                    setCurrentViewTarget(StoryViewTargetType.Replies)
+                  }
                   tabIndex={0}
                   type="button"
                 >
@@ -788,11 +795,11 @@ export const StoryViewer = ({
             type="button"
           />
         </div>
-        {hasStoryDetailsModal && (
+        {currentViewTarget === StoryViewTargetType.Details && (
           <StoryDetailsModal
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
-            onClose={() => setHasStoryDetailsModal(false)}
+            onClose={() => setCurrentViewTarget(null)}
             sender={story.sender}
             sendState={sendState}
             size={attachment?.size}
@@ -800,7 +807,8 @@ export const StoryViewer = ({
             expirationTimestamp={story.expirationTimestamp}
           />
         )}
-        {hasStoryViewsNRepliesModal && (
+        {(currentViewTarget === StoryViewTargetType.Replies ||
+          currentViewTarget === StoryViewTargetType.Views) && (
           <StoryViewsNRepliesModal
             authorTitle={firstName || title}
             canReply={Boolean(canReply)}
@@ -809,18 +817,18 @@ export const StoryViewer = ({
             hasViewsCapability={isSent}
             i18n={i18n}
             isGroupStory={isGroupStory}
-            onClose={() => setHasStoryViewsNRepliesModal(false)}
+            onClose={() => setCurrentViewTarget(null)}
             onReact={emoji => {
               onReactToStory(emoji, story);
               if (!isGroupStory) {
-                setHasStoryViewsNRepliesModal(false);
+                setCurrentViewTarget(null);
                 showToast(ToastType.StoryReact);
               }
               setReactionEmoji(emoji);
             }}
             onReply={(message, mentions, replyTimestamp) => {
               if (!isGroupStory) {
-                setHasStoryViewsNRepliesModal(false);
+                setCurrentViewTarget(null);
                 showToast(ToastType.StoryReply);
               }
               onReplyToStory(message, mentions, replyTimestamp, story);
@@ -836,6 +844,8 @@ export const StoryViewer = ({
             sortedGroupMembers={group?.sortedGroupMembers}
             storyPreviewAttachment={attachment}
             views={views}
+            viewTarget={currentViewTarget}
+            onChangeViewTarget={setCurrentViewTarget}
           />
         )}
         {hasConfirmHideStory && (

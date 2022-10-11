@@ -4,6 +4,7 @@
 import type { Meta, Story } from '@storybook/react';
 import React from 'react';
 
+import { useArgs } from '@storybook/addons';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
@@ -14,6 +15,7 @@ import { UUID } from '../types/UUID';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
+import { StoryViewTargetType } from '../types/Stories';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -63,6 +65,12 @@ export default {
     },
     views: {
       defaultValue: [],
+    },
+    viewTarget: {
+      defaultValue: StoryViewTargetType.Views,
+    },
+    onChangeViewTarget: {
+      action: true,
     },
   },
 } as Meta;
@@ -161,9 +169,21 @@ function getViewsAndReplies() {
   };
 }
 
-const Template: Story<PropsType> = args => (
-  <StoryViewsNRepliesModal {...args} />
-);
+const Template: Story<PropsType> = args => {
+  const [, updateArgs] = useArgs();
+
+  function onChangeViewTarget(viewTarget: StoryViewTargetType) {
+    args.onChangeViewTarget(viewTarget);
+    updateArgs({ viewTarget });
+  }
+
+  return (
+    <StoryViewsNRepliesModal
+      {...args}
+      onChangeViewTarget={onChangeViewTarget}
+    />
+  );
+};
 
 export const CanReply = Template.bind({});
 CanReply.args = {};
