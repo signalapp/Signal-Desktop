@@ -1,6 +1,5 @@
 // Default Theme should be Classic Dark
 export type ThemeColorVariables = {
-  '--primary-color': string;
   '--danger-color': string;
   '--disabled-color': string;
 
@@ -11,6 +10,7 @@ export type ThemeColorVariables = {
   /* Text */
   '--text-primary-color': string;
   '--text-secondary-color': string;
+  '--text-selection-color': string;
 
   /* Borders */
   '--border-color': string;
@@ -30,7 +30,6 @@ export type ThemeColorVariables = {
   /* Menu Button */
   '--menu-button-background-color': string;
   '--menu-button-background-hover-color': string;
-  /* TODO Theming Make a icon fill varible that uses the background color? */
   '--menu-button-icon-color': string;
 
   /* Chat (Interaction) Buttons */
@@ -47,20 +46,17 @@ export type ThemeColorVariables = {
   '--settings-tab-background-selected-color': string;
   '--settings-tab-text-color': string;
 
-  /* TODO Theming probably consolidate this */
   /* Buttons */
   /* Outline (Default) */
   '--button-outline-background-color': string;
   '--button-outline-background-hover-color': string;
   '--button-outline-text-color': string;
-  /* TODO Theming we might not need this */
   '--button-outline-text-hover-color': string;
   '--button-outline-border-color': string;
   '--button-outline-border-hover-color': string;
   '--button-outline-disabled-color': string;
 
   /* Solid */
-  /* TODO Theming - Should Pills have their own colors */
   /* Also used for Pills */
   '--button-solid-background-color': string;
   '--button-solid-background-hover-color': string;
@@ -68,7 +64,6 @@ export type ThemeColorVariables = {
   '--button-solid-text-hover-color': string;
   /* Solid buttons stay the same and rely on the disabled pointer */
   '--button-solid-disabled-color': string;
-  /* TODO Theming - Only light themes have shadows? */
   '--button-solid-shadow-color': string;
 
   /* Simple */
@@ -115,18 +110,15 @@ export type ThemeColorVariables = {
   /* Toggle Switch */
   '--toggle-switch-ball-color': string;
   '--toggle-switch-ball-shadow-color': string;
-  /* TODO Theming think this should be white instead of transparent */
   '--toggle-switch-off-background-color': string;
   '--toggle-switch-off-border-color': string;
   '--toggle-switch-on-background-color': string;
   '--toggle-switch-on-border-color': string;
 
-  /* TODO Theming Think this is part of the Convesations Tab */
   /* Unread Messages Alert */
   '--unread-messages-alert-background-color': string;
   '--unread-messages-alert-text-color': string;
 
-  /* toggles between the Light and Dark mode for a Theme */
   /* Color Mode Button */
   '--button-color-mode-stroke-color': string;
   '--button-color-mode-hover-color': string;
@@ -137,8 +129,6 @@ export type ThemeColorVariables = {
   /* NOTE only used for + icon */
   '--emoji-reaction-bar-icon-background-color': string;
   '--emoji-reaction-bar-icon-color': string;
-
-  /* TODO Theming - Should Pills have their own colors? */
 
   /* Modals */
   '--modal-background-content-color': string;
@@ -168,15 +158,6 @@ export type ThemeColorVariables = {
   '--context-menu-background-hover-color': string;
   '--context-menu-text-color': string;
   '--context-menu-text-hover-color': string;
-
-  /* Message Link Preview */
-  /* Also used for Images */
-  /* Also used for the Media Grid Items */
-  /* Also used for Staged Generic Attachments */
-  /* Also used for FileDropZone */
-  /* Used for Quote References Not Found */
-  /* Same for all Themes */
-  '--message-link-preview-background-color': string;
 
   /* Suggestions i.e. Mentions and Emojis */
   '--suggestions-background-color': string;

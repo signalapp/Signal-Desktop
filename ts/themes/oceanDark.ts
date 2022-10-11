@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const oceanDark: ThemeColorVariables = {
-  '--primary-color': THEMES.OCEAN_DARK.PRIMARY,
   '--danger-color': THEMES.OCEAN_DARK.DANGER,
   '--disabled-color': THEMES.OCEAN_DARK.DISABLED,
 
@@ -12,6 +11,7 @@ const oceanDark: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.OCEAN_DARK.COLOR7!,
   '--text-secondary-color': THEMES.OCEAN_DARK.COLOR5,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!)}, 0.5)`,
 
   '--border-color': THEMES.OCEAN_DARK.COLOR4,
 
@@ -42,7 +42,7 @@ const oceanDark: ThemeColorVariables = {
   '--button-outline-background-hover-color': `rgba(${hexColorToRGB(
     THEMES.OCEAN_DARK.COLOR7!
   )}, 0.3)`,
-  '--button-outline-text-color': 'var(--text-primary-color)',
+  '--button-outline-text-color': 'var(--primary-color)',
   '--button-outline-text-hover-color': 'var(--text-primary-color)',
   '--button-outline-border-color': 'var(--primary-color)',
   '--button-outline-border-hover-color': 'var(--text-primary-color)',
@@ -128,8 +128,6 @@ const oceanDark: ThemeColorVariables = {
   '--context-menu-background-hover-color': 'var(--primary-color)',
   '--context-menu-text-color': 'var(--text-primary-color)',
   '--context-menu-text-hover-color': 'var(--black-color)',
-
-  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 
   '--suggestions-background-color': 'var(--background-secondary-color)',
   '--suggestions-background-hover-color': THEMES.OCEAN_DARK.COLOR4,

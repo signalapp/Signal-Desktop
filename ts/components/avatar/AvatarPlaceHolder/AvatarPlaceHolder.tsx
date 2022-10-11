@@ -21,7 +21,7 @@ const sha512FromPubkey = async (pubkey: string): Promise<string> => {
 // key is the pubkey, value is the hash
 const cachedHashes = new Map<string, number>();
 
-const avatarPlaceholderColors = Object.values(COLORS.PRIMARY);
+const avatarPlaceholderColors: Array<string> = Object.values(COLORS.PRIMARY);
 
 function useHashBasedOnPubkey(pubkey: string) {
   const [hash, setHash] = useState<number | undefined>(undefined);
@@ -80,7 +80,6 @@ export const AvatarPlaceHolder = (props: Props) => {
 
   if (loading || !hash) {
     // return grey circle
-    // TODO Theming update
     return (
       <svg viewBox={viewBox}>
         <g id="UrTavla">
@@ -90,7 +89,7 @@ export const AvatarPlaceHolder = (props: Props) => {
             r={rWithoutBorder}
             fill="#d2d2d3"
             shapeRendering="geometricPrecision"
-            stroke={'var(--color-avatar-border-color)'}
+            stroke={'var(--avatar-border-color)'}
             strokeWidth="1"
           />
         </g>
@@ -106,7 +105,6 @@ export const AvatarPlaceHolder = (props: Props) => {
 
   const bgColor = avatarPlaceholderColors[bgColorIndex];
 
-  // TODO Theming Update
   return (
     <svg viewBox={viewBox}>
       <g id="UrTavla">
@@ -116,7 +114,7 @@ export const AvatarPlaceHolder = (props: Props) => {
           r={rWithoutBorder}
           fill={bgColor}
           shapeRendering="geometricPrecision"
-          stroke={'var(--color-avatar-border-color)'}
+          stroke={'var(--avatar-border-color)'}
           strokeWidth="1"
         />
         <text

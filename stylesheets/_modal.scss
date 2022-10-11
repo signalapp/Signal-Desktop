@@ -15,7 +15,7 @@
     margin: 100px auto;
     padding: 1em;
     background-color: var(--modal-background-content-color);
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     overflow: auto;
     box-shadow: var(--modal-drop-shadow);
   }
@@ -101,7 +101,7 @@
     min-width: 60%;
     padding: 1em;
     background: var(--modal-background-content-color);
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     overflow: auto;
     box-shadow: 0px 0px 15px 0px var(--modal-background-color);
   }

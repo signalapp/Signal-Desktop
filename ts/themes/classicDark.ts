@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const classicDark: ThemeColorVariables = {
-  '--primary-color': THEMES.CLASSIC_DARK.PRIMARY,
   '--danger-color': THEMES.CLASSIC_DARK.DANGER,
   '--disabled-color': THEMES.CLASSIC_DARK.DISABLED,
 
@@ -12,6 +11,7 @@ const classicDark: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.CLASSIC_DARK.COLOR6,
   '--text-secondary-color': THEMES.CLASSIC_DARK.COLOR5,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6)}, 0.5)`,
 
   '--border-color': THEMES.CLASSIC_DARK.COLOR3,
 
@@ -42,9 +42,9 @@ const classicDark: ThemeColorVariables = {
   '--button-outline-background-hover-color': `rgba(${hexColorToRGB(
     THEMES.CLASSIC_DARK.COLOR6
   )}, 0.3)`,
-  '--button-outline-text-color': 'var(--text-primary-color)',
+  '--button-outline-text-color': 'var(--primary-color)',
   '--button-outline-text-hover-color': 'var(--text-primary-color)',
-  '--button-outline-border-color': 'var(--text-primary-color)',
+  '--button-outline-border-color': 'var(--primary-color)',
   '--button-outline-border-hover-color': 'var(--text-primary-color)',
   '--button-outline-disabled-color': 'var(--disabled-color)',
 
@@ -128,8 +128,6 @@ const classicDark: ThemeColorVariables = {
   '--context-menu-background-hover-color': 'var(--primary-color)',
   '--context-menu-text-color': 'var(--text-primary-color)',
   '--context-menu-text-hover-color': 'var(--black-color)',
-
-  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 
   '--suggestions-background-color': THEMES.CLASSIC_DARK.COLOR2,
   '--suggestions-background-hover-color': THEMES.CLASSIC_DARK.COLOR3,

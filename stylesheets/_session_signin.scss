@@ -179,8 +179,7 @@
   &-description-long {
     padding-top: 0;
     padding-bottom: 20px;
-    // TODO Theming needs to be updated
-    color: rgba(var(--black-color), 0.6);
+    color: var(--text-secondary-color);
     text-align: center;
     font-size: 12px;
     line-height: 20px;

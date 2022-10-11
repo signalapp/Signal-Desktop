@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const oceanLight: ThemeColorVariables = {
-  '--primary-color': THEMES.OCEAN_LIGHT.PRIMARY,
   '--danger-color': THEMES.OCEAN_LIGHT.DANGER,
   '--disabled-color': THEMES.OCEAN_LIGHT.DISABLED,
 
@@ -12,6 +11,7 @@ const oceanLight: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.OCEAN_LIGHT.COLOR1,
   '--text-secondary-color': THEMES.OCEAN_LIGHT.COLOR2,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR1)}, 0.5)`,
 
   '--border-color': THEMES.OCEAN_LIGHT.COLOR3,
 
@@ -128,8 +128,6 @@ const oceanLight: ThemeColorVariables = {
   '--context-menu-background-hover-color': 'var(--primary-color)',
   '--context-menu-text-color': 'var(--text-primary-color)',
   '--context-menu-text-hover-color': 'var(--black-color)',
-
-  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 
   '--suggestions-background-color': 'var(--background-secondary-color)',
   '--suggestions-background-hover-color': THEMES.OCEAN_LIGHT.COLOR4,

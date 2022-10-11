@@ -58,7 +58,6 @@ export interface NativeEmojiData {
 export interface FixedPickerProps {
   autoFocus?: boolean | undefined;
   title?: string | undefined;
-  // TODO Theming - Add Ocean Colors
   theme?: 'auto' | 'light' | 'dark' | undefined;
   perLine?: number | undefined;
   stickySearch?: boolean | undefined;

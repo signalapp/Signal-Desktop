@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const classicLight: ThemeColorVariables = {
-  '--primary-color': THEMES.CLASSIC_LIGHT.PRIMARY,
   '--danger-color': THEMES.CLASSIC_LIGHT.DANGER,
   '--disabled-color': THEMES.CLASSIC_LIGHT.DISABLED,
 
@@ -12,6 +11,7 @@ const classicLight: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.CLASSIC_LIGHT.COLOR0,
   '--text-secondary-color': THEMES.CLASSIC_LIGHT.COLOR1,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.5)`,
 
   '--border-color': THEMES.CLASSIC_LIGHT.COLOR3,
 
@@ -128,8 +128,6 @@ const classicLight: ThemeColorVariables = {
   '--context-menu-background-hover-color': 'var(--primary-color)',
   '--context-menu-text-color': 'var(--text-primary-color)',
   '--context-menu-text-hover-color': 'var(--black-color)',
-
-  '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 
   '--suggestions-background-color': 'var(--background-secondary-color)',
   '--suggestions-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,

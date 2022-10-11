@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { resetOverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
@@ -41,18 +41,7 @@ export const MenuButton = () => {
     dispatch(isToggled ? resetOverlayMode() : setOverlayMode('choose-action'));
 
   return (
-    <StyledMenuButton
-      data-testid="new-conversation-button"
-      // TODO Theming Maybe move to StyleMenuInput
-      style={
-        {
-          '--bg-color': 'var(--color-accent-button)',
-          '--hover-bg-color': 'var(--color-accent-button)',
-          '--fg-color': 'white',
-        } as CSSProperties
-      }
-      onClick={onClickFn}
-    >
+    <StyledMenuButton data-testid="new-conversation-button" onClick={onClickFn}>
       <SessionIcon
         iconSize="small"
         iconType="plusFat"

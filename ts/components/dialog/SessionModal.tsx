@@ -27,7 +27,7 @@ interface State {
   isVisible: boolean;
 }
 
-// TODO Theming - Can we remove this.
+// NOTE This is currently unused.
 export class SessionModal extends React.PureComponent<Props, State> {
   public static defaultProps = {
     showExitIcon: true,

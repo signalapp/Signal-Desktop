@@ -23,6 +23,7 @@ type Colors = {
   TRANSPARENT: string;
   WHITE: string;
   BLACK: string;
+  GREY: string;
 };
 
 // Session Brand Color
@@ -59,6 +60,9 @@ const white = '#FFFFFF';
 // Black
 const black = '#000000';
 
+// Grey
+const grey = '#616161';
+
 const COLORS: Colors = {
   PRIMARY: {
     GREEN: primaryGreen,
@@ -78,6 +82,7 @@ const COLORS: Colors = {
   TRANSPARENT: transparent,
   WHITE: white,
   BLACK: black,
+  GREY: grey,
 };
 
 export type PrimaryColorStateType =

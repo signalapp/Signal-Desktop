@@ -87,7 +87,6 @@
   @include fontAccentBold();
 }
 
-// TODO Theming - Confirm this works
 h1 {
   @include session-h-title;
   color: var(--text-secondary-color);
