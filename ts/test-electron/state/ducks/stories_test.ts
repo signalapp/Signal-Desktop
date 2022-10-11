@@ -148,7 +148,7 @@ describe('both/state/ducks/stories', () => {
           currentIndex: 0,
           messageId: storyId,
           numStories: 1,
-          shouldShowDetailsModal: false,
+          viewTarget: undefined,
           storyViewMode: StoryViewModeType.All,
         },
       });
@@ -179,7 +179,6 @@ describe('both/state/ducks/stories', () => {
             currentIndex: 1,
             messageId: storyId2,
             numStories: 3,
-            shouldShowDetailsModal: false,
             storyViewMode: StoryViewModeType.User,
           },
         });
@@ -209,7 +208,6 @@ describe('both/state/ducks/stories', () => {
             currentIndex: 0,
             messageId: storyId1,
             numStories: 3,
-            shouldShowDetailsModal: false,
             storyViewMode: StoryViewModeType.User,
           },
         });
@@ -282,7 +280,6 @@ describe('both/state/ducks/stories', () => {
             currentIndex: 0,
             messageId: storyId3,
             numStories: 1,
-            shouldShowDetailsModal: false,
             storyViewMode: StoryViewModeType.Unread,
           },
         });
@@ -440,7 +437,6 @@ describe('both/state/ducks/stories', () => {
             currentIndex: 0,
             messageId: storyId2,
             numStories: 2,
-            shouldShowDetailsModal: false,
             storyViewMode: StoryViewModeType.All,
           },
         });
@@ -477,7 +473,6 @@ describe('both/state/ducks/stories', () => {
             currentIndex: 0,
             messageId: storyId1,
             numStories: 2,
-            shouldShowDetailsModal: false,
             storyViewMode: StoryViewModeType.All,
           },
         });

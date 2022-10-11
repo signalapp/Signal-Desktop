@@ -18,12 +18,13 @@ import type { LocalizerType } from '../types/Util';
 
 type NotificationDataType = Readonly<{
   conversationId: string;
+  storyId?: string;
   messageId: string;
   senderTitle: string;
   message: string;
   notificationIconUrl?: undefined | string;
   isExpiringMessage: boolean;
-  reaction: {
+  reaction?: {
     emoji: string;
     targetAuthorUuid: string;
     targetTimestamp: number;
@@ -268,6 +269,7 @@ class NotificationService extends EventEmitter {
 
     const {
       conversationId,
+      storyId,
       messageId,
       senderTitle,
       message,
@@ -340,7 +342,7 @@ class NotificationService extends EventEmitter {
       message: notificationMessage,
       silent: !shouldPlayNotificationSound,
       onNotificationClick: () => {
-        this.emit('click', conversationId, messageId);
+        this.emit('click', conversationId, messageId, storyId);
       },
     });
   }

@@ -2853,10 +2853,34 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isFirstRun = false;
     await this.modifyTargetMessage(conversation, isFirstRun);
 
+    const storyId = this.get('storyId');
     const isGroupStoryReply =
-      isGroup(conversation.attributes) && this.get('storyId');
+      isGroup(conversation.attributes) && storyId != null;
 
-    if (isMessageUnread(this.attributes) && !isGroupStoryReply) {
+    let shouldNotify = true;
+
+    if (!isMessageUnread(this.attributes)) {
+      shouldNotify = false;
+    } else if (isGroupStoryReply) {
+      const match = window.reduxStore.getState().stories.stories.find(story => {
+        return story.messageId === storyId;
+      });
+
+      const sourceUuid = match?.sourceUuid;
+      const userUuid = window.textsecure.storage.user.getUuid();
+
+      const weAreSource =
+        sourceUuid != null &&
+        userUuid != null &&
+        sourceUuid === userUuid.toString();
+
+      // TODO: Check if we're someone else who has replied/reacted to this story
+      if (!weAreSource) {
+        shouldNotify = false;
+      }
+    }
+
+    if (shouldNotify) {
       await conversation.notify(this);
     }
 

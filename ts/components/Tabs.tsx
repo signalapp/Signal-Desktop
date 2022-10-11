@@ -11,19 +11,9 @@ type PropsType = {
   children: (renderProps: { selectedTab: string }) => ReactNode;
 } & TabsOptionsType;
 
-export const Tabs = ({
-  children,
-  initialSelectedTab,
-  moduleClassName,
-  onTabChange,
-  tabs,
-}: PropsType): JSX.Element => {
-  const { selectedTab, tabsHeaderElement } = useTabs({
-    initialSelectedTab,
-    moduleClassName,
-    onTabChange,
-    tabs,
-  });
+export const Tabs = (props: PropsType): JSX.Element => {
+  const { children, ...options } = props;
+  const { selectedTab, tabsHeaderElement } = useTabs(options);
 
   return (
     <>

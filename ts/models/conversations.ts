@@ -5296,6 +5296,7 @@ export class ConversationModel extends window.Backbone
     notificationService.add({
       senderTitle,
       conversationId,
+      storyId: message.get('storyId'),
       notificationIconUrl,
       isExpiringMessage,
       message: message.getNotificationText(),

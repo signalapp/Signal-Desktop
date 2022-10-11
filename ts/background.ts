@@ -154,6 +154,7 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
+import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1879,10 +1880,19 @@ export async function startApp(): Promise<void> {
     activeWindowService.registerForActive(() => notificationService.clear());
     window.addEventListener('unload', () => notificationService.fastClear());
 
-    notificationService.on('click', (id, messageId) => {
+    notificationService.on('click', (id, messageId, storyId) => {
       window.showWindow();
+
       if (id) {
-        window.Whisper.events.trigger('showConversation', id, messageId);
+        if (storyId) {
+          window.reduxActions.stories.viewStory({
+            storyId,
+            storyViewMode: StoryViewModeType.Single,
+            viewTarget: StoryViewTargetType.Replies,
+          });
+        } else {
+          window.Whisper.events.trigger('showConversation', id, messageId);
+        }
       } else {
         window.reduxActions.app.openInbox();
       }

@@ -5,13 +5,14 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
+import { StoryViewTargetType, HasStories } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { HasStories } from '../types/Stories';
+
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
 import { ThemeType } from '../types/Util';
@@ -134,7 +135,10 @@ export const StoryListItem = ({
             icon: 'StoryListItem__icon--info',
             label: i18n('StoryListItem__info'),
             onClick: () =>
-              viewUserStories({ conversationId, shouldShowDetailsModal: true }),
+              viewUserStories({
+                conversationId,
+                viewTarget: StoryViewTargetType.Details,
+              }),
           },
           {
             icon: 'StoryListItem__icon--chat',
