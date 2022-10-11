@@ -42,9 +42,9 @@ const classicDark: ThemeColorVariables = {
   '--button-outline-background-hover-color': `rgba(${hexColorToRGB(
     THEMES.CLASSIC_DARK.COLOR6
   )}, 0.3)`,
-  '--button-outline-text-color': 'var(--text-primary-color)',
+  '--button-outline-text-color': 'var(--primary-color)',
   '--button-outline-text-hover-color': 'var(--text-primary-color)',
-  '--button-outline-border-color': 'var(--text-primary-color)',
+  '--button-outline-border-color': 'var(--primary-color)',
   '--button-outline-border-hover-color': 'var(--text-primary-color)',
   '--button-outline-disabled-color': 'var(--disabled-color)',
 
