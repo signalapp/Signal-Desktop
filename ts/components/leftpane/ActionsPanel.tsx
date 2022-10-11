@@ -52,7 +52,6 @@ import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_a
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { getTheme } from '../../state/selectors/theme';
-import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -77,7 +76,6 @@ const Section = (props: { type: SectionType }) => {
       await switchThemeTo({
         theme: newTheme,
         mainWindow: true,
-        resetPrimaryColor: true,
         dispatch,
       });
     } else if (type === SectionType.PathIndicator) {
@@ -164,12 +162,9 @@ const setupTheme = async () => {
   await switchThemeTo({
     theme,
     mainWindow: true,
+    usePrimaryColor: true,
     dispatch: window?.inboxStore?.dispatch || undefined,
   });
-
-  // Set primary color after the theme is loaded so that it's not overwritten
-  const primaryColor = window.Events.getPrimaryColorSetting();
-  await switchPrimaryColorTo(primaryColor, window?.inboxStore?.dispatch || null);
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message

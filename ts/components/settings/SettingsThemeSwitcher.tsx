@@ -88,7 +88,6 @@ const Themes = () => {
             await switchThemeTo({
               theme: theme.id,
               mainWindow: true,
-              resetPrimaryColor: true,
               dispatch,
             });
           }}

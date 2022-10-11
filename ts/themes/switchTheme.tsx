@@ -9,12 +9,12 @@ import { findPrimaryColorId, switchPrimaryColorTo } from './switchPrimaryColor';
 type SwitchThemeProps = {
   theme: ThemeStateType;
   mainWindow?: boolean;
-  resetPrimaryColor?: boolean;
+  usePrimaryColor?: boolean;
   dispatch?: Dispatch;
 };
 
 export async function switchThemeTo(props: SwitchThemeProps) {
-  const { theme, mainWindow, resetPrimaryColor, dispatch } = props;
+  const { theme, mainWindow, usePrimaryColor, dispatch } = props;
   let newTheme: ThemeStateType | null = null;
 
   switch (theme) {
@@ -49,7 +49,12 @@ export async function switchThemeTo(props: SwitchThemeProps) {
 
     if (dispatch) {
       dispatch(applyTheme(newTheme));
-      if (resetPrimaryColor) {
+      if (usePrimaryColor) {
+        // Set primary color after the theme is loaded so that it's not overwritten
+        const primaryColor = window.Events.getPrimaryColorSetting();
+        await switchPrimaryColorTo(primaryColor, dispatch);
+      } else {
+        // By default, when we change themes we want to reset the primary color
         const defaultPrimaryColor = findPrimaryColorId(
           THEMES[convertThemeStateToName(newTheme)].PRIMARY
         );
