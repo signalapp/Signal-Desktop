@@ -36,7 +36,11 @@ export const AboutView = () => {
 
   useEffect(() => {
     if ((window as any).theme) {
-      void switchThemeTo((window as any).theme, null, false);
+      void switchThemeTo({
+        theme: (window as any).theme,
+        mainWindow: false,
+        resetPrimaryColor: false,
+      });
     }
   }, []);
 

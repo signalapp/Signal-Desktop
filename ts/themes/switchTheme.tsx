@@ -1,19 +1,20 @@
 import { Dispatch } from 'redux';
 import { applyTheme } from '../state/ducks/theme';
 import { classicDark, classicLight, oceanDark, oceanLight } from '.';
-import { ThemeStateType } from './constants/colors';
+import { convertThemeStateToName, THEMES, ThemeStateType } from './constants/colors';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from './SessionTheme';
 import { loadThemeColors } from './variableColors';
+import { findPrimaryColorId, switchPrimaryColorTo } from './switchPrimaryColor';
 
-export async function switchThemeTo(
-  theme: ThemeStateType,
-  dispatch: Dispatch | null,
-  mainWindow: boolean = true
-) {
-  if (mainWindow) {
-    await window.setTheme(theme);
-  }
+type SwitchThemeProps = {
+  theme: ThemeStateType;
+  mainWindow: boolean;
+  resetPrimaryColor: boolean;
+  dispatch?: Dispatch;
+};
 
+export async function switchThemeTo(props: SwitchThemeProps) {
+  const { theme, mainWindow = true, resetPrimaryColor = true, dispatch } = props;
   let newTheme: ThemeStateType | null = null;
 
   switch (theme) {
@@ -41,7 +42,21 @@ export async function switchThemeTo(
       window.log.warn('Unsupported theme: ', theme);
   }
 
-  if (dispatch && newTheme) {
-    dispatch(applyTheme(newTheme));
+  if (newTheme) {
+    if (mainWindow) {
+      await window.setTheme(theme);
+    }
+
+    if (dispatch) {
+      dispatch(applyTheme(newTheme));
+      if (resetPrimaryColor) {
+        const defaultPrimaryColor = findPrimaryColorId(
+          THEMES[convertThemeStateToName(newTheme)].PRIMARY
+        );
+        if (defaultPrimaryColor) {
+          await switchPrimaryColorTo(defaultPrimaryColor, dispatch);
+        }
+      }
+    }
   }
 }
