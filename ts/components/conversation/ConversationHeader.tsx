@@ -305,7 +305,7 @@ const ConversationHeaderTitle = () => {
   let memberCountText = '';
   if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
-    memberCountText = i18n('members', [count]);
+    memberCountText = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
   }
 
   const notificationSubtitle = notificationSetting
