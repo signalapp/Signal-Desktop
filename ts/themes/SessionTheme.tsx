@@ -70,6 +70,7 @@ export const SessionGlobalStyles = createGlobalStyle`
     --padding-message-content: 7px 13px;
     --padding-link-preview: -7px -13px 7px -13px; // bottom has positive value because a link preview has always a body below
     --border-radius-message-box: 16px;
+    --border-radius: 5px;
 
     /* SIZES */
     --main-view-header-height: 63px;

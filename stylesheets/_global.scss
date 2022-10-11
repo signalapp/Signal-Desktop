@@ -4,7 +4,8 @@
 
 html {
   height: 100%;
-  background-color: white;
+  // Default theme is Classic Dark
+  background-color: black;
 }
 
 body {
@@ -40,15 +41,6 @@ audio {
   max-width: 100%;
 }
 
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: ' ';
-}
-.clearfix:after {
-  clear: both;
-}
-
 .hide {
   display: none;
 }
@@ -67,116 +59,10 @@ button {
     }
   }
 }
-button.grey {
-  border-radius: $border-radius;
-  border: solid 1px var(--color-light-gray-color);
-  cursor: pointer;
-  margin: 1em auto;
-  padding: 1em;
-  font-family: inherit;
-  color: var(--color-gray-color);
-  background: var(--color-lightest-gray-color);
-  box-shadow: 0 0 10px -5px rgba(var(--color-gray-color-rgb), 0.5);
-
-  &:hover {
-    box-shadow: 0 0 10px -3px rgba(var(--color-gray-color-rgb), 0.7);
-  }
-
-  &[disabled='disabled'] {
-    &,
-    &:hover {
-      opacity: 0.5;
-      box-shadow: none;
-      cursor: default;
-    }
-  }
-}
 
 a {
   cursor: pointer;
   user-select: text;
-}
-
-.file-input {
-  position: relative;
-  .choose-file {
-    cursor: pointer;
-  }
-
-  input[type='file'] {
-    // Must be displayed in order to programmatically
-    // insert file paths)
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    z-index: -100;
-  }
-}
-
-.banner {
-  z-index: 100;
-
-  // what's the right color?
-  background-color: var(--color-light-blue-color);
-  color: black;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-
-  position: absolute;
-  top: 25px;
-  right: 30px;
-  left: 30px;
-
-  padding: 5px 25px 5px 10px;
-
-  text-align: center;
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  .warning {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    vertical-align: text-bottom;
-    @include color-svg('../images/warning.svg', black);
-  }
-
-  .dismiss {
-    position: absolute;
-    right: 3px;
-    top: 3px;
-
-    height: 23px;
-    width: 23px;
-    @include color-svg('../images/x.svg', black);
-  }
-}
-
-$loading-height: 16px;
-
-.loading {
-  position: relative;
-  &::before {
-    display: block;
-    margin: 0px auto;
-    content: ' ';
-    height: $loading-height;
-    width: $loading-height;
-    border-radius: 2 * $loading-height;
-    border: solid 3px;
-    border-color: var(--color-light-blue-color) var(--color-light-blue-color)
-      var(--color-lightest-gray-color) var(--color-lightest-gray-color) !important;
-    animation: rotate 1s linear infinite;
-  }
-
-  @keyframes rotate {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 }
 
 @keyframes loading {
@@ -199,7 +85,7 @@ $loading-height: 16px;
   display: flex;
   align-items: center;
   user-select: none;
-  // force this to black, to stay consistent with the password prompt being in dark mode too.
+  // Default theme is Classic Dark so we force this for the password prompt
   background-color: black;
 
   .content {
