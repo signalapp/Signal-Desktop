@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const classicLight: ThemeColorVariables = {
-  '--primary-color': THEMES.CLASSIC_LIGHT.PRIMARY,
   '--danger-color': THEMES.CLASSIC_LIGHT.DANGER,
   '--disabled-color': THEMES.CLASSIC_LIGHT.DISABLED,
 

@@ -73,9 +73,11 @@ const Section = (props: { type: SectionType }) => {
         ? currentTheme.replace('light', 'dark')
         : currentTheme.replace('dark', 'light')) as ThemeStateType;
 
+      // We want to persist the primary color when using the color mode button
       await switchThemeTo({
         theme: newTheme,
         mainWindow: true,
+        usePrimaryColor: true,
         dispatch,
       });
     } else if (type === SectionType.PathIndicator) {

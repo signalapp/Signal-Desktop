@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const oceanDark: ThemeColorVariables = {
-  '--primary-color': THEMES.OCEAN_DARK.PRIMARY,
   '--danger-color': THEMES.OCEAN_DARK.DANGER,
   '--disabled-color': THEMES.OCEAN_DARK.DISABLED,
 

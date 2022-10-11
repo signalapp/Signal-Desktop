@@ -3,7 +3,6 @@ import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
 const oceanLight: ThemeColorVariables = {
-  '--primary-color': THEMES.OCEAN_LIGHT.PRIMARY,
   '--danger-color': THEMES.OCEAN_LIGHT.DANGER,
   '--disabled-color': THEMES.OCEAN_LIGHT.DISABLED,
 

@@ -1,6 +1,5 @@
 // Default Theme should be Classic Dark
 export type ThemeColorVariables = {
-  '--primary-color': string;
   '--danger-color': string;
   '--disabled-color': string;
 
