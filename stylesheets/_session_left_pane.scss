@@ -12,7 +12,8 @@ $session-compose-margin: 20px;
 
   &-list-item {
     background: var(--conversation-tab-background-color);
-    transition: var(--default-duration);
+    // TODO Theming, make everything have the default duration for transitioning colors
+    // transition: var(--default-duration);
 
     &:hover {
       background: var(--conversation-tab-background-hover-color);

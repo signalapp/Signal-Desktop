@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { switchThemeTo } from '../session/utils/Theme';
+import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
 import { fetch } from '../util/logging';
 import { SessionButton, SessionButtonType } from './basic/SessionButton';

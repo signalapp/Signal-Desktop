@@ -5,7 +5,7 @@ import autoBind from 'auto-bind';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionTheme } from '../themes/SessionTheme';
-import { switchThemeTo } from '../session/utils/Theme';
+import { switchThemeTo } from '../themes/switchTheme';
 import styled from 'styled-components';
 import { ToastUtils } from '../session/utils';
 import { isString } from 'lodash';
