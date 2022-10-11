@@ -63,7 +63,7 @@ describe('Settings', () => {
       });
 
       it('should return true', () => {
-        assert.isFalse(Settings.isAudioNotificationSupported());
+        assert.isTrue(Settings.isAudioNotificationSupported());
       });
     });
   });

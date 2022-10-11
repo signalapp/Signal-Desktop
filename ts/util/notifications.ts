@@ -1,4 +1,5 @@
 import { debounce, last } from 'lodash';
+import { SettingsKey } from '../data/settings-key';
 import { getStatus } from '../notifications';
 import { UserSetting } from '../notifications/getStatus';
 import { isMacOS } from '../OS';
@@ -20,6 +21,8 @@ function filter(text?: string) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 }
+
+let sound: any;
 
 export type SessionNotification = {
   conversationId: string;
@@ -117,7 +120,8 @@ function update(forceRefresh = false) {
   }
 
   const isAppFocused = isWindowFocused();
-  const isAudioNotificationEnabled = (Storage.get('audio-notification') as boolean) || false;
+  const isAudioNotificationEnabled =
+    (Storage.get(SettingsKey.settingsAudioNotification) as boolean) || false;
   const audioNotificationSupported = isAudioNotificationSupported();
   // const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
   const numNotifications = currentNotifications.length;
@@ -216,10 +220,16 @@ function update(forceRefresh = false) {
   }
 
   window.drawAttention();
+  if (status.shouldPlayNotificationSound) {
+    if (!sound) {
+      sound = new Audio('sound/new_message.mp3');
+    }
+    void sound.play();
+  }
   lastNotificationDisplayed = new Notification(title || '', {
     body: window.platform === 'linux' ? filter(message) : message,
     icon: iconUrl || undefined,
-    silent: !status.shouldPlayNotificationSound,
+    silent: true,
   });
   lastNotificationDisplayed.onclick = () => {
     window.openFromNotification(lastNotification.conversationId);
