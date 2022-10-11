@@ -40,8 +40,7 @@ textarea {
 }
 
 ::selection {
-  // TODO Theming - See color
-  // background: var(--color-text-highlight);
+  background: var(--text-selection-color);
 }
 
 .shadowed {

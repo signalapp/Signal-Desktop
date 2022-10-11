@@ -12,6 +12,7 @@ const classicLight: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.CLASSIC_LIGHT.COLOR0,
   '--text-secondary-color': THEMES.CLASSIC_LIGHT.COLOR1,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0)}, 0.5)`,
 
   '--border-color': THEMES.CLASSIC_LIGHT.COLOR3,
 

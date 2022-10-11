@@ -12,6 +12,7 @@ const oceanDark: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.OCEAN_DARK.COLOR7!,
   '--text-secondary-color': THEMES.OCEAN_DARK.COLOR5,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!)}, 0.5)`,
 
   '--border-color': THEMES.OCEAN_DARK.COLOR4,
 

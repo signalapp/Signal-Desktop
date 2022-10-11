@@ -133,16 +133,12 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--lightbox-icon-stroke-color': 'var(--white-color)',
 
   '--avatar-border-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.59)`,
-
-  // TODO Theming - Add selection colors for dark and light themes
-  // Current light uses #00000088 and dark uses #FFFFFF88
 };
 
 // These should only be needed for the global style (at root).
 export function declareCSSVariables(variables: Record<string, string>) {
   let output = '';
   for (const [key, value] of Object.entries(variables)) {
-    console.log(`${key}: ${value}`);
     output += `${key}: ${value};\n`;
   }
   return output;

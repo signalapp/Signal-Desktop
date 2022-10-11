@@ -12,6 +12,7 @@ const oceanLight: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.OCEAN_LIGHT.COLOR1,
   '--text-secondary-color': THEMES.OCEAN_LIGHT.COLOR2,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR1)}, 0.5)`,
 
   '--border-color': THEMES.OCEAN_LIGHT.COLOR3,
 

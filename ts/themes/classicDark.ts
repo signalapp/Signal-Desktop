@@ -12,6 +12,7 @@ const classicDark: ThemeColorVariables = {
 
   '--text-primary-color': THEMES.CLASSIC_DARK.COLOR6,
   '--text-secondary-color': THEMES.CLASSIC_DARK.COLOR5,
+  '--text-selection-color': `rgba(${hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6)}, 0.5)`,
 
   '--border-color': THEMES.CLASSIC_DARK.COLOR3,
 
