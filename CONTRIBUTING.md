@@ -9,6 +9,9 @@ easily reviewed changes with clear and specific intentions. See below for more
 It's a good idea to gauge interest in your intended work by finding the current issue
 for it or creating a new one yourself. You can use also that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
+If you intend to make a pull request for a new feature and the feature is user facing,
+please let us know in a new, or existing issue, so we can guide your efforts around 
+UX/UI considerations.
 
 You're most likely to have your pull request accepted easily if it addresses bugs already
 in the [Next Steps project](https://github.com/oxen-io/session-desktop/projects/1),

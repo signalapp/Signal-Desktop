@@ -1,6 +1,6 @@
 import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
@@ -11,6 +11,7 @@ import {
   updateReactListModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
+import { getSelectedConversationIsPublic } from '../../state/selectors/conversations';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
@@ -169,6 +170,7 @@ const StyledCountText = styled.p`
     color: var(--color-text);
   }
 `;
+// tslint:disable: use-simple-attributes
 
 const CountText = ({ count, emoji }: { count: number; emoji: string }) => {
   return (
@@ -226,6 +228,7 @@ export const ReactListModal = (props: Props): ReactElement => {
   const [senders, setSenders] = useState<Array<string>>([]);
 
   const msgProps = useMessageReactsPropsById(messageId);
+  const isPublic = useSelector(getSelectedConversationIsPublic);
   const weAreModerator = useWeAreModerator(msgProps?.convoId);
   const me = UserUtils.getOurPubKeyStrFromCache();
 
@@ -245,7 +248,8 @@ export const ReactListModal = (props: Props): ReactElement => {
     if (
       reactions &&
       reactions.length > 0 &&
-      (msgProps?.sortedReacts === [] || msgProps?.sortedReacts === undefined)
+      ((msgProps?.sortedReacts && msgProps.sortedReacts.length === 0) ||
+        msgProps?.sortedReacts === undefined)
     ) {
       setReactions([]);
     }
@@ -259,7 +263,11 @@ export const ReactListModal = (props: Props): ReactElement => {
       if (_senders.length > 0) {
         _senders = handleSenders(_senders, me);
       }
-      setSenders(_senders);
+
+      // make sure to deep compare here otherwise we get stuck in a ever rendering look (only happens when we are one of the reactor)
+      if (!isEqual(_senders, senders)) {
+        setSenders(_senders);
+      }
     }
 
     if (senders.length > 0 && (!reactionsMap[currentReact]?.senders || isEmpty(_senders))) {
@@ -283,8 +291,6 @@ export const ReactListModal = (props: Props): ReactElement => {
   if (!msgProps) {
     return <></>;
   }
-
-  const { isPublic } = msgProps;
 
   const handleSelectedReaction = (emoji: string): boolean => {
     return currentReact === emoji;

@@ -1,4 +1,4 @@
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators, Dispatch } from '@reduxjs/toolkit';
 
 import { actions as search } from './ducks/search';
 import { actions as conversations } from './ducks/conversations';

@@ -50,17 +50,26 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
   public render() {
     const { passwordAction } = this.props;
-    const placeholders =
-      passwordAction === 'change'
-        ? [
-            window.i18n('typeInOldPassword'),
-            window.i18n('enterPassword'),
-            window.i18n('confirmPassword'),
-          ]
-        : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
+    let placeholders: Array<string> = [];
+    switch (passwordAction) {
+      case 'change':
+        placeholders = [
+          window.i18n('typeInOldPassword'),
+          window.i18n('enterNewPassword'),
+          window.i18n('confirmNewPassword'),
+        ];
+        break;
+      case 'remove':
+        placeholders = [window.i18n('enterPassword')];
+        break;
+      default:
+        placeholders = [window.i18n('createPassword'), window.i18n('confirmPassword')];
+    }
 
     const confirmButtonColor =
       passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
+    const confirmButtonText =
+      passwordAction === 'remove' ? window.i18n('remove') : window.i18n('done');
     // do this separately so typescript's compiler likes it
     const localizedKeyAction: LocalizerKeys =
       passwordAction === 'change'
@@ -110,7 +119,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         <div className="session-modal__button-group">
           <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
           <SessionButton
-            text={window.i18n('ok')}
+            text={confirmButtonText}
             buttonColor={confirmButtonColor}
             onClick={this.setPassword}
           />
@@ -177,8 +186,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('setPasswordTitle'),
-      window.i18n('setPasswordToastDescription'),
-      'lock'
+      window.i18n('setPasswordToastDescription')
     );
 
     this.props.onOk();
@@ -216,8 +224,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     ToastUtils.pushToastSuccess(
       'setPasswordSuccessToast',
       window.i18n('changePasswordTitle'),
-      window.i18n('changePasswordToastDescription'),
-      'lock'
+      window.i18n('changePasswordToastDescription')
     );
 
     this.props.onOk();

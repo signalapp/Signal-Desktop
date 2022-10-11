@@ -23,6 +23,7 @@ const ExpireTimerCount = styled.div<{
   text-transform: uppercase;
   user-select: none;
   color: ${props => props.color};
+  flex-shrink: 0;
 `;
 
 const ExpireTimerBucket = styled.div`

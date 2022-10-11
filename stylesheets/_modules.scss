@@ -62,6 +62,17 @@
   flex-direction: row;
   align-items: center;
   padding: 10px;
+  border-radius: var(--border-radius-message-box);
+
+  .module-message__container--outgoing & {
+    color: var(--color-sent-message-text);
+    background: var(--color-sent-message-background);
+  }
+
+  .module-message__container--incoming & {
+    color: var(--color-received-message-text);
+    background: var(--color-received-message-background);
+  }
 }
 
 .module-message__generic-attachment__icon-container {
@@ -88,7 +99,7 @@
 }
 
 .module-message__generic-attachment__icon__extension {
-  font-size: 10px;
+  font-size: 9px;
   line-height: 13px;
   letter-spacing: 0.1px;
   text-transform: uppercase;
@@ -115,7 +126,6 @@
 }
 
 .module-message__generic-attachment__file-name {
-  color: $color-gray-90;
   font-size: 14px;
   line-height: 18px;
   font-weight: 300;
@@ -125,14 +135,6 @@
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.module-message__generic-attachment__file-size,
-.module-message__generic-attachment__file-name--outgoing,
-.module-message__generic-attachment__file-size--incoming,
-.module-message__generic-attachment__file-size--outgoing,
-.module-message__generic-attachment__file-name--incoming {
-  color: var(--color-text);
 }
 
 .module-message__generic-attachment__file-size {
@@ -145,30 +147,47 @@
 
 .module-message__link-preview {
   cursor: pointer;
-  border-top-left-radius: $session_message-container-border-radius;
-  border-top-right-radius: $session_message-container-border-radius;
+  display: flex;
+  align-items: center;
+  background: white;
+  color: black;
+  border-radius: var(--border-radius-message-box);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: white; // TODO theming update // var(--message-link-preview-background-color)
+  margin: var(--padding-link-preview);
+
+  .module-image {
+    margin-bottom: 0;
+    border-radius: 0;
+    margin-top: -1px;
+    margin-left: -1px;
+    border-top-left-radius: var(--border-radius-message-box);
+  }
+
+  &__text {
+    padding-block: var(--margins-sm);
+  }
 }
 
 .module-message__link-preview__content {
-  padding: 8px;
-  background-color: $color-white;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  border: 1px solid $color-black-015;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .module-message__link-preview__image_container {
-  margin: -2px;
   margin-inline-end: 8px;
   display: inline-block;
 }
 
 .module-message__link-preview__icon_container {
+  display: flex;
+  justify-content: center;
   flex: initial;
-  min-width: 54px;
-  width: 54px;
-  max-height: 54px;
+  width: 100px;
+  height: 100px;
   position: relative;
   margin-left: -2px;
   margin-inline-end: 8px;
@@ -203,12 +222,7 @@
   background-color: $color-gray-05;
 }
 
-.module-message__link-preview__text--with-icon {
-  margin-top: 5px;
-}
-
 .module-message__link-preview__title {
-  color: $color-gray-90;
   font-size: 16px;
   font-weight: 300;
   letter-spacing: 0.15px;
@@ -222,7 +236,6 @@
 
 .module-message__link-preview__location {
   margin-top: 4px;
-  color: $color-gray-60;
   font-size: 12px;
   height: 16px;
   letter-spacing: 0.4px;
@@ -787,20 +800,7 @@
 }
 
 .module-image--soft-corners {
-  border-radius: 4px;
-}
-
-.module-image__border-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-  right: 0;
-}
-
-.module-image__border-overlay--dark {
-  background-color: $color-black-02;
+  border-radius: var(--border-radius-message-box);
 }
 
 .module-image__loading-placeholder {
@@ -817,21 +817,6 @@
   &-cover {
     object-fit: cover;
   }
-}
-
-.module-image__bottom-overlay {
-  height: 48px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0) 9%,
-    rgba(0, 0, 0, 0.6)
-  );
-  position: absolute;
-  bottom: 0;
-  z-index: 1;
-  left: 0;
-  right: 0;
 }
 
 .module-image__play-overlay__circle {
@@ -879,33 +864,10 @@
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   z-index: 2;
   background-image: url('../images/x-shadow-16.svg');
-}
-
-// Module: Image Grid
-
-.module-image-grid {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  margin: -1px;
-}
-
-.module-image-grid__column {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.module-image-grid__row {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  flex-grow: 1;
 }
 
 // Module: Attachments

@@ -125,18 +125,6 @@ const StyledReadableMessage = styled(ReadableMessage)<{
     `
     background-color: var(--color-compose-view-button-background);
   `}
-
-  ${props =>
-    props.selected &&
-    `
-    &.message-selected {
-      .module-message {
-        &__container {
-          box-shadow: var(--color-session-shadow);
-        }
-      }
-    }
-    `}
 `;
 
 export const GenericReadableMessage = (props: Props) => {

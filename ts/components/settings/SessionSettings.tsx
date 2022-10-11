@@ -15,6 +15,7 @@ import { matchesHash } from '../../util/passwordUtils';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import styled from 'styled-components';
+import { ToastUtils } from '../../session/utils';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -42,9 +43,6 @@ export interface SettingsViewProps {
 
 interface State {
   hasPassword: boolean | null;
-  pwdLockError: string | null;
-  mediaSetting: boolean | null;
-  callMediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
 }
 
@@ -93,8 +91,7 @@ const StyledPasswordInput = styled.input`
   border: none;
   border-radius: 2px;
   text-align: center;
-  font-size: 24px;
-  letter-spacing: 5px;
+  font-size: 16px;
   font-family: var(--font-default);
 `;
 
@@ -104,31 +101,27 @@ const StyledH3 = styled.h3`
 `;
 
 const PasswordLock = ({
-  pwdLockError,
   validatePasswordLock,
 }: {
-  pwdLockError: string | null;
   validatePasswordLock: () => Promise<boolean>;
 }) => {
   return (
     <div className="session-settings__password-lock">
       <div className="session-settings__password-lock-box">
-        <StyledH3>{window.i18n('password')}</StyledH3>
+        <StyledH3>{window.i18n('passwordViewTitle')}</StyledH3>
         <StyledPasswordInput
           type="password"
           id="password-lock-input"
           defaultValue=""
-          placeholder="Password"
+          placeholder={window.i18n('enterPassword')}
           data-testid="password-lock-input"
           autoFocus={true}
         />
 
-        {pwdLockError && <div className="session-label warning">{pwdLockError}</div>}
-
         <SessionButton
           buttonType={SessionButtonType.BrandOutline}
           buttonColor={SessionButtonColor.Green}
-          text={window.i18n('ok')}
+          text={window.i18n('done')}
           onClick={validatePasswordLock}
         />
       </div>
@@ -195,9 +188,6 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
     this.state = {
       hasPassword: null,
-      pwdLockError: null,
-      mediaSetting: null,
-      callMediaSetting: null,
       shouldLockSettings: true,
     };
 
@@ -213,10 +203,6 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
   public componentDidMount() {
     window.addEventListener('keyup', this.onKeyUp);
-
-    const mediaSetting = getMediaPermissionsSettings();
-    const callMediaSetting = getCallMediaPermissionsSettings();
-    this.setState({ mediaSetting, callMediaSetting });
   }
 
   public componentWillUnmount() {
@@ -229,9 +215,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     );
 
     if (!enteredPassword) {
-      this.setState({
-        pwdLockError: window.i18n('noGivenPassword'),
-      });
+      ToastUtils.pushToastError('validatePassword', window.i18n('noGivenPassword'));
 
       return false;
     }
@@ -239,17 +223,13 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     // Check if the password matches the hash we have stored
     const hash = await Data.getPasswordHash();
     if (hash && !matchesHash(enteredPassword, hash)) {
-      this.setState({
-        pwdLockError: window.i18n('invalidPassword'),
-      });
-
+      ToastUtils.pushToastError('validatePassword', window.i18n('invalidPassword'));
       return false;
     }
 
     // Unlocked settings
     this.setState({
       shouldLockSettings: false,
-      pwdLockError: null,
     });
 
     return true;
@@ -265,10 +245,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
         <StyledSettingsView>
           {shouldRenderPasswordLock ? (
-            <PasswordLock
-              pwdLockError={this.state.pwdLockError}
-              validatePasswordLock={this.validatePasswordLock}
-            />
+            <PasswordLock validatePasswordLock={this.validatePasswordLock} />
           ) : (
             <StyledSettingsList ref={this.settingsViewRef}>
               <SettingInCategory
@@ -289,7 +266,6 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
       this.setState({
         hasPassword: true,
         shouldLockSettings: true,
-        pwdLockError: null,
       });
     }
 

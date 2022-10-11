@@ -141,9 +141,9 @@ export function pushedMissedCall(conversationName: string) {
   );
 }
 
-const openPrivacySettings = () => {
+const openPermissionsSettings = () => {
   window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-  window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+  window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Permissions));
 };
 
 export function pushedMissedCallCauseOfPermission(conversationName: string) {
@@ -153,7 +153,7 @@ export function pushedMissedCallCauseOfPermission(conversationName: string) {
       title={window.i18n('callMissedTitle')}
       description={window.i18n('callMissedCausePermission', [conversationName])}
       type={SessionToastType.Info}
-      onToastClick={openPrivacySettings}
+      onToastClick={openPermissionsSettings}
     />,
     { toastId: id, updateId: id, autoClose: 10000 }
   );
@@ -172,7 +172,7 @@ export function pushVideoCallPermissionNeeded() {
     'videoCallPermissionNeeded',
     window.i18n('cameraPermissionNeededTitle'),
     window.i18n('cameraPermissionNeeded'),
-    openPrivacySettings
+    openPermissionsSettings
   );
 }
 
@@ -181,10 +181,7 @@ export function pushAudioPermissionNeeded() {
     'audioPermissionNeeded',
     window.i18n('audioPermissionNeededTitle'),
     window.i18n('audioPermissionNeeded'),
-    () => {
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
-    }
+    openPermissionsSettings
   );
 }
 
@@ -279,4 +276,8 @@ export function pushNoMediaUntilApproved() {
 
 export function pushMustBeApproved() {
   pushToastError('mustBeApproved', window.i18n('mustBeApproved'));
+}
+
+export function pushRateLimitHitReactions() {
+  pushToastInfo('reactRateLimit', '', window?.i18n?.('rateLimitReactMessage')); // because otherwise test fails
 }

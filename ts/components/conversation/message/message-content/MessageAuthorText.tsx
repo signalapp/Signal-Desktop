@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import {
   getMessageAuthorProps,
-  isGroupConversation,
+  getSelectedConversationIsGroup,
   isPublicGroupConversation,
 } from '../../../../state/selectors/conversations';
 import { Flex } from '../../../basic/Flex';
@@ -19,11 +20,15 @@ type Props = {
   messageId: string;
 };
 
+const StyledAuthorContainer = styled(Flex)`
+  color: var(--color-text);
+`;
+
 export const MessageAuthorText = (props: Props) => {
   const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
 
   const isPublic = useSelector(isPublicGroupConversation);
-  const isGroup = useSelector(isGroupConversation);
+  const isGroup = useSelector(getSelectedConversationIsGroup);
   if (!selected) {
     return null;
   }
@@ -38,7 +43,7 @@ export const MessageAuthorText = (props: Props) => {
   const displayedPubkey = authorProfileName ? PubKey.shorten(sender) : sender;
 
   return (
-    <Flex container={true}>
+    <StyledAuthorContainer container={true}>
       <ContactName
         pubkey={displayedPubkey}
         name={authorName}
@@ -47,6 +52,6 @@ export const MessageAuthorText = (props: Props) => {
         boldProfileName={true}
         shouldShowPubkey={Boolean(isPublic)}
       />
-    </Flex>
+    </StyledAuthorContainer>
   );
 };

@@ -92,6 +92,7 @@ export const SessionQuotedMessageComposition = () => {
               height={100}
               width={100}
               url={firstImageAttachment.thumbnail.objectUrl}
+              softCorners={false}
             />
           )}
 

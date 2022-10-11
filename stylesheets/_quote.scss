@@ -20,6 +20,7 @@
   &--outgoing {
     .module-quote__primary__author {
       color: var(--color-sent-message-text);
+
       font-weight: bold;
 
       .module-contact-name {
@@ -38,6 +39,7 @@
   &--incoming {
     .module-quote__primary__author {
       color: var(--color-received-message-text);
+
       font-weight: bold;
       .module-contact-name {
         font-weight: bold;
@@ -86,9 +88,10 @@
 }
 
 .module-quote-container {
-  margin-bottom: 5px;
-  margin-top: 10px;
-  padding-left: 10px;
+  margin-bottom: var(--margins-xs);
+  margin-top: var(--margins-xs);
+  min-width: 300px; // just because even with the quoted content is small it doesn't look very good
+  padding-right: var(--margins-xs);
 }
 
 .module-quote--no-click {
@@ -276,28 +279,4 @@
     font-size: var(--font-size-sm);
     line-height: 18px;
   }
-}
-
-$session-highlight-message-shadow: 0px 0px 10px 1px $session-color-green;
-
-@keyframes remove-box-shadow {
-  0% {
-    box-shadow: none;
-  }
-  10% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  75% {
-    box-shadow: $session-highlight-message-shadow;
-  }
-  100% {
-    box-shadow: none;
-  }
-}
-
-.flash-green-once {
-  animation-name: remove-box-shadow;
-  animation-timing-function: linear;
-  animation-duration: 2s;
-  box-shadow: $session-highlight-message-shadow;
 }

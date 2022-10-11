@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 import { StagedAttachmentType } from '../../components/conversation/composition/CompositionBox';
 import { StagedAttachmentsStateType } from '../ducks/stagedAttachments';
 import { StateType } from '../reducer';

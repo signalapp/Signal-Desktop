@@ -29,9 +29,10 @@ test('Delete account from swarm', async () => {
   // Click on clear all data
   await clickOnTestIdWithText(windowA, 'clear-data-settings-menu-item', 'Clear Data');
   // Select entire account
-  await clickOnMatchingText(windowA, 'Entire Account');
-  // Confirm deletion by clicking i am sure
-  await clickOnMatchingText(windowA, 'I am sure');
+  await clickOnTestIdWithText(windowA, 'label-device_and_network', 'Clear Device and Network');
+  // Confirm deletion by clicking Clear, twice
+  await clickOnMatchingText(windowA, 'Clear');
+  await clickOnMatchingText(windowA, 'Clear');
   await windowA.waitForTimeout(7500);
   // Wait for window to close and reopen
   await sleepFor(10000, true);
