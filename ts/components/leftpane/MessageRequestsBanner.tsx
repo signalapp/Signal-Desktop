@@ -17,10 +17,7 @@ const StyledMessageRequestBanner = styled.div`
   padding: 8px 12px; // adjusting for unread border always being active
   align-items: center;
   cursor: pointer;
-  /* TODO Theming - Discuss with Connnor */
   background: var(--conversation-tab-background-color);
-
-  transition: var(--default-duration);
 
   &:hover {
     background: var(--conversation-tab-background-hover-color);
@@ -30,7 +27,7 @@ const StyledMessageRequestBanner = styled.div`
 const StyledMessageRequestBannerHeader = styled.span`
   font-weight: bold;
   font-size: var(--font-size-md);
-  color: var(--conversation-tab-text-color);
+  color: var(--text-primary-color);
   padding-left: var(--margins-xs);
   margin-inline-start: 12px;
   line-height: 18px;
@@ -66,7 +63,6 @@ const StyledGridContainer = styled.div`
   align-items: center;
   border-radius: 50%;
   justify-content: center;
-  /* TODO Theming - Is this right? */
   background-color: var(--text-secondary-color);
 `;
 
@@ -79,7 +75,6 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
         <SessionIcon
           iconType={iconType}
           iconSize={iconSize}
-          // TODO Theming - Is this right?
           iconColor="var(--background-primary-color)"
         />
       </StyledGridContainer>

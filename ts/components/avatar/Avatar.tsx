@@ -55,8 +55,7 @@ const CrownWrapper = styled.div`
   color: #f7c347;
   background: var(--background-primary-color);
   border-radius: 50%;
-  /* TODO Theming update? */
-  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+  box-shadow: var(--drop-shadow);
 `;
 
 export const CrownIcon = () => {

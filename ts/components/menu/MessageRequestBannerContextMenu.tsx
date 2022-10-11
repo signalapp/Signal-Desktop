@@ -13,7 +13,6 @@ const MessageRequestBannerContextMenu = (props: PropsContextConversationItem) =>
   const { triggerId } = props;
 
   return (
-    // TODO Theming - Waiting on Session Components for correct colors
     <SessionContextMenuContainer>
       <Menu id={triggerId} animation={animation.fade}>
         <HideBannerMenuItem />

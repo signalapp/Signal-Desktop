@@ -116,7 +116,6 @@ const MentionAtSymbol = styled.span`
   cursor: pointer;
 
   :hover {
-    /* TODO Theming, should this be changed? */
     filter: grayscale(0.7);
   }
 `;

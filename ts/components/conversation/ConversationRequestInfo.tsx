@@ -14,7 +14,6 @@ const ConversationRequestTextBottom = styled.div`
   padding: var(--margins-lg);
 `;
 
-// TODO Theming - Confirm this is correct?
 const ConversationRequestTextInner = styled.div`
   color: var(--text-secondary-color);
   text-align: center;

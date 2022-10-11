@@ -968,8 +968,7 @@
 }
 
 // Module: Caption Editor
-// TODO Theming We don't seem to use this can we delete?'
-// TODO we will probably remove this and the related component.
+// NOTE This is currently not in use
 .module-caption-editor {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 20;
@@ -1139,7 +1138,6 @@
   outline: none;
 }
 
-// TODO Theming - Needs Improvement
 // Module H5AudioPlayer
 .module-message__container--outgoing {
   .rhap_container {

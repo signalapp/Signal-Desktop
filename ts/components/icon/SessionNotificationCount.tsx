@@ -20,7 +20,6 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   font-family: var(--font-default);
   border-radius: 50%;
   font-weight: 700;
-  /* TODO Theming Update */
   background: var(--unread-messages-alert-background-color);
   transition: var(--default-duration);
   opacity: ${props => (props.shouldRender ? 1 : 0)};
