@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import { applyTheme } from '../state/ducks/theme';
 import { classicDark, classicLight, oceanDark, oceanLight } from '.';
 import { convertThemeStateToName, THEMES, ThemeStateType } from './constants/colors';
-import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from './SessionTheme';
 import { loadThemeColors } from './variableColors';
 import { findPrimaryColorId, switchPrimaryColorTo } from './switchPrimaryColor';
 
@@ -19,22 +18,18 @@ export async function switchThemeTo(props: SwitchThemeProps) {
 
   switch (theme) {
     case 'classic-dark':
-      switchHtmlToDarkTheme();
       loadThemeColors(classicDark);
       newTheme = 'classic-dark';
       break;
     case 'classic-light':
-      switchHtmlToLightTheme();
       loadThemeColors(classicLight);
       newTheme = 'classic-light';
       break;
     case 'ocean-dark':
-      switchHtmlToDarkTheme();
       loadThemeColors(oceanDark);
       newTheme = 'ocean-dark';
       break;
     case 'ocean-light':
-      switchHtmlToLightTheme();
       loadThemeColors(oceanLight);
       newTheme = 'ocean-light';
       break;
