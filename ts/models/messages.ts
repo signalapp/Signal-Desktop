@@ -342,7 +342,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
   }
 
-  async hydrateStoryContext(inMemoryMessage?: MessageModel): Promise<void> {
+  async hydrateStoryContext(
+    inMemoryMessage?: MessageModel | null
+  ): Promise<void> {
     const storyId = this.get('storyId');
     if (!storyId) {
       return;
@@ -352,7 +354,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const message = inMemoryMessage || (await getMessageById(storyId));
+    const message =
+      inMemoryMessage === undefined
+        ? await getMessageById(storyId)
+        : inMemoryMessage;
 
     if (!message) {
       const conversation = this.getConversation();
