@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { switchThemeTo } from '../session/utils/Theme';
+import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
 import { fetch } from '../util/logging';
 import { SessionButton, SessionButtonType } from './basic/SessionButton';
@@ -101,7 +101,9 @@ const DebugLogViewAndSave = () => {
 export const DebugLogView = () => {
   useEffect(() => {
     if ((window as any).theme) {
-      void switchThemeTo((window as any).theme, null, false);
+      void switchThemeTo({
+        theme: (window as any).theme,
+      });
     }
   }, []);
 

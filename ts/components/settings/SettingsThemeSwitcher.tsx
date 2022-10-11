@@ -1,13 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { switchThemeTo } from '../../session/utils/Theme';
+import { switchThemeTo } from '../../themes/switchTheme';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
-import { getPrimaryColors, THEMES, ThemeStateType } from '../../themes/colors';
-import { switchPrimaryColor } from '../../themes/switchPrimaryColor';
+import {
+  getPrimaryColors,
+  getThemeColors,
+  StyleSessionSwitcher,
+} from '../../themes/constants/colors';
+import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 
 // tslint:disable: use-simple-attributes
@@ -47,19 +51,6 @@ const ThemesContainer = styled.div`
   gap: var(--margins-lg);
 `;
 
-type ThemeType = {
-  id: ThemeStateType;
-  title: string;
-  style: StyleSessionSwitcher;
-};
-
-type StyleSessionSwitcher = {
-  background: string;
-  border: string;
-  receivedBackground: string;
-  sentBackground: string;
-};
-
 const StyledPreview = styled.svg`
   max-height: 100%;
 `;
@@ -84,49 +75,7 @@ const ThemePreview = (props: { style: StyleSessionSwitcher }) => {
 };
 
 const Themes = () => {
-  const themes: Array<ThemeType> = [
-    {
-      id: 'classic-dark',
-      title: window.i18n('classicDarkThemeTitle'),
-      style: {
-        background: THEMES.CLASSIC_DARK.COLOR0,
-        border: THEMES.CLASSIC_DARK.COLOR3,
-        receivedBackground: THEMES.CLASSIC_DARK.COLOR2,
-        sentBackground: THEMES.CLASSIC_DARK.PRIMARY,
-      },
-    },
-    {
-      id: 'classic-light',
-      title: window.i18n('classicLightThemeTitle'),
-      style: {
-        background: THEMES.CLASSIC_LIGHT.COLOR6,
-        border: THEMES.CLASSIC_LIGHT.COLOR3,
-        receivedBackground: THEMES.CLASSIC_LIGHT.COLOR4,
-        sentBackground: THEMES.CLASSIC_LIGHT.PRIMARY,
-      },
-    },
-    {
-      id: 'ocean-dark',
-      title: window.i18n('oceanDarkThemeTitle'),
-      style: {
-        background: THEMES.OCEAN_DARK.COLOR2,
-        border: THEMES.OCEAN_DARK.COLOR4,
-        receivedBackground: THEMES.OCEAN_DARK.COLOR4,
-        sentBackground: THEMES.OCEAN_DARK.PRIMARY,
-      },
-    },
-    {
-      id: 'ocean-light',
-      title: window.i18n('oceanLightThemeTitle'),
-      style: {
-        background: THEMES.OCEAN_LIGHT.COLOR7!,
-        border: THEMES.OCEAN_LIGHT.COLOR3,
-        receivedBackground: THEMES.OCEAN_LIGHT.COLOR1,
-        sentBackground: THEMES.OCEAN_LIGHT.PRIMARY,
-      },
-    },
-  ];
-
+  const themes = getThemeColors();
   const selectedTheme = useSelector(getTheme);
   const dispatch = useDispatch();
 
@@ -135,9 +84,12 @@ const Themes = () => {
       {themes.map(theme => (
         <ThemeContainer
           key={theme.id}
-          onClick={() => {
-            // TODO Change to switchTheme function
-            void switchThemeTo(theme.id, dispatch);
+          onClick={async () => {
+            await switchThemeTo({
+              theme: theme.id,
+              mainWindow: true,
+              dispatch,
+            });
           }}
         >
           <ThemePreview style={theme.style} />
@@ -179,8 +131,8 @@ export const SettingsThemeSwitcher = () => {
               inputName="primary-colors"
               ariaLabel={item.ariaLabel}
               color={item.color}
-              onClick={() => {
-                switchPrimaryColor(item.id, dispatch);
+              onClick={async () => {
+                await switchPrimaryColorTo(item.id, dispatch);
               }}
             />
           );

@@ -1,8 +1,17 @@
+import { find } from 'lodash';
 import { Dispatch } from 'redux';
 import { applyPrimaryColor } from '../state/ducks/primaryColor';
-import { COLORS, PrimaryColorStateType } from './colors';
+import { COLORS, getPrimaryColors, PrimaryColorStateType } from './constants/colors';
 
-export async function switchPrimaryColor(color: PrimaryColorStateType, dispatch: Dispatch | null) {
+export function findPrimaryColorId(hexCode: string): PrimaryColorStateType | undefined {
+  const primaryColors = getPrimaryColors();
+  return find(primaryColors, { color: hexCode })?.id;
+}
+
+export async function switchPrimaryColorTo(
+  color: PrimaryColorStateType,
+  dispatch: Dispatch | null
+) {
   await window.Events.setPrimaryColorSetting(color);
 
   document.documentElement.style.setProperty(

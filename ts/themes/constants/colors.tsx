@@ -91,22 +91,25 @@ export type PrimaryColorStateType =
 
 type PrimaryColorType = { id: PrimaryColorStateType; ariaLabel: string; color: string };
 
-export const getPrimaryColors = (): Array<PrimaryColorType> => {
-  return [
-    { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
-    { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
-    { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
-    { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
-    { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
-    { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
-    { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
-  ];
-};
+export const getPrimaryColors = (): Array<PrimaryColorType> => [
+  { id: 'green', ariaLabel: window.i18n('primaryColorGreen'), color: COLORS.PRIMARY.GREEN },
+  { id: 'blue', ariaLabel: window.i18n('primaryColorBlue'), color: COLORS.PRIMARY.BLUE },
+  { id: 'yellow', ariaLabel: window.i18n('primaryColorYellow'), color: COLORS.PRIMARY.YELLOW },
+  { id: 'pink', ariaLabel: window.i18n('primaryColorPink'), color: COLORS.PRIMARY.PINK },
+  { id: 'purple', ariaLabel: window.i18n('primaryColorPurple'), color: COLORS.PRIMARY.PURPLE },
+  { id: 'orange', ariaLabel: window.i18n('primaryColorOrange'), color: COLORS.PRIMARY.ORANGE },
+  { id: 'red', ariaLabel: window.i18n('primaryColorRed'), color: COLORS.PRIMARY.RED },
+];
 
 // Themes
 export type ThemeStateType = 'classic-light' | 'classic-dark' | 'ocean-light' | 'ocean-dark'; // used for redux state
 
 type ThemeNames = 'CLASSIC_LIGHT' | 'CLASSIC_DARK' | 'OCEAN_LIGHT' | 'OCEAN_DARK';
+
+export function convertThemeStateToName(themeState: string): ThemeNames {
+  return themeState.replace('-', '_').toUpperCase() as ThemeNames;
+}
+
 type ThemeColors = {
   PRIMARY: string;
   DANGER: string;
@@ -224,5 +227,61 @@ const THEMES: Themes = {
     COLOR7: oceanDark7,
   },
 };
+
+type ThemeType = {
+  id: ThemeStateType;
+  title: string;
+  style: StyleSessionSwitcher;
+};
+
+export type StyleSessionSwitcher = {
+  background: string;
+  border: string;
+  receivedBackground: string;
+  sentBackground: string;
+};
+
+export const getThemeColors = (): Array<ThemeType> => [
+  {
+    id: 'classic-dark',
+    title: window.i18n('classicDarkThemeTitle'),
+    style: {
+      background: THEMES.CLASSIC_DARK.COLOR0,
+      border: THEMES.CLASSIC_DARK.COLOR3,
+      receivedBackground: THEMES.CLASSIC_DARK.COLOR2,
+      sentBackground: THEMES.CLASSIC_DARK.PRIMARY,
+    },
+  },
+  {
+    id: 'classic-light',
+    title: window.i18n('classicLightThemeTitle'),
+    style: {
+      background: THEMES.CLASSIC_LIGHT.COLOR6,
+      border: THEMES.CLASSIC_LIGHT.COLOR3,
+      receivedBackground: THEMES.CLASSIC_LIGHT.COLOR4,
+      sentBackground: THEMES.CLASSIC_LIGHT.PRIMARY,
+    },
+  },
+  {
+    id: 'ocean-dark',
+    title: window.i18n('oceanDarkThemeTitle'),
+    style: {
+      background: THEMES.OCEAN_DARK.COLOR2,
+      border: THEMES.OCEAN_DARK.COLOR4,
+      receivedBackground: THEMES.OCEAN_DARK.COLOR4,
+      sentBackground: THEMES.OCEAN_DARK.PRIMARY,
+    },
+  },
+  {
+    id: 'ocean-light',
+    title: window.i18n('oceanLightThemeTitle'),
+    style: {
+      background: THEMES.OCEAN_LIGHT.COLOR7!,
+      border: THEMES.OCEAN_LIGHT.COLOR3,
+      receivedBackground: THEMES.OCEAN_LIGHT.COLOR1,
+      sentBackground: THEMES.OCEAN_LIGHT.PRIMARY,
+    },
+  },
+];
 
 export { COLORS, THEMES };

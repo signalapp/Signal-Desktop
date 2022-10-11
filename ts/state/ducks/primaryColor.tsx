@@ -1,4 +1,4 @@
-import { PrimaryColorStateType } from '../../themes/colors';
+import { PrimaryColorStateType } from '../../themes/constants/colors';
 
 export const APPLY_PRIMARY_COLOR = 'APPLY_PRIMARY_COLOR';
 

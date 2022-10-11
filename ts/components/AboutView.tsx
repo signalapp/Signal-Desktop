@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { switchThemeTo } from '../session/utils/Theme';
+import { switchThemeTo } from '../themes/switchTheme';
 import { SessionTheme } from '../themes/SessionTheme';
 
 const StyledContent = styled.div`
@@ -36,7 +36,9 @@ export const AboutView = () => {
 
   useEffect(() => {
     if ((window as any).theme) {
-      void switchThemeTo((window as any).theme, null, false);
+      void switchThemeTo({
+        theme: (window as any).theme,
+      });
     }
   }, []);
 
