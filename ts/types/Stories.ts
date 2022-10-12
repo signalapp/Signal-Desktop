@@ -157,12 +157,14 @@ export enum StorySendMode {
   Never = 'Never',
 }
 
-const getStoriesAvailable = () =>
+// Note: selectors/items is the other place this check is done
+export const getStoriesAvailable = (): boolean =>
   isEnabled('desktop.stories') ||
   isEnabled('desktop.internalUser') ||
   (isEnabled('desktop.stories.beta') && isBeta(window.getVersion()));
 
-const getStoriesDisabled = () => window.Events.getHasStoriesDisabled();
+export const getStoriesDisabled = (): boolean =>
+  window.Events.getHasStoriesDisabled();
 
 export const getStoriesBlocked = (): boolean =>
   !getStoriesAvailable() || getStoriesDisabled();

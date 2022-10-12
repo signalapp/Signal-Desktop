@@ -4,7 +4,7 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
 import * as React from 'react';
-import * as RemoteConfig from '../RemoteConfig';
+import { getStoriesAvailable } from '../types/Stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
@@ -343,9 +343,7 @@ export function createIPCEvents(
 
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    shouldShowStoriesSettings: () =>
-      RemoteConfig.isEnabled('desktop.internalUser') ||
-      RemoteConfig.isEnabled('desktop.stories'),
+    shouldShowStoriesSettings: () => getStoriesAvailable(),
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
         const FIVE_MINUTES = 5 * durations.MINUTE;
