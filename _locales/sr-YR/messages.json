@@ -2861,7 +2861,7 @@
     "description": "Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
-    "messageformat": "{count, plural, one {1 image added} other {{count,number} images added}}",
+    "messageformat": "{count, plural, one {Dodatih slika: 1} other {Dodatih slika: {count,number}}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
