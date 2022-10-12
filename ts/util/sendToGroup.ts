@@ -787,11 +787,6 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
       return true;
     }
 
-    if (error.code === 401) {
-      logError('Permissions error, failing.');
-      return true;
-    }
-
     if (error.code === 404) {
       logError('Missing user or endpoint error, failing.');
       return true;

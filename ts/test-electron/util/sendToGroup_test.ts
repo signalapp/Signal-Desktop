@@ -233,7 +233,7 @@ describe('sendToGroup', () => {
     it('returns true for a specified error codes', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = new Error('generic');
-      error.code = 401;
+      error.code = 428;
 
       assert.isTrue(_shouldFailSend(error, 'testing generic'));
       assert.isTrue(
@@ -321,7 +321,7 @@ describe('sendToGroup', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error: any = new Error('generic');
-      error.code = 401;
+      error.code = 428;
 
       assert.isTrue(
         _shouldFailSend(
