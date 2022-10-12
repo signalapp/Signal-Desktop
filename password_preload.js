@@ -13,6 +13,7 @@ window.ReactDOM = require('react-dom');
 
 // If the app is locked we can't access the database to check the theme.
 window.theme = 'classic-dark';
+window.primaryColor = 'green';
 window.i18n = i18n.setupi18n(locale, localeMessages);
 
 window.getEnvironment = () => config.environment;

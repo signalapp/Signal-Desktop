@@ -9,7 +9,9 @@ export function findPrimaryColorId(hexCode: string): PrimaryColorStateType | und
 }
 
 export async function switchPrimaryColorTo(color: PrimaryColorStateType, dispatch?: Dispatch) {
-  await window.Events.setPrimaryColorSetting(color);
+  if (window.Events) {
+    await window.Events.setPrimaryColorSetting(color);
+  }
 
   document.documentElement.style.setProperty(
     '--primary-color',

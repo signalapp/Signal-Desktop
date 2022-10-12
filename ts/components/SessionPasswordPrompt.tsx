@@ -11,6 +11,7 @@ import { ToastUtils } from '../session/utils';
 import { isString } from 'lodash';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionWrapperModal } from './SessionWrapperModal';
+import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 
 interface State {
   errorCount: number;
@@ -198,6 +199,9 @@ export const SessionPasswordPrompt = () => {
       void switchThemeTo({
         theme: (window as any).theme,
       });
+    }
+    if ((window as any).primaryColor) {
+      void switchPrimaryColorTo((window as any).primaryColor);
     }
   }, []);
 
