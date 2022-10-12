@@ -731,11 +731,8 @@
   flex-shrink: 1;
 
   font-size: var(--font-size-sm);
-  line-height: 18px;
-
   color: $color-gray-25;
 
-  height: 1.3em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
