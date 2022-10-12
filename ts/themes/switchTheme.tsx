@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { applyTheme } from '../state/ducks/theme';
 import { classicDark, classicLight, oceanDark, oceanLight } from '.';
 import { convertThemeStateToName, THEMES, ThemeStateType } from './constants/colors';

@@ -3,6 +3,7 @@ import React from 'react';
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { SettingsKey } from '../../data/settings-key';
+import { isAudioNotificationSupported } from '../../types/Settings';
 import { Notifications } from '../../util/notifications';
 import { SessionButton } from '../basic/SessionButton';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
@@ -30,10 +31,15 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
   if (props.hasPassword === null) {
     return null;
   }
-  const initialItem =
+
+  const initialNotificationEnabled =
     window.getSettingValue(SettingsKey.settingsNotification) || NOTIFICATION.MESSAGE;
 
-  const notificationsAreEnabled = initialItem && initialItem !== NOTIFICATION.OFF;
+  const initialAudioNotificationEnabled =
+    window.getSettingValue(SettingsKey.settingsAudioNotification) || false;
+
+  const notificationsAreEnabled =
+    initialNotificationEnabled && initialNotificationEnabled !== NOTIFICATION.OFF;
 
   const items = [
     {
@@ -58,7 +64,7 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
       {
         conversationId: `preview-notification-${Date.now()}`,
         message:
-          items.find(m => m.value === initialItem)?.label ||
+          items.find(m => m.value === initialNotificationEnabled)?.label ||
           window?.i18n?.('messageBody') ||
           'Message body',
         title: window.i18n('notificationPreview'),
@@ -83,6 +89,19 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
         title={window.i18n('notificationsSettingsTitle')}
         active={notificationsAreEnabled}
       />
+      {notificationsAreEnabled && isAudioNotificationSupported() && (
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await window.setSettingValue(
+              SettingsKey.settingsAudioNotification,
+              !initialAudioNotificationEnabled
+            );
+            forceUpdate();
+          }}
+          title={window.i18n('audioNotificationsSettingsTitle')}
+          active={initialAudioNotificationEnabled}
+        />
+      )}
       {notificationsAreEnabled ? (
         <SessionSettingsItemWrapper
           title={window.i18n('notificationsSettingsContent')}
@@ -90,7 +109,7 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
           inline={false}
         >
           <SessionRadioGroup
-            initialItem={initialItem}
+            initialItem={initialNotificationEnabled}
             group={SettingsKey.settingsNotification}
             items={items}
             onClick={async (selectedRadioValue: string) => {

@@ -6,7 +6,7 @@ import {
   getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { UserUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
 import { getRecentReactions, saveRecentReations } from '../util/storage';
@@ -17,14 +17,14 @@ const rateTimeLimit = 60 * 1000;
 const latestReactionTimestamps: Array<number> = [];
 
 function hitRateLimit(): boolean {
-  const timestamp = Date.now();
-  latestReactionTimestamps.push(timestamp);
+  const now = Date.now();
+  latestReactionTimestamps.push(now);
 
   if (latestReactionTimestamps.length > rateCountLimit) {
     const firstTimestamp = latestReactionTimestamps[0];
-    if (timestamp - firstTimestamp < rateTimeLimit) {
+    if (now - firstTimestamp < rateTimeLimit) {
       latestReactionTimestamps.pop();
-      window.log.warn('Only 20 reactions are allowed per minute');
+      window.log.warn(`Only ${rateCountLimit} reactions are allowed per minute`);
       return true;
     } else {
       latestReactionTimestamps.shift();
@@ -86,6 +86,7 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
     }
 
     if (hitRateLimit()) {
+      ToastUtils.pushRateLimitHitReactions();
       return;
     }
 

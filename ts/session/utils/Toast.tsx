@@ -277,3 +277,7 @@ export function pushNoMediaUntilApproved() {
 export function pushMustBeApproved() {
   pushToastError('mustBeApproved', window.i18n('mustBeApproved'));
 }
+
+export function pushRateLimitHitReactions() {
+  pushToastInfo('reactRateLimit', '', window?.i18n?.('rateLimitReactMessage')); // because otherwise test fails
+}

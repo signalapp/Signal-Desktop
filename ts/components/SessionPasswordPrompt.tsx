@@ -159,11 +159,14 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
             />
           </>
         )}
-        <SessionButton
-          text={showResetElements ? window.i18n('tryAgain') : window.i18n('done')}
-          buttonType={SessionButtonType.Simple}
-          onClick={this.initLogin}
-        />
+        {!this.state.loading && (
+          <SessionButton
+            text={showResetElements ? window.i18n('tryAgain') : window.i18n('done')}
+            buttonType={SessionButtonType.Simple}
+            onClick={this.initLogin}
+            disabled={this.state.loading}
+          />
+        )}
       </div>
     );
   }

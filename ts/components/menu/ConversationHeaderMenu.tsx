@@ -40,6 +40,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   if (!selectedConversation) {
     throw new Error('selectedConversation must be set for a header to be visible!');
   }
+
   return (
     <ContextConversationId.Provider value={selectedConversation}>
       <SessionContextMenuContainer>

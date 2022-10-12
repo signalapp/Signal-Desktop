@@ -10,7 +10,7 @@ import {
 } from '../../../../types/Reaction';
 import { Reactions } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
-import { UserUtils } from '../../../utils';
+import { ToastUtils, UserUtils } from '../../../utils';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { getUsBlindedInThatServer } from './knownBlindedkeys';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
@@ -63,6 +63,8 @@ export const sendSogsReactionOnionV4 = async (
   }
 
   if (Reactions.hitRateLimit()) {
+    ToastUtils.pushRateLimitHitReactions();
+
     return false;
   }
 

@@ -69,6 +69,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         placeholders = [window.i18n('createPassword'), window.i18n('confirmPassword')];
     }
 
+    const confirmButtonText =
+      passwordAction === 'remove' ? window.i18n('remove') : window.i18n('done');
     // do this separately so typescript's compiler likes it
     const localizedKeyAction: LocalizerKeys =
       passwordAction === 'change'
@@ -118,7 +120,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
         <div className="session-modal__button-group">
           <SessionButton
-            text={window.i18n('done')}
+            text={confirmButtonText}
             buttonColor={passwordAction === 'remove' ? SessionButtonColor.Danger : undefined}
             buttonType={SessionButtonType.Simple}
             onClick={this.setPassword}

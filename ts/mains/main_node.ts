@@ -585,6 +585,7 @@ async function showPasswordWindow() {
 }
 
 let aboutWindow: BrowserWindow | null;
+// tslint:disable-next-line: max-func-body-length
 async function showAbout() {
   if (aboutWindow) {
     aboutWindow.show();
@@ -627,8 +628,13 @@ async function showAbout() {
 
   aboutWindow.once('ready-to-show', () => {
     aboutWindow?.setBackgroundColor('#000');
-    aboutWindow?.show();
   });
+
+  // looks like sometimes ready-to-show is not fired by electron.
+  // the fix mentioned here does not work neither: https://github.com/electron/electron/issues/7779.
+  // But, just showing the aboutWindow right away works correctly, so just force it to be shown when just created.
+  // It might take half a second to render it's content though.
+  aboutWindow?.show();
 }
 
 let debugLogWindow: BrowserWindow | null = null;
@@ -677,8 +683,10 @@ async function showDebugLogWindow() {
 
   debugLogWindow.once('ready-to-show', () => {
     debugLogWindow?.setBackgroundColor('#000');
-    debugLogWindow?.show();
   });
+
+  // see above: looks like sometimes ready-to-show is not fired by electron
+  debugLogWindow?.show();
 }
 
 async function saveDebugLog(_event: any, logText: any) {

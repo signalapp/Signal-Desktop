@@ -28,7 +28,6 @@ import { DURATION } from '../../session/constants';
 
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { ModalContainer } from '../dialog/ModalContainer';
 import { debounce, isEmpty, isString } from 'lodash';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
@@ -39,9 +38,6 @@ import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroup
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { CallInFullScreenContainer } from '../calling/CallInFullScreenContainer';
-import { DraggableCallContainer } from '../calling/DraggableCallContainer';
-import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { SessionIconButton } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
@@ -220,16 +216,6 @@ const doAppStartUp = () => {
   debounce(triggerAvatarReUploadIfNeeded, 200);
 };
 
-const CallContainer = () => {
-  return (
-    <>
-      <DraggableCallContainer />
-      <IncomingCallDialog />
-      <CallInFullScreenContainer />
-    </>
-  );
-};
-
 async function fetchReleaseFromFSAndUpdateMain() {
   try {
     window.log.info('[updater] about to fetchReleaseFromFSAndUpdateMain');
@@ -301,9 +287,6 @@ export const ActionsPanel = () => {
 
   return (
     <>
-      <ModalContainer />
-
-      <CallContainer />
       <LeftPaneSectionContainer data-testid="leftpane-section-container">
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />

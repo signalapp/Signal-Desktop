@@ -1,5 +1,5 @@
 import { find } from 'lodash';
-import { Dispatch } from 'redux';
+import { Dispatch } from '@reduxjs/toolkit';
 import { applyPrimaryColor } from '../state/ducks/primaryColor';
 import { COLORS, getPrimaryColors, PrimaryColorStateType } from './constants/colors';
 

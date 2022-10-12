@@ -217,20 +217,31 @@ export const RegistrationStages = () => {
     }
   };
 
+  const memoizedValue = React.useMemo(() => {
+    return {
+      registrationPhase,
+      signInMode,
+      signUpMode,
+      setSignInMode,
+      setSignUpMode,
+      setRegistrationPhase,
+      generatedRecoveryPhrase,
+      hexGeneratedPubKey,
+    };
+  }, [
+    registrationPhase,
+    signInMode,
+    signUpMode,
+    setSignInMode,
+    setSignUpMode,
+    setRegistrationPhase,
+    generatedRecoveryPhrase,
+    hexGeneratedPubKey,
+  ]);
+
   return (
     <div className="session-registration-container">
-      <RegistrationContext.Provider
-        value={{
-          registrationPhase,
-          signInMode,
-          signUpMode,
-          setSignInMode,
-          setSignUpMode,
-          setRegistrationPhase,
-          generatedRecoveryPhrase,
-          hexGeneratedPubKey,
-        }}
-      >
+      <RegistrationContext.Provider value={memoizedValue}>
         {(registrationPhase === RegistrationPhase.Start ||
           registrationPhase === RegistrationPhase.SignUp) && <SignUpTab />}
         {(registrationPhase === RegistrationPhase.Start ||
