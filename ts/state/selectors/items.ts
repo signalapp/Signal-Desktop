@@ -15,6 +15,7 @@ import type {
 } from '../../types/Colors';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
+import { isBeta } from '../../util/version';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -63,13 +64,16 @@ export const getUsernamesEnabled = createSelector(
     isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
 );
 
+// Note: types/Stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,
   getRemoteConfig,
   (state: ItemsStateType, remoteConfig: ConfigMapType): boolean =>
     !state.hasStoriesDisabled &&
     (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser') ||
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories'))
+      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories') ||
+      (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories.beta') &&
+        isBeta(window.getVersion())))
 );
 
 export const getDefaultConversationColor = createSelector(
