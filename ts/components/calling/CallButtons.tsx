@@ -58,11 +58,11 @@ const audioOutputTriggerId = 'audio-output-menu-trigger-id';
 export const VideoInputButton = ({
   currentConnectedCameras,
   localStreamVideoIsMuted,
-  hideArrowIcon = false,
+  isFullScreen = false,
 }: {
   currentConnectedCameras: Array<InputItem>;
   localStreamVideoIsMuted: boolean;
-  hideArrowIcon?: boolean;
+  isFullScreen?: boolean;
 }) => {
   return (
     <>
@@ -75,7 +75,7 @@ export const VideoInputButton = ({
         onArrowClick={e => {
           showVideoInputMenu(currentConnectedCameras, e);
         }}
-        hidePopoverArrow={hideArrowIcon}
+        isFullScreen={isFullScreen}
       />
 
       <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
@@ -127,11 +127,11 @@ const showAudioInputMenu = (
 export const AudioInputButton = ({
   currentConnectedAudioInputs,
   isAudioMuted,
-  hideArrowIcon = false,
+  isFullScreen = false,
 }: {
   currentConnectedAudioInputs: Array<InputItem>;
   isAudioMuted: boolean;
-  hideArrowIcon?: boolean;
+  isFullScreen?: boolean;
 }) => {
   return (
     <>
@@ -144,7 +144,7 @@ export const AudioInputButton = ({
         onArrowClick={e => {
           showAudioInputMenu(currentConnectedAudioInputs, e);
         }}
-        hidePopoverArrow={hideArrowIcon}
+        isFullScreen={isFullScreen}
       />
 
       <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />
@@ -196,11 +196,11 @@ const showAudioOutputMenu = (
 export const AudioOutputButton = ({
   currentConnectedAudioOutputs,
   isAudioOutputMuted,
-  hideArrowIcon = false,
+  isFullScreen = false,
 }: {
   currentConnectedAudioOutputs: Array<InputItem>;
   isAudioOutputMuted: boolean;
-  hideArrowIcon?: boolean;
+  isFullScreen?: boolean;
 }) => {
   return (
     <>
@@ -213,7 +213,7 @@ export const AudioOutputButton = ({
         onArrowClick={e => {
           showAudioOutputMenu(currentConnectedAudioOutputs, e);
         }}
-        hidePopoverArrow={hideArrowIcon}
+        isFullScreen={isFullScreen}
       />
 
       <AudioOutputMenu
@@ -223,6 +223,19 @@ export const AudioOutputButton = ({
     </>
   );
 };
+
+const StyledCallActionButton = styled.div<{ isFullScreen: boolean }>`
+  .session-icon-button {
+    background-color: var(--call-buttons-action-background-color);
+    border-radius: 50%;
+    transition-duration: var(--default-duration);
+    ${props => props.isFullScreen && 'opacity: 0.4;'}
+    &:hover {
+      background-color: var(--call-buttons-action-background-hover-color);
+      ${props => props.isFullScreen && 'opacity: 1;'}
+    }
+  }
+`;
 
 const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
   const dispatch = useDispatch();
@@ -236,20 +249,21 @@ const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => 
   };
 
   return (
-    <SessionIconButton
-      iconSize={60}
-      iconPadding="20px"
-      iconType="fullscreen"
-      backgroundColor="var(--white-color)"
-      borderRadius="50%"
-      onClick={showInFullScreen}
-      iconColor="var(--black-color)"
-      margin="10px"
-    />
+    <StyledCallActionButton isFullScreen={isFullScreen}>
+      <SessionIconButton
+        iconSize={60}
+        iconPadding="20px"
+        iconType="fullscreen"
+        borderRadius="50%"
+        onClick={showInFullScreen}
+        iconColor="var(--call-buttons-action-icon-color)"
+        margin="10px"
+      />
+    </StyledCallActionButton>
   );
 };
 
-export const HangUpButton = () => {
+export const HangUpButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
 
   const handleEndCall = async () => {
@@ -260,16 +274,17 @@ export const HangUpButton = () => {
   };
 
   return (
-    <SessionIconButton
-      iconSize={60}
-      iconPadding="20px"
-      iconType="hangup"
-      backgroundColor="var(--white-color)"
-      borderRadius="50%"
-      onClick={handleEndCall}
-      iconColor="var(--red-color)"
-      margin="10px"
-    />
+    <StyledCallActionButton isFullScreen={isFullScreen}>
+      <SessionIconButton
+        iconSize={60}
+        iconPadding="20px"
+        iconType="hangup"
+        iconColor="var(--danger-color)"
+        borderRadius="50%"
+        onClick={handleEndCall}
+        margin="10px"
+      />
+    </StyledCallActionButton>
   );
 };
 
@@ -324,7 +339,7 @@ const handleSpeakerToggle = async (
   }
 };
 
-const StyledCallWindowControls = styled.div<{ makeVisible: boolean }>`
+const StyledCallWindowControls = styled.div<{ isFullScreen: boolean; makeVisible: boolean }>`
   position: absolute;
 
   bottom: 0px;
@@ -340,9 +355,17 @@ const StyledCallWindowControls = styled.div<{ makeVisible: boolean }>`
   transition: all 0.25s ease-in-out;
 
   display: flex;
-
   justify-content: center;
   opacity: ${props => (props.makeVisible ? 1 : 0)};
+
+  ${props =>
+    props.isFullScreen &&
+    `
+    opacity: 0.4;
+    &:hover {
+      opacity: 1;
+    }
+  `}
 `;
 
 export const CallWindowControls = ({
@@ -384,25 +407,25 @@ export const CallWindowControls = ({
     };
   }, [isFullScreen]);
   return (
-    <StyledCallWindowControls makeVisible={makeVisible}>
+    <StyledCallWindowControls isFullScreen={isFullScreen} makeVisible={makeVisible}>
       {!remoteStreamVideoIsMuted && <ShowInFullScreenButton isFullScreen={isFullScreen} />}
 
       <VideoInputButton
         currentConnectedCameras={currentConnectedCameras}
         localStreamVideoIsMuted={localStreamVideoIsMuted}
-        hideArrowIcon={isFullScreen}
+        isFullScreen={isFullScreen}
       />
       <AudioInputButton
         currentConnectedAudioInputs={currentConnectedAudioInputs}
         isAudioMuted={isAudioMuted}
-        hideArrowIcon={isFullScreen}
+        isFullScreen={isFullScreen}
       />
       <AudioOutputButton
         currentConnectedAudioOutputs={currentConnectedAudioOutputs}
         isAudioOutputMuted={isAudioOutputMuted}
-        hideArrowIcon={isFullScreen}
+        isFullScreen={isFullScreen}
       />
-      <HangUpButton />
+      <HangUpButton isFullScreen={isFullScreen} />
     </StyledCallWindowControls>
   );
 };

@@ -7,7 +7,7 @@ type SplitViewProps = {
   disableTop: boolean;
 };
 
-const SlyledSplitView = styled.div`
+const StyledSplitView = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -17,15 +17,15 @@ const Divider = styled.div`
   width: 100%;
   cursor: row-resize;
   height: 5px;
-  background-color: var(--background-primary-color);
-  margin-top: 2px;
+  background-color: var(--in-call-container-background-color);
+  padding-top: 2px;
 `;
 
 const DividerHandle = styled.div`
   width: 10%;
   height: 5px;
   cursor: row-resize;
-  background-color: var(--text-primary-color);
+  background-color: var(--text-secondary-color);
   flex-shrink: 0;
   position: relative;
   left: 50%;
@@ -36,6 +36,7 @@ const StyledTop = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  border-bottom: 1px solid var(--border-color);
 `;
 
 const TopSplitViewPanel = ({
@@ -125,7 +126,7 @@ export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
   });
 
   return (
-    <SlyledSplitView ref={splitPaneRef}>
+    <StyledSplitView ref={splitPaneRef}>
       {!disableTop && (
         <TopSplitViewPanel topHeight={topHeight} setTopHeight={setTopHeight}>
           {top}
@@ -135,6 +136,6 @@ export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
         </TopSplitViewPanel>
       )}
       {bottom}
-    </SlyledSplitView>
+    </StyledSplitView>
   );
 };

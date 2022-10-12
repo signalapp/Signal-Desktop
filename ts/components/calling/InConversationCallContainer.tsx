@@ -34,7 +34,7 @@ const InConvoCallWindow = styled.div`
   padding: 1rem;
   display: flex;
 
-  background-color: hsl(0, 0%, 15.7%);
+  background-color: var(--in-call-container-background-color);
 
   flex-shrink: 1;
   min-height: 80px;
@@ -68,8 +68,8 @@ const StyledCenteredLabel = styled.div`
   transform: translateX(-50%);
   height: min-content;
   white-space: nowrap;
-  color: var(--white-color);
-  text-shadow: 0px 0px 8px var(--white-color);
+  color: var(--in-call-container-text-color);
+  text-shadow: var(--in-call-container-text-shadow);
   z-index: 5;
 `;
 

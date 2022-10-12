@@ -172,6 +172,23 @@ export type ThemeColorVariables = {
   '--input-text-placeholder-color': string;
   '--input-text-color': string;
   '--input-border-color': string;
+
+  /* In Call Container */
+  '--in-call-container-background-color': string;
+  '--in-call-container-text-color': string;
+  '--in-call-container-text-shadow': string;
+
+  /* Call Buttons */
+  '--call-buttons-background-color': string;
+  '--call-buttons-background-hover-color': string;
+  '--call-buttons-background-disabled-color': string;
+  '--call-buttons-action-background-color': string;
+  '--call-buttons-action-background-hover-color': string;
+  '--call-buttons-action-icon-color': string;
+  '--call-buttons-icon-color': string;
+  '--call-buttons-icon-disabled-color': string;
+  '--call-buttons-dropdown-color': string;
+  '--call-buttons-dropdown-shadow': string;
 };
 
 export function loadThemeColors(variables: ThemeColorVariables) {

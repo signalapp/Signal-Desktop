@@ -139,6 +139,21 @@ const oceanDark: ThemeColorVariables = {
   '--input-text-placeholder-color': 'var(--text-secondary-color)',
   '--input-text-color': 'var(--text-primary-color)',
   '--input-border-color': 'var(--border-color)',
+
+  '--in-call-container-background-color': 'var(--background-primary-color)',
+  '--in-call-container-text-color': 'var(--white-color)',
+  '--in-call-container-text-shadow': '0px 0px 8px var(--text-primary-color)',
+
+  '--call-buttons-background-color': THEMES.OCEAN_DARK.COLOR4,
+  '--call-buttons-background-hover-color': THEMES.OCEAN_DARK.COLOR4,
+  '--call-buttons-background-disabled-color': THEMES.OCEAN_DARK.COLOR3,
+  '--call-buttons-action-background-color': 'var(--white-color)',
+  '--call-buttons-action-background-hover-color': `rgba(${hexColorToRGB(COLORS.WHITE)}, 0.87)`,
+  '--call-buttons-action-icon-color': 'var(--black-color)',
+  '--call-buttons-icon-color': THEMES.OCEAN_DARK.COLOR7!,
+  '--call-buttons-icon-disabled-color': THEMES.OCEAN_DARK.COLOR7!,
+  '--call-buttons-dropdown-color': 'var(--text-primary-color)',
+  '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
 };
 
 export default oceanDark;
