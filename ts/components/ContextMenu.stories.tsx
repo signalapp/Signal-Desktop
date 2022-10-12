@@ -34,5 +34,5 @@ const getDefaultProps = (): PropsType<number> => ({
 });
 
 export const Default = (): JSX.Element => {
-  return <ContextMenu {...getDefaultProps()} />;
+  return <ContextMenu {...getDefaultProps()}>Menu</ContextMenu>;
 };

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Measure from 'react-measure';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
@@ -38,6 +38,7 @@ import { AddCaptionModal } from './AddCaptionModal';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import { Emojify } from './conversation/Emojify';
 import { AddNewLines } from './conversation/AddNewLines';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsType = {
   doneButtonLabel?: string;
@@ -173,6 +174,12 @@ export const MediaEditor = ({
 
   const [editMode, setEditMode] = useState<EditMode | undefined>();
 
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
+
+  const onTryClose = useCallback(() => {
+    confirmDiscardIf(caption !== '' || Boolean(image), onClose);
+  }, [confirmDiscardIf, caption, image, onClose]);
+
   // Keyboard support
   useEffect(() => {
     if (!fabricCanvas) {
@@ -207,7 +214,7 @@ export const MediaEditor = ({
             // there's no easy way to prevent an ESC meant for the
             // sticker-picker from hitting this handler first
             if (!isStickerPopperOpen) {
-              onClose();
+              onTryClose();
             }
           } else {
             setEditMode(undefined);
@@ -349,7 +356,7 @@ export const MediaEditor = ({
     fabricCanvas,
     editMode,
     isStickerPopperOpen,
-    onClose,
+    onTryClose,
     redoIfPossible,
     undoIfPossible,
   ]);
@@ -957,7 +964,7 @@ export const MediaEditor = ({
         )}
         <div className="MediaEditor__toolbar--buttons">
           <Button
-            onClick={onClose}
+            onClick={onTryClose}
             theme={Theme.Dark}
             variant={ButtonVariant.Secondary}
           >
@@ -1142,7 +1149,7 @@ export const MediaEditor = ({
 
                 data = await canvasToBytes(renderedCanvas);
               } catch (err) {
-                onClose();
+                onTryClose();
                 throw err;
               } finally {
                 setIsSaving(false);
@@ -1157,6 +1164,7 @@ export const MediaEditor = ({
           </Button>
         </div>
       </div>
+      {confirmDiscardModal}
     </div>,
     portal
   );

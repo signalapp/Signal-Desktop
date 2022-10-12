@@ -15,7 +15,7 @@ import type { StoryDistributionListWithMembersDataType } from '../types/Stories'
 import type { UUIDStringType } from '../types/UUID';
 import { Alert } from './Alert';
 import { Avatar, AvatarSize } from './Avatar';
-import { Button, ButtonVariant } from './Button';
+import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
@@ -31,8 +31,14 @@ import { PagedModal, ModalPage } from './Modal';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
+import { StoryImage } from './StoryImage';
+import type { AttachmentType } from '../types/Attachment';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { getStoryBackground } from '../util/getStoryBackground';
+import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment';
 
 export type PropsType = {
+  draftAttachment: AttachmentType;
   candidateConversations: Array<ConversationType>;
   distributionLists: Array<StoryDistributionListWithMembersDataType>;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -114,6 +120,7 @@ function getListViewers(
 }
 
 export const SendStoryModal = ({
+  draftAttachment,
   candidateConversations,
   distributionLists,
   getPreferredBadge,
@@ -137,6 +144,8 @@ export const SendStoryModal = ({
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [page, setPage] = useState<PageType>(Page.SendStory);
+
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
   const [selectedListIds, setSelectedListIds] = useState<Set<UUIDStringType>>(
     new Set()
@@ -267,6 +276,24 @@ export const SendStoryModal = ({
       .join(', ');
   }
 
+  const [objectUrl, setObjectUrl] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    let url: undefined | string;
+
+    if (draftAttachment.url) {
+      setObjectUrl(draftAttachment.url);
+    } else if (draftAttachment.data) {
+      url = makeObjectUrl(draftAttachment.data, draftAttachment.contentType);
+      setObjectUrl(url);
+    }
+    return () => {
+      if (url) {
+        revokeObjectUrl(url);
+      }
+    };
+  }, [setObjectUrl, draftAttachment]);
+
   const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'i18n'> = {
     hasXButton: true,
     i18n,
@@ -375,7 +402,11 @@ export const SendStoryModal = ({
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-        onBackButtonClick={() => setListIdToEdit(undefined)}
+        onBackButtonClick={() =>
+          confirmDiscardIf(selectedContacts.length > 0, () =>
+            setListIdToEdit(undefined)
+          )
+        }
         onClose={handleClose}
       />
     );
@@ -412,29 +443,31 @@ export const SendStoryModal = ({
         }}
         page={page}
         onClose={handleClose}
-        onBackButtonClick={() => {
-          if (listIdToEdit) {
-            if (
-              page === Page.AddViewer ||
-              page === Page.HideStoryFrom ||
-              page === Page.ChooseViewers
-            ) {
-              setPage(Page.EditingDistributionList);
-            } else {
-              setListIdToEdit(undefined);
+        onBackButtonClick={() =>
+          confirmDiscardIf(selectedContacts.length > 0, () => {
+            if (listIdToEdit) {
+              if (
+                page === Page.AddViewer ||
+                page === Page.HideStoryFrom ||
+                page === Page.ChooseViewers
+              ) {
+                setPage(Page.EditingDistributionList);
+              } else {
+                setListIdToEdit(undefined);
+              }
+            } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
+              setSelectedContacts([]);
+              setStagedMyStories(initialMyStories);
+              setStagedMyStoriesMemberUuids(initialMyStoriesMemberUuids);
+              setPage(Page.SetMyStoriesPrivacy);
+            } else if (page === Page.ChooseViewers) {
+              setSelectedContacts([]);
+              setPage(Page.SendStory);
+            } else if (page === Page.NameStory) {
+              setPage(Page.ChooseViewers);
             }
-          } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
-            setSelectedContacts([]);
-            setStagedMyStories(initialMyStories);
-            setStagedMyStoriesMemberUuids(initialMyStoriesMemberUuids);
-            setPage(Page.SetMyStoriesPrivacy);
-          } else if (page === Page.ChooseViewers) {
-            setSelectedContacts([]);
-            setPage(Page.SendStory);
-          } else if (page === Page.NameStory) {
-            setPage(Page.ChooseViewers);
-          }
-        }}
+          })
+        }
         selectedContacts={selectedContacts}
         setSelectedContacts={setSelectedContacts}
       />
@@ -443,17 +476,19 @@ export const SendStoryModal = ({
     const footer = (
       <>
         <div className="SendStoryModal__selected-lists">{selectedNames}</div>
-        <button
-          aria-label={i18n('ok')}
-          className="SendStoryModal__ok"
-          disabled={!chosenGroupIds.size}
-          onClick={() => {
-            toggleGroupsForStorySend(Array.from(chosenGroupIds));
-            setChosenGroupIds(new Set());
-            setPage(Page.SendStory);
-          }}
-          type="button"
-        />
+        {selectedNames.length > 0 && (
+          <button
+            aria-label={i18n('ok')}
+            className="SendStoryModal__ok"
+            disabled={!chosenGroupIds.size}
+            onClick={() => {
+              toggleGroupsForStorySend(Array.from(chosenGroupIds));
+              setChosenGroupIds(new Set());
+              setPage(Page.SendStory);
+            }}
+            type="button"
+          />
+        )}
       </>
     );
 
@@ -461,6 +496,7 @@ export const SendStoryModal = ({
       <ModalPage
         modalName="SendStoryModal__choose-groups"
         title={i18n('SendStoryModal__choose-groups')}
+        moduleClassName="SendStoryModal"
         modalFooter={footer}
         onClose={handleClose}
         {...modalCommonProps}
@@ -548,17 +584,25 @@ export const SendStoryModal = ({
     const footer = (
       <>
         <div className="SendStoryModal__selected-lists">{selectedNames}</div>
-        <button
-          aria-label={i18n('SendStoryModal__send')}
-          className="SendStoryModal__send"
-          disabled={!selectedListIds.size && !selectedGroupIds.size}
-          onClick={() => {
-            onSend(Array.from(selectedListIds), Array.from(selectedGroupIds));
-          }}
-          type="button"
-        />
+        {selectedNames.length > 0 && (
+          <button
+            aria-label={i18n('SendStoryModal__send')}
+            className="SendStoryModal__send"
+            disabled={!selectedListIds.size && !selectedGroupIds.size}
+            onClick={() => {
+              onSend(Array.from(selectedListIds), Array.from(selectedGroupIds));
+            }}
+            type="button"
+          />
+        )}
       </>
     );
+
+    const attachment = {
+      ...draftAttachment,
+      url: objectUrl,
+    };
+
     modal = handleClose => (
       <ModalPage
         modalName="SendStoryModal__title"
@@ -568,6 +612,20 @@ export const SendStoryModal = ({
         onClose={handleClose}
         {...modalCommonProps}
       >
+        <div
+          className="SendStoryModal__story-preview"
+          style={{ backgroundImage: getStoryBackground(attachment) }}
+        >
+          <StoryImage
+            i18n={i18n}
+            firstName={i18n('you')}
+            queueStoryDownload={noop}
+            storyId="story-id"
+            label="label"
+            moduleClassName="SendStoryModal__story"
+            attachment={attachment}
+          />
+        </div>
         <div className="SendStoryModal__top-bar">
           {i18n('stories')}
           <ContextMenu
@@ -594,7 +652,18 @@ export const SendStoryModal = ({
             }}
             theme={Theme.Dark}
           >
-            {i18n('SendStoryModal__new')}
+            {({ openMenu, onKeyDown, ref }) => (
+              <Button
+                ref={ref}
+                className="SendStoryModal__new-story__button"
+                variant={ButtonVariant.Secondary}
+                size={ButtonSize.Small}
+                onClick={openMenu}
+                onKeyDown={onKeyDown}
+              >
+                {i18n('SendStoryModal__new')}
+              </Button>
+            )}
           </ContextMenu>
         </div>
         {distributionLists.map(list => (
@@ -794,13 +863,15 @@ export const SendStoryModal = ({
 
   return (
     <>
-      <PagedModal
-        modalName="SendStoryModal"
-        theme={Theme.Dark}
-        onClose={onClose}
-      >
-        {modal}
-      </PagedModal>
+      {!confirmDiscardModal && (
+        <PagedModal
+          modalName="SendStoryModal"
+          theme={Theme.Dark}
+          onClose={() => confirmDiscardIf(selectedContacts.length > 0, onClose)}
+        >
+          {modal}
+        </PagedModal>
+      )}
       {hasAnnouncementsOnlyAlert && (
         <Alert
           body={i18n('SendStoryModal__announcements-only')}
@@ -852,6 +923,7 @@ export const SendStoryModal = ({
           {i18n('StoriesSettings__delete-list--confirm')}
         </ConfirmationDialog>
       )}
+      {confirmDiscardModal}
     </>
   );
 };

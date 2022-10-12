@@ -35,6 +35,7 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
+import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -103,6 +104,8 @@ export const StoriesSettingsModal = ({
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
+
   const [listToEditId, setListToEditId] = useState<string | undefined>(
     undefined
   );
@@ -144,17 +147,19 @@ export const StoriesSettingsModal = ({
           onDistributionListCreated(name, uuids);
           resetChooseViewersScreen();
         }}
-        onBackButtonClick={() => {
-          if (page === Page.HideStoryFrom) {
-            resetChooseViewersScreen();
-          } else if (page === Page.NameStory) {
-            setPage(Page.ChooseViewers);
-          } else if (isChoosingViewers) {
-            resetChooseViewersScreen();
-          } else if (listToEdit) {
-            setListToEditId(undefined);
-          }
-        }}
+        onBackButtonClick={() =>
+          confirmDiscardIf(selectedContacts.length > 0, () => {
+            if (page === Page.HideStoryFrom) {
+              resetChooseViewersScreen();
+            } else if (page === Page.NameStory) {
+              setPage(Page.ChooseViewers);
+            } else if (isChoosingViewers) {
+              resetChooseViewersScreen();
+            } else if (listToEdit) {
+              setListToEditId(undefined);
+            }
+          })
+        }
         onViewersUpdated={uuids => {
           if (listToEditId && page === Page.AddViewer) {
             onViewersUpdated(listToEditId, uuids);
@@ -175,7 +180,7 @@ export const StoriesSettingsModal = ({
       />
     );
   } else if (listToEdit) {
-    modal = onClose => (
+    modal = handleClose => (
       <DistributionListSettingsModal
         key="settings-modal"
         getPreferredBadge={getPreferredBadge}
@@ -189,7 +194,7 @@ export const StoriesSettingsModal = ({
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         onBackButtonClick={() => setListToEditId(undefined)}
-        onClose={onClose}
+        onClose={handleClose}
       />
     );
   } else {
@@ -281,13 +286,17 @@ export const StoriesSettingsModal = ({
 
   return (
     <>
-      <PagedModal
-        modalName="StoriesSettingsModal"
-        theme={Theme.Dark}
-        onClose={hideStoriesSettings}
-      >
-        {modal}
-      </PagedModal>
+      {!confirmDiscardModal && (
+        <PagedModal
+          modalName="StoriesSettingsModal"
+          theme={Theme.Dark}
+          onClose={() =>
+            confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings)
+          }
+        >
+          {modal}
+        </PagedModal>
+      )}
       {confirmDeleteListId && (
         <ConfirmationDialog
           dialogName="StoriesSettings.deleteList"
@@ -309,6 +318,7 @@ export const StoriesSettingsModal = ({
           {i18n('StoriesSettings__delete-list--confirm')}
         </ConfirmationDialog>
       )}
+      {confirmDiscardModal}
     </>
   );
 };
@@ -396,7 +406,7 @@ export const DistributionListSettingsModal = ({
       {isMyStories && (
         <EditMyStoriesPrivacy
           i18n={i18n}
-          learnMore="StoriesSettings__mine_disclaimer"
+          learnMore="StoriesSettings__mine__disclaimer"
           myStories={listToEdit}
           onClickExclude={() => {
             setPage(Page.HideStoryFrom);
@@ -862,6 +872,7 @@ export const EditDistributionListModal = ({
         }}
         value={searchTerm}
       />
+
       {selectedContacts.length ? (
         <ContactPills moduleClassName="StoriesSettingsModal__tags">
           {selectedContacts.map(contact => (
