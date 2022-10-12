@@ -108,9 +108,11 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
     switch (theme) {
       case 'ocean-dark':
         setPanelBackgroundRGB(hexColorToRGB(THEMES.OCEAN_DARK.COLOR1));
+        // tslint:disable: no-non-null-assertion
         setPanelTextRGB(hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!));
         break;
       case 'ocean-light':
+        // tslint:disable: no-non-null-assertion
         setPanelBackgroundRGB(hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR7!));
         setPanelTextRGB(hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR1));
         break;
@@ -122,7 +124,6 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
       default:
         setPanelBackgroundRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1));
         setPanelTextRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6));
-        break;
     }
   }, [theme]);
 

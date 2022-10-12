@@ -32,7 +32,7 @@ const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolea
   }
 
   &:hover svg path {
-    ${props => !props.color && `fill: var(--button-icon-stroke-hover-color);`}
+    ${props => !props.color && 'fill: var(--button-icon-stroke-hover-color);'}
   }
 `;
 

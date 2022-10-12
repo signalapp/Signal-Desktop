@@ -2,7 +2,7 @@ import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
-const classicDark: ThemeColorVariables = {
+export const classicDark: ThemeColorVariables = {
   '--danger-color': THEMES.CLASSIC_DARK.DANGER,
   '--disabled-color': THEMES.CLASSIC_DARK.DISABLED,
 
@@ -155,5 +155,3 @@ const classicDark: ThemeColorVariables = {
   '--call-buttons-dropdown-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
 };
-
-export default classicDark;

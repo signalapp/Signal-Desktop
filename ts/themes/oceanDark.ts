@@ -1,8 +1,9 @@
+/* tslint:disable: no-non-null-assertion */
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';
 
-const oceanDark: ThemeColorVariables = {
+export const oceanDark: ThemeColorVariables = {
   '--danger-color': THEMES.OCEAN_DARK.DANGER,
   '--disabled-color': THEMES.OCEAN_DARK.DISABLED,
 
@@ -155,5 +156,3 @@ const oceanDark: ThemeColorVariables = {
   '--call-buttons-dropdown-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
 };
-
-export default oceanDark;

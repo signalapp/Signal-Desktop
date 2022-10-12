@@ -126,7 +126,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--grey-color': COLORS.GREY,
 
   '--shadow-color': 'var(--black-color)',
-  '--drop-shadow': `0 0 4px 0 var(--shadow-color)`,
+  '--drop-shadow': '0 0 4px 0 var(--shadow-color)',
   '--context-menu-shadow-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
 
   '--button-path-default-color': COLORS.PATH.DEFAULT,

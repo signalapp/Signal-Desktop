@@ -281,6 +281,7 @@ export const getThemeColors = (): Array<ThemeType> => [
     id: 'ocean-light',
     title: window.i18n('oceanLightThemeTitle'),
     style: {
+      // tslint:disable: no-non-null-assertion
       background: THEMES.OCEAN_LIGHT.COLOR7!,
       border: THEMES.OCEAN_LIGHT.COLOR3,
       receivedBackground: THEMES.OCEAN_LIGHT.COLOR1,

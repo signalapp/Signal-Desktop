@@ -45,7 +45,7 @@ export const AboutView = () => {
   return (
     <SessionTheme>
       <StyledContent>
-        <img src="images/session/session_icon.png" width="250" height="250" />
+        <img src="images/session/session_icon.png" width="250" height="250" alt="session icon" />
 
         <div className="version">{`v${window.getVersion()}`}</div>
         <div className="commitHash">{window.getCommitHash() || ''}</div>
