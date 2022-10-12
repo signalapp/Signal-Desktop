@@ -9,7 +9,7 @@ export const applyTheme = (theme: ThemeStateType) => {
   };
 };
 
-export const initialThemeState: ThemeStateType = 'classic-light';
+export const initialThemeState: ThemeStateType = 'classic-dark';
 
 export const reducer = (
   state: any = initialThemeState,

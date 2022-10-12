@@ -8,10 +8,7 @@ export function findPrimaryColorId(hexCode: string): PrimaryColorStateType | und
   return find(primaryColors, { color: hexCode })?.id;
 }
 
-export async function switchPrimaryColorTo(
-  color: PrimaryColorStateType,
-  dispatch: Dispatch | null
-) {
+export async function switchPrimaryColorTo(color: PrimaryColorStateType, dispatch?: Dispatch) {
   await window.Events.setPrimaryColorSetting(color);
 
   document.documentElement.style.setProperty(

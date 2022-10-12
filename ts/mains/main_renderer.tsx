@@ -21,6 +21,7 @@ import { OpenGroupData } from '../data/opengroups';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
+import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -100,7 +101,7 @@ function mapOldThemeToNew(theme: string) {
     case 'android':
     case 'ios':
     case '':
-      return 'classic-light';
+      return 'classic-dark';
     default:
       return theme;
   }
@@ -130,7 +131,7 @@ Storage.onready(async () => {
     setPrimaryColorSetting: async (value: any) => {
       await Storage.put('primary-color-setting', value);
     },
-    getThemeSetting: () => Storage.get('theme-setting', 'classic-light'),
+    getThemeSetting: () => Storage.get('theme-setting', 'classic-dark'),
     setThemeSetting: async (value: any) => {
       await Storage.put('theme-setting', value);
     },
@@ -268,6 +269,8 @@ async function start() {
     await connect();
     openInbox();
   } else {
+    const primaryColor = window.Events.getPrimaryColorSetting();
+    await switchPrimaryColorTo(primaryColor);
     openStandAlone();
   }
 

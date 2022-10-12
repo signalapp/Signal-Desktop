@@ -114,14 +114,14 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
         setPanelBackgroundRGB(hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR7!));
         setPanelTextRGB(hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR1));
         break;
-      case 'classic-dark':
-        setPanelBackgroundRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1));
-        setPanelTextRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6));
-        break;
       case 'classic-light':
-      default:
         setPanelBackgroundRGB(hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR6));
         setPanelTextRGB(hexColorToRGB(THEMES.CLASSIC_LIGHT.COLOR0));
+        break;
+      case 'classic-dark':
+      default:
+        setPanelBackgroundRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1));
+        setPanelTextRGB(hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6));
         break;
     }
   }, [theme]);
