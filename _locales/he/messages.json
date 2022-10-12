@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "הוסף הודעה",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "הודעה",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "סיים",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "הוסף אל קבוצה",
@@ -733,8 +752,8 @@
     "message": "אנשי קשר של מסרונים/מסרוני MMS אינם זמינים בשולחן עבודה.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "אין תוצאות עבור \"$searchTerm$\" בשיחה $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "אין תוצאות עבור \"{searchTerm}\" בשיחה {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "הקש על $plusButton$ (Android) או $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "קוד ה־QR לא היה יכול להיטען. בדוק את חיבור האינטרנט שלך ונסה שוב. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "למד עוד",
+  "icu:Install__qr-failed": {
+    "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <learnMoreLink>למידע נוסף</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "כבוי",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "הודעות נעלמות",
+  "icu:disappearingMessages": {
+    "messageformat": "הודעות נעלמות",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "אנשי קשר לא נמצאו",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "לא נמצאו קבוצות",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "שיחות לא נמצאו",
@@ -2741,8 +2760,8 @@
     "message": "הקודם",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "הוסף את המדבקות שלך",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "הוסף את המדבקות שלך",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "הראה שוליים",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "הוסף $count$ או יותר",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "הוסף {count,number} או יותר",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "בידקו את חבילת המדבקות החדשה הזאת שיצרתי עבור Signal. תיוג #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ תמונות הועלו",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {נוספה תמונה 1} two {נוספו {count,number} תמונות} many {נוספו {count,number} תמונות} other {נוספו {count,number} תמונות}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0.5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "לחץ על $composeIcon$ למעלה וחפש אחר אנשי הקשר או הקבוצות שלך כדי לשלוח הודעה.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "לחץ על {composeIcon} למעלה וחפש אחר אנשי הקשר או הקבוצות שלך כדי לשלוח הודעה.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "האם אתה רוצה להשליך שינויים אלו?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "הפרופיל שלך מוצפן. הפרופיל שלך ושינויים שלו יהיו גלויים אל אנשי הקשר שלך וכאשר תתחיל או תאשר התכתבויות חדשות. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "הפרופיל שלך מוצפן. הפרופיל שלך ושינויים שלו יהיו גלויים אל אנשי הקשר שלך וכאשר תתחיל או תאשר התכתבויות חדשות. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "מכשירים",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "הפעלת סטוריז",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "כיבוי סטוריז",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "כבה",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "עדכון אל גרסה $version$ זמין",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "חתוך",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "הוסף הודעה",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "הסיפורים שלי",
@@ -5589,6 +5628,10 @@
     "message": "להסיר את הסטורי? זה יסיר את הסטורי מהרשימה שלך, אבל עדיין תהיה לך אפשרות לראות סטוריז מקבוצה זו.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "רק מנהלים יכולים לשלוח סטוריז לקבוצה זו.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "שיתוף וצפיה בסטוריז",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "אפשר להוסיף חבר או חברה לקבוצה בקלות מתוך מסך פרטי הקשר שלהם כדי לשמור על הריגוש בשיחה.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "עובדים קשה על תיקוני באגים ושיפור הביצועים בעוד דרכים כדי לוודא שהאפליקציה שלך תמשיך לרוץ חלק.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "יש לך אפשרות להתחיל להשתמש ולבדוק בפיצ׳ר הסטוריז החדש שלנו ולבדוק אותו. אפשר להשתמש בפיצ׳ר עם בודקי בטא אחרים ולספר לנו איך הוא עובד.",
+    "description": "Release notes for v5.63"
   }
 }

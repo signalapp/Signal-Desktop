@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Adicionar uma mensagem",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mensagem",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Concluído",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Adicionar a um grupo",
@@ -733,8 +752,8 @@
     "message": "Contactos SMS/MMS não se encontram disponíveis para Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Sem resultados para \"$searchTerm$\" em $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Sem resultados para \"{searchTerm}\" em {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Toque em $plusButton$ (Android) ou em $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Saber mais",
+  "icu:Install__qr-failed": {
+    "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <learnMoreLink>Saber mais</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Destruição de mensagens",
+  "icu:disappearingMessages": {
+    "messageformat": "Destruição de mensagens",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Não foram encontrados contactos",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Não foi encontrado nenhum grupo.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Não foram encontradas conversas",
@@ -2741,8 +2760,8 @@
     "message": "Voltar",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Adicione os seus autocolantes",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Adicione os seus autocolantes",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Mostrar margens",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Adicionar $count$ ou mais",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Adicionar {count,number} ou mais",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Veja este autocolante que eu criei para o Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ imagem(s) adicionada(s)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 imagem adicionada} other {{count,number} imagens adicionadas}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Clique no $composeIcon$ acima e pesquise pela mensagem dos seus contactos ou grupos.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Clique no {composeIcon} acima e pesquise pela mensagem dos seus contactos ou grupos.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Deseja descartar estas alterações?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "O seu perfil é encriptado. O seu perfil e as alterações nele feitas ficarão visíveis para os seus contactos e quando você iniciar ou aceitar novas conversas. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "O seu perfil é encriptado. O seu perfil e as alterações nele feitas ficarão visíveis para os seus contactos e quando você iniciar ou aceitar novas conversas. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Dispositivos",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Ativar histórias",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Desativar histórias",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Desativar",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Já não poderá partilhar ou ver histórias.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Está disponível uma atualização para a versão $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Recortar",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Adicionar uma mensagem",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "As minhas histórias",
@@ -5589,6 +5628,10 @@
     "message": "Eliminar história? Esta ação removerá a história desta lista, mas ainda poderá ver histórias deste grupo.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Apenas os administradores podem enviar mensagens para este grupo.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Partilhar e ver histórias",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Adicione facilmente um amigo a um grupo a partir do seu ecrã de dados de contacto para manter a conversa empolgante.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Estamos a trabalhar para corrigir bugs e fazer outras melhorias de desempenho para manter o bom funcionamento da app.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Comece a utilizar e a testar a nossa nova funcionalidade de histórias. Pode utilizar a funcionalidade com outros testadores beta e informar-nos sobre o seu funcionamento.",
+    "description": "Release notes for v5.63"
   }
 }

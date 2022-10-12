@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Pievienojiet ziņu",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Ziņa",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Darīts",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Pievienot grupai",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontaktpersonas nav pieejamas Desktop versijā.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Vaicājumam \"$searchTerm$\" nav rezultātu sadaļā $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Vaicājumam \"{searchTerm}\" nav rezultātu sadaļā {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Pieskarieties $plusButton$ (Android) vai $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR kodu nevarēja ielādēt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lasīt vairāk",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR kodu nevarēja ielādēt. Pārbaudiet interneta savienojumu un mēģiniet vēlreiz. <learnMoreLink>Uzzināt vairāk</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "izslēgts",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Gaistošās ziņas",
+  "icu:disappearingMessages": {
+    "messageformat": "Gaistošās ziņas",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nav atrasta neviena kontaktpersona",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Netika atrasta neviena grupa",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nav atrasta neviena saruna",
@@ -2741,8 +2760,8 @@
     "message": "Atpakaļ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Pievienot uzlīmes",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Pievienot uzlīmes",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Rādīt piemales",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Pievienot $count$ vai vairāk",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Pievienot {count,number} vai vairāk",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Apskatiet šo jauno Signal paredzēto uzlīmju komplektu, ko es izveidoju. #izveideprivātiuzlīme",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Pievienots(-i) $count$ attēls(-i)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, zero {Pievienoti {count,number} attēli} one {Pievienots 1 attēls} other {Pievienoti {count,number} attēli}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Noklikšķiniet uz augstāk norādītās $composeIcon$ un meklējiet kontaktpersonas vai grupas, kurām sūtīt ziņas.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Noklikšķiniet uz augstāk norādītās {composeIcon} un meklējiet kontaktpersonas vai grupas, kurām sūtīt ziņas.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Vai vēlaties atmest šīs izmaiņas?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Jūsu profils ir šifrēts. Jūsu profils un tā izmaiņas būs redzamas jūsu kontaktpersonām, vai kad sāksiet vai piekritīsiet piedalīties jaunās tērzēšanās. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Jūsu profils ir šifrēts. Jūsu profils un tā izmaiņas būs redzamas jūsu kontaktpersonām, vai kad sāksiet vai piekritīsiet piedalīties jaunās tērzēšanās. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Ierīces",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Ieslēgt stāstus",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Izslēgt stāstus",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Izslēgt",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Jūs nevarēsiet kopīgot vai skatīt stāstus.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Pieejams atjauninājums uz versiju $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Apgriezt",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Pievienojiet ziņu",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Mani stāsti",
@@ -5589,6 +5628,10 @@
     "message": "Vai noņemt stāstu? Stāsts tiks noņemts no jūsu saraksta, bet jūs joprojām redzēsiet šīs grupas stāstus.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Tikai administratori drīkst sūtīt stāstus uz šo grupu.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Kopīgot un skatīt stāstus",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Ērti pievienojiet draugu grupai no viņa kontakta informācijas loga, lai sarunas arī turpmāk būtu aizraujošas.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Sāciet izmantot un testēt mūsu jauno stāstu funkciju. Varat izmantot šo funkciju kopā ar citiem beta testētājiem un paziņot mums, kā tā darbojas.",
+    "description": "Release notes for v5.63"
   }
 }

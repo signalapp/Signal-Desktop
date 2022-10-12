@@ -1,7 +1,14 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
@@ -9,12 +16,24 @@
       }
     ]
   },
+  "AddCaptionModal__title": {
+    "message": "Napiši poruku",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Poruka",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Uredu",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+  },
   "AddUserToAnotherGroupModal__title": {
-    "message": "Uvrsti u grupu",
+    "message": "Dodaj u grupu",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
   },
   "AddUserToAnotherGroupModal__confirm-title": {
-    "message": "Dodati novi broj?",
+    "message": "Dodati novog člana?",
     "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
   },
   "AddUserToAnotherGroupModal__confirm-add": {
@@ -22,11 +41,11 @@
     "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
   },
   "AddUserToAnotherGroupModal__confirm-message": {
-    "message": "Dodajte “$contact$” u grupu “$group$”",
+    "message": "Dodaj “$contact$” u grupu “$group$”",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "message": "$contact$ was added to $group$",
+    "message": "Kontakt $contact$ je dodan u grupu $group$",
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontakti nisu dostupni na Desktopu.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Nema rezultata za \"$searchTerm$\" u razgovoru $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Nema rezultata za \"{searchTerm}\" u razgovoru {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Dodirnite $plusButton$ (Android) ili $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Učitavanje QR koda nije uspjelo. Provjerite internetsku vezu i pokušajte ponovo.  $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Saznajte više",
+  "icu:Install__qr-failed": {
+    "messageformat": "Učitavanje QR koda nije uspjelo. Provjerite internet vezu i pokušajte ponovo. <learnMoreLink>Saznajte više</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "isključeno",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Nestajuće poruke",
+  "icu:disappearingMessages": {
+    "messageformat": "Nestajuće poruke",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nije pronađen nijedan kontakt",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nije pronađena nijedna grupa",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nije pronađen nijedan razgovor",
@@ -2741,8 +2760,8 @@
     "message": "Natrag",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Dodajte naljepnice",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Dodajte naljepnice",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Prikaži margine",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Dodajte $count$ ili više",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Dodajte {count,number} ili više",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Pogledaj ovaj novi paket naljepnica koji sam kreirao/la za Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Broj dodanih slika: $count$",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Dodana je 1 slika} few {Dodane su {count,number} slike} many {Dodano je {count,number} slika} other {Dodano je {count,number} slika}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4302,7 +4321,7 @@
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "ConversationDetailsGroups--add-to-group": {
-    "message": "Uvrsti u grupu",
+    "message": "Dodaj u grupu",
     "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
   },
   "ConversationDetailsGroups--show-all": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Kliknite $composeIcon$ iznad i pretražite kontakte ili grupe za slanje poruka.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Kliknite {composeIcon} iznad i pretražite kontakte ili grupe za slanje poruka.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Želite li odbaciti ove promjene?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Vaš profil je šifriran. Vaš profil i promjene na njemu će biti vidljivi vašim kontaktima i kada pokrenete ili prihvatite nove chatove. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Vaš profil je šifriran. Vaš profil i promjene na njemu će biti vidljivi vašim kontaktima i kada pokrenete ili prihvatite nove chatove. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Uređaji",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Uključi priče",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Isključi priče",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Isključi",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Više nećete moći dijeliti niti pregledati priče.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Dostupno je ažuriranje na verziju $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Izreži",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Napiši poruku",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Moje priče",
@@ -5589,6 +5628,10 @@
     "message": "Ukloniti priču? Ovim ćete ukloniti priču sa spiska, ali ćete i dalje moći vidjeti priče ove grupe.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Samo administratori mogu slati priče u ovu grupu.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dijelite i gledajte priče",
     "description": "Select box title for the stories on/off toggle"
@@ -5846,11 +5889,11 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__v5.61--0": {
-    "message": "- Čeka vas razgovor s dugim spiskom Glasovnih bilješki koje morate preslušati? Kliknite Reproduciraj, sjednite i opustite se - reproducirat će se automatski!",
+    "message": "- Čeka vas razgovor s dugim spiskom Glasovnih bilješki koje morate preslušati? Reproducirajte ih, sjednite i opustite se - reproducirat će se automatski!",
     "description": "Release notes for v5.61"
   },
   "WhatsNew__v5.61--1": {
-    "message": "Sada možete priložiti videozapis uz poruku zajedno s vašim fotografijama s godišnjeg odmora!",
+    "message": "Sada možete priložiti videozapis uz poruku zajedno s vašim fotografijama s odmora!",
     "description": "Release notes for v5.61"
   },
   "WhatsNew__v5.62--0": {
@@ -5858,7 +5901,15 @@
     "description": "Release notes for v5.62"
   },
   "WhatsNew__v5.62--1": {
-    "message": "S lakoćom dodajte prijatelja u grupu s ekrana detalja o kontaktu da bi vaš razgovor bio uzbudljiv.",
+    "message": "S lakoćom dodajte prijatelja u grupu sa zaslona detalja o kontaktu da bi vaš razgovor bio uzbudljiv.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Naporno radimo da otklonimo greške i uvedemo ostala pobljšanja performansi kako bi vaša aplikacija nesmetano funkcionirala.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Počnite koristiti i testirati našu novu značajku priča. Možete koristiti značajku s drugim beta testerima i obavijestiti nas kako funkcionira.",
+    "description": "Release notes for v5.63"
   }
 }

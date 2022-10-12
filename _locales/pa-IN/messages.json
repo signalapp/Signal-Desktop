@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "ਸੁਨੇਹਾ ਜੋੜੋ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "ਸੁਨੇਹਾ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ਮੁਕੰਮਲ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS ਸੰਪਰਕ ਡੈਸਕਟਾਪ ਉੱਤੇ ਮੌਜੂਦ ਨਹੀਂ ਹਨ।",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ ਵਿੱਚ \"$searchTerm$\" ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਹਨ",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} ਵਿੱਚ \"{searchTerm}\" ਲਈ ਕੋਈ ਨਤੀਜੇ ਨਹੀਂ ਹਨ",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) ਜਾਂ $linkNewDevice$ (iPhone) 'ਤੇ ਟੈਪ ਕਰੋ",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR ਕੋਡ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕਿਆ। ਆਪਣੇ ਇੰਟਰਨੈੱਟ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ। $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "ਹੋਰ ਜਾਣੋ",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR ਕੋਡ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕਿਆ। ਆਪਣੇ ਇੰਟਰਨੈੱਟ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ਬੰਦ",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ",
+  "icu:disappearingMessages": {
+    "messageformat": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "ਕੋਈ ਸੰਪਰਕ ਨਹੀਂ ਲੱਭੇ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ਕੋਈ ਗਰੁੱਪ ਨਹੀਂ ਲੱਭਿਆ",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "ਕੋਈ ਗੱਲਬਾਤ ਨਹੀਂ ਲੱਭੀ",
@@ -2741,8 +2760,8 @@
     "message": "ਵਾਪਸ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "ਆਪਣੇ ਸਟਿੱਕਰ ਜੋੜੋ",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "ਆਪਣੇ ਸਟਿੱਕਰ ਜੋੜੋ",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "ਹਾਸ਼ੀਏ ਦਿਖਾਓ",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ ਜਾਂ ਵੱਧ ਜੋੜੋ",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} ਜਾਂ ਵੱਧ ਜੋੜੋ",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "ਇਹ ਨਵਾਂ ਸਟਿੱਕਰ ਪੈਕ ਦੇਖੋ ਜੋ ਮੈਂ Signal ਦੇ ਲਈ ਬਣਾਇਆ ਹੈ। #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ਚਿੱਤਰ ਜੋੜਿਆ(ਜੋੜੇ)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 ਚਿੱਤਰ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ} other {{count,number} ਚਿੱਤਰ ਸ਼ਾਮਲ ਕੀਤੇ ਗਏ}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "ਉੱਪਰ $composeIcon$ ’ਤੇ ਕਲਿਕ ਕਰੋ ਅਤੇ ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਆਪਣੇ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਲੱਭੋ।",
+  "icu:emptyInboxMessage": {
+    "messageformat": "ਉੱਪਰ {composeIcon} ’ਤੇ ਕਲਿਕ ਕਰੋ ਅਤੇ ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਆਪਣੇ ਸੰਪਰਕ ਜਾਂ ਗਰੁੱਪ ਲੱਭੋ।",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਖਾਰਜ ਕਰਨਾ ਚਾਹੋਗੇ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ਤੁਹਾਡਾ ਪ੍ਰੋਫ਼ਾਈਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟ ਕੀਤਾ ਹੋਇਆ ਹੈ। ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਅਤੇ ਇਸ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸੰਪਰਕ ਵੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ ਇਹ ਵੀ ਕਿ ਤੁਸੀਂ ਕਦੋਂ ਨਵੀਂਆਂ ਚੈਟਾਂ ਸ਼ੁਰੂ ਜਾਂ ਮਨਜ਼ੂਰ ਕਰਦੇ ਹੋ। $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ਤੁਹਾਡਾ ਪ੍ਰੋਫ਼ਾਈਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟ ਕੀਤਾ ਹੋਇਆ ਹੈ। ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਅਤੇ ਇਸ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਨੂੰ ਤੁਹਾਡੇ ਸੰਪਰਕ ਵੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ ਇਹ ਵੀ ਕਿ ਤੁਸੀਂ ਕਦੋਂ ਨਵੀਂਆਂ ਚੈਟਾਂ ਸ਼ੁਰੂ ਜਾਂ ਮਨਜ਼ੂਰ ਕਰਦੇ ਹੋ। {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "ਡਿਵਾਈਸ",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਚਾਲੂ ਕਰੋ",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਬੰਦ ਕਰੋ",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ਬੰਦ ਕਰੋ",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "ਹੁਣ ਤੁਸੀਂ ਨਾ ਹੀ ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰ ਸਕੋਗੇ ਅਤੇ ਨਾ ਹੀ ਦੇਖ ਸਕੋਗੇ।",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ਵਰਜ਼ਨ ਲਈ ਅੱਪਡੇਟ ਮੌਜੂਦ ਹੈ",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "ਕੱਟੋ",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "ਸੁਨੇਹਾ ਜੋੜੋ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "ਮੇਰੀਆਂ ਕਹਾਣੀਆਂ",
@@ -5589,6 +5628,10 @@
     "message": "ਕੀ ਸਟੋਰੀ ਨੂੰ ਹਟਾਉਣਾ ਹੈ? ਅਜਿਹਾ ਕਰਨ 'ਤੇ ਸੂਚੀ ਵਿੱਚੋਂ ਸਟੋਰੀ ਨੂੰ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ, ਪਰ ਤੁਸੀਂ ਅਜੇ ਵੀ ਇਸ ਗਰੁੱਪ ਦੀਆਂ ਸਟੋਰੀਆਂ ਦੇਖ ਸਕੋਗੇ।",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "ਸਿਰਫ਼ ਐਡਮਿਨ ਹੀ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸਟੋਰੀਆਂ ਭੇਜ ਸਕਦੇ ਹਨ।",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰੋ ਅਤੇ ਦੇਖੋ",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ਗੱਲਬਾਤ ਨੂੰ ਦਿਲਚਸਪ ਰੱਖਣ ਲਈ ਸੰਪਰਕ ਦੇ ਵੇਰਵਿਆਂ ਵਾਲੀ ਸਕ੍ਰੀਨ 'ਤੇ ਜਾ ਕੇ ਕਿਸੇ ਦੋਸਤ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਕਿਸੇ ਵੀ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ।",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "ਤੁਹਾਡੇ ਲਈ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕਰਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕਰਨ ਲਈ ਨਿਰੰਤਰ ਮਿਹਨਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ਸਾਡੇ ਨਵੇਂ ਸਟੋਰੀ ਫੀਚਰ ਨੂੰ ਵਰਤਣਾ ਅਤੇ ਟੈਸਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ। ਤੁਸੀਂ ਹੋਰ ਬੀਟਾ ਟੈਸਟਰਾਂ ਨਾਲ ਫੀਚਰ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਸਾਨੂੰ ਦੱਸ ਸਕਦੇ ਹੋ ਕਿ ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ।",
+    "description": "Release notes for v5.63"
   }
 }

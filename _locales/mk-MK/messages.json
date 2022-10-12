@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Додај порака",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Порака",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Готово",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Додај во група",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS контактите не се достапни на десктоп.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Нема резултати за \"$searchTerm$\" во $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Нема резултати за \"{searchTerm}\" во {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Допрете на $plusButton$(Android) или $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR кодот не можеше да се вчита. Проверете ја интернет врската и обидете се повторно. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Дознајте повеќе",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR кодот не можеше да се вчита. Проверете ја интернет врската и обидете се повторно. <learnMoreLink>Дознајте повеќе</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "исклучено",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Пораки што исчезнуваат",
+  "icu:disappearingMessages": {
+    "messageformat": "Пораки што исчезнуваат",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Не се пронајдени контакти",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Не се пронајдени групи",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Не се пронајдени разговори",
@@ -2741,8 +2760,8 @@
     "message": "Назад",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Додај ги твоите стикери",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Додај ги твоите стикери",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Прикажи маргини",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Додај $count$ или повеќе",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Додај {count,number} или повеќе",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Провери го новиот пакет со стикери што го направив за Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ слика/слики додадени",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Додадена е 1 слика} other {Додадени се {count,number} слики}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Кликнете на $composeIcon$ погоре и пребарајте контакти или групи на кои сакате да им пишете",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Кликнете на {composeIcon} погоре и пребарајте контакти или групи на кои сакате да им пишете",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Дали сакате да ги откажете овие промени?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Вашиот профил е шифриран. Вашиот профил и промените на профилот ќе бидат видливи за вашите контакти и кога започнувате и прифаќате нови разговори. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Вашиот профил е шифриран. Вашиот профил и промените на профилот ќе бидат видливи за вашите контакти и кога започнувате и прифаќате нови разговори. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Уреди",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Вклучи ги приказните",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Исклучи ги приказните",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Исклучи",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Повеќе нема да можете да споделувате или гледате приказни.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Достапно ажурирање до верзија $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Исечи",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Додај порака",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Мои приказни",
@@ -5589,6 +5628,10 @@
     "message": "Дали сакате да ја отстраните приказната? Со ова ќе се отстрани приказната од вашата листа, но сè уште ќе можете да ги видите приказните од оваа група.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Само администраторите можат да испраќаат приказни во оваа група.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Споделувајте и гледајте приказни",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Лесно можете да додадете пријател во група од екранот со детали за контакт, за разговорот да биде интересен.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Напорно работиме за да ги решиме баговите и да го подобриме перформансот за апликацијата да продолжи да работи беспрекорно за вас.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Започнете да ги користите и тестирате нашите нови функции за приказни. Можете да ја користите оваа функција со другите бета тестери и да ни кажете како работи.",
+    "description": "Release notes for v5.63"
   }
 }

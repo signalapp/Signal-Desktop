@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "メッセージを追加してください",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "メッセージ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "完了",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "グループへ追加",
@@ -733,8 +752,8 @@
     "message": "SMS/MMSの連絡先はデスクトップでは利用できません。",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ 内に「$searchTerm$」はありません",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} 内に「{searchTerm}」はありません",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Androidでは $plusButton$ を、iPhoneでは $linkNewDevice$ をタップしてください",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QRコードが読みこめません。インターネットの接続を確認して、再度お試しください。$learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "さらに詳しく",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度試してください。<learnMoreLink>詳細を見る</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "オフ",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "消えるメッセージ",
+  "icu:disappearingMessages": {
+    "messageformat": "消えるメッセージ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "連絡先が見つかりません",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "グループが見つかりませんでした",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "チャットが見つかりません",
@@ -2741,8 +2760,8 @@
     "message": "戻る",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "ステッカーを追加",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "ステッカーを追加",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "マージンを表示",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$個以上追加してください",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number}個以上追加してください",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signalのステッカーパックを作成しましたので、ご覧ください。 #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ 件の画像を追加しました",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} 件の画像を追加しました}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "上にある$composeIcon$をクリックして、メッセージを送りたい相手やグループを探してください。",
+  "icu:emptyInboxMessage": {
+    "messageformat": "上にある{composeIcon}をクリックして、メッセージを送りたい相手やグループを探してください。",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "変更を破棄しますか？",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "あなたのプロフィールは暗号化されています。プロフィールとその更新は、あなたの連絡先や、新しいチャットを開始したり受け入れた際に表示されます。$learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "あなたのプロフィールは暗号化されています。プロフィールとその更新は、あなたの連絡先や、新しいチャットを開始したり受け入れた際に表示されます。{learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "端末",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "ストーリーを表示します",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ストーリーを非表示にします",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "無効にする",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "ストーリーを共有したり閲覧したりできなくなります。",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "バージョン$version$へのアップデートがあります",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "切り取り",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "メッセージを追加してください",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "マイストーリー",
@@ -5589,6 +5628,10 @@
     "message": "ストーリーを削除しますか？ リストからストーリーが削除されますが、このグループのストーリーは引き続き閲覧することができます。",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "管理者のみがグループにストーリーを送信できます。",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "ストーリーズの共有と閲覧",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "連絡先の詳細画面から簡単に友達をグループに追加できるようになりました。会話が盛り上がり続けます。",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "アプリがスムーズに動作するよう、バグの修正とその他のパフォーマンスの向上に努めています。",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "新機能「ストーリー」の使用とテストを開始します。ベータ版の「ストーリー」機能をご利用いただき、ご使用感をお知らせください。",
+    "description": "Release notes for v5.63"
   }
 }

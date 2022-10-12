@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "เพิ่มข้อความ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "ข้อความ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "เสร็จสิ้น",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "เพิ่มเข้ากลุ่ม",
@@ -733,8 +752,8 @@
     "message": "ไม่มีผู้ติดต่อ SMS/MMS บนเดสก์ท็อป",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "ไม่มีผลลัพ์สำหรับ \"$searchTerm$\" ใน  $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "ไม่มีผลลัพ์สำหรับ \"{searchTerm}\" ใน  {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "แตะ $plusButton$ (Android) หรือ $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "ไม่สามารถโหลดรหัส QR ได้ ตรวจสอบอินเทอร์เน็ตของคุณแล้วลองอีกครั้ง $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "เรียนรู้เพิ่มเติม",
+  "icu:Install__qr-failed": {
+    "messageformat": "ไม่สามารถโหลด QR Code ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ปิด",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "ข้อความที่ลบตัวเอง",
+  "icu:disappearingMessages": {
+    "messageformat": "ข้อความที่ลบตัวเอง",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "ไม่พบรายชื่อผู้ติดต่อ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ไม่พบกลุ่ม",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "ไม่พบบทสนทนา",
@@ -2741,8 +2760,8 @@
     "message": "กลับ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "เพิ่มสติกเกอร์ของคุณ",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "เพิ่มสติกเกอร์ของคุณ",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "แสดงระยะเว้นขอบ",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "เพิ่ม  $count$ หรือมากกว่า",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "เพิ่ม  {count,number} หรือมากกว่า",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "ลองดูชุดสติกเกอร์ใหม่ที่ฉันสร้างให้ Signal #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "เพิ่มภาพแล้ว $count$ ภาพ",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {เพิ่มแล้ว {count,number} ภาพ}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "คลิก $composeIcon$ ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
+  "icu:emptyInboxMessage": {
+    "messageformat": "คลิก {composeIcon} ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "คุณต้องการจะยกเลิกการเปลี่ยนแปลงเหล่านี้หรือไม่?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "โปรไฟล์ของคุณถูกเข้ารหัสลับ ผู้ติดต่อของคุณจะมองเห็นโปรไฟล์และความเปลี่ยนแปลงที่เกิดขึ้นกับโปรไฟล์ของคุณเมื่อคุณเริ่มต้นหรือตอบรับการแชตใหม่ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "โปรไฟล์ของคุณถูกเข้ารหัสลับ ผู้ติดต่อของคุณจะมองเห็นโปรไฟล์และความเปลี่ยนแปลงที่เกิดขึ้นกับโปรไฟล์ของคุณเมื่อคุณเริ่มต้นหรือตอบรับการแชตใหม่ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "อุปกรณ์",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "เปิดสตอรี่",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ปิดสตอรี่",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ปิด",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "คุณจะไม่สามารถแชร์หรือดูสตอรี่ได้อีกต่อไป",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "ปรับรุ่นเป็น $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "ครอบตัด",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "เพิ่มข้อความ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "สตอรี่ของฉัน",
@@ -5589,6 +5628,10 @@
     "message": "ลบสตอรี่ใช่หรือไม่ สตอรี่จะถูกลบออกจากรายการของคุณ แต่คุณจะยังสามารถรับชมสตอรี่จากกลุ่มนี้ได้",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "เฉพาะผู้ดูแลเท่านั้นที่ส่งสตอรี่ไปยังกลุ่มนี้ได้",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "แชร์และดูสตอรี่",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "เพิ่มเพื่อนเข้ากลุ่มได้ง่ายๆ จากหน้าข้อมูลผู้ติดต่อของเพื่อน เพื่อการพูดคุยที่ราบรื่นไม่มีสะดุดและสนุกทุกเมื่อ",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "เรามุ่งมั่นทุ่มเททำงานอย่างหนักเพื่อแก้ไขบั๊กต่างๆ และปรับปรุงประสิทธิภาพอื่นๆ เพื่อให้แอปทำงานได้ราบรื่นไร้ปัญหา",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "เริ่มใช้และทดสอบฟีเจอร์สตอรี่ใหม่ของเรา คุณสามารถใช้ฟีเจอร์นี้กับผู้ทดสอบรุ่นเบต้าคนอื่นๆ แล้วบอกให้เราทราบว่าคุณถูกใจหรือมีส่วนไหนที่ควรปรับปรุง",
+    "description": "Release notes for v5.63"
   }
 }

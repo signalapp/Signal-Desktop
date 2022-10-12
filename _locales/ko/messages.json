@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "메시지 추가",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "메시지",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "확인",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "그룹에 추가",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS 연락처는 데스크톱에서 사용할 수 없습니다.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$에 $searchTerm$가 검색되지 않았습니다.",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName}에 {searchTerm}가 검색되지 않았습니다.",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Android는 $plusButton$, iPhone은 $linkNewDevice$을(를) 탭하세요.",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "더 알아보기",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. <learnMoreLink>자세히 알아보기</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "꺼짐",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "사라지는 메시지",
+  "icu:disappearingMessages": {
+    "messageformat": "사라지는 메시지",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "연락처가 없음",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "그룹 검색 결과 없음",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "대화 찾을 수 없음",
@@ -2741,8 +2760,8 @@
     "message": "뒤로",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "스티커를 추가하세요.",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "스티커를 추가하세요.",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "마진 보이기",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$개 이상 추가",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number}개 이상 추가",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal용으로 만든 새 스티커 팩을 확인하세요. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$개의 이미지가 추가되었습니다.",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {이미지 {count,number}개를 추가함}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "위 $composeIcon$ 아이콘을 클릭하고 메시지를 전송할 연락처 또는 그룹을 검색하세요.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "위 {composeIcon} 아이콘을 클릭하고 메시지를 전송할 연락처 또는 그룹을 검색하세요.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "변경사항을 파기하시겠습니까?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "프로필이 암호화되었습니다. 프로필과 프로필 변경 사항은 연락처와 새 채팅을 시작하거나 수락할 때 볼 수 있습니다. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "프로필이 암호화되었습니다. 프로필과 프로필 변경 사항은 연락처와 새 채팅을 시작하거나 수락할 때 볼 수 있습니다. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "기기",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "스토리 켜기",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "스토리 끄기",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "끄기",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "더 이상 스토리를 공유하거나 볼 수 없습니다.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ 버전으로 업데이트할 수 있습니다.",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "자르기",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "메시지 추가",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "내 스토리",
@@ -5589,6 +5628,10 @@
     "message": "스토리를 제거할까요? 스토리는 목록에서 제거되지만 이 그룹의 스토리는 계속 볼 수 있습니다.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "관리자만 이 그룹에 스토리를 보낼 수 있습니다.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "스토리 공유 및 보기",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "친구의 연락처 세부 정보 화면에서 간단하게 그룹에 친구를 추가하여 흥미로운 대화를 계속 이어가세요.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "새 스토리 기능을 사용하고 테스트해 보세요. 이 기능은 Signal의 다른 베타 테스터들과 함께 사용할 수 있습니다. 사용해 보고 감상을 알려주세요!",
+    "description": "Release notes for v5.63"
   }
 }

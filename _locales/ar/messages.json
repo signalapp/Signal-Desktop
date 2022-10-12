@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "إضافة نص",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "إرسال",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "تمّ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "إضافة إلى مجموعة",
@@ -733,8 +752,8 @@
     "message": "جهات اتصال الرسائل القصيرة ورسائل الوسائط المتعددة غير متاحة في هذا التطبيق.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "لم يعثر على نتائج حول \"$searchTerm$\" في $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "لم يعثر على نتائج حول \"{searchTerm}\" في {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "‫يُرجى لمس $plusButton$ (أندرويد) أو $linkNewDevice$ (آيفون)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "لقد تعذر تحميل الرمز المربع. يُرجى التحقق من اتصالك بالانترنت ثم المحاولة مرة أخرى. $learnMore$‏",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "لمعرفة المزيد",
+  "icu:Install__qr-failed": {
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <learnMoreLink>معرفة المزيد</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "تعطيل",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "الرسائل المختفية",
+  "icu:disappearingMessages": {
+    "messageformat": "الرسائل المختفية",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "لم يعثر على أي جهات اتصال",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "لم يُعثَر على أية مجموعة.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "لم يعثر على أي محادثة",
@@ -2741,8 +2760,8 @@
     "message": "الرجوع للخلف.",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "يُرجى إضافة ملصقاتك",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "يُرجى إضافة ملصقاتك",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "إظهار الهامش",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "إضافة $count$ أو أكثر",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "إضافة {count,number} أو أكثر",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "ألقوا نظرة على هذه الحزمة من الملصقات الجديدة التي صممتُها ﻷجل Signal.  #اجعل_الخصوصية_متوفرة_دائماً",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "تمت إضافة $count$ صور",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, zero {تمت إضافة {count,number} صورة} one {تمت إضافة صورة واحدة} two {تمت إضافة صورتين {count,number}} few {تمت إضافة {count,number} صور} many {تمت إضافة {count,number} صورة} other {تمت إضافة {count,number} صورة}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "يٌرجى الضغط على $composeIcon$ أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "يٌرجى الضغط على {composeIcon} أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "هل تريد تجاهل هذه التغييرات؟",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ملفك الشخصي مُعمَّى من طرف إلى طرف. إن ملفك الشخصي، إضافة إلى كل تغيير يطرأ عليه، سيصبح مرئيا لجهات اتصالك وكذلك بدئك أو موافقتك على أي محادثة جديدة. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ملفك الشخصي مُعمَّى من طرف إلى طرف. إن ملفك الشخصي، إضافة إلى كل تغيير يطرأ عليه، سيصبح مرئيا لجهات اتصالك وكذلك بدئك أو موافقتك على أي محادثة جديدة. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "الأجهزة",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "تفعيل القِصص",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "إيقاف تشغيل القِصص",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "أطفىء",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "لن تتمكن من مشاركة القِصص أو مُشَاهداتها بعد الآن.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "إن اﻹصدار $version$ متاح حاليا",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "قص",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "إضافة نص",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "قصصي",
@@ -5589,6 +5628,10 @@
     "message": "إزالة القصة؟ سَتتم إزالة القصة من لائحتك، لكن سَيبقى بإمكانك مشاهدة قِصص هذه المجموعة.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "يُمكن فقط للمشرفين إرسال القِصص في هذه المجموعة.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "مشاركة و إظهار القصص",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "يُمكنك إضافة صديق بسهولة إلى مجموعة ما انطلاقًا من شاشة تفاصيل جهة الاتصال الخاصة به لإبقاء المُحادثة مُشوّقة.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ندعوك إلى استخدام واختبار ميزة قِصصنا الجديدة. يُمكنك استخدام الميزة مع الأشخاص الآخرين الذين يختبرون النسخة التجريبية وإعلامنا بأدائها.",
+    "description": "Release notes for v5.63"
   }
 }

@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Bir mesaj əlavə et",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mesaj",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Hazırdır",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Bir qrupa əlavə et",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS əlaqələri Masaüstündə əlçatmazdır.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ danışığında \"$searchTerm$\" üçün nəticə yoxdur",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} danışığında \"{searchTerm}\" üçün nəticə yoxdur",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Android üçün $plusButton$, iPhone üçün $linkNewDevice$ düyməsinə toxunun",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR kod yüklənilə bilmədi. İnternetinizi yoxlayıb yenidən sınayın. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Daha ətraflı",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR kodunu yükləmək mümkün olmadı. İnternet bağlantınızı yoxlayıb, yenidən cəhd edin. <learnMoreLink>Daha ətraflı</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "bağlı",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Yox olan mesajlar",
+  "icu:disappearingMessages": {
+    "messageformat": "Yox olan mesajlar",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Heç bir əlaqə tapılmadı",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Heç bir qrup tapılmadı",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Heç bir danışıq tapılmadı",
@@ -2741,8 +2760,8 @@
     "message": "Geri",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Stikerlərinizi əlavə edin",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Stikerlərinizi əlavə edin",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Kənar boşluqları göstər",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ və ya daha çox əlavə edin",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} və ya daha çox əlavə edin",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal üçün yaratdığım yeni stiker paketinə nəzər salın. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ təsvir əlavə edildi",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 təsvir əlavə edildi} other {{count,number} təsvir əlavə edildi}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Yuxarıdakı $composeIcon$ düyməsinə klikləyin və mesaj göndəriləcək əlaqə və ya qrupları axtarın.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Yuxarıdakı {composeIcon} düyməsinə klikləyin və mesaj göndəriləcək əlaqə və ya qrupları axtarın.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Bu dəyişiklikləri ləğv etmək istəyirsiniz?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profiliniz şifrələnib. Profiliniz və dəyişiklikləriniz, yeni söhbət başladanda və ya qəbul edəndə əlaqələrinizə görünəcək. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profiliniz şifrələnib. Profiliniz və dəyişiklikləriniz, yeni söhbət başladanda və ya qəbul edəndə əlaqələrinizə görünəcək. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Cihazlar",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Hekayələr xüsusiyyətini yandır",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Hekayələr xüsusiyyətini söndür",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Söndür",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Artıq hekayələri paylaşa və ya onlara baxa bilməyəcəksiniz.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ versiyası mövcuddur",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Kəs",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Bir mesaj əlavə et",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Hekayələrim",
@@ -5589,6 +5628,10 @@
     "message": "Hekayə silinsin? Bu addım hekayəni siyahınızdan siləcək, amma bu qrupdan gələn hekayələri yenə də görə biləcəksiniz.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Bu qrupa yalnız adminlər hekayə göndərə bilər.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Hekayələri paylaş və nəzərdən keçir",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Söhbətin həyəcanını qorumaq üçün dostunuzun əlaqə məlumatları ekranından onu asanlıqla qrupa əlavə edin.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Tətbiqin sizlər üçün rahat işləməsini təmin etmək məqsədilə xəta düzəlişləri və digər məhsuldarlıq təkmilləşdirmələri üzərində ciddi iş gedir.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Yeni hekayələr xüsusiyyətindən istifadə edin və onu sınaqdan keçirin. Xüsusiyyətdən digər beta sınaq istifadəçiləri ilə birgə istifadə edə və necə işlədiyini bizimlə paylaşa bilərsiniz.",
+    "description": "Release notes for v5.63"
   }
 }

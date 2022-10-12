@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "സന്ദേശം",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ചെയ്‌തു",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
@@ -733,8 +752,8 @@
     "message": "എസ്എംഎസ്/എംഎംഎസ് കോൺ‌ടാക്റ്റുകൾ ഡെസ്ക്ടോപ്പ്-ൽ ലഭ്യമല്ല.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ ല്‍ \"$searchTerm$\" എന്നതിന് ഫലങ്ങളില്ല",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} ല്‍ \"{searchTerm}\" എന്നതിന് ഫലങ്ങളില്ല",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) അല്ലെങ്കിൽ $linkNewDevice$(iPhone) ടാപ്പ് ചെയ്യുക",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR കോഡ് ലോഡ് ചെയ്യാനായില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "കൂടുതൽ അറിയുക",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. <learnMoreLink>കൂടുതൽ അറിയുക</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ഓഫ്",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ",
+  "icu:disappearingMessages": {
+    "messageformat": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "കോൺ‌ടാക്റ്റുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ഗ്രൂപ്പുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല",
@@ -2741,8 +2760,8 @@
     "message": "തിരികെ പോകുക",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "നിങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "നിങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "മാർജിനുകൾ കാണിക്കുക",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ അല്ലെങ്കിൽ അതിലധികമോ ചേർക്കുക",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} അല്ലെങ്കിൽ അതിലധികമോ ചേർക്കുക",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal-നായി സൃഷ്ടിച്ച ഈ പുതിയ സ്റ്റിക്കർ പായ്ക്ക് I പരിശോധിക്കുക. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ചിത്രം(കൾ) ചേർത്തു",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 ചിത്രം ചേർത്തു} other {{count,number} ചിത്രങ്ങൾ ചേർത്തു}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "മുകളിലുള്ള $composeIcon$'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "മുകളിലുള്ള {composeIcon}'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "ഈ മാറ്റങ്ങൾ നിങ്ങൾക്ക് നിരാകരിക്കണമെന്നുണ്ടോ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു. നിങ്ങളുടെ പ്രൊഫൈലും അതിലേക്കുള്ള മാറ്റങ്ങളും നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ക്കും നിങ്ങൾ പുതിയ ചാറ്റുകൾ ആരംഭിക്കുകയോ സ്വീകരിക്കുകയോ ചെയ്യുമ്പോൾ ദൃശ്യമാകും. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു. നിങ്ങളുടെ പ്രൊഫൈലും അതിലേക്കുള്ള മാറ്റങ്ങളും നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ക്കും നിങ്ങൾ പുതിയ ചാറ്റുകൾ ആരംഭിക്കുകയോ സ്വീകരിക്കുകയോ ചെയ്യുമ്പോൾ ദൃശ്യമാകും. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "ഉപകരണങ്ങൾ",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "സ്റ്റോറികൾ ഓണാക്കുക",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "സ്റ്റോറികൾ ഓഫാക്കുക",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ഓഫ് ആക്കുക",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "നിങ്ങൾക്ക് ഇനിമുതൽ സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ എന്ന പതിപ്പിലേക്കുള്ള അപ്‌ഡേറ്റ് ലഭ്യമാണ്",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "ക്രോപ്പ് ചെയ്യുക",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "എന്റെ കഥകള്‍",
@@ -5589,6 +5628,10 @@
     "message": "സ്റ്റോറി നീക്കം ചെയ്യണോ? ഇത് നിങ്ങളുടെ ലിസ്റ്റിൽ നിന്ന് സ്റ്റോറി നീക്കം ചെയ്യും, എന്നാൽ നിങ്ങൾക്ക് തുടർന്നും ഈ ഗ്രൂപ്പിൽ നിന്നുള്ള സ്റ്റോറികൾ കാണാൻ കഴിയും.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "അഡ്‌മിൻമാർക്ക് മാത്രമേ ഈ ഗ്രൂപ്പിലേക്ക് സ്റ്റോറികൾ അയയ്‌ക്കാൻ കഴിയൂ.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "സംഭാഷണം ആവേശകരമാക്കാൻ, ഒരു സുഹൃത്തിനെ അവരുടെ കോൺടാക്റ്റ് വിശദാംശങ്ങളുടെ സ്ക്രീനിൽ നിന്ന് ഒരു ഗ്രൂപ്പിലേക്ക് എളുപ്പത്തിൽ ചേർക്കുക.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ഞങ്ങളുടെ പുതിയ സ്റ്റോറികൾ സവിശേഷത ഉപയോഗിക്കാനും പരീക്ഷിക്കാനും ആരംഭിക്കുക. നിങ്ങൾക്ക് മറ്റ് ബീറ്റാ ടെസ്റ്റർമാർക്കൊപ്പം സവിശേഷത ഉപയോഗിക്കാനും അത് എങ്ങനെ പ്രവർത്തിക്കുന്നുവെന്ന് ഞങ്ങളെ അറിയിക്കാനും കഴിയും.",
+    "description": "Release notes for v5.63"
   }
 }

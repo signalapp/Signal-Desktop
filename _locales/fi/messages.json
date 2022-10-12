@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Lisää viesti",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Viesti",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Valmis",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Lisää ryhmään",
@@ -733,8 +752,8 @@
     "message": "Tekstiviesti- tai MMS-yhteystiedot eivät ole saatavilla työpöytäsovelluksessa.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ei tuloksia haulle $searchTerm$ keskustelussa $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ei tuloksia haulle {searchTerm} keskustelussa {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Napauta $plusButton$ (Android) tai $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-koodin lataaminen ei onnistunut. Tarkista internet-yhteytesi ja yritä uudelleen. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lue lisää",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR-koodin lataaminen ei onnistunut. Tarkista yhteytesi ja yritä uudelleen. <learnMoreLink>Lue lisää</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "pois päältä",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Katoavat viestit",
+  "icu:disappearingMessages": {
+    "messageformat": "Katoavat viestit",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Yhteystietoja ei löytynyt",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ryhmiä ei löytynyt",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Yhtään keskustelua ei löytynyt",
@@ -2741,8 +2760,8 @@
     "message": "Takaisin",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Lisää omiin tarroihin",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Lisää omiin tarroihin",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Näytä marginaalit",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Lisää $count$ tai enemmän",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Lisää {count,number} tai enemmän",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Tsekkaa tämä uusi tarrapaketti jonka loin Signalille. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ kuva(a) lisätty",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 kuva lisätty} other {{count,number} kuvaa lisätty}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Napauta $composeIcon$ yllä ja etsi yhteystietojasi tai ryhmiäsi.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Napauta {composeIcon} yllä ja etsi yhteystietojasi tai ryhmiäsi.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Hylätäänkö nämä muutokset?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profiilisi on salattu. Profiilisi ja muutokset siihen näkyvät yhteyshenkilöillesi ja kun aloitat tai saat uusia viestejä. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profiilisi on salattu. Profiilisi ja muutokset siihen näkyvät yhteyshenkilöillesi ja kun aloitat tai saat uusia viestejä. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Laitteet",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Ota tarinat käyttöön",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Poista tarinat käytöstä",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Poista käytöstä",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Et voi enää jakaa tai nähdä tarinoita.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Päivitä saatavilla olevaan versioon $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Rajaa",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Lisää viesti",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Omat tarinat",
@@ -5589,6 +5628,10 @@
     "message": "Haluatko poistaa tarinan? Tarina poistetaan luettelostasi, mutta voit edelleen tarkastella tämän ryhmän tarinoita.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Vain järjestelmänvalvojat voivat lähettää tarinoita tähän ryhmään.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Jaa ja katso tarinoita",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Lisää ystävä ryhmään helposti yhteystietosivulta, niin voit pitää keskustelun kiinnostavana.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Teemme kovasti töitä korjataksemme virheitä ja parantaaksemme suorituskykyä, jotta sinä voisit käyttää sovellusta entistä sujuvammin.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Aloita uuden Tarinat-ominaisuuden käyttö ja kokeilu. Voit käyttää ominaisuutta muiden beetaversion käyttäjien kanssa ja antaa meille palautetta sen toiminnasta.",
+    "description": "Release notes for v5.63"
   }
 }

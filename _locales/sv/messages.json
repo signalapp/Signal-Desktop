@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Lägg till ett meddelande",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Meddelande",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Klar",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Lägg till i en grupp",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS-kontakter är inte tillgängliga på Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Inga resultat för \"$searchTerm$\" i $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Inga resultat för \"{searchTerm}\" i {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Tryck på $plusButton$ (Android) eller $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Läs mer",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. <learnMoreLink>Läs mer</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "av",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Försvinnande meddelanden",
+  "icu:disappearingMessages": {
+    "messageformat": "Försvinnande meddelanden",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Inga kontakter hittades",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Inga grupper hittades",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Inga konversationer hittades",
@@ -2741,8 +2760,8 @@
     "message": "Tillbaka",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Lägg till dina klistermärken",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Lägg till dina klistermärken",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Visa marginaler",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Lägg till $count$ eller flera",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Lägg till {count,number} eller flera",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Kolla in det här nya klistermärkespaketet jag skapade för Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ bild(er) tillagda",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 bild tillagd} other {{count,number} bilder tillagda}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klicka på $composeIcon$ ovan och sök efter dina kontakter eller grupper till meddelandet.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klicka på {composeIcon} ovan och sök efter dina kontakter eller grupper till meddelandet.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Vill du slänga dessa ändringar?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Din profil är krypterad. Din profil och ändringar av den kommer att synas för dina kontakter och när du startar eller accepterar nya chattar. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Din profil är krypterad. Din profil och ändringar av den kommer att synas för dina kontakter och när du startar eller accepterar nya chattar. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Enheter",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Slå på berättelser",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Stäng av berättelser",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Inaktivera",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Du kommer inte längre att kunna dela eller visa berättelser.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Uppdatering till version $version$ tillgänglig",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Beskära",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Lägg till ett meddelande",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Mina berättelser",
@@ -5589,6 +5628,10 @@
     "message": "Ta bort berättelse? Berättelsen kommer tas bort från din lista. Du kommer fortfarande att kunna visa berättelser från denna grupp.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Endast administratörer kan skicka berättelser till denna grupp.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dela och visa Stories",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Lägg enkelt till en vän i en grupp från deras kontaktuppgiftssida för att hålla konversationen spännande.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Vi jobbar hårt med buggfixar och att göra andra prestandaförbättringar för att appen ska fortsätta fungera bra för dig.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Börja använda och testa vår nya berättelsefunktion. Du kan använda funktionen med andra beta-testare och låta oss veta hur den fungerar.",
+    "description": "Release notes for v5.63"
   }
 }

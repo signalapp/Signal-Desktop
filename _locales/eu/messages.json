@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Gehitu mezu bat",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mezua",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Eginda",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Gehitu taldera",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontaktuak ez daude erabilgarri ordenagailurako bertsioan.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ez da topatu emaitzarik \"$searchTerm$\" bilaketarako $conversationName$ solasaldian",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ez da topatu emaitzarik \"{searchTerm}\" bilaketarako {conversationName} solasaldian",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Sakatu $plusButton$ (Android-en) edo $linkNewDevice$ (iPhone-etan)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lortu informazio gehiago",
+  "icu:Install__qr-failed": {
+    "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <learnMoreLink>Informazio gehiago</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "desaktibatu",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mezuen desagerpena",
+  "icu:disappearingMessages": {
+    "messageformat": "Mezuen desagerpena",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Ez da kontakturik aurkitu",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ez da talderik aurkitu",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Ez da elkarrizketarik aurkitu",
@@ -2741,8 +2760,8 @@
     "message": "Atzera",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Gehitu zure eranskailuak",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Gehitu zure eranskailuak",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Erakutsi marjinak",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Gehitu $count$ edo gehiago",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Gehitu {count,number} edo gehiago",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Begiratu bat botaiozu sortu dudan eranskailu pakete berriari. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ irudi gehituta",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 irudi gehitu da} other {{count,number} irudi gehitu dira}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Egin klik $composeIcon$goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Egin klik {composeIcon}goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Baztertu nahi dituzu aldaketa hauek?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Zure profila enkriptatuta dago. Zure profila eta bertan egindako aldaketak zure kontaktuek ikusgai izango dituzte eta txat berriak hasten edo onartzen dituzunean.$learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Zure profila enkriptatuta dago. Zure profila eta bertan egindako aldaketak zure kontaktuek ikusgai izango dituzte eta txat berriak hasten edo onartzen dituzunean.{learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Gailuak",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Aktibatu istorioak",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Desaktibatu istorioak",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Desaktibatu",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Aurrerantzean ezingo dituzu partekatu edo ikusi istorioak.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Eguneratu $version$eskuragarri dagoen bertsiora",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Moztu",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Gehitu mezu bat",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Nire storie-ak",
@@ -5589,6 +5628,10 @@
     "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Administratzaileek soilik bidali ditzakete istorioak talde honetara.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Partekatu eta ikusi istorioak",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Gehitu erraz lagun bat talde batean haren kontaktu-xehetasunen pantailatik eta jarraitu elkarrizketa interesgarriak izaten.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Hasi istorioen eginbide berria erabiltzen eta probatzen. Beste beta-probatzaile batzuekin erabil dezakezu, eta guri nola dabilen jakinarazi.",
+    "description": "Release notes for v5.63"
   }
 }

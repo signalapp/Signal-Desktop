@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Thêm vào một tin nhắn",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Tin nhắn",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Xong",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Thêm vào một nhóm",
@@ -733,8 +752,8 @@
     "message": "Liên hệ SMS/MMS không có sẵn trên Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Không có kết quả cho \"$searchTerm$\" trong $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Không có kết quả cho \"{searchTerm}\" trong {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Nhấn $plusButton$(Android) hoặc $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Không thể tải mã QR. Kiểm tra đường truyền internet của bạn và thử lại.$learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Tìm hiểu thêm",
+  "icu:Install__qr-failed": {
+    "messageformat": "Không thể tải mã QR. Kiểm tra đường truyền internet của bạn và thử lại. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "tắt",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Xóa (tự động) tin nhắn",
+  "icu:disappearingMessages": {
+    "messageformat": "Tin nhắn tự hủy",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Không tìm thấy liên hệ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Không tìm thấy nhóm",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Không tìm thấy cuộc trò chuyện",
@@ -2741,8 +2760,8 @@
     "message": "Trở lại",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Thêm nhãn dán của bạn",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Thêm nhãn dán của bạn",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Hiển thị lề",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Thêm $count$ hoặc nhiều hơn",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Thêm {count,number} hoặc nhiều hơn",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Xem gói nhãn dán tôi vừa tạo cho Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Đã thêm $count$ ảnh",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} ảnh được thêm}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Nhấn $composeIcon$ ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Nhấn {composeIcon} ở trên và tìm các liên hệ hoặc nhóm của bạn để nhắn tin.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Bạn có muốn bỏ các thay đổi này?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Hồ sơ của bạn đã được mã hóa. Hồ sơ của bạn và các thay đổi đối với hồ sơ sẽ hiển thị với các liên hệ của bạn và khi bạn bắt đầu hoặc chấp nhận các cuộc trò chuyện mới. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Hồ sơ của bạn đã được mã hóa. Hồ sơ của bạn và các thay đổi đối với hồ sơ sẽ hiển thị với các liên hệ của bạn và khi bạn bắt đầu hoặc chấp nhận các cuộc trò chuyện mới. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Các thiết bị",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Bật story",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Tắt story",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Tắt",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Bạn sẽ không thể tiếp tục chia sẻ hoặc xem story.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Cập nhật liên phiên bản $version$ có sẵn",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Cắt",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Thêm vào một tin nhắn",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Các Story của tôi",
@@ -5589,6 +5628,10 @@
     "message": "Bạn muốn gỡ story? Thao tác này sẽ gỡ story được chọn khỏi danh sách của bạn, nhưng bạn sẽ vẫn có thể xem các story từ nhóm này.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Chỉ có quản trị viên mới có thể gửi story vào nhóm này.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Chia sẻ & Xem Story",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Dễ dàng thêm bạn mình vào nhóm từ thông tin liên hệ để cuộc trò chuyện càng thú vị hơn.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Nỗ lực sửa các lỗi và cải thiện hiệu năng để ứng dụng của bạn có thể chạy một cách trơn tru.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Bắt đầu sử dụng và thử nghiệm tính năng story mới của chúng tôi. Bạn có thể sử dụng tính năng này cùng các thành viên thử nghiệm phiên bản beta khác và cho chúng tôi biết tính năng hoạt động có ổn không.",
+    "description": "Release notes for v5.63"
   }
 }

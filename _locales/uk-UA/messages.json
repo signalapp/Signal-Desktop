@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Додати повідомлення",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Повідомлення",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Готово",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Додати до групи",
@@ -733,8 +752,8 @@
     "message": "Контакти SMS/MMS недоступні в Signal Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Немає результатів для «$searchTerm$» у $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Немає результатів для «{searchTerm}» у {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Клацніть на $plusButton$ (Android) чи $linkNewDevice$(iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-код не вдалось завантажити. Перевірте з'єднання з інтернет та спробуйте пізніше. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Дізнатись більше",
+  "icu:Install__qr-failed": {
+    "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <learnMoreLink>Докладніше</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "вимкн",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Зникаючі повідомлення",
+  "icu:disappearingMessages": {
+    "messageformat": "Зникаючі повідомлення",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Контактів не знайдено",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Груп не знайдено",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Розмов не знайдено",
@@ -2741,8 +2760,8 @@
     "message": "Назад",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Додайте ваші наліпки",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Додайте ваші наліпки",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Показати поля (margin)",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Додайте $count$ або більше",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Додайте {count,number} або більше",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Подивіться цей новий набір наліпок, який я створив для Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$зображення додано (-і)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Додано 1 зображення} few {Додано {count,number} зображення} many {Додано {count,number} зображень} other {Додано {count,number} зображення}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Натисніть на $composeIcon$ вище і пошукайте ваші контакти або групи для спілкування.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Натисніть на {composeIcon} вище і пошукайте ваші контакти або групи для спілкування.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Ви хочете відхилити ці зміни?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Ваш профіль захищено наскрізним шифрованням. Ваш профіль та зміни у ньому будуть доступні для ваших контактів, коли ви починаєте нові чати чи приєднуєтесь до створених. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Ваш профіль захищено наскрізним шифрованням. Ваш профіль та зміни у ньому будуть доступні для ваших контактів, коли ви починаєте нові чати чи приєднуєтесь до створених. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Пристрої",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Увімкнути сторіз",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Вимкнути сторіз",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Відключити",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Ви більше не зможете публікувати чи переглядати сторіз.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Наявне оновлення до версії $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Обрізати",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Додати повідомлення",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Мої історії",
@@ -5589,6 +5628,10 @@
     "message": "Вилучити сторі? Ця дія вилучить сторі з вашого переліку, але ви все одно зможете переглядати сторіз у цій групі.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Лише адміністратори можуть надсилати сторіз у цю групу.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Поширення і перегляд сторіз",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Додайте друга до групи просто з екрана з деталями контакту і продовжуйте спілкуватися.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Невтомно працюємо, виправляючи помилки і додаючи інші поліпшення, аби ви користувалися застосунком із задоволенням.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Протестуйте нашу нову функцію – сторіз. Ви можете користуватися цією функцією разом з іншими бета-тестерами та ділитися з нами своїми відгуками.",
+    "description": "Release notes for v5.63"
   }
 }

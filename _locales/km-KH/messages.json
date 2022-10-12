@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "បន្ថែមសារមួយ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "សារ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "បញ្ចប់",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "បន្ថែមទៅក្រុមមួយ",
@@ -733,8 +752,8 @@
     "message": "ឈ្មោះទំនាក់ទំនងសម្រាប់សារជាអក្សរ និងសារពហុមេឌៀមិនមាននៅលើកំព្យូទ័រលើតុទេ។",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "គ្មានលទ្ធផលសម្រាប់ \"$searchTerm$\" ក្នុង $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "គ្មានលទ្ធផលសម្រាប់ \"{searchTerm}\" ក្នុង {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "ចុច $plusButton$ (Android) ឬ $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមពិនិត្យមើលអ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។ $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "សិក្សាបន្ថែម",
+  "icu:Install__qr-failed": {
+    "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "បិទ",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "សារបាត់ទៅវិញ",
+  "icu:disappearingMessages": {
+    "messageformat": "សារបាត់ទៅវិញ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "រកមិនឃើញបញ្ជីទំនាក់ទំនង",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "រកមិនឃើញក្រុមទេ",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "រកមិនឃើញការសន្ទនា",
@@ -2741,8 +2760,8 @@
     "message": "ត្រលប់ក្រោយ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "បង្ហាញគែម",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "បន្ថែម $count$ ឬច្រើន",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "បន្ថែម {count,number} ឬច្រើន",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "ឆែកមើលកញ្ចប់ស្ទីកគ័រថ្មីនេះ ដែលខ្ញុំបានបង្កើតសម្រាប់ Signal ។ #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ រូបភាព បានបន្ថែម",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} រូបភាពត្រូវបានបញ្ចូល}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "ចុច $composeIcon$ ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
+  "icu:emptyInboxMessage": {
+    "messageformat": "ចុច {composeIcon} ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "តើអ្នកចង់បោះបង់ការកែប្រែទាំងនេះទេ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "ឧបករណ៍",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "បើករឿងរ៉ាវ",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "បិទរឿងរ៉ាវ",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "បិទ",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ។",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "ដំឡើងកំណែទៅ $version$ ដែលមាន",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "កាត់តម្រឹម",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "បន្ថែមសារមួយ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "រឿងរ៉ាវរបស់ខ្ញុំ",
@@ -5589,6 +5628,10 @@
     "message": "ដករឿងរ៉ាវចេញឬ? ការធ្វើបែបនេះនឹងដករឿងរ៉ាវចេញពីបញ្ជីរបស់អ្នក ប៉ុន្តែអ្នកនៅតែអាចមើលរឿងរ៉ាវពីក្រុមនេះបាន។",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះទើបអាចផ្ញើរឿងរ៉ាវទៅក្រុមនេះបាន។",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ងាយស្រួលបញ្ចូលមិត្តភក្តិទៅក្នុងក្រុមពីអេក្រង់ព័ត៌មានទំនាក់ទំនងលម្អិតរបស់ពួកគេ ដើម្បីធ្វើឲ្យការសន្ទនាមានភាពរំភើបរីករាយរហូត។",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ចាប់ផ្តើមប្រើ និងធ្វើតេស្តសាកល្បងមុខងាររឿងរ៉ាវថ្មីរបស់យើង។ អ្នកអាចប្រើមុខងារនេះជាមួយកម្មវិធីសាកល្បងបេតាផ្សេងទៀត ហើយប្រាប់ឲ្យយើងបានដឹងថាតើវាដំណើរការយ៉ាងណាដែរ។",
+    "description": "Release notes for v5.63"
   }
 }

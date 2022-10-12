@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Tilføj en besked",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Besked",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Udført",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Tilføj til en gruppe",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS-kontakter er ikke tilgængelige på Signal Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ingen resultater på \"$searchTerm$ efter $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ingen resultater på \"{searchTerm} efter {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Tryk på $plusButton$ (Android) eller $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-kode kunne ikke indlæses. Tjek dit internet, og prøv igen. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lær mere",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR-koden kunne ikke indlæses. Tjek din internetforbindelse, og prøv igen. <learnMoreLink>Få mere at vide</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "deaktiveret",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Forsvindende beskeder",
+  "icu:disappearingMessages": {
+    "messageformat": "Forsvindende beskeder",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Ingen fundne kontakter",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ingen grupper fundet",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Ingen fundne samtaler",
@@ -2741,8 +2760,8 @@
     "message": "Tilbage",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Tilføj dine klistermærker",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Tilføj dine klistermærker",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Vis grænsekanten",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Tilføj $count$ eller flere",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Tilføj {count,number} eller flere",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Tjek denne nye klistermærkepakke, jeg har oprettet til Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ billede(r) er tilføjet",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 billede tilføjet} other {{count,number} billeder tilføjet}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klik på $composeIcon$ ovenstående for at skrive en besked, og søg efter dine kontakter eller grupper.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klik på {composeIcon} ovenstående for at skrive en besked, og søg efter dine kontakter eller grupper.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Vil du kassere disse ændringer?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Din profil er krypteret. Din profil og ændringer i den vil være synlige for dine kontakter, og når du starter eller accepterer nye samtaler. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Din profil er krypteret. Din profil og ændringer i den vil være synlige for dine kontakter, og når du starter eller accepterer nye samtaler. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Enheder",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Slå historier til",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Slå historier fra",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Deaktiver",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Du vil ikke længere kunne dele eller se historier.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Opdatering til version $version$ tilgængelig",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Beskær",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Tilføj en besked",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Mine historier",
@@ -5589,6 +5628,10 @@
     "message": "Fjern historie? Dette fjerner historien fra din liste, men du vil stadig kunne se historier fra denne gruppe.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Det er kun administratorer, der kan sende historier til denne gruppe.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Del og se Historier",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Tilføj nemt og hurtigt en ven til en gruppe med deres kontaktoplysninger for at holde samtalen spændende.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Vi arbejder på at rette nogle bugs og forbedre appens præstation, så den kører uden problemer.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Begynd at bruge og teste vores nye historiefunktion. Du kan bruge funktionen sammen med andre betatestere og fortælle os, om den fungerer ordentligt.",
+    "description": "Release notes for v5.63"
   }
 }

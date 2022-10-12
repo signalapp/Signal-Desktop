@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Přidat zprávu",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Zpráva",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Hotovo",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Přidat do skupiny",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontakty nejsou na Desktopu dostupné",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Žádné výsledky pro „$searchTerm$“ v  $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Žádné výsledky pro „{searchTerm}“ v  {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Klepněte na $plusButton$ (Android), nebo na $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Zjistit více",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. <learnMoreLink>Zjistit více</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "vyp.",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mizející zprávy",
+  "icu:disappearingMessages": {
+    "messageformat": "Mizející zprávy",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nebyly nalezeny žádné kontakty",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nebyly nalezeny žádné skupiny",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nebyly nalezeny žádné konverzace",
@@ -2741,8 +2760,8 @@
     "message": "Zpět",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Přidejte své nálepky",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Přidejte své nálepky",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Zobrazit okraje",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Přidat $count$ nebo víc",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Přidat {count,number} nebo víc",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil/a pro Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ přidaných obrázků",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Byl přidán jeden obrázek} few {Byly přidány {count,number} obrázky} many {Bylo přidáno {count,number} obrázků} other {Bylo přidáno {count,number} obrázků}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klikněte na $composeIcon$ výše a vyhledejte kontakty nebo skupiny, kterým chcete poslat zprávu.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klikněte na {composeIcon} výše a vyhledejte kontakty nebo skupiny, kterým chcete poslat zprávu.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Chcete tyto změny zahodit?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Zařízení",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Zapnout příběhy",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Vypnout příběhy",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Vypnout",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Příběhy již nebudete moci sdílet ani zobrazovat.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "K dispozici je aktualizace na verzi $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Oříznout",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Přidat zprávu",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Moje příběhy",
@@ -5589,6 +5628,10 @@
     "message": "Smazat příběh? Tímto příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Do této skupiny mohou příběhy posílat pouze správci.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Sdílet a zobrazit příběhy",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Přítele jednoduše přidáte do skupiny z obrazovky s jeho kontaktními údaji, a pak už můžete zahájit konverzaci.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Usilovně pracujeme na opravách chyb a na dalším zvyšování výkonu, aby vám aplikace fungovala bez problémů.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Začněte používat a testovat naši novou funkci příběhů. Můžete ji vyzkoušet společně s dalšími testery a dát nám vědět, jak funguje.",
+    "description": "Release notes for v5.63"
   }
 }

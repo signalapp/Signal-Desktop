@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Pridėti žinutę",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Žinutė",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Atlikta",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Pridėti į grupę",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS adresatai nėra prieinami Signal Desktop programoje.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Užklausa „$searchTerm$“, pokalbyje $conversationName$, negrąžino jokių rezultatų",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Užklausa „{searchTerm}“, pokalbyje {conversationName}, negrąžino jokių rezultatų",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Bakstelėkite ant $plusButton$ („Android“ įrenginiuose) arba ant $linkNewDevice$ („iPhone“ įrenginiuose)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Nepavyko įkelti QR kodo. Patikrinkite interneto ryšį ir bandykite dar kartą. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Sužinoti daugiau",
+  "icu:Install__qr-failed": {
+    "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "išjungta",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Išnykstančios žinutės",
+  "icu:disappearingMessages": {
+    "messageformat": "Išnykstančios žinutės",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Adresatų nerasta",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nerasta jokių grupių",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nerasta jokių pokalbių",
@@ -2741,8 +2760,8 @@
     "message": "Atgal",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Pridėkite savo lipdukus",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Pridėkite savo lipdukus",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Rodyti paraštes",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Pridėkite  $count$ ar daugiau",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Pridėkite  {count,number} ar daugiau",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Pažvelk į šį naują lipdukų paketą, kurį sukūriau Signal programėlei. #tegulprivatumaslimpa",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Pridėta paveikslų: $count$",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Pridėtas 1 paveikslėlis} few {Pridėti {count,number} paveikslėliai} many {Pridėta {count,number} pav.} other {Pridėta {count,number} paveikslėlių}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Spustelėkite aukščiau ant $composeIcon$ ir ieškokite adresatų ar grupių, kuriems norite rašyti žinutę.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Spustelėkite aukščiau ant {composeIcon} ir ieškokite adresatų ar grupių, kuriems norite rašyti žinutę.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Ar norėtumėte atmesti šiuos pakeitimus?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Jūsų profilis yra šifruotas. Jūsų profilis ir jam atliekami pakeitimai bus matomi jūsų adresatams bei, kai inicijuosite ar priimsite naujus pokalbius. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Jūsų profilis yra šifruotas. Jūsų profilis ir jam atliekami pakeitimai bus matomi jūsų adresatams bei, kai inicijuosite ar priimsite naujus pokalbius. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Įrenginiai",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Įjungti Istorijas",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Išjungti Istorijas",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Išjungti",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Nebegalėsi nei bendrinti, nei žiūrėti istorijų.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Yra prieinamas atnaujinimas į versiją $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Apkirpti",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Pridėti žinutę",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Mano istorijos",
@@ -5589,6 +5628,10 @@
     "message": "Pašalinti istoriją? Istorija bus pašalinta iš tavo sąrašo, bet tu vis dar galėsi žiūrėti šios grupės istorijas.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Siųsti istorijas į šią grupę gali tik administratoriai.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dalintis ir žiūrėti istorijas",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Be vargo pridėk draugą į grupę iš jo kontaktinės informacijos puslapio, kad palaikytum įdomų pokalbį.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Plušame taisydami klaidas ir kitaip gerindami programėlės veikimą, kad ir toliau ja sklandžiai naudotumeisi.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Pradėk naudoti ir testuoti mūsų naują istorijų funkciją. Gali ją naudoti kartu su kitais mūsų beta testuotojais ir pranešti, kaip veikia.",
+    "description": "Release notes for v5.63"
   }
 }

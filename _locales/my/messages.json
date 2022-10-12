@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "စာ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ပြီးပါပြီ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်မယ်",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS အဆက်အသွယ်များကို Desktop တွင် မရရှိနိုင်ပါ။",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ တွင် \"$searchTerm$\" အတွက် ရလဒ်များ မရှိပါ",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} တွင် \"{searchTerm}\" အတွက် ရလဒ်များ မရှိပါ",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) သို့မဟုတ် $linkNewDevice$ (iPhone) ကို နှိပ်ပါ",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR ကုဒ်ကို လုပ်ဆောင်မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။ $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "ထပ်မံလေ့လာရန်",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR ကုဒ် လုပ်ဆောင်မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ပိတ်သည်",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "စာများအား ပျောက်သွားစေခြင်း",
+  "icu:disappearingMessages": {
+    "messageformat": "စာများအား ပျောက်သွားစေခြင်း",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "အဆက်အသွယ်များ ရှာမတွေ့ပါ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "အဖွဲ့ မတွေ့ရှိပါ",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "စကားဝိုင်းများ ရှာမတွေ့ပါ",
@@ -2741,8 +2760,8 @@
     "message": "နောက်သို့",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "သင့်စတစ်ကာများကို ပေါင်းထည့်ရန်",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "သင့်စတစ်ကာများကို ပေါင်းထည့်ရန်",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "မာဂျင်များ ပြရန်",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ သို့မဟုတ် ထိုအထက် ပေါင်းထည့်ရန်",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} သို့မဟုတ် ထိုအထက် ပေါင်းထည့်ရန်",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal အတွက် ကျွန်ုပ် ဖန်တီးထားသော ဤစတစ်ကာတွဲ အသစ်ကို ကြည့်လိုက်ပါ။ #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ပုံ ပေါင်းထည့်ပြီး",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} ပုံ ပေါင်းထည့်ပြီး}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "အထက်ပါ $composeIcon$ ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။",
+  "icu:emptyInboxMessage": {
+    "messageformat": "အထက်ပါ {composeIcon} ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "ပြောင်းလဲမှုများကို ပြန်ရုပ်သိမ်းမှာလား?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "စက်များ",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "စတိုရီများ ဖွင့်ရန်",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "စတိုရီများ ပိတ်ရန်",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ပိတ်မည်",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "သင်သည် စတိုရီများ ဝေမျှရန် သို့မဟုတ် ကြည့်ရန် လုပ်ဆောင်နိုင်တော့မည် မဟုတ်ပါ။",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "ဗားရှင်း $version$ အတွက် အပ်ဒိတ် ရရှိပါပြီ",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "ဖြတ်တောက်ရန်",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "ကျွန်ုပ်၏ စတိုရီ",
@@ -5589,6 +5628,10 @@
     "message": "စတိုရီကို ဖယ်ရှားမည်လား။ ၎င်းသည် သင့်စာရင်းမှ စတိုရီကို ဖယ်ရှားသွားမည် ဖြစ်သော်လည်း သင်သည် ဤအဖွဲ့မှ စတိုရီများကို ဆက်လက်ကြည့်ရှုနိုင်ပါမည်။",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "အက်ဒ်မင်များသာလျှင် ဤအဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့နိုင်ပါသည်။",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ပြောဆိုဆွေးနွေးမှုကို ဆက်လက်စိတ်လှုပ်ဖွယ် ကောင်းနေစေရန် ၎င်းတို့၏ အဆက်အသွယ် အသေးစိတ် စခရင်မှ အဖွဲ့သို့ မိတ်ဆွေတစ်ဦးအား အလွယ်တကူ ပေါင်းထည့်ပါ။",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "အက်ပ်အား သင့်အတွက် ချောမွေ့စွာ အလုပ်လုပ်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများကို ကြိုးစားလုပ်ဆောင်ထားပြီး အခြားသော စွမ်းဆောင်ရည် မွမ်းမံမှုများကို ပြုလုပ်ထားပါသည်။",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ကျွန်ုပ်တို့၏ စတိုရီ လုပ်ဆောင်ချက်အင်္ဂါရပ် အသစ်ကို စတင်သုံးစွဲပြီး စမ်းသပ်လိုက်ပါ။ သင်သည် အခြား Beta စမ်းသပ်သုံးစွဲသူများနှင့်အတူ ဤလုပ်ဆောင်ချက်အင်္ဂါရပ်ကို သုံးစွဲနိုင်ပြီး ၎င်းအလုပ်လုပ်ပုံအကြောင်း ကျွန်ုပ်တို့အား အသိပေးပါ။",
+    "description": "Release notes for v5.63"
   }
 }

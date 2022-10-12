@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Mag-add ng message",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mensahe",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Tapos na",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "I-add sa isang group",
@@ -733,8 +752,8 @@
     "message": "Ang SMS/MMS contacts ay hindi available sa Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Walang results for \"$searchTerm$\" sa $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Walang results for \"{searchTerm}\" sa {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "I-tap ang $plusButton$ (Android) o $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Ayaw mag-load ng QR code. I-check ang iyong internet at subukan ulit. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Matuto pa",
+  "icu:Install__qr-failed": {
+    "messageformat": "Hindi ma-load ang QR code. I-check ang iyong internet at subukan ulit. <learnMoreLink>Matuto pa</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mga naglalahong mensahe",
+  "icu:disappearingMessages": {
+    "messageformat": "Mga naglalahong mensahe",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "No contacts found",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Walang makitang groups",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "No conversations found",
@@ -2741,8 +2760,8 @@
     "message": "Bumalik",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Add your stickers",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Add your stickers",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Show margins",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Mag-add ng $count$ o higit pa",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Mag-add ng {count,number} o higit pa",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ image(s) added",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Nag-add ng 1 image} other {Nag-add ng {count,number} images}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "I-click ang $composeIcon$ sa taas at i-search ang contacts o groups na gusto mong i-message.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "I-click ang {composeIcon} sa taas at i-search ang contacts o groups na gusto mong i-message.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Nais mo bang balewalain ang mga pagbabagong ito?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Ang iyong profile ay encrypted. Ang profile mo at ang mga changes dito ay magiging visible sa iyong contacts at kapag nag-initiate o nag-accept ka ng bagong conversations. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Ang iyong profile ay encrypted. Ang profile mo at ang mga changes dito ay magiging visible sa iyong contacts at kapag nag-initiate o nag-accept ka ng bagong conversations. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Devices",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "I-on ang stories",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "I-off ang stories",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Patayin",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Hindi ka na pwedeng mag-share o mag-view ng stories.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "I-update sa version $version$ na available",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Crop",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Mag-add ng message",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Stories Ko",
@@ -5589,6 +5628,10 @@
     "message": "Gusto mo bang tanggalin ang story na ito? Matatanggal ang story mula sa list na ito. Pero pwede ka pa ring mag-view ng stories mula sa group na ito.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Admins lang ang pwedeng mag-send ng stories sa group na ito.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Pag-share at Pag-view ng Stories",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Pwede mo nang i-add ang friend mo sa isang group sa pagpunta sa contact details screen nila para mas exciting ang chat n'yo.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Patuloy na nagta-trabaho para alisin ang ilang bugs at pagandahin ang takbo ng app para sa iyo.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Simulang gamitin at i-test ang aming bagong stories feature. Pwede mong gamitin ang feature na ito kasama ang ibang beta testers at bigyan kami ng feedback tungkol dito.",
+    "description": "Release notes for v5.63"
   }
 }

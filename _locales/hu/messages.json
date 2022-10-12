@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Szöveg hozzáadása",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Üzenet",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Befejezés",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Hozzáadás egy csoporthoz",
@@ -733,8 +752,8 @@
     "message": "Az SMS/MMS kontaktok nem érhetőek el Desktopon.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Nem található \"$searchTerm$\" itt: $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Nem található \"{searchTerm}\" itt: {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Kattints a $plusButton$ (Android) vagy $linkNewDevice$ (iPhone) gombra",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Nem sikerült betölteni a QR kódot. Ellenőrizd a hálózati kapcsolatot és próbáld újra. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Tudj meg többet!",
+  "icu:Install__qr-failed": {
+    "messageformat": "Nem sikerült betölteni a QR-kódot. Ellenőrizd a hálózati kapcsolatot és próbáld újra. <learnMoreLink>Tudj meg többet</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ki",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Eltűnő üzenetek",
+  "icu:disappearingMessages": {
+    "messageformat": "Eltűnő üzenetek",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nem találhatók kontaktok",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nem található csoport",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nem találhatóak beszélgetések",
@@ -2741,8 +2760,8 @@
     "message": "Vissza",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Saját matricák hozzáadása",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Saját matricák hozzáadása",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Margó megjelenítése",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "További $count$ db hozzáadása",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "További {count,number} db hozzáadása",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Nézd meg az új Signal matricacsomagomat! #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ db kép hozzáadva",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 kép hozzáadva} other {{count,number} kép hozzáadva}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Kattints az $composeIcon$ra a címzettnek szánt kontakt vagy csoport kikereséséhez!",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Kattints az {composeIcon}ra a címzettnek szánt kontakt vagy csoport kikereséséhez!",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Elveted a módosításokat?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profilod adatai titkosítva vannak. Profilod adatai, valamint az abban bekövetkező változások csak azután lesznek láthatóak partnereid számára, miután új beszélgetést kezdeményezel vagy fogadsz el. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profilod adatai titkosítva vannak. Profilod adatai, valamint az abban bekövetkező változások csak azután lesznek láthatóak partnereid számára, miután új beszélgetést kezdeményezel vagy fogadsz el. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Eszközök",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Történetek bekapcsolása",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Történetek kikapcsolása",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Kikapcsolás",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Többé nem fogsz tudni megosztani vagy megtekinteni Történeteket.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Elérhető frissítés a $version$ verzióra",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Kivágás",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Szöveg hozzáadása",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Történeteim",
@@ -5589,6 +5628,10 @@
     "message": "Eltávolítod a Történetet? Ha igen, a Történet törlésre kerül a listádról, azonban továbbra is látni fogod a Történeteket ebből a csoportból.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Csak adminok küldhetnek Történetet ebbe a csoportba.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Történetek megosztása és megtekintése",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Egyszerűen csak adj hozzá egy ismerőst egy csoporthoz a Névjegyadatok képernyőn, és tedd izgalmassá a beszélgetést!",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Keményen dolgoztunk a hibák helyrehozásán és egyéb teljesítményjavításokon, hogy az alkalmazás zökkenőmentesen működjön.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Kezdd el használni és teszteld az új Történetfunkciót. A funkciót más béta tesztelőkkel is használhatod, és megoszthatod velünk, hogyan működik.",
+    "description": "Release notes for v5.63"
   }
 }

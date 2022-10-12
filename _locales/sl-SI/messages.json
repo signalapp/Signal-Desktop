@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Dodaj sporočilo",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Sporočilo",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "OK",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Dodaj v skupino",
@@ -733,8 +752,8 @@
     "message": "Stiki SMS/MMS niso na voljo na Signalu Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ni rezultatov za \"$searchTerm$\" v $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ni rezultatov za \"{searchTerm}\" v {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Tapnite $plusButton$ (Android) ali $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Kode QR ni bilo mogoče prikazati. Preverite svojo internetno povezavo in poskusite znova. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Preberite več",
+  "icu:Install__qr-failed": {
+    "messageformat": "Kode QR ni bilo mogoče naložiti. Preverite svojo internetno povezavo in poskusite znova. <learnMoreLink>Preberite več</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "izklopljen",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Izginjajoča sporočila",
+  "icu:disappearingMessages": {
+    "messageformat": "Izginjajoča sporočila",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Najden ni bil noben stik",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ni najdenih skupin",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Najden ni bil noben pogovor",
@@ -2741,8 +2760,8 @@
     "message": "Nazaj",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Dodajte svoje nalepke",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Dodajte svoje nalepke",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Prikaži robove",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Dodaj $count$ ali več",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Dodaj {count,number} ali več",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Poglej si moj novi paket nalepk za Signal! #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Dodanih slik: $count$",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Dodana je 1 slika} two {Dodani sta {count,number} sliki} few {Dodane so {count,number} slike} other {Dodanih je {count,number} slik}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Kliknite $composeIcon$ zgoraj in poiščite stik ali skupino, ki ji želite pisati.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Kliknite {composeIcon} zgoraj in poiščite stik ali skupino, ki ji želite pisati.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Želite zavreči te spremembe?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Vaš profil je šifriran. Skupaj s spremembami na njem bo viden vašim stikom, ko boste začeli nov pogovor, oziroma prejeli prvo sporočilo. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Vaš profil je šifriran. Skupaj s spremembami na njem bo viden vašim stikom, ko boste začeli nov pogovor, oziroma prejeli prvo sporočilo. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Naprave",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Vklopite Zgodbe",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Izklopite Zgodbe",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Izklopi",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Zgodb ne boste mogli več deliti ali si jih ogledovati.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Na voljo je nadgradnja na različico $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Obreži",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Dodaj sporočilo",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Moje zgodbe",
@@ -5589,6 +5628,10 @@
     "message": "Želite odstraniti Zgodbo? To bo odstranilo Zgodbo s seznama, še vedno pa si boste lahko ogledovali Zgodbe iz te skupine.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "V to skupino lahko zgodbe pošiljajo le skrbniki.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Deljenje & Ogled Zgodb",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Preprosto dodajte prijatelja_ico v skupino z zaslona z njegovimi_nimi kontaktnimi podatki, da bo pogovor še naprej zanimiv.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Trdo delamo, da odpravimo napake in uvedemo druge izboljšave delovanja, da bo aplikacija za vas delovala nemoteno.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Začnite uporabljati in preizkušati našo novo funkcijo zgodb. Funkcijo lahko uporabljate z drugimi beta preizkuševalci in nam sporočite, kako deluje.",
+    "description": "Release notes for v5.63"
   }
 }

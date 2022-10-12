@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Tambah mesej",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mesej",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Selesai",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Tambah kepada kumpulan",
@@ -733,8 +752,8 @@
     "message": "Kenalan SMS/MMS tidak tersedia di Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Tiada keputusan untuk \"$searchTerm$\" dalam $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Tiada keputusan untuk \"{searchTerm}\" dalam {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Ketik $plusButton$ (Android) atau $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Kod QR tidak boleh dimuatkan. Periksa internet anda dan cuba lagi. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Ketahui lebih lanjut",
+  "icu:Install__qr-failed": {
+    "messageformat": "Kod QR tidak boleh dimuatkan. Periksa internet anda dan cuba lagi. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "mati",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mesej hilang",
+  "icu:disappearingMessages": {
+    "messageformat": "Mesej hilang",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Tiada kenalan dijumpai",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Tiada kumpulan ditemui.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Tiada perbualan dijumpai",
@@ -2741,8 +2760,8 @@
     "message": "Kembali",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Tambah pelekat anda",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Tambah pelekat anda",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Tunjukkan margin",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Tambah $count$ atau lebih",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Tambah {count,number} atau lebih",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Lihat pek pelekat baharu yang saya cipta untuk Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ imej telah ditambah",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} imej telah ditambah}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klik $composeIcon$ di atas dan cari kenalan atau kumpulan anda untuk menghantar mesej.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klik {composeIcon} di atas dan cari kenalan atau kumpulan anda untuk menghantar mesej.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Adakah anda ingin membuang perubahan ini?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profil anda telah disulitkan. Profil dan perubahannya akan dapat dilihat oleh kenalan anda dan apabila anda memulakan atau menerima sembang baharu. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profil anda telah disulitkan. Profil dan perubahannya akan dapat dilihat oleh kenalan anda dan apabila anda memulakan atau menerima sembang baharu. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Peranti",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Hidupkan cerita",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Matikan cerita",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Matikan",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Anda tidak lagi boleh berkongsi atau menonton cerita.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Kemas kini kepada versi $version$ tersedia",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Potong",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Tambah mesej",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Cerita Saya",
@@ -5589,6 +5628,10 @@
     "message": "Padam cerita? Ini akan memadam cerita daripada senarai anda, tetapi anda masih boleh menonton cerita daripada kumpulan ini.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Hanya pentadbir yang boleh menghantar mesej ke kumpulan ini.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Kongsi & Tonton Cerita",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Tambahkan kawan ke kumpulan dengan mudah daripada skrin butiran kenalan mereka untuk memastikan perbualan tetap menarik.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Bekerja keras membaiki pepijat dan membuat peningkatan prestasi yang lain untuk memastikan aplikasi berjalan lancar untuk anda.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Mula menggunakan dan menguji ciri cerita baru kami. Anda boleh menggunakan ciri ini dengan penguji beta lain dan beritahu kami jika ia berfungsi dengan baik.",
+    "description": "Release notes for v5.63"
   }
 }

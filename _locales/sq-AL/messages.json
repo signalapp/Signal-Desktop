@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Shtoni një mesazh",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mesazh",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "U bë",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Shtoje te grup",
@@ -733,8 +752,8 @@
     "message": "Kontaktet SMS/MMS s’janë të passhëm në Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "S’ka përfundime për \"$searchTerm$\" te $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "S’ka përfundime për \"{searchTerm}\" te {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Prekni $plusButton$ (Android) ose $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Kodi QR s’u ngarkua dot. Kontrolloni lidhjen tuaj në internet dhe riprovoni. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Mësoni më tepër",
+  "icu:Install__qr-failed": {
+    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <learnMoreLink>Mëso më shumë</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Zhdukje mesazhesh",
+  "icu:disappearingMessages": {
+    "messageformat": "Zhdukje mesazhesh",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "S’u gjetën kontakte.",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nuk u gjend asnjë grup",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "S’u gjetën biseda.",
@@ -2741,8 +2760,8 @@
     "message": "Mbrapsht",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Shtoni ngjitësit tuaj",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Shtoni ngjitësit tuaj",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Shfaq mënjana",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Shtoni $count$ ose më tepër",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Shtoni {count,number} ose më tepër",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Hidhini një sy kësaj pakete të re ngjitësish që krijova për Signal-in. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "U shtua $count$ figurë(a)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 imazh u shtua} other {{count,number} imazhe u shtuan}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klikoni $composeIcon$ më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klikoni {composeIcon} më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "Doni të hidhen tej këto ndryshime?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profili juaj është i fshehtëzuar. Profili juaj dhe ndryshime në të do të jenë të dukshme për kontaktet tuaj dhe kur nisni ose pranoni fjalosje të reja. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profili juaj është i fshehtëzuar. Profili juaj dhe ndryshime në të do të jenë të dukshme për kontaktet tuaj dhe kur nisni ose pranoni fjalosje të reja. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Pajisje",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Aktivizo postimet e përkohshme",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Çaktivizo postimet e përkohshme",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Çaktivizoje",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Nuk do të mund të ndash apo shikosh më postime të përkohshme.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Ka të gatshëm përditësim me versionin $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Qethe",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Shtoni një mesazh",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Historitë e Mia",
@@ -5589,6 +5628,10 @@
     "message": "Të hiqet postimi i përkohshëm? Kjo do të heqë postimin e përkohshëm nga lista jote, por ti do të mund t'i shohësh postimet e përkohshme të këtij grupi.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Vetëm administratorët mund të dërgojnë postime të përkohshme në këtë grup.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Shpërndaj dhe shiko postimet e përkohshme",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Shto lehtësisht një mik në një grup nga ekrani i detajeve të kontaktit të tyre për ta bërë bisedën më emocionuese.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Punojmë fort për të rregulluar problemet dhe për të bërë përmirësime të tjera të mbarëvajtjes, që aplikacioni të funksionojë pa probleme.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Fillo të përdorësh dhe testosh funksionin tonë të ri të postimeve të përkohshme. Mund ta përdorësh funksionin me testues të tjerë beta dhe të na thuash si funksionon.",
+    "description": "Release notes for v5.63"
   }
 }

@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "கூட்டு ஒரு செய்தி",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "செய்தி",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "முடிந்தது",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "ஒரு குழுவில் சேர்க்கவும்",
@@ -733,8 +752,8 @@
     "message": "எஸ் எம் எஸ்/எம் எம் எஸ் தொடர்புகள் கிடைக்கவில்லை டெஸ்க்டாப்.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$  இல் \"$searchTerm$\" க்கான முடிவுகள் எதுவும் இல்லை",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName}  இல் \"{searchTerm}\" க்கான முடிவுகள் எதுவும் இல்லை",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (ஆண்ட்ராய்டு) அல்லது $linkNewDevice$ (ஐ ஃபோன்)-ஐத் தட்டவும்",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "க்யூ ஆர் குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "மேலும் அறிக",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "ஆஃப்",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "காணாமல் போகும் செய்திகள்",
+  "icu:disappearingMessages": {
+    "messageformat": "காணாமல் போகும் செய்திகள்",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "எந்த தொடர்புகளும் கிடைக்கவில்லை",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "எந்தக் குழுவும் கிடைக்கப்பெறவில்லை",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "உரையாடல்கள் எதுவும் கிடைக்கவில்லை",
@@ -2741,8 +2760,8 @@
     "message": "மீண்டும்",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "மற்றும் உங்கள் ஓட்டிகள்",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "மற்றும் உங்கள் ஓட்டிகள்",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "விளிம்புகளைக் காட்டு",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ அல்லது அதற்கு மேற்பட்டவற்றைச் சேர்க்கவும்",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} அல்லது அதற்கு மேற்பட்டவற்றைச் சேர்க்கவும்",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal சிக்னலுக்காக நான் உருவாக்கிய இந்த புதிய ஓட்டி தொகுப்பு பாருங்கள். #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$படம் (கள்) சேர்க்கப்பட்டது",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 படம் சேர்க்கப்பட்டது} other {{count,number} படங்கள் சேர்க்கப்பட்டது}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "செய்தியை அனுப்ப, மேலே உள்ள $composeIcon$ அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள்.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "செய்தியை அனுப்ப, மேலே உள்ள {composeIcon} அழுத்தி உங்கள் தொடர்புகள் அல்லது குழுக்களைத் தேடுங்கள்.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "இந்த மாற்றங்களை நிராகரிக்க விரும்புகிறீர்களா?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "உங்கள் சுயவிவரம் மறையாக்கப்பட்ட. உங்கள் சுயவிவரம் மற்றும் அதற்கான மாற்றங்கள் உங்கள் தொடர்புகளுக்கும், நீங்கள் தொடங்கும் போது அல்லது தெரியும்ஏற்றுக்கொள் புதிய பூனைகள்.  $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "உங்கள் சுயவிவரம் மறையாக்கப்பட்ட. உங்கள் சுயவிவரம் மற்றும் அதற்கான மாற்றங்கள் உங்கள் தொடர்புகளுக்கும், நீங்கள் தொடங்கும் போது அல்லது தெரியும்ஏற்றுக்கொள் புதிய பூனைகள்.  {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "கருவிகள்",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "ஸ்டோரீக்களை இயக்கவும்",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ஸ்டோரீக்களை முடக்கு",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "அணைக்க",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "இனி உங்களால் ஸ்டோரீக்களைப் பகிரவோ பார்க்கவோ முடியாது.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "பதிப்புக்குப் புதுப்பிக்கவும் $version$ கிடைக்கிறது",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "வெட்டு",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "கூட்டு ஒரு செய்தி",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "எனது ஸ்டோரீஸ்",
@@ -5589,6 +5628,10 @@
     "message": "ஸ்டோரியை அகற்றுவதா? இது உங்கள் பட்டியலிலிருந்து ஸ்டோரியை அகற்றும், ஆனால் இந்தக் குழுவிலுள்ள ஸ்டோரீக்களை உங்களால் இன்னும் பார்க்க முடியும்.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "இந்த குழுவிற்கு நிர்வாகிகள் மட்டுமே ஸ்டோரீக்களை அனுப்ப முடியும்.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "உரையாடலை சுவாரசியமாக வைத்திருக்க, அவர்களின் தொடர்பு விவரங்கள் திரையில் இருந்து ஒரு நண்பரை ஒரு குழுவில் எளிதாகச் சேர்க்கவும்.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "பிழை திருத்தம் செய்யவும் மற்றும் உங்களுக்காக ஆப்பை சீராக இயங்க வைப்பதற்கான செயல்திறன் மேம்பாடுகளைச் செய்யவும் கடினமாக உழைக்கிறோம்.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "எங்களின் புதிய ஸ்டோரீஸ் அம்சத்தைப் பயன்படுத்தவும் சோதனை செய்யவும் தொடங்கவும். நீங்கள் மற்ற பீட்டா சோதனையாளர்களுடன் இந்த அம்சத்தைப் பயன்படுத்தலாம் மற்றும் அது எவ்வாறு செயல்படுகிறது என்பதை எங்களுக்குத் தெரியப்படுத்தலாம்.",
+    "description": "Release notes for v5.63"
   }
 }

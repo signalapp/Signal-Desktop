@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Cuir teachtaireacht leis",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Teachtaireacht",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Déanta",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Add to a Group",
@@ -733,8 +752,8 @@
     "message": "SMS/MMS contacts are not available on Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "No results for \"$searchTerm$\" in $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Níl aon toradh ar \"{searchTerm}\" in {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Foghlaim tuilleadh",
+  "icu:Install__qr-failed": {
+    "messageformat": "Níorbh fhéidir leis an gcód QR lódáil. Seiceáil d'Idirlíon agus triail arís. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "as",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Teachtaireachtaí a imíonn as amharc",
+  "icu:disappearingMessages": {
+    "messageformat": "Teachtaireachtaí a imíonn as amharc",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "No contacts found",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Níor aimsíodh aon ghrúpaí",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "No conversations found",
@@ -2741,8 +2760,8 @@
     "message": "Ar Ais",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Add your stickers",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Cuir do ghreamáin leis",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Show margins",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Add $count$ or more",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Cuir {count,number} nó tuilleadh leis",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ image(s) added",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 íomhá curtha leis} two {{count,number} íomhá curtha leis} few {{count,number} íomhá curtha leis} many {{count,number} n-íomhá curtha leis} other {{count,number} íomhá curtha leis}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Click the $composeIcon$ above and search for your contacts or groups to message.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Cliceáil an deilbhín {composeIcon} thuas agus cuardaigh do theagmhálaithe nó grúpaí chun teachtaireacht a sheoladh chucu.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "An bhfuil fonn ort fágáil gan na hathruithe seo a shábháil?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Tá do phróifíl criptithe. Beidh do phróifíl agus aon athrú uirthi infheicthe ag do theagmhálaithe agus nuair a thosaíonn nó a ghlacann tú comhráite nua. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Devices",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Turn On Stories",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Turn Off Stories",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Múch",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Ní bheidh tú in ann féachaint ar scéalta ná iad a chomhroinnt a thuilleadh.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Update to version $version$ available",
     "description": "Tooltip for new update available"
@@ -5317,6 +5352,10 @@
     "message": "Crop",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Cuir teachtaireacht leis",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
     "message": "My Stories",
     "description": "Title for the my stories list"
@@ -5362,15 +5401,15 @@
     "description": "The beginning sentence to list the different ways a signal connection is formed"
   },
   "SignalConnectionsModal__bullet--1": {
-    "message": "Starting a conversation",
+    "message": "Trí chomhrá a thosú leo",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--2": {
-    "message": "Accepting a message request",
+    "message": "Trí iarratas teachtaireachta a ghlacadh",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__bullet--3": {
-    "message": "Having them in your system contacts",
+    "message": "Trína gcur le do theagmhálaithe córais",
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
@@ -5588,6 +5627,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Ní féidir ach le riarthóirí scéalta a sheoladh chuig an ngrúpa seo.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Cuir cara le grúpa go héasca óna scáileán sonraí teagmhála chun an comhrá a choinneáil spreagúil.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Ag obair go crua ar fhabhtanna a réiteach agus ar fheabhsúcháin feidhmíochta eile chun an aip a choinneáil ar rith gan stró duit.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Tosaigh ar úsáid agus ar thástáil ár ngné scéalta nua. Is féidir leat an ghné a úsáid i gcomhar le tástálaithe eile béite agus sinn a chur ar an eolas maidir lena feidhmiú.",
+    "description": "Release notes for v5.63"
   }
 }

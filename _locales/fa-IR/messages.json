@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "افزودن یک پیام",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "پیام",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "تمام",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "افزودن به گروه",
@@ -733,8 +752,8 @@
     "message": "مخاطبین پیامک/فراپیام در دسکتاپ در دسترس نیستند.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "هیچ نتیجه ای برای$searchTerm$در $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "هیچ نتیجه ای برای{searchTerm}در {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "روی $plusButton$ (اندروید) یا $linkNewDevice$(آیفون) کلیک کنید.",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و مجددا سعی کنید. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "بیشتر یاد بگیرید",
+  "icu:Install__qr-failed": {
+    "messageformat": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و دوباره امتحان کنید. <learnMoreLink>بیشتر بدانید</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "خاموش",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "پیام‌های نابود شونده",
+  "icu:disappearingMessages": {
+    "messageformat": "پیام‌های ناپدید شونده",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "هیچ مخاطبی یافت نشد",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "هیچ گروهی پیدا نشد",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "هیچ مکالمه‌‌ای یافت نشد",
@@ -2741,8 +2760,8 @@
     "message": "بازگشت",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "استیکر خود را اضافه کنید",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "استیکر خود را اضافه کنید",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "نشان دادن حاشیه‌ها",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ و یا بیشتر اضافه کنید",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} و یا بیشتر اضافه کنید",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "بستهٔ استیکر‌ی که برای سیگنال ساختم را ببینید. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ تصویر اضافه شد",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {۱ تصویر اضافه شد} other {{count,number} تصویر اضافه شد}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4569,8 +4588,8 @@
     "message": ".۵",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "روی $composeIcon$ در بالا کلیک کنید و برای مخاطبین یا گروه‌های خود برای ارسال پیام جستجو کنید.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "روی {composeIcon} در بالا کلیک کنید و برای مخاطبین یا گروه‌های خود برای ارسال پیام جستجو کنید.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4985,8 +5004,8 @@
     "message": "آیا می‌خواهید این تغییرات را دور بیاندازید؟",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "پروفایل شما رمزگذاری شده است. پروفایل شما و تغییرات آن، برای مخاطبین‌تان و هنگامی که شما گفتگوهای جدید را آغاز کرده یا می‌پذیرید، قابل مشاهده خواهند بود. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "پروفایل شما رمزگذاری شده است. پروفایل شما و تغییرات آن، برای مخاطبین‌تان و هنگامی که شما گفتگوهای جدید را آغاز کرده یا می‌پذیرید، قابل مشاهده خواهند بود. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "دستگاه‌ها",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "روشن کردن استوری‌ها",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "خاموش کردن استوری‌ها",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "خاموش",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "دیگر نمی‌توانید استوری‌ها را هم‌رسانی یا مشاهده کنید.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "به‌روزرسانی به نسخهٔ $version$ موجود است",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "برش",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "افزودن یک پیام",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "داستان‌های من",
@@ -5589,6 +5628,10 @@
     "message": "استوری حذف شود؟ با این کار این استوری از فهرست شما حذف می‌شود، اما همچنان می‌توانید استوری‌های این گروه را مشاهده کنید.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "فقط مدیران می‌توانند در این گروه استوری ارسال کنند.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "اشتراک‌گذاری و نمایش استوری‌ها",
     "description": "Select box title for the stories on/off toggle"
@@ -5860,5 +5903,13 @@
   "WhatsNew__v5.62--1": {
     "message": "دوست خود را به‌راحتی از صفحه مشخصات تماسش به گروه اضافه کنید تا مکالمه هیجان‌انگیزی داشته باشید.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "سخت در تلاش برای رفع اشکالات و ایجاد سایر بهبودهای عملکردی به‌منظور حفظ عملکرد روان برنامه برای شما.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "شروع به استفاده و آزمایش قابلیت جدید استوری‌های ما کنید. می‌توانید همزمان با سایر آزمایش‌کنندگان بتا از این قابلیت استفاده کنید و نحوه عملکرد آن را به ما اطلاع دهید.",
+    "description": "Release notes for v5.63"
   }
 }

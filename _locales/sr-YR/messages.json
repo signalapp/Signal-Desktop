@@ -1,7 +1,14 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
@@ -9,12 +16,24 @@
       }
     ]
   },
+  "AddCaptionModal__title": {
+    "message": "Додати поруку",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Порука",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Готово",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
+  },
   "AddUserToAnotherGroupModal__title": {
-    "message": "Додај у групу",
+    "message": "Додајте у групу",
     "description": "Shown as the title of the dialog that allows you to add a contact to an group"
   },
   "AddUserToAnotherGroupModal__confirm-title": {
-    "message": "Želite li da dodate novog člana?",
+    "message": "Желите ли да додате новог члана?",
     "description": "Shown as the title of the confirmation dialog when adding a contact to a group, after having selected the group"
   },
   "AddUserToAnotherGroupModal__confirm-add": {
@@ -22,19 +41,19 @@
     "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
   },
   "AddUserToAnotherGroupModal__confirm-message": {
-    "message": "Dodaj korisnika ($contact$) u grupu „$group$“",
+    "message": "Додавање корисника ($contact$) у групу „$group$“",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "message": "$contact$ је додат/a у $group$",
+    "message": "$contact$ је додат(a) у групу $group$",
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Dodajemo korisnika ($contact$)",
+    "message": "Додаје се $contact$…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
-    "message": "$count$ чланова",
+    "message": "Број чланова: $count$",
     "description": "Shown below the group name when selecting a group to invite a contact to"
   },
   "GroupListItem__message-already-member": {
@@ -42,7 +61,7 @@
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
   "GroupListItem__message-pending": {
-    "message": "Članstvo je na čekanju",
+    "message": "Чланство је на чекању",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
   "softwareAcknowledgments": {
@@ -604,7 +623,7 @@
     "description": "Label for the decryption error toast button"
   },
   "cannotSelectPhotosAndVideosAlongWithFiles": {
-    "message": "You can't select photos and videos along with files.",
+    "message": "Не можете да изаберете фотографије и видео снимке заједно са фајловима.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS контакти нису доступни на Десктопу.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Нема резултата за „$searchTerm$“ у $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Нема резултата за „{searchTerm}“ у {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Пипните $plusButton$ (Android) или $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR кôд не може да се учита. Проверите везу и покушајте поново. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Сазнај више",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR код не може да се учита. Проверите интернет везу и покушајте поново. <learnMoreLink>Сазнајте више</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "искљ.",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Самонестајуће поруке",
+  "icu:disappearingMessages": {
+    "messageformat": "Самонестајуће поруке",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Није пронађен ниједан контакт",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Нису пронађене групе",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Није пронађен ниједна преписка",
@@ -2666,7 +2685,7 @@
     "description": "Used as alt text for any button closing a popup"
   },
   "addImageOrVideoattachment": {
-    "message": "Add image or video attachment",
+    "message": "Додајте слику или видео снимак као прилог",
     "description": "Used in draft attachment list for the big 'add new attachment' button"
   },
   "remove-attachment": {
@@ -2741,8 +2760,8 @@
     "message": "Назад",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Додајте ваше налепнице",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Додајте ваше налепнице",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Прикажи маргине",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Додати $count$ или више",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Додати {count,number} или више",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Погледајте овај нови пакет налепница што сам креирао за Signal-а. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ слика/е додата/е",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 image added} other {{count,number} images added}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3110,11 +3129,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "minimizeToTrayNotification--title": {
-    "message": "Signal is still running",
+    "message": "Signal још увек ради",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "minimizeToTrayNotification--body": {
-    "message": "Signal will keep running in the notification area. You can change this in Signal settings.",
+    "message": "Signal ће наставити да ради у пољу са обавештењима. То можете променити у подешавањима Signal-а.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
@@ -4298,7 +4317,7 @@
     "description": "This is a button on the conversation details to show all members"
   },
   "ConversationDetailsGroups--title": {
-    "message": "Broj zajedničkih grupa: $number$",
+    "message": "Заједничких група: $number$",
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "ConversationDetailsGroups--add-to-group": {
@@ -4306,7 +4325,7 @@
     "description": "The button shown on a conversation details (for a direct contact) that you can click to add that contact to groups"
   },
   "ConversationDetailsGroups--show-all": {
-    "message": "Погледај све",
+    "message": "Прикажи све",
     "description": "This is a button on the conversation details (for a direct contact) to show all groups-in-common"
   },
   "ConversationNotificationsSettings__mentions__label": {
@@ -4558,7 +4577,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 1x (regular speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate1p5": {
-    "message": "1.5",
+    "message": "1,5",
     "description": "Button in the voice note message widget that shows the current playback rate of 1.5x (%50 faster) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRate2": {
@@ -4566,11 +4585,11 @@
     "description": "Button in the voice note message widget that shows the current playback rate of 2x (double speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "MessageAudio--playbackRatep5": {
-    "message": ".5",
+    "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Кликни на $composeIcon$ и потражи контакте или групе за слање поруке.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Кликни на {composeIcon} и потражи контакте или групе за слање поруке.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4910,7 +4929,7 @@
     "description": "In the message details screen, shown above contacts who have viewed this message"
   },
   "MessageDetail--disappears-in": {
-    "message": "Disappears in",
+    "message": "Нестаће за",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
   "ProfileEditor--about": {
@@ -4985,8 +5004,8 @@
     "message": "Да ли желите да одбаците измене?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Ваш профил је енкриптован. Биће видљив вашим контактима када започнете или прихватите ново ћаскање. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Ваш профил је енкриптован. Биће видљив вашим контактима када започнете или прихватите ново ћаскање. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5200,22 @@
     "message": "Уређаји",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Uključi priče",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Isključi priče",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Искључи",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Више нећете моћи да делите или видите приче.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Доступно ажурирање на верзији $version$",
     "description": "Tooltip for new update available"
@@ -5316,6 +5351,10 @@
   "MediaEditor__crop--crop": {
     "message": "Исеци",
     "description": "Performs the crop"
+  },
+  "MediaEditor__caption-button": {
+    "message": "Додати поруку",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
     "message": "Моје приче",
@@ -5589,6 +5628,10 @@
     "message": "Želite li da uklonite priču? Ovim ćete ukloniti priču sa liste, ali i dalje ćete moći da vidite priče iz ove grupe.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Само администратори могу слати приче у овој групи.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "Podelite i vidite priče",
     "description": "Select box title for the stories on/off toggle"
@@ -5634,7 +5677,7 @@
     "description": "File size description"
   },
   "StoryDetailsModal__disappears-in": {
-    "message": "Disappears in $countdown$",
+    "message": "Нестаће за $countdown$",
     "description": "File size description"
   },
   "StoryDetailsModal__copy-timestamp": {
@@ -5846,19 +5889,27 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "WhatsNew__v5.61--0": {
-    "message": "- Imate gomilu glasovnih poruka u prepisci? Kliknite na „Pusti“, sedite i opustite se, a snimci će automatski nastaviti da se puštaju!",
+    "message": "- Имате гомилу гласовних порука у преписци? Кликните на „Пусти“, седите и опустите се, а снимци ће аутоматски наставити да се пуштају!",
     "description": "Release notes for v5.61"
   },
   "WhatsNew__v5.61--1": {
-    "message": "Sada možete da dodate i video snimak u poruku zajedno sa vašim fotografijama sa putovanja!",
+    "message": "Сада можете да додате и видео снимак у поруку заједно са вашим фотографијама са путовања!",
     "description": "Release notes for v5.61"
   },
   "WhatsNew__v5.62--0": {
-    "message": "Ne možete da se setite koji Miloš je u vašem košarkaškom timu? Proverite kontakt podatke da vidite podeljene grupe između vas i prijatelja.",
+    "message": "Не можете да се сетите који Милош је у вашем кошаркашком тиму? Проверите контакт податке да видите у којим сте групама и ви и ваш пријатељ.",
     "description": "Release notes for v5.62"
   },
   "WhatsNew__v5.62--1": {
-    "message": "Na ekranu sa kontakt podacima lako dodajte prijatelja u grupu da razgovor ostane uzbudljiv.",
+    "message": "На екрану са контакт подацима лако додајте пријатеља у групу да разговор остане узбудљив.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Vredno radimo na tome da ispravimo greške i poboljšamo performanse kako bi vam aplikacija radila nesmetano.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Почните да користите и тестирате нашу нову функцију прича. Можете да користите ову функцију са другим бета тестерима и обавестите нас како функционише.",
+    "description": "Release notes for v5.63"
   }
 }
