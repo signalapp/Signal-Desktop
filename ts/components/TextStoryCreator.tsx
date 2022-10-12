@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import FocusTrap from 'focus-trap-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { get, has, noop } from 'lodash';
 import { usePopper } from 'react-popper';
@@ -28,6 +28,7 @@ import {
 } from '../util/getStoryBackground';
 import { objectMap } from '../util/objectMap';
 import { handleOutsideClick } from '../util/handleOutsideClick';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -125,6 +126,12 @@ export const TextStoryCreator = ({
   onClose,
   onDone,
 }: PropsType): JSX.Element => {
+  const [showConfirmDiscardModal, setShowConfirmDiscardModal] = useState(false);
+
+  const onTryClose = useCallback(() => {
+    setShowConfirmDiscardModal(true);
+  }, [setShowConfirmDiscardModal]);
+
   const [isEditingText, setIsEditingText] = useState(false);
   const [selectedBackground, setSelectedBackground] =
     useState<BackgroundStyleType>(BackgroundStyle.BG1);
@@ -252,11 +259,11 @@ export const TextStoryCreator = ({
           setIsColorPickerShowing(false);
           setIsEditingText(false);
           setIsLinkPreviewInputShowing(false);
-          event.preventDefault();
-          event.stopPropagation();
         } else {
-          onClose();
+          onTryClose();
         }
+        event.preventDefault();
+        event.stopPropagation();
       }
     };
 
@@ -271,7 +278,9 @@ export const TextStoryCreator = ({
     isEditingText,
     isLinkPreviewInputShowing,
     colorPickerPopperButtonRef,
-    onClose,
+    showConfirmDiscardModal,
+    setShowConfirmDiscardModal,
+    onTryClose,
   ]);
 
   useEffect(() => {
@@ -422,7 +431,7 @@ export const TextStoryCreator = ({
           )}
           <div className="StoryCreator__toolbar--buttons">
             <Button
-              onClick={onClose}
+              onClick={onTryClose}
               theme={Theme.Dark}
               variant={ButtonVariant.Secondary}
             >
@@ -566,6 +575,13 @@ export const TextStoryCreator = ({
             </Button>
           </div>
         </div>
+        {showConfirmDiscardModal && (
+          <ConfirmDiscardDialog
+            i18n={i18n}
+            onClose={() => setShowConfirmDiscardModal(false)}
+            onDiscard={onClose}
+          />
+        )}
       </div>
     </FocusTrap>
   );

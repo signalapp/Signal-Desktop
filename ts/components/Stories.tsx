@@ -92,7 +92,8 @@ export const Stories = ({
   useEscapeHandling(
     (isMyStories && myStories.length) ||
       isViewingStory ||
-      isStoriesSettingsVisible
+      isStoriesSettingsVisible ||
+      addStoryData
       ? undefined
       : toggleStoriesView
   );

@@ -23,19 +23,28 @@ export type ContextMenuOptionType<T> = {
   readonly value?: T;
 };
 
-export type PropsType<T> = {
-  readonly ariaLabel?: string;
-  readonly children?: ReactNode;
-  readonly i18n: LocalizerType;
-  readonly menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
-  readonly moduleClassName?: string;
-  readonly onClick?: () => unknown;
-  readonly onMenuShowingChanged?: (value: boolean) => unknown;
-  readonly popperOptions?: Pick<Options, 'placement' | 'strategy'>;
-  readonly theme?: Theme;
-  readonly title?: string;
-  readonly value?: T;
+type RenderButtonProps = {
+  openMenu: (() => void) | ((ev: React.MouseEvent) => void);
+  onKeyDown: (ev: KeyboardEvent) => void;
+  isMenuShowing: boolean;
+  ref: React.Ref<HTMLButtonElement> | null;
 };
+
+export type PropsType<T> = Readonly<{
+  ariaLabel?: string;
+  // contents of the button OR a function that will render the whole button
+  children?: ReactNode | ((props: RenderButtonProps) => JSX.Element);
+  i18n: LocalizerType;
+  menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
+  moduleClassName?: string;
+  button?: () => JSX.Element;
+  onClick?: () => unknown;
+  onMenuShowingChanged?: (value: boolean) => unknown;
+  popperOptions?: Pick<Options, 'placement' | 'strategy'>;
+  theme?: Theme;
+  title?: string;
+  value?: T;
+}>;
 
 let closeCurrentOpenContextMenu: undefined | (() => unknown);
 
@@ -167,13 +176,16 @@ export function ContextMenu<T>({
 
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
-  return (
-    <div
-      className={classNames(
-        getClassName('__container'),
-        theme ? themeClassName(theme) : undefined
-      )}
-    >
+  let buttonNode: ReactNode;
+  if (typeof children === 'function') {
+    buttonNode = (children as (props: RenderButtonProps) => JSX.Element)({
+      openMenu: onClick || handleClick,
+      onKeyDown: handleKeyDown,
+      isMenuShowing,
+      ref: setReferenceElement,
+    });
+  } else {
+    buttonNode = (
       <button
         aria-label={ariaLabel || i18n('ContextMenu--button')}
         className={classNames(
@@ -188,6 +200,17 @@ export function ContextMenu<T>({
       >
         {children}
       </button>
+    );
+  }
+
+  return (
+    <div
+      className={classNames(
+        getClassName('__container'),
+        theme ? themeClassName(theme) : undefined
+      )}
+    >
+      {buttonNode}
       {isMenuShowing && (
         <FocusTrap
           focusTrapOptions={{

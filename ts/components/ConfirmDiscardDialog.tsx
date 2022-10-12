@@ -15,7 +15,7 @@ export const ConfirmDiscardDialog = ({
   i18n,
   onClose,
   onDiscard,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element => {
   return (
     <ConfirmationDialog
       dialogName="ConfirmDiscardDialog"

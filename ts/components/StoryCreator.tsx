@@ -143,6 +143,7 @@ export const StoryCreator = ({
     <>
       {draftAttachment && (
         <SendStoryModal
+          draftAttachment={draftAttachment}
           candidateConversations={candidateConversations}
           distributionLists={distributionLists}
           getPreferredBadge={getPreferredBadge}

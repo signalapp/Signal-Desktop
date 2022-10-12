@@ -16,6 +16,7 @@ import {
   getMyStories,
   getFakeDistributionListsWithMembers,
 } from '../test-both/helpers/getFakeDistributionLists';
+import { VIDEO_MP4 } from '../types/MIME';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -28,6 +29,13 @@ export default {
   title: 'Components/SendStoryModal',
   component: SendStoryModal,
   argTypes: {
+    draftAttachment: {
+      defaultValue: {
+        contentType: VIDEO_MP4,
+        fileName: 'pixabay-Soap-Bubble-7141.mp4',
+        url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+      },
+    },
     candidateConversations: {
       defaultValue: Array.from(Array(100), () => getDefaultConversation()),
     },

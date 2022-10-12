@@ -18,6 +18,19 @@
     }
   }
 
+  .module-SearchInput__container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  &__story-preview {
+    height: 140px;
+    width: 80px;
+    border-radius: 12px;
+    margin: 0 auto 16px auto;
+    background-size: cover;
+  }
+
   &__item--contact-or-conversation {
     height: 52px;
     padding: 0 6px;
@@ -32,13 +45,17 @@
   }
 
   &__new-story {
-    &__container {
+    &__button {
+      font-weight: 500;
+      padding: 5px 10px;
       &::before {
         @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
         content: '';
         height: 16px;
-        margin-right: 8px;
         width: 16px;
+        margin-right: 8px;
+        display: inline-block;
+        vertical-align: text-bottom;
       }
     }
 
@@ -121,11 +138,13 @@
 
     &__name {
       @include font-body-1-bold;
+      font-weight: 400;
     }
 
     &__description {
       @include font-body-2;
-      color: $color-gray-60;
+      font-size: 12px;
+      color: $color-gray-25;
     }
 
     &__checkbox {
@@ -187,6 +206,9 @@
     padding-right: 16px;
     user-select: none;
     flex: 1;
+    display: flex;
+    align-items: center;
+    min-height: 32px;
   }
 
   &__ok {
@@ -230,6 +252,17 @@
       content: '';
       height: 18px;
       width: 18px;
+    }
+  }
+
+  // more specific to override StoryImage
+  .SendStoryModal {
+    &__story {
+      border-radius: 12px;
+      backdrop-filter: blur(90px);
+      &__image {
+        object-fit: contain;
+      }
     }
   }
 }
