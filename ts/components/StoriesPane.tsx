@@ -25,6 +25,7 @@ import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { StoryListItem } from './StoryListItem';
 import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
+import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
@@ -110,10 +111,13 @@ export const StoriesPane = ({
     }
   }, [searchTerm, stories]);
 
+  const [focusRef] = useRestoreFocus();
+
   return (
     <>
       <div className="Stories__pane__header">
         <button
+          ref={focusRef}
           aria-label={i18n('back')}
           className="Stories__pane__header--back"
           onClick={toggleStoriesView}
