@@ -10,7 +10,6 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import { Globals, useSpring, animated, to } from '@react-spring/web';
 import type { BodyRangeType, LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -45,6 +44,7 @@ import { getStoryDuration } from '../util/getStoryDuration';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { isVideoAttachment } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { strictAssert } from '../util/assert';
 
 export type PropsType = {
   currentIndex: number;
@@ -242,77 +242,54 @@ export const StoryViewer = ({
     };
   }, [attachment, messageId]);
 
-  const unmountRef = useRef<boolean>(false);
-  useEffect(() => {
-    return () => {
-      unmountRef.current = true;
-    };
-  }, []);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<Animation | null>(null);
 
-  // Currently there's no way to globally skip animations but only allow select
-  // ones. This component temporarily overrides the skipAnimation global and
-  // then sets it back when it unmounts.
-  // https://github.com/pmndrs/react-spring/issues/1982
+  // Putting this in a ref allows us to call it from the useEffect below without
+  // triggering the effect to re-run every time these values change.
+  const onFinishRef = useRef<(() => void) | null>(null);
   useEffect(() => {
-    const { skipAnimation } = Globals;
-    Globals.assign({
-      skipAnimation: false,
-    });
-
-    return () => {
-      Globals.assign({
-        skipAnimation,
+    onFinishRef.current = () => {
+      viewStory({
+        storyId: story.messageId,
+        storyViewMode,
+        viewDirection: StoryViewDirectionType.Next,
       });
     };
-  }, []);
+  }, [story.messageId, storyViewMode, viewStory]);
 
-  const [styles, spring] = useSpring(
-    () => ({
-      from: { width: 0 },
-      to: { width: 100 },
-      loop: true,
-      onRest: {
-        width: ({ value }) => {
-          if (unmountRef.current) {
-            log.info(
-              'stories.StoryViewer.spring.onRest: called after component unmounted'
-            );
-            return;
-          }
-
-          if (value === 100) {
-            viewStory({
-              storyId: story.messageId,
-              storyViewMode,
-              viewDirection: StoryViewDirectionType.Next,
-            });
-          }
-        },
-      },
-    }),
-    [story.messageId, storyViewMode, viewStory]
-  );
+  // This guarantees that we'll have a valid ref to the animation when we need it
+  strictAssert(currentIndex != null, "StoryViewer: currentIndex can't be null");
 
   // We need to be careful about this effect refreshing, it should only run
   // every time a story changes or its duration changes.
   useEffect(() => {
-    if (!storyDuration) {
-      spring.stop();
-      return;
-    }
+    strictAssert(
+      progressBarRef.current != null,
+      "progressBarRef can't be null"
+    );
+    const target = progressBarRef.current;
 
-    spring.start({
-      config: {
-        duration: storyDuration,
-      },
-      from: { width: 0 },
-      to: { width: 100 },
+    const animation = target.animate([{ width: '0%' }, { width: '100%' }], {
+      id: 'story-progress-bar',
+      duration: storyDuration,
+      easing: 'linear',
+      fill: 'forwards',
     });
 
+    animationRef.current = animation;
+
+    function onFinish() {
+      onFinishRef.current?.();
+    }
+
+    animation.addEventListener('finish', onFinish);
+
     return () => {
-      spring.stop();
+      animation.removeEventListener('finish', onFinish);
+      animation.cancel();
     };
-  }, [currentIndex, spring, storyDuration]);
+  }, [story.messageId, storyDuration]);
 
   const [pauseStory, setPauseStory] = useState(false);
 
@@ -327,11 +304,11 @@ export const StoryViewer = ({
 
   useEffect(() => {
     if (shouldPauseViewing) {
-      spring.pause();
+      animationRef.current?.pause();
     } else {
-      spring.resume();
+      animationRef.current?.play();
     }
-  }, [shouldPauseViewing, spring]);
+  }, [shouldPauseViewing]);
 
   useEffect(() => {
     markStoryRead(messageId);
@@ -710,11 +687,9 @@ export const StoryViewer = ({
               {Array.from(Array(numStories), (_, index) => (
                 <div className="StoryViewer__progress--container" key={index}>
                   {currentIndex === index ? (
-                    <animated.div
+                    <div
+                      ref={progressBarRef}
                       className="StoryViewer__progress--bar"
-                      style={{
-                        width: to([styles.width], width => `${width}%`),
-                      }}
                     />
                   ) : (
                     <div
