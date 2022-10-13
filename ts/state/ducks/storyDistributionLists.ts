@@ -10,6 +10,7 @@ import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
 import { MY_STORIES_ID } from '../../types/Stories';
 import { UUID } from '../../types/UUID';
+import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { replaceIndex } from '../../util/replaceIndex';
 import { storageServiceUploadJob } from '../../services/storage';
 import { useBoundActions } from '../../hooks/useBoundActions';
@@ -201,7 +202,7 @@ function createDistributionList(
 function deleteDistributionList(
   listId: string
 ): ThunkAction<void, RootStateType, unknown, DeleteListActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const deletedAtTimestamp = Date.now();
 
     const storyDistribution =
@@ -223,6 +224,14 @@ function deleteDistributionList(
         toAdd: [],
         toRemove: storyDistribution.members,
       }
+    );
+
+    const { stories } = getState().stories;
+    const storiesToDelete = stories.filter(
+      story => story.storyDistributionListId === listId
+    );
+    await Promise.all(
+      storiesToDelete.map(story => deleteStoryForEveryone(stories, story))
     );
 
     log.info(

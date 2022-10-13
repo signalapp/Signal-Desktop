@@ -126,8 +126,8 @@ export const StoriesSettingsModal = ({
     setPage(Page.DistributionLists);
   }, []);
 
-  const [confirmDeleteListId, setConfirmDeleteListId] = useState<
-    string | undefined
+  const [confirmDeleteList, setConfirmDeleteList] = useState<
+    { id: string; name: string } | undefined
   >();
 
   let modal: RenderModalPage | null;
@@ -188,7 +188,7 @@ export const StoriesSettingsModal = ({
         listToEdit={listToEdit}
         onRemoveMember={onRemoveMember}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
-        setConfirmDeleteListId={setConfirmDeleteListId}
+        setConfirmDeleteList={setConfirmDeleteList}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
@@ -297,13 +297,13 @@ export const StoriesSettingsModal = ({
           {modal}
         </PagedModal>
       )}
-      {confirmDeleteListId && (
+      {confirmDeleteList && (
         <ConfirmationDialog
           dialogName="StoriesSettings.deleteList"
           actions={[
             {
               action: () => {
-                onDeleteList(confirmDeleteListId);
+                onDeleteList(confirmDeleteList.id);
                 setListToEditId(undefined);
               },
               style: 'negative',
@@ -312,10 +312,13 @@ export const StoriesSettingsModal = ({
           ]}
           i18n={i18n}
           onClose={() => {
-            setConfirmDeleteListId(undefined);
+            setConfirmDeleteList(undefined);
           }}
+          theme={Theme.Dark}
         >
-          {i18n('StoriesSettings__delete-list--confirm')}
+          {i18n('StoriesSettings__delete-list--confirm', [
+            confirmDeleteList.name,
+          ])}
         </ConfirmationDialog>
       )}
       {confirmDiscardModal}
@@ -326,7 +329,7 @@ export const StoriesSettingsModal = ({
 type DistributionListSettingsModalPropsType = {
   i18n: LocalizerType;
   listToEdit: StoryDistributionListWithMembersDataType;
-  setConfirmDeleteListId: (id: string) => unknown;
+  setConfirmDeleteList: (_: { id: string; name: string }) => unknown;
   setPage: (page: Page) => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
   onBackButtonClick: (() => void) | undefined;
@@ -348,7 +351,7 @@ export const DistributionListSettingsModal = ({
   onRepliesNReactionsChanged,
   onBackButtonClick,
   onClose,
-  setConfirmDeleteListId,
+  setConfirmDeleteList,
   setMyStoriesToAllSignalConnections,
   setPage,
   setSelectedContacts,
@@ -504,7 +507,7 @@ export const DistributionListSettingsModal = ({
 
           <button
             className="StoriesSettingsModal__delete-list"
-            onClick={() => setConfirmDeleteListId(listToEdit.id)}
+            onClick={() => setConfirmDeleteList(listToEdit)}
             type="button"
           >
             {i18n('StoriesSettings__delete-list')}
@@ -530,6 +533,7 @@ export const DistributionListSettingsModal = ({
           onClose={() => {
             setConfirmRemoveMember(undefined);
           }}
+          theme={Theme.Dark}
           title={i18n('StoriesSettings__remove--title', [
             confirmRemoveMember.title,
           ])}

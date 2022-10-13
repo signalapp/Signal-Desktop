@@ -214,8 +214,8 @@ export const SendStoryModal = ({
   const [confirmRemoveGroupId, setConfirmRemoveGroupId] = useState<
     string | undefined
   >();
-  const [confirmDeleteListId, setConfirmDeleteListId] = useState<
-    string | undefined
+  const [confirmDeleteList, setConfirmDeleteList] = useState<
+    { id: string; name: string } | undefined
   >();
 
   const [listIdToEdit, setListIdToEdit] = useState<string | undefined>();
@@ -397,7 +397,7 @@ export const SendStoryModal = ({
         listToEdit={listToEdit}
         onRemoveMember={onRemoveMember}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
-        setConfirmDeleteListId={setConfirmDeleteListId}
+        setConfirmDeleteList={setConfirmDeleteList}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
@@ -719,7 +719,7 @@ export const SendStoryModal = ({
                         {
                           label: i18n('SendStoryModal__delete-story'),
                           icon: 'SendStoryModal__icon--delete',
-                          onClick: () => setConfirmDeleteListId(list.id),
+                          onClick: () => setConfirmDeleteList(list),
                         },
                       ]
                 }
@@ -897,19 +897,19 @@ export const SendStoryModal = ({
           onClose={() => {
             setConfirmRemoveGroupId(undefined);
           }}
+          theme={Theme.Dark}
         >
           {i18n('SendStoryModal__confirm-remove-group')}
         </ConfirmationDialog>
       )}
-      {confirmDeleteListId && (
+      {confirmDeleteList && (
         <ConfirmationDialog
           dialogName="SendStoryModal.confirmDeleteList"
           actions={[
             {
               action: () => {
-                onDeleteList(confirmDeleteListId);
-                setConfirmDeleteListId(undefined);
-                // setListToEditId(undefined);
+                onDeleteList(confirmDeleteList.id);
+                setConfirmDeleteList(undefined);
               },
               style: 'negative',
               text: i18n('delete'),
@@ -917,10 +917,13 @@ export const SendStoryModal = ({
           ]}
           i18n={i18n}
           onClose={() => {
-            setConfirmDeleteListId(undefined);
+            setConfirmDeleteList(undefined);
           }}
+          theme={Theme.Dark}
         >
-          {i18n('StoriesSettings__delete-list--confirm')}
+          {i18n('StoriesSettings__delete-list--confirm', [
+            confirmDeleteList.name,
+          ])}
         </ConfirmationDialog>
       )}
       {confirmDiscardModal}
