@@ -116,6 +116,7 @@ export type ThemeColorVariables = {
   '--toggle-switch-on-border-color': string;
 
   /* Unread Messages Alert */
+  /* Also used for MentionAtSymbol */
   '--unread-messages-alert-background-color': string;
   '--unread-messages-alert-text-color': string;
 

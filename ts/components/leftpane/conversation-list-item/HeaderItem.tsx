@@ -94,19 +94,18 @@ const ListItemIcons = () => {
 };
 
 const MentionAtSymbol = styled.span`
-  background-color: var(--primary-color);
-  color: var(--conversation-tab-text-color);
+  background: var(--unread-messages-alert-background-color);
+  color: var(--unread-messages-alert-text-color);
   text-align: center;
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-top: 1px;
   padding-inline-start: 3px;
   padding-inline-end: 3px;
 
   position: static;
   margin-inline-start: 5px;
 
-  font-weight: 300;
+  font-weight: 700;
   font-size: var(--font-size-xs);
   letter-spacing: 0.25px;
 

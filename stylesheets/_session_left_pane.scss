@@ -33,8 +33,8 @@ $session-compose-margin: 20px;
     }
 
     &__unread-count {
-      background: var(--conversation-tab-bubble-background-color);
-      color: var(--conversation-tab-bubble-text-color);
+      background: var(--unread-messages-alert-background-color);
+      color: var(--unread-messages-alert-text-color);
 
       position: static !important;
       font-weight: 700 !important;
