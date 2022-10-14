@@ -36,6 +36,7 @@ import { getDistributionListSelector } from './storyDistributionLists';
 import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
+import * as log from '../../logging/log';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -339,6 +340,21 @@ export const getStories = createSelector(
 
     stories.forEach(story => {
       if (story.deletedForEveryone) {
+        return;
+      }
+
+      // if for some reason this story is already experied (bug)
+      // log it and skip it
+      if ((calculateExpirationTimestamp(story) ?? 0) < Date.now()) {
+        const messageIdForLogging = getMessageIdForLogging({
+          ...pick(story, 'type', 'sourceUuid', 'sourceDevice'),
+          sent_at: story.timestamp,
+        });
+        log.warn('selectors/getStories: story already expired', {
+          message: messageIdForLogging,
+          expireTimer: story.expireTimer,
+          expirationStartTimestamp: story.expirationStartTimestamp,
+        });
         return;
       }
 
