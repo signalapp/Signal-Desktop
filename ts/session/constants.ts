@@ -60,3 +60,5 @@ export const UI = {
 export const QUOTED_TEXT_MAX_LENGTH = 150;
 
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
+
+export const MAX_USERNAME_BYTES = 64;

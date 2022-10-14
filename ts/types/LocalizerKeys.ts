@@ -495,6 +495,7 @@ export type LocalizerKeys =
   | 'trustThisContactDialogDescription'
   | 'unknownCountry'
   | 'searchFor...'
+  | 'displayNameTooLong'
   | 'joinedTheGroup'
   | 'editGroupName'
   | 'reportIssue';
