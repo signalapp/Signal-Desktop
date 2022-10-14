@@ -60,9 +60,28 @@
       color: $color-gray-05;
     }
 
-    &--timestamp {
+    &--timestamp,
+    &--sending,
+    &--send_failed {
       @include font-body-2;
       color: $color-gray-25;
+    }
+
+    &--send_failed {
+      display: flex;
+      align-items: center;
+      &::before {
+        content: '';
+        display: flex;
+        flex-shrink: 0;
+        height: 12px;
+        width: 12px;
+        margin-right: 8px;
+        @include color-svg(
+          '../images/icons/v2/error-outline-12.svg',
+          $color-accent-red
+        );
+      }
     }
 
     &--replies {

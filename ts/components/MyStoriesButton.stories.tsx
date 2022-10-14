@@ -13,6 +13,7 @@ import { MyStoriesButton } from './MyStoriesButton';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
 import { setupI18n } from '../util/setupI18n';
+import { SendStatus } from '../messages/MessageSendState';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -81,3 +82,35 @@ ManyStories.story = {
   name: 'Many Stories',
 };
 ManyStories.play = interactionTest;
+
+export const SendingStory = Template.bind({});
+SendingStory.story = {
+  name: 'Sending Story',
+};
+SendingStory.args = {
+  newestStory: {
+    ...getFakeStoryView(),
+    sendState: [
+      {
+        status: SendStatus.Pending,
+        recipient: getDefaultConversation(),
+      },
+    ],
+  },
+};
+
+export const FailedSendStory = Template.bind({});
+FailedSendStory.story = {
+  name: 'Failed Send Story',
+};
+FailedSendStory.args = {
+  newestStory: {
+    ...getFakeStoryView(),
+    sendState: [
+      {
+        status: SendStatus.Failed,
+        recipient: getDefaultConversation(),
+      },
+    ],
+  },
+};
