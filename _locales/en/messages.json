@@ -5373,11 +5373,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ view",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ views",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {1 view} other {# views}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Views off",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ reply",
@@ -5665,7 +5673,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Views off",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",
