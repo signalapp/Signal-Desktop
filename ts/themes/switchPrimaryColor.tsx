@@ -1,7 +1,7 @@
 import { find } from 'lodash';
 import { Dispatch } from '@reduxjs/toolkit';
 import { applyPrimaryColor } from '../state/ducks/primaryColor';
-import { COLORS, getPrimaryColors, PrimaryColorStateType } from './constants/colors';
+import { ColorsType, COLORS, getPrimaryColors, PrimaryColorStateType } from './constants/colors';
 
 export function findPrimaryColorId(hexCode: string): PrimaryColorStateType | undefined {
   const primaryColors = getPrimaryColors();
@@ -15,7 +15,7 @@ export async function switchPrimaryColorTo(color: PrimaryColorStateType, dispatc
 
   document.documentElement.style.setProperty(
     '--primary-color',
-    (COLORS.PRIMARY as any)[`${color.toUpperCase()}`]
+    COLORS.PRIMARY[`${color.toUpperCase() as keyof ColorsType['PRIMARY']}`]
   );
   dispatch?.(applyPrimaryColor(color));
 }

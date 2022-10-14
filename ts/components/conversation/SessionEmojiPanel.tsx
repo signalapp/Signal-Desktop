@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { getTheme } from '../../state/selectors/theme';
 import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
 import {
+  ColorsType,
   COLORS,
   PrimaryColorStateType,
   THEMES,
@@ -56,7 +57,7 @@ export const StyledEmojiPanel = styled.div<{
     --rgb-accent: ${props =>
       hexColorToRGB(
         props.primaryColor
-          ? (COLORS.PRIMARY as any)[`${props.primaryColor.toUpperCase()}`]
+          ? COLORS.PRIMARY[`${props.primaryColor.toUpperCase() as keyof ColorsType['PRIMARY']}`]
           : COLORS.PRIMARY.GREEN
       )};
 

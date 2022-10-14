@@ -4,7 +4,7 @@
  */
 
 // Colors
-type Colors = {
+export type ColorsType = {
   PRIMARY: {
     GREEN: string;
     BLUE: string;
@@ -63,7 +63,7 @@ const black = '#000000';
 // Grey
 const grey = '#616161';
 
-const COLORS: Colors = {
+const COLORS: ColorsType = {
   PRIMARY: {
     GREEN: primaryGreen,
     BLUE: primaryBlue,
