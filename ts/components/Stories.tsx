@@ -48,6 +48,7 @@ export type PropsType = {
   viewStory: ViewStoryActionCreatorType;
   isViewingStory: boolean;
   isStoriesSettingsVisible: boolean;
+  hasReadReceiptSetting: boolean;
 };
 
 type AddStoryType =
@@ -80,6 +81,7 @@ export const Stories = ({
   viewStory,
   isViewingStory,
   isStoriesSettingsVisible,
+  hasReadReceiptSetting,
 }: PropsType): JSX.Element => {
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
     requiresFullWidth: true,
@@ -116,6 +118,7 @@ export const Stories = ({
             onSave={onSaveStory}
             queueStoryDownload={queueStoryDownload}
             viewStory={viewStory}
+            hasReadReceiptSetting={hasReadReceiptSetting}
           />
         ) : (
           <StoriesPane

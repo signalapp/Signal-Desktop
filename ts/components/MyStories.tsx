@@ -23,6 +23,7 @@ export type PropsType = {
   onSave: (story: StoryViewType) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
+  hasReadReceiptSetting: boolean;
 };
 
 export const MyStories = ({
@@ -34,6 +35,7 @@ export const MyStories = ({
   onSave,
   queueStoryDownload,
   viewStory,
+  hasReadReceiptSetting,
 }: PropsType): JSX.Element => {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -105,13 +107,11 @@ export const MyStories = ({
                     />
                   </div>
                   <div className="MyStories__story__details">
-                    {story.views === 1
-                      ? i18n('MyStories__views--singular', [
-                          String(story.views),
-                        ])
-                      : i18n('MyStories__views--plural', [
-                          String(story.views || 0),
-                        ])}
+                    {hasReadReceiptSetting
+                      ? i18n('icu:MyStories__views', {
+                          views: story.views ?? 0,
+                        })
+                      : i18n('icu:MyStories__views-off')}
                     <MessageTimestamp
                       i18n={i18n}
                       isRelativeTime
