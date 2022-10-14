@@ -2,16 +2,16 @@ import React from 'react';
 import { Slide, ToastContainer, ToastContainerProps } from 'react-toastify';
 import styled from 'styled-components';
 
-const SessionToastContainerPrivate = () => {
-  const WrappedToastContainer = ({
-    className,
-    ...rest
-  }: ToastContainerProps & { className?: string }) => (
-    <div className={className}>
-      <ToastContainer {...rest} />
-    </div>
-  );
+const WrappedToastContainer = ({
+  className,
+  ...rest
+}: ToastContainerProps & { className?: string }) => (
+  <div className={className}>
+    <ToastContainer {...rest} />
+  </div>
+);
 
+const SessionToastContainerPrivate = () => {
   return (
     <WrappedToastContainer
       position="bottom-right"
