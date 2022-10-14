@@ -95,10 +95,7 @@ export const MyStoriesButton = ({
             size={AvatarSize.FORTY_EIGHT}
             title={title}
           />
-          <div
-            aria-label={i18n('Stories__add')}
-            className="MyStories__avatar__add-story"
-          />
+          <div className="MyStories__avatar__add-story" />
         </div>
         <div className="StoryListItem__info">
           <>
@@ -141,10 +138,7 @@ export const MyStoriesButton = ({
             storyRing={HasStories.Read}
             title={title}
           />
-          <div
-            aria-label={i18n('Stories__add')}
-            className="MyStories__avatar__add-story"
-          />
+          <div className="MyStories__avatar__add-story" />
         </StoriesAddStoryButton>
       </div>
       <div

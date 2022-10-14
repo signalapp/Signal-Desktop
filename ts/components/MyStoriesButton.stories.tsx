@@ -48,11 +48,12 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
   canvasElement,
 }) => {
   const canvas = within(canvasElement);
-  const [btnAddStory] = canvas.getAllByLabelText('Add a story');
+  const btnAddStory = canvas.getByLabelText('Add a story');
   await userEvent.click(btnAddStory);
+  const textStory = canvas.getByText('Text story');
+  await userEvent.click(textStory);
   await expect(args.onAddStory).toHaveBeenCalled();
-
-  const [btnStory] = canvas.getAllByText('My Stories');
+  const btnStory = canvas.getByText('My Stories');
   await userEvent.click(btnStory);
   await expect(args.onClick).toHaveBeenCalled();
 };
@@ -98,6 +99,7 @@ SendingStory.args = {
     ],
   },
 };
+SendingStory.play = interactionTest;
 
 export const FailedSendStory = Template.bind({});
 FailedSendStory.story = {
@@ -114,3 +116,4 @@ FailedSendStory.args = {
     ],
   },
 };
+FailedSendStory.play = interactionTest;
