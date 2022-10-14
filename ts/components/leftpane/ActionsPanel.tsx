@@ -47,7 +47,7 @@ import { UserUtils } from '../../session/utils';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
-import { getTheme } from '../../state/selectors/theme';
+import { isDarkTheme } from '../../state/selectors/theme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -55,7 +55,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
-  const theme = useSelector(getTheme);
+  const isDarkMode = useSelector(isDarkTheme);
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -65,9 +65,9 @@ const Section = (props: { type: SectionType }) => {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
-      const newTheme = (currentTheme.includes('light')
-        ? currentTheme.replace('light', 'dark')
-        : currentTheme.replace('dark', 'light')) as ThemeStateType;
+      const newTheme = (isDarkMode
+        ? currentTheme.replace('dark', 'light')
+        : currentTheme.replace('light', 'dark')) as ThemeStateType;
 
       // We want to persist the primary color when using the color mode button
       await switchThemeTo({
@@ -137,7 +137,7 @@ const Section = (props: { type: SectionType }) => {
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={theme.includes('light') ? 'sun' : 'moon'}
+          iconType={isDarkMode ? 'moon' : 'sun'}
           dataTestId="theme-section"
           notificationCount={unreadToShow}
           onClick={handleClick}

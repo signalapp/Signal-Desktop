@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // @ts-ignore
 import Picker from '@emoji-mart/react';
 import { useSelector } from 'react-redux';
-import { getTheme } from '../../state/selectors/theme';
+import { getTheme, isDarkTheme } from '../../state/selectors/theme';
 import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
 import {
   ColorsType,
@@ -101,6 +101,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
   const { onEmojiClicked, show, isModal = false, onKeyDown } = props;
   const primaryColor = useSelector(getPrimaryColor);
   const theme = useSelector(getTheme);
+  const isDarkMode = useSelector(isDarkTheme);
 
   const [panelBackgroundRGB, setPanelBackgroundRGB] = useState('');
   const [panelTextRGB, setPanelTextRGB] = useState('');
@@ -139,7 +140,7 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
       ref={ref}
     >
       <Picker
-        theme={theme.includes('light') ? 'light' : 'dark'}
+        theme={isDarkMode ? 'dark' : 'light'}
         i18n={i18nEmojiData}
         onEmojiSelect={onEmojiClicked}
         onKeyDown={onKeyDown}
