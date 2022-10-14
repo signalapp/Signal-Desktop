@@ -5516,7 +5516,7 @@
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Delete private story?",
+    "message": "Are you sure you want to delete \"$name$\"? Updates shared to this story will also be deleted.",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
