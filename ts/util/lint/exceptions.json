@@ -9298,9 +9298,26 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/StoryViewer.tsx",
-    "line": "  const unmountRef = useRef<boolean>(false);",
+    "line": "  const progressBarRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-07-18T23:30:04.033Z"
+    "updated": "2022-10-13T15:18:21.267Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewer.tsx",
+    "line": "  const animationRef = useRef<Animation | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-13T15:18:21.267Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewer.tsx",
+    "line": "  const onFinishRef = useRef<(() => void) | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-13T15:18:21.267Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-useRef",
@@ -9315,6 +9332,20 @@
     "line": "  const containerElementRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-08-04T00:52:01.080Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const shouldScrollToBottomRef = useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-05T18:51:56.411Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StoryViewsNRepliesModal.tsx",
+    "line": "  const bottomRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-05T18:51:56.411Z"
   },
   {
     "rule": "React-useRef",
@@ -9683,19 +9714,5 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const shouldScrollToBottomRef = useRef(true);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2022-10-05T18:51:56.411Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/StoryViewsNRepliesModal.tsx",
-    "line": "  const bottomRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2022-10-05T18:51:56.411Z"
   }
 ]

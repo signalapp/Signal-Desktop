@@ -67,6 +67,9 @@ export default {
     toggleHasAllStoriesMuted: { action: true },
     viewStory: { action: true },
   },
+  args: {
+    currentIndex: 0,
+  },
 } as Meta;
 
 const Template: Story<PropsType> = args => <StoryViewer {...args} />;
