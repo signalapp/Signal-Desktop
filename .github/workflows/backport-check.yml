@@ -1,0 +1,34 @@
+# Copyright 2022 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+name: Backport Check
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled]
+jobs:
+  backport-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pull request has a backport label
+        env:
+          EVENT_ACTION: ${{ github.event.action }}
+          EVENT_LABEL_NAME: ${{ github.event.label.name }}
+          EVENT_PULL_REQUEST_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        shell: bash
+        run: |
+          LABELS=""
+          BACKPORT_LABELS="backport no-backport needs-backport needs-manual-backport"
+          if [ "$EVENT_ACTION" == 'opened' ]; then
+            LABELS="$EVENT_PULL_REQUEST_LABELS"
+          elif [ "$EVENT_ACTION" == 'labeled' ]; then
+            LABELS="\"$EVENT_LABEL_NAME\""
+          fi
+          echo "Found labels: $LABELS"
+          for BACKPORT_LABEL in $BACKPORT_LABELS; do
+            echo "Checking for label '$BACKPORT_LABEL'"
+            if echo "$LABELS" | grep -q "\"$BACKPORT_LABEL\""; then
+              echo "Has '$BACKPORT_LABEL' label"
+              exit 0
+            fi
+          done
+          echo "Does not have any backport label"
+          exit 1
