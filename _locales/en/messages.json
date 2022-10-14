@@ -5451,6 +5451,14 @@
     "message": "No recent stories to show right now",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Sending...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Send failed",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Click to view a story",
     "description": "Placeholder label for the story view"

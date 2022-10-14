@@ -51,6 +51,8 @@ const STATUS_NUMBERS: Record<SendStatus, number> = {
 export const maxStatus = (a: SendStatus, b: SendStatus): SendStatus =>
   STATUS_NUMBERS[a] > STATUS_NUMBERS[b] ? a : b;
 
+export const isPending = (status: SendStatus): boolean =>
+  status === SendStatus.Pending;
 export const isViewed = (status: SendStatus): boolean =>
   status === SendStatus.Viewed;
 export const isRead = (status: SendStatus): boolean =>
