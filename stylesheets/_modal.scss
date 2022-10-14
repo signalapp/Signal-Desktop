@@ -96,16 +96,6 @@
   align-items: center;
   justify-content: center;
 
-  .content {
-    max-width: 75%;
-    min-width: 60%;
-    padding: 1em;
-    background: var(--modal-background-content-color);
-    border-radius: var(--border-radius);
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px var(--modal-background-color);
-  }
-
   input[type='radio'] {
     width: inherit;
   }
