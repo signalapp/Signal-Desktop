@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { PubKey } from '../../../../session/types/PubKey';
-import { getTheme } from '../../../../state/selectors/theme';
+import { isDarkTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
 
 export type TipPosition = 'center' | 'left' | 'right';
@@ -96,7 +96,7 @@ const generateContactsString = async (
 };
 
 const Contacts = (contacts: Array<string>, count: number) => {
-  const darkMode = useSelector(getTheme).includes('dark');
+  const darkMode = useSelector(isDarkTheme);
 
   if (!Boolean(contacts?.length > 0)) {
     return;

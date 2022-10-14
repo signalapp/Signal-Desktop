@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getQuotedMessageToAnimate } from '../../state/selectors/conversations';
-import { getTheme } from '../../state/selectors/theme';
+import { isDarkTheme } from '../../state/selectors/theme';
 import { ScrollToLoadedMessageContext } from './SessionMessagesListContainer';
 
 const LastSeenBar = styled.div`
@@ -48,7 +48,7 @@ export const SessionLastSeenIndicator = (props: {
   didScroll: boolean;
   setDidScroll: (scroll: boolean) => void;
 }) => {
-  const darkMode = useSelector(getTheme).includes('dark');
+  const darkMode = useSelector(isDarkTheme);
   // if this unread-indicator is not unique it's going to cause issues
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);

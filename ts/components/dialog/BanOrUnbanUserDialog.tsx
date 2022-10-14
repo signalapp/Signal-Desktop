@@ -17,7 +17,7 @@ import {
   sogsV3UnbanUser,
 } from '../../session/apis/open_group_api/sogsv3/sogsV3BanUnban';
 import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
-import { getTheme } from '../../state/selectors/theme';
+import { isDarkTheme } from '../../state/selectors/theme';
 
 // tslint:disable: use-simple-attributes
 
@@ -67,7 +67,7 @@ export const BanOrUnBanUserDialog = (props: {
   const { i18n } = window;
   const isBan = banType === 'ban';
   const dispatch = useDispatch();
-  const darkMode = useSelector(getTheme).includes('dark');
+  const darkMode = useSelector(isDarkTheme);
   const convo = getConversationController().get(conversationId);
   const inputRef = useRef(null);
 
