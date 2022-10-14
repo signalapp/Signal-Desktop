@@ -45,7 +45,7 @@ const StyledLabel = styled.label<{
     transition: var(--default-duration);
     padding: ${props => props.filledSize}px;
     border: none;
-    outline: 1px solid currentColor; /* CSS varibles didn't work here */
+    outline: 1px solid currentColor; /* CSS variables don't work here */
     outline-offset: ${props => props.outlineOffset}px;
     ${props => props.beforeMargins && `margin: ${props.beforeMargins};`};
   }
@@ -106,7 +106,7 @@ const StyledInputOutlineSelected = styled(StyledInput)`
 const StyledLabelOutlineSelected = styled(StyledLabel)<{ selectedColor: string }>`
   :before {
     background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
-    outline: 1px solid transparent; /* CSS varibles didn't work here */
+    outline: 1px solid transparent; /* CSS variables don't work here */
   }
 `;
 
