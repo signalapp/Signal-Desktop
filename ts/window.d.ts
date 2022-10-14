@@ -7,6 +7,7 @@ import { Store } from '@reduxjs/toolkit';
 import { ConversationCollection, ConversationModel } from './models/conversation';
 import { ConversationType } from './state/ducks/conversations';
 import { StateType } from './state/reducer';
+import { PrimaryColorStateType, ThemeStateType } from './themes/constants/colors';
 
 export interface LibTextsecure {
   messaging: boolean;
@@ -54,6 +55,8 @@ declare global {
     getCallMediaPermissions: () => boolean;
     toggleMenuBar: () => void;
     toggleSpellCheck: any;
+    primaryColor: PrimaryColorStateType;
+    theme: ThemeStateType;
     setTheme: (newTheme: string) => Promise<void>;
     isDev?: () => boolean;
     userConfig: any;
@@ -96,6 +99,7 @@ declare global {
     getOpengroupPruning: () => Promise<boolean>;
     setOpengroupPruning: (val: boolean) => Promise<void>;
     closeAbout: () => void;
+    closeDebugLog: () => void;
     getAutoUpdateEnabled: () => boolean;
     setAutoUpdateEnabled: (enabled: boolean) => void;
     setZoomFactor: (newZoom: number) => void;

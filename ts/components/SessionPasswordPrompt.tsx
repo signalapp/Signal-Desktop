@@ -195,15 +195,15 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
 export const SessionPasswordPrompt = () => {
   useEffect(() => {
-    if ((window as any).theme) {
+    if (window.theme) {
       void switchThemeTo({
-        theme: (window as any).theme,
+        theme: window.theme,
       });
     }
-    if ((window as any).primaryColor) {
-      void switchPrimaryColorTo((window as any).primaryColor);
+    if (window.primaryColor) {
+      void switchPrimaryColorTo(window.primaryColor);
     }
-  }, []);
+  }, [window.theme, window.primaryColor]);
 
   return (
     <SessionTheme>

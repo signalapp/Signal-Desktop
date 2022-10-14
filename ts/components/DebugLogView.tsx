@@ -77,9 +77,7 @@ const DebugLogViewAndSave = () => {
   useEffect(() => {
     const operatingSystemInfo = `Operating System: ${(window as any).getOSRelease()}`;
 
-    const commitHashInfo = (window as any).getCommitHash()
-      ? `Commit Hash: ${(window as any).getCommitHash()}`
-      : '';
+    const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
 
     // eslint-disable-next-line more/no-then
     fetch()
@@ -100,12 +98,12 @@ const DebugLogViewAndSave = () => {
 
 export const DebugLogView = () => {
   useEffect(() => {
-    if ((window as any).theme) {
+    if (window.theme) {
       void switchThemeTo({
-        theme: (window as any).theme,
+        theme: window.theme,
       });
     }
-  }, []);
+  }, [window.theme]);
 
   return (
     <SessionTheme>
@@ -116,7 +114,7 @@ export const DebugLogView = () => {
             iconType="exit"
             iconSize="medium"
             onClick={() => {
-              (window as any).closeDebugLog();
+              window.closeDebugLog();
             }}
           />
           <h1> {window.i18n('debugLog')} </h1>

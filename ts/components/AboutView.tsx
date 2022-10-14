@@ -35,12 +35,12 @@ export const AboutView = () => {
   }
 
   useEffect(() => {
-    if ((window as any).theme) {
+    if (window.theme) {
       void switchThemeTo({
-        theme: (window as any).theme,
+        theme: window.theme,
       });
     }
-  }, []);
+  }, [window.theme]);
 
   return (
     <SessionTheme>
