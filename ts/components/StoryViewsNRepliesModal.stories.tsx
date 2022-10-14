@@ -207,7 +207,7 @@ NoViews.storyName = 'No views';
 
 export const InAGroupNoReplies = Template.bind({});
 InAGroupNoReplies.args = {
-  isGroupStory: true,
+  group: {},
 };
 InAGroupNoReplies.storyName = 'In a group (no replies)';
 
@@ -216,7 +216,7 @@ export const InAGroup = Template.bind({});
   const { views, replies } = getViewsAndReplies();
   InAGroup.args = {
     hasViewsCapability: true,
-    isGroupStory: true,
+    group: {},
     replies,
     views,
   };
@@ -233,7 +233,7 @@ export const InAGroupCantReply = Template.bind({});
   const { views, replies } = getViewsAndReplies();
   InAGroupCantReply.args = {
     canReply: false,
-    isGroupStory: true,
+    group: {},
     replies,
     views,
   };
@@ -249,13 +249,23 @@ ReadReceiptsTurnedOff.args = {
 };
 ReadReceiptsTurnedOff.storyName = 'Read receipts turned off';
 
+export const InAGroupButLeft = Template.bind({});
+{
+  const { replies } = getViewsAndReplies();
+  InAGroupButLeft.args = {
+    group: { left: true },
+    replies,
+  };
+}
+InAGroupButLeft.storyName = 'In a group (but left)';
+
 export const GroupReadReceiptsOff = Template.bind({});
 {
   const { views, replies } = getViewsAndReplies();
   GroupReadReceiptsOff.args = {
     hasReadReceiptSetting: false,
     hasViewsCapability: true,
-    isGroupStory: true,
+    group: {},
     replies,
     views,
   };

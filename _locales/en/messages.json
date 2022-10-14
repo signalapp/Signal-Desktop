@@ -5711,6 +5711,10 @@
     "message": "Reacted to the story",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "Story",
     "description": "aria-label for the story list button"
