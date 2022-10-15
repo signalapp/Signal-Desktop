@@ -156,6 +156,7 @@ export async function sendStoryMessage(
           attachments,
           conversationId: ourConversation.id,
           expireTimer: DAY / SECOND,
+          expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
@@ -205,7 +206,8 @@ export async function sendStoryMessage(
         return;
       }
 
-      const groupTimestamp = timestamp + index;
+      // We want all of these timestamps to be different from the My Story timestamp.
+      const groupTimestamp = timestamp + index + 1;
 
       const myId = window.ConversationController.getOurConversationIdOrThrow();
       const sendState = {
@@ -236,6 +238,7 @@ export async function sendStoryMessage(
           canReplyToStory: true,
           conversationId,
           expireTimer: DAY / SECOND,
+          expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),

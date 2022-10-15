@@ -40,11 +40,9 @@ export async function sendDeleteForEveryoneMessage(
   const messageModel = window.MessageController.register(messageId, message);
 
   const timestamp = Date.now();
-  if (
-    timestamp - targetTimestamp >
-    (deleteForEveryoneDuration || THREE_HOURS)
-  ) {
-    throw new Error('Cannot send DOE for a message older than three hours');
+  const maxDuration = deleteForEveryoneDuration || THREE_HOURS;
+  if (timestamp - targetTimestamp > maxDuration) {
+    throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
   }
 
   messageModel.set({

@@ -34,6 +34,7 @@ import { isNotNil } from '../../util/isNotNil';
 import { isSent } from '../../messages/MessageSendState';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
+import { SendMessageChallengeError } from '../../textsecure/Errors';
 
 export async function sendStory(
   conversation: ConversationModel,
@@ -52,6 +53,16 @@ export async function sendStory(
 
   if (!profileKey) {
     log.info('stories.sendStory: no profile key cannot send');
+    return;
+  }
+
+  // We can send a story to either:
+  //   1) the current group, or
+  //   2) all selected distribution lists (in queue for our own conversationId)
+  if (!isGroupV2(conversation.attributes) && !isMe(conversation.attributes)) {
+    log.error(
+      'stories.sendStory: Conversation is neither groupV2 nor our own. Cannot send.'
+    );
     return;
   }
 
@@ -153,9 +164,11 @@ export async function sendStory(
 
   let isSyncMessageUpdate = false;
 
-  // Send to all distribution lists
-  await Promise.all(
-    messageIds.map(async messageId => {
+  // Note: We capture errors here so we are sure to wait for every send process to
+  //   complete, and so we can send a sync message afterwards if we sent the story
+  //   successfully to at least one recipient.
+  const sendResults = await Promise.allSettled(
+    messageIds.map(async (messageId: string): Promise<void> => {
       const message = await getMessageById(messageId);
       if (!message) {
         log.info(
@@ -322,9 +335,8 @@ export async function sendStory(
           urgent: false,
         });
 
-        // Do not send sync messages for distribution lists since that's sent
-        // in bulk at the end.
-        message.doNotSendSyncMessage = Boolean(distributionList);
+        // Don't send normal sync messages; a story sync is sent at the end of the process
+        message.doNotSendSyncMessage = true;
 
         const messageSendPromise = message.send(
           handleMessageSend(innerPromise, {
@@ -391,6 +403,26 @@ export async function sendStory(
         }
       } catch (thrownError: unknown) {
         const errors = [thrownError, ...messageSendErrors];
+
+        // We need to check for this here because we can only throw one error up to
+        //   conversationJobQueue.
+        errors.forEach(error => {
+          if (error instanceof SendMessageChallengeError) {
+            window.Signal.challengeHandler?.register(
+              {
+                conversationId: conversation.id,
+                createdAt: Date.now(),
+                retryAt: error.retryAt,
+                token: error.data?.token,
+                reason:
+                  'conversationJobQueue.run(' +
+                  `${conversation.idForLogging()}, story, ${timestamp})`,
+              },
+              error.data
+            );
+          }
+        });
+
         await handleMultipleSendErrors({
           errors,
           isFinalAttempt,
@@ -470,21 +502,39 @@ export async function sendStory(
     });
   });
 
-  const options = await getSendOptions(conversation.attributes, {
-    syncMessage: true,
-  });
+  if (storyMessageRecipients.length === 0) {
+    log.warn(
+      'No successful sends; will not send a sync message for this attempt'
+    );
+  } else {
+    const options = await getSendOptions(conversation.attributes, {
+      syncMessage: true,
+    });
 
-  messaging.sendSyncMessage({
-    destination: conversation.get('e164'),
-    destinationUuid: conversation.get('uuid'),
-    storyMessage: originalStoryMessage,
-    storyMessageRecipients,
-    expirationStartTimestamp: null,
-    isUpdate: isSyncMessageUpdate,
-    options,
-    timestamp,
-    urgent: false,
+    await messaging.sendSyncMessage({
+      // Note: these two fields will be undefined if we're sending to a group
+      destination: conversation.get('e164'),
+      destinationUuid: conversation.get('uuid'),
+      storyMessage: originalStoryMessage,
+      storyMessageRecipients,
+      expirationStartTimestamp: null,
+      isUpdate: isSyncMessageUpdate,
+      options,
+      timestamp,
+      urgent: false,
+    });
+  }
+
+  // We can only throw one Error up to conversationJobQueue to fail the send
+  const sendErrors: Array<PromiseRejectedResult> = [];
+  sendResults.forEach(result => {
+    if (result.status === 'rejected') {
+      sendErrors.push(result);
+    }
   });
+  if (sendErrors.length) {
+    throw sendErrors[0].reason;
+  }
 }
 
 function getMessageRecipients({
