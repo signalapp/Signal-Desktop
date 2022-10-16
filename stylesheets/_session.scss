@@ -313,7 +313,7 @@ label {
   &__text-highlight {
     @include text-highlight(var(--primary-color));
 
-    color: var(--modal-text-color);
+    color: var(--black-color);
 
     font-family: monospace;
     font-style: normal;
