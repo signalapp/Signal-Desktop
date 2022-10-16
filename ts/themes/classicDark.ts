@@ -141,8 +141,7 @@ export const classicDark: ThemeColorVariables = {
   '--input-border-color': 'var(--border-color)',
 
   '--in-call-container-background-color': 'var(--background-primary-color)',
-  '--in-call-container-text-color': 'var(--white-color)',
-  '--in-call-container-text-shadow': '0px 0px 8px var(--text-primary-color)',
+  '--in-call-container-text-color': 'var(--text-primary-color)',
 
   '--call-buttons-background-color': THEMES.CLASSIC_DARK.COLOR3,
   '--call-buttons-background-hover-color': THEMES.CLASSIC_DARK.COLOR4,

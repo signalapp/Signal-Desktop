@@ -69,7 +69,6 @@ const StyledCenteredLabel = styled.div`
   height: min-content;
   white-space: nowrap;
   color: var(--in-call-container-text-color);
-  text-shadow: var(--in-call-container-text-shadow);
   z-index: 5;
 `;
 

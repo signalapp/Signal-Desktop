@@ -177,7 +177,6 @@ export type ThemeColorVariables = {
   /* In Call Container */
   '--in-call-container-background-color': string;
   '--in-call-container-text-color': string;
-  '--in-call-container-text-shadow': string;
 
   /* Call Buttons */
   '--call-buttons-background-color': string;
