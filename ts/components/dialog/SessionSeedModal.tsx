@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
+import styled from 'styled-components';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -93,6 +94,15 @@ interface SeedProps {
   onClickCopy?: () => any;
 }
 
+const StyledRecoveryPhrase = styled.i`
+  margin-bottom: var(--margins-md);
+`;
+
+const StyledQRImage = styled.div`
+  width: fit-content;
+  margin: 0 auto;
+`;
+
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
   const i18n = window.i18n;
@@ -114,18 +124,32 @@ const Seed = (props: SeedProps) => {
   return (
     <>
       <div className="session-modal__centered text-center">
-        <p className="session-modal__description" style={{ marginTop: '0px' }}>
+        <p
+          className="session-modal__description"
+          style={{
+            lineHeight: '1.3333',
+            marginTop: '0px',
+            marginBottom: 'var(--margins-md)',
+            maxWidth: '600px',
+          }}
+        >
           {i18n('recoveryPhraseSavePromptMain')}
         </p>
 
-        <i data-testid="recovery-phrase-seed-modal" className="session-modal__text-highlight">
+        <StyledRecoveryPhrase
+          data-testid="recovery-phrase-seed-modal"
+          className="session-modal__text-highlight"
+        >
           {recoveryPhrase}
-        </i>
+        </StyledRecoveryPhrase>
       </div>
-      <div className="qr-image">
+      <StyledQRImage className="qr-image">
         <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
-      </div>
-      <div className="session-modal__button-group">
+      </StyledQRImage>
+      <div
+        className="session-modal__button-group"
+        style={{ justifyContent: 'center', width: '100%' }}
+      >
         <SessionButton
           text={i18n('editMenuCopy')}
           buttonType={SessionButtonType.Simple}
@@ -137,6 +161,10 @@ const Seed = (props: SeedProps) => {
     </>
   );
 };
+
+const StyledSeedModalContainer = styled.div`
+  margin: var(--margins-md) var(--margins-sm);
+`;
 
 interface ModalInnerProps {
   onClickOk?: () => any;
@@ -192,13 +220,15 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
           onClose={onClose}
           showExitIcon={true}
         >
-          <SpacerSM />
+          <StyledSeedModalContainer>
+            <SpacerSM />
 
-          {hasPassword && !passwordValid ? (
-            <Password passwordHash={passwordHash} setPasswordValid={setPasswordValid} />
-          ) : (
-            <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
-          )}
+            {hasPassword && !passwordValid ? (
+              <Password passwordHash={passwordHash} setPasswordValid={setPasswordValid} />
+            ) : (
+              <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
+            )}
+          </StyledSeedModalContainer>
         </SessionWrapperModal>
       )}
     </>

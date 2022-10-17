@@ -96,6 +96,7 @@ export const RemoveModeratorsDialog = (props: Props) => {
                   const updatedList = modsToRemove.filter(m => m !== selectedMember);
                   setModsToRemove(updatedList);
                 }}
+                disableBg={true}
               />
             ))}
           </div>

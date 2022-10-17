@@ -134,7 +134,7 @@ export const classicLight: ThemeColorVariables = {
   '--suggestions-text-color': 'var(--text-primary-color)',
   '--suggestions-shadow': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`,
 
-  '--input-background-color': 'var(--background-secondary-color)',
+  '--input-background-color': 'var(--transparent-color)',
   '--input-background-hover-color': 'var(--background-secondary-color)',
   '--input-text-placeholder-color': 'var(--text-secondary-color)',
   '--input-text-color': 'var(--text-primary-color)',

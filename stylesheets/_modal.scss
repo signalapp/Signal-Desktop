@@ -34,6 +34,14 @@
 
   &__input-group {
     min-width: 300px;
+
+    input {
+      margin-bottom: var(--margins-md);
+    }
+
+    input:last-child {
+      margin-bottom: 0px;
+    }
   }
 }
 
@@ -106,7 +114,6 @@
 
   input {
     padding: 8px;
-    margin-bottom: 15px;
     border: 0;
     outline: none;
     border-radius: 4px;

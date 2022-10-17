@@ -7,6 +7,7 @@ export const SessionHeaderSearchInput = styled.input<{ darkMode: boolean }>`
   padding: 0 26px 0 30px;
   margin-inline-start: 8px;
   margin-inline-end: 8px;
+  margin-bottom: 15px;
   outline: 0;
   height: 32px;
   width: calc(100% - 16px);

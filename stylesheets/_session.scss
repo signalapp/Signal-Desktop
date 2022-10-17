@@ -223,11 +223,11 @@ label {
 
     padding: var(--margins-lg);
 
-    font-family: $session-font-default;
+    font-family: var(--font-default);
     text-align: center;
     line-height: 18px;
-    font-size: $session-font-md;
-    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-weight: 500;
 
     &.reverse {
       flex-direction: row-reverse;
@@ -275,7 +275,7 @@ label {
 
     .session-id-editable {
       width: 30vw;
-      max-width: 700px;
+      max-width: 400px;
     }
   }
 
@@ -298,6 +298,7 @@ label {
 
     .session-button {
       margin: var(--margins-xs);
+      font-weight: 500;
     }
 
     &__center {
@@ -329,7 +330,6 @@ label {
 .session-confirm {
   &-wrapper {
     .session-modal__body .session-modal__centered {
-      margin: var(--margins-lg);
       text-align: center;
     }
   }

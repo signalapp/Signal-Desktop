@@ -164,6 +164,7 @@ const InviteContactsDialogInner = (props: Props) => {
               isSelected={selectedContacts.includes(member)}
               onSelect={addTo}
               onUnselect={removeFrom}
+              disableBg={true}
             />
           ))
         ) : (

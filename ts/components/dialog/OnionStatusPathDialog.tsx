@@ -45,6 +45,7 @@ const StyledOnionNodeList = styled.div`
 const StyledOnionDescription = styled.p`
   min-width: 400px;
   width: 0;
+  line-height: 1.3333;
 `;
 
 const StyledVerticalLine = styled.div`
