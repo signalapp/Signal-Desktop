@@ -21,7 +21,7 @@ export const classicLight: ThemeColorVariables = {
   '--text-box-border-color': THEMES.CLASSIC_LIGHT.COLOR2,
 
   '--message-bubbles-sent-background-color': 'var(--primary-color)',
-  '--message-bubbles-received-background-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--message-bubbles-received-background-color': THEMES.CLASSIC_LIGHT.COLOR4,
   '--message-bubbles-sent-text-color': 'var(--text-primary-color)',
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
