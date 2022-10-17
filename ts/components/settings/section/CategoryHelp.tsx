@@ -1,6 +1,6 @@
 import { ipcRenderer, shell } from 'electron';
 import React from 'react';
-import { SessionButtonShape } from '../../basic/SessionButton';
+import { SessionButtonShape, SessionButtonType } from '../../basic/SessionButton';
 
 import { SessionSettingButtonItem, SessionSettingsTitleWithLink } from '../SessionSettingListItem';
 
@@ -13,6 +13,7 @@ export const SettingsCategoryHelp = (props: { hasPassword: boolean | null }) => 
             ipcRenderer.send('show-debug-log');
           }}
           buttonShape={SessionButtonShape.Square}
+          buttonType={SessionButtonType.Solid}
           buttonText={window.i18n('showDebugLog')}
           title={window.i18n('reportIssue')}
           description={window.i18n('shareBugDetails')}
