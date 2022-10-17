@@ -3634,6 +3634,18 @@ button.module-image__border-overlay:focus {
 
 // Module: Calling
 .module-calling {
+  // creates a new independent stacking context that includes modals
+  //
+  // container has no width/height, direct children need to:
+  // - size themselves explicitly (no percentage width/height or top/bottom or left/right)
+  // - size themselves in relation to viewport (position: fixed)
+  &__modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $z-index-on-top-of-everything;
+  }
+
   &__container {
     align-items: center;
     background-color: $calling-background-color;
@@ -3641,7 +3653,7 @@ button.module-image__border-overlay:focus {
     flex-direction: column;
     height: var(--window-height);
     justify-content: center;
-    position: absolute;
+    position: fixed;
     width: 100%;
     z-index: $z-index-calling;
   }
@@ -4097,7 +4109,7 @@ button.module-image__border-overlay:focus {
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05), 0px 8px 20px rgba(0, 0, 0, 0.3);
   cursor: grab;
   height: 158px;
-  position: absolute;
+  position: fixed;
   width: 120px;
   z-index: $z-index-calling-pip;
 

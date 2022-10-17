@@ -1,7 +1,7 @@
 // Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
 import type { SpringValues } from '@react-spring/web';
@@ -18,6 +18,10 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { usePrevious } from '../hooks/usePrevious';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 import * as log from '../logging/log';
+
+export const ModalContainerContext = React.createContext<HTMLElement | null>(
+  null
+);
 
 export type PropsType = Readonly<{
   children: React.ReactElement;
@@ -48,6 +52,7 @@ export const ModalHost = React.memo(
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const containerRef = React.useRef<HTMLDivElement | null>(null);
     const previousModalName = usePrevious(modalName, modalName);
+    const modalContainer = useContext(ModalContainerContext) ?? document.body;
 
     if (previousModalName !== modalName) {
       log.error(
@@ -59,14 +64,14 @@ export const ModalHost = React.memo(
 
     useEffect(() => {
       const div = document.createElement('div');
-      document.body.appendChild(div);
+      modalContainer.appendChild(div);
       setRoot(div);
 
       return () => {
-        document.body.removeChild(div);
+        modalContainer.removeChild(div);
         setRoot(null);
       };
-    }, []);
+    }, [modalContainer]);
 
     useEscapeHandling(onEscape || onClose);
     useEffect(() => {
@@ -74,13 +79,22 @@ export const ModalHost = React.memo(
         return noop;
       }
       return handleOutsideClick(
-        () => {
+        node => {
+          // ignore clicks that originate in the calling/pip
+          // when we're not handling a component in the calling/pip
+          if (
+            modalContainer === document.body &&
+            node instanceof Element &&
+            node.closest('.module-calling__modal-container')
+          ) {
+            return false;
+          }
           onClose();
           return true;
         },
         { containerElements: [containerRef], name: modalName }
       );
-    }, [noMouseClose, onClose, containerRef, modalName]);
+    }, [noMouseClose, onClose, containerRef, modalName, modalContainer]);
 
     const className = classNames([
       theme ? themeClassName(theme) : undefined,
@@ -113,12 +127,14 @@ export const ModalHost = React.memo(
                     return false;
                   }
 
-                  // TitleBar should always receive clicks. Quill suggestions
-                  // are placed in the document.body so they should be exempt
-                  // too.
+                  // Exemptions:
+                  // - TitleBar should always receive clicks.
+                  // - Quill suggestions since they are placed in the document.body
+                  // - Calling module (and pip) are always above everything else
                   const exemptParent = target.closest(
                     '.TitleBarContainer__title, ' +
-                      '.module-composition-input__suggestions'
+                      '.module-composition-input__suggestions, ' +
+                      '.module-calling__modal-container'
                   );
                   if (exemptParent) {
                     return true;

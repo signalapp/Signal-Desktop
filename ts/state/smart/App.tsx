@@ -30,6 +30,7 @@ import { getHideMenuBar } from '../selectors/items';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { ModalContainer } from '../../components/ModalContainer';
 
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
@@ -44,7 +45,11 @@ const mapStateToProps = (state: StateType) => {
     menuOptions: getMenuOptions(state),
     hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
     hideMenuBar: getHideMenuBar(state),
-    renderCallManager: () => <SmartCallManager />,
+    renderCallManager: () => (
+      <ModalContainer className="module-calling__modal-container">
+        <SmartCallManager />
+      </ModalContainer>
+    ),
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />
     ),

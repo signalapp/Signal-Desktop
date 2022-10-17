@@ -82,7 +82,7 @@ export const CallingPip = ({
   switchToPresentationView,
   switchFromPresentationView,
   togglePip,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element => {
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
 
