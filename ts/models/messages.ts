@@ -2646,6 +2646,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             !isExpirationTimerUpdate(dataMessage)
           ) {
             message.set({ expireTimer: dataMessage.expireTimer });
+            if (isStory(message.attributes)) {
+              log.info(`${idLog}: Starting story expiration`);
+              message.set({
+                expirationStartTimestamp: dataMessage.timestamp,
+              });
+            }
           }
 
           if (!hasGroupV2Prop && !isStory(message.attributes)) {

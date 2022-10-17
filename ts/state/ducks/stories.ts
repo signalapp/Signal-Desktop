@@ -1060,6 +1060,10 @@ export function reducer(
         isDownloaded(newStory.attachment);
       const hasAttachmentFailed =
         hasFailed(newStory.attachment) && !hasFailed(prevStory.attachment);
+      const hasExpirationChanged =
+        (newStory.expirationStartTimestamp &&
+          !prevStory.expirationStartTimestamp) ||
+        (newStory.expireTimer && !prevStory.expireTimer);
       const readStatusChanged = prevStory.readStatus !== newStory.readStatus;
       const reactionsChanged =
         prevStory.reactions?.length !== newStory.reactions?.length;
@@ -1075,6 +1079,7 @@ export function reducer(
         hasAttachmentDownloaded ||
         hasAttachmentFailed ||
         hasBeenDeleted ||
+        hasExpirationChanged ||
         hasSendStateChanged ||
         readStatusChanged ||
         reactionsChanged;
