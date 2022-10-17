@@ -29,7 +29,6 @@ const MessageRequestListPlaceholder = styled.div`
 const MessageRequestListContainer = styled.div`
   width: 100%;
   overflow-y: auto;
-  border: 1px solid var(--border-color);
   margin-bottom: auto;
 `;
 

@@ -12,6 +12,7 @@ const ConversationRequestTextBottom = styled.div`
   flex-direction: row;
   justify-content: center;
   padding: var(--margins-lg);
+  background-color: var(--background-secondary-color);
 `;
 
 const ConversationRequestTextInner = styled.div`
