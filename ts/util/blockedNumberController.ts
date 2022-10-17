@@ -1,4 +1,5 @@
 import { Data } from '../data/data';
+import { getConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 
@@ -102,6 +103,13 @@ export class BlockedNumberController {
       if (this.blockedNumbers.has(toUnblock.key)) {
         this.blockedNumbers.delete(toUnblock.key);
         changes = true;
+      }
+    });
+
+    users.map(user => {
+      const found = getConversationController().get(user);
+      if (found) {
+        found.triggerUIRefresh();
       }
     });
 
