@@ -82,8 +82,9 @@ export type SelectedStoryDataType = {
   currentIndex: number;
   messageId: string;
   numStories: number;
-  viewTarget?: StoryViewTargetType;
   storyViewMode: StoryViewModeType;
+  unviewedStoryConversationIdsSorted: Array<string>;
+  viewTarget?: StoryViewTargetType;
 };
 
 // State
@@ -592,6 +593,38 @@ function verifyStoryListMembers(
   };
 }
 
+const getSelectedStoryDataForDistributionListId = (
+  getState: () => RootStateType,
+  distributionListId: string | undefined,
+  selectedStoryId?: string
+): {
+  currentIndex: number;
+  numStories: number;
+  storiesByConversationId: Array<StoryDataType>;
+} => {
+  const state = getState();
+  const { stories } = state.stories;
+
+  const storiesByDistributionList = stories.filter(
+    item =>
+      item.storyDistributionListId === distributionListId &&
+      !item.deletedForEveryone
+  );
+
+  const numStories = storiesByDistributionList.length;
+  const currentIndex = selectedStoryId
+    ? storiesByDistributionList.findIndex(
+        item => item.messageId === selectedStoryId
+      )
+    : 0;
+
+  return {
+    currentIndex,
+    numStories,
+    storiesByConversationId: [],
+  };
+};
+
 const getSelectedStoryDataForConversationId = (
   dispatch: ThunkDispatch<
     RootStateType,
@@ -615,7 +648,7 @@ const getSelectedStoryDataForConversationId = (
   );
 
   // Find the index of the storyId provided, or if none provided then find the
-  // oldest unread story from the user. If all stories are read then we can
+  // oldest unviewed story from the user. If all stories are read then we can
   // start at the first story.
   let currentIndex: number | undefined;
   let hasUnread = false;
@@ -655,24 +688,23 @@ const getSelectedStoryDataForConversationId = (
 
 export type ViewUserStoriesActionCreatorType = (opts: {
   conversationId: string;
-  viewTarget?: StoryViewTargetType;
   storyViewMode?: StoryViewModeType;
+  viewTarget?: StoryViewTargetType;
 }) => unknown;
 
 const viewUserStories: ViewUserStoriesActionCreatorType = ({
   conversationId,
-  viewTarget,
   storyViewMode,
+  viewTarget,
 }): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
     const { currentIndex, hasUnread, numStories, storiesByConversationId } =
       getSelectedStoryDataForConversationId(dispatch, getState, conversationId);
 
     const story = storiesByConversationId[currentIndex];
+    const state = getState();
 
-    const hiddenConversationIds = new Set(
-      getHideStoryConversationIds(getState())
-    );
+    const hiddenConversationIds = new Set(getHideStoryConversationIds(state));
 
     let inferredStoryViewMode: StoryViewModeType;
     if (storyViewMode) {
@@ -685,14 +717,30 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
       inferredStoryViewMode = StoryViewModeType.All;
     }
 
+    let unviewedStoryConversationIdsSorted: Array<string> = [];
+    if (
+      inferredStoryViewMode === StoryViewModeType.Unread ||
+      inferredStoryViewMode === StoryViewModeType.Hidden
+    ) {
+      const storiesSelectorState = getStories(state);
+      const conversationStories =
+        inferredStoryViewMode === StoryViewModeType.Hidden
+          ? storiesSelectorState.hiddenStories
+          : storiesSelectorState.stories;
+      unviewedStoryConversationIdsSorted = conversationStories
+        .filter(item => item.storyView.isUnread)
+        .map(item => item.conversationId);
+    }
+
     dispatch({
       type: VIEW_STORY,
       payload: {
         currentIndex,
         messageId: story.messageId,
         numStories,
-        viewTarget,
         storyViewMode: inferredStoryViewMode,
+        unviewedStoryConversationIdsSorted,
+        viewTarget,
       },
     });
   };
@@ -732,7 +780,10 @@ const viewStory: ViewStoryActionCreatorType = (
     const { viewTarget, storyId, storyViewMode, viewDirection } = opts;
 
     const state = getState();
-    const { stories } = state.stories;
+    const { selectedStoryData, stories } = state.stories;
+
+    const unviewedStoryConversationIdsSorted =
+      selectedStoryData?.unviewedStoryConversationIdsSorted || [];
 
     // Spec:
     // When opening the story viewer you should always be taken to the oldest
@@ -754,12 +805,18 @@ const viewStory: ViewStoryActionCreatorType = (
     }
 
     const { currentIndex, numStories, storiesByConversationId } =
-      getSelectedStoryDataForConversationId(
-        dispatch,
-        getState,
-        story.conversationId,
-        storyId
-      );
+      storyViewMode === StoryViewModeType.MyStories
+        ? getSelectedStoryDataForDistributionListId(
+            getState,
+            story.storyDistributionListId,
+            storyId
+          )
+        : getSelectedStoryDataForConversationId(
+            dispatch,
+            getState,
+            story.conversationId,
+            storyId
+          );
 
     // Go directly to the storyId selected
     if (!viewDirection) {
@@ -769,8 +826,101 @@ const viewStory: ViewStoryActionCreatorType = (
           currentIndex,
           messageId: storyId,
           numStories,
-          viewTarget,
           storyViewMode,
+          unviewedStoryConversationIdsSorted,
+          viewTarget,
+        },
+      });
+      return;
+    }
+
+    // When paging through all sent stories
+    // Note the order is reversed[1][2] here because we sort the stories by
+    // recency in descending order but the story viewer plays them in
+    // ascending order.
+    if (storyViewMode === StoryViewModeType.MyStories) {
+      const { myStories } = getStories(state);
+
+      let currentStoryIndex = -1;
+      const currentDistributionListIndex = myStories.findIndex(item => {
+        for (let i = item.stories.length - 1; i >= 0; i -= 1) {
+          const myStory = item.stories[i];
+          if (myStory.messageId === storyId) {
+            // [1] reversed
+            currentStoryIndex = item.stories.length - 1 - i;
+            return true;
+          }
+        }
+        return false;
+      });
+
+      if (currentDistributionListIndex < 0 || currentStoryIndex < 0) {
+        log.warn('stories.viewStory: No current story found for MyStories', {
+          currentDistributionListIndex,
+          currentStoryIndex,
+          myStories: myStories.length,
+        });
+        dispatch({
+          type: VIEW_STORY,
+          payload: undefined,
+        });
+        return;
+      }
+
+      let nextSentStoryId: string | undefined;
+      let nextSentStoryIndex = -1;
+      let nextNumStories = numStories;
+
+      // [2] reversed
+      const currentStories = myStories[currentDistributionListIndex].stories
+        .slice()
+        .reverse();
+
+      if (viewDirection === StoryViewDirectionType.Next) {
+        if (currentStoryIndex < currentStories.length - 1) {
+          nextSentStoryIndex = currentStoryIndex + 1;
+          nextSentStoryId = currentStories[nextSentStoryIndex].messageId;
+        } else if (currentDistributionListIndex < myStories.length - 1) {
+          const nextSentStoryContainer =
+            myStories[currentDistributionListIndex + 1];
+
+          nextNumStories = nextSentStoryContainer.stories.length;
+          nextSentStoryIndex = 0;
+          nextSentStoryId =
+            nextSentStoryContainer.stories[nextNumStories - 1].messageId;
+        }
+      }
+
+      if (viewDirection === StoryViewDirectionType.Previous) {
+        if (currentStoryIndex > 0) {
+          nextSentStoryIndex = currentStoryIndex - 1;
+          nextSentStoryId = currentStories[nextSentStoryIndex].messageId;
+        } else if (currentDistributionListIndex > 0) {
+          const nextSentStoryContainer =
+            myStories[currentDistributionListIndex - 1];
+
+          nextNumStories = nextSentStoryContainer.stories.length;
+          nextSentStoryIndex = nextNumStories - 1;
+          nextSentStoryId = nextSentStoryContainer.stories[0].messageId;
+        }
+      }
+
+      if (!nextSentStoryId) {
+        dispatch({
+          type: VIEW_STORY,
+          payload: undefined,
+        });
+        return;
+      }
+
+      dispatch({
+        type: VIEW_STORY,
+        payload: {
+          currentIndex: nextSentStoryIndex,
+          messageId: nextSentStoryId,
+          numStories: nextNumStories,
+          storyViewMode,
+          unviewedStoryConversationIdsSorted,
         },
       });
       return;
@@ -791,6 +941,7 @@ const viewStory: ViewStoryActionCreatorType = (
           messageId: nextStory.messageId,
           numStories,
           storyViewMode,
+          unviewedStoryConversationIdsSorted,
         },
       });
       return;
@@ -808,6 +959,7 @@ const viewStory: ViewStoryActionCreatorType = (
           messageId: nextStory.messageId,
           numStories,
           storyViewMode,
+          unviewedStoryConversationIdsSorted,
         },
       });
       return;
@@ -832,18 +984,27 @@ const viewStory: ViewStoryActionCreatorType = (
     );
 
     // Are there any unviewed stories left? If so we should play the unviewed
-    // stories first. But only if we're going "next"
-    if (viewDirection === StoryViewDirectionType.Next) {
-      // TODO: DESKTOP-4341 only stories that succeed the current story we're on.
-      const unreadStory = conversationStories.find(
-        item => item.storyView.isUnread
-      );
+    // stories first.
+    if (storyViewMode === StoryViewModeType.Unread) {
+      const frozenConversationStoryIndex =
+        unviewedStoryConversationIdsSorted.findIndex(
+          conversationId => conversationId === story.conversationId
+        );
 
-      if (unreadStory) {
+      let nextUnreadConversationId: string | undefined;
+      if (viewDirection === StoryViewDirectionType.Previous) {
+        nextUnreadConversationId =
+          unviewedStoryConversationIdsSorted[frozenConversationStoryIndex - 1];
+      } else if (viewDirection === StoryViewDirectionType.Next) {
+        nextUnreadConversationId =
+          unviewedStoryConversationIdsSorted[frozenConversationStoryIndex + 1];
+      }
+
+      if (nextUnreadConversationId) {
         const nextSelectedStoryData = getSelectedStoryDataForConversationId(
           dispatch,
           getState,
-          unreadStory.conversationId
+          nextUnreadConversationId
         );
 
         dispatch({
@@ -856,20 +1017,19 @@ const viewStory: ViewStoryActionCreatorType = (
               ].messageId,
             numStories: nextSelectedStoryData.numStories,
             storyViewMode,
+            unviewedStoryConversationIdsSorted,
           },
         });
         return;
       }
 
-      // Close the viewer if we were viewing unread stories only and we did not
-      // find any more unread.
-      if (storyViewMode === StoryViewModeType.Unread) {
-        dispatch({
-          type: VIEW_STORY,
-          payload: undefined,
-        });
-        return;
-      }
+      // Close the viewer if we were viewing unviewed stories only and we did
+      // not find any more unviewed.
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
+      });
+      return;
     }
 
     if (conversationStoryIndex < 0) {
@@ -913,6 +1073,7 @@ const viewStory: ViewStoryActionCreatorType = (
           messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
           numStories: nextSelectedStoryData.numStories,
           storyViewMode,
+          unviewedStoryConversationIdsSorted,
         },
       });
       return;
@@ -947,6 +1108,7 @@ const viewStory: ViewStoryActionCreatorType = (
           messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
           numStories: nextSelectedStoryData.numStories,
           storyViewMode,
+          unviewedStoryConversationIdsSorted,
         },
       });
       return;

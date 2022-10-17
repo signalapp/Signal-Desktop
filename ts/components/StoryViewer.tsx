@@ -319,6 +319,7 @@ export const StoryViewer = ({
   const canFreelyNavigateStories =
     storyViewMode === StoryViewModeType.All ||
     storyViewMode === StoryViewModeType.Hidden ||
+    storyViewMode === StoryViewModeType.MyStories ||
     storyViewMode === StoryViewModeType.Unread;
 
   const canNavigateLeft =

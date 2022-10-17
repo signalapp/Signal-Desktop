@@ -127,6 +127,7 @@ export enum StoryViewTargetType {
 export enum StoryViewModeType {
   All = 'All',
   Hidden = 'Hidden',
+  MyStories = 'MyStories',
   Single = 'Single',
   Unread = 'Unread',
   User = 'User',
