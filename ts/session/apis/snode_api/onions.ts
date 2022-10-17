@@ -27,6 +27,14 @@ export const resetSnodeFailureCount = () => {
 const snodeFailureThreshold = 3;
 
 export const OXEN_SERVER_ERROR = 'Oxen Server error';
+
+// Not ideal, but a pRetry.AbortError only lets us customize the message, and not the code
+const errorContent404 = ': 404 ';
+export const was404Error = (error: Error) => error.message.includes(errorContent404);
+
+export const buildErrorMessageWithFailedCode = (prefix: string, code: number, suffix: string) =>
+  `${prefix}: ${code} ${suffix}`;
+
 /**
  * When sending a request over onion, we might get two status.
  * The first one, on the request itself, the other one in the json returned.
