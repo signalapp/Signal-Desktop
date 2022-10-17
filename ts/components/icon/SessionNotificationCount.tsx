@@ -7,18 +7,18 @@ type Props = {
 
 const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   position: absolute;
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  top: var(--margins-lg);
-  left: var(--margins-sm);
+  width: 24px;
+  height: 12px;
+  font-size: 18px;
+  top: 27px;
+  right: 8px;
   padding: 3px;
   opacity: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-default);
-  border-radius: 50%;
+  border-radius: 58px;
   font-weight: 700;
   background: var(--unread-messages-alert-background-color);
   transition: var(--default-duration);
