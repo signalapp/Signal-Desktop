@@ -222,11 +222,24 @@ const fuse = new Fuse(data, {
   shouldSort: true,
   threshold: 0.2,
   minMatchCharLength: 1,
-  keys: ['short_name'],
+  keys: ['short_name', 'short_names'],
+});
+
+const fuseExactPrefix = new Fuse(data, {
+  shouldSort: true,
+  threshold: 0, // effectively a prefix search
+  minMatchCharLength: 2,
+  keys: ['short_name', 'short_names'],
 });
 
 export function search(query: string, count = 0): Array<EmojiData> {
-  const results = fuse.search(query.substr(0, 32)).map(result => result.item);
+  // when we only have 2 characters, do an exact prefix match
+  // to avoid matching on emoticon, like :-P
+  const fuseIndex = query.length === 2 ? fuseExactPrefix : fuse;
+
+  const results = fuseIndex
+    .search(query.substr(0, 32))
+    .map(result => result.item);
 
   if (count) {
     return take(results, count);
