@@ -183,7 +183,7 @@ export class EmojiCompletion {
         }
       }
 
-      if (leftTokenText.length < 3) {
+      if (leftTokenText.length < 2) {
         this.reset();
         return PASS_THROUGH;
       }
