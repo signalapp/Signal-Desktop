@@ -27,18 +27,9 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   color: var(--unread-messages-alert-text-color);
 `;
 
-const StyledCount = styled.div<{ countOverflow: boolean }>`
+const StyledCount = styled.div`
   position: relative;
-  font-size: ${props => (props.countOverflow ? '0.5em' : '0.6em')};
-  margin-top: ${props => (props.countOverflow ? '0.35em' : '0em')};
-  margin-left: ${props => (props.countOverflow ? '-0.45em' : '0em')};
-`;
-
-const StyledCountSup = styled.div`
-  position: absolute;
-  font-size: 1.3em;
-  top: -0.5em;
-  margin-inline-start: 0.375em;
+  font-size: 0.6em;
 `;
 
 export const SessionNotificationCount = (props: Props) => {
@@ -49,16 +40,16 @@ export const SessionNotificationCount = (props: Props) => {
   if (overflow) {
     return (
       <StyledCountContainer shouldRender={shouldRender}>
-        <StyledCount countOverflow={overflow}>
+        <StyledCount>
           {9}
-          <StyledCountSup>+</StyledCountSup>
+          <span>+</span>
         </StyledCount>
       </StyledCountContainer>
     );
   }
   return (
     <StyledCountContainer shouldRender={shouldRender}>
-      <StyledCount countOverflow={overflow}>{count}</StyledCount>
+      <StyledCount>{count}</StyledCount>
     </StyledCountContainer>
   );
 };
