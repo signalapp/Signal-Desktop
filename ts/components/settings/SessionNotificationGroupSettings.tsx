@@ -60,20 +60,17 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
     if (!notificationsAreEnabled) {
       return;
     }
-    Notifications.addNotification(
-      {
-        conversationId: `preview-notification-${Date.now()}`,
-        message:
-          items.find(m => m.value === initialNotificationEnabled)?.label ||
-          window?.i18n?.('messageBody') ||
-          'Message body',
-        title: window.i18n('notificationPreview'),
-        iconUrl: null,
-        isExpiringMessage: false,
-        messageSentAt: Date.now(),
-      },
-      true
-    );
+    Notifications.addPreviewNotification({
+      conversationId: `preview-notification-${Date.now()}`,
+      message:
+        items.find(m => m.value === initialNotificationEnabled)?.label ||
+        window?.i18n?.('messageBody') ||
+        'Message body',
+      title: window.i18n('notificationPreview'),
+      iconUrl: null,
+      isExpiringMessage: false,
+      messageSentAt: Date.now(),
+    });
   };
 
   return (
