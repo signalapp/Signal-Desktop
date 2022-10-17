@@ -228,6 +228,7 @@ export async function startApp(): Promise<void> {
       hasStoriesDisabled: window.storage.get('hasStoriesDisabled', false),
     });
     window.textsecure.server = server;
+    window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
     initializeAllJobQueues({
       server,
@@ -2083,8 +2084,6 @@ export async function startApp(): Promise<void> {
       if (!window.Signal.Util.Registration.everDone()) {
         return;
       }
-
-      window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
       // Update our profile key in the conversation if we just got linked.
       const profileKey = await ourProfileKeyService.get();
