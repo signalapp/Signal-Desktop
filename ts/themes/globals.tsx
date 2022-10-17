@@ -140,7 +140,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--lightbox-caption-background-color': 'rgba(192, 192, 192, .40)',
   '--lightbox-icon-stroke-color': 'var(--white-color)',
 
-  '--avatar-border-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.59)`,
+  '--avatar-border-color': 'var(--transparent-color)',
 
   '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
 };
