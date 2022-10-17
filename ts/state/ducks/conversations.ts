@@ -699,11 +699,23 @@ const conversationsSlice = createSlice({
         return state;
       }
 
+      let updatedMessages = state.messages;
+
+      // if some are unread, mark them as read
+      if (state.messages.some(m => m.propsForMessage.isUnread)) {
+        updatedMessages = state.messages.map(m => ({
+          ...m,
+          propsForMessage: { ...m.propsForMessage, isUnread: false },
+        }));
+      }
+
       // keep the unread visible just like in other apps. It will be shown until the user changes convo
       return {
         ...state,
         shouldHighlightMessage: false,
         firstUnreadMessageId: undefined,
+
+        messages: updatedMessages,
       };
     },
     /**

@@ -493,9 +493,13 @@ async function getUnreadByConversation(conversationId: string): Promise<MessageC
 }
 
 async function markAllAsReadByConversationNoExpiration(
-  conversationId: string
+  conversationId: string,
+  returnMessagesUpdated: boolean // for performances reason we do not return them because usually they are not needed
 ): Promise<Array<number>> {
-  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(conversationId);
+  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(
+    conversationId,
+    returnMessagesUpdated
+  );
   return messagesIds;
 }
 
