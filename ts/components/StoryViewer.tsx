@@ -487,7 +487,7 @@ export const StoryViewer = ({
         ];
 
   return (
-    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <div className="StoryViewer">
         <div
           className="StoryViewer__overlay"

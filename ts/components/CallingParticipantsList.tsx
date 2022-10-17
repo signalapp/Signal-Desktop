@@ -3,7 +3,7 @@
 
 /* eslint-disable react/no-array-index-key */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
 
@@ -14,6 +14,7 @@ import type { LocalizerType } from '../types/Util';
 import { sortByTitle } from '../util/sortByTitle';
 import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from '../util/isInSystemContacts';
+import { ModalContainerContext } from './ModalHost';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;
@@ -32,6 +33,8 @@ export const CallingParticipantsList = React.memo(
   ({ i18n, onClose, ourUuid, participants }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
+    const modalContainer = useContext(ModalContainerContext) ?? document.body;
+
     const sortedParticipants = React.useMemo<Array<ParticipantType>>(
       () => sortByTitle(participants),
       [participants]
@@ -39,14 +42,14 @@ export const CallingParticipantsList = React.memo(
 
     React.useEffect(() => {
       const div = document.createElement('div');
-      document.body.appendChild(div);
+      modalContainer.appendChild(div);
       setRoot(div);
 
       return () => {
-        document.body.removeChild(div);
+        modalContainer.removeChild(div);
         setRoot(null);
       };
-    }, []);
+    }, [modalContainer]);
 
     const handleCancel = React.useCallback(
       (e: React.MouseEvent) => {
