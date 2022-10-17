@@ -442,7 +442,8 @@ export async function sendToGroupViaSenderKey(options: {
             distributionId,
             groupId,
             identifiers: newToMemberUuids,
-            story,
+            // SKDMs should only have story=true if we're sending to a distribution list
+            story: sendTarget.getGroupId() ? false : story,
             urgent,
           },
           sendOptions ? { ...sendOptions, online: false } : undefined
