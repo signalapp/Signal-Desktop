@@ -15,12 +15,12 @@ import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
-import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
 
 interface State {
   profileName: string;
@@ -211,7 +211,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             value={this.state.profileName}
             placeholder={placeholderText}
             onChange={this.onNameEdited}
-            maxLength={MAX_USERNAME_LENGTH}
+            maxLength={MAX_USERNAME_BYTES}
             tabIndex={0}
             required={true}
             aria-required={true}
@@ -237,10 +237,18 @@ export class EditProfileDialog extends React.Component<{}, State> {
   }
 
   private onNameEdited(event: ChangeEvent<HTMLInputElement>) {
-    const newName = sanitizeSessionUsername(event.target.value);
-    this.setState({
-      profileName: newName,
-    });
+    const displayName = event.target.value;
+    try {
+      const newName = sanitizeSessionUsername(displayName);
+      this.setState({
+        profileName: newName,
+      });
+    } catch (e) {
+      this.setState({
+        profileName: displayName,
+      });
+      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+    }
   }
 
   private onKeyUp(event: any) {
@@ -263,26 +271,37 @@ export class EditProfileDialog extends React.Component<{}, State> {
    */
   private onClickOK() {
     const { newAvatarObjectUrl, profileName } = this.state;
-    const newName = profileName ? profileName.trim() : '';
+    try {
+      const newName = profileName ? profileName.trim() : '';
 
-    if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
+      if (newName.length === 0 || newName.length > MAX_USERNAME_BYTES) {
+        return;
+      }
+
+      // this throw if the length in bytes is too long
+      const sanitizedName = sanitizeSessionUsername(newName);
+      const trimName = sanitizedName.trim();
+
+      this.setState(
+        {
+          profileName: trimName,
+          loading: true,
+        },
+        async () => {
+          await commitProfileEdits(newName, newAvatarObjectUrl);
+          this.setState({
+            loading: false,
+
+            mode: 'default',
+            updatedProfileName: this.state.profileName,
+          });
+        }
+      );
+    } catch (e) {
+      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+
       return;
     }
-
-    this.setState(
-      {
-        loading: true,
-      },
-      async () => {
-        await commitProfileEdits(newName, newAvatarObjectUrl);
-        this.setState({
-          loading: false,
-
-          mode: 'default',
-          updatedProfileName: this.state.profileName,
-        });
-      }
-    );
   }
 
   private closeDialog() {

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { ToastUtils } from '../../session/utils';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
@@ -89,6 +90,23 @@ const SignInButtons = (props: {
   );
 };
 
+export function sanitizeDisplayNameOrToast(
+  displayName: string,
+  setDisplayName: (sanitized: string) => void,
+  setDisplayNameError: (error: string | undefined) => void
+) {
+  try {
+    const sanitizedName = sanitizeSessionUsername(displayName);
+    const trimName = sanitizedName.trim();
+    setDisplayName(sanitizedName);
+    setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+  } catch (e) {
+    setDisplayName(displayName);
+    setDisplayNameError(window.i18n('displayNameTooLong'));
+    ToastUtils.pushToastError('toolong', window.i18n('displayNameTooLong'));
+  }
+}
+
 export const SignInTab = () => {
   const { setRegistrationPhase, signInMode, setSignInMode } = useContext(RegistrationContext);
 
@@ -142,10 +160,7 @@ export const SignInTab = () => {
             displayName={displayName}
             handlePressEnter={continueYourSession}
             onDisplayNameChanged={(name: string) => {
-              const sanitizedName = sanitizeSessionUsername(name);
-              const trimName = sanitizedName.trim();
-              setDisplayName(sanitizedName);
-              setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+              sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
             }}
             onSeedChanged={(seed: string) => {
               setRecoveryPhrase(seed);

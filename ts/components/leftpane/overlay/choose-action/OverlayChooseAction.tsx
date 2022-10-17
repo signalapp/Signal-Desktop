@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // tslint:disable: use-simple-attributes no-submodule-imports
 
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ContactsListWithBreaks } from './ContactsListWithBreaks';
+import { isEmpty, isString } from 'lodash';
 
 const StyledActionRow = styled.button`
   border: none;
@@ -45,7 +46,6 @@ const IconOnActionRow = (props: { iconType: SessionIconType }) => {
 
 export const OverlayChooseAction = () => {
   const dispatch = useDispatch();
-
   function closeOverlay() {
     dispatch(resetOverlayMode());
   }
@@ -63,6 +63,28 @@ export const OverlayChooseAction = () => {
   }
 
   useKey('Escape', closeOverlay);
+
+  function handlePaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pasted = event.clipboardData?.getData('text');
+
+    if (pasted && isString(pasted) && !isEmpty(pasted)) {
+      if (pasted.startsWith('http') || pasted.startsWith('https')) {
+        openJoinCommunity();
+      } else if (pasted.startsWith('05')) {
+        openNewMessage();
+      }
+    }
+  }
+
+  useEffect(() => {
+    document?.addEventListener('paste', handlePaste);
+
+    return () => {
+      document?.removeEventListener('paste', handlePaste);
+    };
+  }, []);
 
   return (
     <div className="module-left-pane-overlay">

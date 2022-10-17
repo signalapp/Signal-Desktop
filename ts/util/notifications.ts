@@ -77,7 +77,7 @@ function disable() {
  *
  * @param forceRefresh Should only be set when the user triggers a test notification from the settings
  */
-function addNotification(notif: SessionNotification, forceRefresh = false) {
+function addNotification(notif: SessionNotification) {
   const alreadyThere = currentNotifications.find(
     n => n.conversationId === notif.conversationId && n.messageId === notif.messageId
   );
@@ -86,11 +86,15 @@ function addNotification(notif: SessionNotification, forceRefresh = false) {
     return;
   }
   currentNotifications.push(notif);
-  if (forceRefresh) {
-    update(true);
-  } else {
-    debouncedUpdate();
-  }
+  debouncedUpdate();
+}
+
+/**
+ * Special case when we want to display a preview of what notifications looks like
+ */
+function addPreviewNotification(notif: SessionNotification) {
+  currentNotifications.push(notif);
+  update(true);
 }
 
 function clearByConversationID(convoId: string) {
@@ -131,7 +135,7 @@ function update(forceRefresh = false) {
     isAppFocused: forceRefresh ? false : isAppFocused,
     isAudioNotificationEnabled,
     isAudioNotificationSupported: audioNotificationSupported,
-    isEnabled: forceRefresh ? true : isEnabled,
+    isEnabled,
     numNotifications,
     userSetting,
   });
@@ -251,6 +255,7 @@ function onRemove() {
 
 export const Notifications = {
   addNotification,
+  addPreviewNotification,
   disable,
   enable,
   clear,

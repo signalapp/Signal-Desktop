@@ -8,6 +8,7 @@ import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/attachments';
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
+import { was404Error } from '../apis/snode_api/onions';
 
 // this may cause issues if we increment that value to > 1, but only having one job will block the whole queue while one attachment is downloading
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -175,6 +176,7 @@ async function _runJob(job: any) {
     let downloaded;
 
     try {
+      // those two functions throw if they get a 404
       if (isOpenGroupV2) {
         downloaded = await downloadAttachmentSogsV3(attachment, openGroupV2Details);
       } else {
@@ -189,14 +191,12 @@ async function _runJob(job: any) {
           } from message ${found.idForLogging()} as permanent error`
         );
 
-        await _finishJob(found, id);
-
         // Make sure to fetch the message from DB here right before writing it.
         // This is to avoid race condition where multiple attachments in a single message get downloaded at the same time,
         // and tries to update the same message.
         found = await Data.getMessageById(messageId);
-
         _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+        await _finishJob(found, id);
 
         return;
       }
@@ -232,7 +232,9 @@ async function _runJob(job: any) {
     // tslint:disable: restrict-plus-operands
     const currentAttempt: 1 | 2 | 3 = (attempts || 0) + 1;
 
-    if (currentAttempt >= 3) {
+    // if we get a 404 error for attachment downloaded, we can safely assume that the attachment expired server-side.
+    // so there is no need to continue trying to download it.
+    if (currentAttempt >= 3 || was404Error(error)) {
       logger.error(
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
         error && error.stack ? error.stack : error
@@ -321,39 +323,28 @@ function _addAttachmentToMessage(
     return;
   }
 
-  if (type === 'preview') {
+  // for quote and previews, if the attachment cannot be downloaded we just erase it from the message itself, so just the title or body is rendered
+  if (type === 'preview' || type === 'quote') {
+    if (type === 'quote') {
+      const quote = message.get('quote');
+      if (!quote) {
+        throw new Error("_addAttachmentToMessage: quote didn't exist");
+      }
+
+      delete message.attributes.quote.attachments;
+
+      return;
+    }
     const preview = message.get('preview');
     if (!preview || preview.length <= index) {
       throw new Error(`_addAttachmentToMessage: preview didn't exist or ${index} was too large`);
     }
-    const item = preview[index];
-    if (!item) {
-      throw new Error(`_addAttachmentToMessage: preview ${index} was falsey`);
-    }
-    _replaceAttachment(item, 'image', attachment, logPrefix);
+
+    delete message.attributes.preview[0].image;
     return;
   }
 
-  if (type === 'quote') {
-    const quote = message.get('quote');
-    if (!quote) {
-      throw new Error("_addAttachmentToMessage: quote didn't exist");
-    }
-    const { attachments } = quote;
-    if (!attachments || attachments.length <= index) {
-      throw new Error(
-        `_addAttachmentToMessage: quote attachments didn't exist or ${index} was too large`
-      );
-    }
-
-    const item = attachments[index];
-    if (!item) {
-      throw new Error(`_addAttachmentToMessage: attachment ${index} was falsey`);
-    }
-    _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
-
-    return;
-  }
+  // for quote and previews, if the attachment cannot be downloaded we just erase it from the message itself, so just the title or body is rendered
 
   throw new Error(
     `_addAttachmentToMessage: Unknown job type ${type} for message ${message.idForLogging()}`

@@ -77,10 +77,13 @@ export const downloadFileFromFileServer = async (
   if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
     window.log.info(`about to try to download fsv2: "${urlToGet}"`);
   }
+
+  // this throws if we get a 404 from the file server
   const result = await OnionSending.getBinaryViaOnionV4FromFileServer({
     abortSignal: new AbortController().signal,
     endpoint: urlToGet,
     method: 'GET',
+    throwError: true,
   });
   if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
     window.log.info(`download fsv2: "${urlToGet} got result:`, JSON.stringify(result));
