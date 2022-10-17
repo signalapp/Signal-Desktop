@@ -5,7 +5,7 @@
 html {
   height: 100%;
   // Default theme is Classic Dark
-  background-color: black;
+  background-color: #1b1b1b;
 }
 
 body {
@@ -86,7 +86,7 @@ a {
   align-items: center;
   user-select: none;
   // Default theme is Classic Dark so we force this for the password prompt
-  background-color: black;
+  background-color: #1b1b1b;
 
   .content {
     margin-inline-start: auto;
