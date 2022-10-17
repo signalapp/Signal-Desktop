@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Activer la fonction stories",
+    "message": "Activer la fonction Stories",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Quitter la fonction stories",
+    "message": "Quitter la fonction Stories",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5213,7 +5213,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Vous ne pourrez plus partager ou voir de stories.",
+    "message": "Vous ne pourrez plus partager ou voir de Stories.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mes histoires",
+    "message": "Mes Stories",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Votre histoire",
+    "message": "Votre Story",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Télécharger l’histoire",
+    "message": "Télécharger la Story",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Supprimer cette histoire ? Elle sera aussi supprimée pour quiconque l’a reçue.",
+    "message": "Supprimer cette Story ? Elle sera aussi supprimée pour quiconque l’a reçue.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Vos connexions peuvent voir votre nom, vos photos et vos posts publiés dans « Ma Story », sauf si vous décidez de les masquer.",
+    "message": "Vos connexions peuvent voir votre nom, vos photos et vos posts publiés dans « Ma Story », sauf si vous décidez de les masquer.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5421,15 +5421,15 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mes histoires",
+    "message": "Mes Stories",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Ajouter une histoire",
+    "message": "Ajouter une Story",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Texte story",
+    "message": "Story texte",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Aucune histoire récente à afficher pour l’instant",
+    "message": "Aucune Story récente à afficher pour l’instant",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Cliquez pour visualiser une histoire",
+    "message": "Cliquez pour visualiser une Story",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,11 +5465,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Paramètres des stories",
+    "message": "Paramètres des Stories",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Nouvelle story privée",
+    "message": "Nouvelle Story privée",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Qui peut voir cette story",
+    "message": "Qui peut voir cette Story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Cette personne ne verra plus votre story.",
+    "message": "Cette personne ne verra plus votre Story.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5513,11 +5513,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Supprimer la story privée",
+    "message": "Supprimer la Story privée",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Supprimer la Story privée ?",
+    "message": "Supprimer la Story privée ?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Nom de la story (requis)",
+    "message": "Nom de la Story (requis)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Cacher la story pour",
+    "message": "Cacher la Story pour",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Choisissez qui peut voir votre Story. Les modifications apportées ne s'appliqueront pas aux Stories déjà publiées.$learnMore$",
+    "message": "Choisissez qui peut voir votre Story. Les modifications apportées ne s’appliqueront pas aux Stories déjà publiées.$learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,11 +5573,11 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Paramètres des stories",
+    "message": "Paramètres des Stories",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Choisissez qui peut voir votre story",
+    "message": "Choisissez qui peut voir votre Story",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5589,11 +5589,11 @@
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "Nouvelle story",
+    "message": "Nouvelle Story",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Nouvelle story privée",
+    "message": "Nouvelle Story privée",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Nouvelle story de groupe",
+    "message": "Nouvelle Story de groupe",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,11 +5613,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Confidentialité de mes stories",
+    "message": "Confidentialité de mes Stories",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Parmi vos contacts, choisissez ceux que vous autorisez à consulter votre story. Vous pourrez modifier vos préférences à tout moment dans les paramètres de confidentialité. $learnMore$",
+    "message": "Parmi vos connexions Signal, choisissez celles que vous autorisez à consulter votre Story. Vous pourrez modifier vos préférences à tout moment dans les paramètres de confidentialité. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5629,15 +5629,15 @@
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
-    "message": "Seuls les administrateurs peuvent envoyer des stories à ce groupe.",
+    "message": "Seuls les administrateurs peuvent envoyer des Stories à ce groupe.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Partager et voir les stories",
+    "message": "Partager et voir les Stories",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Vous ne pourrez plus partager ni voir les stories si cette option est désactivée.",
+    "message": "Vous ne pourrez plus partager ni voir les Stories si cette option est désactivée.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Activer l'accusé de lecture pour voir qui a consulté votre story. Ouvrez l'application Signal depuis votre appareil mobile puis rendez-vous sur Paramètres > Confidentialité.",
+    "message": "Activer l’accusé de lecture pour voir qui a consulté vos Stories. Ouvrez l’application Signal depuis votre appareil mobile puis rendez-vous dans Paramètres > Confidentialité.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,7 +5705,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Réagir à l’histoire",
+    "message": "Réagir à la Story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5713,7 +5713,7 @@
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Histoire",
+    "message": "Story",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
@@ -5721,7 +5721,7 @@
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Cacher l’histoire",
+    "message": "Cacher la Story",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Cacher l’histoire ? Les nouvelles mises à jour d’histoire de $name$ n’apparaîtront plus en haut de la liste des histoires.",
+    "message": "Cacher la Story ? Les nouvelles mises à jour des Stories de $name$ n’apparaîtront plus en haut de la liste des Stories.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Impossible de télécharger la story. $name$ devrait effectuer un nouveau partage.",
+    "message": "Impossible de télécharger la Story. $name$ devra la partager à nouveau.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Impossible de télécharger la story. Vous devrez effectuer un nouveau partage.",
+    "message": "Impossible de télécharger la Story. Vous devrez la partager à nouveau.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "La vidéo ne peut pas être publiée, car son format n'est pas pris en charge",
+    "message": "La vidéo ne peut pas être publiée dans la Story, car son format n’est pas pris en charge",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "Changer le fond de l'histoire",
+    "message": "Changer la couleur de fond de la Story",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Ajouter du texte sur la Story",
+    "message": "Ajouter du texte à la Story",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Ajouter un lien pour les personnes qui voient votre histoire",
+    "message": "Ajouter un lien pour les spectateurs de votre Story",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Histoire",
+    "message": "Story",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "A réagi à une histoire de $name$",
+    "message": "A réagi à une Story de $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "A réagi à une histoire",
+    "message": "A réagi à une Story",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

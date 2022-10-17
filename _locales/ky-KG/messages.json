@@ -5437,11 +5437,11 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Жашыруун окуялар",
+    "message": "Жашырылган окуялар",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Учурда көрсөтүлө турган акыркы окуялар жок",
+    "message": "Учурда көрсөтүлө турган соңку окуялар жок",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5465,7 +5465,7 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Окуя орнотуулары",
+    "message": "Окуяны тууралоо",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Бул окуяны ким көрө алат",
+    "message": "Бул окуяны кимдер көрө алат",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Бул адам мындан ары окуяңызды көрбөйт.",
+    "message": "Окуяңыз мындан ары бул адамга көрүнбөйт.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана сезимин билдирүүгө уруксат берүү.",
+    "message": "Окуяңызды көрө алган адамдарга жооп берүүгө жана реакция кылууга мүмкүнчүлүк бериңиз.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5533,7 +5533,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Окуяны жашыруу",
+    "message": "Окуяны бул адамдардан жашыруу",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Окуя орнотуулары",
+    "message": "Окуяны тууралоо",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Окуя жашырылсынбы? $name$ жаңыртуулары мындан ары окуялар тизмесинин башында көрүнбөйт.",
+    "message": "Окуяны жашырасызбы? $name$ жөнөткөн жаңы окуялар мындан ары окуялар тизмесинин башында көрүнбөйт.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Окуя жүктөлүп алынган жок. $name$ аны кайра бөлүшүшү керек.",
+    "message": "Окуя жүктөлүп алынган жок. $name$ аны кайра бөлүшүүсү керек.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Окуя жүктөлүп алынган жок. Аны кайра бөлүшүшүңүз керек.",
+    "message": "Окуя жүктөлүп алынган жок. Аны кайра бөлүшүүңүз керек.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Окуянын текстин кошуу",
+    "message": "Окуяга текст кошуу",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {

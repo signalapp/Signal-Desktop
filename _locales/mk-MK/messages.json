@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Вклучи ги приказните",
+    "message": "Вклучете ги приказните",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Исклучи ги приказните",
+    "message": "Исклучете ги приказните",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5365,7 +5365,7 @@
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Преземи ја приказната",
+    "message": "Преземете ја приказната",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Вашите врски можат да ги видат вашите име и слика, а можат да ги видат и објавите на „Моја приказна“ освен ако не ги скриете од нив",
+    "message": "Вашите врски можат да ви ги видат името и сликата, а можат да ги видат и објавите на „Моја приказна“ освен ако не ги скриете од нив",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5425,7 +5425,7 @@
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Додај приказна",
+    "message": "Додајте приказна",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Кој може да ја види оваа приказна",
+    "message": "Кој може да ја гледа оваа приказна",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Оваа личност повеќе нема да ја види Вашата приказна.",
+    "message": "Оваа личност повеќе нема да ја гледа вашата приказна.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,11 +5509,11 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Дозволете им на луѓето кои можат да ја видат вашата приказна да реагираат и да одговорат.",
+    "message": "Дозволете им на луѓето кои можат да ја видат вашата приказна да реагираат и одговорат.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Избриши приватна приказна",
+    "message": "Избришете ја приватната приказна",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5533,7 +5533,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Сокриј приказна од",
+    "message": "Скријте ја приказната од",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Одберете кој може да ја гледа вашата приказна. Промените нема да се одесуваат на приказните кои се веќе испратени. $learnMore$",
+    "message": "Одберете кој може да ја гледа вашата приказна. Промените нема да се однесуваат на приказните кои се веќе испратени. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5585,7 +5585,7 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Испрати ја приказната",
+    "message": "Испратете ја приказната",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Овозможете потврди за прочитани пораки за да видите кој ги гледал вашите приказни. Отворете ја апликацијата Signal на вашиот мобилен уред и одете до Поставувања > Приватност.",
+    "message": "Овозможете потврди за прочитани пораки за да видите кој ги гледал вашите приказни. Отворете ја апликацијата Signal на мобилниот уред и одете до Поставувања > Приватност.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5721,7 +5721,7 @@
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Сокриј приказна",
+    "message": "Скријте ја приказна",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5749,7 +5749,7 @@
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Не може да се преземе приказната.  Ќе треба да ја споделите повторно.",
+    "message": "Не може да се преземе приказната. Ќе треба да ја споделите повторно.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Додај текст на приказна",
+    "message": "Додајте текст на приказната",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Додај линк за гледачите на твојата приказна",
+    "message": "Додајте линк за гледачите на вашата приказна",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

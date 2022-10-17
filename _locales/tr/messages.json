@@ -5361,7 +5361,7 @@
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Hikayeniz",
+    "message": "Hikayen",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Bu hikaye silinsin mi? Aynı zamanda tüm alıcılardan silinecektir.",
+    "message": "Bu hikaye silinsin mi? Aynı zamanda hikayeyi alan herkesten silinecektir.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler.",
+    "message": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5437,7 +5437,7 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Gizlenmiş hikayeler",
+    "message": "Gizli hikayeler",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Bu kişi artık hikayelerinizi göremeyecek.",
+    "message": "Bu kişi artık hikayelerini göremeyecek.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5525,7 +5525,7 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Bu hikayeye bir isim verin",
+    "message": "Bu hikayeye bir isim ver",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Hikayeni kimlerin görüntüleyebileceğini seç. Yaptığın değişiklikler, daha önce gönderdiğin hikayeleri etkilemez.$learnMore$",
+    "message": "Hikayeni kimlerin görüntüleyebileceğini seç. Yaptığın değişiklikler, daha önce gönderdiğin hikayeleri etkilemez. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Hikaye kaldırılsın mı? Bu işlem, hikayeyi listenden kaldırsa da bu gruptaki hikayeleri görüntüleyebileceksin.",
+    "message": "Hikaye kaldırılsın mı? Bu işlem hikayeyi listenden kaldırsa da bu gruptaki hikayeleri görüntüleyebilirsin.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Bu seçenek kapatıldığında artık Hikayeleri paylaşamayacak veya görüntüleyemeyeceksiniz.",
+    "message": "Bu seçenek kapatıldığında artık Hikayeleri paylaşamayacak veya görüntüleyemeyeceksin.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Hikaye gizlensin mi? $name$'den yeni hikaye güncellemeleri artık hikaye listesinin başında görünmeyecek.",
+    "message": "Hikaye gizlensin mi? $name$ adlı kişinin yeni hikaye güncellemeleri artık hikaye listesinin başında görünmeyecek.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,7 +5745,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Hikaye indirilemiyor. $name$ hikayeyi tekrar paylaşmalı.",
+    "message": "Hikaye indirilemiyor. $name$ adlı kişi hikayeyi tekrar paylaşmalı.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
@@ -5841,7 +5841,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$'dan bir hikayeye tepki verildi",
+    "message": "$name$ adlı kişinin hikayesine tepki verildi",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {

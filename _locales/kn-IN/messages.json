@@ -5365,7 +5365,7 @@
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಿ",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
+    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ‌ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್‌ಗಳನ್ನು ನೋಡಬಹುದು",
+    "message": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್ ಗಳನ್ನು ನೋಡಬಹುದು",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5429,7 +5429,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "ಪಠ್ಯ ಸ್ಟೋರಿ",
+    "message": "ಟೆಕ್ಸ್ಟ್ ಸ್ಟೋರಿ",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5465,7 +5465,7 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
@@ -5513,11 +5513,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸಿ",
+    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿ",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ?",
+    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5617,11 +5617,11 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ನೀವು ಯಾವತ್ತೂ ಗೌಪ್ಯತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಲ್ಲಿ ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಗೌಪ್ಯತೆಯ ಸೆಟ್ಟಿಂಗ್ ಗಳಲ್ಲಿ ನೀವು ಇದನ್ನು ಯಾವಾಗ ಬೇಕಾದರೂ ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿ",
+    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿ",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "ನಿಮ್ಮ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಯಾರು ವೀಕ್ಷಿಸಿದ್ದಾರೆ ಎಂದು ನೋಡಲು ಓದಿದ ರಸೀದಿಗಳು ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಗೌಪ್ಯತೆ ಎಂಬಲ್ಲಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಯಾರು ವೀಕ್ಷಿಸಿದ್ದಾರೆ ಎಂದು ನೋಡಲು ಓದಿದ ರಸೀದಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್ ಗಳು > ಗೌಪ್ಯತೆ ಎಂಬಲ್ಲಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡುವುದೇ? $name$ ಅವರ ಹೊಸ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇನ್ನುಮುಂದೆ ಸ್ಟೋರೀಸ್ ಪಟ್ಟಿಯಲ್ಲಿ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣಿಸುವುದಿಲ್ಲ.",
+    "message": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡುವುದೇ? $name$ ಅವರ ಹೊಸ ಸ್ಟೋರಿ ಅಪ್ ಡೇಟ್ ಗಳು ಇನ್ನುಮುಂದೆ ಸ್ಟೋರೀಸ್ ಪಟ್ಟಿಯ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣಿಸುವುದಿಲ್ಲ.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. $name$ ಅವರು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. $name$ ಅವರು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {

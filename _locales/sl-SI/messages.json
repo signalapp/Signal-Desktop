@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Vklopite Zgodbe",
+    "message": "Vklopite zgodbe",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Izklopite Zgodbe",
+    "message": "Izklopite zgodbe",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov_ic.",
+    "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah drugih prejemnikov_ic.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5461,11 +5461,11 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "Ta Zgodba nima zvoka",
+    "message": "Ta zgodba nima zvoka",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Nastavitve zgodbe",
+    "message": "Nastavitve Zgodbe",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Izberite, kdo lahko vidi vašo Zgodbo",
+    "message": "Izberite, kdo lahko vidi vašo zgodbo",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,11 +5585,11 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Pošlji Zgodbo",
+    "message": "Pošlji zgodbo",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "Nova Zgodba",
+    "message": "Nova zgodba",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Nova Zgodba skupine",
+    "message": "Nova zgodba skupine",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,11 +5613,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Zasebnost mojih Zgodb",
+    "message": "Zasebnost mojih zgodb",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Izberite, katere Signalove povezave si lahko ogledajo vašo Zgodbo. To lahko kadarkoli spremenite v nastavitvah zasebnosti. $learnMore$",
+    "message": "Izberite, katere Signalove povezave si lahko ogledajo vašo zgodbo. To lahko kadarkoli spremenite v nastavitvah zasebnosti. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Želite odstraniti Zgodbo? To bo odstranilo Zgodbo s seznama, še vedno pa si boste lahko ogledovali Zgodbe iz te skupine.",
+    "message": "Želite odstraniti Zgodbo? To bo odstranilo zgodbo s seznama, še vedno pa si boste lahko ogledovali zgodbe iz te skupine.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5633,7 +5633,7 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Deljenje & Ogled Zgodb",
+    "message": "Deljenje & ogled zgodb",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Omogočite potrdila o branju, da vidite, kdo si je ogledal vaše Zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zasebnost.",
+    "message": "Omogočite potrdila o branju, da vidite, kdo si je ogledal vaše zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zasebnost.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Videoposnetek je predolg za objavo v Zgodbi",
+    "message": "Videoposnetek je predolg za objavo v zgodbi",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Videoposnetka ni mogoče objaviti v Zgodbi, ker gre za nepodprto obliko datoteke",
+    "message": "Videoposnetka ni mogoče objaviti v zgodbi, ker gre za nepodprto obliko datoteke",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "K Zgodbi dodaj besedilo",
+    "message": "K zgodbi dodaj besedilo",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {

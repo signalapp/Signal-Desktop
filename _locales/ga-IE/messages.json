@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Stories",
+    "message": "Scéalta",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Turn On Stories",
+    "message": "Cas air scéalta",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Turn Off Stories",
+    "message": "Cas as scéalta",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "My Stories",
+    "message": "Mo Scéalta",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Your story",
+    "message": "Do scéal",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Download story",
+    "message": "Íoslódáil an scéal",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5413,23 +5413,23 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Your connections can see your name and photo, and can see posts to \"My Story\" unless you hide it from them",
+    "message": "Is féidir le do theagmhálaithe d'ainm agus do ghrianghraf, agus postálacha \"Mo Scéal\", a fheiceáil, mura gcuireann tú na rudaí sin i bhfolach orthu",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Stories",
+    "message": "Scéalta",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "My Stories",
+    "message": "Mo Scéalta",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Add a story",
+    "message": "Cuir scéal leis",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Text story",
+    "message": "Scéal téacs",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "No recent stories to show right now",
+    "message": "Níl aon scéalta le déanaí le taispeáint díreach anois",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Click to view a story",
+    "message": "Cliceáil chun féachaint ar scéal",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,15 +5461,15 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "This story has no sound",
+    "message": "Níl aon fhuaim ag an scéal seo",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Story settings",
+    "message": "Socruithe scéalta",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Scéal Príobháideach Nua",
+    "message": "Scéal príobháideach nua",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can see this story",
+    "message": "Na daoine ar féidir leo an scéal seo a fheiceáil",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "This person will no longer see your story.",
+    "message": "Ní fheicfidh an duine seo do scéal a thuilleadh.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5513,11 +5513,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Scrios Scéal Príobháideach",
+    "message": "Scrios scéal príobháideach",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Delete private story?",
+    "message": "Scrios scéal príobháideach?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,15 +5525,15 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name this story",
+    "message": "Ainmnigh an scéal seo",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Ainm an Scéil (Riachtanach)",
+    "message": "Ainm an scéil (riachtanach)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Hide story from",
+    "message": "Folaigh scéal ó",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Choose who can view your story. Changes won't affect stories you've already sent. $learnMore$",
+    "message": "Roghnaigh na daoine ar féidir leo féachaint ar do scéal. Ní bheidh tionchar ag athruithe ar scéalta a sheol tú cheana. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,11 +5573,11 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story settings",
+    "message": "Socruithe scéalta",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Roghnaigh cé atá in ann do scéal a fheiceáil",
+    "message": "Roghnaigh na daoine ar féidir leo féachaint ar do scéal",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,7 +5585,7 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Send story",
+    "message": "Seol scéal",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Scéal Príobháideach Nua",
+    "message": "Scéal príobháideach nua",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Scéal Grúpa Nua",
+    "message": "Scéal grúpa nua",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,19 +5613,19 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "My stories privacy",
+    "message": "Príobháideachas maidir le Mo Scéalta",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Choose which Signal connections can view your story. You can always change this in privacy settings. $learnMore$",
+    "message": "Roghnaigh na teagmhálaithe Signal ar féidir leo féachaint ar do scéal. Is féidir leat é seo a athrú am ar bith i socruithe príobháideachais. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Delete story",
+    "message": "Scrios an scéal",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Remove story? This will remove the story from your list, but you will still be able to view stories from this group.",
+    "message": "Bain an scéal? Bainfidh sé seo an scéal ó do liosta ach beidh tú fós in ann féachaint ar scéalta ón ngrúpa seo.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5633,7 +5633,7 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Share & View Stories",
+    "message": "Comhroinn agus Féach ar Scéalta",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable read receipts to see who's viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Privacy.",
+    "message": "Cumasaigh admhálacha léite chun na daoine a d'fhéach ar do scéalta a fheiceáil. Oscail an aip Signal ar do ghléas móibíleach agus déan nascleanúint chuig Socruithe > Príobháideachas.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "React to story",
+    "message": "Tabhair freagairt ar an scéal",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reacted to the story",
+    "message": "Tugadh freagairt ar an scéal",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Story",
+    "message": "Scéal",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Show stories",
+    "message": "Taispeáin scéalta",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Hide Story",
+    "message": "Folaigh an scéal",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Hide story? New story updates from $name$ won’t appear at the top of the stories list anymore.",
+    "message": "Folaigh an scéal? Ní thaispeánfar nuashonruithe ar scéalta nua ó $name$ ar bharr liosta de na scéalta a thuilleadh.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,19 +5745,19 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Can’t download story. $name$ will need to share it again.",
+    "message": "Ní féidir an scéal a íoslódáil. Beidh ar $name$ é a chomhroinnt arís.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Can’t download story. You will need to share it again.",
+    "message": "Ní féidir an scéal a íoslódáil. Beidh ort é a chomhroinnt arís.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Cannot post video to story because it is too long",
+    "message": "Ní féidir físeán a phostáil chuig an scéal toisc go bhfuil sé ró-fhada",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Cannot post video to story as it is an unsupported file format",
+    "message": "Ní féidir físeán a phostáil chuig an scéal toisc gur formáid chomhaid gan tacaíocht é",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "Change story background color",
+    "message": "Athraigh dath cúlra an scéil",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Add story text",
+    "message": "Cuir téacs leis an scéal",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Add a link for viewers of your story",
+    "message": "Cuir nasc leis le haghaidh lucht féachana do scéil",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Story",
+    "message": "Scéal",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Reacted to a story from $name$",
+    "message": "Tugadh freagairt ar scéal ó $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Reacted to a story",
+    "message": "Tugadh freagairt ar scéal",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

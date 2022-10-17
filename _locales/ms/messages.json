@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Orang ini tidak lagi akan dapat melihat cerita anda.",
+    "message": "Orang ini tidak lagi dapat melihat cerita anda.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Pilih hubungan Signal mana yang boleh menonton cerita anda. Anda sentiasa boleh menukar ini dalam tetapan privasi. $learnMore$",
+    "message": "Pilih hubungan Signal mana yang boleh menonton cerita anda. Anda sentiasa boleh menukarnya dalam tetapan privasi. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5705,11 +5705,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Bereaksi kepada cerita",
+    "message": "Beri reaksi kepada cerita",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Telah bereaksi kepada cerita",
+    "message": "Telah beri reaksi kepada cerita",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5745,7 +5745,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Tidak boleh muat turun cerita. $name$ perlu berkongsinya semula.",
+    "message": "Tidak boleh muat turun cerita. $name$ perlu berkongsi semula.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Bereaksi kepada cerita daripada $name$",
+    "message": "Beri reaksi kepada cerita daripada $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Bereaksi kepada cerita",
+    "message": "Beri reaksi kepada cerita",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

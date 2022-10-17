@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Dine kontakter kan se dit navn og billede, og de kan se det, du lægger op på \"Min historie\" medmindre du skjuler din historie fra dem",
+    "message": "Dine kontakter kan se dit navn og billede, og de kan se det, du lægger op på \"Min historie\", medmindre du skjuler din historie fra dem",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5633,7 +5633,7 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Del og se Historier",
+    "message": "Del og se historier",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
@@ -5705,7 +5705,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reager på historie",
+    "message": "Reagér på historie",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {

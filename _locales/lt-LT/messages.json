@@ -5361,7 +5361,7 @@
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Jūsų istorija",
+    "message": "Tavo istorija",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Šiuo metu nėra paskiausių istorijų, kurias rodyti",
+    "message": "Šiuo metu nėra naujų istorijų",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Spustelėkite norėdami žiūrėti istoriją",
+    "message": "Spustelėk, jei nori žiūrėti istoriją",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Šis žmogus daugiau nebematys jūsų istorijos.",
+    "message": "Šis žmogus daugiau nebematys tavo istorijos.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Slėpti istoriją? Nauji istorijos atnaujinimai nuo $name$ daugiau nebeatsiras istorijų sąrašo viršuje.",
+    "message": "Slėpti istoriją? Istorijos atnaujinimai, kuriuos įkels $name$, nebebus rodomi istorijų sąrašo viršuje.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5749,7 +5749,7 @@
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Nepavyksta atsisiųsti istorijos. Tu turėsi dar kartą ją bendrinti.",
+    "message": "Nepavyksta atsisiųsti istorijos. Tau reikės dar kartą ją bendrinti.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Pridėk nuorodą žiūrintiems tavo istoriją",
+    "message": "Pridėk nuorodą savo istorijos žiūrovams",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo deles",
+    "message": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5753,7 +5753,7 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Não é possível publicar o vídeo no story, porque ele é muito longo",
+    "message": "O vídeo é muito longo e não é possível publicá-lo no story",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {

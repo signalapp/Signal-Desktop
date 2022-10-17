@@ -5213,7 +5213,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Et voi enää jakaa tai nähdä tarinoita.",
+    "message": "Et voi enää jakaa tai katsella tarinoita.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Viimeiaikaisia tarinoita ei ole tällä hetkellä",
+    "message": "Ei viimeaikaisia tarinoita näytettäväksi juuri nyt",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Näytä tarina painamalla",
+    "message": "Näytä tarina napsauttamalla",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5533,7 +5533,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Piilota tarina näiltä",
+    "message": "Piilota tarina seuraavilta",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Haluatko poistaa tarinan? Tarina poistetaan luettelostasi, mutta voit edelleen tarkastella tämän ryhmän tarinoita.",
+    "message": "Poistetaanko tarina? Tämä poistaa tarinan luettelostasi, mutta voit edelleen katsella tämän ryhmän tarinoita.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Et voi enää jakaa tai katsoa tarinoita, kun tämä valinta on valittuna.",
+    "message": "Et voi enää jakaa tai katsella tarinoita, jos tämä asetus poistetaan käytöstä.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Piilotetaanko tarina? Käyttäjän $name$ tarinoita ei enää näytetä tarinalistan yläreunassa.",
+    "message": "Piilotetaanko tarina? Käyttäjän $name$ uusia tarinapäivityksiä ei enää näytetä tarinaluettelon yläreunassa.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Reagoit tarinaan henkilöltä $name$",
+    "message": "Reagoi tarinaan henkilöltä $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Lähetti reaktion tarinaan",
+    "message": "Reagoi tarinaan",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

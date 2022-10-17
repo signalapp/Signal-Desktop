@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Bu hekayə silinsin? Həmçinin alan hər kəs üçün silinəcək.",
+    "message": "Bu hekayə silinsin? Hekayə həm də onu alan hər kəs üçün silinəcək.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5465,7 +5465,7 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Hekayə tənzimləmələri",
+    "message": "Hekayə parametrləri",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Hekayənizi görən insanların reaksiya göstərməsi və cavab verməsinə icazə verin.",
+    "message": "Hekayənizi görən insanların reaksiya və cavab verməsinə icazə verin.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5533,7 +5533,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Hekayəni gizlət",
+    "message": "Hekayəni gizlət:",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Hekayənizə kimin baxa bildiyini seçin. Dəyişikliklər artıq göndərdiyiniz hekayələrə tətbiq olunmayacaq. $learnMore$",
+    "message": "Hekayənizə baxanları seçin. Dəyişikliklər artıq göndərdiyiniz hekayələrə tətbiq olunmayacaq. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,11 +5573,11 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Hekayə tənzimləmələri",
+    "message": "Hekayə parametrləri",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Hekayənizə baxanları seçin",
+    "message": "Hekayənizə baxanları seç",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Hekayə gizlədilsin? $name$ göndərən yeni hekayələr artıq hekayələr siyahısının başında görünməyəcək",
+    "message": "Hekayə gizlədilsin? $name$ tərəfindən göndərilən yeni hekayələr artıq hekayələr siyahısının başında görünməyəcək.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {

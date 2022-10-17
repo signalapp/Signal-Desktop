@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Meine Stories",
+    "message": "Meine Storys",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5413,15 +5413,15 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Deine Verbindungen können deinen Namen und dein Foto sowie Beiträge unter „Meine Story“ sehen, es sei denn, du verbirgst sie vor ihnen.",
+    "message": "Deine Verbindungen können deinen Namen und dein Foto sowie Beiträge unter »Meine Story« sehen, es sei denn, du verbirgst sie vor ihnen.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Stories",
+    "message": "Storys",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Meine Stories",
+    "message": "Meine Storys",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5437,11 +5437,11 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Ausgeblendete Stories",
+    "message": "Ausgeblendete Storys",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Derzeit keine aktuellen Stories",
+    "message": "Derzeit keine aktuellen Storys",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5529,7 +5529,7 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Storyname (erforderlich)",
+    "message": "Story-Name (erforderlich)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Storys teilen & betrachten",
+    "message": "Storys teilen und ansehen",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Wenn diese Option deaktiviert ist, können keine Storys geteilt und betrachtet werden.",
+    "message": "Wenn diese Option deaktiviert ist, können keine Storys geteilt und angesehen werden.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5717,7 +5717,7 @@
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Stories anzeigen",
+    "message": "Storys anzeigen",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Story ausblenden? Neue Story-Aktualisierungen von $name$ erscheinen nicht mehr oben auf der Storyliste.",
+    "message": "Story ausblenden? Neue Story-Aktualisierungen von $name$ erscheinen nicht mehr oben auf der Story-Liste.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {

@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλους όσους την έχουν λάβει.",
+    "message": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλα τα άτομα που την έλαβαν.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτούς.",
+    "message": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτές.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Ποιοι μπορούν να δουν αυτή την ιστορία",
+    "message": "Ποια άτομα μπορούν να δουν αυτή την ιστορία",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Επίλεξε ποιοι μπορούν να δουν αυτήν την ιστορία",
+    "message": "Επίλεξε ποια άτομα μπορούν να δουν αυτήν την ιστορία",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Αφαίρεση ιστορίας; Αυτό θα αφαιρέσει την ιστορία από τη λίστα σου, αλλά θα μπορείς ακόμα να βλέπεις ιστορίες από αυτήν την ομάδα.",
+    "message": "Αφαίρεση ιστορίας; Με αυτήν την ενέργεια, η ιστορία θα αφαιρεθεί από τη λίστα σου, αλλά θα μπορείς ακόμα να βλέπεις ιστορίες από αυτήν την ομάδα.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Ενεργοποίησε το αποδεικτικό ανάγνωσης για να δεις ποιοι βλέπουν τις ιστορίες σου. Άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Απόρρητο.",
+    "message": "Ενεργοποίησε το αποδεικτικό ανάγνωσης για να δεις ποια άτομα βλέπουν τις ιστορίες σου. Άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Απόρρητο.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Απόκρυψη ιστορίας; Νέες ιστορίες από τον/την $name$ δεν θα εμφανίζονται πλέον στη κορυφή της λίστας ιστοριών.",
+    "message": "Απόκρυψη ιστορίας; Νέες ιστορίες από τον χρήστη $name$ δεν θα εμφανίζονται πλέον στην κορυφή της λίστας ιστοριών.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Η λήψη της ιστορίας απέτυχε. Ο χρήστης $name$ θα χρειαστεί να την μοιραστεί ξανά.",
+    "message": "Η λήψη της ιστορίας απέτυχε. Ο χρήστης $name$ πρέπει να τη μοιραστεί ξανά.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Η λήψη της ιστορίας απέτυχε. Θα χρειαστεί να την μοιραστείς ξανά.",
+    "message": "Η λήψη της ιστορίας απέτυχε. Πρέπει να τη μοιραστείς ξανά.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Δεν είναι δυνατή η δημοσίευση του βίντεο στην ιστορία, η μορφή του δεν είναι υποστηριζόμενη",
+    "message": "Δεν είναι δυνατή η δημοσίευση του βίντεο στην ιστορία, η μορφή του δεν υποστηρίζεται",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5841,7 +5841,7 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Αντέδρασε σε ιστορία του/της $name$",
+    "message": "Αντέδρασε σε ιστορία του χρήστη $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {

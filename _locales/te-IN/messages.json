@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "స్టోరీలు",
+    "message": "కథలు",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "నా స్టోరీలు",
+    "message": "నా కథలు",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "మీ స్టోరీ",
+    "message": "మీ కథ",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "స్టోరీని డౌన్‌లోడ్ చేయండి",
+    "message": "కథను డౌన్‌లోడ్ చేయండి",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ఈ స్టోరీని డిలీట్ చేయాలా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది డిలీట్ చేయబడుతుంది.",
+    "message": "ఈ కథను తొలగించేదా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది తొలగించబడుతుంది.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,19 +5413,19 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "మీ కనెక్షన్‌లు మీ పేరు మరియు ఫోటోని చూడగలరు, వారి నుంచి మీరు దాచిపెట్టినట్లయితే తప్ప, ‘‘నా స్టోరీ’’కు చేసే పోస్ట్‌లను చూడవచ్చు",
+    "message": "మీ కనెక్షన్స్ మీ పేరు మరియు ఫోటోను చూడగలరు, మరియు దాన్ని వారి నుంచి మీరు దాచిపెడితే తప్ప, ‘‘నా కథ’’ కు పోస్ట్‌లను చూడగలరు",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "స్టోరీలు",
+    "message": "కథలు",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "నా స్టోరీలు",
+    "message": "నా కథలు",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "ఒక స్టోరీని జోడించండి",
+    "message": "ఒక కథను జోడించండి",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "దాచిపెట్టబడ్డ స్టోరీలు",
+    "message": "దాయబడ్డ కథలు",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవల స్టోరీలు లేవు",
+    "message": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవలి కథలు లేవు",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "స్టోరీని చూడటానికి క్లిక్ చేయండి",
+    "message": "ఒక కథను చూడటానికి క్లిక్ చేయండి",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,15 +5461,15 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "ఈ స్టోరీకి సౌండ్ లేదు",
+    "message": "ఈ కథకు సౌండ్ లేదు",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "స్టోరీ సెట్టింగ్‌లు",
+    "message": "కథ సెట్టింగ్స్",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "కొత్త ప్రైవేట్ స్టోరీ",
+    "message": "కొత్త ప్రైవేట్ కథ",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ఈ స్టోరీని ఎవరు చూడవచ్చు",
+    "message": "ఈ కథను ఎవరు చూడవచ్చు",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "ఈ వ్యక్తి మీ స్టోరీని ఇక ఏమాత్రం చూడలేడు.",
+    "message": "ఈ వ్యక్తి మీ కథను ఇక ఏమాత్రం చూడలేడు.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,15 +5509,15 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "మీ స్టోరీని చూసే వ్యక్తులు ప్రతిస్పందించేందుకు మరియు ప్రత్యుత్తరాన్ని ఇవ్వనివ్వండి.",
+    "message": "మీ కథను చూడగల వ్యక్తులు ప్రతిస్పందించేందుకు మరియు ప్రత్యుత్తరాన్ని ఇచ్చేందుకు అనుమతించండి.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయండి",
+    "message": "ప్రైవేట్ కథను తొలగించండి",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయాలా?",
+    "message": "ప్రైవేట్ కథను తొలగించేదా?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,15 +5525,15 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ఈ స్టోరీకి పేరు పెట్టండి",
+    "message": "ఈ కథకు పేరు పెట్టండి",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "స్టోరీ పేరు (అవసరం)",
+    "message": "కథ పేరు (అవసరం)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "దీని నుంచి స్టోరీని దాచిపెట్టండి",
+    "message": "వీరి నుంచి కథను దాయండి",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "మీ స్టోరీని ఎవరు చూడవచ్చు అనేది ఎంచుకోండి. మీరు ఇప్పటికే పంపిన స్టోరీలకు మార్పులు వర్తించవు. $learnMore$",
+    "message": "మీ కథను ఎవరు చూడవచ్చు అనేది ఎంచుకోండి. మీరు ఇప్పటికే పంపిన కథలను మార్పులు ప్రభావితం చేయవు. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "స్టోరీ సెట్టింగ్‌లు",
+    "message": "కథ సెట్టింగ్స్",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5585,7 +5585,7 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "స్టోరీని పంపండి",
+    "message": "కథను పంపండి",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "కొత్త గ్రూపు కథ",
+    "message": "కొత్త గ్రూప్ కథ",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "మీ కథను ఏ Signal కనెక్షన్లు వీక్షించవచ్చు అనేది ఎంచుకోండి. మీరు దీనిని ఎప్పుడూ మీ గోప్యతా సెట్టింగ్‌లలో మార్చవచ్చు. $learnMore$",
+    "message": "మీ కథను ఏ Signal కనెక్షన్లు వీక్షించవచ్చు అనేది ఎంచుకోండి. మీరు దీనిని ఎప్పుడూ గోప్యతా సెట్టింగ్స్‌లో మార్చవచ్చు. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5629,15 +5629,15 @@
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
-    "message": "అడ్మిన్‌లు మాత్రమే ఈ గ్రూపుకు కథలను పంపగలరు.",
+    "message": "అడ్మిన్స్ మాత్రమే ఈ గ్రూపుకు కథలను పంపగలరు.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "స్టోరీస్ చూడండి & పంచుకోండి",
+    "message": "కథలను పంచుకోండి & వీక్షించండి",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ఈ ఆప్షన్‌ను ఆఫ్ చేసినప్పుడు, మీరు స్టోరీస్ పంచుకోలేరు లేదా వీక్షించలేరు.",
+    "message": "ఈ వికల్పాన్ని ఆఫ్ చేసినప్పుడు, మీరు ఇక ఏ మాత్రం కథలను పంచుకోలేరు లేదా వీక్షించలేరు.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రీడ్ రిసిప్ట్‌లను ప్రారంభించండి. మీ మొబైల్ పరికరంపై Signal యాప్‌ను తెరవండి, సెట్టింగ్‌లు > గోప్యతకు వెళ్లండి.",
+    "message": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రీడ్ రిసిప్ట్‌లను ప్రారంభించండి. మీ మొబైల్ పరికరంపై Signal యాప్‌ను తెరవండి, సెట్టింగ్స్ > గోప్యతకు వెళ్లండి.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "స్టోరీకి రియాక్ట్ కావడం",
+    "message": "కథకు ప్రతిస్పందించండి",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "స్టోరీకి రియాక్ట్ అయ్యారు",
+    "message": "కథకు ప్రతిస్పందించారు",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "స్టోరీ",
+    "message": "కథ",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "స్టోరీలు చూపించండి",
+    "message": "కథలను చూపించండి",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "స్టోరీని దాచిపెట్టండి",
+    "message": "కథను దాయండి",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "స్టోరిని దాచిపెట్టాలా? స్టోరీల యొక్క లిస్ట్‌పై $name$ నుంచి కొత్త స్టోరీ అప్‌డేట్‌లు ఇక ఏమాత్రం కనిపించవు.",
+    "message": "కథను దాచేదా? కథల జాబితా పైభాాగాన $name$ నుంచి కొత్త కథ అప్‌డేట్స్ ఇక ఏమాత్రం కనిపించవు.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "ఇది చాలా పొడవు ఉండటం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+    "message": "కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది చాలా పొడవుగా ఉంది",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మెట్‌ కావడం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+    "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మాట్ కావడం వల్ల కథకు వీడియోను పోస్ట్ చేయలేము",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "స్టోరీ బ్యాక్‌గ్రౌండ్ కలర్‌ని మార్చండి",
+    "message": "కథ నేపథ్య రంగును మార్చండి",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "స్టోరీ టెక్ట్స్‌ని జోడించండి",
+    "message": "కథ టెక్స్ట్‌ను జోడించండి",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "మీ స్టోరీ వీక్షకుల కొరకు లింక్‌ని జోడించండి",
+    "message": "మీ కథ యొక్క వీక్షకుల కొరకు ఒక లింక్‌ను జోడించండి",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "స్టోరీ",
+    "message": "కథ",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ నుంచి స్టోరీకి రియాక్ట్ అయింది",
+    "message": "$name$ నుంచి కథకు ప్రతిస్పందించారు",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "ఒక స్టోరీకి రియాక్ట్ అయ్యారు",
+    "message": "కథకు ప్రతిస్పందించారు",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

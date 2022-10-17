@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Histori",
+    "message": "Postimet e përkohshme",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Historitë e Mia",
+    "message": "Postimet e mia të përkohshme",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Historia juaj",
+    "message": "Postimi yt i përkohshëm",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Shkarkoni histori",
+    "message": "Shkarko postimin e përkohshëm",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Të fshihet kjo histori? Do të fshihet gjithashtu edhe për këdo që e mori.",
+    "message": "Të fshihet ky postim i përkohshëm? Do të fshihet edhe për këdo që e mori.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,19 +5413,19 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Kontaktet mund të shohin emrin dhe fotografinë tënde, si dhe mund të shohin postimet e përkohshme nëse nuk ua fsheh",
+    "message": "Kontaktet mund të shohin emrin e fotografinë tënde, si dhe postimet e përkohshme, nëse nuk ua fsheh",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Histori",
+    "message": "Postimet e përkohshme",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Historitë e Mia",
+    "message": "Postimet e mia të përkohshme",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Shtoni një histori",
+    "message": "Shto një postim të përkohshëm",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Histori të fshehura",
+    "message": "Postime të përkohshme të fshehura",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Tani për tani s’ka histori të freskëta për t’u shfaqur",
+    "message": "S’ka postime të përkohshme të freskëta për t’u shfaqur",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Klikoni që të shihni një histori",
+    "message": "Kliko që të shohësh një postim të përkohshëm",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,11 +5465,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Rregullime historie",
+    "message": "Parametrat e postimit të përkohshëm",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Histori e re private",
+    "message": "Postim i ri privat i përkohshëm",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Kush mund ta shohë këtë histori",
+    "message": "Kush mund ta shohë këtë postim të përkohshëm",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ky person s’do ta shohë më historinë tuaj.",
+    "message": "Ky person s’do ta shohë më postimin tënd të përkohshëm.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5513,7 +5513,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Fshi histori private",
+    "message": "Fshi postimin privat të përkohshëm",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Emër historie (I domosdoshëm)",
+    "message": "Emri i postimit të përkohshëm (i domosdoshëm)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Fshihe historinë nga",
+    "message": "Fshih postimin e përkohshëm nga",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Rregullime historie",
+    "message": "Parametrat e postimit të përkohshëm",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Histori e re private",
+    "message": "Postim i ri privat i përkohshëm",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Postim grupi i përkohshëm i ri",
+    "message": "Postim grupi i ri i përkohshëm",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5621,7 +5621,7 @@
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Fshij postimin e përkohshëm",
+    "message": "Fshi postimin e përkohshëm",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Shpërndaj dhe shiko postimet e përkohshme",
+    "message": "Shpërnda dhe shiko postimet e përkohshme",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më materiale me të tjerë apo të shohësh postimet e përkohshme.",
+    "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më postime të përkohshme ose të shohësh të të tjerëve.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagoni ndaj një historie",
+    "message": "Reago ndaj një postimi të përkohshëm",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reagoi ndaj historisë",
+    "message": "Reagoi ndaj postimit të përkohshëm",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Histori",
+    "message": "Postim i përkohshëm",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Shfaq histori",
+    "message": "Shfaq postimin e përkohshëm",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Fshihe historinë",
+    "message": "Fshih postimin e përkohshëm",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Të fshihet historia? Përditësime për histori të reja nga $name$ s’do të shfaqen më në krye të listës së historive.",
+    "message": "Të fshihet postimi i përkohshëm? Përditësimet për postime të reja të përkohshme nga $name$ s’do të shfaqen më në krye të listës së postimeve të përkohshme.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Videoja nuk mund të publikohet në postimet e përkohshme, sepse është shumë e gjatë",
+    "message": "Videoja nuk mund të publikohet te postimet e përkohshme, sepse është shumë e gjatë",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Videoja nuk mund të publikohet në postimet e përkohshme, pasi formati i skedarit është i papërshtatshëm",
+    "message": "Videoja nuk mund të publikohet te postimet e përkohshme, pasi formati i skedarit është i papërshtatshëm",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Shtoni tekstin në postimin e përkohshëm",
+    "message": "Shto tekst në postimin e përkohshëm",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Shto lidhje për shikuesit e postimit të përkohshëm",
+    "message": "Shto një link për shikuesit e postimit të përkohshëm",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Histori",
+    "message": "Postim i përkohshëm",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Reagoi ndaj një historie prej $name$",
+    "message": "Reagoi ndaj një postimi të përkohshëm të $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Reagoi te një histori",
+    "message": "Reagoi ndaj një postimi të përkohshëm",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

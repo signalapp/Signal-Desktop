@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "स्टोरीज्",
+    "message": "स्टोरीज",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "माझ्या स्टोरीज्",
+    "message": "माझ्या स्टोरीज",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ही स्टोरी हटवायची? ते ज्यांना प्राप्त होऊ शकते त्या प्रत्येकासाठी देखील हटवले जाईल.",
+    "message": "ही स्टोरी हटवायची? ती ज्यांना प्राप्त होऊ शकते त्या प्रत्येकासाठी देखील हटवली जाईल.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,15 +5413,15 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "आपले कनेक्शन्स आपले नाव आणि फोटो पाहू शकतात, आपण त्यांच्यापासून लपवलेले नसल्यास ते \"माय स्टोरी\" वर पोस्ट पाहू शकतात",
+    "message": "आपले कनेक्शन्स आपले नाव आणि फोटो पाहू शकतात, आपण त्यांच्यापासून लपवत नाही तोपर्यंत ते \"माझ्या स्टोरी\" वर पोस्ट्स पाहू शकतात",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "स्टोरीज्",
+    "message": "स्टोरीज",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "माझ्या स्टोरीज्",
+    "message": "माझ्या स्टोरीज",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "आपणाला आत्ता दाखवण्यास अलिकडील स्टोरीज नाहीत",
+    "message": "आता दाखवण्यासाठी अलिकडील स्टोरीज नाहीत",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "एक स्टोरी पाहण्यास क्लिक करा",
+    "message": "स्टोरी पाहण्यास क्लिक करा",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5469,7 +5469,7 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "नविन खाजगी स्टोरी",
+    "message": "नवीन खाजगी स्टोरी",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "आपली स्टोरी पाहू शकतील अशा लोकांना प्रतिक्रिया आणि प्रत्युत्तर देऊ द्या.",
+    "message": "आपली स्टोरी पाहू शकतील अशा लोकांना प्रतिक्रिया आणि उत्तर देऊ द्या.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "स्टोरी नाव (आवश्यक)",
+    "message": "स्टोरीचे नाव (आवश्यक)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "यांच्यापासून स्टोरी  लपवा",
+    "message": "पासून स्टोरी लपवा",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा. आपण आधीच पाठवलेल्या स्टोरीजवर बदलांचा परिणाम होणार नाही.$learnMore$",
+    "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा. आपण आधीच पाठवलेल्या स्टोरीजवर बदलांचा परिणाम होणार नाही. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "नविन खाजगी स्टोरी",
+    "message": "नवीन खाजगी स्टोरी",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "कोणती Signal कनेक्शन्स आपली स्टोरी पाहू शकतील ते निवडा. आपण नेहमी हे गोपनीयता सेटिंग्ज मध्ये बदलू शकता. $learnMore$",
+    "message": "कोणती Signal कनेक्शन्स आपली स्टोरी पाहू शकतील ते निवडा. आपण गोपनीयता सेटिंग्ज मध्ये हे नेहमी बदलू शकता. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "स्टोरी हटवायची? हे आपल्या सूचीमधून स्टोरीला हटवेल, परंतु आपण अद्याप या ग्रुपमधून स्टोरीज पाहू शकाल.",
+    "message": "स्टोरी हटवायची? हे आपल्या सूचीमधून स्टोरी हटवेल, परंतु आपण अद्याप या ग्रुपमधून स्टोरीज पाहू शकाल.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "आपल्या स्टोरीज कोणी पाहिल्या हे पाहण्यासाठी वाचल्याची पोच सक्षम करा. आपल्या मोबाइल डिव्हाइसवर  Signal ॲप उघडा आणि सेटिंग्ज > गोपनीयता मध्ये नॅव्हिगेट करा.",
+    "message": "आपल्या स्टोरीज कोणी पाहिल्या हे पाहण्यासाठी वाचल्याची पोच सक्षम करा. आपल्या मोबाइल डिव्हाइसवर Signal ॲप उघडा आणि सेटिंग्ज > गोपनीयता मध्ये नॅव्हिगेट करा.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "स्टोरी लपवा?  $name$ कडील नवीन स्टोरी अद्यतन स्टोरीजच्या यादीमध्ये शीर्ष स्थानी दृश्यमान होणार नाही.",
+    "message": "स्टोरी लपवायची? $name$ कडून नवीन स्टोरी अद्यतने स्टोरीजच्या यादीमध्ये शीर्ष स्थानी दृश्यमान होणार नाही.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "स्टोरीच्या मागील रंग बदला",
+    "message": "स्टोरीच्या पार्श्वभागातील रंग बदला",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "आपल्या स्टोरीच्या दर्शकांसाठी एक दुवा जोडा",
+    "message": "आपल्या स्टोरीच्या दर्शकांसाठी एक लिंक जोडा",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

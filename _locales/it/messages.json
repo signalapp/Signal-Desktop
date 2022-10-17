@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Le mie storie",
+    "message": "Le mie Storie",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "La tua storia",
+    "message": "La tua Storia",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Scarica storia",
+    "message": "Scarica Storia",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Eliminare questa storia? Sarà eliminata anche per tutti quelli che l'hanno ricevuta.",
+    "message": "Vuoi eliminare questa Storia? Verrà rimossa anche per tutte le persone che l'hanno ricevuta.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Le tue Amicizie di Signal possono vedere il tuo nome, la tua foto e ciò che condividi con le Storie (a meno che tu non decida di escluderle dalla visione).",
+    "message": "Le tue Amicizie di Signal possono vedere il tuo nome, la tua foto e ciò che condividi sulle Storie (a meno che tu non decida di escluderle dalla visione).",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5421,11 +5421,11 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Le mie storie",
+    "message": "Le mie Storie",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Aggiungi una storia",
+    "message": "Aggiungi una Storia",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Nessuna storia recente da mostrare al momento",
+    "message": "Nessuna Storia recente da mostrare al momento",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Clicca per visualizzare una storia",
+    "message": "Clicca per vedere una Storia",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,11 +5465,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Impostazioni storia",
+    "message": "Impostazioni Storia",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Nuova storia privata",
+    "message": "Nuova Storia privata",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Chi può vedere questa storia",
+    "message": "Chi può vedere questa Storia",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Questa persona non vedrà più la tua storia.",
+    "message": "Questa persona non vedrà più la tua Storia.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,11 +5509,11 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Consenti alle persone che vedono la tua Storia di mettere reazioni e rispondere.",
+    "message": "Consenti alle persone che vedono la tua Storia di aggiungere reazioni e rispondere.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Elimina storia privata",
+    "message": "Elimina Storia privata",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Nome della storia (obbligatorio)",
+    "message": "Nome della Storia (obbligatorio)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Nascondi storia a",
+    "message": "Nascondi Storia a",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Impostazioni storia",
+    "message": "Impostazioni Storia",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Nuova storia privata",
+    "message": "Nuova Storia privata",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Nuova Storia di Gruppo",
+    "message": "Nuova Storia di gruppo",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Vuoi rimuovere la Storia? Se procedi, la Storia verrà rimossa da questo elenco. Potrai ancora vedere le Storie di questo gruppo.",
+    "message": "Vuoi rimuovere la Storia? Se procedi, la Storia verrà rimossa da questo elenco ma potrai ancora vedere le Storie di questo gruppo.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5705,11 +5705,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagisci alla storia",
+    "message": "Reagisci alla Storia",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Ha reagito alla storia",
+    "message": "Ha reagito alla Storia",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5717,11 +5717,11 @@
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Mostra storie",
+    "message": "Mostra Storie",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Nascondi storia",
+    "message": "Nascondi Storia",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Nascondere la storia? Gli aggiornamenti delle nuove storie di $name$ non appariranno più in cima alla lista delle storie.",
+    "message": "Vuoi nascondere la Storia? Gli aggiornamenti delle nuove Storie di $name$ non appariranno più in cima alla lista delle Storie.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Impossibile pubblicare il video nella Storia perché è troppo lungo",
+    "message": "Impossibile pubblicare il video sulla Storia perché è troppo lungo",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Impossibile pubblicare il video nella Storia perché il file video è in un formato non supportato",
+    "message": "Impossibile pubblicare il video sulla Storia perché il file è in un formato non supportato",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Aggiungi un link per chi vedrà la tua storia",
+    "message": "Aggiungi un link per chi vedrà la tua Storia",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Ha reagito a una storia da $name$",
+    "message": "Ha reagito a una Storia da $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Ha reagito alla storia",
+    "message": "Ha reagito a una Storia",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

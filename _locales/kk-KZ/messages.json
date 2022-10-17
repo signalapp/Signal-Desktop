@@ -5753,7 +5753,7 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Өте ұзақ болғандықтан, видеоны сториске салу мүмкін емес",
+    "message": "Видео өте ұзақ болғандықтан, оны сториске салу мүмкін емес",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {

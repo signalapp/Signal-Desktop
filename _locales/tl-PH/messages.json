@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Mga Story",
+    "message": "Stories",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5213,7 +5213,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Hindi ka na pwedeng mag-share o mag-view ng stories.",
+    "message": "Hindi ka na makakapag-share o makaka-view ng stories.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Stories Ko",
+    "message": "My Stories",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5413,15 +5413,15 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Makikita ng connections mo ang pangalan at photo mo, pati na rin ang posts sa \"Story Ko\" maliban na lang kung pinili mong 'wag itong ipakita sa kanila",
+    "message": "Makikita ng connections mo ang pangalan at photo mo, pati na rin ang posts sa \"My Story\" maliban na lang kung pinili mong i-hide ito mula sa kanila",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Mga Story",
+    "message": "Stories",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Stories Ko",
+    "message": "My Stories",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5469,7 +5469,7 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "New private story",
+    "message": "Bagong private story",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can see this story",
+    "message": "Sinong makakakita ng story na 'to",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Payagang mag-react at mag-reply ang mga taong nakakakita ng story mo.",
+    "message": "Hayaang mag-react at mag-reply ang mga taong nakakakita ng story mo.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5517,7 +5517,7 @@
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Gusto mo bang burahin ang private story na ito?",
+    "message": "Gusto mo bang i-delete ang private story na ito?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Piliin kung sinong pwedeng mag-view ng story mo. Hindi apektado ng mga pagbabagong ito ang mga pinadala mo nang stories. $learnMore$",
+    "message": "Piliin kung sinong pwedeng mag-view ng story mo. Hindi maaapektuhan ng mga pagbabagong ito ang sent stories. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Piliin kung sinong makakakita ng story na ito",
+    "message": "Piliin kung sinong makakakita ng iyong story",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,7 +5585,7 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Ipadala ang story",
+    "message": "I-send ang story",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "New private story",
+    "message": "Bagong private story",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5613,11 +5613,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Pagkapribado ng stories ko",
+    "message": "My stories privacy",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Piliin kung sino sa Signal connections mo ang pwedeng makakita ng story mo. Maaari mo itong palitan sa settings ng pagkapribado anumang oras. $learnMore$",
+    "message": "Piliin kung sino sa Signal connections mo ang pwedeng makakita ng story mo. Maaari mo itong palitan sa privacy settings anumang oras. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Gusto mo bang tanggalin ang story na ito? Matatanggal ang story mula sa list na ito. Pero pwede ka pa ring mag-view ng stories mula sa group na ito.",
+    "message": "Gusto mo bang tanggalin ang story na ito? Matatanggal ang story mula sa list mo, pero pwede mo pa ring makita ang stories mula sa group na ito.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Hindi ka na pwedeng mag-share o mag-view ng Stories kapag naka-turn off ang option na ito.",
+    "message": "Hindi ka na pwedeng mag-share o mag-view ng Stories kapag naka-off ang option na ito.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5709,7 +5709,7 @@
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reacted to the story",
+    "message": "Nag-react sa story",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5717,7 +5717,7 @@
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Ipakita ang Stories",
+    "message": "Ipakita ang stories",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Gusto mo bang i-hide ang story? Ang new story updates mula kay $name$ ay hindi na lalabas sa top part ng stories list.",
+    "message": "Gusto mo bang i-hide ang story? Ang bagong story updates mula kay $name$ ay hindi na lalabas sa taas ng stories list.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Hindi ma-download ang story. Kailangang ibahagi ulit ito ni $name$.",
+    "message": "Hindi ma-download ang story. Kailangang i-share ulit ito ni $name$.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Hindi ma-download ang story. Kailangan mong ibahagi ulit ito.",
+    "message": "Hindi ma-download ang story. Kailangan mo ulit itong i-share.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {

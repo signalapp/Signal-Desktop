@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Eliminar esta história? Será também eliminada em todos que a receberam.",
+    "message": "Eliminar esta história? Será também eliminada para todos que a receberam.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Ocultar história? As atualizações das histórias do(a) $name$ deixarão de aparecer no topo da lista de histórias.",
+    "message": "Ocultar história? As atualizações das histórias de $name$ deixarão de aparecer no topo da lista de histórias.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {

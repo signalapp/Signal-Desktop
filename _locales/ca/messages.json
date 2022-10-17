@@ -5441,7 +5441,7 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Ara no hi ha històries per veure.",
+    "message": "Ara no hi ha històries per veure",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5845,7 +5845,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Ha reaccionat a una història.",
+    "message": "Ha reaccionat a una història",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

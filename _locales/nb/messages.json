@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Stories",
+    "message": "Storyer",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Skru på stories",
+    "message": "Slå på storyer",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Skru av stories",
+    "message": "Slå av storyer",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mine stories",
+    "message": "Mine storyer",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Slette storyen? Dette vil slette storyen for deg og alle du har delt den med.",
+    "message": "Vil du slette storyen? Dette vil slette storyen for deg og alle du har delt den med.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5417,11 +5417,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Stories",
+    "message": "Storyer",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mine stories",
+    "message": "Mine storyer",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5429,7 +5429,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Tekst-story",
+    "message": "Story med tekst",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Denne personen vil ikke kunne se storyen din lenger.",
+    "message": "Denne personen kan ikke lenger se storyen din.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Velg hvem som kan se storyen din. Dette vil ikke påvirke storyene som du allerede har delt. $learnMore$",
+    "message": "Velg hvem som kan se storyen din. Dette vil ikke påvirke storyer som du allerede har delt. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5613,7 +5613,7 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Personvern for Mine stories",
+    "message": "Personvern for Mine storyer",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Vil du slette storyen? Dette vil fjerne storyen fra listen. Du vil fremdeles se de andre storyene fra denne gruppen.",
+    "message": "Vil du slette storyen? Dette vil fjerne storyen fra listen. Du kan fremdeles se de andre storyene fra denne gruppen.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Du kan ikke lenger dele og se storyer når dette alternativet er slått av.",
+    "message": "Du kan ikke dele og se storyer når dette alternativet er slått av.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Legg til tekst",
+    "message": "Legg til tekst i storyen",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Del en link med de som ser storyen din",
+    "message": "Del en lenke med de som ser storyen din",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

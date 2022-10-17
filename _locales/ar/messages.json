@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "قصصي",
+    "message": "قِصصِي",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "‫حذف هذه القصة ؟ سوف تُحذَف أيضا من عن جميع من استلموها.",
+    "message": "‫حذف هذه القصة؟ سَتُحذَف أيضًا من عند جميع من استلموها.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "يُمكن لمعارفك رؤية اسمك وصورتك، كما يمكنهم الاطلاع على منشوراتك في \"قصتي\" إلاّ إذا أخفيتها عنهم.",
+    "message": "يُمكن لِمعارفك رؤية اسمك وصورتك، كما يُمكنهم الاطلاع على منشوراتك في \"قِصتي\" إلاّ إذا أخفيتها عنهم.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5421,7 +5421,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "قصصي",
+    "message": "قِصصي",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5437,7 +5437,7 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "القصص المخفية",
+    "message": "القِصص المخفية",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "اِختر من يُمكنه رؤية قصتك. لن تؤثر التغييرات على القصص التي أرسلتها من قبل. $learnMore$",
+    "message": "اِختر من يُمكنه رؤية قصتك. لن تؤثر التغييرات على القِصص التي أرسلتها من قبل. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "اِختر من يمكنه مشاهدة قصتك من معارف ‫Signal. يُمكنك تغيير هذا في إي وقت في إعدادات الخصوصية. $learnMore$",
+    "message": "اِختر من يمكنه مشاهدة قِصتك من معارف ‫Signal. يُمكنك تغيير هذا في أي وقت في إعدادات الخصوصية. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "لن يصبح بإمكانك بعد الآن مشاركة القصص أو مشاهدتها حينما يكون هذا الخيار غير مُشغَّل.",
+    "message": "لن يصبح بإمكانك بعد الآن مشاركة القِصص أو مشاهدتها حينما يكون هذا الخيار غير مُشغَّل.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "‫إخفاء القصة ؟ إن تحديثات القصة من المستخدم $name$ لن تظهر في أعلى لائحة القصص بعد ذلك.",
+    "message": "‫إخفاء القصة ؟ لن تظهر مُستجدات قِصص $name$ الجديدة في أعلى لائحة القصص بعد الآن.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5749,7 +5749,7 @@
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "تعذّر تحميل القصة. ستحتاج إلى مشاركتها مرة أخرى.",
+    "message": "تعذّر تحميل القصة. سَتحتاج إلى مشاركتها مرة أخرى.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {

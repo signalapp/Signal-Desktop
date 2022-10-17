@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "ਕਹਾਣੀਆਂ",
+    "message": "ਸਟੋਰੀਆਂ",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "ਮੇਰੀਆਂ ਕਹਾਣੀਆਂ",
+    "message": "ਮੇਰੀਆਂ ਸਟੋਰੀਆਂ",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5413,15 +5413,15 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋ ਦੇਖ ਸਕਦੇ ਹਨ, ਅਤੇ \"ਮੇਰੀ ਸਟੋਰੀ\" ਵਿਚਲੀਆਂ ਪੋਸਟਾਂ ਦੇਖ ਸਕਦੇ ਹਨ, ਬਸ਼ਰਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਕੋਲੋਂ ਇਸ ਨੂੰ ਲੁਕਾਇਆ ਨਾ ਹੋਵੇ",
+    "message": "ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਤੁਹਾਡਾ ਨਾਮ ਅਤੇ ਫ਼ੋਟੋ ਦੇਖ ਸਕਦੇ ਹਨ ਅਤੇ \"ਮੇਰੀ ਸਟੋਰੀ\" ਵਿਚਲੀਆਂ ਪੋਸਟਾਂ ਦੇਖ ਸਕਦੇ ਹਨ, ਬਸ਼ਰਤੇ ਤੁਸੀਂ ਉਹਨਾਂ ਕੋਲੋਂ ਇਸ ਨੂੰ ਲੁਕਾਇਆ ਨਾ ਹੋਵੇ",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "ਕਹਾਣੀਆਂ",
+    "message": "ਸਟੋਰੀਆਂ",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "ਮੇਰੀਆਂ ਕਹਾਣੀਆਂ",
+    "message": "ਮੇਰੀਆਂ ਸਟੋਰੀਆਂ",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5513,11 +5513,11 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ਨਿੱਜੀ ਸਟੋਰੀ ਹਟਾਓ",
+    "message": "ਨਿੱਜੀ ਸਟੋਰੀ ਮਿਟਾਓ",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ਕੀ ਨਿੱਜੀ ਸਟੋਰੀ ਹਟਾਉਣੀ ਹੈ?",
+    "message": "ਕੀ ਨਿੱਜੀ ਸਟੋਰੀ ਮਿਟਾਉਣੀ ਹੈ?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "ਚੁਣੋ ਕਿ ਤੁਹਾਡੀ ਕਹਾਣੀ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ। ਤਬਦੀਲੀਆਂ ਉਹਨਾਂ ਸਟੋਰੀਆਂ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਨਹੀਂ ਕਰਨਗੀਆਂ ਜੋ ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਭੇਜ ਚੁੱਕੇ ਹੋ। $learnMore$",
+    "message": "ਚੁਣੋ ਕਿ ਤੁਹਾਡੀ ਸਟੋਰੀ ਕੌਣ ਦੇਖ ਸਕਦਾ ਹੈ। ਤਬਦੀਲੀਆਂ ਉਹਨਾਂ ਸਟੋਰੀਆਂ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਨਹੀਂ ਕਰਨਗੀਆਂ ਜੋ ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਭੇਜ ਚੁੱਕੇ ਹੋ। $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "ਤੁਹਾਡੀਆਂ ਸਟੋਰੀਆਂ ਕਿਸ ਨੇ ਦੇਖੀਆਂ ਹਨ, ਇਹ ਦੇਖਣ ਲਈ ਪੜ੍ਹਨ ਦੀਆਂ ਸੂਚਨਾਵਾਂ ਨੂੰ ਸਮਰੱਥ ਕਰੋ। ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ Signal ਐਪ ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ > ਪਰਦੇਦਾਰੀ 'ਤੇ ਜਾਓ।",
+    "message": "ਤੁਹਾਡੀਆਂ ਸਟੋਰੀਆਂ ਕਿਸ ਨੇ ਦੇਖੀਆਂ ਹਨ, ਇਹ ਦੇਖਣ ਲਈ \"ਪੜ੍ਹਨ ਦੀਆਂ ਸੂਚਨਾਵਾਂ\" ਨੂੰ ਸਮਰੱਥ ਕਰੋ। ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ Signal ਐਪ ਖੋਲ੍ਹੋ ਅਤੇ ਸੈਟਿੰਗਾਂ > ਪਰਦੇਦਾਰੀ 'ਤੇ ਜਾਓ।",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

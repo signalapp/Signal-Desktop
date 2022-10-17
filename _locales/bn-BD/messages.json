@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "আপনার কানেকশনরা আপনার নাম এবং ছবি দেখতে পারেন এবং \"আমার স্টোরি\"-এর পোস্টগুলো দেখতে পারেন যদি না আপনি এটি তাদের কাছ থেকে লুকিয়ে রাখেন৷",
+    "message": "আপনার কানেকশনরা আপনার নাম এবং ছবি দেখতে পারেন এবং \"আমার স্টোরি\"-এর পোস্টগুলো দেখতে পারেন যদি না আপনি এটি তাদের কাছ থেকে লুকিয়ে রাখেন",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5441,7 +5441,7 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "এই মুহূর্তে দেখানোর মতো কোন সাম্প্রতিক স্টোরি নেই",
+    "message": "এই মুহূর্তে দেখানোর মতো কোনো সাম্প্রতিক স্টোরি নেই",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5461,7 +5461,7 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "এই স্টোরির কোন শব্দ নেই",
+    "message": "এই স্টোরির কোনো শব্দ নেই",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "যারা আপনার স্টোরি দেখতে পাবেন তাদেরকে প্রতিক্রিয়া এবং সাড়া দিতে দিন",
+    "message": "যারা আপনার স্টোরি দেখতে পাবেন তাদেরকে প্রতিক্রিয়া এবং সাড়া দিতে দিন।",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5525,11 +5525,11 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "এই স্টোরি'র নাম দিন",
+    "message": "এই স্টোরি-র নাম দিন",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "স্টোরি'র নাম (আবশ্যক)",
+    "message": "স্টোরি-র নাম (আবশ্যক)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "আপনার স্টোরি কে দেখতে পাবেন তা নির্বাচন করুন।",
+    "message": "আপনার স্টোরি কে দেখতে পাবেন তা নির্বাচন করুন",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5613,7 +5613,7 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "আমার স্টোরি'র গোপনীয়তা",
+    "message": "আমার স্টোরি-র গোপনীয়তা",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "স্টোরি লুকাবেন? $name$-এর কাছ থেকে কোন নিউ স্টোরি আপডেট আর স্টোরি লিস্টের শীর্ষে দেখা যাবে না।",
+    "message": "স্টোরি লুকাবেন? $name$-এর কাছ থেকে কোন নতুন স্টোরি আপডেট আর স্টোরির তালিকার শীর্ষে দেখা যাবে না।",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না কারণ এটি আকারে অনেক বড়",
+    "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না, কারণ এটি আকারে অনেক বড়",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না কারণ এটির ফাইল ফরম্যাট সমর্থনযোগ্য নয়",
+    "message": "ভিডিওটি স্টোরিতে পোস্ট করা যাবে না, কারণ ফাইলের এই ফরম্যাট সমর্থনযোগ্য নয়",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "স্টোরি ব্যাকগ্রাউন্ডের রং পরিবর্তন করুন",
+    "message": "স্টোরির ব্যাকগ্রাউন্ডের রং পরিবর্তন করুন",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "আপনার স্টোরি'র দর্শকদের জন্য একটি লিংক যোগ করুন",
+    "message": "আপনার স্টোরি-র দর্শকদের জন্য একটি লিংক যোগ করুন",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$-এর একটি স্টোরি-তে রিঅ্যাক্ট করা হয়েছে",
+    "message": "$name$-এর একটি স্টোরিতে রিঅ্যাক্ট করা হয়েছে",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "একটি স্টোরি-তে রিঅ্যাক্ট করা হয়েছে",
+    "message": "একটি স্টোরিতে রিঅ্যাক্ট করেছেন",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

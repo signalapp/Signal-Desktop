@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Historie",
+    "message": "Relacje",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Moje historie",
+    "message": "Moje relacje",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Twoja historia",
+    "message": "Twoja relacja",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Pobierz historię",
+    "message": "Pobierz relację",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Usunąć tę historię? To działanie spowoduje również usunięcie jej u wszystkich, którzy ją otrzymali.",
+    "message": "Usunąć tę relację? To działanie spowoduje również usunięcie jej u wszystkich, którzy ją otrzymali.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,19 +5413,19 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Twoje kontakty widzą Twoje imię i zdjęcie oraz posty w „Mojej relacji” – chyba, że je przed nimi ukryjesz.",
+    "message": "Twoje kontakty widzą Twoje imię i zdjęcie oraz posty w „Mojej relacji” – chyba że je przed nimi ukryjesz.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Historie",
+    "message": "Relacje",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Moje historie",
+    "message": "Moje relacje",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Dodaj historię",
+    "message": "Dodaj relację",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Ukryte historie",
+    "message": "Ukryte relacje",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "W tej chwili nie ma nowych historii do pokazania",
+    "message": "W tej chwili nie ma nowych relacji do pokazania",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "kliknij, aby zobaczyć historię",
+    "message": "Kliknij, aby zobaczyć relację",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,11 +5465,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Ustawienia historii",
+    "message": "Ustawienia relacji",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Nowa, prywatna historia",
+    "message": "Nowa, prywatna relacja",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Kto może zobaczyć tę historię",
+    "message": "Kto może zobaczyć tę relację",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ta osoba nie będzie już widzieć Twojej historii.",
+    "message": "Ta osoba nie będzie już widzieć Twojej relacji.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,15 +5509,15 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Pozwól osobom, które oglądają twoje relacje, reagować i odpowiadać.",
+    "message": "Pozwól osobom, które oglądają Twoje relacje, reagować i odpowiadać.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Usuń prywatną historię",
+    "message": "Usuń prywatną relację",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Usunąć relację prywatną?",
+    "message": "Usunąć prywatną relację?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Tytuł historii (wymagane)",
+    "message": "Tytuł relacji (wymagane)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Ukryj historię przed",
+    "message": "Ukryj relację przed",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Ustawienia historii",
+    "message": "Ustawienia relacji",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Nowa, prywatna historia",
+    "message": "Nowa prywatna relacja",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Gdy ta opcja jest wyłączona, nie będziesz w stanie udostępniać ani oglądać historii.",
+    "message": "Gdy ta opcja jest wyłączona, nie będziesz w stanie udostępniać ani oglądać relacji.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Zareaguj na historię",
+    "message": "Zareaguj na relację",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Zareagowano na historię",
+    "message": "Zareagowano na relację",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Historia",
+    "message": "Relacja",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Pokaż historie",
+    "message": "Pokaż relacje",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Ukryj historię",
+    "message": "Ukryj relację",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Ukryć historię? Nowe aktualizacje historii od $name$ nie będzie się już pojawiać na szczycie listy historii.",
+    "message": "Ukryć relację? Nowe aktualizacje relacji od $name$ przestaną pojawiać się na szczycie listy relacji.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,7 +5745,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Nie udało się pobrać relacji. Niech $name$ udostępni ją ponownie.",
+    "message": "Nie udało się pobrać relacji. $name$ musi udostępnić ją ponownie.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
@@ -5753,11 +5753,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Wideo jest za długie — nie da się go dodać do relacji",
+    "message": "Nie można dodać wideo do relacji, ponieważ jest za długie",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Nieobsługiwany format wideo — nie da się go dodać do relacji",
+    "message": "Nie można dodać wideo do relacji, ponieważ ten format nie jest obsługiwany",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Historia",
+    "message": "Relacja",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ zareagował(a) na historię",
+    "message": "$name$ zareagował(a) na relację",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Zareagowano na historię",
+    "message": "Zareagowano na relację",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

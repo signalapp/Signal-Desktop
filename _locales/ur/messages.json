@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "اسٹوریز",
+    "message": "سٹوریز",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "میری اسٹوریز",
+    "message": "میری سٹوریز",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "آپ کی اسٹوری",
+    "message": "آپ کی سٹوری",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "اسٹوری ڈاؤن لوڈ کریں",
+    "message": "سٹوری ڈاؤن لوڈ کریں",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "یہ اسٹوری حذف کریں؟ اسے اس کو وصول کرنے والے ہر فرد کے لیے بھی حذف کر دیا جائے گا۔",
+    "message": "یہ سٹوری ڈیلیٹ کریں؟ اسے اس کو وصول کرنے والے ہر فرد کے لیے بھی ڈیلیٹ کر دیا جائے گا۔",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,23 +5413,23 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "آپ کے کنکشنز آپ کا نام اور تصویر دیکھ سکتے ہیں، اور \"میری اسٹوری\" پر موجود تصاویر دیکھ سکتے ہیں تاوقتیکہ آپ اسے ان سے چھپائیں",
+    "message": "آپ کے کنکشنز آپ کا نام اور تصویر دیکھ سکتے ہیں، اور \"میری سٹوری\" پر موجود تصاویر دیکھ سکتے ہیں تاوقتیکہ آپ اسے ان سے چھپائیں",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "اسٹوریز",
+    "message": "سٹوریز",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "میری اسٹوریز",
+    "message": "میری سٹوریز",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "اسٹوری شامل کریں",
+    "message": "سٹوری شامل کریں",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "ٹیکسٹ سٹوری",
+    "message": "متنی سٹوری",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "مخفی اسٹوریز",
+    "message": "مخفی سٹوریز",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "ابھی دکھانے کے لیے کوئی حالیہ اسٹوریز نہیں ہیں",
+    "message": "ابھی دکھانے کے لیے کوئی حالیہ سٹوریز نہیں ہیں",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "اسٹوری دیکھنے کے لیے کلک کریں",
+    "message": "سٹوری دیکھنے کے لیے کلک کریں",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,15 +5461,15 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "اسٹوری بغیر آواز کے ہے",
+    "message": "یہ سٹوری بغیر آواز کے ہے",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "اسٹوری کی ترتیبات",
+    "message": "سٹوری کی سیٹنگز",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "نئی نجی اسٹوری",
+    "message": "نئی پرائیویٹ سٹوری",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "کون یہ اسٹوری دیکھ سکتا ہے",
+    "message": "کون یہ سٹوری دیکھ سکتا ہے",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "یہ فرد مزید آپ کی اسٹوری نہیں دیکھے گا۔",
+    "message": "یہ فرد مزید آپ کی سٹوری نہیں دیکھے گا۔",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,15 +5509,15 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "جو لوگ آپ کی اسٹوری دیکھ سکتے ہیں انہیں اس پر ردعمل دینے اور جواب دینے کی اجازت دیں۔",
+    "message": "جو لوگ آپ کی سٹوری دیکھ سکتے ہیں انہیں اس پر ردعمل دینے اور جواب دینے کی اجازت دیں۔",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "نجی اسٹوری حذف کریں",
+    "message": "پرائیویٹ سٹوری ڈیلیٹ کریں",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "پرائیویٹ اسٹوری ڈیلیٹ کرنی ہے؟",
+    "message": "پرائیویٹ سٹوری ڈیلیٹ کرنی ہے؟",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,15 +5525,15 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "اس اسٹوری کو نام دیں",
+    "message": "اس سٹوری کو نام دیں",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "اسٹوری کا نام (درکار ہے)",
+    "message": "سٹوری کا نام (درکار ہے)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "اس سے اسٹوری مخفی کریں",
+    "message": "اس سے سٹوری مخفی کریں",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "انتخاب کریں کہ آپ کی اسٹوری کون دیکھ سکتا ہے۔ تبدیلیاں آپ کی جانب سے پہلے بھیجی گئی سٹوریز کو متاثر نہیں کریں گی۔ $learnMore$",
+    "message": "انتخاب کریں کہ آپ کی سٹوری کون دیکھ سکتا ہے۔ تبدیلیاں آپ کی جانب سے پہلے بھیجی گئی سٹوریز کو متاثر نہیں کریں گی۔ $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "اسٹوری کی ترتیبات",
+    "message": "سٹوری کی سیٹنگز",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5585,7 +5585,7 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "اسٹوری بھیجیں",
+    "message": "سٹوری بھیجیں",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "نئی نجی اسٹوری",
+    "message": "نئی پرائیویٹ سٹوری",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "سٹوری ہٹائیں؟ یہ سٹوری فہرست سے ہٹا دی جائے گی، لیکن آپ پھر بھی اس گروپ سے سٹوریز دیکھ سکیں گے۔",
+    "message": "سٹوری ہٹائیں؟ اس سے آپ کی سٹوری فہرست سے ہٹ جائے گی، لیکن آپ پھر بھی اس گروپ سے سٹوریز دیکھ سکیں گے۔",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "اسٹوری پر ردعمل دیں",
+    "message": "سٹوری پر ردعمل دیں",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "اسٹوری پر ردعمل دیا",
+    "message": "سٹوری پر ردعمل دیا",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "اسٹوری",
+    "message": "سٹوری",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "اسٹوریز دکھائیں",
+    "message": "سٹوریز دکھائیں",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "اسٹوری چھپائیں",
+    "message": "سٹوری چھپائیں",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "اسٹوری مخفی کریں؟ اسٹوریز کی فہرست کے بالائی حصے میں $name$ کی جانب سے نئی اسٹوری کی اپ ڈیٹس مزید سامنے نہیں آئیں گی۔",
+    "message": "سٹوری مخفی کریں؟ سٹوریز کی فہرست کے بالائی حصے میں $name$ کی جانب سے نئی سٹوری کی اپ ڈیٹس مزید سامنے نہیں آئیں گی۔",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "سٹوری پر یہ ویڈیو پوسٹ نہیں کر سکتے کیونکہ یہ فارمیٹ سپورٹ نہیں کیا جاتا۔",
+    "message": "سٹوری پر یہ ویڈیو پوسٹ نہیں کر سکتے کیونکہ یہ فائل فارمیٹ سپورٹ نہیں کیا جاتا",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "اسٹوری کے پس منظر کا رنگ تبدیل کریں",
+    "message": "سٹوری کے پس منظر کا رنگ تبدیل کریں",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "اسٹوری کا متن شامل کریں",
+    "message": "سٹوری کا متن شامل کریں",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "اپنی اسٹوری کے ناظرین کے لیے لنک شامل کریں",
+    "message": "اپنی سٹوری کے ناظرین کے لیے لنک شامل کریں",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "اسٹوری",
+    "message": "سٹوری",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ کی طرف سے کہانی پر ردعمل دیں",
+    "message": "$name$ کی طرف سے کہانی پر ردعمل دیا",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "اسٹوری پر ردعمل دیا",
+    "message": "سٹوری پر ردعمل دیا",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Vaši kontakti mogu vidjeti vaše ime i fotografiju te vaše priče osim ako ih od njih ne sakrijete",
+    "message": "Vaši kontakti mogu vidjeti vaše ime i fotografiju te vaše priče, osim ako ih od njih ne sakrijete",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Dopustite osobama koje mogu vidjeti vašu priču da reagiraju i odgovaraju.",
+    "message": "Dopustite osobama koje mogu vidjeti vašu priču da reagiraju i odgovaraju na nju.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5745,7 +5745,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Nije moguće preuzeti priču. $name$ će je morati ponovo podijeliti.",
+    "message": "Nije moguće preuzeti priču. $name$ morat će je ponovo podijeliti.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {

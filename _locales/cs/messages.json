@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Smazat tento příběh? Smaže se také všem, kteří jej obdrželi.",
+    "message": "Smazat tento příběh? Smaže se také všem, kdo jej obdrželi.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Vaše spojení vidí vaše jméno a fotografii a mohou vidět příspěvky v sekci „Můj příběh“, pokud je před nimi neskryjete.",
+    "message": "Vaše spojení vidí vaše jméno a fotografii a mohou vidět příspěvky v sekci „Můj příběh“, pokud je před nimi neskryjete.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5441,7 +5441,7 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Žádné nové příběhy k zobrazení",
+    "message": "Žádné nové příběhy k zobrazení",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Umožněte lidem, kteří si mohou zobrazit váš příběh, reagovat a odpovídat.",
+    "message": "Umožněte lidem, kteří si mohou zobrazit váš příběh, reagovat a odpovídat.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Vyberte, která spojení Signal uvidí váš příběh. Toto nastavení můžete vždy změnit v nastavení soukromí. $learnMore$",
+    "message": "Vyberte, která spojení Signal váš příběh uvidí. Toto nastavení můžete vždy změnit v nastavení soukromí. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Smazat příběh? Tímto příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
+    "message": "Smazat příběh? Tím příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Sdílet a zobrazit příběhy",
+    "message": "Sdílet a zobrazovat příběhy",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Po vypnutí této možnosti již nebudete moci sdílet ani zobrazovat příběhy.",
+    "message": "Po vypnutí této možnosti již nebudete moci příběhy sdílet ani zobrazovat.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Aktivujte si potvrzení o přečtení, abyste viděli, kdo si vaše příběhy zobrazil. Otevřete aplikaci Signal v mobilním zařízení a přejděte do Nastavení > Soukromí.",
+    "message": "Povolte potvrzení o přečtení, abyste viděli, kdo si vaše příběhy zobrazil. Otevřete aplikaci Signal v mobilním zařízení a přejděte do Nastavení > Soukromí.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Skrýt příběh? Nové aktualizace příběhů od $name$ se již nebudou zobrazovat v horní části seznamu příběhů.",
+    "message": "Skrýt příběh? Nové aktualizace příběhu od $name$ se již nebudou zobrazovat v horní části seznamu příběhů.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,11 +5745,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Příběh se nepodařilo stáhnout. $name$ ho bude muset sdílet znovu.",
+    "message": "Příběh se nepodařilo stáhnout. $name$ ho bude muset znovu sdílet.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Příběh se nepodařilo stáhnout. Budete ho muset sdílet znovu.",
+    "message": "Příběh se nepodařilo stáhnout. Budete ho muset znovu sdílet.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Video nelze přidat k příběhu, protože se jedná o nepodporovaný formát souboru.",
+    "message": "Video nelze přidat k příběhu, protože se jedná o nepodporovaný formát souboru.",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {

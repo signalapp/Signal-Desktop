@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Ваши контакты могут видеть ваше имя и фото, а также обновления истории «Моя история», если вы не скроете её от них",
+    "message": "Ваши контакты могут видеть ваше имя и фото, а также обновления в «Моей истории», если вы не скроете её от них",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Выберите, кто может просмотреть вашу историю. Изменения не повлияют на истории, которые вы уже отправили. $learnMore$",
+    "message": "Выберите, кто может просматривать вашу историю. Изменения не повлияют на истории, которые вы уже отправили. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Новая история группы",
+    "message": "Новая история в группе",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Удалить историю? Это приведет к удалению истории из вашего списка, но вы по-прежнему сможете просматривать истории этой группы.",
+    "message": "Удалить историю? Это приведет к удалению истории из вашего списка, но вы по-прежнему сможете просматривать истории в этой группе.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Невозможно опубликовать видео в истории, так как данный тип файл не поддерживается",
+    "message": "Невозможно опубликовать видео в истории, так как данный тип файла не поддерживается",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {

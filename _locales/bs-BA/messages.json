@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Veze mogu vidjeti vaše ime i fotografiju kao i sadržaj koji objavite u \"Moje priče\" osim ako ga ne sakrijete od tih osoba",
+    "message": "Vaši kontakti mogu vidjeti vaše ime i fotografiju kao i sadržaj koji objavite u \"Moje priče\" osim ako ih ne sakrijete od tih osoba",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ova osoba više neće vidjeti Vašu priču.",
+    "message": "Ova osoba više neće vidjeti vašu priču.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Odaberite koje Signal veze mogu vidjeti vašu priču. To uvijek možete promijeniti u postavkama privatnosti. $learnMore$",
+    "message": "Odaberite koji Signal kontakti mogu vidjeti vašu priču. To uvijek možete promijeniti u postavkama privatnosti. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Omogućite potvrde o čitanju da vidite ko je pregledao vaše priče. Otvorite aplikaciju Signal na mobilnom uređaju i navigirajte do Postavke > Privatnost.",
+    "message": "Omogućite potvrde o čitanju da vidite ko je pregledao vaše priče. Otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke > Privatnost.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

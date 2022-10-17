@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Thêm chữ cho story",
+    "message": "Thêm văn bản cho story",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Thêm một liên kết cho người xem story của bạn",
+    "message": "Thêm một đường dẫn cho người xem story của bạn",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

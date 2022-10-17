@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "സ്റ്റോറീസ്",
+    "message": "സ്റ്റോറികൾ",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "എന്റെ കഥകള്‍",
+    "message": "എന്റെ സ്റ്റോറികൾ",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5417,11 +5417,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "സ്റ്റോറീസ്",
+    "message": "സ്റ്റോറികൾ",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "എന്റെ കഥകള്‍",
+    "message": "എന്റെ സ്റ്റോറികൾ",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5437,11 +5437,11 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "മറച്ച സ്റ്റോറീസ്",
+    "message": "മറച്ച സ്റ്റോറികൾ",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറീസ് ഒന്നുമില്ല",
+    "message": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറികൾ ഒന്നുമില്ല",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
+    "message": "സ്റ്റോറികൾ പങ്കിടുകയും കാണുകയും ചെയ്യുക",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറീസ് പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
+    "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "നിങ്ങളുടെ സ്റ്റോറികൾ ആരാണ് കണ്ടതെന്ന് കാണാൻ, വായിച്ചതിനുള്ള സ്ഥിരീകരണം പ്രവർത്തനസജ്ജമാക്കുക. നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക.",
+    "message": "നിങ്ങളുടെ സ്റ്റോറികൾ ആരാണ് കണ്ടതെന്ന് അറിയാൻ, വായിച്ചതിനുള്ള സ്ഥിരീകരണം പ്രവർത്തനസജ്ജമാക്കുക. നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5717,7 +5717,7 @@
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "സ്റ്റോറീസ് കാണിക്കുക",
+    "message": "സ്റ്റോറികൾ കാണിക്കുക",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$ എന്നയാളിൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്‌റ്റോറീസ് ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
+    "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$ എന്നയാളിൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്റ്റോറികളുടെ ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "സ്റ്റോറി പശ്ചാത്തല നിറം മാറ്റുക",
+    "message": "സ്റ്റോറിയുടെ പശ്ചാത്തല നിറം മാറ്റുക",
     "description": "Button label"
   },
   "StoryCreator__next": {

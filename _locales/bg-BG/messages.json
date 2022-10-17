@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Изберете кои Signal връзки могат да виждат историята ви. Винаги можете да промените това в настройки за поверителност. $learnMore$",
+    "message": "Изберете кои Signal връзки могат да виждат историята ви. Винаги можете да промените това в настройките за поверителност. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Включете разписки за прочитане, за да видите кой е гледал вашите истории. Отворете приложението Signal на вашето мобилно устройство и отидете на Настройки > Поверителност.",
+    "message": "Включете разписки за прочитане, за да видите кой е гледал вашите истории. Отворете приложението Signal на вашето мобилно устройство и отидете на „Настройки > Поверителност“.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,7 +5705,7 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагиране на историята",
+    "message": "Реагиране на история",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Добавете текст към историята",
+    "message": "Добавяне на текст към историята",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Добавете линк за зрителите на историята ви",
+    "message": "Добавяне на линк за зрителите на историята ви",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {

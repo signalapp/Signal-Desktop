@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "เปิดสตอรี่",
+    "message": "เปิดใช้งานสตอรี่",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "ปิดสตอรี่",
+    "message": "ปิดใช้งานสตอรี่",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ใครที่เห็นสตอรี่นี้ได้บ้าง",
+    "message": "ใครเห็นสตอรี่นี้บ้าง",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "คนคนนี้จะไม่เห็นสตอรี่ของคุณอีกต่อไป",
+    "message": "บุคคลนี้จะไม่เห็นสตอรี่ของคุณอีกต่อไป",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5529,7 +5529,7 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "ชื่อสตอรี่ (ต้องมี)",
+    "message": "ชื่อสตอรี่ (ต้องระบุ)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "ลบสตอรี่ใช่หรือไม่ สตอรี่จะถูกลบออกจากรายการของคุณ แต่คุณจะยังสามารถรับชมสตอรี่จากกลุ่มนี้ได้",
+    "message": "ลบสตอรี่ใช่หรือไม่ สตอรี่จะถูกลบออกจากรายการของคุณ แต่คุณจะยังสามารถดูสตอรี่จากกลุ่มนี้ได้",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "คุณจะแชร์หรือรับชมสตอรี่ไม่ได้อีกต่อไป ถ้าตัวเลือกนี้ถูกปิด",
+    "message": "หากตัวเลือกนี้ถูกปิด คุณจะไม่สามารถแชร์หรือดูสตอรี่ได้อีกต่อไป",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "เปิดใช้ตัวเลือกการแจ้งว่าอ่านแล้ว เพื่อแสดงว่าใครดูสตอรี่ของคุณ โดยเปิดแอป Signal บนมือถือ แล้วไปที่ การตั้งค่า > ความเป็นส่วนตัว",
+    "message": "เปิดใช้ตัวเลือกการแจ้งว่าอ่านแล้ว เพื่อแสดงว่าใครดูสตอรี่ของคุณ โดยเปิดแอป Signal บนมือถือแล้วไปที่การตั้งค่า > ความเป็นส่วนตัว",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,11 +5705,11 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ตอบสนองกับสตอรี่",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "โต้ตอบสตอรี่ของคุณ",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "เพิ่มลิงก์สำหรับผู้ที่รับชมสตอรี่ของคุณ",
+    "message": "เพิ่มลิงก์สำหรับผู้ที่ดูสตอรี่ของคุณ",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "ตอบสนองกับสตอรี่จาก $name$",
+    "message": "แสดงความรู้สึกต่อสตอรี่ของ $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "ตอบสนองกับสตอรี่",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Elixe quen pode ver a túa historia. Os cambios non afectarán as historias que xa compartiches.$learnMore$",
+    "message": "Elixe quen pode ver a túa historia. Os cambios non afectarán as historias que xa compartiches. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Activa a confirmación de lectura para ver quen viu as túas historias. Abre a apliación de Signal no teu teléfono móbil e vai a Configuración > Privacidade.",
+    "message": "Activa a confirmación de lectura para ver quen viu as túas historias. Abre a aplicación de Signal no teu teléfono móbil e vai a Configuración > Privacidade.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5709,7 +5709,7 @@
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reaccionou a túa historia",
+    "message": "Reaccionou á historia",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Non se pode publicar o vídeo na túa historia porque ten un formato non compatible",
+    "message": "Non se pode publicar o vídeo na túa historia porque non ten un formato compatible",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {

@@ -5429,7 +5429,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "រឿងរ៉ាវអត្ថបទ",
+    "message": "រឿងរ៉ាវជាអត្ថបទ",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "លាក់រឿងរ៉ាវឬ? រឿងរ៉ាវថ្មីៗពី $name$ នឹងមិនបង្ហាញនៅផ្នែកខាងលើនៃបញ្ជីរឿងរ៉ាវទៀតទេ។",
+    "message": "លាក់រឿងរ៉ាវឬ? រឿងរ៉ាវថ្មីៗពី $name$ នឹងមិនបង្ហាញនៅផ្នែកខាងលើបំផុតនៃបញ្ជីរឿងរ៉ាវទៀតទេ។",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5757,7 +5757,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេ ព្រោះ​វា​ជា​ទម្រង់​ឯកសារ​ដែលកម្មវិធី​មិនស្គាល់",
+    "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេ ព្រោះវាជាទម្រង់ឯកសារដែលកម្មវិធីមិនស្គាល់",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {

@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "စတိုရီ",
+    "message": "စတိုရီများ",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,7 +5357,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "ကျွန်ုပ်၏ စတိုရီ",
+    "message": "ကျွန်ုပ်၏ စတိုရီများ",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5417,11 +5417,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "စတိုရီ",
+    "message": "စတိုရီများ",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "ကျွန်ုပ်၏ စတိုရီ",
+    "message": "ကျွန်ုပ်၏ စတိုရီများ",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "စတိုရီနောက်ခံအရောင်ကို ပြောင်းရန်",
+    "message": "စတိုရီ နောက်ခံအရောင်ကို ပြောင်းရန်",
     "description": "Button label"
   },
   "StoryCreator__next": {

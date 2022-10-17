@@ -5625,7 +5625,7 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "સ્ટોરી દૂર કરવી છે? આ સ્ટોરીને તમારી સૂચિમાંથી દૂર કરશે, પરંતુ તમે હજી પણ આ ગ્રૂપમાંથી સ્ટોરીઝ જોઈ શકશો.",
+    "message": "સ્ટોરી દૂર કરવી છે? આ સ્ટોરીને તમારી સૂચિમાંથી દૂર કરશે, પરંતુ તમે હજી પણ આ ગ્રુપમાંથી સ્ટોરી જોઈ શકશો.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "સ્ટોરી બેકગ્રાઉંડ કલર બદલો",
+    "message": "સ્ટોરી બૅકગ્રાઉન્ડ કલર બદલો",
     "description": "Button label"
   },
   "StoryCreator__next": {

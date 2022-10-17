@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Zet verhalen aan.",
+    "message": "Zet verhalen aan",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Zet verhalen uit.",
+    "message": "Zet verhalen uit",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Dit verhaal wissen? Het zal ook worden gewist voor iedereen die het al heeft ontvangen.",
+    "message": "Dit verhaal verwijderen? Het zal ook worden verwijderd voor iedereen die het al heeft ontvangen.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5513,7 +5513,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Privéverhaal wissen",
+    "message": "Privéverhaal verwijderen",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {

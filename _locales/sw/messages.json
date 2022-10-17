@@ -5213,7 +5213,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Hutaweza tena kushiriki au kutazama stori.",
+    "message": "Hutaweza tena ku-share au kutazama stori.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Connections wako wanaweza kuona jina lako na picha, na wanaweza kuona \"Stori Yangu\" labda kama utawaficha.",
+    "message": "Connections wako wanaweza kuona jina lako na picha, na wanaweza kuona \"Stori Yangu\" labda kama utawaficha",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5525,7 +5525,7 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Ipe stori hii jina",
+    "message": "Ipe jina stori hii",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5633,7 +5633,7 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Shiriki & Tazama Stori",
+    "message": "Share & Tazama Stori",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
@@ -5749,7 +5749,7 @@
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Huwezi kupakua stori. Utahitaji kushiriki tena.",
+    "message": "Huwezi kupakua stori. Utahitaji ku-share tena.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "Badili rangi ya manthari nyuma ya stori",
+    "message": "Badili rangi ya mandhari nyuma ya stori",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Ongeza maandishi kwa stori",
+    "message": "Ongeza maandishi katika stori",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {

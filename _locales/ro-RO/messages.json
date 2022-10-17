@@ -5357,11 +5357,11 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Poveștile mele",
+    "message": "Poveștile Mele",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Povestea ta",
+    "message": "Povestea Ta",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Conexiunile tale îți pot vedea numele și fotografia și pot vedea postările din „Povestea mea” cu excepția cazului în care le ascunzi",
+    "message": "Conexiunile tale îți pot vedea numele și fotografia și pot vedea postările din „Povestea Mea” cu excepția cazului în care le ascunzi",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5421,7 +5421,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Poveștile mele",
+    "message": "Poveștile Mele",
     "description": "Label for your stories"
   },
   "Stories__add": {

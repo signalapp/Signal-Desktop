@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Nire storie-ak",
+    "message": "Nire istorioak",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Zure storie-a",
+    "message": "Zure istorioa",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Deskargatu storie-a",
+    "message": "Deskargatu istorioa",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Storie hau ezabatu? Jaso duten guztientzat ere ezabatuko da.",
+    "message": "Istorio hau ezabatu nahi duzu? Jaso duten guztientzat ere ezabatuko da.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5417,15 +5417,15 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Storie-ak",
+    "message": "Istorioak",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Nire storie-ak",
+    "message": "Nire istorioak",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Gehitu storie bat",
+    "message": "Gehitu istorio bat",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Ezkutuko storie-ak",
+    "message": "Istorio ezkutuak",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Une honetan ez dago azken storie-rik erakusteko",
+    "message": "Une honetan ez dago azken istoriorik erakusteko",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Klikatu storie bat ikusteko",
+    "message": "Istorio bat ikusteko, egin klik hartan",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,11 +5465,11 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Story ezarpenak",
+    "message": "Istorioen ezarpenak",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Story pribatu berria",
+    "message": "Istorio pribatu berria",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Nork ikus dezake story hau",
+    "message": "Nork ikus dezake istorio hau?",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Pertsona honek ez du gehiago ikusiko zure storie-a.",
+    "message": "Aurrerantzean, pertsona honek ez du zure istorioa ikusiko.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,11 +5509,11 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Eman zure istorioa ikus dezakeen jendeari erreakzionatu eta erantzuteko aukera",
+    "message": "Eman zure istorioa ikus dezakeen jendeari erreakzionatu eta erantzuteko aukera.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Story pribatua ezabatu",
+    "message": "Ezabatu istorio pribatua",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5529,11 +5529,11 @@
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Story izena (beharrezkoa)",
+    "message": "Istorioaren izena (beharrezkoa)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Ezkutatu storie-a honi:",
+    "message": "Ezkutatu istorioa hauei:",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5573,7 +5573,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story ezarpenak",
+    "message": "Istorioen ezarpenak",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5593,7 +5593,7 @@
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Story pribatu berria",
+    "message": "Istorio pribatu berria",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5617,7 +5617,7 @@
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Aukeratu Signal-eko zer konexiok ikus dezaketen zure istorioa. Nahi duzunean alda dezakezu hautapena pribatutasun-ezarpenetan.$learnMore$",
+    "message": "Aukeratu Signal-eko zer konexiok ikus dezaketen zure istorioa. Nahi duzunean alda dezakezu hautapena pribatutasun-ezarpenetan. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5625,11 +5625,11 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
+    "message": "Istorioa ezabatu nahi duzu? Istorioa zerrendatik ezabatuko da, baina talde honetatik istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
-    "message": "Administratzaileek soilik bidali ditzakete istorioak talde honetara.",
+    "message": "Administratzaileek soilik bidal ditzakete istorioak talde honetara.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
+    "message": "Gaitu irakurragiriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Erreakzionatu storie-ari",
+    "message": "Bidali istorioari buruzko erreakzio bat",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Storie-ari erreakzionatu diozu",
+    "message": "Istorioari buruzko erreakzio bat bidali duzu",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Story",
+    "message": "Istorioa",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Erakutsi storie-ak",
+    "message": "Erakutsi istorioak",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Ezkutatu storie-ak",
+    "message": "Ezkutatu istorioa",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Storie-a ezkutatu? Istorioen eguneratze berriak $name$tik ez dira istorioen zerrendaren goialdean agertuko.",
+    "message": "Istorioa ezkutatu nahi duzu? Aurrerantzean, $name$(r)en istorioen eguneratzeak ez dira agertuko istorioen zerrendaren goialdean.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Story",
+    "message": "Istorioa",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ren story bati erreakzionatu diozu",
+    "message": "$name$(r)en istorio bati buruzko erreakzio bat bidali duzu",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Storie-ari erreakzionatu dio",
+    "message": "Istorio bati buruzko erreakzio bat bidali duzu",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

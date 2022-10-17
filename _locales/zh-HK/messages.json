@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "報導",
+    "message": "限時動態",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "我的報導",
+    "message": "我的限時動態",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "你的報導",
+    "message": "你的限時動態",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "下載報導",
+    "message": "下載限時動態",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "刪除這個報導嗎？ 對於收到它的每個人，也將被刪除。",
+    "message": "要刪除這個限時動態嗎？這將同時在所有已收到此限時動態的用戶手機上刪除。",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,23 +5413,23 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "除非你選擇隱藏，否則你的聯絡人能看到你的名稱、照片和「我的限時動態」貼文",
+    "message": "除非你選擇隱藏，否則你的聯絡人將可看到你的名稱、相片和「我的限時動態」貼文",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "報導",
+    "message": "限時動態",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "我的報導",
+    "message": "我的限時動態",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "新增一個報導",
+    "message": "新增限時動態",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "文字限動",
+    "message": "文字限時動態",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5441,11 +5441,11 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "目前沒有可顯示的近期報導",
+    "message": "目前沒有可顯示的最新限時動態",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "點擊以檢視報導",
+    "message": "點擊以瀏覽限時動態",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,7 +5461,7 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "此限動沒有聲音",
+    "message": "此限時動態沒有聲音",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "誰可以看見此限時動態",
+    "message": "誰可看到此限時動態",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "此人將不再看見你的限時動態。",
+    "message": "此人將無法再看到你的限時動態。",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,7 +5509,7 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "讓能夠瀏覽你限動的人都可以送出反應並回覆內容。",
+    "message": "允許看到你限時動態的人傳送心情回應和回覆內容。",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
@@ -5517,7 +5517,7 @@
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "要刪除私人限動？",
+    "message": "要刪除個人限時動態嗎？",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,7 +5525,7 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "為此限動命名",
+    "message": "為此限時動態命名",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5533,7 +5533,7 @@
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "對這些人隱藏限時動態",
+    "message": "向以下用戶隱藏限時動態：",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "選擇誰能瀏覽你的限動。變更內容將不會影響你已送出的限動。$learnMore$",
+    "message": "選擇誰可瀏覽你的限時動態。此變更不會影響你已發布的限時動態。$learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "選擇誰能瀏覽你的限動",
+    "message": "選擇誰可瀏覽你的限時動態",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,11 +5585,11 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "傳送限動",
+    "message": "傳送限時動態",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "新的限動",
+    "message": "新增限時動態",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "新的群組限動",
+    "message": "新增群組限時動態",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,19 +5613,19 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "我的限動隱私設定",
+    "message": "我的限時動態隱私",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "選擇哪些 Signal 聯絡人可以瀏覽你的限動。你可以隨時透過隱私設定變更權限。$learnMore$",
+    "message": "選擇哪些 Signal 聯絡人可以瀏覽你的限時動態。你可隨時於隱私設定變更此設定。$learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "刪除限動",
+    "message": "刪除限時動態",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "要移除限動嗎？這樣會從你的清單中移除此限動，但你仍然可以瀏覽此群組中的限動。",
+    "message": "要移除限時動態嗎？這將從你的清單中移除此限時動態，但你仍可瀏覽此群組中的限時動態。",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "分享及瀏覽限動",
+    "message": "分享及瀏覽限時動態",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "關閉此選項時，你將無法再分享或觀看限時動態。",
+    "message": "關閉此選項後，你將無法再分享或瀏覽限時動態。",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "啟用已讀標記，即可查看誰瀏覽了你的限動。開啟行動裝置上的 Signal App，並依序前往「設定」>「隱私」。",
+    "message": "啟用已讀標記，即可查看誰瀏覽了你的限時動態。開啟行動裝置上的 Signal 應用程式，然後前往「設定」>「隱私」。",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,15 +5705,15 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "對報導做出回應",
+    "message": "對限時動態傳送心情回應",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "以對此報導做出回應",
+    "message": "已對限時動態傳送心情回應",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "報導",
+    "message": "限時動態",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
@@ -5721,7 +5721,7 @@
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "隱藏報導",
+    "message": "隱藏限時動態",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "要隱藏故事嗎？ 來自$name$的新報導的更新將不再出現在報導清單的頂部。",
+    "message": "要隱藏限時動態嗎？ 來自 $name$ 的限時動態更新將不再出現在限時動態清單的頂部。",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,19 +5745,19 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "無法下載限動。$name$ 必須再次分享該限動。",
+    "message": "無法下載限時動態。$name$ 必須再次分享該限時動態。",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "無法下載限動。你必須再次分享該限動。",
+    "message": "無法下載限時動態。你必須再次分享該限時動態。",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "由於內容過長，因此無法將影片張貼至限動",
+    "message": "影片過長，因此無法發布至限時動態",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "由於系統不支援此檔案格式，因此無法將影片張貼至限動",
+    "message": "系統不支援此檔案格式，因此無法發布至限時動態",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "變更限動背景顏色",
+    "message": "變更限時動態背景顏色",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "新增限動文字",
+    "message": "新增限時動態文字",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "為大家新增你的限動連結",
+    "message": "為瀏覽者新增限時動態連結",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5837,15 +5837,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "報導",
+    "message": "限時動態",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "對$name$ 一個限時動態的反應",
+    "message": "已對 $name$ 的限時動態傳送心情回應",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "對一則限時動態回應",
+    "message": "已對限時動態傳送心情回應",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

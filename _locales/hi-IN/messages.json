@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "स्टोरीज़ बंद करें",
+    "message": "स्टोरीज़ चालू करें",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "स्टोरीज़ बंद कर दें",
+    "message": "स्टोरीज़ बंद करें",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5445,7 +5445,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "किसी स्टोरी को देखने के लिए व्यू पर क्लिक करें",
+    "message": "किसी स्टोरी को देखने के लिए उस पर क्लिक करें",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "प्राप्त सूचनाएँ सक्षम करके देखें कि आपकी स्टोरीज़ किसने देखी हैं। Signal ऐप को अपने मोबाइल डिवाइस पर खोलें और सेटिंग्स > निजता पर नैविगेट करके जाएँ।",
+    "message": "प्राप्ति सूचनाएँ सक्षम करके देखें कि आपकी स्टोरीज़ किसने देखी हैं। Signal ऐप को अपने मोबाइल डिवाइस पर खोलें और नैविगेट करके सेटिंग्स > निजता पर जाएँ।",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

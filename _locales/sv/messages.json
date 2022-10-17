@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Berättelser",
+    "message": "Stories",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Slå på berättelser",
+    "message": "Aktivera stories",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Stäng av berättelser",
+    "message": "Stäng av stories",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5213,7 +5213,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Du kommer inte längre att kunna dela eller visa berättelser.",
+    "message": "Du kommer inte längre att kunna dela eller visa stories.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5357,15 +5357,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mina berättelser",
+    "message": "Mina Stories",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Din berättelse",
+    "message": "Din story",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Hämta berättelse",
+    "message": "Hämta story",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Ta bort den här berättelsen? Den kommer också att tas bort för alla som har mottagit den.",
+    "message": "Ta bort den här storyn? Den kommer också att tas bort för alla som har mottagit den.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,23 +5413,23 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Dina förbindelser kan se ditt namn och foto, och kan se inlägg på \"Din berättelse\" om du inte döljer det från dem.",
+    "message": "Dina förbindelser kan se ditt namn och foto, och kan se inlägg på \"Min Story\" om du inte döljer det från dem.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Berättelser",
+    "message": "Stories",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mina berättelser",
+    "message": "Mina Stories",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Lägg till en berättelse",
+    "message": "Lägg till en story",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Textberättelse",
+    "message": "Textstory",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5437,15 +5437,15 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Dolda berättelser",
+    "message": "Dolda stories",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Inga nyliga berättelser att visa just nu",
+    "message": "Inga nya stories att visa just nu",
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Klicka för att visa en berättelse",
+    "message": "Klicka för att visa en story",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,15 +5461,15 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "Berättelsen har inget ljud",
+    "message": "Storyn har inget ljud",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Berättelse inställningar",
+    "message": "Storyinställningar",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Ny privat berättelse",
+    "message": "Ny privat story",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5481,7 +5481,7 @@
     "description": "More than one viewer"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Vem kan se denna berättelse",
+    "message": "Vem kan se denna story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5497,7 +5497,7 @@
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Denna person kommer inte längre se din berättelse.",
+    "message": "Denna person kommer inte längre se din story.",
     "description": "Body of the confirmation dialog to remove someone from a private distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
@@ -5509,15 +5509,15 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Låt personer som kan se din berättelse reagera och svara.",
+    "message": "Låt personer som kan se din story reagera och svara.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Ta bort privat berättelse",
+    "message": "Ta bort privat story",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Ta bort privat berättelse?",
+    "message": "Ta bort privat story?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,15 +5525,15 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Namnge den här berättelsen",
+    "message": "Namnge den här storyn",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Berättelsenamn (obligatoriskt)",
+    "message": "Storynamn (krävs)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Dölj berättelse från",
+    "message": "Dölj story från",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Välj vilka som kan se din berättelse. Ändringar påverkar inte berättelser som du redan har skickat. $learnMore$",
+    "message": "Välj vilka som kan visa din story. Ändringar påverkar inte stories som du redan har skickat. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,11 +5573,11 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Berättelse inställningar",
+    "message": "Storyinställningar",
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Välj vilka som kan visa din berättelse",
+    "message": "Välj vilka som kan visa din story",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,15 +5585,15 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Skicka berättelse",
+    "message": "Skicka story",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "Ny berättelse",
+    "message": "Ny story",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Ny privat berättelse",
+    "message": "Ny privat story",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Ny gruppberättelse",
+    "message": "Ny gruppstory",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,23 +5613,23 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Mina berättelser-integritet",
+    "message": "Mina stories-integritet",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Välj vilka Signal-förbindelser som kan visa din berättelse. Du kan alltid ändra dina val i inställningarna för integritetsskydd. $learnMore$",
+    "message": "Välj vilka Signal-förbindelser som kan visa din story. Du kan alltid ändra dina val i integritetsinställningarna. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Ta bort berättelse",
+    "message": "Ta bort story",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Ta bort berättelse? Berättelsen kommer tas bort från din lista. Du kommer fortfarande att kunna visa berättelser från denna grupp.",
+    "message": "Ta bort story? Storyn kommer tas bort från din lista. Du kommer fortfarande att kunna visa stories från denna grupp.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
-    "message": "Endast administratörer kan skicka berättelser till denna grupp.",
+    "message": "Endast administratörer kan skicka stories till denna grupp.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
@@ -5637,7 +5637,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Du kommer inte längre kunna dela eller se berättelser när denna inställning är av.",
+    "message": "Du kommer inte längre kunna dela eller se stories när denna inställning är av.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Aktivera läskvitton för att se vem som har visat dina berättelser. Öppna Signal-appen på din mobila enhet och navigera till Inställningar > Integritet.",
+    "message": "Aktivera läskvitton för att se vem som har visat dina stories. Öppna Signal-appen på din mobila enhet och navigera till Inställningar > Integritet.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,23 +5705,23 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagera på berättelse",
+    "message": "Reagera på story",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reagerade på berättelsen",
+    "message": "Reagerade på storyn",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
-    "message": "Berättelse",
+    "message": "Story",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Visa berättelser",
+    "message": "Visa stories",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Dölj berättelse",
+    "message": "Dölj story",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Dölj berättelse? Nya berättelseuppdateringar från $name$ kommer inte att visas överst på berättelselistan längre.",
+    "message": "Dölj story? Nya storyuppdateringar från $name$ kommer inte att visas överst på storylistan längre.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,19 +5745,19 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Det gick inte att hämta berättelse. $name$ behöver dela den igen.",
+    "message": "Det gick inte att hämta story. $name$ behöver dela den igen.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Det gick inte att hämta berättelse. Du behöver dela den igen.",
+    "message": "Det gick inte att hämta story. Du behöver dela den igen.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Det gick inte att publicera videon till berättelsen eftersom den är för lång",
+    "message": "Det gick inte att publicera videon till storyn eftersom den är för lång",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Det gick inte att publicera videon till berättelsen eftersom den är i ett filformat som inte stöds.",
+    "message": "Det gick inte att publicera videon till storyn eftersom den är i ett filformat som inte stöds.",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Lägg till berättelsetext",
+    "message": "Lägg till storytext",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5837,7 +5837,7 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Berättelse",
+    "message": "Story",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
@@ -5845,7 +5845,7 @@
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Reagerade på en berättelse",
+    "message": "Reagerade på en story",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {

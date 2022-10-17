@@ -17,7 +17,7 @@
     ]
   },
   "AddCaptionModal__title": {
-    "message": "Додати поруку",
+    "message": "Додајте поруку",
     "description": "Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "AddCaptionModal__placeholder": {
@@ -753,7 +753,7 @@
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
-    "messageformat": "Нема резултата за „{searchTerm}“ у {conversationName}",
+    "messageformat": "Нема резултата за „{searchTerm}“ у ћаскању {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1232,7 +1232,7 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR код не може да се учита. Проверите интернет везу и покушајте поново. <learnMoreLink>Сазнајте више</learnMoreLink>",
+    "messageformat": "QR код не може да се учита. Проверите интернет везу и пробајте поново. <learnMoreLink>Сазнајте више</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1793,7 +1793,7 @@
     "description": "Label for option to turn off message expiration in the timer menu"
   },
   "icu:disappearingMessages": {
-    "messageformat": "Самонестајуће поруке",
+    "messageformat": "Нестајуће поруке",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -2761,7 +2761,7 @@
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
   "icu:StickerCreator--DropStage--title": {
-    "messageformat": "Додајте ваше налепнице",
+    "messageformat": "Додајте налепнице",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2781,7 +2781,7 @@
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
   "icu:StickerCreator--DropStage--addMore": {
-    "messageformat": "Додати {count,number} или више",
+    "messageformat": "Додајте још {count,number} или више",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2861,7 +2861,7 @@
     "description": "Text which is shared to social media platforms for sticker packs"
   },
   "icu:StickerCreator--Toasts--imagesAdded": {
-    "messageformat": "{count, plural, one {Dodatih slika: 1} other {Dodatih slika: {count,number}}}",
+    "messageformat": "{count, plural, one {Додатих слика: 1} other {Додатих слика: {count,number}}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -4589,7 +4589,7 @@
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
   "icu:emptyInboxMessage": {
-    "messageformat": "Кликни на {composeIcon} и потражи контакте или групе за слање поруке.",
+    "messageformat": "Кликните на {composeIcon} и потражите контакте или групе којима ћете слати поруке.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -5005,7 +5005,7 @@
     "description": "ConfirmationDialog text for discarding changes"
   },
   "icu:ProfileEditor--info": {
-    "messageformat": "Ваш профил је енкриптован. Биће видљив вашим контактима када започнете или прихватите ново ћаскање. {learnMore}",
+    "messageformat": "Ваш профил је шифрован. Ваш профил и измене у њему моћи ће да виде ваши контакти када започнете или прихватите нова ћаскања. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5201,11 +5201,11 @@
     "description": "Label for Device list in call settings pane"
   },
   "Preferences__turn-stories-on": {
-    "message": "Uključi priče",
+    "message": "Укључи приче",
     "description": "Label to enable stories"
   },
   "Preferences__turn-stories-off": {
-    "message": "Isključi priče",
+    "message": "Искључи приче",
     "description": "Label to disable stories"
   },
   "Preferences__turn-stories-off--action": {
@@ -5353,7 +5353,7 @@
     "description": "Performs the crop"
   },
   "MediaEditor__caption-button": {
-    "message": "Додати поруку",
+    "message": "Додај поруку",
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
@@ -5365,7 +5365,7 @@
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Преузети причу",
+    "message": "Преузми причу",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5389,7 +5389,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Избрисати ову причу? Такође ће бити избрисана за све који су је примили.",
+    "message": "Желите ли да избришете ову причу? Такође ће бити избрисана свима који су је примили.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,7 +5413,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Vaše veze mogu da vide vaše ime i fotografiju, kao i objave u „Mojoj priči“, osim ako je ne sakrijete od njih",
+    "message": "Ваше везе могу да виде ваше име и фотографију, као и објаве у „Мојој причи“, осим ако је не сакријете од њих",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5425,11 +5425,11 @@
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Додај причу",
+    "message": "Додајте причу",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Tekstualna priča",
+    "message": "Текстуална прича",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5437,7 +5437,7 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Сакривене приче",
+    "message": "Скривене приче",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
@@ -5445,7 +5445,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__placeholder--text": {
-    "message": "Кликнути за приказ приче",
+    "message": "Кликните за приказ приче",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5461,7 +5461,7 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "Ova priča nema zvuk",
+    "message": "Ова прича нема звук",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
@@ -5469,7 +5469,7 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Нова приватна приче",
+    "message": "Нова приватна прича",
     "description": "Label to create a new private story list"
   },
   "StoriesSettings__viewers--singular": {
@@ -5509,15 +5509,15 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Dozvolite ljudima koji mogu da vide vašu priču da reaguju i odgovore na nju.",
+    "message": "Дозволите људима који могу да виде вашу причу да реагују и одговоре на њу.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Обрисати приватну причу",
+    "message": "Избриши приватну причу",
     "description": "Button label to delete a private distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Želite li da izbrišete privatnu priču?",
+    "message": "Желите ли да избришете приватну причу?",
     "description": "Confirmation text to delete a private distribution list"
   },
   "StoriesSettings__choose-viewers": {
@@ -5525,11 +5525,11 @@
     "description": "Modal title when choosing to add a viewer to a private distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Dajte naziv priči",
+    "message": "Дајте назив причи",
     "description": "Modal title when naming a private distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Име приче (потребно)",
+    "message": "Назив приче (обавезно)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
@@ -5565,7 +5565,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Birajte ko može da vidi vašu priču. Promene neće uticati na priče koje ste već poslali. $learnMore$",
+    "message": "Бирајте ко може да види вашу причу. Промене неће утицати на приче које сте већ послали. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5577,7 +5577,7 @@
     "description": "Button label to get to story settings"
   },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Izaberite ko može da vidi vašu priču",
+    "message": "Изаберите ко може да види вашу причу",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5585,15 +5585,15 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Pošalji priču",
+    "message": "Пошаљи причу",
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__new": {
-    "message": "Nova priča",
+    "message": "Нова прича",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-private--title": {
-    "message": "Нова приватна приче",
+    "message": "Нова приватна прича",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
@@ -5601,7 +5601,7 @@
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Nova grupna priča",
+    "message": "Нова групна прича",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5613,19 +5613,19 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Privatnost mojih priča",
+    "message": "Приватност мојих прича",
     "description": "Modal title for setting privacy for My Stories"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Birajte koje Signal veze mogu da vide vašu priču. Uvek to možete da promenite u podešavanjima privatnosti. $learnMore$",
+    "message": "Бирајте које Signal везе могу да виде вашу причу. То увек можете да промените у подешавањима приватности. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Izbriši priču",
+    "message": "Избриши причу",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Želite li da uklonite priču? Ovim ćete ukloniti priču sa liste, ali i dalje ćete moći da vidite priče iz ove grupe.",
+    "message": "Желите ли да уклоните причу? Овим ћете уклонити причу са листе, али и даље ћете моћи да видите приче из ове групе.",
     "description": "Confirmation body for removing a group story"
   },
   "SendStoryModal__announcements-only": {
@@ -5633,11 +5633,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
-    "message": "Podelite i vidite priče",
+    "message": "Поделите и видите приче",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Више нећете моћи да делите или гледате Приче када је ова опција искључена.",
+    "message": "Нећете више моћи да делите или видите приче ако је ова опција искључена.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5685,7 +5685,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Aktivirajte potvrde o čitanju da biste videli ko je video vaše priče. Otvorite aplikaciju Signal na mobilnom uređaju i idite na Podešavanja > Privatnost.",
+    "message": "Активирајте потврде о читању да бисте видели ко је видео ваше приче. Отворите апликацију Signal на мобилном уређају и идите на Подешавања > Приватност.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5709,7 +5709,7 @@
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Реаговано на причу",
+    "message": "Реаговао/ла је на причу",
     "description": "Description of someone reacting to a story"
   },
   "StoryListItem__label": {
@@ -5737,7 +5737,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Сакриј причу? Нова ажурирања приче од $name$ ​​више се неће појављивати на врху листе прича.",
+    "message": "Желите ли да сакријете причу? Новине у причи које објави $name$ више се неће појављивати на врху листе прича.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5745,19 +5745,19 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Preuzimanje priče nije uspelo. $name$ će morati ponovo da je podeli.",
+    "message": "Преузимање приче није успело. $name$ ће морати поново да је подели.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Preuzimanje priče nije uspelo. Moraćete ponovo da je podelite.",
+    "message": "Преузимање приче није успело. Мораћете поново да је поделите.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Ne možemo da objavimo video snimak u priči jer je predugačak",
+    "message": "Не можемо да објавимо видео снимак у причи јер је предугачак",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Ne možemo da objavimo video snimak u priči jer je u formatu koji nije podržan",
+    "message": "Не можемо да објавимо видео снимак у причи јер је у формату који није подржан",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5777,7 +5777,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "Promeni boju pozadine priče",
+    "message": "Промени боју позадине приче",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5813,7 +5813,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Dodaj tekst priče",
+    "message": "Додај текст приче",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5825,7 +5825,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Dodajte link za gledaoce vaše priče",
+    "message": "Додајте линк за гледаоце ваше приче",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5841,11 +5841,11 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Реаговано на причу од $name$",
+    "message": "Реаговао/ла је на причу корисника ($name$)",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Реакција на причу",
+    "message": "Реаговао/ла је на причу",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {
@@ -5905,7 +5905,7 @@
     "description": "Release notes for v5.62"
   },
   "WhatsNew__v5.63--0": {
-    "message": "Vredno radimo na tome da ispravimo greške i poboljšamo performanse kako bi vam aplikacija radila nesmetano.",
+    "message": "Вредно радимо на томе да исправимо грешке и побољшамо перформансе како би вам апликација радила несметано.",
     "description": "Release notes for v5.63"
   },
   "WhatsNew__v5.63--beta.2": {
