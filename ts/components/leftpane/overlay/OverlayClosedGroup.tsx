@@ -34,6 +34,16 @@ const StyledGroupMemberListContainer = styled.div`
   overflow-y: auto;
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--background-secondary-color);
+  }
+`;
+
+const StyledGroupMemberList = styled.div`
+  button {
+    background-color: var(--background-secondary-color);
+  }
 `;
 
 const NoContacts = () => {
@@ -119,7 +129,7 @@ export const OverlayClosedGroup = () => {
         {noContactsForClosedGroup ? (
           <NoContacts />
         ) : (
-          <div className="group-member-list__selection">
+          <StyledGroupMemberList className="group-member-list__selection">
             {contactsToRender.map((memberPubkey: string) => (
               <MemberListItem
                 pubkey={memberPubkey}
@@ -127,9 +137,10 @@ export const OverlayClosedGroup = () => {
                 key={memberPubkey}
                 onSelect={addToSelected}
                 onUnselect={removeFromSelected}
+                disableBg={true}
               />
             ))}
-          </div>
+          </StyledGroupMemberList>
         )}
       </StyledGroupMemberListContainer>
 

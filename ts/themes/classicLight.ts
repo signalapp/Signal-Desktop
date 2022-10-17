@@ -21,7 +21,7 @@ export const classicLight: ThemeColorVariables = {
   '--text-box-border-color': THEMES.CLASSIC_LIGHT.COLOR2,
 
   '--message-bubbles-sent-background-color': 'var(--primary-color)',
-  '--message-bubbles-received-background-color': THEMES.CLASSIC_LIGHT.COLOR3,
+  '--message-bubbles-received-background-color': THEMES.CLASSIC_LIGHT.COLOR4,
   '--message-bubbles-sent-text-color': 'var(--text-primary-color)',
   '--message-bubbles-received-text-color': 'var(--text-primary-color)',
 
@@ -134,15 +134,14 @@ export const classicLight: ThemeColorVariables = {
   '--suggestions-text-color': 'var(--text-primary-color)',
   '--suggestions-shadow': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`,
 
-  '--input-background-color': 'var(--background-secondary-color)',
+  '--input-background-color': 'var(--transparent-color)',
   '--input-background-hover-color': 'var(--background-secondary-color)',
   '--input-text-placeholder-color': 'var(--text-secondary-color)',
   '--input-text-color': 'var(--text-primary-color)',
   '--input-border-color': 'var(--border-color)',
 
   '--in-call-container-background-color': 'var(--background-primary-color)',
-  '--in-call-container-text-color': 'var(--white-color)',
-  '--in-call-container-text-shadow': '0px 0px 8px var(--text-primary-color)',
+  '--in-call-container-text-color': 'var(--text-primary-color)',
 
   '--call-buttons-background-color': THEMES.CLASSIC_LIGHT.COLOR3,
   '--call-buttons-background-hover-color': THEMES.CLASSIC_LIGHT.COLOR4,

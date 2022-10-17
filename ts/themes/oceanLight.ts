@@ -135,15 +135,14 @@ export const oceanLight: ThemeColorVariables = {
   '--suggestions-text-color': 'var(--text-primary-color)',
   '--suggestions-shadow': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.24) 0px 3px 8px`,
 
-  '--input-background-color': THEMES.OCEAN_LIGHT.COLOR5,
+  '--input-background-color': 'var(--transparent-color)',
   '--input-background-hover-color': 'var(--background-secondary-color)',
   '--input-text-placeholder-color': 'var(--text-secondary-color)',
   '--input-text-color': 'var(--text-primary-color)',
   '--input-border-color': 'var(--border-color)',
 
   '--in-call-container-background-color': 'var(--background-primary-color)',
-  '--in-call-container-text-color': 'var(--white-color)',
-  '--in-call-container-text-shadow': '0px 0px 8px var(--text-primary-color)',
+  '--in-call-container-text-color': 'var(--text-primary-color)',
 
   '--call-buttons-background-color': THEMES.OCEAN_LIGHT.COLOR4,
   '--call-buttons-background-hover-color': THEMES.OCEAN_LIGHT.COLOR4,

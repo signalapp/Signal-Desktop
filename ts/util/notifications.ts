@@ -131,7 +131,7 @@ function update(forceRefresh = false) {
     isAppFocused: forceRefresh ? false : isAppFocused,
     isAudioNotificationEnabled,
     isAudioNotificationSupported: audioNotificationSupported,
-    isEnabled,
+    isEnabled: forceRefresh ? true : isEnabled,
     numNotifications,
     userSetting,
   });

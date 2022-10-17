@@ -33,26 +33,6 @@
     display: none;
   }
 
-  &-item {
-    display: flex;
-    align-items: center;
-    min-height: 3rem;
-    font-size: 0.8rem;
-    color: var(--right-panel-item-text-color);
-    background-color: var(--right-panel-item-background-color);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-
-    width: -webkit-fill-available;
-    padding: 0 var(--margins-md);
-    transition: var(--default-duration);
-    cursor: pointer;
-
-    &:hover {
-      background-color: var(--right-panel-item-background-hover-color);
-    }
-  }
-
   // no double border (top and bottom) between two elements
   &-item + &-item {
     border-top: none;

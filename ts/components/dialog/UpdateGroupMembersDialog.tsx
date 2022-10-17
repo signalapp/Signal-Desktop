@@ -15,10 +15,15 @@ import useKey from 'react-use/lib/useKey';
 import { useSet } from '../../hooks/useSet';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
 };
+
+const StyledClassicMemberList = styled.div`
+  max-height: 240px;
+`;
 
 /**
  * Admins are always put first in the list of group members.
@@ -54,6 +59,7 @@ const ClassicMemberList = (props: {
             onUnselect={onUnselect}
             key={member}
             isAdmin={isAdmin}
+            disableBg={true}
           />
         );
       })}
@@ -229,14 +235,14 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
-      <div className="group-member-list__selection">
+      <StyledClassicMemberList className="group-member-list__selection">
         <ClassicMemberList
           convoId={conversationId}
           onSelect={onAdd}
           onUnselect={onRemove}
           selectedMembers={membersToKeepWithUpdate}
         />
-      </div>
+      </StyledClassicMemberList>
       <ZombiesList convoId={conversationId} />
       {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 

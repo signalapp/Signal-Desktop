@@ -37,6 +37,10 @@ const ConversationBannerRow = styled.div`
   flex-direction: row;
   gap: var(--margins-lg);
   justify-content: center;
+
+  .session-button {
+    padding: 0 36px;
+  }
 `;
 
 export const ConversationMessageRequestButtons = () => {
@@ -57,7 +61,6 @@ export const ConversationMessageRequestButtons = () => {
     <ConversationRequestBanner>
       <ConversationBannerRow>
         <SessionButton
-          buttonColor={SessionButtonColor.Primary}
           onClick={async () => {
             await handleAcceptConversationRequest(selectedConversation.id);
           }}

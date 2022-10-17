@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 import { getTheme, isDarkTheme } from '../../state/selectors/theme';
 import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
 import {
-  ColorsType,
   COLORS,
+  ColorsType,
   PrimaryColorStateType,
   THEMES,
   ThemeStateType,

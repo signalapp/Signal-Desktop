@@ -30,10 +30,19 @@
   .contact-selection-list {
     width: 100%;
     min-width: 300px;
+    max-width: 350px;
   }
 
   &__input-group {
     min-width: 300px;
+
+    input {
+      margin-bottom: var(--margins-md);
+    }
+
+    input:last-child {
+      margin-bottom: 0px;
+    }
   }
 }
 
@@ -106,7 +115,6 @@
 
   input {
     padding: 8px;
-    margin-bottom: 15px;
     border: 0;
     outline: none;
     border-radius: 4px;
@@ -204,6 +212,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-right: -20px; // offsets the edit icon button so it's centered
 
       p {
         font-size: $session-font-md;

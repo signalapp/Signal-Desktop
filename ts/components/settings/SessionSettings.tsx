@@ -15,6 +15,7 @@ import { SettingsCategoryHelp } from './section/CategoryHelp';
 import styled from 'styled-components';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { PasswordAction } from '../dialog/SessionPasswordDialog';
+import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
 
 export function displayPasswordModal(
   passwordAction: PasswordAction,
@@ -229,6 +230,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
         hasPassword: true,
         shouldLockSettings: true,
       });
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Message));
     }
 
     if (action === 'remove') {

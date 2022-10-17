@@ -161,6 +161,26 @@ const StyledLeaveButton = styled.div`
   }
 `;
 
+const StyledGroupSettingsItem = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  font-size: var(--font-size-md);
+  color: var(--right-panel-item-text-color);
+  background-color: var(--right-panel-item-background-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+
+  width: -webkit-fill-available;
+  padding: 0 var(--margins-md);
+  transition: var(--default-duration);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--right-panel-item-background-hover-color);
+  }
+`;
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export const SessionRightPanelWithDetails = () => {
@@ -267,7 +287,7 @@ export const SessionRightPanelWithDetails = () => {
         </>
       )}
       {showUpdateGroupNameButton && (
-        <div
+        <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
           onClick={async () => {
@@ -275,11 +295,11 @@ export const SessionRightPanelWithDetails = () => {
           }}
         >
           {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
-        </div>
+        </StyledGroupSettingsItem>
       )}
       {showAddRemoveModeratorsButton && (
         <>
-          <div
+          <StyledGroupSettingsItem
             className="group-settings-item"
             role="button"
             onClick={() => {
@@ -287,8 +307,8 @@ export const SessionRightPanelWithDetails = () => {
             }}
           >
             {window.i18n('addModerators')}
-          </div>
-          <div
+          </StyledGroupSettingsItem>
+          <StyledGroupSettingsItem
             className="group-settings-item"
             role="button"
             onClick={() => {
@@ -296,12 +316,12 @@ export const SessionRightPanelWithDetails = () => {
             }}
           >
             {window.i18n('removeModerators')}
-          </div>
+          </StyledGroupSettingsItem>
         </>
       )}
 
       {showUpdateGroupMembersButton && (
-        <div
+        <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
           onClick={async () => {
@@ -309,7 +329,7 @@ export const SessionRightPanelWithDetails = () => {
           }}
         >
           {window.i18n('groupMembers')}
-        </div>
+        </StyledGroupSettingsItem>
       )}
 
       {hasDisappearingMessages && (

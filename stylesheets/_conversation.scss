@@ -21,6 +21,12 @@
   &.invitation-outgoing {
     background-color: var(--message-bubbles-sent-background-color);
     align-self: flex-end;
+
+    .contents {
+      .session-icon-button {
+        background-color: var(--transparent-color);
+      }
+    }
   }
 
   display: inline-block;

@@ -5,12 +5,13 @@ import { matchesHash } from '../../util/passwordUtils';
 import { Data } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
-import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
+import { SpacerSM } from '../basic/Text';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
+import styled from 'styled-components';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;
@@ -20,7 +21,6 @@ interface PasswordProps {
 const Password = (props: PasswordProps) => {
   const { setPasswordValid, passwordHash } = props;
   const i18n = window.i18n;
-  const [error, setError] = useState('');
   const dispatch = useDispatch();
 
   const onClose = () => dispatch(recoveryPhraseModal(null));
@@ -30,17 +30,17 @@ const Password = (props: PasswordProps) => {
     const isPasswordValid = matchesHash(passwordValue as string, passwordHash);
 
     if (!passwordValue) {
-      setError('noGivenPassword');
+      ToastUtils.pushToastError('enterPasswordErrorToast', i18n('noGivenPassword'));
+
       return false;
     }
 
     if (passwordHash && !isPasswordValid) {
-      setError('invalidPassword');
+      ToastUtils.pushToastError('enterPasswordErrorToast', i18n('invalidPassword'));
       return false;
     }
 
     setPasswordValid(true);
-    setError('');
 
     window.removeEventListener('keyup', onEnter);
     return true;
@@ -54,26 +54,23 @@ const Password = (props: PasswordProps) => {
 
   return (
     <>
-      <p>{i18n('showRecoveryPhrasePasswordRequest')}</p>
-      <input
-        type="password"
-        id="seed-input-password"
-        placeholder={i18n('password')}
-        onKeyUp={onEnter}
-      />
+      <div className="session-modal__input-group">
+        <input
+          type="password"
+          id="seed-input-password"
+          placeholder={i18n('enterPassword')}
+          onKeyUp={onEnter}
+        />
+      </div>
 
-      {error && (
-        <>
-          <SpacerXS />
-          <div className="session-label danger">{error}</div>
-        </>
-      )}
+      <SpacerSM />
 
-      <SpacerLG />
-
-      <div className="session-modal__button-group">
+      <div
+        className="session-modal__button-group"
+        style={{ justifyContent: 'center', width: '100%' }}
+      >
         <SessionButton
-          text={i18n('ok')}
+          text={i18n('done')}
           buttonType={SessionButtonType.Simple}
           onClick={confirmPassword}
         />
@@ -92,6 +89,15 @@ interface SeedProps {
   recoveryPhrase: string;
   onClickCopy?: () => any;
 }
+
+const StyledRecoveryPhrase = styled.i`
+  margin-bottom: var(--margins-md);
+`;
+
+const StyledQRImage = styled.div`
+  width: fit-content;
+  margin: 0 auto;
+`;
 
 const Seed = (props: SeedProps) => {
   const { recoveryPhrase, onClickCopy } = props;
@@ -114,18 +120,32 @@ const Seed = (props: SeedProps) => {
   return (
     <>
       <div className="session-modal__centered text-center">
-        <p className="session-modal__description" style={{ marginTop: '0px' }}>
+        <p
+          className="session-modal__description"
+          style={{
+            lineHeight: '1.3333',
+            marginTop: '0px',
+            marginBottom: 'var(--margins-md)',
+            maxWidth: '600px',
+          }}
+        >
           {i18n('recoveryPhraseSavePromptMain')}
         </p>
 
-        <i data-testid="recovery-phrase-seed-modal" className="session-modal__text-highlight">
+        <StyledRecoveryPhrase
+          data-testid="recovery-phrase-seed-modal"
+          className="session-modal__text-highlight"
+        >
           {recoveryPhrase}
-        </i>
+        </StyledRecoveryPhrase>
       </div>
-      <div className="qr-image">
+      <StyledQRImage className="qr-image">
         <QRCode value={hexEncodedSeed} bgColor={bgColor} fgColor={fgColor} level="L" />
-      </div>
-      <div className="session-modal__button-group">
+      </StyledQRImage>
+      <div
+        className="session-modal__button-group"
+        style={{ justifyContent: 'center', width: '100%' }}
+      >
         <SessionButton
           text={i18n('editMenuCopy')}
           buttonType={SessionButtonType.Simple}
@@ -137,6 +157,10 @@ const Seed = (props: SeedProps) => {
     </>
   );
 };
+
+const StyledSeedModalContainer = styled.div`
+  margin: var(--margins-md) var(--margins-sm);
+`;
 
 interface ModalInnerProps {
   onClickOk?: () => any;
@@ -192,13 +216,15 @@ const SessionSeedModalInner = (props: ModalInnerProps) => {
           onClose={onClose}
           showExitIcon={true}
         >
-          <SpacerSM />
+          <StyledSeedModalContainer>
+            <SpacerSM />
 
-          {hasPassword && !passwordValid ? (
-            <Password passwordHash={passwordHash} setPasswordValid={setPasswordValid} />
-          ) : (
-            <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
-          )}
+            {hasPassword && !passwordValid ? (
+              <Password passwordHash={passwordHash} setPasswordValid={setPasswordValid} />
+            ) : (
+              <Seed recoveryPhrase={recoveryPhrase} onClickCopy={onClickOk} />
+            )}
+          </StyledSeedModalContainer>
         </SessionWrapperModal>
       )}
     </>

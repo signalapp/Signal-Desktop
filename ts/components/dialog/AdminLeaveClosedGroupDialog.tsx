@@ -4,10 +4,16 @@ import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
 };
+
+const StyledWarning = styled.p`
+  max-width: 500px;
+  line-height: 1.3333;
+`;
 
 export const AdminLeaveClosedGroupDialog = (props: Props) => {
   const convo = getConversationController().get(props.conversationId);
@@ -34,7 +40,7 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
-      <p>{warningAsAdmin}</p>
+      <StyledWarning>{warningAsAdmin}</StyledWarning>
 
       <div className="session-modal__button-group">
         <SessionButton
