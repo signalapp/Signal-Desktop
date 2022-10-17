@@ -68,19 +68,6 @@ const StyledMessagesContainer = styled.div<{}>`
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    opacity: 1;
-    background-color: var(--color-cell-background);
-    box-shadow: var(--color-session-shadow);
-
-    svg path {
-      transition: var(--default-duration);
-      opacity: 0.6;
-      fill: var(--color-text);
-    }
-
-    &:hover svg path {
-      opacity: 1;
-    }
   }
 `;
 

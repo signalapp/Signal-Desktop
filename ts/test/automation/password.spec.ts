@@ -51,7 +51,7 @@ test.describe('Password checks', () => {
     );
     // Type password into input field
 
-    await typeIntoInput(window, 'password-lock-input', testPassword);
+    await typeIntoInput(window, 'password-input', testPassword);
     // Click OK
     await clickOnMatchingText(window, 'OK');
     // Change password
@@ -99,7 +99,7 @@ test.describe('Password checks', () => {
     // Click OK
     await window.keyboard.press('Enter');
     // Type password into input field
-    await typeIntoInput(window, 'password-lock-input', testPassword);
+    await typeIntoInput(window, 'password-input', testPassword);
     await window.keyboard.press('Delete');
     // Click OK
     await clickOnMatchingText(window, 'OK');
@@ -108,7 +108,7 @@ test.describe('Password checks', () => {
     // // Click on settings tab
     await clickOnTestIdWithText(window, 'settings-section');
     // // Try with incorrect password
-    await typeIntoInput(window, 'password-lock-input', '0000');
+    await typeIntoInput(window, 'password-input', '0000');
     await window.keyboard.press('Delete');
     // Confirm
     await clickOnMatchingText(window, 'OK');

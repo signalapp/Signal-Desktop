@@ -18,20 +18,6 @@
   }
 }
 
-@keyframes pulseLight {
-  0% {
-    box-shadow: 0px 0px 0px 0px $session-color-danger-alt;
-  }
-
-  50% {
-    box-shadow: 0px 0px 12px 0px rgba($session-color-danger-alt, 1);
-  }
-
-  100% {
-    box-shadow: 0px 0px 0px 0px rgba($session-color-danger-alt, 1);
-  }
-}
-
 .conversation-item__options-pane {
   position: absolute;
   height: 100%;
@@ -43,10 +29,13 @@
   width: 25vw;
   z-index: 5;
 
+  background-color: var(--background-primary-color);
+  border-left: 1px solid var(--border-color);
+
   &.show {
     transform: none;
     transition: transform 0.3s ease-in-out;
-    z-index: 2;
+    z-index: 3;
   }
 }
 
@@ -68,13 +57,13 @@
     align-items: center;
     justify-content: space-between;
     height: var(--main-view-header-height);
-    background: var(--color-cell-background);
+    background: var(--background-primary-color);
 
     .close-button {
       float: left;
     }
 
-    .session-button.default.danger {
+    .session-button.danger {
       display: flex;
     }
   }
@@ -118,9 +107,8 @@
     background-color: inherit;
     outline: none;
     position: relative;
-
-    border-left: var(--border-session);
-    border-top: var(--border-session);
+    background-color: var(--background-secondary-color);
+    border-top: 1px solid var(--border-color);
   }
 
   .conversation-info-panel {
@@ -137,20 +125,9 @@
 
     &.show {
       display: flex;
-      background: var(--color-inbox-background);
+      background: var(--background-primary-color);
     }
   }
-}
-
-.messages-container {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column-reverse;
-  position: relative;
-  overflow-x: hidden;
-  min-width: 370px;
-  scrollbar-width: 4px;
-  padding: var(--margins-sm) var(--margins-lg) var(--margins-lg);
 }
 
 .composition-container {
@@ -159,166 +136,21 @@
   align-items: center;
   padding: 0px var(--margins-md);
   min-height: min-content;
-  background: var(--color-cell-background);
-  border-top: var(--border-session);
+  border-top: 1px solid var(--border-color);
   z-index: 1;
 
   .session-icon-button {
-    margin-right: var(--margins-sm);
-
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.7;
 
-    &:hover {
-      opacity: 1;
-      filter: brightness(0.9);
-      transition: var(--default-duration);
-    }
+    margin-right: var(--margins-sm);
 
     .send {
       padding: var(--margins-xs);
       border-radius: 50%;
       height: 30px;
       width: 30px;
-    }
-  }
-
-  .send-message-input {
-    cursor: text;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    min-height: $composition-container-height;
-    padding: var(--margins-xs) 0;
-    z-index: 1;
-    background-color: inherit;
-
-    ul {
-      max-height: 70vh;
-      overflow: auto;
-    }
-
-    textarea {
-      font-family: $session-font-default;
-      min-height: calc($composition-container-height / 3);
-      max-height: 3 * $composition-container-height;
-      margin-right: var(--margins-md);
-      color: var(--color-text);
-
-      background: transparent;
-      resize: none;
-      display: flex;
-      flex-grow: 1;
-      outline: none;
-      border: none;
-      font-size: 14px;
-      line-height: $session-font-h2;
-      letter-spacing: 0.5px;
-    }
-
-    &__emoji-overlay {
-      // Should have identical properties to the textarea above to line up perfectly.
-      position: absolute;
-      font-size: 14px;
-      font-family: $session-font-default;
-      margin-left: 2px;
-      line-height: $session-font-h2;
-      letter-spacing: 0.5px;
-      color: rgba(0, 0, 0, 0);
-    }
-  }
-}
-
-.session-emoji-panel {
-  position: absolute;
-  bottom: 68px;
-  right: 0px;
-  padding: var(--margins-lg);
-
-  z-index: 5;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--default-duration);
-
-  button:focus {
-    outline: none;
-  }
-
-  &.show {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  & > section.emoji-mart {
-    font-family: $session-font-default;
-    font-size: $session-font-sm;
-    background-color: var(--color-cell-background);
-    border: 1px solid var(--color-session-border);
-    border-radius: 8px;
-    padding-bottom: var(--margins-sm);
-
-    .emoji-mart-category-label {
-      top: -2px;
-
-      span {
-        font-family: $session-font-default;
-        padding-top: var(--margins-sm);
-        background-color: var(--color-cell-background);
-      }
-    }
-
-    .emoji-mart-scroll {
-      height: 340px;
-    }
-
-    .emoji-mart-category .emoji-mart-emoji span {
-      cursor: pointer;
-    }
-
-    .emoji-mart-bar:last-child {
-      border: none;
-
-      .emoji-mart-preview {
-        display: none;
-      }
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      top: calc(100% - 40px);
-      left: calc(100% - 79px);
-      width: 22px;
-      height: 22px;
-      background-color: var(--color-cell-background);
-      transform: rotate(45deg);
-      border-radius: 3px;
-      transform: scaleY(1.4) rotate(45deg);
-      border: 0.7px solid var(--color-session-border);
-      clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
-    }
-  }
-}
-
-.session-progress {
-  position: relative;
-  z-index: 100;
-
-  &__progress {
-    will-change: transform;
-
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    font-size: 0px;
-    height: 1px;
-
-    background-color: $session-color-green;
-
-    &.fade {
-      opacity: 0;
     }
   }
 }
@@ -346,7 +178,7 @@
 }
 
 .session-recording {
-  height: $composition-container-height;
+  height: var(--composition-container-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -396,7 +228,7 @@
   &--timer {
     display: inline-flex;
     align-items: center;
-    font-family: $session-font-default;
+    font-family: var(--font-default);
     font-weight: bold;
     font-size: 14px;
     flex-shrink: 0;
@@ -413,10 +245,10 @@
       height: var(--margins-sm);
       width: var(--margins-sm);
       border-radius: 50%;
-      background-color: $session-color-danger-alt;
+      background-color: var(--danger-color);
       margin: 0 var(--margins-sm);
 
-      @include pulse-color($session-color-danger-alt, 1s, infinite);
+      @include pulse-color(var(--danger-color), 1s, infinite);
     }
   }
 }
@@ -424,8 +256,7 @@
 /* ************ */
 /* AUDIO PLAYER */
 /* ************ */
-$rhap_theme-color: #212121 !default;
-$rhap_background-color: rgba(0, 0, 0, 0) !default;
+$rhap_background-color: var(--transparent-color) !default;
 $rhap_font-family: inherit !default;
 
 .rhap_container,
@@ -443,16 +274,11 @@ $rhap_font-family: inherit !default;
   padding: 0px;
   background-color: transparent;
   box-shadow: none;
-  background: var(--color-accent);
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
 
   svg {
     transition: fill var(--default-duration);
-
-    &:hover path {
-      fill: #ffffff;
-    }
   }
 }
 
@@ -477,10 +303,10 @@ $rhap_font-family: inherit !default;
 
 .rhap_volume-button {
   .module-message__container--incoming & {
-    color: var(--color-received-message-text);
+    color: var(--message-bubbles-received-text-color);
   }
   .module-message__container--outgoing & {
-    color: var(--color-sent-message-text);
+    color: var(--message-bubbles-sent-text-color);
   }
 }
 
@@ -490,10 +316,10 @@ $rhap_font-family: inherit !default;
 
 .rhap_time {
   .module-message__container--incoming & {
-    color: var(--color-received-message-text);
+    color: var(--message-bubbles-received-text-color);
   }
   .module-message__container--outgoing & {
-    color: var(--color-sent-message-text);
+    color: var(--message-bubbles-sent-text-color);
   }
 
   font-size: 12px;
@@ -505,17 +331,10 @@ $rhap_font-family: inherit !default;
   z-index: 0;
   width: 100%;
   height: 5px;
-  .module-message__container--incoming & {
-    background-color: var(--color-received-message-text);
-  }
-  .module-message__container--outgoing & {
-    background-color: var(--color-sent-message-text);
-  }
   border-radius: 2px;
 }
 
 .rhap_progress-filled {
-  background-color: var(--color-text-subtle);
   padding-left: 5px;
 }
 
@@ -523,8 +342,6 @@ $rhap_font-family: inherit !default;
   height: 100%;
   position: absolute;
   z-index: 1;
-  background-color: var(--color-text-subtle);
-
   border-radius: 2px;
 }
 
@@ -534,9 +351,7 @@ $rhap_font-family: inherit !default;
   height: 15px;
   top: -5px;
   margin-left: -10px;
-  background: $session-color-green;
-  box-shadow: none;
-  box-shadow: rgba($rhap_theme-color, 0.5) 0 0 5px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 5px !important;
 }
 
 .rhap_controls-section {

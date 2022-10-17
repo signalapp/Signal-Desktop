@@ -101,7 +101,7 @@ const animation = (props: {
 }) => {
   if (props.rotateDuration) {
     return css`
-      ${rotate} ${props.rotateDuration}s infinite linear;
+      ${rotate} ${props.rotateDuration}s linear infinite;
     `;
   }
   if (props.noScale) {
@@ -127,13 +127,15 @@ const Svg = React.memo(styled.svg<StyledSvgProps>`
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
   border-radius: ${props => props.borderRadius};
-  background-color: ${props => (props.backgroundColor ? props.backgroundColor : '')};
+  background-color: ${props =>
+    props.backgroundColor ? props.backgroundColor : '--button-icon-background-color'};
   border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
   filter: ${props => (props.noScale ? `drop-shadow(0px 0px 4px ${props.iconColor})` : '')};
+  fill: ${props => (props.iconColor ? props.iconColor : '--button-icon-stroke-color')};
   padding: ${props => (props.iconPadding ? props.iconPadding : '')};
   transition: inherit;
 `);
-//tslint:enable no-unnecessary-callback-wrapper
+// tslint:enable no-unnecessary-callback-wrapper
 
 const SessionSvg = (props: {
   viewBox: string;
@@ -150,7 +152,7 @@ const SessionSvg = (props: {
   backgroundColor?: string;
   iconPadding?: string;
 }) => {
-  const colorSvg = props.iconColor;
+  const colorSvg = props.iconColor ? props.iconColor : '--button-icon-stroke-color';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
   const propsToPick = {
     width: props.width,

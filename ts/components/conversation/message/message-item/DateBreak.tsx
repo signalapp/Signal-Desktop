@@ -12,7 +12,7 @@ const DateBreakText = styled.div`
   font-weight: bold;
   text-align: center;
 
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 export const MessageDateBreak = (props: { timestamp: number; messageId: string }) => {

@@ -64,7 +64,7 @@ const AvatarItem = () => {
   }
 
   return (
-    <div className="module-conversation-list-item__avatar-container">
+    <div>
       <Avatar
         size={AvatarSize.S}
         pubkey={conversationId}

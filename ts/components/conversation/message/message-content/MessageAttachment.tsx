@@ -30,6 +30,7 @@ import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 export type MessageAttachmentSelectorProps = Pick<
   MessageRenderingProps,
@@ -182,8 +183,22 @@ export const MessageAttachment = (props: Props) => {
         </div>
       )}
       <div className="module-message__generic-attachment__text">
-        <div className="module-message__generic-attachment__file-name">{fileName}</div>
-        <div className="module-message__generic-attachment__file-size">{fileSize}</div>
+        <div
+          className={classNames(
+            'module-message__generic-attachment__file-name',
+            `module-message__generic-attachment__file-name--${direction}`
+          )}
+        >
+          {fileName}
+        </div>
+        <div
+          className={classNames(
+            'module-message__generic-attachment__file-size',
+            `module-message__generic-attachment__file-size--${direction}`
+          )}
+        >
+          {fileSize}
+        </div>
       </div>
     </div>
   );

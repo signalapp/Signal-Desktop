@@ -12,7 +12,7 @@ type Props = {
 };
 
 const StyledMessageReactBar = styled.div`
-  background-color: var(--color-received-message-background);
+  background-color: var(--emoji-reaction-bar-background-color);
   border-radius: 25px;
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -26,9 +26,10 @@ const StyledMessageReactBar = styled.div`
   align-items: center;
 
   .session-icon-button {
-    border-color: transparent !important;
-    box-shadow: none !important;
     margin: 0 4px;
+    &:hover svg {
+      background-color: var(--chat-buttons-background-hover-color);
+    }
   }
 `;
 
@@ -44,7 +45,7 @@ const ReactButton = styled.span`
   font-size: 24px;
 
   :hover {
-    background-color: var(--color-compose-view-button-background);
+    background-color: var(--chat-buttons-background-hover-color);
   }
 `;
 
@@ -79,11 +80,11 @@ export const MessageReactBar = (props: Props): ReactElement => {
           </ReactButton>
         ))}
       <SessionIconButton
-        iconColor={'var(--color-text)'}
-        iconPadding={'12px'}
-        iconSize={'huge2'}
+        iconColor={'var(--emoji-reaction-bar-icon-color)'}
+        iconPadding={'8px'}
+        iconSize={'huge'}
         iconType="plusThin"
-        backgroundColor={'var(--color-compose-view-button-background)'}
+        backgroundColor={'var(--emoji-reaction-bar-icon-background-color)'}
         borderRadius="300px"
         onClick={additionalAction}
       />

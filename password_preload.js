@@ -11,7 +11,9 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 
-window.theme = config.theme;
+// If the app is locked we can't access the database to check the theme.
+window.theme = 'classic-dark';
+window.primaryColor = 'green';
 window.i18n = i18n.setupi18n(locale, localeMessages);
 
 window.getEnvironment = () => config.environment;

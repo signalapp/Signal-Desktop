@@ -27,6 +27,7 @@ import { SpacerLG } from '../basic/Text';
 import { MediaItemType } from '../lightbox/LightboxGallery';
 import { MediaGallery } from './media-gallery/MediaGallery';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
+import styled from 'styled-components';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -141,6 +142,45 @@ const HeaderItem = () => {
   );
 };
 
+const StyledLeaveButton = styled.div`
+  width: 100%;
+  .session-button {
+    margin-top: auto;
+    width: 100%;
+    min-height: calc(var(--composition-container-height) + 1px); // include border in height
+    flex-shrink: 0;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0px;
+
+    &:not(.disabled) {
+      &:hover {
+        background-color: var(--button-solid-background-hover-color);
+      }
+    }
+  }
+`;
+
+const StyledGroupSettingsItem = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  font-size: var(--font-size-md);
+  color: var(--right-panel-item-text-color);
+  background-color: var(--right-panel-item-background-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+
+  width: -webkit-fill-available;
+  padding: 0 var(--margins-md);
+  transition: var(--default-duration);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--right-panel-item-background-hover-color);
+  }
+`;
+
 // tslint:disable: cyclomatic-complexity
 // tslint:disable: max-func-body-length
 export const SessionRightPanelWithDetails = () => {
@@ -247,7 +287,7 @@ export const SessionRightPanelWithDetails = () => {
         </>
       )}
       {showUpdateGroupNameButton && (
-        <div
+        <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
           onClick={async () => {
@@ -255,11 +295,11 @@ export const SessionRightPanelWithDetails = () => {
           }}
         >
           {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
-        </div>
+        </StyledGroupSettingsItem>
       )}
       {showAddRemoveModeratorsButton && (
         <>
-          <div
+          <StyledGroupSettingsItem
             className="group-settings-item"
             role="button"
             onClick={() => {
@@ -267,8 +307,8 @@ export const SessionRightPanelWithDetails = () => {
             }}
           >
             {window.i18n('addModerators')}
-          </div>
-          <div
+          </StyledGroupSettingsItem>
+          <StyledGroupSettingsItem
             className="group-settings-item"
             role="button"
             onClick={() => {
@@ -276,12 +316,12 @@ export const SessionRightPanelWithDetails = () => {
             }}
           >
             {window.i18n('removeModerators')}
-          </div>
+          </StyledGroupSettingsItem>
         </>
       )}
 
       {showUpdateGroupMembersButton && (
-        <div
+        <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
           onClick={async () => {
@@ -289,7 +329,7 @@ export const SessionRightPanelWithDetails = () => {
           }}
         >
           {window.i18n('groupMembers')}
-        </div>
+        </StyledGroupSettingsItem>
       )}
 
       {hasDisappearingMessages && (
@@ -302,13 +342,15 @@ export const SessionRightPanelWithDetails = () => {
       <MediaGallery documents={documents} media={media} />
       {isGroup && (
         // tslint:disable-next-line: use-simple-attributes
-        <SessionButton
-          text={leaveGroupString}
-          buttonColor={SessionButtonColor.Danger}
-          disabled={isKickedFromGroup || left}
-          buttonType={SessionButtonType.SquareOutline}
-          onClick={deleteConvoAction}
-        />
+        <StyledLeaveButton>
+          <SessionButton
+            text={leaveGroupString}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
+            disabled={isKickedFromGroup || left}
+            onClick={deleteConvoAction}
+          />
+        </StyledLeaveButton>
       )}
     </div>
   );

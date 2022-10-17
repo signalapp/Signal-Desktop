@@ -29,7 +29,7 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
-  useSettingsThemeSwitcher: false,
+  useSettingsThemeSwitcher: true,
   debug: {
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
@@ -157,8 +157,8 @@ ipc.on('get-theme-setting', () => {
 
 window.getSettingValue = (settingID, comparisonValue = null) => {
   // Comparison value allows you to pull boolean values from any type.
-  // Eg. window.getSettingValue('theme', 'light')
-  // returns 'false' when the value is 'dark'.
+  // Eg. window.getSettingValue('theme', 'classic-dark')
+  // returns 'false' when the value is 'classic-light'.
 
   // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {

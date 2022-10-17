@@ -14,7 +14,7 @@ const StyledTrustSenderUI = styled.div`
   width: fit-content;
 
   border-radius: var(--border-radius-message-box);
-  background: var(--color-received-message-background);
+  background-color: var(--message-bubbles-received-background-color);
 `;
 
 const ClickToDownload = styled.div`
@@ -42,7 +42,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
         message: window.i18n('trustThisContactDialogDescription', [
           convo.getContactProfileNameOrShortenedPubKey(),
         ]),
-        okTheme: SessionButtonColor.Green,
+        closeTheme: SessionButtonColor.Danger,
         onClickOk: async () => {
           convo.set({ isTrustedForAttachmentDownload: true });
           await convo.commit();

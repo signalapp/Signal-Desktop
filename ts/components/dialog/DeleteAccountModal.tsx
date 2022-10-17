@@ -5,7 +5,7 @@ import { forceNetworkDeletion } from '../../session/apis/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -232,6 +232,7 @@ export const DeleteAccountModal = () => {
           <SessionButton
             text={window.i18n('clear')}
             buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
             onClick={() => {
               if (!askingConfirmation) {
                 setAskingConfirmation(true);
@@ -248,7 +249,7 @@ export const DeleteAccountModal = () => {
 
           <SessionButton
             text={window.i18n('cancel')}
-            buttonColor={SessionButtonColor.Primary}
+            buttonType={SessionButtonType.Simple}
             onClick={() => {
               dispatch(updateDeleteAccountModal(null));
             }}
@@ -256,7 +257,6 @@ export const DeleteAccountModal = () => {
           />
         </div>
         <SpacerLG />
-
         <SessionSpinner loading={isLoading} />
       </div>
     </SessionWrapperModal>

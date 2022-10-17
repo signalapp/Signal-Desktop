@@ -12,16 +12,17 @@ import { Image } from '../../../ts/components/conversation/Image';
 import useKey from 'react-use/lib/useKey';
 
 const QuotedMessageComposition = styled.div`
+  background-color: var(--background-secondary-color);
   width: 100%;
   padding-inline-end: var(--margins-md);
   padding-inline-start: var(--margins-md);
+  padding-bottom: var(--margins-xs);
 `;
 
 const QuotedMessageCompositionReply = styled.div`
-  background: var(--color-quote-bottom-bar-background);
+  background: var(--message-bubbles-received-background-color);
   border-radius: var(--margins-sm);
   padding: var(--margins-xs);
-  box-shadow: var(--color-session-shadow);
   margin: var(--margins-xs);
 `;
 
@@ -32,11 +33,11 @@ const Subtle = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 const ReplyingTo = styled.div`
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 export const SessionQuotedMessageComposition = () => {
@@ -76,7 +77,8 @@ export const SessionQuotedMessageComposition = () => {
         container={true}
         justifyContent="space-between"
         flexGrow={1}
-        margin={'var(--margins-xs)'}
+        margin={'0 var(--margins-xs) var(--margins-xs)'}
+        padding={'var(--margins-xs)'}
       >
         <ReplyingTo>{window.i18n('replyingToMessage')}</ReplyingTo>
         <SessionIconButton iconType="exit" iconSize="small" onClick={removeQuotedMessage} />

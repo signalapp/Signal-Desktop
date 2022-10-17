@@ -633,7 +633,6 @@ async function handleMessageRequestResponse(
     mostRecentActiveAt = Date.now();
   }
 
-
   conversationToApprove.set({
     active_at: mostRecentActiveAt,
     isApproved: true,

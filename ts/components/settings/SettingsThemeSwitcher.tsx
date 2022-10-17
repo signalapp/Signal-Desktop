@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { switchThemeTo } from '../../session/utils/Theme';
-import {
-  darkColorReceivedMessageBg,
-  darkColorSentMessageBg,
-  getPrimaryColors,
-  lightColorReceivedMessageBg,
-  lightColorSentMessageBg,
-  OceanBlueDark,
-  OceanBlueLight,
-  PrimaryColorIds,
-} from '../../state/ducks/SessionTheme';
-import { ThemeStateType } from '../../state/ducks/theme';
+import { switchThemeTo } from '../../themes/switchTheme';
 import { getTheme } from '../../state/selectors/theme';
 import { SessionRadio, SessionRadioPrimaryColors } from '../basic/SessionRadio';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { StyledDescriptionSettingsItem, StyledTitleSettingsItem } from './SessionSettingListItem';
+import {
+  getPrimaryColors,
+  getThemeColors,
+  StyleSessionSwitcher,
+} from '../../themes/constants/colors';
+import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
+import { getPrimaryColor } from '../../state/selectors/primaryColor';
 
 // tslint:disable: use-simple-attributes
 
 const StyledSwitcherContainer = styled.div`
   font-size: var(--font-size-md);
   padding: var(--margins-lg);
-  background: var(--color-cell-background);
+  margin-bottom: var(--margins-lg);
+
+  background: var(--settings-tab-background-color);
+  color: var(--settings-tab-text-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 `;
 
 const ThemeContainer = styled.button`
-  background: var(--color-conversation-list);
-  border: 1px solid var(--color-clickable-hovered);
+  background: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: var(--margins-sm);
   display: flex;
@@ -40,7 +41,7 @@ const ThemeContainer = styled.button`
   transition: var(--default-duration);
 
   :hover {
-    background: var(--color-clickable-hovered);
+    background: var(--settings-tab-background-hover-color);
   }
 `;
 
@@ -49,19 +50,6 @@ const ThemesContainer = styled.div`
   flex-wrap: wrap;
   gap: var(--margins-lg);
 `;
-
-type ThemeType = {
-  id: ThemeStateType;
-  title: string;
-  style: StyleSessionSwitcher;
-};
-
-type StyleSessionSwitcher = {
-  background: string;
-  border: string;
-  receivedBg: string;
-  sentBg: string;
-};
 
 const StyledPreview = styled.svg`
   max-height: 100%;
@@ -75,11 +63,11 @@ const ThemePreview = (props: { style: StyleSessionSwitcher }) => {
         d="M7.5.9h64.6c3.6 0 6.5 2.9 6.5 6.5v56.9c0 3.6-2.9 6.5-6.5 6.5H7.5c-3.6 0-6.5-2.9-6.5-6.5V7.4C1 3.9 3.9.9 7.5.9z"
       />
       <path
-        fill={props.style.receivedBg}
+        fill={props.style.receivedBackground}
         d="M8.7 27.9c0-3.2 2.6-5.7 5.7-5.7h30.4c3.2 0 5.7 2.6 5.7 5.7 0 3.2-2.6 5.7-5.7 5.7H14.4c-3.1.1-5.7-2.5-5.7-5.7z"
       />
       <path
-        fill={props.style.sentBg}
+        fill={props.style.sentBackground}
         d="M32.6 42.2c0-3.2 2.6-5.7 5.7-5.7h27c3.2 0 5.7 2.6 5.7 5.7 0 3.2-2.6 5.7-5.7 5.7h-27c-3.1 0-5.7-2.5-5.7-5.7z"
       />
     </StyledPreview>
@@ -87,80 +75,42 @@ const ThemePreview = (props: { style: StyleSessionSwitcher }) => {
 };
 
 const Themes = () => {
-  const themes: Array<ThemeType> = [
-    {
-      id: 'dark',
-      title: window.i18n('classicDarkThemeTitle'),
-      style: {
-        background: '#000000',
-        border: '#414141',
-        receivedBg: darkColorReceivedMessageBg,
-        sentBg: darkColorSentMessageBg,
-      },
-    },
-    {
-      id: 'light',
-      title: window.i18n('classicLightThemeTitle'),
-      style: {
-        background: '#ffffff',
-        border: '#414141',
-        receivedBg: lightColorReceivedMessageBg,
-        sentBg: lightColorSentMessageBg,
-      },
-    },
-    {
-      id: 'ocean-dark',
-      title: window.i18n('oceanDarkThemeTitle'),
-      style: {
-        background: OceanBlueDark.background,
-        border: OceanBlueDark.border,
-        receivedBg: OceanBlueDark.received,
-        sentBg: OceanBlueDark.sent,
-      },
-    },
-    {
-      id: 'ocean-light',
-      title: window.i18n('oceanLightThemeTitle'),
-      style: {
-        background: OceanBlueLight.background,
-        border: OceanBlueLight.border,
-        receivedBg: OceanBlueLight.received,
-        sentBg: OceanBlueLight.sent,
-      },
-    },
-  ];
-
+  const themes = getThemeColors();
   const selectedTheme = useSelector(getTheme);
   const dispatch = useDispatch();
 
   return (
     <>
-      {themes.map(theme => {
-        function onSelectTheme() {
-          void switchThemeTo(theme.id, dispatch);
-        }
-        return (
-          <ThemeContainer key={theme.id} onClick={onSelectTheme}>
-            <ThemePreview style={theme.style} />
-            <SpacerLG />
+      {themes.map(theme => (
+        <ThemeContainer
+          key={theme.id}
+          onClick={async () => {
+            await switchThemeTo({
+              theme: theme.id,
+              mainWindow: true,
+              dispatch,
+            });
+          }}
+        >
+          <ThemePreview style={theme.style} />
+          <SpacerLG />
 
-            <StyledTitleSettingsItem>{theme.title}</StyledTitleSettingsItem>
-            <SessionRadio
-              active={selectedTheme === theme.id}
-              label={''}
-              value={theme.id}
-              inputName={'theme-switcher'}
-            />
-          </ThemeContainer>
-        );
-      })}
+          <StyledTitleSettingsItem>{theme.title}</StyledTitleSettingsItem>
+          <SessionRadio
+            active={selectedTheme === theme.id}
+            label={''}
+            value={theme.id}
+            inputName={'theme-switcher'}
+          />
+        </ThemeContainer>
+      ))}
     </>
   );
 };
 
 export const SettingsThemeSwitcher = () => {
-  //TODO Theming
-  const [selectedAccent, setSelectedAccent] = useState<PrimaryColorIds | undefined>(undefined);
+  const selectedPrimaryColor = useSelector(getPrimaryColor);
+  const dispatch = useDispatch();
 
   return (
     <StyledSwitcherContainer>
@@ -176,13 +126,13 @@ export const SettingsThemeSwitcher = () => {
           return (
             <SessionRadioPrimaryColors
               key={item.id}
-              active={item.id === selectedAccent}
+              active={item.id === selectedPrimaryColor}
               value={item.id}
               inputName="primary-colors"
               ariaLabel={item.ariaLabel}
               color={item.color}
-              onClick={() => {
-                setSelectedAccent(item.id);
+              onClick={async () => {
+                await switchPrimaryColorTo(item.id, dispatch);
               }}
             />
           );

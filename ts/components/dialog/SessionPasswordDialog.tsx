@@ -3,15 +3,15 @@ import React from 'react';
 import { missingCaseError } from '../../util';
 import { ToastUtils } from '../../session/utils';
 import { Data } from '../../data/data';
-import { SpacerLG, SpacerSM } from '../basic/Text';
+import { SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
 
-export type PasswordAction = 'set' | 'change' | 'remove';
+export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';
 
 interface Props {
   passwordAction: PasswordAction;
@@ -62,12 +62,13 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       case 'remove':
         placeholders = [window.i18n('enterPassword')];
         break;
+      case 'enter':
+        placeholders = [window.i18n('enterPassword')];
+        break;
       default:
         placeholders = [window.i18n('createPassword'), window.i18n('confirmPassword')];
     }
 
-    const confirmButtonColor =
-      passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
     const confirmButtonText =
       passwordAction === 'remove' ? window.i18n('remove') : window.i18n('done');
     // do this separately so typescript's compiler likes it
@@ -76,6 +77,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         ? 'changePassword'
         : passwordAction === 'remove'
         ? 'removePassword'
+        : passwordAction === 'enter'
+        ? 'passwordViewTitle'
         : 'setPassword';
 
     return (
@@ -93,7 +96,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
             onKeyUp={this.onPasswordInput}
             data-testid="password-input"
           />
-          {passwordAction !== 'remove' && (
+          {passwordAction !== 'enter' && passwordAction !== 'remove' && (
             <input
               type="password"
               id="password-modal-input-confirm"
@@ -114,15 +117,22 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         </div>
 
         <SpacerSM />
-        {this.showError()}
 
         <div className="session-modal__button-group">
-          <SessionButton text={window.i18n('cancel')} onClick={this.closeDialog} />
           <SessionButton
             text={confirmButtonText}
-            buttonColor={confirmButtonColor}
+            buttonColor={passwordAction === 'remove' ? SessionButtonColor.Danger : undefined}
+            buttonType={SessionButtonType.Simple}
             onClick={this.setPassword}
           />
+          {passwordAction !== 'enter' && (
+            <SessionButton
+              text={window.i18n('cancel')}
+              buttonColor={passwordAction !== 'remove' ? SessionButtonColor.Danger : undefined}
+              buttonType={SessionButtonType.Simple}
+              onClick={this.closeDialog}
+            />
+          )}
         </div>
       </SessionWrapperModal>
     );
@@ -139,18 +149,9 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
   }
 
   private showError() {
-    const message = this.state.error;
-
-    return (
-      <>
-        {message && (
-          <>
-            <div className="session-label warning">{message}</div>
-            <SpacerLG />
-          </>
-        )}
-      </>
-    );
+    if (this.state.error) {
+      ToastUtils.pushToastError('enterPasswordErrorToast', this.state.error);
+    }
   }
 
   /**
@@ -164,6 +165,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       this.setState({
         error: errorFirstInput,
       });
+      this.showError();
       return false;
     }
     return true;
@@ -180,6 +182,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       this.setState({
         error: window.i18n('setPasswordInvalid'),
       });
+      this.showError();
       return;
     }
     await window.setPassword(enteredPassword, null);
@@ -209,6 +212,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       this.setState({
         error: window.i18n('passwordsDoNotMatch'),
       });
+      this.showError();
       return;
     }
 
@@ -217,6 +221,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       this.setState({
         error: window.i18n('changePasswordInvalid'),
       });
+      this.showError();
       return;
     }
     await window.setPassword(newPassword, oldPassword);
@@ -238,6 +243,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       this.setState({
         error: window.i18n('removePasswordInvalid'),
       });
+      this.showError();
       return;
     }
     await window.setPassword(null, oldPassword);
@@ -247,6 +253,25 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       window.i18n('removePasswordTitle'),
       window.i18n('removePasswordToastDescription')
     );
+
+    this.props.onOk();
+    this.closeDialog();
+  }
+
+  private async handleActionEnter(enteredPassword: string) {
+    // be sure the password is valid
+    if (!this.validatePassword(enteredPassword)) {
+      return;
+    }
+
+    const isValidWithStoredInDB = Boolean(await this.validatePasswordHash(enteredPassword));
+    if (!isValidWithStoredInDB) {
+      this.setState({
+        error: window.i18n('invalidPassword'),
+      });
+      this.showError();
+      return;
+    }
 
     this.props.onOk();
     this.closeDialog();
@@ -281,6 +306,10 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
       }
       case 'remove': {
         await this.handleActionRemove(firstPasswordEntered);
+        return;
+      }
+      case 'enter': {
+        await this.handleActionEnter(firstPasswordEntered);
         return;
       }
       default:

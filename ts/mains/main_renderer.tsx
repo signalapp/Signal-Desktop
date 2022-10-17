@@ -21,7 +21,7 @@ import { OpenGroupData } from '../data/opengroups';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
-import { loadEmojiPanelI18n } from '../util/i18n';
+import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -95,13 +95,15 @@ function mapOldThemeToNew(theme: string) {
   switch (theme) {
     case 'dark':
     case 'light':
-      return theme;
+      return `classic-${theme}`;
     case 'android-dark':
-      return 'dark';
+      return 'classic-dark';
     case 'android':
     case 'ios':
+    case '':
+      return 'classic-dark';
     default:
-      return 'light';
+      return theme;
   }
 }
 
@@ -125,7 +127,11 @@ Storage.onready(async () => {
 
   // These make key operations available to IPC handlers created in preload.js
   window.Events = {
-    getThemeSetting: () => Storage.get('theme-setting', 'light'),
+    getPrimaryColorSetting: () => Storage.get('primary-color-setting', 'green'),
+    setPrimaryColorSetting: async (value: any) => {
+      await Storage.put('primary-color-setting', value);
+    },
+    getThemeSetting: () => Storage.get('theme-setting', 'classic-dark'),
     setThemeSetting: async (value: any) => {
       await Storage.put('theme-setting', value);
     },
@@ -170,7 +176,7 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
-    initialiseEmojiData(nativeEmojiData);
+    await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
 
     await Promise.all([
@@ -178,7 +184,6 @@ Storage.onready(async () => {
       BlockedNumberController.load(),
       OpenGroupData.opengroupRoomsLoad(),
       loadKnownBlindedKeys(),
-      loadEmojiPanelI18n(),
     ]);
   } catch (error) {
     window.log.error(
@@ -264,6 +269,8 @@ async function start() {
     await connect();
     openInbox();
   } else {
+    const primaryColor = window.Events.getPrimaryColorSetting();
+    await switchPrimaryColorTo(primaryColor);
     openStandAlone();
   }
 

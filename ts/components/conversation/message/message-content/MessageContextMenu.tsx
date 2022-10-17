@@ -26,6 +26,7 @@ import { StateType } from '../../../../state/reducer';
 import { getMessageContextMenuProps } from '../../../../state/selectors/conversations';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
 import { Reactions } from '../../../../util/reactions';
+import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
 import { SessionEmojiPanel, StyledEmojiPanel } from '../../SessionEmojiPanel';
 import { MessageReactBar } from './MessageReactBar';
 
@@ -108,7 +109,7 @@ export const MessageContextMenu = (props: Props) => {
 
   const emojiPanelRef = useRef<HTMLDivElement>(null);
   const [showEmojiPanel, setShowEmojiPanel] = useState(false);
-  // emoji-mart v5.1 default dimensions
+  // emoji-mart v5.2.2 default dimensions
   const emojiPanelWidth = 354;
   const emojiPanelHeight = 435;
 
@@ -292,49 +293,55 @@ export const MessageContextMenu = (props: Props) => {
           />
         </StyledEmojiPanelContainer>
       )}
-      <Menu
-        id={contextMenuId}
-        onShown={onContextMenuShown}
-        onHidden={onContextMenuHidden}
-        animation={animation.fade}
-      >
-        {enableReactions && (
-          <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
-        )}
-        {attachments?.length ? (
-          <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
-        ) : null}
+      <SessionContextMenuContainer>
+        <Menu
+          id={contextMenuId}
+          onShown={onContextMenuShown}
+          onHidden={onContextMenuHidden}
+          animation={animation.fade}
+        >
+          {enableReactions && (
+            <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
+          )}
+          {attachments?.length ? (
+            <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
+          ) : null}
 
-        <Item onClick={copyText}>{window.i18n('copyMessage')}</Item>
-        {(isSent || !isOutgoing) && <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>}
-        {(!isPublic || isOutgoing) && (
-          <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-        )}
-        {showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null}
-        {isDeletable ? (
-          <>
-            <Item onClick={onSelect}>{selectMessageText}</Item>
-          </>
-        ) : null}
-        {isDeletable && !isPublic ? (
-          <>
-            <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
-          </>
-        ) : null}
-        {isDeletableForEveryone ? (
-          <>
-            <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
-          </>
-        ) : null}
-        {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
-        {weAreAdmin && isPublic ? <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item> : null}
-        {weAreAdmin && isPublic && !isSenderAdmin ? (
-          <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
-        ) : null}
-        {weAreAdmin && isPublic && isSenderAdmin ? (
-          <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
-        ) : null}
-      </Menu>
+          <Item onClick={copyText}>{window.i18n('copyMessage')}</Item>
+          {(isSent || !isOutgoing) && (
+            <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>
+          )}
+          {(!isPublic || isOutgoing) && (
+            <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
+          )}
+          {showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null}
+          {isDeletable ? (
+            <>
+              <Item onClick={onSelect}>{selectMessageText}</Item>
+            </>
+          ) : null}
+          {isDeletable && !isPublic ? (
+            <>
+              <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
+            </>
+          ) : null}
+          {isDeletableForEveryone ? (
+            <>
+              <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
+            </>
+          ) : null}
+          {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
+          {weAreAdmin && isPublic ? (
+            <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
+          ) : null}
+          {weAreAdmin && isPublic && !isSenderAdmin ? (
+            <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
+          ) : null}
+          {weAreAdmin && isPublic && isSenderAdmin ? (
+            <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
+          ) : null}
+        </Menu>
+      </SessionContextMenuContainer>
     </StyledMessageContextMenu>
   );
 };

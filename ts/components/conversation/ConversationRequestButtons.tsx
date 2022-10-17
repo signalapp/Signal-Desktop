@@ -11,7 +11,7 @@ import {
   getSelectedConversation,
   hasSelectedConversationIncomingMessages,
 } from '../../state/selectors/conversations';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 
 const handleDeclineConversationRequest = (convoId: string) => {
   declineConversationWithConfirm(convoId, true);
@@ -23,6 +23,25 @@ const handleAcceptConversationRequest = async (convoId: string) => {
   await convo.addOutgoingApprovalMessage(Date.now());
   await approveConvoAndSendResponse(convoId, true);
 };
+
+const ConversationRequestBanner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--margins-lg);
+  gap: var(--margins-lg);
+`;
+
+const ConversationBannerRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: var(--margins-lg);
+  justify-content: center;
+
+  .session-button {
+    padding: 0 36px;
+  }
+`;
 
 export const ConversationMessageRequestButtons = () => {
   const selectedConversation = useSelector(getSelectedConversation);
@@ -42,8 +61,6 @@ export const ConversationMessageRequestButtons = () => {
     <ConversationRequestBanner>
       <ConversationBannerRow>
         <SessionButton
-          buttonColor={SessionButtonColor.Green}
-          buttonType={SessionButtonType.BrandOutline}
           onClick={async () => {
             await handleAcceptConversationRequest(selectedConversation.id);
           }}
@@ -52,7 +69,6 @@ export const ConversationMessageRequestButtons = () => {
         />
         <SessionButton
           buttonColor={SessionButtonColor.Danger}
-          buttonType={SessionButtonType.BrandOutline}
           text={window.i18n('decline')}
           onClick={() => {
             handleDeclineConversationRequest(selectedConversation.id);
@@ -63,18 +79,3 @@ export const ConversationMessageRequestButtons = () => {
     </ConversationRequestBanner>
   );
 };
-
-const ConversationBannerRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: var(--margins-lg);
-  justify-content: center;
-`;
-
-const ConversationRequestBanner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--margins-lg);
-  gap: var(--margins-lg);
-`;

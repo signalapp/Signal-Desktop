@@ -44,7 +44,9 @@ import { ipcRenderer } from 'electron';
 import { UserUtils } from '../../session/utils';
 
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
-import { switchThemeTo } from '../../session/utils/Theme';
+import { switchThemeTo } from '../../themes/switchTheme';
+import { ThemeStateType } from '../../themes/constants/colors';
+import { isDarkTheme } from '../../state/selectors/theme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -52,6 +54,7 @@ const Section = (props: { type: SectionType }) => {
   const dispatch = useDispatch();
   const { type } = props;
 
+  const isDarkMode = useSelector(isDarkTheme);
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
@@ -59,11 +62,19 @@ const Section = (props: { type: SectionType }) => {
     /* tslint:disable:no-void-expression */
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
-    } else if (type === SectionType.Moon) {
-      const currentTheme = window.Events.getThemeSetting();
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    } else if (type === SectionType.ColorMode) {
+      const currentTheme = String(window.Events.getThemeSetting());
+      const newTheme = (isDarkMode
+        ? currentTheme.replace('dark', 'light')
+        : currentTheme.replace('light', 'dark')) as ThemeStateType;
 
-      await switchThemeTo(newTheme, dispatch);
+      // We want to persist the primary color when using the color mode button
+      await switchThemeTo({
+        theme: newTheme,
+        mainWindow: true,
+        usePrimaryColor: true,
+        dispatch,
+      });
     } else if (type === SectionType.PathIndicator) {
       // Show Path Indicator Modal
       dispatch(onionPathModal({}));
@@ -95,7 +106,6 @@ const Section = (props: { type: SectionType }) => {
           iconSize="medium"
           dataTestId="message-section"
           iconType={'chatBubble'}
-          iconColor={undefined}
           notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
@@ -107,7 +117,6 @@ const Section = (props: { type: SectionType }) => {
           iconSize="medium"
           dataTestId="settings-section"
           iconType={'gear'}
-          iconColor={undefined}
           notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
@@ -122,13 +131,13 @@ const Section = (props: { type: SectionType }) => {
           id={'onion-path-indicator-led-id'}
         />
       );
+    case SectionType.ColorMode:
     default:
       return (
         <SessionIconButton
           iconSize="medium"
-          iconType={'moon'}
+          iconType={isDarkMode ? 'moon' : 'sun'}
           dataTestId="theme-section"
-          iconColor={undefined}
           notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
@@ -146,7 +155,13 @@ const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest
 
 const setupTheme = async () => {
   const theme = window.Events.getThemeSetting();
-  await switchThemeTo(theme, window?.inboxStore?.dispatch || null);
+  // We don't want to reset the primary color on startup
+  await switchThemeTo({
+    theme,
+    mainWindow: true,
+    usePrimaryColor: true,
+    dispatch: window?.inboxStore?.dispatch || undefined,
+  });
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
@@ -277,7 +292,7 @@ export const ActionsPanel = () => {
         <Section type={SectionType.Settings} />
 
         <Section type={SectionType.PathIndicator} />
-        <Section type={SectionType.Moon} />
+        <Section type={SectionType.ColorMode} />
       </LeftPaneSectionContainer>
     </>
   );

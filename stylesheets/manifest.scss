@@ -7,9 +7,8 @@
 @import '../node_modules/sanitize.css/forms.css';
 @import '../node_modules/sanitize.css/typography.css';
 
-// Global Settings, Variables, and Mixins
+// Global Settings and Mixins
 @import 'session_constants';
-@import 'variables';
 @import 'mixins';
 @import 'global';
 
@@ -24,9 +23,6 @@
 @import 'index';
 @import 'conversation';
 
-// Themes
-@import 'theme_dark';
-
 // /////////////////// //
 // ///// Session ///// //
 // /////////////////// //
@@ -37,7 +33,6 @@
 
 // Separate screens
 @import 'session_signin';
-@import 'session_password';
 
 @import 'session_theme';
 @import 'session_left_pane';
@@ -45,5 +40,3 @@
 
 @import 'session_slider';
 @import 'session_conversation';
-
-@import '_session_password';

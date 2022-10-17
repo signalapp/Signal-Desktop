@@ -9,11 +9,10 @@ import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationModel } from '../../models/conversation';
 
 import { getConversationController } from '../../session/conversations';
-import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -35,7 +34,12 @@ interface State {
 const QRView = ({ sessionID }: { sessionID: string }) => {
   return (
     <div className="qr-image">
-      <QRCode value={sessionID} bgColor="#FFFFFF" fgColor="#1B1B1B" level="L" />
+      <QRCode
+        value={sessionID}
+        bgColor="var(--white-color)"
+        fgColor="var(--black-color)"
+        level="L"
+      />
     </div>
   );
 };
@@ -98,8 +102,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
           headerIconButtons={backButton}
           showExitIcon={true}
         >
-          <SpacerMD />
-
           {viewQR && <QRView sessionID={sessionID} />}
           {viewDefault && this.renderDefaultView()}
           {viewEdit && this.renderEditView()}
@@ -108,14 +110,12 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <YourSessionIDPill />
             <YourSessionIDSelectable />
 
-            <SpacerLG />
             <SessionSpinner loading={this.state.loading} />
 
             {viewDefault || viewQR ? (
               <SessionButton
                 text={window.i18n('editMenuCopy')}
-                buttonType={SessionButtonType.BrandOutline}
-                buttonColor={SessionButtonColor.Green}
+                buttonType={SessionButtonType.Simple}
                 onClick={() => {
                   window.clipboard.writeText(sessionID);
                   ToastUtils.pushCopiedToClipBoard();
@@ -126,16 +126,13 @@ export class EditProfileDialog extends React.Component<{}, State> {
               !this.state.loading && (
                 <SessionButton
                   text={window.i18n('save')}
-                  buttonType={SessionButtonType.BrandOutline}
-                  buttonColor={SessionButtonColor.Green}
+                  buttonType={SessionButtonType.Simple}
                   onClick={this.onClickOK}
                   disabled={this.state.loading}
                   dataTestId="save-button-profile-update"
                 />
               )
             )}
-
-            <SpacerLG />
           </div>
         </SessionWrapperModal>
       </div>
@@ -161,7 +158,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
               }}
               role="button"
             >
-              <SessionIconButton iconType="qr" iconSize="small" iconColor={'rgb(0, 0, 0)'} />
+              <SessionIconButton iconType="qr" iconSize="small" iconColor="var(--black-color)" />
             </div>
           </div>
         </div>

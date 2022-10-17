@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ToastUtils } from '../../session/utils';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SpacerLG } from '../basic/Text';
 import {
@@ -27,8 +27,6 @@ const LinkDeviceButton = (props: { onLinkDeviceButtonClicked: () => any }) => {
   return (
     <SessionButton
       onClick={props.onLinkDeviceButtonClicked}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('linkDevice')}
       dataTestId="link-device"
     />
@@ -39,8 +37,6 @@ const RestoreUsingRecoveryPhraseButton = (props: { onRecoveryButtonClicked: () =
   return (
     <SessionButton
       onClick={props.onRecoveryButtonClicked}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('restoreUsingRecoveryPhrase')}
       dataTestId="restore-using-recovery"
     />
@@ -54,8 +50,6 @@ const ContinueYourSessionButton = (props: {
   return (
     <SessionButton
       onClick={props.handleContinueYourSessionClick}
-      buttonType={SessionButtonType.Brand}
-      buttonColor={SessionButtonColor.Green}
       text={window.i18n('continueYourSession')}
       disabled={props.disabled}
       dataTestId="continue-session-button"
@@ -212,7 +206,7 @@ export const SignInTab = () => {
             left: 0,
             right: 0,
             pointerEvents: 'all',
-            backgroundColor: '#00000088',
+            backgroundColor: 'var(--background-primary-color)',
           }}
         >
           <SessionSpinner loading={true} />

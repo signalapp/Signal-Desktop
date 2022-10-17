@@ -6,14 +6,11 @@
 
 .inbox.index {
   display: flex;
-  background-color: var(--color-inbox-background);
+  background-color: var(--background-primary-color);
 }
 
 .edit-profile-dialog,
-.create-group-dialog,
-.user-details-dialog,
-.update-group-dialog,
-.onion-status-dialog {
+.update-group-dialog {
   .content {
     max-width: 100% !important;
   }
@@ -30,13 +27,6 @@
   .title-text {
     font-size: large;
     text-align: center;
-  }
-
-  .message {
-    font-style: italic;
-    color: $grey;
-    font-size: 12px;
-    margin-bottom: 16px;
   }
 
   .module-avatar {
@@ -59,43 +49,6 @@
   overflow: auto;
 }
 
-.section-toggle {
-  position: relative;
-  display: block;
-  padding: 0 0 0 1em;
-  background: $color-dark-75;
-  font-weight: bold;
-  line-height: 3;
-  cursor: pointer;
-  overflow: hidden;
-  user-select: none;
-}
-
-h4.section-toggle,
-.section-toggle h4 {
-  margin-top: 1px;
-  margin-bottom: 1px;
-}
-
-.section-toggle::after {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: block;
-  width: 3em;
-  height: 3em;
-  line-height: 3;
-  text-align: center;
-  -webkit-transition: all 0.35s;
-  -o-transition: all 0.35s;
-  transition: all 0.35s;
-  content: '+';
-}
-
-.section-toggle-visible::after {
-  transform: rotate(315deg);
-}
-
 .section-conversations-container {
   display: flex;
   flex-direction: row;
@@ -116,121 +69,4 @@ h4.section-toggle,
 }
 .left-pane-wrapper {
   flex: 1;
-}
-
-$search-x-size: 16px;
-$search-padding-inline-end: 12px;
-$search-padding-inline-start: 30px;
-
-input.search {
-  border: 1px solid $color-black-02;
-  padding: 0 $search-padding-inline-end 0 $search-padding-inline-start;
-  margin-inline-start: 8px;
-  margin-inline-end: 8px;
-  outline: 0;
-  height: 32px;
-  width: calc(100% - 16px);
-  outline-offset: -2px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: normal;
-
-  position: relative;
-  border-radius: 4px;
-
-  &:focus {
-    outline: solid 1px $blue;
-  }
-
-  &.active {
-    background-image: url('../images/x.svg');
-    background-repeat: no-repeat;
-    background-size: $search-x-size;
-
-    &.ltr {
-      background-position: right $search-padding-inline-end center;
-    }
-
-    &.rtl {
-      background-position: left $search-padding-inline-start center;
-    }
-  }
-
-  &::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-    display: block;
-    width: $search-x-size;
-    height: $search-x-size;
-  }
-
-  &::-webkit-search-cancel-button:hover {
-    cursor: pointer;
-  }
-}
-
-.hint {
-  margin: 10px;
-  padding: 1em;
-  border-radius: $border-radius;
-  color: white;
-  border: 2px dashed white;
-
-  h3 {
-    margin-top: 5px;
-  }
-
-  &.firstRun {
-    position: absolute;
-    top: 0;
-    left: 302px;
-    width: 225px;
-
-    &:before,
-    &:after {
-      content: ' ';
-      display: block;
-      position: absolute;
-      top: 8px;
-      left: -35px;
-      width: 0;
-      height: 0;
-      border: solid 10px white;
-      border-color: transparent white transparent transparent;
-      transform: scaleX(2.5) scaleY(0.75);
-    }
-    &:after {
-      border-color: transparent #2eace0 transparent transparent;
-      left: -30px;
-    }
-  }
-}
-
-.contact.placeholder {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  background: transparent;
-  color: white;
-  border: 2px dashed white;
-  overflow: visible;
-  p {
-    color: white;
-  }
-  &:before,
-  &:after {
-    content: ' ';
-    display: block;
-    position: absolute;
-    top: -35px;
-    left: 15px;
-    width: 0;
-    height: 0;
-    border: solid 10px white;
-    border-color: transparent transparent white transparent;
-    transform: scaleY(2.5) scaleX(0.75);
-  }
-  &:after {
-    border-color: transparent transparent #2eace0 transparent;
-    top: -30px;
-  }
 }

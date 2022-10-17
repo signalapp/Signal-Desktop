@@ -3,7 +3,8 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { reducer as search, SearchStateType } from './ducks/search';
 import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
-import { reducer as theme, ThemeStateType } from './ducks/theme';
+import { reducer as theme } from './ducks/theme';
+import { reducer as primaryColor } from './ducks/primaryColor';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
 import { callReducer as call, CallStateType } from './ducks/call';
@@ -16,12 +17,14 @@ import {
   reducer as stagedAttachments,
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
+import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
 
 export type StateType = {
   search: SearchStateType;
   user: UserStateType;
   conversations: ConversationsStateType;
   theme: ThemeStateType;
+  primaryColor: PrimaryColorStateType;
   section: SectionStateType;
   defaultRooms: DefaultRoomsState;
   onionPaths: OnionState;
@@ -37,6 +40,7 @@ export const reducers = {
   conversations,
   user,
   theme,
+  primaryColor,
   section,
   defaultRooms,
   onionPaths,

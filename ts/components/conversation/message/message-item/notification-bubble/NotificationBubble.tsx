@@ -4,8 +4,8 @@ import { SessionIcon, SessionIconType } from '../../../../icon';
 
 const NotificationBubbleFlex = styled.div`
   display: flex;
-  background: var(--color-fake-chat-bubble-background);
-  color: var(--color-text);
+  background: var(--message-bubbles-received-background-color);
+  color: var(--text-primary-color);
   width: 90%;
   max-width: 700px;
   margin: 10px auto;

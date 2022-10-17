@@ -9,7 +9,7 @@ import {
 } from '../../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
@@ -20,6 +20,38 @@ import {
   resetConversationExternal,
 } from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+
+const MessageRequestListPlaceholder = styled.div`
+  color: var(--conversation-tab-text-color);
+  margin-bottom: auto;
+`;
+
+const MessageRequestListContainer = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom: auto;
+`;
+
+/**
+ * A request needs to be be unapproved and not blocked to be valid.
+ * @returns List of message request items
+ */
+const MessageRequestList = () => {
+  const conversationRequests = useSelector(getConversationRequests);
+  return (
+    <MessageRequestListContainer>
+      {conversationRequests.map(conversation => {
+        return (
+          <MemoConversationListItemWithDetails
+            key={conversation.id}
+            isMessageRequest={true}
+            {...conversation}
+          />
+        );
+      })}
+    </MessageRequestListContainer>
+  );
+};
 
 export const OverlayMessageRequest = () => {
   useKey('Escape', closeOverlay);
@@ -98,7 +130,6 @@ export const OverlayMessageRequest = () => {
           <SpacerLG />
           <SessionButton
             buttonColor={SessionButtonColor.Danger}
-            buttonType={SessionButtonType.BrandOutline}
             text={buttonText}
             onClick={() => {
               handleClearAllRequestsClick(messageRequests);
@@ -114,38 +145,5 @@ export const OverlayMessageRequest = () => {
         </>
       )}
     </div>
-  );
-};
-
-const MessageRequestListPlaceholder = styled.div`
-  color: var(--color-text);
-  margin-bottom: auto;
-`;
-
-const MessageRequestListContainer = styled.div`
-  width: 100%;
-  overflow-y: auto;
-  border: var(--border-session);
-  margin-bottom: auto;
-`;
-
-/**
- * A request needs to be be unapproved and not blocked to be valid.
- * @returns List of message request items
- */
-const MessageRequestList = () => {
-  const conversationRequests = useSelector(getConversationRequests);
-  return (
-    <MessageRequestListContainer>
-      {conversationRequests.map(conversation => {
-        return (
-          <MemoConversationListItemWithDetails
-            key={conversation.id}
-            isMessageRequest={true}
-            {...conversation}
-          />
-        );
-      })}
-    </MessageRequestListContainer>
   );
 };

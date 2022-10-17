@@ -14,11 +14,7 @@ import { Flex } from '../basic/Flex';
 import { SessionIconButton, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
 import { isUndefined } from 'lodash';
-
-const Colors = {
-  TEXT_SECONDARY: '#bbb',
-  ICON_SECONDARY: '#ccc',
-};
+import styled from 'styled-components';
 
 const colorSVG = (url: string, color: string) => {
   return {
@@ -52,7 +48,7 @@ const styles = {
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'var(--lightbox-background-color)',
   } as React.CSSProperties,
   mainContainer: {
     display: 'flex',
@@ -94,7 +90,7 @@ const styles = {
     padding: '1em',
     paddingLeft: '3em',
     paddingRight: '3em',
-    backgroundColor: 'rgba(192, 192, 192, .40)',
+    backgroundColor: 'var(--lightbox-caption-background-color)',
   } as React.CSSProperties,
   controlsOffsetPlaceholder: {
     width: CONTROLS_WIDTH,
@@ -127,6 +123,17 @@ const styles = {
     height: 30,
   },
 };
+
+const StyledIconButton = styled.div`
+  .session-icon-button {
+    opacity: 0.4;
+    transition: opacity var(--default-duration);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
 
 interface IconButtonProps {
   onClick?: () => void;
@@ -163,14 +170,16 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
   }
 
   return (
-    <SessionIconButton
-      iconType={iconType}
-      iconSize={'huge'}
-      iconRotation={iconRotation}
-      // the lightbox has a dark background
-      iconColor="white"
-      onClick={clickHandler}
-    />
+    <StyledIconButton>
+      <SessionIconButton
+        iconType={iconType}
+        iconSize={'huge'}
+        iconRotation={iconRotation}
+        // the lightbox has a dark background
+        iconColor="var(--lightbox-icon-stroke-color)"
+        onClick={clickHandler}
+      />
+    </StyledIconButton>
   );
 };
 
@@ -186,7 +195,7 @@ const Icon = ({
   <div
     style={{
       ...(styles.object as any),
-      ...colorSVG(url, Colors.ICON_SECONDARY),
+      ...colorSVG(url, 'var(--lightbox-icon-stroke-color)'),
       maxWidth: 200,
     }}
     onClick={onClick}

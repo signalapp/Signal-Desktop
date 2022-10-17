@@ -3,12 +3,14 @@ import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
 import { getConversationController } from '../../session/conversations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { sogsV3AddAdmin } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
+import { SessionHeaderSearchInput } from '../SessionHeaderSearchInput';
+import { isDarkTheme } from '../../state/selectors/theme';
 
 type Props = {
   conversationId: string;
@@ -18,6 +20,7 @@ export const AddModeratorsDialog = (props: Props) => {
   const { conversationId } = props;
 
   const dispatch = useDispatch();
+  const darkMode = useSelector(isDarkTheme);
   const convo = getConversationController().get(conversationId);
 
   const [inputBoxValue, setInputBoxValue] = useState('');
@@ -79,9 +82,9 @@ export const AddModeratorsDialog = (props: Props) => {
     >
       <Flex container={true} flexDirection="column" alignItems="center">
         <p>Add Moderator:</p>
-        <input
+        <SessionHeaderSearchInput
           type="text"
-          className="module-main-header__search__input"
+          darkMode={darkMode}
           placeholder={i18n('enterSessionID')}
           dir="auto"
           onChange={onPubkeyBoxChanges}
@@ -90,8 +93,7 @@ export const AddModeratorsDialog = (props: Props) => {
           autoFocus={true}
         />
         <SessionButton
-          buttonType={SessionButtonType.Brand}
-          buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Simple}
           onClick={addAsModerator}
           text={i18n('add')}
           disabled={addingInProgress}

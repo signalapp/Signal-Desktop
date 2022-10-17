@@ -1,11 +1,10 @@
 import React, { ReactElement, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
 import { clearSogsReactionByServerId } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearReaction';
 import { getConversationController } from '../../session/conversations';
 import { updateReactClearAllModal } from '../../state/ducks/modalDialog';
-import { getTheme } from '../../state/selectors/theme';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
@@ -25,7 +24,7 @@ const StyledButtonContainer = styled.div`
   }
 `;
 
-const StyledReactClearAllContainer = styled(Flex)<{ darkMode: boolean }>`
+const StyledReactClearAllContainer = styled(Flex)`
   margin: var(--margins-lg);
 
   p {
@@ -33,7 +32,7 @@ const StyledReactClearAllContainer = styled(Flex)<{ darkMode: boolean }>`
     font-weight: 500;
     padding-bottom: var(--margins-lg);
     margin: var(--margins-md) auto;
-    border-bottom: 1.5px solid ${props => (props.darkMode ? '#2D2D2D' : '#EEEEEE')};
+    border-bottom: 1.5px solid var(--border-color);
 
     span {
       margin-left: 4px;
@@ -54,7 +53,6 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
   const [clearingInProgress, setClearingInProgress] = useState(false);
 
   const dispatch = useDispatch();
-  const darkMode = useSelector(getTheme) === 'dark';
   const msgProps = useMessageReactsPropsById(messageId);
 
   if (!msgProps) {
@@ -65,8 +63,6 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
   const roomInfos = getConversationController()
     .get(convoId)
     .toOpenGroupV2();
-
-  const confirmButtonColor = darkMode ? SessionButtonColor.Green : SessionButtonColor.Secondary;
 
   const handleClose = () => {
     dispatch(updateReactClearAllModal(null));
@@ -89,25 +85,19 @@ export const ReactClearAllModal = (props: Props): ReactElement => {
       showHeader={false}
       onClose={handleClose}
     >
-      <StyledReactClearAllContainer
-        container={true}
-        flexDirection={'column'}
-        alignItems="center"
-        darkMode={darkMode}
-      >
+      <StyledReactClearAllContainer container={true} flexDirection={'column'} alignItems="center">
         <p>{window.i18n('clearAllReactions', [reaction])}</p>
         <StyledButtonContainer className="session-modal__button-group">
           <SessionButton
             text={window.i18n('clear')}
-            buttonColor={confirmButtonColor}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClearAll}
             disabled={clearingInProgress}
           />
           <SessionButton
             text={window.i18n('cancel')}
-            buttonColor={SessionButtonColor.Danger}
-            buttonType={SessionButtonType.BrandOutline}
+            buttonType={SessionButtonType.Simple}
             onClick={handleClose}
             disabled={clearingInProgress}
           />

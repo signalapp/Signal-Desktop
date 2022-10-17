@@ -316,7 +316,9 @@ export const QuoteReferenceWarning = (
     <div
       className={classNames(
         'module-quote__reference-warning',
-        isIncoming ? 'module-quote__reference-warning--incoming' : null
+        isIncoming
+          ? 'module-quote__reference-warning--incoming'
+          : 'module-quote__reference-warning--outgoing'
       )}
     >
       <div

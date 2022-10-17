@@ -16,7 +16,7 @@ const StyledDefaultText = styled.div<TextProps>`
   padding: ${props => (props.padding ? props.padding : '')};
   text-align: ${props => (props.textAlign ? props.textAlign : '')};
   font-family: var(--font-default);
-  color: ${props => (props.subtle ? 'var(--color-text-subtle)' : 'var(--color-text)')};
+  color: ${props => (props.subtle ? 'var(--text-secondary-color)' : 'var(--text-primary-color)')};
   white-space: ${props => (props.ellipsisOverflow ? 'nowrap' : null)};
   overflow: ${props => (props.ellipsisOverflow ? 'hidden' : null)};
   text-overflow: ${props => (props.ellipsisOverflow ? 'ellipsis' : null)};

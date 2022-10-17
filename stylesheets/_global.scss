@@ -4,7 +4,8 @@
 
 html {
   height: 100%;
-  background-color: white;
+  // Default theme is Classic Dark
+  background-color: #1b1b1b;
 }
 
 body {
@@ -23,29 +24,21 @@ body {
   height: 6px;
 }
 
+::-webkit-scrollbar-track {
+  background-color: var(--scroll-bar-track-color);
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--color-scroll-bar-thumb);
+  background: var(--scroll-bar-thumb-color);
   border-radius: 20px;
 
   &:hover {
-    background: $color-light-45;
+    background: var(--scroll-bar-thumb-hover-color);
   }
-}
-::-webkit-scrollbar-track {
-  background: none;
 }
 
 audio {
   max-width: 100%;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: ' ';
-}
-.clearfix:after {
-  clear: both;
 }
 
 .hide {
@@ -66,134 +59,10 @@ button {
     }
   }
 }
-button.grey {
-  border-radius: $border-radius;
-  border: solid 1px #ccc;
-  cursor: pointer;
-  margin: 1em auto;
-  padding: 1em;
-  font-family: inherit;
-  color: $grey;
-  background: $grey_l;
-  box-shadow: 0 0 10px -5px rgba($grey, 0.5);
-
-  &:hover {
-    box-shadow: 0 0 10px -3px rgba($grey, 0.7);
-  }
-
-  &[disabled='disabled'] {
-    &,
-    &:hover {
-      opacity: 0.5;
-      box-shadow: none;
-      cursor: default;
-    }
-  }
-}
 
 a {
   cursor: pointer;
   user-select: text;
-}
-
-.file-input {
-  position: relative;
-  .choose-file {
-    cursor: pointer;
-  }
-
-  input[type='file'] {
-    // Must be displayed in order to programmatically
-    // insert file paths)
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    z-index: -100;
-  }
-}
-
-.banner {
-  z-index: 100;
-
-  // what's the right color?
-  background-color: $blue_l;
-  color: black;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-
-  position: absolute;
-  top: 25px;
-  right: 30px;
-  left: 30px;
-
-  padding: 5px 25px 5px 10px;
-
-  text-align: center;
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  .warning {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    vertical-align: text-bottom;
-    @include color-svg('../images/warning.svg', black);
-  }
-
-  .dismiss {
-    position: absolute;
-    right: 3px;
-    top: 3px;
-
-    height: 23px;
-    width: 23px;
-    @include color-svg('../images/x.svg', black);
-  }
-}
-
-$loading-height: 16px;
-
-.loading {
-  position: relative;
-  &::before {
-    display: block;
-    margin: 0px auto;
-    content: ' ';
-    height: $loading-height;
-    width: $loading-height;
-    border-radius: 2 * $loading-height;
-    border: solid 3px;
-    border-color: $blue_l $blue_l $grey_l $grey_l !important;
-    animation: rotate 1s linear infinite;
-  }
-
-  @keyframes rotate {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
-
-.x {
-  display: inline-block;
-  float: right;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  padding: 3px;
-  background: $grey;
-
-  &:before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    @include color-svg('../images/x.svg', white);
-  }
 }
 
 @keyframes loading {
@@ -216,8 +85,8 @@ $loading-height: 16px;
   display: flex;
   align-items: center;
   user-select: none;
-  // force this to black, to stay consistent with the password prompt being in dark mode too.
-  background-color: black;
+  // Default theme is Classic Dark so we force this for the password prompt
+  background-color: #1b1b1b;
 
   .content {
     margin-inline-start: auto;
@@ -232,13 +101,14 @@ $loading-height: 16px;
   }
   .message {
     -webkit-user-select: text;
+    user-select: text;
     max-width: 35em;
   }
 
   .dot {
     width: 14px;
     height: 14px;
-    border: 3px solid $color-white;
+    border: 3px solid white;
     border-radius: 50%;
     float: left;
     margin: 0 6px;
@@ -253,7 +123,7 @@ $loading-height: 16px;
     }
   }
   .session-text-logo {
-    filter: brightness(0) saturate(100%);
+    filter: var(--session-logo-text-current-filter);
   }
 }
 

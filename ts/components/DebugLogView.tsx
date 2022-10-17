@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  SessionTheme,
-  switchHtmlToDarkTheme,
-  switchHtmlToLightTheme,
-} from '../state/ducks/SessionTheme';
+import { switchThemeTo } from '../themes/switchTheme';
+import { SessionTheme } from '../themes/SessionTheme';
 import { fetch } from '../util/logging';
-import { SessionButton } from './basic/SessionButton';
+import { SessionButton, SessionButtonType } from './basic/SessionButton';
+import { SessionIconButton } from './icon';
 
 const StyledContent = styled.div`
-  background-color: var(--color-modal-background);
-  color: var(--color-text);
+  background-color: var(--modal-background-content-color);
+  color: var(--modal-text-color);
   font-family: var(--font-default);
 
   display: flex;
@@ -24,16 +22,23 @@ const StyledContent = styled.div`
     width: fit-content;
   }
 
+  .session-icon-button {
+    float: right;
+  }
+
   h1 {
-    color: var(--color-text);
+    color: var(--modal-text-color);
   }
 
   textarea {
     flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
-    padding: var(--margins-sm);
-    border: 2px solid var(--color-session-border);
+    padding: var(--margins-md);
+    background-color: var(--input-background-color);
+    color: var(--input-text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
     resize: none;
     min-height: 100px;
 
@@ -52,6 +57,7 @@ const DebugLogButtons = (props: { content: string }) => {
     <div className="buttons">
       <SessionButton
         text={window.i18n('saveLogToDesktop')}
+        buttonType={SessionButtonType.Simple}
         onClick={() => {
           if (props.content.length <= 20) {
             // loading
@@ -71,9 +77,7 @@ const DebugLogViewAndSave = () => {
   useEffect(() => {
     const operatingSystemInfo = `Operating System: ${(window as any).getOSRelease()}`;
 
-    const commitHashInfo = (window as any).getCommitHash()
-      ? `Commit Hash: ${(window as any).getCommitHash()}`
-      : '';
+    const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
 
     // eslint-disable-next-line more/no-then
     fetch()
@@ -94,22 +98,23 @@ const DebugLogViewAndSave = () => {
 
 export const DebugLogView = () => {
   useEffect(() => {
-    if ((window as any).theme === 'dark') {
-      switchHtmlToDarkTheme();
-    } else {
-      switchHtmlToLightTheme();
+    if (window.theme) {
+      void switchThemeTo({
+        theme: window.theme,
+      });
     }
-  }, []);
+  }, [window.theme]);
 
   return (
     <SessionTheme>
       <StyledContent>
         <div>
-          <button
-            className="x close"
+          <SessionIconButton
             aria-label="close debug log"
+            iconType="exit"
+            iconSize="medium"
             onClick={() => {
-              (window as any).closeDebugLog();
+              window.closeDebugLog();
             }}
           />
           <h1> {window.i18n('debugLog')} </h1>

@@ -4,7 +4,7 @@
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--modal-background-color);
   padding: 0 20px;
   z-index: 100;
   overflow-y: auto;
@@ -14,10 +14,10 @@
     max-width: 350px;
     margin: 100px auto;
     padding: 1em;
-    background-color: $color-white;
-    border-radius: $border-radius;
+    background-color: var(--modal-background-content-color);
+    border-radius: var(--border-radius);
     overflow: auto;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--modal-drop-shadow);
   }
 }
 
@@ -30,14 +30,22 @@
   .contact-selection-list {
     width: 100%;
     min-width: 300px;
+    max-width: 350px;
   }
 
   &__input-group {
     min-width: 300px;
+
+    input {
+      margin-bottom: var(--margins-md);
+    }
+
+    input:last-child {
+      margin-bottom: 0px;
+    }
   }
 }
 
-.create-group-dialog,
 .add-moderators-dialog,
 .remove-moderators-dialog,
 .invite-friends-dialog {
@@ -70,13 +78,12 @@
   }
 }
 
-.create-group-dialog,
 .add-moderators-dialog,
 .remove-moderators-dialog,
 .edit-profile-dialog {
   .error-message {
     text-align: center;
-    color: red;
+    color: var(--danger-color);
     display: block;
     user-select: none;
   }
@@ -98,39 +105,6 @@
   align-items: center;
   justify-content: center;
 
-  .content {
-    max-width: 75%;
-    min-width: 60%;
-    padding: 1em;
-    background: white;
-    border-radius: $border-radius;
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
-  }
-
-  // TODO is this being used anywhere? Seems not
-  // button {
-  //   float: right;
-  //   margin-inline-start: 10px;
-  //   background-color: $color-loki-green;
-  //   border-radius: 100px;
-  //   padding: 5px 15px;
-  //   border: 1px solid $color-loki-green;
-  //   color: white;
-  //   outline: none;
-  //   user-select: none;
-
-  //   &:hover,
-  //   &:disabled {
-  //     background-color: $color-loki-green-dark;
-  //     border-color: $color-loki-green-dark;
-  //   }
-
-  //   &:disabled {
-  //     cursor: not-allowed;
-  //   }
-  // }
-
   input[type='radio'] {
     width: inherit;
   }
@@ -141,11 +115,9 @@
 
   input {
     padding: 8px;
-    margin-bottom: 15px;
     border: 0;
     outline: none;
     border-radius: 4px;
-    background-color: $color-loki-light-gray;
 
     &:focus {
       outline: none;
@@ -166,9 +138,13 @@
   }
 
   input {
-    background-color: var(--color-input-background);
-    color: var(--color-text);
-    border: var(--border-session);
+    background-color: var(--input-background-color);
+    color: var(--input-text-color);
+    border: 1px solid var(--input-border-color);
+
+    &::placeholder {
+      color: var(--input-text-placeholder-color);
+    }
   }
 }
 
@@ -188,10 +164,6 @@
   .avatar-center-inner {
     position: relative;
 
-    .module-avatar {
-      box-shadow: 0px 0px 13px 0.5px var(--color-session-shadow);
-    }
-
     .qr-view-button {
       cursor: pointer;
       display: flex;
@@ -202,7 +174,7 @@
       height: 30px;
       width: 30px;
       border-radius: 50%;
-      background-color: $session-color-white;
+      background-color: var(--white-color);
       transition: var(--default-duration);
 
       &:hover {
@@ -234,15 +206,13 @@
       border-radius: 5px;
       text-align: center;
       font-size: $session-font-md;
-      background: var(--color-input-background);
-      color: var(--color-text);
-      border: var(--border-session);
     }
 
     &-uneditable {
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-right: -20px; // offsets the edit icon button so it's centered
 
       p {
         font-size: $session-font-md;
@@ -252,67 +222,6 @@
       .session-icon-button {
         padding: 0px;
       }
-    }
-  }
-}
-
-.onion-status-dialog {
-  .session-modal__header__title {
-    font-size: var(--font-size-lg);
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
-    }
-  }
-
-  .session-modal__body {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    line-height: 1.5em;
-
-    .onionDescriptionContainer {
-      text-align: center;
-      margin-top: 0;
-    }
-
-    .onionPath {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      margin: 2em auto;
-
-      .dotContainer:not(:last-child) {
-        padding-bottom: 2em;
-      }
-
-      .dotContainer {
-        display: flex;
-        align-items: center;
-        width: 100%;
-
-        p {
-          margin-bottom: 0 !important;
-          margin-top: 0;
-          margin-left: 2em;
-          text-align: left;
-        }
-
-        .dot {
-          height: 15px;
-          width: 15px;
-          border-radius: 50%;
-          display: inline-block;
-        }
-      }
-    }
-
-    .lineContainer {
-      height: 50px;
     }
   }
 }
