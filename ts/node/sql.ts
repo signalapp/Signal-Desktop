@@ -1117,18 +1117,23 @@ function getUnreadByConversation(conversationId: string) {
  * Warning: This does not start expiration timer
  */
 function markAllAsReadByConversationNoExpiration(
-  conversationId: string
-): Array<{ id: string; timestamp: number }> {
-  const messagesUnreadBefore = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
-      unread = $unread AND
-      conversationId = $conversationId;`
-    )
-    .all({
-      unread: 1,
-      conversationId,
-    });
+  conversationId: string,
+  returnMessagesUpdated: boolean
+): Array<number> {
+  let toReturn: Array<number> = [];
+  if (returnMessagesUpdated) {
+    const messagesUnreadBefore = assertGlobalInstance()
+      .prepare(
+        `SELECT json FROM ${MESSAGES_TABLE} WHERE
+  unread = $unread AND
+  conversationId = $conversationId;`
+      )
+      .all({
+        unread: 1,
+        conversationId,
+      });
+    toReturn = compact(messagesUnreadBefore.map(row => jsonToObject(row.json).sent_at));
+  }
 
   assertGlobalInstance()
     .prepare(
@@ -1142,7 +1147,7 @@ function markAllAsReadByConversationNoExpiration(
       conversationId,
     });
 
-  return compact(messagesUnreadBefore.map(row => jsonToObject(row.json).sent_at));
+  return toReturn;
 }
 
 function getUnreadCountByConversation(conversationId: string) {

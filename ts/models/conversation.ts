@@ -32,6 +32,7 @@ import {
   actions as conversationActions,
   conversationChanged,
   conversationsChanged,
+  markConversationFullyRead,
   MessageModelPropsWithoutConvoProps,
   ReduxConversationType,
 } from '../state/ducks/conversations';
@@ -1231,27 +1232,38 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Send read receipt if needed.
    */
   public async markAllAsRead() {
-    if (this.isOpenGroupV2()) {
+    /**
+     *  when marking all as read, there is a bunch of things we need to do.
+     *   - we need to update all the messages in the DB not read yet for that conversation
+     *   - we need to send the read receipts if there is one needed for those messages
+     *   - we need to trigger a change on the redux store, so those messages are read AND mark the whole convo as read.
+     *   - we need to remove any notifications related to this conversation ID.
+     *
+     *
+     * (if there is an expireTimer, we do it the slow way, handling each message separately)
+     */
+    const expireTimerSet = !!this.get('expireTimer');
+    if (this.isOpenGroupV2() || !expireTimerSet) {
       // for opengroups, we batch everything as there is no expiration timer to take care (and potentially a lot of messages)
 
-      await Data.markAllAsReadByConversationNoExpiration(this.id);
+      const isOpenGroup = this.isOpenGroupV2();
+      // if this is an opengroup there is no need to send read receipt, and so no need to fetch messages updated.
+      const allReadMessages = await Data.markAllAsReadByConversationNoExpiration(
+        this.id,
+        !isOpenGroup
+      );
       this.set({ mentionedUs: false, unreadCount: 0 });
 
       await this.commit();
-      return;
-    }
-
-    // if the conversation has no expiration timer, we can also batch everything, but we also need to send read receipts potentially
-    // so we grab them from the db
-    if (!this.get('expireTimer')) {
-      const allReadMessages = await Data.markAllAsReadByConversationNoExpiration(this.id);
-      this.set({ mentionedUs: false, unreadCount: 0 });
-      await this.commit();
-      if (allReadMessages.length) {
+      if (!this.isOpenGroupV2() && allReadMessages.length) {
         await this.sendReadReceiptsIfNeeded(uniq(allReadMessages));
       }
+      Notifications.clearByConversationID(this.id);
+      window.inboxStore?.dispatch(markConversationFullyRead(this.id));
+
       return;
     }
+    // otherwise, do it the slow way
     await this.markReadBouncy(Date.now());
   }
 

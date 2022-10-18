@@ -264,7 +264,7 @@ export function rebuildFtsTable(db: BetterSqlite3.Database) {
           CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
             DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
           END;
-          CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
+          CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} WHEN new.body <> old.body BEGIN
             DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
             INSERT INTO ${MESSAGES_FTS_TABLE}(
               id,
