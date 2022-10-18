@@ -720,6 +720,13 @@ export class ConversationController {
         const existing = byUuid[pni];
         if (!existing) {
           byUuid[pni] = conversation;
+        } else if (existing === conversation) {
+          // Conversation has both uuid and pni set to the same value. This
+          // happens when starting a conversation by E164.
+          assertDev(
+            pni === uuid,
+            'checkForConflicts: expected PNI to be equal to UUID'
+          );
         } else {
           log.warn(`checkForConflicts: Found conflict with pni ${pni}`);
 
