@@ -322,6 +322,8 @@ export class OpenGroupServerPoller {
       // ==> At this point all those results need to trigger conversation updates, so update what we have to update
       await handleBatchPollResults(this.serverUrl, batchPollResults, subrequestOptions);
 
+      // this is very hacky but is needed to remove the spinner of an opengroup conversation while it loads the first patch of messages.
+      // Absolutely not the react way, but well.
       for (const room of subrequestOptions) {
         if (room.type === 'messages' && !room.messages?.sinceSeqNo && room.messages?.roomId) {
           const conversationKey = getOpenGroupV2ConversationId(
@@ -346,6 +348,13 @@ export class OpenGroupServerPoller {
                     })
                   );
                 });
+              } else {
+                window.inboxStore?.dispatch(
+                  markConversationInitialLoadingInProgress({
+                    conversationKey,
+                    isInitialFetchingInProgress: false,
+                  })
+                );
               }
             }
           }, 5000);
