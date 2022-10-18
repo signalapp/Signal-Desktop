@@ -849,8 +849,6 @@ export async function startApp(): Promise<void> {
 
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
-
-      StorageService.reprocessUnknownFields();
     }
 
     try {
@@ -2194,6 +2192,7 @@ export async function startApp(): Promise<void> {
         log.info('Boot after upgrading. Requesting contact sync');
         window.getSyncRequest();
 
+        StorageService.reprocessUnknownFields();
         runStorageService();
 
         try {
