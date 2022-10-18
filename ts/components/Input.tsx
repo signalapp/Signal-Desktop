@@ -34,6 +34,7 @@ export type PropsType = {
   placeholder: string;
   value?: string;
   whenToShowRemainingCount?: number;
+  children?: ReactNode;
 };
 
 /**
@@ -75,6 +76,7 @@ export const Input = forwardRef<
       placeholder,
       value = '',
       whenToShowRemainingCount = Infinity,
+      children,
     },
     ref
   ) => {
@@ -201,7 +203,8 @@ export const Input = forwardRef<
       className: classNames(
         getClassName('__input'),
         icon && getClassName('__input--with-icon'),
-        isLarge && getClassName('__input--large')
+        isLarge && getClassName('__input--large'),
+        expandable && getClassName('__input--expandable')
       ),
       disabled: Boolean(disabled),
       spellCheck: !disableSpellcheck,
@@ -238,15 +241,21 @@ export const Input = forwardRef<
       <div
         className={classNames(
           getClassName('__container'),
+          expandable && getClassName('__container--expandable'),
           disabled && getClassName('__container--disabled')
         )}
       >
         {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
-        {expandable ? <textarea {...inputProps} /> : <input {...inputProps} />}
+        {expandable ? (
+          <textarea rows={1} {...inputProps} />
+        ) : (
+          <input {...inputProps} />
+        )}
         {isLarge ? (
           <>
             <div className={getClassName('__controls')}>
               {clearButtonElement}
+              {children}
             </div>
             <div className={getClassName('__remaining-count--large')}>
               {lengthCountElement}
@@ -256,6 +265,7 @@ export const Input = forwardRef<
           <div className={getClassName('__controls')}>
             {lengthCountElement}
             {clearButtonElement}
+            {children}
           </div>
         )}
       </div>

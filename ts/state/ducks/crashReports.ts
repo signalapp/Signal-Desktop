@@ -6,6 +6,7 @@ import { showToast } from '../../util/showToast';
 import * as Errors from '../../types/errors';
 import { ToastLinkCopied } from '../../components/ToastLinkCopied';
 import { ToastDebugLogError } from '../../components/ToastDebugLogError';
+import type { PromiseAction } from '../util';
 
 // State
 
@@ -24,24 +25,6 @@ type SetCrashReportCountActionType = {
   type: typeof SET_COUNT;
   payload: number;
 };
-
-type PromiseAction<Type extends string, Payload = void> =
-  | {
-      type: Type;
-      payload: Promise<Payload>;
-    }
-  | {
-      type: `${Type}_PENDING`;
-    }
-  | {
-      type: `${Type}_FULFILLED`;
-      payload: Payload;
-    }
-  | {
-      type: `${Type}_REJECTED`;
-      error: true;
-      payload: Error;
-    };
 
 type CrashReportsActionType =
   | SetCrashReportCountActionType

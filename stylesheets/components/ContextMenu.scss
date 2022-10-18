@@ -98,4 +98,19 @@
   &__popper--single-item &__option {
     padding: 12px 6px;
   }
+
+  &__divider {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
+  }
 }

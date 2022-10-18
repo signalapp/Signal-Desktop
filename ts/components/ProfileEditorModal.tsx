@@ -11,7 +11,7 @@ import type { AvatarUpdateType } from '../types/Avatar';
 
 export type PropsDataType = {
   hasError: boolean;
-};
+} & Pick<ProfileEditorPropsType, 'renderEditUsernameModalBody'>;
 
 type PropsType = {
   myProfileChanged: (

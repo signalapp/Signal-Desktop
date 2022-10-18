@@ -8,8 +8,13 @@
     border-style: solid;
     border-width: 2px;
     margin: 16px 0;
-    padding: 8px 12px;
+    padding: 2px 16px;
+    display: flex;
     position: relative;
+
+    &--expandable {
+      padding: 2px 8px;
+    }
 
     @include light-theme {
       background: $color-white;
@@ -52,10 +57,8 @@
   &__icon {
     font-size: 24px;
     height: 32px;
-    left: 0;
-    position: absolute;
-    top: 0;
     width: 32px;
+    margin-right: 8px;
   }
 
   &__input {
@@ -70,8 +73,8 @@
       height: 280px;
     }
 
-    &--with-icon {
-      padding-left: 28px;
+    &--expandable {
+      margin-top: 4px;
     }
 
     &:placeholder {
@@ -94,12 +97,10 @@
   &__controls {
     align-items: center;
     display: flex;
+    flex-shrink: 0;
     height: 22px;
     justify-content: flex-end;
-    margin: 8px;
-    position: absolute;
-    right: 0;
-    top: 0;
+    min-height: 32px;
   }
 
   &__clear-icon {
@@ -119,10 +120,11 @@
     color: $color-gray-45;
 
     &--large {
-      bottom: 0;
-      margin: 12px 24px 12px 12px;
       position: absolute;
+      bottom: 0;
       right: 0;
+
+      margin: 12px;
     }
   }
 }

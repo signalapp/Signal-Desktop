@@ -1,0 +1,128 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.EditUsernameModalBody {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__large-at {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 64px;
+      height: 64px;
+      border-radius: 32px;
+
+      margin-top: 21px;
+      margin-bottom: 16px;
+
+      @include light-theme {
+        background-color: $color-gray-04;
+      }
+
+      @include dark-theme {
+        background-color: $color-gray-65;
+      }
+
+      &::after {
+        display: block;
+        width: 36px;
+        height: 36px;
+        -webkit-mask-size: 100%;
+        content: '';
+
+        @include light-theme {
+          background-color: $color-gray-75;
+        }
+
+        @include dark-theme {
+          background-color: $color-gray-15;
+        }
+
+        -webkit-mask: url(../images/icons/v2/at-24.svg) no-repeat center;
+      }
+    }
+
+    &__preview {
+      margin-bottom: 2px;
+    }
+  }
+
+  &__divider {
+    width: 2px;
+    height: 20px;
+    margin: 0 12px;
+
+    @include light-theme {
+      background-color: $color-gray-20;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-45;
+    }
+  }
+
+  &__discriminator {
+    user-select: none;
+  }
+
+  &__error {
+    @include font-body-2;
+    margin: 16px 0;
+
+    color: $color-accent-red;
+  }
+
+  &__info {
+    @include font-body-2;
+    margin: 16px 0;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    // To account for missing error section - 16px previous margin, 34px for
+    //   16px margin of error plus 18px line height.
+    &--no-error {
+      margin-bottom: 50px;
+    }
+  }
+
+  &__learn-more-button {
+    @include button-reset;
+    color: $color-accent-blue;
+  }
+
+  &__learn-more {
+    &__title.module-Modal__title {
+      display: flex;
+      align-items: center;
+    }
+
+    &__hashtag {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 12px;
+
+      -webkit-mask-size: 100%;
+      content: '';
+
+      @include light-theme {
+        background-color: $color-gray-75;
+      }
+
+      @include dark-theme {
+        background-color: $color-gray-15;
+      }
+
+      -webkit-mask: url(../images/icons/v2/hashtag-24.svg) no-repeat center;
+    }
+  }
+}

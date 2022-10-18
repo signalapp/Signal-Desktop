@@ -29,7 +29,6 @@ import {
   SHOW_SEND_ANYWAY_DIALOG,
   TOGGLE_PROFILE_EDITOR_ERROR,
 } from './globalModals';
-import { isRecord } from '../../util/isRecord';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
@@ -59,12 +58,10 @@ import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelect
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
-import { writeUsername } from '../../services/writeUsername';
 import {
   getConversationUuidsStoppingSend,
   getConversationIdsStoppedForVerification,
   getMe,
-  getUsernameSaveState,
 } from '../selectors/conversations';
 import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
@@ -75,11 +72,8 @@ import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
-  UsernameSaveState,
 } from './conversationsEnums';
 import { markViewed as messageUpdaterMarkViewed } from '../../services/MessageUpdater';
-import { showToast } from '../../util/showToast';
-import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
@@ -354,7 +348,6 @@ export type ConversationsStateType = {
   showArchived: boolean;
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
-  usernameSaveState: UsernameSaveState;
 
   /**
    * Each key is a conversation ID. Each value is a value representing the state of
@@ -413,7 +406,6 @@ const CONVERSATION_STOPPED_BY_MISSING_VERIFICATION =
   'conversations/CONVERSATION_STOPPED_BY_MISSING_VERIFICATION';
 const DISCARD_MESSAGES = 'conversations/DISCARD_MESSAGES';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
-const UPDATE_USERNAME_SAVE_STATE = 'conversations/UPDATE_USERNAME_SAVE_STATE';
 export const SELECTED_CONVERSATION_CHANGED =
   'conversations/SELECTED_CONVERSATION_CHANGED';
 
@@ -739,12 +731,6 @@ export type ToggleConversationInChooseMembersActionType = {
     maxGroupSize: number;
   };
 };
-type UpdateUsernameSaveStateActionType = {
-  type: typeof UPDATE_USERNAME_SAVE_STATE;
-  payload: {
-    newSaveState: UsernameSaveState;
-  };
-};
 
 type ReplaceAvatarsActionType = {
   type: typeof REPLACE_AVATARS;
@@ -753,6 +739,7 @@ type ReplaceAvatarsActionType = {
     avatars: Array<AvatarDataType>;
   };
 };
+
 export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
   | ClearCancelledVerificationActionType
@@ -811,8 +798,7 @@ export type ConversationActionType =
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
   | ToggleConversationInChooseMembersActionType
-  | ToggleComposeEditingAvatarActionType
-  | UpdateUsernameSaveStateActionType;
+  | ToggleComposeEditingAvatarActionType;
 
 // Action Creators
 
@@ -825,7 +811,6 @@ export const actions = {
   clearInvitedUuidsForNewlyCreatedGroup,
   clearSelectedMessage,
   clearUnreadMetrics,
-  clearUsernameSave,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -859,7 +844,6 @@ export const actions = {
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   saveAvatarToDisk,
-  saveUsername,
   scrollToMessage,
   selectMessage,
   setAccessControlAddFromInviteLinkSetting,
@@ -1162,82 +1146,6 @@ function saveAvatarToDisk(
         avatars,
       },
     });
-  };
-}
-
-function makeUsernameSaveType(
-  newSaveState: UsernameSaveState
-): UpdateUsernameSaveStateActionType {
-  return {
-    type: UPDATE_USERNAME_SAVE_STATE,
-    payload: {
-      newSaveState,
-    },
-  };
-}
-
-function clearUsernameSave(): UpdateUsernameSaveStateActionType {
-  return makeUsernameSaveType(UsernameSaveState.None);
-}
-
-function saveUsername({
-  username,
-  previousUsername,
-}: {
-  username: string | undefined;
-  previousUsername: string | undefined;
-}): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  UpdateUsernameSaveStateActionType
-> {
-  return async (dispatch, getState) => {
-    const state = getState();
-
-    const previousState = getUsernameSaveState(state);
-    if (previousState !== UsernameSaveState.None) {
-      log.error(
-        `saveUsername: Save requested, but previous state was ${previousState}`
-      );
-      dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
-      return;
-    }
-
-    try {
-      dispatch(makeUsernameSaveType(UsernameSaveState.Saving));
-      await writeUsername({ username, previousUsername });
-
-      // writeUsername above updates the backbone model which in turn updates
-      // redux through it's on:change event listener. Once we lose Backbone
-      // we'll need to manually sync these new changes.
-      dispatch(makeUsernameSaveType(UsernameSaveState.Success));
-    } catch (error: unknown) {
-      // Check to see if we were deleting
-      if (!username) {
-        dispatch(makeUsernameSaveType(UsernameSaveState.DeleteFailed));
-        showToast(ToastFailedToDeleteUsername);
-        return;
-      }
-
-      if (!isRecord(error)) {
-        dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
-        return;
-      }
-
-      if (error.code === 409) {
-        dispatch(makeUsernameSaveType(UsernameSaveState.UsernameTakenError));
-        return;
-      }
-      if (error.code === 400) {
-        dispatch(
-          makeUsernameSaveType(UsernameSaveState.UsernameMalformedError)
-        );
-        return;
-      }
-
-      dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
-    }
   };
 }
 
@@ -2214,7 +2122,6 @@ export function getEmptyState(): ConversationsStateType {
     showArchived: false,
     selectedConversationTitle: '',
     selectedConversationPanelDepth: 0,
-    usernameSaveState: UsernameSaveState.None,
   };
 }
 
@@ -3781,15 +3688,6 @@ export function reducer(
         [conversationId]: changed,
       },
       ...updateConversationLookups(changed, conversation, state),
-    };
-  }
-
-  if (action.type === UPDATE_USERNAME_SAVE_STATE) {
-    const { newSaveState } = action.payload;
-
-    return {
-      ...state,
-      usernameSaveState: newSaveState,
     };
   }
 

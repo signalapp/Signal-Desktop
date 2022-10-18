@@ -6649,6 +6649,21 @@ button.module-image__border-overlay:focus {
     }
   }
 
+  &--profile-editor::after {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/add-emoji-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
   &--has-emoji {
     opacity: 1;
 

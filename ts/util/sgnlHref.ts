@@ -6,7 +6,8 @@ import { maybeParseUrl } from './url';
 import { isValidE164 } from './isValidE164';
 
 const SIGNAL_HOSTS = new Set(['signal.group', 'signal.art', 'signal.me']);
-const SIGNAL_DOT_ME_HASH_PREFIX = 'p/';
+const SIGNAL_DOT_ME_E164_PREFIX = 'p/';
+const SIGNAL_DOT_ME_USERNAME_PREFIX = 'u/';
 
 function parseUrl(value: string | URL, logger: LoggerType): undefined | URL {
   if (value instanceof URL) {
@@ -138,12 +139,22 @@ export function parseSignalHttpsLink(
 }
 
 export function parseE164FromSignalDotMeHash(hash: string): undefined | string {
-  if (!hash.startsWith(SIGNAL_DOT_ME_HASH_PREFIX)) {
+  if (!hash.startsWith(SIGNAL_DOT_ME_E164_PREFIX)) {
     return;
   }
 
-  const maybeE164 = hash.slice(SIGNAL_DOT_ME_HASH_PREFIX.length);
+  const maybeE164 = hash.slice(SIGNAL_DOT_ME_E164_PREFIX.length);
   return isValidE164(maybeE164, true) ? maybeE164 : undefined;
+}
+
+export function parseUsernameFromSignalDotMeHash(
+  hash: string
+): undefined | string {
+  if (!hash.startsWith(SIGNAL_DOT_ME_USERNAME_PREFIX)) {
+    return;
+  }
+
+  return decodeURIComponent(hash.slice(SIGNAL_DOT_ME_USERNAME_PREFIX.length));
 }
 
 /**
@@ -166,4 +177,19 @@ export function rewriteSignalHrefsIfNecessary(href: string): string {
   }
 
   return href;
+}
+
+export type GenerateUsernameLinkOptionsType = Readonly<{
+  short?: boolean;
+}>;
+
+export function generateUsernameLink(
+  username: string,
+  { short = false }: GenerateUsernameLinkOptionsType = {}
+): string {
+  const shortVersion = `signal.me/#u/${encodeURIComponent(username)}`;
+  if (short) {
+    return shortVersion;
+  }
+  return `https://${shortVersion}`;
 }

@@ -1,16 +1,26 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import React from 'react';
+
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import type { PropsDataType as ProfileEditorModalPropsType } from '../../components/ProfileEditorModal';
 import { ProfileEditorModal } from '../../components/ProfileEditorModal';
 import type { PropsDataType } from '../../components/ProfileEditor';
+import { SmartEditUsernameModalBody } from './EditUsernameModalBody';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone, getUsernamesEnabled } from '../selectors/items';
-import { getMe, getUsernameSaveState } from '../selectors/conversations';
+import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
+import { getUsernameEditState } from '../selectors/username';
+
+function renderEditUsernameModalBody(props: {
+  onClose: () => void;
+}): JSX.Element {
+  return <SmartEditUsernameModalBody {...props} />;
+}
 
 function mapStateToProps(
   state: StateType
@@ -30,6 +40,7 @@ function mapStateToProps(
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
   const isUsernameFlagEnabled = getUsernamesEnabled(state);
+  const usernameEditState = getUsernameEditState(state);
 
   return {
     aboutEmoji,
@@ -46,7 +57,9 @@ function mapStateToProps(
     skinTone,
     userAvatarData,
     username,
-    usernameSaveState: getUsernameSaveState(state),
+    usernameEditState,
+
+    renderEditUsernameModalBody,
   };
 }
 

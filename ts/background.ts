@@ -1117,6 +1117,7 @@ export async function startApp(): Promise<void> {
       toast: bindActionCreators(actionCreators.toast, store.dispatch),
       updates: bindActionCreators(actionCreators.updates, store.dispatch),
       user: bindActionCreators(actionCreators.user, store.dispatch),
+      username: bindActionCreators(actionCreators.username, store.dispatch),
     };
 
     const {

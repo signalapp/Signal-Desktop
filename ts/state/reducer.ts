@@ -27,6 +27,7 @@ import { reducer as storyDistributionLists } from './ducks/storyDistributionList
 import { reducer as toast } from './ducks/toast';
 import { reducer as updates } from './ducks/updates';
 import { reducer as user } from './ducks/user';
+import { reducer as username } from './ducks/username';
 
 export const reducer = combineReducers({
   accounts,
@@ -53,6 +54,7 @@ export const reducer = combineReducers({
   toast,
   updates,
   user,
+  username,
 });
 
 export type StateType = ReturnType<typeof reducer>;

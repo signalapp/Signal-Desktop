@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .ProfileEditor {
@@ -7,9 +7,9 @@
       align-items: center;
       display: flex;
       font-size: 24px;
-      height: 32px;
       justify-content: center;
       width: 32px;
+      height: 32px;
     }
 
     &::after {
@@ -49,16 +49,6 @@
     }
   }
 
-  &__about-input {
-    &__icon {
-      left: 4px;
-    }
-
-    &__input--with-icon {
-      padding-left: 32px;
-    }
-  }
-
   &__row {
     padding-left: 0;
     padding-right: 0;
@@ -77,13 +67,6 @@
     }
   }
 
-  &__error {
-    @include font-body-2;
-    margin: 16px 0;
-
-    color: $color-accent-red;
-  }
-
   &__info {
     @include font-body-2;
     margin: 16px 0;
@@ -99,11 +82,65 @@
       font-weight: 600;
       text-decoration: none;
     }
+  }
 
-    // To account for missing error section - 16px previous margin, 34px for
-    //   16px margin of error plus 18px line height.
-    &--no-error {
-      margin-bottom: 50px;
+  &__username-menu {
+    &__button {
+      width: 20px;
+      height: 20px;
+      margin: 4px;
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-down-20.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-down-20.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__copy-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/copy-outline-24.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/copy-outline-24.svg',
+          $color-black
+        );
+      }
+    }
+
+    &__copy-link-icon {
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/link-24.svg', $color-white);
+      }
+      @include light-theme {
+        @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+      }
+    }
+
+    &__trash-icon {
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/trash-outline-24.svg',
+          $color-white
+        );
+      }
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/trash-outline-24.svg',
+          $color-black
+        );
+      }
     }
   }
 }

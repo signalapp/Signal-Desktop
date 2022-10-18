@@ -7,7 +7,7 @@ import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { ToastMessageBodyTooLong } from './ToastMessageBodyTooLong';
 import { ToastType } from '../state/ducks/toast';
-import { strictAssert } from '../util/assert';
+import { missingCaseError } from '../util/missingCaseError';
 
 export type PropsType = {
   hideToast: () => unknown;
@@ -25,7 +25,12 @@ export const ToastManager = ({
   i18n,
   toast,
 }: PropsType): JSX.Element | null => {
-  if (toast?.toastType === ToastType.Error) {
+  if (toast === undefined) {
+    return null;
+  }
+
+  const { toastType } = toast;
+  if (toastType === ToastType.Error) {
     return (
       <Toast
         autoDismissDisabled
@@ -40,11 +45,11 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.MessageBodyTooLong) {
+  if (toastType === ToastType.MessageBodyTooLong) {
     return <ToastMessageBodyTooLong i18n={i18n} onClose={hideToast} />;
   }
 
-  if (toast?.toastType === ToastType.StoryReact) {
+  if (toastType === ToastType.StoryReact) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--sending-reaction')}
@@ -52,7 +57,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.StoryReply) {
+  if (toastType === ToastType.StoryReply) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--sending-reply')}
@@ -60,7 +65,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.StoryMuted) {
+  if (toastType === ToastType.StoryMuted) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n('Stories__toast--hasNoSound')}
@@ -68,7 +73,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.StoryVideoTooLong) {
+  if (toastType === ToastType.StoryVideoTooLong) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-too-long')}
@@ -76,7 +81,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.StoryVideoUnsupported) {
+  if (toastType === ToastType.StoryVideoUnsupported) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-unsupported')}
@@ -84,7 +89,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.StoryVideoError) {
+  if (toastType === ToastType.StoryVideoError) {
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-error')}
@@ -92,7 +97,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.AddingUserToGroup) {
+  if (toastType === ToastType.AddingUserToGroup) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
         {i18n(
@@ -103,7 +108,7 @@ export const ToastManager = ({
     );
   }
 
-  if (toast?.toastType === ToastType.UserAddedToGroup) {
+  if (toastType === ToastType.UserAddedToGroup) {
     return (
       <Toast onClose={hideToast}>
         {i18n(
@@ -114,10 +119,29 @@ export const ToastManager = ({
     );
   }
 
-  strictAssert(
-    toast === undefined,
-    `Unhandled toast of type: ${toast?.toastType}`
-  );
+  if (toastType === ToastType.FailedToDeleteUsername) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('ProfileEditor--username--delete-general-error')}
+      </Toast>
+    );
+  }
 
-  return null;
+  if (toastType === ToastType.CopiedUsername) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('ProfileEditor--username--copied-username')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CopiedUsernameLink) {
+    return (
+      <Toast onClose={hideToast} timeout={3 * SECOND}>
+        {i18n('ProfileEditor--username--copied-username-link')}
+      </Toast>
+    );
+  }
+
+  throw missingCaseError(toastType);
 };

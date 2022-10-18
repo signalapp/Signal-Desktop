@@ -2457,12 +2457,6 @@ export default class MessageSender {
     return this.server.getProfile(uuid.toString(), options);
   }
 
-  async getProfileForUsername(
-    username: string
-  ): ReturnType<WebAPIType['getProfileForUsername']> {
-    return this.server.getProfileForUsername(username);
-  }
-
   async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {
     return this.server.getAvatar(path);
   }
@@ -2594,14 +2588,5 @@ export default class MessageSender {
     avatarData: Readonly<Uint8Array>
   ): Promise<string> {
     return this.server.uploadAvatar(requestHeaders, avatarData);
-  }
-
-  async putUsername(
-    username: string
-  ): Promise<ReturnType<WebAPIType['putUsername']>> {
-    return this.server.putUsername(username);
-  }
-  async deleteUsername(): Promise<ReturnType<WebAPIType['deleteUsername']>> {
-    return this.server.deleteUsername();
   }
 }

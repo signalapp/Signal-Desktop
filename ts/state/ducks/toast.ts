@@ -15,6 +15,9 @@ export enum ToastType {
   StoryVideoUnsupported = 'StoryVideoUnsupported',
   AddingUserToGroup = 'AddingUserToGroup',
   UserAddedToGroup = 'UserAddedToGroup',
+  FailedToDeleteUsername = 'FailedToDeleteUsername',
+  CopiedUsername = 'CopiedUsername',
+  CopiedUsernameLink = 'CopiedUsernameLink',
 }
 
 // State
@@ -58,7 +61,10 @@ export type ShowToastActionCreatorType = (
   parameters?: ReplacementValuesType
 ) => ShowToastActionType;
 
-const showToast: ShowToastActionCreatorType = (toastType, parameters) => {
+export const showToast: ShowToastActionCreatorType = (
+  toastType,
+  parameters
+) => {
   return {
     type: SHOW_TOAST,
     payload: {

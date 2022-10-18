@@ -15,6 +15,11 @@ import { useRefMerger } from '../../hooks/useRefMerger';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import * as KeyboardLayout from '../../services/keyboardLayout';
 
+export enum EmojiButtonVariant {
+  Normal,
+  ProfileEditor,
+}
+
 export type OwnProps = Readonly<{
   className?: string;
   closeOnPick?: boolean;
@@ -22,6 +27,7 @@ export type OwnProps = Readonly<{
   i18n: LocalizerType;
   onClose?: () => unknown;
   emojiButtonApi?: MutableRefObject<EmojiButtonAPI | undefined>;
+  variant?: EmojiButtonVariant;
 }>;
 
 export type Props = OwnProps &
@@ -47,6 +53,7 @@ export const EmojiButton = React.memo(
     skinTone,
     onSetSkinTone,
     recentEmojis,
+    variant = EmojiButtonVariant.Normal,
   }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
@@ -154,6 +161,8 @@ export const EmojiButton = React.memo(
                 'module-emoji-button__button': true,
                 'module-emoji-button__button--active': open,
                 'module-emoji-button__button--has-emoji': Boolean(emoji),
+                'module-emoji-button__button--profile-editor':
+                  variant === EmojiButtonVariant.ProfileEditor,
               })}
               aria-label={i18n('EmojiButton__label')}
             >

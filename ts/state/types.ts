@@ -24,6 +24,7 @@ import type { actions as storyDistributionLists } from './ducks/storyDistributio
 import type { actions as toast } from './ducks/toast';
 import type { actions as updates } from './ducks/updates';
 import type { actions as user } from './ducks/user';
+import type { actions as username } from './ducks/username';
 
 export type ReduxActions = {
   accounts: typeof accounts;
@@ -49,4 +50,5 @@ export type ReduxActions = {
   toast: typeof toast;
   updates: typeof updates;
   user: typeof user;
+  username: typeof username;
 };

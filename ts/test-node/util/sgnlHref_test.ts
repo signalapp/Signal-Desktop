@@ -12,7 +12,9 @@ import {
   parseSgnlHref,
   parseCaptchaHref,
   parseE164FromSignalDotMeHash,
+  parseUsernameFromSignalDotMeHash,
   parseSignalHttpsLink,
+  generateUsernameLink,
   rewriteSignalHrefsIfNecessary,
 } from '../../util/sgnlHref';
 
@@ -369,6 +371,48 @@ describe('sgnlHref', () => {
       assert.strictEqual(
         parseE164FromSignalDotMeHash('p/+441632960104'),
         '+441632960104'
+      );
+    });
+  });
+
+  describe('parseUsernameFromSignalDotMeHash', () => {
+    it('returns undefined for invalid inputs', () => {
+      ['', ' u/+18885551234', 'z/18885551234'].forEach(hash => {
+        assert.isUndefined(parseUsernameFromSignalDotMeHash(hash));
+      });
+    });
+
+    it('returns the username for valid inputs', () => {
+      assert.strictEqual(
+        parseUsernameFromSignalDotMeHash('u/signal.03'),
+        'signal.03'
+      );
+      assert.strictEqual(
+        parseUsernameFromSignalDotMeHash('u/signal%2F03'),
+        'signal/03'
+      );
+    });
+  });
+
+  describe('generateUsernameLink', () => {
+    it('generates regular link', () => {
+      assert.strictEqual(
+        generateUsernameLink('signal.03'),
+        'https://signal.me/#u/signal.03'
+      );
+    });
+
+    it('generates encoded link', () => {
+      assert.strictEqual(
+        generateUsernameLink('signal/03'),
+        'https://signal.me/#u/signal%2F03'
+      );
+    });
+
+    it('generates short link', () => {
+      assert.strictEqual(
+        generateUsernameLink('signal/03', { short: true }),
+        'signal.me/#u/signal%2F03'
       );
     });
   });

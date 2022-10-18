@@ -21,6 +21,7 @@ import { getEmptyState as getStoryDistributionListsEmptyState } from './ducks/st
 import { getEmptyState as getToastEmptyState } from './ducks/toast';
 import { getEmptyState as updates } from './ducks/updates';
 import { getEmptyState as user } from './ducks/user';
+import { getEmptyState as username } from './ducks/username';
 
 import type { StateType } from './reducer';
 
@@ -139,5 +140,6 @@ export function getInitialState({
       isMainWindowFullScreen: mainWindowStats.isFullScreen,
       menuOptions,
     },
+    username: username(),
   };
 }

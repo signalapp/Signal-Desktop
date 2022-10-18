@@ -35,7 +35,9 @@ export type ConfigKeyType =
   | 'global.attachments.maxBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
-  | 'global.groupsv2.maxGroupSize';
+  | 'global.groupsv2.maxGroupSize'
+  | 'global.nicknames.max'
+  | 'global.nicknames.min';
 
 type ConfigValueType = {
   name: ConfigKeyType;

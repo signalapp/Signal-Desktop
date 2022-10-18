@@ -18,7 +18,7 @@ import {
 } from '../AddGroupMemberErrorDialog';
 import { Button } from '../Button';
 import type { LocalizerType } from '../../types/Util';
-import { getUsernameFromSearch } from '../../types/Username';
+import { getUsernameFromSearch } from '../../util/Username';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
@@ -85,22 +85,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       isShowingRecommendedGroupSizeModal;
     this.searchTerm = searchTerm;
 
-    const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (phoneNumber) {
-      this.isPhoneNumberChecked =
-        phoneNumber.isValid &&
-        selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
-
-      const isVisible = this.candidateContacts.every(
-        contact => contact.e164 !== phoneNumber.e164
-      );
-      if (isVisible) {
-        this.phoneNumber = phoneNumber;
-      }
-    } else {
-      this.isPhoneNumberChecked = false;
-    }
-    if (!this.phoneNumber && isUsernamesEnabled) {
+    if (isUsernamesEnabled) {
       const username = getUsernameFromSearch(searchTerm);
       const isVisible = this.candidateContacts.every(
         contact => contact.username !== username
@@ -115,6 +100,22 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       );
     } else {
       this.isUsernameChecked = false;
+    }
+
+    const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
+    if (!this.username && phoneNumber) {
+      this.isPhoneNumberChecked =
+        phoneNumber.isValid &&
+        selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
+
+      const isVisible = this.candidateContacts.every(
+        contact => contact.e164 !== phoneNumber.e164
+      );
+      if (isVisible) {
+        this.phoneNumber = phoneNumber;
+      }
+    } else {
+      this.isPhoneNumberChecked = false;
     }
     this.selectedContacts = selectedContacts;
 

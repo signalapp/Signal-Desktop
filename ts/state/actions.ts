@@ -24,6 +24,7 @@ import { actions as storyDistributionLists } from './ducks/storyDistributionList
 import { actions as toast } from './ducks/toast';
 import { actions as updates } from './ducks/updates';
 import { actions as user } from './ducks/user';
+import { actions as username } from './ducks/username';
 import type { ReduxActions } from './types';
 
 export const actionCreators: ReduxActions = {
@@ -50,6 +51,7 @@ export const actionCreators: ReduxActions = {
   toast,
   updates,
   user,
+  username,
 };
 
 export const mapDispatchToProps = {
@@ -76,4 +78,5 @@ export const mapDispatchToProps = {
   ...toast,
   ...updates,
   ...user,
+  ...username,
 };

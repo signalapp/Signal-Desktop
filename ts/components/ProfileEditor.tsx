@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
 
-import * as log from '../logging/log';
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import type {
@@ -20,25 +18,28 @@ import { Button, ButtonVariant } from './Button';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 import { Emoji } from './emoji/Emoji';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
-import { EmojiButton } from './emoji/EmojiButton';
+import { EmojiButton, EmojiButtonVariant } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { Input } from './Input';
 import { Intl } from './Intl';
-import type { LocalizerType, ReplacementValuesType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
 import type { ProfileDataType } from '../state/ducks/conversations';
+import { UsernameEditState } from '../state/ducks/usernameEnums';
+import { ToastType } from '../state/ducks/toast';
+import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
+import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import { ContextMenu } from './ContextMenu';
 import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation/conversation-details/ConversationDetailsIcon';
-import { Spinner } from './Spinner';
-import { UsernameSaveState } from '../state/ducks/conversationsEnums';
-import { MAX_USERNAME, MIN_USERNAME } from '../types/Username';
 import { isWhitespace, trim } from '../util/whitespaceStringUtil';
+import { generateUsernameLink } from '../util/sgnlHref';
 import { Emojify } from './conversation/Emojify';
 
 export enum EditState {
@@ -49,19 +50,13 @@ export enum EditState {
   Username = 'Username',
 }
 
-enum UsernameEditState {
-  Editing = 'Editing',
-  ConfirmingDelete = 'ConfirmingDelete',
-  ShowingErrorPopup = 'ShowingErrorPopup',
-  Saving = 'Saving',
-}
-
 type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
     avatar: AvatarUpdateType
   ) => unknown;
+  renderEditUsernameModalBody: (props: { onClose: () => void }) => JSX.Element;
 };
 
 export type PropsDataType = {
@@ -74,21 +69,20 @@ export type PropsDataType = {
   firstName: string;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
-  usernameSaveState: UsernameSaveState;
   userAvatarData: Array<AvatarDataType>;
   username?: string;
+  usernameEditState: UsernameEditState;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
-  clearUsernameSave: () => unknown;
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   onSetSkinTone: (tone: number) => unknown;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
-  saveUsername: (options: {
-    username: string | undefined;
-    previousUsername: string | undefined;
-  }) => unknown;
+  setUsernameEditState: (editState: UsernameEditState) => void;
+  deleteUsername: () => void;
+  showToast: ShowToastActionCreatorType;
+  openUsernameReservationModal: () => void;
 };
 
 export type PropsType = PropsDataType & PropsActionType & PropsExternalType;
@@ -121,103 +115,13 @@ const DEFAULT_BIOS: Array<DefaultBio> = [
   },
 ];
 
-function getUsernameInvalidKey(
-  username: string | undefined
-): { key: string; replacements?: ReplacementValuesType } | undefined {
-  if (!username) {
-    return undefined;
-  }
-
-  if (username.length < MIN_USERNAME) {
-    return {
-      key: 'ProfileEditor--username--check-character-min',
-      replacements: { min: MIN_USERNAME },
-    };
-  }
-
-  if (!/^[0-9a-z_]+$/.test(username)) {
-    return { key: 'ProfileEditor--username--check-characters' };
-  }
-  if (!/^[a-z_]/.test(username)) {
-    return { key: 'ProfileEditor--username--check-starting-character' };
-  }
-
-  if (username.length > MAX_USERNAME) {
-    return {
-      key: 'ProfileEditor--username--check-character-max',
-      replacements: { max: MAX_USERNAME },
-    };
-  }
-
-  return undefined;
-}
-
-function mapSaveStateToEditState({
-  clearUsernameSave,
-  i18n,
-  setEditState,
-  setUsernameEditState,
-  setUsernameError,
-  usernameSaveState,
-}: {
-  clearUsernameSave: () => unknown;
-  i18n: LocalizerType;
-  setEditState: (state: EditState) => unknown;
-  setUsernameEditState: (state: UsernameEditState) => unknown;
-  setUsernameError: (errorText: string) => unknown;
-  usernameSaveState: UsernameSaveState;
-}): void {
-  if (usernameSaveState === UsernameSaveState.None) {
-    return;
-  }
-  if (usernameSaveState === UsernameSaveState.Saving) {
-    setUsernameEditState(UsernameEditState.Saving);
-    return;
-  }
-
-  clearUsernameSave();
-
-  if (usernameSaveState === UsernameSaveState.Success) {
-    setEditState(EditState.None);
-    setUsernameEditState(UsernameEditState.Editing);
-
-    return;
-  }
-
-  if (usernameSaveState === UsernameSaveState.UsernameMalformedError) {
-    setUsernameEditState(UsernameEditState.Editing);
-    setUsernameError(i18n('ProfileEditor--username--check-characters'));
-    return;
-  }
-  if (usernameSaveState === UsernameSaveState.UsernameTakenError) {
-    setUsernameEditState(UsernameEditState.Editing);
-    setUsernameError(i18n('ProfileEditor--username--check-username-taken'));
-    return;
-  }
-  if (usernameSaveState === UsernameSaveState.GeneralError) {
-    setUsernameEditState(UsernameEditState.ShowingErrorPopup);
-    return;
-  }
-  if (usernameSaveState === UsernameSaveState.DeleteFailed) {
-    setUsernameEditState(UsernameEditState.Editing);
-    return;
-  }
-
-  const state: never = usernameSaveState;
-  log.error(
-    `ProfileEditor: useEffect username didn't handle usernameSaveState '${state})'`
-  );
-  setEditState(EditState.None);
-}
-
 export const ProfileEditor = ({
   aboutEmoji,
   aboutText,
-  profileAvatarPath,
-  clearUsernameSave,
   color,
   conversationId,
   deleteAvatarFromDisk,
+  deleteUsername,
   familyName,
   firstName,
   i18n,
@@ -225,14 +129,18 @@ export const ProfileEditor = ({
   onEditStateChanged,
   onProfileChanged,
   onSetSkinTone,
+  openUsernameReservationModal,
+  profileAvatarPath,
   recentEmojis,
+  renderEditUsernameModalBody,
   replaceAvatar,
   saveAvatarToDisk,
-  saveUsername,
+  setUsernameEditState,
+  showToast,
   skinTone,
   userAvatarData,
   username,
-  usernameSaveState,
+  usernameEditState,
 }: PropsType): JSX.Element => {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(EditState.None);
@@ -250,12 +158,6 @@ export const ProfileEditor = ({
     aboutEmoji,
     aboutText,
   });
-  const [newUsername, setNewUsername] = useState<string | undefined>(username);
-  const [usernameError, setUsernameError] = useState<string | undefined>();
-  const [usernameEditState, setUsernameEditState] = useState<UsernameEditState>(
-    UsernameEditState.Editing
-  );
-
   const [startingAvatarPath, setStartingAvatarPath] =
     useState(profileAvatarPath);
 
@@ -274,6 +176,13 @@ export const ProfileEditor = ({
     familyName,
     firstName,
   });
+
+  // Reset username edit state when leaving
+  useEffect(() => {
+    return () => {
+      setUsernameEditState(UsernameEditState.Editing);
+    };
+  }, [setUsernameEditState]);
 
   // To make AvatarEditor re-render less often
   const handleBack = useCallback(() => {
@@ -333,91 +242,6 @@ export const ProfileEditor = ({
   useEffect(() => {
     onEditStateChanged(editState);
   }, [editState, onEditStateChanged]);
-
-  // If there's some in-process username save, or just an unacknowledged save
-  //   completion/error, we clear it out on mount, and then again on unmount.
-  useEffect(() => {
-    clearUsernameSave();
-
-    return () => {
-      clearUsernameSave();
-    };
-  });
-
-  useEffect(() => {
-    mapSaveStateToEditState({
-      clearUsernameSave,
-      i18n,
-      setEditState,
-      setUsernameEditState,
-      setUsernameError,
-      usernameSaveState,
-    });
-  }, [
-    clearUsernameSave,
-    i18n,
-    setEditState,
-    setUsernameEditState,
-    setUsernameError,
-    usernameSaveState,
-  ]);
-
-  useEffect(() => {
-    // Whenever the user makes a change, we'll get rid of the red error text
-    setUsernameError(undefined);
-
-    // And then we'll check the validity of that new username
-    const timeout = setTimeout(() => {
-      const key = getUsernameInvalidKey(newUsername);
-      if (key) {
-        setUsernameError(i18n(key.key, key.replacements));
-      }
-    }, 1000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [newUsername, i18n, setUsernameError]);
-
-  const isCurrentlySaving = usernameEditState === UsernameEditState.Saving;
-  const shouldDisableUsernameSave = Boolean(
-    newUsername === username ||
-      !newUsername ||
-      usernameError ||
-      isCurrentlySaving
-  );
-
-  const checkThenSaveUsername = () => {
-    if (isCurrentlySaving) {
-      log.error('checkThenSaveUsername: Already saving! Returning early');
-      return;
-    }
-
-    if (shouldDisableUsernameSave) {
-      return;
-    }
-
-    const invalidKey = getUsernameInvalidKey(newUsername);
-    if (invalidKey) {
-      setUsernameError(i18n(invalidKey.key, invalidKey.replacements));
-      return;
-    }
-
-    setUsernameError(undefined);
-    setUsernameEditState(UsernameEditState.Saving);
-    saveUsername({ username: newUsername, previousUsername: username });
-  };
-
-  const deleteUsername = () => {
-    if (isCurrentlySaving) {
-      log.error('deleteUsername: Already saving! Returning early');
-      return;
-    }
-
-    setNewUsername(undefined);
-    setUsernameError(undefined);
-    setUsernameEditState(UsernameEditState.Saving);
-    saveUsername({ username: undefined, previousUsername: username });
-  };
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
@@ -550,6 +374,7 @@ export const ProfileEditor = ({
           icon={
             <div className="module-composition-area__button-cell">
               <EmojiButton
+                variant={EmojiButtonVariant.ProfileEditor}
                 closeOnPick
                 emoji={stagedProfile.aboutEmoji}
                 i18n={i18n}
@@ -651,68 +476,95 @@ export const ProfileEditor = ({
       </>
     );
   } else if (editState === EditState.Username) {
-    content = (
-      <>
-        <Input
-          i18n={i18n}
-          disabled={isCurrentlySaving}
-          disableSpellcheck
-          onChange={changedUsername => {
-            setUsernameError(undefined);
-            setNewUsername(changedUsername);
-          }}
-          onEnter={checkThenSaveUsername}
-          placeholder={i18n('ProfileEditor--username--placeholder')}
-          ref={focusInputRef}
-          value={newUsername}
-        />
-
-        {usernameError && (
-          <div className="ProfileEditor__error">{usernameError}</div>
-        )}
-        <div
-          className={classNames(
-            'ProfileEditor__info',
-            !usernameError ? 'ProfileEditor__info--no-error' : undefined
-          )}
-        >
-          <Intl i18n={i18n} id="ProfileEditor--username--helper" />
-        </div>
-
-        <Modal.ButtonFooter>
-          <Button
-            disabled={isCurrentlySaving}
-            onClick={() => {
-              const handleCancel = () => {
-                handleBack();
-                setNewUsername(username);
-              };
-
-              const hasChanges = newUsername !== username;
-              if (hasChanges) {
-                setConfirmDiscardAction(() => handleCancel);
-              } else {
-                handleCancel();
-              }
-            }}
-            variant={ButtonVariant.Secondary}
-          >
-            {i18n('cancel')}
-          </Button>
-          <Button
-            disabled={shouldDisableUsernameSave}
-            onClick={checkThenSaveUsername}
-          >
-            {isCurrentlySaving ? (
-              <Spinner size="20px" svgSize="small" direction="on-avatar" />
-            ) : (
-              i18n('save')
-            )}
-          </Button>
-        </Modal.ButtonFooter>
-      </>
-    );
+    content = renderEditUsernameModalBody({
+      onClose: () => setEditState(EditState.None),
+    });
   } else if (editState === EditState.None) {
+    let maybeUsernameRow: JSX.Element | undefined;
+    if (isUsernameFlagEnabled) {
+      let actions: JSX.Element | undefined;
+
+      if (usernameEditState === UsernameEditState.Deleting) {
+        actions = (
+          <ConversationDetailsIcon
+            ariaLabel={i18n('ProfileEditor--username--deleting-username')}
+            icon={IconType.spinner}
+            disabled
+            fakeButton
+          />
+        );
+      } else {
+        const menuOptions = [
+          {
+            group: 'copy',
+            icon: 'ProfileEditor__username-menu__copy-icon',
+            label: i18n('ProfileEditor--username--copy'),
+            onClick: () => {
+              assertDev(
+                username !== undefined,
+                'Should not be visible without username'
+              );
+              window.navigator.clipboard.writeText(username);
+              showToast(ToastType.CopiedUsername);
+            },
+          },
+          {
+            group: 'copy',
+            icon: 'ProfileEditor__username-menu__copy-link-icon',
+            label: i18n('ProfileEditor--username--copy-link'),
+            onClick: () => {
+              assertDev(
+                username !== undefined,
+                'Should not be visible without username'
+              );
+              window.navigator.clipboard.writeText(
+                generateUsernameLink(username)
+              );
+              showToast(ToastType.CopiedUsernameLink);
+            },
+          },
+          {
+            // Different group to display a divider above it
+            group: 'delete',
+
+            icon: 'ProfileEditor__username-menu__trash-icon',
+            label: i18n('ProfileEditor--username--delete'),
+            onClick: () => {
+              setUsernameEditState(UsernameEditState.ConfirmingDelete);
+            },
+          },
+        ];
+
+        if (username) {
+          actions = (
+            <ContextMenu
+              i18n={i18n}
+              menuOptions={menuOptions}
+              popperOptions={{ placement: 'bottom', strategy: 'absolute' }}
+              moduleClassName="ProfileEditor__username-menu"
+              ariaLabel={i18n('ProfileEditor--username--context-menu')}
+            />
+          );
+        }
+      }
+
+      maybeUsernameRow = (
+        <PanelRow
+          className="ProfileEditor__row"
+          icon={
+            <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
+          }
+          label={username || i18n('ProfileEditor--username')}
+          info={username && generateUsernameLink(username, { short: true })}
+          onClick={() => {
+            openUsernameReservationModal();
+            setEditState(EditState.Username);
+          }}
+          actions={actions}
+        />
+      );
+    }
+
     content = (
       <>
         <AvatarPreview
@@ -742,40 +594,7 @@ export const ProfileEditor = ({
             setEditState(EditState.ProfileName);
           }}
         />
-        {isUsernameFlagEnabled ? (
-          <PanelRow
-            className="ProfileEditor__row"
-            icon={
-              <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
-            }
-            label={username || i18n('ProfileEditor--username')}
-            onClick={
-              usernameEditState !== UsernameEditState.Saving
-                ? () => {
-                    setNewUsername(username);
-                    setEditState(EditState.Username);
-                  }
-                : undefined
-            }
-            actions={
-              username ? (
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('ProfileEditor--username--delete-username')}
-                  icon={
-                    usernameEditState === UsernameEditState.Saving
-                      ? IconType.spinner
-                      : IconType.trash
-                  }
-                  disabled={usernameEditState === UsernameEditState.Saving}
-                  fakeButton
-                  onClick={() => {
-                    setUsernameEditState(UsernameEditState.ConfirmingDelete);
-                  }}
-                />
-              ) : null
-            }
-          />
-        ) : null}
+        {maybeUsernameRow}
         <PanelRow
           className="ProfileEditor__row"
           icon={
@@ -836,17 +655,7 @@ export const ProfileEditor = ({
           {i18n('ProfileEditor--username--confirm-delete-body')}
         </ConfirmationDialog>
       )}
-      {usernameEditState === UsernameEditState.ShowingErrorPopup && (
-        <ConfirmationDialog
-          dialogName="ProfileEditor.usernameError"
-          cancelText={i18n('ok')}
-          cancelButtonVariant={ButtonVariant.Secondary}
-          i18n={i18n}
-          onClose={() => setUsernameEditState(UsernameEditState.Editing)}
-        >
-          {i18n('ProfileEditor--username--general-error')}
-        </ConfirmationDialog>
-      )}
+
       {confirmDiscardAction && (
         <ConfirmDiscardDialog
           i18n={i18n}

@@ -15,20 +15,21 @@ import { getClassNamesFor } from '../util/getClassNamesFor';
 import { themeClassName } from '../util/theme';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 
-export type ContextMenuOptionType<T> = {
-  readonly description?: string;
-  readonly icon?: string;
-  readonly label: string;
-  readonly onClick: (value?: T) => unknown;
-  readonly value?: T;
-};
+export type ContextMenuOptionType<T> = Readonly<{
+  description?: string;
+  icon?: string;
+  label: string;
+  group?: string;
+  onClick: (value?: T) => unknown;
+  value?: T;
+}>;
 
-type RenderButtonProps = {
+type RenderButtonProps = Readonly<{
   openMenu: (() => void) | ((ev: React.MouseEvent) => void);
   onKeyDown: (ev: KeyboardEvent) => void;
   isMenuShowing: boolean;
   ref: React.Ref<HTMLButtonElement> | null;
-};
+}>;
 
 export type PropsType<T> = Readonly<{
   ariaLabel?: string;
@@ -176,6 +177,73 @@ export function ContextMenu<T>({
 
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
+  const optionElements = new Array<JSX.Element>();
+
+  for (const [index, option] of menuOptions.entries()) {
+    const previous = menuOptions[index - 1];
+
+    const needsDivider = previous && previous.group !== option.group;
+
+    if (needsDivider) {
+      optionElements.push(
+        <div
+          className={getClassName('__divider')}
+          key={`${option.label}-divider`}
+        />
+      );
+    }
+
+    // eslint-disable-next-line no-loop-func
+    const onElementClick = (ev: React.MouseEvent): void => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      option.onClick(option.value);
+      setIsMenuShowing(false);
+
+      closeCurrentOpenContextMenu = undefined;
+    };
+
+    optionElements.push(
+      <button
+        aria-label={option.label}
+        className={classNames(
+          getClassName('__option'),
+          focusedIndex === index ? getClassName('__option--focused') : undefined
+        )}
+        key={option.label}
+        type="button"
+        onClick={onElementClick}
+      >
+        <div className={getClassName('__option--container')}>
+          {option.icon && (
+            <div
+              className={classNames(
+                getClassName('__option--icon'),
+                option.icon
+              )}
+            />
+          )}
+          <div>
+            <div className={getClassName('__option--title')}>
+              {option.label}
+            </div>
+            {option.description && (
+              <div className={getClassName('__option--description')}>
+                {option.description}
+              </div>
+            )}
+          </div>
+        </div>
+        {typeof value !== 'undefined' &&
+        typeof option.value !== 'undefined' &&
+        value === option.value ? (
+          <div className={getClassName('__option--selected')} />
+        ) : null}
+      </button>
+    );
+  }
+
   let buttonNode: ReactNode;
   if (typeof children === 'function') {
     buttonNode = (children as (props: RenderButtonProps) => JSX.Element)({
@@ -230,50 +298,7 @@ export function ContextMenu<T>({
               {...attributes.popper}
             >
               {title && <div className={getClassName('__title')}>{title}</div>}
-              {menuOptions.map((option, index) => (
-                <button
-                  aria-label={option.label}
-                  className={classNames(
-                    getClassName('__option'),
-                    focusedIndex === index
-                      ? getClassName('__option--focused')
-                      : undefined
-                  )}
-                  key={option.label}
-                  type="button"
-                  onClick={() => {
-                    option.onClick(option.value);
-                    setIsMenuShowing(false);
-                    closeCurrentOpenContextMenu = undefined;
-                  }}
-                >
-                  <div className={getClassName('__option--container')}>
-                    {option.icon && (
-                      <div
-                        className={classNames(
-                          getClassName('__option--icon'),
-                          option.icon
-                        )}
-                      />
-                    )}
-                    <div>
-                      <div className={getClassName('__option--title')}>
-                        {option.label}
-                      </div>
-                      {option.description && (
-                        <div className={getClassName('__option--description')}>
-                          {option.description}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {typeof value !== 'undefined' &&
-                  typeof option.value !== 'undefined' &&
-                  value === option.value ? (
-                    <div className={getClassName('__option--selected')} />
-                  ) : null}
-                </button>
-              ))}
+              {optionElements}
             </div>
           </div>
         </FocusTrap>

@@ -4,6 +4,7 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
 import * as React from 'react';
+import { noop } from 'lodash';
 import { getStoriesAvailable } from '../types/Stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
@@ -34,7 +35,11 @@ import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assertDev } from './assert';
 import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
-import { parseE164FromSignalDotMeHash } from './sgnlHref';
+import {
+  parseE164FromSignalDotMeHash,
+  parseUsernameFromSignalDotMeHash,
+} from './sgnlHref';
+import { lookupConversationWithoutUuid } from './lookupConversationWithoutUuid';
 import * as log from '../logging/log';
 
 type ThemeType = 'light' | 'dark' | 'system';
@@ -100,7 +105,7 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
-  showConversationViaSignalDotMe: (hash: string) => void;
+  showConversationViaSignalDotMe: (hash: string) => Promise<void>;
   showKeyboardShortcuts: () => void;
   showGroupViaLink: (x: string) => Promise<void>;
   showReleaseNotes: () => void;
@@ -478,7 +483,7 @@ export function createIPCEvents(
       }
       window.isShowingModal = false;
     },
-    showConversationViaSignalDotMe(hash: string) {
+    async showConversationViaSignalDotMe(hash: string) {
       if (!window.Signal.Util.Registration.everDone()) {
         log.info(
           'showConversationViaSignalDotMe: Not registered, returning early'
@@ -486,13 +491,33 @@ export function createIPCEvents(
         return;
       }
 
+      const { showUserNotFoundModal } = window.reduxActions.globalModals;
+
       const maybeE164 = parseE164FromSignalDotMeHash(hash);
       if (maybeE164) {
-        const convo = window.ConversationController.lookupOrCreate({
+        const convoId = await lookupConversationWithoutUuid({
+          type: 'e164',
           e164: maybeE164,
+          phoneNumber: maybeE164,
+          showUserNotFoundModal,
+          setIsFetchingUUID: noop,
         });
-        if (convo) {
-          trigger('showConversation', convo.id);
+        if (convoId) {
+          trigger('showConversation', convoId);
+          return;
+        }
+      }
+
+      const maybeUsername = parseUsernameFromSignalDotMeHash(hash);
+      if (maybeUsername) {
+        const convoId = await lookupConversationWithoutUuid({
+          type: 'username',
+          username: maybeUsername,
+          showUserNotFoundModal,
+          setIsFetchingUUID: noop,
+        });
+        if (convoId) {
+          trigger('showConversation', convoId);
           return;
         }
       }

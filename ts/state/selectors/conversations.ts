@@ -18,7 +18,6 @@ import type {
   PreJoinConversationType,
 } from '../ducks/conversations';
 import type { StoriesStateType } from '../ducks/stories';
-import type { UsernameSaveState } from '../ducks/conversationsEnums';
 import {
   ComposerStep,
   OneTimeModalState,
@@ -164,13 +163,6 @@ export const getSelectedMessage = createSelector(
       id: state.selectedMessage,
       counter: state.selectedMessageCounter,
     };
-  }
-);
-
-export const getUsernameSaveState = createSelector(
-  getConversations,
-  (state: ConversationsStateType): UsernameSaveState => {
-    return state.usernameSaveState;
   }
 );
 

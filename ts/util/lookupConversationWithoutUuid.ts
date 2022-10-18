@@ -7,13 +7,13 @@ import type { UserNotFoundModalStateType } from '../state/ducks/globalModals';
 import * as log from '../logging/log';
 import { UUID } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
-import { isValidUsername } from '../types/Username';
 import * as Errors from '../types/errors';
 import { HTTPError } from '../textsecure/Errors';
 import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
 import { getUuidsForE164s } from './getUuidsForE164s';
+import { isValidUsername } from './Username';
 
 export type LookupConversationWithoutUuidActionsType = Readonly<{
   lookupConversationWithoutUuid: typeof lookupConversationWithoutUuid;
@@ -137,13 +137,13 @@ async function checkForUsername(
     return undefined;
   }
 
-  const { messaging } = window.textsecure;
-  if (!messaging) {
-    throw new Error('messaging is not available!');
+  const { server } = window.textsecure;
+  if (!server) {
+    throw new Error('server is not available!');
   }
 
   try {
-    const profile = await messaging.getProfileForUsername(username);
+    const profile = await server.getProfileForUsername(username);
 
     if (!profile.uuid) {
       log.error("checkForUsername: Returned profile didn't include a uuid");

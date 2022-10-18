@@ -14,7 +14,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import { missingCaseError } from '../../util/missingCaseError';
-import { getUsernameFromSearch } from '../../types/Username';
+import { getUsernameFromSearch } from '../../util/Username';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import {
   isFetchingByUsername,
@@ -66,18 +66,9 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.composeContacts = composeContacts;
     this.composeGroups = composeGroups;
     this.searchTerm = searchTerm;
-    this.phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (this.phoneNumber) {
-      const { phoneNumber } = this;
-      this.isPhoneNumberVisible = this.composeContacts.every(
-        contact => contact.e164 !== phoneNumber.e164
-      );
-    } else {
-      this.isPhoneNumberVisible = false;
-    }
     this.uuidFetchState = uuidFetchState;
 
-    if (isUsernamesEnabled && !this.phoneNumber) {
+    if (isUsernamesEnabled) {
       this.username = getUsernameFromSearch(this.searchTerm);
       this.isUsernameVisible =
         isUsernamesEnabled &&
@@ -87,6 +78,16 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
         );
     } else {
       this.isUsernameVisible = false;
+    }
+
+    const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
+    if (!this.username && phoneNumber) {
+      this.phoneNumber = phoneNumber;
+      this.isPhoneNumberVisible = this.composeContacts.every(
+        contact => contact.e164 !== phoneNumber.e164
+      );
+    } else {
+      this.isPhoneNumberVisible = false;
     }
   }
 
