@@ -279,7 +279,13 @@ async function removeAllClosedGroupEncryptionKeyPairs(groupPublicKey: string): P
 // Conversation
 async function saveConversation(data: ConversationAttributes): Promise<void> {
   const cleaned = _cleanData(data);
-
+  /**
+   * Merging two conversations in `handleMessageRequestResponse` introduced a bug where we would mark conversation active_at to be -Infinity.
+   * The root issue has been fixed, but just to make sure those INVALID DATE does not show up, update those -Infinity active_at conversations to be now(), once.,
+   */
+  if (cleaned.active_at === -Infinity) {
+    cleaned.active_at = Date.now();
+  }
   await channels.saveConversation(cleaned);
 }
 
@@ -487,9 +493,17 @@ async function getUnreadByConversation(conversationId: string): Promise<MessageC
 }
 
 async function markAllAsReadByConversationNoExpiration(
-  conversationId: string
+  conversationId: string,
+  returnMessagesUpdated: boolean // for performance reason we do not return them because usually they are not needed
 ): Promise<Array<number>> {
-  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(conversationId);
+  // tslint:disable-next-line: no-console
+  console.time('markAllAsReadByConversationNoExpiration');
+  const messagesIds = await channels.markAllAsReadByConversationNoExpiration(
+    conversationId,
+    returnMessagesUpdated
+  );
+  // tslint:disable-next-line: no-console
+  console.timeEnd('markAllAsReadByConversationNoExpiration');
   return messagesIds;
 }
 

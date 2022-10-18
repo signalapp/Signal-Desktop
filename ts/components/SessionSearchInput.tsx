@@ -18,6 +18,15 @@ const StyledSearchInput = styled.div`
 
   .session-icon-button {
     margin: auto 10px;
+    &:hover svg path {
+      fill: var(--search-bar-icon-hover-color);
+    }
+  }
+
+  &:hover {
+    svg path:first-child {
+      fill: var(--search-bar-icon-hover-color);
+    }
   }
 `;
 
@@ -30,9 +39,10 @@ const StyledInput = styled.input`
   font-family: var(--font-default);
   text-overflow: ellipsis;
   background: none;
-  color: var(--color-text);
+  color: var(--search-bar-text-control-color);
 
   &:focus {
+    color: var(--search-bar-text-user-color);
     outline: none !important;
   }
 `;
@@ -80,7 +90,11 @@ export const SessionSearchInput = () => {
 
   return (
     <StyledSearchInput>
-      <SessionIconButton iconSize="medium" iconType="search" />
+      <SessionIconButton
+        iconColor="var(--search-bar-icon-color)"
+        iconSize="medium"
+        iconType="search"
+      />
       <StyledInput
         value={currentSearchTerm}
         onChange={e => {
@@ -92,6 +106,7 @@ export const SessionSearchInput = () => {
       />
       {Boolean(currentSearchTerm.length) && (
         <SessionIconButton
+          iconColor="var(--search-bar-icon-color)"
           iconSize="tiny"
           iconType="exit"
           onClick={() => {

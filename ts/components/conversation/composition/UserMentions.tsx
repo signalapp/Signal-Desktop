@@ -6,18 +6,20 @@ export const styleForCompositionBoxSuggestions = {
   suggestions: {
     list: {
       fontSize: 14,
-      boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-      backgroundColor: 'var(--color-cell-background)',
+      boxShadow: 'var(--suggestions-shadow)',
+      backgroundColor: 'var(--suggestions-background-color)',
+      color: 'var(--suggestions-text-color)',
     },
     item: {
       height: '100%',
       paddingTop: '5px',
       paddingBottom: '5px',
-      backgroundColor: 'var(--color-cell-background)',
+      backgroundColor: 'var(--suggestions-background-color)',
+      color: 'var(--suggestions-text-color)',
       transition: '0.25s',
 
       '&focused': {
-        backgroundColor: 'var(--color-clickable-hovered)',
+        backgroundColor: 'var(--suggestions-background-hover-color)',
       },
     },
   },

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { UserUtils } from '../../session/utils';
 
 const StyledPillDividerLine = styled.div`
-  border-bottom: 1px solid var(--color-pill-divider);
+  border-bottom: 1px solid var(--border-color);
   line-height: 0.1em;
   flex-grow: 1;
   height: 1px;
@@ -13,8 +13,8 @@ const StyledPillDividerLine = styled.div`
 const StyledPillSpan = styled.span`
   padding: 5px 15px;
   border-radius: 50px;
-  color: var(--color-pill-divider-text);
-  border: 1px solid var(--color-pill-divider);
+  color: var(--text-primary-color);
+  border: 1px solid var(--border-color);
 `;
 
 const StyledPillDivider = styled.div`
@@ -39,8 +39,8 @@ const StyledYourSessionIDSelectable = styled.p`
   text-align: center;
   word-break: break-all;
   font-weight: 300;
-  color: var(--color-text);
   font-size: var(--font-size-sm);
+  color: var(--text-primary-color);
 `;
 
 export const YourSessionIDSelectable = () => {

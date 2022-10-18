@@ -7,19 +7,38 @@ type SProps = {
   onArrowClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   onMainButtonClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   isMuted?: boolean;
-  hidePopoverArrow?: boolean;
+  isFullScreen?: boolean;
   iconType: 'microphone' | 'camera' | 'volume';
 };
 
-const StyledRoundedButton = styled.div<{ isMuted: boolean }>`
-  background-color: ${props => (props.isMuted ? 'hsl(0,0%,40%)' : 'white')};
-  color: ${props => (props.isMuted ? 'white' : 'black')};
+const StyledRoundedButton = styled.div<{ isFullScreen: boolean; isMuted: boolean }>`
   border-radius: 50%;
   cursor: pointer;
+  transition-duration: var(--default-duration);
+  background-color: ${props =>
+    props.isMuted
+      ? 'var(--call-buttons-background-disabled-color)'
+      : props.isFullScreen
+      ? 'var(--call-buttons-action-background-color)'
+      : 'var(--call-buttons-background-color)'};
+  color: ${props =>
+    props.isMuted
+      ? 'var(--call-buttons-icon-disabled-color)'
+      : props.isFullScreen
+      ? 'var(--call-buttons-action-icon-color)'
+      : 'var(--call-buttons-icon-color)'};
 
-  transition-duration: 0.25s;
+  ${props => props.isFullScreen && 'opacity: 0.4;'}
   &:hover {
-    opacity: 1;
+    background-color: ${props =>
+      props.isFullScreen
+        ? 'var(--call-buttons-action-background-hover-color)'
+        : 'var(--call-buttons-background-hover-color)'};
+    color: ${props =>
+      props.isFullScreen
+        ? 'var(--call-buttons-action-icon-color)'
+        : 'var(--call-buttons-icon-color)'};
+    ${props => props.isFullScreen && 'opacity: 1;'}
   }
 `;
 
@@ -27,11 +46,6 @@ const StyledContainer = styled(StyledRoundedButton)`
   width: 60px;
   height: 60px;
   margin: 10px;
-
-  opacity: 0.4;
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 const StyledMainIcon = styled.div`
@@ -44,7 +58,13 @@ const StyledArrowIcon = styled(StyledRoundedButton)`
   position: relative;
   top: -35%;
   right: -65%;
-  box-shadow: 0 0 4px 0 #b4b4b4;
+  background-color: var(--call-buttons-background-color);
+  color: var(--call-buttons-dropdown-color);
+  box-shadow: var(--call-buttons-dropdown-shadow);
+
+  &:hover {
+    background-color: var(--call-buttons-background-hover-color);
+  }
 `;
 
 const CameraIcon = (
@@ -66,7 +86,7 @@ const MicrophoneIcon = (
 );
 
 export const DropDownAndToggleButton = (props: SProps) => {
-  const { iconType, hidePopoverArrow, onArrowClick, onMainButtonClick, isMuted } = props;
+  const { iconType, isFullScreen = false, onArrowClick, onMainButtonClick, isMuted } = props;
   const arrowClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onArrowClick(e);
@@ -81,10 +101,14 @@ export const DropDownAndToggleButton = (props: SProps) => {
     iconType === 'microphone' ? MicrophoneIcon : iconType === 'camera' ? CameraIcon : SpeakerIcon;
 
   return (
-    <StyledContainer isMuted={isMuted || false}>
+    <StyledContainer
+      className="session-call-button"
+      isFullScreen={isFullScreen}
+      isMuted={isMuted || false}
+    >
       <StyledMainIcon onClick={mainButtonClickHandler}>{iconToRender}</StyledMainIcon>
-      {!hidePopoverArrow && (
-        <StyledArrowIcon isMuted={false} onClick={arrowClickHandler}>
+      {!isFullScreen && (
+        <StyledArrowIcon isFullScreen={isFullScreen} isMuted={false} onClick={arrowClickHandler}>
           <svg viewBox="-200 -200 640 640" fill="currentColor">
             <path d="M127.5 191.25L255 63.75L0 63.75L127.5 191.25Z" />
           </svg>

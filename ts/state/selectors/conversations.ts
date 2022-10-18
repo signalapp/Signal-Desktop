@@ -959,6 +959,7 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
   }
 
   const msgProps: MessageLinkPreviewSelectorProps = pick(props.propsForMessage, [
+    'direction',
     'attachments',
     'previews',
   ]);

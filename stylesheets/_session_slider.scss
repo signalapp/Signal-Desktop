@@ -25,16 +25,16 @@
   -ms-touch-action: none;
   touch-action: none;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--transparent-color);
 }
 .rc-slider * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--transparent-color);
 }
 .rc-slider-rail {
   position: absolute;
   width: 100%;
-  background: var(--color-clickable-hovered);
+  background: var(--zoom-bar-track-color);
 
   height: 8px;
   border-radius: 6px;
@@ -51,26 +51,25 @@
   margin-left: -2.3px;
   cursor: grab;
   border-radius: 4px;
-  /* border: solid 2px rgba(0, 247, 130, 0.8); */
-  background-color: rgba(0, 247, 130, 1);
+  background-color: var(--zoom-bar-thumb-color);
   -ms-touch-action: pan-x;
   touch-action: pan-x;
 }
 .rc-slider-handle:focus {
-  border-color: $session-color-green;
-  box-shadow: 0 0 0 5px rgba($session-color-white, 0.2);
+  border-color: var(--zoom-bar-thumb-color);
+  box-shadow: none;
   outline: none;
 }
 .rc-slider-handle-click-focused:focus {
-  border-color: rgba($session-color-white, 0.2);
+  border-color: var(--zoom-bar-thumb-color);
   box-shadow: unset;
 }
 .rc-slider-handle:hover {
-  border-color: $session-color-green;
+  border-color: var(--zoom-bar-thumb-color);
 }
 .rc-slider-handle:active {
-  border-color: $session-color-green;
-  box-shadow: 0 0 5px rgba($session-color-white, 0.2);
+  border-color: var(--zoom-bar-thumb-color);
+  box-shadow: none;
   cursor: -webkit-grabbing;
   cursor: grabbing;
 }
@@ -87,10 +86,10 @@
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  color: #999;
+  color: var(--text-secondary-color);
 }
 .rc-slider-mark-text-active {
-  color: #666;
+  color: var(--text-primary-color);
 }
 .rc-slider-step {
   position: absolute;
@@ -105,7 +104,7 @@
   margin-left: -4px;
   width: 3px;
   height: 6px;
-  background: var(--color-clickable-hovered);
+  background: var(--zoom-bar-interval-color);
 
   cursor: pointer;
   border-radius: 2px;
@@ -118,20 +117,20 @@
   margin-right: -2px;
 }
 .rc-slider-dot-active {
-  border-color: #96dbfa;
+  border-color: var(--primary-color);
 }
 .rc-slider-dot-reverse {
   margin-left: 0;
   margin-right: -4px;
 }
 .rc-slider-disabled {
-  background-color: #e9e9e9;
+  background-color: var(--zoom-bar-track-color);
 }
 .rc-slider-disabled .rc-slider-handle,
 .rc-slider-disabled .rc-slider-dot {
-  border-color: #ccc;
+  border-color: var(--zoom-bar-interval-color);
   box-shadow: none;
-  background-color: #fff;
+  background-color: var(--zoom-bar-interval-color);
   cursor: not-allowed;
 }
 .rc-slider-disabled .rc-slider-mark-text,
@@ -229,11 +228,11 @@
   top: -9999px;
   visibility: visible;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--transparent-color);
 }
 .rc-slider-tooltip * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: var(--transparent-color);
 }
 .rc-slider-tooltip-hidden {
   display: none;
@@ -247,12 +246,12 @@
   height: 24px;
   font-size: 12px;
   line-height: 1;
-  color: #fff;
+  color: var(--text-primary-color);
   text-align: center;
   text-decoration: none;
-  background-color: #6c6c6c;
+  background-color: var(--background-primary-color);
   border-radius: 6px;
-  box-shadow: 0 0 4px #d9d9d9;
+  box-shadow: none;
 }
 .rc-slider-tooltip-arrow {
   position: absolute;
@@ -266,5 +265,5 @@
   left: 50%;
   margin-left: -4px;
   border-width: 4px 4px 0;
-  border-top-color: #6c6c6c;
+  border-top-color: var(--background-primary-color);
 }

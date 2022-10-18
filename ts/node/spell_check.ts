@@ -5,7 +5,9 @@ import { sync as osLocaleSync } from 'os-locale';
 
 export const setup = (browserWindow: BrowserWindow, messages: any) => {
   const { session } = browserWindow.webContents;
-  const userLocale = osLocaleSync().replace(/_/g, '-');
+  const userLocale = process.env.LANGUAGE
+    ? process.env.LANGUAGE
+    : osLocaleSync().replace(/_/g, '-');
   const userLocales = [userLocale, userLocale.split('-')[0]];
 
   const available = session.availableSpellCheckerLanguages;

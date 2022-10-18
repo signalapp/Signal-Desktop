@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import { SpacerLG } from '../basic/Text';
 import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
 };
+
+const StyledWarning = styled.p`
+  max-width: 500px;
+  line-height: 1.3333;
+`;
 
 export const AdminLeaveClosedGroupDialog = (props: Props) => {
   const convo = getConversationController().get(props.conversationId);
@@ -34,11 +40,20 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
-      <p>{warningAsAdmin}</p>
+      <StyledWarning>{warningAsAdmin}</StyledWarning>
 
       <div className="session-modal__button-group">
-        <SessionButton text={cancelText} onClick={closeDialog} />
-        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
+        <SessionButton
+          text={okText}
+          buttonColor={SessionButtonColor.Danger}
+          buttonType={SessionButtonType.Simple}
+          onClick={onClickOK}
+        />
+        <SessionButton
+          text={cancelText}
+          buttonType={SessionButtonType.Simple}
+          onClick={closeDialog}
+        />
       </div>
     </SessionWrapperModal>
   );

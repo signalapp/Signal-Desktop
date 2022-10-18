@@ -6,10 +6,10 @@ import { Flex } from '../../basic/Flex';
 import { SpacerSM } from '../../basic/Text';
 import { SessionIconButton } from '../../icon';
 
-const StyledGreenBorder = styled.hr`
+const StyledPrimaryBorder = styled.hr`
   position: absolute;
-  color: var(--color-accent);
-  background-color: var(--color-accent);
+  color: var(--primary-color);
+  background-color: var(--primary-color);
 
   height: 5px;
   left: -10px;
@@ -19,7 +19,9 @@ const StyledGreenBorder = styled.hr`
   z-index: 1;
 `;
 
-const StyledWhiteBorder = styled.hr`
+const StyledBackgroundBorder = styled.hr`
+  color: var(--background-primary-color);
+  background-color: var(--background-primary-color);
   width: 100%;
   position: relative;
   height: 1px;
@@ -63,9 +65,9 @@ export const OverlayHeader = ({ subtitle, title }: { title: string; subtitle: st
 
       <StyledSubTitle>
         {subtitle}
-        <StyledGreenBorder />
+        <StyledPrimaryBorder />
       </StyledSubTitle>
-      <StyledWhiteBorder />
+      <StyledBackgroundBorder />
     </>
   );
 };

@@ -37,9 +37,9 @@ const StyledOverlay = styled.div<Pick<Props, 'darkOverlay' | 'softCorners'>>`
   z-index: 1;
   left: 0;
   right: 0;
-  background-color: ${props => (props.darkOverlay ? '#0008' : 'unset')};
+  background-color: ${props =>
+    props.darkOverlay ? 'var(--message-link-preview-background-color)' : 'unset'};
 `;
-
 export const Image = (props: Props) => {
   // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   const {

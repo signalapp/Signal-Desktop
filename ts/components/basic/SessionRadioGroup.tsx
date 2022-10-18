@@ -21,10 +21,10 @@ const StyledFieldSet = styled.fieldset`
   margin-top: var(--margins-sm);
 
   & > div {
-    padding-block: 7px;
+    padding: var(--margins-md) 7px;
   }
   & > div + div {
-    border-top: 1px solid var(--color-session-border);
+    border-top: 1px solid var(--border-color);
   }
 `;
 

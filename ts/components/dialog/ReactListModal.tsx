@@ -17,6 +17,7 @@ import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Flex } from '../basic/Flex';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
@@ -28,8 +29,8 @@ const StyledReactListContainer = styled(Flex)`
 `;
 
 const StyledReactionsContainer = styled.div`
-  background-color: var(--color-cell-background);
-  border-bottom: 1px solid var(--color-session-border);
+  background-color: var(--modal-background-content-color);
+  border-bottom: 1px solid var(--border-color);
   width: 100%;
   overflow-x: auto;
   padding: 12px 8px 0;
@@ -50,18 +51,23 @@ const StyledReactionBar = styled(Flex)`
   margin: 12px 0 20px 4px;
 
   p {
-    color: var(--color-text-subtle);
+    color: var(--text-secondary-color);
     margin: 0;
 
     span:nth-child(1) {
       margin: 0 8px;
-      color: var(--color-text);
+      color: var(--text-primary-color);
       white-space: nowrap;
     }
 
     span:nth-child(2) {
       margin-right: 8px;
     }
+  }
+
+  .session-button {
+    font-weight: 400;
+    padding: 0px;
   }
 `;
 
@@ -73,15 +79,9 @@ const StyledReactionSender = styled(Flex)`
   }
 
   .module-conversation__user__profile-name {
-    color: var(--color-text);
+    color: var(--text-primary-color);
     font-weight: normal;
   }
-`;
-
-const StyledClearButton = styled.button`
-  font-size: var(--font-size-sm);
-  color: var(--color-destructive);
-  border: none;
 `;
 
 type ReactionSendersProps = {
@@ -162,12 +162,12 @@ const ReactionSenders = (props: ReactionSendersProps) => {
 };
 
 const StyledCountText = styled.p`
-  color: var(--color-text-subtle);
+  color: var(--text-secondary-color);
   text-align: center;
   margin: 16px auto 0;
 
   span {
-    color: var(--color-text);
+    color: var(--text-primary);
   }
 `;
 // tslint:disable: use-simple-attributes
@@ -305,8 +305,7 @@ export const ReactListModal = (props: Props): ReactElement => {
     dispatch(updateReactListModal(null));
   };
 
-  const handleClearReactions = (event: any) => {
-    event.preventDefault();
+  const handleClearReactions = () => {
     handleClose();
     dispatch(
       updateReactClearAllModal({
@@ -355,9 +354,12 @@ export const ReactListModal = (props: Props): ReactElement => {
                 )}
               </p>
               {isPublic && weAreModerator && (
-                <StyledClearButton onClick={handleClearReactions}>
-                  {window.i18n('clearAll')}
-                </StyledClearButton>
+                <SessionButton
+                  text={window.i18n('clearAll')}
+                  buttonColor={SessionButtonColor.Danger}
+                  buttonType={SessionButtonType.Simple}
+                  onClick={handleClearReactions}
+                />
               )}
             </StyledReactionBar>
             {senders && senders.length > 0 && (

@@ -27,6 +27,7 @@ interface State {
   isVisible: boolean;
 }
 
+// NOTE This is currently unused.
 export class SessionModal extends React.PureComponent<Props, State> {
   public static defaultProps = {
     showExitIcon: true,

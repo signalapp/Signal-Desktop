@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { SessionInput } from '../basic/SessionInput';
-import { MAX_USERNAME_LENGTH } from './RegistrationStages';
 
 const DisplayNameInput = (props: {
   stealAutoFocus?: boolean;
@@ -17,7 +17,7 @@ const DisplayNameInput = (props: {
       type="text"
       placeholder={window.i18n('enterDisplayName')}
       value={props.displayName}
-      maxLength={MAX_USERNAME_LENGTH}
+      maxLength={MAX_USERNAME_BYTES}
       onValueChanged={props.onDisplayNameChanged}
       onEnterPressed={props.handlePressEnter}
       inputDataTestId="display-name-input"

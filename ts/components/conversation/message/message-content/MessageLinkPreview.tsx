@@ -13,7 +13,7 @@ import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 
 export type MessageLinkPreviewSelectorProps = Pick<
   MessageRenderingProps,
-  'attachments' | 'previews'
+  'direction' | 'attachments' | 'previews'
 >;
 
 type Props = {
@@ -31,7 +31,7 @@ export const MessageLinkPreview = (props: Props) => {
   if (!selected) {
     return null;
   }
-  const { attachments, previews } = selected;
+  const { direction, attachments, previews } = selected;
 
   // Attachments take precedence over Link Previews
   if (attachments && attachments.length) {
@@ -61,7 +61,9 @@ export const MessageLinkPreview = (props: Props) => {
   return (
     <div
       role="button"
-      className={classNames('module-message__link-preview')}
+      className={classNames(
+        `module-message__link-preview module-message__link-preview--${direction}`
+      )}
       onClick={openLinkFromPreview}
     >
       <div className={classNames('module-message__link-preview__content')}>

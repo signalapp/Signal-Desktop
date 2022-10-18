@@ -5,7 +5,7 @@ import { ToastUtils, UserUtils } from '../../session/utils';
 import _ from 'lodash';
 import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { useDispatch } from 'react-redux';
@@ -15,10 +15,15 @@ import useKey from 'react-use/lib/useKey';
 import { useSet } from '../../hooks/useSet';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
 };
+
+const StyledClassicMemberList = styled.div`
+  max-height: 240px;
+`;
 
 /**
  * Admins are always put first in the list of group members.
@@ -54,6 +59,7 @@ const ClassicMemberList = (props: {
             onUnselect={onUnselect}
             key={member}
             isAdmin={isAdmin}
+            disableBg={true}
           />
         );
       })}
@@ -229,24 +235,29 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
-      <div className="group-member-list__selection">
+      <StyledClassicMemberList className="group-member-list__selection">
         <ClassicMemberList
           convoId={conversationId}
           onSelect={onAdd}
           onUnselect={onRemove}
           selectedMembers={membersToKeepWithUpdate}
         />
-      </div>
+      </StyledClassicMemberList>
       <ZombiesList convoId={conversationId} />
       {showNoMembersMessage && <p>{window.i18n('noMembersInThisGroup')}</p>}
 
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={cancelText} onClick={closeDialog} />
         {weAreAdmin && (
-          <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Green} />
+          <SessionButton text={okText} onClick={onClickOK} buttonType={SessionButtonType.Simple} />
         )}
+        <SessionButton
+          text={cancelText}
+          buttonColor={weAreAdmin ? SessionButtonColor.Danger : undefined}
+          buttonType={SessionButtonType.Simple}
+          onClick={closeDialog}
+        />
       </div>
     </SessionWrapperModal>
   );

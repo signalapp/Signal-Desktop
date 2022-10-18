@@ -20,6 +20,7 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
   headers: Record<string, any> | null;
   roomId: string;
   fileId: string;
+  throwError: boolean;
 }): Promise<Uint8Array | null> {
   const {
     serverUrl,
@@ -30,6 +31,7 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
     doNotIncludeOurSogsHeaders,
     roomId,
     fileId,
+    throwError,
   } = sendOptions;
 
   const stringifiedBody = null;
@@ -62,12 +64,12 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
       body: stringifiedBody,
       useV4: true,
     },
-    false,
+    throwError,
     abortSignal
   );
 
   if (!res?.bodyBinary) {
-    window.log.info('fetchBinaryFromSogsWithOnionV4 no binary content');
+    window.log.info('fetchBinaryFromSogsWithOnionV4 no binary content with code', res?.status_code);
     return null;
   }
   return res.bodyBinary;
@@ -169,6 +171,7 @@ const sogsV3FetchPreview = async (
     doNotIncludeOurSogsHeaders: true,
     roomId: roomInfos.roomId,
     fileId: roomInfos.imageID,
+    throwError: false,
   });
   if (fetched && fetched.byteLength) {
     return fetched;
@@ -198,6 +201,7 @@ export const sogsV3FetchFileByFileID = async (
     doNotIncludeOurSogsHeaders: true,
     roomId: roomInfos.roomId,
     fileId,
+    throwError: true,
   });
   return fetched && fetched.byteLength ? fetched : null;
 };

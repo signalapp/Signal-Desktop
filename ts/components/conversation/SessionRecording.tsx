@@ -127,7 +127,7 @@ export class SessionRecording extends React.Component<Props, State> {
               <SessionIconButton
                 iconType="stop"
                 iconSize="medium"
-                iconColor={'#FF4538'}
+                iconColor={'var(--danger-color)'}
                 onClick={actionPauseFn}
               />
             )}
@@ -174,6 +174,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconSize={'large'}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
+              margin={'var(--margins-sm)'}
             />
           </div>
         )}

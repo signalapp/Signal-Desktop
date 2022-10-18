@@ -10,7 +10,7 @@ import { ToastUtils } from '../../session/utils';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal, UserDetailsModalState } from '../../state/ducks/modalDialog';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -74,19 +74,17 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
 
       <div className="session-modal__button-group__center">
         <SessionButton
+          text={window.i18n('startConversation')}
+          buttonType={SessionButtonType.Simple}
+          onClick={onClickStartConversation}
+        />
+        <SessionButton
           text={window.i18n('editMenuCopy')}
-          buttonType={SessionButtonType.Default}
-          buttonColor={SessionButtonColor.Primary}
+          buttonType={SessionButtonType.Simple}
           onClick={() => {
             copyToClipboard(props.conversationId);
             ToastUtils.pushCopiedToClipBoard();
           }}
-        />
-        <SessionButton
-          text={window.i18n('startConversation')}
-          buttonType={SessionButtonType.Default}
-          buttonColor={SessionButtonColor.Green}
-          onClick={onClickStartConversation}
         />
       </div>
     </SessionWrapperModal>

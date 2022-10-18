@@ -42,55 +42,56 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   }
 }
 
+const StyledMessageContent = styled.div``;
+
 const StyledMessageOpaqueContent = styled.div<{
   messageDirection: MessageModelType;
   highlight: boolean;
 }>`
   background: ${props =>
     props.messageDirection === 'incoming'
-      ? 'var(--color-received-message-background)'
-      : 'var(--color-sent-message-background)'};
+      ? 'var(--message-bubbles-received-background-color)'
+      : 'var(--message-bubbles-sent-background-color)'};
   align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
-
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
 
   @keyframes highlight {
-  0% {
-    opacity: 1;
+    0% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-  25% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 0.2;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
   ${props => {
-    return props.highlight
-      ? css`
-          animation-name: highlight;
-          animation-timing-function: linear;
-          animation-duration: 1s;
-          border-radius: 'var(--border-radius-message-box)';
-        `
-      : '';
+    return (
+      props.highlight &&
+      css`
+        animation-name: highlight;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+        border-radius: 'var(--border-radius-message-box)';
+      `
+    );
   }}
-}
 `;
 
 export const IsMessageVisibleContext = createContext(false);
 // tslint:disable: use-simple-attributes
 
 export const MessageContent = (props: Props) => {
-  const [flashGreen, setFlashGreen] = useState(false);
+  const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
@@ -122,18 +123,18 @@ export const MessageContent = (props: Props) => {
 
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
-      if (!flashGreen && !didScroll) {
+      if (!highlight && !didScroll) {
         //scroll to me and flash me
         scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
         setDidScroll(true);
         if (shouldHighlightMessage) {
-          setFlashGreen(true);
+          setHighlight(true);
         }
       }
       return;
     }
-    if (flashGreen) {
-      setFlashGreen(false);
+    if (highlight) {
+      setHighlight(false);
     }
 
     if (didScroll) {
@@ -160,7 +161,7 @@ export const MessageContent = (props: Props) => {
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
   return (
-    <div
+    <StyledMessageContent
       className={classNames('module-message__container', `module-message__container--${direction}`)}
       role="button"
       onClick={onClickOnMessageInnerContainer}
@@ -180,7 +181,7 @@ export const MessageContent = (props: Props) => {
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {hasContentAfterAttachmentAndQuote && (
-            <StyledMessageOpaqueContent messageDirection={direction} highlight={flashGreen}>
+            <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
                 <>
                   <MessageQuote messageId={props.messageId} />
@@ -202,6 +203,6 @@ export const MessageContent = (props: Props) => {
           )}
         </IsMessageVisibleContext.Provider>
       </InView>
-    </div>
+    </StyledMessageContent>
   );
 };

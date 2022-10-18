@@ -9,19 +9,18 @@ import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { ConversationModel } from '../../models/conversation';
 
 import { getConversationController } from '../../session/conversations';
-import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
-import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
 
 interface State {
   profileName: string;
@@ -35,7 +34,12 @@ interface State {
 const QRView = ({ sessionID }: { sessionID: string }) => {
   return (
     <div className="qr-image">
-      <QRCode value={sessionID} bgColor="#FFFFFF" fgColor="#1B1B1B" level="L" />
+      <QRCode
+        value={sessionID}
+        bgColor="var(--white-color)"
+        fgColor="var(--black-color)"
+        level="L"
+      />
     </div>
   );
 };
@@ -98,8 +102,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
           headerIconButtons={backButton}
           showExitIcon={true}
         >
-          <SpacerMD />
-
           {viewQR && <QRView sessionID={sessionID} />}
           {viewDefault && this.renderDefaultView()}
           {viewEdit && this.renderEditView()}
@@ -108,14 +110,12 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <YourSessionIDPill />
             <YourSessionIDSelectable />
 
-            <SpacerLG />
             <SessionSpinner loading={this.state.loading} />
 
             {viewDefault || viewQR ? (
               <SessionButton
                 text={window.i18n('editMenuCopy')}
-                buttonType={SessionButtonType.BrandOutline}
-                buttonColor={SessionButtonColor.Green}
+                buttonType={SessionButtonType.Simple}
                 onClick={() => {
                   window.clipboard.writeText(sessionID);
                   ToastUtils.pushCopiedToClipBoard();
@@ -126,16 +126,13 @@ export class EditProfileDialog extends React.Component<{}, State> {
               !this.state.loading && (
                 <SessionButton
                   text={window.i18n('save')}
-                  buttonType={SessionButtonType.BrandOutline}
-                  buttonColor={SessionButtonColor.Green}
+                  buttonType={SessionButtonType.Simple}
                   onClick={this.onClickOK}
                   disabled={this.state.loading}
                   dataTestId="save-button-profile-update"
                 />
               )
             )}
-
-            <SpacerLG />
           </div>
         </SessionWrapperModal>
       </div>
@@ -161,7 +158,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
               }}
               role="button"
             >
-              <SessionIconButton iconType="qr" iconSize="small" iconColor={'rgb(0, 0, 0)'} />
+              <SessionIconButton iconType="qr" iconSize="small" iconColor="var(--black-color)" />
             </div>
           </div>
         </div>
@@ -214,7 +211,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             value={this.state.profileName}
             placeholder={placeholderText}
             onChange={this.onNameEdited}
-            maxLength={MAX_USERNAME_LENGTH}
+            maxLength={MAX_USERNAME_BYTES}
             tabIndex={0}
             required={true}
             aria-required={true}
@@ -240,10 +237,18 @@ export class EditProfileDialog extends React.Component<{}, State> {
   }
 
   private onNameEdited(event: ChangeEvent<HTMLInputElement>) {
-    const newName = sanitizeSessionUsername(event.target.value);
-    this.setState({
-      profileName: newName,
-    });
+    const displayName = event.target.value;
+    try {
+      const newName = sanitizeSessionUsername(displayName);
+      this.setState({
+        profileName: newName,
+      });
+    } catch (e) {
+      this.setState({
+        profileName: displayName,
+      });
+      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+    }
   }
 
   private onKeyUp(event: any) {
@@ -266,26 +271,37 @@ export class EditProfileDialog extends React.Component<{}, State> {
    */
   private onClickOK() {
     const { newAvatarObjectUrl, profileName } = this.state;
-    const newName = profileName ? profileName.trim() : '';
+    try {
+      const newName = profileName ? profileName.trim() : '';
 
-    if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
+      if (newName.length === 0 || newName.length > MAX_USERNAME_BYTES) {
+        return;
+      }
+
+      // this throw if the length in bytes is too long
+      const sanitizedName = sanitizeSessionUsername(newName);
+      const trimName = sanitizedName.trim();
+
+      this.setState(
+        {
+          profileName: trimName,
+          loading: true,
+        },
+        async () => {
+          await commitProfileEdits(newName, newAvatarObjectUrl);
+          this.setState({
+            loading: false,
+
+            mode: 'default',
+            updatedProfileName: this.state.profileName,
+          });
+        }
+      );
+    } catch (e) {
+      ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
+
       return;
     }
-
-    this.setState(
-      {
-        loading: true,
-      },
-      async () => {
-        await commitProfileEdits(newName, newAvatarObjectUrl);
-        this.setState({
-          loading: false,
-
-          mode: 'default',
-          updatedProfileName: this.state.profileName,
-        });
-      }
-    );
   }
 
   private closeDialog() {

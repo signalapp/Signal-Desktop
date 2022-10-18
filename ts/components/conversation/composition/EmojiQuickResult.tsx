@@ -2,7 +2,7 @@ import React from 'react';
 import { SuggestionDataItem } from 'react-mentions';
 import styled from 'styled-components';
 // @ts-ignore
-import { SearchIndex } from '../../../../node_modules/emoji-mart/dist/index.cjs';
+import { SearchIndex } from 'emoji-mart';
 import { searchSync } from '../../../util/emoji.js';
 
 const EmojiQuickResult = styled.span`

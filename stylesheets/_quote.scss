@@ -10,273 +10,229 @@
   border-left-width: 4px;
   border-left-style: solid;
 
+  /* Primary */
+  &__primary {
+    flex-grow: 1;
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
+    max-width: 100%;
+  }
+  &__primary__profile-name {
+    font-style: italic;
+  }
   &__primary__type-label {
-    border-color: var(--color-text);
+    font-style: italic;
+    font-size: var(--font-size-sm);
+    line-height: 18px;
+
+    color: var(--message-bubbles-received-text-color);
+    border-color: var(--message-bubbles-received-text-color);
+  }
+  &__primary__author {
+    font-size: var(--font-size-sm);
+    font-weight: bold;
+    line-height: 18px;
+    margin-bottom: 5px;
+
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--message-bubbles-received-text-color);
+
+    .module-contact-name {
+      font-weight: bold;
+    }
+  }
+  &__primary__text {
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+
+    color: var(--message-bubbles-received-text-color);
+
+    a {
+      color: var(--message-bubbles-received-text-color);
+    }
+  }
+  &__primary__filename-label {
+    font-size: 12px;
+  }
+
+  /* Icons */
+  &__icon-container {
+    flex: initial;
+    min-width: 54px;
+    width: 54px;
+    max-height: 54px;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__inner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &__circle-background {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+      background-color: var(--chat-buttons-background-color);
+
+      &:hover {
+        background-color: var(--chat-buttons-background-hover-color);
+      }
+    }
+    &__icon {
+      width: 24px;
+      height: 24px;
+
+      &--file {
+        @include color-svg('../images/file.svg', var(--button-icon-stroke-color));
+      }
+      &--image {
+        @include color-svg('../images/image.svg', var(--button-icon-stroke-color));
+      }
+      &--microphone {
+        @include color-svg('../images/microphone.svg', var(--button-icon-stroke-color));
+      }
+      &--play {
+        @include color-svg('../images/play.svg', var(--chat-buttons-icon-color));
+      }
+      &--movie {
+        @include color-svg('../images/movie.svg', var(--button-icon-stroke-color));
+      }
+    }
+  }
+
+  /* Generic Files */
+  &__generic {
+    &-file {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    &-file__icon {
+      background: url('../images/file-gradient.svg');
+      background-size: 75%;
+      background-repeat: no-repeat;
+      height: 28px;
+      width: 36px;
+      margin-inline-start: -4px;
+      margin-inline-end: -6px;
+      margin-bottom: 5px;
+    }
+    &-file__text {
+      font-size: 14px;
+      line-height: 18px;
+      color: var(--message-bubbles-received-text-color);
+
+      max-width: calc(100% - 26px);
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /* Reference Warning */
+  &__reference {
+    &-warning {
+      height: 26px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      background-color: var(--message-link-preview-background-color);
+      padding-inline-start: 8px;
+      padding-inline-end: 8px;
+      margin-inline-end: 8px;
+    }
+
+    &-warning__icon {
+      height: 16px;
+      width: 16px;
+      @include color-svg('../images/broken-link.svg', var(--message-bubbles-received-text-color));
+    }
+
+    &-warning__text {
+      margin-inline-start: 6px;
+      color: var(--message-bubbles-received-text-color);
+      font-size: var(--font-size-sm);
+      line-height: 18px;
+    }
+  }
+
+  /* Misc */
+  &--no-click {
+    cursor: auto;
   }
 }
 
-// This is related to the quote logic inside messages
-.module-quote {
-  &--outgoing {
-    .module-quote__primary__author {
-      color: var(--color-sent-message-text);
-
-      font-weight: bold;
-
-      .module-contact-name {
-        font-weight: bold;
-      }
+/* Outgoing messages */
+.module-quote--outgoing {
+  color: var(--message-bubbles-sent-text-color);
+  .module-quote {
+    &__primary__type-label {
+      color: var(--message-bubbles-sent-text-color);
+      border-color: var(--message-bubbles-sent-text-color);
     }
-    .module-quote__primary__text {
-      color: var(--color-sent-message-text);
+    &__primary__author {
+      color: var(--message-bubbles-sent-text-color);
+    }
+    &__primary__text {
+      color: var(--message-bubbles-sent-text-color);
 
       a {
-        color: var(--color-sent-message-text);
+        color: var(--message-bubbles-sent-text-color);
+      }
+    }
+
+    &__generic {
+      &-file__text {
+        color: var(--message-bubbles-sent-text-color);
       }
     }
   }
-
-  &--incoming {
-    .module-quote__primary__author {
-      color: var(--color-received-message-text);
-
-      font-weight: bold;
-      .module-contact-name {
-        font-weight: bold;
-      }
-    }
-    .module-quote__primary__text {
-      color: var(--color-received-message-text);
-
-      a {
-        color: var(--color-received-message-text);
-      }
-    }
-  }
-}
-
-.module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-loki-green);
-}
-.module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-loki-green);
-}
-.module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/microphone.svg', $color-loki-green);
-}
-.module-quote__icon-container__icon--play {
-  @include color-svg('../images/play.svg', $color-loki-green);
-}
-.module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-loki-green);
-}
-
-.module-quote__generic-file__text {
-  color: $color-dark-05;
-}
-
-.module-quote__reference-warning {
-  background-color: $color-black-06;
-}
-
-.module-quote__reference-warning__icon {
-  @include color-svg('../images/broken-link.svg', $color-dark-30);
-}
-
-.module-quote__reference-warning__text {
-  color: $color-dark-05;
 }
 
 .module-quote-container {
   margin-bottom: var(--margins-xs);
   margin-top: var(--margins-xs);
-  min-width: 300px; // just because even with the quoted content is small it doesn't look very good
+  min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
   padding-right: var(--margins-xs);
-}
 
-.module-quote--no-click {
-  cursor: auto;
-}
-
-.module-quote__primary {
-  flex-grow: 1;
-  padding-inline-start: 8px;
-  padding-inline-end: 8px;
-
-  max-width: 100%;
-}
-
-.module-quote__primary__author {
-  font-size: var(--font-size-sm);
-  line-height: 18px;
-  font-weight: 300;
-  color: $color-gray-90;
-  margin-bottom: 5px;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.module-quote__primary__profile-name {
-  font-style: italic;
-}
-
-.module-quote__primary__text {
-  font-size: 14px;
-  line-height: 18px;
-  text-align: start;
-
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
-.module-quote__primary__type-label {
-  font-style: italic;
-  color: $color-gray-90;
-  font-size: var(--font-size-sm);
-  line-height: 18px;
-}
-
-.module-quote__primary__filename-label {
-  font-size: 12px;
-}
-
-.module-quote__close-container {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  height: 16px;
-  width: 16px;
-
-  background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 50%;
-}
-
-.module-quote__close-button {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  @include color-svg('../images/x.svg', $grey);
-}
-
-.module-quote__icon-container {
-  flex: initial;
-  min-width: 54px;
-  width: 54px;
-  max-height: 54px;
-  position: relative;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &__inner {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-.module-quote__icon-container__circle-background {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  background-color: $color-white;
-}
-
-.module-quote__icon-container__icon {
-  width: 24px;
-  height: 24px;
-
-  &--file {
-    @include color-svg('../images/file.svg', $color-loki-green);
-  }
-  &--image {
-    @include color-svg('../images/image.svg', $color-loki-green);
-  }
-  &--microphone {
-    @include color-svg('../images/microphone.svg', $color-loki-green);
-  }
-  &--play {
-    @include color-svg('../images/play.svg', $color-loki-green);
-  }
-  &--movie {
-    @include color-svg('../images/movie.svg', $color-loki-green);
-  }
-}
-
-.module-quote__generic {
-  &-file {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  &-file__icon {
-    background: url('../images/file-gradient.svg');
-    background-size: 75%;
-    background-repeat: no-repeat;
-    height: 28px;
-    width: 36px;
-    margin-inline-start: -4px;
-    margin-inline-end: -6px;
-    margin-bottom: 5px;
-  }
-  &-file__text {
-    font-size: 14px;
-    line-height: 18px;
-    color: $color-gray-90;
-
-    max-width: calc(100% - 26px);
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-.module-quote__reference {
-  &-warning {
-    height: 26px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    background-color: $color-white-085;
-    padding-inline-start: 8px;
-    padding-inline-end: 8px;
-    margin-inline-end: 8px;
-  }
-
-  &-warning__icon {
-    height: 16px;
-    width: 16px;
-    @include color-svg('../images/broken-link.svg', $color-gray-60);
-  }
-
-  &-warning__text {
-    margin-inline-start: 6px;
-    color: $color-gray-90;
-    font-size: var(--font-size-sm);
-    line-height: 18px;
+  /* This is not within the module-quote class so we handle it separately */
+  .module-quote__reference-warning--outgoing {
+    .module-quote__reference-warning__text {
+      color: var(--message-bubbles-sent-text-color);
+    }
+    .module-quote__reference-warning__icon {
+      @include color-svg('../images/broken-link.svg', var(--message-bubbles-sent-text-color));
+    }
   }
 }

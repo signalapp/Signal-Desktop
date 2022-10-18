@@ -22,6 +22,7 @@ const StyledSessionMemberItem = styled.button<{
   inMentions?: boolean;
   zombie?: boolean;
   selected?: boolean;
+  disableBg?: boolean;
 }>`
   cursor: pointer;
   display: flex;
@@ -36,10 +37,12 @@ const StyledSessionMemberItem = styled.button<{
   transition: var(--default-duration);
   opacity: ${props => (props.zombie ? 0.5 : 1)};
   background-color: ${props =>
-    props.selected && 'var(--color-conversation-item-selected) !important'};
+    !props.disableBg && props.selected
+      ? 'var(--conversation-tab-background-selected-color) !important'
+      : null};
 
   :not(:last-child) {
-    border-bottom: var(--border-session);
+    border-bottom: 1px solid var(--border-color);
   }
 `;
 
@@ -98,7 +101,7 @@ export const MemberListItem = (props: {
       style={
         !inMentions && !disableBg
           ? {
-              backgroundColor: 'var(--color-cell-background)',
+              backgroundColor: 'var(--background-primary-color)',
             }
           : {}
       }
@@ -106,6 +109,7 @@ export const MemberListItem = (props: {
       zombie={isZombie}
       inMentions={inMentions}
       selected={isSelected}
+      disableBg={disableBg}
     >
       <StyledInfo>
         <AvatarItem memberPubkey={pubkey} isAdmin={isAdmin || false} />

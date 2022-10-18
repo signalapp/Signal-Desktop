@@ -2,6 +2,15 @@ import React from 'react';
 import { Slide, ToastContainer, ToastContainerProps } from 'react-toastify';
 import styled from 'styled-components';
 
+const WrappedToastContainer = ({
+  className,
+  ...rest
+}: ToastContainerProps & { className?: string }) => (
+  <div className={className}>
+    <ToastContainer {...rest} />
+  </div>
+);
+
 const SessionToastContainerPrivate = () => {
   return (
     <WrappedToastContainer
@@ -19,15 +28,6 @@ const SessionToastContainerPrivate = () => {
     />
   );
 };
-
-const WrappedToastContainer = ({
-  className,
-  ...rest
-}: ToastContainerProps & { className?: string }) => (
-  <div className={className}>
-    <ToastContainer {...rest} />
-  </div>
-);
 
 // tslint:disable-next-line: no-default-export
 export const SessionToastContainer = styled(SessionToastContainerPrivate).attrs({

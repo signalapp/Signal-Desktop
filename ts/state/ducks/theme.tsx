@@ -1,6 +1,6 @@
-export const APPLY_THEME = 'APPLY_THEME';
+import { ThemeStateType } from '../../themes/constants/colors';
 
-export type ThemeStateType = 'light' | 'dark' | 'ocean-light' | 'ocean-dark';
+export const APPLY_THEME = 'APPLY_THEME';
 
 export const applyTheme = (theme: ThemeStateType) => {
   return {
@@ -9,7 +9,7 @@ export const applyTheme = (theme: ThemeStateType) => {
   };
 };
 
-export const initialThemeState: ThemeStateType = 'light';
+export const initialThemeState: ThemeStateType = 'classic-dark';
 
 export const reducer = (
   state: any = initialThemeState,

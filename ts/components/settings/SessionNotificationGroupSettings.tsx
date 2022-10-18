@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { SettingsKey } from '../../data/settings-key';
 import { isAudioNotificationSupported } from '../../types/Settings';
 import { Notifications } from '../../util/notifications';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton } from '../basic/SessionButton';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { SpacerLG } from '../basic/Text';
 import { SessionSettingsItemWrapper, SessionToggleWithDescription } from './SessionSettingListItem';
@@ -60,20 +60,17 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
     if (!notificationsAreEnabled) {
       return;
     }
-    Notifications.addNotification(
-      {
-        conversationId: `preview-notification-${Date.now()}`,
-        message:
-          items.find(m => m.value === initialNotificationEnabled)?.label ||
-          window?.i18n?.('messageBody') ||
-          'Message body',
-        title: window.i18n('notificationPreview'),
-        iconUrl: null,
-        isExpiringMessage: false,
-        messageSentAt: Date.now(),
-      },
-      true
-    );
+    Notifications.addPreviewNotification({
+      conversationId: `preview-notification-${Date.now()}`,
+      message:
+        items.find(m => m.value === initialNotificationEnabled)?.label ||
+        window?.i18n?.('messageBody') ||
+        'Message body',
+      title: window.i18n('notificationPreview'),
+      iconUrl: null,
+      isExpiringMessage: false,
+      messageSentAt: Date.now(),
+    });
   };
 
   return (
@@ -119,12 +116,7 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
           />
           <StyledButtonContainer>
             <SpacerLG />
-            <SessionButton
-              text={window.i18n('notificationPreview')}
-              buttonColor={SessionButtonColor.Green}
-              onClick={onClickPreview}
-              buttonType={SessionButtonType.BrandOutline}
-            />
+            <SessionButton text={window.i18n('notificationPreview')} onClick={onClickPreview} />
           </StyledButtonContainer>
         </SessionSettingsItemWrapper>
       ) : null}

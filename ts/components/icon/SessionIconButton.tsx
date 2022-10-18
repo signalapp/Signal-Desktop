@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { SessionIcon, SessionIconProps } from '../icon';
 import _ from 'lodash';
 import { SessionNotificationCount } from './SessionNotificationCount';
+import styled from 'styled-components';
 
 interface SProps extends SessionIconProps {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -14,6 +15,26 @@ interface SProps extends SessionIconProps {
   id?: string;
   style?: object;
 }
+
+const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolean }>`
+  background-color: var(--button-icon-background-color);
+
+  svg path {
+    transition: var(--default-duration);
+    ${props =>
+      !props.color &&
+      `fill:
+        ${
+          props.isSelected
+            ? 'var(--button-icon-stroke-selected-color)'
+            : 'var(--button-icon-stroke-color)'
+        };`}
+  }
+
+  &:hover svg path {
+    ${props => !props.color && 'fill: var(--button-icon-stroke-hover-color);'}
+  }
+`;
 
 const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
   const {
@@ -43,8 +64,10 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
   };
 
   return (
-    <div
-      className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
+    <StyledSessionIconButton
+      color={iconColor}
+      isSelected={isSelected}
+      className={classNames('session-icon-button', iconSize)}
       role="button"
       ref={ref}
       id={id}
@@ -65,7 +88,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         iconPadding={iconPadding}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
-    </div>
+    </StyledSessionIconButton>
   );
 });
 

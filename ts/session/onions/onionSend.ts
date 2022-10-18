@@ -2,6 +2,7 @@
 
 import { OnionPaths } from '.';
 import {
+  buildErrorMessageWithFailedCode,
   FinalDestNonSnodeOptions,
   FinalRelayOptions,
   Onions,
@@ -212,9 +213,16 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
             };
           }
           if (foundStatusCode === 404) {
-            // this is most likely that a 404 won't fix itself. So just stop right here retries by throwing a non retryable error
-            throw new pRetry.AbortError(
+            window.log.warn(
               `Got 404 while sendViaOnionV4ToNonSnodeWithRetries with url:${url}. Stopping retries`
+            );
+            // most likely, a 404 won't fix itself. So just stop right here retries by throwing a non retryable error
+            throw new pRetry.AbortError(
+              buildErrorMessageWithFailedCode(
+                'sendViaOnionV4ToNonSnodeWithRetries',
+                404,
+                `with url:${url}. Stopping retries`
+              )
             );
           }
           // we consider those cases as an error, and trigger a retry (if possible), by throwing a non-abortable error
@@ -239,7 +247,7 @@ const sendViaOnionV4ToNonSnodeWithRetries = async (
       }
     );
   } catch (e) {
-    window?.log?.warn('sendViaOnionV4ToNonSnodeRetryable failed ', e.message);
+    window?.log?.warn('sendViaOnionV4ToNonSnodeRetryable failed ', e.message, throwErrors);
     if (throwErrors) {
       throw e;
     }
@@ -455,8 +463,9 @@ async function getBinaryViaOnionV4FromFileServer(sendOptions: {
   endpoint: string;
   method: string;
   abortSignal: AbortSignal;
+  throwError: boolean;
 }): Promise<OnionV4BinarySnodeResponse | null> {
-  const { endpoint, method, abortSignal } = sendOptions;
+  const { endpoint, method, abortSignal, throwError } = sendOptions;
   if (!endpoint.startsWith('/')) {
     throw new Error('endpoint needs a leading /');
   }
@@ -465,6 +474,9 @@ async function getBinaryViaOnionV4FromFileServer(sendOptions: {
   if (window.sessionFeatureFlags?.debug.debugFileServerRequests) {
     window.log.info(`getBinaryViaOnionV4FromFileServer fsv2: "${builtUrl} `);
   }
+
+  // this throws for a bunch of reasons.
+  // One of them, is if we get a 404 (i.e. the file server was reached but reported no such attachments exists)
   const res = await OnionSending.sendViaOnionV4ToNonSnodeWithRetries(
     fileServerPubKey,
     builtUrl,
@@ -474,7 +486,7 @@ async function getBinaryViaOnionV4FromFileServer(sendOptions: {
       body: null,
       useV4: true,
     },
-    false,
+    throwError,
     abortSignal
   );
 

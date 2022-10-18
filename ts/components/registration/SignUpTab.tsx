@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SessionIconButton } from '../icon';
 import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationStages';
 import { RegistrationUserDetails } from './RegistrationUserDetails';
-import { SignInMode } from './SignInTab';
+import { sanitizeDisplayNameOrToast, SignInMode } from './SignInTab';
 import { TermsAndConditions } from './TermsAndConditions';
 
 export enum SignUpMode {
@@ -16,25 +15,11 @@ export enum SignUpMode {
 }
 
 const CreateSessionIdButton = ({ createSessionID }: { createSessionID: any }) => {
-  return (
-    <SessionButton
-      onClick={createSessionID}
-      buttonType={SessionButtonType.BrandOutline}
-      buttonColor={SessionButtonColor.Green}
-      text={window.i18n('createSessionID')}
-    />
-  );
+  return <SessionButton onClick={createSessionID} text={window.i18n('createSessionID')} />;
 };
 
 const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
-  return (
-    <SessionButton
-      onClick={continueSignUp}
-      buttonType={SessionButtonType.Brand}
-      buttonColor={SessionButtonColor.Green}
-      text={window.i18n('continue')}
-    />
-  );
+  return <SessionButton onClick={continueSignUp} text={window.i18n('continue')} />;
 };
 
 const SignUpDefault = (props: { createSessionID: () => void }) => {
@@ -144,17 +129,12 @@ export const SignUpTab = () => {
         displayName={displayName}
         handlePressEnter={signUpWithDetails}
         onDisplayNameChanged={(name: string) => {
-          const sanitizedName = sanitizeSessionUsername(name);
-          const trimName = sanitizedName.trim();
-          setDisplayName(sanitizedName);
-          setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);
+          sanitizeDisplayNameOrToast(name, setDisplayName, setDisplayNameError);
         }}
         stealAutoFocus={true}
       />
       <SessionButton
         onClick={signUpWithDetails}
-        buttonType={SessionButtonType.Brand}
-        buttonColor={SessionButtonColor.Green}
         text={window.i18n('getStarted')}
         disabled={!enableCompleteSignUp}
       />

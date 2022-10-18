@@ -31,11 +31,19 @@ const NotificationSettingIcon = (props: { isMessagesSection: boolean }) => {
       return null;
     case 'disabled':
       return (
-        <SessionIcon iconType="mute" iconColor={'var(--color-text-subtle)'} iconSize="small" />
+        <SessionIcon
+          iconType="mute"
+          iconColor={'var(--conversation-tab-text-color)'}
+          iconSize="small"
+        />
       );
     case 'mentions_only':
       return (
-        <SessionIcon iconType="bell" iconColor={'var(--color-text-subtle)'} iconSize="small" />
+        <SessionIcon
+          iconType="bell"
+          iconColor={'var(--conversation-tab-text-color)'}
+          iconSize="small"
+        />
       );
     default:
       return null;
@@ -71,7 +79,11 @@ const ListItemIcons = () => {
 
   const pinIcon =
     isMessagesSection && isPinned ? (
-      <SessionIcon iconType="pin" iconColor={'var(--color-text-subtle)'} iconSize="small" />
+      <SessionIcon
+        iconType="pin"
+        iconColor={'var(--conversation-tab-text-color)'}
+        iconSize="small"
+      />
     ) : null;
   return (
     <StyledConversationListItemIconWrapper>
@@ -82,27 +94,24 @@ const ListItemIcons = () => {
 };
 
 const MentionAtSymbol = styled.span`
-  background-color: var(--color-accent);
-
-  color: black;
+  background: var(--unread-messages-alert-background-color);
+  color: var(--unread-messages-alert-text-color);
   text-align: center;
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-top: 1px;
   padding-inline-start: 3px;
   padding-inline-end: 3px;
 
   position: static;
   margin-inline-start: 5px;
 
-  font-weight: 300;
+  font-weight: 700;
   font-size: var(--font-size-xs);
   letter-spacing: 0.25px;
 
   height: 16px;
   min-width: 16px;
   border-radius: 8px;
-  /* transition: filter 0.25s linear; */
   cursor: pointer;
 
   :hover {

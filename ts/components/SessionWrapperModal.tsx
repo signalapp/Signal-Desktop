@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 
 import { SessionIconButton } from './icon/';
 
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { SessionButton } from './basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 
 export type SessionWrapperModalType = {
   title?: string;
@@ -63,17 +63,11 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClick);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClick);
-    };
-  }, []);
-
   return (
     <div
       className={classNames('loki-dialog modal', additionalClassName ? additionalClassName : null)}
+      onClick={handleClick}
+      role="dialog"
     >
       <div className="session-confirm-wrapper">
         <div ref={modalRef} className="session-modal">
@@ -113,14 +107,18 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
               {props.children}
 
               <div className="session-modal__button-group">
-                {onClose && showClose ? (
-                  <SessionButton onClick={props.onClose}>
-                    {cancelText || window.i18n('close')}
+                {onConfirm ? (
+                  <SessionButton buttonType={SessionButtonType.Simple} onClick={props.onConfirm}>
+                    {confirmText || window.i18n('ok')}
                   </SessionButton>
                 ) : null}
-                {onConfirm ? (
-                  <SessionButton onClick={props.onConfirm}>
-                    {confirmText || window.i18n('ok')}
+                {onClose && showClose ? (
+                  <SessionButton
+                    buttonType={SessionButtonType.Simple}
+                    buttonColor={SessionButtonColor.Danger}
+                    onClick={props.onClose}
+                  >
+                    {cancelText || window.i18n('close')}
                   </SessionButton>
                 ) : null}
               </div>

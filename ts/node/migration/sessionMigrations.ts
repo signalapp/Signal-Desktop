@@ -78,6 +78,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion26,
   updateToSessionSchemaVersion27,
   updateToSessionSchemaVersion28,
+  updateToSessionSchemaVersion29,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1174,6 +1175,28 @@ function updateToSessionSchemaVersion28(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
+    // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 29;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    dropFtsAndTriggers(db);
+    db.exec(`CREATE INDEX messages_unread_by_conversation ON ${MESSAGES_TABLE} (
+      unread,
+      conversationId
+    );`);
+    rebuildFtsTable(db);
     // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
     writeSessionSchemaVersion(targetVersion, db);
   })();

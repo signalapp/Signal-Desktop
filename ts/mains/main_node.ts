@@ -157,6 +157,7 @@ if (windowFromUserConfig) {
 import { load as loadLocale, LocaleMessagesWithNameType } from '../node/locale';
 import { setLastestRelease } from '../node/latest_desktop_release';
 import { getAppRootPath } from '../node/getRootPath';
+import { classicDark } from '../themes';
 
 // Both of these will be set after app fires the 'ready' event
 let logger: Logger | null = null;
@@ -282,7 +283,8 @@ async function createWindow() {
     minWidth,
     minHeight,
     fullscreen: false as boolean | undefined,
-    backgroundColor: '#000',
+    // Default theme is Classic Dark
+    backgroundColor: classicDark['--background-primary-color'],
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -530,6 +532,8 @@ async function showPasswordWindow() {
     minWidth,
     minHeight,
     autoHideMenuBar: false,
+    // Default theme is Classic Dark
+    backgroundColor: classicDark['--background-primary-color'],
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
@@ -597,13 +601,14 @@ async function showAbout() {
     return;
   }
 
+  const theme = await getThemeFromMainWindow();
   const options = {
     width: 500,
     height: 500,
     resizable: true,
     title: locale.messages.about,
     autoHideMenuBar: true,
-    backgroundColor: '#000',
+    backgroundColor: classicDark['--background-primary-color'],
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -619,10 +624,14 @@ async function showAbout() {
 
   captureClicks(aboutWindow);
 
-  await aboutWindow.loadURL(prepareURL([getAppRootPath(), 'about.html']));
+  await aboutWindow.loadURL(prepareURL([getAppRootPath(), 'about.html'], { theme }));
 
   aboutWindow.on('closed', () => {
     aboutWindow = null;
+  });
+
+  aboutWindow.once('ready-to-show', () => {
+    aboutWindow?.setBackgroundColor(classicDark['--background-primary-color']);
   });
 
   // looks like sometimes ready-to-show is not fired by electron.
@@ -652,7 +661,7 @@ async function showDebugLogWindow() {
     resizable: true,
     title: locale.messages.debugLog,
     autoHideMenuBar: true,
-    backgroundColor: '#000',
+    backgroundColor: classicDark['--background-primary-color'],
     shadow: true,
     show: false,
     modal: true,
@@ -677,7 +686,7 @@ async function showDebugLogWindow() {
   });
 
   debugLogWindow.once('ready-to-show', () => {
-    debugLogWindow?.setBackgroundColor('#000');
+    debugLogWindow?.setBackgroundColor(classicDark['--background-primary-color']);
   });
 
   // see above: looks like sometimes ready-to-show is not fired by electron
@@ -960,8 +969,8 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse(undefined);
   } catch (e) {
-    const localisedError = locale.messages.invalidPassword;
-    sendResponse(localisedError || 'Invalid password');
+    const localisedError = locale.messages.removePasswordInvalid;
+    sendResponse(localisedError);
   }
 });
 

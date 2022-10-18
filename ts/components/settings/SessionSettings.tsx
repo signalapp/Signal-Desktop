@@ -9,13 +9,27 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { Data } from '../../data/data';
-import { matchesHash } from '../../util/passwordUtils';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
 import styled from 'styled-components';
-import { ToastUtils } from '../../session/utils';
+import { sessionPassword } from '../../state/ducks/modalDialog';
+import { PasswordAction } from '../dialog/SessionPasswordDialog';
+import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
+
+export function displayPasswordModal(
+  passwordAction: PasswordAction,
+  onPasswordUpdated: (action: string) => void
+) {
+  window.inboxStore?.dispatch(
+    sessionPassword({
+      passwordAction,
+      onOk: () => {
+        onPasswordUpdated(passwordAction);
+      },
+    })
+  );
+}
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -59,73 +73,36 @@ const StyledSpanSessionInfo = styled.span`
   opacity: 0.4;
   transition: var(--default-duration);
   user-select: text;
+  cursor: pointer;
 
-  :hover {
+  &:hover {
     opacity: 1;
   }
 `;
 
 const SessionInfo = () => {
-  const openOxenWebsite = () => {
-    void shell.openExternal('https://oxen.io/');
-  };
   return (
     <StyledVersionInfo>
-      <StyledSpanSessionInfo>v{window.versionInfo.version}</StyledSpanSessionInfo>
+      <StyledSpanSessionInfo
+        onClick={() => {
+          void shell.openExternal(
+            `https://github.com/oxen-io/session-desktop/releases/tag/v${window.versionInfo.version}`
+          );
+        }}
+      >
+        v{window.versionInfo.version}
+      </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>
-        <SessionIconButton iconSize="medium" iconType="oxen" onClick={openOxenWebsite} />
+        <SessionIconButton
+          iconSize="medium"
+          iconType="oxen"
+          onClick={() => {
+            void shell.openExternal('https://oxen.io/');
+          }}
+        />
       </StyledSpanSessionInfo>
       <StyledSpanSessionInfo>{window.versionInfo.commitHash}</StyledSpanSessionInfo>
     </StyledVersionInfo>
-  );
-};
-
-const StyledPasswordInput = styled.input`
-  width: 100%;
-  background: var(--color-input-background);
-  color: var(--color-text);
-
-  padding: var(--margins-xs) var(--margins-md);
-  margin-bottom: var(--margins-lg);
-  outline: none;
-  border: none;
-  border-radius: 2px;
-  text-align: center;
-  font-size: 16px;
-  font-family: var(--font-default);
-`;
-
-const StyledH3 = styled.h3`
-  padding: 0px;
-  margin-bottom: var(--margins-lg);
-`;
-
-const PasswordLock = ({
-  validatePasswordLock,
-}: {
-  validatePasswordLock: () => Promise<boolean>;
-}) => {
-  return (
-    <div className="session-settings__password-lock">
-      <div className="session-settings__password-lock-box">
-        <StyledH3>{window.i18n('passwordViewTitle')}</StyledH3>
-        <StyledPasswordInput
-          type="password"
-          id="password-lock-input"
-          defaultValue=""
-          placeholder={window.i18n('enterPassword')}
-          data-testid="password-lock-input"
-          autoFocus={true}
-        />
-
-        <SessionButton
-          buttonType={SessionButtonType.BrandOutline}
-          buttonColor={SessionButtonColor.Green}
-          text={window.i18n('done')}
-          onClick={validatePasswordLock}
-        />
-      </div>
-    </div>
   );
 };
 
@@ -201,38 +178,23 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     });
   }
 
-  public componentDidMount() {
-    window.addEventListener('keyup', this.onKeyUp);
-  }
+  public componentDidUpdate(_: SettingsViewProps, _prevState: State) {
+    const oldShouldRenderPasswordLock = _prevState.shouldLockSettings && _prevState.hasPassword;
+    const newShouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
 
-  public componentWillUnmount() {
-    window.removeEventListener('keyup', this.onKeyUp);
-  }
-
-  public async validatePasswordLock() {
-    const enteredPassword = String(
-      (document.getElementById('password-lock-input') as HTMLInputElement)?.value
-    );
-
-    if (!enteredPassword) {
-      ToastUtils.pushToastError('validatePassword', window.i18n('noGivenPassword'));
-
-      return false;
+    if (
+      newShouldRenderPasswordLock &&
+      newShouldRenderPasswordLock !== oldShouldRenderPasswordLock
+    ) {
+      displayPasswordModal('enter', action => {
+        if (action === 'enter') {
+          // Unlocked settings
+          this.setState({
+            shouldLockSettings: false,
+          });
+        }
+      });
     }
-
-    // Check if the password matches the hash we have stored
-    const hash = await Data.getPasswordHash();
-    if (hash && !matchesHash(enteredPassword, hash)) {
-      ToastUtils.pushToastError('validatePassword', window.i18n('invalidPassword'));
-      return false;
-    }
-
-    // Unlocked settings
-    this.setState({
-      shouldLockSettings: false,
-    });
-
-    return true;
   }
 
   public render() {
@@ -241,22 +203,23 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
 
     return (
       <div className="session-settings">
-        <SettingsHeader category={category} />
-
-        <StyledSettingsView>
-          {shouldRenderPasswordLock ? (
-            <PasswordLock validatePasswordLock={this.validatePasswordLock} />
-          ) : (
-            <StyledSettingsList ref={this.settingsViewRef}>
-              <SettingInCategory
-                category={category}
-                onPasswordUpdated={this.onPasswordUpdated}
-                hasPassword={Boolean(this.state.hasPassword)}
-              />
-            </StyledSettingsList>
-          )}
-          <SessionInfo />
-        </StyledSettingsView>
+        {shouldRenderPasswordLock ? (
+          <></>
+        ) : (
+          <>
+            <SettingsHeader category={category} />
+            <StyledSettingsView>
+              <StyledSettingsList ref={this.settingsViewRef}>
+                <SettingInCategory
+                  category={category}
+                  onPasswordUpdated={this.onPasswordUpdated}
+                  hasPassword={Boolean(this.state.hasPassword)}
+                />
+              </StyledSettingsList>
+              <SessionInfo />
+            </StyledSettingsView>
+          </>
+        )}
       </div>
     );
   }
@@ -267,6 +230,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
         hasPassword: true,
         shouldLockSettings: true,
       });
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Message));
     }
 
     if (action === 'remove') {
@@ -274,15 +238,5 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
         hasPassword: false,
       });
     }
-  }
-
-  private async onKeyUp(event: any) {
-    const lockPasswordVisible = Boolean(document.getElementById('password-lock-input'));
-
-    if (event.key === 'Enter' && lockPasswordVisible) {
-      await this.validatePasswordLock();
-    }
-
-    event.preventDefault();
   }
 }

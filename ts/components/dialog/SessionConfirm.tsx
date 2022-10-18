@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -45,8 +45,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     title = '',
     message = '',
     messageSub = '',
-    okTheme = SessionButtonColor.Primary,
-    closeTheme = SessionButtonColor.Primary,
+    okTheme,
+    closeTheme = SessionButtonColor.Danger,
     onClickOk,
     onClickClose,
     hideCancel = false,
@@ -64,7 +64,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
   const cancelText = props.cancelText || window.i18n('cancel');
   const showHeader = !!props.title;
 
-  const messageSubText = messageSub ? 'session-confirm-main-message' : 'subtle';
+  const messageSubText = messageSub ? 'session-confirm-main-message' : undefined;
 
   const onClickOkHandler = async () => {
     if (onClickOk) {
@@ -120,11 +120,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         )}
 
         <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
-        <SessionHtmlRenderer
-          tag="span"
-          className="session-confirm-sub-message subtle"
-          html={messageSub}
-        />
+        <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
 
         <SessionSpinner loading={isLoading} />
       </div>
@@ -133,13 +129,15 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         <SessionButton
           text={okText}
           buttonColor={okTheme}
+          buttonType={SessionButtonType.Simple}
           onClick={onClickOkHandler}
           dataTestId="session-confirm-ok-button"
         />
         {!hideCancel && (
           <SessionButton
             text={cancelText}
-            buttonColor={closeTheme}
+            buttonColor={!okTheme ? closeTheme : undefined}
+            buttonType={SessionButtonType.Simple}
             onClick={onClickCancelHandler}
             dataTestId="session-confirm-cancel-button"
           />
@@ -159,6 +157,7 @@ export const showLinkVisitWarningDialog = (urlToOpen: string, dispatch: Dispatch
       title: window.i18n('linkVisitWarningTitle'),
       message: window.i18n('linkVisitWarningMessage', [urlToOpen]),
       okText: window.i18n('open'),
+      okTheme: SessionButtonColor.Primary,
       cancelText: window.i18n('editMenuCopy'),
       showExitIcon: true,
       onClickOk,

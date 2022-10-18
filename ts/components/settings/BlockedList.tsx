@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
 import { ToastUtils } from '../../session/utils';
 import { BlockedNumberController } from '../../util';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { MemberListItem } from '../MemberListItem';
@@ -18,21 +18,28 @@ const BlockedEntriesContainer = styled.div`
   overflow: auto;
   min-height: 40px;
   max-height: 100%;
-  background: inherit; // TODO theming update
 `;
 
 const BlockedEntriesRoundedContainer = styled.div`
   overflow: hidden;
+  background: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: var(--margins-lg);
-  background: none; // TODO theming update
-  border: 1px solid #e5e5ea; // TODO Theming update
+  margin: 0 var(--margins-lg);
 `;
 
 const BlockedContactsSection = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
+
+  background: var(--settings-tab-background-color);
+  color: var(--settings-tab-text-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+
+  margin-bottom: var(--margins-lg);
 `;
 
 const BlockedContactListTitle = styled.div`
@@ -50,10 +57,6 @@ const BlockedContactListTitleButtons = styled.div`
 export const StyledBlockedSettingItem = styled.div<{ clickable: boolean }>`
   font-size: var(--font-size-md);
   padding: var(--margins-lg);
-
-  background: var(--color-cell-background);
-  color: var(--color-text);
-  border-bottom: var(--border-session);
 
   cursor: ${props => (props.clickable ? 'pointer' : 'unset')};
 `;
@@ -131,7 +134,6 @@ export const BlockedContactsList = () => {
               {hasAtLeastOneSelected && expanded ? (
                 <SessionButton
                   buttonColor={SessionButtonColor.Danger}
-                  buttonType={SessionButtonType.BrandOutline}
                   text={window.i18n('unblockUser')}
                   onClick={unBlockThoseUsers}
                   dataTestId="unblock-button-settings-screen"
@@ -145,18 +147,20 @@ export const BlockedContactsList = () => {
                 iconRotation={expanded ? 0 : 180}
                 dataTestId="reveal-blocked-user-settings"
               />
-              <SpacerLG />
             </BlockedContactListTitleButtons>
           )}
         </BlockedContactListTitle>
       </StyledBlockedSettingItem>
       {expanded && !noBlockedNumbers ? (
-        <BlockedEntries
-          blockedNumbers={blockedNumbers}
-          selectedIds={selectedIds}
-          addToSelected={addToSelected}
-          removeFromSelected={removeFromSelected}
-        />
+        <>
+          <BlockedEntries
+            blockedNumbers={blockedNumbers}
+            selectedIds={selectedIds}
+            addToSelected={addToSelected}
+            removeFromSelected={removeFromSelected}
+          />
+          <SpacerLG />
+        </>
       ) : null}
     </BlockedContactsSection>
   );

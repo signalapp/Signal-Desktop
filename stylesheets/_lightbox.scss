@@ -33,18 +33,18 @@
   }
 
   &:hover {
-    background: $grey;
+    background: var(--gray-color);
   }
 
   &.save {
     &:before {
-      @include color-svg('../images/save.svg', white);
+      @include color-svg('../images/save.svg', var(--white-color));
     }
   }
 
   &.close {
     &:before {
-      @include color-svg('../images/x.svg', white);
+      @include color-svg('../images/x.svg', var(--white-color));
     }
   }
 }

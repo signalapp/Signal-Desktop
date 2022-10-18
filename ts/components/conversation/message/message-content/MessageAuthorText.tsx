@@ -21,7 +21,7 @@ type Props = {
 };
 
 const StyledAuthorContainer = styled(Flex)`
-  color: var(--color-text);
+  color: var(--text-primary-color);
 `;
 
 export const MessageAuthorText = (props: Props) => {

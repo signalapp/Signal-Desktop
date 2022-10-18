@@ -15,6 +15,33 @@ import { SessionIcon } from '../icon';
 import { SessionSettingCategory } from '../settings/SessionSettings';
 import { resetConversationExternal } from '../../state/ducks/conversations';
 
+const StyledSettingsSectionTitle = styled.strong`
+  font-family: var(--font-font-accent);
+  font-size: var(--font-size-md);
+`;
+
+const StyledSettingsListItem = styled.div<{ active: boolean }>`
+  background-color: ${props =>
+    props.active
+      ? 'var(--settings-tab-background-selected-color)'
+      : 'var(--settings-tab-background-color)'};
+  color: var(--settings-tab-text-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 74px;
+  line-height: 1.4;
+  padding: 0px var(--margins-md);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: var(--default-duration) !important;
+
+  :hover {
+    background: var(--settings-tab-background-hover-color);
+  }
+`;
+
 const getCategories = () => {
   return [
     {
@@ -92,9 +119,7 @@ const LeftPaneSettingsCategoryRow = (props: {
         }
       }}
     >
-      <StyledSettingsSectionTitle
-        style={{ color: isClearData ? 'var(--color-destructive)' : 'unset' }}
-      >
+      <StyledSettingsSectionTitle style={{ color: isClearData ? 'var(--danger-color)' : 'unset' }}>
         {title}
       </StyledSettingsSectionTitle>
 
@@ -121,29 +146,6 @@ const StyledContentSection = styled.div`
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
-`;
-
-const StyledSettingsSectionTitle = styled.strong`
-  font-family: var(--font-font-accent);
-  font-size: var(--font-size-md);
-`;
-
-const StyledSettingsListItem = styled.div<{ active: boolean }>`
-  background: ${props => (props.active ? 'var(--color-conversation-item-selected)' : 'none')};
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 74px;
-  line-height: 1.4;
-  padding: 0px var(--margins-md);
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: var(--default-duration) !important;
-
-  :hover {
-    background: var(--color-clickable-hovered);
-  }
 `;
 
 export const LeftPaneSettingSection = () => {

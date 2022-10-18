@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // tslint:disable: use-simple-attributes no-submodule-imports
 
 import { useDispatch } from 'react-redux';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
@@ -22,8 +22,8 @@ import { SpacerMD } from '../../basic/Text';
 import styled from 'styled-components';
 
 const SessionIDDescription = styled.div`
-  color: var(--color-text-subtle);
-  font-family: 'Roboto';
+  color: var(--text-secondary-color);
+  font-family: var(--font-default);
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -140,8 +140,6 @@ export const OverlayMessage = () => {
         <SessionIconButton iconSize="small" iconType="copy" onClick={copyOurSessionID} />
       </Flex>
       <SessionButton
-        buttonColor={SessionButtonColor.Green}
-        buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
         disabled={disableNextButton}
         onClick={handleMessageButtonClick}

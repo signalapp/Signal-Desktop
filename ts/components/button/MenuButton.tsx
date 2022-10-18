@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { resetOverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
@@ -13,7 +13,7 @@ const StyledMenuButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--bg-color);
+  background: var(--menu-button-background-color);
 
   border-radius: 2px;
   width: 51px;
@@ -23,7 +23,7 @@ const StyledMenuButton = styled.button`
   transition: var(--default-duration);
 
   :hover {
-    background: var(--hover-bg-color);
+    background: var(--menu-button-background-hover-color);
   }
 `;
 
@@ -41,21 +41,11 @@ export const MenuButton = () => {
     dispatch(isToggled ? resetOverlayMode() : setOverlayMode('choose-action'));
 
   return (
-    <StyledMenuButton
-      data-testid="new-conversation-button"
-      style={
-        {
-          '--bg-color': 'var(--color-accent-button)',
-          '--hover-bg-color': 'var(--color-accent-button)',
-          '--fg-color': 'white',
-        } as CSSProperties
-      }
-      onClick={onClickFn}
-    >
+    <StyledMenuButton data-testid="new-conversation-button" onClick={onClickFn}>
       <SessionIcon
         iconSize="small"
         iconType="plusFat"
-        iconColor="var(--fg-color)"
+        iconColor="var(--menu-button-icon-color)"
         iconRotation={isToggled ? 45 : 0}
         aria-label={window.i18n('chooseAnAction')}
       />

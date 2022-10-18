@@ -38,8 +38,8 @@ const StyledReactionOverflow = styled.button`
   margin-bottom: var(--margins-sm);
 
   span {
-    background-color: var(--color-received-message-background);
-    border: 1px solid var(--color-inbox-background);
+    background-color: var(--message-bubbles-received-background-color);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     overflow: hidden;
     margin-right: -9px;
@@ -210,7 +210,7 @@ export const MessageReactions = (props: Props): ReactElement => {
       y={popupY}
     >
       {sortedReacts &&
-        sortedReacts !== [] &&
+        sortedReacts?.length !== 0 &&
         (!hasReactLimit || sortedReacts.length <= reactLimit ? (
           <Reactions {...reactionsProps} />
         ) : (

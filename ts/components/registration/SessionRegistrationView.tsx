@@ -4,7 +4,7 @@ import { AccentText } from './AccentText';
 import { RegistrationStages } from './RegistrationStages';
 import { SessionIcon } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
-import { SessionTheme } from '../../state/ducks/SessionTheme';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { Flex } from '../basic/Flex';
 import { setSignInByLinking } from '../../util/storage';
 
@@ -13,9 +13,9 @@ export const SessionRegistrationView = () => {
     void setSignInByLinking(false);
   }, []);
   return (
-    <div className="session-fullscreen">
-      <div className="session-full-screen-flow session-fullscreen">
-        <SessionTheme>
+    <SessionTheme>
+      <div className="session-fullscreen">
+        <div className="session-full-screen-flow session-fullscreen">
           <Flex
             className="session-content"
             alignItems="center"
@@ -31,8 +31,8 @@ export const SessionRegistrationView = () => {
               <RegistrationStages />
             </Flex>
           </Flex>
-        </SessionTheme>
+        </div>
       </div>
-    </div>
+    </SessionTheme>
   );
 };

@@ -21,13 +21,9 @@
   word-break: break-all;
 }
 
-.session-icon-button svg path {
-  transition: fill 0.3s ease;
-}
-
 input,
 textarea {
-  caret-color: var(--color-text) !important;
+  caret-color: var(--input-text-color) !important;
 }
 
 * {
@@ -44,7 +40,7 @@ textarea {
 }
 
 ::selection {
-  background: var(--color-text-highlight);
+  background: var(--text-selection-color);
 }
 
 .shadowed {
@@ -72,167 +68,18 @@ textarea {
   margin-inline-end: 5px;
 }
 
-.session-button {
-  @mixin transparent-background($textAndBorderColor) {
-    background-color: Transparent;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    outline: none;
-    color: $textAndBorderColor;
-    border: 1px solid $textAndBorderColor;
-  }
-
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 700;
-  user-select: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: var(--default-duration);
-  background-color: rgba(0, 0, 0, 0);
-
-  &.disabled {
-    cursor: not-allowed;
-  }
-
-  &.default,
-  &.square,
-  &.brand {
-    color: var(--color-foreground-primary);
-
-    &:not(.disabled):hover {
-      background: var(--color-clickable-hovered);
-    }
-
-    &.green {
-      background-color: var(--color-accent-button);
-      color: var(--color-text-opposite);
-    }
-
-    &.white {
-      color: var(--color-text);
-    }
-    &.primary {
-      background-color: var(--color-background-primary);
-      color: white;
-
-      .session-icon {
-        fill: var(--color-foreground-primary);
-      }
-    }
-    &.secondary {
-      background-color: $session-color-secondary;
-    }
-    &.success {
-      background-color: $session-color-success;
-    }
-    &.danger {
-      background-color: $session-color-danger;
-    }
-    &.danger-alt {
-      background-color: $session-color-danger-alt;
-    }
-    &.warning {
-      background-color: $session-color-warning;
-    }
-  }
-
-  &.brand-outline,
-  &.default-outline,
-  &.square-outline {
-    border: none;
-
-    &.green {
-      @include transparent-background(var(--color-button-green));
-    }
-    &.white {
-      @include transparent-background(var(--color-text));
-    }
-    &.primary {
-      @include transparent-background($session-color-primary);
-    }
-    &.secondary {
-      @include transparent-background($session-color-secondary);
-    }
-    &.danger {
-      @include transparent-background($session-color-danger);
-    }
-    &.warning {
-      @include transparent-background($session-color-warning-alt);
-    }
-    &.warning,
-    &.danger,
-    &.secondary,
-    &.primary,
-    &.white,
-    &.green {
-      &.disabled {
-        @include transparent-background(var(--color-text-subtle));
-
-        &:hover {
-          @include transparent-background(var(--color-text-subtle));
-        }
-      }
-    }
-  }
-
-  &.brand {
-    min-width: 165px;
-    height: 34px;
-    align-items: center;
-    padding: 0px var(--margins-lg);
-    font-size: $session-font-md;
-    font-family: $session-font-accent;
-    border-radius: 500px;
-
-    &:not(.disabled):hover {
-      color: var(--color-text);
-      border-color: var(--color-text);
-    }
-  }
-
-  &.default,
-  &.square,
-  &.default-outline,
-  &.square-outline {
-    border-radius: 2px;
-    height: 33px;
-    padding: 0px 18px;
-    font-size: $session-font-sm;
-  }
-
-  &.square,
-  &.square-outline {
-    border-radius: 0px;
-  }
-
-  & > *:hover:not(svg) {
-    filter: brightness(80%);
-  }
-}
-
 .session-label {
-  color: $session-color-white;
+  font-weight: 700;
+  color: var(--white-color);
   padding: var(--margins-sm);
   width: 100%;
   border-radius: 2px;
   text-align: center;
   &.primary {
-    background-color: $session-color-primary;
-  }
-  &.secondary {
-    background-color: $session-color-secondary;
-  }
-  &.success {
-    background-color: $session-color-success;
+    background-color: var(--primary-color);
   }
   &.danger {
-    background-color: $session-color-danger;
-  }
-  &.warning {
-    background-color: $session-color-warning-alt;
+    background-color: var(--danger-color);
   }
 }
 
@@ -240,17 +87,7 @@ textarea {
   cursor: pointer;
   display: inline-block;
   position: relative;
-  opacity: 0.4;
   transform: translateZ(0);
-
-  &:hover {
-    opacity: 1;
-  }
-  transition: opacity var(--default-duration);
-
-  &.no-opacity {
-    opacity: 1;
-  }
 }
 
 /* CONVERSATION AND MESSAGES */
@@ -266,7 +103,7 @@ textarea {
   font-size: $session-font-md;
 
   &-text {
-    color: var(--color-text-subtle);
+    color: var(--text-primary-color);
     font-weight: 400;
     font-size: $session-font-sm;
     line-height: $session-font-sm;
@@ -316,6 +153,7 @@ textarea {
   // To limit messages with things forcing them wider, like long attachment names
   max-width: 100%;
   align-items: center;
+  border-radius: var(--border-radius-message-box);
 }
 label {
   user-select: none;
@@ -345,35 +183,17 @@ label {
   visibility: hidden;
 }
 
-.session-button div[role='button'] {
-  cursor: pointer;
-}
-
 .Toastify__toast {
-  background: var(--color-cell-background);
-  color: var(--color-text);
+  background: var(--toast-background-color);
+  color: var(--toast-text-color);
+  border-left: 4px solid var(--toast-color-strip-color);
 
   .Toastify__close-button {
-    color: subtle(var(--color-text));
-  }
-  @mixin set-toast-theme($color) {
-    border-left: 4px solid $color;
-  }
-  &--success {
-    @include set-toast-theme($session-color-success);
-  }
-  &--info {
-    @include set-toast-theme($session-color-info);
-  }
-  &--warning {
-    @include set-toast-theme($session-color-warning-alt);
-  }
-  &--error {
-    @include set-toast-theme($session-color-error);
+    color: var(--toast-text-color);
   }
 
   .Toastify__progress-bar {
-    background-color: rgba(var(--color-text), 0.1);
+    background-color: var(--toast-progress-color);
   }
 }
 
@@ -385,11 +205,11 @@ label {
   max-height: 70vh;
   max-width: calc(min(70vw, 800px));
   font-family: $session-font-default;
-  background-color: var(--color-modal-background);
-  color: var(--color-text);
-  border: var(--border-session);
+  background-color: var(--modal-background-content-color);
+  color: var(--modal-text-color);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
-  box-shadow: var(--color-session-shadow);
+  box-shadow: var(--modal-drop-shadow);
 
   overflow: hidden;
   display: flex;
@@ -403,11 +223,11 @@ label {
 
     padding: var(--margins-lg);
 
-    font-family: $session-font-default;
+    font-family: var(--font-default);
     text-align: center;
     line-height: 18px;
-    font-size: $session-font-md;
-    font-weight: 700;
+    font-size: var(--font-size-lg);
+    font-weight: 500;
 
     &.reverse {
       flex-direction: row-reverse;
@@ -455,7 +275,7 @@ label {
 
     .session-id-editable {
       width: 30vw;
-      max-width: 700px;
+      max-width: 400px;
     }
   }
 
@@ -478,6 +298,7 @@ label {
 
     .session-button {
       margin: var(--margins-xs);
+      font-weight: 500;
     }
 
     &__center {
@@ -491,9 +312,9 @@ label {
   }
 
   &__text-highlight {
-    @include text-highlight($session-color-green);
+    @include text-highlight(var(--primary-color));
 
-    color: black;
+    color: var(--black-color);
 
     font-family: monospace;
     font-style: normal;
@@ -509,7 +330,6 @@ label {
 .session-confirm {
   &-wrapper {
     .session-modal__body .session-modal__centered {
-      margin: var(--margins-lg);
       text-align: center;
     }
   }
@@ -525,47 +345,6 @@ label {
   }
 }
 
-.session-toggle {
-  &.active {
-    background-color: $session-color-green;
-    border-color: $session-color-green;
-  }
-}
-
-.react-contexify {
-  // be sure it is more than the one set for the More Informations screen of messages
-  z-index: 30;
-  min-width: 200px;
-  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
-  background-color: var(--color-received-message-background);
-
-  &.react-contexify__theme--dark {
-    background-color: var(--color-received-message-background);
-  }
-
-  .react-contexify__item {
-    background: var(--color-received-message-background);
-  }
-
-  .react-contexify__item:not(.react-contexify__item--disabled):hover
-    > .react-contexify__item__content {
-    background: var(--color-accent);
-    color: var(--color-text-menu-highlighted);
-  }
-  .react-contexify__item__content {
-    transition: var(--default-duration);
-    color: var(--color-text);
-  }
-
-  &.react-contexify__submenu {
-    top: -28px !important; // height of an item element
-  }
-
-  .react-contexify__submenu-arrow {
-    line-height: 16px; // center the arrow for submenu
-  }
-}
-
 .session-dropdown {
   position: relative;
   width: 100%;
@@ -577,13 +356,13 @@ label {
     justify-content: space-between;
     height: 50px;
     padding: 0px var(--margins-md);
-    font-size: $session-font-sm;
+    font-size: var(--font-size-md);
 
-    color: var(--color-text);
-    background: var(--color-cell-background);
+    background-color: var(--right-panel-item-background-color);
+    color: var(--right-panel-item-text-color);
 
     &:hover {
-      background: var(--color-clickable-hovered);
+      background: var(--right-panel-item-background-hover-color);
     }
   }
 
@@ -608,22 +387,18 @@ label {
     justify-content: center;
     height: 35px;
     padding: 0 var(--margins-md);
-    background: var(--color-cell-background);
-    color: var(--color-text);
+    background: var(--right-panel-item-background-color);
+    color: var(--right-panel-item-text-color);
 
     font-size: 0.8rem;
     width: -webkit-fill-available;
     transition: var(--default-duration);
 
     &:first-child {
-      border-top: var(--border-session);
+      border-top: 1px solid var(--border-color);
     }
     &:last-child {
-      border-top: var(--border-session);
-    }
-
-    &:hover {
-      background: var(--color-clickable-hovered);
+      border-top: 1px solid var(--border-color);
     }
 
     .session-icon {
@@ -635,20 +410,16 @@ label {
 
     &.active,
     &:hover {
-      background: var(--color-clickable-hovered);
+      background: var(--right-panel-item-background-hover-color);
     }
 
     &.danger {
-      color: $session-color-danger;
+      color: var(--danger-color);
     }
   }
 
   &:hover {
-    background: var(--color-clickable-hovered);
-
-    .session-icon {
-      opacity: 1;
-    }
+    background: var(--right-panel-item-background-hover-color);
   }
 }
 
@@ -661,12 +432,13 @@ label {
   width: 80px;
   height: 80px;
   border-radius: 100%;
-  background-color: rgba($session-color-black, 0.72);
+  background-color: var(--lightbox-background-color);
   opacity: 0;
   transition: var(--default-duration);
 
   &:after {
     content: 'Edit';
+    color: var(--white-color);
   }
 
   &:hover {
@@ -678,14 +450,14 @@ label {
   display: flex;
   justify-content: center;
 
-  background: white;
+  background: var(--white-color);
   padding: 0.5rem;
   svg {
     width: 135px;
     height: 135px;
     border-radius: 3px;
     padding: var(--margins-xs);
-    background-color: $session-color-white;
+    background-color: var(--white-color);
   }
 }
 
@@ -713,7 +485,7 @@ label {
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: $session-color-green;
+    background: var(--primary-color);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   div:nth-child(1) {
@@ -763,29 +535,7 @@ label {
   height: 100vh;
   display: flex;
   flex-direction: column;
-
-  &__password-lock {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-
-    &-box {
-      padding: 45px 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      max-width: 90%;
-      min-width: 400px;
-
-      background: var(--color-cell-background);
-      color: var(--color-text);
-
-      border: 1px solid $session-shade-8;
-      border-radius: 5px;
-    }
-  }
+  background-color: var(--background-secondary-color);
 }
 
 #qr svg,
@@ -793,7 +543,7 @@ label {
   width: $session-modal-size-sm;
   height: $session-modal-size-sm;
   padding: var(--margins-xs);
-  background-color: $session-color-white;
+  background-color: var(--white-color);
   border-radius: 3px;
 }
 
@@ -803,6 +553,8 @@ label {
 
 .session-id-editable {
   padding: var(--margins-lg);
+  background: var(--input-background-color);
+  color: var(--input-text-color);
 
   textarea {
     width: 30vh;
@@ -822,6 +574,7 @@ label {
     padding-left: 5px;
     padding-right: 5px;
     font-family: var(--font-default);
+    color: var(--input-text-placeholder-color);
   }
 
   &.group-id-editable-textarea {
@@ -851,30 +604,6 @@ input {
   }
 }
 
-.messages-container {
-  .session-icon-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    opacity: 1;
-    background-color: var(--color-cell-background);
-    box-shadow: var(--color-session-shadow);
-
-    svg path {
-      transition: var(--default-duration);
-      opacity: 0.6;
-      fill: var(--color-text);
-    }
-
-    &:hover svg path {
-      opacity: 1;
-    }
-  }
-}
-
 .group-member-list {
   &__selection {
     height: 100%;
@@ -896,7 +625,7 @@ input {
     }
 
     &-disabled {
-      border: 1px solid $session-color-dark-grey !important;
+      border: 1px solid var(--border-color) !important;
     }
   }
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
+import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { MemberListItem } from '../../MemberListItem';
@@ -22,7 +22,7 @@ import { VALIDATION } from '../../../session/constants';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-font-mono);
-  background: var(--color-cell-background);
+  background: var(--background-secondary-color);
   text-align: center;
   padding: 20px;
 `;
@@ -32,7 +32,18 @@ const StyledGroupMemberListContainer = styled.div`
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  border: var(--border-session);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--background-secondary-color);
+  }
+`;
+
+const StyledGroupMemberList = styled.div`
+  button {
+    background-color: var(--background-secondary-color);
+  }
 `;
 
 const NoContacts = () => {
@@ -118,7 +129,7 @@ export const OverlayClosedGroup = () => {
         {noContactsForClosedGroup ? (
           <NoContacts />
         ) : (
-          <div className="group-member-list__selection">
+          <StyledGroupMemberList className="group-member-list__selection">
             {contactsToRender.map((memberPubkey: string) => (
               <MemberListItem
                 pubkey={memberPubkey}
@@ -126,17 +137,16 @@ export const OverlayClosedGroup = () => {
                 key={memberPubkey}
                 onSelect={addToSelected}
                 onUnselect={removeFromSelected}
+                disableBg={true}
               />
             ))}
-          </div>
+          </StyledGroupMemberList>
         )}
       </StyledGroupMemberListContainer>
 
       <SpacerLG style={{ flexShrink: 0 }} />
 
       <SessionButton
-        buttonColor={SessionButtonColor.Green}
-        buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
         disabled={disableCreateButton}
         onClick={onEnterPressed}

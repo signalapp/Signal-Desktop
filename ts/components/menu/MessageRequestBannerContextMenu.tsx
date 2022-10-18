@@ -3,6 +3,7 @@ import { animation, Menu } from 'react-contexify';
 import _ from 'lodash';
 
 import { HideBannerMenuItem } from './Menu';
+import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
 export type PropsContextConversationItem = {
   triggerId: string;
@@ -12,9 +13,11 @@ const MessageRequestBannerContextMenu = (props: PropsContextConversationItem) =>
   const { triggerId } = props;
 
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      <HideBannerMenuItem />
-    </Menu>
+    <SessionContextMenuContainer>
+      <Menu id={triggerId} animation={animation.fade}>
+        <HideBannerMenuItem />
+      </Menu>
+    </SessionContextMenuContainer>
   );
 };
 
