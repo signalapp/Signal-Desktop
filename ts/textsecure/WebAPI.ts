@@ -691,6 +691,10 @@ export type ProfileType = Readonly<{
   badges?: unknown;
 }>;
 
+export type AccountType = Readonly<{
+  uuid?: string;
+}>;
+
 export type GetIceServersResultType = Readonly<{
   username: string;
   password: string;
@@ -861,7 +865,7 @@ export type WebAPIType = {
     identifier: string,
     options: GetProfileOptionsType
   ) => Promise<ProfileType>;
-  getProfileForUsername: (username: string) => Promise<ProfileType>;
+  getAccountForUsername: (username: string) => Promise<AccountType>;
   getProfileUnauth: (
     identifier: string,
     options: GetProfileUnauthOptionsType
@@ -1278,7 +1282,7 @@ export function initialize({
       getKeysForIdentifierUnauth,
       getMyKeys,
       getProfile,
-      getProfileForUsername,
+      getAccountForUsername,
       getProfileUnauth,
       getBadgeImageFile,
       getBoostBadgesFromServer,
@@ -1661,13 +1665,15 @@ export function initialize({
       })) as ProfileType;
     }
 
-    async function getProfileForUsername(usernameToFetch: string) {
+    async function getAccountForUsername(usernameToFetch: string) {
       return (await _ajax({
-        call: 'profile',
+        call: 'username',
         httpType: 'GET',
-        urlParameters: `/username/${encodeURIComponent(usernameToFetch)}`,
+        urlParameters: `/${encodeURIComponent(usernameToFetch)}`,
         responseType: 'json',
         redactUrl: _createRedactor(usernameToFetch),
+        unauthenticated: true,
+        accessKey: undefined,
       })) as ProfileType;
     }
 

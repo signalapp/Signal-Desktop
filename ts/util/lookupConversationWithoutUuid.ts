@@ -143,15 +143,15 @@ async function checkForUsername(
   }
 
   try {
-    const profile = await server.getProfileForUsername(username);
+    const account = await server.getAccountForUsername(username);
 
-    if (!profile.uuid) {
-      log.error("checkForUsername: Returned profile didn't include a uuid");
+    if (!account.uuid) {
+      log.error("checkForUsername: Returned account didn't include a uuid");
       return;
     }
 
     return {
-      uuid: UUID.cast(profile.uuid),
+      uuid: UUID.cast(account.uuid),
       username,
     };
   } catch (error) {
