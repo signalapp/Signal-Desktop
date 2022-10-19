@@ -298,7 +298,13 @@ export const getStoryReplies = createSelector(
 
       return {
         author: getAvatarData(conversation),
-        ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
+        ...pick(reply, [
+          'body',
+          'bodyRanges',
+          'deletedForEveryone',
+          'id',
+          'timestamp',
+        ]),
         contactNameColor: contactNameColorSelector(
           reply.conversationId,
           conversation.id

@@ -347,6 +347,7 @@ export const StoryViewsNRepliesModal = ({
               <Message
                 {...MESSAGE_DEFAULT_PROPS}
                 author={reply.author}
+                bodyRanges={reply.bodyRanges}
                 contactNameColor={reply.contactNameColor}
                 containerElementRef={containerElementRef}
                 conversationColor="ultramarine"
