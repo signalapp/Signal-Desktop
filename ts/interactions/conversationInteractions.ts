@@ -255,7 +255,6 @@ export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));
 }
 
-
 export function showAddModeratorsByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateAddModeratorsModal({ conversationId }));
 }
