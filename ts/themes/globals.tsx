@@ -55,6 +55,7 @@ export type ThemeGlobals = {
   '--shadow-color': string;
   '--drop-shadow': string;
   '--context-menu-shadow-color': string;
+  '--scroll-button-shadow': string;
 
   /* Path Button */
   '--button-path-default-color': string;
@@ -128,13 +129,14 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--shadow-color': 'var(--black-color)',
   '--drop-shadow': '0 0 4px 0 var(--shadow-color)',
   '--context-menu-shadow-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
+  '--scroll-button-shadow': `0 0 7px 0 rgba(${hexColorToRGB(COLORS.BLACK)}, 0.5)`,
 
   '--button-path-default-color': COLORS.PATH.DEFAULT,
   '--button-path-connecting-color': COLORS.PATH.CONNECTING,
   '--button-path-error-color': COLORS.PATH.ERROR,
 
   '--modal-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.3)`,
-  '--modal-drop-shadow': `0px 0px 10px  rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
+  '--modal-drop-shadow': `0px 0px 10px rgba(${hexColorToRGB(COLORS.BLACK)}, 0.22)`,
 
   '--lightbox-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.8)`,
   '--lightbox-caption-background-color': 'rgba(192, 192, 192, .40)',
