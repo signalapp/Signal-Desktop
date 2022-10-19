@@ -5244,7 +5244,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "You will no longer be able to share or view stories.",
+    "message": "You will no longer be able to share or view stories. Story updates you have recently shared will also be deleted.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {

@@ -88,6 +88,7 @@ const ipcPNP = createCallback('isPhoneNumberSharingEnabled');
 const ipcShouldShowStoriesSettings = createCallback(
   'shouldShowStoriesSettings'
 );
+const ipcDeleteAllMyStories = createCallback('deleteAllMyStories');
 
 // ChatColorPicker redux hookups
 // The redux actions update over IPC through a preferences re-render
@@ -301,7 +302,13 @@ const renderPreferences = async () => {
     onCountMutedConversationsChange: reRender(
       settingCountMutedConversations.setValue
     ),
-    onHasStoriesDisabledChanged: reRender(settingHasStoriesDisabled.setValue),
+    onHasStoriesDisabledChanged: reRender(async (value: boolean) => {
+      await settingHasStoriesDisabled.setValue(value);
+      if (!value) {
+        ipcDeleteAllMyStories();
+      }
+      return value;
+    }),
     onHideMenuBarChange: reRender(settingHideMenuBar.setValue),
     onIncomingCallNotificationsChange: reRender(
       settingIncomingCallNotification.setValue

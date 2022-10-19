@@ -57,6 +57,7 @@ export class SettingsChannel extends EventEmitter {
     this.installCallback('getDefaultConversationColor');
 
     // Various callbacks
+    this.installCallback('deleteAllMyStories');
     this.installCallback('getAvailableIODevices');
     this.installCallback('isPrimary');
     this.installCallback('syncRequest');
