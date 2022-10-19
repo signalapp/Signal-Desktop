@@ -29,7 +29,7 @@ import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
-    if (path === 'searchNames') {
+    if (path[0] === 'searchNames' || path === 'searchNames') {
       return [story.storyView.sender.title, story.storyView.sender.name].filter(
         isNotNil
       );
