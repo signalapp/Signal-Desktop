@@ -36,6 +36,7 @@ import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import { parseE164FromSignalDotMeHash } from './sgnlHref';
 import * as log from '../logging/log';
+import { deleteAllMyStories } from './deleteAllMyStories';
 
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -89,6 +90,7 @@ export type IPCEventsCallbacksType = {
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
   deleteAllData: () => Promise<void>;
+  deleteAllMyStories: () => Promise<void>;
   closeDB: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
@@ -199,6 +201,10 @@ export function createIPCEvents(
       window.storage.get('preferred-video-input-device'),
     setPreferredVideoInputDevice: device =>
       window.storage.put('preferred-video-input-device', device),
+
+    deleteAllMyStories: async () => {
+      await deleteAllMyStories();
+    },
 
     // Chat Color redux hookups
     getCustomColors: () => {
