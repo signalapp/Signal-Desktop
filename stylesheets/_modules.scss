@@ -3641,7 +3641,7 @@ button.module-image__border-overlay:focus {
   // - size themselves in relation to viewport (position: fixed)
   &__modal-container {
     position: fixed;
-    top: 0;
+    top: var(--titlebar-height);
     left: 0;
     z-index: $z-index-on-top-of-everything;
   }
