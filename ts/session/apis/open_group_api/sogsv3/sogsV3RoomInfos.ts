@@ -11,7 +11,7 @@ import {
 
 export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   const result = await OnionSending.sendJsonViaOnionV4ToSogs({
-    blinded: false,
+    blinded: true,
     endpoint: '/rooms',
     method: 'GET',
     serverPubkey: roomInfos.serverPublicKey,
@@ -19,7 +19,6 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
     abortSignal: new AbortController().signal,
     serverUrl: roomInfos.serverUrl,
     headers: null,
-    doNotIncludeOurSogsHeaders: true,
     throwErrors: false,
   });
 
@@ -91,7 +90,6 @@ export async function openGroupV2GetRoomInfoViaOnionV4({
     stringifiedBody: null,
     serverPubkey,
     headers: null,
-    doNotIncludeOurSogsHeaders: true,
     throwErrors: false,
   });
   const room = result?.body as Record<string, any> | undefined;
