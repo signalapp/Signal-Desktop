@@ -64,7 +64,7 @@ export const classicDark: ThemeColorVariables = {
   '--button-icon-stroke-selected-color': 'var(--text-primary-color)',
 
   '--conversation-tab-background-color': 'var(--background-primary-color)',
-  '--conversation-tab-background-hover-color': THEMES.CLASSIC_DARK.COLOR2,
+  '--conversation-tab-background-hover-color': THEMES.CLASSIC_DARK.COLOR3,
   '--conversation-tab-background-selected-color': THEMES.CLASSIC_DARK.COLOR3,
   '--conversation-tab-background-unread-color': THEMES.CLASSIC_DARK.COLOR2,
   '--conversation-tab-text-color': 'var(--text-secondary-color)',
