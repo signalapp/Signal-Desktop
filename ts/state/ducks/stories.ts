@@ -117,6 +117,7 @@ const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 const VIEW_STORY = 'stories/VIEW_STORY';
+const REMOVE_ALL_STORIES = 'stories/REMOVE_ALL_STORIES';
 
 type DOEStoryActionType = {
   type: typeof DOE_STORY;
@@ -184,6 +185,10 @@ type ViewStoryActionType = {
   payload: SelectedStoryDataType | undefined;
 };
 
+type RemoveAllStoriesActionType = {
+  type: typeof REMOVE_ALL_STORIES;
+};
+
 export type StoriesActionType =
   | DOEStoryActionType
   | ListMembersVerified
@@ -198,7 +203,8 @@ export type StoriesActionType =
   | SendStoryModalOpenStateChanged
   | StoryChangedActionType
   | ToggleViewActionType
-  | ViewStoryActionType;
+  | ViewStoryActionType
+  | RemoveAllStoriesActionType;
 
 // Action Creators
 
@@ -698,6 +704,12 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
   };
 };
 
+function removeAllStories(): RemoveAllStoriesActionType {
+  return {
+    type: REMOVE_ALL_STORIES,
+  };
+}
+
 type ViewStoryOptionsType =
   | {
       closeViewer: true;
@@ -966,6 +978,7 @@ export const actions = {
   markStoryRead,
   queueStoryDownload,
   reactToStory,
+  removeAllStories,
   replyToStory,
   sendStoryMessage,
   sendStoryModalOpenStateChanged,
@@ -1259,6 +1272,10 @@ export function reducer(
       ...state,
       selectedStoryData: action.payload,
     };
+  }
+
+  if (action.type === REMOVE_ALL_STORIES) {
+    return getEmptyState();
   }
 
   if (action.type === QUEUE_STORY_DOWNLOAD) {
