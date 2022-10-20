@@ -420,6 +420,8 @@ export class LegacyCDS extends CDSBase<LegacyCDSOptionsType> {
   }
 }
 
+const ALLOWED_ADVISORIES = new Set(['INTEL-SA-00334', 'INTEL-SA-00615']);
+
 function validateAttestationSignatureBody(
   signatureBody: {
     timestamp: string;
@@ -445,11 +447,11 @@ function validateAttestationSignatureBody(
   if (signatureBody.isvEnclaveQuoteStatus !== 'SW_HARDENING_NEEDED') {
     throw new Error('Attestation signature status not "SW_HARDENING_NEEDED"!');
   }
-  if (
-    signatureBody.advisoryIDs.length !== 1 ||
-    signatureBody.advisoryIDs[0] !== 'INTEL-SA-00334'
-  ) {
+  if (!signatureBody.advisoryIDs.every(id => ALLOWED_ADVISORIES.has(id))) {
     throw new Error('Attestation advisory ids are incorrect');
+  }
+  if (signatureBody.advisoryIDs.length > ALLOWED_ADVISORIES.size) {
+    throw new Error('Attestation advisory count is incorrect');
   }
   if (signatureTime < now - 24 * 60 * 60 * 1000) {
     throw new Error('Attestation signature timestamp older than 24 hours!');
