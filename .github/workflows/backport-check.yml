@@ -3,7 +3,7 @@
 name: Backport Check
 on:
   pull_request:
-    types: [opened, labeled, unlabeled]
+    types: [opened, labeled]
 jobs:
   backport-check:
     runs-on: ubuntu-latest
@@ -11,17 +11,12 @@ jobs:
       - name: Check pull request has a backport label
         env:
           EVENT_ACTION: ${{ github.event.action }}
-          EVENT_LABEL_NAME: ${{ github.event.label.name }}
+          EVENT_LABEL_NAME: ${{ toJSON(github.event.label.name) }}
           EVENT_PULL_REQUEST_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
         shell: bash
         run: |
-          LABELS=""
+          LABELS="$EVENT_PULL_REQUEST_LABELS, $EVENT_LABEL_NAME"
           BACKPORT_LABELS="backport no-backport needs-backport needs-manual-backport"
-          if [ "$EVENT_ACTION" == 'opened' ]; then
-            LABELS="$EVENT_PULL_REQUEST_LABELS"
-          elif [ "$EVENT_ACTION" == 'labeled' ]; then
-            LABELS="\"$EVENT_LABEL_NAME\""
-          fi
           echo "Found labels: $LABELS"
           for BACKPORT_LABEL in $BACKPORT_LABELS; do
             echo "Checking for label '$BACKPORT_LABEL'"
