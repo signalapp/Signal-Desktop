@@ -34,6 +34,7 @@ import type { MessageModel } from '../../models/messages';
 import { SendMessageProtoError } from '../../textsecure/Errors';
 import { strictAssert } from '../../util/assert';
 import type { LoggerType } from '../../types/Logging';
+import { isStory } from '../../messages/helpers';
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,
@@ -59,6 +60,7 @@ export async function sendDeleteForEveryone(
     log.error(`Failed to fetch message ${messageId}. Failing job.`);
     return;
   }
+  const story = isStory(message.attributes);
 
   if (!shouldContinue) {
     log.info('Ran out of time. Giving up on sending delete for everyone');
@@ -105,7 +107,9 @@ export async function sendDeleteForEveryone(
         profileKey = await ourProfileKeyService.get();
       }
 
-      const sendOptions = await getSendOptions(conversation.attributes);
+      const sendOptions = await getSendOptions(conversation.attributes, {
+        story,
+      });
 
       try {
         if (isMe(conversation.attributes)) {
@@ -188,6 +192,7 @@ export async function sendDeleteForEveryone(
                 profileKey,
                 options: sendOptions,
                 urgent: true,
+                story,
                 includePniSignatureMessage: true,
               }),
             sendType,
@@ -226,6 +231,7 @@ export async function sendDeleteForEveryone(
                 sendOptions,
                 sendTarget: conversation.toSenderKeyTarget(),
                 sendType: 'deleteForEveryone',
+                story,
                 urgent: true,
               }),
             sendType,
