@@ -12,7 +12,10 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
 import { deleteForEveryone } from './deleteForEveryone';
-import { getConversationIdForLogging } from './idForLogging';
+import {
+  getConversationIdForLogging,
+  getMessageIdForLogging,
+} from './idForLogging';
 import { getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
@@ -38,6 +41,7 @@ export async function sendDeleteForEveryoneMessage(
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }
   const messageModel = window.MessageController.register(messageId, message);
+  const idForLogging = getMessageIdForLogging(messageModel.attributes);
 
   const timestamp = Date.now();
   const maxDuration = deleteForEveryoneDuration || THREE_HOURS;
@@ -62,9 +66,12 @@ export async function sendDeleteForEveryoneMessage(
       targetTimestamp,
     };
     await conversationJobQueue.add(jobData, async jobToInsert => {
-      const idForLogging = getConversationIdForLogging(conversationAttributes);
+      const conversationIdForLogging = getConversationIdForLogging(
+        conversationAttributes
+      );
       log.info(
-        `sendDeleteForEveryoneMessage: saving message ${idForLogging} and job ${jobToInsert.id}`
+        `sendDeleteForEveryoneMessage: Deleting message ${idForLogging} ` +
+          `in conversation ${conversationIdForLogging} with job ${jobToInsert.id}`
       );
       await window.Signal.Data.saveMessage(messageModel.attributes, {
         jobToInsert,
@@ -73,7 +80,7 @@ export async function sendDeleteForEveryoneMessage(
     });
   } catch (error) {
     log.error(
-      'sendDeleteForEveryoneMessage: Failed to queue delete for everyone',
+      `sendDeleteForEveryoneMessage: Failed to queue delete for everyone for message ${idForLogging}`,
       Errors.toLogFormat(error)
     );
     throw error;
