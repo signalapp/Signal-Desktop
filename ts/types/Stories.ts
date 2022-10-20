@@ -9,8 +9,6 @@ import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStatus } from '../messages/MessageSendState';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
 import type { UUIDStringType } from './UUID';
-import { isEnabled } from '../RemoteConfig';
-import { isBeta } from '../util/version';
 
 export type ReplyType = {
   author: Pick<
@@ -157,15 +155,3 @@ export enum StorySendMode {
   Always = 'Always',
   Never = 'Never',
 }
-
-// Note: selectors/items is the other place this check is done
-export const getStoriesAvailable = (): boolean =>
-  isEnabled('desktop.stories') ||
-  isEnabled('desktop.internalUser') ||
-  (isEnabled('desktop.stories.beta') && isBeta(window.getVersion()));
-
-export const getStoriesDisabled = (): boolean =>
-  window.Events.getHasStoriesDisabled();
-
-export const getStoriesBlocked = (): boolean =>
-  !getStoriesAvailable() || getStoriesDisabled();

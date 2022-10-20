@@ -3,6 +3,8 @@
 
 import memoizee from 'memoizee';
 import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
+import * as log from '../logging/log';
+import * as Errors from './errors';
 
 function _format(
   phoneNumber: string,
@@ -22,6 +24,27 @@ function _format(
     return instance.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL);
   } catch (error) {
     return phoneNumber;
+  }
+}
+
+export function getCountryCode(
+  phoneNumber: string | undefined
+): number | undefined {
+  try {
+    if (phoneNumber == null) {
+      return undefined;
+    }
+    if (!isValidNumber(phoneNumber)) {
+      return undefined;
+    }
+
+    return instance.parse(phoneNumber).getCountryCode();
+  } catch (error) {
+    const errorText = Errors.toLogFormat(error);
+    log.info(
+      `getCountryCode: Failed to get country code from ${phoneNumber}: ${errorText}`
+    );
+    return undefined;
   }
 }
 

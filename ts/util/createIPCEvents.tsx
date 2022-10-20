@@ -4,7 +4,7 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
 import * as React from 'react';
-import { getStoriesAvailable } from '../types/Stories';
+import { getStoriesAvailable } from './stories';
 
 import type { ZoomFactorType } from '../types/Storage.d';
 import type {
