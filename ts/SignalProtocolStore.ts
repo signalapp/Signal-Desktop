@@ -4,6 +4,7 @@
 import PQueue from 'p-queue';
 import { isNumber, omit } from 'lodash';
 import { z } from 'zod';
+import { EventEmitter } from 'events';
 
 import {
   Direction,
@@ -195,12 +196,6 @@ export function freezeSignedPreKey(
   return keyPair;
 }
 
-// We add a this parameter to avoid an 'implicit any' error on the next line
-const EventsMixin = function EventsMixin(this: unknown) {
-  Object.assign(this, window.Backbone.Events);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} as any as typeof window.Backbone.EventsMixin;
-
 type SessionCacheEntry = CacheEntryType<SessionType, SessionRecord>;
 type SenderKeyCacheEntry = CacheEntryType<SenderKeyType, SenderKeyRecord>;
 
@@ -209,7 +204,7 @@ type ZoneQueueEntryType = Readonly<{
   callback(): void;
 }>;
 
-export class SignalProtocolStore extends EventsMixin {
+export class SignalProtocolStore extends EventEmitter {
   // Enums used across the app
 
   VerifiedStatus = VerifiedStatus;
@@ -388,7 +383,7 @@ export class SignalProtocolStore extends EventsMixin {
     const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
 
     try {
-      this.trigger('removePreKey', ourUuid);
+      this.emit('removePreKey', ourUuid);
     } catch (error) {
       log.error(
         'removePreKey error triggering removePreKey:',
@@ -1669,7 +1664,7 @@ export class SignalProtocolStore extends EventsMixin {
       });
 
       try {
-        this.trigger('keychange', encodedAddress.uuid);
+        this.emit('keychange', encodedAddress.uuid);
       } catch (error) {
         log.error(
           'saveIdentity: error triggering keychange:',
@@ -1839,7 +1834,7 @@ export class SignalProtocolStore extends EventsMixin {
 
     if (identityRecord) {
       try {
-        this.trigger('keychange', uuid);
+        this.emit('keychange', uuid);
       } catch (error) {
         log.error(
           'processVerifiedMessage error triggering keychange:',
@@ -2071,6 +2066,8 @@ export class SignalProtocolStore extends EventsMixin {
 
     window.ConversationController.reset();
     await window.ConversationController.load();
+
+    this.emit('removeAllData');
   }
 
   async removeAllConfiguration(mode: RemoveAllConfiguration): Promise<void> {
@@ -2155,6 +2152,43 @@ export class SignalProtocolStore extends EventsMixin {
     });
 
     return Array.from(union.values());
+  }
+  //
+  // EventEmitter types
+  //
+
+  public override on(
+    name: 'removePreKey',
+    handler: (ourUuid: UUID) => unknown
+  ): this;
+
+  public override on(
+    name: 'keychange',
+    handler: (theirUuid: UUID) => unknown
+  ): this;
+
+  public override on(name: 'removeAllData', handler: () => unknown): this;
+
+  public override on(
+    eventName: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listener: (...args: Array<any>) => void
+  ): this {
+    return super.on(eventName, listener);
+  }
+
+  public override emit(name: 'removePreKey', ourUuid: UUID): boolean;
+
+  public override emit(name: 'keychange', theirUuid: UUID): boolean;
+
+  public override emit(name: 'removeAllData'): boolean;
+
+  public override emit(
+    eventName: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...args: Array<any>
+  ): boolean {
+    return super.emit(eventName, ...args);
   }
 }
 

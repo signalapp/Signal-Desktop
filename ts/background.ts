@@ -540,6 +540,10 @@ export async function startApp(): Promise<void> {
     window.getAccountManager().refreshPreKeys(uuidKind);
   });
 
+  window.textsecure.storage.protocol.on('removeAllData', () => {
+    window.reduxActions.stories.removeAllStories();
+  });
+
   window.getSocketStatus = () => {
     if (server === undefined) {
       return SocketStatus.CLOSED;
@@ -1179,6 +1183,8 @@ export async function startApp(): Promise<void> {
 
       changedConvoBatcher.add(conversation);
     });
+
+    // Called by SignalProtocolStore#removeAllData()
     convoCollection.on('reset', removeAllConversations);
 
     window.Whisper.events.on('userChanged', (reconnect = false) => {

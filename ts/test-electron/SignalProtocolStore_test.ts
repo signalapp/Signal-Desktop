@@ -686,12 +686,12 @@ describe('SignalProtocolStore', () => {
 
     beforeEach(() => {
       keychangeTriggered = 0;
-      store.bind('keychange', () => {
+      store.on('keychange', () => {
         keychangeTriggered += 1;
       });
     });
     afterEach(() => {
-      store.unbind('keychange');
+      store.removeAllListeners('keychange');
     });
 
     describe('when the new verified status is DEFAULT', () => {

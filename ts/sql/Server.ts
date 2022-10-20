@@ -4795,6 +4795,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM storyDistributions;
       DELETE FROM storyReads;
       DELETE FROM unprocessed;
+      DELETE FROM uninstalled_sticker_packs;
     `);
   })();
 }
