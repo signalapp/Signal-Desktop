@@ -1363,14 +1363,16 @@ export class ConversationModel extends window.Backbone
     message: MessageModel,
     { isJustSent }: { isJustSent: boolean } = { isJustSent: false }
   ): Promise<void> {
-    await this.beforeAddSingleMessage();
+    await this.beforeAddSingleMessage(message);
     this.doAddSingleMessage(message, { isJustSent });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.debouncedUpdateLastMessage!();
   }
 
-  private async beforeAddSingleMessage(): Promise<void> {
+  private async beforeAddSingleMessage(message: MessageModel): Promise<void> {
+    await message.hydrateStoryContext();
+
     if (!this.newMessageQueue) {
       this.newMessageQueue = new PQueue({
         concurrency: 1,
@@ -1402,7 +1404,12 @@ export class ConversationModel extends window.Backbone
 
     if (isJustSent && existingConversation && !isLatestInMemory) {
       this.loadNewestMessages(undefined, undefined);
-    } else {
+    } else if (
+      // The message has to be not a story or has to be a story reply in direct
+      // conversation.
+      !isStory(message.attributes) &&
+      (message.get('storyId') == null || isDirectConversation(this.attributes))
+    ) {
       messagesAdded({
         conversationId,
         messages: [{ ...message.attributes }],
@@ -4029,56 +4036,53 @@ export class ConversationModel extends window.Backbone
 
     const renderStart = Date.now();
 
-    // Don't update the conversation with a story reply
-    if (storyId == null) {
-      // Perform asynchronous tasks before entering the batching mode
-      await this.beforeAddSingleMessage();
+    // Perform asynchronous tasks before entering the batching mode
+    await this.beforeAddSingleMessage(model);
 
-      this.isInReduxBatch = true;
-      batchDispatch(() => {
-        try {
-          const { clearUnreadMetrics } = window.reduxActions.conversations;
-          clearUnreadMetrics(this.id);
+    this.isInReduxBatch = true;
+    batchDispatch(() => {
+      try {
+        const { clearUnreadMetrics } = window.reduxActions.conversations;
+        clearUnreadMetrics(this.id);
 
-          const enabledProfileSharing = Boolean(
-            mandatoryProfileSharingEnabled && !this.get('profileSharing')
-          );
-          const unarchivedConversation = Boolean(this.get('isArchived'));
+        const enabledProfileSharing = Boolean(
+          mandatoryProfileSharingEnabled && !this.get('profileSharing')
+        );
+        const unarchivedConversation = Boolean(this.get('isArchived'));
 
-          this.doAddSingleMessage(model, { isJustSent: true });
+        this.doAddSingleMessage(model, { isJustSent: true });
 
-          const draftProperties = dontClearDraft
-            ? {}
-            : {
-                draft: null,
-                draftTimestamp: null,
-                lastMessage: model.getNotificationText(),
-                lastMessageAuthor: model.getAuthorText(),
-                lastMessageStatus: 'sending' as const,
-              };
+        const draftProperties = dontClearDraft
+          ? {}
+          : {
+              draft: null,
+              draftTimestamp: null,
+              lastMessage: model.getNotificationText(),
+              lastMessageAuthor: model.getAuthorText(),
+              lastMessageStatus: 'sending' as const,
+            };
 
-          this.set({
-            ...draftProperties,
-            ...(enabledProfileSharing ? { profileSharing: true } : {}),
-            ...this.incrementSentMessageCount({ dry: true }),
-            active_at: now,
-            timestamp: now,
-            ...(unarchivedConversation ? { isArchived: false } : {}),
-          });
+        this.set({
+          ...draftProperties,
+          ...(enabledProfileSharing ? { profileSharing: true } : {}),
+          ...this.incrementSentMessageCount({ dry: true }),
+          active_at: now,
+          timestamp: now,
+          ...(unarchivedConversation ? { isArchived: false } : {}),
+        });
 
-          if (enabledProfileSharing) {
-            this.captureChange('enqueueMessageForSend/mandatoryProfileSharing');
-          }
-          if (unarchivedConversation) {
-            this.captureChange('enqueueMessageForSend/unarchive');
-          }
-
-          extraReduxActions?.();
-        } finally {
-          this.isInReduxBatch = false;
+        if (enabledProfileSharing) {
+          this.captureChange('enqueueMessageForSend/mandatoryProfileSharing');
         }
-      });
-    }
+        if (unarchivedConversation) {
+          this.captureChange('enqueueMessageForSend/unarchive');
+        }
+
+        extraReduxActions?.();
+      } finally {
+        this.isInReduxBatch = false;
+      }
+    });
 
     if (sticker) {
       await addStickerPackReference(model.id, sticker.packId);
