@@ -120,14 +120,17 @@ export const MyStories = ({
                     />
                   </div>
                 </button>
-                <button
-                  aria-label={i18n('MyStories__download')}
-                  className="MyStories__story__download"
-                  onClick={() => {
-                    onSave(story);
-                  }}
-                  type="button"
-                />
+                {story.attachment &&
+                  (story.attachment.path || story.attachment.data) && (
+                    <button
+                      aria-label={i18n('MyStories__download')}
+                      className="MyStories__story__download"
+                      onClick={() => {
+                        onSave(story);
+                      }}
+                      type="button"
+                    />
+                  )}
                 <ContextMenu
                   i18n={i18n}
                   menuOptions={[
@@ -136,13 +139,6 @@ export const MyStories = ({
                       label: i18n('forward'),
                       onClick: () => {
                         onForward(story.messageId);
-                      },
-                    },
-                    {
-                      icon: 'MyStories__icon--save',
-                      label: i18n('save'),
-                      onClick: () => {
-                        onSave(story);
                       },
                     },
                     {
