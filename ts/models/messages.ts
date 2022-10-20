@@ -172,6 +172,81 @@ import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { SECOND } from '../util/durations';
+import dataInterface from '../sql/Client';
+
+function isSameUuid(
+  a: UUID | string | null | undefined,
+  b: UUID | string | null | undefined
+): boolean {
+  return a != null && b != null && String(a) === String(b);
+}
+
+async function shouldReplyNotifyUser(
+  message: MessageModel,
+  conversation: ConversationModel
+): Promise<boolean> {
+  // Don't notify if the message has already been read
+  if (!isMessageUnread(message.attributes)) {
+    return false;
+  }
+
+  const storyId = message.get('storyId');
+
+  // If this is not a reply to a story, always notify.
+  if (storyId == null) {
+    return true;
+  }
+
+  // Always notify if this is not a group
+  if (!isGroup(conversation.attributes)) {
+    return true;
+  }
+
+  const matchedStory = window.reduxStore
+    .getState()
+    .stories.stories.find(story => {
+      return story.messageId === storyId;
+    });
+
+  // If we can't find the story, don't notify
+  if (matchedStory == null) {
+    log.warn("Couldn't find story for reply");
+    return false;
+  }
+
+  const currentUserId = window.textsecure.storage.user.getUuid();
+  const storySourceId = matchedStory.sourceUuid;
+
+  const currentUserIdSource = isSameUuid(storySourceId, currentUserId);
+
+  // If the story is from the current user, always notify
+  if (currentUserIdSource) {
+    return true;
+  }
+
+  // If the story is from a different user, only notify if the user has
+  // replied or reacted to the story
+
+  const replies = await dataInterface.getOlderMessagesByConversation(
+    conversation.id,
+    {
+      limit: 9000,
+      storyId,
+      includeStoryReplies: true,
+    }
+  );
+
+  const prevCurrentUserReply = replies.find(replyMessage => {
+    return replyMessage.type === 'outgoing';
+  });
+
+  if (prevCurrentUserReply != null) {
+    return true;
+  }
+
+  // Otherwise don't notify
+  return false;
+}
 
 /* eslint-disable more/no-then */
 
@@ -2864,34 +2939,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isFirstRun = false;
     await this.modifyTargetMessage(conversation, isFirstRun);
 
-    const storyId = this.get('storyId');
-    const isGroupStoryReply =
-      isGroup(conversation.attributes) && storyId != null;
-
-    let shouldNotify = true;
-
-    if (!isMessageUnread(this.attributes)) {
-      shouldNotify = false;
-    } else if (isGroupStoryReply) {
-      const match = window.reduxStore.getState().stories.stories.find(story => {
-        return story.messageId === storyId;
-      });
-
-      const sourceUuid = match?.sourceUuid;
-      const userUuid = window.textsecure.storage.user.getUuid();
-
-      const weAreSource =
-        sourceUuid != null &&
-        userUuid != null &&
-        sourceUuid === userUuid.toString();
-
-      // TODO: Check if we're someone else who has replied/reacted to this story
-      if (!weAreSource) {
-        shouldNotify = false;
-      }
-    }
-
-    if (shouldNotify) {
+    if (await shouldReplyNotifyUser(this, conversation)) {
       await conversation.notify(this);
     }
 
