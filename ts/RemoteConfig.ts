@@ -5,6 +5,12 @@ import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as log from './logging/log';
+import type { UUIDStringType } from './types/UUID';
+import { parseIntOrThrow } from './util/parseIntOrThrow';
+import * as Bytes from './Bytes';
+import { hash, uuidToBytes } from './Crypto';
+import { HashType } from './types/Crypto';
+import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
@@ -134,4 +140,87 @@ export function isEnabled(name: ConfigKeyType): boolean {
 
 export function getValue(name: ConfigKeyType): string | undefined {
   return get(config, [name, 'value'], undefined);
+}
+
+// See isRemoteConfigBucketEnabled in selectors/items.ts
+export function isBucketValueEnabled(
+  name: ConfigKeyType,
+  e164: string | undefined,
+  uuid: UUIDStringType | undefined
+): boolean {
+  return innerIsBucketValueEnabled(name, getValue(name), e164, uuid);
+}
+
+export function innerIsBucketValueEnabled(
+  name: ConfigKeyType,
+  flagValue: unknown,
+  e164: string | undefined,
+  uuid: UUIDStringType | undefined
+): boolean {
+  if (e164 == null || uuid == null) {
+    return false;
+  }
+
+  const countryCode = getCountryCode(e164);
+  if (countryCode == null) {
+    return false;
+  }
+
+  if (typeof flagValue !== 'string') {
+    return false;
+  }
+
+  const remoteConfigValue = getCountryCodeValue(countryCode, flagValue, name);
+  if (remoteConfigValue == null) {
+    return false;
+  }
+
+  const bucketValue = getBucketValue(uuid, name);
+  return bucketValue < remoteConfigValue;
+}
+
+export function getCountryCodeValue(
+  countryCode: number,
+  flagValue: string,
+  flagName: string
+): number | undefined {
+  const logId = `getCountryCodeValue/${flagName}`;
+  if (flagValue.length === 0) {
+    return undefined;
+  }
+
+  const countryCodeString = countryCode.toString();
+  const items = flagValue.split(',');
+
+  let wildcard: number | undefined;
+  for (const item of items) {
+    const [code, value] = item.split(':');
+    if (code == null || value == null) {
+      log.warn(`${logId}: '${code}:${value}' entry was invalid`);
+      continue;
+    }
+
+    const parsedValue = parseIntOrThrow(
+      value,
+      `${logId}: Country code '${code}' had an invalid number '${value}'`
+    );
+    if (code === '*') {
+      wildcard = parsedValue;
+    } else if (countryCodeString === code) {
+      return parsedValue;
+    }
+  }
+
+  return wildcard;
+}
+
+export function getBucketValue(uuid: UUIDStringType, flagName: string): number {
+  const hashInput = Bytes.concatenate([
+    Bytes.fromString(`${flagName}.`),
+    uuidToBytes(uuid),
+  ]);
+  const hashResult = hash(HashType.size256, hashInput);
+  const buffer = Buffer.from(hashResult.slice(0, 8));
+
+  return Number(buffer.readBigUint64BE() % 1_000_000n);
 }

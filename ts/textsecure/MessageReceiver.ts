@@ -115,7 +115,7 @@ import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { isConversationAccepted } from '../util/isConversationAccepted';
-import { getStoriesBlocked } from '../types/Stories';
+import { getStoriesBlocked } from '../util/stories';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
