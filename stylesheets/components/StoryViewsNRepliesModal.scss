@@ -45,7 +45,7 @@
 
   &__emoji-button {
     height: 24px;
-    margin-right: 8px;
+    margin-left: 10px;
     width: 24px;
 
     &::after {
@@ -78,9 +78,12 @@
         color: $color-gray-25;
       }
 
+      display: flex;
+      align-items: center;
+      min-height: 36px;
+
       &--with-children {
-        align-items: center;
-        display: flex;
+        flex: 1;
       }
 
       .quill {

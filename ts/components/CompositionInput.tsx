@@ -62,19 +62,19 @@ export type InputApi = {
   submit: () => void;
 };
 
-export type Props = {
+export type Props = Readonly<{
   children?: React.ReactNode;
-  readonly i18n: LocalizerType;
-  readonly disabled?: boolean;
-  readonly getPreferredBadge: PreferredBadgeSelectorType;
-  readonly large?: boolean;
-  readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
-  readonly skinTone?: EmojiPickDataType['skinTone'];
-  readonly draftText?: string;
-  readonly draftBodyRanges?: Array<BodyRangeType>;
-  readonly moduleClassName?: string;
-  readonly theme: ThemeType;
-  readonly placeholder?: string;
+  i18n: LocalizerType;
+  disabled?: boolean;
+  getPreferredBadge: PreferredBadgeSelectorType;
+  large?: boolean;
+  inputApi?: React.MutableRefObject<InputApi | undefined>;
+  skinTone?: EmojiPickDataType['skinTone'];
+  draftText?: string;
+  draftBodyRanges?: Array<BodyRangeType>;
+  moduleClassName?: string;
+  theme: ThemeType;
+  placeholder?: string;
   sortedGroupMembers?: Array<ConversationType>;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
@@ -93,7 +93,7 @@ export type Props = {
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
-};
+}>;
 
 const MAX_LENGTH = 64 * 1024;
 const BASE_CLASS_NAME = 'module-composition-input';
@@ -671,6 +671,7 @@ export function CompositionInput(props: Props): React.ReactElement {
       <Reference>
         {({ ref }) => (
           <div className={getClassName('__input')} ref={ref}>
+            {children}
             <div
               ref={
                 props.scrollerRef
@@ -685,7 +686,6 @@ export function CompositionInput(props: Props): React.ReactElement {
                 children ? getClassName('__input--with-children') : null
               )}
             >
-              {children}
               {reactQuill}
               {emojiCompletionElement}
               {mentionCompletionElement}
