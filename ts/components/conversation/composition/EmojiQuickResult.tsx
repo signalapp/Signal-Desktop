@@ -13,7 +13,7 @@ const EmojiQuickResult = styled.span`
 const EmojiQuickResultIcon = styled.span`
   padding-inline-end: 20px;
   padding-inline-start: 10px;
-  font-size: 1.4em;
+  font-size: 1.4rem;
 `;
 const EmojiQuickResultText = styled.span``;
 

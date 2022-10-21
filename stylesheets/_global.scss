@@ -6,6 +6,7 @@ html {
   height: 100%;
   // Default theme is Classic Dark
   background-color: #1b1b1b;
+  font-size: 14px;
 }
 
 body {
@@ -14,7 +15,6 @@ body {
   width: 100%;
   margin: 0;
   font-family: $session-font-default;
-  font-size: 14px;
   letter-spacing: 0.3px;
 }
 
