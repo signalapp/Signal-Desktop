@@ -364,7 +364,7 @@ export const _getLeftPaneLists = (
     }
 
     if (
-      unreadCount < 9 &&
+      unreadCount < 100 &&
       conversation.unreadCount &&
       conversation.unreadCount > 0 &&
       conversation.currentNotificationSetting !== 'disabled'
