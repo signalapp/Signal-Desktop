@@ -5209,8 +5209,13 @@ export class ConversationModel extends window.Backbone
   }
 
   toggleHideStories(): void {
-    this.set({ hideStory: !this.get('hideStory') });
+    const hideStory = !this.get('hideStory');
+    log.info(
+      `toggleHideStories(${this.idForLogging()}): newValue=${hideStory}`
+    );
+    this.set({ hideStory });
     this.captureChange('hideStory');
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
   setMuteExpiration(
