@@ -508,13 +508,12 @@ export type DataInterface = {
   getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
-  getOlderStories: (options: {
+  getAllStories: (options: {
     conversationId?: string;
-    limit?: number;
-    receivedAt?: number;
-    sentAt?: number;
     sourceUuid?: UUIDStringType;
   }) => Promise<Array<MessageType>>;
+  hasStoryReplies: (storyId: string) => Promise<boolean>;
+  hasStoryRepliesFromSelf: (storyId: string) => Promise<boolean>;
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (
     conversationId: string,

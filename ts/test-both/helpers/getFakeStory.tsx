@@ -49,7 +49,6 @@ export function getFakeStoryView(
     attachment: getAttachmentWithThumbnail(
       attachmentUrl || '/fixtures/tina-rolf-269345-unsplash.jpg'
     ),
-    hasReplies: Boolean(casual.coin_flip),
     isUnread: Boolean(casual.coin_flip),
     messageId,
     messageIdForLogging: `${messageId} (for logging)`,
@@ -70,8 +69,14 @@ export function getFakeStory({
 }): ConversationStoryType {
   const storyView = getFakeStoryView(attachmentUrl, timestamp);
 
+  const hasReplies = group ? Boolean(casual.coin_flip) : false;
+  const hasRepliesFromSelf =
+    group && hasReplies ? Boolean(casual.coin_flip) : false;
+
   return {
     conversationId: storyView.sender.id,
+    hasReplies,
+    hasRepliesFromSelf,
     group,
     storyView,
   };

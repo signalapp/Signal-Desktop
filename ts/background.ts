@@ -1009,8 +1009,11 @@ export async function startApp(): Promise<void> {
     };
 
     try {
+      // This needs to load before we prime the data because we expect
+      // ConversationController to be loaded and ready to use by then.
+      await window.ConversationController.load();
+
       await Promise.all([
-        window.ConversationController.load(),
         Stickers.load(),
         loadRecentEmojis(),
         loadInitialBadgesState(),

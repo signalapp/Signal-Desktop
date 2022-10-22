@@ -246,7 +246,9 @@ const dataInterface: ServerInterface = {
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
-  getOlderStories,
+  getAllStories,
+  hasStoryReplies,
+  hasStoryRepliesFromSelf,
   getNewerMessagesByConversation,
   getTotalUnreadForConversation,
   getMessageMetricsForConversation,
@@ -2501,17 +2503,11 @@ function getOlderMessagesByConversationSync(
     .reverse();
 }
 
-async function getOlderStories({
+async function getAllStories({
   conversationId,
-  limit = 9999,
-  receivedAt = Number.MAX_VALUE,
-  sentAt,
   sourceUuid,
 }: {
   conversationId?: string;
-  limit?: number;
-  receivedAt?: number;
-  sentAt?: number;
   sourceUuid?: UUIDStringType;
 }): Promise<Array<MessageType>> {
   const db = getInstance();
@@ -2523,23 +2519,48 @@ async function getOlderStories({
       WHERE
         type IS 'story' AND
         ($conversationId IS NULL OR conversationId IS $conversationId) AND
-        ($sourceUuid IS NULL OR sourceUuid IS $sourceUuid) AND
-        (received_at < $receivedAt
-          OR (received_at IS $receivedAt AND sent_at < $sentAt)
-        )
-      ORDER BY received_at ASC, sent_at ASC
-      LIMIT $limit;
+        ($sourceUuid IS NULL OR sourceUuid IS $sourceUuid)
+      ORDER BY received_at ASC, sent_at ASC;
       `
     )
     .all({
       conversationId: conversationId || null,
-      receivedAt,
-      sentAt: sentAt || null,
       sourceUuid: sourceUuid || null,
-      limit,
     });
 
   return rows.map(row => jsonToObject(row.json));
+}
+
+async function hasStoryReplies(storyId: string): Promise<boolean> {
+  const db = getInstance();
+
+  const row: { count: number } = db
+    .prepare<Query>(
+      `
+      SELECT COUNT(*) as count
+      FROM messages
+      WHERE storyId IS $storyId;
+      `
+    )
+    .get({ storyId });
+
+  return row.count !== 0;
+}
+
+async function hasStoryRepliesFromSelf(storyId: string): Promise<boolean> {
+  const db = getInstance();
+
+  const sql = `
+  SELECT COUNT(*) as count
+  FROM messages
+  WHERE
+    storyId IS $storyId AND
+    type IS 'outgoing'
+  `;
+
+  const row: { count: number } = db.prepare<Query>(sql).get({ storyId });
+
+  return row.count !== 0;
 }
 
 async function getNewerMessagesByConversation(
