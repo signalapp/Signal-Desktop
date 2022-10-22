@@ -310,7 +310,8 @@ export async function sendStoryMessage(
           type: conversationQueueJobEnum.enum.Story,
           conversationId,
           messageIds: [messageAttributes.id],
-          timestamp,
+          // using the group timestamp, which will differ from the 1:1 timestamp
+          timestamp: messageAttributes.timestamp,
         },
         async jobToInsert => {
           const model = new window.Whisper.Message(messageAttributes);
