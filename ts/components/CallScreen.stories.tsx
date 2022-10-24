@@ -101,6 +101,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   groupMembers: overrideProps.remoteParticipants || [],
   // Because remote participants are a superset, we can use them in place of peeked
   //   participants.
+  isConversationTooBigToRing: false,
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
   remoteParticipants: overrideProps.remoteParticipants || [],

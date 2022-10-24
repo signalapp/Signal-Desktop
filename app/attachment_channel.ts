@@ -8,7 +8,7 @@ import {
   getStickersPath,
   getTempPath,
   getDraftPath,
-} from '../ts/util/attachments';
+} from './attachments';
 
 let initialized = false;
 

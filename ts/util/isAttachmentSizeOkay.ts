@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from '../types/Attachment';
-import { getMaximumAttachmentSize } from '../types/Attachment';
+import { getMaximumAttachmentSize } from './attachments';
 import { showToast } from './showToast';
 import { ToastFileSize } from '../components/ToastFileSize';
 

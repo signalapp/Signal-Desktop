@@ -51,6 +51,8 @@ const createProps = (
   makeRequest: async (conversationIds: ReadonlyArray<string>) => {
     action('onMakeRequest')(conversationIds);
   },
+  maxGroupSize: 1001,
+  maxRecommendedGroupSize: 151,
   requestState: RequestState.Inactive,
   renderChooseGroupMembersModal: props => {
     const { selectedConversationIds } = props;

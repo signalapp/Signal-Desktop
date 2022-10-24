@@ -14,7 +14,7 @@ import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
-import { getUsernameFromSearch } from '../../../../util/Username';
+import { getUsernameFromSearch } from '../../../../types/Username';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';

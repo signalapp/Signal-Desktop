@@ -13,10 +13,6 @@ import {
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal';
 import {
-  getGroupSizeRecommendedLimit,
-  getGroupSizeHardLimit,
-} from '../../../groups/limits';
-import {
   toggleSelectedContactForGroupAddition,
   OneTimeModalState,
 } from '../../../groups/toggleSelectedContactForGroupAddition';
@@ -31,6 +27,8 @@ type PropsType = {
   makeRequest: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   onClose: () => void;
   requestState: RequestState;
+  maxGroupSize: number;
+  maxRecommendedGroupSize: number;
 
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
@@ -46,6 +44,8 @@ enum Stage {
 }
 
 type StateType = {
+  maxGroupSize: number;
+  maxRecommendedGroupSize: number;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   searchTerm: string;
@@ -116,8 +116,8 @@ function reducer(
       return {
         ...state,
         ...toggleSelectedContactForGroupAddition(action.conversationId, {
-          maxGroupSize: getMaximumNumberOfContacts(),
-          maxRecommendedGroupSize: getRecommendedMaximumNumberOfContacts(),
+          maxGroupSize: state.maxGroupSize,
+          maxRecommendedGroupSize: state.maxRecommendedGroupSize,
           maximumGroupSizeModalState: state.maximumGroupSizeModalState,
           numberOfContactsAlreadyInGroup: action.numberOfContactsAlreadyInGroup,
           recommendedGroupSizeModalState: state.recommendedGroupSizeModalState,
@@ -141,13 +141,12 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
   i18n,
   onClose,
   makeRequest,
+  maxGroupSize,
+  maxRecommendedGroupSize,
   requestState,
   renderChooseGroupMembersModal,
   renderConfirmAdditionsModal,
 }) => {
-  const maxGroupSize = getMaximumNumberOfContacts();
-  const maxRecommendedGroupSize = getRecommendedMaximumNumberOfContacts();
-
   const numberOfContactsAlreadyInGroup = conversationIdsAlreadyInGroup.size;
   const isGroupAlreadyFull = numberOfContactsAlreadyInGroup >= maxGroupSize;
   const isGroupAlreadyOverRecommendedMaximum =
@@ -163,6 +162,8 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
     },
     dispatch,
   ] = useReducer(reducer, {
+    maxGroupSize,
+    maxRecommendedGroupSize,
     maximumGroupSizeModalState: isGroupAlreadyFull
       ? OneTimeModalState.Showing
       : OneTimeModalState.NeverShown,
@@ -260,11 +261,3 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
       throw missingCaseError(stage);
   }
 };
-
-function getRecommendedMaximumNumberOfContacts(): number {
-  return getGroupSizeRecommendedLimit(151);
-}
-
-function getMaximumNumberOfContacts(): number {
-  return getGroupSizeHardLimit(1001);
-}

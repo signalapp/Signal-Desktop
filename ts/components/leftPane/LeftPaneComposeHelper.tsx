@@ -14,7 +14,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
 import { parseAndFormatPhoneNumber } from '../../util/libphonenumberInstance';
 import { missingCaseError } from '../../util/missingCaseError';
-import { getUsernameFromSearch } from '../../util/Username';
+import { getUsernameFromSearch } from '../../types/Username';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import {
   isFetchingByUsername,

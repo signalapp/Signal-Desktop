@@ -15,7 +15,6 @@ import { blobToArrayBuffer } from 'blob-util';
 
 import type { LoggerType } from './Logging';
 import * as MIME from './MIME';
-import * as log from '../logging/log';
 import { toLogFormat } from './errors';
 import { SignalService } from '../protobuf';
 import {
@@ -24,11 +23,7 @@ import {
 } from '../util/GoogleChrome';
 import type { LocalizerType } from './Util';
 import { ThemeType } from './Util';
-import { scaleImageToLevel } from '../util/scaleImageToLevel';
 import * as GoogleChrome from '../util/GoogleChrome';
-import { parseIntOrThrow } from '../util/parseIntOrThrow';
-import { getValue } from '../RemoteConfig';
-import { isRecord } from '../util/isRecord';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
 
@@ -247,73 +242,6 @@ export function isValid(
   }
 
   return true;
-}
-
-// Upgrade steps
-// NOTE: This step strips all EXIF metadata from JPEG images as
-// part of re-encoding the image:
-export async function autoOrientJPEG(
-  attachment: AttachmentType,
-  { logger }: { logger: LoggerType },
-  {
-    sendHQImages = false,
-    isIncoming = false,
-  }: {
-    sendHQImages?: boolean;
-    isIncoming?: boolean;
-  } = {}
-): Promise<AttachmentType> {
-  if (isIncoming && !MIME.isJPEG(attachment.contentType)) {
-    return attachment;
-  }
-
-  if (!canBeTranscoded(attachment)) {
-    return attachment;
-  }
-
-  // If we haven't downloaded the attachment yet, we won't have the data.
-  // All images go through handleImageAttachment before being sent and thus have
-  // already been scaled to level, oriented, stripped of exif data, and saved
-  // in high quality format. If we want to send the image in HQ we can return
-  // the attachment as-is. Otherwise we'll have to further scale it down.
-  if (!attachment.data || sendHQImages) {
-    return attachment;
-  }
-
-  const dataBlob = new Blob([attachment.data], {
-    type: attachment.contentType,
-  });
-  try {
-    const { blob: xcodedDataBlob } = await scaleImageToLevel(
-      dataBlob,
-      attachment.contentType,
-      isIncoming
-    );
-    const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
-
-    // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
-    // image data. Ideally, we’d preserve the original image data for users who want to
-    // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
-    // by potentially doubling stored image data.
-    // See: https://github.com/signalapp/Signal-Desktop/issues/1589
-    const xcodedAttachment = {
-      // `digest` is no longer valid for auto-oriented image data, so we discard it:
-      ...omit(attachment, 'digest'),
-      data: new Uint8Array(xcodedDataArrayBuffer),
-      size: xcodedDataArrayBuffer.byteLength,
-    };
-
-    return xcodedAttachment;
-  } catch (error: unknown) {
-    const errorString =
-      isRecord(error) && 'stack' in error ? error.stack : error;
-    logger.error(
-      'autoOrientJPEG: Failed to rotate/scale attachment',
-      errorString
-    );
-
-    return attachment;
-  }
 }
 
 const UNICODE_LEFT_TO_RIGHT_OVERRIDE = '\u202D';
@@ -1044,23 +972,6 @@ export const getFileExtension = (
       return 'mov';
     default:
       return attachment.contentType.split('/')[1];
-  }
-};
-
-const MEBIBYTE = 1024 * 1024;
-const DEFAULT_MAX = 100 * MEBIBYTE;
-
-export const getMaximumAttachmentSize = (): number => {
-  try {
-    return parseIntOrThrow(
-      getValue('global.attachments.maxBytes'),
-      'preProcessAttachment/maxAttachmentSize'
-    );
-  } catch (error) {
-    log.warn(
-      'Failed to parse integer out of global.attachments.maxBytes feature flag'
-    );
-    return DEFAULT_MAX;
   }
 };
 

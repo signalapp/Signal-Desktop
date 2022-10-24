@@ -62,6 +62,8 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
       isMe: i === 2,
     }),
   })),
+  maxGroupSize: 1001,
+  maxRecommendedGroupSize: 151,
   pendingApprovalMemberships: times(8, () => ({
     member: getDefaultConversation(),
   })),

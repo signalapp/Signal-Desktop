@@ -7,12 +7,7 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util';
 import type { UsernameReservationType } from '../types/Username';
 import { missingCaseError } from '../util/missingCaseError';
-import {
-  getNickname,
-  getDiscriminator,
-  getMinNickname,
-  getMaxNickname,
-} from '../util/Username';
+import { getNickname, getDiscriminator } from '../types/Username';
 import {
   UsernameReservationState,
   UsernameReservationError,
@@ -30,6 +25,8 @@ export type PropsDataType = Readonly<{
   reservation?: UsernameReservationType;
   error?: UsernameReservationError;
   state: UsernameReservationState;
+  minNickname: number;
+  maxNickname: number;
 }>;
 
 export type ActionPropsDataType = Readonly<{
@@ -53,6 +50,8 @@ export const EditUsernameModalBody = ({
   currentUsername,
   reserveUsername,
   confirmUsername,
+  minNickname,
+  maxNickname,
   reservation,
   setUsernameReservationError,
   error,
@@ -103,12 +102,12 @@ export const EditUsernameModalBody = ({
     }
     if (error === UsernameReservationError.NotEnoughCharacters) {
       return i18n('ProfileEditor--username--check-character-min', {
-        min: getMinNickname(),
+        min: minNickname,
       });
     }
     if (error === UsernameReservationError.TooManyCharacters) {
       return i18n('ProfileEditor--username--check-character-max', {
-        max: getMaxNickname(),
+        max: maxNickname,
       });
     }
     if (error === UsernameReservationError.CheckStartingCharacter) {
@@ -125,7 +124,7 @@ export const EditUsernameModalBody = ({
       return;
     }
     throw missingCaseError(error);
-  }, [error, i18n]);
+  }, [error, i18n, minNickname, maxNickname]);
 
   useEffect(() => {
     // Initial effect run

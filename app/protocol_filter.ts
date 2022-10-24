@@ -17,7 +17,7 @@ import {
   getStickersPath,
   getTempPath,
   getUpdateCachePath,
-} from '../ts/util/attachments';
+} from './attachments';
 
 type CallbackType = (response: string | ProtocolResponse) => void;
 

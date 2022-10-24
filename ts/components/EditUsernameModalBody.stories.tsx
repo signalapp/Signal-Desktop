@@ -54,6 +54,12 @@ export default {
         General: UsernameReservationError.General,
       },
     },
+    maxUsername: {
+      defaultValue: 20,
+    },
+    minUsername: {
+      defaultValue: 3,
+    },
     discriminator: {
       type: { name: 'string', required: false },
       defaultValue: undefined,

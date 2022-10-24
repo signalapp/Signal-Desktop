@@ -7,7 +7,6 @@ import React, { useCallback } from 'react';
 import { BaseConversationListItem } from './BaseConversationListItem';
 
 import type { LocalizerType } from '../../types/Util';
-import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
 import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 
@@ -26,6 +25,7 @@ export type Props = PropsData & PropsHousekeeping;
 export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
   i18n,
   isFetchingUsername,
+  lookupConversationWithoutUuid,
   username,
   showUserNotFoundModal,
   setIsFetchingUUID,
@@ -48,11 +48,12 @@ export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
       showConversation({ conversationId });
     }
   }, [
-    username,
-    showUserNotFoundModal,
+    isFetchingUsername,
+    lookupConversationWithoutUuid,
     setIsFetchingUUID,
     showConversation,
-    isFetchingUsername,
+    showUserNotFoundModal,
+    username,
   ]);
 
   return (

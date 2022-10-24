@@ -14,7 +14,7 @@ import { isPathInside } from '../util/isPathInside';
 import { writeWindowsZoneIdentifier } from '../util/windowsZoneIdentifier';
 import { isWindows } from '../OS';
 
-export * from '../util/attachments';
+export * from '../../app/attachments';
 
 type FSAttrType = {
   set: (path: string, attribute: string, value: string) => Promise<void>;

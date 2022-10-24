@@ -25,7 +25,6 @@ import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
-import { shouldShowBadges } from '../badges/shouldShowBadges';
 
 export enum AvatarBlur {
   NoBlur,
@@ -248,14 +247,7 @@ export const Avatar: FunctionComponent<Props> = ({
 
   let badgeNode: ReactNode;
   const badgeSize = _getBadgeSize(size);
-  if (
-    badge &&
-    theme &&
-    !noteToSelf &&
-    badgeSize &&
-    isBadgeVisible(badge) &&
-    shouldShowBadges()
-  ) {
+  if (badge && theme && !noteToSelf && badgeSize && isBadgeVisible(badge)) {
     const badgePlacement = _getBadgePlacement(size);
     const badgeTheme =
       theme === ThemeType.light ? BadgeImageTheme.Light : BadgeImageTheme.Dark;

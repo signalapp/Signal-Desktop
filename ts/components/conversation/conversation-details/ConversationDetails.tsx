@@ -74,6 +74,8 @@ export type StateProps = {
   isGroup: boolean;
   loadRecentMediaItems: (limit: number) => void;
   groupsInCommon: Array<ConversationType>;
+  maxGroupSize: number;
+  maxRecommendedGroupSize: number;
   memberships: Array<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
@@ -141,6 +143,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   isGroup,
   loadRecentMediaItems,
   memberships,
+  maxGroupSize,
+  maxRecommendedGroupSize,
   onBlock,
   onLeave,
   onOutgoingAudioCallInConversation,
@@ -272,6 +276,8 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               setAddGroupMembersRequestState(RequestState.InactiveWithError);
             }
           }}
+          maxGroupSize={maxGroupSize}
+          maxRecommendedGroupSize={maxRecommendedGroupSize}
           onClose={() => {
             setModalState(ModalState.NothingOpen);
             setEditGroupAttributesRequestState(RequestState.Inactive);

@@ -9,7 +9,6 @@ import { ContactCheckboxDisabledReason } from '../../../components/conversationL
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper';
-import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
 
 describe('LeftPaneChooseGroupMembersHelper', () => {
   const defaults = {
@@ -18,21 +17,12 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     isShowingRecommendedGroupSizeModal: false,
     isShowingMaximumGroupSizeModal: false,
     isUsernamesEnabled: true,
+    groupSizeRecommendedLimit: 22,
+    groupSizeHardLimit: 33,
     searchTerm: '',
     regionCode: 'US',
     selectedContacts: [],
   };
-
-  beforeEach(async () => {
-    await updateRemoteConfig([
-      { name: 'global.groupsv2.maxGroupSize', value: '22', enabled: true },
-      {
-        name: 'global.groupsv2.groupSizeHardLimit',
-        value: '33',
-        enabled: true,
-      },
-    ]);
-  });
 
   describe('getBackAction', () => {
     it('returns the "show composer" action', () => {

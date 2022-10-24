@@ -23,7 +23,6 @@ import type { LocalizerType } from '../types/Util';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
-import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -46,6 +45,7 @@ export type PropsType = {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
+  isConversationTooBigToRing: boolean;
   isGroupCall: boolean;
   isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
@@ -73,6 +73,7 @@ export const CallingLobby = ({
   isGroupCall = false,
   isGroupCallOutboundRingEnabled,
   isCallFull = false,
+  isConversationTooBigToRing,
   me,
   onCallCanceled,
   onJoinCall,
@@ -166,8 +167,6 @@ export const CallingLobby = ({
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
 
-  const isGroupTooLargeToRing = isConversationTooBigToRing(conversation);
-
   const isRingButtonVisible: boolean =
     isGroupCall &&
     isGroupCallOutboundRingEnabled &&
@@ -177,7 +176,7 @@ export const CallingLobby = ({
   let preCallInfoRingMode: RingMode;
   if (isGroupCall) {
     preCallInfoRingMode =
-      outgoingRing && !isGroupTooLargeToRing
+      outgoingRing && !isConversationTooBigToRing
         ? RingMode.WillRing
         : RingMode.WillNotRing;
   } else {
@@ -189,7 +188,7 @@ export const CallingLobby = ({
     | CallingButtonType.RING_ON
     | CallingButtonType.RING_OFF;
   if (isRingButtonVisible) {
-    if (isGroupTooLargeToRing) {
+    if (isConversationTooBigToRing) {
       ringButtonType = CallingButtonType.RING_DISABLED;
     } else if (outgoingRing) {
       ringButtonType = CallingButtonType.RING_ON;

@@ -8,7 +8,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
-import { getMaximumAttachmentSize } from '../types/Attachment';
+import { getMaximumAttachmentSize } from './attachments';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';

@@ -72,6 +72,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   maxDevices: number;
   deviceCount: number;
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
+  isConversationTooBigToRing: boolean;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
   remoteAudioLevels: Map<number, number>;

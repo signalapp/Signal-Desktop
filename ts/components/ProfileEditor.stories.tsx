@@ -92,6 +92,8 @@ function renderEditUsernameModalBody(props: {
   return (
     <EditUsernameModalBody
       i18n={i18n}
+      minNickname={3}
+      maxNickname={20}
       state={UsernameReservationState.Open}
       error={undefined}
       setUsernameReservationError={action('setUsernameReservationError')}

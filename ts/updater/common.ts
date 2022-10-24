@@ -25,7 +25,7 @@ import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
 import * as durations from '../util/durations';
-import { getTempPath, getUpdateCachePath } from '../util/attachments';
+import { getTempPath, getUpdateCachePath } from '../../app/attachments';
 import { DialogType } from '../types/Dialogs';
 import * as Errors from '../types/errors';
 import { isAlpha, isBeta, isStaging } from '../util/version';

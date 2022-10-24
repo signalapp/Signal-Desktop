@@ -59,6 +59,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     i18n,
     isGroupCall,
     isGroupCallOutboundRingEnabled: true,
+    isConversationTooBigToRing: false,
     isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
     me:
       overrideProps.me ||

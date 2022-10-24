@@ -36,6 +36,7 @@ import {
 } from '../../services/notifications';
 import * as log from '../../logging/log';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -260,6 +261,7 @@ const mapStateToActiveCallProp = (
         conversationsWithSafetyNumberChanges,
         deviceCount: peekInfo.deviceCount,
         groupMembers,
+        isConversationTooBigToRing: isConversationTooBigToRing(conversation),
         joinState: call.joinState,
         maxDevices: peekInfo.maxDevices,
         peekedParticipants,

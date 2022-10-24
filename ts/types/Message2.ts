@@ -5,8 +5,8 @@ import { isFunction, isObject, isString, omit } from 'lodash';
 
 import * as Contact from './EmbeddedContact';
 import type { AttachmentType, AttachmentWithHydratedData } from './Attachment';
+import { autoOrientJPEG } from '../util/attachments';
 import {
-  autoOrientJPEG,
   captureDimensionsAndScreenshot,
   hasData,
   migrateDataToFileSystem,

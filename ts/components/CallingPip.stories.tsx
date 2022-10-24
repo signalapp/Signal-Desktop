@@ -130,6 +130,7 @@ export const GroupCall = (): JSX.Element => {
       connectionState: GroupCallConnectionState.Connected,
       conversationsWithSafetyNumberChanges: [],
       groupMembers: times(3, () => getDefaultConversation()),
+      isConversationTooBigToRing: false,
       joinState: GroupCallJoinState.Joined,
       maxDevices: 5,
       deviceCount: 0,

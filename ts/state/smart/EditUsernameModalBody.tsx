@@ -6,6 +6,7 @@ import { mapDispatchToProps } from '../actions';
 
 import type { PropsDataType } from '../../components/EditUsernameModalBody';
 import { EditUsernameModalBody } from '../../components/EditUsernameModalBody';
+import { getMinNickname, getMaxNickname } from '../../util/Username';
 
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
@@ -23,6 +24,8 @@ function mapStateToProps(state: StateType): PropsDataType {
   return {
     i18n,
     currentUsername: username,
+    minNickname: getMinNickname(),
+    maxNickname: getMaxNickname(),
     state: getUsernameReservationState(state),
     reservation: getUsernameReservationObject(state),
     error: getUsernameReservationError(state),

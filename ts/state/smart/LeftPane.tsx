@@ -49,6 +49,10 @@ import {
   isEditingAvatar,
 } from '../selectors/conversations';
 import type { WidthBreakpoint } from '../../components/_util';
+import {
+  getGroupSizeRecommendedLimit,
+  getGroupSizeHardLimit,
+} from '../../groups/limits';
 
 import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
 import { SmartMainHeader } from './MainHeader';
@@ -148,6 +152,8 @@ const getModeSpecificProps = (
       return {
         mode: LeftPaneMode.ChooseGroupMembers,
         candidateContacts: getFilteredCandidateContactsForNewGroup(state),
+        groupSizeRecommendedLimit: getGroupSizeRecommendedLimit(),
+        groupSizeHardLimit: getGroupSizeHardLimit(),
         isShowingRecommendedGroupSizeModal:
           getRecommendedGroupSizeModalState(state) ===
           OneTimeModalState.Showing,

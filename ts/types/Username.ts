@@ -11,3 +11,41 @@ export enum ReserveUsernameError {
   Unprocessable = 'Unprocessable',
   Conflict = 'Conflict',
 }
+
+export function getUsernameFromSearch(searchTerm: string): string | undefined {
+  // Search term contains username if it:
+  // - Is a valid username with or without a discriminator
+  // - Starts with @
+  // - Ends with @
+  const match = searchTerm.match(
+    /^(?:(?<valid>[a-z_][0-9a-z_]*(?:\.\d*)?)|@(?<start>.*?)@?|@?(?<end>.*?)?@)$/
+  );
+  if (!match) {
+    return undefined;
+  }
+
+  const { groups } = match;
+  if (!groups) {
+    return undefined;
+  }
+
+  return (groups.valid || groups.start || groups.end) ?? undefined;
+}
+
+export function getNickname(username: string): string | undefined {
+  const match = username.match(/^(.*?)(?:\.|$)/);
+  if (!match) {
+    return undefined;
+  }
+
+  return match[1];
+}
+
+export function getDiscriminator(username: string): string {
+  const match = username.match(/(\..*)$/);
+  if (!match) {
+    return '';
+  }
+
+  return match[1];
+}
