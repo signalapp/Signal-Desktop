@@ -306,7 +306,8 @@
         "libnss3",
         "libasound2",
         "libxss1"
-      ]
+      ],
+      "packageCategory": "net"
     },
     "files": [
       "package.json",
