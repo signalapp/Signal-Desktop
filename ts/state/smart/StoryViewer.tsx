@@ -59,16 +59,6 @@ export function SmartStoryViewer(): JSX.Element | null {
 
   const getStoryById = useSelector(getStoryByIdSelector);
 
-  const storyInfo = getStoryById(
-    conversationSelector,
-    selectedStoryData.messageId
-  );
-  strictAssert(
-    storyInfo,
-    'StoryViewer: selected story does not exist in stories'
-  );
-  const { conversationStory, distributionList, storyView } = storyInfo;
-
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
@@ -80,6 +70,17 @@ export function SmartStoryViewer(): JSX.Element | null {
   const hasReadReceiptSetting = useSelector<StateType, boolean>(
     getHasReadReceiptSetting
   );
+
+  const storyInfo = getStoryById(
+    conversationSelector,
+    selectedStoryData.messageId
+  );
+
+  if (!storyInfo) {
+    return null;
+  }
+
+  const { conversationStory, distributionList, storyView } = storyInfo;
 
   return (
     <StoryViewer
