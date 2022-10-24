@@ -45,7 +45,7 @@ export class OpenGroupManagerV2 {
     serverUrl: string,
     roomId: string,
     publicKey: string
-  ): Promise<ConversationModel> {
+  ): Promise<ConversationModel | undefined> {
     const oneAtaTimeStr = `oneAtaTimeOpenGroupV2Join:${serverUrl}${roomId}`;
     return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
       return this.attemptConnectionV2(serverUrl, roomId, publicKey);

@@ -103,10 +103,10 @@ export async function sogsV3FetchPreviewAndSaveIt(roomInfos: OpenGroupV2RoomWith
 
   // make sure this runs only once for each rooms.
   // we don't want to trigger one of those on each setPollInfo results as it happens on each batch poll.
-  const oneAtAtimeResult = (await allowOnlyOneAtATime(
+  const oneAtAtimeResult = await allowOnlyOneAtATime(
     `sogsV3FetchPreview-${serverUrl}-${roomId}`,
     () => sogsV3FetchPreview(roomInfos, blinded)
-  )) as Uint8Array | null; // force the return type as allowOnlyOneAtATime does not keep it
+  );
 
   if (!oneAtAtimeResult || !oneAtAtimeResult?.byteLength) {
     window?.log?.warn('sogsV3FetchPreviewAndSaveIt failed for room: ', roomId);
