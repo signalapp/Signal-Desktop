@@ -130,6 +130,18 @@ Caption.args = {
   },
 };
 
+export const EmojiCaption = Template.bind({});
+EmojiCaption.args = {
+  story: {
+    ...getFakeStoryView(),
+    attachment: fakeAttachment({
+      caption: 'WOOOOOOOOW 🥰',
+      path: 'file.jpg',
+      url: '/fixtures/nathan-anderson-316188-unsplash.jpg',
+    }),
+  },
+};
+
 export const LongCaption = Template.bind({});
 LongCaption.args = {
   story: {
