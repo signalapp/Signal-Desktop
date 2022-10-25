@@ -825,7 +825,8 @@ const viewStory: ViewStoryActionCreatorType = (
     }
 
     const { currentIndex, numStories, storiesByConversationId } =
-      storyViewMode === StoryViewModeType.MyStories
+      storyViewMode === StoryViewModeType.MyStories &&
+      story.storyDistributionListId
         ? getSelectedStoryDataForDistributionListId(
             getState,
             story.storyDistributionListId,
