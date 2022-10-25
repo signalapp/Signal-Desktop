@@ -1738,8 +1738,21 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         mediaItem.attachment.path === selectedMediaItem.attachment.path
     );
 
+    const mediaMessage = selectedMediaItem.message;
+    const message = window.MessageController.getById(mediaMessage.id);
+    if (!message) {
+      throw new Error(
+        `showLightboxForMedia: Message ${mediaMessage.id} missing!`
+      );
+    }
+
+    const close = () => {
+      closeLightbox();
+      this.stopListening(message, 'expired', closeLightbox);
+    };
+
     showLightbox({
-      close: closeLightbox,
+      close,
       i18n: window.i18n,
       getConversation: getConversationSelector(window.reduxStore.getState()),
       media,
@@ -1749,6 +1762,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSave,
       selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
     });
+
+    this.listenTo(message, 'expired', close);
   }
 
   showLightbox({
