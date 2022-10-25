@@ -9,6 +9,11 @@
     }
   }
 
+  // Used to ensure that a set of spans reverse order under RTL
+  &__rtl-span {
+    display: inline-block;
+  }
+
   // don't re-layout buttons on wrap,
   // since we have things beyond same-sized-rectangles in the footer
   .module-Modal__button-footer {
@@ -59,8 +64,20 @@
       }
     }
 
-    &__option--description {
-      color: $color-gray-25;
+    &__option {
+      padding: 10px;
+
+      &--icon {
+        margin-right: 15px;
+      }
+
+      &--container {
+        align-items: center;
+      }
+
+      &--description {
+        color: $color-gray-25;
+      }
     }
   }
 
@@ -75,14 +92,14 @@
       width: 14px;
     }
 
-    &--lock {
+    &--custom {
       @include color-svg(
-        '../images/icons/v2/lock-outline-24.svg',
+        '../images/icons/v2/stories-outline-24.svg',
         $color-white
       );
-      height: 14px;
-      margin-top: 4px;
-      width: 11px;
+      height: 16px;
+      margin-top: 2px;
+      width: 16px;
     }
 
     &--group {
@@ -90,9 +107,9 @@
         '../images/icons/v2/group-outline-24.svg',
         $color-white
       );
-      height: 14px;
+      height: 16px;
       margin-top: 2px;
-      width: 14px;
+      width: 16px;
     }
 
     &--settings {
@@ -121,7 +138,7 @@
   &__distribution-list {
     &__container {
       justify-content: space-between;
-      margin: 8px 0;
+      padding: 8px 0;
       user-select: none;
     }
 

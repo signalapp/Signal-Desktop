@@ -200,10 +200,8 @@ export const ConversationHero = ({
                 title={title}
                 text={groupDescription}
               />
-            ) : membersCount === 1 ? (
-              i18n('ConversationHero--members-1')
-            ) : membersCount !== undefined ? (
-              i18n('ConversationHero--members', [`${membersCount}`])
+            ) : membersCount != null ? (
+              i18n('icu:ConversationHero--members', { count: membersCount })
             ) : phoneNumberOnly ? null : (
               phoneNumber
             )}
