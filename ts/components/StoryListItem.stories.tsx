@@ -45,12 +45,12 @@ const Template: Story<PropsType> = args => <StoryListItem {...args} />;
 
 export const SomeonesStory = Template.bind({});
 SomeonesStory.args = {
+  hasReplies: true,
   group: getDefaultConversation({ title: 'Sports Group' }),
   story: {
     attachment: fakeAttachment({
       thumbnail: fakeThumbnail('/fixtures/tina-rolf-269345-unsplash.jpg'),
     }),
-    hasReplies: true,
     isUnread: true,
     messageId: '123',
     messageIdForLogging: 'for logging 123',

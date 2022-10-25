@@ -11,16 +11,51 @@ import { getAttachmentsForMessage } from '../state/selectors/message';
 import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
+import { isGroup } from '../util/whatTypeOfConversation';
 
-let storyData: Array<MessageAttributesType> | undefined;
+let storyData:
+  | Array<
+      MessageAttributesType & {
+        hasReplies?: boolean;
+        hasRepliesFromSelf?: boolean;
+      }
+    >
+  | undefined;
 
 export async function loadStories(): Promise<void> {
-  storyData = await dataInterface.getOlderStories({});
+  const stories = await dataInterface.getAllStories({});
+
+  storyData = await Promise.all(
+    stories.map(async story => {
+      const conversation = window.ConversationController.get(
+        story.conversationId
+      );
+
+      if (!isGroup(conversation?.attributes)) {
+        return story;
+      }
+
+      const [hasReplies, hasRepliesFromSelf] = await Promise.all([
+        dataInterface.hasStoryReplies(story.id),
+        dataInterface.hasStoryRepliesFromSelf(story.id),
+      ]);
+
+      return {
+        ...story,
+        hasReplies,
+        hasRepliesFromSelf,
+      };
+    })
+  );
+
   await repairUnexpiredStories();
 }
 
 export function getStoryDataFromMessageAttributes(
-  message: MessageAttributesType
+  message: MessageAttributesType & {
+    hasReplies?: boolean;
+    hasRepliesFromSelf?: boolean;
+  }
 ): StoryDataType | undefined {
   const { attachments, deletedForEveryone } = message;
   const unresolvedAttachment = attachments ? attachments[0] : undefined;
@@ -43,6 +78,8 @@ export function getStoryDataFromMessageAttributes(
       'canReplyToStory',
       'conversationId',
       'deletedForEveryone',
+      'hasReplies',
+      'hasRepliesFromSelf',
       'reactions',
       'readAt',
       'readStatus',

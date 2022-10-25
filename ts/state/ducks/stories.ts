@@ -55,6 +55,8 @@ import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 
 export type StoryDataType = {
   attachment?: AttachmentType;
+  hasReplies?: boolean;
+  hasRepliesFromSelf?: boolean;
   messageId: string;
   startedDownload?: boolean;
 } & Pick<
@@ -156,7 +158,10 @@ type QueueStoryDownloadActionType = {
 
 type ReplyToStoryActionType = {
   type: typeof REPLY_TO_STORY;
-  payload: MessageAttributesType;
+  payload: {
+    message: MessageAttributesType;
+    storyId: string;
+  };
 };
 
 type ResolveAttachmentUrlActionType = {
@@ -470,7 +475,10 @@ function replyToStory(
     if (messageAttributes) {
       dispatch({
         type: REPLY_TO_STORY,
-        payload: messageAttributes,
+        payload: {
+          message: messageAttributes,
+          storyId: story.messageId,
+        },
       });
     }
   };
@@ -1210,6 +1218,8 @@ export function reducer(
       'deletedForEveryone',
       'expirationStartTimestamp',
       'expireTimer',
+      'hasReplies',
+      'hasRepliesFromSelf',
       'messageId',
       'reactions',
       'readAt',
@@ -1310,6 +1320,19 @@ export function reducer(
   if (action.type === LOAD_STORY_REPLIES) {
     return {
       ...state,
+      stories: state.stories.map(story => {
+        if (story.messageId === action.payload.messageId) {
+          return {
+            ...story,
+            hasReplies: action.payload.replies.length > 0,
+            hasRepliesFromSelf: action.payload.replies.some(
+              reply => reply.type === 'outgoing'
+            ),
+          };
+        }
+
+        return story;
+      }),
       replyState: action.payload,
     };
   }
@@ -1372,15 +1395,31 @@ export function reducer(
 
   if (action.type === REPLY_TO_STORY) {
     const { replyState } = state;
+
+    const stories = state.stories.map(story => {
+      if (story.messageId === action.payload.storyId) {
+        return {
+          ...story,
+          hasRepliesFromSelf: true,
+        };
+      }
+
+      return story;
+    });
+
     if (!replyState) {
-      return state;
+      return {
+        ...state,
+        stories,
+      };
     }
 
     return {
       ...state,
+      stories,
       replyState: {
         messageId: replyState.messageId,
-        replies: [...replyState.replies, action.payload],
+        replies: [...replyState.replies, action.payload.message],
       },
     };
   }

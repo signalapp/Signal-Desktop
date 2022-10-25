@@ -256,7 +256,9 @@ const dataInterface: ClientInterface = {
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
-  getOlderStories,
+  getAllStories,
+  hasStoryReplies,
+  hasStoryRepliesFromSelf,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
@@ -1349,14 +1351,20 @@ async function getOlderMessagesByConversation(
 
   return handleMessageJSON(messages);
 }
-async function getOlderStories(options: {
+
+async function getAllStories(options: {
   conversationId?: string;
-  limit?: number;
-  receivedAt?: number;
-  sentAt?: number;
   sourceUuid?: UUIDStringType;
 }): Promise<Array<MessageType>> {
-  return channels.getOlderStories(options);
+  return channels.getAllStories(options);
+}
+
+async function hasStoryReplies(storyId: string): Promise<boolean> {
+  return channels.hasStoryReplies(storyId);
+}
+
+async function hasStoryRepliesFromSelf(storyId: string): Promise<boolean> {
+  return channels.hasStoryRepliesFromSelf(storyId);
 }
 
 async function getNewerMessagesByConversation(

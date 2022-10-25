@@ -42,6 +42,8 @@ export type ReplyStateType = {
 
 export type ConversationStoryType = {
   conversationId: string;
+  hasReplies?: boolean;
+  hasRepliesFromSelf?: boolean;
   group?: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
@@ -70,8 +72,6 @@ export type StorySendStateType = {
 export type StoryViewType = {
   attachment?: AttachmentType;
   canReply?: boolean;
-  hasReplies?: boolean;
-  hasRepliesFromSelf?: boolean;
   isHidden?: boolean;
   isUnread?: boolean;
   messageId: string;

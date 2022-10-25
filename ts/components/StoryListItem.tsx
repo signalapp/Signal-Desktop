@@ -21,6 +21,8 @@ import { getAvatarColor } from '../types/Colors';
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   conversationId: string;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasReplies?: boolean;
+  hasRepliesFromSelf?: boolean;
   i18n: LocalizerType;
   onGoToConversation: (conversationId: string) => unknown;
   onHideStory: (conversationId: string) => unknown;
@@ -79,6 +81,8 @@ export const StoryListItem = ({
   conversationId,
   getPreferredBadge,
   group,
+  hasReplies,
+  hasRepliesFromSelf,
   i18n,
   isHidden,
   onGoToConversation,
@@ -89,14 +93,7 @@ export const StoryListItem = ({
 }: PropsType): JSX.Element => {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
 
-  const {
-    attachment,
-    hasReplies,
-    hasRepliesFromSelf,
-    isUnread,
-    sender,
-    timestamp,
-  } = story;
+  const { attachment, isUnread, sender, timestamp } = story;
 
   const { firstName, title } = sender;
 

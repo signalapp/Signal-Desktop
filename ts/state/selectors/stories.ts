@@ -249,6 +249,8 @@ export function getConversationStory(
   return {
     conversationId: conversation.id,
     group: conversation.id !== sender.id ? conversation : undefined,
+    hasReplies: story.hasReplies,
+    hasRepliesFromSelf: story.hasRepliesFromSelf,
     isHidden: Boolean(sender.hideStory),
     storyView,
   };
@@ -430,6 +432,11 @@ export const getStories = createSelector(
       storiesMap.set(conversationStory.conversationId, {
         ...existingConversationStory,
         ...conversationStory,
+        hasReplies:
+          existingConversationStory?.hasReplies || conversationStory.hasReplies,
+        hasRepliesFromSelf:
+          existingConversationStory?.hasRepliesFromSelf ||
+          conversationStory.hasRepliesFromSelf,
         storyView: conversationStory.storyView,
       });
     });
