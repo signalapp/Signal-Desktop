@@ -58,6 +58,13 @@
     }
   }
 
+  &__not-a-member {
+    margin: 24px 4px 8px 4px;
+    font-size: 12px;
+    text-align: center;
+    color: $color-gray-25;
+  }
+
   &__input {
     &__input {
       // For specificity because StoryViewsNRepliesModal is always in dark-theme

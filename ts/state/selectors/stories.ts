@@ -237,6 +237,7 @@ export function getConversationStory(
     'sharedGroupNames',
     'sortedGroupMembers',
     'title',
+    'left',
   ]);
 
   const storyView = getStoryView(

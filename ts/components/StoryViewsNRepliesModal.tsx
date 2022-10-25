@@ -97,7 +97,7 @@ export type PropsType = {
   hasReadReceiptSetting: boolean;
   hasViewsCapability: boolean;
   i18n: LocalizerType;
-  isGroupStory?: boolean;
+  group: Pick<ConversationType, 'left'> | undefined;
   onClose: () => unknown;
   onReact: (emoji: string) => unknown;
   onReply: (
@@ -127,7 +127,7 @@ export const StoryViewsNRepliesModal = ({
   hasReadReceiptSetting,
   hasViewsCapability,
   i18n,
-  isGroupStory,
+  group,
   onClose,
   onReact,
   onReply,
@@ -206,10 +206,16 @@ export const StoryViewsNRepliesModal = ({
     }
   }, [currentTab, replies.length]);
 
-  if (canReply) {
+  if (group && group.left) {
+    composerElement = (
+      <div className="StoryViewsNRepliesModal__not-a-member">
+        {i18n('icu:StoryViewsNRepliesModal__not-a-member')}
+      </div>
+    );
+  } else if (canReply) {
     composerElement = (
       <>
-        {!isGroupStory && (
+        {!group && (
           <Quote
             authorTitle={authorTitle}
             conversationColor="ultramarine"
@@ -243,7 +249,7 @@ export const StoryViewsNRepliesModal = ({
               }}
               onTextTooLong={onTextTooLong}
               placeholder={
-                isGroupStory
+                group
                   ? i18n('StoryViewer__reply-group')
                   : i18n('StoryViewer__reply')
               }
@@ -381,7 +387,7 @@ export const StoryViewsNRepliesModal = ({
         <div ref={bottomRef} />
       </div>
     );
-  } else if (isGroupStory) {
+  } else if (group) {
     repliesElement = (
       <div className="StoryViewsNRepliesModal__replies--none">
         {i18n('StoryViewsNRepliesModal__no-replies')}
@@ -487,7 +493,7 @@ export const StoryViewsNRepliesModal = ({
     >
       <div
         className={classNames({
-          'StoryViewsNRepliesModal--group': Boolean(isGroupStory),
+          'StoryViewsNRepliesModal--group': Boolean(group),
         })}
       >
         {tabsElement || (

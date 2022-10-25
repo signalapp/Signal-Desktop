@@ -62,6 +62,7 @@ export type PropsType = {
     | 'sharedGroupNames'
     | 'sortedGroupMembers'
     | 'title'
+    | 'left'
   >;
   hasActiveCall?: boolean;
   hasAllStoriesMuted: boolean;
@@ -796,7 +797,7 @@ export const StoryViewer = ({
             hasReadReceiptSetting={hasReadReceiptSetting}
             hasViewsCapability={isSent}
             i18n={i18n}
-            isGroupStory={isGroupStory}
+            group={group}
             onClose={() => setCurrentViewTarget(null)}
             onReact={emoji => {
               onReactToStory(emoji, story);
