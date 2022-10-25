@@ -29,9 +29,11 @@ export default {
       defaultValue: undefined,
     },
     hasAllStoriesMuted: {
+      control: 'boolean',
       defaultValue: false,
     },
-    hasReadReceiptSetting: {
+    hasViewReceiptSetting: {
+      control: 'boolean',
       defaultValue: true,
     },
     i18n: {
@@ -194,7 +196,7 @@ export const ReadReceiptsOff = Template.bind({});
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );
   ReadReceiptsOff.args = {
-    hasReadReceiptSetting: false,
+    hasViewReceiptSetting: false,
     story: {
       ...storyView,
       sender: {

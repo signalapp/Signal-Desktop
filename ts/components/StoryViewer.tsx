@@ -67,7 +67,7 @@ export type PropsType = {
   >;
   hasActiveCall?: boolean;
   hasAllStoriesMuted: boolean;
-  hasReadReceiptSetting: boolean;
+  hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
@@ -117,7 +117,7 @@ export const StoryViewer = ({
   group,
   hasActiveCall,
   hasAllStoriesMuted,
-  hasReadReceiptSetting,
+  hasViewReceiptSetting,
   i18n,
   loadStoryReplies,
   markStoryRead,
@@ -722,11 +722,11 @@ export const StoryViewer = ({
                   <>
                     {isSent || replyCount > 0 ? (
                       <span className="StoryViewer__reply__chevron">
-                        {isSent && !hasReadReceiptSetting && !replyCount && (
+                        {isSent && !hasViewReceiptSetting && !replyCount && (
                           <>{i18n('StoryViewer__views-off')}</>
                         )}
                         {isSent &&
-                          hasReadReceiptSetting &&
+                          hasViewReceiptSetting &&
                           (viewCount === 1 ? (
                             <Intl
                               i18n={i18n}
@@ -795,7 +795,7 @@ export const StoryViewer = ({
             authorTitle={firstName || title}
             canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}
-            hasReadReceiptSetting={hasReadReceiptSetting}
+            hasViewReceiptSetting={hasViewReceiptSetting}
             hasViewsCapability={isSent}
             i18n={i18n}
             group={group}

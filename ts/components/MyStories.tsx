@@ -23,7 +23,7 @@ export type PropsType = {
   onSave: (story: StoryViewType) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
-  hasReadReceiptSetting: boolean;
+  hasViewReceiptSetting: boolean;
 };
 
 export const MyStories = ({
@@ -35,7 +35,7 @@ export const MyStories = ({
   onSave,
   queueStoryDownload,
   viewStory,
-  hasReadReceiptSetting,
+  hasViewReceiptSetting,
 }: PropsType): JSX.Element => {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -107,7 +107,7 @@ export const MyStories = ({
                     />
                   </div>
                   <div className="MyStories__story__details">
-                    {hasReadReceiptSetting
+                    {hasViewReceiptSetting
                       ? i18n('icu:MyStories__views', {
                           views: story.views ?? 0,
                         })

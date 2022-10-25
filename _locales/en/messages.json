@@ -5591,6 +5591,14 @@
     "message": "Story settings",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "View Receipts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Choose who can view your story",
     "description": "Shown during the first time posting a story"
@@ -5700,7 +5708,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable read receipts to see who's viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Privacy.",
+    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {

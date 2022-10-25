@@ -320,7 +320,9 @@ function markStoryRead(
       viewSyncJobQueue.add({ viewSyncs });
     }
 
-    viewedReceiptsJobQueue.add({ viewedReceipt });
+    if (window.Events.getStoryViewReceiptsEnabled()) {
+      viewedReceiptsJobQueue.add({ viewedReceipt });
+    }
 
     await dataInterface.addNewStoryRead({
       authorId: message.attributes.sourceUuid,

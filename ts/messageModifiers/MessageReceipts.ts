@@ -118,6 +118,26 @@ const wasDeliveredWithSealedSender = (
       conversationId
   );
 
+const shouldDropReceipt = (
+  receipt: MessageReceiptModel,
+  message: MessageModel
+): boolean => {
+  const type = receipt.get('type');
+  switch (type) {
+    case MessageReceiptType.Delivery:
+      return false;
+    case MessageReceiptType.Read:
+      return !window.storage.get('read-receipt-setting');
+    case MessageReceiptType.View:
+      if (isStory(message.attributes)) {
+        return !window.Events.getStoryViewReceiptsEnabled();
+      }
+      return !window.storage.get('read-receipt-setting');
+    default:
+      throw missingCaseError(type);
+  }
+};
+
 export class MessageReceipts extends Collection<MessageReceiptModel> {
   static getSingleton(): MessageReceipts {
     if (!singleton) {
@@ -140,16 +160,27 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     } else {
       ids = conversation.getMemberIds();
     }
+    const sentAt = message.get('sent_at');
     const receipts = this.filter(
       receipt =>
-        receipt.get('messageSentAt') === message.get('sent_at') &&
+        receipt.get('messageSentAt') === sentAt &&
         ids.includes(receipt.get('sourceConversationId'))
     );
     if (receipts.length) {
-      log.info('Found early receipts for message');
+      log.info(`MessageReceipts: found early receipts for message ${sentAt}`);
       this.remove(receipts);
     }
-    return receipts;
+    return receipts.filter(receipt => {
+      if (shouldDropReceipt(receipt, message)) {
+        log.info(
+          `MessageReceipts: Dropping an early receipt ${receipt.get('type')} ` +
+            `for message ${sentAt}`
+        );
+        return false;
+      }
+
+      return true;
+    });
   }
 
   private async updateMessageSendState(
@@ -157,6 +188,15 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     message: MessageModel
   ): Promise<void> {
     const messageSentAt = receipt.get('messageSentAt');
+
+    if (shouldDropReceipt(receipt, message)) {
+      log.info(
+        `MessageReceipts: Dropping a receipt ${receipt.get('type')} ` +
+          `for message ${messageSentAt}`
+      );
+      return;
+    }
+
     const receiptTimestamp = receipt.get('receiptTimestamp');
     const sourceConversationId = receipt.get('sourceConversationId');
     const type = receipt.get('type');
@@ -272,7 +312,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         // Nope, no target message was found
         if (!targetMessages.length) {
           log.info(
-            'No message for receipt',
+            'MessageReceipts: No message for receipt',
             type,
             sourceConversationId,
             sourceUuid,

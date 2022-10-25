@@ -30,10 +30,12 @@ export default {
       defaultValue: true,
     },
     getPreferredBadge: { action: true },
-    hasReadReceiptSetting: {
+    hasViewReceiptSetting: {
+      control: 'boolean',
       defaultValue: true,
     },
     hasViewsCapability: {
+      control: 'boolean',
       defaultValue: false,
     },
     i18n: {
@@ -243,7 +245,7 @@ InAGroupCantReply.storyName = "In a group (can't reply)";
 export const ReadReceiptsTurnedOff = Template.bind({});
 ReadReceiptsTurnedOff.args = {
   canReply: false,
-  hasReadReceiptSetting: false,
+  hasViewReceiptSetting: false,
   hasViewsCapability: true,
   views: getViewsAndReplies().views,
 };
@@ -263,7 +265,7 @@ export const GroupReadReceiptsOff = Template.bind({});
 {
   const { views, replies } = getViewsAndReplies();
   GroupReadReceiptsOff.args = {
-    hasReadReceiptSetting: false,
+    hasViewReceiptSetting: false,
     hasViewsCapability: true,
     group: {},
     replies,

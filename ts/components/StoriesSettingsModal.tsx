@@ -60,6 +60,7 @@ export type PropsType = {
     viewerUuids: Array<UUIDStringType>
   ) => unknown;
   setMyStoriesToAllSignalConnections: () => unknown;
+  storyViewReceiptsEnabled: boolean;
   toggleSignalConnectionsModal: () => unknown;
 };
 
@@ -102,6 +103,7 @@ export const StoriesSettingsModal = ({
   onRepliesNReactionsChanged,
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
+  storyViewReceiptsEnabled,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
@@ -239,8 +241,6 @@ export const StoriesSettingsModal = ({
           <span className="StoriesSettingsModal__list__viewers" />
         </button>
 
-        <hr className="StoriesSettingsModal__divider" />
-
         <button
           className="StoriesSettingsModal__list"
           onClick={() => {
@@ -280,6 +280,18 @@ export const StoriesSettingsModal = ({
             </span>
           </button>
         ))}
+
+        <hr className="StoriesSettingsModal__divider" />
+
+        <Checkbox
+          disabled
+          checked={storyViewReceiptsEnabled}
+          description={i18n('StoriesSettings__view-receipts--description')}
+          label={i18n('StoriesSettings__view-receipts--label')}
+          moduleClassName="StoriesSettingsModal__checkbox"
+          name="view-receipts"
+          onChange={noop}
+        />
       </ModalPage>
     );
   }

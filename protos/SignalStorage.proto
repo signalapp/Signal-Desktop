@@ -6,6 +6,12 @@ package signalservice;
 option java_package         = "org.whispersystems.signalservice.internal.storage";
 option java_outer_classname = "SignalStorageProtos";
 
+enum OptionalBool {
+  UNSET = 0;
+  ENABLED = 1;
+  DISABLED = 2;
+}
+
 message StorageManifest  {
   optional uint64 version = 1;
   optional bytes  value   = 2;
@@ -166,6 +172,7 @@ message AccountRecord {
   reserved /* hasViewedOnboardingStory */ 27;
   reserved 28; // deprecatedStoriesDisabled
   optional bool storiesDisabled = 29;
+  optional OptionalBool storyViewReceiptsEnabled = 30;
 }
 
 message StoryDistributionListRecord {

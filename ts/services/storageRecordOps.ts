@@ -362,6 +362,17 @@ export function toAccountRecord(
   const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
+  const storyViewReceiptsEnabled = window.storage.get(
+    'storyViewReceiptsEnabled'
+  );
+  if (storyViewReceiptsEnabled !== undefined) {
+    accountRecord.storyViewReceiptsEnabled = storyViewReceiptsEnabled
+      ? Proto.OptionalBool.ENABLED
+      : Proto.OptionalBool.DISABLED;
+  } else {
+    accountRecord.storyViewReceiptsEnabled = Proto.OptionalBool.UNSET;
+  }
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -1093,6 +1104,7 @@ export async function mergeAccountRecord(
     keepMutedChatsArchived,
     hasSetMyStoriesPrivacy,
     storiesDisabled,
+    storyViewReceiptsEnabled,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1290,6 +1302,19 @@ export async function mergeAccountRecord(
     const hasStoriesDisabled = Boolean(storiesDisabled);
     window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
     window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
+  }
+
+  switch (storyViewReceiptsEnabled) {
+    case Proto.OptionalBool.ENABLED:
+      window.storage.put('storyViewReceiptsEnabled', true);
+      break;
+    case Proto.OptionalBool.DISABLED:
+      window.storage.put('storyViewReceiptsEnabled', false);
+      break;
+    case Proto.OptionalBool.UNSET:
+    default:
+      // Do nothing
+      break;
   }
 
   const ourID = window.ConversationController.getOurConversationId();

@@ -68,6 +68,7 @@ export type StorageAccessType = {
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasStoriesDisabled: boolean;
+  storyViewReceiptsEnabled: boolean;
   identityKeyMap: IdentityKeyMap;
   lastHeartbeat: number;
   lastStartup: number;

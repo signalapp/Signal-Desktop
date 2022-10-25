@@ -14,6 +14,7 @@ import {
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { getHasStoryViewReceiptSetting } from '../selectors/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
 
@@ -31,6 +32,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
   } = useStoryDistributionListsActions();
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+  const storyViewReceiptsEnabled = useSelector(getHasStoryViewReceiptSetting);
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const me = useSelector(getMe);
 
@@ -52,6 +54,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onViewersUpdated={updateStoryViewers}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
+      storyViewReceiptsEnabled={storyViewReceiptsEnabled}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );

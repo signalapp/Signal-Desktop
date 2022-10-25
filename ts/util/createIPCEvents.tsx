@@ -63,6 +63,7 @@ export type IPCEventsValuesType = {
   themeSetting: ThemeType;
   universalExpireTimer: number;
   zoomFactor: ZoomFactorType;
+  storyViewReceiptsEnabled: boolean;
 
   // Optional
   mediaPermissions: boolean;
@@ -187,6 +188,16 @@ export function createIPCEvents(
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('hasStoriesDisabled');
       window.textsecure.server?.onHasStoriesDisabledChange(value);
+    },
+    getStoryViewReceiptsEnabled: () => {
+      return (
+        window.storage.get('storyViewReceiptsEnabled') ??
+        window.storage.get('read-receipt-setting') ??
+        false
+      );
+    },
+    setStoryViewReceiptsEnabled: async (value: boolean) => {
+      await window.storage.put('storyViewReceiptsEnabled', value);
     },
 
     getPreferredAudioInputDevice: () =>
