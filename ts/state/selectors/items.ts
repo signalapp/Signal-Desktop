@@ -177,3 +177,11 @@ export const getHasReadReceiptSetting = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state['read-receipt-setting'])
 );
+
+export const getHasStoryViewReceiptSetting = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(
+      state.storyViewReceiptsEnabled ?? state['read-receipt-setting'] ?? false
+    )
+);

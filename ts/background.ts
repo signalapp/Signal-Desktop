@@ -3698,7 +3698,7 @@ export async function startApp(): Promise<void> {
 
     event.confirm();
 
-    if (!window.storage.get('read-receipt-setting') || !sourceConversation) {
+    if (!sourceConversation) {
       return;
     }
 

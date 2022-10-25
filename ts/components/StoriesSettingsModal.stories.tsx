@@ -34,6 +34,7 @@ export default {
     me: {
       defaultValue: getDefaultConversation(),
     },
+    storyViewReceiptsEnabled: { control: 'boolean' },
     onDeleteList: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },

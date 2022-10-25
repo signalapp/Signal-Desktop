@@ -13,7 +13,7 @@ import { getMe } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
-  getHasReadReceiptSetting,
+  getHasStoryViewReceiptSetting,
   getPreferredLeftPaneWidth,
 } from '../selectors/items';
 import {
@@ -62,7 +62,7 @@ export function SmartStories(): JSX.Element | null {
     (state: StateType) => state.globalModals.isStoriesSettingsVisible
   );
 
-  const hasReadReceiptSetting = useSelector(getHasReadReceiptSetting);
+  const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
 
   if (!isShowingStoriesView) {
     return null;
@@ -92,7 +92,7 @@ export function SmartStories(): JSX.Element | null {
       toggleHideStories={toggleHideStories}
       isViewingStory={selectedStoryData !== undefined}
       isStoriesSettingsVisible={isStoriesSettingsVisible}
-      hasReadReceiptSetting={hasReadReceiptSetting}
+      hasViewReceiptSetting={hasViewReceiptSetting}
       {...storiesActions}
     />
   );

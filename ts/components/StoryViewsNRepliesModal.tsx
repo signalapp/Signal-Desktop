@@ -94,7 +94,7 @@ export type PropsType = {
   authorTitle: string;
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
-  hasReadReceiptSetting: boolean;
+  hasViewReceiptSetting: boolean;
   hasViewsCapability: boolean;
   i18n: LocalizerType;
   group: Pick<ConversationType, 'left'> | undefined;
@@ -124,7 +124,7 @@ export const StoryViewsNRepliesModal = ({
   authorTitle,
   canReply,
   getPreferredBadge,
-  hasReadReceiptSetting,
+  hasViewReceiptSetting,
   hasViewsCapability,
   i18n,
   group,
@@ -396,7 +396,7 @@ export const StoryViewsNRepliesModal = ({
   }
 
   let viewsElement: JSX.Element | undefined;
-  if (hasViewsCapability && !hasReadReceiptSetting) {
+  if (hasViewsCapability && !hasViewReceiptSetting) {
     viewsElement = (
       <div className="StoryViewsNRepliesModal__read-receipts-off">
         {i18n('StoryViewsNRepliesModal__read-receipts-off')}

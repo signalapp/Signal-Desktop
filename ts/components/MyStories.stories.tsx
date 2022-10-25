@@ -41,6 +41,10 @@ export default {
     ourConversationId: {
       defaultValue: getDefaultConversation().id,
     },
+    hasViewReceiptSetting: {
+      control: 'boolean',
+      defaultValue: false,
+    },
     queueStoryDownload: {
       action: true,
     },
