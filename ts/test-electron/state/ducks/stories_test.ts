@@ -758,10 +758,11 @@ describe('both/state/ducks/stories', () => {
     describe('paging through collections of stories', () => {
       function getViewedStoryData(
         storyId: string,
-        conversationId?: UUIDStringType
+        conversationId?: UUIDStringType,
+        timestampDelta = 0
       ): StoryDataType {
         return {
-          ...getStoryData(storyId, conversationId),
+          ...getStoryData(storyId, conversationId, timestampDelta),
           readStatus: ReadStatus.Viewed,
         };
       }
@@ -774,9 +775,9 @@ describe('both/state/ducks/stories', () => {
         const conversationId1 = UUID.generate().toString();
         const getState = getStateFunction(
           [
-            getViewedStoryData(storyId1, conversationId1),
-            getViewedStoryData(storyId2, conversationId2),
-            getViewedStoryData(storyId3, conversationId2),
+            getViewedStoryData(storyId1, conversationId1, 0),
+            getViewedStoryData(storyId2, conversationId2, 1),
+            getViewedStoryData(storyId3, conversationId2, 2),
           ],
           {
             [conversationId1]: getMockConversation({ id: conversationId1 }),
