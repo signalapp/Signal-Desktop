@@ -24,6 +24,7 @@ import { AnimatedEmojiGalore } from './AnimatedEmojiGalore';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
+import { Emojify } from './conversation/Emojify';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
@@ -579,7 +580,7 @@ export const StoryViewer = ({
           <div className="StoryViewer__meta">
             {caption && (
               <div className="StoryViewer__caption">
-                {caption.text}
+                <Emojify text={caption.text} />
                 {caption.hasReadMore && !hasExpandedCaption && (
                   <button
                     className="MessageBody__read-more"
