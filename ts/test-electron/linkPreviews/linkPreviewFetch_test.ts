@@ -815,7 +815,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('stops reading the body after cancelation', async () => {
+    it('stops reading the body after cancellation', async () => {
       const shouldNeverBeCalled = sinon.stub();
 
       const abortController = new AbortController();
