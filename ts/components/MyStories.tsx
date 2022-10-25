@@ -88,7 +88,7 @@ export const MyStories = ({
                   onClick={() =>
                     viewStory({
                       storyId: story.messageId,
-                      storyViewMode: StoryViewModeType.User,
+                      storyViewMode: StoryViewModeType.MyStories,
                     })
                   }
                   type="button"
@@ -147,7 +147,7 @@ export const MyStories = ({
                       onClick: () => {
                         viewStory({
                           storyId: story.messageId,
-                          storyViewMode: StoryViewModeType.User,
+                          storyViewMode: StoryViewModeType.MyStories,
                           viewTarget: StoryViewTargetType.Details,
                         });
                       },
