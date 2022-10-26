@@ -956,6 +956,30 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { attributes } = this;
 
     if (attributes.storyReactionEmoji) {
+      if (attributes.type === 'outgoing') {
+        const name = this.getConversation()?.get('profileName');
+
+        if (!name) {
+          return window.i18n(
+            'Quote__story-reaction-notification--outgoing--nameless',
+            {
+              emoji: attributes.storyReactionEmoji,
+            }
+          );
+        }
+
+        return window.i18n('Quote__story-reaction-notification--outgoing', {
+          emoji: attributes.storyReactionEmoji,
+          name,
+        });
+      }
+
+      if (attributes.type === 'incoming') {
+        return window.i18n('Quote__story-reaction-notification--incoming', {
+          emoji: attributes.storyReactionEmoji,
+        });
+      }
+
       if (!window.Signal.OS.isLinux()) {
         return attributes.storyReactionEmoji;
       }
