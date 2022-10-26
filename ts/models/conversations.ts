@@ -3661,13 +3661,16 @@ export class ConversationModel extends window.Backbone
   getRecipients({
     includePendingMembers,
     extraConversationsForSend,
+    isStoryReply = false,
   }: {
     includePendingMembers?: boolean;
     extraConversationsForSend?: Array<string>;
+    isStoryReply?: boolean;
   } = {}): Array<string> {
     return getRecipients(this.attributes, {
       includePendingMembers,
       extraConversationsForSend,
+      isStoryReply,
     });
   }
 
@@ -3939,8 +3942,11 @@ export class ConversationModel extends window.Backbone
 
     const expireTimer = this.get('expireTimer');
 
-    const recipientMaybeConversations = map(this.getRecipients(), identifier =>
-      window.ConversationController.get(identifier)
+    const recipientMaybeConversations = map(
+      this.getRecipients({
+        isStoryReply: storyId !== undefined,
+      }),
+      identifier => window.ConversationController.get(identifier)
     );
     const recipientConversations = filter(
       recipientMaybeConversations,
