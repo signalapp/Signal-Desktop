@@ -17,6 +17,7 @@ import { HTTPError } from './textsecure/Errors';
 import createTaskWithTimeout, {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
+  reportLongRunningTasks,
 } from './textsecure/TaskWithTimeout';
 import type {
   MessageAttributesType,
@@ -993,6 +994,10 @@ export async function startApp(): Promise<void> {
           error && error.stack ? error.stack : error
         );
       }
+    }, FIVE_MINUTES);
+
+    setInterval(() => {
+      reportLongRunningTasks();
     }, FIVE_MINUTES);
 
     let mainWindowStats = {

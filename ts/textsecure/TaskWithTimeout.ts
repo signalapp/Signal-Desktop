@@ -1,13 +1,15 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from '../util/durations';
+import { MINUTE } from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { explodePromise } from '../util/explodePromise';
 import { toLogFormat } from '../types/errors';
 import * as log from '../logging/log';
 
 type TaskType = {
+  id: string;
+  startedAt: number | undefined;
   suspend(): void;
   resume(): void;
 };
@@ -31,12 +33,28 @@ export function resumeTasksWithTimeout(): void {
   }
 }
 
+export function reportLongRunningTasks(): void {
+  const now = Date.now();
+  for (const task of tasks) {
+    if (task.startedAt === undefined) {
+      continue;
+    }
+
+    const duration = Math.max(0, now - task.startedAt);
+    if (duration > MINUTE) {
+      log.warn(
+        `TaskWithTimeout: ${task.id} has been running for ${duration}ms`
+      );
+    }
+  }
+}
+
 export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
   task: (...args: Args) => Promise<T>,
   id: string,
   options: { timeout?: number } = {}
 ): (...args: Args) => Promise<T> {
-  const timeout = options.timeout || 30 * durations.MINUTE;
+  const timeout = options.timeout || 30 * MINUTE;
 
   const timeoutError = new Error(`${id || ''} task did not complete in time.`);
 
@@ -54,6 +72,7 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
         return;
       }
 
+      entry.startedAt = Date.now();
       timer = setTimeout(() => {
         if (complete) {
           return;
@@ -72,6 +91,8 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
     };
 
     const entry: TaskType = {
+      id,
+      startedAt: undefined,
       suspend: stopTimer,
       resume: startTimer,
     };
