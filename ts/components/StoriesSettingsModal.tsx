@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MeasuredComponentProps } from 'react-measure';
+import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Measure from 'react-measure';
 import { noop } from 'lodash';
@@ -36,10 +37,12 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { getListViewers } from './SendStoryModal';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
   distributionLists: Array<StoryDistributionListWithMembersDataType>;
+  signalConnections: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   hideStoriesSettings: () => unknown;
   i18n: LocalizerType;
@@ -62,6 +65,8 @@ export type PropsType = {
   setMyStoriesToAllSignalConnections: () => unknown;
   storyViewReceiptsEnabled: boolean;
   toggleSignalConnectionsModal: () => unknown;
+  toggleStoriesView: () => void;
+  setStoriesDisabled: (value: boolean) => void;
 };
 
 export enum Page {
@@ -89,9 +94,65 @@ const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'moduleClassName'> =
     moduleClassName: 'StoriesSettingsModal__modal',
   };
 
+type DistributionListItemProps = {
+  i18n: LocalizerType;
+  distributionList: StoryDistributionListWithMembersDataType;
+  me: ConversationType;
+  signalConnections: Array<ConversationType>;
+  onSelectItemToEdit(id: UUIDStringType): void;
+};
+
+function DistributionListItem({
+  i18n,
+  distributionList,
+  me,
+  signalConnections,
+  onSelectItemToEdit,
+}: DistributionListItemProps) {
+  return (
+    <button
+      className="StoriesSettingsModal__list"
+      onClick={() => {
+        onSelectItemToEdit(distributionList.id);
+      }}
+      type="button"
+    >
+      <span className="StoriesSettingsModal__list__left">
+        {distributionList.id === MY_STORIES_ID ? (
+          <Avatar
+            acceptedMessageRequest={me.acceptedMessageRequest}
+            avatarPath={me.avatarPath}
+            badge={undefined}
+            color={me.color}
+            conversationType={me.type}
+            i18n={i18n}
+            isMe
+            sharedGroupNames={me.sharedGroupNames}
+            size={AvatarSize.THIRTY_SIX}
+            title={me.title}
+          />
+        ) : (
+          <span className="StoriesSettingsModal__list__avatar--private" />
+        )}
+        <span className="StoriesSettingsModal__list__title">
+          <StoryDistributionListName
+            i18n={i18n}
+            id={distributionList.id}
+            name={distributionList.name}
+          />
+        </span>
+      </span>
+      <span className="StoriesSettingsModal__list__viewers">
+        {getListViewers(distributionList, i18n, signalConnections)}
+      </span>
+    </button>
+  );
+}
+
 export const StoriesSettingsModal = ({
   candidateConversations,
   distributionLists,
+  signalConnections,
   getPreferredBadge,
   hideStoriesSettings,
   i18n,
@@ -105,6 +166,8 @@ export const StoriesSettingsModal = ({
   setMyStoriesToAllSignalConnections,
   storyViewReceiptsEnabled,
   toggleSignalConnectionsModal,
+  toggleStoriesView,
+  setStoriesDisabled,
 }: PropsType): JSX.Element => {
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
@@ -200,10 +263,6 @@ export const StoriesSettingsModal = ({
       />
     );
   } else {
-    const privateStories = distributionLists.filter(
-      list => list.id !== MY_STORIES_ID
-    );
-
     modal = onClose => (
       <ModalPage
         modalName="StoriesSettingsModal__list"
@@ -212,72 +271,36 @@ export const StoriesSettingsModal = ({
         title={i18n('StoriesSettings__title')}
         {...modalCommonProps}
       >
-        <button
-          className="StoriesSettingsModal__list"
-          onClick={() => {
-            setListToEditId(MY_STORIES_ID);
-          }}
-          type="button"
-        >
-          <span className="StoriesSettingsModal__list__left">
-            <Avatar
-              acceptedMessageRequest={me.acceptedMessageRequest}
-              avatarPath={me.avatarPath}
-              badge={getPreferredBadge(me.badges)}
-              color={me.color}
-              conversationType={me.type}
-              i18n={i18n}
-              isMe
-              sharedGroupNames={me.sharedGroupNames}
-              size={AvatarSize.THIRTY_SIX}
-              theme={ThemeType.dark}
-              title={me.title}
-            />
-            <span className="StoriesSettingsModal__list__title">
-              {i18n('Stories__mine')}
-            </span>
-          </span>
+        <p className="StoriesSettingsModal__description">
+          {i18n('icu:StoriesSettings__description')}
+        </p>
 
-          <span className="StoriesSettingsModal__list__viewers" />
-        </button>
-
-        <button
-          className="StoriesSettingsModal__list"
-          onClick={() => {
-            setPage(Page.ChooseViewers);
-          }}
-          type="button"
-        >
-          <span className="StoriesSettingsModal__list__left">
-            <span className="StoriesSettingsModal__list__avatar--new" />
-            <span className="StoriesSettingsModal__list__title">
-              {i18n('StoriesSettings__new-list')}
-            </span>
-          </span>
-        </button>
-        {privateStories.map(list => (
+        <div className="StoriesSettingsModal__listHeader">
+          <h2 className="StoriesSettingsModal__listHeader__title">
+            {i18n('Stories__mine')}
+          </h2>
           <button
-            className="StoriesSettingsModal__list"
-            key={list.id}
-            onClick={() => {
-              setListToEditId(list.id);
-            }}
             type="button"
+            className="StoriesSettingsModal__listHeader__button"
+            onClick={() => {
+              setPage(Page.ChooseViewers);
+            }}
           >
-            <span className="StoriesSettingsModal__list__left">
-              <span className="StoriesSettingsModal__list__avatar--custom" />
-              <span className="StoriesSettingsModal__list__title">
-                {list.name}
-              </span>
-            </span>
-
-            <span className="StoriesSettingsModal__list__viewers">
-              {i18n('icu:StoriesSettings__viewers', {
-                count: list.members.length,
-              })}
-            </span>
+            {i18n('StoriesSettings__new-list')}
           </button>
-        ))}
+        </div>
+
+        {distributionLists.map(distributionList => {
+          return (
+            <DistributionListItem
+              i18n={i18n}
+              me={me}
+              distributionList={distributionList}
+              signalConnections={signalConnections}
+              onSelectItemToEdit={setListToEditId}
+            />
+          );
+        })}
 
         <hr className="StoriesSettingsModal__divider" />
 
@@ -290,6 +313,22 @@ export const StoriesSettingsModal = ({
           name="view-receipts"
           onChange={noop}
         />
+
+        <div className="StoriesSettingsModal__stories-off-container">
+          <p className="StoriesSettingsModal__stories-off-text">
+            {i18n('Preferences__turn-stories-off--body')}
+          </p>
+          <Button
+            className="Preferences__stories-off"
+            onClick={async () => {
+              setStoriesDisabled(true);
+              toggleStoriesView();
+              onClose();
+            }}
+          >
+            {i18n('Preferences__turn-stories-off')}
+          </Button>
+        </div>
       </ModalPage>
     );
   }
@@ -555,6 +594,30 @@ export const DistributionListSettingsModal = ({
   );
 };
 
+type CheckboxRenderProps = {
+  checkboxNode: ReactNode;
+  labelNode: ReactNode;
+  descriptionNode: ReactNode;
+};
+
+function CheckboxRender({
+  checkboxNode,
+  labelNode,
+  descriptionNode,
+}: CheckboxRenderProps) {
+  return (
+    <>
+      {checkboxNode}
+      <div className="StoriesSettingsModal__checkbox-container">
+        <div className="StoriesSettingsModal__checkbox-label">{labelNode}</div>
+        <div className="StoriesSettingsModal__checkbox-description">
+          {descriptionNode}
+        </div>
+      </div>
+    </>
+  );
+}
+
 type EditMyStoriesPrivacyPropsType = {
   hasDisclaimerAbove?: boolean;
   i18n: LocalizerType;
@@ -605,7 +668,6 @@ export const EditMyStoriesPrivacy = ({
 
       <Checkbox
         checked={!myStories.members.length}
-        description={i18n('StoriesSettings__mine__all--description')}
         isRadio
         label={i18n('StoriesSettings__mine__all--label')}
         moduleClassName="StoriesSettingsModal__checkbox"
@@ -613,13 +675,28 @@ export const EditMyStoriesPrivacy = ({
         onChange={() => {
           setMyStoriesToAllSignalConnections();
         }}
-      />
+      >
+        {({ checkboxNode, labelNode, checked }) => {
+          return (
+            <CheckboxRender
+              checkboxNode={checkboxNode}
+              labelNode={labelNode}
+              descriptionNode={
+                checked && (
+                  <>
+                    {i18n('icu:StoriesSettings__viewers', {
+                      count: myStories.members.length,
+                    })}
+                  </>
+                )
+              }
+            />
+          );
+        }}
+      </Checkbox>
 
       <Checkbox
         checked={myStories.isBlockList && myStories.members.length > 0}
-        description={i18n('StoriesSettings__mine__exclude--description', [
-          myStories.isBlockList ? String(myStories.members.length) : '0',
-        ])}
         isRadio
         label={i18n('StoriesSettings__mine__exclude--label')}
         moduleClassName="StoriesSettingsModal__checkbox"
@@ -631,17 +708,28 @@ export const EditMyStoriesPrivacy = ({
           }
           onClickExclude();
         }}
-      />
+      >
+        {({ checkboxNode, labelNode, checked }) => {
+          return (
+            <CheckboxRender
+              checkboxNode={checkboxNode}
+              labelNode={labelNode}
+              descriptionNode={
+                checked && (
+                  <>
+                    {i18n('icu:StoriesSettings__viewers', {
+                      count: myStories.members.length,
+                    })}
+                  </>
+                )
+              }
+            />
+          );
+        }}
+      </Checkbox>
 
       <Checkbox
         checked={!myStories.isBlockList && myStories.members.length > 0}
-        description={
-          !myStories.isBlockList && myStories.members.length
-            ? i18n('StoriesSettings__mine__only--description--people', [
-                String(myStories.members.length),
-              ])
-            : i18n('StoriesSettings__mine__only--description')
-        }
         isRadio
         label={i18n('StoriesSettings__mine__only--label')}
         moduleClassName="StoriesSettingsModal__checkbox"
@@ -653,7 +741,25 @@ export const EditMyStoriesPrivacy = ({
           }
           onClickOnlyShareWith();
         }}
-      />
+      >
+        {({ checkboxNode, labelNode, checked }) => {
+          return (
+            <CheckboxRender
+              checkboxNode={checkboxNode}
+              labelNode={labelNode}
+              descriptionNode={
+                checked && (
+                  <>
+                    {i18n('icu:StoriesSettings__viewers', {
+                      count: myStories.members.length,
+                    })}
+                  </>
+                )
+              }
+            />
+          );
+        }}
+      </Checkbox>
 
       {!hasDisclaimerAbove && disclaimerElement}
     </>

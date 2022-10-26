@@ -74,9 +74,9 @@
     @include font-body-1;
     align-items: center;
     display: flex;
-    height: 52px;
     justify-content: space-between;
     width: 100%;
+    padding: 8px 0;
 
     &--no-pointer {
       cursor: inherit;
@@ -144,9 +144,9 @@
   }
 
   &__divider {
-    border-color: $color-gray-65;
-    border-style: solid;
     width: 100%;
+    border: 0 solid $color-gray-65;
+    border-top-width: 1px;
   }
 
   &__input__container {
@@ -165,12 +165,51 @@
     margin-top: 32px;
   }
 
+  &__description {
+    @include font-subtitle;
+    color: $color-gray-25;
+    margin-top: 0px;
+    margin-bottom: 16px;
+  }
+
+  &__listHeader {
+    display: flex;
+    align-items: center;
+  }
+
+  &__listHeader__title {
+    flex: 1;
+    @include font-body-1-bold;
+    margin-right: 8px;
+  }
+
+  &__listHeader__button {
+    @include button-reset;
+    @include button-secondary;
+    @include rounded-corners;
+    padding: 4px 10px;
+    @include font-family;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      margin-right: 6px;
+      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
+    }
+  }
+
   &__delete-list {
     @include button-reset;
     align-items: center;
     color: $color-accent-red;
     display: flex;
-    height: 52px;
+    padding: 8px 0;
     width: 100%;
 
     &::before {
@@ -186,7 +225,22 @@
   }
 
   &__checkbox {
-    margin: 18px 0;
+    margin: 14px 0;
+  }
+
+  &__checkbox-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  &__checkbox-label {
+    flex: 1;
+    margin-right: 8px;
+  }
+
+  &__checkbox-description {
+    color: $color-gray-25;
   }
 
   &__conversation-list {
@@ -203,5 +257,16 @@
       @include button-reset;
       color: $color-gray-05;
     }
+  }
+
+  &__stories-off-container {
+    display: flex;
+    gap: 16;
+    align-items: center;
+  }
+
+  &__stories-off-text {
+    flex: 1;
+    font-size: 12px;
   }
 }
