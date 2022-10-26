@@ -113,7 +113,6 @@ const LIST_MEMBERS_VERIFIED = 'stories/LIST_MEMBERS_VERIFIED';
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const QUEUE_STORY_DOWNLOAD = 'stories/QUEUE_STORY_DOWNLOAD';
-const REPLY_TO_STORY = 'stories/REPLY_TO_STORY';
 export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
   'stories/SEND_STORY_MODAL_OPEN_STATE_CHANGED';
@@ -156,14 +155,6 @@ type QueueStoryDownloadActionType = {
   payload: string;
 };
 
-type ReplyToStoryActionType = {
-  type: typeof REPLY_TO_STORY;
-  payload: {
-    message: MessageAttributesType;
-    storyId: string;
-  };
-};
-
 type ResolveAttachmentUrlActionType = {
   type: typeof RESOLVE_ATTACHMENT_URL;
   payload: {
@@ -204,7 +195,6 @@ export type StoriesActionType =
   | MessageDeletedActionType
   | MessagesAddedActionType
   | QueueStoryDownloadActionType
-  | ReplyToStoryActionType
   | ResolveAttachmentUrlActionType
   | SendStoryModalOpenStateChanged
   | StoryChangedActionType
@@ -453,7 +443,7 @@ function replyToStory(
   mentions: Array<BodyRangeType>,
   timestamp: number,
   story: StoryViewType
-): ThunkAction<void, RootStateType, unknown, ReplyToStoryActionType> {
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
 
@@ -462,7 +452,7 @@ function replyToStory(
       return;
     }
 
-    const messageAttributes = await conversation.enqueueMessageForSend(
+    await conversation.enqueueMessageForSend(
       {
         body: messageBody,
         attachments: [],
@@ -474,15 +464,10 @@ function replyToStory(
       }
     );
 
-    if (messageAttributes) {
-      dispatch({
-        type: REPLY_TO_STORY,
-        payload: {
-          message: messageAttributes,
-          storyId: story.messageId,
-        },
-      });
-    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
@@ -1373,8 +1358,25 @@ export function reducer(
 
     // New message
     if (messageIndex < 0) {
+      const storyIndex = state.stories.findIndex(
+        story => story.messageId === replyState.messageId
+      );
+
+      const stories =
+        storyIndex >= 0
+          ? replaceIndex(state.stories, storyIndex, {
+              ...state.stories[storyIndex],
+              hasReplies: true,
+              hasRepliesFromSelf:
+                state.stories[storyIndex].hasRepliesFromSelf ||
+                state.stories[storyIndex].conversationId ===
+                  action.payload.conversationId,
+            })
+          : state.stories;
+
       return {
         ...state,
+        stories,
         replyState: {
           messageId: replyState.messageId,
           replies: [...replyState.replies, action.payload.data],
@@ -1392,37 +1394,6 @@ export function reducer(
           messageIndex,
           action.payload.data
         ),
-      },
-    };
-  }
-
-  if (action.type === REPLY_TO_STORY) {
-    const { replyState } = state;
-
-    const stories = state.stories.map(story => {
-      if (story.messageId === action.payload.storyId) {
-        return {
-          ...story,
-          hasRepliesFromSelf: true,
-        };
-      }
-
-      return story;
-    });
-
-    if (!replyState) {
-      return {
-        ...state,
-        stories,
-      };
-    }
-
-    return {
-      ...state,
-      stories,
-      replyState: {
-        messageId: replyState.messageId,
-        replies: [...replyState.replies, action.payload.message],
       },
     };
   }
