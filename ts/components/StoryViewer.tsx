@@ -300,10 +300,11 @@ export const StoryViewer = ({
   const [pauseStory, setPauseStory] = useState(false);
 
   const shouldPauseViewing =
+    Boolean(confirmDeleteStory) ||
+    currentViewTarget != null ||
     hasActiveCall ||
     hasConfirmHideStory ||
     hasExpandedCaption ||
-    currentViewTarget != null ||
     isShowingContextMenu ||
     pauseStory ||
     Boolean(reactionEmoji);
