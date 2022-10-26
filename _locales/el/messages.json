@@ -3038,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ μέλη",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 μέλος",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Μέλος του $group$",
@@ -4940,17 +4944,13 @@
     "message": "Όνομα χρήστη",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Συμπλήρωσε ένα όνομα χρήστη",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Τα ονόματα χρήστη του Signal είναι προαιρετικά. Αν διαλέξεις να δημιουργήσεις ένα όνομα χρήστη, τότε άλλοι χρήστες/τριες του Signal θα μπορούν να σε βρουν αναζητώντας σε με αυτό το όνομα χρήστη, και θα μπορούν να επικοινωνούν μαζί σου χωρίς να ξέρουν τον αριθμό τηλεφώνου σου.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Choose your username",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Τα ονόματα χρήστη μπορούν να περιέχουν μόνο λατινικούς χαρακτήρες a-z, νούμερα 0-9 και την κάτω παύλα _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Τα ονόματα χρήστη δεν μπορούν να ξεκινούν με αριθμό.",
@@ -4964,6 +4964,10 @@
     "message": "Τα ονόματα χρήστη πρέπει να αποτελούνται το πολύ από $max$ χαρακτήρες.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "This username is not available",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Αυτό το όνομα χρήστη χρησιμοποιείται ήδη.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4976,6 +4980,18 @@
     "message": "Το όνομα χρήστη σου δεν μπόρεσε να αφαιρεθεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Copied username",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Copied link",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Deleting username",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "Διαγραφή ονόματος χρήστη",
     "description": "Shown as aria label for trash icon next to username"
@@ -4987,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "Διαγραφή",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Copy or delete username",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Copy username",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Copy link",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Delete",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "Γράψε κάτι για εσένα...",
@@ -5213,7 +5245,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Δεν θα μπορείς πλέον να μοιράζεσαι ή να βλέπεις ιστορίες.",
+    "message": "Δεν θα μπορείς πλέον να μοιράζεσαι ή να βλέπεις ιστορίες. Οι ενημερώσεις ιστορίας που κοινοποίησες πρόσφατα θα διαγραφούν επίσης.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5374,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ προβολή",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ προβολές",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} προβολή} other {{views,number} προβολές}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Αναφορές προβολής ανενεργές",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ απάντηση",
@@ -5444,6 +5484,14 @@
     "message": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Αποστολή…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Αποτυχία αποστολής",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Κάνε κλικ για να δεις μια ιστορία",
     "description": "Placeholder label for the story view"
@@ -5469,19 +5517,27 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "Νέα ιδιωτική ιστορία",
-    "description": "Label to create a new private story list"
+    "message": "New custom story",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ προβολή",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ προβολές",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Ποια άτομα μπορούν να δουν αυτή την ιστορία",
+    "message": "Who can view this story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5490,7 +5546,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Αφαίρεση",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Αφαίρεση $title$",
@@ -5498,7 +5554,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Αυτό το άτομο δεν θα βλέπει πλέον την ιστορία σου.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Απαντήσεις και αντιδράσεις",
@@ -5513,20 +5569,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Διαγραφή ιδιωτικής ιστορίας",
-    "description": "Button label to delete a private distribution list"
+    "message": "Delete custom story",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Διαγραφή ιδιωτικής ιστορίας;",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"$name$\"; Οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία θα διαγραφούν επίσης.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Επιλογή θεατών",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Δώσε όνομα σε αυτήν την ιστορία",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Name story",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Όνομα ιστορίας (υποχρεωτικό)",
@@ -5554,7 +5610,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Κοινοποίηση μόνο σε...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Κοινοποίηση μόνο σε συγκεκριμένα άτομα",
@@ -5576,6 +5632,14 @@
     "message": "Ρυθμίσεις ιστορίας",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "View Receipts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Επίλεξε ποια άτομα μπορούν να δουν αυτήν την ιστορία",
     "description": "Shown during the first time posting a story"
@@ -5588,17 +5652,45 @@
     "message": "Αποστολή ιστορίας",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Custom story",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Group story",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Only share with",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Νέα ιστορία",
+    "message": "New",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "New custom story",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visible only to specific people",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Νέα ιδιωτική ιστορία",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Ορατή μόνο σε συγκεκριμένα άτομα",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Νέα ιστορία ομάδας",
@@ -5666,7 +5758,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Αναφορές προβολής ανενεργές",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Εστάλη $time$",
@@ -5685,7 +5777,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Ενεργοποίησε το αποδεικτικό ανάγνωσης για να δεις ποια άτομα βλέπουν τις ιστορίες σου. Άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Απόρρητο.",
+    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5711,6 +5803,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Αντέδρασε στην ιστορία",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Ιστορία",
@@ -5855,6 +5951,26 @@
   "ContextMenu--button": {
     "message": "Μενού περιβάλλοντος",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Username",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Learn More",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "What is this number?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Νέες δυνατότητες",

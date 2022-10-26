@@ -1905,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "סיפורים",
+    "message": "סטוריז",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -3038,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ חברי קבוצה",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "חבר אחד",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "חבר קבוצה של $group$",
@@ -4940,17 +4944,13 @@
     "message": "שם משתמש",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "הכנס שם משתמש",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "שמות משתמש ב־Signal הם רשותיים. אם אתה בוחר ליצור שם משתמש, משתמשי Signal אחרים יוכלו למצוא אותך לפי שם משתמש זה וליצור איתך קשר בלי לדעת את מספר הטלפון שלך.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Choose your username",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "שמות משתמש יכולים להכיל רק a-z, 0-9 וכן _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "שמות משתמש אינם יכולים להתחיל במספר.",
@@ -4964,6 +4964,10 @@
     "message": "לשמות משתמש חייבים להיות לכל היותר $max$ תווים.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "This username is not available",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "שם משתמש זה תפוס.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4976,6 +4980,18 @@
     "message": "שם המשתמש שלך לא היה יכול להיות מוסר. בדוק את החיבור שלך ונסה שוב.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Copied username",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Copied link",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Deleting username",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "מחק שם משתמש",
     "description": "Shown as aria label for trash icon next to username"
@@ -4987,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "מחק",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Copy or delete username",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Copy username",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Copy link",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Delete",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "כתוב משהו על עצמך…",
@@ -5213,7 +5245,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז.",
+    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז. עדכוני סטורי ששיתפת לאחרונה ימחקו גם הם.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5357,15 +5389,15 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "הסיפורים שלי",
+    "message": "הסטוריז שלי",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "הסיפור שלך",
+    "message": "הסטורי שלך",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "הורד סיפור",
+    "message": "הורדת סטורי",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5374,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "צפייה $num$",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ צפיות",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {צפייה {views,number}} two {{views,number} צפיות} many {{views,number} צפיות} other {{views,number} צפיות}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "אישורי קריאה מושבתים",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "תשובה $num$",
@@ -5389,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "למחוק את הסיפור הזה? הוא יימחק גם עבור כל מי שקיבל אותו.",
+    "message": "למחוק את הסטורי הזה? הוא יימחק גם עבור כל מי שקיבל אותו.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5413,23 +5453,23 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "חברי ה-Signal שלך יכולים לראות את השם והתמונה שלך, והם יכולים גם לראות פוסטים תחת ״הסטורי שלי״ אלא אם כן בחרת להסתיר אותם מהם.",
+    "message": "חברי ה-Signal שלך יכולים לראות את השם והתמונה שלך, והם יכולים גם לראות פוסטים תחת ״הסטורי שלי״ אלא אם כן בחרת להסתיר אותם מהם",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "סיפורים",
+    "message": "סטוריז",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "הסיפורים שלי",
+    "message": "הסטוריז שלי",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "הוסף סיפור",
+    "message": "הוספת סטורי",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "סטורי כתוב",
+    "message": "סטורי טקסט",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5437,15 +5477,23 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "סיפורים מוסתרים",
+    "message": "סטוריז מוסתרים",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "אין סיפורים אחרונים להראות כרגע",
+    "message": "אין סטוריז מהזמן האחרון להראות כרגע",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "שולחים…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "שליחה נכשלה",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "לחץ כדי להציג סיפור",
+    "message": "אפשר ללחוץ כדי להציג סטורי",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5465,23 +5513,31 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "הגדרות סיפור",
+    "message": "הגדרות סטורי",
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "סיפור פרטי חדש",
-    "description": "Label to create a new private story list"
+    "message": "New custom story",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "צופה $num$",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ צופים",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "מי יכול לראות את הסיפור הזה",
+    "message": "Who can view this story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5490,15 +5546,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "הסר",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "הסרה של $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "האיש הזה לא יראה יותר את הסיפור שלך.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "האדם הזה לא יראה יותר את הסטורי שלך.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "תשובות ותגובות",
@@ -5513,27 +5569,27 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "מחק סיפור פרטי",
-    "description": "Button label to delete a private distribution list"
+    "message": "Delete custom story",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "למחוק סטורי פרטי?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "בטוח שבא לך למחוק את ״$name$״? עדכונים שישותפו לסטורי הזה ימחקו גם הם.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "בחירת צופים",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "מתן שם לסטורי זה",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Name story",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "שם סיפור (דרוש)",
+    "message": "שם סטורי (חובה)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "הסתר סיפור מפני",
+    "message": "הסתרת סטורי מ",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5554,7 +5610,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "שיתוף רק עם...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "שיתוף רק עם אנשים נבחרים",
@@ -5565,7 +5621,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "אפשר לבחור מי יראה את הסטורי שלך. השינויים לא ישפיעו על סטוריז שכבר שלחת. $learnMore$",
+    "message": "אפשר לבחור מי יכול לראות את הסטורי שלך. השינויים לא ישפיעו על סטוריז שכבר שלחת. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5573,11 +5629,19 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "הגדרות סיפור",
+    "message": "הגדרות סטורי",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "View Receipts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
-    "message": "אפשר לבחור מי יכול לצפות בסטורי שלך",
+    "message": "אפשר לבחור מי יכול לראות את הסטורי שלך",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5588,17 +5652,45 @@
     "message": "שליחת סטורי",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Custom story",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Group story",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Only share with",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "סטורי חדש",
+    "message": "New",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "סיפור פרטי חדש",
+  "SendStoryModal__new-custom--title": {
+    "message": "New custom story",
     "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visible only to specific people",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "סטורי פרטי חדש",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "גלוי רק אל אנשים מסוימים",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "סטורי קבוצתי חדש",
@@ -5637,7 +5729,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "כבר לא תוכלו לשתף או לצפות בסיפורים כאשר האפשרות הזאת כבויה.",
+    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז כשאפשרות זו כבויה.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5666,7 +5758,7 @@
   },
   "StoryViewer__views-off": {
     "message": "אישורי קריאה מושבתים",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "נשלח $time$",
@@ -5685,7 +5777,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "אפשר להפעיל אישורי קריאה כדי לראות מי צפה בסטוריז שלך. פותחים את אפליקציית Signal בנייד ומנווטים להגדרות > פרטיות.",
+    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5705,23 +5797,27 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "הגב אל סיפור",
+    "message": "שליחת תגובה לסטורי",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "הגיב/ה אל סיפור",
+    "message": "הגיב/ה לסטורי",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
-    "message": "סיפור",
+    "message": "סטורי",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "הראה סיפורים",
+    "message": "הצגת סטוריז",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "הסתר סיפור",
+    "message": "הסתרת סטורי",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5737,7 +5833,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "להסתיר סיפור? עדכוני סיפור חדשים מאת $name$ לא יופיעו יותר בראש רשימת הסיפורים.",
+    "message": "להסתיר את הסטורי? עדכוני סטורי חדשים מאת $name$ לא יופיעו יותר בראש רשימת הסטוריז.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5837,15 +5933,15 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "סיפור",
+    "message": "סטורי",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "הגיב/ה אל סיפור מאת $name$",
+    "message": "הגיב/ה לסטורי מאת $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "הגיב/ה אל סיפור",
+    "message": "הגיב/ה לסטורי",
     "description": "Used whenever we can't find a user's first name"
   },
   "Quote__story-unavailable": {
@@ -5855,6 +5951,26 @@
   "ContextMenu--button": {
     "message": "תפריט קונטקסט",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Username",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Learn More",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "What is this number?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "מה חדש",

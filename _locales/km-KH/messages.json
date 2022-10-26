@@ -3038,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "សមាជិក $count$ នាក់",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "សមាជិក 1",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "សមាជិកនៃ $group$",
@@ -4940,17 +4944,13 @@
     "message": "ឈ្មោះអ្នកប្រើប្រាស់",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "បញ្ចូល អ្នកប្រើប្រាស់ មួយ",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "ឈ្មោះអ្នកប្រើប្រាស់លើ Signal ជាជម្រើស។ បើអ្នកជ្រើសរើសបង្កើតឈ្មោះអ្នកប្រើប្រាស់មួយ អ្នកប្រើប្រាស់ Signal ផ្សេងទៀតនឹងអាចស្វែងរកអ្នកតាមរយៈឈ្មោះអ្នកប្រើប្រាស់នេះ និងទាក់ទងអ្នក ដោយមិនចាំបាច់ដឹងពីលេខទូរស័ព្ទរបស់អ្នកឡើយ។",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Choose your username",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "ឈ្មោះអ្នកប្រើអាចមានត្រឹមតែ a-z, 0-9 និង _ ប៉ុណ្ណោះ",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "ឈ្មោះអ្នកប្រើប្រាស់មិនអាចចាប់ផ្តើមពីលេខ។",
@@ -4964,6 +4964,10 @@
     "message": "ឈ្មោះ​អ្នក​ប្រើ​ត្រូវ​តែ​មានច្រើន​បំផុត $max$ ​តួអក្សរ។",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "This username is not available",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ឈ្មោះអ្នកប្រើនេះត្រូវបានយក។",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4976,6 +4980,18 @@
     "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចដកចេញបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Copied username",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Copied link",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Deleting username",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "លុបឈ្មោះអ្នកប្រើ",
     "description": "Shown as aria label for trash icon next to username"
@@ -4987,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "លុប",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Copy or delete username",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Copy username",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Copy link",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Delete",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "សរសេរអ្វីមួយអំពីខ្លួនអ្នក...",
@@ -5213,7 +5245,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ។",
+    "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ។ បច្ចុប្បន្នភាពរឿងរ៉ាវដែលអ្នកបានចែករំលែកនាពេលថ្មីៗនេះក៏នឹងត្រូវបានលុបចោលផងដែរ។",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5374,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "ចំនួនមើល $num$ ដង",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "ចំនួនមើល $num$ ដង",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, other {ចំនួនមើល {views,number}}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "បានបិទចំនួនមើល",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "ចំនួនឆ្លើយតប $num$",
@@ -5444,6 +5484,14 @@
     "message": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "កំពុងផ្ញើ...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "ផ្ញើបរាជ័យ",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "ចុចដើម្បីមើលរឿងរ៉ាវ",
     "description": "Placeholder label for the story view"
@@ -5469,19 +5517,27 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "រឿងរ៉ាវឯកជនថ្មី",
-    "description": "Label to create a new private story list"
+    "message": "New custom story",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "អ្នកមើល $num$ នាក់",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "អ្នកមើល $num$ នាក់",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "អ្នកដែលអាចមើលឃើញរឿងរ៉ាវនេះ",
+    "message": "Who can view this story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5490,7 +5546,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "លុបចេញ",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "ដក $title$ ចេញ",
@@ -5498,7 +5554,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "បុគ្គលនេះនឹងមិនឃើញរឿងរ៉ាវរបស់អ្នកទៀតទេ។",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "ការឆ្លើយតប និងប្រតិកម្ម",
@@ -5513,20 +5569,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "លុបរឿងរ៉ាវឯកជន",
-    "description": "Button label to delete a private distribution list"
+    "message": "Delete custom story",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "លុបរឿងរ៉ាវឯកជនឬ?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "តើអ្នកច្បាស់ថាចង់លុប \"$name$\" ឬ? បច្ចុប្បន្នភាពដែលបានចែករំលែកចំពោះរឿងរ៉ាវនេះក៏នឹងត្រូវបានលុបផងដែរ។",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "ជ្រើសរើសអ្នកមើល",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ដាក់ឈ្មោះរឿងរ៉ាវនេះ",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Name story",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "ឈ្មោះរឿងរ៉ាវ (ចាំបាច់)",
@@ -5554,7 +5610,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "គ្រាន់តែចែករំលែកជាមួយ…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "ចែករំលែកជាមួយមនុស្សដែលបានជ្រើសរើសប៉ុណ្ណោះ",
@@ -5576,6 +5632,14 @@
     "message": "ការកំណត់រឿងរ៉ាវ",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "View Receipts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "ជ្រើសរើសអ្នកដែលអាចមើលរឿងរ៉ាវរបស់អ្នក",
     "description": "Shown during the first time posting a story"
@@ -5588,17 +5652,45 @@
     "message": "ផ្ញើរឿងរ៉ាវ",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Custom story",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Group story",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Only share with",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "រឿងរ៉ាវថ្មី",
+    "message": "New",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "New custom story",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visible only to specific people",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "រឿងរ៉ាវឯកជនថ្មី",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "អាចមើលឃើញតែចំពោះមនុស្សជាក់លាក់ប៉ុណ្ណោះ",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "រឿងរ៉ាវក្រុមថ្មី",
@@ -5666,7 +5758,7 @@
   },
   "StoryViewer__views-off": {
     "message": "បានបិទចំនួនមើល",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "បានផ្ញើ $time$",
@@ -5685,7 +5777,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "បើកមុខងារអានសារដើម្បីមើលថានរណាខ្លះដែលបានមើលរឿងរ៉ាវរបស់អ្នក។ បើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព។",
+    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5711,6 +5803,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "រឿងរ៉ាវ",
@@ -5855,6 +5951,26 @@
   "ContextMenu--button": {
     "message": "ម៉ឺនុយបរិបទ",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Username",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Learn More",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "What is this number?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "អ្វីដែលថ្មី",
