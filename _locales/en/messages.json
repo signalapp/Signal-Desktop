@@ -5943,6 +5943,18 @@
     "message": "Reacted to a story",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reacted $emoji$ to your story",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "You reacted $emoji$ to a story from $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "You reacted $emoji$ to a story",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "No longer available",
     "description": "Label for when a story is not found"
