@@ -15,9 +15,11 @@ export function getRecipients(
   {
     includePendingMembers,
     extraConversationsForSend,
+    isStoryReply = false,
   }: {
     includePendingMembers?: boolean;
     extraConversationsForSend?: Array<string>;
+    isStoryReply?: boolean;
   } = {}
 ): Array<string> {
   if (isDirectConversation(conversationAttributes)) {
@@ -25,9 +27,13 @@ export function getRecipients(
     return [getSendTarget(conversationAttributes)!];
   }
 
-  const members = getConversationMembers(conversationAttributes, {
+  let members = getConversationMembers(conversationAttributes, {
     includePendingMembers,
   });
+
+  if (isStoryReply) {
+    members = members.filter(({ capabilities }) => capabilities?.stories);
+  }
 
   // There are cases where we need to send to someone we just removed from the group, to
   //   let them know that we removed them. In that case, we need to send to more than
