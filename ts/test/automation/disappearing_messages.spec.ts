@@ -10,6 +10,7 @@ import {
   waitForReadableMessageWithText,
   waitForTestIdWithText,
 } from './utils';
+import { sleepFor } from '../../session/utils/Promise';
 
 let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
@@ -50,7 +51,9 @@ test('Disappearing Messages', async () => {
     'readable-message',
     'You set the disappearing message timer to 5 seconds'
   );
+  await sleepFor(2000);
   // Check top right hand corner indicator
+
   await waitForTestIdWithText(windowA, 'disappearing-messages-indicator', '5 seconds');
   // Send message
   // Wait for tick of confirmation
@@ -87,7 +90,7 @@ test('Disappearing Messages', async () => {
     `${userA.userName} set the disappearing message timer to 5 seconds`
   );
   // Wait 5 seconds
-  await waitForMatchingText(windowB, `${userA.userName} disabled disappearing messages`);
+  await waitForMatchingText(windowB, `${userA.userName} has turned off disappearing messages.`);
   // verify message is deleted in windowB
   const errorDesc2 = 'Should not be found';
   try {

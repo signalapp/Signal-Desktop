@@ -92,6 +92,18 @@ const decodeV4Response = (snodeResponse: SnodeResponseV4): DecodedResponseV4 | u
         break;
       case 'application/octet-stream':
         break;
+      case 'text/html; charset=utf-8':
+        try {
+          window?.log?.warn(
+            'decodeV4Response - received raw body of type "text/html; charset=utf-8": ',
+            to_string(bodyBinary)
+          );
+        } catch (e) {
+          window?.log?.warn(
+            'decodeV4Response - received raw body of type "text/html; charset=utf-8" but not a string'
+          );
+        }
+        break;
       default:
         window?.log?.warn(
           'decodeV4Response - No or unknown content-type information for response: ',
