@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'buffer';
-import pProps from 'p-props';
 import Long from 'long';
 import { HKDF } from '@signalapp/libsignal-client';
 
@@ -360,74 +359,6 @@ export function getBytes(
   n: number
 ): Uint8Array {
   return data.subarray(start, start + n);
-}
-
-function _getMacAndData(ciphertext: Uint8Array) {
-  const dataLength = ciphertext.byteLength - MAC_LENGTH;
-  const data = getBytes(ciphertext, 0, dataLength);
-  const mac = getBytes(ciphertext, dataLength, MAC_LENGTH);
-
-  return { data, mac };
-}
-
-export async function encryptCdsDiscoveryRequest(
-  attestations: {
-    [key: string]: { clientKey: Uint8Array; requestId: Uint8Array };
-  },
-  phoneNumbers: ReadonlyArray<string>
-): Promise<Record<string, unknown>> {
-  const nonce = getRandomBytes(32);
-  const numbersArray = Buffer.concat(
-    phoneNumbers.map(number => {
-      // Long.fromString handles numbers with or without a leading '+'
-      return new Uint8Array(Long.fromString(number).toBytesBE());
-    })
-  );
-
-  // We've written to the array, so offset === byteLength; we need to reset it. Then we'll
-  //   have access to everything in the array when we generate an Uint8Array from it.
-  const queryDataPlaintext = Bytes.concatenate([nonce, numbersArray]);
-
-  const queryDataKey = getRandomBytes(32);
-  const commitment = sha256(queryDataPlaintext);
-  const iv = getRandomBytes(12);
-  const queryDataCiphertext = encryptAesGcm(
-    queryDataKey,
-    iv,
-    queryDataPlaintext
-  );
-  const { data: queryDataCiphertextData, mac: queryDataCiphertextMac } =
-    _getMacAndData(queryDataCiphertext);
-
-  const envelopes = await pProps(
-    attestations,
-    async ({ clientKey, requestId }) => {
-      const envelopeIv = getRandomBytes(12);
-      const ciphertext = encryptAesGcm(
-        clientKey,
-        envelopeIv,
-        queryDataKey,
-        requestId
-      );
-      const { data, mac } = _getMacAndData(ciphertext);
-
-      return {
-        requestId: Bytes.toBase64(requestId),
-        data: Bytes.toBase64(data),
-        iv: Bytes.toBase64(envelopeIv),
-        mac: Bytes.toBase64(mac),
-      };
-    }
-  );
-
-  return {
-    addressCount: phoneNumbers.length,
-    commitment: Bytes.toBase64(commitment),
-    data: Bytes.toBase64(queryDataCiphertextData),
-    iv: Bytes.toBase64(iv),
-    mac: Bytes.toBase64(queryDataCiphertextMac),
-    envelopes,
-  };
 }
 
 export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {

@@ -378,16 +378,9 @@ async function prepareUrl(
   const theme = await getResolvedThemeSetting();
 
   const directoryConfig = directoryConfigSchema.safeParse({
-    directoryType: config.get<string | undefined>('directoryType') || 'legacy',
     directoryUrl: config.get<string | null>('directoryUrl') || undefined,
-    directoryEnclaveId:
-      config.get<string | null>('directoryEnclaveId') || undefined,
-    directoryTrustAnchor:
-      config.get<string | null>('directoryTrustAnchor') || undefined,
-    directoryCDSIUrl:
-      config.get<string | null>('directoryCDSIUrl') || undefined,
-    directoryCDSIMRENCLAVE:
-      config.get<string | null>('directoryCDSIMRENCLAVE') || undefined,
+    directoryMRENCLAVE:
+      config.get<string | null>('directoryMRENCLAVE') || undefined,
   });
   if (!directoryConfig.success) {
     throw new Error(

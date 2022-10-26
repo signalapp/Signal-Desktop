@@ -15,10 +15,7 @@ import { getCountryCode } from './types/PhoneNumber';
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.calling.audioLevelForSpeaking'
-  | 'desktop.cdsi'
-  | 'desktop.cdsi.beta'
   | 'desktop.cdsi.returnAcisWithoutUaks'
-  | 'desktop.cdsi.mirroring'
   | 'desktop.clientExpiration'
   | 'desktop.groupCallOutboundRing'
   | 'desktop.internalUser'

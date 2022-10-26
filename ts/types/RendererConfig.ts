@@ -11,52 +11,15 @@ export type ConfigRequiredStringType = z.infer<
   typeof configRequiredStringSchema
 >;
 
-const configOptionalUnknownSchema = configRequiredStringSchema.or(z.unknown());
-
 const configOptionalStringSchema = configRequiredStringSchema.or(z.undefined());
 export type configOptionalStringType = z.infer<
   typeof configOptionalStringSchema
 >;
 
-const directoryLegacyConfigSchema = z.object({
-  directoryType: z.literal('legacy'),
-  directoryEnclaveId: configRequiredStringSchema,
-  directoryTrustAnchor: configRequiredStringSchema,
+export const directoryConfigSchema = z.object({
   directoryUrl: configRequiredStringSchema,
+  directoryMRENCLAVE: configRequiredStringSchema,
 });
-
-const directoryCDSIConfigSchema = z.object({
-  directoryType: z.literal('cdsi'),
-  directoryCDSIUrl: configRequiredStringSchema,
-  directoryCDSIMRENCLAVE: configRequiredStringSchema,
-});
-
-const directoryMirroredCDSIConfigSchema = z.object({
-  directoryType: z.literal('mirrored-cdsi'),
-
-  directoryEnclaveId: configRequiredStringSchema,
-  directoryTrustAnchor: configRequiredStringSchema,
-  directoryUrl: configRequiredStringSchema,
-
-  directoryCDSIUrl: configRequiredStringSchema,
-  directoryCDSIMRENCLAVE: configRequiredStringSchema,
-});
-
-export const directoryConfigSchema = z
-  .object({
-    // Unknown defaults
-    directoryEnclaveId: configOptionalUnknownSchema,
-    directoryTrustAnchor: configOptionalUnknownSchema,
-    directoryUrl: configOptionalUnknownSchema,
-
-    directoryCDSIUrl: configOptionalUnknownSchema,
-    directoryCDSIMRENCLAVE: configOptionalUnknownSchema,
-  })
-  .and(
-    directoryLegacyConfigSchema
-      .or(directoryMirroredCDSIConfigSchema)
-      .or(directoryCDSIConfigSchema)
-  );
 
 export type DirectoryConfigType = z.infer<typeof directoryConfigSchema>;
 

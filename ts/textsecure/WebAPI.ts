@@ -40,14 +40,7 @@ import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
 import { SocketManager } from './SocketManager';
-import type {
-  CDSAuthType,
-  CDSRequestOptionsType,
-  CDSResponseType,
-} from './cds/Types.d';
-import type { CDSBase } from './cds/CDSBase';
-import { LegacyCDS } from './cds/LegacyCDS';
-import type { LegacyCDSPutAttestationResponseType } from './cds/LegacyCDS';
+import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
 import { CDSI } from './cds/CDSI';
 import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
@@ -63,12 +56,6 @@ import type {
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl } from '../util/url';
-import {
-  ToastInternalError,
-  ToastInternalErrorKind,
-} from '../components/ToastInternalError';
-import { showToast } from '../util/showToast';
-import { isProduction } from '../util/version';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -738,8 +725,6 @@ export type CdsLookupOptionsType = Readonly<{
   acis?: ReadonlyArray<UUIDStringType>;
   accessKeys?: ReadonlyArray<string>;
   returnAcisWithoutUaks?: boolean;
-  isLegacy: boolean;
-  isMirroring: boolean;
 }>;
 
 type GetProfileCommonOptionsType = Readonly<
@@ -1126,117 +1111,25 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
-    const {
-      directoryType,
-      directoryUrl,
-      directoryEnclaveId,
-      directoryTrustAnchor,
-    } = directoryConfig;
+    const { directoryUrl, directoryMRENCLAVE } = directoryConfig;
 
-    let legacyCDS: LegacyCDS | undefined;
-    let cds: CDSBase;
-    if (directoryType === 'legacy' || directoryType === 'mirrored-cdsi') {
-      legacyCDS = new LegacyCDS({
-        logger: log,
-        directoryEnclaveId,
-        directoryTrustAnchor,
-        proxyUrl,
+    const cds = new CDSI({
+      logger: log,
+      proxyUrl,
 
-        async putAttestation(auth, publicKey) {
-          const data = JSON.stringify({
-            clientPublic: Bytes.toBase64(publicKey),
-            iasVersion: 4,
-          });
-          const result = (await _outerAjax(null, {
-            certificateAuthority,
-            type: 'PUT',
-            contentType: 'application/json; charset=utf-8',
-            host: directoryUrl,
-            path: `${URL_CALLS.attestation}/${directoryEnclaveId}`,
-            user: auth.username,
-            password: auth.password,
-            proxyUrl,
-            responseType: 'jsonwithdetails',
-            data,
-            timeout: 30000,
-            version,
-          })) as JSONWithDetailsType<LegacyCDSPutAttestationResponseType>;
+      url: directoryUrl,
+      mrenclave: directoryMRENCLAVE,
+      certificateAuthority,
+      version,
 
-          const { response, data: responseBody } = result;
-
-          const cookie = response.headers.get('set-cookie') ?? undefined;
-
-          return { cookie, responseBody };
-        },
-
-        async fetchDiscoveryData(auth, data, cookie) {
-          const response = (await _outerAjax(null, {
-            certificateAuthority,
-            type: 'PUT',
-            headers: cookie
-              ? {
-                  cookie,
-                }
-              : undefined,
-            contentType: 'application/json; charset=utf-8',
-            host: directoryUrl,
-            path: `${URL_CALLS.discovery}/${directoryEnclaveId}`,
-            user: auth.username,
-            password: auth.password,
-            proxyUrl,
-            responseType: 'json',
-            timeout: 30000,
-            data: JSON.stringify(data),
-            version,
-          })) as {
-            requestId: string;
-            iv: string;
-            data: string;
-            mac: string;
-          };
-
-          return {
-            requestId: Bytes.fromBase64(response.requestId),
-            iv: Bytes.fromBase64(response.iv),
-            data: Bytes.fromBase64(response.data),
-            mac: Bytes.fromBase64(response.mac),
-          };
-        },
-
-        async getAuth() {
-          return (await _ajax({
-            call: 'directoryAuth',
-            httpType: 'GET',
-            responseType: 'json',
-          })) as CDSAuthType;
-        },
-      });
-
-      if (directoryType === 'legacy') {
-        cds = legacyCDS;
-      }
-    }
-    if (directoryType === 'cdsi' || directoryType === 'mirrored-cdsi') {
-      const { directoryCDSIUrl, directoryCDSIMRENCLAVE } = directoryConfig;
-
-      cds = new CDSI({
-        logger: log,
-        proxyUrl,
-
-        url: directoryCDSIUrl,
-        mrenclave: directoryCDSIMRENCLAVE,
-        certificateAuthority,
-        version,
-
-        async getAuth() {
-          return (await _ajax({
-            call: 'directoryAuthV2',
-            httpType: 'GET',
-            responseType: 'json',
-          })) as CDSAuthType;
-        },
-      });
-    }
+      async getAuth() {
+        return (await _ajax({
+          call: 'directoryAuthV2',
+          httpType: 'GET',
+          responseType: 'json',
+        })) as CDSAuthType;
+      },
+    });
 
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
@@ -2936,74 +2829,18 @@ export function initialize({
       return socketManager.getProvisioningResource(handler);
     }
 
-    async function mirroredCdsLookup(
-      requestOptions: CDSRequestOptionsType,
-      expectedMapPromise: Promise<CDSResponseType>
-    ): Promise<void> {
-      try {
-        log.info('cdsLookup: sending mirrored request');
-        const actualMap = await cds.request(requestOptions);
-
-        const expectedMap = await expectedMapPromise;
-        let matched = 0;
-        let warnings = 0;
-        for (const [e164, { aci }] of actualMap) {
-          if (!aci) {
-            continue;
-          }
-
-          const expectedACI = expectedMap.get(e164)?.aci;
-          if (expectedACI === aci) {
-            matched += 1;
-          } else {
-            warnings += 1;
-            log.warn(
-              `cdsLookup: mirrored request has aci=${aci} for ${e164}, while ` +
-                `expected aci=${expectedACI}`
-            );
-          }
-        }
-
-        if (warnings !== 0 && !isProduction(window.getVersion())) {
-          log.info('cdsLookup: showing error toast');
-          showToast(ToastInternalError, {
-            kind: ToastInternalErrorKind.CDSMirroringError,
-            onShowDebugLog: () => window.showDebugLog(),
-          });
-        }
-
-        log.info(`cdsLookup: mirrored request success, matched=${matched}`);
-      } catch (error) {
-        log.error('cdsLookup: mirrored request error', toLogFormat(error));
-      }
-    }
-
     async function cdsLookup({
       e164s,
       acis = [],
       accessKeys = [],
       returnAcisWithoutUaks,
-      isLegacy,
-      isMirroring,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
-      const requestOptions = {
+      return cds.request({
         e164s,
         acis,
         accessKeys,
         returnAcisWithoutUaks,
-      };
-      if (!isLegacy || !legacyCDS) {
-        return cds.request(requestOptions);
-      }
-
-      const legacyRequest = legacyCDS.request(requestOptions);
-
-      if (legacyCDS !== cds && isMirroring) {
-        // Intentionally not awaiting
-        mirroredCdsLookup(requestOptions, legacyRequest);
-      }
-
-      return legacyRequest;
+      });
     }
   }
 }
