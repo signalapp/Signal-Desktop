@@ -101,6 +101,18 @@ function getListMemberUuids(
   return memberUuids;
 }
 
+function getKeyForMyStoryType(list: StoryDistributionListWithMembersDataType) {
+  if (list.members.length === 0) {
+    return 'StoriesSettings__mine__all--label';
+  }
+
+  if (!list.isBlockList) {
+    return 'SendStoryModal__only-share-with';
+  }
+
+  return 'StoriesSettings__mine__all--label';
+}
+
 function getListViewers(
   list: StoryDistributionListWithMembersDataType,
   i18n: LocalizerType,
@@ -114,9 +126,7 @@ function getListViewers(
       : signalConnections.length;
   }
 
-  return memberCount === 1
-    ? i18n('StoriesSettings__viewers--singular', ['1'])
-    : i18n('StoriesSettings__viewers--plural', [String(memberCount)]);
+  return i18n('icu:StoriesSettings__viewers', { count: memberCount });
 }
 
 export const SendStoryModal = ({
@@ -560,11 +570,9 @@ export const SendStoryModal = ({
                       </div>
 
                       <div className="SendStoryModal__distribution-list__description">
-                        {group.membersCount === 1
-                          ? i18n('ConversationHero--members-1')
-                          : i18n('ConversationHero--members', [
-                              String(group.membersCount),
-                            ])}
+                        {i18n('icu:ConversationHero--members', {
+                          count: group.membersCount,
+                        })}
                       </div>
                     </div>
                   </label>
@@ -633,9 +641,9 @@ export const SendStoryModal = ({
             i18n={i18n}
             menuOptions={[
               {
-                label: i18n('SendStoryModal__new-private--title'),
-                description: i18n('SendStoryModal__new-private--description'),
-                icon: 'SendStoryModal__icon--lock',
+                label: i18n('SendStoryModal__new-custom--title'),
+                description: i18n('SendStoryModal__new-custom--description'),
+                icon: 'SendStoryModal__icon--custom',
                 onClick: () => setPage(Page.ChooseViewers),
               },
               {
@@ -749,7 +757,7 @@ export const SendStoryModal = ({
                       title={me.title}
                     />
                   ) : (
-                    <span className="StoriesSettingsModal__list__avatar--private" />
+                    <span className="StoriesSettingsModal__list__avatar--custom" />
                   )}
 
                   <div className="SendStoryModal__distribution-list__info">
@@ -762,9 +770,28 @@ export const SendStoryModal = ({
                     </div>
 
                     <div className="SendStoryModal__distribution-list__description">
-                      {hasFirstStoryPostExperience && list.id === MY_STORIES_ID
-                        ? i18n('SendStoryModal__choose-who-can-view')
-                        : getListViewers(list, i18n, signalConnections)}
+                      {hasFirstStoryPostExperience &&
+                      list.id === MY_STORIES_ID ? (
+                        i18n('SendStoryModal__choose-who-can-view')
+                      ) : (
+                        <>
+                          <span className="SendStoryModal__rtl-span">
+                            {list.id === MY_STORIES_ID
+                              ? i18n(getKeyForMyStoryType(list))
+                              : i18n('SendStoryModal__custom-story')}
+                          </span>
+                          <span className="SendStoryModal__rtl-span">
+                            &nbsp;&middot;&nbsp;
+                          </span>
+                          <span className="SendStoryModal__rtl-span">
+                            {list.isBlockList && list.members.length > 0
+                              ? i18n('icu:SendStoryModal__excluded', {
+                                  count: list.members.length,
+                                })
+                              : getListViewers(list, i18n, signalConnections)}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </label>
@@ -844,11 +871,17 @@ export const SendStoryModal = ({
                     </div>
 
                     <div className="SendStoryModal__distribution-list__description">
-                      {group.membersCount === 1
-                        ? i18n('ConversationHero--members-1')
-                        : i18n('ConversationHero--members', [
-                            String(group.membersCount),
-                          ])}
+                      <span className="SendStoryModal__rtl-span">
+                        {i18n('SendStoryModal__group-story')}
+                      </span>
+                      <span className="SendStoryModal__rtl-span">
+                        &nbsp;&middot;&nbsp;
+                      </span>
+                      <span className="SendStoryModal__rtl-span">
+                        {i18n('icu:ConversationHero--members', {
+                          count: group.membersCount,
+                        })}
+                      </span>
                     </div>
                   </div>
                 </label>

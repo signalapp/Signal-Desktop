@@ -265,18 +265,16 @@ export const StoriesSettingsModal = ({
             type="button"
           >
             <span className="StoriesSettingsModal__list__left">
-              <span className="StoriesSettingsModal__list__avatar--private" />
+              <span className="StoriesSettingsModal__list__avatar--custom" />
               <span className="StoriesSettingsModal__list__title">
                 {list.name}
               </span>
             </span>
 
             <span className="StoriesSettingsModal__list__viewers">
-              {list.members.length === 1
-                ? i18n('StoriesSettings__viewers--singular', ['1'])
-                : i18n('StoriesSettings__viewers--plural', [
-                    String(list.members.length),
-                  ])}
+              {i18n('icu:StoriesSettings__viewers', {
+                count: list.members.length,
+              })}
             </span>
           </button>
         ))}
@@ -399,7 +397,7 @@ export const DistributionListSettingsModal = ({
         <>
           <div className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer">
             <span className="StoriesSettingsModal__list__left">
-              <span className="StoriesSettingsModal__list__avatar--private" />
+              <span className="StoriesSettingsModal__list__avatar--custom" />
               <span className="StoriesSettingsModal__list__title">
                 <StoryDistributionListName
                   i18n={i18n}
@@ -776,16 +774,17 @@ export const EditDistributionListModal = ({
         onClose={onClose}
         {...modalCommonProps}
       >
-        <div className="StoriesSettingsModal__name-story-avatar-container">
-          <div className="StoriesSettingsModal__list__avatar--private StoriesSettingsModal__list__avatar--private--large" />
-        </div>
-
         <Input
           i18n={i18n}
           onChange={setStoryName}
           placeholder={i18n('StoriesSettings__name-placeholder')}
+          moduleClassName="StoriesSettingsModal__input"
           value={storyName}
         />
+
+        <div className="StoriesSettingsModal__visibility">
+          {i18n('SendStoryModal__new-custom--name-visibility')}
+        </div>
 
         <div className="StoriesSettingsModal__title">
           {i18n('StoriesSettings__who-can-see')}

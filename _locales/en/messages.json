@@ -3037,11 +3037,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ members",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 member",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 member} other {# members}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Member of $group$",
@@ -5484,19 +5488,27 @@
     "description": "Title for the story settings modal"
   },
   "StoriesSettings__new-list": {
-    "message": "New private story",
-    "description": "Label to create a new private story list"
+    "message": "New custom story",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ viewer",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ viewers",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 viewer} other {# viewers}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can see this story",
+    "message": "Who can view this story",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5505,7 +5517,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Remove",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Remove $title$",
@@ -5513,7 +5525,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "This person will no longer see your story.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Replies & reactions",
@@ -5528,20 +5540,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Delete private story",
-    "description": "Button label to delete a private distribution list"
+    "message": "Delete custom story",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
     "message": "Are you sure you want to delete \"$name$\"? Updates shared to this story will also be deleted.",
-    "description": "Confirmation text to delete a private distribution list"
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Choose Viewers",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name this story",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Name story",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Story name (required)",
@@ -5569,7 +5581,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Only share with...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Only share with selected people",
@@ -5611,17 +5623,45 @@
     "message": "Send story",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Custom story",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Group story",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Only share with",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 excluded} other {# excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "New story",
+    "message": "New",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "New custom story",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Only you can see the name of this story.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visible only to specific people",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "New private story",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Visible only to specific people",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "New group story",

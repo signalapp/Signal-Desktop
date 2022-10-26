@@ -2,11 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoriesSettingsModal {
-  &__modal__body {
-    display: flex;
-    flex-direction: column;
-  }
-
   &__conversation-list {
     .module-conversation-list {
       padding-left: 0;
@@ -118,22 +113,12 @@
         @include avatar('../images/icons/v2/plus-20.svg');
       }
 
-      &--private {
-        @include avatar('../images/icons/v2/lock-outline-24.svg');
+      &--custom {
+        @include avatar('../images/icons/v2/stories-outline-24.svg');
 
         &::after {
-          height: 16px;
-          width: 12px;
-        }
-
-        &--large {
-          height: 64px;
-          width: 64px;
-
-          &::after {
-            height: 24px;
-            width: 18px;
-          }
+          height: 20px;
+          width: 20px;
         }
       }
     }
@@ -161,11 +146,23 @@
   &__divider {
     border-color: $color-gray-65;
     border-style: solid;
+    width: 100%;
+  }
+
+  &__input__container {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+  &__visibility {
+    @include font-subtitle;
+    color: $color-gray-25;
+    margin-top: 10px;
   }
 
   &__title {
     @include font-body-1-bold;
-    margin-top: 24px;
+    margin-top: 32px;
   }
 
   &__delete-list {
@@ -196,12 +193,6 @@
     flex-grow: 1;
     min-height: 300px;
     overflow: hidden;
-  }
-
-  &__name-story-avatar-container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
   }
 
   &__disclaimer {

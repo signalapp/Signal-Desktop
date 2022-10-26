@@ -631,7 +631,7 @@ export const StoryViewer = ({
                     title={group.title}
                   />
                 )}
-                <div>
+                <div className="StoryViewer__meta--title-container">
                   <div className="StoryViewer__meta--title">
                     {(group &&
                       i18n('Stories__from-to-group', {

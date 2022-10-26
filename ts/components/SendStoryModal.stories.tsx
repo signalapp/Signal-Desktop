@@ -80,6 +80,26 @@ Modal.args = {
   distributionLists: getFakeDistributionListsWithMembers(),
 };
 
+export const BlockList = Template.bind({});
+BlockList.args = {
+  distributionLists: [
+    { ...getMyStories(), members: [getDefaultConversation()] },
+  ],
+  groupStories: [],
+};
+
+export const AllowList = Template.bind({});
+AllowList.args = {
+  distributionLists: [
+    {
+      ...getMyStories(),
+      isBlockList: false,
+      members: [getDefaultConversation()],
+    },
+  ],
+  groupStories: [],
+};
+
 export const FirstTime = Template.bind({});
 FirstTime.args = {
   distributionLists: [myStories],

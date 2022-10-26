@@ -68,11 +68,10 @@
       align-items: center;
       display: flex;
       color: $color-white-alpha-80;
-      margin-left: 8px;
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/lock-solid-24.svg',
+          '../images/icons/v2/stories-solid-16.svg',
           $color-white-alpha-80
         );
         content: '';
@@ -87,11 +86,15 @@
       margin-left: -8px;
     }
 
+    &--title-container {
+      padding-left: 8px;
+    }
+
     &--title {
       @include font-body-1-bold;
       color: $color-white;
       display: inline;
-      margin: 0 8px;
+      margin-right: 8px;
     }
 
     &--timestamp {
