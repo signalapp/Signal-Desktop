@@ -4,6 +4,7 @@
 import type { MessageAttributesType } from '../model-types.d';
 import { deletePackReference } from '../types/Stickers';
 import { isStory } from '../messages/helpers';
+import { isDirectConversation } from './whatTypeOfConversation';
 
 export async function cleanupMessage(
   message: MessageAttributesType
@@ -19,7 +20,10 @@ export async function cleanupMessage(
 
   await deleteMessageData(message);
 
-  if (isStory(message)) {
+  if (
+    isStory(message) &&
+    isDirectConversation(parentConversation?.attributes)
+  ) {
     await fixupStoryReplies(conversationId, id);
   }
 }
