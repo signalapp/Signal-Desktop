@@ -223,7 +223,6 @@ export function getConversationStory(
   story: StoryDataType
 ): ConversationStoryType {
   const sender = pick(conversationSelector(story.sourceUuid || story.source), [
-    'hideStory',
     'id',
   ]);
 
@@ -231,6 +230,7 @@ export function getConversationStory(
     'acceptedMessageRequest',
     'avatarPath',
     'color',
+    'hideStory',
     'id',
     'name',
     'profileName',
@@ -251,7 +251,7 @@ export function getConversationStory(
     group: conversation.id !== sender.id ? conversation : undefined,
     hasReplies: story.hasReplies,
     hasRepliesFromSelf: story.hasRepliesFromSelf,
-    isHidden: Boolean(sender.hideStory),
+    isHidden: Boolean(conversation.hideStory),
     storyView,
   };
 }
