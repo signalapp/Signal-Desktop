@@ -177,17 +177,17 @@ export const StoriesPane = ({
           {renderedStories.map(story => (
             <StoryListItem
               conversationId={story.conversationId}
-              group={story.group}
               getPreferredBadge={getPreferredBadge}
               hasReplies={story.hasReplies}
               hasRepliesFromSelf={story.hasRepliesFromSelf}
+              group={story.group}
               i18n={i18n}
               key={story.storyView.timestamp}
-              onHideStory={toggleHideStories}
               onGoToConversation={conversationId => {
                 showConversation({ conversationId });
                 toggleStoriesView();
               }}
+              onHideStory={toggleHideStories}
               queueStoryDownload={queueStoryDownload}
               story={story.storyView}
               viewUserStories={viewUserStories}
@@ -210,15 +210,16 @@ export const StoriesPane = ({
                 hiddenStories.map(story => (
                   <StoryListItem
                     conversationId={story.conversationId}
-                    key={story.storyView.timestamp}
                     getPreferredBadge={getPreferredBadge}
+                    group={story.group}
                     i18n={i18n}
                     isHidden
-                    onHideStory={toggleHideStories}
+                    key={story.storyView.timestamp}
                     onGoToConversation={conversationId => {
                       showConversation({ conversationId });
                       toggleStoriesView();
                     }}
+                    onHideStory={toggleHideStories}
                     queueStoryDownload={queueStoryDownload}
                     story={story.storyView}
                     viewUserStories={viewUserStories}
