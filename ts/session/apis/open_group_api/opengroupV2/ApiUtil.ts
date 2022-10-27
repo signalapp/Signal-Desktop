@@ -142,36 +142,33 @@ const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f4
 const defaultRoom = `${defaultServer}/main?public_key=${defaultServerPublicKey}`;
 
 const loadDefaultRoomsSingle = () =>
-  allowOnlyOneAtATime(
-    'loadDefaultRoomsSingle',
-    async (): Promise<Array<OpenGroupV2InfoJoinable>> => {
-      const roomInfos = parseOpenGroupV2(defaultRoom);
-      if (roomInfos) {
-        try {
-          const roomsGot = await getAllRoomInfos(roomInfos);
+  allowOnlyOneAtATime('loadDefaultRoomsSingle', async () => {
+    const roomInfos = parseOpenGroupV2(defaultRoom);
+    if (roomInfos) {
+      try {
+        const roomsGot = await getAllRoomInfos(roomInfos);
 
-          if (!roomsGot) {
-            return [];
-          }
-
-          return roomsGot.map(room => {
-            return {
-              ...room,
-              completeUrl: getCompleteUrlFromRoom({
-                serverUrl: roomInfos.serverUrl,
-                serverPublicKey: roomInfos.serverPublicKey,
-                roomId: room.id,
-              }),
-            };
-          });
-        } catch (e) {
-          window?.log?.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
+        if (!roomsGot) {
+          return [];
         }
-        return [];
+
+        return roomsGot.map(room => {
+          return {
+            ...room,
+            completeUrl: getCompleteUrlFromRoom({
+              serverUrl: roomInfos.serverUrl,
+              serverPublicKey: roomInfos.serverPublicKey,
+              roomId: room.id,
+            }),
+          };
+        });
+      } catch (e) {
+        window?.log?.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
       }
       return [];
     }
-  );
+    return [];
+  });
 
 /**
  * Load to the cache all the details of the room of the default opengroupv2 server

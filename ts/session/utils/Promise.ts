@@ -17,11 +17,11 @@ export class TaskTimedOutError extends Error {
 // one action resolves all
 const oneAtaTimeRecord: Record<string, Promise<any>> = {};
 
-export async function allowOnlyOneAtATime(
+export async function allowOnlyOneAtATime<T>(
   name: string,
-  process: () => Promise<any>,
+  process: () => Promise<T | undefined>,
   timeoutMs?: number
-) {
+): Promise<T> {
   // if currently not in progress
   if (oneAtaTimeRecord[name] === undefined) {
     // set lock
@@ -37,7 +37,7 @@ export async function allowOnlyOneAtATime(
         }, timeoutMs);
       }
       // do actual work
-      let innerRetVal;
+      let innerRetVal: T | undefined;
       try {
         innerRetVal = await process();
       } catch (e) {

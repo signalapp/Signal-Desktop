@@ -97,6 +97,7 @@ export const SettingsCategoryPrivacy = (props: {
               displayPasswordModal('change', props.onPasswordUpdated);
             }}
             buttonText={window.i18n('changePassword')}
+            dataTestId="change-password-settings-button"
           />
         )}
         {props.hasPassword && (
@@ -108,6 +109,7 @@ export const SettingsCategoryPrivacy = (props: {
             }}
             buttonColor={SessionButtonColor.Danger}
             buttonText={window.i18n('removePassword')}
+            dataTestId="remove-password-settings-button"
           />
         )}
       </>

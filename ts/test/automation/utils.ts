@@ -28,15 +28,17 @@ export async function waitForMatchingText(window: Page, text: string) {
 }
 
 export async function clickOnMatchingText(window: Page, text: string, rightButton = false) {
+  console.info(`clickOnMatchingText: "${text}"`);
   return window.click(`"${text}"`, rightButton ? { button: 'right' } : undefined);
 }
 
 export async function clickOnTestIdWithText(window: Page, dataTestId: string, text?: string) {
-  if (text) {
-    return window.click(`css=[data-testid=${dataTestId}]:has-text("${text}")`);
-  }
+  console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text ? text : 'none'}`);
 
-  const builtSelector = `css=[data-testid=${dataTestId}]`;
+  const builtSelector = !text
+    ? `css=[data-testid=${dataTestId}]`
+    : `css=[data-testid=${dataTestId}]:has-text("${text}")`;
+
   await window.waitForSelector(builtSelector);
   return window.click(builtSelector);
 }
@@ -46,6 +48,7 @@ export function getMessageTextContentNow() {
 }
 
 export async function typeIntoInput(window: Page, dataTestId: string, text: string) {
+  console.info(`typeIntoInput testId: ${dataTestId} : "${text}"`);
   const builtSelector = `css=[data-testid=${dataTestId}]`;
   return window.fill(builtSelector, text);
 }
