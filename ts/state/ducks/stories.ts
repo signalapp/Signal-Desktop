@@ -842,6 +842,15 @@ const viewStory: ViewStoryActionCreatorType = (
       return;
     }
 
+    if (storyViewMode === StoryViewModeType.Single) {
+      // Close the viewer we were just looking at a single story.
+      dispatch({
+        type: VIEW_STORY,
+        payload: undefined,
+      });
+      return;
+    }
+
     // When paging through all sent stories
     // Note the order is reversed[1][2] here because we sort the stories by
     // recency in descending order but the story viewer plays them in

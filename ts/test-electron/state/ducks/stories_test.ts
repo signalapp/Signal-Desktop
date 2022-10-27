@@ -130,6 +130,21 @@ describe('both/state/ducks/stories', () => {
       });
     });
 
+    it('closes the viewer when viewing a single story', () => {
+      const dispatch = sinon.spy();
+
+      viewStory({
+        storyId: UUID.generate().toString(),
+        storyViewMode: StoryViewModeType.Single,
+        viewDirection: StoryViewDirectionType.Next,
+      })(dispatch, getEmptyRootState, null);
+
+      sinon.assert.calledWith(dispatch, {
+        type: 'stories/VIEW_STORY',
+        payload: undefined,
+      });
+    });
+
     it('does not find a story', () => {
       const dispatch = sinon.spy();
       viewStory({
