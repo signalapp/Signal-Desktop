@@ -13,6 +13,7 @@ const SessionScrollButtonDiv = styled.div`
 
   .session-icon-button {
     background-color: var(--message-bubbles-received-background-color);
+    box-shadow: var(--scroll-button-shadow);
   }
 `;
 

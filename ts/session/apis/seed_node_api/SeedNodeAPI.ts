@@ -146,9 +146,7 @@ export interface SnodeFromSeed {
 }
 
 const getSnodeListFromSeednodeOneAtAtime = async (seedNodes: Array<string>) =>
-  allowOnlyOneAtATime('getSnodeListFromSeednode', () =>
-    getSnodeListFromSeednode(seedNodes)
-  ) as Promise<Array<SnodeFromSeed>>;
+  allowOnlyOneAtATime('getSnodeListFromSeednode', () => getSnodeListFromSeednode(seedNodes));
 
 /**
  * This call will try 4 times to contact a seed nodes (random) and get the snode list from it.

@@ -117,7 +117,6 @@ const Section = (props: { type: SectionType }) => {
           iconSize="medium"
           dataTestId="settings-section"
           iconType={'gear'}
-          notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
         />
@@ -138,7 +137,6 @@ const Section = (props: { type: SectionType }) => {
           iconSize="medium"
           iconType={isDarkMode ? 'moon' : 'sun'}
           dataTestId="theme-section"
-          notificationCount={unreadToShow}
           onClick={handleClick}
           isSelected={isSelected}
         />

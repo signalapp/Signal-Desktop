@@ -1,6 +1,10 @@
 import AbortController, { AbortSignal } from 'abort-controller';
 import { isUndefined, toNumber } from 'lodash';
-import { OpenGroupV2Room, OpenGroupV2RoomWithImageID } from '../../../../data/opengroups';
+import {
+  OpenGroupData,
+  OpenGroupV2Room,
+  OpenGroupV2RoomWithImageID,
+} from '../../../../data/opengroups';
 import { MIME } from '../../../../types';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
@@ -16,7 +20,6 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
   serverPubkey: string;
   blinded: boolean;
   abortSignal: AbortSignal;
-  doNotIncludeOurSogsHeaders?: boolean;
   headers: Record<string, any> | null;
   roomId: string;
   fileId: string;
@@ -28,7 +31,6 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
     blinded,
     abortSignal,
     headers: includedHeaders,
-    doNotIncludeOurSogsHeaders,
     roomId,
     fileId,
     throwError,
@@ -41,15 +43,13 @@ export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
     throw new Error('endpoint needs a leading /');
   }
   const builtUrl = new URL(`${serverUrl}${endpoint}`);
-  let headersWithSogsHeadersIfNeeded = doNotIncludeOurSogsHeaders
-    ? {}
-    : await OpenGroupPollingUtils.getOurOpenGroupHeaders(
-        serverPubkey,
-        endpoint,
-        method,
-        blinded,
-        stringifiedBody
-      );
+  let headersWithSogsHeadersIfNeeded = await OpenGroupPollingUtils.getOurOpenGroupHeaders(
+    serverPubkey,
+    endpoint,
+    method,
+    blinded,
+    stringifiedBody
+  );
 
   if (isUndefined(headersWithSogsHeadersIfNeeded)) {
     return null;
@@ -98,12 +98,15 @@ export async function sogsV3FetchPreviewAndSaveIt(roomInfos: OpenGroupV2RoomWith
     return;
   }
 
+  const room = OpenGroupData.getV2OpenGroupRoom(convoId);
+  const blinded = roomHasBlindEnabled(room);
+
   // make sure this runs only once for each rooms.
-  // we don't want to trigger one of those on each setPollInfo resultsas it happens on each batch poll.
-  const oneAtAtimeResult = (await allowOnlyOneAtATime(
+  // we don't want to trigger one of those on each setPollInfo results as it happens on each batch poll.
+  const oneAtAtimeResult = await allowOnlyOneAtATime(
     `sogsV3FetchPreview-${serverUrl}-${roomId}`,
-    () => sogsV3FetchPreview(roomInfos)
-  )) as Uint8Array | null; // force the return type as allowOnlyOneAtATime does not keep it
+    () => sogsV3FetchPreview(roomInfos, blinded)
+  );
 
   if (!oneAtAtimeResult || !oneAtAtimeResult?.byteLength) {
     window?.log?.warn('sogsV3FetchPreviewAndSaveIt failed for room: ', roomId);
@@ -139,7 +142,7 @@ export async function sogsV3FetchPreviewAndSaveIt(roomInfos: OpenGroupV2RoomWith
  * @returns the fetchedData in base64
  */
 export async function sogsV3FetchPreviewBase64(roomInfos: OpenGroupV2RoomWithImageID) {
-  const fetched = await sogsV3FetchPreview(roomInfos);
+  const fetched = await sogsV3FetchPreview(roomInfos, true); // left pane are session official default rooms, which do require blinded
   if (fetched && fetched.byteLength) {
     return callUtilsWorker('arrayBufferToStringBase64', fetched);
   }
@@ -155,7 +158,8 @@ export async function sogsV3FetchPreviewBase64(roomInfos: OpenGroupV2RoomWithIma
  * Those default rooms do not have a conversation associated with them, as they are not joined yet
  */
 const sogsV3FetchPreview = async (
-  roomInfos: OpenGroupV2RoomWithImageID
+  roomInfos: OpenGroupV2RoomWithImageID,
+  blinded: boolean
 ): Promise<Uint8Array | null> => {
   if (!roomInfos || !roomInfos.imageID) {
     return null;
@@ -164,11 +168,10 @@ const sogsV3FetchPreview = async (
   // not a batch call yet as we need to exclude headers for this call for now
   const fetched = await fetchBinaryFromSogsWithOnionV4({
     abortSignal: new AbortController().signal,
-    blinded: false,
+    blinded,
     headers: null,
     serverPubkey: roomInfos.serverPublicKey,
     serverUrl: roomInfos.serverUrl,
-    doNotIncludeOurSogsHeaders: true,
     roomId: roomInfos.roomId,
     fileId: roomInfos.imageID,
     throwError: false,
@@ -198,7 +201,6 @@ export const sogsV3FetchFileByFileID = async (
     headers: null,
     serverPubkey: roomInfos.serverPublicKey,
     serverUrl: roomInfos.serverUrl,
-    doNotIncludeOurSogsHeaders: true,
     roomId: roomInfos.roomId,
     fileId,
     throwError: true,

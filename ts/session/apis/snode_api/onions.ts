@@ -338,6 +338,13 @@ async function processAnyOtherErrorOnPath(
   if (status !== 200) {
     window?.log?.warn(`[path] Got status: ${status}`);
 
+    if (status === 404 || status === 400) {
+      window?.log?.warn(
+        'processAnyOtherErrorOnPathgot 404 or 400, probably a dead sogs. Skipping bad path update'
+      );
+      return;
+    }
+
     // If we have a specific node in fault we can exclude just this node.
     if (ciphertext?.startsWith(NEXT_NODE_NOT_FOUND_PREFIX)) {
       const nodeNotFound = ciphertext.substr(NEXT_NODE_NOT_FOUND_PREFIX.length);

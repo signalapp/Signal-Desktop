@@ -72,7 +72,7 @@
   "noSearchResults": "No results found for \"$searchTerm$\"",
   "conversationsHeader": "Contacts and Groups",
   "contactsHeader": "Contacts",
-  "messagesHeader": "Messages",
+  "messagesHeader": "Conversations",
   "settingsHeader": "Settings",
   "typingAlt": "Typing animation for this conversation",
   "contactAvatarAlt": "Avatar for contact $name$",

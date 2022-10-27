@@ -1,4 +1,5 @@
 import { _electron, Page, test } from '@playwright/test';
+import { sleepFor } from '../../session/utils/Promise';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
@@ -36,42 +37,40 @@ test.describe('Password checks', () => {
     await clickOnTestIdWithText(window, 'set-password-button');
     // Enter password
     await typeIntoInput(window, 'password-input', testPassword);
-    await window.keyboard.press('Delete');
     // Confirm password
     await typeIntoInput(window, 'password-input-confirm', testPassword);
-    await window.keyboard.press('Delete');
-    // Click OK
-    await clickOnMatchingText(window, 'OK');
-    // await window.keyboard.press('Enter');
+    // Click Done
+    await clickOnMatchingText(window, 'Done');
     // Check toast notification
     await waitForTestIdWithText(
       window,
       'session-toast',
-      'Your password has been set. Please keep it safe'
+      'Your password has been set. Please keep it safe.'
     );
+    // Click on settings tab
+    await sleepFor(300);
+    await clickOnTestIdWithText(window, 'settings-section');
     // Type password into input field
 
     await typeIntoInput(window, 'password-input', testPassword);
-    // Click OK
-    await clickOnMatchingText(window, 'OK');
+
+    // Click Done
+    await clickOnMatchingText(window, 'Done');
+    await clickOnTestIdWithText(window, 'settings-section');
+
     // Change password
-    await clickOnMatchingText(window, 'Change Password');
+    await clickOnTestIdWithText(window, 'change-password-settings-button', 'Change Password');
+
+    console.warn('clicked Change Password');
     // Enter old password
     await typeIntoInput(window, 'password-input', testPassword);
-    await window.keyboard.press('Delete');
     // Enter new password
     await typeIntoInput(window, 'password-input-confirm', newTestPassword);
-    await window.keyboard.press('Delete');
-    // await window.fill('#password-modal-input-confirm', newTestPassword);
     await window.keyboard.press('Tab');
     // Confirm new password
     await typeIntoInput(window, 'password-input-reconfirm', newTestPassword);
-    await window.keyboard.press('Delete');
-    // await window.fill('#password-modal-input-reconfirm', newTestPassword);
     // Press enter on keyboard
     await window.keyboard.press('Enter');
-    // Select OK
-    await clickOnMatchingText(window, 'OK');
     // Check toast notification for 'changed password'
     await waitForTestIdWithText(
       window,
@@ -92,36 +91,44 @@ test.describe('Password checks', () => {
     await clickOnMatchingText(window, 'Set Password');
     // Enter password
     await typeIntoInput(window, 'password-input', testPassword);
-    await window.keyboard.press('Delete');
     // Confirm password
     await typeIntoInput(window, 'password-input-confirm', testPassword);
-    await window.keyboard.press('Delete');
-    // Click OK
+    // Click Done
     await window.keyboard.press('Enter');
-    // Type password into input field
-    await typeIntoInput(window, 'password-input', testPassword);
-    await window.keyboard.press('Delete');
-    // Click OK
-    await clickOnMatchingText(window, 'OK');
-    // Navigate away from settings tab
-    await clickOnTestIdWithText(window, 'message-section');
     // // Click on settings tab
+    await sleepFor(100);
+    await clickOnTestIdWithText(window, 'settings-section');
+
+    // Type password into input field
+    await sleepFor(100);
+    await typeIntoInput(window, 'password-input', testPassword);
+    // Click Done
+    await clickOnMatchingText(window, 'Done');
+    await sleepFor(100);
+    await window.mouse.click(0, 0);
+    await clickOnTestIdWithText(window, 'message-section');
+    await sleepFor(100);
+
+    // // Click on settings tab
+    await sleepFor(1000);
     await clickOnTestIdWithText(window, 'settings-section');
     // // Try with incorrect password
-    await typeIntoInput(window, 'password-input', '0000');
-    await window.keyboard.press('Delete');
+    await typeIntoInput(window, 'password-input', '000000');
     // Confirm
-    await clickOnMatchingText(window, 'OK');
+    await clickOnMatchingText(window, 'Done');
     // // invalid password banner showing?
     await waitForMatchingText(window, 'Invalid password');
     // // Empty password
     // // Navigate away from settings tab
+    await window.mouse.click(0, 0);
+    await sleepFor(100);
     await clickOnTestIdWithText(window, 'message-section');
+    await sleepFor(100);
     // // Click on settings tab
     await clickOnTestIdWithText(window, 'settings-section');
     // // No password entered
-    await clickOnMatchingText(window, 'OK');
+    await clickOnMatchingText(window, 'Done');
     // // Banner should ask for password to be entered
-    await waitForMatchingText(window, 'Please enter your password');
+    await waitForMatchingText(window, 'Enter password');
   });
 });

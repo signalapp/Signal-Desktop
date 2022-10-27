@@ -42,10 +42,16 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
+    document.addEventListener('keyup', this.onEnterPressed);
+
     setTimeout(() => {
       // tslint:disable-next-line: no-unused-expression
       this.passportInput && this.passportInput.focus();
     }, 1);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener('keyup', this.onEnterPressed);
   }
 
   public render() {
@@ -93,7 +99,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
               this.passportInput = input;
             }}
             placeholder={placeholders[0]}
-            onKeyUp={this.onPasswordInput}
+            onChange={this.onPasswordInput}
+            onPaste={this.onPasswordInput}
             data-testid="password-input"
           />
           {passwordAction !== 'enter' && passwordAction !== 'remove' && (
@@ -101,7 +108,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
               type="password"
               id="password-modal-input-confirm"
               placeholder={placeholders[1]}
-              onKeyUp={this.onPasswordConfirmInput}
+              onChange={this.onPasswordConfirmInput}
+              onPaste={this.onPasswordConfirmInput}
               data-testid="password-input-confirm"
             />
           )}
@@ -110,7 +118,8 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
               type="password"
               id="password-modal-input-reconfirm"
               placeholder={placeholders[2]}
-              onKeyUp={this.onPasswordRetypeInput}
+              onPaste={this.onPasswordRetypeInput}
+              onChange={this.onPasswordRetypeInput}
               data-testid="password-input-reconfirm"
             />
           )}
@@ -258,6 +267,13 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     this.closeDialog();
   }
 
+  private async onEnterPressed(event: any) {
+    if (event.key === 'Enter') {
+      event.stopPropagation();
+      return this.setPassword();
+    }
+  }
+
   private async handleActionEnter(enteredPassword: string) {
     // be sure the password is valid
     if (!this.validatePassword(enteredPassword)) {
@@ -321,30 +337,18 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     window.inboxStore?.dispatch(sessionPassword(null));
   }
 
-  private async onPasswordInput(event: any) {
-    if (event.key === 'Enter') {
-      return this.setPassword();
-    }
+  private onPasswordInput(event: any) {
     const currentPasswordEntered = event.target.value;
-
     this.setState({ currentPasswordEntered });
   }
 
-  private async onPasswordConfirmInput(event: any) {
-    if (event.key === 'Enter') {
-      return this.setPassword();
-    }
+  private onPasswordConfirmInput(event: any) {
     const currentPasswordConfirmEntered = event.target.value;
-
     this.setState({ currentPasswordConfirmEntered });
   }
 
-  private async onPasswordRetypeInput(event: any) {
-    if (event.key === 'Enter') {
-      return this.setPassword();
-    }
+  private onPasswordRetypeInput(event: any) {
     const currentPasswordRetypeEntered = event.target.value;
-
     this.setState({ currentPasswordRetypeEntered });
   }
 }

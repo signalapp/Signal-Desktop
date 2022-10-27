@@ -5,7 +5,7 @@ import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import AbortController, { AbortSignal } from 'abort-controller';
 import { batchGlobalIsSuccess } from './sogsV3BatchPoll';
 
-export const capabilitiesFetchForServer = async (
+const capabilitiesFetchForServer = async (
   serverUrl: string,
   serverPubKey: string,
   abortSignal: AbortSignal
@@ -13,7 +13,8 @@ export const capabilitiesFetchForServer = async (
   const endpoint = '/capabilities';
   const method = 'GET';
   const serverPubkey = serverPubKey;
-  const blinded = false; // for capabilities, blinding is always false as the request will fail if the server requires blinding
+  // for the capabilities call, we require blinded to be ON now. A sogs with blinding disabled will still allow this call and verify the blinded signature
+  const blinded = true;
   const capabilityHeaders = await OpenGroupPollingUtils.getOurOpenGroupHeaders(
     serverPubkey,
     endpoint,
@@ -33,7 +34,6 @@ export const capabilitiesFetchForServer = async (
     serverPubkey,
     serverUrl,
     stringifiedBody: null,
-    doNotIncludeOurSogsHeaders: true, // the first capabilities needs to not have any authentification to pass on a blinding-required sogs,
     headers: null,
     throwErrors: false,
   });

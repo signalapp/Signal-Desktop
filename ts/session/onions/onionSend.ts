@@ -277,7 +277,6 @@ async function sendJsonViaOnionV4ToSogs(sendOptions: {
   method: string;
   stringifiedBody: string | null;
   abortSignal: AbortSignal;
-  doNotIncludeOurSogsHeaders?: boolean;
   headers: Record<string, any> | null;
   throwErrors: boolean;
 }): Promise<OnionV4JSONSnodeResponse | null> {
@@ -290,22 +289,19 @@ async function sendJsonViaOnionV4ToSogs(sendOptions: {
     stringifiedBody,
     abortSignal,
     headers: includedHeaders,
-    doNotIncludeOurSogsHeaders,
     throwErrors,
   } = sendOptions;
   if (!endpoint.startsWith('/')) {
     throw new Error('endpoint needs a leading /');
   }
   const builtUrl = new URL(`${serverUrl}${endpoint}`);
-  let headersWithSogsHeadersIfNeeded = doNotIncludeOurSogsHeaders
-    ? {}
-    : await OpenGroupPollingUtils.getOurOpenGroupHeaders(
-        serverPubkey,
-        endpoint,
-        method,
-        blinded,
-        stringifiedBody
-      );
+  let headersWithSogsHeadersIfNeeded = await OpenGroupPollingUtils.getOurOpenGroupHeaders(
+    serverPubkey,
+    endpoint,
+    method,
+    blinded,
+    stringifiedBody
+  );
 
   if (!headersWithSogsHeadersIfNeeded) {
     return null;
