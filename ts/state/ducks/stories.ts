@@ -1130,6 +1130,14 @@ const viewStory: ViewStoryActionCreatorType = (
   };
 };
 
+function setStoriesDisabled(
+  value: boolean
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    await window.Events.setHasStoriesDisabled(value);
+  };
+}
+
 export const actions = {
   deleteStoryForEveryone,
   loadStoryReplies,
@@ -1145,6 +1153,7 @@ export const actions = {
   verifyStoryListMembers,
   viewUserStories,
   viewStory,
+  setStoriesDisabled,
 };
 
 export const useStoriesActions = (): typeof actions => useBoundActions(actions);

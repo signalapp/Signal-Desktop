@@ -5360,7 +5360,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "My Stories",
+    "message": "My Story",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5432,7 +5432,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "My Stories",
+    "message": "My Story",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5486,6 +5486,10 @@
   "StoriesSettings__title": {
     "message": "Story settings",
     "description": "Title for the story settings modal"
+  },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Stories automatically disapper after 24 hours. Choose who can view your story or create new stories with specific viewers or groups.",
+    "description": "Description for story settings modal"
   },
   "StoriesSettings__new-list": {
     "message": "New custom story",
@@ -5572,7 +5576,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Signal connections except...",
+    "message": "All except...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5676,8 +5680,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "My stories privacy",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "My Story privacy",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Choose which Signal connections can view your story. You can always change this in privacy settings. $learnMore$",

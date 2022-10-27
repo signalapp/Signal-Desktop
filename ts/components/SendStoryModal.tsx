@@ -113,7 +113,7 @@ function getKeyForMyStoryType(list: StoryDistributionListWithMembersDataType) {
   return 'StoriesSettings__mine__all--label';
 }
 
-function getListViewers(
+export function getListViewers(
   list: StoryDistributionListWithMembersDataType,
   i18n: LocalizerType,
   signalConnections: Array<ConversationType>
