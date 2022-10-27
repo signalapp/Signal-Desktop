@@ -11,6 +11,13 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
+import {
+  getListViewers,
+  DistributionListSettingsModal,
+  EditDistributionListModal,
+  EditMyStoriesPrivacy,
+  Page as StoriesSettingsPage,
+} from './StoriesSettingsModal';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
 import type { UUIDStringType } from '../types/UUID';
 import { Alert } from './Alert';
@@ -19,12 +26,7 @@ import { Button, ButtonSize, ButtonVariant } from './Button';
 import { Checkbox } from './Checkbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import {
-  DistributionListSettingsModal,
-  EditDistributionListModal,
-  EditMyStoriesPrivacy,
-  Page as StoriesSettingsPage,
-} from './StoriesSettingsModal';
+
 import { MY_STORIES_ID, getStoryDistributionListName } from '../types/Stories';
 import type { RenderModalPage, ModalPropsType } from './Modal';
 import { PagedModal, ModalPage } from './Modal';
@@ -111,22 +113,6 @@ function getKeyForMyStoryType(list: StoryDistributionListWithMembersDataType) {
   }
 
   return 'StoriesSettings__mine__all--label';
-}
-
-export function getListViewers(
-  list: StoryDistributionListWithMembersDataType,
-  i18n: LocalizerType,
-  signalConnections: Array<ConversationType>
-): string {
-  let memberCount = list.members.length;
-
-  if (list.id === MY_STORIES_ID && list.isBlockList) {
-    memberCount = list.isBlockList
-      ? signalConnections.length - list.members.length
-      : signalConnections.length;
-  }
-
-  return i18n('icu:StoriesSettings__viewers', { count: memberCount });
 }
 
 export const SendStoryModal = ({

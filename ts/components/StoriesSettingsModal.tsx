@@ -37,7 +37,6 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
-import { getListViewers } from './SendStoryModal';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -93,6 +92,22 @@ const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'moduleClassName'> =
     hasXButton: true,
     moduleClassName: 'StoriesSettingsModal__modal',
   };
+
+export function getListViewers(
+  list: StoryDistributionListWithMembersDataType,
+  i18n: LocalizerType,
+  signalConnections: Array<ConversationType>
+): string {
+  let memberCount = list.members.length;
+
+  if (list.id === MY_STORIES_ID && list.isBlockList) {
+    memberCount = list.isBlockList
+      ? signalConnections.length - list.members.length
+      : signalConnections.length;
+  }
+
+  return i18n('icu:StoriesSettings__viewers', { count: memberCount });
+}
 
 type DistributionListItemProps = {
   i18n: LocalizerType;
