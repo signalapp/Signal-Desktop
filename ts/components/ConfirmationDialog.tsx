@@ -131,6 +131,7 @@ export const ConfirmationDialog = React.memo(
         modalName={modalName}
         noMouseClose={noMouseClose}
         onClose={close}
+        onEscape={cancelAndClose}
         onTopOfEverything={onTopOfEverything}
         overlayStyles={overlayStyles}
         theme={theme}
