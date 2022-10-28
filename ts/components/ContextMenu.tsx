@@ -129,14 +129,24 @@ export function ContextMenu<T>({
   }, [isMenuShowing, referenceElement, popperElement]);
 
   const handleKeyDown = (ev: KeyboardEvent) => {
-    if (!isMenuShowing) {
-      if (ev.key === 'Enter') {
-        setFocusedIndex(0);
+    if ((ev.key === 'Enter' || ev.key === 'Space') && !isMenuShowing) {
+      closeCurrentOpenContextMenu?.();
+      closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
+      if (referenceElement) {
+        const box = referenceElement.getBoundingClientRect();
+        virtualElement.current = generateVirtualElement(box.x, box.y);
       }
+      setIsMenuShowing(true);
+      setFocusedIndex(0);
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+
+    if (!isMenuShowing) {
       return;
     }
 
-    if (ev.key === 'ArrowDown') {
+    if (ev.key === 'ArrowDown' || ev.key === 'Tab') {
       const currFocusedIndex = focusedIndex || 0;
       const nextFocusedIndex =
         currFocusedIndex >= menuOptions.length - 1 ? 0 : currFocusedIndex + 1;
@@ -272,19 +282,19 @@ export function ContextMenu<T>({
   }
 
   return (
-    <div
-      className={classNames(
-        getClassName('__container'),
-        theme ? themeClassName(theme) : undefined
-      )}
+    <FocusTrap
+      focusTrapOptions={{
+        allowOutsideClick: true,
+      }}
     >
-      {buttonNode}
-      {isMenuShowing && (
-        <FocusTrap
-          focusTrapOptions={{
-            allowOutsideClick: true,
-          }}
-        >
+      <div
+        className={classNames(
+          getClassName('__container'),
+          theme ? themeClassName(theme) : undefined
+        )}
+      >
+        {buttonNode}
+        {isMenuShowing && (
           <div className={theme ? themeClassName(theme) : undefined}>
             <div
               className={classNames(
@@ -301,8 +311,8 @@ export function ContextMenu<T>({
               {optionElements}
             </div>
           </div>
-        </FocusTrap>
-      )}
-    </div>
+        )}
+      </div>
+    </FocusTrap>
   );
 }
