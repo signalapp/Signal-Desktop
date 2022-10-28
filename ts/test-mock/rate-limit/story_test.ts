@@ -106,9 +106,9 @@ describe('story/no-sender-key', function needsName() {
         .locator('.StoryCreator__toolbar button >> "Next"')
         .click();
 
-      debug('Selecting "My Stories"');
+      debug('Selecting "My Story"');
       await window
-        .locator('.SendStoryModal__distribution-list__name >> "My Stories"')
+        .locator('.SendStoryModal__distribution-list__name >> "My Story"')
         .click();
 
       debug('Hitting Send');
