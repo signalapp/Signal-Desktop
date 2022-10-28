@@ -28,6 +28,12 @@
       right: 63px;
       top: 0px;
       width: 22px;
+
+      &:focus {
+        @include keyboard-mode {
+          background-color: $color-ultramarine;
+        }
+      }
     }
 
     &__settings__button {
@@ -44,6 +50,12 @@
       right: 16px;
       top: 0px;
       width: 22px;
+
+      &:focus {
+        @include keyboard-mode {
+          background-color: $color-ultramarine;
+        }
+      }
     }
 
     &__header {
