@@ -32,17 +32,15 @@ import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
 import { showToast } from '../../util/showToast';
-import {
-  hasFailed,
-  hasNotResolved,
-  isDownloaded,
-  isDownloading,
-} from '../../types/Attachment';
+import { hasFailed, isDownloaded, isDownloading } from '../../types/Attachment';
 import {
   getConversationSelector,
   getHideStoryConversationIds,
 } from '../selectors/conversations';
-import { getStories } from '../selectors/stories';
+import {
+  getStories,
+  getStoryDownloadableAttachment,
+} from '../selectors/stories';
 import { getStoryDataFromMessageAttributes } from '../../services/storyLoader';
 import { isGroup } from '../../util/whatTypeOfConversation';
 import { isNotNil } from '../../util/isNotNil';
@@ -113,7 +111,6 @@ const LIST_MEMBERS_VERIFIED = 'stories/LIST_MEMBERS_VERIFIED';
 const LOAD_STORY_REPLIES = 'stories/LOAD_STORY_REPLIES';
 const MARK_STORY_READ = 'stories/MARK_STORY_READ';
 const QUEUE_STORY_DOWNLOAD = 'stories/QUEUE_STORY_DOWNLOAD';
-export const RESOLVE_ATTACHMENT_URL = 'stories/RESOLVE_ATTACHMENT_URL';
 const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
   'stories/SEND_STORY_MODAL_OPEN_STATE_CHANGED';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
@@ -155,14 +152,6 @@ type QueueStoryDownloadActionType = {
   payload: string;
 };
 
-type ResolveAttachmentUrlActionType = {
-  type: typeof RESOLVE_ATTACHMENT_URL;
-  payload: {
-    messageId: string;
-    attachmentUrl: string;
-  };
-};
-
 type SendStoryModalOpenStateChanged = {
   type: typeof SEND_STORY_MODAL_OPEN_STATE_CHANGED;
   payload: number | undefined;
@@ -195,7 +184,6 @@ export type StoriesActionType =
   | MessageDeletedActionType
   | MessagesAddedActionType
   | QueueStoryDownloadActionType
-  | ResolveAttachmentUrlActionType
   | SendStoryModalOpenStateChanged
   | StoryChangedActionType
   | ToggleViewActionType
@@ -337,7 +325,7 @@ function queueStoryDownload(
   void,
   RootStateType,
   unknown,
-  NoopActionType | QueueStoryDownloadActionType | ResolveAttachmentUrlActionType
+  NoopActionType | QueueStoryDownloadActionType
 > {
   return async (dispatch, getState) => {
     const { stories } = getState().stories;
@@ -347,7 +335,7 @@ function queueStoryDownload(
       return;
     }
 
-    const { attachment } = story;
+    const attachment = getStoryDownloadableAttachment(story);
 
     if (!attachment) {
       log.warn('queueStoryDownload: No attachment found for story', {
@@ -363,21 +351,6 @@ function queueStoryDownload(
     if (isDownloaded(attachment)) {
       if (!attachment.path) {
         return;
-      }
-
-      // This function also resolves the attachment's URL in case we've already
-      // downloaded the attachment but haven't pointed its path to an absolute
-      // location on disk.
-      if (hasNotResolved(attachment)) {
-        dispatch({
-          type: RESOLVE_ATTACHMENT_URL,
-          payload: {
-            messageId: storyId,
-            attachmentUrl: window.Signal.Migrations.getAbsoluteAttachmentPath(
-              attachment.path
-            ),
-          },
-        });
       }
 
       return;
@@ -403,7 +376,10 @@ function queueStoryDownload(
         payload: storyId,
       });
 
-      await queueAttachmentDownloads(message.attributes);
+      const updatedFields = await queueAttachmentDownloads(message.attributes);
+      if (updatedFields) {
+        message.set(updatedFields);
+      }
       return;
     }
 
@@ -627,11 +603,7 @@ const getSelectedStoryDataForDistributionListId = (
 };
 
 const getSelectedStoryDataForConversationId = (
-  dispatch: ThunkDispatch<
-    RootStateType,
-    unknown,
-    NoopActionType | ResolveAttachmentUrlActionType
-  >,
+  dispatch: ThunkDispatch<RootStateType, unknown, NoopActionType>,
   getState: () => RootStateType,
   conversationId: string,
   selectedStoryId?: string
@@ -671,12 +643,12 @@ const getSelectedStoryDataForConversationId = (
   const numStories = storiesByConversationId.length;
 
   // Queue all undownloaded stories once we're viewing someone's stories
-  storiesByConversationId.forEach(item => {
-    if (isDownloaded(item.attachment) || isDownloading(item.attachment)) {
+  storiesByConversationId.forEach(({ attachment, messageId }) => {
+    if (isDownloaded(attachment) || isDownloading(attachment)) {
       return;
     }
 
-    queueStoryDownload(item.messageId)(dispatch, getState, null);
+    queueStoryDownload(messageId)(dispatch, getState, null);
   });
 
   return {
@@ -1413,41 +1385,6 @@ export function reducer(
           action.payload.data
         ),
       },
-    };
-  }
-
-  if (action.type === RESOLVE_ATTACHMENT_URL) {
-    const { messageId, attachmentUrl } = action.payload;
-
-    const storyIndex = state.stories.findIndex(
-      existingStory => existingStory.messageId === messageId
-    );
-
-    if (storyIndex < 0) {
-      return state;
-    }
-
-    const story = state.stories[storyIndex];
-
-    if (!story.attachment) {
-      return state;
-    }
-
-    const storyWithResolvedAttachment = {
-      ...story,
-      attachment: {
-        ...story.attachment,
-        url: attachmentUrl,
-      },
-    };
-
-    return {
-      ...state,
-      stories: replaceIndex(
-        state.stories,
-        storyIndex,
-        storyWithResolvedAttachment
-      ),
     };
   }
 

@@ -2530,12 +2530,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         const urls = LinkPreview.findLinks(dataMessage.body || '');
         const incomingPreview = dataMessage.preview || [];
-        const preview = incomingPreview.filter(
-          (item: LinkPreviewType) =>
-            (item.image || item.title) &&
-            urls.includes(item.url) &&
-            LinkPreview.shouldPreviewHref(item.url)
-        );
+        const preview = incomingPreview.filter((item: LinkPreviewType) => {
+          if (!item.image && !item.title) {
+            return false;
+          }
+          // Story link previews don't have to correspond to links in the
+          // message body.
+          if (isStory(message.attributes)) {
+            return true;
+          }
+          return (
+            urls.includes(item.url) && LinkPreview.shouldPreviewHref(item.url)
+          );
+        });
         if (preview.length < incomingPreview.length) {
           log.info(
             `${message.idForLogging()}: Eliminated ${

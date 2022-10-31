@@ -3,7 +3,7 @@
 
 /* eslint-disable no-bitwise */
 
-import { isBoolean, isNumber } from 'lodash';
+import { isBoolean, isNumber, omit } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -60,6 +60,7 @@ import createTaskWithTimeout from './TaskWithTimeout';
 import {
   processAttachment,
   processDataMessage,
+  processPreview,
   processGroupV2Context,
 } from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
@@ -75,6 +76,7 @@ import * as Bytes from '../Bytes';
 import type {
   ProcessedAttachment,
   ProcessedDataMessage,
+  ProcessedPreview,
   ProcessedSyncMessage,
   ProcessedSent,
   ProcessedEnvelope,
@@ -1993,6 +1995,7 @@ export default class MessageReceiver
     log.info('MessageReceiver.handleStoryMessage', logId);
 
     const attachments: Array<ProcessedAttachment> = [];
+    let preview: ReadonlyArray<ProcessedPreview> | undefined;
 
     if (msg.fileAttachment) {
       const attachment = processAttachment(msg.fileAttachment);
@@ -2000,16 +2003,17 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
-      const { text } = msg.textAttachment;
-      if (!text) {
-        throw new Error('Text attachments must have text!');
+      const { text, preview: unprocessedPreview } = msg.textAttachment;
+      if (unprocessedPreview) {
+        preview = processPreview([unprocessedPreview]);
+      } else if (!text) {
+        throw new Error('Text attachments must have text or link preview!');
       }
 
-      // TODO DESKTOP-3714 we should download the story link preview image
       attachments.push({
-        size: text.length,
+        size: text?.length ?? 0,
         contentType: TEXT_ATTACHMENT,
-        textAttachment: msg.textAttachment,
+        textAttachment: omit(msg.textAttachment, 'preview'),
         blurHash: generateBlurHash(
           (msg.textAttachment.color ||
             msg.textAttachment.gradient?.startColor) ??
@@ -2045,6 +2049,7 @@ export default class MessageReceiver
 
     const message: ProcessedDataMessage = {
       attachments,
+      preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: durations.DAY / 1000,
       flags: 0,

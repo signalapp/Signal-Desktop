@@ -3,12 +3,9 @@
 
 import * as sinon from 'sinon';
 import casual from 'casual';
-import path from 'path';
-import { assert } from 'chai';
 
 import type {
   DispatchableViewStoryType,
-  StoriesStateType,
   StoryDataType,
 } from '../../../state/ducks/stories';
 import type { ConversationType } from '../../../state/ducks/conversations';
@@ -16,19 +13,14 @@ import type { MessageAttributesType } from '../../../model-types.d';
 import type { StateType as RootStateType } from '../../../state/reducer';
 import type { UUIDStringType } from '../../../types/UUID';
 import { DAY } from '../../../util/durations';
-import { IMAGE_JPEG } from '../../../types/MIME';
+import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import {
   StoryViewDirectionType,
   StoryViewModeType,
 } from '../../../types/Stories';
 import { UUID } from '../../../types/UUID';
-import {
-  actions,
-  getEmptyState,
-  reducer,
-  RESOLVE_ATTACHMENT_URL,
-} from '../../../state/ducks/stories';
+import { actions, getEmptyState } from '../../../state/ducks/stories';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { dropNull } from '../../../util/dropNull';
@@ -917,16 +909,16 @@ describe('both/state/ducks/stories', () => {
       sinon.assert.notCalled(dispatch);
     });
 
-    it('downloaded, but unresolved, we should resolve the path', async function test() {
+    it('not downloaded, queued for download', async function test() {
       const storyId = UUID.generate().toString();
-      const attachment = {
-        contentType: IMAGE_JPEG,
-        path: 'image.jpg',
-        size: 0,
-      };
       const messageAttributes = {
         ...getStoryMessage(storyId),
-        attachments: [attachment],
+        attachments: [
+          {
+            contentType: IMAGE_JPEG,
+            size: 0,
+          },
+        ],
       };
 
       const rootState = getEmptyRootState();
@@ -954,59 +946,33 @@ describe('both/state/ducks/stories', () => {
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getState, null);
 
-      const action = dispatch.getCall(0).args[0];
-
       sinon.assert.calledWith(dispatch, {
-        type: RESOLVE_ATTACHMENT_URL,
-        payload: {
-          messageId: storyId,
-          attachmentUrl: action.payload.attachmentUrl,
-        },
+        type: 'stories/QUEUE_STORY_DOWNLOAD',
+        payload: storyId,
       });
-      assert.equal(
-        attachment.path,
-        path.basename(action.payload.attachmentUrl)
-      );
-
-      const stateWithStory: StoriesStateType = {
-        ...getEmptyRootState().stories,
-        stories: [
-          {
-            ...messageAttributes,
-            messageId: storyId,
-            attachment,
-            expireTimer: messageAttributes.expireTimer,
-            expirationStartTimestamp: dropNull(
-              messageAttributes.expirationStartTimestamp
-            ),
-          },
-        ],
-      };
-
-      const nextState = reducer(stateWithStory, action);
-      assert.isDefined(nextState.stories);
-      assert.equal(
-        nextState.stories[0].attachment?.url,
-        action.payload.attachmentUrl
-      );
-
-      const state = getEmptyRootState().stories;
-
-      const sameState = reducer(state, action);
-      assert.isDefined(sameState.stories);
-      assert.equal(sameState, state);
     });
 
-    it('not downloaded, queued for download', async function test() {
+    it('preview not downloaded, queued for download', async function test() {
       const storyId = UUID.generate().toString();
+      const preview = {
+        url: 'https://signal.org',
+        image: {
+          contentType: IMAGE_JPEG,
+          size: 0,
+        },
+      };
       const messageAttributes = {
         ...getStoryMessage(storyId),
         attachments: [
           {
-            contentType: IMAGE_JPEG,
+            contentType: TEXT_ATTACHMENT,
             size: 0,
+            textAttachment: {
+              preview,
+            },
           },
         ],
+        preview: [preview],
       };
 
       const rootState = getEmptyRootState();

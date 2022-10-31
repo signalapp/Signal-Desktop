@@ -7,7 +7,11 @@ import type { StoryDataType } from '../state/ducks/stories';
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
-import { getAttachmentsForMessage } from '../state/selectors/message';
+import {
+  getAttachmentsForMessage,
+  getPropsForAttachment,
+} from '../state/selectors/message';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
@@ -66,10 +70,37 @@ export function getStoryDataFromMessageAttributes(
     return;
   }
 
-  const [attachment] =
+  let [attachment] =
     unresolvedAttachment && unresolvedAttachment.path
       ? getAttachmentsForMessage(message)
       : [unresolvedAttachment];
+
+  let preview: LinkPreviewType | undefined;
+  if (message.preview?.length) {
+    strictAssert(
+      message.preview.length === 1,
+      'getStoryDataFromMessageAttributes: story can have only one preview'
+    );
+    [preview] = message.preview;
+
+    strictAssert(
+      attachment?.textAttachment,
+      'getStoryDataFromMessageAttributes: story must have a ' +
+        'textAttachment with preview'
+    );
+    attachment = {
+      ...attachment,
+      textAttachment: {
+        ...attachment.textAttachment,
+        preview: {
+          ...preview,
+          image: preview.image && getPropsForAttachment(preview.image),
+        },
+      },
+    };
+  } else if (attachment) {
+    attachment = getPropsForAttachment(attachment);
+  }
 
   return {
     attachment,
