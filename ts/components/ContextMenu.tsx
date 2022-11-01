@@ -3,7 +3,6 @@
 
 import type { KeyboardEvent, ReactNode } from 'react';
 import type { Options, VirtualElement } from '@popperjs/core';
-import FocusTrap from 'focus-trap-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
@@ -174,6 +173,13 @@ export function ContextMenu<T>({
       ev.stopPropagation();
       ev.preventDefault();
     }
+
+    if (ev.key === 'Escape') {
+      setIsMenuShowing(false);
+      closeCurrentOpenContextMenu = undefined;
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   };
 
   const handleClick = (ev: React.MouseEvent) => {
@@ -282,37 +288,31 @@ export function ContextMenu<T>({
   }
 
   return (
-    <FocusTrap
-      focusTrapOptions={{
-        allowOutsideClick: true,
-      }}
+    <div
+      className={classNames(
+        getClassName('__container'),
+        theme ? themeClassName(theme) : undefined
+      )}
     >
-      <div
-        className={classNames(
-          getClassName('__container'),
-          theme ? themeClassName(theme) : undefined
-        )}
-      >
-        {buttonNode}
-        {isMenuShowing && (
-          <div className={theme ? themeClassName(theme) : undefined}>
-            <div
-              className={classNames(
-                getClassName('__popper'),
-                menuOptions.length === 1
-                  ? getClassName('__popper--single-item')
-                  : undefined
-              )}
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              {title && <div className={getClassName('__title')}>{title}</div>}
-              {optionElements}
-            </div>
+      {buttonNode}
+      {isMenuShowing && (
+        <div className={theme ? themeClassName(theme) : undefined}>
+          <div
+            className={classNames(
+              getClassName('__popper'),
+              menuOptions.length === 1
+                ? getClassName('__popper--single-item')
+                : undefined
+            )}
+            ref={setPopperElement}
+            style={styles.popper}
+            {...attributes.popper}
+          >
+            {title && <div className={getClassName('__title')}>{title}</div>}
+            {optionElements}
           </div>
-        )}
-      </div>
-    </FocusTrap>
+        </div>
+      )}
+    </div>
   );
 }
