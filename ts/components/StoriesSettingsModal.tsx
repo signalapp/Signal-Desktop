@@ -37,16 +37,19 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { getGroupMemberships } from '../util/getGroupMemberships';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
   distributionLists: Array<StoryDistributionListWithMembersDataType>;
+  groupStories: Array<ConversationType>;
   signalConnections: Array<ConversationType>;
   getPreferredBadge: PreferredBadgeSelectorType;
   hideStoriesSettings: () => unknown;
   i18n: LocalizerType;
   me: ConversationType;
   onDeleteList: (listId: string) => unknown;
+  toggleGroupsForStorySend: (groupIds: Array<string>) => unknown;
   onDistributionListCreated: (
     name: string,
     viewerUuids: Array<UUIDStringType>
@@ -66,6 +69,7 @@ export type PropsType = {
   toggleSignalConnectionsModal: () => unknown;
   toggleStoriesView: () => void;
   setStoriesDisabled: (value: boolean) => void;
+  getConversationByUuid: (uuid: UUIDStringType) => ConversationType | undefined;
 };
 
 export enum Page {
@@ -124,6 +128,7 @@ function DistributionListItem({
   signalConnections,
   onSelectItemToEdit,
 }: DistributionListItemProps) {
+  const isMyStories = distributionList.id === MY_STORIES_ID;
   return (
     <button
       className="StoriesSettingsModal__list"
@@ -147,7 +152,7 @@ function DistributionListItem({
             title={me.title}
           />
         ) : (
-          <span className="StoriesSettingsModal__list__avatar--private" />
+          <span className="StoriesSettingsModal__list__avatar--custom" />
         )}
         <span className="StoriesSettingsModal__list__title">
           <StoryDistributionListName
@@ -155,10 +160,61 @@ function DistributionListItem({
             id={distributionList.id}
             name={distributionList.name}
           />
+          <span className="StoriesSettingsModal__list__viewers">
+            {isMyStories
+              ? i18n('icu:StoriesSettings__my-story-subtitle')
+              : i18n('icu:StoriesSettings__custom-story-subtitle')}
+            &nbsp;&middot;&nbsp;
+            {getListViewers(distributionList, i18n, signalConnections)}
+          </span>
         </span>
       </span>
-      <span className="StoriesSettingsModal__list__viewers">
-        {getListViewers(distributionList, i18n, signalConnections)}
+    </button>
+  );
+}
+
+type GroupStoryItemProps = {
+  i18n: LocalizerType;
+  groupStory: ConversationType;
+  onSelectGroupToView(id: string): void;
+};
+
+function GroupStoryItem({
+  i18n,
+  groupStory,
+  onSelectGroupToView,
+}: GroupStoryItemProps) {
+  return (
+    <button
+      className="StoriesSettingsModal__list"
+      onClick={() => {
+        onSelectGroupToView(groupStory.id);
+      }}
+      type="button"
+    >
+      <span className="StoriesSettingsModal__list__left">
+        <Avatar
+          acceptedMessageRequest={groupStory.acceptedMessageRequest}
+          avatarPath={groupStory.avatarPath}
+          badge={undefined}
+          color={groupStory.color}
+          conversationType={groupStory.type}
+          i18n={i18n}
+          isMe={false}
+          sharedGroupNames={[]}
+          size={AvatarSize.THIRTY_SIX}
+          title={groupStory.title}
+        />
+        <span className="StoriesSettingsModal__list__title">
+          {groupStory.title}
+          <span className="StoriesSettingsModal__list__viewers">
+            {i18n('icu:StoriesSettings__group-story-subtitle')}
+            &nbsp;&middot;&nbsp;
+            {i18n('icu:StoriesSettings__viewers', {
+              count: groupStory.membersCount,
+            })}
+          </span>
+        </span>
       </span>
     </button>
   );
@@ -167,12 +223,14 @@ function DistributionListItem({
 export const StoriesSettingsModal = ({
   candidateConversations,
   distributionLists,
+  groupStories,
   signalConnections,
   getPreferredBadge,
   hideStoriesSettings,
   i18n,
   me,
   onDeleteList,
+  toggleGroupsForStorySend,
   onDistributionListCreated,
   onHideMyStoriesFrom,
   onRemoveMember,
@@ -183,6 +241,7 @@ export const StoriesSettingsModal = ({
   toggleSignalConnectionsModal,
   toggleStoriesView,
   setStoriesDisabled,
+  getConversationByUuid,
 }: PropsType): JSX.Element => {
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
@@ -194,6 +253,13 @@ export const StoriesSettingsModal = ({
     () => distributionLists.find(x => x.id === listToEditId),
     [distributionLists, listToEditId]
   );
+
+  const [groupToViewId, setGroupToViewId] = useState<string | null>(null);
+  const groupToView = useMemo(() => {
+    return groupStories.find(group => {
+      return group.id === groupToViewId;
+    });
+  }, [groupStories, groupToViewId]);
 
   const [page, setPage] = useState<Page>(Page.DistributionLists);
 
@@ -209,6 +275,11 @@ export const StoriesSettingsModal = ({
   const [confirmDeleteList, setConfirmDeleteList] = useState<
     { id: string; name: string } | undefined
   >();
+
+  const [confirmRemoveGroup, setConfirmRemoveGroup] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
 
   let modal: RenderModalPage | null;
 
@@ -237,6 +308,8 @@ export const StoriesSettingsModal = ({
               resetChooseViewersScreen();
             } else if (listToEdit) {
               setListToEditId(undefined);
+            } else if (groupToView) {
+              setGroupToViewId(null);
             }
           })
         }
@@ -277,6 +350,22 @@ export const StoriesSettingsModal = ({
         onClose={handleClose}
       />
     );
+  } else if (groupToView) {
+    modal = onClose => (
+      <GroupStorySettingsModal
+        i18n={i18n}
+        group={groupToView}
+        onClose={onClose}
+        onBackButtonClick={() => setGroupToViewId(null)}
+        getConversationByUuid={getConversationByUuid}
+        onRemoveGroup={group => {
+          setConfirmRemoveGroup({
+            id: group.id,
+            title: group.title,
+          });
+        }}
+      />
+    );
   } else {
     modal = onClose => (
       <ModalPage
@@ -292,27 +381,45 @@ export const StoriesSettingsModal = ({
 
         <div className="StoriesSettingsModal__listHeader">
           <h2 className="StoriesSettingsModal__listHeader__title">
-            {i18n('Stories__mine')}
+            {i18n('icu:StoriesSettings__my_stories')}
           </h2>
-          <button
-            type="button"
-            className="StoriesSettingsModal__listHeader__button"
-            onClick={() => {
-              setPage(Page.ChooseViewers);
-            }}
-          >
-            {i18n('StoriesSettings__new-list')}
-          </button>
         </div>
+
+        <button
+          className="StoriesSettingsModal__list"
+          onClick={() => {
+            setPage(Page.ChooseViewers);
+          }}
+          type="button"
+        >
+          <span className="StoriesSettingsModal__list__left">
+            <span className="StoriesSettingsModal__list__avatar--new" />
+            <span className="StoriesSettingsModal__list__title">
+              {i18n('StoriesSettings__new-list')}
+            </span>
+          </span>
+        </button>
 
         {distributionLists.map(distributionList => {
           return (
             <DistributionListItem
+              key={distributionList.id}
               i18n={i18n}
               me={me}
               distributionList={distributionList}
               signalConnections={signalConnections}
               onSelectItemToEdit={setListToEditId}
+            />
+          );
+        })}
+
+        {groupStories.map(groupStory => {
+          return (
+            <GroupStoryItem
+              key={groupStory.id}
+              i18n={i18n}
+              groupStory={groupStory}
+              onSelectGroupToView={setGroupToViewId}
             />
           );
         })}
@@ -331,17 +438,18 @@ export const StoriesSettingsModal = ({
 
         <div className="StoriesSettingsModal__stories-off-container">
           <p className="StoriesSettingsModal__stories-off-text">
-            {i18n('Preferences__turn-stories-off--body')}
+            {i18n('Stories__settings-toggle--description')}
           </p>
           <Button
             className="Preferences__stories-off"
+            variant={ButtonVariant.SecondaryDestructive}
             onClick={async () => {
               setStoriesDisabled(true);
               toggleStoriesView();
               onClose();
             }}
           >
-            {i18n('Preferences__turn-stories-off')}
+            {i18n('Stories__settings-toggle--button')}
           </Button>
         </div>
       </ModalPage>
@@ -353,6 +461,7 @@ export const StoriesSettingsModal = ({
       {!confirmDiscardModal && (
         <PagedModal
           modalName="StoriesSettingsModal"
+          moduleClassName="StoriesSettingsModal"
           theme={Theme.Dark}
           onClose={() =>
             confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings)
@@ -383,6 +492,31 @@ export const StoriesSettingsModal = ({
           {i18n('StoriesSettings__delete-list--confirm', [
             confirmDeleteList.name,
           ])}
+        </ConfirmationDialog>
+      )}
+      {confirmRemoveGroup != null && (
+        <ConfirmationDialog
+          dialogName="StoriesSettings.removeGroupStory"
+          actions={[
+            {
+              action: () => {
+                toggleGroupsForStorySend([confirmRemoveGroup.id]);
+                setConfirmRemoveGroup(null);
+                setGroupToViewId(null);
+              },
+              style: 'negative',
+              text: i18n('delete'),
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => {
+            setConfirmRemoveGroup(null);
+          }}
+          theme={Theme.Dark}
+        >
+          {i18n('icu:StoriesSettings__remove_group--confirm', {
+            groupTitle: confirmRemoveGroup.title,
+          })}
         </ConfirmationDialog>
       )}
       {confirmDiscardModal}
@@ -1068,6 +1202,99 @@ export const EditDistributionListModal = ({
           {i18n('noContactsFound')}
         </div>
       )}
+    </ModalPage>
+  );
+};
+
+type GroupStorySettingsModalProps = {
+  i18n: LocalizerType;
+  group: ConversationType;
+  onClose(): void;
+  onBackButtonClick(): void;
+  getConversationByUuid(uuid: UUIDStringType): ConversationType | undefined;
+  onRemoveGroup(group: ConversationType): void;
+};
+
+export const GroupStorySettingsModal = ({
+  i18n,
+  group,
+  onClose,
+  onBackButtonClick,
+  getConversationByUuid,
+  onRemoveGroup,
+}: GroupStorySettingsModalProps): JSX.Element => {
+  const groupMemberships = getGroupMemberships(group, getConversationByUuid);
+  return (
+    <ModalPage
+      modalName="GroupStorySettingsModal"
+      i18n={i18n}
+      onClose={onClose}
+      onBackButtonClick={onBackButtonClick}
+      title={group.title}
+      {...modalCommonProps}
+    >
+      <div className="GroupStorySettingsModal__header">
+        <Avatar
+          acceptedMessageRequest={group.acceptedMessageRequest}
+          avatarPath={group.avatarPath}
+          badge={undefined}
+          color={group.color}
+          conversationType={group.type}
+          i18n={i18n}
+          isMe={false}
+          sharedGroupNames={[]}
+          size={AvatarSize.THIRTY_SIX}
+          title={group.title}
+        />
+        <span className="GroupStorySettingsModal__title">{group.title}</span>
+      </div>
+
+      <hr className="StoriesSettingsModal__divider" />
+
+      <p className="GroupStorySettingsModal__members_title">
+        {i18n('icu:GroupStorySettingsModal__members_title')}
+      </p>
+      {groupMemberships.memberships.map(membership => {
+        const { member } = membership;
+        return (
+          <div
+            key={member.id}
+            className="GroupStorySettingsModal__members_item"
+          >
+            <Avatar
+              acceptedMessageRequest={member.acceptedMessageRequest}
+              avatarPath={member.avatarPath}
+              badge={undefined}
+              color={member.color}
+              conversationType={member.type}
+              i18n={i18n}
+              isMe={false}
+              sharedGroupNames={[]}
+              size={AvatarSize.THIRTY_SIX}
+              title={member.title}
+            />
+            <p className="GroupStorySettingsModal__members_item__name">
+              {member.title}
+            </p>
+          </div>
+        );
+      })}
+
+      <p className="GroupStorySettingsModal__members_help">
+        {i18n('icu:GroupStorySettingsModal__members_help', {
+          groupTitle: group.title,
+        })}
+      </p>
+
+      <hr className="StoriesSettingsModal__divider" />
+
+      <button
+        className="GroupStorySettingsModal__remove_group"
+        onClick={() => onRemoveGroup(group)}
+        type="button"
+      >
+        {i18n('icu:GroupStorySettingsModal__remove_group')}
+      </button>
     </ModalPage>
   );
 };

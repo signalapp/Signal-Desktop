@@ -10,6 +10,8 @@ import { StoriesSettingsModal } from '../../components/StoriesSettingsModal';
 import {
   getAllSignalConnections,
   getCandidateContactsForNewGroup,
+  getConversationByUuidSelector,
+  getGroupStories,
   getMe,
 } from '../selectors/conversations';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
@@ -19,6 +21,7 @@ import { getHasStoryViewReceiptSetting } from '../selectors/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
 import { useStoriesActions } from '../ducks/stories';
+import { useConversationsActions } from '../ducks/conversations';
 
 export function SmartStoriesSettingsModal(): JSX.Element | null {
   const { toggleStoriesView, setStoriesDisabled } = useStoriesActions();
@@ -33,6 +36,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
     setMyStoriesToAllSignalConnections,
     updateStoryViewers,
   } = useStoryDistributionListsActions();
+  const { toggleGroupsForStorySend } = useConversationsActions();
   const signalConnections = useSelector(getAllSignalConnections);
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -42,17 +46,23 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
 
   const candidateConversations = useSelector(getCandidateContactsForNewGroup);
   const distributionLists = useSelector(getDistributionListsWithMembers);
+  const groupStories = useSelector(getGroupStories);
+
+  const getConversationByUuid = useSelector(getConversationByUuidSelector);
 
   return (
     <StoriesSettingsModal
       candidateConversations={candidateConversations}
       distributionLists={distributionLists}
+      groupStories={groupStories}
       signalConnections={signalConnections}
       hideStoriesSettings={hideStoriesSettings}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       me={me}
+      getConversationByUuid={getConversationByUuid}
       onDeleteList={deleteDistributionList}
+      toggleGroupsForStorySend={toggleGroupsForStorySend}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
       onRemoveMember={removeMemberFromDistributionList}

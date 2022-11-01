@@ -45,6 +45,7 @@ export default {
     },
     storyViewReceiptsEnabled: { control: 'boolean' },
     onDeleteList: { action: true },
+    toggleGroupsForStorySend: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
     onRemoveMember: { action: true },
@@ -53,6 +54,9 @@ export default {
     setMyStoriesToAllSignalConnections: { action: true },
     toggleSignalConnectionsModal: { action: true },
     setStoriesDisabled: { action: true },
+    getConversationByUuid: {
+      defaultValue: () => getDefaultGroup(),
+    },
   },
 } as Meta;
 

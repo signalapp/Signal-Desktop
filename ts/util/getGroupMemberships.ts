@@ -10,6 +10,12 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { UUIDStringType } from '../types/UUID';
 import { isConversationUnregistered } from './isConversationUnregistered';
 
+export type GroupMemberships = {
+  memberships: Array<GroupV2Membership>;
+  pendingApprovalMemberships: Array<GroupV2RequestingMembership>;
+  pendingMemberships: Array<GroupV2PendingMembership>;
+};
+
 export const getGroupMemberships = (
   {
     memberships = [],
@@ -22,11 +28,7 @@ export const getGroupMemberships = (
     >
   >,
   getConversationByUuid: (uuid: UUIDStringType) => undefined | ConversationType
-): {
-  memberships: Array<GroupV2Membership>;
-  pendingApprovalMemberships: Array<GroupV2RequestingMembership>;
-  pendingMemberships: Array<GroupV2PendingMembership>;
-} => ({
+): GroupMemberships => ({
   memberships: memberships.reduce(
     (result: Array<GroupV2Membership>, membership) => {
       const member = getConversationByUuid(membership.uuid);

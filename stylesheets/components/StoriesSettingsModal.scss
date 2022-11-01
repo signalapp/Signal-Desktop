@@ -2,6 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoriesSettingsModal {
+  &__width-container {
+    max-width: 420px;
+  }
+
+  &__modal {
+    width: 420px;
+  }
+
   &__conversation-list {
     .module-conversation-list {
       padding-left: 0;
@@ -83,6 +91,8 @@
     }
 
     &__viewers {
+      display: flex;
+      @include font-body-2;
       color: $color-gray-25;
     }
 
@@ -183,27 +193,6 @@
     margin-right: 8px;
   }
 
-  &__listHeader__button {
-    @include button-reset;
-    @include button-secondary;
-    @include rounded-corners;
-    padding: 4px 10px;
-    @include font-family;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      flex-shrink: 0;
-      margin-right: 6px;
-      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
-    }
-  }
-
   &__delete-list {
     @include button-reset;
     align-items: center;
@@ -261,12 +250,62 @@
 
   &__stories-off-container {
     display: flex;
-    gap: 16;
+    gap: 16px;
     align-items: center;
   }
 
   &__stories-off-text {
     flex: 1;
-    font-size: 12px;
+    color: $color-gray-25;
+    @include font-subtitle;
+  }
+}
+
+.GroupStorySettingsModal {
+  &__header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 12px;
+  }
+
+  &__members_title {
+    @include font-body-1-bold;
+  }
+
+  &__members_item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    &__name {
+      @include font-body-1;
+    }
+  }
+
+  &__members_help {
+    @include font-body-2;
+    color: $color-gray-25;
+  }
+
+  &__remove_group {
+    @include button-reset;
+    align-items: center;
+    color: $color-accent-red;
+    display: flex;
+    padding: 8px 0;
+    width: 100%;
+    margin-top: 12px;
+
+    &::before {
+      @include color-svg(
+        '../images/icons/v2/disable-outline-20.svg',
+        $color-accent-red
+      );
+      content: '';
+      height: 20px;
+      margin-right: 20px;
+      width: 20px;
+    }
   }
 }

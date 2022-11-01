@@ -5512,20 +5512,36 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Story settings",
+    "message": "Story privacy",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Stories automatically disapper after 24 hours. Choose who can view your story or create new stories with specific viewers or groups.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "My Stories",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "New custom story",
+    "message": "New Story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Only you can see the name of this story.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "All Signal connections",
+    "description": "Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Custom story",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Group story",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ viewer",
@@ -5643,6 +5659,22 @@
     "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
     "description": "Description of how view receipts can be changed in story settings"
   },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Who can view this story",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Remove group story",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Are you sure you want to remove “{groupTitle}”?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Choose who can view your story",
     "description": "Shown during the first time posting a story"
@@ -5732,8 +5764,12 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "You will no longer be able to share or view Stories when this option is turned off.",
+    "message": "If you opt out of stories you will no longer be able to share or view stories.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Turn off stories",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pause",
