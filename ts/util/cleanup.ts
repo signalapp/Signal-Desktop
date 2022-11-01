@@ -20,17 +20,19 @@ export async function cleanupMessage(
 
   await deleteMessageData(message);
 
-  if (
-    isStory(message) &&
-    isDirectConversation(parentConversation?.attributes)
-  ) {
-    await fixupStoryReplies(conversationId, id);
+  const isGroupConversation = Boolean(
+    parentConversation && !isDirectConversation(parentConversation.attributes)
+  );
+
+  if (isStory(message)) {
+    await cleanupStoryReplies(conversationId, id, isGroupConversation);
   }
 }
 
-async function fixupStoryReplies(
+async function cleanupStoryReplies(
   conversationId: string,
   storyId: string,
+  isGroupConversation: boolean,
   pagination?: {
     messageId: string;
     receivedAt: number;
@@ -42,6 +44,7 @@ async function fixupStoryReplies(
     conversationId,
     {
       includeStoryReplies: false,
+      messageId,
       receivedAt,
       storyId,
     }
@@ -59,13 +62,27 @@ async function fixupStoryReplies(
     return;
   }
 
-  replies.forEach(reply => {
-    const model = window.MessageController.register(reply.id, reply);
-    model.unset('storyReplyContext');
-    model.hydrateStoryContext(null);
-  });
+  if (isGroupConversation) {
+    // Cleanup all group replies
+    await Promise.all(
+      replies.map(reply => {
+        const replyMessageModel = window.MessageController.register(
+          reply.id,
+          reply
+        );
+        return replyMessageModel.eraseContents();
+      })
+    );
+  } else {
+    // Refresh the storyReplyContext data for 1:1 conversations
+    replies.forEach(reply => {
+      const model = window.MessageController.register(reply.id, reply);
+      model.unset('storyReplyContext');
+      model.hydrateStoryContext(null);
+    });
+  }
 
-  return fixupStoryReplies(conversationId, storyId, {
+  return cleanupStoryReplies(conversationId, storyId, isGroupConversation, {
     messageId: lastMessageId,
     receivedAt: lastReceivedAt,
   });
@@ -75,6 +92,16 @@ export async function deleteMessageData(
   message: MessageAttributesType
 ): Promise<void> {
   await window.Signal.Migrations.deleteExternalMessageFiles(message);
+
+  if (isStory(message)) {
+    const { id, conversationId } = message;
+    const parentConversation =
+      window.ConversationController.get(conversationId);
+    const isGroupConversation = Boolean(
+      parentConversation && !isDirectConversation(parentConversation.attributes)
+    );
+    await cleanupStoryReplies(conversationId, id, isGroupConversation);
+  }
 
   const { sticker } = message;
   if (!sticker) {

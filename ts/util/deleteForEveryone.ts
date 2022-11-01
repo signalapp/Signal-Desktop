@@ -12,6 +12,10 @@ export async function deleteForEveryone(
   doe: DeleteModel,
   shouldPersist = true
 ): Promise<void> {
+  if (message.deletingForEveryone || message.get('deletedForEveryone')) {
+    return;
+  }
+
   if (isDeletionByMe(message, doe)) {
     await message.handleDeleteForEveryone(doe, shouldPersist);
     return;
