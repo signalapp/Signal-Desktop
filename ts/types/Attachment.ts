@@ -769,20 +769,33 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return hasFlag && isVideoAttachment(attachment);
 }
 
+function resolveNestedAttachment(
+  attachment?: AttachmentType
+): AttachmentType | undefined {
+  if (attachment?.textAttachment?.preview?.image) {
+    return attachment.textAttachment.preview.image;
+  }
+  return attachment;
+}
+
 export function isDownloaded(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && (attachment.path || attachment.textAttachment));
+  const resolved = resolveNestedAttachment(attachment);
+  return Boolean(resolved && (resolved.path || resolved.textAttachment));
 }
 
 export function hasNotResolved(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && !attachment.url && !attachment.textAttachment);
+  const resolved = resolveNestedAttachment(attachment);
+  return Boolean(resolved && !resolved.url && !resolved.textAttachment);
 }
 
 export function isDownloading(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && attachment.downloadJobId && attachment.pending);
+  const resolved = resolveNestedAttachment(attachment);
+  return Boolean(resolved && resolved.downloadJobId && resolved.pending);
 }
 
 export function hasFailed(attachment?: AttachmentType): boolean {
-  return Boolean(attachment && attachment.error);
+  const resolved = resolveNestedAttachment(attachment);
+  return Boolean(resolved && resolved.error);
 }
 
 export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {

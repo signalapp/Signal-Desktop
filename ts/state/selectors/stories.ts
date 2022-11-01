@@ -7,6 +7,7 @@ import { pick } from 'lodash';
 import type { GetConversationByIdType } from './conversations';
 import type { ConversationType } from '../ducks/conversations';
 import type { MessageReactionType } from '../../model-types.d';
+import type { AttachmentType } from '../../types/Attachment';
 import type {
   ConversationStoryType,
   MyStoryType,
@@ -133,6 +134,13 @@ function getAvatarData(
   ]);
 }
 
+export function getStoryDownloadableAttachment({
+  attachment,
+}: StoryDataType): AttachmentType | undefined {
+  // See: getStoryDataFromMessageAttributes for how preview gets populated.
+  return attachment?.textAttachment?.preview?.image ?? attachment;
+}
+
 export function getStoryView(
   conversationSelector: GetConversationByIdType,
   ourConversationId: string | undefined,
@@ -159,13 +167,7 @@ export function getStoryView(
     expireTimer,
     readAt,
     timestamp,
-  } = pick(story, [
-    'attachment',
-    'expirationStartTimestamp',
-    'expireTimer',
-    'readAt',
-    'timestamp',
-  ]);
+  } = story;
 
   const { sendStateByConversationId } = story;
   let sendState: Array<StorySendStateType> | undefined;
