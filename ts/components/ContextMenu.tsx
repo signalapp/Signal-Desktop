@@ -3,7 +3,6 @@
 
 import type { KeyboardEvent, ReactNode } from 'react';
 import type { Options, VirtualElement } from '@popperjs/core';
-import FocusTrap from 'focus-trap-react';
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
@@ -173,6 +172,13 @@ export function ContextMenu<T>({
       ev.stopPropagation();
       ev.preventDefault();
     }
+
+    if (ev.key === 'Escape') {
+      setIsMenuShowing(false);
+      closeCurrentOpenContextMenu = undefined;
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
   };
 
   const handleClick = (ev: React.MouseEvent) => {
@@ -214,80 +220,74 @@ export function ContextMenu<T>({
   }
 
   return (
-    <FocusTrap
-      focusTrapOptions={{
-        allowOutsideClick: true,
-      }}
+    <div
+      className={classNames(
+        getClassName('__container'),
+        theme ? themeClassName(theme) : undefined
+      )}
     >
-      <div
-        className={classNames(
-          getClassName('__container'),
-          theme ? themeClassName(theme) : undefined
-        )}
-      >
-        {buttonNode}
-        {isMenuShowing && (
-          <div className={theme ? themeClassName(theme) : undefined}>
-            <div
-              className={classNames(
-                getClassName('__popper'),
-                menuOptions.length === 1
-                  ? getClassName('__popper--single-item')
-                  : undefined
-              )}
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              {title && <div className={getClassName('__title')}>{title}</div>}
-              {menuOptions.map((option, index) => (
-                <button
-                  aria-label={option.label}
-                  className={classNames(
-                    getClassName('__option'),
-                    focusedIndex === index
-                      ? getClassName('__option--focused')
-                      : undefined
-                  )}
-                  key={option.label}
-                  type="button"
-                  onClick={() => {
-                    option.onClick(option.value);
-                    setIsMenuShowing(false);
-                    closeCurrentOpenContextMenu = undefined;
-                  }}
-                >
-                  <div className={getClassName('__option--container')}>
-                    {option.icon && (
-                      <div
-                        className={classNames(
-                          getClassName('__option--icon'),
-                          option.icon
-                        )}
-                      />
-                    )}
-                    <div>
-                      <div className={getClassName('__option--title')}>
-                        {option.label}
-                      </div>
-                      {option.description && (
-                        <div className={getClassName('__option--description')}>
-                          {option.description}
-                        </div>
+      {buttonNode}
+      {isMenuShowing && (
+        <div className={theme ? themeClassName(theme) : undefined}>
+          <div
+            className={classNames(
+              getClassName('__popper'),
+              menuOptions.length === 1
+                ? getClassName('__popper--single-item')
+                : undefined
+            )}
+            ref={setPopperElement}
+            style={styles.popper}
+            {...attributes.popper}
+          >
+            {title && <div className={getClassName('__title')}>{title}</div>}
+            {menuOptions.map((option, index) => (
+              <button
+                aria-label={option.label}
+                className={classNames(
+                  getClassName('__option'),
+                  focusedIndex === index
+                    ? getClassName('__option--focused')
+                    : undefined
+                )}
+                key={option.label}
+                type="button"
+                onClick={() => {
+                  option.onClick(option.value);
+                  setIsMenuShowing(false);
+                  closeCurrentOpenContextMenu = undefined;
+                }}
+              >
+                <div className={getClassName('__option--container')}>
+                  {option.icon && (
+                    <div
+                      className={classNames(
+                        getClassName('__option--icon'),
+                        option.icon
                       )}
+                    />
+                  )}
+                  <div>
+                    <div className={getClassName('__option--title')}>
+                      {option.label}
                     </div>
+                    {option.description && (
+                      <div className={getClassName('__option--description')}>
+                        {option.description}
+                      </div>
+                    )}
                   </div>
-                  {typeof value !== 'undefined' &&
-                  typeof option.value !== 'undefined' &&
-                  value === option.value ? (
-                    <div className={getClassName('__option--selected')} />
-                  ) : null}
-                </button>
-              ))}
-            </div>
+                </div>
+                {typeof value !== 'undefined' &&
+                typeof option.value !== 'undefined' &&
+                value === option.value ? (
+                  <div className={getClassName('__option--selected')} />
+                ) : null}
+              </button>
+            ))}
           </div>
-        )}
-      </div>
-    </FocusTrap>
+        </div>
+      )}
+    </div>
   );
 }
