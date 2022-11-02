@@ -116,7 +116,6 @@ import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
-import { isConversationAccepted } from '../util/isConversationAccepted';
 import { getStoriesBlocked } from '../util/stories';
 
 const GROUPV1_ID_LENGTH = 16;
@@ -1405,10 +1404,12 @@ export default class MessageReceiver
           envelope.sourceUuid || envelope.source
         );
         if (
-          (!sender || !isConversationAccepted(sender.attributes)) &&
+          (!sender || !sender.get('profileSharing')) &&
           (isStoryReply || isStory)
         ) {
-          log.warn(`${logId}: Dropping story message - !accepted for sender`);
+          log.warn(
+            `${logId}: Dropping story message - !profileSharing for sender`
+          );
           this.removeFromCache(envelope);
           return { plaintext: undefined, envelope };
         }
