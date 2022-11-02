@@ -21,6 +21,7 @@ import type {
   SelectedStoryDataType,
   StoryDataType,
   StoriesStateType,
+  AddStoryData,
 } from '../ducks/stories';
 import { HasStories, MY_STORIES_ID } from '../../types/Stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -56,6 +57,11 @@ export const getSelectedStoryData = createSelector(
   getStoriesState,
   ({ selectedStoryData }): SelectedStoryDataType | undefined =>
     selectedStoryData
+);
+
+export const getAddStoryData = createSelector(
+  getStoriesState,
+  ({ addStoryData }): AddStoryData => addStoryData
 );
 
 function getReactionUniqueId(reaction: MessageReactionType): string {

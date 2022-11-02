@@ -39,11 +39,13 @@ import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTe
 import { Emojify } from './conversation/Emojify';
 import { AddNewLines } from './conversation/AddNewLines';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
+import { Spinner } from './Spinner';
 
 export type PropsType = {
   doneButtonLabel?: string;
   i18n: LocalizerType;
   imageSrc: string;
+  isSending: boolean;
   onClose: () => unknown;
   onDone: (data: Uint8Array, caption?: string | undefined) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
@@ -106,6 +108,7 @@ export const MediaEditor = ({
   doneButtonLabel,
   i18n,
   imageSrc,
+  isSending,
   onClose,
   onDone,
 
@@ -1102,7 +1105,7 @@ export const MediaEditor = ({
             />
           </div>
           <Button
-            disabled={!image || isSaving}
+            disabled={!image || isSaving || isSending}
             onClick={async () => {
               if (!fabricCanvas) {
                 return;
@@ -1160,7 +1163,11 @@ export const MediaEditor = ({
             theme={Theme.Dark}
             variant={ButtonVariant.Primary}
           >
-            {doneButtonLabel || i18n('save')}
+            {isSending ? (
+              <Spinner svgSize="small" />
+            ) : (
+              doneButtonLabel || i18n('save')
+            )}
           </Button>
         </div>
       </div>

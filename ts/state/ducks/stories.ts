@@ -3,6 +3,8 @@
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { isEqual, pick } from 'lodash';
+
+import * as Errors from '../../types/errors';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BodyRangeType } from '../../types/Util';
 import type { ConversationModel } from '../../models/conversations';
@@ -87,6 +89,18 @@ export type SelectedStoryDataType = {
   viewTarget?: StoryViewTargetType;
 };
 
+export type AddStoryData =
+  | {
+      type: 'Media';
+      file: File;
+      sending?: boolean;
+    }
+  | {
+      type: 'Text';
+      sending?: boolean;
+    }
+  | undefined;
+
 // State
 
 export type StoriesStateType = {
@@ -97,6 +111,7 @@ export type StoriesStateType = {
     replies: Array<MessageAttributesType>;
   };
   readonly selectedStoryData?: SelectedStoryDataType;
+  readonly addStoryData: AddStoryData;
   readonly sendStoryModalData?: {
     untrustedUuids: Array<string>;
     verifiedUuids: Array<string>;
@@ -117,6 +132,8 @@ const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 const VIEW_STORY = 'stories/VIEW_STORY';
 const REMOVE_ALL_STORIES = 'stories/REMOVE_ALL_STORIES';
+const SET_ADD_STORY_DATA = 'stories/SET_ADD_STORY_DATA';
+const SET_STORY_SENDING = 'stories/SET_STORY_SENDING';
 
 type DOEStoryActionType = {
   type: typeof DOE_STORY;
@@ -175,6 +192,16 @@ type RemoveAllStoriesActionType = {
   type: typeof REMOVE_ALL_STORIES;
 };
 
+type SetAddStoryDataType = {
+  type: typeof SET_ADD_STORY_DATA;
+  payload: AddStoryData;
+};
+
+type SetStorySendingType = {
+  type: typeof SET_STORY_SENDING;
+  payload: boolean;
+};
+
 export type StoriesActionType =
   | DOEStoryActionType
   | ListMembersVerified
@@ -188,7 +215,9 @@ export type StoriesActionType =
   | StoryChangedActionType
   | ToggleViewActionType
   | ViewStoryActionType
-  | RemoveAllStoriesActionType;
+  | RemoveAllStoriesActionType
+  | SetAddStoryDataType
+  | SetStorySendingType;
 
 // Action Creators
 
@@ -451,10 +480,22 @@ function sendStoryMessage(
   listIds: Array<UUIDStringType>,
   conversationIds: Array<string>,
   attachment: AttachmentType
-): ThunkAction<void, RootStateType, unknown, SendStoryModalOpenStateChanged> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SendStoryModalOpenStateChanged | SetStorySendingType | SetAddStoryDataType
+> {
   return async (dispatch, getState) => {
     const { stories } = getState();
     const { openedAtTimestamp, sendStoryModalData } = stories;
+
+    // Add spinners in the story creator
+    dispatch({
+      type: SET_STORY_SENDING,
+      payload: true,
+    });
+
     assertDev(
       openedAtTimestamp,
       'sendStoryMessage: openedAtTimestamp is undefined, cannot send'
@@ -463,11 +504,6 @@ function sendStoryMessage(
       sendStoryModalData,
       'sendStoryMessage: sendStoryModalData is not defined, cannot send'
     );
-
-    dispatch({
-      type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
-      payload: undefined,
-    });
 
     if (sendStoryModalData.untrustedUuids.length) {
       log.info('sendStoryMessage: SN changed for some conversations');
@@ -491,12 +527,39 @@ function sendStoryMessage(
       );
 
       if (!result) {
-        log.info('sendStoryMessage: did not send');
+        log.info('sendStoryMessage: failed to verify untrusted; stopping send');
+        dispatch({
+          type: SET_STORY_SENDING,
+          payload: false,
+        });
         return;
       }
+
+      // Clear all untrusted and verified uuids; we're clear to send!
+      dispatch({
+        type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
+        payload: undefined,
+      });
     }
 
-    await doSendStoryMessage(listIds, conversationIds, attachment);
+    try {
+      await doSendStoryMessage(listIds, conversationIds, attachment);
+
+      // Note: Only when we've successfully queued the message do we dismiss the story
+      //   composer view.
+      dispatch({
+        type: SET_ADD_STORY_DATA,
+        payload: undefined,
+      });
+    } catch (error) {
+      log.error('sendStoryMessage:', Errors.toLogFormat(error));
+
+      // Get rid of spinners in the story creator
+      dispatch({
+        type: SET_STORY_SENDING,
+        payload: false,
+      });
+    }
   };
 }
 
@@ -1111,6 +1174,20 @@ const viewStory: ViewStoryActionCreatorType = (
   };
 };
 
+function setAddStoryData(addStoryData: AddStoryData): SetAddStoryDataType {
+  return {
+    type: SET_ADD_STORY_DATA,
+    payload: addStoryData,
+  };
+}
+
+function setStorySending(sending: boolean): SetStorySendingType {
+  return {
+    type: SET_STORY_SENDING,
+    payload: sending,
+  };
+}
+
 function setStoriesDisabled(
   value: boolean
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -1134,7 +1211,9 @@ export const actions = {
   verifyStoryListMembers,
   viewUserStories,
   viewStory,
+  setAddStoryData,
   setStoriesDisabled,
+  setStorySending,
 };
 
 export const useStoriesActions = (): typeof actions => useBoundActions(actions);
@@ -1147,6 +1226,7 @@ export function getEmptyState(
   return {
     lastOpenedAtTimestamp: undefined,
     openedAtTimestamp: undefined,
+    addStoryData: undefined,
     stories: [],
     ...overrideState,
   };
@@ -1471,6 +1551,32 @@ export function reducer(
         ...sendStoryModalData,
         untrustedUuids,
         verifiedUuids,
+      },
+    };
+  }
+
+  if (action.type === SET_ADD_STORY_DATA) {
+    return {
+      ...state,
+      addStoryData: action.payload,
+    };
+  }
+
+  if (action.type === SET_STORY_SENDING) {
+    const existing = state.addStoryData;
+
+    if (!existing) {
+      log.warn(
+        'stories/reducer: Set story sending, but no existing addStoryData'
+      );
+      return state;
+    }
+
+    return {
+      ...state,
+      addStoryData: {
+        ...existing,
+        sending: action.payload,
       },
     };
   }

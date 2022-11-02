@@ -29,6 +29,7 @@ import {
 import { objectMap } from '../util/objectMap';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
+import { Spinner } from './Spinner';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -37,6 +38,7 @@ export type PropsType = {
     options?: MaybeGrabLinkPreviewOptionsType
   ) => unknown;
   i18n: LocalizerType;
+  isSending: boolean;
   linkPreview?: LinkPreviewType;
   onClose: () => unknown;
   onDone: (textAttachment: TextAttachmentType) => unknown;
@@ -122,6 +124,7 @@ function getBgButtonAriaLabel(
 export const TextStoryCreator = ({
   debouncedMaybeGrabLinkPreview,
   i18n,
+  isSending,
   linkPreview,
   onClose,
   onDone,
@@ -566,12 +569,16 @@ export const TextStoryCreator = ({
               )}
             </div>
             <Button
-              disabled={!hasChanges}
+              disabled={!hasChanges || isSending}
               onClick={() => onDone(textAttachment)}
               theme={Theme.Dark}
               variant={ButtonVariant.Primary}
             >
-              {i18n('StoryCreator__next')}
+              {isSending ? (
+                <Spinner svgSize="small" />
+              ) : (
+                i18n('StoryCreator__next')
+              )}
             </Button>
           </div>
         </div>

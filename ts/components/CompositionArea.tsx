@@ -587,6 +587,7 @@ export const CompositionArea = ({
         <MediaEditor
           i18n={i18n}
           imageSrc={attachmentToEdit.url}
+          isSending={false}
           onClose={() => setAttachmentToEdit(undefined)}
           onDone={data => {
             const newAttachment = {
