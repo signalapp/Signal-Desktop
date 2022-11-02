@@ -10,7 +10,7 @@ import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
 import type { TextAttachmentType } from '../types/Attachment';
 import { AddNewLines } from './conversation/AddNewLines';
 import { Emojify } from './conversation/Emojify';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import { StoryLinkPreview } from './StoryLinkPreview';
 import { TextAttachmentStyleType } from '../types/Attachment';
 import { count } from '../util/grapheme';
 import { getDomain } from '../types/LinkPreview';
@@ -160,8 +160,8 @@ export const TextAttachment = ({
             ref={measureRef}
             style={isThumbnail ? storyBackgroundColor : undefined}
           >
-            {/* 
-            The tooltip must be outside of the scaled area, as it should not scale with 
+            {/*
+            The tooltip must be outside of the scaled area, as it should not scale with
             the story, but it must be positioned using the scaled offset
             */}
             {textAttachment.preview &&
@@ -276,12 +276,13 @@ export const TextAttachment = ({
                         />
                       </div>
                     )}
-                    <StagedLinkPreview
+                    <StoryLinkPreview
+                      {...textAttachment.preview}
                       domain={getDomain(String(textAttachment.preview.url))}
+                      forceCompactMode={
+                        getTextSize(textContent) !== TextSize.Large
+                      }
                       i18n={i18n}
-                      image={textAttachment.preview.image}
-                      imageSize={textAttachment.preview.title ? 144 : 72}
-                      moduleClassName="TextAttachment__preview"
                       title={textAttachment.preview.title || undefined}
                       url={textAttachment.preview.url}
                     />
