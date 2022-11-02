@@ -5404,8 +5404,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "My Story",
+    "message": "My Stories",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "My Stories",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Your story",

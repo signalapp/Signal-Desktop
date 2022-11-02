@@ -156,7 +156,7 @@ export const MyStoriesButton = ({
       >
         <div className="StoryListItem__info">
           <div className="StoryListItem__info--title StoryListItem__chevron">
-            {i18n('Stories__mine')}
+            {i18n('MyStories__list_item')}
           </div>
           {newStoryResolvedSendStatus === ResolvedSendStatus.Sending && (
             <span className="StoryListItem__info--sending">
