@@ -5,6 +5,7 @@ import * as React from 'react';
 import { noop } from 'lodash';
 
 import { Avatar } from './Avatar';
+import type { ActionSpec } from './ConfirmationDialog';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { InContactsIcon } from './InContactsIcon';
 import { Modal } from './Modal';
@@ -46,6 +47,9 @@ export const SafetyNumberChangeDialog = ({
   renderSafetyNumber,
   theme,
 }: Props): JSX.Element => {
+  const [isReviewing, setIsReviewing] = React.useState<boolean>(
+    contacts.length <= 5
+  );
   const [selectedContact, setSelectedContact] = React.useState<
     ConversationType | undefined
   >(undefined);
@@ -76,80 +80,174 @@ export const SafetyNumberChangeDialog = ({
     );
   }
 
+  const allVerified = contacts.every(contact => contact.isVerified);
+  const actions: Array<ActionSpec> = [
+    {
+      action: onConfirm,
+      text:
+        confirmText ||
+        (allVerified
+          ? i18n('safetyNumberChangeDialog_send')
+          : i18n('sendAnyway')),
+      style: 'affirmative',
+    },
+  ];
+
+  if (isReviewing) {
+    return (
+      <ConfirmationDialog
+        key="SafetyNumberChangeDialog.reviewing"
+        dialogName="SafetyNumberChangeDialog.reviewing"
+        actions={actions}
+        hasXButton
+        i18n={i18n}
+        moduleClassName="module-SafetyNumberChangeDialog__confirm-dialog"
+        noMouseClose
+        noDefaultCancelButton={!isReviewing}
+        onCancel={onClose}
+        onClose={noop}
+      >
+        <div className="module-SafetyNumberChangeDialog__shield-icon" />
+        <div className="module-SafetyNumberChangeDialog__title">
+          {i18n('safetyNumberChanges')}
+        </div>
+        <div className="module-SafetyNumberChangeDialog__message">
+          {i18n('safetyNumberChangeDialog__message')}
+        </div>
+        <ul className="module-SafetyNumberChangeDialog__contacts">
+          {contacts.map((contact: ConversationType) => {
+            const shouldShowNumber = Boolean(
+              contact.name || contact.profileName
+            );
+
+            return (
+              <ContactRow
+                contact={contact}
+                getPreferredBadge={getPreferredBadge}
+                i18n={i18n}
+                setSelectedContact={setSelectedContact}
+                shouldShowNumber={shouldShowNumber}
+                theme={theme}
+              />
+            );
+          })}
+        </ul>
+      </ConfirmationDialog>
+    );
+  }
+
+  actions.unshift({
+    action: () => setIsReviewing(true),
+    text: i18n('safetyNumberChangeDialog__review'),
+  });
+
   return (
     <ConfirmationDialog
-      dialogName="SafetyNumberChangeDialog.confirmSend"
-      actions={[
-        {
-          action: onConfirm,
-          text: confirmText || i18n('sendMessageToContact'),
-          style: 'affirmative',
-        },
-      ]}
+      key="SafetyNumberChangeDialog.manyContacts"
+      dialogName="SafetyNumberChangeDialog.manyContacts"
+      actions={actions}
+      hasXButton
       i18n={i18n}
+      moduleClassName="module-SafetyNumberChangeDialog__confirm-dialog"
       noMouseClose
+      noDefaultCancelButton={!isReviewing}
       onCancel={onClose}
       onClose={noop}
-      title={i18n('safetyNumberChanges')}
     >
-      <div className="module-SafetyNumberChangeDialog__message">
-        {i18n('changedVerificationWarning')}
+      <div className="module-SafetyNumberChangeDialog__shield-icon" />
+      <div className="module-SafetyNumberChangeDialog__title">
+        {i18n('safetyNumberChanges')}
       </div>
-      <ul className="module-SafetyNumberChangeDialog__contacts">
-        {contacts.map((contact: ConversationType) => {
-          const shouldShowNumber = Boolean(contact.name || contact.profileName);
-
-          return (
-            <li
-              className="module-SafetyNumberChangeDialog__contact"
-              key={contact.id}
-            >
-              <Avatar
-                acceptedMessageRequest={contact.acceptedMessageRequest}
-                avatarPath={contact.avatarPath}
-                badge={getPreferredBadge(contact.badges)}
-                color={contact.color}
-                conversationType="direct"
-                i18n={i18n}
-                isMe={contact.isMe}
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                theme={theme}
-                title={contact.title}
-                sharedGroupNames={contact.sharedGroupNames}
-                size={52}
-                unblurredAvatarPath={contact.unblurredAvatarPath}
-              />
-              <div className="module-SafetyNumberChangeDialog__contact--wrapper">
-                <div className="module-SafetyNumberChangeDialog__contact--name">
-                  {contact.title}
-                  {isInSystemContacts(contact) ? (
-                    <span>
-                      {' '}
-                      <InContactsIcon i18n={i18n} />
-                    </span>
-                  ) : null}
-                </div>
-                {shouldShowNumber ? (
-                  <div className="module-SafetyNumberChangeDialog__contact--number">
-                    {contact.phoneNumber}
-                  </div>
-                ) : null}
-              </div>
-              <button
-                className="module-SafetyNumberChangeDialog__contact--view"
-                onClick={() => {
-                  setSelectedContact(contact);
-                }}
-                tabIndex={0}
-                type="button"
-              >
-                {i18n('view')}
-              </button>
-            </li>
-          );
+      <div className="module-SafetyNumberChangeDialog__message">
+        {i18n('icu:safetyNumberChangeDialog__many-contacts', {
+          count: contacts.length,
         })}
-      </ul>
+      </div>
     </ConfirmationDialog>
   );
 };
+
+type ContactRowProps = Readonly<{
+  contact: ConversationType;
+  getPreferredBadge: PreferredBadgeSelectorType;
+  i18n: LocalizerType;
+  setSelectedContact: (contact: ConversationType) => void;
+  shouldShowNumber: boolean;
+  theme: ThemeType;
+}>;
+
+function ContactRow({
+  contact,
+  getPreferredBadge,
+  i18n,
+  setSelectedContact,
+  shouldShowNumber,
+  theme,
+}: ContactRowProps) {
+  return (
+    <li className="module-SafetyNumberChangeDialog__contact" key={contact.id}>
+      <Avatar
+        acceptedMessageRequest={contact.acceptedMessageRequest}
+        avatarPath={contact.avatarPath}
+        badge={getPreferredBadge(contact.badges)}
+        color={contact.color}
+        conversationType="direct"
+        i18n={i18n}
+        isMe={contact.isMe}
+        phoneNumber={contact.phoneNumber}
+        profileName={contact.profileName}
+        theme={theme}
+        title={contact.title}
+        sharedGroupNames={contact.sharedGroupNames}
+        size={36}
+        unblurredAvatarPath={contact.unblurredAvatarPath}
+      />
+      <div className="module-SafetyNumberChangeDialog__contact--wrapper">
+        <div className="module-SafetyNumberChangeDialog__contact--name">
+          {contact.title}
+          {isInSystemContacts(contact) ? (
+            <span>
+              {' '}
+              <InContactsIcon i18n={i18n} />
+            </span>
+          ) : null}
+        </div>
+        {shouldShowNumber || contact.isVerified ? (
+          <div className="module-SafetyNumberChangeDialog__contact--subtitle">
+            {shouldShowNumber ? (
+              <span className="module-SafetyNumberChangeDialog__rtl-span">
+                {contact.phoneNumber}
+              </span>
+            ) : (
+              ''
+            )}
+            {shouldShowNumber && contact.isVerified ? (
+              <span className="module-SafetyNumberChangeDialog__rtl-span">
+                &nbsp;&middot;&nbsp;
+              </span>
+            ) : (
+              ''
+            )}
+            {contact.isVerified ? (
+              <span className="module-SafetyNumberChangeDialog__rtl-span">
+                {i18n('verified')}
+              </span>
+            ) : (
+              ''
+            )}
+          </div>
+        ) : null}
+      </div>
+      <button
+        className="module-SafetyNumberChangeDialog__contact--view"
+        onClick={() => {
+          setSelectedContact(contact);
+        }}
+        tabIndex={0}
+        type="button"
+      >
+        {i18n('view')}
+      </button>
+    </li>
+  );
+}

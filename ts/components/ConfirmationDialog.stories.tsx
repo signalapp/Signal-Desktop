@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { text } from '@storybook/addon-knobs';
 
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { setupI18n } from '../util/setupI18n';
@@ -21,7 +20,7 @@ export const _ConfirmationDialog = (): JSX.Element => {
       dialogName="test"
       i18n={i18n}
       onClose={action('onClose')}
-      title={text('Title', 'Foo bar banana baz?')}
+      title="Foo bar banana baz?"
       actions={[
         {
           text: 'Negate',
@@ -35,7 +34,7 @@ export const _ConfirmationDialog = (): JSX.Element => {
         },
       ]}
     >
-      {text('Child text', 'asdf blip')}
+      asdf blip
     </ConfirmationDialog>
   );
 };
@@ -51,7 +50,7 @@ export const CustomCancelText = (): JSX.Element => {
       cancelText="Nah"
       i18n={i18n}
       onClose={action('onClose')}
-      title={text('Title', 'Foo bar banana baz?')}
+      title="Maybs?"
       actions={[
         {
           text: 'Maybe',
@@ -60,11 +59,32 @@ export const CustomCancelText = (): JSX.Element => {
         },
       ]}
     >
-      {text('Child text', 'asdf blip')}
+      Because.
     </ConfirmationDialog>
   );
 };
 
 CustomCancelText.story = {
   name: 'Custom cancel text',
+};
+
+export const NoDefaultCancel = (): JSX.Element => {
+  return (
+    <ConfirmationDialog
+      dialogName="test"
+      noDefaultCancelButton
+      i18n={i18n}
+      onClose={action('onClose')}
+      title="Do you?"
+      actions={[
+        {
+          text: 'Yep',
+          style: 'affirmative',
+          action: action('affirmative'),
+        },
+      ]}
+    >
+      No default cancel!
+    </ConfirmationDialog>
+  );
 };
