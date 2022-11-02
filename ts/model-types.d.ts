@@ -146,7 +146,7 @@ export type MessageAttributesType = {
   messageTimer?: unknown;
   profileChange?: ProfileNameChangeType;
   quote?: QuotedMessageType;
-  reactions?: Array<MessageReactionType>;
+  reactions?: ReadonlyArray<MessageReactionType>;
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
   sourceDevice?: number;
@@ -184,7 +184,11 @@ export type MessageAttributesType = {
   unidentifiedDeliveries?: Array<string>;
   contact?: Array<EmbeddedContactType>;
   conversationId: string;
-  storyReactionEmoji?: string;
+  storyReaction?: {
+    emoji: string;
+    targetAuthorUuid: string;
+    targetTimestamp: number;
+  };
   giftBadge?: {
     expiration: number;
     level: number;

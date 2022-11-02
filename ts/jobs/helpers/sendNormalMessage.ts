@@ -4,6 +4,7 @@
 import { isNumber } from 'lodash';
 
 import * as Errors from '../../types/errors';
+import { strictAssert } from '../../util/assert';
 import type { MessageModel } from '../../models/messages';
 import { getMessageById } from '../../messages/getMessageById';
 import type { ConversationModel } from '../../models/conversations';
@@ -11,12 +12,14 @@ import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
 import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
+import { findAndFormatContact } from '../../util/findAndFormatContact';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { isSent } from '../../messages/MessageSendState';
-import { isOutgoing } from '../../state/selectors/message';
+import { isOutgoing, canReact } from '../../state/selectors/message';
 import type {
   AttachmentType,
   ContactWithHydratedAvatar,
+  ReactionType,
 } from '../../textsecure/SendMessage';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { BodyRangesType, StoryContextType } from '../../types/Util';
@@ -149,8 +152,36 @@ export async function sendNormalMessage(
       preview,
       quote,
       sticker,
+      storyMessage,
       storyContext,
+      reaction,
     } = await getMessageSendData({ log, message });
+
+    if (reaction) {
+      strictAssert(
+        storyMessage,
+        'Only story reactions can be sent as normal messages'
+      );
+
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+
+      if (
+        !canReact(
+          storyMessage.attributes,
+          ourConversationId,
+          findAndFormatContact
+        )
+      ) {
+        log.info(
+          `could not react to ${messageId}. Removing this pending reaction`
+        );
+        await markMessageFailed(message, [
+          new Error('Could not react to story'),
+        ]);
+        return;
+      }
+    }
 
     let messageSendPromise: Promise<CallbackResultType | void>;
 
@@ -185,6 +216,7 @@ export async function sendNormalMessage(
         sticker,
         // No storyContext; you can't reply to your own stories
         timestamp: messageTimestamp,
+        reaction,
       });
       messageSendPromise = message.sendSyncMessageOnly(dataMessage, saveErrors);
     } else {
@@ -228,6 +260,7 @@ export async function sendNormalMessage(
                 quote,
                 sticker,
                 storyContext,
+                reaction,
                 timestamp: messageTimestamp,
                 mentions,
               },
@@ -280,9 +313,9 @@ export async function sendNormalMessage(
           preview,
           profileKey,
           quote,
-          reaction: undefined,
           sticker,
           storyContext,
+          reaction,
           timestamp: messageTimestamp,
           // Note: 1:1 story replies should not set story=true -   they aren't group sends
           urgent: true,
@@ -436,6 +469,8 @@ async function getMessageSendData({
   preview: Array<LinkPreviewType>;
   quote: QuotedMessageType | null;
   sticker: StickerWithHydratedData | undefined;
+  reaction: ReactionType | undefined;
+  storyMessage?: MessageModel;
   storyContext?: StoryContextType;
 }> {
   const {
@@ -488,6 +523,8 @@ async function getMessageSendData({
     }
   );
 
+  const storyReaction = message.get('storyReaction');
+
   return {
     attachments,
     body,
@@ -499,10 +536,17 @@ async function getMessageSendData({
     preview,
     quote,
     sticker,
+    storyMessage,
     storyContext: storyMessage
       ? {
           authorUuid: storyMessage.get('sourceUuid'),
           timestamp: storyMessage.get('sent_at'),
+        }
+      : undefined,
+    reaction: storyReaction
+      ? {
+          ...storyReaction,
+          remove: false,
         }
       : undefined,
   };

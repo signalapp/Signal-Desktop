@@ -23,13 +23,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/ModalContainer.tsx",
-    "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-14T16:39:48.461Z"
-  },
-  {
     "rule": "jQuery-globalEval(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "line": "    globalEval(read(f));",
@@ -9236,6 +9229,13 @@
     "line": "  const bodyRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-21T01:40:08.534Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ModalContainer.tsx",
+    "line": "  const containerRef = React.useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-10-14T16:39:48.461Z"
   },
   {
     "rule": "React-useRef",

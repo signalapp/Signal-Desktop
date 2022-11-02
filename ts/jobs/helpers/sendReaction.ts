@@ -4,6 +4,7 @@
 import { isNumber } from 'lodash';
 
 import * as Errors from '../../types/errors';
+import { strictAssert } from '../../util/assert';
 import { repeat, zipObject } from '../../util/iterables';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { MessageModel } from '../../models/messages';
@@ -63,11 +64,16 @@ export async function sendReaction(
     return;
   }
 
+  strictAssert(
+    !isStory(message.attributes),
+    'Story reactions should be handled by sendStoryReaction'
+  );
   const { pendingReaction, emojiToRemove } =
     reactionUtil.getNewestPendingOutgoingReaction(
       getReactions(message),
       ourConversationId
     );
+
   if (!pendingReaction) {
     log.info(`no pending reaction for ${messageId}. Doing nothing`);
     return;
@@ -153,17 +159,7 @@ export async function sendReaction(
       ),
     });
 
-    if (
-      isStory(message.attributes) &&
-      isDirectConversation(conversation.attributes)
-    ) {
-      ephemeralMessageForReactionSend.set({
-        storyId: message.id,
-        storyReactionEmoji: reactionForSend.emoji,
-      });
-    } else {
-      ephemeralMessageForReactionSend.doNotSave = true;
-    }
+    ephemeralMessageForReactionSend.doNotSave = true;
 
     let didFullySend: boolean;
     const successfulConversationIds = new Set<string>();
@@ -233,12 +229,6 @@ export async function sendReaction(
           groupId: undefined,
           profileKey,
           options: sendOptions,
-          storyContext: isStory(message.attributes)
-            ? {
-                authorUuid: message.get('sourceUuid'),
-                timestamp: message.get('sent_at'),
-              }
-            : undefined,
           urgent: true,
           includePniSignatureMessage: true,
         });
@@ -271,12 +261,6 @@ export async function sendReaction(
                 timestamp: pendingReaction.timestamp,
                 expireTimer,
                 profileKey,
-                storyContext: isStory(message.attributes)
-                  ? {
-                      authorUuid: message.get('sourceUuid'),
-                      timestamp: message.get('sent_at'),
-                    }
-                  : undefined,
               },
               messageId,
               sendOptions,
@@ -346,8 +330,7 @@ export async function sendReaction(
     const newReactions = reactionUtil.markOutgoingReactionSent(
       getReactions(message),
       pendingReaction,
-      successfulConversationIds,
-      message.attributes
+      successfulConversationIds
     );
     setReactions(message, newReactions);
 
@@ -372,8 +355,9 @@ export async function sendReaction(
   }
 }
 
-const getReactions = (message: MessageModel): Array<MessageReactionType> =>
-  message.get('reactions') || [];
+const getReactions = (
+  message: MessageModel
+): ReadonlyArray<MessageReactionType> => message.get('reactions') || [];
 
 const setReactions = (
   message: MessageModel,
