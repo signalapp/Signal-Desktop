@@ -7542,10 +7542,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@20.1.4:
-  version "20.1.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-20.1.4.tgz#d25b549f14376f99a0a239e27d67ef8515b4a5a0"
-  integrity sha512-7ov5kgSQi2JewV5SrVfjGasUvyScjuJrrDCW0rYxtP2SMe3JjoP4rsOOnh3ps2P/Nrdlbv+0ygiK0zp4ARCZ+A==
+electron@20.3.4:
+  version "20.3.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-20.3.4.tgz#a982196c7901a17d1107618634b1d0839f49c1df"
+  integrity sha512-kZYy7lgR9k24rkz89lQSXA28PkjMz1Z6Fr5ewvfjUatKOSrc0NJKlZ+mJ9KDmTvD5+gqOmewAyVecEGsMLFVow==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
