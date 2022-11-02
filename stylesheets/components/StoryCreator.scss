@@ -242,7 +242,7 @@
   &__link-preview-input-popper {
     display: flex;
     flex-direction: column;
-    height: 256px;
+    min-height: 256px;
     padding: 16px;
     width: 360px;
   }
@@ -257,6 +257,10 @@
     flex-direction: column;
     flex: 1;
     justify-content: center;
+  }
+
+  &__link-preview-wrapper {
+    transform: scale(0.5);
   }
 
   &__link-preview-button {

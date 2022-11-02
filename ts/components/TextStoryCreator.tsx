@@ -17,7 +17,7 @@ import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview';
 import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview';
 import { Input } from './Input';
 import { Slider } from './Slider';
-import { StagedLinkPreview } from './conversation/StagedLinkPreview';
+import { StoryLinkPreview } from './StoryLinkPreview';
 import { TextAttachment } from './TextAttachment';
 import { Theme, themeClassName } from '../util/theme';
 import { getRGBA, getRGBANumber } from '../mediaEditor/util/color';
@@ -541,11 +541,13 @@ export const TextStoryCreator = ({
                   <div className="StoryCreator__link-preview-container">
                     {linkPreview ? (
                       <>
-                        <StagedLinkPreview
-                          {...linkPreview}
-                          i18n={i18n}
-                          moduleClassName="StoryCreator__link-preview"
-                        />
+                        <div className="StoryCreator__link-preview-wrapper">
+                          <StoryLinkPreview
+                            {...linkPreview}
+                            forceCompactMode
+                            i18n={i18n}
+                          />
+                        </div>
                         <Button
                           className="StoryCreator__link-preview-button"
                           onClick={() => {
