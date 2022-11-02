@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
-import type { PropsType as SmartStoryCreatorPropsType } from './StoryCreator';
 import { SmartStoryCreator } from './StoryCreator';
 import { Stories } from '../../components/Stories';
 import { getMe } from '../selectors/conversations';
@@ -17,6 +16,7 @@ import {
   getPreferredLeftPaneWidth,
 } from '../selectors/items';
 import {
+  getAddStoryData,
   getSelectedStoryData,
   getStories,
   shouldShowStoriesView,
@@ -27,11 +27,8 @@ import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useToastActions } from '../ducks/toast';
 
-function renderStoryCreator({
-  file,
-  onClose,
-}: SmartStoryCreatorPropsType): JSX.Element {
-  return <SmartStoryCreator file={file} onClose={onClose} />;
+function renderStoryCreator(): JSX.Element {
+  return <SmartStoryCreator />;
 }
 
 export function SmartStories(): JSX.Element | null {
@@ -52,6 +49,7 @@ export function SmartStories(): JSX.Element | null {
   );
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
 
+  const addStoryData = useSelector(getAddStoryData);
   const { hiddenStories, myStories, stories } = useSelector(getStories);
 
   const me = useSelector(getMe);
@@ -70,6 +68,7 @@ export function SmartStories(): JSX.Element | null {
 
   return (
     <Stories
+      addStoryData={addStoryData}
       getPreferredBadge={getPreferredBadge}
       hiddenStories={hiddenStories}
       i18n={i18n}

@@ -31,21 +31,20 @@ import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { useStoriesActions } from '../ducks/stories';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
 import { SmartCompositionTextArea } from './CompositionTextArea';
+import { getAddStoryData } from '../selectors/stories';
 
 export type PropsType = {
   file?: File;
   onClose: () => unknown;
 };
 
-export function SmartStoryCreator({
-  file,
-  onClose,
-}: PropsType): JSX.Element | null {
+export function SmartStoryCreator(): JSX.Element | null {
   const { debouncedMaybeGrabLinkPreview } = useLinkPreviewActions();
   const {
     sendStoryModalOpenStateChanged,
     sendStoryMessage,
     verifyStoryListMembers,
+    setAddStoryData,
   } = useStoriesActions();
   const { toggleGroupsForStorySend } = useConversationsActions();
   const {
@@ -72,6 +71,10 @@ export function SmartStoryCreator({
   const recentStickers = useSelector(getRecentStickers);
   const signalConnections = useSelector(getAllSignalConnections);
 
+  const addStoryData = useSelector(getAddStoryData);
+  const file = addStoryData?.type === 'Media' ? addStoryData.file : undefined;
+  const isSending = addStoryData?.sending || false;
+
   return (
     <StoryCreator
       candidateConversations={candidateConversations}
@@ -84,9 +87,10 @@ export function SmartStoryCreator({
       hasFirstStoryPostExperience={!hasSetMyStoriesPrivacy}
       i18n={i18n}
       installedPacks={installedPacks}
+      isSending={isSending}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
-      onClose={onClose}
+      onClose={() => setAddStoryData(undefined)}
       onDeleteList={deleteDistributionList}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}

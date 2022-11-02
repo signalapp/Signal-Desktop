@@ -30,6 +30,7 @@ export type PropsType = {
   ) => unknown;
   file?: File;
   i18n: LocalizerType;
+  isSending: boolean;
   linkPreview?: LinkPreviewType;
   onClose: () => unknown;
   onSend: (
@@ -78,6 +79,7 @@ export const StoryCreator = ({
   hasFirstStoryPostExperience,
   i18n,
   installedPacks,
+  isSending,
   linkPreview,
   me,
   onClose,
@@ -162,7 +164,6 @@ export const StoryCreator = ({
           onSend={(listIds, groupIds) => {
             onSend(listIds, groupIds, draftAttachment);
             setDraftAttachment(undefined);
-            onClose();
           }}
           onViewersUpdated={onViewersUpdated}
           setMyStoriesToAllSignalConnections={
@@ -179,6 +180,7 @@ export const StoryCreator = ({
           i18n={i18n}
           imageSrc={attachmentUrl}
           installedPacks={installedPacks}
+          isSending={isSending}
           onClose={onClose}
           supportsCaption
           renderCompositionTextArea={renderCompositionTextArea}
@@ -197,6 +199,7 @@ export const StoryCreator = ({
         <TextStoryCreator
           debouncedMaybeGrabLinkPreview={debouncedMaybeGrabLinkPreview}
           i18n={i18n}
+          isSending={isSending}
           linkPreview={linkPreview}
           onClose={onClose}
           onDone={textAttachment => {

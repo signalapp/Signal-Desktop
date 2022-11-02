@@ -40,6 +40,9 @@ export default {
     installedPacks: {
       defaultValue: [],
     },
+    isSending: {
+      defaultValue: false,
+    },
     linkPreview: {
       defaultValue: undefined,
     },
@@ -94,4 +97,9 @@ FirstTime.args = {
 };
 FirstTime.story = {
   name: 'First time posting a story',
+};
+
+export const Sending = Template.bind({});
+Sending.args = {
+  isSending: true,
 };
