@@ -22,22 +22,24 @@ const contactWithAllData = getDefaultConversation({
   phoneNumber: '(305) 123-4567',
 });
 
-const contactWithJustProfile = getDefaultConversation({
+const contactWithJustProfileVerified = getDefaultConversation({
   id: 'def',
   avatarPath: undefined,
   title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
   phoneNumber: '(305) 123-4567',
+  isVerified: true,
 });
 
-const contactWithJustNumber = getDefaultConversation({
+const contactWithJustNumberVerified = getDefaultConversation({
   id: 'xyz',
   avatarPath: undefined,
   profileName: undefined,
   name: undefined,
   title: '(305) 123-4567',
   phoneNumber: '(305) 123-4567',
+  isVerified: true,
 });
 
 const contactWithNothing = getDefaultConversation({
@@ -98,8 +100,8 @@ export const MultiContactDialog = (): JSX.Element => {
     <SafetyNumberChangeDialog
       contacts={[
         contactWithAllData,
-        contactWithJustProfile,
-        contactWithJustNumber,
+        contactWithJustProfileVerified,
+        contactWithJustNumberVerified,
         contactWithNothing,
       ]}
       getPreferredBadge={() => undefined}
@@ -115,14 +117,35 @@ export const MultiContactDialog = (): JSX.Element => {
   );
 };
 
+export const AllVerified = (): JSX.Element => {
+  const theme = useTheme();
+  return (
+    <SafetyNumberChangeDialog
+      contacts={[contactWithJustProfileVerified, contactWithJustNumberVerified]}
+      getPreferredBadge={() => undefined}
+      i18n={i18n}
+      onCancel={action('cancel')}
+      onConfirm={action('confirm')}
+      renderSafetyNumber={() => {
+        action('renderSafetyNumber');
+        return <div>This is a mock Safety Number View</div>;
+      }}
+      theme={theme}
+    />
+  );
+};
+AllVerified.story = {
+  name: 'All verified; Send button instead',
+};
+
 export const MultipleContactsAllWithBadges = (): JSX.Element => {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
       contacts={[
         contactWithAllData,
-        contactWithJustProfile,
-        contactWithJustNumber,
+        contactWithJustProfileVerified,
+        contactWithJustNumberVerified,
         contactWithNothing,
       ]}
       getPreferredBadge={() => getFakeBadge()}
@@ -142,14 +165,14 @@ MultipleContactsAllWithBadges.story = {
   name: 'Multiple contacts, all with badges',
 };
 
-export const ScrollDialog = (): JSX.Element => {
+export const TenContacts = (): JSX.Element => {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
       contacts={[
         contactWithAllData,
-        contactWithJustProfile,
-        contactWithJustNumber,
+        contactWithJustProfileVerified,
+        contactWithJustNumberVerified,
         contactWithNothing,
         contactWithAllData,
         contactWithAllData,
@@ -169,4 +192,8 @@ export const ScrollDialog = (): JSX.Element => {
       theme={theme}
     />
   );
+};
+
+TenContacts.story = {
+  name: 'Ten contacts; first isReviewing = false, then scrolling dialog',
 };

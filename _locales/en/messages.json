@@ -433,22 +433,38 @@
   },
   "changedVerificationWarning": {
     "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "The following people may have reinstalled Signal or changed devices. Click a recipient to confirm the new safety number. This is optional.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Send pending messages",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Review",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {You have # connections who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Send Anyway",
+    "message": "Send anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Send",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
   "callAnyway": {
-    "message": "Call Anyway",
+    "message": "Call anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {

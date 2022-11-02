@@ -2,9 +2,61 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-SafetyNumberChangeDialog {
+  &__confirm-dialog__header {
+    padding-bottom: 0px;
+
+    // We've got no title, but we want the X button from ConfirmationDialog, so
+    //   we need to bump the dialog contents up into the header area just a bit.
+    margin-bottom: -5px;
+  }
+
+  // Used to ensure that a set of spans reverse order under RTL
+  &__rtl-span {
+    display: inline-block;
+  }
+
+  &__shield-icon {
+    margin-left: auto;
+    margin-right: auto;
+
+    height: 24px;
+    width: 24px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/safety-number-outline-24.svg',
+        $color-gray-90
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/safety-number-outline-24.svg',
+        $color-white
+      );
+    }
+  }
+
+  &__title {
+    @include font-body-1-bold;
+
+    text-align: center;
+    margin-top: 8px;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-white;
+    }
+  }
+
   &__message {
     @include font-body-2;
+
     text-align: center;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    padding-left: 4px;
+    padding-right: 4px;
 
     @include light-theme {
       color: $color-gray-60;
@@ -18,11 +70,12 @@
   &__contacts {
     list-style-type: none;
     max-height: 300px;
-    overflow-y: scroll;
     padding: 0;
   }
 
   &__contact {
+    $contact: &;
+
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -34,14 +87,16 @@
     }
 
     &--name {
-      @include font-body-1-bold;
+      @include font-body-1;
 
       @include dark-theme {
         color: $color-white;
       }
     }
 
-    &--number {
+    &--subtitle {
+      @include font-subtitle;
+
       @include light-theme {
         color: $color-gray-60;
       }
@@ -52,27 +107,22 @@
     }
 
     &--view {
-      @include font-body-1-bold;
-      background: inherit;
-      border: none;
-      cursor: pointer;
-      margin-right: 2px;
-      outline: none;
+      @include button-reset;
+      @include button-secondary-blue-text;
+
+      opacity: 0;
+      transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
+
+      // Using keyboard/mouse classes directly; mixins were doing weird things
+      .mouse-mode #{$contact}:hover & {
+        opacity: 1;
+      }
+      .keyboard-mode #{$contact}:focus-within & {
+        opacity: 1;
+      }
+
+      border-radius: 4px;
       padding: 8px 14px;
-
-      @include keyboard-mode {
-        &:focus {
-          box-shadow: 0px 0px 0px 2px $color-ultramarine;
-        }
-      }
-
-      @include light-theme {
-        color: $color-ultramarine;
-      }
-
-      @include dark-theme {
-        color: $color-gray-05;
-      }
     }
   }
 }
