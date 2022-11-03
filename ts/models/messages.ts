@@ -292,6 +292,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   INITIAL_PROTOCOL_VERSION?: number;
 
+  deletingForEveryone?: boolean;
+
   isSelected?: boolean;
 
   private pendingMarkRead?: number;
@@ -1695,9 +1697,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     attributesToUpdate.sendStateByConversationId = sendStateByConversationId;
-    attributesToUpdate.expirationStartTimestamp = sentToAtLeastOneRecipient
-      ? Date.now()
-      : undefined;
+    // Only update the expirationStartTimestamp if we don't already have one set
+    if (!this.get('expirationStartTimestamp')) {
+      attributesToUpdate.expirationStartTimestamp = sentToAtLeastOneRecipient
+        ? Date.now()
+        : undefined;
+    }
     attributesToUpdate.unidentifiedDeliveries = union(
       previousUnidentifiedDeliveries,
       newUnidentifiedDeliveries
@@ -2526,6 +2531,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       const dataMessage = await upgradeMessageSchema(withQuoteReference);
 
+      const isGroupStoryReply =
+        isGroup(conversation.attributes) && dataMessage.storyId;
+
       try {
         const now = new Date().getTime();
 
@@ -2748,6 +2756,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           conversation.set(attributes);
 
+          // Sync group story reply expiration timers with the parent story's
+          // expiration timer
+          if (isGroupStoryReply && storyQuote) {
+            message.set({
+              expireTimer: storyQuote.get('expireTimer'),
+              expirationStartTimestamp: storyQuote.get(
+                'expirationStartTimestamp'
+              ),
+            });
+          }
+
           if (
             dataMessage.expireTimer &&
             !isExpirationTimerUpdate(dataMessage)
@@ -2849,8 +2868,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         const conversationTimestamp = conversation.get('timestamp');
-        const isGroupStoryReply =
-          isGroup(conversation.attributes) && message.get('storyId');
         if (
           !isStory(message.attributes) &&
           !isGroupStoryReply &&
@@ -3463,17 +3480,23 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       deleteServerTimestamp: del.get('serverTimestamp'),
     });
 
-    // Remove any notifications for this message
-    notificationService.removeBy({ messageId: this.get('id') });
+    try {
+      this.deletingForEveryone = true;
 
-    // Erase the contents of this message
-    await this.eraseContents(
-      { deletedForEveryone: true, reactions: [] },
-      shouldPersist
-    );
+      // Remove any notifications for this message
+      notificationService.removeBy({ messageId: this.get('id') });
 
-    // Update the conversation's last message in case this was the last message
-    this.getConversation()?.updateLastMessage();
+      // Erase the contents of this message
+      await this.eraseContents(
+        { deletedForEveryone: true, reactions: [] },
+        shouldPersist
+      );
+
+      // Update the conversation's last message in case this was the last message
+      this.getConversation()?.updateLastMessage();
+    } finally {
+      this.deletingForEveryone = undefined;
+    }
   }
 
   clearNotifications(reaction: Partial<ReactionType> = {}): void {

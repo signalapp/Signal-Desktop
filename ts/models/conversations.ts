@@ -3938,9 +3938,20 @@ export class ConversationModel extends window.Backbone
       'desktop.mandatoryProfileSharing'
     );
 
-    await this.maybeApplyUniversalTimer();
+    let expirationStartTimestamp: number | undefined;
+    let expireTimer: number | undefined;
 
-    const expireTimer = this.get('expireTimer');
+    // If it's a group story reply then let's match the expiration timers
+    // with the parent story's expiration.
+    if (storyId && isGroup(this.attributes)) {
+      const parentStory = await getMessageById(storyId);
+      expirationStartTimestamp =
+        parentStory?.expirationStartTimestamp || Date.now();
+      expireTimer = parentStory?.expireTimer || durations.DAY;
+    } else {
+      await this.maybeApplyUniversalTimer();
+      expireTimer = this.get('expireTimer');
+    }
 
     const recipientMaybeConversations = map(
       this.getRecipients({
@@ -3983,6 +3994,7 @@ export class ConversationModel extends window.Backbone
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,
+      expirationStartTimestamp,
       expireTimer,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
