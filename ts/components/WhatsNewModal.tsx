@@ -34,10 +34,6 @@ const releaseNotes: ReleaseNotesType = {
       key: 'WhatsNew__v5.63--0',
       components: undefined,
     },
-    {
-      key: 'WhatsNew__v5.63--beta.2',
-      components: undefined,
-    },
   ],
 };
 
