@@ -111,7 +111,7 @@ export type PropsType = {
   preferredReactionEmoji: Array<string>;
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
-  replies: Array<ReplyType>;
+  replies: ReadonlyArray<ReplyType>;
   skinTone?: number;
   sortedGroupMembers?: Array<ConversationType>;
   storyPreviewAttachment?: AttachmentType;

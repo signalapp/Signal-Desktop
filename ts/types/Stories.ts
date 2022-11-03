@@ -37,7 +37,7 @@ export type ReplyType = {
 
 export type ReplyStateType = {
   messageId: string;
-  replies: Array<ReplyType>;
+  replies: ReadonlyArray<ReplyType>;
 };
 
 export type ConversationStoryType = {

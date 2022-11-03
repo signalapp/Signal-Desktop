@@ -33,6 +33,7 @@ import { isNormalNumber } from '../util/isNormalNumber';
 import { softAssert, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { dropNull } from '../util/dropNull';
+import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
 import type {
   OwnProps as SmartMessageDetailPropsType,
@@ -955,7 +956,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { text, emoji } = this.getNotificationData();
     const { attributes } = this;
 
-    if (attributes.storyReactionEmoji) {
+    if (attributes.storyReaction) {
       if (attributes.type === 'outgoing') {
         const name = this.getConversation()?.get('profileName');
 
@@ -963,25 +964,25 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return window.i18n(
             'Quote__story-reaction-notification--outgoing--nameless',
             {
-              emoji: attributes.storyReactionEmoji,
+              emoji: attributes.storyReaction.emoji,
             }
           );
         }
 
         return window.i18n('Quote__story-reaction-notification--outgoing', {
-          emoji: attributes.storyReactionEmoji,
+          emoji: attributes.storyReaction.emoji,
           name,
         });
       }
 
       if (attributes.type === 'incoming') {
         return window.i18n('Quote__story-reaction-notification--incoming', {
-          emoji: attributes.storyReactionEmoji,
+          emoji: attributes.storyReaction.emoji,
         });
       }
 
       if (!window.Signal.OS.isLinux()) {
-        return attributes.storyReactionEmoji;
+        return attributes.storyReaction.emoji;
       }
 
       return window.i18n('Quote__story-reaction--single');
@@ -3241,34 +3242,62 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const previousLength = (this.get('reactions') || []).length;
-    if (reaction.get('source') === ReactionSource.FromThisDevice) {
-      log.info(
-        `handleReaction: sending reaction to ${this.idForLogging()} from this device`
-      );
+    const newReaction: MessageReactionType = {
+      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
+      fromId: reaction.get('fromId'),
+      targetAuthorUuid: reaction.get('targetAuthorUuid'),
+      targetTimestamp: reaction.get('targetTimestamp'),
+      timestamp: reaction.get('timestamp'),
+      isSentByConversationId: zipObject(
+        conversation.getMemberConversationIds(),
+        repeat(false)
+      ),
+    };
 
-      const newReaction = {
-        emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
-        fromId: reaction.get('fromId'),
-        targetAuthorUuid: reaction.get('targetAuthorUuid'),
-        targetTimestamp: reaction.get('targetTimestamp'),
-        timestamp: reaction.get('timestamp'),
-        isSentByConversationId: zipObject(
-          conversation.getMemberConversationIds(),
-          repeat(false)
-        ),
-      };
+    const isFromThisDevice =
+      reaction.get('source') === ReactionSource.FromThisDevice;
+    const isFromSync = reaction.get('source') === ReactionSource.FromSync;
+    const isFromSomeoneElse =
+      reaction.get('source') === ReactionSource.FromSomeoneElse;
+    strictAssert(
+      isFromThisDevice || isFromSync || isFromSomeoneElse,
+      'Reaction can only be from this device, from sync, or from someone else'
+    );
+
+    if (isStory(this.attributes)) {
+      if (isFromThisDevice) {
+        log.info(
+          'handleReaction: sending story reaction to ' +
+            `${this.idForLogging()} from this device`
+        );
+      } else if (isFromSync) {
+        log.info(
+          'handleReaction: receiving story reaction to ' +
+            `${this.idForLogging()} from another device`
+        );
+      } else {
+        log.info(
+          'handleReaction: receiving story reaction to ' +
+            `${this.idForLogging()} from someone else`
+        );
+        conversation.notify(this, reaction);
+      }
+    } else if (isFromThisDevice) {
+      log.info(
+        `handleReaction: sending reaction to ${this.idForLogging()} ` +
+          'from this device'
+      );
 
       const reactions = reactionUtil.addOutgoingReaction(
         this.get('reactions') || [],
-        newReaction,
-        isStory(this.attributes)
+        newReaction
       );
       this.set({ reactions });
     } else {
       const oldReactions = this.get('reactions') || [];
       let reactions: Array<MessageReactionType>;
       const oldReaction = oldReactions.find(re =>
-        isNewReactionReplacingPrevious(re, reaction.attributes, this.attributes)
+        isNewReactionReplacingPrevious(re, reaction.attributes)
       );
       if (oldReaction) {
         this.clearNotifications(oldReaction);
@@ -3280,23 +3309,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.idForLogging()
         );
 
-        if (reaction.get('source') === ReactionSource.FromSync) {
+        if (isFromSync) {
           reactions = oldReactions.filter(
             re =>
-              !isNewReactionReplacingPrevious(
-                re,
-                reaction.attributes,
-                this.attributes
-              ) || re.timestamp > reaction.get('timestamp')
+              !isNewReactionReplacingPrevious(re, reaction.attributes) ||
+              re.timestamp > reaction.get('timestamp')
           );
         } else {
           reactions = oldReactions.filter(
-            re =>
-              !isNewReactionReplacingPrevious(
-                re,
-                reaction.attributes,
-                this.attributes
-              )
+            re => !isNewReactionReplacingPrevious(re, reaction.attributes)
           );
         }
         this.set({ reactions });
@@ -3314,7 +3335,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
 
         let reactionToAdd: MessageReactionType;
-        if (reaction.get('source') === ReactionSource.FromSync) {
+        if (isFromSync) {
           const ourReactions = [
             reaction.toJSON(),
             ...oldReactions.filter(re => re.fromId === reaction.get('fromId')),
@@ -3325,20 +3346,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         reactions = oldReactions.filter(
-          re =>
-            !isNewReactionReplacingPrevious(
-              re,
-              reaction.attributes,
-              this.attributes
-            )
+          re => !isNewReactionReplacingPrevious(re, reaction.attributes)
         );
         reactions.push(reactionToAdd);
         this.set({ reactions });
 
-        if (
-          isOutgoing(this.attributes) &&
-          reaction.get('source') === ReactionSource.FromSomeoneElse
-        ) {
+        if (isOutgoing(this.attributes) && isFromSomeoneElse) {
           conversation.notify(this, reaction);
         }
 
@@ -3361,13 +3374,62 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       `Went from ${previousLength} to ${currentLength} reactions.`
     );
 
-    if (reaction.get('source') === ReactionSource.FromThisDevice) {
-      const jobData: ConversationQueueJobData = {
-        type: conversationQueueJobEnum.enum.Reaction,
-        conversationId: conversation.id,
-        messageId: this.id,
-        revision: conversation.get('revision'),
-      };
+    if (isFromThisDevice) {
+      let jobData: ConversationQueueJobData;
+      if (isStory(this.attributes)) {
+        strictAssert(
+          newReaction.emoji !== undefined,
+          'New story reaction must have an emoji'
+        );
+        const reactionMessage = new window.Whisper.Message({
+          id: UUID.generate().toString(),
+          type: 'outgoing',
+          conversationId: conversation.id,
+          sent_at: newReaction.timestamp,
+          received_at: incrementMessageCounter(),
+          received_at_ms: newReaction.timestamp,
+          timestamp: newReaction.timestamp,
+          sendStateByConversationId: zipObject(
+            Object.keys(newReaction.isSentByConversationId || {}),
+            repeat({
+              status: SendStatus.Pending,
+              updatedAt: Date.now(),
+            })
+          ),
+          storyId: this.id,
+          storyReaction: {
+            emoji: newReaction.emoji,
+            targetAuthorUuid: newReaction.targetAuthorUuid,
+            targetTimestamp: newReaction.targetTimestamp,
+          },
+        });
+
+        await Promise.all([
+          await window.Signal.Data.saveMessage(reactionMessage.attributes, {
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            forceSave: true,
+          }),
+          reactionMessage.hydrateStoryContext(this),
+        ]);
+
+        conversation.addSingleMessage(
+          window.MessageController.register(reactionMessage.id, reactionMessage)
+        );
+
+        jobData = {
+          type: conversationQueueJobEnum.enum.NormalMessage,
+          conversationId: conversation.id,
+          messageId: reactionMessage.id,
+          revision: conversation.get('revision'),
+        };
+      } else {
+        jobData = {
+          type: conversationQueueJobEnum.enum.Reaction,
+          conversationId: conversation.id,
+          messageId: this.id,
+          revision: conversation.get('revision'),
+        };
+      }
       if (shouldPersist) {
         await conversationJobQueue.add(jobData, async jobToInsert => {
           log.info(
@@ -3383,7 +3445,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } else {
         await conversationJobQueue.add(jobData);
       }
-    } else if (shouldPersist) {
+    } else if (shouldPersist && !isStory(this.attributes)) {
       await window.Signal.Data.saveMessage(this.attributes, {
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
       });

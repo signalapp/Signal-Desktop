@@ -6,7 +6,6 @@ import { pick } from 'lodash';
 
 import type { GetConversationByIdType } from './conversations';
 import type { ConversationType } from '../ducks/conversations';
-import type { MessageReactionType } from '../../model-types.d';
 import type { AttachmentType } from '../../types/Attachment';
 import type {
   ConversationStoryType,
@@ -63,10 +62,6 @@ export const getAddStoryData = createSelector(
   getStoriesState,
   ({ addStoryData }): AddStoryData => addStoryData
 );
-
-function getReactionUniqueId(reaction: MessageReactionType): string {
-  return `${reaction.fromId}:${reaction.targetAuthorUuid}:${reaction.timestamp}`;
-}
 
 function sortByRecencyAndUnread(
   storyA: ConversationStoryType,
@@ -273,33 +268,11 @@ export const getStoryReplies = createSelector(
     conversationSelector,
     contactNameColorSelector,
     me,
-    { stories, replyState }: Readonly<StoriesStateType>
+    { replyState }: Readonly<StoriesStateType>
   ): ReplyStateType | undefined => {
     if (!replyState) {
       return;
     }
-
-    const foundStory = stories.find(
-      story => story.messageId === replyState.messageId
-    );
-
-    const reactions = foundStory
-      ? (foundStory.reactions || []).map(reaction => {
-          const conversation = conversationSelector(reaction.fromId);
-
-          return {
-            author: getAvatarData(conversation),
-            contactNameColor: contactNameColorSelector(
-              foundStory.conversationId,
-              conversation.id
-            ),
-            conversationId: reaction.fromId,
-            id: getReactionUniqueId(reaction),
-            reactionEmoji: reaction.emoji,
-            timestamp: reaction.timestamp,
-          };
-        })
-      : [];
 
     const replies = replyState.replies.map(reply => {
       const conversation =
@@ -316,6 +289,7 @@ export const getStoryReplies = createSelector(
           'id',
           'timestamp',
         ]),
+        reactionEmoji: reply.storyReaction?.emoji,
         contactNameColor: contactNameColorSelector(
           reply.conversationId,
           conversation.id
@@ -325,13 +299,9 @@ export const getStoryReplies = createSelector(
       };
     });
 
-    const combined = [...replies, ...reactions].sort((a, b) =>
-      a.timestamp > b.timestamp ? 1 : -1
-    );
-
     return {
       messageId: replyState.messageId,
-      replies: combined,
+      replies,
     };
   }
 );

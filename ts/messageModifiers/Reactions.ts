@@ -169,14 +169,15 @@ export class Reactions extends Collection<ReactionModel> {
         );
 
         // Use the generated message in ts/background.ts to create a message
-        // if the reaction is targetted at a story on a 1:1 conversation.
-        if (
-          isStory(targetMessage) &&
-          isDirectConversation(targetConversation.attributes)
-        ) {
+        // if the reaction is targetted at a story.
+        if (isStory(targetMessage)) {
           generatedMessage.set({
             storyId: targetMessage.id,
-            storyReactionEmoji: reaction.get('emoji'),
+            storyReaction: {
+              emoji: reaction.get('emoji'),
+              targetAuthorUuid: reaction.get('targetAuthorUuid'),
+              targetTimestamp: reaction.get('targetTimestamp'),
+            },
           });
 
           // Note: generatedMessage comes with an id, so we have to force this save

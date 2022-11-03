@@ -445,7 +445,7 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
   (
     message: Pick<
       MessageWithUIFieldsType,
-      'body' | 'conversationId' | 'storyReactionEmoji' | 'storyReplyContext'
+      'body' | 'conversationId' | 'storyReaction' | 'storyReplyContext'
     >,
     {
       conversationSelector,
@@ -455,7 +455,7 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
       ourConversationId?: string;
     }
   ): PropsData['storyReplyContext'] => {
-    const { storyReactionEmoji, storyReplyContext } = message;
+    const { storyReaction, storyReplyContext } = message;
     if (!storyReplyContext) {
       return undefined;
     }
@@ -474,7 +474,7 @@ export const getPropsForStoryReplyContext = createSelectorCreator(
       authorTitle,
       conversationColor,
       customColor,
-      emoji: storyReactionEmoji,
+      emoji: storyReaction?.emoji,
       isFromMe,
       rawAttachment: storyReplyContext.attachment
         ? processQuoteAttachment(storyReplyContext.attachment)
