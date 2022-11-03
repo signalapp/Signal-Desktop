@@ -1853,6 +1853,7 @@ export async function startApp(): Promise<void> {
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
+      window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
 
       connect(true);
     });
