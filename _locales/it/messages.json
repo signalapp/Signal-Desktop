@@ -3045,7 +3045,7 @@
     "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "messageformat": "{count, plural, one {1 persona} other {{count,number} persone}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
@@ -4945,7 +4945,7 @@
     "description": "Default text for username field"
   },
   "ProfileEditor--username--title": {
-    "message": "Choose your username",
+    "message": "Scegli il tuo nome utente",
     "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
@@ -4965,7 +4965,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
-    "message": "This username is not available",
+    "message": "Questo nome utente non è disponibile",
     "description": "Shown if the username is not available for registration"
   },
   "ProfileEditor--username--check-username-taken": {
@@ -4981,15 +4981,15 @@
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
-    "message": "Copied username",
+    "message": "Nome utente copiato",
     "description": "Shown when username is copied to clipboard."
   },
   "ProfileEditor--username--copied-username-link": {
-    "message": "Copied link",
+    "message": "Link copiato",
     "description": "Shown when username link is copied to clipboard."
   },
   "ProfileEditor--username--deleting-username": {
-    "message": "Deleting username",
+    "message": "Eliminazione nome utente in corso",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
@@ -5005,19 +5005,19 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copy or delete username",
+    "message": "Copia o elimina il nome utente",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
-    "message": "Copy username",
+    "message": "Copia nome utente",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "ProfileEditor--username--copy-link": {
-    "message": "Copy link",
+    "message": "Copia link",
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "Delete",
+    "message": "Elimina",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5389,7 +5389,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Le mie Storie",
+    "message": "La mia Storia",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5461,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Le mie Storie",
+    "message": "La mia Storia",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5516,12 +5516,16 @@
     "message": "Impostazioni Storia",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Le Storie scompaiono automaticamente 24 ore dopo la pubblicazione. Scegli chi può vedere le tue Storie oppure crea delle Storie da condividere solo con determinate persone o all'interno di un gruppo.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "New custom story",
+    "message": "Nuova Storia personalizzata",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Solo tu puoi vedere il nome di questa Storia.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
@@ -5533,11 +5537,11 @@
     "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "messageformat": "{count, plural, one {1 persona ha visto la Storia} other {{count,number} persone hanno visto la Storia}}",
     "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can view this story",
+    "message": "Chi può vedere questa Storia",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5569,7 +5573,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Delete custom story",
+    "message": "Elimina Storia personalizzata",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5581,7 +5585,7 @@
     "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name story",
+    "message": "Nome Storia",
     "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5601,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Tutte le Amicizie di Signal tranne...",
+    "message": "Tutte le persone tranne…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5633,11 +5637,11 @@
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
-    "message": "View Receipts",
+    "message": "Vedi conferme di lettura",
     "description": "Label of view receipts checkbox in story settings"
   },
   "StoriesSettings__view-receipts--description": {
-    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "message": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni -> Storie",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5653,35 +5657,35 @@
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__custom-story": {
-    "message": "Custom story",
+    "message": "Storia personalizzata",
     "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
   },
   "SendStoryModal__group-story": {
-    "message": "Group story",
+    "message": "Storia di gruppo",
     "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
   },
   "SendStoryModal__only-share-with": {
-    "message": "Only share with",
+    "message": "Condividi solo con",
     "description": "Subtitle for My Story when the user has chosen an exclude list"
   },
   "icu:SendStoryModal__excluded": {
-    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "messageformat": "{count, plural, one {{count,number} persona esclusa} other {{count,number} persone escluse}}",
     "description": "Label for excluded count for My Story as an exclude list"
   },
   "SendStoryModal__new": {
-    "message": "New",
+    "message": "Nuova",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-custom--title": {
-    "message": "New custom story",
+    "message": "Nuova Storia personalizzata",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-custom--name-visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Solo tu puoi vedere il nome di questa Storia.",
     "description": "Clarification below the text box to name your story distribution list"
   },
   "SendStoryModal__new-custom--description": {
-    "message": "Visible only to specific people",
+    "message": "Visibile solo a determinate persone",
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
@@ -5706,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "Privacy delle mie Storie",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Scegli le Amicizie di Signal che possono vedere le tue Storie. Puoi sempre cambiare la tua scelta nelle Impostazioni per la privacy. $learnMore$",
@@ -5777,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
+    "message": "Attiva le conferme di lettura per sapere chi ha visto le tue Storie. Per farlo, apri l'app di Signal sul tuo dispositivo mobile e vai su Impostazioni > Storie.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5805,7 +5809,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "messageformat": "Non puoi rispondere a questa Storia perché non fai più parte di questo gruppo.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
@@ -5944,6 +5948,18 @@
     "message": "Ha reagito a una Storia",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Ha reagito con $emoji$ alla tua Storia",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Hai reagito con $emoji$ alla Storia di $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Hai reagito con $emoji$ a una Storia",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Non più disponibile",
     "description": "Label for when a story is not found"
@@ -5953,23 +5969,23 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "EditUsernameModalBody__username-placeholder": {
-    "message": "Username",
+    "message": "Nome utente",
     "description": "Placeholder for the username field"
   },
   "EditUsernameModalBody__username-helper": {
-    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "message": "Grazie al nome utente le persone possono chattare con te anche senza avere il tuo numero di telefono. I nomi utenti vengono combinati con una serie di cifre per tutelare la tua privacy.",
     "description": "Shown on the edit username screen"
   },
   "EditUsernameModalBody__learn-more": {
-    "message": "Learn More",
+    "message": "Scopri di più",
     "description": "Text that open a popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__title": {
-    "message": "What is this number?",
+    "message": "Cosa rappresenta questo numero?",
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "message": "Questi numeri fanno in modo che il tuo nome utente rimanga privato, così da evitare di ricevere messaggi non desiderati. Ti consigliamo di condividere il tuo nome utente solamente con le persone e i gruppi con cui vuoi chattare. Se cambi il nome utente, riceverai una nuova serie di cifre.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {

@@ -3045,7 +3045,7 @@
     "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "messageformat": "{count, plural, one {{count,number} lid} other {{count,number} leden}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
@@ -4945,7 +4945,7 @@
     "description": "Default text for username field"
   },
   "ProfileEditor--username--title": {
-    "message": "Choose your username",
+    "message": "Kies jouw gebruikersnaam",
     "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
@@ -4965,7 +4965,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
-    "message": "This username is not available",
+    "message": "Deze gebruikersnaam is niet beschikbaar",
     "description": "Shown if the username is not available for registration"
   },
   "ProfileEditor--username--check-username-taken": {
@@ -4981,15 +4981,15 @@
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
-    "message": "Copied username",
+    "message": "Gebruikersnaam gekopieerd",
     "description": "Shown when username is copied to clipboard."
   },
   "ProfileEditor--username--copied-username-link": {
-    "message": "Copied link",
+    "message": "Link gekopieerd",
     "description": "Shown when username link is copied to clipboard."
   },
   "ProfileEditor--username--deleting-username": {
-    "message": "Deleting username",
+    "message": "Gebruikersnaam aan het verwijderen",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
@@ -5005,19 +5005,19 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copy or delete username",
+    "message": "Kopieer of verwijder gebruikersnaam",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
-    "message": "Copy username",
+    "message": "Kopieer gebruikersnaam",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "ProfileEditor--username--copy-link": {
-    "message": "Copy link",
+    "message": "Link kopiëren",
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "Delete",
+    "message": "Verwijderen",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5389,7 +5389,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mijn verhalen",
+    "message": "Mijn verhaal",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5461,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mijn verhalen",
+    "message": "Mijn verhaal",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5516,12 +5516,16 @@
     "message": "Verhaalinstellingen",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Verhalen verdwijnen automatisch na 24 uur. Kies wie jouw verhalen kan zien of maak nieuwe verhalen voor specifieke personen of groepen.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "New custom story",
+    "message": "Nieuw aangepast verhaal",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Alleen jij kunt de naam van dit verhaal zien.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
@@ -5533,11 +5537,11 @@
     "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "messageformat": "{count, plural, one {Door {count,number} persoon gezien} other {Door {count,number} personen gezien}}",
     "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can view this story",
+    "message": "Wie kan dit verhaal bekijken",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5569,7 +5573,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Delete custom story",
+    "message": "Aangepast verhaal verwijderen",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5581,7 +5585,7 @@
     "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name story",
+    "message": "Geef je verhaal een naam",
     "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5601,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Alle Signal-contacten, behalve...",
+    "message": "Iedereen behalve...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5633,11 +5637,11 @@
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
-    "message": "View Receipts",
+    "message": "Kijkbevestigingen",
     "description": "Label of view receipts checkbox in story settings"
   },
   "StoriesSettings__view-receipts--description": {
-    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "message": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Verhalen om deze instellingen te veranderen",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5653,35 +5657,35 @@
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__custom-story": {
-    "message": "Custom story",
+    "message": "Aangepast verhaal",
     "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
   },
   "SendStoryModal__group-story": {
-    "message": "Group story",
+    "message": "Groepsverhaal",
     "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
   },
   "SendStoryModal__only-share-with": {
-    "message": "Only share with",
+    "message": "Alleen delen met",
     "description": "Subtitle for My Story when the user has chosen an exclude list"
   },
   "icu:SendStoryModal__excluded": {
-    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "messageformat": "{count, plural, one {Verborgen voor {count,number}} other {Verborgen voor {count,number}}}",
     "description": "Label for excluded count for My Story as an exclude list"
   },
   "SendStoryModal__new": {
-    "message": "New",
+    "message": "Nieuw",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-custom--title": {
-    "message": "New custom story",
+    "message": "Nieuw aangepast verhaal",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-custom--name-visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Alleen jij kunt de naam van dit verhaal zien.",
     "description": "Clarification below the text box to name your story distribution list"
   },
   "SendStoryModal__new-custom--description": {
-    "message": "Visible only to specific people",
+    "message": "Alleen zichtbaar voor specifieke personen",
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
@@ -5706,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "Mijn verhaalprivacy",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Kies welke Signal-contacten je verhaal kunnen zien. Je kunt dit altijd veranderen in je privacyinstellingen. $learnMore$",
@@ -5777,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
+    "message": "Zet kijkbevestigingen aan om te zien wie jouw verhalen heeft bekeken. Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Verhalen.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5805,7 +5809,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "messageformat": "Je kunt niet reageren op dit verhaal, omdat je geen lid van deze groep meer bent.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
@@ -5944,6 +5948,18 @@
     "message": "Reageerde op een verhaal",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Heeft met $emoji$ op je verhaal gereageerd",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Jij hebt met $emoji$ gereageerd op een verhaal van $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Jij hebt met $emoji$ gereageerd op een verhaal",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Niet langer beschikbaar",
     "description": "Label for when a story is not found"
@@ -5953,23 +5969,23 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "EditUsernameModalBody__username-placeholder": {
-    "message": "Username",
+    "message": "Gebruikersnaam",
     "description": "Placeholder for the username field"
   },
   "EditUsernameModalBody__username-helper": {
-    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "message": "Gebruikersnamen zorgen ervoor dat mensen jou berichten kunnen sturen zonder jouw telefoonnummer nodig te hebben. Ze zijn gekoppeld aan een cijferset zodat jouw adres privé blijft.",
     "description": "Shown on the edit username screen"
   },
   "EditUsernameModalBody__learn-more": {
-    "message": "Learn More",
+    "message": "Meer lezen",
     "description": "Text that open a popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__title": {
-    "message": "What is this number?",
+    "message": "Wat is dit nummer?",
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "message": "Deze cijfers helpen jou je gebruikersnaam privé te houden zodat je ongewenste berichten kunt voorkomen. Deel jouw gebruikersnaam alleen met mensen en groepen waar je mee zou willen chatten. Als je je gebruikersnaam wijzigt, krijg je een nieuwe cijferset.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {

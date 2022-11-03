@@ -3045,7 +3045,7 @@
     "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
   },
   "icu:ConversationHero--members": {
-    "messageformat": "{count, plural, one {1 member} other {{count,number} members}}",
+    "messageformat": "{count, plural, one {1 medlem} other {{count,number} medlemmar}}",
     "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
@@ -4945,7 +4945,7 @@
     "description": "Default text for username field"
   },
   "ProfileEditor--username--title": {
-    "message": "Choose your username",
+    "message": "Välj ditt användarnamn",
     "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
@@ -4965,7 +4965,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
-    "message": "This username is not available",
+    "message": "Det här användarnamnet är inte tillgängligt",
     "description": "Shown if the username is not available for registration"
   },
   "ProfileEditor--username--check-username-taken": {
@@ -4981,15 +4981,15 @@
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
-    "message": "Copied username",
+    "message": "Användarnamnet kopierat",
     "description": "Shown when username is copied to clipboard."
   },
   "ProfileEditor--username--copied-username-link": {
-    "message": "Copied link",
+    "message": "Länken kopierad",
     "description": "Shown when username link is copied to clipboard."
   },
   "ProfileEditor--username--deleting-username": {
-    "message": "Deleting username",
+    "message": "Tar bort användarnamn",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
@@ -5005,19 +5005,19 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copy or delete username",
+    "message": "Kopiera eller ta bort användarnamn",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
-    "message": "Copy username",
+    "message": "Kopiera användarnamn",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "ProfileEditor--username--copy-link": {
-    "message": "Copy link",
+    "message": "Kopiera länk",
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "Delete",
+    "message": "Ta bort",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5389,7 +5389,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mina Stories",
+    "message": "Min story",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5461,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mina Stories",
+    "message": "Min story",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5516,12 +5516,16 @@
     "message": "Storyinställningar",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Stories försvinner automatiskt efter 24 timmar. Välj vilka som kan visa din story eller skapa nya stories för specifika tittare eller grupper.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "New custom story",
+    "message": "Ny anpassad story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Bara du kan se namnet på den här storyn.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
@@ -5533,11 +5537,11 @@
     "description": "(deleted 2022/10/21) More than one viewer"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {1 viewer} other {{count,number} viewers}}",
+    "messageformat": "{count, plural, one {1 tittare} other {{count,number} tittare}}",
     "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can view this story",
+    "message": "Vem kan visa den här storyn",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5569,7 +5573,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Delete custom story",
+    "message": "Ta bort anpassad story",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5581,7 +5585,7 @@
     "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name story",
+    "message": "Namnge story",
     "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5601,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Alla Signal-förbindelser utom ...",
+    "message": "Alla utom ...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5633,11 +5637,11 @@
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
-    "message": "View Receipts",
+    "message": "Visa kvitton",
     "description": "Label of view receipts checkbox in story settings"
   },
   "StoriesSettings__view-receipts--description": {
-    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "message": "Om du vill ändra den här inställningen öppnar du Signal-appen på din mobila enhet och navigerar till Inställningar > Stories",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5653,35 +5657,35 @@
     "description": "aria-label for the send story button"
   },
   "SendStoryModal__custom-story": {
-    "message": "Custom story",
+    "message": "Anpassad story",
     "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
   },
   "SendStoryModal__group-story": {
-    "message": "Group story",
+    "message": "Gruppstory",
     "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
   },
   "SendStoryModal__only-share-with": {
-    "message": "Only share with",
+    "message": "Dela endast med",
     "description": "Subtitle for My Story when the user has chosen an exclude list"
   },
   "icu:SendStoryModal__excluded": {
-    "messageformat": "{count, plural, one {1 excluded} other {{count,number} excluded}}",
+    "messageformat": "{count, plural, one {{count,number} exkluderad} other {{count,number} exkluderade}}",
     "description": "Label for excluded count for My Story as an exclude list"
   },
   "SendStoryModal__new": {
-    "message": "New",
+    "message": "Ny",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-custom--title": {
-    "message": "New custom story",
+    "message": "Ny anpassad story",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-custom--name-visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Bara du kan se namnet på den här storyn.",
     "description": "Clarification below the text box to name your story distribution list"
   },
   "SendStoryModal__new-custom--description": {
-    "message": "Visible only to specific people",
+    "message": "Synlig endast för specifika personer",
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
@@ -5705,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Mina stories-integritet",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Min story-integritet",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Välj vilka Signal-förbindelser som kan visa din story. Du kan alltid ändra dina val i integritetsinställningarna. $learnMore$",
@@ -5777,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
+    "message": "Aktivera läs kvitton för att se vem som har visat dina stories. Öppna Signal-appen på din mobila enhet och navigera till Inställningar > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5805,7 +5809,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "messageformat": "Du kan inte svara på den här storyn eftersom du inte längre är medlem i den här gruppen.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
@@ -5944,6 +5948,18 @@
     "message": "Reagerade på en story",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reagerade $emoji$ på din story",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Du reagerade $emoji$ på en story från $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Du reagerade $emoji$ på en story",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Inte längre tillgänglig",
     "description": "Label for when a story is not found"
@@ -5953,23 +5969,23 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "EditUsernameModalBody__username-placeholder": {
-    "message": "Username",
+    "message": "Användarnamn",
     "description": "Placeholder for the username field"
   },
   "EditUsernameModalBody__username-helper": {
-    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "message": "Användarnamn låter andra skicka meddelanden till dig utan att de behöver ditt telefonnummer. De kopplas till en uppsättning siffror för att hålla din adress privat.",
     "description": "Shown on the edit username screen"
   },
   "EditUsernameModalBody__learn-more": {
-    "message": "Learn More",
+    "message": "Läs mer",
     "description": "Text that open a popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__title": {
-    "message": "What is this number?",
+    "message": "Vad är det här för nummer?",
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "message": "De här siffrorna hjälper till att hålla ditt användarnamn privat så att du kan undvika oönskade meddelanden. Dela ditt användarnamn endast med de personer och grupper du vill chatta med. Om du ändrar användarnamn får du en ny uppsättning siffror.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {

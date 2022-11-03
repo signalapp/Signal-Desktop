@@ -4945,7 +4945,7 @@
     "description": "Default text for username field"
   },
   "ProfileEditor--username--title": {
-    "message": "Choose your username",
+    "message": "Pumili ng username mo",
     "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
@@ -4965,7 +4965,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
-    "message": "This username is not available",
+    "message": "Hindi available ang username na ito",
     "description": "Shown if the username is not available for registration"
   },
   "ProfileEditor--username--check-username-taken": {
@@ -4981,15 +4981,15 @@
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
-    "message": "Copied username",
+    "message": "Kinopya ang username",
     "description": "Shown when username is copied to clipboard."
   },
   "ProfileEditor--username--copied-username-link": {
-    "message": "Copied link",
+    "message": "Kinopya ang link",
     "description": "Shown when username link is copied to clipboard."
   },
   "ProfileEditor--username--deleting-username": {
-    "message": "Deleting username",
+    "message": "Dinedelete ang username",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
@@ -5005,19 +5005,19 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "Copy or delete username",
+    "message": "Kopyahin o i-delete ang username",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
-    "message": "Copy username",
+    "message": "Kopyahin ang username",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "ProfileEditor--username--copy-link": {
-    "message": "Copy link",
+    "message": "Kopyahin ang link",
     "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
   },
   "ProfileEditor--username--delete": {
-    "message": "Delete",
+    "message": "I-delete",
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
@@ -5389,7 +5389,7 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "My Stories",
+    "message": "Story Ko",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5461,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "My Stories",
+    "message": "Story Ko",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5516,12 +5516,16 @@
     "message": "Story settings",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Automatic na nawawala ang stories pagkatapos ng 24 oras. Piliin kung sinong pwedeng mag-view ng story mo o gumawa ng bagong stories na may specific viewers o groups.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "New custom story",
+    "message": "Bagong custom story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Ikaw lang ang makakakita ng pangalan ng story na ito.",
     "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
@@ -5537,7 +5541,7 @@
     "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Who can view this story",
+    "message": "Sinong pwedeng makakita ng story na ito",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5569,7 +5573,7 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Delete custom story",
+    "message": "I-delete ang custom story",
     "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
@@ -5581,7 +5585,7 @@
     "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Name story",
+    "message": "Bigyang pangalan ang story",
     "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
@@ -5601,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Lahat ng Signal connections maliban sa...",
+    "message": "Lahat maliban sa...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5637,7 +5641,7 @@
     "description": "Label of view receipts checkbox in story settings"
   },
   "StoriesSettings__view-receipts--description": {
-    "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings -> Stories",
+    "message": "Para mabago ang setting na ito, buksan ang Signal app sa iyong mobile device at pumunta sa Settings -> Stories",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
@@ -5661,7 +5665,7 @@
     "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
   },
   "SendStoryModal__only-share-with": {
-    "message": "Only share with",
+    "message": "I-share lang sa",
     "description": "Subtitle for My Story when the user has chosen an exclude list"
   },
   "icu:SendStoryModal__excluded": {
@@ -5669,19 +5673,19 @@
     "description": "Label for excluded count for My Story as an exclude list"
   },
   "SendStoryModal__new": {
-    "message": "New",
+    "message": "Bago",
     "description": "button to create a new distribution list to send story to"
   },
   "SendStoryModal__new-custom--title": {
-    "message": "New custom story",
+    "message": "Bagong custom story",
     "description": "Create a new distribution list"
   },
   "SendStoryModal__new-custom--name-visibility": {
-    "message": "Only you can see the name of this story.",
+    "message": "Ikaw lang ang makakakita ng pangalan ng story na ito.",
     "description": "Clarification below the text box to name your story distribution list"
   },
   "SendStoryModal__new-custom--description": {
-    "message": "Visible only to specific people",
+    "message": "Makikita lang ng piling users",
     "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
@@ -5705,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "My stories privacy",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Privacy ng Story Ko",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Piliin kung sino sa Signal connections mo ang pwedeng makakita ng story mo. Maaari mo itong palitan sa privacy settings anumang oras. $learnMore$",
@@ -5777,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
+    "message": "I-enable ang read receipts para makita kung sinong nag-view ng stories mo. Buksan ang Signal app sa iyong mobile device at pumunta sa Settings > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5805,7 +5809,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "messageformat": "Hindi ka pwedeng mag-reply sa story na ito dahil hindi ka na member ng group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
@@ -5944,6 +5948,18 @@
     "message": "Nag-react sa isang story",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Nag-react ng $emoji$ sa story mo",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Nag-react ka ng $emoji$ sa story ni $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Nag-react ka ng $emoji$ sa story",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Hindi na available",
     "description": "Label for when a story is not found"
@@ -5957,19 +5973,19 @@
     "description": "Placeholder for the username field"
   },
   "EditUsernameModalBody__username-helper": {
-    "message": "Usernames let others message you without needing your phone number. They are paired with a set of digits to help keep your address private.",
+    "message": "Sa pamamagitan ng usernames, pwede kang i-message ng ibang tao nang hindi nalalaman ang phone number mo. May kapares itong isang set ng digits para mapanatiling private ang address mo.",
     "description": "Shown on the edit username screen"
   },
   "EditUsernameModalBody__learn-more": {
-    "message": "Learn More",
+    "message": "Matuto pa",
     "description": "Text that open a popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__title": {
-    "message": "What is this number?",
+    "message": "Para saan ang number na ito?",
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "message": "Ang digits na ito'y nakatutulong para mapanatiling private ang username mo at para hindi ka makatanggap ng unwanted messages. I-share lamang ang iyong username sa mga tao at groups na gusto mong maka-chat. Kung magpalit ka ng username, makakakuha ka ng bagong set ng digits.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
