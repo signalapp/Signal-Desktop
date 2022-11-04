@@ -57,7 +57,10 @@ export type PropsData = {
 
   contactNameColor?: ContactNameColorType;
   errors: Array<Error>;
-  message: Omit<MessagePropsDataType, 'renderingContext'>;
+  message: Omit<
+    MessagePropsDataType,
+    'renderingContext' | 'menu' | 'contextMenu' | 'showMenu'
+  >;
   receivedAt: number;
   sentAt: number;
 
@@ -82,18 +85,11 @@ export type PropsBackboneActions = Pick<
   | 'openConversation'
   | 'openGiftBadge'
   | 'openLink'
-  | 'reactToMessage'
   | 'renderAudioAttachment'
-  | 'renderEmojiPicker'
-  | 'renderReactionPicker'
-  | 'replyToMessage'
-  | 'retryDeleteForEveryone'
-  | 'retrySend'
   | 'showContactDetail'
   | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
-  | 'showForwardMessageModal'
   | 'showVisualAttachment'
   | 'startConversation'
 >;
@@ -294,18 +290,11 @@ export class MessageDetail extends React.Component<Props> {
       openConversation,
       openGiftBadge,
       openLink,
-      reactToMessage,
       renderAudioAttachment,
-      renderEmojiPicker,
-      renderReactionPicker,
-      replyToMessage,
-      retryDeleteForEveryone,
-      retrySend,
       showContactDetail,
       showContactModal,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
-      showForwardMessageModal,
       showVisualAttachment,
       startConversation,
       theme,
@@ -331,13 +320,7 @@ export class MessageDetail extends React.Component<Props> {
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             containerWidthBreakpoint={WidthBreakpoint.Wide}
-            deleteMessage={() =>
-              log.warn('MessageDetail: deleteMessage called!')
-            }
-            deleteMessageForEveryone={() =>
-              log.warn('MessageDetail: deleteMessageForEveryone called!')
-            }
-            disableMenu
+            menu={undefined}
             disableScroll
             displayLimit={Number.MAX_SAFE_INTEGER}
             displayTapToViewMessage={displayTapToViewMessage}
@@ -355,17 +338,10 @@ export class MessageDetail extends React.Component<Props> {
             openConversation={openConversation}
             openGiftBadge={openGiftBadge}
             openLink={openLink}
-            reactToMessage={reactToMessage}
             renderAudioAttachment={renderAudioAttachment}
-            renderEmojiPicker={renderEmojiPicker}
-            renderReactionPicker={renderReactionPicker}
-            replyToMessage={replyToMessage}
-            retryDeleteForEveryone={retryDeleteForEveryone}
-            retrySend={retrySend}
             shouldCollapseAbove={false}
             shouldCollapseBelow={false}
             shouldHideMetadata={false}
-            showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
               log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}

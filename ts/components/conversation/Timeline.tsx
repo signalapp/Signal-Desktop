@@ -18,7 +18,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
-import type { PropsActions as MessageActionsType } from './Message';
+import type { PropsActions as MessageActionsType } from './TimelineMessage';
 import type { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
 import type { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
 import type { PropsActionsType as GroupV2ChangeActionsType } from './GroupV2Change';

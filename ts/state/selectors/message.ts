@@ -16,6 +16,7 @@ import type {
 
 import type { TimelineItemType } from '../../components/conversation/TimelineItem';
 import type { PropsData } from '../../components/conversation/Message';
+import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage';
 import { TextDirection } from '../../components/conversation/Message';
 import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
 import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
@@ -113,7 +114,7 @@ type FormattedContact = Partial<ConversationType> &
     | 'type'
     | 'unblurredAvatarPath'
   >;
-export type PropsForMessage = Omit<PropsData, 'interactionMode'>;
+export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 type PropsForUnsupportedMessage = {
   canProcessNow: boolean;
   contact: FormattedContact;
@@ -761,46 +762,45 @@ function getTextDirection(body?: string): TextDirection {
 export const getPropsForMessage: (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
-) => Omit<PropsForMessage, 'renderingContext'> = createSelectorCreator(
-  memoizeByRoot
-)(
-  // `memoizeByRoot` requirement
-  identity,
+) => Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> =
+  createSelectorCreator(memoizeByRoot)(
+    // `memoizeByRoot` requirement
+    identity,
 
-  getAttachmentsForMessage,
-  processBodyRanges,
-  getCachedAuthorForMessage,
-  getPreviewsForMessage,
-  getReactionsForMessage,
-  getPropsForQuote,
-  getPropsForStoryReplyContext,
-  getTextAttachment,
-  getShallowPropsForMessage,
-  (
-    _,
-    attachments: Array<AttachmentType>,
-    bodyRanges: BodyRangesType | undefined,
-    author: PropsData['author'],
-    previews: Array<LinkPreviewType>,
-    reactions: PropsData['reactions'],
-    quote: PropsData['quote'],
-    storyReplyContext: PropsData['storyReplyContext'],
-    textAttachment: PropsData['textAttachment'],
-    shallowProps: ShallowPropsType
-  ): Omit<PropsForMessage, 'renderingContext'> => {
-    return {
-      attachments,
-      author,
-      bodyRanges,
-      previews,
-      quote,
-      reactions,
-      storyReplyContext,
-      textAttachment,
-      ...shallowProps,
-    };
-  }
-);
+    getAttachmentsForMessage,
+    processBodyRanges,
+    getCachedAuthorForMessage,
+    getPreviewsForMessage,
+    getReactionsForMessage,
+    getPropsForQuote,
+    getPropsForStoryReplyContext,
+    getTextAttachment,
+    getShallowPropsForMessage,
+    (
+      _,
+      attachments: Array<AttachmentType>,
+      bodyRanges: BodyRangesType | undefined,
+      author: PropsData['author'],
+      previews: Array<LinkPreviewType>,
+      reactions: PropsData['reactions'],
+      quote: PropsData['quote'],
+      storyReplyContext: PropsData['storyReplyContext'],
+      textAttachment: PropsData['textAttachment'],
+      shallowProps: ShallowPropsType
+    ): Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> => {
+      return {
+        attachments,
+        author,
+        bodyRanges,
+        previews,
+        quote,
+        reactions,
+        storyReplyContext,
+        textAttachment,
+        ...shallowProps,
+      };
+    }
+  );
 
 // This is getPropsForMessage but wrapped in reselect's createSelector so that
 // we can derive all of the selector dependencies that getPropsForMessage

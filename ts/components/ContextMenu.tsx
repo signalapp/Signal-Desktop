@@ -24,10 +24,11 @@ export type ContextMenuOptionType<T> = Readonly<{
 }>;
 
 type RenderButtonProps = Readonly<{
-  openMenu: (() => void) | ((ev: React.MouseEvent) => void);
+  openMenu: (ev: React.MouseEvent) => void;
   onKeyDown: (ev: KeyboardEvent) => void;
   isMenuShowing: boolean;
   ref: React.Ref<HTMLButtonElement> | null;
+  menuNode: ReactNode;
 }>;
 
 export type PropsType<T> = Readonly<{
@@ -38,7 +39,7 @@ export type PropsType<T> = Readonly<{
   menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
   moduleClassName?: string;
   button?: () => JSX.Element;
-  onClick?: () => unknown;
+  onClick?: (ev: React.MouseEvent) => unknown;
   onMenuShowingChanged?: (value: boolean) => unknown;
   popperOptions?: Pick<Options, 'placement' | 'strategy'>;
   theme?: Theme;
@@ -260,59 +261,60 @@ export function ContextMenu<T>({
     );
   }
 
-  let buttonNode: ReactNode;
+  const menuNode = isMenuShowing ? (
+    <div className={theme ? themeClassName(theme) : undefined}>
+      <div
+        className={classNames(
+          getClassName('__popper'),
+          menuOptions.length === 1
+            ? getClassName('__popper--single-item')
+            : undefined
+        )}
+        ref={setPopperElement}
+        style={styles.popper}
+        {...attributes.popper}
+      >
+        {title && <div className={getClassName('__title')}>{title}</div>}
+        {optionElements}
+      </div>
+    </div>
+  ) : undefined;
+
+  let buttonNode: JSX.Element;
+
   if (typeof children === 'function') {
     buttonNode = (children as (props: RenderButtonProps) => JSX.Element)({
       openMenu: onClick || handleClick,
       onKeyDown: handleKeyDown,
       isMenuShowing,
       ref: setReferenceElement,
+      menuNode,
     });
   } else {
     buttonNode = (
-      <button
-        aria-label={ariaLabel || i18n('ContextMenu--button')}
+      <div
         className={classNames(
-          getClassName('__button'),
-          isMenuShowing ? getClassName('__button--active') : undefined
+          getClassName('__container'),
+          theme ? themeClassName(theme) : undefined
         )}
-        onClick={onClick || handleClick}
-        onContextMenu={handleClick}
-        onKeyDown={handleKeyDown}
-        ref={setReferenceElement}
-        type="button"
       >
-        {children}
-      </button>
+        <button
+          aria-label={ariaLabel || i18n('ContextMenu--button')}
+          className={classNames(
+            getClassName('__button'),
+            isMenuShowing ? getClassName('__button--active') : undefined
+          )}
+          onClick={onClick || handleClick}
+          onContextMenu={handleClick}
+          onKeyDown={handleKeyDown}
+          ref={setReferenceElement}
+          type="button"
+        >
+          {children}
+        </button>
+        {menuNode}
+      </div>
     );
   }
-
-  return (
-    <div
-      className={classNames(
-        getClassName('__container'),
-        theme ? themeClassName(theme) : undefined
-      )}
-    >
-      {buttonNode}
-      {isMenuShowing && (
-        <div className={theme ? themeClassName(theme) : undefined}>
-          <div
-            className={classNames(
-              getClassName('__popper'),
-              menuOptions.length === 1
-                ? getClassName('__popper--single-item')
-                : undefined
-            )}
-            ref={setPopperElement}
-            style={styles.popper}
-            {...attributes.popper}
-          >
-            {title && <div className={getClassName('__title')}>{title}</div>}
-            {optionElements}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  return buttonNode;
 }

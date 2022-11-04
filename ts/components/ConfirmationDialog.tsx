@@ -32,7 +32,7 @@ export type OwnProps = Readonly<{
   onClose: () => unknown;
   onTopOfEverything?: boolean;
   theme?: Theme;
-  title?: string | React.ReactNode;
+  title?: React.ReactNode;
 }>;
 
 export type Props = OwnProps;

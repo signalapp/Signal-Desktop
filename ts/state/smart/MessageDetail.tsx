@@ -11,8 +11,6 @@ import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
-import { renderEmojiPicker } from './renderEmojiPicker';
-import { renderReactionPicker } from './renderReactionPicker';
 import { getContactNameColorSelector } from '../selectors/conversations';
 import { markViewed } from '../ducks/conversations';
 
@@ -48,15 +46,10 @@ const mapStateToProps = (
     openConversation,
     openGiftBadge,
     openLink,
-    reactToMessage,
-    replyToMessage,
-    retryDeleteForEveryone,
-    retrySend,
     showContactDetail,
     showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
-    showForwardMessageModal,
     showVisualAttachment,
     startConversation,
   } = props;
@@ -93,18 +86,11 @@ const mapStateToProps = (
     openConversation,
     openGiftBadge,
     openLink,
-    reactToMessage,
     renderAudioAttachment,
-    renderEmojiPicker,
-    renderReactionPicker,
-    replyToMessage,
-    retryDeleteForEveryone,
-    retrySend,
     showContactDetail,
     showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
-    showForwardMessageModal,
     showVisualAttachment,
     startConversation,
   };

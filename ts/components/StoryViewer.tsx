@@ -96,6 +96,8 @@ export type PropsType = {
   storyViewMode: StoryViewModeType;
   toggleHasAllStoriesMuted: () => unknown;
   viewStory: ViewStoryActionCreatorType;
+  deleteGroupStoryReply: (id: string) => void;
+  deleteGroupStoryReplyForEveryone: (id: string) => void;
 };
 
 const CAPTION_BUFFER = 20;
@@ -141,6 +143,8 @@ export const StoryViewer = ({
   storyViewMode,
   toggleHasAllStoriesMuted,
   viewStory,
+  deleteGroupStoryReply,
+  deleteGroupStoryReplyForEveryone,
 }: PropsType): JSX.Element => {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
@@ -829,6 +833,8 @@ export const StoryViewer = ({
             views={views}
             viewTarget={currentViewTarget}
             onChangeViewTarget={setCurrentViewTarget}
+            deleteGroupStoryReply={deleteGroupStoryReply}
+            deleteGroupStoryReplyForEveryone={deleteGroupStoryReplyForEveryone}
           />
         )}
         {hasConfirmHideStory && (

@@ -7,10 +7,7 @@ import { GlobalAudioContext } from '../../components/GlobalAudioContext';
 import type { Props as MessageAudioProps } from './MessageAudio';
 import { SmartMessageAudio } from './MessageAudio';
 
-type AudioAttachmentProps = Omit<
-  MessageAudioProps,
-  'computePeaks' | 'buttonRef'
->;
+type AudioAttachmentProps = Omit<MessageAudioProps, 'computePeaks'>;
 
 export function renderAudioAttachment(
   props: AudioAttachmentProps

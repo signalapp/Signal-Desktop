@@ -199,6 +199,8 @@ export async function sendNormalMessage(
       }
 
       // We're sending to Note to Self or a 'lonely group' with just us in it
+      // or sending a story to a group where all other users don't have the stories
+      // capabilities (effectively a 'lonely group' in the context of stories)
       log.info('sending sync message only');
       const dataMessage = await messaging.getDataMessage({
         attachments,
@@ -214,7 +216,7 @@ export async function sendNormalMessage(
         quote,
         recipients: allRecipientIdentifiers,
         sticker,
-        // No storyContext; you can't reply to your own stories
+        storyContext,
         timestamp: messageTimestamp,
         reaction,
       });

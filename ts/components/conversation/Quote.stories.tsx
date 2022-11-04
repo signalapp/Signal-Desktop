@@ -8,8 +8,9 @@ import { action } from '@storybook/addon-actions';
 
 import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
-import type { Props as MessagesProps } from './Message';
-import { Message, TextDirection } from './Message';
+import type { Props as TimelineMessagesProps } from './TimelineMessage';
+import { TimelineMessage } from './TimelineMessage';
+import { TextDirection } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -73,7 +74,7 @@ export default {
   },
 } as Meta;
 
-const defaultMessageProps: MessagesProps = {
+const defaultMessageProps: TimelineMessagesProps = {
   author: getDefaultConversation({
     id: 'some-id',
     title: 'Person X',
@@ -103,7 +104,7 @@ const defaultMessageProps: MessagesProps = {
   getPreferredBadge: () => undefined,
   i18n,
   id: 'messageId',
-  renderingContext: 'storybook',
+  // renderingContext: 'storybook',
   interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,
@@ -177,9 +178,9 @@ const renderInMessage = ({
 
   return (
     <div style={{ overflow: 'hidden' }}>
-      <Message {...messageProps} />
+      <TimelineMessage {...messageProps} />
       <br />
-      <Message {...messageProps} direction="outgoing" />
+      <TimelineMessage {...messageProps} direction="outgoing" />
     </div>
   );
 };

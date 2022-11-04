@@ -3,11 +3,10 @@
 
 import type { ReactNode, RefObject } from 'react';
 import React from 'react';
-import ReactDOM, { createPortal } from 'react-dom';
+import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
 import { drop, groupBy, orderBy, take, unescape } from 'lodash';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 
@@ -17,15 +16,11 @@ import type {
   InteractionModeType,
 } from '../../state/ducks/conversations';
 import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
-import type { TimelineItemType } from './TimelineItem';
 import type { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar, AvatarSize } from '../Avatar';
 import { AvatarSpacer } from '../AvatarSpacer';
 import { Spinner } from '../Spinner';
-import {
-  doesMessageBodyOverflow,
-  MessageBodyReadMore,
-} from './MessageBodyReadMore';
+import { MessageBodyReadMore } from './MessageBodyReadMore';
 import { MessageMetadata } from './MessageMetadata';
 import { MessageTextMetadataSpacer } from './MessageTextMetadataSpacer';
 import { ImageGrid } from './ImageGrid';
@@ -37,16 +32,14 @@ import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
 import { ReactionViewer } from './ReactionViewer';
-import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
-import { WidthBreakpoint } from '../_util';
+import type { WidthBreakpoint } from '../_util';
 import { OutgoingGiftBadgeModal } from '../OutgoingGiftBadgeModal';
 import * as log from '../../logging/log';
 import { StoryViewModeType } from '../../types/Stories';
-
 import type { AttachmentType } from '../../types/Attachment';
 import {
   canDisplayImage,
@@ -84,20 +77,12 @@ import type {
 import { createRefMerger } from '../../util/refMerger';
 import { emojiToData, getEmojiCount } from '../emoji/lib';
 import { isEmojiOnlyText } from '../../util/isEmojiOnlyText';
-import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
-import { offsetDistanceModifier } from '../../util/popperUtil';
-import * as KeyboardLayout from '../../services/keyboardLayout';
-import { StopPropagation } from '../StopPropagation';
 import type { UUIDStringType } from '../../types/UUID';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-
-type Trigger = {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-};
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -270,37 +255,30 @@ export type PropsData = {
   expirationTimestamp?: number;
 
   reactions?: ReactionViewerProps['reactions'];
-  selectedReaction?: string;
 
   deletedForEveryone?: boolean;
 
-  canRetry: boolean;
-  canRetryDeleteForEveryone: boolean;
-  canReact: boolean;
-  canReply: boolean;
-  canDownload: boolean;
   canDeleteForEveryone: boolean;
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
   bodyRanges?: BodyRangesType;
+
+  menu: JSX.Element | undefined;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 };
 
 export type PropsHousekeeping = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
-  disableMenu?: boolean;
   disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
-  item?: TimelineItemType;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
-  renderReactionPicker: (
-    props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
+  onContextMenu?: (event: React.MouseEvent<HTMLDivElement>) => void;
   theme: ThemeType;
 };
 
@@ -310,16 +288,6 @@ export type PropsActions = {
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  reactToMessage: (
-    id: string,
-    { emoji, remove }: { emoji: string; remove: boolean }
-  ) => void;
-  replyToMessage: (id: string) => void;
-  retryDeleteForEveryone: (id: string) => void;
-  retrySend: (id: string) => void;
-  showForwardMessageModal: (id: string) => void;
-  deleteMessage: (id: string) => void;
-  deleteMessageForEveryone: (id: string) => void;
   showMessageDetail: (id: string) => void;
 
   startConversation: (e164: string, uuid: UUIDStringType) => void;
@@ -366,10 +334,7 @@ export type PropsActions = {
   viewStory: ViewStoryActionCreatorType;
 };
 
-export type Props = PropsData &
-  PropsHousekeeping &
-  PropsActions &
-  Pick<ReactionPickerProps, 'renderEmojiPicker'>;
+export type Props = PropsData & PropsHousekeeping & PropsActions;
 
 type State = {
   metadataWidth: number;
@@ -383,8 +348,6 @@ type State = {
 
   reactionViewerRoot: HTMLDivElement | null;
   reactionViewerOutsideClickDestructor?: () => void;
-  reactionPickerRoot: HTMLDivElement | null;
-  reactionPickerOutsideClickDestructor?: () => void;
 
   giftBadgeCounter: number | null;
   showOutgoingGiftBadgeModal: boolean;
@@ -393,8 +356,6 @@ type State = {
 };
 
 export class Message extends React.PureComponent<Props, State> {
-  public menuTriggerRef: Trigger | undefined;
-
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
   public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
@@ -428,7 +389,6 @@ export class Message extends React.PureComponent<Props, State> {
       prevSelectedCounter: props.isSelectedCounter,
 
       reactionViewerRoot: null,
-      reactionPickerRoot: null,
 
       giftBadgeCounter: null,
       showOutgoingGiftBadgeModal: false,
@@ -466,25 +426,12 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(reactions && reactions.length);
   }
 
-  public captureMenuTrigger = (triggerRef: Trigger): void => {
-    this.menuTriggerRef = triggerRef;
-  };
+  public handleFocus = (): void => {
+    const { interactionMode, isSelected } = this.props;
 
-  public showMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
-    if (this.menuTriggerRef) {
-      this.menuTriggerRef.handleContextClick(event);
+    if (interactionMode === 'keyboard' && !isSelected) {
+      this.setSelected();
     }
-  };
-
-  public showContextMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const selection = window.getSelection();
-    if (selection && !selection.isCollapsed) {
-      return;
-    }
-    if (event.target instanceof HTMLAnchorElement) {
-      return;
-    }
-    this.showMenu(event);
   };
 
   public handleImageError = (): void => {
@@ -495,14 +442,6 @@ export class Message extends React.PureComponent<Props, State> {
     this.setState({
       imageBroken: true,
     });
-  };
-
-  public handleFocus = (): void => {
-    const { interactionMode, isSelected } = this.props;
-
-    if (interactionMode === 'keyboard' && !isSelected) {
-      this.setSelected();
-    }
   };
 
   public setSelected = (): void => {
@@ -559,7 +498,6 @@ export class Message extends React.PureComponent<Props, State> {
     clearTimeoutIfNecessary(this.deleteForEveryoneTimeout);
     clearTimeoutIfNecessary(this.giftBadgeInterval);
     this.toggleReactionViewer(true);
-    this.toggleReactionPicker(true);
   }
 
   public override componentDidUpdate(prevProps: Readonly<Props>): void {
@@ -709,12 +647,6 @@ export class Message extends React.PureComponent<Props, State> {
   private getTimeRemainingForDeleteForEveryone(): number {
     const { timestamp } = this.props;
     return Math.max(timestamp - Date.now() + THREE_HOURS, 0);
-  }
-
-  private canDeleteForEveryone(): boolean {
-    const { canDeleteForEveryone } = this.props;
-    const { hasDeleteForEveryoneTimerExpired } = this.state;
-    return canDeleteForEveryone && !hasDeleteForEveryoneTimerExpired;
   }
 
   private startDeleteForEveryoneTimerIfApplicable(): void {
@@ -917,7 +849,6 @@ export class Message extends React.PureComponent<Props, State> {
       theme,
       timestamp,
     } = this.props;
-
     const { imageBroken } = this.state;
 
     const collapseMetadata =
@@ -1814,382 +1745,6 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderMenu(triggerId: string): ReactNode {
-    const {
-      attachments,
-      canDownload,
-      canReact,
-      canReply,
-      direction,
-      disableMenu,
-      i18n,
-      id,
-      isSticker,
-      isTapToView,
-      reactToMessage,
-      renderEmojiPicker,
-      renderReactionPicker,
-      replyToMessage,
-      selectedReaction,
-    } = this.props;
-
-    if (disableMenu) {
-      return null;
-    }
-
-    const { reactionPickerRoot } = this.state;
-
-    const multipleAttachments = attachments && attachments.length > 1;
-    const firstAttachment = attachments && attachments[0];
-
-    const downloadButton =
-      !isSticker &&
-      !multipleAttachments &&
-      !isTapToView &&
-      firstAttachment &&
-      !firstAttachment.pending ? (
-        // This a menu meant for mouse use only
-        // eslint-disable-next-line max-len
-        // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-        <div
-          onClick={this.openGenericAttachment}
-          role="button"
-          aria-label={i18n('downloadAttachment')}
-          className={classNames(
-            'module-message__buttons__download',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      ) : null;
-
-    const reactButton = (
-      <Reference>
-        {({ ref: popperRef }) => {
-          // Only attach the popper reference to the reaction button if it is
-          //   visible (it is hidden when the timeline is narrow)
-          const maybePopperRef = this.isWindowWidthNotNarrow()
-            ? popperRef
-            : undefined;
-
-          return (
-            // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-            <div
-              ref={maybePopperRef}
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                this.toggleReactionPicker();
-              }}
-              role="button"
-              className="module-message__buttons__react"
-              aria-label={i18n('reactToMessage')}
-            />
-          );
-        }}
-      </Reference>
-    );
-
-    const replyButton = (
-      // This a menu meant for mouse use only
-      // eslint-disable-next-line max-len
-      // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-      <div
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          replyToMessage(id);
-        }}
-        // This a menu meant for mouse use only
-        role="button"
-        aria-label={i18n('replyToMessage')}
-        className={classNames(
-          'module-message__buttons__reply',
-          `module-message__buttons__download--${direction}`
-        )}
-      />
-    );
-
-    // This a menu meant for mouse use only
-    /* eslint-disable jsx-a11y/interactive-supports-focus */
-    /* eslint-disable jsx-a11y/click-events-have-key-events */
-    const menuButton = (
-      <Reference>
-        {({ ref: popperRef }) => {
-          // Only attach the popper reference to the collapsed menu button if the reaction
-          //   button is not visible (it is hidden when the timeline is narrow)
-          const maybePopperRef = !this.isWindowWidthNotNarrow()
-            ? popperRef
-            : undefined;
-
-          return (
-            <StopPropagation className="module-message__buttons__menu--container">
-              <ContextMenuTrigger
-                id={triggerId}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ref={this.captureMenuTrigger as any}
-              >
-                <div
-                  ref={maybePopperRef}
-                  role="button"
-                  onClick={this.showMenu}
-                  aria-label={i18n('messageContextMenuButton')}
-                  className={classNames(
-                    'module-message__buttons__menu',
-                    `module-message__buttons__download--${direction}`
-                  )}
-                />
-              </ContextMenuTrigger>
-            </StopPropagation>
-          );
-        }}
-      </Reference>
-    );
-    /* eslint-enable jsx-a11y/interactive-supports-focus */
-    /* eslint-enable jsx-a11y/click-events-have-key-events */
-
-    return (
-      <Manager>
-        <div
-          className={classNames(
-            'module-message__buttons',
-            `module-message__buttons--${direction}`
-          )}
-        >
-          {this.isWindowWidthNotNarrow() && (
-            <>
-              {canReact ? reactButton : null}
-              {canDownload ? downloadButton : null}
-              {canReply ? replyButton : null}
-            </>
-          )}
-          {menuButton}
-        </div>
-        {reactionPickerRoot &&
-          createPortal(
-            <Popper
-              placement="top"
-              modifiers={[
-                offsetDistanceModifier(4),
-                this.popperPreventOverflowModifier(),
-              ]}
-            >
-              {({ ref, style }) =>
-                renderReactionPicker({
-                  ref,
-                  style,
-                  selected: selectedReaction,
-                  onClose: this.toggleReactionPicker,
-                  onPick: emoji => {
-                    this.toggleReactionPicker(true);
-                    reactToMessage(id, {
-                      emoji,
-                      remove: emoji === selectedReaction,
-                    });
-                  },
-                  renderEmojiPicker,
-                })
-              }
-            </Popper>,
-            reactionPickerRoot
-          )}
-      </Manager>
-    );
-  }
-
-  public renderContextMenu(triggerId: string): JSX.Element {
-    const {
-      attachments,
-      canDownload,
-      contact,
-      canReact,
-      canReply,
-      canRetry,
-      canRetryDeleteForEveryone,
-      deleteMessage,
-      deleteMessageForEveryone,
-      deletedForEveryone,
-      giftBadge,
-      i18n,
-      id,
-      isSticker,
-      isTapToView,
-      replyToMessage,
-      retrySend,
-      retryDeleteForEveryone,
-      showForwardMessageModal,
-      showMessageDetail,
-      text,
-    } = this.props;
-
-    const canForward =
-      !isTapToView && !deletedForEveryone && !giftBadge && !contact;
-    const multipleAttachments = attachments && attachments.length > 1;
-
-    const shouldShowAdditional =
-      doesMessageBodyOverflow(text || '') || !this.isWindowWidthNotNarrow();
-
-    const menu = (
-      <ContextMenu id={triggerId}>
-        {canDownload &&
-        shouldShowAdditional &&
-        !isSticker &&
-        !multipleAttachments &&
-        !isTapToView &&
-        attachments &&
-        attachments[0] ? (
-          <MenuItem
-            attributes={{
-              className:
-                'module-message__context--icon module-message__context__download',
-            }}
-            onClick={this.openGenericAttachment}
-          >
-            {i18n('downloadAttachment')}
-          </MenuItem>
-        ) : null}
-        {shouldShowAdditional ? (
-          <>
-            {canReply && (
-              <MenuItem
-                attributes={{
-                  className:
-                    'module-message__context--icon module-message__context__reply',
-                }}
-                onClick={(event: React.MouseEvent) => {
-                  event.stopPropagation();
-                  event.preventDefault();
-
-                  replyToMessage(id);
-                }}
-              >
-                {i18n('replyToMessage')}
-              </MenuItem>
-            )}
-            {canReact && (
-              <MenuItem
-                attributes={{
-                  className:
-                    'module-message__context--icon module-message__context__react',
-                }}
-                onClick={(event: React.MouseEvent) => {
-                  event.stopPropagation();
-                  event.preventDefault();
-
-                  this.toggleReactionPicker();
-                }}
-              >
-                {i18n('reactToMessage')}
-              </MenuItem>
-            )}
-          </>
-        ) : null}
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__more-info',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            showMessageDetail(id);
-          }}
-        >
-          {i18n('moreInfo')}
-        </MenuItem>
-        {canRetry ? (
-          <MenuItem
-            attributes={{
-              className:
-                'module-message__context--icon module-message__context__retry-send',
-            }}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
-
-              retrySend(id);
-            }}
-          >
-            {i18n('retrySend')}
-          </MenuItem>
-        ) : null}
-        {canRetryDeleteForEveryone ? (
-          <MenuItem
-            attributes={{
-              className:
-                'module-message__context--icon module-message__context__delete-message-for-everyone',
-            }}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
-
-              retryDeleteForEveryone(id);
-            }}
-          >
-            {i18n('retryDeleteForEveryone')}
-          </MenuItem>
-        ) : null}
-        {canForward ? (
-          <MenuItem
-            attributes={{
-              className:
-                'module-message__context--icon module-message__context__forward-message',
-            }}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
-
-              showForwardMessageModal(id);
-            }}
-          >
-            {i18n('forwardMessage')}
-          </MenuItem>
-        ) : null}
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__delete-message',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            deleteMessage(id);
-          }}
-        >
-          {i18n('deleteMessage')}
-        </MenuItem>
-        {this.canDeleteForEveryone() ? (
-          <MenuItem
-            attributes={{
-              className:
-                'module-message__context--icon module-message__context__delete-message-for-everyone',
-            }}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              event.preventDefault();
-
-              deleteMessageForEveryone(id);
-            }}
-          >
-            {i18n('deleteMessageForEveryone')}
-          </MenuItem>
-        ) : null}
-      </ContextMenu>
-    );
-
-    return ReactDOM.createPortal(menu, document.body);
-  }
-
-  private isWindowWidthNotNarrow(): boolean {
-    const { containerWidthBreakpoint } = this.props;
-    return containerWidthBreakpoint !== WidthBreakpoint.Narrow;
-  }
-
   public getWidth(): number | undefined {
     const { attachments, giftBadge, isSticker, previews } = this.props;
 
@@ -2413,42 +1968,6 @@ export class Message extends React.PureComponent<Props, State> {
         return {
           reactionViewerRoot: root,
           reactionViewerOutsideClickDestructor,
-        };
-      }
-
-      return null;
-    });
-  };
-
-  public toggleReactionPicker = (onlyRemove = false): void => {
-    this.setState(oldState => {
-      const { reactionPickerRoot } = oldState;
-      if (reactionPickerRoot) {
-        document.body.removeChild(reactionPickerRoot);
-
-        oldState.reactionPickerOutsideClickDestructor?.();
-
-        return {
-          reactionPickerRoot: null,
-          reactionPickerOutsideClickDestructor: undefined,
-        };
-      }
-
-      if (!onlyRemove) {
-        const root = document.createElement('div');
-        document.body.appendChild(root);
-
-        const reactionPickerOutsideClickDestructor = handleOutsideClick(
-          () => {
-            this.toggleReactionPicker(true);
-            return true;
-          },
-          { containerElements: [root], name: 'Message.reactionPicker' }
-        );
-
-        return {
-          reactionPickerRoot: root,
-          reactionPickerOutsideClickDestructor,
         };
       }
 
@@ -2844,28 +2363,6 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
-    // Do not allow reactions to error messages
-    const { canReact } = this.props;
-
-    const key = KeyboardLayout.lookup(event.nativeEvent);
-
-    if (
-      (key === 'E' || key === 'e') &&
-      (event.metaKey || event.ctrlKey) &&
-      event.shiftKey &&
-      canReact
-    ) {
-      this.toggleReactionPicker();
-    }
-
-    if (event.key !== 'Enter' && event.key !== 'Space') {
-      return;
-    }
-
-    this.handleOpen(event);
-  };
-
   public handleClick = (event: React.MouseEvent): void => {
     // We don't want clicks on body text to result in the 'default action' for the message
     const { text } = this.props;
@@ -2888,6 +2385,8 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
+      onContextMenu,
+      onKeyDown,
       text,
     } = this.props;
     const { isSelected } = this.state;
@@ -2947,9 +2446,9 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={containerClassnames}
           style={containerStyles}
-          onContextMenu={this.showContextMenu}
+          onContextMenu={onContextMenu}
           role="row"
-          onKeyDown={this.handleKeyDown}
+          onKeyDown={onKeyDown}
           onClick={this.handleClick}
           tabIndex={-1}
         >
@@ -2963,20 +2462,15 @@ export class Message extends React.PureComponent<Props, State> {
 
   public override render(): JSX.Element | null {
     const {
-      author,
       attachments,
       direction,
-      id,
       isSticker,
       shouldCollapseAbove,
       shouldCollapseBelow,
-      timestamp,
+      menu,
+      onKeyDown,
     } = this.props;
-    const { expired, expiring, imageBroken, isSelected } = this.state;
-
-    // This id is what connects our triple-dot click with our associated pop-up menu.
-    //   It needs to be unique.
-    const triggerId = String(id || `${author.id}-${timestamp}`);
+    const { expired, expiring, isSelected, imageBroken } = this.state;
 
     if (expired) {
       return null;
@@ -3000,15 +2494,14 @@ export class Message extends React.PureComponent<Props, State> {
         // We need to have a role because screenreaders need to be able to focus here to
         //   read the message, but we can't be a button; that would break inner buttons.
         role="row"
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={onKeyDown}
         onFocus={this.handleFocus}
         ref={this.focusRef}
       >
         {this.renderError()}
         {this.renderAvatar()}
         {this.renderContainer()}
-        {this.renderMenu(triggerId)}
-        {this.renderContextMenu(triggerId)}
+        {menu}
       </div>
     );
   }

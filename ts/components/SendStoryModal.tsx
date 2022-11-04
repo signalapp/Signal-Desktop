@@ -646,17 +646,20 @@ export const SendStoryModal = ({
             }}
             theme={Theme.Dark}
           >
-            {({ openMenu, onKeyDown, ref }) => (
-              <Button
-                ref={ref}
-                className="SendStoryModal__new-story__button"
-                variant={ButtonVariant.Secondary}
-                size={ButtonSize.Small}
-                onClick={openMenu}
-                onKeyDown={onKeyDown}
-              >
-                {i18n('SendStoryModal__new')}
-              </Button>
+            {({ openMenu, onKeyDown, ref, menuNode }) => (
+              <div>
+                <Button
+                  ref={ref}
+                  className="SendStoryModal__new-story__button"
+                  variant={ButtonVariant.Secondary}
+                  size={ButtonSize.Small}
+                  onClick={openMenu}
+                  onKeyDown={onKeyDown}
+                >
+                  {i18n('SendStoryModal__new')}
+                </Button>
+                {menuNode}
+              </div>
             )}
           </ContextMenu>
         </div>

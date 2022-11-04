@@ -14,7 +14,10 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
-export type ForwardMessagePropsType = Omit<PropsForMessage, 'renderingContext'>;
+export type ForwardMessagePropsType = Omit<
+  PropsForMessage,
+  'renderingContext' | 'menu' | 'contextMenu'
+>;
 export type SafetyNumberChangedBlockingDataType = Readonly<{
   promiseUuid: UUIDStringType;
   source?: SafetyNumberChangeSource;

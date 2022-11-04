@@ -28,6 +28,7 @@ import { ToastReactionFailed } from '../../components/ToastReactionFailed';
 import { assertDev } from '../../util/assert';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
+import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
 import { markViewed } from '../../services/MessageUpdater';
@@ -131,6 +132,7 @@ const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
 const STORY_CHANGED = 'stories/STORY_CHANGED';
 const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
 const VIEW_STORY = 'stories/VIEW_STORY';
+const STORY_REPLY_DELETED = 'stories/STORY_REPLY_DELETED';
 const REMOVE_ALL_STORIES = 'stories/REMOVE_ALL_STORIES';
 const SET_ADD_STORY_DATA = 'stories/SET_ADD_STORY_DATA';
 const SET_STORY_SENDING = 'stories/SET_STORY_SENDING';
@@ -188,6 +190,11 @@ type ViewStoryActionType = {
   payload: SelectedStoryDataType | undefined;
 };
 
+type StoryReplyDeletedActionType = {
+  type: typeof STORY_REPLY_DELETED;
+  payload: string;
+};
+
 type RemoveAllStoriesActionType = {
   type: typeof REMOVE_ALL_STORIES;
 };
@@ -215,11 +222,39 @@ export type StoriesActionType =
   | StoryChangedActionType
   | ToggleViewActionType
   | ViewStoryActionType
+  | StoryReplyDeletedActionType
   | RemoveAllStoriesActionType
   | SetAddStoryDataType
   | SetStorySendingType;
 
 // Action Creators
+
+function deleteGroupStoryReply(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, StoryReplyDeletedActionType> {
+  return async dispatch => {
+    await window.Signal.Data.removeMessage(messageId);
+    dispatch({
+      type: STORY_REPLY_DELETED,
+      payload: messageId,
+    });
+  };
+}
+
+function deleteGroupStoryReplyForEveryone(
+  replyMessageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    await doDeleteGroupStoryReplyForEveryone(replyMessageId);
+
+    // the call above re-uses the sync-message processing code to update the UI
+    // we don't need to do anything here
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
 
 function deleteStoryForEveryone(
   story: StoryViewType
@@ -1211,6 +1246,8 @@ export const actions = {
   verifyStoryListMembers,
   viewUserStories,
   viewStory,
+  deleteGroupStoryReply,
+  deleteGroupStoryReplyForEveryone,
   setAddStoryData,
   setStoriesDisabled,
   setStorySending,
@@ -1250,6 +1287,20 @@ export function reducer(
       selectedStoryData: isShowingStoriesView
         ? undefined
         : state.selectedStoryData,
+    };
+  }
+
+  if (action.type === STORY_REPLY_DELETED) {
+    return {
+      ...state,
+      replyState: state.replyState
+        ? {
+            ...state.replyState,
+            replies: state.replyState.replies.filter(
+              reply => reply.id !== action.payload
+            ),
+          }
+        : undefined,
     };
   }
 

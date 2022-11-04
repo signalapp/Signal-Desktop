@@ -11,8 +11,10 @@ import type { Meta, Story } from '@storybook/react';
 import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
-import type { Props, AudioAttachmentProps } from './Message';
-import { GiftBadgeStates, Message, TextDirection } from './Message';
+import type { AudioAttachmentProps } from './Message';
+import type { Props } from './TimelineMessage';
+import { TimelineMessage } from './TimelineMessage';
+import { GiftBadgeStates, TextDirection } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -61,7 +63,7 @@ const quoteOptions = {
 };
 
 export default {
-  title: 'Components/Conversation/Message',
+  title: 'Components/Conversation/TimelineMessage',
   argTypes: {
     conversationType: {
       control: 'select',
@@ -243,7 +245,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   deletedForEveryone: overrideProps.deletedForEveryone,
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
-  disableMenu: overrideProps.disableMenu,
+  // disableMenu: overrideProps.disableMenu,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
   displayTapToViewMessage: action('displayTapToViewMessage'),
@@ -259,7 +261,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   giftBadge: overrideProps.giftBadge,
   i18n,
   id: text('id', overrideProps.id || 'random-message-id'),
-  renderingContext: 'storybook',
+  // renderingContext: 'storybook',
   interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker
@@ -330,21 +332,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   viewStory: action('viewStory'),
 });
 
-const createTimelineItem = (data: undefined | Props) =>
-  data && {
-    type: 'message' as const,
-    data,
-    timestamp: data.timestamp,
-  };
-
 const renderMany = (propsArray: ReadonlyArray<Props>) => (
   <>
     {propsArray.map((message, index) => (
-      <Message
+      <TimelineMessage
         key={message.text}
         {...message}
         shouldCollapseAbove={Boolean(propsArray[index - 1])}
-        item={createTimelineItem(message)}
         shouldCollapseBelow={Boolean(propsArray[index + 1])}
       />
     ))}
@@ -380,19 +374,19 @@ PlainRtlMessage.story = {
 
 export const EmojiMessages = (): JSX.Element => (
   <>
-    <Message {...createProps({ text: '😀' })} />
+    <TimelineMessage {...createProps({ text: '😀' })} />
     <br />
-    <Message {...createProps({ text: '😀😀' })} />
+    <TimelineMessage {...createProps({ text: '😀😀' })} />
     <br />
-    <Message {...createProps({ text: '😀😀😀' })} />
+    <TimelineMessage {...createProps({ text: '😀😀😀' })} />
     <br />
-    <Message {...createProps({ text: '😀😀😀😀' })} />
+    <TimelineMessage {...createProps({ text: '😀😀😀😀' })} />
     <br />
-    <Message {...createProps({ text: '😀😀😀😀😀' })} />
+    <TimelineMessage {...createProps({ text: '😀😀😀😀😀' })} />
     <br />
-    <Message {...createProps({ text: '😀😀😀😀😀😀😀' })} />
+    <TimelineMessage {...createProps({ text: '😀😀😀😀😀😀😀' })} />
     <br />
-    <Message
+    <TimelineMessage
       {...createProps({
         previews: [
           {
@@ -416,7 +410,7 @@ export const EmojiMessages = (): JSX.Element => (
       })}
     />
     <br />
-    <Message
+    <TimelineMessage
       {...createProps({
         attachments: [
           fakeAttachment({
@@ -431,7 +425,7 @@ export const EmojiMessages = (): JSX.Element => (
       })}
     />
     <br />
-    <Message
+    <TimelineMessage
       {...createProps({
         attachments: [
           fakeAttachment({
@@ -444,7 +438,7 @@ export const EmojiMessages = (): JSX.Element => (
       })}
     />
     <br />
-    <Message
+    <TimelineMessage
       {...createProps({
         attachments: [
           fakeAttachment({
@@ -457,7 +451,7 @@ export const EmojiMessages = (): JSX.Element => (
       })}
     />
     <br />
-    <Message
+    <TimelineMessage
       {...createProps({
         attachments: [
           fakeAttachment({
@@ -779,7 +773,7 @@ DeletedWithExpireTimer.story = {
 export const DeletedWithError = (): JSX.Element => {
   const propsPartialError = createProps({
     timestamp: Date.now() - 60 * 1000,
-    canDeleteForEveryone: true,
+    // canDeleteForEveryone: true,
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'partial-sent',
@@ -787,7 +781,7 @@ export const DeletedWithError = (): JSX.Element => {
   });
   const propsError = createProps({
     timestamp: Date.now() - 60 * 1000,
-    canDeleteForEveryone: true,
+    // canDeleteForEveryone: true,
     conversationType: 'group',
     deletedForEveryone: true,
     status: 'error',
@@ -809,7 +803,7 @@ export const CanDeleteForEveryone = Template.bind({});
 CanDeleteForEveryone.args = {
   status: 'read',
   text: 'I hope you get this.',
-  canDeleteForEveryone: true,
+  // canDeleteForEveryone: true,
   direction: 'outgoing',
 };
 CanDeleteForEveryone.story = {
@@ -819,7 +813,7 @@ CanDeleteForEveryone.story = {
 export const Error = Template.bind({});
 Error.args = {
   status: 'error',
-  canRetry: true,
+  // canRetry: true,
   text: 'I hope you get this.',
 };
 
@@ -1637,7 +1631,7 @@ export const AllTheContextMenus = (): JSX.Element => {
     canRetryDeleteForEveryone: true,
   });
 
-  return <Message {...props} direction="outgoing" />;
+  return <TimelineMessage {...props} direction="outgoing" />;
 };
 AllTheContextMenus.story = {
   name: 'All the context menus',

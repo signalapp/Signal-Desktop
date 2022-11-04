@@ -5867,6 +5867,14 @@
     "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Delete for me",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Delete for everyone",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
   "StoryListItem__label": {
     "message": "Story",
     "description": "aria-label for the story list button"
