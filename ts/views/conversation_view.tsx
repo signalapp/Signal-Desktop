@@ -1293,6 +1293,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         const message = rawMedia[i];
         const { schemaVersion } = message;
 
+        // We want these message to be cached in memory for other operations like
+        //   listening to 'expired' events when showing the lightbox, and so any other
+        //   code working with this message has the latest updates.
+        const model = window.MessageController.register(message.id, message);
+
         if (
           schemaVersion &&
           schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY
@@ -1300,6 +1305,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           // Yep, we really do want to wait for each of these
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
+          model.set(rawMedia[i]);
+
           // eslint-disable-next-line no-await-in-loop
           await window.Signal.Data.saveMessage(rawMedia[i], { ourUuid });
         }
