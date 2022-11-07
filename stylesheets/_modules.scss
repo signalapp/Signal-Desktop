@@ -5741,6 +5741,27 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: GifPicker
+.module-gif-picker {
+  @extend %module-composition-popper;
+  height: 400px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
+  z-index: $z-index-context-menu;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    padding: 0 8px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__body {
+  }
+}
+
 // Module: StickerManager
 
 .module-sticker-manager {
