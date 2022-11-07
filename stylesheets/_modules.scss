@@ -784,8 +784,7 @@ $message-padding-horizontal: 12px;
 
   &--nonclickable {
     cursor: inherit;
-    .module-image__image,
-    .module-image__border-overlay--with-click-handler {
+    .module-image__image {
       cursor: inherit;
     }
   }
@@ -5756,6 +5755,350 @@ button.module-image__border-overlay:focus {
     padding: 0 8px;
     justify-content: flex-start;
     align-items: center;
+
+    &__categories {
+      width: 288px;
+      overflow: hidden;
+      position: relative;
+
+      &__slider {
+        display: flex;
+        flex-direction: row;
+        transform: translateX(0);
+        transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+        &__button {
+          width: 28px;
+          height: 28px;
+          border: 0;
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: none;
+          margin-right: 4px;
+
+          outline: none;
+
+          &:active,
+          &:focus {
+            @include keyboard-mode {
+              background: $color-gray-05;
+            }
+            @include dark-keyboard-mode {
+              background: $color-gray-60;
+            }
+          }
+
+          &--selected {
+            @include light-theme {
+              background: $color-gray-15;
+            }
+            @include dark-theme {
+              background: $color-gray-45;
+            }
+          }
+
+          &::after {
+            content: '';
+            display: block;
+            min-width: 20px;
+            min-height: 20px;
+          }
+
+          &--recents {
+            &::after {
+              @include light-theme {
+                @include color-svg(
+                  '../images/icons/v2/recent-outline-20.svg',
+                  $color-gray-60
+                );
+              }
+              @include dark-theme {
+                @include color-svg(
+                  '../images/icons/v2/recent-solid-20.svg',
+                  $color-gray-25
+                );
+              }
+            }
+          }
+
+          &--search {
+            $url: '../images/icons/v2/search-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--angry {
+            $url: '../images/icons/v2/gif-angry-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--celebrate {
+            $url: '../images/icons/v2/gif-celebrate-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--excited {
+            $url: '../images/icons/v2/gif-excited-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--love {
+            $url: '../images/icons/v2/gif-love-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--sad {
+            $url: '../images/icons/v2/gif-sad-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--surprised {
+            $url: '../images/icons/v2/gif-surprised-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--thumbsup {
+            $url: '../images/icons/v2/gif-thumbsup-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--trending {
+            $url: '../images/icons/v2/gif-trending-24.svg';
+
+            &::after {
+              @include light-theme {
+                @include color-svg($url, $color-gray-60);
+              }
+              @include dark-theme {
+                @include color-svg($url, $color-gray-25);
+              }
+            }
+          }
+
+          &--prev-page,
+          &--next-page {
+            top: 0;
+            margin: 0;
+            border-radius: 0;
+
+            &::after {
+              content: '';
+              display: block;
+              min-width: 16px;
+              min-height: 16px;
+            }
+
+            @include light-theme {
+              background: $color-gray-02;
+            }
+
+            @include dark-theme {
+              background: $color-gray-75;
+            }
+          }
+
+          &--prev-page {
+            position: absolute;
+            left: 0;
+
+            &::after {
+              @include light-theme {
+                @include color-svg(
+                  '../images/icons/v2/chevron-left-16.svg',
+                  $color-gray-60
+                );
+              }
+              @include dark-theme {
+                @include color-svg(
+                  '../images/icons/v2/chevron-left-16.svg',
+                  $color-gray-25
+                );
+              }
+            }
+          }
+
+          &--next-page {
+            position: absolute;
+            right: 0;
+
+            &::after {
+              @include light-theme {
+                @include color-svg(
+                  '../images/icons/v2/chevron-right-16.svg',
+                  $color-gray-60
+                );
+              }
+              @include dark-theme {
+                @include color-svg(
+                  '../images/icons/v2/chevron-right-16.svg',
+                  $color-gray-25
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__button {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      margin-right: 4px;
+
+      outline: none;
+
+      &:active,
+      &:focus {
+        @include keyboard-mode {
+          background: $color-gray-05;
+        }
+        @include dark-keyboard-mode {
+          background: $color-gray-60;
+        }
+      }
+
+      &--selected {
+        @include light-theme {
+          background: $color-gray-15;
+        }
+        @include dark-theme {
+          background: $color-gray-45;
+        }
+      }
+
+      &--prev-page,
+      &--next-page {
+        top: 0;
+        margin: 0;
+        border-radius: 0;
+
+        &::after {
+          content: '';
+          display: block;
+          min-width: 16px;
+          min-height: 16px;
+        }
+
+        @include light-theme {
+          background: $color-gray-02;
+        }
+
+        @include dark-theme {
+          background: $color-gray-75;
+        }
+      }
+
+      &--prev-page {
+        position: absolute;
+        left: 0;
+
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v2/chevron-left-16.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v2/chevron-left-16.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+
+      &--next-page {
+        position: absolute;
+        right: 0;
+
+        &::after {
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v2/chevron-right-16.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v2/chevron-right-16.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+    }
   }
 
   &__body {
