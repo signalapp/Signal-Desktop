@@ -215,8 +215,6 @@ export class ConversationModel extends window.Backbone
 
   typingPauseTimer?: NodeJS.Timer | null;
 
-  verifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
-
   intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
   lastSuccessfulGroupFetch?: number;
@@ -234,6 +232,8 @@ export class ConversationModel extends window.Backbone
   private muteTimer?: NodeJS.Timer;
 
   private isInReduxBatch = false;
+
+  private privVerifiedEnum?: typeof window.textsecure.storage.protocol.VerifiedStatus;
 
   override defaults(): Partial<ConversationAttributesType> {
     return {
@@ -286,7 +286,7 @@ export class ConversationModel extends window.Backbone
 
     this.storeName = 'conversations';
 
-    this.verifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
+    this.privVerifiedEnum = window.textsecure.storage.protocol.VerifiedStatus;
 
     // This may be overridden by window.ConversationController.getOrCreate, and signify
     //   our first save to the database. Or first fetch from the database.
@@ -395,6 +395,11 @@ export class ConversationModel extends window.Backbone
         window.Signal.Data.updateConversation(this.attributes);
       },
     };
+  }
+
+  private get verifiedEnum(): typeof window.textsecure.storage.protocol.VerifiedStatus {
+    strictAssert(this.privVerifiedEnum, 'ConversationModel not initialize');
+    return this.privVerifiedEnum;
   }
 
   private isMemberRequestingToJoin(uuid: UUID): boolean {
@@ -2633,13 +2638,14 @@ export class ConversationModel extends window.Backbone
   async safeGetVerified(): Promise<number> {
     const uuid = this.getUuid();
     if (!uuid) {
-      return window.textsecure.storage.protocol.VerifiedStatus.DEFAULT;
+      return this.verifiedEnum.DEFAULT;
     }
 
-    const promise = window.textsecure.storage.protocol.getVerified(uuid);
-    return promise.catch(
-      () => window.textsecure.storage.protocol.VerifiedStatus.DEFAULT
-    );
+    try {
+      return await window.textsecure.storage.protocol.getVerified(uuid);
+    } catch {
+      return this.verifiedEnum.DEFAULT;
+    }
   }
 
   async updateVerified(): Promise<void> {
@@ -2668,24 +2674,21 @@ export class ConversationModel extends window.Backbone
   }
 
   setVerifiedDefault(options?: VerificationOptions): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { DEFAULT } = this.verifiedEnum!;
+    const { DEFAULT } = this.verifiedEnum;
     return this.queueJob('setVerifiedDefault', () =>
       this._setVerified(DEFAULT, options)
     );
   }
 
   setVerified(options?: VerificationOptions): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { VERIFIED } = this.verifiedEnum!;
+    const { VERIFIED } = this.verifiedEnum;
     return this.queueJob('setVerified', () =>
       this._setVerified(VERIFIED, options)
     );
   }
 
   setUnverified(options: VerificationOptions): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { UNVERIFIED } = this.verifiedEnum!;
+    const { UNVERIFIED } = this.verifiedEnum;
     return this.queueJob('setUnverified', () =>
       this._setVerified(UNVERIFIED, options)
     );
@@ -2697,12 +2700,10 @@ export class ConversationModel extends window.Backbone
   ): Promise<boolean> {
     const options = providedOptions || {};
     window._.defaults(options, {
-      viaStorageServiceSync: false,
       key: null,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { VERIFIED, DEFAULT } = this.verifiedEnum!;
+    const { VERIFIED, DEFAULT } = this.verifiedEnum;
 
     if (!isDirectConversation(this.attributes)) {
       throw new Error(
@@ -2712,55 +2713,35 @@ export class ConversationModel extends window.Backbone
     }
 
     const uuid = this.getUuid();
-    const beginningVerified = this.get('verified');
-    let keyChange = false;
-    if (options.viaStorageServiceSync) {
-      strictAssert(
-        uuid,
-        `Sync message didn't update uuid for conversation: ${this.id}`
-      );
-
-      // handle the incoming key from the sync messages - need different
-      // behavior if that key doesn't match the current key
-      keyChange =
-        await window.textsecure.storage.protocol.processVerifiedMessage(
-          uuid,
-          verified,
-          options.key || undefined
-        );
-    } else if (uuid) {
-      await window.textsecure.storage.protocol.setVerified(uuid, verified);
+    const beginningVerified = this.get('verified') ?? DEFAULT;
+    const keyChange = false;
+    if (uuid) {
+      if (verified === this.verifiedEnum.DEFAULT) {
+        await window.textsecure.storage.protocol.setVerified(uuid, verified);
+      } else {
+        await window.textsecure.storage.protocol.setVerified(uuid, verified, {
+          firstUse: false,
+          nonblockingApproval: true,
+        });
+      }
     } else {
       log.warn(`_setVerified(${this.id}): no uuid to update protocol storage`);
     }
 
     this.set({ verified });
 
-    // We will update the conversation during storage service sync
-    if (!options.viaStorageServiceSync) {
-      window.Signal.Data.updateConversation(this.attributes);
-    }
+    window.Signal.Data.updateConversation(this.attributes);
 
-    if (!options.viaStorageServiceSync) {
-      if (keyChange) {
-        this.captureChange('keyChange');
-      }
-      if (beginningVerified !== verified) {
-        this.captureChange(`verified from=${beginningVerified} to=${verified}`);
-      }
+    if (beginningVerified !== verified) {
+      this.captureChange(`verified from=${beginningVerified} to=${verified}`);
     }
 
     const didVerifiedChange = beginningVerified !== verified;
-    const isExplicitUserAction = !options.viaStorageServiceSync;
-    const shouldShowFromStorageSync =
-      options.viaStorageServiceSync && verified !== DEFAULT;
+    const isExplicitUserAction = true;
     if (
       // The message came from an explicit verification in a client (not
       // storage service sync)
       (didVerifiedChange && isExplicitUserAction) ||
-      // The verification value received by the storage sync is different from what we
-      //   have on record (and it's not a transition to UNVERIFIED)
-      (didVerifiedChange && shouldShowFromStorageSync) ||
       // Our local verification status is VERIFIED and it hasn't changed, but the key did
       //   change (Key1/VERIFIED -> Key2/VERIFIED), but we don't want to show DEFAULT ->
       //   DEFAULT or UNVERIFIED -> UNVERIFIED
@@ -2819,8 +2800,7 @@ export class ConversationModel extends window.Backbone
 
   isVerified(): boolean {
     if (isDirectConversation(this.attributes)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return this.get('verified') === this.verifiedEnum!.VERIFIED;
+      return this.get('verified') === this.verifiedEnum.VERIFIED;
     }
 
     if (!this.contactCollection?.length) {
@@ -2839,10 +2819,8 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes)) {
       const verified = this.get('verified');
       return (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        verified !== this.verifiedEnum!.VERIFIED &&
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        verified !== this.verifiedEnum!.DEFAULT
+        verified !== this.verifiedEnum.VERIFIED &&
+        verified !== this.verifiedEnum.DEFAULT
       );
     }
 
@@ -3071,48 +3049,67 @@ export class ConversationModel extends window.Backbone
   }
 
   async addKeyChange(keyChangedId: UUID): Promise<void> {
-    log.info(
-      'adding key change advisory for',
-      this.idForLogging(),
-      keyChangedId.toString(),
-      this.get('timestamp')
-    );
+    const keyChangedIdString = keyChangedId.toString();
+    return this.queueJob(`addKeyChange(${keyChangedIdString})`, async () => {
+      log.info(
+        'adding key change advisory for',
+        this.idForLogging(),
+        keyChangedIdString,
+        this.get('timestamp')
+      );
 
-    const timestamp = Date.now();
-    const message = {
-      conversationId: this.id,
-      type: 'keychange',
-      sent_at: this.get('timestamp'),
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
-      key_changed: keyChangedId.toString(),
-      readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Unseen,
-      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
-      // TODO: DESKTOP-722
-      // this type does not fully implement the interface it is expected to
-    } as unknown as MessageAttributesType;
+      const timestamp = Date.now();
+      const message = {
+        conversationId: this.id,
+        type: 'keychange',
+        sent_at: this.get('timestamp'),
+        received_at: window.Signal.Util.incrementMessageCounter(),
+        received_at_ms: timestamp,
+        key_changed: keyChangedIdString,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Unseen,
+        schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+        // TODO: DESKTOP-722
+        // this type does not fully implement the interface it is expected to
+      } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-    });
-    const model = window.MessageController.register(
-      id,
-      new window.Whisper.Message({
-        ...message,
+      const id = await window.Signal.Data.saveMessage(message, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
+      const model = window.MessageController.register(
         id,
-      })
-    );
+        new window.Whisper.Message({
+          ...message,
+          id,
+        })
+      );
 
-    const isUntrusted = await this.isUntrusted();
+      const isUntrusted = await this.isUntrusted();
 
-    this.trigger('newmessage', model);
+      this.trigger('newmessage', model);
 
-    const uuid = this.get('uuid');
-    // Group calls are always with folks that have a UUID
-    if (isUntrusted && uuid) {
-      window.reduxActions.calling.keyChanged({ uuid });
-    }
+      const uuid = this.get('uuid');
+      // Group calls are always with folks that have a UUID
+      if (isUntrusted && uuid) {
+        window.reduxActions.calling.keyChanged({ uuid });
+      }
+
+      // Drop a member from sender key distribution list.
+      const senderKeyInfo = this.get('senderKeyInfo');
+      if (senderKeyInfo) {
+        const updatedSenderKeyInfo = {
+          ...senderKeyInfo,
+          memberDevices: senderKeyInfo.memberDevices.filter(
+            ({ identifier }) => {
+              return identifier !== keyChangedIdString;
+            }
+          ),
+        };
+
+        this.set('senderKeyInfo', updatedSenderKeyInfo);
+        window.Signal.Data.updateConversation(this.attributes);
+      }
+    });
   }
 
   async addVerifiedChange(

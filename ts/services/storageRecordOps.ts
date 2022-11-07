@@ -91,6 +91,22 @@ function toRecordVerified(verified: number): Proto.ContactRecord.IdentityState {
   }
 }
 
+function fromRecordVerified(
+  verified: Proto.ContactRecord.IdentityState
+): number {
+  const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
+  const STATE_ENUM = Proto.ContactRecord.IdentityState;
+
+  switch (verified) {
+    case STATE_ENUM.VERIFIED:
+      return VERIFIED_ENUM.VERIFIED;
+    case STATE_ENUM.UNVERIFIED:
+      return VERIFIED_ENUM.UNVERIFIED;
+    default:
+      return VERIFIED_ENUM.DEFAULT;
+  }
+}
+
 function addUnknownFields(
   record: RecordClass,
   conversation: ConversationModel,
@@ -991,35 +1007,34 @@ export async function mergeContactRecord(
     systemFamilyName: dropNull(contactRecord.systemFamilyName),
   });
 
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
   if (contactRecord.identityKey) {
     const verified = await conversation.safeGetVerified();
-    const storageServiceVerified = contactRecord.identityState || 0;
-    const verifiedOptions = {
-      key: contactRecord.identityKey,
-      viaStorageServiceSync: true,
-    };
-    const STATE_ENUM = Proto.ContactRecord.IdentityState;
+    const newVerified = fromRecordVerified(contactRecord.identityState ?? 0);
 
-    if (verified !== storageServiceVerified) {
-      details.push(`updating verified state to=${verified}`);
+    const needsNotification =
+      await window.textsecure.storage.protocol.updateIdentityAfterSync(
+        new UUID(uuid),
+        newVerified,
+        contactRecord.identityKey
+      );
+
+    if (verified !== newVerified) {
+      details.push(
+        `updating verified state from=${verified} to=${newVerified}`
+      );
+
+      conversation.set({ verified: newVerified });
     }
 
-    // Update verified status unconditionally to make sure we will take the
-    // latest identity key from the manifest.
-    let keyChange: boolean;
-    switch (storageServiceVerified) {
-      case STATE_ENUM.VERIFIED:
-        keyChange = await conversation.setVerified(verifiedOptions);
-        break;
-      case STATE_ENUM.UNVERIFIED:
-        keyChange = await conversation.setUnverified(verifiedOptions);
-        break;
-      default:
-        keyChange = await conversation.setVerifiedDefault(verifiedOptions);
-    }
-
-    if (keyChange) {
-      details.push('key changed');
+    const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
+    if (needsNotification) {
+      details.push('adding a verified notification');
+      await conversation.addVerifiedChange(
+        conversation.id,
+        newVerified === VERIFIED_ENUM.VERIFIED,
+        { local: false }
+      );
     }
   }
 

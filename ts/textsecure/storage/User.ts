@@ -106,6 +106,10 @@ export class User {
     return UUIDKind.Unknown;
   }
 
+  public isOurUuid(uuid: UUID): boolean {
+    return this.getOurUuidKind(uuid) !== UUIDKind.Unknown;
+  }
+
   public getDeviceId(): number | undefined {
     const value = this._getDeviceIdFromUuid() || this._getDeviceIdFromNumber();
     if (value === undefined) {

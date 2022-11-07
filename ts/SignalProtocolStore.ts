@@ -120,6 +120,11 @@ export type VerifyAlternateIdentityOptionsType = Readonly<{
   signature: Uint8Array;
 }>;
 
+export type SetVerifiedExtra = Readonly<{
+  firstUse?: boolean;
+  nonblockingApproval?: boolean;
+}>;
+
 export const GLOBAL_ZONE = new Zone('GLOBAL_ZONE');
 
 async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
@@ -1483,6 +1488,7 @@ export class SignalProtocolStore extends EventEmitter {
     return newRecord;
   }
 
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L128
   async isTrustedIdentity(
     encodedAddress: Address,
     publicKey: Uint8Array,
@@ -1495,8 +1501,9 @@ export class SignalProtocolStore extends EventEmitter {
     if (encodedAddress == null) {
       throw new Error('isTrustedIdentity: encodedAddress was undefined/null');
     }
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    const isOurIdentifier = encodedAddress.uuid.isEqual(ourUuid);
+    const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
+      encodedAddress.uuid
+    );
 
     const identityRecord = await this.getOrMigrateIdentityRecord(
       encodedAddress.uuid
@@ -1522,6 +1529,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
   }
 
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L233
   isTrustedForSending(
     publicKey: Uint8Array,
     identityRecord?: IdentityKeyType
@@ -1597,6 +1605,7 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L69
   async saveIdentity(
     encodedAddress: Address,
     publicKey: Uint8Array,
@@ -1640,8 +1649,21 @@ export class SignalProtocolStore extends EventEmitter {
       return false;
     }
 
-    const oldpublicKey = identityRecord.publicKey;
-    if (!constantTimeEqual(oldpublicKey, publicKey)) {
+    const identityKeyChanged = !constantTimeEqual(
+      identityRecord.publicKey,
+      publicKey
+    );
+
+    if (identityKeyChanged) {
+      const isOurIdentifier = window.textsecure.storage.user.isOurUuid(
+        encodedAddress.uuid
+      );
+
+      if (isOurIdentifier && identityKeyChanged) {
+        log.warn('saveIdentity: ignoring identity for ourselves');
+        return false;
+      }
+
       log.info('saveIdentity: Replacing existing identity...');
       const previousStatus = identityRecord.verified;
       let verifiedStatus;
@@ -1663,6 +1685,8 @@ export class SignalProtocolStore extends EventEmitter {
         nonblockingApproval,
       });
 
+      // See `addKeyChange` in `ts/models/conversations.ts` for sender key info
+      // update caused by this.
       try {
         this.emit('keychange', encodedAddress.uuid);
       } catch (error) {
@@ -1692,7 +1716,10 @@ export class SignalProtocolStore extends EventEmitter {
     return false;
   }
 
-  isNonBlockingApprovalRequired(identityRecord: IdentityKeyType): boolean {
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L257
+  private isNonBlockingApprovalRequired(
+    identityRecord: IdentityKeyType
+  ): boolean {
     return (
       !identityRecord.firstUse &&
       isMoreRecentThan(identityRecord.timestamp, TIMESTAMP_THRESHOLD) &&
@@ -1746,10 +1773,12 @@ export class SignalProtocolStore extends EventEmitter {
     await this._saveIdentityKey(identityRecord);
   }
 
+  // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L215
+  // and https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/verify/VerifyDisplayFragment.java#L544
   async setVerified(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey?: Uint8Array
+    extra: SetVerifiedExtra = {}
   ): Promise<void> {
     if (uuid == null) {
       throw new Error('setVerified: uuid was undefined/null');
@@ -1764,14 +1793,12 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error(`setVerified: No identity record for ${uuid.toString()}`);
     }
 
-    if (!publicKey || constantTimeEqual(identityRecord.publicKey, publicKey)) {
-      identityRecord.verified = verifiedStatus;
-
-      if (validateIdentityKey(identityRecord)) {
-        await this._saveIdentityKey(identityRecord);
-      }
-    } else {
-      log.info('setVerified: No identity record for specified publicKey');
+    if (validateIdentityKey(identityRecord)) {
+      await this._saveIdentityKey({
+        ...identityRecord,
+        ...extra,
+        verified: verifiedStatus,
+      });
     }
   }
 
@@ -1793,59 +1820,63 @@ export class SignalProtocolStore extends EventEmitter {
     return VerifiedStatus.DEFAULT;
   }
 
-  // See https://github.com/signalapp/Signal-iOS-Private/blob/e32c2dff0d03f67467b4df621d84b11412d50cdb/SignalServiceKit/src/Messages/OWSIdentityManager.m#L317
-  // for reference.
-  async processVerifiedMessage(
+  // See https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/IdentityDatabase.java#L184
+  async updateIdentityAfterSync(
     uuid: UUID,
     verifiedStatus: number,
-    publicKey?: Uint8Array
+    publicKey: Uint8Array
   ): Promise<boolean> {
-    if (uuid == null) {
-      throw new Error('processVerifiedMessage: uuid was undefined/null');
-    }
-    if (!validateVerifiedStatus(verifiedStatus)) {
-      throw new Error('processVerifiedMessage: Invalid verified status');
-    }
-    if (publicKey !== undefined && !(publicKey instanceof Uint8Array)) {
-      throw new Error('processVerifiedMessage: Invalid public key');
-    }
+    strictAssert(
+      validateVerifiedStatus(verifiedStatus),
+      `Invalid verified status: ${verifiedStatus}`
+    );
 
     const identityRecord = await this.getOrMigrateIdentityRecord(uuid);
+    const hadEntry = identityRecord !== undefined;
+    const keyMatches = Boolean(
+      identityRecord?.publicKey &&
+        constantTimeEqual(publicKey, identityRecord.publicKey)
+    );
+    const statusMatches =
+      keyMatches && verifiedStatus === identityRecord?.verified;
 
-    let isEqual = false;
-
-    if (identityRecord && publicKey) {
-      isEqual = constantTimeEqual(publicKey, identityRecord.publicKey);
+    if (!keyMatches || !statusMatches) {
+      await this.saveIdentityWithAttributes(uuid, {
+        publicKey,
+        verified: verifiedStatus,
+        firstUse: !hadEntry,
+        timestamp: Date.now(),
+        nonblockingApproval: true,
+      });
     }
 
-    // Just update verified status if the key is the same or not present
-    if (isEqual || !publicKey) {
-      await this.setVerified(uuid, verifiedStatus, publicKey);
-      return false;
-    }
-
-    await this.saveIdentityWithAttributes(uuid, {
-      publicKey,
-      verified: verifiedStatus,
-      firstUse: false,
-      timestamp: Date.now(),
-      nonblockingApproval: verifiedStatus === VerifiedStatus.VERIFIED,
-    });
-
-    if (identityRecord) {
+    if (hadEntry && !keyMatches) {
       try {
         this.emit('keychange', uuid);
       } catch (error) {
         log.error(
-          'processVerifiedMessage error triggering keychange:',
+          'updateIdentityAfterSync: error triggering keychange:',
           Errors.toLogFormat(error)
         );
       }
-
-      // true signifies that we overwrote a previous key with a new one
-      return true;
     }
 
+    // See: https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
+    if (
+      verifiedStatus === VerifiedStatus.VERIFIED &&
+      (!hadEntry || identityRecord?.verified !== VerifiedStatus.VERIFIED)
+    ) {
+      // Needs a notification.
+      return true;
+    }
+    if (
+      verifiedStatus !== VerifiedStatus.VERIFIED &&
+      hadEntry &&
+      identityRecord?.verified === VerifiedStatus.VERIFIED
+    ) {
+      // Needs a notification.
+      return true;
+    }
     return false;
   }
 

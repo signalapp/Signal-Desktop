@@ -437,7 +437,6 @@ export type GroupV2PendingAdminApprovalType = {
 
 export type VerificationOptions = {
   key?: null | Uint8Array;
-  viaStorageServiceSync?: boolean;
 };
 
 export type ShallowChallengeError = CustomError & {

@@ -641,11 +641,7 @@ describe('SignalProtocolStore', () => {
     describe('with the current public key', () => {
       before(saveRecordDefault);
       it('updates the verified status', async () => {
-        await store.setVerified(
-          theirUuid,
-          store.VerifiedStatus.VERIFIED,
-          testKey.pubKey
-        );
+        await store.setVerified(theirUuid, store.VerifiedStatus.VERIFIED);
 
         const identity = await window.Signal.Data.getIdentityKeyById(
           theirUuid.toString()
@@ -658,405 +654,111 @@ describe('SignalProtocolStore', () => {
         assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
       });
     });
-    describe('with a mismatching public key', () => {
-      const newIdentity = getPublicKey();
-      before(saveRecordDefault);
-      it('does not change the record.', async () => {
-        await store.setVerified(
-          theirUuid,
-          store.VerifiedStatus.VERIFIED,
-          newIdentity
-        );
-
-        const identity = await window.Signal.Data.getIdentityKeyById(
-          theirUuid.toString()
-        );
-        if (!identity) {
-          throw new Error('Missing identity!');
-        }
-
-        assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
-        assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
-      });
-    });
   });
-  describe('processVerifiedMessage', () => {
+
+  describe('updateIdentityAfterSync', () => {
     const newIdentity = getPublicKey();
     let keychangeTriggered: number;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       keychangeTriggered = 0;
       store.on('keychange', () => {
         keychangeTriggered += 1;
       });
+
+      await window.Signal.Data.createOrUpdateIdentityKey({
+        id: theirUuid.toString(),
+        publicKey: testKey.pubKey,
+        timestamp: Date.now() - 10 * 1000 * 60,
+        verified: store.VerifiedStatus.DEFAULT,
+        firstUse: false,
+        nonblockingApproval: false,
+      });
+      await store.hydrateCaches();
     });
+
     afterEach(() => {
       store.removeAllListeners('keychange');
     });
 
-    describe('when the new verified status is DEFAULT', () => {
-      describe('when there is no existing record', () => {
-        before(async () => {
-          await window.Signal.Data.removeIdentityKeyById(theirUuid.toString());
-          await store.hydrateCaches();
-        });
+    it('should create an identity and set verified to DEFAULT', async () => {
+      const newUuid = UUID.generate();
 
-        it('sets the identity key', async () => {
-          await store.processVerifiedMessage(
-            theirUuid,
-            store.VerifiedStatus.DEFAULT,
-            newIdentity
-          );
+      const needsNotification = await store.updateIdentityAfterSync(
+        newUuid,
+        store.VerifiedStatus.DEFAULT,
+        newIdentity
+      );
+      assert.isFalse(needsNotification);
+      assert.strictEqual(keychangeTriggered, 0);
 
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirUuid.toString()
-          );
-          assert.isTrue(
-            identity?.publicKey &&
-              constantTimeEqual(identity.publicKey, newIdentity)
-          );
-          assert.strictEqual(keychangeTriggered, 0);
-        });
-      });
-      describe('when the record exists', () => {
-        describe('when the existing key is different', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.VERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('updates the identity', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.DEFAULT,
-              newIdentity
-            );
-
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
-            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
-            assert.strictEqual(keychangeTriggered, 1);
-          });
-        });
-        describe('when the existing key is the same but VERIFIED', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.VERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('updates the verified status', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.DEFAULT,
-              testKey.pubKey
-            );
-
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
-            assert.isTrue(
-              constantTimeEqual(identity.publicKey, testKey.pubKey)
-            );
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-        describe('when the existing key is the same and already DEFAULT', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.DEFAULT,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('does not hang', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.DEFAULT,
-              testKey.pubKey
-            );
-
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-      });
+      const identity = await window.Signal.Data.getIdentityKeyById(
+        newUuid.toString()
+      );
+      if (!identity) {
+        throw new Error('Missing identity!');
+      }
+      assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
+      assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
     });
-    describe('when the new verified status is UNVERIFIED', () => {
-      describe('when there is no existing record', () => {
-        before(async () => {
-          await window.Signal.Data.removeIdentityKeyById(theirUuid.toString());
-          await store.hydrateCaches();
-        });
 
-        it('saves the new identity and marks it UNVERIFIED', async () => {
-          await store.processVerifiedMessage(
-            theirUuid,
-            store.VerifiedStatus.UNVERIFIED,
-            newIdentity
-          );
+    it('should create an identity and set verified to VERIFIED', async () => {
+      const newUuid = UUID.generate();
 
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirUuid.toString()
-          );
-          if (!identity) {
-            throw new Error('Missing identity!');
-          }
+      const needsNotification = await store.updateIdentityAfterSync(
+        newUuid,
+        store.VerifiedStatus.VERIFIED,
+        newIdentity
+      );
+      assert.isTrue(needsNotification);
+      assert.strictEqual(keychangeTriggered, 0);
 
-          assert.strictEqual(
-            identity.verified,
-            store.VerifiedStatus.UNVERIFIED
-          );
-          assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
-          assert.strictEqual(keychangeTriggered, 0);
-        });
-      });
-      describe('when the record exists', () => {
-        describe('when the existing key is different', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.VERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('saves the new identity and marks it UNVERIFIED', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.UNVERIFIED,
-              newIdentity
-            );
-
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(
-              identity.verified,
-              store.VerifiedStatus.UNVERIFIED
-            );
-            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
-            assert.strictEqual(keychangeTriggered, 1);
-          });
-        });
-        describe('when the key exists and is DEFAULT', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.DEFAULT,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('updates the verified status', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.UNVERIFIED,
-              testKey.pubKey
-            );
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(
-              identity.verified,
-              store.VerifiedStatus.UNVERIFIED
-            );
-            assert.isTrue(
-              constantTimeEqual(identity.publicKey, testKey.pubKey)
-            );
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-        describe('when the key exists and is already UNVERIFIED', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.UNVERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('does not hang', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.UNVERIFIED,
-              testKey.pubKey
-            );
-
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-      });
+      const identity = await window.Signal.Data.getIdentityKeyById(
+        newUuid.toString()
+      );
+      if (!identity) {
+        throw new Error('Missing identity!');
+      }
+      assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
+      assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
     });
-    describe('when the new verified status is VERIFIED', () => {
-      describe('when there is no existing record', () => {
-        before(async () => {
-          await window.Signal.Data.removeIdentityKeyById(theirUuid.toString());
-          await store.hydrateCaches();
-        });
 
-        it('saves the new identity and marks it verified', async () => {
-          await store.processVerifiedMessage(
-            theirUuid,
-            store.VerifiedStatus.VERIFIED,
-            newIdentity
-          );
-          const identity = await window.Signal.Data.getIdentityKeyById(
-            theirUuid.toString()
-          );
-          if (!identity) {
-            throw new Error('Missing identity!');
-          }
+    it('should update public key without verified change', async () => {
+      const needsNotification = await store.updateIdentityAfterSync(
+        theirUuid,
+        store.VerifiedStatus.DEFAULT,
+        newIdentity
+      );
+      assert.isFalse(needsNotification);
+      assert.strictEqual(keychangeTriggered, 1);
 
-          assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
-          assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
-          assert.strictEqual(keychangeTriggered, 0);
-        });
-      });
-      describe('when the record exists', () => {
-        describe('when the existing key is different', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.VERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
+      const identity = await window.Signal.Data.getIdentityKeyById(
+        theirUuid.toString()
+      );
+      if (!identity) {
+        throw new Error('Missing identity!');
+      }
+      assert.strictEqual(identity.verified, store.VerifiedStatus.DEFAULT);
+      assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
+    });
 
-          it('saves the new identity and marks it VERIFIED', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.VERIFIED,
-              newIdentity
-            );
+    it('should update verified without public key change', async () => {
+      const needsNotification = await store.updateIdentityAfterSync(
+        theirUuid,
+        store.VerifiedStatus.VERIFIED,
+        testKey.pubKey
+      );
+      assert.isTrue(needsNotification);
+      assert.strictEqual(keychangeTriggered, 0);
 
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(
-              identity.verified,
-              store.VerifiedStatus.VERIFIED
-            );
-            assert.isTrue(constantTimeEqual(identity.publicKey, newIdentity));
-            assert.strictEqual(keychangeTriggered, 1);
-          });
-        });
-        describe('when the existing key is the same but UNVERIFIED', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.UNVERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('saves the identity and marks it verified', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.VERIFIED,
-              testKey.pubKey
-            );
-            const identity = await window.Signal.Data.getIdentityKeyById(
-              theirUuid.toString()
-            );
-            if (!identity) {
-              throw new Error('Missing identity!');
-            }
-
-            assert.strictEqual(
-              identity.verified,
-              store.VerifiedStatus.VERIFIED
-            );
-            assert.isTrue(
-              constantTimeEqual(identity.publicKey, testKey.pubKey)
-            );
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-        describe('when the existing key is the same and already VERIFIED', () => {
-          before(async () => {
-            await window.Signal.Data.createOrUpdateIdentityKey({
-              id: theirUuid.toString(),
-              publicKey: testKey.pubKey,
-              firstUse: true,
-              timestamp: Date.now(),
-              verified: store.VerifiedStatus.VERIFIED,
-              nonblockingApproval: false,
-            });
-            await store.hydrateCaches();
-          });
-
-          it('does not hang', async () => {
-            await store.processVerifiedMessage(
-              theirUuid,
-              store.VerifiedStatus.VERIFIED,
-              testKey.pubKey
-            );
-
-            assert.strictEqual(keychangeTriggered, 0);
-          });
-        });
-      });
+      const identity = await window.Signal.Data.getIdentityKeyById(
+        theirUuid.toString()
+      );
+      if (!identity) {
+        throw new Error('Missing identity!');
+      }
+      assert.strictEqual(identity.verified, store.VerifiedStatus.VERIFIED);
+      assert.isTrue(constantTimeEqual(identity.publicKey, testKey.pubKey));
     });
   });
 
