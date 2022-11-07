@@ -7,9 +7,7 @@ import { Constants } from '../../../../../../session';
 import { from_hex } from 'libsodium-wrappers-sumo';
 
 describe('GroupInviteMessage', () => {
-  beforeEach(async () => {});
-
-  it('can create valid message', async () => {
+  it('can create valid message', () => {
     const message = new GroupInviteMessage({
       timestamp: 12345,
       memberPrivateKey: '654321',

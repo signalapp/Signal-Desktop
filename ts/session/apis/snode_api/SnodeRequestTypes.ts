@@ -1,3 +1,4 @@
+
 export type SwarmForSubRequest = { method: 'get_swarm'; params: { pubkey: string } };
 
 type RetrieveMaxCountSize = { max_count?: number; max_size?: number };
@@ -18,6 +19,22 @@ export type RetrievePubkeySubRequestType = {
     RetrieveMaxCountSize;
 };
 
+/** Those namespaces do not require to be authenticated for storing messages.
+ *  -> 0 is used for our swarm, and anyone needs to be able to send message to us.
+ *  -> -10 is used for legacy closed group and we do not have authentication for them yet (but we will with the new closed groups)
+ *  -> others are currently unused
+ *
+ */
+// type UnauthenticatedStoreNamespaces = -30 | -20 | -10 | 0 | 10 | 20 | 30;
+
+export type RetrieveLegacyClosedGroupSubRequestType = {
+  method: 'retrieve';
+  params: {
+    namespace: -10; // legacy closed groups retrieve are not authenticated because the clients do not have a shared key
+  } & RetrieveAlwaysNeeded &
+    RetrieveMaxCountSize;
+};
+
 export type RetrieveSubKeySubRequestType = {
   method: 'retrieve';
   params: {
@@ -28,7 +45,10 @@ export type RetrieveSubKeySubRequestType = {
     RetrieveMaxCountSize;
 };
 
-export type RetrieveSubRequestType = RetrievePubkeySubRequestType | RetrieveSubKeySubRequestType;
+export type RetrieveSubRequestType =
+  | RetrieveLegacyClosedGroupSubRequestType
+  | RetrievePubkeySubRequestType
+  | RetrieveSubKeySubRequestType;
 
 // FIXME those store types are not right
 // type StoreAlwaysNeeded = { pubkey: string; timestamp: number; data: string };
@@ -38,7 +58,7 @@ export type RetrieveSubRequestType = RetrievePubkeySubRequestType | RetrieveSubK
 //   params: {
 //     ttl?: string; // required, unless expiry is given
 //     expiry?: number; // required, unless ttl is given
-//     namespace: -60 | -50 | -40 | -30 | -20 | -10 | 0 | 10 | 20 | 30 | 40 | 50 | 60; // we can only store without authentication on namespaces divisible by 10 (...-60...0...60...)
+//     namespace: UnauthenticatedNamespaces; // we can only store without authentication on namespaces divisible by 10 (...-60...0...60...)
 //   } & StoreAlwaysNeeded;
 // };
 
@@ -104,9 +124,11 @@ export type SnodeApiSubRequests =
   | StoreOnNodeSubRequest
   | NetworkTimeSubRequest;
 
+//tslint-disable: array-type
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type NotEmptyArrayOfBatchResults = NonEmptyArray<{
   code: number;
   body: Record<string, any>;
 }>;
+

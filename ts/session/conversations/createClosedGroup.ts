@@ -13,8 +13,8 @@ import {
   generateGroupV3Keypair,
 } from '../crypto';
 import {
-  ClosedGroupNewMessageParams,
   ClosedGroupNewMessage,
+  ClosedGroupNewMessageParams,
 } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { PubKey } from '../types';
 import { UserUtils } from '../utils';

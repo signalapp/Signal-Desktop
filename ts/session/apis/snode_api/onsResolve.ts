@@ -1,9 +1,9 @@
 import _, { range } from 'lodash';
 import { getSodiumRenderer } from '../../crypto';
 import {
-  stringToUint8Array,
-  fromUInt8ArrayToBase64,
   fromHexToArray,
+  fromUInt8ArrayToBase64,
+  stringToUint8Array,
   toHex,
 } from '../../utils/String';
 import { doSnodeBatchRequest } from './batchRequest';

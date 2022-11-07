@@ -7,3 +7,5 @@ export type RenderTextCallbackType = (options: {
 }) => JSX.Element;
 
 export type LocalizerType = (key: LocalizerKeys, values?: Array<string>) => string;
+
+export type FixedLengthArray<T, Length extends number> = Array<T> & { length: Length };

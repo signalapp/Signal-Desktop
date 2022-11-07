@@ -25,6 +25,7 @@
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
     "no-async-without-await": true,
+    "no-empty-interface": false,
     "ordered-imports": [
       true,
       {

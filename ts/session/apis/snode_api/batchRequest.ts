@@ -10,8 +10,8 @@ import { NotEmptyArrayOfBatchResults, SnodeApiSubRequests } from './SnodeRequest
  * The body is already parsed from json and is enforced to be an Array of at least one element
  * @param subRequests the list of requests to do
  * @param targetNode the node to do the request to, once all the onion routing is done
- * @param timeout
- * @param associatedWith
+ * @param timeout the timeout at which we should cancel this request.
+ * @param associatedWith used mostly for handling 421 errors, we need the pubkey the change is associated to
  * @returns
  */
 export async function doSnodeBatchRequest(
@@ -45,13 +45,14 @@ export async function doSnodeBatchRequest(
  */
 function decodeBatchRequest(snodeResponse: SnodeResponse): NotEmptyArrayOfBatchResults {
   try {
+    console.warn('decodeBatch: ', snodeResponse);
     if (snodeResponse.status !== 200) {
       throw new Error(`decodeBatchRequest invalid status code: ${snodeResponse.status}`);
     }
     const parsed = JSON.parse(snodeResponse.body);
 
     if (!isArray(parsed.results)) {
-      throw new Error(`decodeBatchRequest results is not an array`);
+      throw new Error('decodeBatchRequest results is not an array');
     }
 
     if (!parsed.results.length) {

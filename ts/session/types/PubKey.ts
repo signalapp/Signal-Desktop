@@ -1,6 +1,5 @@
 import { fromHexToArray } from '../utils/String';
 
-
 export enum KeyPrefixType {
   /**
    * Used for keys which have the blinding update and aren't using blinding

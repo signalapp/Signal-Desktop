@@ -7,9 +7,7 @@ import { Constants } from '../../../../../../session';
 import { from_hex } from 'libsodium-wrappers-sumo';
 
 describe('GroupPromoteMessage', () => {
-  beforeEach(async () => {});
-
-  it('can create valid message', async () => {
+  it('can create valid message', () => {
     const message = new GroupPromoteMessage({
       timestamp: 12345,
       identifier: v4(),

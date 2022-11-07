@@ -66,7 +66,7 @@ export class BDecode {
     return parsed;
   }
 
-  parseList(): BencodeArrayType {
+  private parseList(): BencodeArrayType {
     const parsed: BencodeArrayType = [];
 
     if (this.currentParsingIndex >= this.content.length) {
@@ -134,7 +134,6 @@ export class BDecode {
       throw new Error('parseString: cannot parse string without length');
     }
 
-
     if (strLength === 0) {
       return '';
     }
@@ -193,7 +192,6 @@ export class BEncode {
   }
 
   private encodeItem(item: BencodeElementType): Uint8Array {
-
     if (isNumber(item) && isFinite(item)) {
       return from_string(`i${item}e`);
     }
@@ -216,6 +214,7 @@ export class BEncode {
 
     if (isArray(item)) {
       let content = new Uint8Array();
+      //tslint disable prefer-for-of
       for (let index = 0; index < item.length; index++) {
         const encodedItem = this.encodeItem(item[index]);
         const encodedItemLength = encodedItem.length;

@@ -1,35 +1,41 @@
-import { isEmpty } from 'lodash';
 import { Snode } from '../../../data/data';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import { getSodiumRenderer } from '../../crypto';
-import { UserUtils, StringUtils } from '../../utils';
+import { StringUtils, UserUtils } from '../../utils';
 import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
-import { RetrievePubkeySubRequestType, RetrieveSubRequestType } from './SnodeRequestTypes';
+import {
+  RetrieveLegacyClosedGroupSubRequestType,
+  RetrieveSubRequestType,
+} from './SnodeRequestTypes';
 
 async function getRetrieveSignatureParams(params: {
   pubkey: string;
-  lastHash: string;
   namespace: number;
+  ourPubkey: string;
 }): Promise<{
   timestamp: number;
   signature: string;
   pubkey_ed25519: string;
   namespace: number;
-} | null> {
-  const ourPubkey = UserUtils.getOurPubKeyFromCache();
+}> {
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
-  if (isEmpty(params?.pubkey) || ourPubkey.key !== params.pubkey || !ourEd25519Key) {
-    return null;
+  if (!ourEd25519Key) {
+    window.log.warn('getRetrieveSignatureParams: User has no getUserED25519KeyPair()');
+    throw new Error('getRetrieveSignatureParams: User has no getUserED25519KeyPair()');
   }
   const namespace = params.namespace || 0;
   const edKeyPrivBytes = fromHexToArray(ourEd25519Key?.privKey);
 
   const signatureTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
-  const verificationData = StringUtils.encode(`retrieve${namespace}${signatureTimestamp}`, 'utf8');
+  const verificationData =
+    namespace === 0
+      ? StringUtils.encode(`retrieve${signatureTimestamp}`, 'utf8')
+      : StringUtils.encode(`retrieve${namespace}${signatureTimestamp}`, 'utf8');
+
   const message = new Uint8Array(verificationData);
 
   const sodium = await getSodiumRenderer();
@@ -45,27 +51,56 @@ async function getRetrieveSignatureParams(params: {
     };
   } catch (e) {
     window.log.warn('getSignatureParams failed with: ', e.message);
-    return null;
+    throw e;
   }
 }
 
 async function buildRetrieveRequest(
   lastHashes: Array<string>,
   pubkey: string,
-  namespaces: Array<number>
+  namespaces: Array<number>,
+  ourPubkey: string
 ): Promise<Array<RetrieveSubRequestType>> {
   const retrieveRequestsParams = await Promise.all(
     namespaces.map(async (namespace, index) => {
       const retrieveParam = {
         pubkey,
-        lastHash: lastHashes.at(index) || '',
+        last_hash: lastHashes.at(index) || '',
         namespace,
+        timestamp: GetNetworkTime.getNowWithNetworkOffset(),
       };
-      const signatureBuilt = await getRetrieveSignatureParams(retrieveParam);
-      const signatureParams = signatureBuilt || {};
-      const retrieve: RetrievePubkeySubRequestType = {
+
+      if (namespace === -10) {
+        if (pubkey === ourPubkey || !pubkey.startsWith('05')) {
+          throw new Error(
+            'namespace -10 can only be used to retrieve messages from a legacy closed group'
+          );
+        }
+        const retrieveLegacyClosedGroup = {
+          ...retrieveParam,
+          namespace: namespace as -10,
+        };
+        const retrieveParamsLegacy: RetrieveLegacyClosedGroupSubRequestType = {
+          method: 'retrieve',
+          params: { ...retrieveLegacyClosedGroup },
+        };
+
+        return retrieveParamsLegacy;
+      }
+
+      // all legacy closed group retrieves are unauthenticated and run above.
+      // if we get here, this can only be a retrieve for our own swarm, which needs to be authenticated
+      if (namespace !== 0) {
+        throw new Error('not a legacy closed group. namespace can only be 0');
+      }
+      if (pubkey !== ourPubkey) {
+        throw new Error('not a legacy closed group. pubkey can only be our number');
+      }
+      const signatureArgs = { ...retrieveParam, ourPubkey };
+      const signatureBuilt = await getRetrieveSignatureParams(signatureArgs);
+      const retrieve: RetrieveSubRequestType = {
         method: 'retrieve',
-        params: { ...signatureParams, ...retrieveParam },
+        params: { ...retrieveParam, ...signatureBuilt },
       };
       return retrieve;
     })
@@ -79,16 +114,23 @@ async function retrieveNextMessages(
   targetNode: Snode,
   lastHashes: Array<string>,
   associatedWith: string,
-  namespaces: Array<number>
-): Promise<Array<any>> {
+  namespaces: Array<number>,
+  ourPubkey: string
+): Promise<Array<{ code: number; messages: Array<Record<string, any>> }>> {
   if (namespaces.length !== lastHashes.length) {
     throw new Error('namespaces and lasthashes does not match');
   }
 
-  const retrieveRequestsParams = await buildRetrieveRequest(lastHashes, associatedWith, namespaces);
+  const retrieveRequestsParams = await buildRetrieveRequest(
+    lastHashes,
+    associatedWith,
+    namespaces,
+    ourPubkey
+  );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
 
+  console.warn('retrieveRequestsParams', retrieveRequestsParams);
   const results = await doSnodeBatchRequest(retrieveRequestsParams, targetNode, 4000);
 
   if (!results || !results.length) {
@@ -118,15 +160,18 @@ async function retrieveNextMessages(
     );
   }
 
+  console.warn('what should we do if we dont get a 200 on any of those fetches?');
+
   try {
-    const json = firstResult.body;
+    // we rely on the code of the
+    const bodyFirstResult = firstResult.body;
     if (!window.inboxStore?.getState().onionPaths.isOnline) {
       window.inboxStore?.dispatch(updateIsOnline(true));
     }
 
-    GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', json.t);
+    GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
 
-    return json.messages || [];
+    return results.map(result => ({ code: result.code, messages: result.body as Array<any> }));
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);
     if (!window.inboxStore?.getState().onionPaths.isOnline) {

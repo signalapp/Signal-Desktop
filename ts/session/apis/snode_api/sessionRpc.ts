@@ -123,13 +123,13 @@ export async function snodeRpc(
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
-
-
   const body = {
     jsonrpc: '2.0',
     method,
     params: clone(params),
   };
+
+  console.warn('snodeRPC', body);
 
   const fetchOptions: LokiFetchOptions = {
     method: 'POST',

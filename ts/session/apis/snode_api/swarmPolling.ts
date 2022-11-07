@@ -3,7 +3,7 @@ import * as snodePool from './snodePool';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _, { concat } from 'lodash';
+import _, { concat, last } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 
 import { StringUtils, UserUtils } from '../../utils';
@@ -142,6 +142,7 @@ export class SwarmPolling {
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
+    // const directPromises = Promise.resolve();
     const directPromises = Promise.all([this.pollOnceForKey(ourPubkey, false, [0])]).then(
       () => undefined
     );
@@ -243,6 +244,7 @@ export class SwarmPolling {
         return group;
       });
     } else if (isGroup) {
+      debugger;
       window?.log?.info(
         `Polled for group(${ed25519Str(
           pubkey.key
@@ -269,8 +271,11 @@ export class SwarmPolling {
     pubkey: PubKey,
     namespaces: Array<number>
   ): Promise<Array<any> | null> {
+    const namespaceLength = namespaces.length;
+    if (namespaceLength > 2 || namespaceLength <= 0) {
+      throw new Error('pollNodeForKey needs  1 or 2 namespaces to be given at all times');
+    }
     const edkey = node.pubkey_ed25519;
-
     const pkStr = pubkey.key;
 
     try {
@@ -279,27 +284,47 @@ export class SwarmPolling {
           const prevHashes = await Promise.all(
             namespaces.map(namespace => this.getLastHash(edkey, pkStr, namespace))
           );
-          const messages = await SnodeAPIRetrieve.retrieveNextMessages(
+          const results = await SnodeAPIRetrieve.retrieveNextMessages(
             node,
             prevHashes,
             pkStr,
-            namespaces
+            namespaces,
+            UserUtils.getOurPubKeyStrFromCache()
           );
-          if (!messages.length) {
+          debugger;
+          if (!results.length) {
             return [];
           }
 
-          // const lastMessage = _.last(messages);
-          // const newHashes = // TODO
+          if (results.length !== namespaceLength) {
+            window.log.error(
+              `pollNodeForKey asked for ${namespaceLength} namespaces but received only messages about ${results.length} namespaces`
+            );
+            throw new Error(
+              `pollNodeForKey asked for ${namespaceLength} namespaces but received only messages about ${results.length} namespaces`
+            );
+          }
 
-          // await this.updateLastHashes({
-          //   edkey: edkey,
-          //   pubkey,
-          //   namespaces,
-          //   hash: lastMessage.hash,
-          //   expiration: lastMessage.expiration,
-          // });
-          return messages;
+          const lastMessages = results.map(r => {
+            return last(r.messages);
+          });
+
+          await Promise.all(
+            lastMessages.map(async (lastMessage, index) => {
+              if (!lastMessage) {
+                return Promise.resolve();
+              }
+              return this.updateLastHash({
+                edkey: edkey,
+                pubkey,
+                namespace: namespaces[index],
+                hash: lastMessage.hash,
+                expiration: lastMessage.expiration,
+              });
+            })
+          );
+
+          return results;
         },
         {
           minTimeout: 100,
@@ -374,14 +399,17 @@ export class SwarmPolling {
     expiration: number;
   }): Promise<void> {
     const pkStr = pubkey.key;
+    const cached = await this.getLastHash(edkey, pubkey.key, namespace);
 
-    await Data.updateLastHash({
-      convoId: pkStr,
-      snode: edkey,
-      hash,
-      expiresAt: expiration,
-      namespace,
-    });
+    if (!cached || cached !== hash) {
+      await Data.updateLastHash({
+        convoId: pkStr,
+        snode: edkey,
+        hash,
+        expiresAt: expiration,
+        namespace,
+      });
+    }
 
     if (!this.lastHashes[edkey]) {
       this.lastHashes[edkey] = {};

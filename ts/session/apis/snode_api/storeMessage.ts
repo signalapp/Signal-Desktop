@@ -17,7 +17,6 @@ async function storeOnNode(
 ): Promise<string | null | boolean> {
   try {
     const subRequests = buildStoreRequests(params);
-
     const result = await doSnodeBatchRequest(subRequests, targetNode, 4000, params.pubkey);
 
     if (!result || !result.length) {

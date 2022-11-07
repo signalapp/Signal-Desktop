@@ -6,9 +6,7 @@ import { Constants } from '../../../../../../session';
 import { GroupMemberLeftMessage } from '../../../../../../session/messages/outgoing/controlMessage/group/v3/GroupMemberLeftMessage';
 
 describe('GroupMemberLeftMessage', () => {
-  beforeEach(async () => {});
-
-  it('can create valid message', async () => {
+  it('can create valid message', () => {
     const message = new GroupMemberLeftMessage({
       timestamp: 12345,
       identifier: v4(),
@@ -23,7 +21,7 @@ describe('GroupMemberLeftMessage', () => {
       .to.have.property('groupMessage')
       .to.have.property('memberLeftMessage').to.be.not.null;
 
-      expect(decoded.dataMessage)
+    expect(decoded.dataMessage)
       .to.have.property('groupMessage')
       .to.have.property('memberLeftMessage').to.be.empty;
     expect(message)
@@ -48,5 +46,4 @@ describe('GroupMemberLeftMessage', () => {
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
     expect(message.identifier).to.not.equal(undefined, 'identifier cannot be undefined');
   });
-
 });
