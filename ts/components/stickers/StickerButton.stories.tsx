@@ -16,7 +16,7 @@ import {
   sticker2,
   tallSticker,
   wideSticker,
-} from './StickerPicker.stories';
+} from './_fixtures';
 
 const i18n = setupI18n('en', enMessages);
 
