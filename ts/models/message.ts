@@ -86,7 +86,6 @@ import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { LinkPreviews } from '../util/linkPreviews';
 import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 import {
   findCachedBlindedIdFromUnblinded,
   getUsBlindedInThatServer,
@@ -95,6 +94,7 @@ import {
 import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { ReactionList } from '../types/Reaction';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -890,7 +890,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (conversation.isPublic()) {
         const openGroupParams: VisibleMessageParams = {
           identifier: this.id,
-          timestamp: getNowWithNetworkOffset(),
+          timestamp: GetNetworkTime.getNowWithNetworkOffset(),
           lokiProfile: UserUtils.getOurProfile(),
           body,
           attachments,

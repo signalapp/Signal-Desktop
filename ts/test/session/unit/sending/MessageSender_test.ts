@@ -7,7 +7,6 @@ import { MessageEncrypter } from '../../../../session/crypto';
 import { SignalService } from '../../../../protobuf';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { SNodeAPI } from '../../../../session/apis/snode_api';
 import _ from 'lodash';
 import { OpenGroupPollingUtils } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
 import { TEST_identityKeyPair } from '../crypto/MessageEncrypter_test';
@@ -17,6 +16,7 @@ import { Onions } from '../../../../session/apis/snode_api/onions';
 import { OnionV4 } from '../../../../session/onions/onionv4';
 import { OnionSending } from '../../../../session/onions/onionSend';
 import { OpenGroupMessageV2 } from '../../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 
 describe('MessageSender', () => {
   afterEach(() => {
@@ -119,7 +119,7 @@ describe('MessageSender', () => {
         const visibleMessage = TestUtils.generateVisibleMessage();
         const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
         const offset = 200000;
-        Sinon.stub(SNodeAPI, 'getLatestTimestampOffset').returns(offset);
+        Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(offset);
         await MessageSender.send(rawMessage, 3, 10);
 
         const data = sessionMessageAPISendStub.getCall(0).args[1];

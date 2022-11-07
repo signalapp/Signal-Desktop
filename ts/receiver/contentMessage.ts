@@ -134,7 +134,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
  * or a message sent to a closed group.
  *
  * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
- * Instead, it is the called who needs to removeMessagePadding() the content.
+ * Instead, it is the caller who needs to removeMessagePadding() the content.
  */
 export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,

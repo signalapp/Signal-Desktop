@@ -26,8 +26,8 @@ import { DURATION } from '../../constants';
 import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
-import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
+import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 
 // tslint:disable: function-name
 
@@ -838,7 +838,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       await peerConnection.addIceCandidate(candicate);
     }
   }
-  const networkTimestamp = getNowWithNetworkOffset();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
   await callerConvo?.addSingleIncomingMessage({
@@ -1164,13 +1164,13 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
 
   if (incomingCallConversation.isActive()) {
-    incomingCallConversation.set('active_at', getNowWithNetworkOffset());
+    incomingCallConversation.set('active_at', GetNetworkTime.getNowWithNetworkOffset());
   }
 
   await incomingCallConversation?.addSingleIncomingMessage({
     source: callerPubkey,
     sent_at: sentAt,
-    received_at: getNowWithNetworkOffset(),
+    received_at: GetNetworkTime.getNowWithNetworkOffset(),
     expireTimer: 0,
     callNotificationType: 'missed-call',
     unread: 1,

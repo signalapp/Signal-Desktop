@@ -27,8 +27,8 @@ import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessag
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
-import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
 import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 
 export type GroupInfo = {
   id: string;
@@ -39,7 +39,19 @@ export type GroupInfo = {
   expireTimer?: number | null;
   blocked?: boolean;
   admins?: Array<string>;
-  secretKey?: Uint8Array;
+  weWereJustAdded?: boolean;
+};
+
+export type GroupInfoV3 = {
+  id: string;
+  identityPrivateKey?: string; // only set if we created the closed group v3 or got promoted to admin (and received the identity private key)
+  isV3: true;
+  name: string;
+  members: Array<string>;
+  activeAt?: number;
+  expireTimer?: number | null;
+  blocked?: boolean;
+  admins?: Array<string>;
   weWereJustAdded?: boolean;
 };
 
@@ -216,7 +228,11 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
   return groupDiff;
 }
 
-export async function updateOrCreateClosedGroup(details: GroupInfo) {
+function isV3(details: GroupInfo | GroupInfoV3): details is GroupInfoV3 {
+  return (details as GroupInfoV3).isV3 === true;
+}
+
+export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3) {
   const { id, weWereJustAdded } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
@@ -227,23 +243,24 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   const updates: Pick<
     ConversationAttributes,
     | 'type'
+    | 'identityPrivateKey'
     | 'members'
     | 'displayNameInProfile'
     | 'is_medium_group'
     | 'active_at'
     | 'left'
     | 'lastJoinedTimestamp'
-    | 'zombies'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
     type: 'group',
     is_medium_group: true,
-    zombies: details.zombies?.length ? details.zombies : [],
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
     lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
+    identityPrivateKey: isV3(details) ? details.identityPrivateKey : undefined,
   };
+  console.warn('updates', updates);
 
   conversation.set(updates);
 
@@ -303,7 +320,7 @@ export async function leaveClosedGroup(groupId: string) {
   await convo.commit();
 
   const source = UserUtils.getOurPubKeyStrFromCache();
-  const networkTimestamp = getNowWithNetworkOffset();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
   const dbMessage = await convo.addSingleOutgoingMessage({
     group_update: { left: [source] },

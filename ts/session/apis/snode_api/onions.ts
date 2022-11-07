@@ -48,6 +48,12 @@ export interface SnodeResponse {
   status?: number;
 }
 
+export interface SnodeParsedResponse {
+  bodyBinary: Uint8Array | null;
+  body: string;
+  status?: number;
+}
+
 // v4 onion request have a weird string and binary content, so better get it as binary to extract just the string part
 export interface SnodeResponseV4 {
   bodyBinary: Uint8Array | null;
@@ -978,14 +984,14 @@ const sendOnionRequestNoRetries = async ({
       !isString(finalDestOptions.body) && finalDestOptions.body ? finalDestOptions.body : null;
     if (isRequestToSnode) {
       if (useV4) {
-        throw new Error('snoderpc calls cannot be v4 for now.');
+        throw new Error('sendOnionRequestNoRetries calls cannot be v4 for now.');
       }
       if (!isString(finalDestOptions.body)) {
         window.log.warn(
-          'snoderpc calls should only take body as string: ',
+          'sendOnionRequestNoRetries calls should only take body as string: ',
           typeof finalDestOptions.body
         );
-        throw new Error('snoderpc calls should only take body as string.');
+        throw new Error('sendOnionRequestNoRetries calls should only take body as string.');
       }
       // delete finalDestOptions.body;
       // not sure if that's strictly the same thing in this context

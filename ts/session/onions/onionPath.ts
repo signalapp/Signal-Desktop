@@ -12,7 +12,6 @@ const minimumGuardCount = 2;
 
 import { updateOnionPaths } from '../../state/ducks/onion';
 import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
-import { getStoragePubKey } from '../types/PubKey';
 
 import { OnionPaths } from './';
 import { APPLICATION_JSON } from '../../types/MIME';
@@ -282,10 +281,9 @@ export async function testGuardNode(snode: Snode) {
   const url = `https://${snode.ip}:${snode.port}${endpoint}`;
 
   const ourPK = UserUtils.getOurPubKeyStrFromCache();
-  const pubKey = getStoragePubKey(ourPK); // truncate if testnet
 
-  const method = 'get_snodes_for_pubkey';
-  const params = { pubKey };
+  const method = 'get_swarm';
+  const params = { pubkey: ourPK };
   const body = {
     jsonrpc: '2.0',
     method,

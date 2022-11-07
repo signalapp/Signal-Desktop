@@ -2,11 +2,11 @@ import { default as insecureNodeFetch } from 'node-fetch';
 import pRetry from 'p-retry';
 import { HTTPError, NotFoundError } from '../../utils/errors';
 import { Snode } from '../../../data/data';
-import { getStoragePubKey } from '../../types';
 
 import { ERROR_421_HANDLED_RETRY_REQUEST, Onions, snodeHttpsAgent, SnodeResponse } from './onions';
 import { APPLICATION_JSON } from '../../../types/MIME';
 import https from 'https';
+import { clone } from 'lodash';
 
 export interface LokiFetchOptions {
   method: 'GET' | 'POST';
@@ -115,7 +115,7 @@ export async function snodeRpc(
     timeout = 10000,
   }: {
     method: string;
-    params: Record<string, any>;
+    params: Record<string, any> | Array<Record<string, any>>;
     targetNode: Snode;
     associatedWith?: string;
     timeout?: number;
@@ -123,20 +123,12 @@ export async function snodeRpc(
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
-  // TODO: The jsonrpc and body field will be ignored on storage server
-  if (params.pubKey) {
-    // Ensure we always take a copy
-    // tslint:disable-next-line no-parameter-reassignment
-    params = {
-      ...params,
-      pubKey: getStoragePubKey(params.pubKey),
-    };
-  }
+
 
   const body = {
     jsonrpc: '2.0',
     method,
-    params,
+    params: clone(params),
   };
 
   const fetchOptions: LokiFetchOptions = {

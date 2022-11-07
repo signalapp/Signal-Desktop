@@ -36,7 +36,6 @@ import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
-import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SessionIconButton } from '../icon';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
@@ -47,6 +46,7 @@ import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_a
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { isDarkTheme } from '../../state/selectors/theme';
+import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);

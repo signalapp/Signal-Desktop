@@ -6,7 +6,7 @@ import { getMessageQueue } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { networkDeleteMessages } from '../../session/apis/snode_api/SNodeAPI';
+import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { resetSelectedMessageIds } from '../../state/ducks/conversations';
@@ -100,7 +100,7 @@ export async function deleteMessagesFromSwarmOnly(messages: Array<MessageModel>)
   try {
     const deletionMessageHashes = compact(messages.map(m => m.get('messageHash')));
     if (deletionMessageHashes.length > 0) {
-      const errorOnSnode = await networkDeleteMessages(deletionMessageHashes);
+      const errorOnSnode = await SnodeAPI.networkDeleteMessages(deletionMessageHashes);
       return errorOnSnode === null || errorOnSnode.length === 0;
     }
     window.log?.warn(

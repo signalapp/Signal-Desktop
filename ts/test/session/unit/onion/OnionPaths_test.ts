@@ -17,6 +17,7 @@ import {
   stubData,
 } from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
+import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -53,7 +54,7 @@ describe('OnionPaths', () => {
       OnionPaths.clearTestOnionPath();
 
       Sinon.stub(OnionPaths, 'selectGuardNodes').resolves(fakeGuardNodes);
-      Sinon.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(fakeGuardNodes);
+      Sinon.stub(ServiceNodesList, 'getSnodePoolFromSnode').resolves(fakeGuardNodes);
       stubData('getSnodePoolFromDb').resolves(fakeSnodePool);
 
       TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesFromDB);

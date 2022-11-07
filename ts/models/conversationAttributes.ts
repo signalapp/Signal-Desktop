@@ -3,6 +3,7 @@ import { LastMessageStatusType } from '../state/ducks/conversations';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
+  CLOSED_GROUP = 'groupv3',
   PRIVATE = 'private',
 }
 
@@ -65,6 +66,11 @@ export interface ConversationAttributes {
 
   /** The open group chat this conversation originated from (if from closed group) */
   conversationIdOrigin?: string;
+
+  /**
+   * When we create a closed group v3 or get promoted to admim, we need to save the private key of that closed group.
+   */
+  identityPrivateKey?: string;
 }
 
 /**

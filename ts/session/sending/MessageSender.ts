@@ -11,7 +11,6 @@ import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { addMessagePadding } from '../crypto/BufferPadding';
 import _ from 'lodash';
-import { getNowWithNetworkOffset, storeOnNode } from '../apis/snode_api/SNodeAPI';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
@@ -25,13 +24,16 @@ import {
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
 import { AbortController } from 'abort-controller';
+import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
+import { StoreOnNodeParams } from '../apis/snode_api/SnodeRequestTypes';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 
 const DEFAULT_CONNECTIONS = 1;
 
 // ================ SNODE STORE ================
 
 function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
-  const networkTimestamp = getNowWithNetworkOffset();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
   const { plainTextBuffer } = message;
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
@@ -144,27 +146,14 @@ export async function sendMessageToSnode(
   const conversation = getConversationController().get(pubKey);
   const isClosedGroup = conversation?.isClosedGroup();
 
-  // const hardfork190Happened = await getHasSeenHF190();
-  // const hardfork191Happened = await getHasSeenHF191();
   const namespace = isClosedGroup ? -10 : 0;
 
-  // we could get rid of those now, but lets keep it in case we ever need to use the HF value again
-  // window?.log?.debug(
-  //   `Sending envelope with timestamp: ${timestamp} to ${ed25519Str(pubKey)} size base64: ${
-  //     data64.length
-  //   }; hardfork190Happened:${hardfork190Happened}; hardfork191Happened:${hardfork191Happened} to namespace:${namespace}`
-  // );
-
-  const isBetweenBothHF = false; //hardfork190Happened && !hardfork191Happened;
-
   // send parameters
-  const params = {
-    pubKey,
+  const params: StoreOnNodeParams = {
+    pubkey: pubKey,
     ttl: `${ttl}`,
     timestamp: `${timestamp}`,
     data: data64,
-    isSyncMessage, // I don't think that's of any use
-    messageId, // I don't think that's of any use
     namespace,
   };
 
@@ -178,17 +167,8 @@ export async function sendMessageToSnode(
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
     // the only case we could care about a retry would be when the usedNode is not correct,
     // but considering we trigger this request with a few snode in //, this should be fine.
-    const successfulSend = await storeOnNode(usedNode, params);
+    const successfulSend = await SnodeAPIStore.storeOnNode(usedNode, params);
 
-    if (isBetweenBothHF && isClosedGroup) {
-      window.log.warn(
-        'closedGroup and betweenHF case. Forcing duplicating to 0 and -10 inboxes...'
-      );
-      await storeOnNode(usedNode, { ...params, namespace: 0 });
-      window.log.warn(
-        'closedGroup and betweenHF case. Forcing duplicating to 0 and -10 inboxes done'
-      );
-    }
     if (successfulSend) {
       if (_.isString(successfulSend)) {
         successfulSendHash = successfulSend;
@@ -283,7 +263,7 @@ export async function sendToOpenGroupV2(
   // we agreed to pad message for opengroupv2
   const paddedBody = addMessagePadding(rawMessage.plainTextBuffer());
   const v2Message = new OpenGroupMessageV2({
-    sentTimestamp: getNowWithNetworkOffset(),
+    sentTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     base64EncodedData: fromUInt8ArrayToBase64(paddedBody),
     filesToLink,
   });
@@ -308,7 +288,7 @@ export async function sendToOpenGroupV2BlindedRequest(
   recipientBlindedId: string
 ): Promise<{ serverId: number; serverTimestamp: number }> {
   const v2Message = new OpenGroupMessageV2({
-    sentTimestamp: getNowWithNetworkOffset(),
+    sentTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     base64EncodedData: fromUInt8ArrayToBase64(encryptedContent),
   });
 

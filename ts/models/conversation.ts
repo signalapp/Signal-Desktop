@@ -55,7 +55,6 @@ import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 import { createLastMessageUpdate } from '../types/Conversation';
 import {
   ReplyingToMessageProps,
@@ -96,6 +95,7 @@ import {
 import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -915,7 +915,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
     const expireTimer = this.get('expireTimer');
-    const networkTimestamp = getNowWithNetworkOffset();
+    const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
     window?.log?.info(
       'Sending message to conversation',

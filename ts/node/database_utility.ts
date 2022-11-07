@@ -76,6 +76,7 @@ const allowedKeysFormatRowOfConversation = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'identityPrivateKey',
 ];
 
 export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
@@ -168,6 +169,11 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     convo.active_at = 0;
   }
 
+  convo.identityPrivateKey = row.identityPrivateKey;
+  if (!convo.identityPrivateKey) {
+    convo.identityPrivateKey = undefined;
+  }
+
   return convo;
 }
 
@@ -204,6 +210,7 @@ const allowedKeysOfConversationAttributes = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'identityPrivateKey',
 ];
 
 /**

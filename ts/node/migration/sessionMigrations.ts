@@ -79,6 +79,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion27,
   updateToSessionSchemaVersion28,
   updateToSessionSchemaVersion29,
+  updateToSessionSchemaVersion30,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1198,6 +1199,24 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
     );`);
     rebuildFtsTable(db);
     // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 30;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  // this column will only be set when this is a closed group v3 and we are the admin/got promoted to admin
+  db.transaction(() => {
+    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE}
+      ADD COLUMN identityPrivateKey TEXT;
+      `);
     writeSessionSchemaVersion(targetVersion, db);
   })();
 

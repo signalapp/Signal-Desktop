@@ -1,6 +1,6 @@
 import { PubKey } from '../../types';
 import * as snodePool from './snodePool';
-import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
 import _, { concat } from 'lodash';
@@ -14,7 +14,7 @@ import { perfEnd, perfStart } from '../../utils/Performance';
 import { ed25519Str } from '../../onions/onionPath';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import pRetry from 'p-retry';
-import { getHasSeenHF190, getHasSeenHF191 } from './hfHandling';
+import { SnodeAPIRetrieve } from './retrieveRequest';
 
 interface Message {
   hash: string;
@@ -142,10 +142,9 @@ export class SwarmPolling {
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    const directPromises = Promise.all([
-      this.pollOnceForKey(ourPubkey, false, 0),
-      // this.pollOnceForKey(ourPubkey, false, 5), // uncomment, and test me once we store the config messages to the namespace 5
-    ]).then(() => undefined);
+    const directPromises = Promise.all([this.pollOnceForKey(ourPubkey, false, [0])]).then(
+      () => undefined
+    );
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
@@ -159,27 +158,11 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
-        const hardfork190Happened = await getHasSeenHF190();
-        const hardfork191Happened = await getHasSeenHF191();
         window?.log?.info(
-          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} ; hardfork190Happened: ${hardfork190Happened}; hardfork191Happened: ${hardfork191Happened} `
+          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
         );
 
-        if (hardfork190Happened && !hardfork191Happened) {
-          // during the transition period, we poll from both namespaces (0 and -10) for groups
-          return Promise.all([
-            this.pollOnceForKey(group.pubkey, true, undefined),
-            this.pollOnceForKey(group.pubkey, true, -10),
-          ]).then(() => undefined);
-        }
-
-        if (hardfork190Happened && hardfork191Happened) {
-          // after the transition period, we poll from the namespace -10 only for groups
-          return this.pollOnceForKey(group.pubkey, true, -10);
-        }
-
-        // before any of those hardforks, we just poll from the default namespace being 0
-        return this.pollOnceForKey(group.pubkey, true, 0);
+        return this.pollOnceForKey(group.pubkey, true, [-10]);
       }
       window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
@@ -200,7 +183,7 @@ export class SwarmPolling {
   /**
    * Only exposed as public for testing
    */
-  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespace?: number) {
+  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespaces: Array<number>) {
     const pkStr = pubkey.key;
 
     const swarmSnodes = await snodePool.getSwarmFor(pkStr);
@@ -223,7 +206,7 @@ export class SwarmPolling {
     // this actually doesn't make much sense as we are at only polling from a single one
     const promisesSettled = await Promise.allSettled(
       nodesToPoll.map(async n => {
-        return this.pollNodeForKey(n, pubkey, namespace);
+        return this.pollNodeForKey(n, pubkey, namespaces);
       })
     );
 
@@ -284,7 +267,7 @@ export class SwarmPolling {
   private async pollNodeForKey(
     node: Snode,
     pubkey: PubKey,
-    namespace?: number
+    namespaces: Array<number>
   ): Promise<Array<any> | null> {
     const edkey = node.pubkey_ed25519;
 
@@ -293,21 +276,29 @@ export class SwarmPolling {
     try {
       return await pRetry(
         async () => {
-          const prevHash = await this.getLastHash(edkey, pkStr, namespace || 0);
-          const messages = await retrieveNextMessages(node, prevHash, pkStr, namespace);
+          const prevHashes = await Promise.all(
+            namespaces.map(namespace => this.getLastHash(edkey, pkStr, namespace))
+          );
+          const messages = await SnodeAPIRetrieve.retrieveNextMessages(
+            node,
+            prevHashes,
+            pkStr,
+            namespaces
+          );
           if (!messages.length) {
             return [];
           }
 
-          const lastMessage = _.last(messages);
+          // const lastMessage = _.last(messages);
+          // const newHashes = // TODO
 
-          await this.updateLastHash({
-            edkey: edkey,
-            pubkey,
-            namespace: namespace || 0,
-            hash: lastMessage.hash,
-            expiration: lastMessage.expiration,
-          });
+          // await this.updateLastHashes({
+          //   edkey: edkey,
+          //   pubkey,
+          //   namespaces,
+          //   hash: lastMessage.hash,
+          //   expiration: lastMessage.expiration,
+          // });
           return messages;
         },
         {

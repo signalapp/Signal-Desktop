@@ -372,7 +372,7 @@ export class OpenGroupServerPoller {
 export const getRoomAndUpdateLastFetchTimestamp = async (
   conversationId: string,
   newMessages: Array<OpenGroupMessageV2 | OpenGroupMessageV4>,
-  subRequest: SubRequestMessagesObjectType
+  _subRequest: SubRequestMessagesObjectType
 ) => {
   const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversationId);
   if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
@@ -382,9 +382,7 @@ export const getRoomAndUpdateLastFetchTimestamp = async (
   if (!newMessages.length) {
     // if we got no new messages, just write our last update timestamp to the db
     roomInfos.lastFetchTimestamp = Date.now();
-    window?.log?.info(
-      `No new messages for ${subRequest?.roomId}:${subRequest?.sinceSeqNo}... just updating our last fetched timestamp`
-    );
+    window?.log?.info();
     await OpenGroupData.saveV2OpenGroupRoom(roomInfos);
     return null;
   }

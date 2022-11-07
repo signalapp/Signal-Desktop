@@ -36,7 +36,7 @@ declare global {
     sessionFeatureFlags: {
       useOnionRequests: boolean;
       useTestNet: boolean;
-      useSettingsThemeSwitcher: boolean;
+      useClosedGroupV3: boolean;
       debug: {
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;

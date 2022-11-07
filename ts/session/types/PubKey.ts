@@ -1,6 +1,5 @@
 import { fromHexToArray } from '../utils/String';
 
-export const getStoragePubKey = (key: string) => key;
 
 export enum KeyPrefixType {
   /**
@@ -15,6 +14,10 @@ export enum KeyPrefixType {
    * used for participants in open groups
    */
   blinded = '15',
+  /**
+   * used for participants in open groups
+   */
+  groupV3 = '03',
 }
 
 export class PubKey {
@@ -30,7 +33,7 @@ export class PubKey {
   public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
   // prettier-ignore
   private static readonly regex: RegExp = new RegExp(
-    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(${KeyPrefixType.standard}|${KeyPrefixType.blinded}|${KeyPrefixType.unblinded})?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
+    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(${KeyPrefixType.standard}|${KeyPrefixType.blinded}|${KeyPrefixType.unblinded}|${KeyPrefixType.groupV3})?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
   );
   /**
    * If you want to update this regex. Be sure that those are matches ;
@@ -39,9 +42,11 @@ export class PubKey {
    *  __textsecure_group__!05010203040506070809a0b0c0d0e0f0ff
    *  __textsecure_group__!010203040506070809a0b0c0d0e0f0ff
    *  05010203040506070809a0b0c0d0e0f0ff010203040506070809a0b0c0d0e0f0ff
+   *  03010203040506070809a0b0c0d0e0f0ff010203040506070809a0b0c0d0e0f0ff
    *  010203040506070809a0b0c0d0e0f0ff010203040506070809a0B0c0d0e0f0FF
    *  05010203040506070809a0b0c0d0e0f0ff
    *  010203040506070809a0b0c0d0e0f0ff
+   *  030203040506070809a0b0c0d0e0f0ff
    */
 
   public readonly key: string;
@@ -228,5 +233,25 @@ export class PubKey {
 
   public static hasBlindedPrefix(key: string) {
     return key.startsWith(KeyPrefixType.blinded);
+  }
+
+  public static isClosedGroupV3(key: string) {
+    const regex = new RegExp(`^${KeyPrefixType.groupV3}${PubKey.HEX}{64}$`);
+    return regex.test(key);
+  }
+
+  public static isHexOnly(str: string) {
+    return new RegExp(`^${PubKey.HEX}*$`).test(str);
+  }
+
+  /**
+   *
+   * @returns true if that string is a valid group (as in closed group) pubkey.
+   * i.e. returns true if length is 66, prefix is 05 only, and it's hex characters only
+   */
+  public static isValidGroupPubkey(pubkey: string): boolean {
+    return (
+      pubkey.length === 66 && pubkey.startsWith(KeyPrefixType.standard) && this.isHexOnly(pubkey)
+    );
   }
 }

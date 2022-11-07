@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import { getSnodePoolFromSnodes, requestSnodesForPubkey } from './SNodeAPI';
-
 import { Data, Snode } from '../../../data/data';
 
 import pRetry from 'p-retry';
@@ -9,6 +7,8 @@ import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
 import { SeedNodeAPI } from '../seed_node_api';
+import { requestSnodesForPubkeyFromNetwork } from './getSwarmFor';
+import { ServiceNodesList } from './getServiceNodesList';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -214,7 +214,7 @@ async function tryToGetConsensusWithSnodesWithRetries() {
   // fetch the snode pool from one of the seed nodes (see the catch).
   return pRetry(
     async () => {
-      const commonNodes = await getSnodePoolFromSnodes();
+      const commonNodes = await ServiceNodesList.getSnodePoolFromSnodes();
 
       if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
         // throwing makes trigger a retry if we have some left.
@@ -312,7 +312,7 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
   }
 
   // Request new node list from the network
-  const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
+  const freshNodes = _.shuffle(await requestSnodesForPubkeyFromNetwork(pubkey));
 
   const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);

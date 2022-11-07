@@ -426,6 +426,7 @@ function getConversationCount() {
 // tslint:disable-next-line: max-func-body-length
 function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
   const formatted = assertValidConversationAttributes(data);
+  console.warn('formatted', formatted);
 
   const {
     id,
@@ -460,6 +461,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     avatarInProfile,
     displayNameInProfile,
     conversationIdOrigin,
+    identityPrivateKey,
   } = formatted;
 
   const maxLength = 300;
@@ -503,7 +505,8 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
   didApproveMe,
   avatarInProfile,
   displayNameInProfile,
-  conversationIdOrigin
+  conversationIdOrigin,
+  identityPrivateKey
 	) values (
 	    $id,
 	    $active_at,
@@ -536,7 +539,8 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       $didApproveMe,
       $avatarInProfile,
       $displayNameInProfile,
-      $conversationIdOrigin
+      $conversationIdOrigin,
+      $identityPrivateKey
       )`
     )
     .run({
@@ -575,6 +579,7 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       avatarInProfile,
       displayNameInProfile,
       conversationIdOrigin,
+      identityPrivateKey,
     });
 }
 
