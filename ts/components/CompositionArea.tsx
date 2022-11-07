@@ -16,8 +16,8 @@ import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachme
 import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { Spinner } from './Spinner';
 import type {
-  Props as EmojiButtonProps,
   EmojiButtonAPI,
+  Props as EmojiButtonProps,
 } from './emoji/EmojiButton';
 import { EmojiButton } from './emoji/EmojiButton';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
@@ -59,6 +59,7 @@ import {
 import { MediaEditor } from './MediaEditor';
 import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
+import { GifButton } from './gifs/GifButton';
 
 export type CompositionAPIType =
   | {
@@ -459,6 +460,11 @@ export function CompositionArea({
       />
     </div>
   ) : null;
+  const gifButtonFragment = (
+    <div className="CompositionArea__button-cell">
+      <GifButton i18n={i18n} recentGifs={[]} position="top-end" />
+    </div>
+  );
 
   // Listen for cmd/ctrl-shift-x to toggle large composition mode
   useEffect(() => {
@@ -713,6 +719,7 @@ export function CompositionArea({
         {!large ? (
           <>
             {stickerButtonFragment}
+            {gifButtonFragment}
             {!dirty ? micButtonFragment : null}
             {attButton}
           </>
@@ -727,6 +734,7 @@ export function CompositionArea({
         >
           {leftHandSideButtonsFragment}
           {stickerButtonFragment}
+          {gifButtonFragment}
           {attButton}
           {!dirty ? micButtonFragment : null}
           {dirty || !shouldShowMicrophone ? sendButtonFragment : null}

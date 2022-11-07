@@ -6351,6 +6351,191 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-gif-button__button {
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include keyboard-mode {
+    &:focus {
+      outline: 2px solid $color-ultramarine;
+    }
+  }
+
+  outline: none;
+
+  &::after {
+    display: block;
+    content: '';
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/gif-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/gif-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &--active {
+    @include light-theme() {
+      background: $color-gray-05;
+    }
+
+    @include dark-theme() {
+      background: $color-gray-75;
+    }
+
+    opacity: 1;
+  }
+}
+
+.module-gif-button__tooltip {
+  @include button-reset;
+
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  z-index: $z-index-tooltip;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-75;
+  }
+
+  @include popper-shadow();
+
+  &__triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 8px 0 8px;
+
+    @include light-theme {
+      border-color: $color-white transparent transparent transparent;
+    }
+
+    @include dark-theme {
+      border-color: $color-gray-75 transparent transparent transparent;
+    }
+
+    &--top-end {
+      top: 34px;
+    }
+
+    &--introduction {
+      top: 72px;
+    }
+  }
+
+  &__image {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  &__image-placeholder {
+    width: 20px;
+    height: 20px;
+    background-color: $color-gray-05;
+  }
+
+  &__text {
+    margin-left: 4px;
+    cursor: default;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+
+    &__title {
+      font-weight: bold;
+    }
+  }
+
+  &--introduction {
+    width: 420px;
+    height: 72px;
+    display: flex;
+    flex-direction: row;
+
+    &__image {
+      width: 52px;
+      height: 52px;
+    }
+
+    &__meta {
+      flex-grow: 1;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @include light-theme {
+        color: $color-gray-90;
+      }
+
+      @include dark-theme {
+        color: $color-gray-05;
+      }
+
+      &__title {
+        margin: 0;
+
+        @include font-body-1-bold;
+        height: 16px;
+      }
+
+      &__subtitle {
+        margin-top: 3px;
+        height: 16px;
+      }
+    }
+
+    &__close {
+      flex-shrink: 1;
+      height: 100%;
+      &__button {
+        width: 20px;
+        height: 20px;
+        border: none;
+
+        @include light-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+        }
+
+        @include dark-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+        }
+      }
+    }
+  }
+}
+
 // Module: Emoji Picker
 
 %module-emoji-picker--ribbon {
