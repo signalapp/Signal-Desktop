@@ -351,7 +351,7 @@ export default function updateToSchemaVersion41(
 
     const updateIdentityKey = db.prepare<Query>(
       `
-      UPDATE identityKeys
+      UPDATE OR REPLACE identityKeys
       SET
         id = $newId,
         json = json_set(
