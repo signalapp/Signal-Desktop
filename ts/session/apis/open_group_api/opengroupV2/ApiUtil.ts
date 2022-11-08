@@ -1,4 +1,4 @@
-import _, { compact, flatten, isString } from 'lodash';
+import _, { clone, compact, flatten, isString } from 'lodash';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import {
   updateDefaultRooms,
@@ -80,7 +80,7 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
     return false;
   }
 
-  const serverNotLowerCased = server;
+  const serverNotLowerCased = clone(server);
   const serverLowerCase = serverNotLowerCased.toLowerCase();
 
   let serverUrl: URL | undefined;
