@@ -14,6 +14,7 @@ import {
   getGroupStories,
   getMe,
   getNonGroupStories,
+  selectMostRecentActiveStoryTimestampByGroupOrDistributionList,
 } from '../selectors/conversations';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
 import { getIntl } from '../selectors/user';
@@ -70,6 +71,9 @@ export function SmartStoryCreator(): JSX.Element | null {
   const me = useSelector(getMe);
   const recentStickers = useSelector(getRecentStickers);
   const signalConnections = useSelector(getAllSignalConnections);
+  const mostRecentActiveStoryTimestampByGroupOrDistributionList = useSelector(
+    selectMostRecentActiveStoryTimestampByGroupOrDistributionList
+  );
 
   const addStoryData = useSelector(getAddStoryData);
   const file = addStoryData?.type === 'Media' ? addStoryData.file : undefined;
@@ -106,6 +110,9 @@ export function SmartStoryCreator(): JSX.Element | null {
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
+      mostRecentActiveStoryTimestampByGroupOrDistributionList={
+        mostRecentActiveStoryTimestampByGroupOrDistributionList
+      }
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );

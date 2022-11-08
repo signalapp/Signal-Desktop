@@ -5526,6 +5526,7 @@ export class ConversationModel extends window.Backbone
     return window.textsecure.storage.protocol.signAlternateIdentity();
   }
 
+  /** @return only undefined if not a group */
   getStorySendMode(): StorySendMode | undefined {
     if (!isGroup(this.attributes)) {
       return undefined;

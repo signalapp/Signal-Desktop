@@ -5779,6 +5779,22 @@
     "message": "Only admins can send stories to this group.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "All Signal connections · {viewersCount, plural, one {1 viewer} other {# viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "All Signal connections · {excludedCount, plural, one {1 excluded} other {# excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "Private story · {viewersCount, plural, one {1 viewer} other {# viewers}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "Group story · {membersCount, plural, one {1 member} other {# members}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Share & View Stories",
     "description": "Select box title for the stories on/off toggle"

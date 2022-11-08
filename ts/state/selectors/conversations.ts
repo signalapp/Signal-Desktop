@@ -17,7 +17,7 @@ import type {
   MessagesByConversationType,
   PreJoinConversationType,
 } from '../ducks/conversations';
-import type { StoriesStateType } from '../ducks/stories';
+import type { StoriesStateType, StoryDataType } from '../ducks/stories';
 import {
   ComposerStep,
   OneTimeModalState,
@@ -61,6 +61,7 @@ import type { AccountSelectorType } from './accounts';
 import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil';
+import { reduce } from '../../util/iterables';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -544,6 +545,29 @@ export const getNonGroupStories = createSelector(
     );
   }
 );
+
+export const selectMostRecentActiveStoryTimestampByGroupOrDistributionList =
+  createSelector(
+    (state: StateType): Array<StoryDataType> => state.stories.stories,
+    (stories: Array<StoryDataType>): Record<string, number> => {
+      return reduce<StoryDataType, Record<string, number>>(
+        stories,
+        (acc, story) => {
+          const distributionListOrConversationId =
+            story.storyDistributionListId ?? story.conversationId;
+          const cur = acc[distributionListOrConversationId];
+          if (cur && story.timestamp < cur) {
+            return acc;
+          }
+          return {
+            ...acc,
+            [distributionListOrConversationId]: story.timestamp,
+          };
+        },
+        {}
+      );
+    }
+  );
 
 export const getGroupStories = createSelector(
   getConversationLookup,

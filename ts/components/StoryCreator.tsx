@@ -65,6 +65,7 @@ export type PropsType = {
     | 'setMyStoriesToAllSignalConnections'
     | 'signalConnections'
     | 'toggleGroupsForStorySend'
+    | 'mostRecentActiveStoryTimestampByGroupOrDistributionList'
     | 'toggleSignalConnectionsModal'
   >;
 
@@ -98,6 +99,7 @@ export const StoryCreator = ({
   setMyStoriesToAllSignalConnections,
   signalConnections,
   toggleGroupsForStorySend,
+  mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [draftAttachment, setDraftAttachment] = useState<
@@ -171,6 +173,9 @@ export const StoryCreator = ({
           }
           signalConnections={signalConnections}
           toggleGroupsForStorySend={toggleGroupsForStorySend}
+          mostRecentActiveStoryTimestampByGroupOrDistributionList={
+            mostRecentActiveStoryTimestampByGroupOrDistributionList
+          }
           toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         />
       )}

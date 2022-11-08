@@ -916,7 +916,7 @@ async function getAvatarsAndUpdateConversation(
   conversation.attributes.avatars = nextAvatars.map(avatarData =>
     omit(avatarData, ['buffer'])
   );
-  await window.Signal.Data.updateConversation(conversation.attributes);
+  window.Signal.Data.updateConversation(conversation.attributes);
 
   return nextAvatars;
 }
@@ -1264,7 +1264,7 @@ export function setVoiceNotePlaybackRate({
       } else {
         conversationModel.attributes.voiceNotePlaybackRate = rate;
       }
-      await window.Signal.Data.updateConversation(conversationModel.attributes);
+      window.Signal.Data.updateConversation(conversationModel.attributes);
     }
 
     const conversation = conversationModel?.format();
@@ -1314,7 +1314,7 @@ function colorSelected({
         delete conversation.attributes.customColorId;
       }
 
-      await window.Signal.Data.updateConversation(conversation.attributes);
+      window.Signal.Data.updateConversation(conversation.attributes);
     }
 
     dispatch({
@@ -2016,7 +2016,7 @@ function toggleGroupsForStorySend(
         conversation.set({
           storySendMode: newStorySendMode,
         });
-        await window.Signal.Data.updateConversation(conversation.attributes);
+        window.Signal.Data.updateConversation(conversation.attributes);
         conversation.captureChange('storySendMode');
       })
     );

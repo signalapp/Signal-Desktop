@@ -8,7 +8,7 @@ import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { DAY, SECOND } from './durations';
-import { MY_STORIES_ID } from '../types/Stories';
+import { MY_STORIES_ID, StorySendMode } from '../types/Stories';
 import { getStoriesBlocked } from './stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -23,6 +23,7 @@ import { getSignalConnections } from './getSignalConnections';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { isGroupV2 } from './whatTypeOfConversation';
 import { isNotNil } from './isNotNil';
+import { collect } from './iterables';
 
 export async function sendStoryMessage(
   listIds: Array<string>,
@@ -180,8 +181,8 @@ export async function sendStoryMessage(
     MessageAttributesType
   >();
 
-  await Promise.all(
-    conversationIds.map(async (conversationId, index) => {
+  const groupsToSendTo = Array.from(
+    collect(conversationIds, conversationId => {
       const group = window.ConversationController.get(conversationId);
 
       if (!group) {
@@ -208,6 +209,27 @@ export async function sendStoryMessage(
         return;
       }
 
+      return group;
+    })
+  );
+
+  // sending a story to a group marks it as one we want to always
+  // include on the send-story-to list
+  const groupsToUpdate = Array.from(groupsToSendTo).filter(
+    group => group.getStorySendMode() !== StorySendMode.Always
+  );
+  for (const group of groupsToUpdate) {
+    group.set('storySendMode', StorySendMode.Always);
+  }
+  window.Signal.Data.updateConversations(
+    groupsToUpdate.map(group => group.attributes)
+  );
+  for (const group of groupsToUpdate) {
+    group.captureChange('storySendMode');
+  }
+
+  await Promise.all(
+    groupsToSendTo.map(async (group, index) => {
       // We want all of these timestamps to be different from the My Story timestamp.
       const groupTimestamp = timestamp + index + 1;
 
@@ -238,7 +260,7 @@ export async function sendStoryMessage(
         await window.Signal.Migrations.upgradeMessageSchema({
           attachments,
           canReplyToStory: true,
-          conversationId,
+          conversationId: group.id,
           expireTimer: DAY / SECOND,
           expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
@@ -255,7 +277,7 @@ export async function sendStoryMessage(
           type: 'story',
         });
 
-      groupV2MessagesByConversationId.set(conversationId, messageAttributes);
+      groupV2MessagesByConversationId.set(group.id, messageAttributes);
     })
   );
 
