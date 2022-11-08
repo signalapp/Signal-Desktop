@@ -1,7 +1,6 @@
 import React from 'react';
 import FocusTrap from 'focus-trap-react';
 import type {
-  GifResult,
   TypeOption,
   PaginationOptions,
   GifsResult,
@@ -9,17 +8,9 @@ import type {
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Grid } from '@giphy/react-components';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
 import { Input } from '../Input';
-
-type GiphyGif = GifResult['data'];
-
-type Gif = {
-  url: string;
-  alt: string;
-};
 
 const CATEGORIES = [
   'trending',
@@ -37,7 +28,7 @@ export type Props = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
   onPickGif: () => void;
-  recentGifs: ReadonlyArray<Gif>;
+  recentGifs: Array<string>;
   showPickerHint?: boolean;
   style?: React.HTMLProps<HTMLDivElement>['style'];
 }>;
@@ -60,7 +51,7 @@ export const GifPicker = React.memo(
 
       const hasRecentGifs = recentGifs.length > 0;
       const [currentTabName, setCurrentTabName] = React.useState<CategoryName>(
-        hasRecentGifs ? 'recent' : 'search'
+        hasRecentGifs ? 'recent' : 'trending'
       );
       const onCategoryClickFactory = (categoryName: CategoryName) => () => {
         setCurrentTabName(categoryName);
@@ -80,10 +71,8 @@ export const GifPicker = React.memo(
             type: 'gifs',
           };
 
-          // Never resolve promise
-          // => always just show initial gifs = recents
           if (currentTabName === 'recent') {
-            return new Promise(noop);
+            return giphy.gifs(recentGifs);
           }
           if (currentTabName === 'search' && searchTerm) {
             return giphy.search(searchTerm, config);
@@ -94,7 +83,7 @@ export const GifPicker = React.memo(
           }
           return giphy.search(currentTabName, config);
         },
-        [currentTabName, searchTerm]
+        [currentTabName, recentGifs, searchTerm]
       );
 
       return (
@@ -103,7 +92,7 @@ export const GifPicker = React.memo(
             <div className="module-gif-picker__header">
               <div className="module-gif-picker__header__categories">
                 <div className="module-gif-picker__header__categories__slider">
-                  {hasRecentGifs || true ? (
+                  {hasRecentGifs ? (
                     <button
                       type="button"
                       onClick={onCategoryClickFactory('recent')}

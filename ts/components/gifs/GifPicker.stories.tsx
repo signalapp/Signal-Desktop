@@ -25,3 +25,12 @@ const withOverrideProps = (overrideProps?: Partial<Props>): React.FC => {
 };
 
 export const Default = withOverrideProps(undefined);
+
+export const WithRecentGifs = withOverrideProps({
+  recentGifs: [
+    'Ju7l5y9osyymQ',
+    'vX9WcCiWwUF7G',
+    '11tTNkNy1SdXGg',
+    'l8ooOxhcItowwLPuZn',
+  ],
+});
