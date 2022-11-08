@@ -161,6 +161,7 @@
     "react-popper": "2.3.0",
     "react-quill": "2.0.0-beta.4",
     "react-redux": "7.2.8",
+    "react-resize-detector": "^7.1.2",
     "react-router-dom": "5.0.1",
     "react-sortable-hoc": "2.0.0",
     "react-textarea-autosize": "8.3.4",
