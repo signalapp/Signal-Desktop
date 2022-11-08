@@ -22,14 +22,14 @@ import { getOpenGroupManager } from './OpenGroupManagerV2';
 // 143.198.213.255:80/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
 
 export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undefined {
-  const lowerCased = urlWithPubkey.trim().toLowerCase();
+  const trimmed = urlWithPubkey.trim();
   try {
-    if (!openGroupV2CompleteURLRegex.test(lowerCased)) {
+    if (!openGroupV2CompleteURLRegex.test(trimmed)) {
       throw new Error('regex fail');
     }
 
     // prefix the URL if it does not have a prefix
-    const prefixedUrl = prefixify(lowerCased);
+    const prefixedUrl = prefixify(trimmed);
     // new URL fails if the protocol is not explicit
     const url = new URL(prefixedUrl);
 
@@ -43,7 +43,7 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
     };
     return room;
   } catch (e) {
-    window?.log?.error('Invalid Opengroup v2 join URL:', lowerCased, e);
+    window?.log?.error('Invalid Opengroup v2 join URL:', trimmed, e);
   }
   return undefined;
 }
@@ -62,8 +62,8 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
     return;
   }
 
-  const serverUrl = room.serverUrl.toLowerCase();
-  const roomId = room.roomId.toLowerCase();
+  const serverUrl = room.serverUrl;
+  const roomId = room.roomId;
   const publicKey = room.serverPublicKey.toLowerCase();
   const prefixedServer = prefixify(serverUrl);
 
