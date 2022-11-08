@@ -80,6 +80,14 @@ export async function handleClosedGroupControlMessage(
     }`
   );
 
+  if (PubKey.isClosedGroupV3(envelope.source)) {
+    window?.log?.warn(
+      'Message ignored; closed group v3 updates cannot come from SignalService.DataMessage.ClosedGroupControlMessage '
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
   if (BlockedNumberController.isGroupBlocked(PubKey.cast(envelope.source))) {
     window?.log?.warn('Message ignored; destined for blocked group');
     await removeFromCache(envelope);
@@ -150,6 +158,11 @@ function sanityCheckNewGroup(
       'groupUpdate: publicKey is not recognized as a valid pubkey',
       hexGroupPublicKey
     );
+    return false;
+  }
+
+  if (PubKey.isClosedGroupV3(hexGroupPublicKey)) {
+    window?.log?.warn('sanityCheckNewGroup: got a v3 new group as a ClosedGroupControlMessage. ');
     return false;
   }
 
@@ -474,6 +487,14 @@ async function performIfValid(
 
   const groupPublicKey = envelope.source;
   const sender = envelope.senderIdentity;
+
+  if (PubKey.isClosedGroupV3(groupPublicKey)) {
+    window?.log?.warn(
+      'Message ignored; closed group v3 updates cannot come from SignalService.DataMessage.ClosedGroupControlMessage '
+    );
+    await removeFromCache(envelope);
+    return;
+  }
 
   const convo = getConversationController().get(groupPublicKey);
   if (!convo) {

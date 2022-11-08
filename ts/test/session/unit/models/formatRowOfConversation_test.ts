@@ -294,5 +294,20 @@ describe('formatRowOfConversation', () => {
         } as ConversationAttributes)
       )
     ).have.deep.property('displayNameInProfile', 'displayNameInProfile');
+
+    expect(
+      formatRowOfConversation(
+        fillConvoAttributesWithDefaults({
+          id: '1234565',
+          type: ConversationTypeEnum.GROUPV3,
+          nickname: 'nickname',
+          displayNameInProfile: 'displayNameInProfile',
+          profileKey: '',
+          avatarPointer: 'avatarPointer',
+          avatarInProfile: 'avatarInProfile',
+          avatarImageId: 1234,
+        } as ConversationAttributes)
+      )
+    ).have.deep.property('displayNameInProfile', 'displayNameInProfile');
   });
 });

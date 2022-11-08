@@ -73,6 +73,12 @@ export class ConversationController {
       throw new TypeError(`'type' must be 'private' or 'group' or 'groupv3' but got: '${type}'`);
     }
 
+    if (type === ConversationTypeEnum.GROUPV3 && !PubKey.isClosedGroupV3(id)) {
+      throw new Error(
+        'required v3 closed group` ` but the pubkey does not match the 03 prefix for them'
+      );
+    }
+
     if (!this._initialFetchComplete) {
       throw new Error('getConversationController().get() needs complete initial fetch');
     }

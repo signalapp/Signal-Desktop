@@ -190,9 +190,18 @@ export async function handleSwarmDataMessage(
     isSyncedMessage ? cleanDataMessage.syncTarget : envelope.source
   );
 
+  const isGroupMessage = !!envelope.senderIdentity;
+  const isGroupV3Message = isGroupMessage && PubKey.isClosedGroupV3(envelope.source);
+  let typeOfConvo = ConversationTypeEnum.PRIVATE;
+  if (isGroupV3Message) {
+    typeOfConvo = ConversationTypeEnum.GROUPV3;
+  } else if (isGroupMessage) {
+    typeOfConvo = ConversationTypeEnum.GROUP;
+  }
+
   const convoToAddMessageTo = await getConversationController().getOrCreateAndWait(
     convoIdToAddTheMessageTo,
-    envelope.senderIdentity ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE
+    typeOfConvo
   );
 
   window?.log?.info(

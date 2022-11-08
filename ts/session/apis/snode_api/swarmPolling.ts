@@ -355,12 +355,15 @@ export class SwarmPolling {
   private loadGroupIds() {
     const convos = getConversationController().getConversations();
 
-    const mediumGroupsOnly = convos.filter(
+    const closedGroupsOnly = convos.filter(
       (c: ConversationModel) =>
-        c.isMediumGroup() && !c.isBlocked() && !c.get('isKickedFromGroup') && !c.get('left')
+        (c.isMediumGroup() || PubKey.isClosedGroupV3(c.id)) &&
+        !c.isBlocked() &&
+        !c.get('isKickedFromGroup') &&
+        !c.get('left')
     );
 
-    mediumGroupsOnly.forEach((c: any) => {
+    closedGroupsOnly.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));
     });
   }

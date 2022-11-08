@@ -78,6 +78,8 @@ import {
   ConversationNotificationSetting,
   ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
+  isDirectConversation,
+  isOpenOrClosedGroup,
 } from './conversationAttributes';
 import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
 import { from_hex } from 'libsodium-wrappers-sumo';
@@ -212,7 +214,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return OpenGroupUtils.isOpenGroupV2(this.id);
   }
   public isClosedGroup() {
-    return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
+    return (
+      (this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic()) ||
+      this.get('type') === ConversationTypeEnum.GROUPV3
+    );
+  }
+  public isPrivate() {
+    return isDirectConversation(this.get('type'));
+  }
+
+  // returns true if this is a closed/medium or open group
+  public isGroup() {
+    return isOpenOrClosedGroup(this.get('type'));
   }
 
   public isBlocked() {
@@ -274,8 +287,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // tslint:disable-next-line: cyclomatic-complexity
     const isPublic = this.isPublic();
 
-    const members = this.isGroup() && !isPublic ? this.get('members') : [];
-    const zombies = this.isGroup() && !isPublic ? this.get('zombies') : [];
+    const members = this.isClosedGroup() ? this.get('members') : [];
+    const zombies = this.isClosedGroup() ? this.get('zombies') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
@@ -304,7 +317,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
-      type: isPrivate ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
+      type: this.get('type'),
     };
 
     if (isPrivate) {
@@ -1662,11 +1675,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  // returns true if this is a closed/medium or open group
-  public isGroup() {
-    return this.get('type') === ConversationTypeEnum.GROUP;
-  }
-
   public async removeMessage(messageId: string) {
     await Data.removeMessage(messageId);
     this.updateLastMessage();
@@ -1718,10 +1726,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const profileName = this.get('displayNameInProfile');
 
     return profileName || PubKey.shorten(pubkey);
-  }
-
-  public isPrivate() {
-    return this.get('type') === ConversationTypeEnum.PRIVATE;
   }
 
   public getAvatarPath(): string | null {

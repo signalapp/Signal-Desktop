@@ -2,7 +2,7 @@ import React from 'react';
 
 import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 
 interface TypingBubbleProps {
   conversationType: ConversationTypeEnum;
@@ -22,7 +22,7 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  if (props.conversationType === ConversationTypeEnum.GROUP) {
+  if (isOpenOrClosedGroup(props.conversationType)) {
     return null;
   }
 

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { OpenGroupData } from '../../../../data/opengroups';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { findCachedBlindedMatchOrLookItUp } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../../../../session/conversations';
@@ -12,6 +11,7 @@ import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
 import {
   getIsTypingEnabled,
   getMessageAvatarProps,
+  getSelectedConversationIsGroup,
   getSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
@@ -38,6 +38,7 @@ export const MessageAvatar = (props: Props) => {
   const dispatch = useDispatch();
   const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
   const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const isSelectedGroup = useSelector(getSelectedConversationIsGroup);
 
   const isTypingEnabled = useSelector(getIsTypingEnabled);
 
@@ -49,15 +50,14 @@ export const MessageAvatar = (props: Props) => {
     authorName,
     sender,
     authorProfileName,
-    conversationType,
     direction,
     isSenderAdmin,
     lastMessageOfSeries,
     isPublic,
   } = avatarProps;
 
-  // no avatar when this is not a private conversation
-  if (conversationType === ConversationTypeEnum.PRIVATE || direction === 'outgoing') {
+  // no avatar when this if this is a private conversation
+  if (!isSelectedGroup || direction === 'outgoing') {
     return null;
   }
   const userName = authorName || authorProfileName || sender;

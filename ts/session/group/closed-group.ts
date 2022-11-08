@@ -79,9 +79,10 @@ export async function initiateClosedGroupUpdate(
   groupName: string,
   members: Array<string>
 ) {
+  const isV3 = PubKey.isClosedGroupV3(groupId);
   const convo = await getConversationController().getOrCreateAndWait(
     groupId,
-    ConversationTypeEnum.GROUP
+    isV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
   if (!convo.isMediumGroup()) {

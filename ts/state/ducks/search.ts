@@ -230,8 +230,6 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
       }
     } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
-    } else if (conversation.type !== ConversationTypeEnum.GROUP) {
-      contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
     }

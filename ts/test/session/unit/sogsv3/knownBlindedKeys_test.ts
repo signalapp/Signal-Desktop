@@ -562,7 +562,7 @@ describe('knownBlindedKeys', () => {
         expect(real).to.eq(undefined);
       });
 
-      it('does iterate over all the conversations but is not private so must fail', async () => {
+      it('does iterate over all the conversations but is not private so must fail: group', async () => {
         getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
@@ -579,6 +579,9 @@ describe('knownBlindedKeys', () => {
         expect(createOrUpdateItem.callCount).to.eq(0);
 
         expect(real).to.eq(undefined);
+      });
+      it('does iterate over all the conversations but is not private so must fail: groupv3', async () => {
+        // we actually cannot test this one as we would need to create  a conversation with groupv3 as type but 05 as prefix, and the conversation controller denies it, as expected
       });
     });
   });
