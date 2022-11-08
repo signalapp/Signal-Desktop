@@ -5536,7 +5536,7 @@
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Stories automatically disapper after 24 hours. Choose who can view your story or create new stories with specific viewers or groups.",
+    "messageformat": "Stories automatically disappear after 24 hours. Choose who can view your story or create new stories with specific viewers or groups.",
     "description": "Description for story settings modal"
   },
   "icu:StoriesSettings__my_stories": {
@@ -5864,7 +5864,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "You can’t reply to this story because you’re longer a member of this group.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
@@ -6048,7 +6048,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "These digits help keep your username private so you can avoid unwanted messages. Share you’re username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
+    "message": "These digits help keep your username private so you can avoid unwanted messages. Share your username with only the people and groups you’d like to chat with. If you change usernames you’ll get a new set of digits.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
