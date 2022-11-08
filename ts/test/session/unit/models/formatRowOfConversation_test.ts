@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
   ConversationAttributes,
+  ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
 import { formatRowOfConversation } from '../../../../node/database_utility';
@@ -283,7 +284,7 @@ describe('formatRowOfConversation', () => {
       formatRowOfConversation(
         fillConvoAttributesWithDefaults({
           id: '123456',
-          type: 'group',
+          type: ConversationTypeEnum.GROUP,
           nickname: 'nickname',
           displayNameInProfile: 'displayNameInProfile',
           profileKey: '',

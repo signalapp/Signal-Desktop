@@ -1,10 +1,31 @@
 import { defaults } from 'lodash';
 import { LastMessageStatusType } from '../state/ducks/conversations';
 
+/**
+ * Private chats have always the type `Private`
+ * Open groups have always the type `Group`
+ * Closed group have the type `Group` when they are not v3 and the type `CLOSED_GROUP` when they v3.
+ * To identity between an open or closed group before v3, we need to rely on the prefix (05 is closed groups, publicChat is opengroup)
+ *
+ *
+ * We will need to support existing closed groups foir now, but we will be able to get rid of existing closed groups at some point.
+ * When we do get rid of them, we will be able to remove any GROUP conversation with prefix 05 (as they are old closed groups) and update the remaining GROUP to be opengroups instead
+ */
 export enum ConversationTypeEnum {
   GROUP = 'group',
-  CLOSED_GROUP = 'groupv3',
+  GROUPV3 = 'groupv3',
   PRIVATE = 'private',
+}
+
+export function isOpenOrClosedGroup(conversationType: ConversationTypeEnum) {
+  return (
+    conversationType === ConversationTypeEnum.GROUP ||
+    conversationType === ConversationTypeEnum.GROUPV3
+  );
+}
+
+export function isDirectConversation(conversationType: ConversationTypeEnum) {
+  return conversationType === ConversationTypeEnum.PRIVATE;
 }
 
 /**
@@ -17,7 +38,7 @@ export type ConversationNotificationSettingType = typeof ConversationNotificatio
 
 export interface ConversationAttributes {
   id: string;
-  type: string;
+  type: ConversationTypeEnum.PRIVATE | ConversationTypeEnum.GROUPV3 | ConversationTypeEnum.GROUP;
 
   // 0 means inactive (undefined and null too but we try to get rid of them and only have 0 = inactive)
   active_at: number;

@@ -65,8 +65,12 @@ export class ConversationController {
       throw new TypeError("'id' must be a string");
     }
 
-    if (type !== ConversationTypeEnum.PRIVATE && type !== ConversationTypeEnum.GROUP) {
-      throw new TypeError(`'type' must be 'private' or 'group' got: '${type}'`);
+    if (
+      type !== ConversationTypeEnum.PRIVATE &&
+      type !== ConversationTypeEnum.GROUP &&
+      type !== ConversationTypeEnum.GROUPV3
+    ) {
+      throw new TypeError(`'type' must be 'private' or 'group' or 'groupv3' but got: '${type}'`);
     }
 
     if (!this._initialFetchComplete) {

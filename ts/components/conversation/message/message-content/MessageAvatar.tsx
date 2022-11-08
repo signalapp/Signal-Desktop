@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { OpenGroupData } from '../../../../data/opengroups';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { findCachedBlindedMatchOrLookItUp } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../../../../session/conversations';
@@ -55,7 +56,8 @@ export const MessageAvatar = (props: Props) => {
     isPublic,
   } = avatarProps;
 
-  if (conversationType !== 'group' || direction === 'outgoing') {
+  // no avatar when this is not a private conversation
+  if (conversationType === ConversationTypeEnum.PRIVATE || direction === 'outgoing') {
     return null;
   }
   const userName = authorName || authorProfileName || sender;

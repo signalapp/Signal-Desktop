@@ -20,6 +20,7 @@ import { MessageAvatar } from '../message-content/MessageAvatar';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { ReadableMessage } from './ReadableMessage';
 import styled, { keyframes } from 'styled-components';
+import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -221,7 +222,7 @@ export const GenericReadableMessage = (props: Props) => {
   }
 
   const selected = isMessageSelected || false;
-  const isGroup = conversationType === 'group';
+  const isGroup = isOpenOrClosedGroup(conversationType);
   const isIncoming = direction === 'incoming';
 
   return (

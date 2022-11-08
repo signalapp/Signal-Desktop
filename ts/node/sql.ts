@@ -22,7 +22,7 @@ import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { StorageItem } from './storage_item'; // checked - only node
-import { ConversationAttributes } from '../models/conversationAttributes';
+import { ConversationAttributes, ConversationTypeEnum } from '../models/conversationAttributes';
 import {
   arrayStrToJson,
   assertValidConversationAttributes,
@@ -2333,7 +2333,7 @@ function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
       members: [],
       displayNameInProfile: `${activeAt}`,
       id: `05${id}`,
-      type: 'group',
+      type: ConversationTypeEnum.GROUPV3,
       didApproveMe: false,
       expireTimer: 0,
       groupAdmins: [],

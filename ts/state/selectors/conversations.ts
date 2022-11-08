@@ -33,7 +33,7 @@ import { LightBoxOptions } from '../../components/conversation/SessionConversati
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { Storage } from '../../util/storage';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
@@ -97,7 +97,8 @@ export const getIsTypingEnabled = createSelector(
 export const getSelectedConversationIsGroup = createSelector(
   getSelectedConversation,
   (state: ReduxConversationType | undefined): boolean => {
-    return state?.type === 'group' || false;
+    const type = state?.type;
+    return type ? isOpenOrClosedGroup(type) : false;
   }
 );
 
@@ -107,7 +108,11 @@ export const getSelectedConversationIsGroup = createSelector(
 export const isClosedGroupConversation = createSelector(
   getSelectedConversation,
   (state: ReduxConversationType | undefined): boolean => {
-    return (state?.type === 'group' && !state.isPublic) || false;
+    return (
+      (state?.type === ConversationTypeEnum.GROUP && !state.isPublic) ||
+      state?.type === ConversationTypeEnum.GROUPV3 ||
+      false
+    );
   }
 );
 
@@ -117,7 +122,7 @@ export const isClosedGroupConversation = createSelector(
 export const isPublicGroupConversation = createSelector(
   getSelectedConversation,
   (state: ReduxConversationType | undefined): boolean => {
-    return (state?.type === 'group' && state.isPublic) || false;
+    return (state?.type === ConversationTypeEnum.GROUP && state.isPublic) || false;
   }
 );
 
@@ -293,7 +298,7 @@ function getConversationTitle(
     return conversation.displayNameInProfile;
   }
 
-  if (conversation.type === 'group') {
+  if (isOpenOrClosedGroup(conversation.type)) {
     return (testingi18n || window.i18n)('unknown');
   }
   return conversation.id;
@@ -560,7 +565,7 @@ export const getConversationHeaderTitleProps = createSelector(getSelectedConvers
     members: state.members || [],
     isPublic: !!state.isPublic,
     subscriberCount: state.subscriberCount,
-    isGroup: state.type === 'group',
+    isGroup: isOpenOrClosedGroup(state.type),
     currentNotificationSetting: state.currentNotificationSetting,
   };
 });

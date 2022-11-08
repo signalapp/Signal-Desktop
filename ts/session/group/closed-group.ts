@@ -253,7 +253,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo | GroupInfoV3
   > = {
     displayNameInProfile: details.name,
     members: details.members,
-    type: 'group',
+    type: isV3(details) ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP,
     is_medium_group: true,
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
