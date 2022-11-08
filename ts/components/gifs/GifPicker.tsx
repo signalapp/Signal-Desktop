@@ -4,6 +4,8 @@ import type { GifResult } from '@giphy/js-fetch-api';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Grid } from '@giphy/react-components';
 import classNames from 'classnames';
+import { noop } from 'lodash';
+import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
 
 type GiphyGif = GifResult['data'];
@@ -41,22 +43,14 @@ const API_KEY = 'ZsUpUm2L6cVbvei347EQNp7HrROjbOdc';
 
 const giphy = new GiphyFetch(API_KEY);
 
-function isMutableRef<T>(val: unknown): val is React.MutableRefObject<T> {
-  return Boolean(
-    val && Object.getOwnPropertyDescriptor(val, 'current') !== undefined
-  );
-}
-
 export const GifPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
     ({ style, onPickGif, recentGifs, i18n }, ref) => {
-      const popupWidth = React.useMemo((): number => {
-        const defaultWidth = 332;
-        if (isMutableRef(ref)) {
-          return ref.current?.offsetWidth ?? defaultWidth;
-        }
-        return defaultWidth;
-      }, [ref]);
+      const { ref: resizeDetectorRef, width = 330 } = useResizeDetector({
+        observerOptions: {
+          box: 'content-box',
+        },
+      });
 
       const hasRecentGifs = recentGifs.length > 0;
       const [currentTabName, setCurrentTabName] = React.useState<CategoryName>(
@@ -124,11 +118,11 @@ export const GifPicker = React.memo(
               </div>
             </div>
             <input />
-            <div className="module-gif-picker__body">
+            <div className="module-gif-picker__body" ref={resizeDetectorRef}>
               <Grid
                 columns={3}
                 fetchGifs={fetchGifs}
-                width={popupWidth}
+                width={width}
                 noLink
                 onGifClick={onPickGif}
                 hideAttribution

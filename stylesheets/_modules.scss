@@ -6102,6 +6102,19 @@ button.module-image__border-overlay:focus {
   }
 
   &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    font-size: 0.8em;
+    overflow-y: auto;
+
+    &__searchbox {
+      &__container {
+        width: 100%;
+        margin: 0 6px;
+      }
+    }
   }
 }
 
