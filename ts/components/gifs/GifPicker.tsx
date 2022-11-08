@@ -1,12 +1,18 @@
 import React from 'react';
 import FocusTrap from 'focus-trap-react';
-import type { GifResult } from '@giphy/js-fetch-api';
+import type {
+  GifResult,
+  TypeOption,
+  PaginationOptions,
+  GifsResult,
+} from '@giphy/js-fetch-api';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { Grid } from '@giphy/react-components';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
+import { Input } from '../Input';
 
 type GiphyGif = GifResult['data'];
 
@@ -60,9 +66,36 @@ export const GifPicker = React.memo(
         setCurrentTabName(categoryName);
       };
 
-      const fetchGifs = React.useCallback((offset: number) => {
-        return giphy.trending({ offset, limit: 15, type: 'gifs' });
+      const [searchTerm, setSearchTerm] = React.useState('');
+      const onSearchTermChange = React.useCallback((newSearchTerm: string) => {
+        setSearchTerm(newSearchTerm);
+        setCurrentTabName('search');
       }, []);
+
+      const fetchGifs = React.useCallback(
+        (offset: number): Promise<GifsResult> => {
+          const config: TypeOption & PaginationOptions = {
+            offset,
+            limit: 15,
+            type: 'gifs',
+          };
+
+          // Never resolve promise
+          // => always just show initial gifs = recents
+          if (currentTabName === 'recent') {
+            return new Promise(noop);
+          }
+          if (currentTabName === 'search' && searchTerm) {
+            return giphy.search(searchTerm, config);
+          }
+          // Default to trending before search term has been entered
+          if (currentTabName === 'search' || currentTabName === 'trending') {
+            return giphy.trending(config);
+          }
+          return giphy.search(currentTabName, config);
+        },
+        [currentTabName, searchTerm]
+      );
 
       return (
         <FocusTrap>
@@ -117,9 +150,18 @@ export const GifPicker = React.memo(
                 </div>
               </div>
             </div>
-            <input />
             <div className="module-gif-picker__body" ref={resizeDetectorRef}>
+              <Input
+                moduleClassName="module-gif-picker__body__searchbox"
+                i18n={i18n}
+                value={currentTabName === 'search' ? searchTerm : ''}
+                onChange={onSearchTermChange}
+                placeholder={i18n('gifs--GifPicker--SearchPlaceholder')}
+                hasClearButton
+              />
               <Grid
+                // force rerender when tab or search change
+                key={currentTabName + searchTerm}
                 columns={3}
                 fetchGifs={fetchGifs}
                 width={width}
