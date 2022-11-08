@@ -9,7 +9,7 @@ import { isBeta } from './version';
 export const getStoriesAvailable = (): boolean => {
   if (
     isBucketValueEnabled(
-      'desktop.stories',
+      'desktop.stories2',
       window.textsecure.storage.user.getNumber(),
       window.textsecure.storage.user.getUuid(UUIDKind.ACI)?.toString()
     )
@@ -21,7 +21,7 @@ export const getStoriesAvailable = (): boolean => {
     return true;
   }
 
-  if (isEnabled('desktop.stories.beta') && isBeta(window.getVersion())) {
+  if (isEnabled('desktop.stories2.beta') && isBeta(window.getVersion())) {
     return true;
   }
 

@@ -13,12 +13,12 @@ describe('RemoteConfig', () => {
   const uuid = '15b9729c-51ea-4ddb-b516-652befe78062';
 
   describe('#innerIsBucketValueEnabled', () => {
-    // Note: bucketValue is 497941 for 'desktop.stories' key
+    // Note: bucketValue is 497941 for 'desktop.stories2' key
 
     it('returns true for 100% wildcard', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories',
+          'desktop.stories2',
           '*:1000000',
           '+12125550000',
           uuid
@@ -30,7 +30,7 @@ describe('RemoteConfig', () => {
     it('returns true for 50% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories',
+          'desktop.stories2',
           '1:500000',
           '+12125550000',
           uuid
@@ -42,7 +42,7 @@ describe('RemoteConfig', () => {
     it('returns false for 40% on country code 1', () => {
       assert.strictEqual(
         innerIsBucketValueEnabled(
-          'desktop.stories',
+          'desktop.stories2',
           '1:400000',
           '+12125550000',
           uuid

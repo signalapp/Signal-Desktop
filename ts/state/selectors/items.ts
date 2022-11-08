@@ -94,7 +94,7 @@ export const getStoriesEnabled = createSelector(
     }
 
     if (
-      isRemoteConfigBucketEnabled(remoteConfig, 'desktop.stories', e164, aci)
+      isRemoteConfigBucketEnabled(remoteConfig, 'desktop.stories2', e164, aci)
     ) {
       return true;
     }
@@ -104,7 +104,7 @@ export const getStoriesEnabled = createSelector(
     }
 
     if (
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories.beta') &&
+      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.stories2.beta') &&
       isBeta(window.getVersion())
     ) {
       return true;
