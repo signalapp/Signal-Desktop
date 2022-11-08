@@ -504,12 +504,12 @@ function handleMessagesChangedOrAdded(
 
 function handleMessageExpiredOrDeleted(
   state: ConversationsStateType,
-  action: PayloadAction<{
+  payload: {
     messageId: string;
     conversationKey: string;
-  }>
-): ConversationsStateType {
-  const { conversationKey, messageId } = action.payload;
+  }
+) {
+  const { conversationKey, messageId } = payload;
   if (conversationKey === state.selectedConversation) {
     // search if we find this message id.
     // we might have not loaded yet, so this case might not happen
@@ -536,6 +536,23 @@ function handleMessageExpiredOrDeleted(
 
     return state;
   }
+  return state;
+}
+
+function handleMessagesExpiredOrDeleted(
+  state: ConversationsStateType,
+  action: PayloadAction<
+    Array<{
+      messageId: string;
+      conversationKey: string;
+    }>
+  >
+): ConversationsStateType {
+  action.payload.forEach(element => {
+    // tslint:disable-next-line: no-parameter-reassignment
+    state = handleMessageExpiredOrDeleted(state, element);
+  });
+
   return state;
 }
 
@@ -670,24 +687,28 @@ const conversationsSlice = createSlice({
       return handleMessagesChangedOrAdded(state, action.payload);
     },
 
-    messageExpired(
+    messagesExpired(
       state: ConversationsStateType,
-      action: PayloadAction<{
-        messageId: string;
-        conversationKey: string;
-      }>
+      action: PayloadAction<
+        Array<{
+          messageId: string;
+          conversationKey: string;
+        }>
+      >
     ) {
-      return handleMessageExpiredOrDeleted(state, action);
+      return handleMessagesExpiredOrDeleted(state, action);
     },
 
-    messageDeleted(
+    messagesDeleted(
       state: ConversationsStateType,
-      action: PayloadAction<{
-        messageId: string;
-        conversationKey: string;
-      }>
+      action: PayloadAction<
+        Array<{
+          messageId: string;
+          conversationKey: string;
+        }>
+      >
     ) {
-      return handleMessageExpiredOrDeleted(state, action);
+      return handleMessagesExpiredOrDeleted(state, action);
     },
 
     conversationReset(state: ConversationsStateType, action: PayloadAction<string>) {
@@ -985,8 +1006,8 @@ export const {
   conversationsChanged,
   conversationRemoved,
   removeAllConversations,
-  messageExpired,
-  messageDeleted,
+  messagesExpired,
+  messagesDeleted,
   conversationReset,
   messagesChanged,
   resetOldTopMessageId,
