@@ -1,6 +1,7 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { GifResult } from '@giphy/js-fetch-api';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
@@ -244,6 +245,8 @@ export type StickerPackType = InstalledStickerPackType &
     stickers: Record<string, StickerType>;
     title: string;
   }>;
+
+export type GifFromGiphyType = GifResult['data'];
 
 export type UnprocessedType = {
   id: string;

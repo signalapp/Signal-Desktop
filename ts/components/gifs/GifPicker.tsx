@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
 import { Input } from '../Input';
+import type { GifFromGiphyType } from '../../sql/Interface';
 
 const CATEGORIES = [
   'trending',
@@ -27,7 +28,7 @@ type CategoryName = 'recent' | 'search' | typeof CATEGORIES[number];
 export type Props = Readonly<{
   i18n: LocalizerType;
   onClose: () => void;
-  onPickGif: () => void;
+  onPickGif: (gif: GifFromGiphyType) => void;
   recentGifs: Array<string>;
   showPickerHint?: boolean;
   style?: React.HTMLProps<HTMLDivElement>['style'];
@@ -48,6 +49,14 @@ export const GifPicker = React.memo(
           box: 'content-box',
         },
       });
+
+      const onGifClick = React.useCallback(
+        (gif: GifsResult['data'][number], event: React.SyntheticEvent) => {
+          event.preventDefault();
+          onPickGif(gif);
+        },
+        [onPickGif]
+      );
 
       const hasRecentGifs = recentGifs.length > 0;
       const [currentTabName, setCurrentTabName] = React.useState<CategoryName>(
@@ -154,8 +163,7 @@ export const GifPicker = React.memo(
                 columns={3}
                 fetchGifs={fetchGifs}
                 width={width}
-                noLink
-                onGifClick={onPickGif}
+                onGifClick={onGifClick}
                 hideAttribution
               />
             </div>

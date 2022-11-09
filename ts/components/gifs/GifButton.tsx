@@ -9,23 +9,29 @@ import { themeClassName } from '../../util/theme';
 import { useRefMerger } from '../../hooks/useRefMerger';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { GifPicker } from './GifPicker';
+import type { GifFromGiphyType } from '../../sql/Interface';
 
 export type Props = Readonly<{
   className?: string;
   i18n: LocalizerType;
-  recentGifs: ReadonlyArray<unknown>;
+  recentGifs: Array<string>;
   onOpenStateChanged?: (isOpen: boolean) => void;
-  onPickGif?: () => void;
-  position: 'top-end' | 'top-start';
+  onPickGif?: (gif: GifFromGiphyType) => void;
+  position?: 'top-end' | 'top-start';
   theme?: Theme;
 }>;
 
 export const GifButton = React.memo(
-  ({ className, i18n, onOpenStateChanged, theme, onPickGif = noop }: Props) => {
+  ({
+    className,
+    i18n,
+    onOpenStateChanged,
+    theme,
+    onPickGif = noop,
+    position = 'top-end',
+    recentGifs,
+  }: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
-
-    const buttonRef = React.useRef<HTMLElement | null>(null);
-    const refMerger = useRefMerger();
 
     const handleSetIsOpen = React.useCallback(
       (value: boolean) => {
@@ -39,6 +45,16 @@ export const GifButton = React.memo(
       handleSetIsOpen(!isOpen);
     };
 
+    const handleGifPicked = React.useCallback(
+      (gif: GifFromGiphyType) => {
+        handleSetIsOpen(false);
+        onPickGif(gif);
+      },
+      [handleSetIsOpen, onPickGif]
+    );
+
+    const buttonRef = React.useRef<HTMLElement | null>(null);
+    const refMerger = useRefMerger();
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
       null
     );
@@ -120,8 +136,8 @@ export const GifButton = React.memo(
                       ref={ref}
                       style={style}
                       i18n={i18n}
-                      onPickGif={onPickGif}
-                      recentGifs={[]}
+                      onPickGif={handleGifPicked}
+                      recentGifs={recentGifs}
                       showPickerHint={false}
                       onClose={noop}
                     />

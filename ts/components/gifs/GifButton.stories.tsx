@@ -1,6 +1,6 @@
 import React from 'react';
 import type { DecoratorFunction } from '@storybook/addons';
-import noop from 'lodash/fp/noop';
+import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './GifButton';
@@ -29,9 +29,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
-  onOpenStateChanged: noop,
-  onPickGif: noop,
-  position: 'top-end',
+  onPickGif: action('onPickGif'),
   recentGifs: [],
   ...overrideProps,
 });
