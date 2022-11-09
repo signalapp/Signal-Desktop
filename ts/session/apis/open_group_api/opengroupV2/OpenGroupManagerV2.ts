@@ -6,7 +6,7 @@ import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
-import _ from 'lodash';
+import _, { clone, isEqual } from 'lodash';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { openGroupV2GetRoomInfoViaOnionV4 } from '../sogsv3/sogsV3RoomInfos';
@@ -153,7 +153,7 @@ export class OpenGroupManagerV2 {
     roomId: string,
     serverPublicKey: string
   ): Promise<ConversationModel | undefined> {
-    const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
+    let conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
 
     if (getConversationController().get(conversationId)) {
       // Url incorrect or server not compatible
@@ -163,39 +163,49 @@ export class OpenGroupManagerV2 {
     // here, the convo does not exist. Make sure the db is clean too
     await OpenGroupData.removeV2OpenGroupRoom(conversationId);
 
-    const room: OpenGroupV2Room = {
-      serverUrl,
-      roomId,
-      conversationId,
-      serverPublicKey,
-    };
-
     try {
+      const room: OpenGroupV2Room = {
+        serverUrl,
+        roomId,
+        conversationId,
+        serverPublicKey,
+      };
+      const updatedRoom = clone(room);
       // save the pubkey to the db right now, the request for room Info
       // will need it and access it from the db
       await OpenGroupData.saveV2OpenGroupRoom(room);
+
       const roomInfos = await openGroupV2GetRoomInfoViaOnionV4({
         serverPubkey: serverPublicKey,
         serverUrl,
         roomId,
       });
-      if (!roomInfos) {
+
+      if (!roomInfos || !roomInfos.id) {
         throw new Error('Invalid open group roomInfo result');
       }
+      updatedRoom.roomId = roomInfos.id;
+      conversationId = getOpenGroupV2ConversationId(serverUrl, roomInfos.id);
+      updatedRoom.conversationId = conversationId;
+      if (!isEqual(room, updatedRoom)) {
+        await OpenGroupData.removeV2OpenGroupRoom(conversationId);
+        await OpenGroupData.saveV2OpenGroupRoom(updatedRoom);
+      }
+
       const conversation = await getConversationController().getOrCreateAndWait(
         conversationId,
         ConversationTypeEnum.GROUP
       );
-      room.imageID = roomInfos.imageId || undefined;
-      room.roomName = roomInfos.name || undefined;
-      room.capabilities = roomInfos.capabilities;
-      await OpenGroupData.saveV2OpenGroupRoom(room);
+      updatedRoom.imageID = roomInfos.imageId || undefined;
+      updatedRoom.roomName = roomInfos.name || undefined;
+      updatedRoom.capabilities = roomInfos.capabilities;
+      await OpenGroupData.saveV2OpenGroupRoom(updatedRoom);
 
       // mark active so it's not in the contacts list but in the conversation list
       // mark isApproved as this is a public chat
       conversation.set({
         active_at: Date.now(),
-        displayNameInProfile: room.roomName,
+        displayNameInProfile: updatedRoom.roomName,
         isApproved: true,
         didApproveMe: true,
         isTrustedForAttachmentDownload: true, // we always trust attachments when sent to an opengroup
@@ -203,7 +213,7 @@ export class OpenGroupManagerV2 {
       await conversation.commit();
 
       // start polling this room
-      this.addRoomToPolledRooms([room]);
+      this.addRoomToPolledRooms([updatedRoom]);
 
       return conversation;
     } catch (e) {

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
 
@@ -57,9 +58,12 @@ export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undef
  * @param room The room id to join
  * @param publicKey The server publicKey. It comes from the joining link. (or is already here for the default open group server)
  */
-async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean): Promise<void> {
+async function joinOpenGroupV2(
+  room: OpenGroupV2Room,
+  fromConfigMessage: boolean
+): Promise<ConversationModel | undefined> {
   if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
-    return;
+    return undefined;
   }
 
   const serverUrl = room.serverUrl;
@@ -97,6 +101,7 @@ async function joinOpenGroupV2(room: OpenGroupV2Room, fromConfigMessage: boolean
     if (!fromConfigMessage) {
       await forceSyncConfigurationNowIfNeeded();
     }
+    return conversation;
   } catch (e) {
     window?.log?.error('Could not join open group v2', e.message);
     throw e;
@@ -154,24 +159,23 @@ export async function joinOpenGroupV2WithUIEvents(
 
     uiCallback?.({ loadingState: 'started', conversationKey: conversationID });
 
-    await joinOpenGroupV2(parsedRoom, fromConfigMessage);
+    const convoCreated = await joinOpenGroupV2(parsedRoom, fromConfigMessage);
 
-    const isConvoCreated = getConversationController().get(conversationID);
-    if (isConvoCreated) {
+    if (convoCreated) {
       if (showToasts) {
         ToastUtils.pushToastSuccess(
           'connectToServerSuccess',
           window.i18n('connectToServerSuccess')
         );
       }
-      uiCallback?.({ loadingState: 'finished', conversationKey: conversationID });
+      uiCallback?.({ loadingState: 'finished', conversationKey: convoCreated?.id });
 
       return true;
-    } else {
-      if (showToasts) {
-        ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
-      }
     }
+    if (showToasts) {
+      ToastUtils.pushToastError('connectToServerFail', window.i18n('connectToServerFail'));
+    }
+
     uiCallback?.({ loadingState: 'failed', conversationKey: conversationID });
   } catch (error) {
     window?.log?.warn('got error while joining open group:', error.message);
