@@ -25,7 +25,7 @@ import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
-import { SIGNAL_AVATAR_PATH } from '../types/Conversation';
+import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation';
 
 export enum AvatarBlur {
   NoBlur,

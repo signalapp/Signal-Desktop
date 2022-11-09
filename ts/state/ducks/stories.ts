@@ -20,7 +20,7 @@ import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
-import { SIGNAL_ACI } from '../../types/Conversation';
+import { SIGNAL_ACI } from '../../types/SignalConversation';
 import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';

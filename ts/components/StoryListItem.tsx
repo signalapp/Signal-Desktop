@@ -11,7 +11,7 @@ import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
-import { SIGNAL_ACI } from '../types/Conversation';
+import { SIGNAL_ACI } from '../types/SignalConversation';
 import { StoryViewTargetType, HasStories } from '../types/Stories';
 
 import { MessageTimestamp } from './conversation/MessageTimestamp';

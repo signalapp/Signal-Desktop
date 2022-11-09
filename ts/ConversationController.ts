@@ -28,7 +28,7 @@ import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';
 import { getUuidsForE164s } from './util/getUuidsForE164s';
-import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/Conversation';
+import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
 
 type ConvoMatchType =
   | {
@@ -409,8 +409,8 @@ export class ConversationController {
     return conversation;
   }
 
-  getOrCreateSignalConversation(): ConversationModel {
-    const conversation = this.getOrCreate(SIGNAL_ACI, 'private', {
+  async getOrCreateSignalConversation(): Promise<ConversationModel> {
+    const conversation = await this.getOrCreateAndWait(SIGNAL_ACI, 'private', {
       muteExpiresAt: Number.MAX_SAFE_INTEGER,
       profileAvatar: { path: SIGNAL_AVATAR_PATH },
       profileName: 'Signal',
@@ -422,28 +422,12 @@ export class ConversationController {
     return conversation;
   }
 
-  getSignalConversationId(): string {
-    if (this._signalConversationId) {
-      return this._signalConversationId;
-    }
-
-    let conversation = this.get(SIGNAL_ACI);
-
-    if (!conversation) {
-      conversation = this.getOrCreateSignalConversation();
-    }
-
-    this._signalConversationId = conversation.id;
-
-    return conversation.id;
-  }
-
   isSignalConversation(uuidOrId: string): boolean {
     if (uuidOrId === SIGNAL_ACI) {
       return true;
     }
 
-    return this.getSignalConversationId() === uuidOrId;
+    return this._signalConversationId === uuidOrId;
   }
 
   areWePrimaryDevice(): boolean {

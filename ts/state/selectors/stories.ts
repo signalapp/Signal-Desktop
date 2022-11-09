@@ -38,7 +38,7 @@ import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as log from '../../logging/log';
-import { SIGNAL_ACI } from '../../types/Conversation';
+import { SIGNAL_ACI } from '../../types/SignalConversation';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;

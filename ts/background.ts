@@ -1021,6 +1021,7 @@ export async function startApp(): Promise<void> {
       await window.ConversationController.load();
 
       await Promise.all([
+        window.ConversationController.getOrCreateSignalConversation(),
         Stickers.load(),
         loadRecentEmojis(),
         loadInitialBadgesState(),

@@ -92,6 +92,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
     })
   );
 
+  log.info('downloadOnboardingStory: getting signal conversation');
   const signalConversation =
     await window.ConversationController.getOrCreateSignalConversation();
 

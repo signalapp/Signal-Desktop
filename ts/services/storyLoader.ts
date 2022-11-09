@@ -16,7 +16,7 @@ import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { SIGNAL_ACI } from '../types/Conversation';
+import { SIGNAL_ACI } from '../types/SignalConversation';
 
 let storyData:
   | Array<
