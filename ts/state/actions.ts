@@ -12,6 +12,7 @@ import { actions as conversations } from './ducks/conversations';
 import { actions as crashReports } from './ducks/crashReports';
 import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
+import { actions as gifs } from './ducks/gifs';
 import { actions as globalModals } from './ducks/globalModals';
 import { actions as items } from './ducks/items';
 import { actions as linkPreviews } from './ducks/linkPreviews';
@@ -39,6 +40,7 @@ export const actionCreators: ReduxActions = {
   crashReports,
   emojis,
   expiration,
+  gifs,
   globalModals,
   items,
   linkPreviews,
@@ -66,6 +68,7 @@ export const mapDispatchToProps = {
   ...crashReports,
   ...emojis,
   ...expiration,
+  ...gifs,
   ...globalModals,
   ...items,
   ...linkPreviews,

@@ -10,6 +10,7 @@ import { getEmptyState as composer } from './ducks/composer';
 import { getEmptyState as conversations } from './ducks/conversations';
 import { getEmptyState as crashReports } from './ducks/crashReports';
 import { getEmptyState as expiration } from './ducks/expiration';
+import { getEmptyState as gifs } from './ducks/gifs';
 import { getEmptyState as globalModals } from './ducks/globalModals';
 import { getEmptyState as linkPreviews } from './ducks/linkPreviews';
 import { getEmptyState as network } from './ducks/network';
@@ -101,6 +102,7 @@ export function getInitialState({
     crashReports: crashReports(),
     emojis: emojis(),
     expiration: expiration(),
+    gifs: gifs(),
     globalModals: globalModals(),
     items,
     linkPreviews: linkPreviews(),

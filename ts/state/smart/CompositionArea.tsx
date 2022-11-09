@@ -30,6 +30,7 @@ import {
   getRecentStickers,
 } from '../selectors/stickers';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { getRecentGifs } from '../selectors/gifs';
 
 type ExternalProps = {
   id: string;
@@ -67,6 +68,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     get(state.items, ['showStickerPickerHint'], false) &&
       receivedPacks.length > 0
   );
+
+  const recentGifs = getRecentGifs(state);
 
   const {
     attachments: draftAttachments,
@@ -122,6 +125,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     recentStickers,
     showIntroduction,
     showPickerHint,
+    // Gifs
+    recentGifs,
     // Message Requests
     ...conversation,
     conversationType: conversation.type,
