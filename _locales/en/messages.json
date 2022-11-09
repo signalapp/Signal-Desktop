@@ -2407,6 +2407,54 @@
     "message": "Error opening sticker pack. Check your internet connection and try again.",
     "description": "The message that appears in the sticker preview modal when there is an error."
   },
+  "gifs--GifPicker--Open": {
+    "message": "Open the GIF picker",
+    "description": "Label for the button to open the GIF picker"
+  },
+  "gifs--GifPicker--Recents": {
+    "message": "Recent GIFs",
+    "description": "Label for the Recent GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--Search": {
+    "message": "Search GIFs",
+    "description": "Label for the Search GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--trending": {
+    "message": "Trending GIFs",
+    "description": "Label for the Trending GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--celebrate": {
+    "message": "Celebrate GIFs",
+    "description": "Label for the Celebrate GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--love": {
+    "message": "Love GIFs",
+    "description": "Label for the Love GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--thumbsup": {
+    "message": "Thumbs Up GIFs",
+    "description": "Label for the Thumbs Up GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--surprised": {
+    "message": "Surprised GIFs",
+    "description": "Label for the Surprised GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--excited": {
+    "message": "Excited GIFs",
+    "description": "Label for the Excited GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--sad": {
+    "message": "Sad GIFs",
+    "description": "Label for the Sad GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--angry": {
+    "message": "Angry GIFs",
+    "description": "Label for the Angry GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--SearchPlaceholder": {
+    "message": "Search GIPHY",
+    "description": "Placeholder for the GIF search term input field"
+  },
   "EmojiPicker--empty": {
     "message": "No emoji found",
     "description": "Shown in the emoji picker when a search yields 0 results."

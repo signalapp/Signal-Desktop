@@ -2408,6 +2408,54 @@
     "message": "Fehler beim Öffnen des Sticker-Sets. Überprüfe deine Internetverbindung und versuche es erneut.",
     "description": "The message that appears in the sticker preview modal when there is an error."
   },
+  "gifs--GifPicker--Open": {
+    "message": "GIF-Auswahl öffnen",
+    "description": "Label for the button to open the GIF picker"
+  },
+  "gifs--GifPicker--Recents": {
+    "message": "Letzte GIFs",
+    "description": "Label for the Recent GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--Search": {
+    "message": "GIFs suchen",
+    "description": "Label for the Search GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--trending": {
+    "message": "Trendende GIFs",
+    "description": "Label for the Trending GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--celebrate": {
+    "message": "Zelebrierungsgifs",
+    "description": "Label for the Celebrate GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--love": {
+    "message": "Liebesgifs",
+    "description": "Label for the Love GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--thumbsup": {
+    "message": "Daumen Hoch GIFs",
+    "description": "Label for the Thumbs Up GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--surprised": {
+    "message": "Überraschte GIFs",
+    "description": "Label for the Surprised GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--excited": {
+    "message": "Aufgeregte GIFs",
+    "description": "Label for the Excited GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--sad": {
+    "message": "Traurige GIFs",
+    "description": "Label for the Sad GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--angry": {
+    "message": "Wütende GIFs",
+    "description": "Label for the Angry GIFs tab in the GIF picker"
+  },
+  "gifs--GifPicker--SearchPlaceholder": {
+    "message": "GIPHY durchsuchen",
+    "description": "Placeholder for the GIF search term input field"
+  },
   "EmojiPicker--empty": {
     "message": "Keine Emojis gefunden",
     "description": "Shown in the emoji picker when a search yields 0 results."
