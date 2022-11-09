@@ -85,6 +85,7 @@ const mapStateToProps = (state: StateType) => {
     },
     selectedConversationId: state.conversations.selectedConversationId,
     selectedMessage: state.conversations.selectedMessage,
+    selectedMessageSource: state.conversations.selectedMessageSource,
     theme: getTheme(state),
 
     executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {

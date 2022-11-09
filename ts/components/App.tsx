@@ -81,6 +81,7 @@ export const App = ({
   requestVerification,
   selectedConversationId,
   selectedMessage,
+  selectedMessageSource,
   showConversation,
   showWhatsNewModal,
   theme,
@@ -117,6 +118,7 @@ export const App = ({
         renderLeftPane={renderLeftPane}
         selectedConversationId={selectedConversationId}
         selectedMessage={selectedMessage}
+        selectedMessageSource={selectedMessageSource}
         showConversation={showConversation}
         showWhatsNewModal={showWhatsNewModal}
       />
