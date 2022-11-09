@@ -13,6 +13,7 @@ import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesD
 import { isGroup, isDirectConversation } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
+import { isConversationAccepted } from './isConversationAccepted';
 import { ReadStatus } from '../messages/MessageReadStatus';
 
 export async function markConversationRead(
@@ -134,10 +135,12 @@ export async function markConversationRead(
       readSyncJobQueue.add({ readSyncs });
     }
 
-    await readReceiptsJobQueue.addIfAllowedByUser(
-      window.storage,
-      allReadMessagesSync
-    );
+    if (isConversationAccepted(conversationAttrs)) {
+      await readReceiptsJobQueue.addIfAllowedByUser(
+        window.storage,
+        allReadMessagesSync
+      );
+    }
   }
 
   expiringMessagesDeletionService.update();
