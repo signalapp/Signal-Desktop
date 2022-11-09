@@ -60,6 +60,7 @@ import { MediaEditor } from './MediaEditor';
 import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { GifButton } from './gifs/GifButton';
+import type { Props as GifPickerProps } from './gifs/GifPicker';
 
 export type CompositionAPIType =
   | {
@@ -164,6 +165,7 @@ export type Props = Pick<
     | 'showPickerHint'
     | 'clearShowPickerHint'
   > &
+  Pick<GifPickerProps, 'recentGifs' | 'onPickGif'> &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
@@ -231,6 +233,9 @@ export function CompositionArea({
   clearShowIntroduction,
   showPickerHint,
   clearShowPickerHint,
+  // Gifs
+  recentGifs,
+  onPickGif,
   // Message Requests
   acceptedMessageRequest,
   areWePending,
@@ -439,7 +444,7 @@ export function CompositionArea({
     </>
   );
 
-  const stickerButtonPlacement = large ? 'top-start' : 'top-end';
+  const stickerAndGifButtonPlacement = large ? 'top-start' : 'top-end';
   const stickerButtonFragment = withStickers ? (
     <div className="CompositionArea__button-cell">
       <StickerButton
@@ -456,13 +461,19 @@ export function CompositionArea({
         clearShowIntroduction={clearShowIntroduction}
         showPickerHint={showPickerHint}
         clearShowPickerHint={clearShowPickerHint}
-        position={stickerButtonPlacement}
+        position={stickerAndGifButtonPlacement}
       />
     </div>
   ) : null;
+
   const gifButtonFragment = (
     <div className="CompositionArea__button-cell">
-      <GifButton i18n={i18n} recentGifs={[]} position="top-end" />
+      <GifButton
+        i18n={i18n}
+        recentGifs={recentGifs}
+        position={stickerAndGifButtonPlacement}
+        onPickGif={onPickGif}
+      />
     </div>
   );
 

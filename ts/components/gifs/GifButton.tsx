@@ -41,9 +41,13 @@ export const GifButton = React.memo(
       [onOpenStateChanged, setIsOpen]
     );
 
-    const handleClickButton = () => {
+    const handleClickButton = React.useCallback(() => {
       handleSetIsOpen(!isOpen);
-    };
+    }, [handleSetIsOpen, isOpen]);
+
+    const handleClose = React.useCallback(() => {
+      handleSetIsOpen(false);
+    }, [handleSetIsOpen]);
 
     const handleGifPicked = React.useCallback(
       (gif: GifFromGiphyType) => {
@@ -81,23 +85,7 @@ export const GifButton = React.memo(
       }
 
       return handleOutsideClick(
-        target => {
-          const targetElement = target as HTMLElement;
-          const targetClassName = targetElement
-            ? targetElement.className || ''
-            : '';
-
-          // We need to special-case sticker picker header buttons, because they can
-          //   disappear after being clicked, which breaks the .contains() check below.
-          const isMissingButtonClass =
-            !targetClassName ||
-            targetClassName.indexOf('module-sticker-picker__header__button') <
-              0;
-
-          if (!isMissingButtonClass) {
-            return false;
-          }
-
+        () => {
           handleSetIsOpen(false);
           return true;
         },
@@ -129,7 +117,7 @@ export const GifButton = React.memo(
         </Reference>
         {isOpen && popperRoot
           ? createPortal(
-              <Popper>
+              <Popper placement={position}>
                 {({ ref, style }) => (
                   <div className={theme ? themeClassName(theme) : undefined}>
                     <GifPicker
@@ -139,7 +127,7 @@ export const GifButton = React.memo(
                       onPickGif={handleGifPicked}
                       recentGifs={recentGifs}
                       showPickerHint={false}
-                      onClose={noop}
+                      onClose={handleClose}
                     />
                   </div>
                 )}

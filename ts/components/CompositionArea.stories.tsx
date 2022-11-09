@@ -120,6 +120,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   // SMS-only
   isSMSOnly: overrideProps.isSMSOnly || false,
   isFetchingUUID: overrideProps.isFetchingUUID || false,
+  onPickGif: action('onPickGif'),
+  recentGifs: [],
 });
 
 export function Default(): JSX.Element {
