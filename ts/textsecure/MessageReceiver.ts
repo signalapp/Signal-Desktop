@@ -1352,7 +1352,9 @@ export default class MessageReceiver
     try {
       const content = Proto.Content.decode(plaintext);
 
-      isGroupV2 = Boolean(content.dataMessage?.groupV2);
+      isGroupV2 =
+        Boolean(content.dataMessage?.groupV2) ||
+        Boolean(content.storyMessage?.group);
 
       if (
         content.senderKeyDistributionMessage &&
@@ -1372,10 +1374,13 @@ export default class MessageReceiver
           isStoryReply && content.dataMessage?.groupV2
         );
         const isStory = Boolean(content.storyMessage);
-        const isGroupStorySend = isGroupStoryReply || isStory;
         const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
 
-        if (envelope.story && !isGroupStorySend && !isDeleteForEveryone) {
+        if (
+          envelope.story &&
+          !(isGroupStoryReply || isStory) &&
+          !isDeleteForEveryone
+        ) {
           log.warn(
             `${logId}: Dropping story message - story=true on envelope, but message was not a group story send or delete`
           );
@@ -1383,7 +1388,7 @@ export default class MessageReceiver
           return { plaintext: undefined, envelope };
         }
 
-        if (!envelope.story && isGroupStorySend) {
+        if (!envelope.story && (isGroupStoryReply || isStory)) {
           log.warn(
             `${logId}: Malformed story - story=false on envelope, but was a group story send`
           );
@@ -1404,8 +1409,9 @@ export default class MessageReceiver
           envelope.sourceUuid || envelope.source
         );
         if (
-          (!sender || !sender.get('profileSharing')) &&
-          (isStoryReply || isStory)
+          (isStoryReply || isStory) &&
+          !isGroupV2 &&
+          (!sender || !sender.get('profileSharing'))
         ) {
           log.warn(
             `${logId}: Dropping story message - !profileSharing for sender`
