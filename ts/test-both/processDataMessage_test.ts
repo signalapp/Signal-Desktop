@@ -46,16 +46,16 @@ describe('processDataMessage', () => {
       TIMESTAMP
     );
 
-  it('should process attachments', async () => {
-    const out = await check({
+  it('should process attachments', () => {
+    const out = check({
       attachments: [UNPROCESSED_ATTACHMENT],
     });
 
     assert.deepStrictEqual(out.attachments, [PROCESSED_ATTACHMENT]);
   });
 
-  it('should process attachments with 0 cdnId', async () => {
-    const out = await check({
+  it('should process attachments with 0 cdnId', () => {
+    const out = check({
       attachments: [
         {
           ...UNPROCESSED_ATTACHMENT,
@@ -72,25 +72,24 @@ describe('processDataMessage', () => {
     ]);
   });
 
-  it('should throw on too many attachments', async () => {
+  it('should throw on too many attachments', () => {
     const attachments: Array<Proto.IAttachmentPointer> = [];
     for (let i = 0; i < ATTACHMENT_MAX + 1; i += 1) {
       attachments.push(UNPROCESSED_ATTACHMENT);
     }
 
-    await assert.isRejected(
-      check({ attachments }),
+    assert.throws(
+      () => check({ attachments }),
       `Too many attachments: ${ATTACHMENT_MAX + 1} included in one message` +
         `, max is ${ATTACHMENT_MAX}`
     );
   });
 
-  it('should process group context UPDATE/QUIT message', async () => {
+  it('should process group context UPDATE/QUIT message', () => {
     const { UPDATE, QUIT } = Proto.GroupContext.Type;
 
     for (const type of [UPDATE, QUIT]) {
-      // eslint-disable-next-line no-await-in-loop
-      const out = await check({
+      const out = check({
         body: 'should be deleted',
         attachments: [UNPROCESSED_ATTACHMENT],
         group: {
@@ -115,8 +114,8 @@ describe('processDataMessage', () => {
     }
   });
 
-  it('should process group context DELIVER message', async () => {
-    const out = await check({
+  it('should process group context DELIVER message', () => {
+    const out = check({
       body: 'should not be deleted',
       attachments: [UNPROCESSED_ATTACHMENT],
       group: {
@@ -139,8 +138,8 @@ describe('processDataMessage', () => {
     });
   });
 
-  it('should process groupv2 context', async () => {
-    const out = await check({
+  it('should process groupv2 context', () => {
+    const out = check({
       groupV2: {
         masterKey: new Uint8Array(32),
         revision: 1,
@@ -168,16 +167,16 @@ describe('processDataMessage', () => {
     });
   });
 
-  it('should base64 profileKey', async () => {
-    const out = await check({
+  it('should base64 profileKey', () => {
+    const out = check({
       profileKey: new Uint8Array([42, 23, 55]),
     });
 
     assert.strictEqual(out.profileKey, 'Khc3');
   });
 
-  it('should process quote', async () => {
-    const out = await check({
+  it('should process quote', () => {
+    const out = check({
       quote: {
         id: Long.fromNumber(1),
         authorUuid: 'author',
@@ -208,8 +207,8 @@ describe('processDataMessage', () => {
     });
   });
 
-  it('should process contact', async () => {
-    const out = await check({
+  it('should process contact', () => {
+    const out = check({
       contact: [
         {
           avatar: {
@@ -235,16 +234,14 @@ describe('processDataMessage', () => {
     ]);
   });
 
-  it('should process reaction', async () => {
+  it('should process reaction', () => {
     assert.deepStrictEqual(
-      (
-        await check({
-          reaction: {
-            emoji: '😎',
-            targetTimestamp: Long.fromNumber(TIMESTAMP),
-          },
-        })
-      ).reaction,
+      check({
+        reaction: {
+          emoji: '😎',
+          targetTimestamp: Long.fromNumber(TIMESTAMP),
+        },
+      }).reaction,
       {
         emoji: '😎',
         remove: false,
@@ -254,15 +251,13 @@ describe('processDataMessage', () => {
     );
 
     assert.deepStrictEqual(
-      (
-        await check({
-          reaction: {
-            emoji: '😎',
-            remove: true,
-            targetTimestamp: Long.fromNumber(TIMESTAMP),
-          },
-        })
-      ).reaction,
+      check({
+        reaction: {
+          emoji: '😎',
+          remove: true,
+          targetTimestamp: Long.fromNumber(TIMESTAMP),
+        },
+      }).reaction,
       {
         emoji: '😎',
         remove: true,
@@ -272,8 +267,8 @@ describe('processDataMessage', () => {
     );
   });
 
-  it('should process preview', async () => {
-    const out = await check({
+  it('should process preview', () => {
+    const out = check({
       preview: [
         {
           date: Long.fromNumber(TIMESTAMP),
@@ -293,8 +288,8 @@ describe('processDataMessage', () => {
     ]);
   });
 
-  it('should process sticker', async () => {
-    const out = await check({
+  it('should process sticker', () => {
+    const out = check({
       sticker: {
         packId: new Uint8Array([1, 2, 3]),
         packKey: new Uint8Array([4, 5, 6]),
@@ -313,8 +308,8 @@ describe('processDataMessage', () => {
     });
   });
 
-  it('should process FLAGS=END_SESSION', async () => {
-    const out = await check({
+  it('should process FLAGS=END_SESSION', () => {
+    const out = check({
       flags: FLAGS.END_SESSION,
       body: 'should be deleted',
       group: {
@@ -329,11 +324,10 @@ describe('processDataMessage', () => {
     assert.deepStrictEqual(out.attachments, []);
   });
 
-  it('should process FLAGS=EXPIRATION_TIMER_UPDATE,PROFILE_KEY_UPDATE', async () => {
+  it('should process FLAGS=EXPIRATION_TIMER_UPDATE,PROFILE_KEY_UPDATE', () => {
     const values = [FLAGS.EXPIRATION_TIMER_UPDATE, FLAGS.PROFILE_KEY_UPDATE];
     for (const flags of values) {
-      // eslint-disable-next-line no-await-in-loop
-      const out = await check({
+      const out = check({
         flags,
         body: 'should be deleted',
         attachments: [UNPROCESSED_ATTACHMENT],
@@ -344,15 +338,15 @@ describe('processDataMessage', () => {
     }
   });
 
-  it('processes trivial fields', async () => {
-    assert.strictEqual((await check({ flags: null })).flags, 0);
-    assert.strictEqual((await check({ flags: 1 })).flags, 1);
+  it('processes trivial fields', () => {
+    assert.strictEqual(check({ flags: null }).flags, 0);
+    assert.strictEqual(check({ flags: 1 }).flags, 1);
 
-    assert.strictEqual((await check({ expireTimer: null })).expireTimer, 0);
-    assert.strictEqual((await check({ expireTimer: 123 })).expireTimer, 123);
+    assert.strictEqual(check({ expireTimer: null }).expireTimer, 0);
+    assert.strictEqual(check({ expireTimer: 123 }).expireTimer, 123);
 
-    assert.isFalse((await check({ isViewOnce: null })).isViewOnce);
-    assert.isFalse((await check({ isViewOnce: false })).isViewOnce);
-    assert.isTrue((await check({ isViewOnce: true })).isViewOnce);
+    assert.isFalse(check({ isViewOnce: null }).isViewOnce);
+    assert.isFalse(check({ isViewOnce: false }).isViewOnce);
+    assert.isTrue(check({ isViewOnce: true }).isViewOnce);
   });
 });

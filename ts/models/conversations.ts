@@ -3498,10 +3498,9 @@ export class ConversationModel extends window.Backbone
   ): Promise<T> {
     this.jobQueue = this.jobQueue || new PQueue({ concurrency: 1 });
 
-    const taskWithTimeout = createTaskWithTimeout(
-      callback,
-      `conversation ${this.idForLogging()}`
-    );
+    const logId = `conversation.queueJob(${this.idForLogging()}, ${name})`;
+
+    const taskWithTimeout = createTaskWithTimeout(callback, logId);
 
     const abortController = new AbortController();
     const { signal: abortSignal } = abortController;
@@ -3512,7 +3511,7 @@ export class ConversationModel extends window.Backbone
       const waitTime = startedAt - queuedAt;
 
       if (waitTime > JOB_REPORTING_THRESHOLD_MS) {
-        log.info(`Conversation job ${name} was blocked for ${waitTime}ms`);
+        log.info(`${logId}: was blocked for ${waitTime}ms`);
       }
 
       try {
@@ -3524,7 +3523,7 @@ export class ConversationModel extends window.Backbone
         const duration = Date.now() - startedAt;
 
         if (duration > JOB_REPORTING_THRESHOLD_MS) {
-          log.info(`Conversation job ${name} took ${duration}ms`);
+          log.info(`${logId}: took ${duration}ms`);
         }
       }
     });

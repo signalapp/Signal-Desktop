@@ -1935,7 +1935,7 @@ export default class MessageReceiver
     }
     await p;
 
-    const message = await this.processDecrypted(envelope, msg);
+    const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
     const { source, sourceUuid } = envelope;
@@ -2234,7 +2234,7 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, type);
 
-    const message = await this.processDecrypted(envelope, msg);
+    const message = this.processDecrypted(envelope, msg);
     const groupId = this.getProcessedGroupId(message);
     const isBlocked = groupId ? this.isGroupBlocked(groupId) : false;
     const { source, sourceUuid } = envelope;
@@ -3324,10 +3324,10 @@ export default class MessageReceiver
     await this.storage.protocol.archiveAllSessions(theirUuid);
   }
 
-  private async processDecrypted(
+  private processDecrypted(
     envelope: ProcessedEnvelope,
     decrypted: Proto.IDataMessage
-  ): Promise<ProcessedDataMessage> {
+  ): ProcessedDataMessage {
     return processDataMessage(decrypted, envelope.timestamp);
   }
 }

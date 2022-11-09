@@ -187,6 +187,8 @@ async function doContactSync({
 
   await window.storage.put('synced_at', Date.now());
   window.Whisper.events.trigger('contactSync:complete');
+
+  log.info(`${logId}: done`);
 }
 
 export async function onContactSync(ev: ContactSyncEvent): Promise<void> {

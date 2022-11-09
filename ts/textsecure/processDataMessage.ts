@@ -267,10 +267,10 @@ export function processGiftBadge(
   };
 }
 
-export async function processDataMessage(
+export function processDataMessage(
   message: Proto.IDataMessage,
   envelopeTimestamp: number
-): Promise<ProcessedDataMessage> {
+): ProcessedDataMessage {
   /* eslint-disable no-bitwise */
 
   // Now that its decrypted, validate the message and clean it up for consumer

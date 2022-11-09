@@ -2203,7 +2203,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
     const idLog = `handleDataMessage/${conversation.idForLogging()} ${message.idForLogging()}`;
-    await conversation.queueJob('handleDataMessage', async () => {
+    await conversation.queueJob(idLog, async () => {
       log.info(`${idLog}: starting processing in queue`);
 
       // First, check for duplicates. If we find one, stop processing here.
