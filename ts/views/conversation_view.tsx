@@ -114,6 +114,7 @@ import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog
 import { getOwn } from '../util/getOwn';
 import { CallMode } from '../types/Calling';
 import { isAnybodyElseInGroupCall } from '../state/ducks/calling';
+import type { GifFromGiphyType } from '../sql/Interface';
 
 type AttachmentOptions = {
   messageId: string;
@@ -544,6 +545,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onClickAddPack: () => this.showStickerManager(),
       onPickSticker: (packId: string, stickerId: number) =>
         this.sendStickerMessage({ packId, stickerId }),
+      onPickGif: (gif: GifFromGiphyType) => this.addGifAttachmentFromGiphy(gif),
       onEditorStateChange: (
         msg: string,
         bodyRanges: DraftBodyRangesType,
@@ -2378,6 +2380,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     } catch (error) {
       log.error('clickSend error:', Errors.toLogFormat(error));
     }
+  }
+
+  async addGifAttachmentFromGiphy(gif: GifFromGiphyType): Promise<void> {
+    // Add to recent GIFs
+    window.reduxActions.gifs.useGif(gif.id.toString());
+
+    // Download file from Giphy and add it as an attachment
+    const chosenVariant = gif.images.original;
+    const srcUrl = chosenVariant.webp ?? chosenVariant.url;
+    const response = await fetch(srcUrl);
+    const blob = await response.blob();
+    const file = new File(
+      [blob],
+      `${encodeURI(gif.title)}.${chosenVariant.webp ? 'webp' : 'gif'}`
+    );
+    await this.processAttachments([file]);
   }
 
   async setQuoteMessage(messageId: null | string): Promise<void> {

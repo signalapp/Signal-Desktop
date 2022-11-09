@@ -37,6 +37,7 @@ export type PropsType = {
     | 'onTextTooLong'
     | 'onUnblock'
     | 'openConversation'
+    | 'onPickGif'
   >;
   conversationHeaderProps: ConversationHeaderPropsType;
   timelineProps: TimelinePropsType;
