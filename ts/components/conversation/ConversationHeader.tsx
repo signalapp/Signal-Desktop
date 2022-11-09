@@ -27,6 +27,7 @@ import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { isConversationMuted } from '../../util/isConversationMuted';
 import {
   useStartCallShortcuts,
   useKeyboardShortcuts,
@@ -47,6 +48,7 @@ export type PropsDataType = {
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
   showBackButton?: boolean;
   isSMSOnly?: boolean;
+  isSignalConversation?: boolean;
   theme: ThemeType;
 } & Pick<
   ConversationType,
@@ -329,6 +331,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       isArchived,
       isMissingMandatoryProfileSharing,
       isPinned,
+      isSignalConversation,
       left,
       markedUnread,
       muteExpiresAt,
@@ -347,10 +350,37 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const disappearingTitle = i18n('icu:disappearingMessages') as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const muteTitle = i18n('muteNotificationsTitle') as any;
+    const muteTitle = <span>{i18n('muteNotificationsTitle')}</span>;
+
+    if (isSignalConversation) {
+      const isMuted = muteExpiresAt && isConversationMuted({ muteExpiresAt });
+
+      return (
+        <ContextMenu id={triggerId}>
+          <SubMenu hoverDelay={1} title={muteTitle} rtl>
+            {isMuted ? (
+              <MenuItem
+                onClick={() => {
+                  onSetMuteNotifications(0);
+                }}
+              >
+                {i18n('unmute')}
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={() => {
+                  onSetMuteNotifications(Number.MAX_SAFE_INTEGER);
+                }}
+              >
+                {i18n('muteAlways')}
+              </MenuItem>
+            )}
+          </SubMenu>
+        </ContextMenu>
+      );
+    }
+
+    const disappearingTitle = <span>{i18n('icu:disappearingMessages')}</span>;
     const isGroup = type === 'group';
 
     const disableTimerChanges = Boolean(
@@ -545,6 +575,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       i18n,
       id,
       isSMSOnly,
+      isSignalConversation,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
       onSetDisappearingMessages,
@@ -594,7 +625,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             >
               {this.renderBackButton()}
               {this.renderHeader()}
-              {!isSMSOnly && (
+              {!isSMSOnly && !isSignalConversation && (
                 <OutgoingCallButtons
                   announcementsOnly={announcementsOnly}
                   areWeAdmin={areWeAdmin}

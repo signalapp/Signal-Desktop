@@ -28,6 +28,7 @@ import {
   getRecentlyInstalledStickerPack,
   getRecentStickers,
 } from '../selectors/stickers';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 type ExternalProps = {
   id: string;
@@ -122,6 +123,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     ...conversation,
     conversationType: conversation.type,
     isSMSOnly: Boolean(isConversationSMSOnly(conversation)),
+    isSignalConversation: isSignalConversation(conversation),
     isFetchingUUID: conversation.isFetchingUUID,
     isMissingMandatoryProfileSharing:
       isMissingRequiredProfileSharing(conversation),

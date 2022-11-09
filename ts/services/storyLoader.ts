@@ -16,6 +16,7 @@ import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { isGroup } from '../util/whatTypeOfConversation';
+import { SIGNAL_ACI } from '../types/Conversation';
 
 let storyData:
   | Array<
@@ -146,9 +147,10 @@ async function repairUnexpiredStories(): Promise<void> {
   const storiesWithExpiry = storyData
     .filter(
       story =>
-        !story.expirationStartTimestamp ||
-        !story.expireTimer ||
-        story.expireTimer > DAY_AS_SECONDS
+        story.sourceUuid !== SIGNAL_ACI &&
+        (!story.expirationStartTimestamp ||
+          !story.expireTimer ||
+          story.expireTimer > DAY_AS_SECONDS)
     )
     .map(story => ({
       ...story,

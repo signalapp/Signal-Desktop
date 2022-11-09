@@ -91,6 +91,7 @@ export type StoryViewType = {
     | 'profileName'
     | 'sharedGroupNames'
     | 'title'
+    | 'uuid'
   >;
   sendState?: Array<StorySendStateType>;
   timestamp: number;

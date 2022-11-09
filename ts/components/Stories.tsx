@@ -30,8 +30,11 @@ export type PropsType = {
   addStoryData: AddStoryData;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasViewReceiptSetting: boolean;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
+  isStoriesSettingsVisible: boolean;
+  isViewingStory: boolean;
   me: ConversationType;
   myStories: Array<MyStoryType>;
   onForwardStory: (storyId: string) => unknown;
@@ -46,19 +49,19 @@ export type PropsType = {
   stories: Array<ConversationStoryType>;
   toggleHideStories: (conversationId: string) => unknown;
   toggleStoriesView: () => unknown;
-  viewUserStories: ViewUserStoriesActionCreatorType;
   viewStory: ViewStoryActionCreatorType;
-  isViewingStory: boolean;
-  isStoriesSettingsVisible: boolean;
-  hasViewReceiptSetting: boolean;
+  viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
 export const Stories = ({
   addStoryData,
   deleteStoryForEveryone,
   getPreferredBadge,
+  hasViewReceiptSetting,
   hiddenStories,
   i18n,
+  isStoriesSettingsVisible,
+  isViewingStory,
   me,
   myStories,
   onForwardStory,
@@ -73,11 +76,8 @@ export const Stories = ({
   stories,
   toggleHideStories,
   toggleStoriesView,
-  viewUserStories,
   viewStory,
-  isViewingStory,
-  isStoriesSettingsVisible,
-  hasViewReceiptSetting,
+  viewUserStories,
 }: PropsType): JSX.Element => {
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
     requiresFullWidth: true,

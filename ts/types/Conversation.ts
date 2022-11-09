@@ -1,8 +1,9 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { computeHash } from '../Crypto';
 import type { ConversationAttributesType } from '../model-types.d';
+import { UUID } from './UUID';
+import { computeHash } from '../Crypto';
 
 export type BuildAvatarUpdaterOptions = Readonly<{
   deleteAttachmentData: (path: string) => Promise<void>;
@@ -87,3 +88,6 @@ export async function deleteExternalFiles(
     await deleteAttachmentData(profileAvatar.path);
   }
 }
+
+export const SIGNAL_ACI = UUID.cast('11111111-1111-4111-8111-111111111111');
+export const SIGNAL_AVATAR_PATH = 'images/icon_256.png';

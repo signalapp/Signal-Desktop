@@ -25,6 +25,7 @@ import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath
 import { getInitials } from '../util/getInitials';
 import { isBadgeVisible } from '../badges/isBadgeVisible';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
+import { SIGNAL_AVATAR_PATH } from '../types/Conversation';
 
 export enum AvatarBlur {
   NoBlur,
@@ -295,7 +296,10 @@ export const Avatar: FunctionComponent<Props> = ({
         'module-Avatar',
         Boolean(storyRing) && 'module-Avatar--with-story',
         storyRing === HasStories.Unread && 'module-Avatar--with-story--unread',
-        className
+        className,
+        avatarPath === SIGNAL_AVATAR_PATH
+          ? 'module-Avatar--signal-official'
+          : undefined
       )}
       style={{
         minWidth: size,

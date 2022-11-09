@@ -28,6 +28,7 @@ import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';
 import { getUuidsForE164s } from './util/getUuidsForE164s';
+import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/Conversation';
 
 type ConvoMatchType =
   | {
@@ -129,8 +130,8 @@ const {
 export function start(): void {
   const conversations = new window.Whisper.ConversationCollection();
 
-  window.getConversations = () => conversations;
   window.ConversationController = new ConversationController(conversations);
+  window.getConversations = () => conversations;
 }
 
 export class ConversationController {
@@ -143,6 +144,8 @@ export class ConversationController {
   private _hasQueueEmptied = false;
 
   private _combineConversationsQueue = new PQueue({ concurrency: 1 });
+
+  private _signalConversationId: undefined | string;
 
   constructor(private _conversations: ConversationModelCollectionType) {
     const debouncedUpdateUnreadCount = debounce(
@@ -404,6 +407,43 @@ export class ConversationController {
     }
 
     return conversation;
+  }
+
+  getOrCreateSignalConversation(): ConversationModel {
+    const conversation = this.getOrCreate(SIGNAL_ACI, 'private', {
+      muteExpiresAt: Number.MAX_SAFE_INTEGER,
+      profileAvatar: { path: SIGNAL_AVATAR_PATH },
+      profileName: 'Signal',
+      profileSharing: true,
+    });
+
+    this._signalConversationId = conversation.id;
+
+    return conversation;
+  }
+
+  getSignalConversationId(): string {
+    if (this._signalConversationId) {
+      return this._signalConversationId;
+    }
+
+    let conversation = this.get(SIGNAL_ACI);
+
+    if (!conversation) {
+      conversation = this.getOrCreateSignalConversation();
+    }
+
+    this._signalConversationId = conversation.id;
+
+    return conversation.id;
+  }
+
+  isSignalConversation(uuidOrId: string): boolean {
+    if (uuidOrId === SIGNAL_ACI) {
+      return true;
+    }
+
+    return this.getSignalConversationId() === uuidOrId;
   }
 
   areWePrimaryDevice(): boolean {

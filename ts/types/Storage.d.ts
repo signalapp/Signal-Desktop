@@ -65,8 +65,10 @@ export type StorageAccessType = {
   defaultConversationColor: DefaultConversationColorType;
   customColors: CustomColorsItemType;
   device_name: string;
+  existingOnboardingStoryMessageIds: Array<string> | undefined;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
+  hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;
   identityKeyMap: IdentityKeyMap;

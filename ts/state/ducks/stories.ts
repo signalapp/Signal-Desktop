@@ -20,6 +20,7 @@ import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
+import { SIGNAL_ACI } from '../../types/Conversation';
 import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
@@ -31,6 +32,7 @@ import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/d
 import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { getMessageById } from '../../messages/getMessageById';
+import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead';
 import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
@@ -345,9 +347,19 @@ function markStoryRead(
       return;
     }
 
+    const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
+
+    if (isSignalOnboardingStory) {
+      markOnboardingStoryAsRead();
+      return;
+    }
+
     const storyReadDate = Date.now();
 
     message.set(markViewed(message.attributes, storyReadDate));
+    window.Signal.Data.saveMessage(message.attributes, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
 
     const viewedReceipt = {
       messageId,

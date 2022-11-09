@@ -69,6 +69,7 @@ export type PropsType = {
   hasAllStoriesMuted: boolean;
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
+  isSignalConversation?: boolean;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
   numStories: number;
@@ -121,6 +122,7 @@ export const StoryViewer = ({
   hasAllStoriesMuted,
   hasViewReceiptSetting,
   i18n,
+  isSignalConversation,
   loadStoryReplies,
   markStoryRead,
   numStories,
@@ -454,47 +456,52 @@ export const StoryViewer = ({
 
   const isSent = Boolean(sendState);
 
-  const contextMenuOptions: ReadonlyArray<ContextMenuOptionType<unknown>> =
-    isSent
-      ? [
-          {
-            icon: 'StoryListItem__icon--info',
-            label: i18n('StoryListItem__info'),
-            onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
-          },
-          {
-            icon: 'StoryListItem__icon--delete',
-            label: i18n('StoryListItem__delete'),
-            onClick: () => setConfirmDeleteStory(story),
-          },
-        ]
-      : [
-          {
-            icon: 'StoryListItem__icon--info',
-            label: i18n('StoryListItem__info'),
-            onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
-          },
-          {
-            icon: 'StoryListItem__icon--hide',
-            label: isHidden
-              ? i18n('StoryListItem__unhide')
-              : i18n('StoryListItem__hide'),
-            onClick: () => {
-              if (isHidden) {
-                onHideStory(conversationId);
-              } else {
-                setHasConfirmHideStory(true);
-              }
-            },
-          },
-          {
-            icon: 'StoryListItem__icon--chat',
-            label: i18n('StoryListItem__go-to-chat'),
-            onClick: () => {
-              onGoToConversation(conversationId);
-            },
-          },
-        ];
+  let contextMenuOptions:
+    | ReadonlyArray<ContextMenuOptionType<unknown>>
+    | undefined;
+
+  if (isSent) {
+    contextMenuOptions = [
+      {
+        icon: 'StoryListItem__icon--info',
+        label: i18n('StoryListItem__info'),
+        onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
+      },
+      {
+        icon: 'StoryListItem__icon--delete',
+        label: i18n('StoryListItem__delete'),
+        onClick: () => setConfirmDeleteStory(story),
+      },
+    ];
+  } else if (!isSignalConversation) {
+    contextMenuOptions = [
+      {
+        icon: 'StoryListItem__icon--info',
+        label: i18n('StoryListItem__info'),
+        onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
+      },
+      {
+        icon: 'StoryListItem__icon--hide',
+        label: isHidden
+          ? i18n('StoryListItem__unhide')
+          : i18n('StoryListItem__hide'),
+        onClick: () => {
+          if (isHidden) {
+            onHideStory(conversationId);
+          } else {
+            setHasConfirmHideStory(true);
+          }
+        },
+      },
+      {
+        icon: 'StoryListItem__icon--chat',
+        label: i18n('StoryListItem__go-to-chat'),
+        onClick: () => {
+          onGoToConversation(conversationId);
+        },
+      },
+    ];
+  }
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -685,14 +692,16 @@ export const StoryViewer = ({
                   }
                   type="button"
                 />
-                <ContextMenu
-                  aria-label={i18n('MyStories__more')}
-                  i18n={i18n}
-                  menuOptions={contextMenuOptions}
-                  moduleClassName="StoryViewer__more"
-                  onMenuShowingChanged={setIsShowingContextMenu}
-                  theme={Theme.Dark}
-                />
+                {contextMenuOptions && (
+                  <ContextMenu
+                    aria-label={i18n('MyStories__more')}
+                    i18n={i18n}
+                    menuOptions={contextMenuOptions}
+                    moduleClassName="StoryViewer__more"
+                    onMenuShowingChanged={setIsShowingContextMenu}
+                    theme={Theme.Dark}
+                  />
+                )}
               </div>
             </div>
             <div className="StoryViewer__progress">

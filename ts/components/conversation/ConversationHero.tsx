@@ -25,6 +25,7 @@ export type Props = {
   id: string;
   i18n: LocalizerType;
   isMe: boolean;
+  isSignalConversation?: boolean;
   membersCount?: number;
   name?: string;
   phoneNumber?: string;
@@ -111,6 +112,7 @@ export const ConversationHero = ({
   hasStories,
   id,
   isMe,
+  isSignalConversation,
   membersCount,
   sharedGroupNames = [],
   name,
@@ -185,7 +187,14 @@ export const ConversationHero = ({
           title={title}
         />
         <h1 className="module-conversation-hero__profile-name">
-          {isMe ? i18n('noteToSelf') : <ContactName title={title} />}
+          {isMe ? (
+            i18n('noteToSelf')
+          ) : (
+            <ContactName
+              isSignalConversation={isSignalConversation}
+              title={title}
+            />
+          )}
         </h1>
         {about && !isMe && (
           <div className="module-about__container">
@@ -207,20 +216,23 @@ export const ConversationHero = ({
             )}
           </div>
         ) : null}
-        {renderMembershipRow({
-          acceptedMessageRequest,
-          conversationType,
-          i18n,
-          isMe,
-          onClickMessageRequestWarning() {
-            setIsShowingMessageRequestWarning(true);
-          },
-          phoneNumber,
-          sharedGroupNames,
-        })}
-        <div className="module-conversation-hero__linkNotification">
-          {i18n('messageHistoryUnsynced')}
-        </div>
+        {!isSignalConversation &&
+          renderMembershipRow({
+            acceptedMessageRequest,
+            conversationType,
+            i18n,
+            isMe,
+            onClickMessageRequestWarning() {
+              setIsShowingMessageRequestWarning(true);
+            },
+            phoneNumber,
+            sharedGroupNames,
+          })}
+        {!isSignalConversation && (
+          <div className="module-conversation-hero__linkNotification">
+            {i18n('messageHistoryUnsynced')}
+          </div>
+        )}
       </div>
       {isShowingMessageRequestWarning && (
         <ConfirmationDialog

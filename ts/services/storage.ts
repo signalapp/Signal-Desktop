@@ -63,6 +63,7 @@ import type {
 } from '../sql/Interface';
 import { MY_STORIES_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
+import { isSignalConversation } from '../util/isSignalConversation';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -237,6 +238,10 @@ async function generateManifest(
 
     let identifierType;
     let storageRecord;
+
+    if (isSignalConversation(conversation.attributes)) {
+      continue;
+    }
 
     const conversationType = typeofConversation(conversation.attributes);
     if (conversationType === ConversationTypes.Me) {

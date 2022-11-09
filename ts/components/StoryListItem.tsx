@@ -3,15 +3,16 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
-import { StoryViewTargetType, HasStories } from '../types/Stories';
+import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
+import { SIGNAL_ACI } from '../types/Conversation';
+import { StoryViewTargetType, HasStories } from '../types/Stories';
 
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
@@ -97,6 +98,8 @@ export const StoryListItem = ({
 
   const { firstName, title } = sender;
 
+  const isSignalOfficial = sender.uuid === SIGNAL_ACI;
+
   let avatarStoryRing: HasStories | undefined;
   if (attachment) {
     avatarStoryRing = isUnread ? HasStories.Unread : HasStories.Read;
@@ -109,40 +112,46 @@ export const StoryListItem = ({
     repliesElement = <div className="StoryListItem__info--replies--others" />;
   }
 
+  const menuOptions = [
+    {
+      icon: 'StoryListItem__icon--hide',
+      label: isHidden
+        ? i18n('StoryListItem__unhide')
+        : i18n('StoryListItem__hide'),
+      onClick: () => {
+        if (isHidden) {
+          onHideStory(conversationId);
+        } else {
+          setHasConfirmHideStory(true);
+        }
+      },
+    },
+  ];
+
+  if (!isSignalOfficial) {
+    menuOptions.push({
+      icon: 'StoryListItem__icon--info',
+      label: i18n('StoryListItem__info'),
+      onClick: () =>
+        viewUserStories({
+          conversationId,
+          viewTarget: StoryViewTargetType.Details,
+        }),
+    });
+
+    menuOptions.push({
+      icon: 'StoryListItem__icon--chat',
+      label: i18n('StoryListItem__go-to-chat'),
+      onClick: () => onGoToConversation(conversationId),
+    });
+  }
+
   return (
     <>
       <ContextMenu
         aria-label={i18n('StoryListItem__label')}
         i18n={i18n}
-        menuOptions={[
-          {
-            icon: 'StoryListItem__icon--hide',
-            label: isHidden
-              ? i18n('StoryListItem__unhide')
-              : i18n('StoryListItem__hide'),
-            onClick: () => {
-              if (isHidden) {
-                onHideStory(conversationId);
-              } else {
-                setHasConfirmHideStory(true);
-              }
-            },
-          },
-          {
-            icon: 'StoryListItem__icon--info',
-            label: i18n('StoryListItem__info'),
-            onClick: () =>
-              viewUserStories({
-                conversationId,
-                viewTarget: StoryViewTargetType.Details,
-              }),
-          },
-          {
-            icon: 'StoryListItem__icon--chat',
-            label: i18n('StoryListItem__go-to-chat'),
-            onClick: () => onGoToConversation(conversationId),
-          },
-        ]}
+        menuOptions={menuOptions}
         moduleClassName={classNames('StoryListItem', {
           'StoryListItem--hidden': isHidden,
         })}
@@ -162,13 +171,18 @@ export const StoryListItem = ({
           <>
             <div className="StoryListItem__info--title">
               {group ? group.title : title}
+              {isSignalOfficial && (
+                <span className="StoryListItem__signal-official" />
+              )}
             </div>
-            <MessageTimestamp
-              i18n={i18n}
-              isRelativeTime
-              module="StoryListItem__info--timestamp"
-              timestamp={timestamp}
-            />
+            {!isSignalOfficial && (
+              <MessageTimestamp
+                i18n={i18n}
+                isRelativeTime
+                module="StoryListItem__info--timestamp"
+                timestamp={timestamp}
+              />
+            )}
           </>
           {repliesElement}
         </div>

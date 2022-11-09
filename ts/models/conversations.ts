@@ -130,6 +130,7 @@ import { getConversationIdForLogging } from '../util/idForLogging';
 import { getSendTarget } from '../util/getSendTarget';
 import { getRecipients } from '../util/getRecipients';
 import { validateConversation } from '../util/validateConversation';
+import { isSignalConversation } from '../util/isSignalConversation';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -3357,6 +3358,10 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    if (isSignalConversation(this.attributes)) {
+      return;
+    }
+
     if (hasUserInitiatedMessages) {
       await this.maybeRemoveUniversalTimer();
       return;
@@ -3920,6 +3925,10 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    if (isSignalConversation(this.attributes)) {
+      return;
+    }
+
     const now = timestamp || Date.now();
 
     log.info(
@@ -4445,6 +4454,10 @@ export class ConversationModel extends window.Backbone
     }
   ): Promise<boolean | null | MessageModel | void> {
     const isSetByOther = providedSource || providedSentAt !== undefined;
+
+    if (isSignalConversation(this.attributes)) {
+      return;
+    }
 
     if (isGroupV2(this.attributes)) {
       if (isSetByOther) {
@@ -5086,6 +5099,9 @@ export class ConversationModel extends window.Backbone
 
   getAbsoluteAvatarPath(): string | undefined {
     const avatarPath = this.getAvatarPath();
+    if (isSignalConversation(this.attributes)) {
+      return avatarPath;
+    }
     return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
   }
 
@@ -5199,6 +5215,10 @@ export class ConversationModel extends window.Backbone
   // [X] dontNotifyForMentionsIfMuted
   // [x] firstUnregisteredAt
   captureChange(logMessage: string): void {
+    if (isSignalConversation(this.attributes)) {
+      return;
+    }
+
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
     this.set({ needsStorageServiceSync: true });
 

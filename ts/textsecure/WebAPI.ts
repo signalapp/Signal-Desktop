@@ -480,6 +480,8 @@ const URL_CALLS = {
   getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/auth/group',
   getIceServers: 'v1/accounts/turn',
+  getOnboardingStoryManifest:
+    'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
   groupJoinedAtVersion: 'v1/groups/joined_at_version',
@@ -542,6 +544,7 @@ type InitializeOptionsType = {
   url: string;
   storageUrl: string;
   updatesUrl: string;
+  resourcesUrl: string;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
@@ -815,6 +818,10 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<void>;
   deleteUsername: (abortSignal?: AbortSignal) => Promise<void>;
+  downloadOnboardingStories: (
+    version: string,
+    imageFiles: Array<string>
+  ) => Promise<Array<Uint8Array>>;
   getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<Uint8Array>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getDevices: () => Promise<GetDevicesResultType>;
@@ -846,6 +853,10 @@ export type WebAPIType = {
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
   getMyKeys: (uuidKind: UUIDKind) => Promise<number>;
+  getOnboardingStoryManifest: () => Promise<{
+    version: string;
+    languages: Record<string, Array<string>>;
+  }>;
   getProfile: (
     identifier: string,
     options: GetProfileOptionsType
@@ -1030,6 +1041,7 @@ export function initialize({
   url,
   storageUrl,
   updatesUrl,
+  resourcesUrl,
   directoryConfig,
   cdnUrlObject,
   certificateAuthority,
@@ -1045,6 +1057,9 @@ export function initialize({
   }
   if (!is.string(updatesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl');
+  }
+  if (!is.string(resourcesUrl)) {
+    throw new Error('WebAPI.initialize: Invalid updatesUrl (general)');
   }
   if (!is.object(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
@@ -1141,26 +1156,23 @@ export function initialize({
 
     // Thanks, function hoisting!
     return {
-      getSocketStatus,
-      checkSockets,
-      onOnline,
-      onOffline,
-      reconnect,
-      registerRequestHandler,
-      unregisterRequestHandler,
-      onHasStoriesDisabledChange,
       authenticate,
-      logout,
       cdsLookup,
       checkAccountExistence,
+      checkSockets,
       confirmCode,
+      confirmUsername,
       createGroup,
       deleteUsername,
-      finishRegistration,
+      downloadOnboardingStories,
       fetchLinkPreviewImage,
       fetchLinkPreviewMetadata,
+      finishRegistration,
+      getAccountForUsername,
       getAttachment,
       getAvatar,
+      getBadgeImageFile,
+      getBoostBadgesFromServer,
       getConfig,
       getDevices,
       getGroup,
@@ -1174,44 +1186,49 @@ export function initialize({
       getKeysForIdentifier,
       getKeysForIdentifierUnauth,
       getMyKeys,
+      getOnboardingStoryManifest,
       getProfile,
-      getAccountForUsername,
       getProfileUnauth,
-      getBadgeImageFile,
-      getBoostBadgesFromServer,
       getProvisioningResource,
       getSenderCertificate,
+      getSocketStatus,
       getSticker,
       getStickerPackManifest,
       getStorageCredentials,
       getStorageManifest,
       getStorageRecords,
+      logout,
       makeProxiedRequest,
       makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
+      onHasStoriesDisabledChange,
+      onOffline,
+      onOnline,
       postBatchIdentityCheck,
       putAttachment,
       putProfile,
       putStickers,
-      reserveUsername,
-      confirmUsername,
+      reconnect,
       registerCapabilities,
       registerKeys,
+      registerRequestHandler,
       registerSupportForUnauthenticatedDelivery,
       reportMessage,
       requestVerificationSMS,
       requestVerificationVoice,
+      reserveUsername,
+      sendChallengeResponse,
       sendMessages,
       sendMessagesUnauth,
       sendWithSenderKey,
       setSignedPreKey,
       startRegistration,
+      unregisterRequestHandler,
       updateDeviceName,
       uploadAvatar,
       uploadGroupAvatar,
       whoami,
-      sendChallengeResponse,
     };
 
     function _ajax(
@@ -1404,6 +1421,20 @@ export function initialize({
         responseType: 'json',
         schema: { username: 'string', password: 'string' },
       })) as StorageServiceCredentials;
+    }
+
+    async function getOnboardingStoryManifest() {
+      const res = await _ajax({
+        call: 'getOnboardingStoryManifest',
+        host: resourcesUrl,
+        httpType: 'GET',
+        responseType: 'json',
+      });
+
+      return res as {
+        version: string;
+        languages: Record<string, Array<string>>;
+      };
     }
 
     async function getStorageManifest(
@@ -1642,6 +1673,28 @@ export function initialize({
         },
         version,
       });
+    }
+
+    async function downloadOnboardingStories(
+      manifestVersion: string,
+      imageFiles: Array<string>
+    ): Promise<Array<Uint8Array>> {
+      return Promise.all(
+        imageFiles.map(fileName =>
+          _outerAjax(
+            `${resourcesUrl}/static/desktop/stories/onboarding/${manifestVersion}/${fileName}.jpg`,
+            {
+              certificateAuthority,
+              contentType: 'application/octet-stream',
+              proxyUrl,
+              responseType: 'bytes',
+              timeout: 0,
+              type: 'GET',
+              version,
+            }
+          )
+        )
+      );
     }
 
     async function getBoostBadgesFromServer(

@@ -58,6 +58,8 @@
     &--title {
       @include font-body-1-bold;
       color: $color-gray-05;
+      display: flex;
+      align-items: center;
     }
 
     &--timestamp,
@@ -174,5 +176,13 @@
     vertical-align: middle;
     width: 12px;
     @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);
+  }
+
+  &__signal-official {
+    background: url('../images/icons/v2/official-20.svg') no-repeat center;
+    display: inline-block;
+    height: 16px;
+    margin-left: 6px;
+    width: 16px;
   }
 }

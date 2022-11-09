@@ -18,6 +18,7 @@ import { TypingAnimation } from '../conversation/TypingAnimation';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
@@ -58,6 +59,7 @@ export type PropsData = Pick<
   | 'typingContactId'
   | 'unblurredAvatarPath'
   | 'unreadCount'
+  | 'uuid'
 > & {
   badge?: BadgeType;
 };
@@ -96,6 +98,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     typingContactId,
     unblurredAvatarPath,
     unreadCount,
+    uuid,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
     const headerName = (
@@ -105,7 +108,11 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
             {i18n('noteToSelf')}
           </span>
         ) : (
-          <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
+          <ContactName
+            module={HEADER_CONTACT_NAME_CLASS_NAME}
+            isSignalConversation={isSignalConversation({ id, uuid })}
+            title={title}
+          />
         )}
         {isMuted && <div className={`${HEADER_NAME_CLASS_NAME}__mute-icon`} />}
       </>

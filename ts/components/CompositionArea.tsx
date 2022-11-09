@@ -92,6 +92,7 @@ export type OwnProps = Readonly<{
   ) => unknown;
   compositionApi?: MutableRefObject<CompositionAPIType>;
   conversationId: string;
+  uuid?: string;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
@@ -101,6 +102,7 @@ export type OwnProps = Readonly<{
   isFetchingUUID?: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
+  isSignalConversation?: boolean;
   recordingState: RecordingState;
   isSMSOnly?: boolean;
   left?: boolean;
@@ -176,6 +178,7 @@ export const CompositionArea = ({
   processAttachments,
   removeAttachment,
   theme,
+  isSignalConversation,
 
   // AttachmentList
   draftAttachments,
@@ -480,6 +483,11 @@ export const CompositionArea = ({
       document.removeEventListener('keydown', handler);
     };
   }, [setLarge]);
+
+  if (isSignalConversation) {
+    // TODO DESKTOP-4547
+    return <div />;
+  }
 
   if (
     isBlocked ||

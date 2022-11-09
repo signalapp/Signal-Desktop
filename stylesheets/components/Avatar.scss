@@ -160,4 +160,18 @@
       border-color: $color-ultramarine-dawn;
     }
   }
+
+  &--signal-official {
+    .module-Avatar__contents {
+      align-items: center;
+      background-color: $color-ultramarine;
+      display: flex;
+      justify-content: center;
+    }
+
+    .module-Avatar__image {
+      height: 66%;
+      width: 66%;
+    }
+  }
 }

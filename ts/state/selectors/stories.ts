@@ -38,6 +38,7 @@ import { getStoriesEnabled } from './items';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as log from '../../logging/log';
+import { SIGNAL_ACI } from '../../types/Conversation';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -67,6 +68,20 @@ function sortByRecencyAndUnread(
   storyA: ConversationStoryType,
   storyB: ConversationStoryType
 ): number {
+  if (
+    storyA.storyView.sender.uuid === SIGNAL_ACI &&
+    storyA.storyView.isUnread
+  ) {
+    return -1;
+  }
+
+  if (
+    storyB.storyView.sender.uuid === SIGNAL_ACI &&
+    storyB.storyView.isUnread
+  ) {
+    return 1;
+  }
+
   if (storyA.storyView.isUnread && storyB.storyView.isUnread) {
     return storyA.storyView.timestamp > storyB.storyView.timestamp ? -1 : 1;
   }
@@ -160,6 +175,7 @@ export function getStoryView(
     'profileName',
     'sharedGroupNames',
     'title',
+    'uuid',
   ]);
 
   const {
@@ -330,9 +346,13 @@ export const getStories = createSelector(
         return;
       }
 
-      // if for some reason this story is already experied (bug)
-      // log it and skip it
-      if ((calculateExpirationTimestamp(story) ?? 0) < Date.now()) {
+      // if for some reason this story is already expired (bug)
+      // log it and skip it. Unless it's the onboarding story, that story
+      // doesn't have an expiration until it is viewed.
+      if (
+        !story.sourceUuid === SIGNAL_ACI &&
+        (calculateExpirationTimestamp(story) ?? 0) < Date.now()
+      ) {
         const messageIdForLogging = getMessageIdForLogging({
           ...pick(story, 'type', 'sourceUuid', 'sourceDevice'),
           sent_at: story.timestamp,

@@ -30,6 +30,7 @@ const WebAPI = initializeWebAPI({
   url: config.serverUrl,
   storageUrl: config.storageUrl,
   updatesUrl: config.updatesUrl,
+  resourcesUrl: config.resourcesUrl,
   directoryConfig: config.directoryConfig,
   cdnUrlObject: {
     0: config.cdnUrl0,

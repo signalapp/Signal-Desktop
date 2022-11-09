@@ -97,6 +97,7 @@ import { DAY, HOUR, SECOND } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
 import { isIncoming, isOutgoing, isStory } from '../../messages/helpers';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -1645,6 +1646,10 @@ function canReplyOrReact(
   }
 
   if (deletedForEveryone) {
+    return false;
+  }
+
+  if (isSignalConversation(conversation)) {
     return false;
   }
 

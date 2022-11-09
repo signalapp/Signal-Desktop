@@ -25,6 +25,7 @@ import {
   getStoryByIdSelector,
 } from '../selectors/stories';
 import { isInFullScreenCall } from '../selectors/calling';
+import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
@@ -92,6 +93,9 @@ export function SmartStoryViewer(): JSX.Element | null {
       hasAllStoriesMuted={hasAllStoriesMuted}
       hasViewReceiptSetting={hasViewReceiptSetting}
       i18n={i18n}
+      isSignalConversation={isSignalConversation({
+        id: conversationStory.conversationId,
+      })}
       numStories={selectedStoryData.numStories}
       onHideStory={toggleHideStories}
       onGoToConversation={senderId => {

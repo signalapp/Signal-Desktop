@@ -13,6 +13,7 @@ import type { BadgeType } from '../../badges/types';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,
@@ -31,6 +32,7 @@ export type ContactListItemConversationType = Pick<
   | 'unblurredAvatarPath'
   | 'username'
   | 'e164'
+  | 'uuid'
 >;
 
 type PropsDataType = ContactListItemConversationType & {
@@ -63,13 +65,18 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     title,
     type,
     unblurredAvatarPath,
+    uuid,
   }) {
     const headerName = isMe ? (
       <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
         {i18n('noteToSelf')}
       </span>
     ) : (
-      <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
+      <ContactName
+        isSignalConversation={isSignalConversation({ id, uuid })}
+        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        title={title}
+      />
     );
 
     const messageText =

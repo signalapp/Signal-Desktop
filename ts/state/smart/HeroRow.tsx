@@ -10,6 +10,7 @@ import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 import { getHasStoriesSelector } from '../selectors/stories';
+import { isSignalConversation } from '../../util/isSignalConversation';
 
 type ExternalProps = {
   id: string;
@@ -30,6 +31,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationType: conversation.type,
     hasStories: getHasStoriesSelector(state)(id),
     badge: getPreferredBadgeSelector(state)(conversation.badges),
+    isSignalConversation: isSignalConversation(conversation),
     theme: getTheme(state),
   };
 };

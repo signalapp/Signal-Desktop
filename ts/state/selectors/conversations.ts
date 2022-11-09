@@ -61,6 +61,7 @@ import type { AccountSelectorType } from './accounts';
 import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil';
+import { isSignalConversation } from '../../util/isSignalConversation';
 import { reduce } from '../../util/iterables';
 
 let placeholderContact: ConversationType;
@@ -296,6 +297,10 @@ export const _getLeftPaneLists = (
       };
     }
 
+    if (isSignalConversation(conversation)) {
+      continue;
+    }
+
     // We always show pinned conversations
     if (conversation.isPinned) {
       pinnedConversations.push(conversation);
@@ -450,7 +455,8 @@ function hasDisplayInfo(conversation: ConversationType): boolean {
 
 function canComposeConversation(conversation: ConversationType): boolean {
   return Boolean(
-    !conversation.isBlocked &&
+    !isSignalConversation(conversation) &&
+      !conversation.isBlocked &&
       !isConversationUnregistered(conversation) &&
       hasDisplayInfo(conversation) &&
       isTrusted(conversation)
@@ -462,6 +468,7 @@ export const getAllComposableConversations = createSelector(
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
     Object.values(conversationLookup).filter(
       conversation =>
+        !isSignalConversation(conversation) &&
         !conversation.isBlocked &&
         !conversation.isGroupV1AndDisabled &&
         !isConversationUnregistered(conversation) &&

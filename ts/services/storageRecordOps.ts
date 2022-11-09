@@ -52,6 +52,7 @@ import type {
 import dataInterface from '../sql/Client';
 import { MY_STORIES_ID, StorySendMode } from '../types/Stories';
 import * as RemoteConfig from '../RemoteConfig';
+import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 
 const MY_STORIES_BYTES = uuidToBytes(MY_STORIES_ID);
 
@@ -373,6 +374,13 @@ export function toAccountRecord(
   const hasSetMyStoriesPrivacy = window.storage.get('hasSetMyStoriesPrivacy');
   if (hasSetMyStoriesPrivacy !== undefined) {
     accountRecord.hasSetMyStoriesPrivacy = hasSetMyStoriesPrivacy;
+  }
+
+  const hasViewedOnboardingStory = window.storage.get(
+    'hasViewedOnboardingStory'
+  );
+  if (hasViewedOnboardingStory !== undefined) {
+    accountRecord.hasViewedOnboardingStory = hasViewedOnboardingStory;
   }
 
   const hasStoriesDisabled = window.storage.get('hasStoriesDisabled');
@@ -1118,6 +1126,7 @@ export async function mergeAccountRecord(
     displayBadgesOnProfile,
     keepMutedChatsArchived,
     hasSetMyStoriesPrivacy,
+    hasViewedOnboardingStory,
     storiesDisabled,
     storyViewReceiptsEnabled,
   } = accountRecord;
@@ -1313,6 +1322,16 @@ export async function mergeAccountRecord(
   window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
   window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
   window.storage.put('hasSetMyStoriesPrivacy', Boolean(hasSetMyStoriesPrivacy));
+  {
+    const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
+    window.storage.put(
+      'hasViewedOnboardingStory',
+      hasViewedOnboardingStoryBool
+    );
+    if (hasViewedOnboardingStoryBool) {
+      findAndDeleteOnboardingStoryIfExists();
+    }
+  }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
     window.storage.put('hasStoriesDisabled', hasStoriesDisabled);

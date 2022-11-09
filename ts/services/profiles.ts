@@ -79,6 +79,10 @@ export class ProfileService {
       );
     }
 
+    if (window.ConversationController.isSignalConversation(conversationId)) {
+      return;
+    }
+
     if (this.isPaused) {
       throw new Error(
         `ProfileService.get: Cannot add job to paused queue for conversation ${preCheckConversation.idForLogging()}`
