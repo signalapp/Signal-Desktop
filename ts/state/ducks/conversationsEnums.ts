@@ -33,3 +33,9 @@ export enum ConversationVerificationState {
   PendingVerification = 'PendingVerification',
   VerificationCancelled = 'VerificationCancelled',
 }
+
+export enum SelectedMessageSource {
+  Reset = 'Reset',
+  NavigateToMessage = 'NavigateToMessage',
+  Focus = 'Focus',
+}

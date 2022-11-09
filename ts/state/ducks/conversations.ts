@@ -75,6 +75,7 @@ import {
   ComposerStep,
   ConversationVerificationState,
   OneTimeModalState,
+  SelectedMessageSource,
   UsernameSaveState,
 } from './conversationsEnums';
 import { markViewed as messageUpdaterMarkViewed } from '../../services/MessageUpdater';
@@ -347,8 +348,9 @@ export type ConversationsStateType = {
   conversationsByGroupId: ConversationLookupType;
   conversationsByUsername: ConversationLookupType;
   selectedConversationId?: string;
-  selectedMessage?: string;
+  selectedMessage: string | undefined;
   selectedMessageCounter: number;
+  selectedMessageSource: SelectedMessageSource | undefined;
   selectedConversationTitle?: string;
   selectedConversationPanelDepth: number;
   showArchived: boolean;
@@ -2210,7 +2212,9 @@ export function getEmptyState(): ConversationsStateType {
     verificationDataByConversation: {},
     messagesByConversation: {},
     messagesLookup: {},
+    selectedMessage: undefined,
     selectedMessageCounter: 0,
+    selectedMessageSource: undefined,
     showArchived: false,
     selectedConversationTitle: '',
     selectedConversationPanelDepth: 0,
@@ -2698,6 +2702,7 @@ export function reducer(
       ...state,
       selectedMessage: messageId,
       selectedMessageCounter: state.selectedMessageCounter + 1,
+      selectedMessageSource: SelectedMessageSource.Focus,
     };
   }
   if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
@@ -2843,6 +2848,7 @@ export function reducer(
         ? {
             selectedMessage: scrollToMessageId,
             selectedMessageCounter: state.selectedMessageCounter + 1,
+            selectedMessageSource: SelectedMessageSource.Reset,
           }
         : {}),
       messagesLookup: {
@@ -2935,6 +2941,7 @@ export function reducer(
       ...state,
       selectedMessage: messageId,
       selectedMessageCounter: state.selectedMessageCounter + 1,
+      selectedMessageSource: SelectedMessageSource.NavigateToMessage,
       messagesByConversation: {
         ...messagesByConversation,
         [conversationId]: {
@@ -3220,6 +3227,8 @@ export function reducer(
     return {
       ...state,
       selectedMessage: undefined,
+      selectedMessageCounter: 0,
+      selectedMessageSource: undefined,
     };
   }
   if (action.type === 'CLEAR_UNREAD_METRICS') {
@@ -3254,6 +3263,7 @@ export function reducer(
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId: id,
       selectedMessage: messageId,
+      selectedMessageSource: SelectedMessageSource.NavigateToMessage,
     };
 
     if (switchToAssociatedView && id) {
