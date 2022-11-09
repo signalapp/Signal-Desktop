@@ -4,10 +4,15 @@
 import fs from 'fs';
 import pino from 'pino';
 
-import { DAY } from './durations';
+import { DAY, SECOND } from './durations';
 import { isMoreRecentThan } from './timestamp';
 
 export const DEFAULT_MAX_ROTATIONS = 3;
+
+const RETRY_DELAY = 5 * SECOND;
+
+// 5 seconds * 12 = 1 minute
+const MAX_RETRY_COUNT = 12;
 
 export type RotatingPinoDestOptionsType = Readonly<{
   logFile: string;
@@ -26,7 +31,19 @@ export function createRotatingPinoDest({
     mkdir: true,
   });
 
-  function maybeRotate() {
+  let retryCount = 0;
+
+  const warn = (msg: string) => {
+    const line = JSON.stringify({
+      level: 40,
+      time: new Date(),
+      msg,
+    });
+    boom.write(`${line}\n`);
+  };
+
+  function maybeRotate(startingIndex = maxSavedLogFiles - 1) {
+    let pendingFileIndex = startingIndex;
     try {
       const { birthtimeMs } = fs.statSync(logFile);
 
@@ -34,9 +51,10 @@ export function createRotatingPinoDest({
         return;
       }
 
-      for (let i = maxSavedLogFiles - 1; i >= 0; i -= 1) {
-        const currentPath = i === 0 ? logFile : `${logFile}.${i}`;
-        const nextPath = `${logFile}.${i + 1}`;
+      for (; pendingFileIndex >= 0; pendingFileIndex -= 1) {
+        const currentPath =
+          pendingFileIndex === 0 ? logFile : `${logFile}.${pendingFileIndex}`;
+        const nextPath = `${logFile}.${pendingFileIndex + 1}`;
 
         if (fs.existsSync(nextPath)) {
           fs.unlinkSync(nextPath);
@@ -47,11 +65,31 @@ export function createRotatingPinoDest({
         fs.renameSync(currentPath, nextPath);
       }
     } catch (error) {
+      // If we can't access the old log files - try rotating after a small
+      // delay.
+      if (
+        retryCount < MAX_RETRY_COUNT &&
+        (error.code === 'EACCESS' || error.code === 'EPERM')
+      ) {
+        retryCount += 1;
+        warn(`rotatingPinoDest: retrying rotation, retryCount=${retryCount}`);
+        setTimeout(() => maybeRotate(pendingFileIndex), RETRY_DELAY);
+        return;
+      }
+
       boom.destroy();
       boom.emit('error', error);
+      return;
     }
 
+    // Success, reopen
     boom.reopen();
+
+    if (retryCount !== 0) {
+      warn(`rotatingPinoDest: rotation succeeded after ${retryCount} retries`);
+    }
+
+    retryCount = 0;
   }
 
   maybeRotate();
