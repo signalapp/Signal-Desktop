@@ -86,8 +86,10 @@ export const MessageRequestActionsConfirmation = ({
         title={
           <Intl
             i18n={i18n}
-            id="MessageRequests--unblock-confirm-title"
-            components={[<ContactName key="name" title={title} />]}
+            id="MessageRequests--unblock-direct-confirm-title"
+            components={{
+              name: <ContactName key="name" title={title} />,
+            }}
           />
         }
         actions={[
