@@ -143,9 +143,10 @@ export class OpenGroupServerPoller {
       window?.log?.info('this is not the correct ServerPoller');
       return;
     }
-    if (this.roomIdsToPoll.has(room.roomId)) {
+    if (this.roomIdsToPoll.has(room.roomId) || this.roomIdsToPoll.has(room.roomId.toLowerCase())) {
       window?.log?.info(`Removing ${room.roomId} from polling for ${this.serverUrl}`);
       this.roomIdsToPoll.delete(room.roomId);
+      this.roomIdsToPoll.delete(room.roomId.toLowerCase());
     } else {
       window?.log?.info(
         `Cannot remove polling of ${room.roomId} as it is not polled on ${this.serverUrl}`
