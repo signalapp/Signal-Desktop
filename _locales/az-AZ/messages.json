@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Tərcihlər...",
+    "message": "Seçimlər...",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Verilənlər bazanız yüksəldilir. Bu bir az çəkə bilər...",
+    "message": "Verilənlər bazası yeniləşdirilir. Bu, bir az vaxt apara bilər...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Mesajlar yüklənir. İndiyə qədər $count$yüklənib...",
+    "message": "Mesajlar yüklənir. İndiyə qədər $count$ yüklənib...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... tam jurnala baxmaq üçün \"Saxla\"ya klikləyin",
+    "message": "... tam jurnala baxmaq üçün \"Yadda saxla\" üzərinə klikləyin",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Yeni danışıq başlat...",
+    "message": "Yeni söhbəti başlat...",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Daha bir neçə detal...",
+    "message": "Çox az qaldı...",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Çalır...",
+    "message": "Zəng çalır...",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Özəl vaxt...",
+    "message": "Xüsusi vaxt...",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Kim...",
+    "message": "Bunu kim edə bilər...",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "Bunlardan başqa...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

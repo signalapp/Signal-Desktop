@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ wird hinzugefügt...",
+    "message": "$contact$ wird hinzugefügt …",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Alle außer ...",
+    "message": "Alle außer …",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

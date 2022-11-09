@@ -261,11 +261,11 @@
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "အပလီကေးရှင်းကို ချိန်ညှိနေဆဲ...",
+    "message": "အက်ပ်ကို ချိန်ညှိနေဆဲ...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "မက်ဆေ့ချ်များကို ချိန်ညှိနေဆဲ... $status$ ပြီးစီးပြီး။",
+    "message": "မက်ဆေ့ချ်များကို ချိန်ညှိနေဆဲ... $status$ ပြီးပါပြီ။",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Upgrading database. This may take some time...",
+    "message": "ဒေတာဘေ့စ် အဆင့်မြှင့်တင်နေပါသည်။ အချိန်အနည်းငယ် ကြာနိုင်ပါသည်...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Loading messages. $count$ so far...",
+    "message": "မက်ဆေ့ချ်များ ထည့်သွင်းလုပ်ဆောင်နေပါသည်။ $count$ ပြီးစီးပြီး...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... မှတ်တမ်းအပြည့်ကြည့်ရန် သိမ်းရန်ကို နှိပ်ပါ",
+    "message": "... မှတ်တမ်းအပြည့်ကြည့်ရန်အတွက် သိမ်းရန်ကို နှိပ်ပါ",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importing...",
+    "message": "ထည့်သွင်းနေဆဲ...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "စတစ်ကာတွဲကို ထည့်သွင်းနေဆဲ...",
+    "message": "စတစ်ကာတွဲ ထည့်သွင်းနေဆဲ...",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "ပို့ဆဲ ...",
+    "message": "ပို့နေဆဲ...",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "ဖော်ပြပါတို့မှလွဲ၍ အားလုံး...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

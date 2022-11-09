@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ ला जोडत आहे...",
+    "message": "$contact$ ला जोडत आहे(...)",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "लोड करत आहे...",
+    "message": "लोड करत आहे(...)",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "अॅपलिकेशन ऑप्टीमाईझ करत आहे...",
+    "message": "अ‍ॅप्लिकेशन सानुकूलित करत आहे(...)",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "संदेश ऑप्टीमाईझ करत आहे... $status$ पूर्ण.",
+    "message": "संदेश सानुकूलित करणे (...) $status$ पूर्ण झाले.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "डेटाबेस श्रेणीसुधारित करत आहे. ह्याला काही वेळ लागू शकतो...",
+    "message": "डेटाबेस श्रेणीसुधारित करत आहे. ह्याला काही वेळ लागू शकतो(...)",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "संदेश लोड करत आहे. आतापर्यंत$count$...",
+    "message": "संदेश लोड करत आहे. आतापर्यंत $count$(...)",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... संपूर्ण लॉग पाहण्यास, जतन करा क्लिक करा",
+    "message": "(...) संपूर्ण लॉग पाहण्यास, जतन करा वर क्लिक करा",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "पुनरावलोकन लोड करत आहे...",
+    "message": "पुनरावलोकन लोड करत आहे(...)",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "कनेक्ट करत आहे...",
+    "message": "कनेक्ट करत आहे(...)",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "आयात करत आहे...",
+    "message": "इम्पोर्ट करत आहे(...)",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "स्टिकर पॅक स्थापना करत आहे...",
+    "message": "स्टिकर पॅक स्थापित करत आहे(...)",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "फक्त आणखीन अधिक तपशील...",
+    "message": "फक्त आणखी काही तपशील(...)",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "पुन्हा कनेक्ट करत आहे...",
+    "message": "पुन्हा कनेक्ट करत आहे(...)",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "अद्यतन करत आहे...",
+    "message": "अद्यतन करत आहे(...)",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ऑडिओ संलग्न डाउनलोड करत आहे...",
+    "message": "ऑडिओ संलग्नक डाउनलोड करत आहे(...)",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "कस्टम वेळ...",
+    "message": "सानुकूल वेळ(...)",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "गट विवरण जोडा...",
+    "message": "ग्रुप वर्णन जोडा(...)",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "स्वतःबद्दल काहीतरी लिहा...",
+    "message": "स्वतःबद्दल काहीतरी लिहा(...)",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "पाठवत आहे...",
+    "message": "पाठवत आहे(...)",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "प्रत्युत्तर पाठवत आहे...",
+    "message": "प्रत्युत्तर पाठवत आहे(...)",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "प्रतिक्रिया पाठवत आहे...",
+    "message": "प्रतिक्रिया पाठवत आहे(...)",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "वगळून सर्व जण...",
+    "message": "वगळून सर्व जण(...)",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "फक्त यांच्यासह शेअर करा...",
+    "message": "फक्त यांच्यासह शेअर करा(...)",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

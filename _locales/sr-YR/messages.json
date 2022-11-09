@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Учитавам...",
+    "message": "Учитава се…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Оптимизујем апликацију...",
+    "message": "Оптимизујемо апликацију…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Оптимизујем поруке... $status$ завршено.",
+    "message": "Оптимизујемо поруке… $status$ је завршено.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Унапређивање базе података. Ово може потрајати неко време...",
+    "message": "Учитава се база података. То може потрајати неко време…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Учитавање порука. $count$ до сад...",
+    "message": "Учитавају се поруке. $count$ до сада…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... да би видели цео извештај, цкликнути Сачувај",
+    "message": "… да бисте видели цео извештај, кликните на „Сачувај“",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Учитавање приказа...",
+    "message": "Приказ се учитава…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Повезујем се...",
+    "message": "Повезивање је у току…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Увозим...",
+    "message": "Увоз је у току…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Инсталирање пакета налепница...",
+    "message": "Инсталира се пакет налепница…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Још само неколико детаља...",
+    "message": "Још само неколико детаља…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Долазни аудио позив...",
+    "message": "Долазни аудио позив…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Долазни видео позив...",
+    "message": "Долазни видео позив…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Звони...",
+    "message": "Звони…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Обнављање везе...",
+    "message": "Поново повезујемо…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Ажурирање...",
+    "message": "Ажурира се…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Преузимање аудио прилога...",
+    "message": "Преузимамо аудио прилог…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Прилагодити време...",
+    "message": "Одређено време…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Додај опис групи...",
+    "message": "Унесите опис групе…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "Напишите нешто о себи...",
+    "message": "Напишите нешто о себи…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Ко може...",
+    "message": "Ко може…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {

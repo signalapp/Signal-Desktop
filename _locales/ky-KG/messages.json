@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Дагы бир нече маалымат...",
+    "message": "Дагы бир аз калды...",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Жаңыртылууда...",
+    "message": "Жаңырууда...",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {

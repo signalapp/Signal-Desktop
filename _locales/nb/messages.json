@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Legger til $contact$ ...",
+    "message": "Legger til $contact$ …",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Laster...",
+    "message": "Laster inn …",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimaliserer applikasjon...",
+    "message": "Optimaliserer applikasjonen …",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimaliserer meldinger... $status$fullført.",
+    "message": "Optimaliserer meldinger … $status$ fullført.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Oppgraderer database. Dette kan ta litt tid...",
+    "message": "Oppgraderer databasen. Dette kan ta litt tid …",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... for å se hele loggen, trykk på Lagre",
+    "message": "… for å se hele loggen trykker du på Lagre",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Laster forhåndsvisning...",
+    "message": "Laster inn forhåndsvisning …",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Start en ny samtale...",
+    "message": "Start en ny samtale …",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Installerer klistremerkepakke...",
+    "message": "Installerer klistremerkepakke …",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Innkommende lydsamtale...",
+    "message": "Innkommende anrop …",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Innkommende videosamtale...",
+    "message": "Innkommende videoanrop …",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Det ringer...",
+    "message": "Det ringer …",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Kober til på nytt...",
+    "message": "Kobler til på nytt …",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Oppdaterer...",
+    "message": "Oppdaterer …",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Laster ned lydfil...",
+    "message": "Laster ned lydfil …",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "Skriv noe om deg selv ...",
+    "message": "Skriv noe om deg selv …",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Hvem kan...",
+    "message": "Hvem kan …",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "Sender ...",
+    "message": "Sender …",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Sender svar ...",
+    "message": "Sender svar …",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Sender reaksjon ...",
+    "message": "Sender reaksjon …",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Alle unntatt ...",
+    "message": "Alle unntatt …",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Del kun med ...",
+    "message": "Del kun med …",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

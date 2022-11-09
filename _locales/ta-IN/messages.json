@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ சேர்க்கிறது...",
+    "message": "$contact$ சேர்க்கப்படுகின்றன…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "முன்னுரிமைகள்...",
+    "message": "விருப்பங்கள்…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "ஏற்றுதல் ...",
+    "message": "ஏற்றுகிறது…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "பயன்பாட்டை மேம்படுத்துகிறது ...",
+    "message": "செயலியை மேம்படுத்துகிறது…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "செய்திகளை மேம்படுத்துகிறது ... $status$ முடிந்தது.",
+    "message": "மெசேஜ்களை மேம்படுத்துகிறது… $status$ முடிந்தது.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "தரவுத்தளத்தை மேம்படுத்துதல். இதற்கு சிறிது நேரம் ஆகலாம் ...",
+    "message": "தரவுத்தளத்தை மேம்படுத்துகிறது. இதற்கு சிறிது நேரம் ஆகலாம்…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "செய்திகளை ஏற்றுகிறது. 1$count$ இதுவரை ...",
+    "message": "செய்திகளை ஏற்றுகிறது. இதுவரை $count$…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "முன்னோட்டத்தை ஏற்றுகிறது ...",
+    "message": "மாதிரிக்காட்சியை ஏற்றுகிறது…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "இணைக்கிறது ...",
+    "message": "இணைக்கிறது…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "இறக்குமதி செய்கிறது ...",
+    "message": "இறக்குமதியாகிறது…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "ஸ்டிக்கர் பேக்கை நிறுவுகிறது ...",
+    "message": "ஸ்டிக்கர் பேக்கை நிறுவுகிறது…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "இன்னும் சில விவரங்கள் ...",
+    "message": "இன்னும் சில விவரங்கள்…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "உள்வரும் ஒலி அழைப்பு ...",
+    "message": "இன்கமிங் ஆடியோ அழைப்பு…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "உள்வரும் காணொளி அழைப்பு ...",
+    "message": "இன்கமிங் வீடியோ அழைப்பு…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "சிக்னல் மணி ஒலிக்கிறது...",
+    "message": "ஒலிக்கிறது…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "மீண்டும் இணைக்கிறது ...",
+    "message": "மீண்டும் இணைக்கிறது…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "புதுப்பித்தல்...",
+    "message": "புதுப்பித்தல்…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "கேட்பொலி இணைப்பு பதிவிறக்கப்படுகின்றது...",
+    "message": "ஆடியோ இணைப்பைப் பதிவிறக்குகிறது…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "விருப்ப நேரம்...",
+    "message": "விருப்ப நேரம்…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "கூட்டு குழு விளக்கம்...",
+    "message": "குழு விளக்கத்தைச் சேர்க்கவும்…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "உன்னை பற்றி எதாவது எழுது...",
+    "message": "உங்களைப் பற்றி ஏதாவது எழுதவும்…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "யாரால் முடியும்...",
+    "message": "யாரால் முடியும்…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "அனுப்படுகிறது...",
+    "message": "அனுப்புகிறது…",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "இவர்களைத் தவிர...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "இவர்களுடன் மட்டும் பகிரவும்...",
+    "message": "இவருடன் மட்டுமே பகிரவும்...",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "“$contact$“ ને ઉમેરી રહ્યાં છીએ...",
+    "message": "$contact$ ને ઉમેરી રહ્યાં છીએ...",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "લોડીંગ...",
+    "message": "લોડ થઈ રહ્યું છે...",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "ઍપ્લિકેશનને ઑપ્ટિમાઇઝ કરી રહ્યું છે ...",
+    "message": "ઍપ્લિકેશન ઑપ્ટિમાઇઝ થઈ રહી છે...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "મેસેજ ઑપ્ટિમાઇઝ થવાનું ...  $status$ પૂર્ણ.",
+    "message": "મેસેજ ઑપ્ટિમાઇઝ થાય છે... $status$ પૂર્ણ.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "પ્રિવ્યુ લોડ કરી રહ્યું છે ...",
+    "message": "પ્રિવ્યુ લોડ થઈ રહ્યું છે ...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "ઈમ્પોર્ટ કરી રહ્યું છે ...",
+    "message": "ઈમ્પોર્ટ થઈ રહ્યું છે ...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "ફરીથી કનેક્ટ કરી રહ્યું છે ...",
+    "message": "ફરીથી કનેક્ટ થઈ રહ્યું છે...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "અપડેટિંગ...",
+    "message": "અપડેટ થઈ રહ્યું છે...",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {

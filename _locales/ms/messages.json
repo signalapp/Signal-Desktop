@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Memuatkan pratonton...",
+    "message": "Memuatkan Pratonton...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Semua Kecuali...",
+    "message": "Semua kecuali...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

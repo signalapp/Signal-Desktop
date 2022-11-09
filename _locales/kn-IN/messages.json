@@ -373,7 +373,7 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ. ಈವರೆ $count$...",
+    "message": "ಮೆಸೇಜ್‍ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ. ಈವರೆಗೆ $count$...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ ...",
+    "message": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "ಹೊಸ ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ...",
+    "message": "ಹೊಸ ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "ಸ್ಟಿಕ್ಕರ್‌ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "ಇನ್ನು ಕೆಲವೇ ಹೆಚ್ಚು ವಿವರಗಳು...",
+    "message": "ಇನ್ನು ಕೆಲವೇ ವಿವರಗಳು…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ...",
+    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್...",
+    "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕರೆ…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "ರಿಂಗ್ ಆಗುತ್ತಿದೆ...",
+    "message": "ರಿಂಗ್ ಆಗುತ್ತಿದೆ…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಅಪ್‍ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‍ಮೆಂಟ್ ಡೌನ್‍ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "ಕಸ್ಟಮ್ ಸಮಯ...",
+    "message": "ಕಸ್ಟಮ್ ಸಮಯ…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ...",
+    "message": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "ನಿಮ್ಮ ಬಗ್ಗೆ ಏನಾದರೂ ಬರೆಯಿರಿ...",
+    "message": "ನಿಮ್ಮ ಬಗ್ಗೆ ಏನಾದರೂ ಬರೆಯಿರಿ…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "ಉತ್ತರ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಉತ್ತರ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "ಇದನ್ನು ಹೊರತುಪಡಿಸಿ ಎಲ್ಲಾ…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

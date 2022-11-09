@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Ustawienia...",
+    "message": "Ustawienia…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -369,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Uaktualnianie bazy danych. To może chwilę potrwać...",
+    "message": "Uaktualnianie bazy danych. To może chwilę potrwać…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "...aby zobaczyć cały log, kliknij Zapisz",
+    "message": "…aby zobaczyć cały log, kliknij Zapisz",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Wczytywanie podglądu...",
+    "message": "Wczytywanie podglądu…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Łączenie...",
+    "message": "Łączenie…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Instalowanie pakietu naklejek...",
+    "message": "Instalowanie pakietu naklejek…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Jeszcze tylko kilka drobiazgów...",
+    "message": "Jeszcze tylko kilka drobiazgów…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Przychodzące połączenie audio...",
+    "message": "Przychodzące połączenie audio…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Przychodzące połączenie wideo...",
+    "message": "Przychodzące połączenie wideo…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Dzwonienie...",
+    "message": "Dzwonienie…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Ponowne łączenie...",
+    "message": "Ponowne łączenie…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Własny...",
+    "message": "Własny czas...",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "Napisz kilka słów o sobie...",
+    "message": "Napisz kilka słów o sobie…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Kto może...",
+    "message": "Kto może…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {

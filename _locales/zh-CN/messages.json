@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "正在添加$contact$......",
+    "message": "正在添加$contact$……",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "首选项...",
+    "message": "首选项……",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "加载中...",
+    "message": "加载中……",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "正在优化程序...",
+    "message": "正在优化应用……",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "正在优化消息... $status$已完成。",
+    "message": "正在优化消息…… $status$ 已完成。",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "更新数据库。这可能需要一点时间...",
+    "message": "正在更新数据库。这可能需要一点时间……",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "加载消息。目前数目 $count$...",
+    "message": "正在加载消息。目前已加载 $count$……",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "加载预览中...",
+    "message": "正在加载预览……",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "开始新会话...",
+    "message": "开始新会话……",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "正在安装表情包...",
+    "message": "正在安装表情包……",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -4569,11 +4569,11 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "正在下载音频附件...",
+    "message": "正在下载音频附件……",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
-    "message": "音频附件播放时间...",
+    "message": "音频附件播放时间……",
     "description": "Aria label for audio attachment's playback time slider"
   },
   "MessageAudio--playbackRate1": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "自定义时间...",
+    "message": "自定义时间……",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "添加群组描述...",
+    "message": "添加群组描述……",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "介绍一下自己...",
+    "message": "介绍一下自己……",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "谁能...",
+    "message": "谁能……",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "正在发送...",
+    "message": "正在发送……",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "所有人，除了......",
+    "message": "所有人，除了……",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

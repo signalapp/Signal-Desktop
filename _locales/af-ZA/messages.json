@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Voorkeure...",
+    "message": "Voorkeure…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Laai tans...",
+    "message": "Laai tans…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimaliseer tans die toepassing...",
+    "message": "Optimaliseer tans die toepassing…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimaliseer tans boodskappe... $status$ voltooi.",
+    "message": "Optimaliseer tans boodskappe… $status$ voltooi.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Besig om databasis op te gradeer. Dit kan 'n bietjie tyd neem ...",
+    "message": "Besig om databasis op te gradeer. Dit kan 'n bietjie tyd neem…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Besig om boodskappe te laai. $count$ tot dusver...",
+    "message": "Besig om boodskappe te laai. $count$ tot dusver…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Laai tans voorskou...",
+    "message": "Laai tans voorskou…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Besig om te konnekteer...",
+    "message": "Besig om te konnekteer…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Besig om in te voer...",
+    "message": "Besig om in te voer…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Begin 'n nuwe gesprek...",
+    "message": "Begin 'n nuwe gesprek…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Installeer tans plakkerpakket...",
+    "message": "Installeer tans plakkerpakket…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Net nog 'n paar besonderhede...",
+    "message": "Net nog 'n paar besonderhede…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "Besig om te stuur...",
+    "message": "Besig om te stuur…",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "Almal behalwe…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Dodajanje uporabnika_ice $contact$ ...",
+    "message": "Dodajanje uporabnika_ice $contact$ …",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Nastavitve ...",
+    "message": "Nastavitve …",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Nalagam ...",
+    "message": "Nalagam …",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimiziranje nastavitev ...",
+    "message": "Optimiziranje nastavitev …",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimiziranje sporočil ... $status$",
+    "message": "Optimiziranje sporočil … $status$ zaključeno.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa ...",
+    "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa …",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Nalagam sporočila. $count$ doslej ...",
+    "message": "Nalagam sporočila. $count$ doslej …",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... za ogled celotne zabeležbe kliknite Shrani",
+    "message": "... za ogled celotnega dnevnika kliknite Shrani",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -4021,7 +4021,7 @@
     "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
   },
   "GroupV1--Migration--learn-more": {
-    "message": "Več o tem...",
+    "message": "Več o tem",
     "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
   },
   "GroupV1--Migration--migrate": {
@@ -5041,7 +5041,7 @@
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
-    "message": "Več o tem...",
+    "message": "Več o tem",
     "description": "Text that links to a support article"
   },
   "Bio--speak-freely": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "Vsi razen ...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

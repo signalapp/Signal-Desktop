@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Поделиться только с...",
+    "message": "Поделиться только с…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

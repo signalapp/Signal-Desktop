@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Caricamento...",
+    "message": "Caricamento in corso…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Ottimizzazione applicazione...",
+    "message": "Ottimizzazione dell'applicazione in corso…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Ottimizzazione dei messaggi... $status$ completato.",
+    "message": "Ottimizzazione dei messaggi… $status$ completato.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Aggiornamento database. Questo potrebbe richiedere del tempo...",
+    "message": "Aggiornamento database. Potrebbe volerci un po'…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Caricamento messaggi. Finora $count$...",
+    "message": "Caricamento messaggi. Per ora siamo a $count$…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... per vedere il log completo, fare clic su Salva",
+    "message": "… per vedere il log completo, fai clic su Salva",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Caricamento anteprima...",
+    "message": "Caricamento anteprima…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Connessione in corso...",
+    "message": "Connessione in corso…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importazione...",
+    "message": "Importazione in corso…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1925,7 +1925,7 @@
     "description": "Label shown when there are no conversations to compose to"
   },
   "Toast--error": {
-    "message": "Qualcosa è andato storto...",
+    "message": "Qualcosa è andato storto…",
     "description": "Toast for general errors"
   },
   "Toast--error--action": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Installazione...",
+    "message": "Installazione pacchetto sticker…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Solo qualche altro dettaglio...",
+    "message": "Solo qualche altro dettaglio…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Chiamata audio in arrivo...",
+    "message": "Chiamata audio in arrivo…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Videochiamata in arrivo...",
+    "message": "Videochiamata in arrivo…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Sta squillando...",
+    "message": "Sta squillando…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Riconnessione...",
+    "message": "Riconnessione…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Aggiornamento...",
+    "message": "Aggiornamento in corso…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Scaricamento allegato audio...",
+    "message": "Download dell'allegato audio…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Tempo personalizzato...",
+    "message": "Tempo personalizzato…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Aggiungi descrizione gruppo...",
+    "message": "Aggiungi descrizione gruppo…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "Scrivi qualche parola su di te...",
+    "message": "Scrivi qualcosa su di te…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Chi può...",
+    "message": "Chi può…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Invio risposta...",
+    "message": "Invio risposta…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Invio reazione...",
+    "message": "Invio reazione…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Condividi solo con...",
+    "message": "Condividi solo con…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

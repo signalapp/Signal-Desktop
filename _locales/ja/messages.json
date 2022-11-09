@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ を追加しています...",
+    "message": "$contact$ を追加しています…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -261,7 +261,7 @@
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "アプリケーションを最適化しています...",
+    "message": "アプリケーションを最適化しています…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
@@ -4945,7 +4945,7 @@
     "description": "Default text for username field"
   },
   "ProfileEditor--username--title": {
-    "message": "ユーザー名を選択してください",
+    "message": "ユーザーネームを選択してください",
     "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
@@ -4965,7 +4965,7 @@
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
   "ProfileEditor--username--unavailable": {
-    "message": "このユーザー名は使用できません",
+    "message": "このユーザーネームは使用できません",
     "description": "Shown if the username is not available for registration"
   },
   "ProfileEditor--username--check-username-taken": {
@@ -4981,7 +4981,7 @@
     "description": "Shown if something unknown has gone wrong with username delete."
   },
   "ProfileEditor--username--copied-username": {
-    "message": "ユーザー名をコピーしました",
+    "message": "ユーザーネームをコピーしました",
     "description": "Shown when username is copied to clipboard."
   },
   "ProfileEditor--username--copied-username-link": {
@@ -4989,7 +4989,7 @@
     "description": "Shown when username link is copied to clipboard."
   },
   "ProfileEditor--username--deleting-username": {
-    "message": "ユーザー名を削除しています",
+    "message": "ユーザーネームを削除しています",
     "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
@@ -5005,11 +5005,11 @@
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
   "ProfileEditor--username--context-menu": {
-    "message": "ユーザー名をコピーまたは削除します",
+    "message": "ユーザーネームをコピーまたは削除します",
     "description": "Shown as aria label for context menu next to username"
   },
   "ProfileEditor--username--copy": {
-    "message": "ユーザー名をコピーします",
+    "message": "ユーザーネームをコピーします",
     "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
   },
   "ProfileEditor--username--copy-link": {
@@ -5505,7 +5505,7 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "リアクションを送信しています...",
+    "message": "リアクションを送信しています…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "共有するのは...",
+    "message": "共有する人を指定…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
@@ -5969,11 +5969,11 @@
     "description": "Default aria-label for the context menu buttons"
   },
   "EditUsernameModalBody__username-placeholder": {
-    "message": "ユーザー名",
+    "message": "ユーザーネーム",
     "description": "Placeholder for the username field"
   },
   "EditUsernameModalBody__username-helper": {
-    "message": "ユーザー名を使用すると、相手は電話番号なしであなたにメッセージを送れます。ユーザー名は数字と対になっているのでアドレスを非公開にすることができます。",
+    "message": "ユーザーネームを使用すると、相手は電話番号なしであなたにメッセージを送れます。ユーザーネームは数字と対になっているのでアドレスを非公開にすることができます。",
     "description": "Shown on the edit username screen"
   },
   "EditUsernameModalBody__learn-more": {
@@ -5985,7 +5985,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "これらの数字は、ユーザー名を非公開にし、不要なメッセージを避けるのに役立ちます。ユーザー名は、チャットをしたい人やグループとだけ共有してください。ユーザー名を変更すると、新しい数字と対になります。",
+    "message": "これらの数字は、ユーザーネームを非公開にし、不要なメッセージを避けるのに役立ちます。ユーザーネームは、チャットをしたい人やグループとだけ共有してください。ユーザーネームを変更すると、新しい数字と対になります。",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {

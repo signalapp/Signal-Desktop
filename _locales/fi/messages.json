@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Lisätään $contact$...",
+    "message": "Lisätään $contact$…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -121,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Asetukset...",
+    "message": "Asetukset…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Ladataan...",
+    "message": "Ladataan…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimoidaan sovellusta...",
+    "message": "Optimoidaan sovellusta…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimoidaan viestejä... $status$ valmis.",
+    "message": "Optimoidaan viestejä… $status$ valmis.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Päivitetään tietokantaa. Tämä saattaa kestää hetken...",
+    "message": "Päivitetään tietokantaa. Tämä saattaa kestää hetken…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Ladataan viestejä. $count$ ladattu...",
+    "message": "Ladataan viestejä. $count$ ladattu…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "...nähdäksesi täyden lokin, paina Tallenna.",
+    "message": "… nähdäksesi täyden lokin, paina Tallenna",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Ladataan esikatselua...",
+    "message": "Ladataan esikatselua…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Yhdistetään...",
+    "message": "Yhdistetään…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Tuodaan...",
+    "message": "Tuodaan…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Aloita uusi keskustelu...",
+    "message": "Aloita uusi keskustelu…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Tarrapakettia asennetaan...",
+    "message": "Tarrapakettia asennetaan…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Ladataan äänitiedostoa...",
+    "message": "Ladataan äänitiedostoa…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Muu aika...",
+    "message": "Muu aika…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Lisää ryhmän kuvaus...",
+    "message": "Lisää ryhmän kuvaus…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "Kirjoita jotain itsestäsi...",
+    "message": "Kirjoita jotain itsestäsi…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "Lähetetään...",
+    "message": "Lähetetään…",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Lähetetään vastausta...",
+    "message": "Lähetetään vastausta…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Lähetetään reaktiota...",
+    "message": "Lähetetään reaktiota…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Kaikki, paitsi...",
+    "message": "Kaikki, paitsi…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Jaa vain seuraaville...",
+    "message": "Jaa vain seuraaville…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

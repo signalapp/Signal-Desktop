@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Korisnik $contact$ se dodaje...",
+    "message": "Dodavanje kontakata (njih $contact$)…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -257,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Učitavanje...",
+    "message": "Učitavanje…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimiziranje aplikacije...",
+    "message": "Optimiziranje aplikacije…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimiziranje poruka... $status$ završeno.",
+    "message": "Optimiziranje poruka… $status$ završeno.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Nadogradnja baze podataka. Ovo može potrajati...",
+    "message": "Nadogradnja baze podataka. Ovo može potrajati…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... da prikažete cjelokupni zapisnik, kliknite Spremi",
+    "message": "… da prikažete cijeli zapisnik, kliknite Spremi",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Učitavanje pregleda...",
+    "message": "Učitavanje pregleda…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Povezujem...",
+    "message": "Povezivanje…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importing...",
+    "message": "Uvoz…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Zvoni...",
+    "message": "Zvoni…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Ponovno povezivanje...",
+    "message": "Ponovno povezivanje…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -5485,7 +5485,7 @@
     "description": "Description for when there are no stories to show"
   },
   "Stories__list--sending": {
-    "message": "Šaljem...",
+    "message": "Slanje…",
     "description": "Pending text for story being sent in list view"
   },
   "Stories__list--send_failed": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Slanje odgovora...",
+    "message": "Slanje odgovora…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Slanje reakcije...",
+    "message": "Slanje reakcije…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "Svi osim…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Dijeli samo sa...",
+    "message": "Dijeli samo sa…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

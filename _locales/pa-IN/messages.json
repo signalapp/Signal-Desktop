@@ -49,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+    "message": "$contact$ ਨੂੰ ਸ਼ਾਮਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -257,7 +257,7 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ ...",
+    "message": "ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "ਕਨੈਕਟ ਕਰ ਰਿਹਾ ਹੈ ...",
+    "message": "ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1717,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "ਆਯਾਤ ਕਰ ਰਿਹਾ ਹੈ...",
+    "message": "ਇੰਮਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "ਬੱਸ ਕੁਝ ਹੋਰ ਵੇਰਵੇ...",
+    "message": "ਬੱਸ ਕੁਝ ਹੋਰ ਵੇਰਵੇ…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -3141,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ਆ ਰਹੀ ਆਡੀਓ ਕਾਲ...",
+    "message": "ਆਡੀਓ ਕਾਲ ਆ ਰਹੀ ਹੈ…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "ਆ ਰਹੀ ਵੀਡੀਓ ਕਾਲ...",
+    "message": "ਵੀਡੀਓ ਕਾਲ ਆ ਰਹੀ ਹੈ…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3169,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "ਘੰਟੀ ਜਾ ਰਹੀ ਹੈ...",
+    "message": "ਘੰਟੀ ਜਾ ਰਹੀ ਹੈ…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3189,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "ਮੁੜ-ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+    "message": "ਮੁੜ-ਕਨੈਕਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3465,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+    "message": "ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ਆਡੀਓ ਅਟੈਚਮੈਂਟ ਡਾਊਨਲੋਡ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ...",
+    "message": "ਆਡੀਓ ਅਟੈਚਮੈਂਟ ਡਾਊਨਲੋਡ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4809,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "ਪਸੰਦੀਦਾ ਸਮਾਂ...",
+    "message": "ਇੱਛਾ ਅਨੁਸਾਰ ਸਮਾਂਂ…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "ਗਰੁੱਪ ਵੇਰਵਾ ਜੋੜੋ...",
+    "message": "ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਕਰੋੋੋ…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5021,7 +5021,7 @@
     "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
-    "message": "ਆਪਣੇ ਬਾਰੇ ਕੁਝ ਲਿਖੋ...",
+    "message": "ਆਪਣੇ ਬਾਰੇ ਕੁਝ ਲਿਖੋ…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -5177,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "ਕੌਣ...",
+    "message": "ਇਹ ਕੌਣ ਕਰ ਸਕਦਾ ਹੈ…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "All Except...",
+    "message": "ਸਾਰੇ, ਇਹਨਾਂ ਤੋਂ ਇਲਾਵਾ…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {

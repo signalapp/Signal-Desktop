@@ -265,7 +265,7 @@
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "بهینه‌سازی پیام‌ها... $status$ کامل شد.",
+    "message": "بهینه‌سازی پیام‌ها... $status$ انجام شد.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "در حال به‌روزرسانی پابگاه داده. ممکن است کمی طول بکشد...",
+    "message": "در حال به‌روزرسانی پایگاه داده. ممکن است کمی طول بکشد...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -481,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... برای مشاهدۀ گزارش کامل، روی ذخیره کردن کلیک کنید",
+    "message": "... برای مشاهده گزارش کامل، روی ذخیره کردن کلیک کنید",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "بارگیری پیش نمایش...",
+    "message": "بارگیری پیش‌نمایش...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -641,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "در حال اتصال ...",
+    "message": "در حال اتصال...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "شروع یک مکالمه جدید...",
+    "message": "شروع مکالمه جدید...",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "در حال نصب پک استیکر...",
+    "message": "در حال نصب بسته برچسب...",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -4881,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "افزودن توضیحات گروه...",
+    "message": "افزودن توصیف گروه...",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "فقط اشتراک‌گذاری شود با...",
+    "message": "فقط هم‌رسانی شود با...",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

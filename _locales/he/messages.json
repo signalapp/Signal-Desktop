@@ -2793,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "רק עוד מעט פרטים...",
+    "message": "רק עוד כמה פרטים…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -5501,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "שולח תשובה...",
+    "message": "שולח תשובה…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "שולח תגובה...",
+    "message": "שולח תגובה…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5613,7 +5613,7 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "שיתוף רק עם...",
+    "message": "שיתוף רק עם…",
     "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {

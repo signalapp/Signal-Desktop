@@ -261,11 +261,11 @@
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "एप्लिकेशन को बेहतर कर रहे हैं...",
+    "message": "ऐप्लिकेशन को बेहतर कर रहे हैं...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "मेसेजों को बेहतर कर रहे हैं... $status$ पूरा हुआ।",
+    "message": "मेसेज बेहतर कर रहे हैं... $status$ पूरा हुआ।",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -369,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "डेटाबेस को अपग्रेड में कुछ समय लग सकता है...",
+    "message": "डेटाबेस अपग्रेड किया जा रहा है। इसमें कुछ समय लग सकता है...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "मेसेजों को लोड कर रहे हैं| $count$अब तक...",
+    "message": "मेसेज लोड हो रहे हैं| अब तक $count$...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -595,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "पूर्वावलोकन लोड हो रहा है...",
+    "message": "प्रीव्यू लोड हो रहा है...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -1897,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "नया वार्तालाप शुरु करें...",
+    "message": "नई बातचीत शुरु करें...",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -2333,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "स्टीकर पैक स्थापित हो रहा है...",
+    "message": "स्टिकर पैक इंस्टॉल हो रहा है...",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2497,7 +2497,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--new-conversation": {
-    "message": "नया वार्तालाप शुरु करें...",
+    "message": "नई बातचीत शुरू करें...",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--archive-conversation": {

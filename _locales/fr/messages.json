@@ -5605,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Tout le monde sauf...",
+    "message": "Tout le monde sauf…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
