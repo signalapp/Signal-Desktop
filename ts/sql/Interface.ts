@@ -624,6 +624,10 @@ export type DataInterface = {
   }) => Promise<Array<StickerType>>;
   clearAllErrorStickerPackAttempts: () => Promise<void>;
 
+  // Gifs
+  getRecentGifs: (config?: { limit?: number }) => Promise<Array<string>>;
+  updateGifLastUsed: (gifId: string, lastUsed: number) => Promise<void>;
+
   updateEmojiUsage: (shortName: string, timeUsed?: number) => Promise<void>;
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;
 

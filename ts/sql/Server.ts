@@ -295,6 +295,10 @@ const dataInterface: ServerInterface = {
   getRecentStickers,
   clearAllErrorStickerPackAttempts,
 
+  // Gifs
+  getRecentGifs,
+  updateGifLastUsed,
+
   updateEmojiUsage,
   getRecentEmojis,
 
@@ -4229,6 +4233,45 @@ async function getRecentStickers({ limit }: { limit?: number } = {}): Promise<
     });
 
   return (rows || []).map(row => rowToSticker(row));
+}
+
+// Gifs
+async function updateGifLastUsed(
+  gifId: string,
+  lastUsed: number
+): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>(
+    `
+    INSERT OR REPLACE INTO gifs (
+      id,
+      giphy_id,
+      last_used
+    ) VALUES (
+      (SELECT id FROM gifs WHERE giphy_id = $giphy_id),
+      $giphy_id,
+      $last_used
+    )
+    `
+  ).run({ giphy_id: gifId, last_used: lastUsed });
+}
+
+async function getRecentGifs({ limit }: { limit?: number } = {}): Promise<
+  Array<string>
+> {
+  const db = getInstance();
+
+  const rows = db
+    .prepare<Query>(
+      `
+      SELECT gifs.id FROM gifs
+      ORDER BY gifs.last_used DESC
+      LIMIT $limit
+      `
+    )
+    .all({ limit: limit ?? 24 });
+
+  return rows?.map(({ giphy_id }) => giphy_id) ?? [];
 }
 
 // Emojis

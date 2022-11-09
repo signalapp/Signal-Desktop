@@ -46,6 +46,7 @@ import updateToSchemaVersion67 from './67-add-story-to-unprocessed';
 import updateToSchemaVersion68 from './68-drop-deprecated-columns';
 import updateToSchemaVersion69 from './69-group-call-ring-cancellations';
 import updateToSchemaVersion70 from './70-story-reply-index';
+import updateToSchemaVersion71 from './71-add-gifs';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1954,6 +1955,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion68,
   updateToSchemaVersion69,
   updateToSchemaVersion70,
+  updateToSchemaVersion71,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
