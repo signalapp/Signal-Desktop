@@ -1,5 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Story } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import type { Props } from './GifPicker';
 import { GifPicker } from './GifPicker';
@@ -19,7 +20,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ...overrideProps,
 });
 
-const withOverrideProps = (overrideProps?: Partial<Props>): React.FC => {
+const withOverrideProps = (overrideProps?: Partial<Props>): Story => {
   const props = createProps(overrideProps);
   return () => <GifPicker {...props} />;
 };
