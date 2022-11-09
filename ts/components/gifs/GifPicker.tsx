@@ -87,7 +87,7 @@ export const GifPicker = React.memo(
       );
 
       return (
-        <FocusTrap>
+        <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
           <div className="module-gif-picker" ref={ref} style={style}>
             <div className="module-gif-picker__header">
               <div className="module-gif-picker__header__categories">
