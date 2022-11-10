@@ -22,7 +22,7 @@ import type {
   StoriesStateType,
   AddStoryData,
 } from '../ducks/stories';
-import { HasStories, MY_STORIES_ID } from '../../types/Stories';
+import { HasStories, MY_STORY_ID } from '../../types/Stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { canReply } from './message';
@@ -102,11 +102,11 @@ function sortByRecencyAndUnread(
 }
 
 function sortMyStories(storyA: MyStoryType, storyB: MyStoryType): number {
-  if (storyA.id === MY_STORIES_ID) {
+  if (storyA.id === MY_STORY_ID) {
     return -1;
   }
 
-  if (storyB.id === MY_STORIES_ID) {
+  if (storyB.id === MY_STORY_ID) {
     return 1;
   }
 
@@ -382,8 +382,8 @@ export const getStories = createSelector(
 
         if (story.storyDistributionListId) {
           const list =
-            story.storyDistributionListId === MY_STORIES_ID
-              ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
+            story.storyDistributionListId === MY_STORY_ID
+              ? { id: MY_STORY_ID, name: MY_STORY_ID }
               : distributionListSelector(
                   story.storyDistributionListId.toLowerCase()
                 );
@@ -528,8 +528,8 @@ export const getStoryByIdSelector = createSelector(
         | undefined;
       if (story.storyDistributionListId) {
         distributionList =
-          story.storyDistributionListId === MY_STORIES_ID
-            ? { id: MY_STORIES_ID, name: MY_STORIES_ID }
+          story.storyDistributionListId === MY_STORY_ID
+            ? { id: MY_STORY_ID, name: MY_STORY_ID }
             : distributionListSelector(
                 story.storyDistributionListId.toLowerCase()
               );

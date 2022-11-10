@@ -7,7 +7,7 @@ import { StorageState, Proto } from '@signalapp/mock-server';
 import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import type { BootstrapOptions } from '../bootstrap';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 import { uuidToBytes } from '../../util/uuidToBytes';
 
 export const debug = createDebug('mock:test:storage');
@@ -88,9 +88,9 @@ export async function initStorage(
       record: {
         storyDistributionList: {
           allowsReplies: true,
-          identifier: uuidToBytes(MY_STORIES_ID),
+          identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
-          name: MY_STORIES_ID,
+          name: MY_STORY_ID,
           recipientUuids: [],
         },
       },

@@ -5,7 +5,7 @@ import casual from 'casual';
 
 import type { StoryDistributionListDataType } from '../../state/ducks/storyDistributionLists';
 import type { StoryDistributionListWithMembersDataType } from '../../types/Stories';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 import { UUID } from '../../types/UUID';
 import { getDefaultConversation } from './getDefaultConversation';
 
@@ -46,9 +46,9 @@ export function getFakeDistributionList(): StoryDistributionListDataType {
 export function getMyStories(): StoryDistributionListDataType {
   return {
     allowsReplies: true,
-    id: MY_STORIES_ID,
+    id: MY_STORY_ID,
     isBlockList: true,
     memberUuids: [],
-    name: MY_STORIES_ID,
+    name: MY_STORY_ID,
   };
 }

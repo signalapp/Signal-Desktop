@@ -50,11 +50,11 @@ import type {
   StickerPackInfoType,
 } from '../sql/Interface';
 import dataInterface from '../sql/Client';
-import { MY_STORIES_ID, StorySendMode } from '../types/Stories';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import * as RemoteConfig from '../RemoteConfig';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
 
-const MY_STORIES_BYTES = uuidToBytes(MY_STORIES_ID);
+const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
 type RecordClass =
   | Proto.IAccountRecord
@@ -1418,13 +1418,13 @@ export async function mergeStoryDistributionListRecord(
 
   const details: Array<string> = [];
 
-  const isMyStories = Bytes.areEqual(
-    MY_STORIES_BYTES,
+  const isMyStory = Bytes.areEqual(
+    MY_STORY_BYTES,
     storyDistributionListRecord.identifier
   );
 
-  const listId = isMyStories
-    ? MY_STORIES_ID
+  const listId = isMyStory
+    ? MY_STORY_ID
     : bytesToUuid(storyDistributionListRecord.identifier);
 
   if (!listId) {
@@ -1449,7 +1449,7 @@ export async function mergeStoryDistributionListRecord(
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
     name: String(storyDistributionListRecord.name),
-    deletedAtTimestamp: isMyStories ? undefined : deletedAtTimestamp,
+    deletedAtTimestamp: isMyStory ? undefined : deletedAtTimestamp,
     allowsReplies: Boolean(storyDistributionListRecord.allowsReplies),
     isBlockList: Boolean(storyDistributionListRecord.isBlockList),
     members: remoteListMembers,

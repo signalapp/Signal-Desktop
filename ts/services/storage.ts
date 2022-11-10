@@ -61,7 +61,7 @@ import type {
   StickerPackType,
   UninstalledStickerPackType,
 } from '../sql/Interface';
-import { MY_STORIES_ID } from '../types/Stories';
+import { MY_STORY_ID } from '../types/Stories';
 import { isNotNil } from '../util/isNotNil';
 import { isSignalConversation } from '../util/isSignalConversation';
 
@@ -1292,17 +1292,17 @@ async function processManifest(
 
     // Check to make sure we have a "My Stories" distribution list set up
     const myStories = storyDistributionLists.find(
-      ({ id }) => id === MY_STORIES_ID
+      ({ id }) => id === MY_STORY_ID
     );
 
     if (!myStories) {
       log.info(`storageService.process(${version}): creating my stories`);
       const storyDistribution: StoryDistributionWithMembersType = {
         allowsReplies: true,
-        id: MY_STORIES_ID,
+        id: MY_STORY_ID,
         isBlockList: true,
         members: [],
-        name: MY_STORIES_ID,
+        name: MY_STORY_ID,
         senderKeyInfo: undefined,
         storageNeedsSync: true,
       };

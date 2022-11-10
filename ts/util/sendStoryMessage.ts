@@ -8,7 +8,7 @@ import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { DAY, SECOND } from './durations';
-import { MY_STORIES_ID, StorySendMode } from '../types/Stories';
+import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { getStoriesBlocked } from './stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -82,10 +82,7 @@ export async function sendStoryMessage(
 
       let distributionListMembers: Array<UUIDStringType> = [];
 
-      if (
-        distributionList.id === MY_STORIES_ID &&
-        distributionList.isBlockList
-      ) {
+      if (distributionList.id === MY_STORY_ID && distributionList.isBlockList) {
         const inBlockList = new Set<UUIDStringType>(distributionList.members);
         distributionListMembers = getSignalConnections().reduce(
           (acc, convo) => {

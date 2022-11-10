@@ -105,7 +105,7 @@ export type MyStoryType = {
   stories: Array<StoryViewType>;
 };
 
-export const MY_STORIES_ID: UUIDStringType =
+export const MY_STORY_ID: UUIDStringType =
   '00000000-0000-0000-0000-000000000000';
 
 export enum StoryViewDirectionType {
@@ -145,7 +145,7 @@ export function getStoryDistributionListName(
   id: string,
   name: string
 ): string {
-  return id === MY_STORIES_ID ? i18n('Stories__mine') : name;
+  return id === MY_STORY_ID ? i18n('Stories__mine') : name;
 }
 
 export enum HasStories {

@@ -10,7 +10,7 @@ import { within, userEvent } from '@storybook/testing-library';
 
 import type { PropsType } from './MyStories';
 import enMessages from '../../_locales/en/messages.json';
-import { MY_STORIES_ID } from '../types/Stories';
+import { MY_STORY_ID } from '../types/Stories';
 import { MyStories } from './MyStories';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
@@ -89,7 +89,7 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
 
 export const SingleListStories = Template.bind({});
 SingleListStories.args = {
-  myStories: [getFakeMyStory(MY_STORIES_ID)],
+  myStories: [getFakeMyStory(MY_STORY_ID)],
 };
 SingleListStories.play = interactionTest;
 SingleListStories.story = {
@@ -99,7 +99,7 @@ SingleListStories.story = {
 export const MultiListStories = Template.bind({});
 MultiListStories.args = {
   myStories: [
-    getFakeMyStory(MY_STORIES_ID),
+    getFakeMyStory(MY_STORY_ID),
     getFakeMyStory(uuid(), 'Cool Peeps'),
     getFakeMyStory(uuid(), 'Family'),
   ],

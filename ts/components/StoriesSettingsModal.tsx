@@ -23,7 +23,7 @@ import { ContactPill } from './ContactPill';
 import { ConversationList, RowType } from './ConversationList';
 import { Input } from './Input';
 import { Intl } from './Intl';
-import { MY_STORIES_ID, getStoryDistributionListName } from '../types/Stories';
+import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import { PagedModal, ModalPage } from './Modal';
 import { SearchInput } from './SearchInput';
 import { StoryDistributionListName } from './StoryDistributionListName';
@@ -104,7 +104,7 @@ export function getListViewers(
 ): string {
   let memberCount = list.members.length;
 
-  if (list.id === MY_STORIES_ID && list.isBlockList) {
+  if (list.id === MY_STORY_ID && list.isBlockList) {
     memberCount = list.isBlockList
       ? signalConnections.length - list.members.length
       : signalConnections.length;
@@ -143,7 +143,7 @@ function DistributionListItem({
   signalConnections,
   onSelectItemToEdit,
 }: DistributionListItemProps) {
-  const isMyStories = distributionList.id === MY_STORIES_ID;
+  const isMyStory = distributionList.id === MY_STORY_ID;
   return (
     <button
       className="StoriesSettingsModal__list"
@@ -153,7 +153,7 @@ function DistributionListItem({
       type="button"
     >
       <span className="StoriesSettingsModal__list__left">
-        {isMyStories ? (
+        {isMyStory ? (
           <Avatar
             acceptedMessageRequest={me.acceptedMessageRequest}
             avatarPath={me.avatarPath}
@@ -176,7 +176,7 @@ function DistributionListItem({
             name={distributionList.name}
           />
           <span className="StoriesSettingsModal__list__viewers">
-            {isMyStories
+            {isMyStory
               ? getI18nForMyStory(distributionList, i18n)
               : i18n('icu:StoriesSettings__custom-story-subtitle')}
             &nbsp;&middot;&nbsp;
@@ -354,6 +354,7 @@ export const StoriesSettingsModal = ({
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         listToEdit={listToEdit}
+        signalConnectionsCount={signalConnections.length}
         onRemoveMember={onRemoveMember}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
         setConfirmDeleteList={setConfirmDeleteList}
@@ -542,6 +543,7 @@ export const StoriesSettingsModal = ({
 type DistributionListSettingsModalPropsType = {
   i18n: LocalizerType;
   listToEdit: StoryDistributionListWithMembersDataType;
+  signalConnectionsCount: number;
   setConfirmDeleteList: (_: { id: string; name: string }) => unknown;
   setPage: (page: Page) => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
@@ -569,6 +571,7 @@ export const DistributionListSettingsModal = ({
   setPage,
   setSelectedContacts,
   toggleSignalConnectionsModal,
+  signalConnectionsCount,
 }: DistributionListSettingsModalPropsType): JSX.Element => {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
@@ -579,7 +582,7 @@ export const DistributionListSettingsModal = ({
       }
   >();
 
-  const isMyStories = listToEdit.id === MY_STORIES_ID;
+  const isMyStory = listToEdit.id === MY_STORY_ID;
 
   const modalTitle = getStoryDistributionListName(
     i18n,
@@ -596,7 +599,7 @@ export const DistributionListSettingsModal = ({
       title={modalTitle}
       {...modalCommonProps}
     >
-      {!isMyStories && (
+      {!isMyStory && (
         <>
           <div className="StoriesSettingsModal__list StoriesSettingsModal__list--no-pointer">
             <span className="StoriesSettingsModal__list__left">
@@ -619,8 +622,8 @@ export const DistributionListSettingsModal = ({
         {i18n('StoriesSettings__who-can-see')}
       </div>
 
-      {isMyStories && (
-        <EditMyStoriesPrivacy
+      {isMyStory && (
+        <EditMyStoryPrivacy
           i18n={i18n}
           learnMore="StoriesSettings__mine__disclaimer"
           myStories={listToEdit}
@@ -635,10 +638,11 @@ export const DistributionListSettingsModal = ({
             setMyStoriesToAllSignalConnections
           }
           toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+          signalConnectionsCount={signalConnectionsCount}
         />
       )}
 
-      {!isMyStories && (
+      {!isMyStory && (
         <>
           <button
             className="StoriesSettingsModal__list"
@@ -714,7 +718,7 @@ export const DistributionListSettingsModal = ({
         onChange={value => onRepliesNReactionsChanged(listToEdit.id, value)}
       />
 
-      {!isMyStories && (
+      {!isMyStory && (
         <>
           <hr className="StoriesSettingsModal__divider" />
 
@@ -782,7 +786,7 @@ function CheckboxRender({
   );
 }
 
-type EditMyStoriesPrivacyPropsType = {
+type EditMyStoryPrivacyPropsType = {
   hasDisclaimerAbove?: boolean;
   i18n: LocalizerType;
   learnMore: string;
@@ -790,12 +794,13 @@ type EditMyStoriesPrivacyPropsType = {
   onClickExclude: () => unknown;
   onClickOnlyShareWith: () => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+  signalConnectionsCount: number;
 } & Pick<
   PropsType,
   'setMyStoriesToAllSignalConnections' | 'toggleSignalConnectionsModal'
 >;
 
-export const EditMyStoriesPrivacy = ({
+export const EditMyStoryPrivacy = ({
   hasDisclaimerAbove,
   i18n,
   learnMore,
@@ -805,7 +810,8 @@ export const EditMyStoriesPrivacy = ({
   setSelectedContacts,
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
-}: EditMyStoriesPrivacyPropsType): JSX.Element => {
+  signalConnectionsCount,
+}: EditMyStoryPrivacyPropsType): JSX.Element => {
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
       <Intl
@@ -849,7 +855,7 @@ export const EditMyStoriesPrivacy = ({
                 checked && (
                   <>
                     {i18n('icu:StoriesSettings__viewers', {
-                      count: myStories.members.length,
+                      count: signalConnectionsCount,
                     })}
                   </>
                 )

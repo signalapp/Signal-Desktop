@@ -7,7 +7,7 @@ import { Proto, StorageState } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -44,9 +44,9 @@ describe('story/no-sender-key', function needsName() {
       record: {
         storyDistributionList: {
           allowsReplies: true,
-          identifier: uuidToBytes(MY_STORIES_ID),
+          identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
-          name: MY_STORIES_ID,
+          name: MY_STORY_ID,
           recipientUuids: [],
         },
       },

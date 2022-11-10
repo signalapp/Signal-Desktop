@@ -7,14 +7,14 @@ import type { StateType } from '../reducer';
 import type { StoryDistributionListDataType } from '../ducks/storyDistributionLists';
 import type { StoryDistributionListWithMembersDataType } from '../../types/Stories';
 import { getConversationSelector } from './conversations';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 
 export const getDistributionLists = (
   state: StateType
 ): Array<StoryDistributionListDataType> =>
   state.storyDistributionLists.distributionLists
     .filter(list => !list.deletedAtTimestamp)
-    .sort(list => (list.id === MY_STORIES_ID ? -1 : 1));
+    .sort(list => (list.id === MY_STORY_ID ? -1 : 1));
 
 export const getDistributionListSelector = createSelector(
   getDistributionLists,

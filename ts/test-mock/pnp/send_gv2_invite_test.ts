@@ -9,7 +9,7 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 import { uuidToBytes } from '../../util/uuidToBytes';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
@@ -69,9 +69,9 @@ describe('pnp/send gv2 invite', function needsName() {
       record: {
         storyDistributionList: {
           allowsReplies: true,
-          identifier: uuidToBytes(MY_STORIES_ID),
+          identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
-          name: MY_STORIES_ID,
+          name: MY_STORY_ID,
           recipientUuids: [],
         },
       },

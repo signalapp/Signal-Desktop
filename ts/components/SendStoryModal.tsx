@@ -16,7 +16,7 @@ import {
   getListViewers,
   DistributionListSettingsModal,
   EditDistributionListModal,
-  EditMyStoriesPrivacy,
+  EditMyStoryPrivacy,
   Page as StoriesSettingsPage,
 } from './StoriesSettingsModal';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
@@ -28,7 +28,7 @@ import { Checkbox } from './Checkbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
 
-import { MY_STORIES_ID, getStoryDistributionListName } from '../types/Stories';
+import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import type { RenderModalPage, ModalPropsType } from './Modal';
 import { PagedModal, ModalPage } from './Modal';
 import { StoryDistributionListName } from './StoryDistributionListName';
@@ -97,7 +97,7 @@ function getListMemberUuids(
 ): Array<string> {
   const memberUuids = list.members.map(({ uuid }) => uuid).filter(isNotNil);
 
-  if (list.id === MY_STORIES_ID && list.isBlockList) {
+  if (list.id === MY_STORY_ID && list.isBlockList) {
     const excludeUuids = new Set<string>(memberUuids);
     return signalConnections
       .map(conversation => conversation.uuid)
@@ -230,14 +230,14 @@ export const SendStoryModal = ({
   // during the first time posting to My Stories experience where we have
   // to select the privacy settings.
   const ogMyStories = useMemo(
-    () => distributionLists.find(list => list.id === MY_STORIES_ID),
+    () => distributionLists.find(list => list.id === MY_STORY_ID),
     [distributionLists]
   );
 
   const initialMyStories: StoryDistributionListWithMembersDataType = useMemo(
     () => ({
       allowsReplies: true,
-      id: MY_STORIES_ID,
+      id: MY_STORY_ID,
       name: i18n('Stories__mine'),
       isBlockList: ogMyStories?.isBlockList ?? true,
       members: ogMyStories?.members || [],
@@ -310,7 +310,7 @@ export const SendStoryModal = ({
                   setMyStoriesToAllSignalConnections();
                 }
               } else {
-                onViewersUpdated(MY_STORIES_ID, stagedMyStoriesMemberUuids);
+                onViewersUpdated(MY_STORY_ID, stagedMyStoriesMemberUuids);
               }
 
               setSelectedContacts([]);
@@ -332,11 +332,12 @@ export const SendStoryModal = ({
         onClose={handleClose}
         {...modalCommonProps}
       >
-        <EditMyStoriesPrivacy
+        <EditMyStoryPrivacy
           hasDisclaimerAbove
           i18n={i18n}
           learnMore="SendStoryModal__privacy-disclaimer"
           myStories={stagedMyStories}
+          signalConnectionsCount={signalConnections.length}
           onClickExclude={() => {
             let nextSelectedContacts = stagedMyStories.members;
 
@@ -385,6 +386,7 @@ export const SendStoryModal = ({
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         listToEdit={listToEdit}
+        signalConnectionsCount={signalConnections.length}
         onRemoveMember={onRemoveMember}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
         setConfirmDeleteList={setConfirmDeleteList}
@@ -595,7 +597,7 @@ export const SendStoryModal = ({
     const fullList = sortBy(
       [...groupStories, ...distributionLists],
       listOrGroup => {
-        if (listOrGroup.id === MY_STORIES_ID) {
+        if (listOrGroup.id === MY_STORY_ID) {
           return Number.NEGATIVE_INFINITY;
         }
         return (
@@ -618,7 +620,7 @@ export const SendStoryModal = ({
           name="SendStoryModal__distribution-list"
           onChange={(value: boolean) => {
             if (
-              list.id === MY_STORIES_ID &&
+              list.id === MY_STORY_ID &&
               hasFirstStoryPostExperience &&
               value
             ) {
@@ -643,7 +645,7 @@ export const SendStoryModal = ({
             <ContextMenu
               i18n={i18n}
               menuOptions={
-                list.id === MY_STORIES_ID
+                list.id === MY_STORY_ID
                   ? [
                       {
                         label: i18n('StoriesSettings__context-menu'),
@@ -676,7 +678,7 @@ export const SendStoryModal = ({
                 className="SendStoryModal__distribution-list__label"
                 htmlFor={id}
               >
-                {list.id === MY_STORIES_ID ? (
+                {list.id === MY_STORY_ID ? (
                   <Avatar
                     acceptedMessageRequest={me.acceptedMessageRequest}
                     avatarPath={me.avatarPath}
@@ -703,13 +705,12 @@ export const SendStoryModal = ({
                   </div>
 
                   <div className="SendStoryModal__distribution-list__description">
-                    {hasFirstStoryPostExperience &&
-                    list.id === MY_STORIES_ID ? (
+                    {hasFirstStoryPostExperience && list.id === MY_STORY_ID ? (
                       i18n('SendStoryModal__choose-who-can-view')
                     ) : (
                       <>
                         <span className="SendStoryModal__rtl-span">
-                          {list.id === MY_STORIES_ID
+                          {list.id === MY_STORY_ID
                             ? getI18nForMyStory(list, i18n)
                             : i18n('SendStoryModal__custom-story')}
                         </span>

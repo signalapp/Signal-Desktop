@@ -8,7 +8,7 @@ import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
 import dataInterface from '../../sql/Client';
-import { MY_STORIES_ID } from '../../types/Stories';
+import { MY_STORY_ID } from '../../types/Stories';
 import { UUID } from '../../types/UUID';
 import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { replaceIndex } from '../../util/replaceIndex';
@@ -265,7 +265,7 @@ function hideMyStoriesFrom(
 ): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
   return async dispatch => {
     const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORIES_ID
+      MY_STORY_ID
     );
 
     if (!myStories) {
@@ -363,7 +363,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
 > {
   return async dispatch => {
     const myStories = await dataInterface.getStoryDistributionWithMembers(
-      MY_STORIES_ID
+      MY_STORY_ID
     );
 
     if (!myStories) {
@@ -445,7 +445,7 @@ function updateStoryViewers(
 
     storageServiceUploadJob();
 
-    if (listId === MY_STORIES_ID) {
+    if (listId === MY_STORY_ID) {
       window.storage.put('hasSetMyStoriesPrivacy', true);
     }
 
@@ -562,7 +562,7 @@ export function reducer(
   if (action.type === HIDE_MY_STORIES_FROM) {
     const distributionLists = replaceDistributionListData(
       state.distributionLists,
-      MY_STORIES_ID,
+      MY_STORY_ID,
       () => ({
         isBlockList: true,
         memberUuids: action.payload,
@@ -614,7 +614,7 @@ export function reducer(
   if (action.type === RESET_MY_STORIES) {
     const distributionLists = replaceDistributionListData(
       state.distributionLists,
-      MY_STORIES_ID,
+      MY_STORY_ID,
       () => ({
         isBlockList: true,
         memberUuids: [],
