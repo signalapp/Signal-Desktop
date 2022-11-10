@@ -10,7 +10,7 @@ import { ContactName } from '../conversation/ContactName';
 
 import { assertDev } from '../../util/assert';
 import type {
-  BodyRangesType,
+  HydratedBodyRangesType,
   LocalizerType,
   ThemeType,
 } from '../../types/Util';
@@ -31,7 +31,7 @@ export type PropsDataType = {
 
   snippet: string;
   body: string;
-  bodyRanges: BodyRangesType;
+  bodyRanges: HydratedBodyRangesType;
 
   from: Pick<
     ConversationType,
@@ -82,8 +82,8 @@ const renderPerson = (
 function getFilteredBodyRanges(
   snippet: string,
   body: string,
-  bodyRanges: BodyRangesType
-): BodyRangesType {
+  bodyRanges: HydratedBodyRangesType
+): HydratedBodyRangesType {
   if (!bodyRanges.length) {
     return [];
   }

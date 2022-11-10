@@ -44,7 +44,7 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
 } from '../../model-types.d';
-import type { BodyRangeType } from '../../types/Util';
+import type { DraftBodyRangesType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
@@ -203,7 +203,7 @@ export type ConversationType = {
 
   shouldShowDraft?: boolean;
   draftText?: string | null;
-  draftBodyRanges?: Array<BodyRangeType>;
+  draftBodyRanges?: DraftBodyRangesType;
   draftPreview?: string;
 
   sharedGroupNames: Array<string>;

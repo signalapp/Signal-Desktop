@@ -12,7 +12,7 @@ import { render } from 'mustache';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Stickers from '../types/Stickers';
-import type { BodyRangeType, BodyRangesType } from '../types/Util';
+import type { DraftBodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
 import type {
@@ -202,7 +202,7 @@ const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 export class ConversationView extends window.Backbone.View<ConversationModel> {
   private debouncedSaveDraft: (
     messageText: string,
-    bodyRanges: Array<BodyRangeType>
+    bodyRanges: DraftBodyRangesType
   ) => Promise<void>;
   private lazyUpdateVerified: () => void;
 
@@ -544,7 +544,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.sendStickerMessage({ packId, stickerId }),
       onEditorStateChange: (
         msg: string,
-        bodyRanges: Array<BodyRangeType>,
+        bodyRanges: DraftBodyRangesType,
         caretLocation?: number
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
@@ -621,7 +621,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         voiceNoteAttachment,
       }: {
         draftAttachments?: ReadonlyArray<AttachmentType>;
-        mentions?: BodyRangesType;
+        mentions?: DraftBodyRangesType;
         message?: string;
         timestamp?: number;
         voiceNoteAttachment?: AttachmentType;
@@ -2490,7 +2490,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async sendMessage(
     message = '',
-    mentions: BodyRangesType = [],
+    mentions: DraftBodyRangesType = [],
     options: {
       draftAttachments?: ReadonlyArray<AttachmentType>;
       timestamp?: number;
@@ -2589,7 +2589,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   onEditorStateChange(
     messageText: string,
-    bodyRanges: Array<BodyRangeType>,
+    bodyRanges: DraftBodyRangesType,
     caretLocation?: number
   ): void {
     this.maybeBumpTyping(messageText);
@@ -2605,7 +2605,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async saveDraft(
     messageText: string,
-    bodyRanges: Array<BodyRangeType>
+    bodyRanges: DraftBodyRangesType
   ): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 

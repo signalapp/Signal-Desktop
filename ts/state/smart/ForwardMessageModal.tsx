@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import type { BodyRangeType } from '../../types/Util';
+import type { DraftBodyRangesType } from '../../types/Util';
 import type { ForwardMessagePropsType } from '../ducks/globalModals';
 import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
@@ -121,7 +121,7 @@ export function SmartForwardMessageModal(): JSX.Element | null {
       onClose={closeModal}
       onEditorStateChange={(
         messageText: string,
-        _: Array<BodyRangeType>,
+        _: DraftBodyRangesType,
         caretLocation?: number
       ) => {
         if (!attachments.length) {

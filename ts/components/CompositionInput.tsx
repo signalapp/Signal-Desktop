@@ -14,7 +14,11 @@ import { MentionCompletion } from '../quill/mentions/completion';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
-import type { LocalizerType, BodyRangeType, ThemeType } from '../types/Util';
+import type {
+  LocalizerType,
+  DraftBodyRangesType,
+  ThemeType,
+} from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { isValidUuid } from '../types/UUID';
@@ -71,7 +75,7 @@ export type Props = Readonly<{
   inputApi?: React.MutableRefObject<InputApi | undefined>;
   skinTone?: EmojiPickDataType['skinTone'];
   draftText?: string;
-  draftBodyRanges?: Array<BodyRangeType>;
+  draftBodyRanges?: DraftBodyRangesType;
   moduleClassName?: string;
   theme: ThemeType;
   placeholder?: string;
@@ -80,14 +84,14 @@ export type Props = Readonly<{
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
     messageText: string,
-    bodyRanges: Array<BodyRangeType>,
+    bodyRanges: DraftBodyRangesType,
     caretLocation?: number
   ): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
   onSubmit(
     message: string,
-    mentions: Array<BodyRangeType>,
+    mentions: DraftBodyRangesType,
     timestamp: number
   ): unknown;
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
@@ -143,7 +147,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
   const generateDelta = (
     text: string,
-    bodyRanges: Array<BodyRangeType>
+    bodyRanges: DraftBodyRangesType
   ): Delta => {
     const initialOps = [{ insert: text }];
     const opsWithMentions = insertMentionOps(initialOps, bodyRanges);
@@ -152,7 +156,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     return new Delta(opsWithEmojis);
   };
 
-  const getTextAndMentions = (): [string, Array<BodyRangeType>] => {
+  const getTextAndMentions = (): [string, DraftBodyRangesType] => {
     const quill = quillRef.current;
 
     if (quill === undefined) {

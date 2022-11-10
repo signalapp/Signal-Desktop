@@ -10,8 +10,10 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { usePopper } from 'react-popper';
+import { noop } from 'lodash';
+
 import type { AttachmentType } from '../types/Attachment';
-import type { BodyRangeType, LocalizerType } from '../types/Util';
+import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { InputApi } from './CompositionInput';
@@ -56,7 +58,8 @@ const MESSAGE_DEFAULT_PROPS = {
   markAttachmentAsCorrupted: shouldNeverBeCalled,
   markViewed: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
-  openConversation: shouldNeverBeCalled,
+  // Called when clicking mention, but shouldn't do anything.
+  openConversation: noop,
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,
   previews: [],
@@ -90,7 +93,7 @@ export type PropsType = {
   onReact: (emoji: string) => unknown;
   onReply: (
     message: string,
-    mentions: Array<BodyRangeType>,
+    mentions: DraftBodyRangesType,
     timestamp: number
   ) => unknown;
   onSetSkinTone: (tone: number) => unknown;
@@ -315,6 +318,7 @@ export const StoryViewsNRepliesModal = ({
               key={reply.id}
               i18n={i18n}
               reply={reply}
+              reactionEmoji={reply.reactionEmoji}
               getPreferredBadge={getPreferredBadge}
             />
           ) : (
@@ -504,12 +508,14 @@ export const StoryViewsNRepliesModal = ({
 type ReactionProps = {
   i18n: LocalizerType;
   reply: ReplyType;
+  reactionEmoji: string;
   getPreferredBadge: PreferredBadgeSelectorType;
 };
 
 const Reaction = ({
   i18n,
   reply,
+  reactionEmoji,
   getPreferredBadge,
 }: ReactionProps): JSX.Element => {
   // TODO: DESKTOP-4503 - reactions delete/doe
@@ -546,7 +552,7 @@ const Reaction = ({
           />
         </div>
       </div>
-      <Emojify text={reply.reactionEmoji} />
+      <Emojify text={reactionEmoji} />
     </div>
   );
 };

@@ -49,19 +49,15 @@ export type Props = {
   renderNonEmoji?: RenderTextCallbackType;
 };
 
+const defaultRenderNonEmoji: RenderTextCallbackType = ({ text }) => text;
+
 export class Emojify extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderNonEmoji: ({ text }) => text,
-  };
-
   public override render(): null | Array<JSX.Element | string | null> {
-    const { text, sizeClass, renderNonEmoji } = this.props;
-
-    // We have to do this, because renderNonEmoji is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderNonEmoji) {
-      return null;
-    }
+    const {
+      text,
+      sizeClass,
+      renderNonEmoji = defaultRenderNonEmoji,
+    } = this.props;
 
     return splitByEmoji(text).map(({ type, value: match }, index) => {
       if (type === 'emoji') {

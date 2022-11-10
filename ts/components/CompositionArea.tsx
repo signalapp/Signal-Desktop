@@ -6,8 +6,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
 import type {
-  BodyRangeType,
-  BodyRangesType,
+  DraftBodyRangesType,
   LocalizerType,
   ThemeType,
 } from '../types/Util';
@@ -116,7 +115,7 @@ export type OwnProps = Readonly<{
   onSelectMediaQuality(isHQ: boolean): unknown;
   onSendMessage(options: {
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-    mentions?: BodyRangesType;
+    mentions?: DraftBodyRangesType;
     message?: string;
     timestamp?: number;
     voiceNoteAttachment?: InMemoryAttachmentDraftType;
@@ -276,7 +275,7 @@ export const CompositionArea = ({
   }, [inputApiRef, setLarge]);
 
   const handleSubmit = useCallback(
-    (message: string, mentions: Array<BodyRangeType>, timestamp: number) => {
+    (message: string, mentions: DraftBodyRangesType, timestamp: number) => {
       emojiButtonRef.current?.close();
       onSendMessage({
         draftAttachments,

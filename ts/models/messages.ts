@@ -51,7 +51,7 @@ import * as expirationTimer from '../util/expirationTimer';
 import { getUserLanguages } from '../util/userLanguages';
 
 import type { ReactionType } from '../types/Reactions';
-import { UUID, UUIDKind } from '../types/UUID';
+import { isValidUuid, UUID, UUIDKind } from '../types/UUID';
 import * as reactionUtil from '../reactions/util';
 import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
@@ -2002,22 +2002,30 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       id,
 
       attachments: quote.attachments.slice(),
-      bodyRanges: quote.bodyRanges.map(({ start, length, mentionUuid }) => {
-        strictAssert(
-          start != null,
-          'Received quote with a bodyRange.start == null'
-        );
-        strictAssert(
-          length != null,
-          'Received quote with a bodyRange.length == null'
-        );
+      bodyRanges: quote.bodyRanges
+        .map(({ start, length, mentionUuid }) => {
+          strictAssert(
+            start != null,
+            'Received quote with a bodyRange.start == null'
+          );
+          strictAssert(
+            length != null,
+            'Received quote with a bodyRange.length == null'
+          );
+          if (!isValidUuid(mentionUuid)) {
+            log.warn(
+              `copyFromQuotedMessage: invalid mentionUuid ${mentionUuid}`
+            );
+            return undefined;
+          }
 
-        return {
-          start,
-          length,
-          mentionUuid: dropNull(mentionUuid),
-        };
-      }),
+          return {
+            start,
+            length,
+            mentionUuid,
+          };
+        })
+        .filter(isNotNil),
 
       // Just placeholder values for the fields
       referencedMessageNotFound: false,

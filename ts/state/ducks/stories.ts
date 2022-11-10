@@ -6,7 +6,7 @@ import { isEqual, pick } from 'lodash';
 
 import * as Errors from '../../types/errors';
 import type { AttachmentType } from '../../types/Attachment';
-import type { BodyRangeType } from '../../types/Util';
+import type { DraftBodyRangesType } from '../../types/Util';
 import type { ConversationModel } from '../../models/conversations';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
@@ -500,7 +500,7 @@ function reactToStory(
 function replyToStory(
   conversationId: string,
   messageBody: string,
-  mentions: Array<BodyRangeType>,
+  mentions: DraftBodyRangesType,
   timestamp: number,
   story: StoryViewType
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {

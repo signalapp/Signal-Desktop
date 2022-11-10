@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from './Attachment';
-import type { BodyRangesType, LocalizerType } from './Util';
+import type { HydratedBodyRangesType, LocalizerType } from './Util';
 import type { ContactNameColorType } from './Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ReadStatus } from '../messages/MessageReadStatus';
@@ -25,7 +25,7 @@ export type ReplyType = {
     | 'title'
   >;
   body?: string;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: HydratedBodyRangesType;
   contactNameColor?: ContactNameColorType;
   conversationId: string;
   deletedForEveryone?: boolean;

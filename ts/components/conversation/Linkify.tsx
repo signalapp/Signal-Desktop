@@ -321,26 +321,18 @@ export type Props = {
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
-export class Linkify extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderNonLink: ({ text }) => text,
-  };
+const defaultRenderNonLink: RenderTextCallbackType = ({ text }) => text;
 
+export class Linkify extends React.Component<Props> {
   public override render():
     | JSX.Element
     | string
     | null
     | Array<JSX.Element | string | null> {
-    const { text, renderNonLink } = this.props;
+    const { text, renderNonLink = defaultRenderNonLink } = this.props;
 
     if (!shouldLinkifyMessage(text)) {
       return text;
-    }
-
-    // We have to do this, because renderNonLink is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderNonLink) {
-      return null;
     }
 
     const chunkData: Array<{

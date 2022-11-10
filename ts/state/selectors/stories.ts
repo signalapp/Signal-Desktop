@@ -296,15 +296,20 @@ export const getStoryReplies = createSelector(
           ? me
           : conversationSelector(reply.sourceUuid || reply.source);
 
+      const { bodyRanges } = reply;
+
       return {
         author: getAvatarData(conversation),
-        ...pick(reply, [
-          'body',
-          'bodyRanges',
-          'deletedForEveryone',
-          'id',
-          'timestamp',
-        ]),
+        ...pick(reply, ['body', 'deletedForEveryone', 'id', 'timestamp']),
+        bodyRanges: bodyRanges?.map(bodyRange => {
+          const mentionConvo = conversationSelector(bodyRange.mentionUuid);
+
+          return {
+            ...bodyRange,
+            conversationID: mentionConvo.id,
+            replacementText: mentionConvo.title,
+          };
+        }),
         reactionEmoji: reply.storyReaction?.emoji,
         contactNameColor: contactNameColorSelector(
           reply.conversationId,

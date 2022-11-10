@@ -52,6 +52,7 @@ export const TwoReplacementsWithAnMention = (): JSX.Element => {
         length: 1,
         mentionUuid: '0ca40892-7b1a-11eb-9439-0242ac130002',
         replacementText: 'Jin Sakai',
+        conversationID: 'x',
         start: 33,
       },
     ],

@@ -35,7 +35,7 @@ export class MentionBlot extends Embed {
     const { uuid, title } = node.dataset;
     if (uuid === undefined || title === undefined) {
       throw new Error(
-        `Failed to make MentionBlot with uuid: ${uuid} and title: ${title}`
+        `Failed to make MentionBlot with uuid: ${uuid}, title: ${title}`
       );
     }
 

@@ -43,18 +43,21 @@ export const MultipleMentions = (): JSX.Element => {
       length: 1,
       mentionUuid: 'abc',
       replacementText: 'Professor Farnsworth',
+      conversationID: 'x',
     },
     {
       start: 2,
       length: 1,
       mentionUuid: 'def',
       replacementText: 'Philip J Fry',
+      conversationID: 'x',
     },
     {
       start: 0,
       length: 1,
       mentionUuid: 'xyz',
       replacementText: 'Yancy Fry',
+      conversationID: 'x',
     },
   ];
   const props = createProps({
@@ -77,18 +80,21 @@ export const ComplexMentions = (): JSX.Element => {
       length: 1,
       mentionUuid: 'ioe',
       replacementText: 'Cereal Killer',
+      conversationID: 'x',
     },
     {
       start: 78,
       length: 1,
       mentionUuid: 'fdr',
       replacementText: 'Acid Burn',
+      conversationID: 'x',
     },
     {
       start: 4,
       length: 1,
       mentionUuid: 'ope',
       replacementText: 'Zero Cool',
+      conversationID: 'x',
     },
   ];
 

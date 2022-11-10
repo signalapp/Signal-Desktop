@@ -27,13 +27,11 @@ export type Props = {
   renderText?: RenderTextCallbackType;
 };
 
-export class Intl extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderText: ({ text, key }) => (
-      <React.Fragment key={key}>{text}</React.Fragment>
-    ),
-  };
+const defaultRenderText: RenderTextCallbackType = ({ text, key }) => (
+  <React.Fragment key={key}>{text}</React.Fragment>
+);
 
+export class Intl extends React.Component<Props> {
   public getComponent(
     index: number,
     placeholderName: string,
@@ -74,7 +72,7 @@ export class Intl extends React.Component<Props> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public override render() {
-    const { components, id, i18n, renderText } = this.props;
+    const { components, id, i18n, renderText = defaultRenderText } = this.props;
 
     if (!id) {
       log.error('Error: Intl id prop not provided');
@@ -95,12 +93,6 @@ export class Intl extends React.Component<Props> {
       string | JSX.Element | Array<string | JSX.Element> | null
     > = [];
     const FIND_REPLACEMENTS = /\$([^$]+)\$/g;
-
-    // We have to do this, because renderText is not required in our Props object,
-    //   but it is always provided via defaultProps.
-    if (!renderText) {
-      return null;
-    }
 
     if (Array.isArray(components) && components.length > 1) {
       throw new Error(

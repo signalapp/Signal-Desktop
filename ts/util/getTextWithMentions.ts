@@ -1,13 +1,14 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { BodyRangesType } from '../types/Util';
+import type { DraftBodyRangeType, DraftBodyRangesType } from '../types/Util';
 
 export function getTextWithMentions(
-  bodyRanges: BodyRangesType,
+  bodyRanges: DraftBodyRangesType,
   text: string
 ): string {
-  return bodyRanges
+  const sortableBodyRanges: Array<DraftBodyRangeType> = bodyRanges.slice();
+  return sortableBodyRanges
     .sort((a, b) => b.start - a.start)
     .reduce((acc, { start, length, replacementText }) => {
       const left = acc.slice(0, start);

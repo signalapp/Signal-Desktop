@@ -11,26 +11,17 @@ export type Props = {
   renderNonNewLine?: RenderTextCallbackType;
 };
 
-export class AddNewLines extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderNonNewLine: ({ text }) => text,
-  };
+const defaultRenderNonNewLine: RenderTextCallbackType = ({ text }) => text;
 
+export class AddNewLines extends React.Component<Props> {
   public override render():
     | JSX.Element
     | string
     | null
     | Array<JSX.Element | string | null> {
-    const { text, renderNonNewLine } = this.props;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const results: Array<any> = [];
+    const { text, renderNonNewLine = defaultRenderNonNewLine } = this.props;
+    const results: Array<JSX.Element | string> = [];
     const FIND_NEWLINES = /\n/g;
-
-    // We have to do this, because renderNonNewLine is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderNonNewLine) {
-      return null;
-    }
 
     let match = FIND_NEWLINES.exec(text);
     let last = 0;

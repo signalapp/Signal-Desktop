@@ -12,6 +12,7 @@ describe('getTextWithMentions', () => {
           length: 1,
           mentionUuid: 'abcdef',
           replacementText: 'fred',
+          conversationID: 'x',
           start: 4,
         },
       ];
@@ -28,12 +29,14 @@ describe('getTextWithMentions', () => {
           length: 1,
           mentionUuid: 'blarg',
           replacementText: 'jerry',
+          conversationID: 'x',
           start: 0,
         },
         {
           length: 1,
           mentionUuid: 'abcdef',
           replacementText: 'fred',
+          conversationID: 'x',
           start: 7,
         },
       ];

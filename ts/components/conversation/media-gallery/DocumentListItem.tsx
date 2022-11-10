@@ -19,12 +19,8 @@ type Props = {
 };
 
 export class DocumentListItem extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    shouldShowSeparator: true,
-  };
-
   public override render(): JSX.Element {
-    const { shouldShowSeparator } = this.props;
+    const { shouldShowSeparator = true } = this.props;
 
     return (
       <div

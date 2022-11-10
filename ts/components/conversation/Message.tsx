@@ -63,7 +63,7 @@ import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { missingCaseError } from '../../util/missingCaseError';
 import type {
-  BodyRangesType,
+  HydratedBodyRangesType,
   LocalizerType,
   ThemeType,
 } from '../../types/Util';
@@ -228,7 +228,7 @@ export type PropsData = {
     authorProfileName?: string;
     authorTitle: string;
     authorName?: string;
-    bodyRanges?: BodyRangesType;
+    bodyRanges?: HydratedBodyRangesType;
     referencedMessageNotFound: boolean;
     isViewOnce: boolean;
     isGiftBadge: boolean;
@@ -261,7 +261,7 @@ export type PropsData = {
   canDeleteForEveryone: boolean;
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: HydratedBodyRangesType;
 
   menu: JSX.Element | undefined;
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;

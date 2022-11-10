@@ -14,7 +14,7 @@ import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
 import type {
-  BodyRangesType,
+  HydratedBodyRangesType,
   LocalizerType,
   RenderTextCallbackType,
 } from '../../types/Util';
@@ -34,7 +34,7 @@ export type Props = {
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
   i18n: LocalizerType;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: HydratedBodyRangesType;
   onIncreaseTextLength?: () => unknown;
   openConversation?: OpenConversationActionType;
   kickOffBodyDownload?: () => void;

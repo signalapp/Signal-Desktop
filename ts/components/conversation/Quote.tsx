@@ -11,7 +11,7 @@ import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
 import type { AttachmentType, ThumbnailType } from '../../types/Attachment';
-import type { BodyRangesType, LocalizerType } from '../../types/Util';
+import type { HydratedBodyRangesType, LocalizerType } from '../../types/Util';
 import type {
   ConversationColorType,
   CustomColorType,
@@ -27,7 +27,7 @@ export type Props = {
   authorTitle: string;
   conversationColor: ConversationColorType;
   customColor?: CustomColorType;
-  bodyRanges?: BodyRangesType;
+  bodyRanges?: HydratedBodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming?: boolean;

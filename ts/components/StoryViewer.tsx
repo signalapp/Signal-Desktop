@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import type { BodyRangeType, LocalizerType } from '../types/Util';
+import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -80,7 +80,7 @@ export type PropsType = {
   onReactToStory: (emoji: string, story: StoryViewType) => unknown;
   onReplyToStory: (
     message: string,
-    mentions: Array<BodyRangeType>,
+    mentions: DraftBodyRangesType,
     timestamp: number,
     story: StoryViewType
   ) => unknown;

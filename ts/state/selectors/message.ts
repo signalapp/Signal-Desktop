@@ -37,7 +37,7 @@ import type { UUIDStringType } from '../../types/UUID';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
-import type { AssertProps, BodyRangesType } from '../../types/Util';
+import type { AssertProps, HydratedBodyRangesType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
 import { CallMode } from '../../types/Calling';
@@ -289,7 +289,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
   (
     { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
     { conversationSelector }: { conversationSelector: GetConversationByIdType }
-  ): BodyRangesType | undefined => {
+  ): HydratedBodyRangesType | undefined => {
     if (!bodyRanges) {
       return undefined;
     }
@@ -307,7 +307,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
       })
       .sort((a, b) => b.start - a.start);
   },
-  (_, ranges): undefined | BodyRangesType => ranges
+  (_, ranges): undefined | HydratedBodyRangesType => ranges
 );
 
 const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
@@ -780,7 +780,7 @@ export const getPropsForMessage: (
     (
       _,
       attachments: Array<AttachmentType>,
-      bodyRanges: BodyRangesType | undefined,
+      bodyRanges: HydratedBodyRangesType | undefined,
       author: PropsData['author'],
       previews: Array<LinkPreviewType>,
       reactions: PropsData['reactions'],

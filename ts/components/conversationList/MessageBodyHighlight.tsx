@@ -13,7 +13,7 @@ import { AddNewLines } from '../conversation/AddNewLines';
 import type { SizeClassType } from '../emoji/lib';
 
 import type {
-  BodyRangesType,
+  HydratedBodyRangesType,
   LocalizerType,
   RenderTextCallbackType,
 } from '../../types/Util';
@@ -21,7 +21,7 @@ import type {
 const CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__message-search-result-contents`;
 
 export type Props = {
-  bodyRanges: BodyRangesType;
+  bodyRanges: HydratedBodyRangesType;
   text: string;
   i18n: LocalizerType;
 };

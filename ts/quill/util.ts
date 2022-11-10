@@ -6,7 +6,7 @@ import Delta from 'quill-delta';
 import type { LeafBlot, DeltaOperation } from 'quill';
 import type Op from 'quill-delta/dist/Op';
 
-import type { BodyRangeType } from '../types/Util';
+import type { DraftBodyRangeType, DraftBodyRangesType } from '../types/Util';
 import type { MentionBlot } from './mentions/blot';
 
 export type MentionBlotValue = {
@@ -61,8 +61,8 @@ export const getTextFromOps = (ops: Array<DeltaOperation>): string =>
 
 export const getTextAndMentionsFromOps = (
   ops: Array<Op>
-): [string, Array<BodyRangeType>] => {
-  const mentions: Array<BodyRangeType> = [];
+): [string, DraftBodyRangesType] => {
+  const mentions: Array<DraftBodyRangeType> = [];
 
   const text = ops
     .reduce((acc, op, index) => {
@@ -168,15 +168,17 @@ export const getDeltaToRemoveStaleMentions = (
 
 export const insertMentionOps = (
   incomingOps: Array<Op>,
-  bodyRanges: Array<BodyRangeType>
+  bodyRanges: DraftBodyRangesType
 ): Array<Op> => {
   const ops = [...incomingOps];
+
+  const sortableBodyRanges: Array<DraftBodyRangeType> = bodyRanges.slice();
 
   // Working backwards through bodyRanges (to avoid offsetting later mentions),
   // Shift off the op with the text to the left of the last mention,
   // Insert a mention based on the current bodyRange,
   // Unshift the mention and surrounding text to leave the ops ready for the next range
-  bodyRanges
+  sortableBodyRanges
     .sort((a, b) => b.start - a.start)
     .forEach(({ start, length, mentionUuid, replacementText }) => {
       const op = ops.shift();

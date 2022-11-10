@@ -32,7 +32,7 @@ export const ChangeNumberNotification: React.FC<Props> = props => {
           <Intl
             id="ChangeNumber--notification"
             components={{
-              sender: <Emojify text={sender.title || sender.firstName} />,
+              sender: <Emojify text={sender.title || sender.firstName || ''} />,
             }}
             i18n={i18n}
           />
