@@ -8,9 +8,10 @@ type Props = {
 const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   position: absolute;
   font-size: 18px;
+  line-height: 1.2;
   top: 27px;
-  right: 8px;
-  padding: 0 6px;
+  left: 28px;
+  padding: 1px 4px;
   opacity: 1;
   display: flex;
   align-items: center;

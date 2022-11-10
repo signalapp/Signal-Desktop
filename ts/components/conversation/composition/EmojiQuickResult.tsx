@@ -6,6 +6,8 @@ import { SearchIndex } from 'emoji-mart';
 import { searchSync } from '../../../util/emoji.js';
 
 const EmojiQuickResult = styled.span`
+  display: flex;
+  align-items: center;
   width: 100%;
   padding-inline-end: 20px;
   padding-inline-start: 10px;
@@ -13,7 +15,7 @@ const EmojiQuickResult = styled.span`
 const EmojiQuickResultIcon = styled.span`
   padding-inline-end: 20px;
   padding-inline-start: 10px;
-  font-size: 1.4em;
+  font-size: 1.4rem;
 `;
 const EmojiQuickResultText = styled.span``;
 

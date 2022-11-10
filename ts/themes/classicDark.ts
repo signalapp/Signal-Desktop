@@ -64,7 +64,7 @@ export const classicDark: ThemeColorVariables = {
   '--button-icon-stroke-selected-color': 'var(--text-primary-color)',
 
   '--conversation-tab-background-color': 'var(--background-primary-color)',
-  '--conversation-tab-background-hover-color': THEMES.CLASSIC_DARK.COLOR2,
+  '--conversation-tab-background-hover-color': THEMES.CLASSIC_DARK.COLOR3,
   '--conversation-tab-background-selected-color': THEMES.CLASSIC_DARK.COLOR3,
   '--conversation-tab-background-unread-color': THEMES.CLASSIC_DARK.COLOR2,
   '--conversation-tab-text-color': 'var(--text-secondary-color)',
@@ -153,4 +153,7 @@ export const classicDark: ThemeColorVariables = {
   '--call-buttons-icon-disabled-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-color': 'var(--text-primary-color)',
   '--call-buttons-dropdown-shadow': '0 0 4px 0 var(grey-color)',
+
+  '--file-dropzone-background-color': 'var(--message-link-preview-background-color)',
+  '--file-dropzone-border-color': 'var(--primary-color)',
 };

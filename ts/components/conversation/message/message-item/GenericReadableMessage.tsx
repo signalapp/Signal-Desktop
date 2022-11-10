@@ -115,7 +115,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   display: flex;
   align-items: center;
   width: 100%;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.03rem;
   padding: var(--margins-xs) var(--margins-lg) 0;
 
   &.message-highlighted {

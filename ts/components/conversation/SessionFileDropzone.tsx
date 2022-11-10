@@ -12,8 +12,8 @@ const DropZoneContainer = styled.div`
 `;
 
 const DropZoneWithBorder = styled.div`
-  border: dashed 4px var(--primary-color);
-  background-color: var(--message-link-preview-background-color);
+  border: dashed 4px var(--file-dropzone-border-color);
+  background-color: var(--file-dropzone-background-color);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -29,7 +29,11 @@ export const SessionFileDropzone = () => {
     <DropZoneContainer>
       <DropZoneWithBorder>
         <Flex container={true} justifyContent="space-around" height="100%" alignItems="center">
-          <SessionIcon iconColor="var(--primary-color)" iconSize={'max'} iconType="circlePlus" />
+          <SessionIcon
+            iconColor="var(--file-dropzone-border-color)"
+            iconSize={'max'}
+            iconType="circlePlus"
+          />
         </Flex>
       </DropZoneWithBorder>
     </DropZoneContainer>
