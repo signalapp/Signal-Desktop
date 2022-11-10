@@ -555,8 +555,8 @@ export const getNonGroupStories = createSelector(
 
 export const selectMostRecentActiveStoryTimestampByGroupOrDistributionList =
   createSelector(
-    (state: StateType): Array<StoryDataType> => state.stories.stories,
-    (stories: Array<StoryDataType>): Record<string, number> => {
+    (state: StateType): ReadonlyArray<StoryDataType> => state.stories.stories,
+    (stories: ReadonlyArray<StoryDataType>): Record<string, number> => {
       return reduce<StoryDataType, Record<string, number>>(
         stories,
         (acc, story) => {

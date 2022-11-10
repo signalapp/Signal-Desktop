@@ -106,21 +106,22 @@ export type AddStoryData =
 
 // State
 
-export type StoriesStateType = {
-  readonly lastOpenedAtTimestamp: number | undefined;
-  readonly openedAtTimestamp: number | undefined;
-  readonly replyState?: {
+export type StoriesStateType = Readonly<{
+  lastOpenedAtTimestamp: number | undefined;
+  openedAtTimestamp: number | undefined;
+  replyState?: Readonly<{
     messageId: string;
     replies: Array<MessageAttributesType>;
-  };
-  readonly selectedStoryData?: SelectedStoryDataType;
-  readonly addStoryData: AddStoryData;
-  readonly sendStoryModalData?: {
-    untrustedUuids: Array<string>;
-    verifiedUuids: Array<string>;
-  };
-  readonly stories: Array<StoryDataType>;
-};
+  }>;
+  selectedStoryData?: SelectedStoryDataType;
+  addStoryData: AddStoryData;
+  sendStoryModalData?: Readonly<{
+    untrustedUuids: ReadonlyArray<string>;
+    verifiedUuids: ReadonlyArray<string>;
+  }>;
+  stories: ReadonlyArray<StoryDataType>;
+  hasAllStoriesUnmuted: boolean;
+}>;
 
 // Actions
 
@@ -138,6 +139,7 @@ const STORY_REPLY_DELETED = 'stories/STORY_REPLY_DELETED';
 const REMOVE_ALL_STORIES = 'stories/REMOVE_ALL_STORIES';
 const SET_ADD_STORY_DATA = 'stories/SET_ADD_STORY_DATA';
 const SET_STORY_SENDING = 'stories/SET_STORY_SENDING';
+const SET_HAS_ALL_STORIES_UNMUTED = 'stories/SET_HAS_ALL_STORIES_UNMUTED';
 
 type DOEStoryActionType = {
   type: typeof DOE_STORY;
@@ -211,6 +213,11 @@ type SetStorySendingType = {
   payload: boolean;
 };
 
+type SetHasAllStoriesUnmutedType = {
+  type: typeof SET_HAS_ALL_STORIES_UNMUTED;
+  payload: boolean;
+};
+
 export type StoriesActionType =
   | DOEStoryActionType
   | ListMembersVerified
@@ -227,7 +234,8 @@ export type StoriesActionType =
   | StoryReplyDeletedActionType
   | RemoveAllStoriesActionType
   | SetAddStoryDataType
-  | SetStorySendingType;
+  | SetStorySendingType
+  | SetHasAllStoriesUnmutedType;
 
 // Action Creators
 
@@ -1235,6 +1243,15 @@ function setStorySending(sending: boolean): SetStorySendingType {
   };
 }
 
+function setHasAllStoriesUnmuted(
+  isUnmuted: boolean
+): SetHasAllStoriesUnmutedType {
+  return {
+    type: SET_HAS_ALL_STORIES_UNMUTED,
+    payload: isUnmuted,
+  };
+}
+
 function setStoriesDisabled(
   value: boolean
 ): ThunkAction<void, RootStateType, unknown, never> {
@@ -1262,6 +1279,7 @@ export const actions = {
   deleteGroupStoryReplyForEveryone,
   setAddStoryData,
   setStoriesDisabled,
+  setHasAllStoriesUnmuted,
   setStorySending,
 };
 
@@ -1277,6 +1295,7 @@ export function getEmptyState(
     openedAtTimestamp: undefined,
     addStoryData: undefined,
     stories: [],
+    hasAllStoriesUnmuted: false,
     ...overrideState,
   };
 }
@@ -1641,6 +1660,13 @@ export function reducer(
         ...existing,
         sending: action.payload,
       },
+    };
+  }
+
+  if (action.type === SET_HAS_ALL_STORIES_UNMUTED) {
+    return {
+      ...state,
+      hasAllStoriesUnmuted: action.payload,
     };
   }
 

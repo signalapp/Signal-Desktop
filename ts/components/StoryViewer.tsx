@@ -66,7 +66,7 @@ export type PropsType = {
     | 'left'
   >;
   hasActiveCall?: boolean;
-  hasAllStoriesMuted: boolean;
+  hasAllStoriesUnmuted: boolean;
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
   isSignalConversation?: boolean;
@@ -95,8 +95,9 @@ export type PropsType = {
   skinTone?: number;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
-  toggleHasAllStoriesMuted: () => unknown;
+  setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   viewStory: ViewStoryActionCreatorType;
+  isWindowActive: boolean;
   deleteGroupStoryReply: (id: string) => void;
   deleteGroupStoryReplyForEveryone: (id: string) => void;
 };
@@ -119,7 +120,7 @@ export const StoryViewer = ({
   getPreferredBadge,
   group,
   hasActiveCall,
-  hasAllStoriesMuted,
+  hasAllStoriesUnmuted,
   hasViewReceiptSetting,
   i18n,
   isSignalConversation,
@@ -143,8 +144,9 @@ export const StoryViewer = ({
   skinTone,
   story,
   storyViewMode,
-  toggleHasAllStoriesMuted,
+  setHasAllStoriesUnmuted,
   viewStory,
+  isWindowActive,
   deleteGroupStoryReply,
   deleteGroupStoryReplyForEveryone,
 }: PropsType): JSX.Element => {
@@ -305,6 +307,12 @@ export const StoryViewer = ({
 
   const [pauseStory, setPauseStory] = useState(false);
 
+  useEffect(() => {
+    if (!isWindowActive) {
+      setPauseStory(true);
+    }
+  }, [isWindowActive]);
+
   const shouldPauseViewing =
     Boolean(confirmDeleteStory) ||
     currentViewTarget != null ||
@@ -436,19 +444,19 @@ export const StoryViewer = ({
   const replyCount = replies.length;
   const viewCount = views.length;
 
-  const canMuteStory = isVideoAttachment(attachment);
-  const isStoryMuted = hasAllStoriesMuted || !canMuteStory;
+  const hasAudio = isVideoAttachment(attachment);
+  const isStoryMuted = !hasAllStoriesUnmuted || !hasAudio;
 
   let muteClassName: string;
   let muteAriaLabel: string;
-  if (canMuteStory) {
-    muteAriaLabel = hasAllStoriesMuted
-      ? i18n('StoryViewer__unmute')
-      : i18n('StoryViewer__mute');
+  if (hasAudio) {
+    muteAriaLabel = hasAllStoriesUnmuted
+      ? i18n('StoryViewer__mute')
+      : i18n('StoryViewer__unmute');
 
-    muteClassName = hasAllStoriesMuted
-      ? 'StoryViewer__unmute'
-      : 'StoryViewer__mute';
+    muteClassName = hasAllStoriesUnmuted
+      ? 'StoryViewer__mute'
+      : 'StoryViewer__unmute';
   } else {
     muteAriaLabel = i18n('Stories__toast--hasNoSound');
     muteClassName = 'StoryViewer__soundless';
@@ -686,8 +694,8 @@ export const StoryViewer = ({
                   aria-label={muteAriaLabel}
                   className={muteClassName}
                   onClick={
-                    canMuteStory
-                      ? toggleHasAllStoriesMuted
+                    hasAudio
+                      ? () => setHasAllStoriesUnmuted(!hasAllStoriesUnmuted)
                       : () => showToast(ToastType.StoryMuted)
                   }
                   type="button"

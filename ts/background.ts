@@ -417,6 +417,12 @@ export async function startApp(): Promise<void> {
     }
   });
 
+  window.SignalContext.activeWindowService.registerForChange(isActive => {
+    if (!isActive) {
+      window.reduxActions.stories.setHasAllStoriesUnmuted(false);
+    }
+  });
+
   let resolveOnAppView: (() => void) | undefined;
   const onAppView = new Promise<void>(resolve => {
     resolveOnAppView = resolve;

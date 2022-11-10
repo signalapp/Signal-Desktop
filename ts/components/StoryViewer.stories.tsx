@@ -68,6 +68,7 @@ export default {
     },
     toggleHasAllStoriesMuted: { action: true },
     viewStory: { action: true },
+    isWindowActive: { defaultValue: true },
   },
   args: {
     currentIndex: 0,

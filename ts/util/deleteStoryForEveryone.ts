@@ -10,7 +10,7 @@ import { onStoryRecipientUpdate } from './onStoryRecipientUpdate';
 import { sendDeleteForEveryoneMessage } from './sendDeleteForEveryoneMessage';
 
 export async function deleteStoryForEveryone(
-  stories: Array<StoryDataType>,
+  stories: ReadonlyArray<StoryDataType>,
   story: StoryDataType
 ): Promise<void> {
   if (!story.sendStateByConversationId) {

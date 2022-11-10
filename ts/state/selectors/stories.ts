@@ -541,3 +541,8 @@ export const getStoryByIdSelector = createSelector(
       };
     }
 );
+
+export const getHasAllStoriesUnmuted = createSelector(
+  getStoriesState,
+  ({ hasAllStoriesUnmuted }): boolean => hasAllStoriesUnmuted
+);

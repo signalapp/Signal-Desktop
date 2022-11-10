@@ -13,7 +13,6 @@ import { ToastType, useToastActions } from '../ducks/toast';
 import { getConversationSelector } from '../selectors/conversations';
 import {
   getEmojiSkinTone,
-  getHasAllStoriesMuted,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
 } from '../selectors/items';
@@ -23,23 +22,27 @@ import {
   getSelectedStoryData,
   getStoryReplies,
   getStoryByIdSelector,
+  getHasAllStoriesUnmuted,
 } from '../selectors/stories';
 import { isInFullScreenCall } from '../selectors/calling';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
-import { useActions as useItemsActions } from '../ducks/items';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
+import { useActions as useItemsActions } from '../ducks/items';
 import { useStoriesActions } from '../ducks/stories';
+import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 
 export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
-  const { onSetSkinTone, toggleHasAllStoriesMuted } = useItemsActions();
   const { onUseEmoji } = useEmojisActions();
   const { showConversation, toggleHideStories } = useConversationsActions();
+  const { onSetSkinTone } = useItemsActions();
   const { showToast } = useToastActions();
+
+  const isWindowActive = useIsWindowActive();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -63,8 +66,8 @@ export function SmartStoryViewer(): JSX.Element | null {
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
   const replyState = useSelector(getStoryReplies);
-  const hasAllStoriesMuted = useSelector<StateType, boolean>(
-    getHasAllStoriesMuted
+  const hasAllStoriesUnmuted = useSelector<StateType, boolean>(
+    getHasAllStoriesUnmuted
   );
 
   const hasActiveCall = useSelector(isInFullScreenCall);
@@ -90,7 +93,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       getPreferredBadge={getPreferredBadge}
       group={conversationStory.group}
       hasActiveCall={hasActiveCall}
-      hasAllStoriesMuted={hasAllStoriesMuted}
+      hasAllStoriesUnmuted={hasAllStoriesUnmuted}
       hasViewReceiptSetting={hasViewReceiptSetting}
       i18n={i18n}
       isSignalConversation={isSignalConversation({
@@ -127,7 +130,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       skinTone={skinTone}
       story={storyView}
       storyViewMode={selectedStoryData.storyViewMode}
-      toggleHasAllStoriesMuted={toggleHasAllStoriesMuted}
+      isWindowActive={isWindowActive}
       {...storiesActions}
     />
   );

@@ -141,7 +141,6 @@ export type StorageAccessType = {
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
-  hasAllStoriesMuted: boolean;
 
   // Deprecated
   senderCertificateWithUuid: never;
