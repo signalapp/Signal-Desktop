@@ -5553,7 +5553,7 @@
   },
   "icu:StoriesSettings__my-story-subtitle": {
     "messageformat": "All Signal connections",
-    "description": "Story settings modal my story distribution list selection subtitle"
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
   },
   "icu:StoriesSettings__custom-story-subtitle": {
     "messageformat": "Custom story",
@@ -5668,7 +5668,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story settings",
+    "message": "Story privacy",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {

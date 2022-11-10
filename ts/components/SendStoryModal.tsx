@@ -12,6 +12,7 @@ import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
 import {
+  getI18nForMyStory,
   getListViewers,
   DistributionListSettingsModal,
   EditDistributionListModal,
@@ -105,18 +106,6 @@ function getListMemberUuids(
   }
 
   return memberUuids;
-}
-
-function getKeyForMyStoryType(list: StoryDistributionListWithMembersDataType) {
-  if (list.members.length === 0) {
-    return 'StoriesSettings__mine__all--label';
-  }
-
-  if (!list.isBlockList) {
-    return 'SendStoryModal__only-share-with';
-  }
-
-  return 'StoriesSettings__mine__all--label';
 }
 
 export const SendStoryModal = ({
@@ -721,7 +710,7 @@ export const SendStoryModal = ({
                       <>
                         <span className="SendStoryModal__rtl-span">
                           {list.id === MY_STORIES_ID
-                            ? i18n(getKeyForMyStoryType(list))
+                            ? getI18nForMyStory(list, i18n)
                             : i18n('SendStoryModal__custom-story')}
                         </span>
                         <span className="SendStoryModal__rtl-span">

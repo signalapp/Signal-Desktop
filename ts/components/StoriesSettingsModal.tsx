@@ -113,6 +113,21 @@ export function getListViewers(
   return i18n('icu:StoriesSettings__viewers', { count: memberCount });
 }
 
+export function getI18nForMyStory(
+  list: StoryDistributionListWithMembersDataType,
+  i18n: LocalizerType
+): string {
+  if (list.members.length === 0) {
+    return i18n('StoriesSettings__mine__all--label');
+  }
+
+  if (!list.isBlockList) {
+    return i18n('SendStoryModal__only-share-with');
+  }
+
+  return i18n('StoriesSettings__mine__all--label');
+}
+
 type DistributionListItemProps = {
   i18n: LocalizerType;
   distributionList: StoryDistributionListWithMembersDataType;
@@ -138,7 +153,7 @@ function DistributionListItem({
       type="button"
     >
       <span className="StoriesSettingsModal__list__left">
-        {distributionList.id === MY_STORIES_ID ? (
+        {isMyStories ? (
           <Avatar
             acceptedMessageRequest={me.acceptedMessageRequest}
             avatarPath={me.avatarPath}
@@ -162,7 +177,7 @@ function DistributionListItem({
           />
           <span className="StoriesSettingsModal__list__viewers">
             {isMyStories
-              ? i18n('icu:StoriesSettings__my-story-subtitle')
+              ? getI18nForMyStory(distributionList, i18n)
               : i18n('icu:StoriesSettings__custom-story-subtitle')}
             &nbsp;&middot;&nbsp;
             {getListViewers(distributionList, i18n, signalConnections)}
