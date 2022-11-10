@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messageExpired } from '../../../../state/ducks/conversations';
+import { messagesExpired } from '../../../../state/ducks/conversations';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
@@ -68,10 +68,12 @@ function useIsExpired(props: ExpiringProps) {
       await Data.removeMessage(messageId);
       if (convoId) {
         dispatch(
-          messageExpired({
-            conversationKey: convoId,
-            messageId,
-          })
+          messagesExpired([
+            {
+              conversationKey: convoId,
+              messageId,
+            },
+          ])
         );
         const convo = getConversationController().get(convoId);
         convo?.updateLastMessage();

@@ -19,7 +19,7 @@ with open(EN_FILE,'r') as jsonFile:
     data = json.load(jsonFile)
     keys = data.keys()
 
-    stringToWrite += json.dumps(keys, sort_keys=True).replace(',', '\n  |').replace('"', '\'')[1:-1]
+    stringToWrite += json.dumps(list(keys), sort_keys=True).replace(',', '\n  |').replace('"', '\'')[1:-1]
 
 
     stringToWrite += ';\n'

@@ -125,7 +125,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       throw new Error('A message always needs to have an conversationId.');
     }
 
-    // this.on('expired', this.onExpired);
     if (!attributes.skipTimerInit) {
       void this.setToExpire();
     }
