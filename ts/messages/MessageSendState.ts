@@ -109,6 +109,7 @@ export function sendStateReducer(
   return newStatus === oldStatus
     ? state
     : {
+        ...state,
         status: newStatus,
         updatedAt: action.updatedAt,
       };

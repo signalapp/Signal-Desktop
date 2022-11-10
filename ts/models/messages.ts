@@ -2522,6 +2522,59 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
+      if (storyQuote) {
+        const sendStateByConversationId =
+          storyQuote.get('sendStateByConversationId') || {};
+        const sendState = sendStateByConversationId[sender.id];
+
+        if (!sendState) {
+          log.warn(
+            `${idLog}: Received storyContext message but sender was not in sendStateByConversationId. Dropping.`
+          );
+
+          confirm();
+          return;
+        }
+
+        if (sendState.isAllowedToReplyToStory === false) {
+          log.warn(
+            `${idLog}: Received storyContext message but sender is not allowed to reply. Dropping.`
+          );
+
+          confirm();
+          return;
+        }
+
+        const storyDistributionListId = storyQuote.get(
+          'storyDistributionListId'
+        );
+
+        if (storyDistributionListId) {
+          const storyDistribution =
+            await dataInterface.getStoryDistributionWithMembers(
+              storyDistributionListId
+            );
+
+          if (!storyDistribution) {
+            log.warn(
+              `${idLog}: Received storyContext message for story with no associated distribution list. Dropping.`
+            );
+
+            confirm();
+            return;
+          }
+
+          if (!storyDistribution.allowsReplies) {
+            log.warn(
+              `${idLog}: Received storyContext message but distribution list does not allow replies. Dropping.`
+            );
+
+            confirm();
+            return;
+          }
+        }
+      }
+
       const withQuoteReference = {
         ...message.attributes,
         ...initialMessage,
