@@ -11,7 +11,7 @@ const StyledPillDividerLine = styled.div`
 `;
 
 const StyledPillSpan = styled.span`
-  padding: 5px 15px;
+  padding: 6px 15px 5px;
   border-radius: 50px;
   color: var(--text-primary-color);
   border: 1px solid var(--border-color);
