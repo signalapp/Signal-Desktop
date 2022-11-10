@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
@@ -53,7 +53,7 @@ function resolveSendStatus(
   return ResolvedSendStatus.Sent;
 }
 
-export const MyStoriesButton = ({
+export const MyStoryButton = ({
   hasMultiple,
   i18n,
   me,
@@ -63,6 +63,8 @@ export const MyStoriesButton = ({
   queueStoryDownload,
   showToast,
 }: PropsType): JSX.Element => {
+  const [active, setActive] = useState(false);
+
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -116,13 +118,19 @@ export const MyStoriesButton = ({
   );
 
   return (
-    <div className="StoryListItem__button">
+    <div
+      className={classNames(
+        'StoryListItem__button',
+        active && 'StoryListItem__button--active'
+      )}
+    >
       <div className="MyStories__avatar-container">
         <StoriesAddStoryButton
           i18n={i18n}
           moduleClassName="StoryListItem--active-opacity"
           onAddStory={onAddStory}
           showToast={showToast}
+          onContextMenuShowingChanged={setActive}
         >
           <Avatar
             acceptedMessageRequest={acceptedMessageRequest}

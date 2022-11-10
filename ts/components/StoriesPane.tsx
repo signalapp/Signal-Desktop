@@ -19,7 +19,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { ContextMenu } from './ContextMenu';
-import { MyStoriesButton } from './MyStoriesButton';
+import { MyStoryButton } from './MyStoryButton';
 import { SearchInput } from './SearchInput';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { StoryListItem } from './StoryListItem';
@@ -160,7 +160,7 @@ export const StoriesPane = ({
       />
       <div className="Stories__pane__list">
         <>
-          <MyStoriesButton
+          <MyStoryButton
             hasMultiple={
               myStories.length ? myStories[0].stories.length > 1 : false
             }

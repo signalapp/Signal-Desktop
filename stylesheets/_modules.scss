@@ -5353,9 +5353,9 @@ button.module-image__border-overlay:focus {
   }
 
   @include dark-theme {
-    background: $color-gray-80;
+    background: $color-gray-75;
     ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-80;
+      border: 2px solid $color-gray-75;
     }
   }
 }

@@ -7,9 +7,9 @@ import React from 'react';
 import { expect } from '@storybook/jest';
 import { within, userEvent } from '@storybook/testing-library';
 
-import type { PropsType } from './MyStoriesButton';
+import type { PropsType } from './MyStoryButton';
 import enMessages from '../../_locales/en/messages.json';
-import { MyStoriesButton } from './MyStoriesButton';
+import { MyStoryButton } from './MyStoryButton';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
 import { setupI18n } from '../util/setupI18n';
@@ -19,7 +19,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/MyStoriesButton',
-  component: MyStoriesButton,
+  component: MyStoryButton,
   argTypes: {
     hasMultiple: {
       control: 'checkbox',
@@ -41,7 +41,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story<PropsType> = args => <MyStoriesButton {...args} />;
+const Template: Story<PropsType> = args => <MyStoryButton {...args} />;
 
 const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
   args,

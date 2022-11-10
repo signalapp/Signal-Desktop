@@ -18,7 +18,10 @@
       }
     }
 
-    &:hover {
+    // highlighted on hover and when it has triggered a context menu
+    // that has not been closed yet (active)
+    &:hover,
+    &--active {
       background: $color-gray-65;
     }
   }
