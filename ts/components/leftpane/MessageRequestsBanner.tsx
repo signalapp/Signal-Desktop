@@ -48,7 +48,7 @@ const StyledUnreadCounter = styled.div`
   margin-left: var(--margins-sm);
   min-width: 20px;
   height: 20px;
-  line-height: 25px;
+  line-height: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
