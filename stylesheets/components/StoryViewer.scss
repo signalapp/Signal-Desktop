@@ -280,10 +280,9 @@
 
     &--bar {
       background: $color-white;
-      background-size: 200% 100%;
       border-radius: 2px;
-      display: block;
       height: 100%;
+      transform: translateX(-100%);
     }
   }
 

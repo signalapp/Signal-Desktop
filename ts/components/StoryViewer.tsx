@@ -284,12 +284,15 @@ export const StoryViewer = ({
     );
     const target = progressBarRef.current;
 
-    const animation = target.animate([{ width: '0%' }, { width: '100%' }], {
-      id: 'story-progress-bar',
-      duration: storyDuration,
-      easing: 'linear',
-      fill: 'forwards',
-    });
+    const animation = target.animate(
+      [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0%)' }],
+      {
+        id: 'story-progress-bar',
+        duration: storyDuration,
+        easing: 'linear',
+        fill: 'forwards',
+      }
+    );
 
     animationRef.current = animation;
 
@@ -411,27 +414,41 @@ export const StoryViewer = ({
       return;
     }
 
-    let lastMouseMove: number | undefined;
+    let mouseMoveExpiration: number | undefined;
+    let timer: NodeJS.Timeout | undefined;
 
     function updateLastMouseMove() {
-      lastMouseMove = Date.now();
+      mouseMoveExpiration = Date.now() + MOUSE_IDLE_TIME;
+
+      if (timer === undefined) {
+        checkMouseIdle();
+      }
     }
 
     function checkMouseIdle() {
-      requestAnimationFrame(() => {
-        if (lastMouseMove && Date.now() - lastMouseMove > MOUSE_IDLE_TIME) {
-          setArrowToShow(Arrow.None);
-        } else {
-          checkMouseIdle();
-        }
-      });
+      timer = undefined;
+
+      if (mouseMoveExpiration === undefined) {
+        return;
+      }
+
+      const remaining = mouseMoveExpiration - Date.now();
+      if (remaining <= 0) {
+        setArrowToShow(Arrow.None);
+        return;
+      }
+
+      timer = setTimeout(checkMouseIdle, remaining);
     }
-    checkMouseIdle();
 
     document.addEventListener('mousemove', updateLastMouseMove);
 
     return () => {
-      lastMouseMove = undefined;
+      if (timer !== undefined) {
+        clearTimeout(timer);
+      }
+      mouseMoveExpiration = undefined;
+      timer = undefined;
       document.removeEventListener('mousemove', updateLastMouseMove);
     };
   }, [arrowToShow]);
@@ -723,9 +740,13 @@ export const StoryViewer = ({
                   ) : (
                     <div
                       className="StoryViewer__progress--bar"
-                      style={{
-                        width: currentIndex < index ? '0%' : '100%',
-                      }}
+                      style={
+                        currentIndex < index
+                          ? {}
+                          : {
+                              transform: 'translateX(0%)',
+                            }
+                      }
                     />
                   )}
                 </div>
