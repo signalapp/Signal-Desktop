@@ -55,10 +55,11 @@ export type PropsType = {
     | 'groupStories'
     | 'hasFirstStoryPostExperience'
     | 'me'
+    | 'ourConversationId'
     | 'onDeleteList'
     | 'onDistributionListCreated'
     | 'onHideMyStoriesFrom'
-    | 'onRemoveMember'
+    | 'onRemoveMembers'
     | 'onRepliesNReactionsChanged'
     | 'onSelectedStoryList'
     | 'onViewersUpdated'
@@ -83,11 +84,12 @@ export const StoryCreator = ({
   isSending,
   linkPreview,
   me,
+  ourConversationId,
   onClose,
   onDeleteList,
   onDistributionListCreated,
   onHideMyStoriesFrom,
-  onRemoveMember,
+  onRemoveMembers,
   onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
@@ -154,13 +156,14 @@ export const StoryCreator = ({
           groupConversations={groupConversations}
           groupStories={groupStories}
           hasFirstStoryPostExperience={hasFirstStoryPostExperience}
+          ourConversationId={ourConversationId}
           i18n={i18n}
           me={me}
           onClose={() => setDraftAttachment(undefined)}
           onDeleteList={onDeleteList}
           onDistributionListCreated={onDistributionListCreated}
           onHideMyStoriesFrom={onHideMyStoriesFrom}
-          onRemoveMember={onRemoveMember}
+          onRemoveMembers={onRemoveMembers}
           onRepliesNReactionsChanged={onRepliesNReactionsChanged}
           onSelectedStoryList={onSelectedStoryList}
           onSend={(listIds, groupIds) => {

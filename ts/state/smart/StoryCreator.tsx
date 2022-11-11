@@ -17,7 +17,7 @@ import {
   selectMostRecentActiveStoryTimestampByGroupOrDistributionList,
 } from '../selectors/conversations';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
-import { getIntl } from '../selectors/user';
+import { getIntl, getUserConversationId } from '../selectors/user';
 import {
   getInstalledStickerPacks,
   getRecentStickers,
@@ -53,12 +53,13 @@ export function SmartStoryCreator(): JSX.Element | null {
     createDistributionList,
     deleteDistributionList,
     hideMyStoriesFrom,
-    removeMemberFromDistributionList,
+    removeMembersFromDistributionList,
     setMyStoriesToAllSignalConnections,
     updateStoryViewers,
   } = useStoryDistributionListsActions();
   const { toggleSignalConnectionsModal } = useGlobalModalActions();
 
+  const ourConversationId = useSelector(getUserConversationId);
   const candidateConversations = useSelector(getCandidateContactsForNewGroup);
   const distributionLists = useSelector(getDistributionListsWithMembers);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
@@ -94,11 +95,12 @@ export function SmartStoryCreator(): JSX.Element | null {
       isSending={isSending}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
+      ourConversationId={ourConversationId}
       onClose={() => setAddStoryData(undefined)}
       onDeleteList={deleteDistributionList}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
-      onRemoveMember={removeMemberFromDistributionList}
+      onRemoveMembers={removeMembersFromDistributionList}
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}

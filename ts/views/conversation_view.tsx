@@ -2326,8 +2326,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async isCallSafe(): Promise<boolean> {
+    const recipientsByConversation = {
+      [this.model.id]: {
+        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
+      },
+    };
+
     const callAnyway = await blockSendUntilConversationsAreVerified(
-      [this.model],
+      recipientsByConversation,
       SafetyNumberChangeSource.Calling
     );
 
@@ -2345,11 +2351,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     packId: string;
     stickerId: number;
   }): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
+    const recipientsByConversation = {
+      [this.model.id]: {
+        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
+      },
+    };
 
     try {
       const sendAnyway = await blockSendUntilConversationsAreVerified(
-        [this.model],
+        recipientsByConversation,
         SafetyNumberChangeSource.MessageSend
       );
       if (!sendAnyway) {
@@ -2361,7 +2371,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
 
       const { packId, stickerId } = options;
-      model.sendStickerMessage(packId, stickerId);
+      this.model.sendStickerMessage(packId, stickerId);
     } catch (error) {
       log.error('clickSend error:', error && error.stack ? error.stack : error);
     }
@@ -2497,16 +2507,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       voiceNoteAttachment?: AttachmentType;
     } = {}
   ): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
     const timestamp = options.timestamp || Date.now();
 
     this.sendStart = Date.now();
+    const recipientsByConversation = {
+      [this.model.id]: {
+        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
+      },
+    };
 
     try {
       this.disableMessageField();
 
       const sendAnyway = await blockSendUntilConversationsAreVerified(
-        [this.model],
+        recipientsByConversation,
         SafetyNumberChangeSource.MessageSend
       );
       if (!sendAnyway) {
@@ -2522,7 +2536,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    model.clearTypingTimers();
+    this.model.clearTypingTimers();
 
     if (this.showInvalidMessageToast(message)) {
       this.enableMessageField();
@@ -2556,7 +2570,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-      await model.enqueueMessageForSend(
+      await this.model.enqueueMessageForSend(
         {
           body: message,
           attachments,
@@ -2569,7 +2583,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           timestamp,
           extraReduxActions: () => {
             this.compositionApi.current?.reset();
-            model.setMarkedUnread(false);
+            this.model.setMarkedUnread(false);
             this.setQuoteMessage(null);
             resetLinkPreview();
             this.clearAttachments();

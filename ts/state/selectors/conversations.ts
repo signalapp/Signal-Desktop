@@ -1074,7 +1074,7 @@ export const getContactSelector = createSelector(
   }
 );
 
-const getConversationVerificationData = createSelector(
+export const getConversationVerificationData = createSelector(
   getConversations,
   (
     conversations: Readonly<ConversationsStateType>
@@ -1097,6 +1097,14 @@ export const getConversationUuidsStoppingSend = createSelector(
         item.uuidsNeedingVerification.forEach(conversationId => {
           result.add(conversationId);
         });
+
+        if (item.byDistributionId) {
+          Object.values(item.byDistributionId).forEach(distribution => {
+            distribution.uuidsNeedingVerification.forEach(conversationId => {
+              result.add(conversationId);
+            });
+          });
+        }
       }
     });
     return Array.from(result);

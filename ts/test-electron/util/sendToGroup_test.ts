@@ -6,7 +6,6 @@ import * as sinon from 'sinon';
 
 import {
   _analyzeSenderKeyDevices,
-  _waitForAll,
   _shouldFailSend,
 } from '../../util/sendToGroup';
 import { UUID } from '../../types/UUID';
@@ -163,21 +162,6 @@ describe('sendToGroup', () => {
       assert.isEmpty(newToMemberUuids);
       assert.isEmpty(removedFromMemberDevices);
       assert.isEmpty(removedFromMemberUuids);
-    });
-  });
-
-  describe('#_waitForAll', () => {
-    it('returns result of provided tasks', async () => {
-      const task1 = () => Promise.resolve(1);
-      const task2 = () => Promise.resolve(2);
-      const task3 = () => Promise.resolve(3);
-
-      const result = await _waitForAll({
-        tasks: [task1, task2, task3],
-        maxConcurrency: 1,
-      });
-
-      assert.deepEqual(result, [1, 2, 3]);
     });
   });
 

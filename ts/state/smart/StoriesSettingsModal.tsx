@@ -32,7 +32,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
     createDistributionList,
     deleteDistributionList,
     hideMyStoriesFrom,
-    removeMemberFromDistributionList,
+    removeMembersFromDistributionList,
     setMyStoriesToAllSignalConnections,
     updateStoryViewers,
   } = useStoryDistributionListsActions();
@@ -65,7 +65,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
-      onRemoveMember={removeMemberFromDistributionList}
+      onRemoveMembers={removeMembersFromDistributionList}
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onViewersUpdated={updateStoryViewers}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}

@@ -48,6 +48,7 @@ export type PropsType = {
   groupConversations: Array<ConversationType>;
   groupStories: Array<ConversationType>;
   hasFirstStoryPostExperience: boolean;
+  ourConversationId: string | undefined;
   i18n: LocalizerType;
   me: ConversationType;
   onClose: () => unknown;
@@ -56,7 +57,11 @@ export type PropsType = {
     name: string,
     viewerUuids: Array<UUIDStringType>
   ) => unknown;
-  onSelectedStoryList: (memberUuids: Array<string>) => unknown;
+  onSelectedStoryList: (options: {
+    conversationId: string;
+    distributionId: string | undefined;
+    uuids: Array<UUIDStringType>;
+  }) => unknown;
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>
@@ -70,7 +75,7 @@ export type PropsType = {
 } & Pick<
   StoriesSettingsModalPropsType,
   | 'onHideMyStoriesFrom'
-  | 'onRemoveMember'
+  | 'onRemoveMembers'
   | 'onRepliesNReactionsChanged'
   | 'onViewersUpdated'
   | 'setMyStoriesToAllSignalConnections'
@@ -94,7 +99,7 @@ type PageType = SendStoryPage | StoriesSettingsPage;
 function getListMemberUuids(
   list: StoryDistributionListWithMembersDataType,
   signalConnections: Array<ConversationType>
-): Array<string> {
+): Array<UUIDStringType> {
   const memberUuids = list.members.map(({ uuid }) => uuid).filter(isNotNil);
 
   if (list.id === MY_STORY_ID && list.isBlockList) {
@@ -118,11 +123,12 @@ export const SendStoryModal = ({
   hasFirstStoryPostExperience,
   i18n,
   me,
+  ourConversationId,
   onClose,
   onDeleteList,
   onDistributionListCreated,
   onHideMyStoriesFrom,
-  onRemoveMember,
+  onRemoveMembers,
   onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
@@ -387,7 +393,7 @@ export const SendStoryModal = ({
         i18n={i18n}
         listToEdit={listToEdit}
         signalConnectionsCount={signalConnections.length}
-        onRemoveMember={onRemoveMember}
+        onRemoveMembers={onRemoveMembers}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
         setConfirmDeleteList={setConfirmDeleteList}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
@@ -636,8 +642,12 @@ export const SendStoryModal = ({
               }
               return new Set([...listIds]);
             });
-            if (value) {
-              onSelectedStoryList(getListMemberUuids(list, signalConnections));
+            if (value && ourConversationId) {
+              onSelectedStoryList({
+                conversationId: ourConversationId,
+                distributionId: list.id,
+                uuids: getListMemberUuids(list, signalConnections),
+              });
             }
           }}
         >
@@ -763,7 +773,11 @@ export const SendStoryModal = ({
               return new Set([...groupIds]);
             });
             if (value) {
-              onSelectedStoryList(group.memberships.map(({ uuid }) => uuid));
+              onSelectedStoryList({
+                conversationId: group.id,
+                distributionId: undefined,
+                uuids: group.memberships.map(({ uuid }) => uuid),
+              });
             }
           }}
         >

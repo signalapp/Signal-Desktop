@@ -436,7 +436,7 @@
     "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__message": {
-    "message": "The following people may have reinstalled Signal or changed devices. Click a recipient to confirm the new safety number. This is optional.",
+    "message": "The following people may have reinstalled Signal or changed devices. Click a recipient to confirm their new safety number. This is optional.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
@@ -451,6 +451,34 @@
     "messageformat": "{count, plural, other {You have # connections who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.}}",
     "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
   },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "All connections have been reviewed, click send to continue.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "Are you sure you want to remove {count, plural, 1 {one recipient} other {# recipients}} from story {story}?",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Remove all",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Verify safety number",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Remove from story",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Actions for contact $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Actions for story $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
@@ -462,6 +490,10 @@
   "safetyNumberChangeDialog_send": {
     "message": "Send",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Done",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Call anyway",

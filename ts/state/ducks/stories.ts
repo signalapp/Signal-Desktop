@@ -7,7 +7,6 @@ import { isEqual, pick } from 'lodash';
 import * as Errors from '../../types/errors';
 import type { AttachmentType } from '../../types/Attachment';
 import type { DraftBodyRangesType } from '../../types/Util';
-import type { ConversationModel } from '../../models/conversations';
 import type { MessageAttributesType } from '../../model-types.d';
 import type {
   MessageChangedActionType,
@@ -55,6 +54,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
+import { getOwn } from '../../util/getOwn';
 
 export type StoryDataType = {
   attachment?: AttachmentType;
@@ -104,9 +104,25 @@ export type AddStoryData =
     }
   | undefined;
 
+export type RecipientsByConversation = Record<
+  string, // conversationId
+  {
+    uuids: Array<UUIDStringType>;
+
+    byDistributionId?: Record<
+      string, // distributionId
+      {
+        uuids: Array<UUIDStringType>;
+      }
+    >;
+  }
+>;
+
 // State
 
 export type StoriesStateType = Readonly<{
+  addStoryData: AddStoryData;
+  hasAllStoriesUnmuted: boolean;
   lastOpenedAtTimestamp: number | undefined;
   openedAtTimestamp: number | undefined;
   replyState?: Readonly<{
@@ -114,13 +130,8 @@ export type StoriesStateType = Readonly<{
     replies: Array<MessageAttributesType>;
   }>;
   selectedStoryData?: SelectedStoryDataType;
-  addStoryData: AddStoryData;
-  sendStoryModalData?: Readonly<{
-    untrustedUuids: ReadonlyArray<string>;
-    verifiedUuids: ReadonlyArray<string>;
-  }>;
+  sendStoryModalData?: RecipientsByConversation;
   stories: ReadonlyArray<StoryDataType>;
-  hasAllStoriesUnmuted: boolean;
 }>;
 
 // Actions
@@ -149,8 +160,9 @@ type DOEStoryActionType = {
 type ListMembersVerified = {
   type: typeof LIST_MEMBERS_VERIFIED;
   payload: {
-    untrustedUuids: Array<string>;
-    verifiedUuids: Array<string>;
+    conversationId: string;
+    distributionId: string | undefined;
+    uuids: Array<UUIDStringType>;
   };
 };
 
@@ -560,41 +572,21 @@ function sendStoryMessage(
       'sendStoryMessage: sendStoryModalData is not defined, cannot send'
     );
 
-    if (sendStoryModalData.untrustedUuids.length) {
-      log.info('sendStoryMessage: SN changed for some conversations');
+    log.info('sendStoryMessage: Verifing trust for all recipients');
 
-      const conversationsNeedingVerification: Array<ConversationModel> =
-        sendStoryModalData.untrustedUuids
-          .map(uuid => window.ConversationController.get(uuid))
-          .filter(isNotNil);
+    const result = await blockSendUntilConversationsAreVerified(
+      sendStoryModalData,
+      SafetyNumberChangeSource.Story,
+      Date.now() - openedAtTimestamp
+    );
 
-      if (!conversationsNeedingVerification.length) {
-        log.warn(
-          'sendStoryMessage: Could not retrieve conversations for untrusted uuids'
-        );
-        return;
-      }
-
-      const result = await blockSendUntilConversationsAreVerified(
-        conversationsNeedingVerification,
-        SafetyNumberChangeSource.Story,
-        Date.now() - openedAtTimestamp
-      );
-
-      if (!result) {
-        log.info('sendStoryMessage: failed to verify untrusted; stopping send');
-        dispatch({
-          type: SET_STORY_SENDING,
-          payload: false,
-        });
-        return;
-      }
-
-      // Clear all untrusted and verified uuids; we're clear to send!
+    if (!result) {
+      log.info('sendStoryMessage: failed to verify untrusted; stopping send');
       dispatch({
-        type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
-        payload: undefined,
+        type: SET_STORY_SENDING,
+        payload: false,
       });
+      return;
     }
 
     try {
@@ -602,6 +594,10 @@ function sendStoryMessage(
 
       // Note: Only when we've successfully queued the message do we dismiss the story
       //   composer view.
+      dispatch({
+        type: SEND_STORY_MODAL_OPEN_STATE_CHANGED,
+        payload: undefined,
+      });
       dispatch({
         type: SET_ADD_STORY_DATA,
         payload: undefined,
@@ -653,9 +649,15 @@ function toggleStoriesView(): ToggleViewActionType {
   };
 }
 
-function verifyStoryListMembers(
-  memberUuids: Array<string>
-): ThunkAction<void, RootStateType, unknown, ListMembersVerified> {
+function verifyStoryListMembers({
+  conversationId,
+  distributionId,
+  uuids,
+}: {
+  conversationId: string;
+  distributionId: string | undefined;
+  uuids: Array<UUIDStringType>;
+}): ThunkAction<void, RootStateType, unknown, ListMembersVerified> {
   return async (dispatch, getState) => {
     const { stories } = getState();
     const { sendStoryModalData } = stories;
@@ -664,25 +666,20 @@ function verifyStoryListMembers(
       return;
     }
 
-    const alreadyVerifiedUuids = new Set([...sendStoryModalData.verifiedUuids]);
-
-    const uuidsNeedingVerification = memberUuids.filter(
-      uuid => !alreadyVerifiedUuids.has(uuid)
-    );
-
-    if (!uuidsNeedingVerification.length) {
+    if (!uuids.length) {
       return;
     }
 
-    const { untrustedUuids, verifiedUuids } = await doVerifyStoryListMembers(
-      uuidsNeedingVerification
-    );
+    // This will fetch the latest identity key for these contacts, which will ensure that
+    //   the later verified/trusted checks will flag that change.
+    await doVerifyStoryListMembers(uuids);
 
     dispatch({
       type: LIST_MEMBERS_VERIFIED,
       payload: {
-        untrustedUuids: Array.from(untrustedUuids),
-        verifiedUuids: Array.from(verifiedUuids),
+        conversationId,
+        distributionId,
+        uuids,
       },
     });
   };
@@ -1594,10 +1591,7 @@ export function reducer(
     if (action.payload) {
       return {
         ...state,
-        sendStoryModalData: {
-          untrustedUuids: [],
-          verifiedUuids: [],
-        },
+        sendStoryModalData: {},
       };
     }
 
@@ -1608,31 +1602,49 @@ export function reducer(
   }
 
   if (action.type === LIST_MEMBERS_VERIFIED) {
-    const sendStoryModalData = {
-      untrustedUuids: [],
-      verifiedUuids: [],
-      ...(state.sendStoryModalData || {}),
-    };
+    const { sendStoryModalData } = state;
+    const { conversationId, distributionId, uuids } = action.payload;
 
-    const untrustedUuids = Array.from(
-      new Set([
-        ...sendStoryModalData.untrustedUuids,
-        ...action.payload.untrustedUuids,
-      ])
-    );
-    const verifiedUuids = Array.from(
-      new Set([
-        ...sendStoryModalData.verifiedUuids,
-        ...action.payload.verifiedUuids,
-      ])
+    const existing =
+      sendStoryModalData && getOwn(sendStoryModalData, conversationId);
+
+    if (distributionId) {
+      const existingUuids = existing?.byDistributionId?.[distributionId]?.uuids;
+
+      const finalUuids = Array.from(
+        new Set([...(existingUuids || []), ...uuids])
+      );
+
+      return {
+        ...state,
+        sendStoryModalData: {
+          ...sendStoryModalData,
+          [conversationId]: {
+            ...existing,
+            uuids: existing?.uuids || [],
+            byDistributionId: {
+              ...existing?.byDistributionId,
+              [distributionId]: {
+                uuids: finalUuids,
+              },
+            },
+          },
+        },
+      };
+    }
+
+    const finalUuids = Array.from(
+      new Set([...(existing?.uuids || []), ...uuids])
     );
 
     return {
       ...state,
       sendStoryModalData: {
         ...sendStoryModalData,
-        untrustedUuids,
-        verifiedUuids,
+        [conversationId]: {
+          ...existing,
+          uuids: finalUuids,
+        },
       },
     };
   }

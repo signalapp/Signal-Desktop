@@ -3,10 +3,11 @@
 
 import { isNotNil } from '../../util/isNotNil';
 import * as log from '../../logging/log';
+import type { UUIDStringType } from '../../types/UUID';
 
 export function getUntrustedConversationUuids(
   recipients: ReadonlyArray<string>
-): Array<string> {
+): Array<UUIDStringType> {
   return recipients
     .map(recipient => {
       const recipientConversation = window.ConversationController.getOrCreate(

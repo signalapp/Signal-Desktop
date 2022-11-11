@@ -35,6 +35,7 @@ import { explodePromise } from '../util/explodePromise';
 import type { Job } from './Job';
 import type { ParsedJob } from './types';
 import type SendMessage from '../textsecure/SendMessage';
+import type { UUIDStringType } from '../types/UUID';
 
 // Note: generally, we only want to add to this list. If you do need to change one of
 //   these values, you'll likely need to write a database migration.
@@ -361,7 +362,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         }
       }
     } catch (error: unknown) {
-      const untrustedUuids: Array<string> = [];
+      const untrustedUuids: Array<UUIDStringType> = [];
 
       const processError = (toProcess: unknown) => {
         if (toProcess instanceof OutgoingIdentityKeyError) {

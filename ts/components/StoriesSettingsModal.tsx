@@ -38,6 +38,7 @@ import {
 } from '../util/shouldNeverBeCalled';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getGroupMemberships } from '../util/getGroupMemberships';
+import { strictAssert } from '../util/assert';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -55,7 +56,7 @@ export type PropsType = {
     viewerUuids: Array<UUIDStringType>
   ) => unknown;
   onHideMyStoriesFrom: (viewerUuids: Array<UUIDStringType>) => unknown;
-  onRemoveMember: (listId: string, uuid: UUIDStringType | undefined) => unknown;
+  onRemoveMembers: (listId: string, uuids: Array<UUIDStringType>) => unknown;
   onRepliesNReactionsChanged: (
     listId: string,
     allowsReplies: boolean
@@ -248,7 +249,7 @@ export const StoriesSettingsModal = ({
   toggleGroupsForStorySend,
   onDistributionListCreated,
   onHideMyStoriesFrom,
-  onRemoveMember,
+  onRemoveMembers,
   onRepliesNReactionsChanged,
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
@@ -355,7 +356,7 @@ export const StoriesSettingsModal = ({
         i18n={i18n}
         listToEdit={listToEdit}
         signalConnectionsCount={signalConnections.length}
-        onRemoveMember={onRemoveMember}
+        onRemoveMembers={onRemoveMembers}
         onRepliesNReactionsChanged={onRepliesNReactionsChanged}
         setConfirmDeleteList={setConfirmDeleteList}
         setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
@@ -552,7 +553,7 @@ type DistributionListSettingsModalPropsType = {
 } & Pick<
   PropsType,
   | 'getPreferredBadge'
-  | 'onRemoveMember'
+  | 'onRemoveMembers'
   | 'onRepliesNReactionsChanged'
   | 'setMyStoriesToAllSignalConnections'
   | 'toggleSignalConnectionsModal'
@@ -562,7 +563,7 @@ export const DistributionListSettingsModal = ({
   getPreferredBadge,
   i18n,
   listToEdit,
-  onRemoveMember,
+  onRemoveMembers,
   onRepliesNReactionsChanged,
   onBackButtonClick,
   onClose,
@@ -578,7 +579,7 @@ export const DistributionListSettingsModal = ({
     | {
         listId: string;
         title: string;
-        uuid: UUIDStringType | undefined;
+        uuid: UUIDStringType;
       }
   >();
 
@@ -689,13 +690,14 @@ export const DistributionListSettingsModal = ({
                   member.title,
                 ])}
                 className="StoriesSettingsModal__list__delete"
-                onClick={() =>
+                onClick={() => {
+                  strictAssert(member.uuid, 'Story member was missing uuid');
                   setConfirmRemoveMember({
                     listId: listToEdit.id,
                     title: member.title,
                     uuid: member.uuid,
-                  })
-                }
+                  });
+                }}
                 type="button"
               />
             </div>
@@ -738,10 +740,9 @@ export const DistributionListSettingsModal = ({
           actions={[
             {
               action: () =>
-                onRemoveMember(
-                  confirmRemoveMember.listId,
-                  confirmRemoveMember.uuid
-                ),
+                onRemoveMembers(confirmRemoveMember.listId, [
+                  confirmRemoveMember.uuid,
+                ]),
               style: 'negative',
               text: i18n('StoriesSettings__remove--action'),
             },

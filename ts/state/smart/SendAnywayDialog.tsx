@@ -12,21 +12,24 @@ import {
   SafetyNumberChangeSource,
 } from '../../components/SafetyNumberChangeDialog';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
-import { getConversationsStoppingSend } from '../selectors/conversations';
+import { getByDistributionListConversationsStoppingSend } from '../selectors/conversations-extra';
 import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
 
 export function SmartSendAnywayDialog(): JSX.Element {
   const { hideBlockingSafetyNumberChangeDialog } = useGlobalModalActions();
+  const { removeMembersFromDistributionList } =
+    useStoryDistributionListsActions();
   const { cancelConversationVerification, verifyConversationsStoppingSend } =
     useConversationsActions();
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const theme = useSelector(getTheme);
 
-  const contacts = useSelector(getConversationsStoppingSend);
+  const contacts = useSelector(getByDistributionListConversationsStoppingSend);
 
   const safetyNumberChangedBlockingData = useSelector<
     StateType,
@@ -66,6 +69,7 @@ export function SmartSendAnywayDialog(): JSX.Element {
         explodedPromise?.resolve(true);
         hideBlockingSafetyNumberChangeDialog();
       }}
+      removeFromStory={removeMembersFromDistributionList}
       renderSafetyNumber={({ contactID, onClose }) => (
         <SmartSafetyNumberViewer contactID={contactID} onClose={onClose} />
       )}

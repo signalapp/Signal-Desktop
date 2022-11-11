@@ -59,7 +59,10 @@ import {
   defaultSetGroupMetadataComposerState,
 } from '../../helpers/defaultComposerStates';
 
-describe('both/state/selectors/conversations', () => {
+describe('both/state/selectors/conversations-extra', () => {
+  const UUID_1 = UUID.generate().toString();
+  const UUID_2 = UUID.generate().toString();
+
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
   };
@@ -301,32 +304,32 @@ describe('both/state/selectors/conversations', () => {
     });
 
     it('returns all conversations stopping send', () => {
-      const convo1 = makeConversation('abc');
-      const convo2 = makeConversation('def');
+      const convo1 = makeConversation(UUID_1);
+      const convo2 = makeConversation(UUID_2);
       const state: StateType = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
           conversationLookup: {
-            def: convo2,
-            abc: convo1,
+            [UUID_1]: convo1,
+            [UUID_2]: convo2,
           },
           verificationDataByConversation: {
             'convo a': {
               type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: ['abc'],
+              uuidsNeedingVerification: [UUID_1],
             },
             'convo b': {
               type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: ['def', 'abc'],
+              uuidsNeedingVerification: [UUID_2, UUID_1],
             },
           },
         },
       };
 
       assert.sameDeepMembers(getConversationUuidsStoppingSend(state), [
-        'abc',
-        'def',
+        UUID_1,
+        UUID_2,
       ]);
 
       assert.sameDeepMembers(getConversationsStoppingSend(state), [

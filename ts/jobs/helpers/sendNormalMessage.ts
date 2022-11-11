@@ -36,6 +36,7 @@ import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { sendToGroup } from '../../util/sendToGroup';
+import type { UUIDStringType } from '../../types/UUID';
 
 export async function sendNormalMessage(
   conversation: ConversationModel,
@@ -387,11 +388,11 @@ function getMessageRecipients({
   allRecipientIdentifiers: Array<string>;
   recipientIdentifiersWithoutMe: Array<string>;
   sentRecipientIdentifiers: Array<string>;
-  untrustedUuids: Array<string>;
+  untrustedUuids: Array<UUIDStringType>;
 } {
   const allRecipientIdentifiers: Array<string> = [];
   const recipientIdentifiersWithoutMe: Array<string> = [];
-  const untrustedUuids: Array<string> = [];
+  const untrustedUuids: Array<UUIDStringType> = [];
   const sentRecipientIdentifiers: Array<string> = [];
 
   const currentConversationRecipients = conversation.getMemberConversationIds();

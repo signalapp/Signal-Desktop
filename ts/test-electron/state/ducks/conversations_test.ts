@@ -46,6 +46,16 @@ import {
   defaultSetGroupMetadataComposerState,
 } from '../../../test-both/helpers/defaultComposerStates';
 import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
+import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals';
+import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals';
+import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists';
+import {
+  DELETE_LIST,
+  HIDE_MY_STORIES_FROM,
+  MODIFY_LIST,
+  VIEWERS_CHANGED,
+} from '../../../state/ducks/storyDistributionLists';
+import { MY_STORY_ID } from '../../../types/Stories';
 
 const {
   clearGroupCreationError,
@@ -76,6 +86,11 @@ const {
 } = actions;
 
 describe('both/state/ducks/conversations', () => {
+  const UUID_1 = UUID.generate().toString();
+  const UUID_2 = UUID.generate().toString();
+  const UUID_3 = UUID.generate().toString();
+  const UUID_4 = UUID.generate().toString();
+
   const getEmptyRootState = () => rootReducer(undefined, noopAction());
 
   let sinonSandbox: sinon.SinonSandbox;
@@ -747,28 +762,28 @@ describe('both/state/ducks/conversations', () => {
           getEmptyState(),
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: ['convo 1'],
+            untrustedUuids: [UUID_1],
           })
         );
         const second = reducer(
           first,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: ['convo 2'],
+            untrustedUuids: [UUID_2],
           })
         );
         const third = reducer(
           second,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: ['convo 1', 'convo 3'],
+            untrustedUuids: [UUID_1, UUID_3],
           })
         );
 
         assert.deepStrictEqual(third.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: ['convo 1', 'convo 2', 'convo 3'],
+            uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
           },
         });
       });
@@ -787,14 +802,123 @@ describe('both/state/ducks/conversations', () => {
           state,
           conversationStoppedByMissingVerification({
             conversationId: 'convo A',
-            untrustedUuids: ['convo 1', 'convo 2'],
+            untrustedUuids: [UUID_1, UUID_2],
           })
         );
 
         assert.deepStrictEqual(actual.verificationDataByConversation, {
           'convo A': {
             type: ConversationVerificationState.PendingVerification,
-            uuidsNeedingVerification: ['convo 1', 'convo 2'],
+            uuidsNeedingVerification: [UUID_1, UUID_2],
+          },
+        });
+      });
+    });
+    describe('SHOW_SEND_ANYWAY_DIALOG', () => {
+      it('adds nothing to existing empty state', () => {
+        const state = getEmptyState();
+        const action: ShowSendAnywayDialogActionType = {
+          type: SHOW_SEND_ANYWAY_DIALOG,
+          payload: {
+            untrustedByConversation: {},
+            promiseUuid: UUID.generate().toString(),
+            source: undefined,
+          },
+        };
+        const actual = reducer(state, action);
+
+        assert.deepStrictEqual(actual.verificationDataByConversation, {});
+      });
+
+      it('adds multiple conversations and distribution lists to empty list', () => {
+        const state = getEmptyState();
+        const action: ShowSendAnywayDialogActionType = {
+          type: SHOW_SEND_ANYWAY_DIALOG,
+          payload: {
+            untrustedByConversation: {
+              abc: {
+                uuids: [UUID_1, UUID_2],
+                byDistributionId: {
+                  abc: {
+                    uuids: [UUID_1, UUID_3],
+                  },
+                  def: {
+                    uuids: [UUID_2, UUID_4],
+                  },
+                },
+              },
+            },
+            promiseUuid: UUID.generate().toString(),
+            source: undefined,
+          },
+        };
+        const actual = reducer(state, action);
+
+        assert.deepStrictEqual(actual.verificationDataByConversation, {
+          abc: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [UUID_1, UUID_2],
+            byDistributionId: {
+              abc: {
+                uuidsNeedingVerification: [UUID_1, UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_2, UUID_4],
+              },
+            },
+          },
+        });
+      });
+
+      it('adds and de-dupes in multiple conversations and distribution lists', () => {
+        const state: ConversationsStateType = {
+          ...getEmptyState(),
+          verificationDataByConversation: {
+            abc: {
+              type: ConversationVerificationState.PendingVerification,
+              uuidsNeedingVerification: [UUID_1],
+              byDistributionId: {
+                abc: {
+                  uuidsNeedingVerification: [UUID_1],
+                },
+              },
+            },
+          },
+        };
+        const action: ShowSendAnywayDialogActionType = {
+          type: SHOW_SEND_ANYWAY_DIALOG,
+          payload: {
+            untrustedByConversation: {
+              abc: {
+                uuids: [UUID_1, UUID_2],
+                byDistributionId: {
+                  abc: {
+                    uuids: [UUID_1, UUID_3],
+                  },
+                  def: {
+                    uuids: [UUID_2, UUID_4],
+                  },
+                },
+              },
+            },
+            promiseUuid: UUID.generate().toString(),
+            source: undefined,
+          },
+        };
+        const actual = reducer(state, action);
+
+        assert.deepStrictEqual(actual.verificationDataByConversation, {
+          abc: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [UUID_1, UUID_2],
+            byDistributionId: {
+              abc: {
+                uuidsNeedingVerification: [UUID_1, UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_2, UUID_4],
+              },
+            },
           },
         });
       });
@@ -826,7 +950,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: ['convo 1', 'convo 2'],
+              uuidsNeedingVerification: [UUID_1, UUID_2],
             },
           },
         };
@@ -920,7 +1044,7 @@ describe('both/state/ducks/conversations', () => {
           verificationDataByConversation: {
             'convo A': {
               type: ConversationVerificationState.PendingVerification,
-              uuidsNeedingVerification: ['convo 1', 'convo 2'],
+              uuidsNeedingVerification: [UUID_1, UUID_2],
             },
           },
         };
@@ -1986,73 +2110,386 @@ describe('both/state/ducks/conversations', () => {
         assert.strictEqual(action.payload.maxGroupSize, 1235);
       });
     });
-  });
 
-  describe('COLORS_CHANGED', () => {
-    const abc = getDefaultConversationWithUuid({
-      id: 'abc',
-      conversationColor: 'wintergreen',
+    describe('COLORS_CHANGED', () => {
+      const abc = getDefaultConversationWithUuid({
+        id: 'abc',
+        conversationColor: 'wintergreen',
+      });
+      const def = getDefaultConversationWithUuid({
+        id: 'def',
+        conversationColor: 'infrared',
+      });
+      const ghi = getDefaultConversation({
+        id: 'ghi',
+        e164: 'ghi',
+        conversationColor: 'ember',
+      });
+      const jkl = getDefaultConversation({
+        id: 'jkl',
+        groupId: 'jkl',
+        conversationColor: 'plum',
+      });
+      const getState = () => ({
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyState(),
+          conversationLookup: {
+            abc,
+            def,
+            ghi,
+            jkl,
+          },
+          conversationsByUuid: {
+            abc,
+            def,
+          },
+          conversationsByE164: {
+            ghi,
+          },
+          conversationsByGroupId: {
+            jkl,
+          },
+        },
+      });
+
+      it('resetAllChatColors', async () => {
+        const dispatch = sinon.spy();
+        await resetAllChatColors()(dispatch, getState, null);
+
+        const [action] = dispatch.getCall(0).args;
+        const nextState = reducer(getState().conversations, action);
+
+        sinon.assert.calledOnce(dispatch);
+        assert.isUndefined(nextState.conversationLookup.abc.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.def.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
+        assert.isUndefined(
+          nextState.conversationsByUuid[abc.uuid].conversationColor
+        );
+        assert.isUndefined(
+          nextState.conversationsByUuid[def.uuid].conversationColor
+        );
+        assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
+        assert.isUndefined(
+          nextState.conversationsByGroupId.jkl.conversationColor
+        );
+        window.storage.remove('defaultConversationColor');
+      });
     });
-    const def = getDefaultConversationWithUuid({
-      id: 'def',
-      conversationColor: 'infrared',
-    });
-    const ghi = getDefaultConversation({
-      id: 'ghi',
-      e164: 'ghi',
-      conversationColor: 'ember',
-    });
-    const jkl = getDefaultConversation({
-      id: 'jkl',
-      groupId: 'jkl',
-      conversationColor: 'plum',
-    });
-    const getState = () => ({
-      ...getEmptyRootState(),
-      conversations: {
+
+    // When distribution lists change
+
+    describe('VIEWERS_CHANGED', () => {
+      const state: ConversationsStateType = {
         ...getEmptyState(),
-        conversationLookup: {
-          abc,
-          def,
-          ghi,
-          jkl,
+        verificationDataByConversation: {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              abc: {
+                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
         },
-        conversationsByUuid: {
-          abc,
-          def,
-        },
-        conversationsByE164: {
-          ghi,
-        },
-        conversationsByGroupId: {
-          jkl,
-        },
-      },
+      };
+
+      it('removes uuids now missing from the list', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: VIEWERS_CHANGED,
+          payload: {
+            listId: 'abc',
+            memberUuids: [UUID_1, UUID_2],
+          },
+        };
+
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              abc: {
+                uuidsNeedingVerification: [UUID_1, UUID_2],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
+      it('removes now-empty list', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: VIEWERS_CHANGED,
+          payload: {
+            listId: 'abc',
+            memberUuids: [],
+          },
+        };
+
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
     });
+    describe('HIDE_MY_STORIES_FROM', () => {
+      const state: ConversationsStateType = {
+        ...getEmptyState(),
+        verificationDataByConversation: {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              [MY_STORY_ID]: {
+                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        },
+      };
 
-    it('resetAllChatColors', async () => {
-      const dispatch = sinon.spy();
-      await resetAllChatColors()(dispatch, getState, null);
+      it('removes now hidden uuids', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: HIDE_MY_STORIES_FROM,
+          payload: [UUID_1, UUID_2],
+        };
 
-      const [action] = dispatch.getCall(0).args;
-      const nextState = reducer(getState().conversations, action);
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              [MY_STORY_ID]: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
+      it('eliminates list if all items removed', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: HIDE_MY_STORIES_FROM,
+          payload: [UUID_1, UUID_2, UUID_3],
+        };
 
-      sinon.assert.calledOnce(dispatch);
-      assert.isUndefined(nextState.conversationLookup.abc.conversationColor);
-      assert.isUndefined(nextState.conversationLookup.def.conversationColor);
-      assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
-      assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
-      assert.isUndefined(
-        nextState.conversationsByUuid[abc.uuid].conversationColor
-      );
-      assert.isUndefined(
-        nextState.conversationsByUuid[def.uuid].conversationColor
-      );
-      assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
-      assert.isUndefined(
-        nextState.conversationsByGroupId.jkl.conversationColor
-      );
-      window.storage.remove('defaultConversationColor');
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
+    });
+    describe('DELETE_LIST', () => {
+      const state: ConversationsStateType = {
+        ...getEmptyState(),
+        verificationDataByConversation: {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              abc: {
+                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              },
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        },
+      };
+
+      it('eliminates deleted list entirely', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: DELETE_LIST,
+          payload: {
+            deletedAtTimestamp: Date.now(),
+            listId: 'abc',
+          },
+        };
+
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              def: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
+
+      it('deletes parent conversation if no other lists, no top-level uuids', async () => {
+        const starting: ConversationsStateType = {
+          ...getEmptyState(),
+          verificationDataByConversation: {
+            convo1: {
+              type: ConversationVerificationState.PendingVerification,
+              uuidsNeedingVerification: [],
+              byDistributionId: {
+                abc: {
+                  uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+                },
+              },
+            },
+          },
+        };
+
+        const action: StoryDistributionListsActionType = {
+          type: DELETE_LIST,
+          payload: {
+            deletedAtTimestamp: Date.now(),
+            listId: 'abc',
+          },
+        };
+
+        const actual = reducer(starting, action);
+        assert.deepEqual(actual.verificationDataByConversation, {});
+      });
+
+      it('deletes byDistributionId if top-level list does have uuids', async () => {
+        const starting: ConversationsStateType = {
+          ...getEmptyState(),
+          verificationDataByConversation: {
+            convo1: {
+              type: ConversationVerificationState.PendingVerification,
+              uuidsNeedingVerification: [UUID_1],
+              byDistributionId: {
+                abc: {
+                  uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+                },
+              },
+            },
+          },
+        };
+
+        const action: StoryDistributionListsActionType = {
+          type: DELETE_LIST,
+          payload: {
+            deletedAtTimestamp: Date.now(),
+            listId: 'abc',
+          },
+        };
+
+        const actual = reducer(starting, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [UUID_1],
+          },
+        });
+      });
+    });
+    describe('MODIFY_LIST', () => {
+      const state: ConversationsStateType = {
+        ...getEmptyState(),
+        verificationDataByConversation: {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              [UUID_1]: {
+                uuidsNeedingVerification: [UUID_1, UUID_2, UUID_3],
+              },
+              [UUID_2]: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        },
+      };
+
+      it('removes toRemove uuids for isBlockList = false', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: MODIFY_LIST,
+          payload: {
+            id: UUID_1,
+            name: 'list1',
+            allowsReplies: true,
+            isBlockList: false,
+            membersToAdd: [UUID_2, UUID_4],
+            membersToRemove: [UUID_3],
+          },
+        };
+
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              [UUID_1]: {
+                uuidsNeedingVerification: [UUID_1, UUID_2],
+              },
+              [UUID_2]: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
+
+      it('removes toAdd uuids for isBlocklist = true', async () => {
+        const action: StoryDistributionListsActionType = {
+          type: MODIFY_LIST,
+          payload: {
+            id: UUID_1,
+            name: 'list1',
+            allowsReplies: true,
+            isBlockList: true,
+            membersToAdd: [UUID_2, UUID_1],
+            membersToRemove: [UUID_3],
+          },
+        };
+
+        const actual = reducer(state, action);
+        assert.deepEqual(actual.verificationDataByConversation, {
+          convo1: {
+            type: ConversationVerificationState.PendingVerification,
+            uuidsNeedingVerification: [],
+            byDistributionId: {
+              [UUID_1]: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+              [UUID_2]: {
+                uuidsNeedingVerification: [UUID_3],
+              },
+            },
+          },
+        });
+      });
     });
   });
 });

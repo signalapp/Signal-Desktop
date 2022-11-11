@@ -96,6 +96,10 @@ export async function sendStoryMessage(
               return acc;
             }
 
+            if (convo.isUnregistered()) {
+              return acc;
+            }
+
             acc.push(uuid);
             return acc;
           },

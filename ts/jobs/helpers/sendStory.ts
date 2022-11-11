@@ -18,6 +18,11 @@ import type {
   SendState,
   SendStateByConversationId,
 } from '../../messages/MessageSendState';
+import {
+  isSent,
+  SendActionType,
+  sendStateReducer,
+} from '../../messages/MessageSendState';
 import type { UUIDStringType } from '../../types/UUID';
 import * as Errors from '../../types/errors';
 import dataInterface from '../../sql/Client';
@@ -31,7 +36,6 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { isNotNil } from '../../util/isNotNil';
-import { isSent } from '../../messages/MessageSendState';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
 import { SendMessageChallengeError } from '../../textsecure/Errors';
@@ -176,9 +180,12 @@ export async function sendStory(
         return;
       }
 
+      const distributionId = message.get('storyDistributionListId');
+      const logId = `stories.sendStory(${timestamp}/${distributionId})`;
+
       if (message.get('timestamp') !== timestamp) {
         log.error(
-          `stories.sendStory(${timestamp}): Message timestamp ${message.get(
+          `${logId}: Message timestamp ${message.get(
             'timestamp'
           )} does not match job timestamp`
         );
@@ -188,15 +195,13 @@ export async function sendStory(
       const messageConversation = message.getConversation();
       if (messageConversation !== conversation) {
         log.error(
-          `stories.sendStory(${timestamp}): Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+          `${logId}: Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
         );
         return;
       }
 
       if (message.isErased() || message.get('deletedForEveryone')) {
-        log.info(
-          `stories.sendStory(${timestamp}): message was erased. Giving up on sending it`
-        );
+        log.info(`${logId}: message was erased. Giving up on sending it`);
         return;
       }
 
@@ -207,7 +212,7 @@ export async function sendStory(
 
       if (!receiverId) {
         log.info(
-          `stories.sendStory(${timestamp}): did not get a valid recipient ID for message. Giving up on sending it`
+          `${logId}: did not get a valid recipient ID for message. Giving up on sending it`
         );
         return;
       }
@@ -233,9 +238,7 @@ export async function sendStory(
           };
 
       if (!shouldContinue) {
-        log.info(
-          `stories.sendStory(${timestamp}): ran out of time. Giving up on sending it`
-        );
+        log.info(`${logId}: ran out of time. Giving up on sending it`);
         await markMessageFailed(message, [
           new Error('Message send ran out of time'),
         ]);
@@ -260,11 +263,12 @@ export async function sendStory(
           window.reduxActions.conversations.conversationStoppedByMissingVerification(
             {
               conversationId: conversation.id,
+              distributionId,
               untrustedUuids,
             }
           );
           throw new Error(
-            `stories.sendStory(${timestamp}): sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+            `${logId}: sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
           );
         }
 
@@ -363,7 +367,7 @@ export async function sendStory(
             originalError = error;
           } else {
             log.error(
-              `promiseForError threw something other than an error: ${Errors.toLogFormat(
+              `${logId}: promiseForError threw something other than an error: ${Errors.toLogFormat(
                 error
               )}`
             );
@@ -406,7 +410,7 @@ export async function sendStory(
         const didFullySend =
           !messageSendErrors.length || didSendToEveryone(message);
         if (!didFullySend) {
-          throw new Error('message did not fully send');
+          throw new Error(`${logId}: message did not fully send`);
         }
       } catch (thrownError: unknown) {
         const errors = [thrownError, ...messageSendErrors];
@@ -423,7 +427,7 @@ export async function sendStory(
                 token: error.data?.token,
                 reason:
                   'conversationJobQueue.run(' +
-                  `${conversation.idForLogging()}, story, ${timestamp})`,
+                  `${conversation.idForLogging()}, story, ${timestamp}/${distributionId})`,
               },
               error.data
             );
@@ -472,7 +476,39 @@ export async function sendStory(
           };
         }
 
-        return acc;
+        const oldSendState = {
+          ...oldSendStateByConversationId[conversationId],
+        };
+        if (!oldSendState) {
+          return acc;
+        }
+
+        const recipient = window.ConversationController.get(conversationId);
+        if (!recipient) {
+          return acc;
+        }
+
+        if (recipient.isUnregistered()) {
+          if (!isSent(oldSendState.status)) {
+            // We should have filtered this out on initial send, but we'll drop them from
+            //   send list here if needed.
+            return acc;
+          }
+
+          // If a previous send to them did succeed, we'll keep that status around
+          return {
+            ...acc,
+            [conversationId]: oldSendState,
+          };
+        }
+
+        return {
+          ...acc,
+          [conversationId]: sendStateReducer(oldSendState, {
+            type: SendActionType.Failed,
+            updatedAt: Date.now(),
+          }),
+        };
       }, {} as SendStateByConversationId);
 
       if (isEqual(oldSendStateByConversationId, newSendStateByConversationId)) {
@@ -555,13 +591,13 @@ function getMessageRecipients({
   allowedReplyByUuid: Map<string, boolean>;
   pendingSendRecipientIds: Array<string>;
   sentRecipientIds: Array<string>;
-  untrustedUuids: Array<string>;
+  untrustedUuids: Array<UUIDStringType>;
 } {
   const allRecipientIds: Array<string> = [];
   const allowedReplyByUuid = new Map<string, boolean>();
   const pendingSendRecipientIds: Array<string> = [];
   const sentRecipientIds: Array<string> = [];
-  const untrustedUuids: Array<string> = [];
+  const untrustedUuids: Array<UUIDStringType> = [];
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {

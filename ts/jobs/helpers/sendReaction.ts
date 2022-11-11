@@ -26,6 +26,7 @@ import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { canReact, isStory } from '../../state/selectors/message';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import { UUID } from '../../types/UUID';
+import type { UUIDStringType } from '../../types/UUID';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
 
@@ -377,11 +378,11 @@ function getRecipients(
 ): {
   allRecipientIdentifiers: Array<string>;
   recipientIdentifiersWithoutMe: Array<string>;
-  untrustedUuids: Array<string>;
+  untrustedUuids: Array<UUIDStringType>;
 } {
   const allRecipientIdentifiers: Array<string> = [];
   const recipientIdentifiersWithoutMe: Array<string> = [];
-  const untrustedUuids: Array<string> = [];
+  const untrustedUuids: Array<UUIDStringType> = [];
 
   const currentConversationRecipients = conversation.getMemberConversationIds();
 
@@ -413,7 +414,6 @@ function getRecipients(
       continue;
     }
     if (recipient.isUnregistered()) {
-      untrustedUuids.push(recipientIdentifier);
       continue;
     }
 

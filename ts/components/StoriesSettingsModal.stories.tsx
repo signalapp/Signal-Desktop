@@ -48,7 +48,7 @@ export default {
     toggleGroupsForStorySend: { action: true },
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
-    onRemoveMember: { action: true },
+    onRemoveMembers: { action: true },
     onRepliesNReactionsChanged: { action: true },
     onViewersUpdated: { action: true },
     setMyStoriesToAllSignalConnections: { action: true },

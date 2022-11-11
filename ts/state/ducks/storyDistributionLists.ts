@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { omit } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
 import type { StateType as RootStateType } from '../reducer';
@@ -23,7 +24,7 @@ export type StoryDistributionListDataType = {
   name: string;
   allowsReplies: boolean;
   isBlockList: boolean;
-  memberUuids: Array<string>;
+  memberUuids: Array<UUIDStringType>;
 };
 
 export type StoryDistributionListStateType = {
@@ -34,12 +35,12 @@ export type StoryDistributionListStateType = {
 
 const ALLOW_REPLIES_CHANGED = 'storyDistributionLists/ALLOW_REPLIES_CHANGED';
 const CREATE_LIST = 'storyDistributionLists/CREATE_LIST';
-const DELETE_LIST = 'storyDistributionLists/DELETE_LIST';
-const HIDE_MY_STORIES_FROM = 'storyDistributionLists/HIDE_MY_STORIES_FROM';
-const MODIFY_LIST = 'storyDistributionLists/MODIFY_LIST';
-const REMOVE_MEMBER = 'storyDistributionLists/REMOVE_MEMBER';
+export const DELETE_LIST = 'storyDistributionLists/DELETE_LIST';
+export const HIDE_MY_STORIES_FROM =
+  'storyDistributionLists/HIDE_MY_STORIES_FROM';
+export const MODIFY_LIST = 'storyDistributionLists/MODIFY_LIST';
 const RESET_MY_STORIES = 'storyDistributionLists/RESET_MY_STORIES';
-const VIEWERS_CHANGED = 'storyDistributionLists/VIEWERS_CHANGED';
+export const VIEWERS_CHANGED = 'storyDistributionLists/VIEWERS_CHANGED';
 
 type AllowRepliesChangedActionType = {
   type: typeof ALLOW_REPLIES_CHANGED;
@@ -64,28 +65,20 @@ type DeleteListActionType = {
 
 type HideMyStoriesFromActionType = {
   type: typeof HIDE_MY_STORIES_FROM;
-  payload: Array<string>;
+  payload: Array<UUIDStringType>;
 };
 
 type ModifyDistributionListType = Omit<
   StoryDistributionListDataType,
   'memberUuids'
 > & {
-  membersToAdd: Array<string>;
-  membersToRemove: Array<string>;
+  membersToAdd: Array<UUIDStringType>;
+  membersToRemove: Array<UUIDStringType>;
 };
 
 export type ModifyListActionType = {
   type: typeof MODIFY_LIST;
   payload: ModifyDistributionListType;
-};
-
-type RemoveMemberActionType = {
-  type: typeof REMOVE_MEMBER;
-  payload: {
-    listId: string;
-    memberUuid: string;
-  };
 };
 
 type ResetMyStoriesActionType = {
@@ -96,17 +89,16 @@ type ViewersChangedActionType = {
   type: typeof VIEWERS_CHANGED;
   payload: {
     listId: string;
-    memberUuids: Array<string>;
+    memberUuids: Array<UUIDStringType>;
   };
 };
 
-type StoryDistributionListsActionType =
+export type StoryDistributionListsActionType =
   | AllowRepliesChangedActionType
   | CreateListActionType
   | DeleteListActionType
   | HideMyStoriesFromActionType
   | ModifyListActionType
-  | RemoveMemberActionType
   | ResetMyStoriesActionType
   | ViewersChangedActionType;
 
@@ -300,14 +292,14 @@ function hideMyStoriesFrom(
   };
 }
 
-function removeMemberFromDistributionList(
+function removeMembersFromDistributionList(
   listId: string,
-  memberUuid: UUIDStringType | undefined
-): ThunkAction<void, RootStateType, null, RemoveMemberActionType> {
+  memberUuids: Array<UUIDStringType>
+): ThunkAction<void, RootStateType, null, ModifyListActionType> {
   return async dispatch => {
-    if (!memberUuid) {
+    if (!memberUuids.length) {
       log.warn(
-        'storyDistributionLists.removeMemberFromDistributionList cannot remove a member without uuid',
+        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without uuid',
         listId
       );
       return;
@@ -318,38 +310,59 @@ function removeMemberFromDistributionList(
 
     if (!storyDistribution) {
       log.warn(
-        'storyDistributionLists.removeMemberFromDistributionList: No story found for id',
+        'storyDistributionLists.removeMembersFromDistributionList: No story found for id',
         listId
       );
       return;
     }
 
+    let toAdd: Array<UUIDStringType> = [];
+    let toRemove: Array<UUIDStringType> = memberUuids;
+    let { isBlockList } = storyDistribution;
+
+    // My Story is set to 'All Signal Connections' or is already an exclude list
+    if (
+      listId === MY_STORY_ID &&
+      (storyDistribution.members.length === 0 || isBlockList)
+    ) {
+      isBlockList = true;
+      toAdd = memberUuids;
+      toRemove = [];
+
+      // The user has now configured My Stories
+      window.storage.put('hasSetMyStoriesPrivacy', true);
+    }
+
     await dataInterface.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
+        isBlockList,
         storageNeedsSync: true,
       },
       {
-        toAdd: [],
-        toRemove: [memberUuid],
+        toAdd,
+        toRemove,
       }
     );
 
     log.info(
-      'storyDistributionLists.removeMemberFromDistributionList: removed',
+      'storyDistributionLists.removeMembersFromDistributionList: removed',
       {
         listId,
-        memberUuid,
+        memberUuids,
       }
     );
 
     storageServiceUploadJob();
 
     dispatch({
-      type: REMOVE_MEMBER,
+      type: MODIFY_LIST,
       payload: {
-        listId,
-        memberUuid,
+        ...omit(storyDistribution, ['members']),
+        isBlockList,
+        storageNeedsSync: true,
+        membersToAdd: toAdd,
+        membersToRemove: toRemove,
       },
     });
   };
@@ -465,7 +478,7 @@ export const actions = {
   deleteDistributionList,
   hideMyStoriesFrom,
   modifyDistributionList,
-  removeMemberFromDistributionList,
+  removeMembersFromDistributionList,
   setMyStoriesToAllSignalConnections,
   updateStoryViewers,
 };
@@ -515,7 +528,9 @@ export function reducer(
     );
     if (listIndex >= 0) {
       const existingDistributionList = state.distributionLists[listIndex];
-      const memberUuids = new Set<string>(existingDistributionList.memberUuids);
+      const memberUuids = new Set<UUIDStringType>(
+        existingDistributionList.memberUuids
+      );
       membersToAdd.forEach(uuid => memberUuids.add(uuid));
       membersToRemove.forEach(uuid => memberUuids.delete(uuid));
 
@@ -566,20 +581,6 @@ export function reducer(
       () => ({
         isBlockList: true,
         memberUuids: action.payload,
-      })
-    );
-
-    return distributionLists ? { distributionLists } : state;
-  }
-
-  if (action.type === REMOVE_MEMBER) {
-    const distributionLists = replaceDistributionListData(
-      state.distributionLists,
-      action.payload.listId,
-      list => ({
-        memberUuids: list.memberUuids.filter(
-          uuid => uuid !== action.payload.memberUuid
-        ),
       })
     );
 

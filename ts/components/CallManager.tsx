@@ -356,7 +356,12 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       activeCall.conversationsWithSafetyNumberChanges.length ? (
         <SafetyNumberChangeDialog
           confirmText={i18n('continueCall')}
-          contacts={activeCall.conversationsWithSafetyNumberChanges}
+          contacts={[
+            {
+              story: undefined,
+              contacts: activeCall.conversationsWithSafetyNumberChanges,
+            },
+          ]}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           onCancel={onSafetyNumberDialogCancel}

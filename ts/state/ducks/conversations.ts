@@ -22,13 +22,20 @@ import { getOwn } from '../../util/getOwn';
 import { assertDev, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import type {
-  ShowSendAnywayDialogActiontype,
+  ShowSendAnywayDialogActionType,
   ToggleProfileEditorErrorActionType,
 } from './globalModals';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
   TOGGLE_PROFILE_EDITOR_ERROR,
 } from './globalModals';
+import {
+  MODIFY_LIST,
+  DELETE_LIST,
+  HIDE_MY_STORIES_FROM,
+  VIEWERS_CHANGED,
+} from './storyDistributionLists';
+import type { StoryDistributionListsActionType } from './storyDistributionLists';
 import type {
   UUIDFetchStateKeyType,
   UUIDFetchStateType,
@@ -48,7 +55,7 @@ import type { DraftBodyRangesType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
-import { StorySendMode } from '../../types/Stories';
+import { MY_STORY_ID, StorySendMode } from '../../types/Stories';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -293,15 +300,26 @@ type ComposerGroupCreationState = {
   userAvatarData: Array<AvatarDataType>;
 };
 
+type DistributionVerificationData = {
+  uuidsNeedingVerification: ReadonlyArray<UUIDStringType>;
+};
+
 export type ConversationVerificationData =
   | {
       type: ConversationVerificationState.PendingVerification;
-      uuidsNeedingVerification: ReadonlyArray<string>;
+      uuidsNeedingVerification: ReadonlyArray<UUIDStringType>;
+
+      byDistributionId?: Record<string, DistributionVerificationData>;
     }
   | {
       type: ConversationVerificationState.VerificationCancelled;
       canceledAt: number;
     };
+
+type VerificationDataByConversation = Record<
+  string,
+  ConversationVerificationData
+>;
 
 type ComposerStateType =
   | {
@@ -356,7 +374,7 @@ export type ConversationsStateType = {
    * verification: either a set of pending conversationIds to be approved, or a tombstone
    * telling jobs to cancel themselves up to that timestamp.
    */
-  verificationDataByConversation: Record<string, ConversationVerificationData>;
+  verificationDataByConversation: VerificationDataByConversation;
 
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
@@ -555,7 +573,8 @@ type ConversationStoppedByMissingVerificationActionType = {
   type: typeof CONVERSATION_STOPPED_BY_MISSING_VERIFICATION;
   payload: {
     conversationId: string;
-    untrustedUuids: ReadonlyArray<string>;
+    distributionId?: string;
+    untrustedUuids: ReadonlyArray<UUIDStringType>;
   };
 };
 export type MessageChangedActionType = {
@@ -796,7 +815,7 @@ export type ConversationActionType =
   | ShowArchivedConversationsActionType
   | ShowChooseGroupMembersActionType
   | ShowInboxActionType
-  | ShowSendAnywayDialogActiontype
+  | ShowSendAnywayDialogActionType
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
   | ToggleConversationInChooseMembersActionType
@@ -1608,7 +1627,8 @@ function selectMessage(
 
 function conversationStoppedByMissingVerification(payload: {
   conversationId: string;
-  untrustedUuids: ReadonlyArray<string>;
+  distributionId?: string;
+  untrustedUuids: ReadonlyArray<UUIDStringType>;
 }): ConversationStoppedByMissingVerificationActionType {
   // Fetching profiles to ensure that we have their latest identity key in storage
   payload.untrustedUuids.forEach(uuid => {
@@ -2227,48 +2247,138 @@ function closeComposerModal(
   };
 }
 
-function getVerificationDataForConversation(
-  state: Readonly<ConversationsStateType>,
-  conversationId: string,
-  untrustedUuids: ReadonlyArray<string>
-): Record<string, ConversationVerificationData> {
-  const { verificationDataByConversation } = state;
-  const existingPendingState = getOwn(
-    verificationDataByConversation,
-    conversationId
-  );
+function getVerificationDataForConversation({
+  conversationId,
+  distributionId,
+  state,
+  untrustedUuids,
+}: {
+  conversationId: string;
+  distributionId?: string;
+  state: Readonly<VerificationDataByConversation>;
+  untrustedUuids: ReadonlyArray<UUIDStringType>;
+}): VerificationDataByConversation {
+  const existing = getOwn(state, conversationId);
 
   if (
-    !existingPendingState ||
-    existingPendingState.type ===
-      ConversationVerificationState.VerificationCancelled
+    !existing ||
+    existing.type === ConversationVerificationState.VerificationCancelled
   ) {
     return {
       [conversationId]: {
         type: ConversationVerificationState.PendingVerification as const,
-        uuidsNeedingVerification: untrustedUuids,
+        uuidsNeedingVerification: distributionId ? [] : untrustedUuids,
+        ...(distributionId
+          ? {
+              byDistributionId: {
+                [distributionId]: {
+                  uuidsNeedingVerification: untrustedUuids,
+                },
+              },
+            }
+          : undefined),
       },
     };
   }
 
-  const uuidsNeedingVerification: ReadonlyArray<string> = Array.from(
-    new Set([
-      ...existingPendingState.uuidsNeedingVerification,
-      ...untrustedUuids,
-    ])
+  const existingUuids = distributionId
+    ? existing.byDistributionId?.[distributionId]?.uuidsNeedingVerification
+    : existing.uuidsNeedingVerification;
+
+  const uuidsNeedingVerification: ReadonlyArray<UUIDStringType> = Array.from(
+    new Set([...(existingUuids || []), ...untrustedUuids])
   );
 
   return {
     [conversationId]: {
+      ...existing,
       type: ConversationVerificationState.PendingVerification as const,
-      uuidsNeedingVerification,
+      ...(distributionId ? undefined : { uuidsNeedingVerification }),
+      ...(distributionId
+        ? {
+            byDistributionId: {
+              ...existing.byDistributionId,
+              [distributionId]: {
+                uuidsNeedingVerification,
+              },
+            },
+          }
+        : undefined),
     },
   };
 }
 
+// Return same data, and we do nothing. Return undefined, and we'll delete the list.
+type DistributionVisitor = (
+  id: string,
+  data: DistributionVerificationData
+) => DistributionVerificationData | undefined;
+
+function visitListsInVerificationData(
+  existing: VerificationDataByConversation,
+  visitor: DistributionVisitor
+): VerificationDataByConversation {
+  let result = existing;
+
+  Object.entries(result).forEach(([conversationId, conversationData]) => {
+    if (
+      conversationData.type !==
+      ConversationVerificationState.PendingVerification
+    ) {
+      return;
+    }
+
+    const { byDistributionId } = conversationData;
+    if (!byDistributionId) {
+      return;
+    }
+
+    let updatedByDistributionId = byDistributionId;
+    Object.entries(byDistributionId).forEach(
+      ([distributionId, distributionData]) => {
+        const visitorResult = visitor(distributionId, distributionData);
+
+        if (!visitorResult) {
+          updatedByDistributionId = omit(updatedByDistributionId, [
+            distributionId,
+          ]);
+        } else if (visitorResult !== distributionData) {
+          updatedByDistributionId = {
+            ...updatedByDistributionId,
+            [distributionId]: visitorResult,
+          };
+        }
+      }
+    );
+
+    const listCount = Object.keys(updatedByDistributionId).length;
+    if (
+      conversationData.uuidsNeedingVerification.length === 0 &&
+      listCount === 0
+    ) {
+      result = omit(result, [conversationId]);
+    } else if (listCount === 0) {
+      result = {
+        ...result,
+        [conversationId]: omit(conversationData, ['byDistributionId']),
+      };
+    } else if (updatedByDistributionId !== byDistributionId) {
+      result = {
+        ...result,
+        [conversationId]: {
+          ...conversationData,
+          byDistributionId: updatedByDistributionId,
+        },
+      };
+    }
+  });
+
+  return result;
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
-  action: Readonly<ConversationActionType>
+  action: Readonly<ConversationActionType | StoryDistributionListsActionType>
 ): ConversationsStateType {
   if (action.type === CLEAR_CONVERSATIONS_PENDING_VERIFICATION) {
     return {
@@ -2281,16 +2391,12 @@ export function reducer(
     const { conversationId } = action.payload;
     const { verificationDataByConversation } = state;
 
-    const existingPendingState = getOwn(
-      verificationDataByConversation,
-      conversationId
-    );
+    const existing = getOwn(verificationDataByConversation, conversationId);
 
     // If there are active verifications required, this will do nothing.
     if (
-      existingPendingState &&
-      existingPendingState.type ===
-        ConversationVerificationState.PendingVerification
+      existing &&
+      existing.type === ConversationVerificationState.PendingVerification
     ) {
       return state;
     }
@@ -2612,14 +2718,148 @@ export function reducer(
       selectedMessageSource: SelectedMessageSource.Focus,
     };
   }
-  if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
-    const { conversationId, untrustedUuids } = action.payload;
 
-    const nextVerificationData = getVerificationDataForConversation(
-      state,
-      conversationId,
-      untrustedUuids
+  if (action.type === MODIFY_LIST) {
+    const {
+      id: listId,
+      isBlockList,
+      membersToRemove,
+      membersToAdd,
+    } = action.payload;
+    const removedUuids = new Set(isBlockList ? membersToAdd : membersToRemove);
+
+    const nextVerificationData = visitListsInVerificationData(
+      state.verificationDataByConversation,
+      (id, data): DistributionVerificationData | undefined => {
+        if (listId === id) {
+          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
+            uuid => !removedUuids.has(uuid)
+          );
+
+          if (!uuidsNeedingVerification.length) {
+            return undefined;
+          }
+          return {
+            ...data,
+            uuidsNeedingVerification,
+          };
+        }
+
+        return data;
+      }
     );
+
+    if (nextVerificationData === state.verificationDataByConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      verificationDataByConversation: nextVerificationData,
+    };
+  }
+  if (action.type === DELETE_LIST) {
+    const { listId } = action.payload;
+
+    const nextVerificationData = visitListsInVerificationData(
+      state.verificationDataByConversation,
+      (id, data): DistributionVerificationData | undefined => {
+        if (listId === id) {
+          return undefined;
+        }
+
+        return data;
+      }
+    );
+
+    if (nextVerificationData === state.verificationDataByConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      verificationDataByConversation: nextVerificationData,
+    };
+  }
+  if (action.type === HIDE_MY_STORIES_FROM) {
+    const removedUuids = new Set(action.payload);
+
+    const nextVerificationData = visitListsInVerificationData(
+      state.verificationDataByConversation,
+      (id, data): DistributionVerificationData | undefined => {
+        if (MY_STORY_ID === id) {
+          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
+            uuid => !removedUuids.has(uuid)
+          );
+
+          if (!uuidsNeedingVerification.length) {
+            return undefined;
+          }
+
+          return {
+            ...data,
+            uuidsNeedingVerification,
+          };
+        }
+
+        return data;
+      }
+    );
+
+    if (nextVerificationData === state.verificationDataByConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      verificationDataByConversation: nextVerificationData,
+    };
+  }
+  if (action.type === VIEWERS_CHANGED) {
+    const { listId, memberUuids } = action.payload;
+    const newUuids = new Set(memberUuids);
+
+    const nextVerificationData = visitListsInVerificationData(
+      state.verificationDataByConversation,
+      (id, data): DistributionVerificationData | undefined => {
+        if (listId === id) {
+          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
+            uuid => newUuids.has(uuid)
+          );
+
+          if (!uuidsNeedingVerification.length) {
+            return undefined;
+          }
+
+          return {
+            ...data,
+            uuidsNeedingVerification,
+          };
+        }
+
+        return data;
+      }
+    );
+
+    if (nextVerificationData === state.verificationDataByConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      verificationDataByConversation: nextVerificationData,
+    };
+  }
+
+  if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
+    const { conversationId, distributionId, untrustedUuids } = action.payload;
+
+    const nextVerificationData = getVerificationDataForConversation({
+      conversationId,
+      distributionId,
+      state: state.verificationDataByConversation,
+      untrustedUuids,
+    });
 
     return {
       ...state,
@@ -2634,14 +2874,30 @@ export function reducer(
       ...state.verificationDataByConversation,
     };
 
-    action.payload.conversationsToPause.forEach(
-      (untrustedUuids, conversationId) => {
-        const nextVerificationData = getVerificationDataForConversation(
-          state,
+    Object.entries(action.payload.untrustedByConversation).forEach(
+      ([conversationId, conversationData]) => {
+        const nextConversation = getVerificationDataForConversation({
+          state: verificationDataByConversation,
           conversationId,
-          Array.from(untrustedUuids)
+          untrustedUuids: conversationData.uuids,
+        });
+        Object.assign(verificationDataByConversation, nextConversation);
+
+        if (!conversationData.byDistributionId) {
+          return;
+        }
+
+        Object.entries(conversationData.byDistributionId).forEach(
+          ([distributionId, distributionData]) => {
+            const nextDistribution = getVerificationDataForConversation({
+              state: verificationDataByConversation,
+              distributionId,
+              conversationId,
+              untrustedUuids: distributionData.uuids,
+            });
+            Object.assign(verificationDataByConversation, nextDistribution);
+          }
         );
-        Object.assign(verificationDataByConversation, nextVerificationData);
       }
     );
 
