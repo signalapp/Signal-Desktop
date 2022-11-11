@@ -56,6 +56,15 @@ export async function sendDeleteForEveryoneMessage(
     ),
   });
 
+  const conversationIdForLogging = getConversationIdForLogging(
+    conversationAttributes
+  );
+
+  log.info(
+    `sendDeleteForEveryoneMessage: enqueing DeleteForEveryone: ${idForLogging} ` +
+      `in conversation ${conversationIdForLogging}`
+  );
+
   try {
     const jobData: ConversationQueueJobData = {
       type: conversationQueueJobEnum.enum.DeleteForEveryone,
@@ -66,9 +75,6 @@ export async function sendDeleteForEveryoneMessage(
       targetTimestamp,
     };
     await conversationJobQueue.add(jobData, async jobToInsert => {
-      const conversationIdForLogging = getConversationIdForLogging(
-        conversationAttributes
-      );
       log.info(
         `sendDeleteForEveryoneMessage: Deleting message ${idForLogging} ` +
           `in conversation ${conversationIdForLogging} with job ${jobToInsert.id}`
