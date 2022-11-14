@@ -161,6 +161,9 @@ const defaultWebPrefs = {
   spellcheck: false,
 };
 
+const DISABLE_GPU =
+  OS.isLinux() && !process.argv.some(arg => arg === '--enable-gpu');
+
 function showWindow() {
   if (!mainWindow) {
     return;
@@ -1610,7 +1613,7 @@ app.commandLine.appendSwitch('password-store', 'basic');
 
 // <canvas/> rendering is often utterly broken on Linux when using GPU
 // acceleration.
-if (OS.isLinux()) {
+if (DISABLE_GPU) {
   app.disableHardwareAcceleration();
 }
 
