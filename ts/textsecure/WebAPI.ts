@@ -6,7 +6,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import AbortController from 'abort-controller';
 import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';

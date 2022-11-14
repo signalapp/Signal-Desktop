@@ -6,7 +6,6 @@ import { Response } from 'node-fetch';
 import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
-import AbortController from 'abort-controller';
 import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
 import type { LoggerType } from '../../types/Logging';
 

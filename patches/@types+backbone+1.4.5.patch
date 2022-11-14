@@ -1,0 +1,13 @@
+diff --git a/node_modules/@types/backbone/index.d.ts b/node_modules/@types/backbone/index.d.ts
+index a172230..b85ab4c 100644
+--- a/node_modules/@types/backbone/index.d.ts
++++ b/node_modules/@types/backbone/index.d.ts
+@@ -218,7 +218,7 @@ declare namespace Backbone {
+      * E - Extensions to the model constructor options. You can accept additional constructor options
+      * by listing them in the E parameter.
+      */
+-    class Model<T = any, S = Backbone.ModelSetOptions, E = {}> extends ModelBase implements Events {
++    class Model<T extends Record<string, any> = any, S = Backbone.ModelSetOptions, E = {}> extends ModelBase implements Events {
+ 
+         /**
+         * Do not use, prefer TypeScript's extend functionality.

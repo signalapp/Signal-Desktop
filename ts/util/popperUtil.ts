@@ -22,7 +22,10 @@ export const offsetDistanceModifier = (
  * Should probably be used with the "top-start", "top-end", "bottom-start", or
  * "bottom-end" placement.
  */
-export const sameWidthModifier: Modifier<'sameWidth', unknown> = {
+export const sameWidthModifier: Modifier<
+  'sameWidth',
+  Record<string, unknown>
+> = {
   name: 'sameWidth',
   enabled: true,
   phase: 'write',

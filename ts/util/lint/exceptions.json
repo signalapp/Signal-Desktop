@@ -23,13 +23,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/TimelineMessage.tsx",
-    "line": "  const menuTriggerRef = useRef<Trigger | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-11-03T14:21:47.456Z"
-  },
-  {
     "rule": "jQuery-globalEval(",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "line": "    globalEval(read(f));",
@@ -644,42 +637,42 @@
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
-    "line": "  const committed = React.useRef();",
+    "line": "  const committed = react.useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
-    "line": "  const prevRef = React.useRef();",
+    "line": "  const prevRef = react.useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
-    "line": "  const isMounted = React.useRef(false);",
+    "line": "  const isMounted = react.useRef(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-01T22:57:44.591Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
-    "line": "  const committed = React.useRef();",
+    "line": "  const committed = react.useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
-    "line": "  const prevRef = React.useRef();",
+    "line": "  const prevRef = react.useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
-    "line": "  const isMounted = React.useRef(false);",
+    "line": "  const isMounted = react.useRef(false);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-01T22:57:44.591Z"
   },
@@ -9465,6 +9458,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-20T21:30:08.430Z",
     "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/TimelineMessage.tsx",
+    "line": "  const menuTriggerRef = useRef<Trigger | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-11-03T14:21:47.456Z"
   },
   {
     "rule": "React-useRef",

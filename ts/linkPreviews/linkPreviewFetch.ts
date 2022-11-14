@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RequestInit, Response } from 'node-fetch';
-import type { AbortSignal as AbortSignalForNodeFetch } from 'abort-controller';
 import { blobToArrayBuffer } from 'blob-util';
 
 import type { MIMEType } from '../types/MIME';
@@ -450,7 +449,7 @@ export async function fetchLinkPreviewMetadata(
           Accept: 'text/html,application/xhtml+xml',
           'User-Agent': USER_AGENT,
         },
-        signal: abortSignal as AbortSignalForNodeFetch,
+        signal: abortSignal,
       },
       logger
     );
@@ -551,7 +550,7 @@ export async function fetchLinkPreviewImage(
           'User-Agent': USER_AGENT,
         },
         size: MAX_IMAGE_CONTENT_LENGTH,
-        signal: abortSignal as AbortSignalForNodeFetch,
+        signal: abortSignal,
       },
       logger
     );

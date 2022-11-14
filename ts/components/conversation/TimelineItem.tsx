@@ -240,11 +240,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         );
       } else if (item.type === 'chatSessionRefreshed') {
         notification = (
-          <ChatSessionRefreshedNotification
-            {...this.props}
-            {...item.data}
-            i18n={i18n}
-          />
+          <ChatSessionRefreshedNotification {...this.props} i18n={i18n} />
         );
       } else if (item.type === 'deliveryIssue') {
         notification = (
@@ -297,13 +293,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           <GroupV1Migration {...this.props} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'resetSessionNotification') {
-        notification = (
-          <ResetSessionNotification
-            {...this.props}
-            {...item.data}
-            i18n={i18n}
-          />
-        );
+        notification = <ResetSessionNotification {...this.props} i18n={i18n} />;
       } else if (item.type === 'profileChange') {
         notification = (
           <ProfileChangeNotification

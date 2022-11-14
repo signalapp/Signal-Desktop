@@ -355,7 +355,10 @@ type DatabaseQueryCache = Map<string, Statement<Array<unknown>>>;
 
 const statementCache = new WeakMap<Database, DatabaseQueryCache>();
 
-function prepare<T>(db: Database, query: string): Statement<T> {
+function prepare<T extends Array<unknown> | Record<string, unknown>>(
+  db: Database,
+  query: string
+): Statement<T> {
   let dbCache = statementCache.get(db);
   if (!dbCache) {
     dbCache = new Map();

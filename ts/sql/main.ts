@@ -174,7 +174,13 @@ export class MainSQL {
       throw new Error('Not initialized');
     }
 
-    const { result, duration } = await this.send({
+    type SqlCallResult = Readonly<{
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      result: any;
+      duration: number;
+    }>;
+
+    const { result, duration } = await this.send<SqlCallResult>({
       type: 'sqlCall',
       method,
       args,
