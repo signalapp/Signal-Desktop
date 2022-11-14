@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import type { ListRowRenderer } from 'react-virtualized';
-import { List } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
@@ -33,6 +32,7 @@ import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderCompone
 import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
 import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem';
 import { GroupListItem } from './conversationList/GroupListItem';
+import { ListView } from './ListView';
 
 export enum RowType {
   ArchiveButton = 'ArchiveButton',
@@ -203,17 +203,8 @@ export const ConversationList: React.FC<PropsType> = ({
   showConversation,
   theme,
 }) => {
-  const listRef = useRef<null | List>(null);
-
-  useEffect(() => {
-    const list = listRef.current;
-    if (shouldRecomputeRowHeights && list) {
-      list.recomputeRowHeights();
-    }
-  });
-
   const calculateRowHeight = useCallback(
-    ({ index }: { index: number }): number => {
+    (index: number): number => {
       const row = getRow(index);
       if (!row) {
         assertDev(false, `Expected a row at index ${index}`);
@@ -472,25 +463,20 @@ export const ConversationList: React.FC<PropsType> = ({
   const widthBreakpoint = getConversationListWidthBreakpoint(width);
 
   return (
-    <List
+    <ListView
       className={classNames(
         'module-conversation-list',
-        `module-conversation-list--scroll-behavior-${scrollBehavior}`,
         `module-conversation-list--width-${widthBreakpoint}`
       )}
+      width={width}
       height={height}
-      ref={listRef}
       rowCount={rowCount}
-      rowHeight={calculateRowHeight}
+      calculateRowHeight={calculateRowHeight}
       rowRenderer={renderRow}
       scrollToIndex={scrollToRowIndex}
-      style={{
-        // See `<Timeline>` for an explanation of this `any` cast.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        overflowY: scrollable ? ('overlay' as any) : 'hidden',
-      }}
-      tabIndex={-1}
-      width={width}
+      shouldRecomputeRowHeights={shouldRecomputeRowHeights}
+      scrollable={scrollable}
+      scrollBehavior={scrollBehavior}
     />
   );
 };

@@ -9052,10 +9052,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ConversationList.tsx",
+    "path": "ts/components/ListView.tsx",
     "line": "  const listRef = useRef<null | List>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2022-11-11T17:11:07.659Z"
   },
   {
     "rule": "React-useRef",

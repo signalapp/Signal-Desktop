@@ -4365,12 +4365,6 @@ button.module-image__border-overlay:focus {
     padding-right: 10px;
   }
 
-  &--scroll-behavior {
-    &-default {
-      @include smooth-scroll;
-    }
-  }
-
   &__item {
     &--archive-button {
       @include button-reset;
