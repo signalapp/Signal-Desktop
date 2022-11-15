@@ -6,7 +6,7 @@ on:
   issue_comment:
     types: [created]
   pull_request:
-    types: [closed]
+    types: [opened, labeled, unlabeled, closed]
 
 jobs:
   backport:
