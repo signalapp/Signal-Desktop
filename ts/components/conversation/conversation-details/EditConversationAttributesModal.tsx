@@ -204,7 +204,8 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
     );
   }
 
-  const modalFooter = (
+  // AvatarEditor brings its own footer with it so no need to duplicate it.
+  const modalFooter = editingAvatar ? undefined : (
     <>
       <Button
         disabled={isRequestActive}
