@@ -1,9 +1,6 @@
 // Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This has to be the first import because it patches "os" module
-import '../ts/util/patchWindows7Hostname';
-
 import { join, normalize } from 'path';
 import { pathToFileURL } from 'url';
 import * as os from 'os';

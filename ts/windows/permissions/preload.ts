@@ -1,9 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This has to be the first import because of monkey-patching
-import '../shims';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge } from 'electron';

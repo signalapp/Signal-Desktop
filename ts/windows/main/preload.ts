@@ -1,9 +1,6 @@
 // Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This has to be the first import because of monkey-patching
-import '../shims';
-
 /* eslint-disable global-require */
 
 import * as log from '../../logging/log';
