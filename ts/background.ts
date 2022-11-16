@@ -419,7 +419,7 @@ export async function startApp(): Promise<void> {
 
   window.SignalContext.activeWindowService.registerForChange(isActive => {
     if (!isActive) {
-      window.reduxActions.stories.setHasAllStoriesUnmuted(false);
+      window.reduxActions?.stories.setHasAllStoriesUnmuted(false);
     }
   });
 
