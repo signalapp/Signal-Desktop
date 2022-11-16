@@ -37,6 +37,29 @@
       flex-direction: column;
       flex: 1;
       margin-left: 12px;
+
+      &__failed {
+        align-items: center;
+        display: flex;
+
+        &::before {
+          content: '';
+          display: block;
+          height: 12px;
+          margin-right: 12px;
+          width: 12px;
+          @include color-svg(
+            '../images/icons/v2/error-outline-24.svg',
+            $color-accent-red
+          );
+        }
+
+        &__button {
+          @include button-reset;
+          @include font-subtitle;
+          color: $color-gray-25;
+        }
+      }
     }
 
     &__timestamp {

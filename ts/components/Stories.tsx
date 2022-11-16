@@ -42,6 +42,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: () => JSX.Element;
+  retrySend: (messageId: string) => unknown;
   setAddStoryData: (data: AddStoryData) => unknown;
   showConversation: ShowConversationType;
   showStoriesSettings: () => unknown;
@@ -69,6 +70,7 @@ export const Stories = ({
   preferredWidthFromStorage,
   queueStoryDownload,
   renderStoryCreator,
+  retrySend,
   setAddStoryData,
   showConversation,
   showStoriesSettings,
@@ -101,6 +103,7 @@ export const Stories = ({
       <div className="Stories__pane" style={{ width }}>
         {isMyStories && myStories.length ? (
           <MyStories
+            hasViewReceiptSetting={hasViewReceiptSetting}
             i18n={i18n}
             myStories={myStories}
             onBack={() => setIsMyStories(false)}
@@ -108,8 +111,8 @@ export const Stories = ({
             onForward={onForwardStory}
             onSave={onSaveStory}
             queueStoryDownload={queueStoryDownload}
+            retrySend={retrySend}
             viewStory={viewStory}
-            hasViewReceiptSetting={hasViewReceiptSetting}
           />
         ) : (
           <StoriesPane

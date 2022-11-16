@@ -1,8 +1,10 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { getMessageById } from '../messages/getMessageById';
+
 export async function retryMessageSend(messageId: string): Promise<void> {
-  const message = window.MessageController.getById(messageId);
+  const message = await getMessageById(messageId);
   if (!message) {
     throw new Error(`retryMessageSend: Message ${messageId} missing!`);
   }

@@ -28,10 +28,12 @@ import { Emojify } from './conversation/Emojify';
 import { Intl } from './Intl';
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
+import { Spinner } from './Spinner';
 import { StoryDetailsModal } from './StoryDetailsModal';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { StoryImage } from './StoryImage';
 import {
+  ResolvedSendStatus,
   StoryViewDirectionType,
   StoryViewModeType,
   StoryViewTargetType,
@@ -45,10 +47,14 @@ import { getStoryDuration } from '../util/getStoryDuration';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
 import { isVideoAttachment } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { useRetryStorySend } from '../hooks/useRetryStorySend';
+import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { strictAssert } from '../util/assert';
 
 export type PropsType = {
   currentIndex: number;
+  deleteGroupStoryReply: (id: string) => void;
+  deleteGroupStoryReplyForEveryone: (id: string) => void;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
   distributionList?: { id: string; name: string };
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -70,6 +76,7 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
   isSignalConversation?: boolean;
+  isWindowActive: boolean;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
   markStoryRead: (mId: string) => unknown;
   numStories: number;
@@ -90,16 +97,14 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
-  viewTarget?: StoryViewTargetType;
+  retrySend: (messageId: string) => unknown;
+  setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;
   story: StoryViewType;
   storyViewMode: StoryViewModeType;
-  setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   viewStory: ViewStoryActionCreatorType;
-  isWindowActive: boolean;
-  deleteGroupStoryReply: (id: string) => void;
-  deleteGroupStoryReplyForEveryone: (id: string) => void;
+  viewTarget?: StoryViewTargetType;
 };
 
 const CAPTION_BUFFER = 20;
@@ -115,6 +120,8 @@ enum Arrow {
 
 export const StoryViewer = ({
   currentIndex,
+  deleteGroupStoryReply,
+  deleteGroupStoryReplyForEveryone,
   deleteStoryForEveryone,
   distributionList,
   getPreferredBadge,
@@ -124,6 +131,7 @@ export const StoryViewer = ({
   hasViewReceiptSetting,
   i18n,
   isSignalConversation,
+  isWindowActive,
   loadStoryReplies,
   markStoryRead,
   numStories,
@@ -139,16 +147,14 @@ export const StoryViewer = ({
   recentEmojis,
   renderEmojiPicker,
   replyState,
-  viewTarget,
+  retrySend,
+  setHasAllStoriesUnmuted,
   showToast,
   skinTone,
   story,
   storyViewMode,
-  setHasAllStoriesUnmuted,
   viewStory,
-  isWindowActive,
-  deleteGroupStoryReply,
-  deleteGroupStoryReplyForEveryone,
+  viewTarget,
 }: PropsType): JSX.Element => {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
@@ -180,6 +186,10 @@ export const StoryViewer = ({
   } = story.sender;
 
   const conversationId = group?.id || story.sender.id;
+
+  const sendStatus = sendState ? resolveStorySendStatus(sendState) : undefined;
+  const { renderAlert, setWasManuallyRetried, wasManuallyRetried } =
+    useRetryStorySend(i18n, sendStatus);
 
   const [currentViewTarget, setCurrentViewTarget] = useState(
     viewTarget ?? null
@@ -316,7 +326,10 @@ export const StoryViewer = ({
     }
   }, [isWindowActive]);
 
+  const alertElement = renderAlert();
+
   const shouldPauseViewing =
+    Boolean(alertElement) ||
     Boolean(confirmDeleteStory) ||
     currentViewTarget != null ||
     hasActiveCall ||
@@ -528,9 +541,26 @@ export const StoryViewer = ({
     ];
   }
 
+  function doRetrySend() {
+    if (wasManuallyRetried) {
+      return;
+    }
+
+    if (
+      sendStatus !== ResolvedSendStatus.Failed &&
+      sendStatus !== ResolvedSendStatus.PartiallySent
+    ) {
+      return;
+    }
+
+    setWasManuallyRetried(true);
+    retrySend(messageId);
+  }
+
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <div className="StoryViewer">
+        {alertElement}
         <div
           className="StoryViewer__overlay"
           style={{ background: getStoryBackground(attachment) }}
@@ -753,7 +783,35 @@ export const StoryViewer = ({
               ))}
             </div>
             <div className="StoryViewer__actions">
-              {(canReply || isSent) && (
+              {sendStatus === ResolvedSendStatus.Failed && !wasManuallyRetried && (
+                <button
+                  className="StoryViewer__actions__failed"
+                  onClick={doRetrySend}
+                  type="button"
+                >
+                  {i18n('StoryViewer__failed')}
+                </button>
+              )}
+              {sendStatus === ResolvedSendStatus.PartiallySent &&
+                !wasManuallyRetried && (
+                  <button
+                    className="StoryViewer__actions__failed"
+                    onClick={doRetrySend}
+                    type="button"
+                  >
+                    {i18n('StoryViewer__partial-fail')}
+                  </button>
+                )}
+              {sendStatus === ResolvedSendStatus.Sending && (
+                <div className="StoryViewer__sending">
+                  <Spinner
+                    moduleClassName="StoryViewer__sending__spinner"
+                    svgSize="small"
+                  />
+                  {i18n('StoryViewer__sending')}
+                </div>
+              )}
+              {sendStatus === ResolvedSendStatus.Sent && (canReply || isSent) && (
                 <button
                   className="StoryViewer__reply"
                   onClick={() =>

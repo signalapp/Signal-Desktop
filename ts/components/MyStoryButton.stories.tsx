@@ -11,9 +11,10 @@ import type { PropsType } from './MyStoryButton';
 import enMessages from '../../_locales/en/messages.json';
 import { MyStoryButton } from './MyStoryButton';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { getFakeStoryView } from '../test-both/helpers/getFakeStory';
+import { getFakeMyStory } from '../test-both/helpers/getFakeStory';
 import { setupI18n } from '../util/setupI18n';
 import { SendStatus } from '../messages/MessageSendState';
+import { ResolvedSendStatus } from '../types/Stories';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -21,18 +22,14 @@ export default {
   title: 'Components/MyStoriesButton',
   component: MyStoryButton,
   argTypes: {
-    hasMultiple: {
-      control: 'checkbox',
-      defaultValue: false,
-    },
     i18n: {
       defaultValue: i18n,
     },
     me: {
       defaultValue: getDefaultConversation(),
     },
-    newestStory: {
-      defaultValue: getFakeStoryView(),
+    myStories: {
+      defaultValue: [getFakeMyStory()],
     },
     onAddStory: { action: true },
     onClick: { action: true },
@@ -60,8 +57,7 @@ const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({
 
 export const NoStory = Template.bind({});
 NoStory.args = {
-  hasMultiple: false,
-  newestStory: undefined,
+  myStories: [],
 };
 NoStory.story = {
   name: 'No Story',
@@ -77,7 +73,7 @@ OneStory.play = interactionTest;
 
 export const ManyStories = Template.bind({});
 ManyStories.args = {
-  hasMultiple: true,
+  myStories: [getFakeMyStory(), getFakeMyStory()],
 };
 ManyStories.story = {
   name: 'Many Stories',
@@ -88,32 +84,64 @@ export const SendingStory = Template.bind({});
 SendingStory.story = {
   name: 'Sending Story',
 };
-SendingStory.args = {
-  newestStory: {
-    ...getFakeStoryView(),
-    sendState: [
+{
+  const myStory = getFakeMyStory();
+  SendingStory.args = {
+    myStories: [
       {
-        status: SendStatus.Pending,
-        recipient: getDefaultConversation(),
+        ...myStory,
+        reducedSendStatus: ResolvedSendStatus.Sending,
+        stories: myStory.stories.map((story, index) => {
+          if (index === 0) {
+            return {
+              ...story,
+              sendState: [
+                {
+                  status: SendStatus.Pending,
+                  recipient: getDefaultConversation(),
+                },
+              ],
+            };
+          }
+
+          return story;
+        }),
       },
+      getFakeMyStory(),
     ],
-  },
-};
+  };
+}
 SendingStory.play = interactionTest;
 
 export const FailedSendStory = Template.bind({});
 FailedSendStory.story = {
   name: 'Failed Send Story',
 };
-FailedSendStory.args = {
-  newestStory: {
-    ...getFakeStoryView(),
-    sendState: [
+{
+  const myStory = getFakeMyStory();
+  FailedSendStory.args = {
+    myStories: [
       {
-        status: SendStatus.Failed,
-        recipient: getDefaultConversation(),
+        ...myStory,
+        reducedSendStatus: ResolvedSendStatus.Failed,
+        stories: myStory.stories.map((story, index) => {
+          if (index === 0) {
+            return {
+              ...story,
+              sendState: [
+                {
+                  status: SendStatus.Failed,
+                  recipient: getDefaultConversation(),
+                },
+              ],
+            };
+          }
+
+          return story;
+        }),
       },
+      getFakeMyStory(),
     ],
-  },
-};
+  };
+}
 FailedSendStory.play = interactionTest;

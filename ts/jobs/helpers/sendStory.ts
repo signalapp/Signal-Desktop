@@ -488,6 +488,10 @@ export async function sendStory(
           return acc;
         }
 
+        if (isMe(recipient.attributes)) {
+          return acc;
+        }
+
         if (recipient.isUnregistered()) {
           if (!isSent(oldSendState.status)) {
             // We should have filtered this out on initial send, but we'll drop them from

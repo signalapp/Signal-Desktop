@@ -9,11 +9,7 @@ import type {
   ConversationType,
   ShowConversationType,
 } from '../state/ducks/conversations';
-import type {
-  ConversationStoryType,
-  MyStoryType,
-  StoryViewType,
-} from '../types/Stories';
+import type { ConversationStoryType, MyStoryType } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ShowToastActionCreatorType } from '../state/ducks/toast';
@@ -57,10 +53,6 @@ function search(
   return new Fuse<ConversationStoryType>(stories, FUSE_OPTIONS)
     .search(searchTerm)
     .map(result => result.item);
-}
-
-function getNewestMyStory(story: MyStoryType): StoryViewType {
-  return story.stories[0];
 }
 
 export type PropsType = {
@@ -161,14 +153,9 @@ export const StoriesPane = ({
       <div className="Stories__pane__list">
         <>
           <MyStoryButton
-            hasMultiple={
-              myStories.length ? myStories[0].stories.length > 1 : false
-            }
             i18n={i18n}
             me={me}
-            newestStory={
-              myStories.length ? getNewestMyStory(myStories[0]) : undefined
-            }
+            myStories={myStories}
             onAddStory={onAddStory}
             onClick={onMyStoriesClicked}
             queueStoryDownload={queueStoryDownload}

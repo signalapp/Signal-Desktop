@@ -45,7 +45,7 @@ export default {
     },
     queueStoryDownload: { action: true },
     renderStoryCreator: { action: true },
-    renderStoryViewer: { action: true },
+    retrySend: { action: true },
     showConversation: { action: true },
     showStoriesSettings: { action: true },
     showToast: { action: true },

@@ -27,6 +27,7 @@ import {
 import { isInFullScreenCall } from '../selectors/calling';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { retryMessageSend } from '../../util/retryMessageSend';
 import { strictAssert } from '../../util/assert';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
@@ -99,6 +100,7 @@ export function SmartStoryViewer(): JSX.Element | null {
       isSignalConversation={isSignalConversation({
         id: conversationStory.conversationId,
       })}
+      isWindowActive={isWindowActive}
       numStories={selectedStoryData.numStories}
       onHideStory={toggleHideStories}
       onGoToConversation={senderId => {
@@ -125,12 +127,12 @@ export function SmartStoryViewer(): JSX.Element | null {
       recentEmojis={recentEmojis}
       renderEmojiPicker={renderEmojiPicker}
       replyState={replyState}
-      viewTarget={selectedStoryData.viewTarget}
+      retrySend={retryMessageSend}
       showToast={showToast}
       skinTone={skinTone}
       story={storyView}
       storyViewMode={selectedStoryData.storyViewMode}
-      isWindowActive={isWindowActive}
+      viewTarget={selectedStoryData.viewTarget}
       {...storiesActions}
     />
   );

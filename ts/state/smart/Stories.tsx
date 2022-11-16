@@ -21,6 +21,7 @@ import {
   getStories,
   shouldShowStoriesView,
 } from '../selectors/stories';
+import { retryMessageSend } from '../../util/retryMessageSend';
 import { saveAttachment } from '../../util/saveAttachment';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -84,6 +85,7 @@ export function SmartStories(): JSX.Element | null {
       }}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
+      retrySend={retryMessageSend}
       showConversation={showConversation}
       showStoriesSettings={showStoriesSettings}
       showToast={showToast}

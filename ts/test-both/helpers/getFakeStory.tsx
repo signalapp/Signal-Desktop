@@ -14,12 +14,13 @@ import * as durations from '../../util/durations';
 import { UUID } from '../../types/UUID';
 import { getDefaultConversation } from './getDefaultConversation';
 import { fakeAttachment, fakeThumbnail } from './fakeAttachment';
-import { MY_STORY_ID } from '../../types/Stories';
+import { MY_STORY_ID, ResolvedSendStatus } from '../../types/Stories';
 
 function getAttachmentWithThumbnail(url: string): AttachmentType {
   return fakeAttachment({
-    url,
+    path: url,
     thumbnail: fakeThumbnail(url),
+    url,
   });
 }
 
@@ -29,6 +30,7 @@ export function getFakeMyStory(id?: string, name?: string): MyStoryType {
   return {
     id: id || UUID.generate().toString(),
     name: name || id === MY_STORY_ID ? 'My Stories' : casual.catch_phrase,
+    reducedSendStatus: ResolvedSendStatus.Sent,
     stories: Array.from(Array(storyCount), () => ({
       ...getFakeStoryView(),
       sendState: [],

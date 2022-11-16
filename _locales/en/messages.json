@@ -5543,6 +5543,14 @@
     "message": "Send failed",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Partially sent",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Click to retry",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Click to view a story",
     "description": "Placeholder label for the story view"
@@ -5562,6 +5570,10 @@
   "Stories__toast--hasNoSound": {
     "message": "This story has no sound",
     "description": "Toast message"
+  },
+  "Stories__failed-send": {
+    "message": "This story could not be sent to some people. Check your connection and try again.",
+    "description": "Alert error message when unable to send a story"
   },
   "StoriesSettings__title": {
     "message": "Story privacy",
@@ -5866,6 +5878,18 @@
   "StoryViewer__views-off": {
     "message": "Views off",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Sending...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Send failed. Click to retry",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Partially sent. Click to retry",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",

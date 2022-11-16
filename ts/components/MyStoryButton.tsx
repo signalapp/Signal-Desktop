@@ -5,65 +5,44 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
+import type { MyStoryType, StoryViewType } from '../types/Stories';
 import type { ShowToastActionCreatorType } from '../state/ducks/toast';
-import type { StorySendStateType, StoryViewType } from '../types/Stories';
 import { Avatar, AvatarSize } from './Avatar';
-import { HasStories } from '../types/Stories';
+import { HasStories, ResolvedSendStatus } from '../types/Stories';
+import { MessageTimestamp } from './conversation/MessageTimestamp';
+import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { StoryImage } from './StoryImage';
 import { getAvatarColor } from '../types/Colors';
-import { MessageTimestamp } from './conversation/MessageTimestamp';
-
-import { StoriesAddStoryButton } from './StoriesAddStoryButton';
-import { isFailed, isPending } from '../messages/MessageSendState';
+import { reduceStorySendStatus } from '../util/resolveStorySendStatus';
 
 export type PropsType = {
-  hasMultiple: boolean;
   i18n: LocalizerType;
   me: ConversationType;
-  newestStory?: StoryViewType;
+  myStories: Array<MyStoryType>;
   onAddStory: () => unknown;
   onClick: () => unknown;
   queueStoryDownload: (storyId: string) => unknown;
   showToast: ShowToastActionCreatorType;
 };
 
-enum ResolvedSendStatus {
-  Failed,
-  Sending,
-  Sent,
-}
-
-function resolveSendStatus(
-  sendStates: Array<StorySendStateType>
-): ResolvedSendStatus {
-  let anyPending = false;
-  for (const sendState of sendStates) {
-    if (isFailed(sendState.status)) {
-      // Immediately return if any send failed
-      return ResolvedSendStatus.Failed;
-    }
-    if (isPending(sendState.status)) {
-      // Don't return yet in case we have a failure
-      anyPending = true;
-    }
-  }
-  if (anyPending) {
-    return ResolvedSendStatus.Sending;
-  }
-  return ResolvedSendStatus.Sent;
+function getNewestMyStory(story: MyStoryType): StoryViewType {
+  return story.stories[0];
 }
 
 export const MyStoryButton = ({
-  hasMultiple,
   i18n,
   me,
-  newestStory,
+  myStories,
   onAddStory,
   onClick,
   queueStoryDownload,
   showToast,
 }: PropsType): JSX.Element => {
   const [active, setActive] = useState(false);
+
+  const newestStory = myStories.length
+    ? getNewestMyStory(myStories[0])
+    : undefined;
 
   const {
     acceptedMessageRequest,
@@ -113,8 +92,14 @@ export const MyStoryButton = ({
     );
   }
 
-  const newStoryResolvedSendStatus = resolveSendStatus(
-    newestStory.sendState ?? []
+  const hasMultiple = myStories.length
+    ? myStories[0].stories.length > 1
+    : false;
+
+  const reducedSendStatus: ResolvedSendStatus = myStories.reduce(
+    (acc: ResolvedSendStatus, myStory) =>
+      reduceStorySendStatus(acc, myStory.reducedSendStatus),
+    ResolvedSendStatus.Sent
   );
 
   return (
@@ -166,17 +151,22 @@ export const MyStoryButton = ({
           <div className="StoryListItem__info--title StoryListItem__chevron">
             {i18n('MyStories__list_item')}
           </div>
-          {newStoryResolvedSendStatus === ResolvedSendStatus.Sending && (
+          {reducedSendStatus === ResolvedSendStatus.Sending && (
             <span className="StoryListItem__info--sending">
               {i18n('Stories__list--sending')}
             </span>
           )}
-          {newStoryResolvedSendStatus === ResolvedSendStatus.Failed && (
+          {reducedSendStatus === ResolvedSendStatus.Failed && (
             <span className="StoryListItem__info--send_failed">
               {i18n('Stories__list--send_failed')}
             </span>
           )}
-          {newStoryResolvedSendStatus === ResolvedSendStatus.Sent && (
+          {reducedSendStatus === ResolvedSendStatus.PartiallySent && (
+            <span className="StoryListItem__info--send_failed">
+              {i18n('Stories__list--partially-sent')}
+            </span>
+          )}
+          {reducedSendStatus === ResolvedSendStatus.Sent && (
             <MessageTimestamp
               i18n={i18n}
               isRelativeTime

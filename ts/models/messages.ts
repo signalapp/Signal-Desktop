@@ -1415,8 +1415,29 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
 
-    const currentConversationRecipients =
-      conversation.getMemberConversationIds();
+    let currentConversationRecipients: Set<string> | undefined;
+
+    const { storyDistributionListId } = this.attributes;
+
+    if (storyDistributionListId) {
+      const storyDistribution =
+        await dataInterface.getStoryDistributionWithMembers(
+          storyDistributionListId
+        );
+
+      if (!storyDistribution) {
+        this.markFailed();
+        return;
+      }
+
+      currentConversationRecipients = new Set(
+        storyDistribution.members
+          .map(uuid => window.ConversationController.get(uuid)?.id)
+          .filter(isNotNil)
+      );
+    } else {
+      currentConversationRecipients = conversation.getMemberConversationIds();
+    }
 
     // Determine retry recipients and get their most up-to-date addressing information
     const oldSendStateByConversationId =

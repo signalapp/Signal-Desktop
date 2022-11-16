@@ -22,7 +22,11 @@ import type {
   StoriesStateType,
   AddStoryData,
 } from '../ducks/stories';
-import { HasStories, MY_STORY_ID } from '../../types/Stories';
+import {
+  HasStories,
+  MY_STORY_ID,
+  ResolvedSendStatus,
+} from '../../types/Stories';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import { canReply } from './message';
@@ -39,6 +43,10 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as log from '../../logging/log';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
+import {
+  reduceStorySendStatus,
+  resolveStorySendStatus,
+} from '../../util/resolveStorySendStatus';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -406,12 +414,23 @@ export const getStories = createSelector(
           story
         );
 
-        const existingMyStory = myStoriesById.get(sentId) || { stories: [] };
+        const existingStorySent = myStoriesById.get(sentId) || {
+          // Default to "Sent" since it's the lowest form of SendStatus and all
+          // others take precedence over it.
+          reducedSendStatus: ResolvedSendStatus.Sent,
+          stories: [],
+        };
+
+        const sendStatus = resolveStorySendStatus(storyView.sendState ?? []);
 
         myStoriesById.set(sentId, {
           id: sentId,
           name: sentName,
-          stories: [storyView, ...existingMyStory.stories],
+          reducedSendStatus: reduceStorySendStatus(
+            existingStorySent.reducedSendStatus,
+            sendStatus
+          ),
+          stories: [storyView, ...existingStorySent.stories],
         });
 
         // If it's a group story we still want it to render as part of regular

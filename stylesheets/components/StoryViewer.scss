@@ -141,6 +141,26 @@
     display: flex;
     justify-content: center;
     min-height: 60px;
+
+    &__failed {
+      @include button-reset;
+      @include font-body-1;
+      align-items: center;
+      color: $color-white;
+      display: flex;
+
+      &::before {
+        content: '';
+        display: block;
+        height: 18px;
+        margin-right: 12px;
+        width: 18px;
+        @include color-svg(
+          '../images/icons/v2/error-outline-24.svg',
+          $color-accent-red
+        );
+      }
+    }
   }
 
   &__reply {
@@ -356,6 +376,16 @@
       background: linear-gradient($color-transparent, $color-black-alpha-60);
       bottom: 0;
       height: 256px;
+    }
+  }
+
+  &__sending {
+    align-items: center;
+    display: flex;
+
+    &__spinner__container {
+      margin-left: 0;
+      margin-right: 12px;
     }
   }
 }

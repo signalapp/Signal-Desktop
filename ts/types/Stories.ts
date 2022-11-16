@@ -102,6 +102,7 @@ export type StoryViewType = {
 export type MyStoryType = {
   id: string;
   name: string;
+  reducedSendStatus: ResolvedSendStatus;
   stories: Array<StoryViewType>;
 };
 
@@ -157,4 +158,11 @@ export enum StorySendMode {
   IfActive = 'IfActive',
   Always = 'Always',
   Never = 'Never',
+}
+
+export enum ResolvedSendStatus {
+  Failed = 'Failed',
+  PartiallySent = 'PartiallySent',
+  Sending = 'Sending',
+  Sent = 'Sent',
 }
