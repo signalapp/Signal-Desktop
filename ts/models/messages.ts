@@ -3467,6 +3467,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           received_at: incrementMessageCounter(),
           received_at_ms: newReaction.timestamp,
           timestamp: newReaction.timestamp,
+          expireTimer: conversation.get('expireTimer'),
           sendStateByConversationId: zipObject(
             Object.keys(newReaction.isSentByConversationId || {}),
             repeat({

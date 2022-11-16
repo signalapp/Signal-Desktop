@@ -172,6 +172,7 @@ export class Reactions extends Collection<ReactionModel> {
         // if the reaction is targetted at a story.
         if (isStory(targetMessage)) {
           generatedMessage.set({
+            expireTimer: targetConversation.get('expireTimer'),
             storyId: targetMessage.id,
             storyReaction: {
               emoji: reaction.get('emoji'),
