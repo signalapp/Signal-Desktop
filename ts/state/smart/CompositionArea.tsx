@@ -9,6 +9,7 @@ import { CompositionArea } from '../../components/CompositionArea';
 import type { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
+import { imageToBlurHash } from '../../util/imageToBlurHash';
 
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { selectRecentEmojis } from '../selectors/emojis';
@@ -89,6 +90,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     recordingState: state.audioRecorder.recordingState,
     // AttachmentsList
     draftAttachments,
+    // MediaEditor
+    imageToBlurHash,
     // MediaQualitySelector
     shouldSendHighQualityAttachments,
     // StagedLinkPreview

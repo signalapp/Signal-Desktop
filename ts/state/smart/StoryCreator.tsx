@@ -26,6 +26,7 @@ import { getHasSetMyStoriesPrivacy } from '../selectors/items';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { processAttachment } from '../../util/processAttachment';
+import { imageToBlurHash } from '../../util/imageToBlurHash';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
@@ -91,6 +92,7 @@ export function SmartStoryCreator(): JSX.Element | null {
       groupStories={groupStories}
       hasFirstStoryPostExperience={!hasSetMyStoriesPrivacy}
       i18n={i18n}
+      imageToBlurHash={imageToBlurHash}
       installedPacks={installedPacks}
       isSending={isSending}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}

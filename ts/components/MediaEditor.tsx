@@ -10,6 +10,8 @@ import { get, has, noop } from 'lodash';
 
 import type { LocalizerType } from '../types/Util';
 import { ThemeType } from '../types/Util';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_PNG } from '../types/MIME';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { ImageStateType } from '../mediaEditor/ImageStateType';
 
@@ -20,6 +22,7 @@ import { Slider } from './Slider';
 import { StickerButton } from './stickers/StickerButton';
 import { Theme } from '../util/theme';
 import { canvasToBytes } from '../util/canvasToBytes';
+import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory';
 import { usePortal } from '../hooks/usePortal';
 import { useUniqueId } from '../hooks/useUniqueId';
@@ -41,13 +44,21 @@ import { AddNewLines } from './conversation/AddNewLines';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { Spinner } from './Spinner';
 
+export type MediaEditorResultType = Readonly<{
+  data: Uint8Array;
+  contentType: MIMEType;
+  blurHash: string;
+  caption?: string;
+}>;
+
 export type PropsType = {
   doneButtonLabel?: string;
   i18n: LocalizerType;
   imageSrc: string;
   isSending: boolean;
+  imageToBlurHash: typeof imageToBlurHash;
   onClose: () => unknown;
-  onDone: (data: Uint8Array, caption?: string | undefined) => unknown;
+  onDone: (result: MediaEditorResultType) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
   (
     | {
@@ -1115,6 +1126,7 @@ export const MediaEditor = ({
               setIsSaving(true);
 
               let data: Uint8Array;
+              let blurHash: string;
               try {
                 const renderFabricCanvas = await cloneFabricCanvas(
                   fabricCanvas
@@ -1151,6 +1163,12 @@ export const MediaEditor = ({
                 const renderedCanvas = renderFabricCanvas.toCanvasElement();
 
                 data = await canvasToBytes(renderedCanvas);
+
+                const blob = new Blob([data], {
+                  type: IMAGE_PNG,
+                });
+
+                blurHash = await props.imageToBlurHash(blob);
               } catch (err) {
                 onTryClose();
                 throw err;
@@ -1158,7 +1176,12 @@ export const MediaEditor = ({
                 setIsSaving(false);
               }
 
-              onDone(data, caption !== '' ? caption : undefined);
+              onDone({
+                contentType: IMAGE_PNG,
+                data,
+                caption: caption !== '' ? caption : undefined,
+                blurHash,
+              });
             }}
             theme={Theme.Dark}
             variant={ButtonVariant.Primary}

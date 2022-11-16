@@ -13,6 +13,7 @@ import type {
 import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
 import { RecordingState } from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
+import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { Spinner } from './Spinner';
 import type {
   Props as EmojiButtonProps,
@@ -56,7 +57,6 @@ import {
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
 import { MediaEditor } from './MediaEditor';
-import { IMAGE_PNG } from '../types/MIME';
 import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 
@@ -98,6 +98,7 @@ export type OwnProps = Readonly<{
   groupAdmins: Array<ConversationType>;
   groupVersion?: 1 | 2;
   i18n: LocalizerType;
+  imageToBlurHash: typeof imageToBlurHash;
   isFetchingUUID?: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
@@ -174,6 +175,7 @@ export const CompositionArea = ({
   conversationId,
   i18n,
   onSendMessage,
+  imageToBlurHash,
   processAttachments,
   removeAttachment,
   theme,
@@ -594,12 +596,14 @@ export const CompositionArea = ({
         <MediaEditor
           i18n={i18n}
           imageSrc={attachmentToEdit.url}
+          imageToBlurHash={imageToBlurHash}
           isSending={false}
           onClose={() => setAttachmentToEdit(undefined)}
-          onDone={data => {
+          onDone={({ data, contentType, blurHash }) => {
             const newAttachment = {
               ...attachmentToEdit,
-              contentType: IMAGE_PNG,
+              contentType,
+              blurHash,
               data,
               size: data.byteLength,
             };

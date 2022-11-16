@@ -14,8 +14,9 @@ import type { LocalizerType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
 import type { UUIDStringType } from '../types/UUID';
+import type { imageToBlurHash } from '../util/imageToBlurHash';
 
-import { IMAGE_JPEG, TEXT_ATTACHMENT } from '../types/MIME';
+import { TEXT_ATTACHMENT } from '../types/MIME';
 import { isVideoAttachment } from '../types/Attachment';
 import { SendStoryModal } from './SendStoryModal';
 
@@ -38,6 +39,7 @@ export type PropsType = {
     conversationIds: Array<string>,
     attachment: AttachmentType
   ) => unknown;
+  imageToBlurHash: typeof imageToBlurHash;
   processAttachment: (
     file: File
   ) => Promise<void | InMemoryAttachmentDraftType>;
@@ -80,6 +82,7 @@ export const StoryCreator = ({
   groupStories,
   hasFirstStoryPostExperience,
   i18n,
+  imageToBlurHash,
   installedPacks,
   isSending,
   linkPreview,
@@ -107,6 +110,7 @@ export const StoryCreator = ({
   const [draftAttachment, setDraftAttachment] = useState<
     AttachmentType | undefined
   >();
+  const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string | undefined>();
 
   useEffect(() => {
@@ -123,11 +127,16 @@ export const StoryCreator = ({
         return;
       }
 
+      setDraftAttachment(attachment);
       if (isVideoAttachment(attachment)) {
-        setDraftAttachment(attachment);
+        setAttachmentUrl(undefined);
+        setIsReadyToSend(true);
       } else if (attachment && has(attachment, 'data')) {
         url = URL.createObjectURL(new Blob([get(attachment, 'data')]));
         setAttachmentUrl(url);
+
+        // Needs editing in MediaEditor
+        setIsReadyToSend(false);
       }
     }
 
@@ -142,12 +151,17 @@ export const StoryCreator = ({
   }, [file, processAttachment]);
 
   useEffect(() => {
-    sendStoryModalOpenStateChanged(Boolean(draftAttachment));
+    if (draftAttachment === undefined) {
+      sendStoryModalOpenStateChanged(false);
+      setIsReadyToSend(false);
+    } else {
+      sendStoryModalOpenStateChanged(true);
+    }
   }, [draftAttachment, sendStoryModalOpenStateChanged]);
 
   return (
     <>
-      {draftAttachment && (
+      {draftAttachment && isReadyToSend && (
         <SendStoryModal
           draftAttachment={draftAttachment}
           candidateConversations={candidateConversations}
@@ -182,7 +196,7 @@ export const StoryCreator = ({
           toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         />
       )}
-      {attachmentUrl && (
+      {draftAttachment && !isReadyToSend && attachmentUrl && (
         <MediaEditor
           doneButtonLabel={i18n('next2')}
           i18n={i18n}
@@ -192,13 +206,17 @@ export const StoryCreator = ({
           onClose={onClose}
           supportsCaption
           renderCompositionTextArea={renderCompositionTextArea}
-          onDone={(data, caption) => {
+          imageToBlurHash={imageToBlurHash}
+          onDone={({ contentType, data, blurHash, caption }) => {
             setDraftAttachment({
-              contentType: IMAGE_JPEG,
+              ...draftAttachment,
+              contentType,
               data,
               size: data.byteLength,
+              blurHash,
               caption,
             });
+            setIsReadyToSend(true);
           }}
           recentStickers={recentStickers}
         />
@@ -216,6 +234,7 @@ export const StoryCreator = ({
               textAttachment,
               size: textAttachment.text?.length || 0,
             });
+            setIsReadyToSend(true);
           }}
         />
       )}

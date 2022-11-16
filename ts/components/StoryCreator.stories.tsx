@@ -37,6 +37,7 @@ export default {
       defaultValue: false,
     },
     i18n: { defaultValue: i18n },
+    imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
     installedPacks: {
       defaultValue: [],
     },

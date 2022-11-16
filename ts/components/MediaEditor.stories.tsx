@@ -28,6 +28,7 @@ const getDefaultProps = (): PropsType => ({
   onClose: action('onClose'),
   onDone: action('onDone'),
   isSending: false,
+  imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
 
   // StickerButtonProps
   installedPacks,

@@ -60,6 +60,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   quotedMessageProps: overrideProps.quotedMessageProps,
   onClickQuotedMessage: action('onClickQuotedMessage'),
   setQuotedMessage: action('setQuotedMessage'),
+  // MediaEditor
+  imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
   // MediaQualitySelector
   onSelectMediaQuality: action('onSelectMediaQuality'),
   shouldSendHighQualityAttachments: Boolean(
