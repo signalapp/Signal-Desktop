@@ -45,6 +45,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
+import { DurationInSeconds } from '../util/durations';
 import { deriveMasterKeyFromGroupV1, bytesToUuid } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
@@ -2058,7 +2059,7 @@ export default class MessageReceiver
       attachments,
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
-      expireTimer: durations.DAY / 1000,
+      expireTimer: DurationInSeconds.DAY,
       flags: 0,
       groupV2,
       isStory: true,

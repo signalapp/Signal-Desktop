@@ -19,6 +19,7 @@ import type {
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { DurationInSeconds } from '../../util/durations';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -77,7 +78,11 @@ export async function sendDirectExpirationTimerUpdate(
   const sendType = 'expirationTimerUpdate';
   const flags = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
   const proto = await messaging.getContentMessage({
-    expireTimer,
+    // `expireTimer` is already in seconds
+    expireTimer:
+      expireTimer === undefined
+        ? undefined
+        : DurationInSeconds.fromSeconds(expireTimer),
     flags,
     profileKey,
     recipients: conversation.getRecipients(),

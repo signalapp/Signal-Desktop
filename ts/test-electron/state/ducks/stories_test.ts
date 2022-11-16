@@ -12,7 +12,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import type { MessageAttributesType } from '../../../model-types.d';
 import type { StateType as RootStateType } from '../../../state/reducer';
 import type { UUIDStringType } from '../../../types/UUID';
-import { DAY } from '../../../util/durations';
+import { DurationInSeconds } from '../../../util/durations';
 import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import {
@@ -74,7 +74,7 @@ describe('both/state/ducks/stories', () => {
       return {
         conversationId,
         expirationStartTimestamp: now,
-        expireTimer: 1 * DAY,
+        expireTimer: DurationInSeconds.DAY,
         messageId,
         readStatus: ReadStatus.Unread,
         timestamp: now - timestampDelta,
@@ -538,7 +538,7 @@ describe('both/state/ducks/stories', () => {
               ? ourConversationId
               : groupConversationId,
             expirationStartTimestamp: now,
-            expireTimer: 1 * DAY,
+            expireTimer: DurationInSeconds.DAY,
             messageId,
             readStatus: ReadStatus.Unread,
             sendStateByConversationId: {},

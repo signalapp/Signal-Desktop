@@ -7,7 +7,6 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
-import { DAY, SECOND } from './durations';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import { getStoriesBlocked } from './stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -24,6 +23,7 @@ import { incrementMessageCounter } from './incrementMessageCounter';
 import { isGroupV2 } from './whatTypeOfConversation';
 import { isNotNil } from './isNotNil';
 import { collect } from './iterables';
+import { DurationInSeconds } from './durations';
 
 export async function sendStoryMessage(
   listIds: Array<string>,
@@ -158,7 +158,7 @@ export async function sendStoryMessage(
         return window.Signal.Migrations.upgradeMessageSchema({
           attachments,
           conversationId: ourConversation.id,
-          expireTimer: DAY / SECOND,
+          expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
           readStatus: ReadStatus.Read,
@@ -262,7 +262,7 @@ export async function sendStoryMessage(
           attachments,
           canReplyToStory: true,
           conversationId: group.id,
-          expireTimer: DAY / SECOND,
+          expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
           readStatus: ReadStatus.Read,

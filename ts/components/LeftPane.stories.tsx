@@ -13,6 +13,7 @@ import { CrashReportDialog } from './CrashReportDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
+import { DurationInSeconds } from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -953,7 +954,7 @@ export const GroupMetadataNoTimer = (): JSX.Element => (
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,
         groupName: 'Group 1',
-        groupExpireTimer: 0,
+        groupExpireTimer: DurationInSeconds.ZERO,
         hasError: false,
         isCreating: false,
         isEditingAvatar: false,
@@ -975,7 +976,7 @@ export const GroupMetadataRegularTimer = (): JSX.Element => (
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,
         groupName: 'Group 1',
-        groupExpireTimer: 24 * 3600,
+        groupExpireTimer: DurationInSeconds.DAY,
         hasError: false,
         isCreating: false,
         isEditingAvatar: false,
@@ -997,7 +998,7 @@ export const GroupMetadataCustomTimer = (): JSX.Element => (
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,
         groupName: 'Group 1',
-        groupExpireTimer: 7 * 3600,
+        groupExpireTimer: DurationInSeconds.fromHours(7),
         hasError: false,
         isCreating: false,
         isEditingAvatar: false,

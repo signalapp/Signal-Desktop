@@ -6,6 +6,7 @@ import { assert } from 'chai';
 import dataInterface from '../../sql/Client';
 import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
+import { DurationInSeconds } from '../../util/durations';
 
 import type { MessageAttributesType } from '../../model-types.d';
 
@@ -342,7 +343,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationTimerUpdate: {
-          expireTimer: 10,
+          expireTimer: DurationInSeconds.fromSeconds(10),
           source: 'you',
         },
         sent_at: now + 1,
@@ -355,7 +356,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationTimerUpdate: {
-          expireTimer: 10,
+          expireTimer: DurationInSeconds.fromSeconds(10),
           fromSync: true,
         },
         sent_at: now + 2,
@@ -391,7 +392,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationTimerUpdate: {
-          expireTimer: 10,
+          expireTimer: DurationInSeconds.fromSeconds(10),
           source: 'you',
           fromSync: false,
         },
@@ -405,7 +406,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationTimerUpdate: {
-          expireTimer: 10,
+          expireTimer: DurationInSeconds.fromSeconds(10),
           fromSync: true,
         },
         sent_at: now + 2,
@@ -450,7 +451,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationStartTimestamp: now - 2 * 1000,
-        expireTimer: 1,
+        expireTimer: DurationInSeconds.fromSeconds(1),
         sent_at: now + 2,
         received_at: now + 2,
         timestamp: now + 2,
@@ -484,7 +485,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationStartTimestamp: now,
-        expireTimer: 30,
+        expireTimer: DurationInSeconds.fromSeconds(30),
         sent_at: now + 1,
         received_at: now + 1,
         timestamp: now + 1,
@@ -495,7 +496,7 @@ describe('sql/conversationSummary', () => {
         type: 'outgoing',
         conversationId,
         expirationStartTimestamp: now - 2 * 1000,
-        expireTimer: 1,
+        expireTimer: DurationInSeconds.fromSeconds(1),
         sent_at: now + 2,
         received_at: now + 2,
         timestamp: now + 2,

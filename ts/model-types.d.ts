@@ -32,6 +32,7 @@ import type { LinkPreviewType } from './types/message/LinkPreviews';
 import type { StickerType } from './types/Stickers';
 import type { StorySendMode } from './types/Stories';
 import type { MIMEType } from './types/MIME';
+import type { DurationInSeconds } from './util/durations';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -130,7 +131,7 @@ export type MessageAttributesType = {
   deletedForEveryoneTimestamp?: number;
   errors?: Array<CustomError>;
   expirationStartTimestamp?: number | null;
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
   groupMigration?: GroupMigrationType;
   group_update?: GroupV1Update;
   hasAttachments?: boolean | 0 | 1;
@@ -198,7 +199,7 @@ export type MessageAttributesType = {
   };
 
   expirationTimerUpdate?: {
-    expireTimer: number;
+    expireTimer?: DurationInSeconds;
     fromSync?: unknown;
     source?: string;
     sourceUuid?: string;
@@ -381,7 +382,7 @@ export type ConversationAttributesType = {
   } | null;
   avatars?: Array<AvatarDataType>;
   description?: string;
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
   membersV2?: Array<GroupV2MemberType>;
   pendingMembersV2?: Array<GroupV2PendingMemberType>;
   pendingAdminApprovalV2?: Array<GroupV2PendingAdminApprovalType>;

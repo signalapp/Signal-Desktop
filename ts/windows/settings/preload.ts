@@ -14,6 +14,7 @@ import {
   shouldMinimizeToSystemTray,
 } from '../../types/SystemTraySetting';
 import { awaitObject } from '../../util/awaitObject';
+import { DurationInSeconds } from '../../util/durations';
 import { createSetting, createCallback } from '../../util/preload';
 import { startInteractionMode } from '../startInteractionMode';
 
@@ -215,6 +216,10 @@ const renderPreferences = async () => {
   const { hasMinimizeToAndStartInSystemTray, hasMinimizeToSystemTray } =
     getSystemTraySettingValues(systemTraySetting);
 
+  const onUniversalExpireTimerChange = reRender(
+    settingUniversalExpireTimer.setValue
+  );
+
   const props = {
     // Settings
     availableCameras,
@@ -250,7 +255,7 @@ const renderPreferences = async () => {
     selectedMicrophone,
     selectedSpeaker,
     themeSetting,
-    universalExpireTimer,
+    universalExpireTimer: DurationInSeconds.fromSeconds(universalExpireTimer),
     whoCanFindMe,
     whoCanSeeMe,
     zoomFactor,
@@ -347,9 +352,11 @@ const renderPreferences = async () => {
     onSelectedSpeakerChange: reRender(settingAudioOutput.setValue),
     onSpellCheckChange: reRender(settingSpellCheck.setValue),
     onThemeChange: reRender(settingTheme.setValue),
-    onUniversalExpireTimerChange: reRender(
-      settingUniversalExpireTimer.setValue
-    ),
+    onUniversalExpireTimerChange: (newValue: number): Promise<void> => {
+      return onUniversalExpireTimerChange(
+        DurationInSeconds.fromSeconds(newValue)
+      );
+    },
 
     // Zoom factor change doesn't require immediate rerender since it will:
     // 1. Update the zoom factor in the main window

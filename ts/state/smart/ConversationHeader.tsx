@@ -25,6 +25,7 @@ import { mapDispatchToProps } from '../actions';
 import { missingCaseError } from '../../util/missingCaseError';
 import { strictAssert } from '../../util/assert';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import type { DurationInSeconds } from '../../util/durations';
 
 export type OwnProps = {
   id: string;
@@ -37,7 +38,7 @@ export type OwnProps = {
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
   onSearchInConversation: () => void;
-  onSetDisappearingMessages: (seconds: number) => void;
+  onSetDisappearingMessages: (seconds: DurationInSeconds) => void;
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;

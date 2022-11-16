@@ -7,6 +7,7 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { Select } from './Select';
 import type { LocalizerType } from '../types/Util';
 import type { Theme } from '../util/theme';
+import { DurationInSeconds } from '../util/durations';
 
 const CSS_MODULE = 'module-disappearing-time-dialog';
 
@@ -15,14 +16,14 @@ const DEFAULT_VALUE = 60;
 export type PropsType = Readonly<{
   i18n: LocalizerType;
   theme?: Theme;
-  initialValue?: number;
-  onSubmit: (value: number) => void;
+  initialValue?: DurationInSeconds;
+  onSubmit: (value: DurationInSeconds) => void;
   onClose: () => void;
 }>;
 
 const UNITS = ['seconds', 'minutes', 'hours', 'days', 'weeks'];
 
-const UNIT_TO_MS = new Map<string, number>([
+const UNIT_TO_SEC = new Map<string, number>([
   ['seconds', 1],
   ['minutes', 60],
   ['hours', 60 * 60],
@@ -50,14 +51,14 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
   let initialUnit = 'seconds';
   let initialUnitValue = 1;
   for (const unit of UNITS) {
-    const ms = UNIT_TO_MS.get(unit) || 1;
+    const sec = UNIT_TO_SEC.get(unit) || 1;
 
-    if (initialValue < ms) {
+    if (initialValue < sec) {
       break;
     }
 
     initialUnit = unit;
-    initialUnitValue = Math.floor(initialValue / ms);
+    initialUnitValue = Math.floor(initialValue / sec);
   }
 
   const [unitValue, setUnitValue] = useState(initialUnitValue);
@@ -84,7 +85,11 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
           text: i18n('DisappearingTimeDialog__set'),
           style: 'affirmative',
           action() {
-            onSubmit(unitValue * (UNIT_TO_MS.get(unit) || 1));
+            onSubmit(
+              DurationInSeconds.fromSeconds(
+                unitValue * (UNIT_TO_SEC.get(unit) ?? 1)
+              )
+            );
           },
         },
       ]}

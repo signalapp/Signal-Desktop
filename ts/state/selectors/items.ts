@@ -17,6 +17,7 @@ import type { UUIDStringType } from '../../types/UUID';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
+import { DurationInSeconds } from '../../util/durations';
 import { getUserNumber, getUserACI } from './user';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
@@ -42,7 +43,8 @@ export const getPinnedConversationIds = createSelector(
 
 export const getUniversalExpireTimer = createSelector(
   getItems,
-  (state: ItemsStateType): number => state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0
+  (state: ItemsStateType): DurationInSeconds =>
+    DurationInSeconds.fromSeconds(state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0)
 );
 
 const isRemoteConfigFlagEnabled = (

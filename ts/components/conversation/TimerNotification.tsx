@@ -9,6 +9,7 @@ import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
 import type { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
+import type { DurationInSeconds } from '../../util/durations';
 import * as log from '../../logging/log';
 
 export type TimerNotificationType =
@@ -27,7 +28,7 @@ export type PropsData = {
   | { disabled: true }
   | {
       disabled: false;
-      expireTimer: number;
+      expireTimer: DurationInSeconds;
     }
 );
 

@@ -20,6 +20,7 @@ import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
 import type { BadgeType } from '../../../badges/types';
 import { missingCaseError } from '../../../util/missingCaseError';
+import { DurationInSeconds } from '../../../util/durations';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
 
@@ -79,7 +80,7 @@ export type StateProps = {
   memberships: Array<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
-  setDisappearingMessages: (seconds: number) => void;
+  setDisappearingMessages: (seconds: DurationInSeconds) => void;
   showAllMedia: () => void;
   showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
@@ -410,7 +411,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             right={
               <DisappearingTimerSelect
                 i18n={i18n}
-                value={conversation.expireTimer || 0}
+                value={conversation.expireTimer || DurationInSeconds.ZERO}
                 onChange={setDisappearingMessages}
               />
             }

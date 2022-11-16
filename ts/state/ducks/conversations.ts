@@ -20,6 +20,7 @@ import * as log from '../../logging/log';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assertDev, strictAssert } from '../../util/assert';
+import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import type {
   ShowSendAnywayDialogActionType,
@@ -178,7 +179,7 @@ export type ConversationType = {
   accessControlMembers?: number;
   announcementsOnly?: boolean;
   announcementsOnlyReady?: boolean;
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
   memberships?: Array<{
     uuid: UUIDStringType;
     isAdmin: boolean;
@@ -293,7 +294,7 @@ export type PreJoinConversationType = {
 type ComposerGroupCreationState = {
   groupAvatar: undefined | Uint8Array;
   groupName: string;
-  groupExpireTimer: number;
+  groupExpireTimer: DurationInSeconds;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   selectedConversationIds: Array<string>;
@@ -712,7 +713,7 @@ type SetComposeGroupNameActionType = {
 };
 type SetComposeGroupExpireTimerActionType = {
   type: 'SET_COMPOSE_GROUP_EXPIRE_TIMER';
-  payload: { groupExpireTimer: number };
+  payload: { groupExpireTimer: DurationInSeconds };
 };
 type SetComposeSearchTermActionType = {
   type: 'SET_COMPOSE_SEARCH_TERM';
@@ -1907,7 +1908,7 @@ function setComposeGroupName(groupName: string): SetComposeGroupNameActionType {
 }
 
 function setComposeGroupExpireTimer(
-  groupExpireTimer: number
+  groupExpireTimer: DurationInSeconds
 ): SetComposeGroupExpireTimerActionType {
   return {
     type: 'SET_COMPOSE_GROUP_EXPIRE_TIMER',
@@ -3509,7 +3510,7 @@ export function reducer(
     let maximumGroupSizeModalState: OneTimeModalState;
     let groupName: string;
     let groupAvatar: undefined | Uint8Array;
-    let groupExpireTimer: number;
+    let groupExpireTimer: DurationInSeconds;
     let userAvatarData = getDefaultAvatars(true);
 
     switch (state.composer?.step) {

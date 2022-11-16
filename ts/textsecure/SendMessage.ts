@@ -65,6 +65,7 @@ import { concat, isEmpty, map } from '../util/iterables';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import { uuidToBytes } from '../util/uuidToBytes';
+import type { DurationInSeconds } from '../util/durations';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { Avatar, EmbeddedContactType } from '../types/EmbeddedContact';
@@ -174,7 +175,7 @@ export type MessageOptionsType = {
   attachments?: ReadonlyArray<AttachmentType> | null;
   body?: string;
   contact?: Array<ContactWithHydratedAvatar>;
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
   flags?: number;
   group?: {
     id: string;
@@ -198,7 +199,7 @@ export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
   contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp?: number;
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
   flags?: number;
   groupCallUpdate?: GroupCallUpdateType;
   groupV1?: GroupV1InfoType;
@@ -221,7 +222,7 @@ class Message {
 
   contact?: Array<ContactWithHydratedAvatar>;
 
-  expireTimer?: number;
+  expireTimer?: DurationInSeconds;
 
   flags?: number;
 
@@ -1358,7 +1359,7 @@ export default class MessageSender {
     contact?: Array<ContactWithHydratedAvatar>;
     contentHint: number;
     deletedForEveryoneTimestamp: number | undefined;
-    expireTimer: number | undefined;
+    expireTimer: DurationInSeconds | undefined;
     groupId: string | undefined;
     identifier: string;
     messageText: string | undefined;

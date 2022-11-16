@@ -16,6 +16,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
 import { ThemeType } from '../../../types/Util';
+import { DurationInSeconds } from '../../../util/durations';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -35,7 +36,10 @@ const conversation: ConversationType = getDefaultConversation({
 
 const allCandidateContacts = times(10, () => getDefaultConversation());
 
-const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
+const createProps = (
+  hasGroupLink = false,
+  expireTimer?: DurationInSeconds
+): Props => ({
   addMembers: async () => {
     action('addMembers');
   },
@@ -194,7 +198,7 @@ export const GroupEditable = (): JSX.Element => {
 };
 
 export const GroupEditableWithCustomDisappearingTimeout = (): JSX.Element => {
-  const props = createProps(false, 3 * 24 * 60 * 60);
+  const props = createProps(false, DurationInSeconds.fromDays(3));
 
   return <ConversationDetails {...props} canEditGroupInfo />;
 };

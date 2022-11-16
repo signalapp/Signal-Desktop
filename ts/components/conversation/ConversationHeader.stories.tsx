@@ -9,6 +9,7 @@ import { action } from '@storybook/addon-actions';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { setupI18n } from '../../util/setupI18n';
+import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import {
@@ -152,7 +153,7 @@ export const PrivateConvo = (): JSX.Element => {
         phoneNumber: '(202) 555-0005',
         type: 'direct',
         id: '7',
-        expireTimer: 10,
+        expireTimer: DurationInSeconds.fromSeconds(10),
         acceptedMessageRequest: true,
       },
     },
@@ -165,7 +166,7 @@ export const PrivateConvo = (): JSX.Element => {
         phoneNumber: '(202) 555-0005',
         type: 'direct',
         id: '8',
-        expireTimer: 300,
+        expireTimer: DurationInSeconds.fromSeconds(300),
         acceptedMessageRequest: true,
         isVerified: true,
         canChangeTimer: true,
@@ -231,7 +232,7 @@ export const Group = (): JSX.Element => {
         phoneNumber: '',
         id: '11',
         type: 'group',
-        expireTimer: 10,
+        expireTimer: DurationInSeconds.fromSeconds(10),
         acceptedMessageRequest: true,
         outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
       },
@@ -247,7 +248,7 @@ export const Group = (): JSX.Element => {
         id: '12',
         type: 'group',
         left: true,
-        expireTimer: 10,
+        expireTimer: DurationInSeconds.fromSeconds(10),
         acceptedMessageRequest: true,
         outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
       },
@@ -262,7 +263,7 @@ export const Group = (): JSX.Element => {
         phoneNumber: '',
         id: '13',
         type: 'group',
-        expireTimer: 10,
+        expireTimer: DurationInSeconds.fromSeconds(10),
         acceptedMessageRequest: true,
         outgoingCallButtonStyle: OutgoingCallButtonStyle.Join,
       },
@@ -277,7 +278,7 @@ export const Group = (): JSX.Element => {
         phoneNumber: '',
         id: '14',
         type: 'group',
-        expireTimer: 10,
+        expireTimer: DurationInSeconds.fromSeconds(10),
         acceptedMessageRequest: true,
         outgoingCallButtonStyle: OutgoingCallButtonStyle.JustVideo,
         muteExpiresAt: Infinity,

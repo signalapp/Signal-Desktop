@@ -93,7 +93,7 @@ import {
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
-import { DAY, HOUR, SECOND } from '../../util/durations';
+import { DAY, HOUR, DurationInSeconds } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
 import { isIncoming, isOutgoing, isStory } from '../../messages/helpers';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
@@ -628,7 +628,9 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
     }: GetPropsForMessageOptions
   ): ShallowPropsType => {
     const { expireTimer, expirationStartTimestamp, conversationId } = message;
-    const expirationLength = expireTimer ? expireTimer * SECOND : undefined;
+    const expirationLength = expireTimer
+      ? DurationInSeconds.toMillis(expireTimer)
+      : undefined;
 
     const conversation = getConversation(message, conversationSelector);
     const isGroup = conversation.type === 'group';
@@ -1107,10 +1109,26 @@ function getPropsForTimerNotification(
   const sourceId = sourceUuid || source;
   const formattedContact = conversationSelector(sourceId);
 
+  // Pacify typescript
+  type MaybeExpireTimerType =
+    | { disabled: true }
+    | {
+        disabled: false;
+        expireTimer: DurationInSeconds;
+      };
+
+  const maybeExpireTimer: MaybeExpireTimerType = disabled
+    ? {
+        disabled: true,
+      }
+    : {
+        disabled: false,
+        expireTimer,
+      };
+
   const basicProps = {
     ...formattedContact,
-    disabled,
-    expireTimer,
+    ...maybeExpireTimer,
     type: 'fromOther' as const,
   };
 

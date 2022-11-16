@@ -3,6 +3,7 @@
 
 import { ComposerStep } from '../../state/ducks/conversationsEnums';
 import { OneTimeModalState } from '../../groups/toggleSelectedContactForGroupAddition';
+import { DurationInSeconds } from '../../util/durations';
 
 export const defaultStartDirectConversationComposerState = {
   step: ComposerStep.StartDirectConversation as const,
@@ -16,7 +17,7 @@ export const defaultChooseGroupMembersComposerState = {
   uuidFetchState: {},
   groupAvatar: undefined,
   groupName: '',
-  groupExpireTimer: 0,
+  groupExpireTimer: DurationInSeconds.ZERO,
   maximumGroupSizeModalState: OneTimeModalState.NeverShown,
   recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
   selectedConversationIds: [],
@@ -28,7 +29,7 @@ export const defaultSetGroupMetadataComposerState = {
   isEditingAvatar: false,
   groupAvatar: undefined,
   groupName: '',
-  groupExpireTimer: 0,
+  groupExpireTimer: DurationInSeconds.ZERO,
   maximumGroupSizeModalState: OneTimeModalState.NeverShown,
   recommendedGroupSizeModalState: OneTimeModalState.NeverShown,
   selectedConversationIds: [],

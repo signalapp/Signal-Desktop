@@ -10,6 +10,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../../types/Avatar';
+import type { DurationInSeconds } from '../../util/durations';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 
 export enum FindDirection {
@@ -73,7 +74,7 @@ export abstract class LeftPaneHelper<T> {
       i18n: LocalizerType;
       removeSelectedContact: (_: string) => unknown;
       setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
-      setComposeGroupExpireTimer: (_: number) => void;
+      setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
       setComposeGroupName: (_: string) => unknown;
       toggleComposeEditingAvatar: () => unknown;
     }>

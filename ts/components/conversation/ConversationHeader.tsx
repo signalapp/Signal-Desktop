@@ -28,6 +28,7 @@ import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isConversationMuted } from '../../util/isConversationMuted';
+import { DurationInSeconds } from '../../util/durations';
 import {
   useStartCallShortcuts,
   useKeyboardShortcuts,
@@ -79,7 +80,7 @@ export type PropsDataType = {
 
 export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
-  onSetDisappearingMessages: (seconds: number) => void;
+  onSetDisappearingMessages: (seconds: DurationInSeconds) => void;
   onDeleteMessages: () => void;
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: () => void;
@@ -406,8 +407,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
     const expireDurations: ReadonlyArray<ReactNode> = [
       ...expirationTimer.DEFAULT_DURATIONS_IN_SECONDS,
-      -1,
-    ].map((seconds: number) => {
+      DurationInSeconds.fromSeconds(-1),
+    ].map(seconds => {
       let text: string;
 
       if (seconds === -1) {

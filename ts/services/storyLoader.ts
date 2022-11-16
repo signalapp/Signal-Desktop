@@ -15,6 +15,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
+import { DurationInSeconds } from '../util/durations';
 import { isGroup } from '../util/whatTypeOfConversation';
 import { SIGNAL_ACI } from '../types/SignalConversation';
 
@@ -142,7 +143,7 @@ export function getStoriesForRedux(): Array<StoryDataType> {
 async function repairUnexpiredStories(): Promise<void> {
   strictAssert(storyData, 'Could not load stories');
 
-  const DAY_AS_SECONDS = durations.DAY / 1000;
+  const DAY_AS_SECONDS = DurationInSeconds.fromDays(1);
 
   const storiesWithExpiry = storyData
     .filter(
@@ -155,9 +156,11 @@ async function repairUnexpiredStories(): Promise<void> {
     .map(story => ({
       ...story,
       expirationStartTimestamp: Math.min(story.timestamp, Date.now()),
-      expireTimer: Math.min(
-        Math.floor((story.timestamp + durations.DAY - Date.now()) / 1000),
-        DAY_AS_SECONDS
+      expireTimer: DurationInSeconds.fromMillis(
+        Math.min(
+          Math.floor(story.timestamp + durations.DAY - Date.now()),
+          durations.DAY
+        )
       ),
     }));
 

@@ -39,6 +39,7 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import { DurationInSeconds } from '../util/durations';
 import { isValidUuid, UUID, UUIDKind } from '../types/UUID';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
@@ -1178,7 +1179,9 @@ export async function mergeAccountRecord(
     window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
   }
 
-  setUniversalExpireTimer(universalExpireTimer || 0);
+  setUniversalExpireTimer(
+    DurationInSeconds.fromSeconds(universalExpireTimer || 0)
+  );
 
   const PHONE_NUMBER_SHARING_MODE_ENUM =
     Proto.AccountRecord.PhoneNumberSharingMode;

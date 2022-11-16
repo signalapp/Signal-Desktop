@@ -36,6 +36,7 @@ import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { sendToGroup } from '../../util/sendToGroup';
+import type { DurationInSeconds } from '../../util/durations';
 import type { UUIDStringType } from '../../types/UUID';
 
 export async function sendNormalMessage(
@@ -466,7 +467,7 @@ async function getMessageSendData({
   body: undefined | string;
   contact?: Array<ContactWithHydratedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
-  expireTimer: undefined | number;
+  expireTimer: undefined | DurationInSeconds;
   mentions: undefined | BodyRangesType;
   messageTimestamp: number;
   preview: Array<LinkPreviewType>;

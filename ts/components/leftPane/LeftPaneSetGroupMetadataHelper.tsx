@@ -10,6 +10,7 @@ import { RowType } from '../ConversationList';
 import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
 import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
 import type { LocalizerType } from '../../types/Util';
+import type { DurationInSeconds } from '../../util/durations';
 import { Alert } from '../Alert';
 import { AvatarEditor } from '../AvatarEditor';
 import { AvatarPreview } from '../AvatarPreview';
@@ -28,7 +29,7 @@ import { AvatarColors } from '../../types/Colors';
 export type LeftPaneSetGroupMetadataPropsType = {
   groupAvatar: undefined | Uint8Array;
   groupName: string;
-  groupExpireTimer: number;
+  groupExpireTimer: DurationInSeconds;
   hasError: boolean;
   isCreating: boolean;
   isEditingAvatar: boolean;
@@ -41,7 +42,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
   private readonly groupName: string;
 
-  private readonly groupExpireTimer: number;
+  private readonly groupExpireTimer: DurationInSeconds;
 
   private readonly hasError: boolean;
 
@@ -128,7 +129,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     createGroup: () => unknown;
     i18n: LocalizerType;
     setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
-    setComposeGroupExpireTimer: (_: number) => void;
+    setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
     setComposeGroupName: (_: string) => unknown;
     toggleComposeEditingAvatar: () => unknown;
   }>): ReactChild {

@@ -24,6 +24,7 @@ import {
   getPreferredBadgeSelector,
 } from '../selectors/badges';
 import { assertDev } from '../../util/assert';
+import type { DurationInSeconds } from '../../util/durations';
 import { SignalService as Proto } from '../../protobuf';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal';
@@ -39,7 +40,7 @@ export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
   loadRecentMediaItems: (limit: number) => void;
-  setDisappearingMessages: (seconds: number) => void;
+  setDisappearingMessages: (seconds: DurationInSeconds) => void;
   showAllMedia: () => void;
   showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;

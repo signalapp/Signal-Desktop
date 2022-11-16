@@ -23,7 +23,7 @@ import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assertDev, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
-import * as durations from './util/durations';
+import { MINUTE, DurationInSeconds } from './util/durations';
 import { normalizeUuid } from './util/normalizeUuid';
 import { dropNull } from './util/dropNull';
 import type {
@@ -854,7 +854,7 @@ export function buildDisappearingMessagesTimerChange({
   expireTimer,
   group,
 }: {
-  expireTimer: number;
+  expireTimer: DurationInSeconds;
   group: ConversationAttributesType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -1458,7 +1458,7 @@ export async function modifyGroupV2({
   }
 
   const startTime = Date.now();
-  const timeoutTime = startTime + durations.MINUTE;
+  const timeoutTime = startTime + MINUTE;
 
   const MAX_ATTEMPTS = 5;
 
@@ -1725,7 +1725,7 @@ export async function createGroupV2(
   options: Readonly<{
     name: string;
     avatar: undefined | Uint8Array;
-    expireTimer: undefined | number;
+    expireTimer: undefined | DurationInSeconds;
     conversationIds: Array<string>;
     avatars?: Array<AvatarDataType>;
     refreshedCredentials?: boolean;
@@ -2904,7 +2904,7 @@ type MaybeUpdatePropsType = Readonly<{
   groupChange?: WrappedGroupChangeType;
 }>;
 
-const FIVE_MINUTES = 5 * durations.MINUTE;
+const FIVE_MINUTES = 5 * MINUTE;
 
 export async function waitThenMaybeUpdateGroup(
   options: MaybeUpdatePropsType,
@@ -4625,7 +4625,7 @@ function extractDiffs({
       Boolean(current.expireTimer) &&
       old.expireTimer !== current.expireTimer)
   ) {
-    const expireTimer = current.expireTimer || 0;
+    const expireTimer = current.expireTimer || DurationInSeconds.ZERO;
     log.info(
       `extractDiffs/${logId}: generating change notifcation for new ${expireTimer} timer`
     );
@@ -4977,9 +4977,9 @@ async function applyGroupChange({
       disappearingMessagesTimer &&
       disappearingMessagesTimer.content === 'disappearingMessagesDuration'
     ) {
-      result.expireTimer = dropNull(
-        disappearingMessagesTimer.disappearingMessagesDuration
-      );
+      const duration = disappearingMessagesTimer.disappearingMessagesDuration;
+      result.expireTimer =
+        duration == null ? undefined : DurationInSeconds.fromSeconds(duration);
     } else {
       log.warn(
         `applyGroupChange/${logId}: Clearing group expireTimer due to missing data.`
@@ -5335,9 +5335,9 @@ async function applyGroupState({
     disappearingMessagesTimer &&
     disappearingMessagesTimer.content === 'disappearingMessagesDuration'
   ) {
-    result.expireTimer = dropNull(
-      disappearingMessagesTimer.disappearingMessagesDuration
-    );
+    const duration = disappearingMessagesTimer.disappearingMessagesDuration;
+    result.expireTimer =
+      duration == null ? undefined : DurationInSeconds.fromSeconds(duration);
   } else {
     result.expireTimer = undefined;
   }

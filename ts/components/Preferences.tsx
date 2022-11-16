@@ -37,6 +37,7 @@ import {
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
 } from '../util/expirationTimer';
+import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
 import { useTheme } from '../hooks/useTheme';
@@ -76,7 +77,7 @@ export type PropsDataType = {
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
   themeSetting: ThemeSettingType;
-  universalExpireTimer: number;
+  universalExpireTimer: DurationInSeconds;
   whoCanFindMe: PhoneNumberDiscoverability;
   whoCanSeeMe: PhoneNumberSharingMode;
   zoomFactor: ZoomFactorType;
@@ -280,7 +281,7 @@ export const Preferences = ({
   setGlobalDefaultConversationColor,
   shouldShowStoriesSettings,
   themeSetting,
-  universalExpireTimer = 0,
+  universalExpireTimer = DurationInSeconds.ZERO,
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
@@ -954,7 +955,7 @@ export const Preferences = ({
                   {
                     value: isCustomDisappearingMessageValue
                       ? universalExpireTimer
-                      : -1,
+                      : DurationInSeconds.fromSeconds(-1),
                     text: isCustomDisappearingMessageValue
                       ? formatExpirationTimer(i18n, universalExpireTimer)
                       : i18n('selectedCustomDisappearingTimeOption'),

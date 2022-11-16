@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 
 import { EmojiPicker } from '../emoji/EmojiPicker';
 import { setupI18n } from '../../util/setupI18n';
+import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
 import type { PropsType as TimelineItemProps } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
@@ -43,7 +44,10 @@ const renderContact = (conversationId: string) => (
 );
 
 const renderUniversalTimerNotification = () => (
-  <UniversalTimerNotification i18n={i18n} expireTimer={3600} />
+  <UniversalTimerNotification
+    i18n={i18n}
+    expireTimer={DurationInSeconds.HOUR}
+  />
 );
 
 const getDefaultProps = () => ({
@@ -138,7 +142,7 @@ export const Notification = (): JSX.Element => {
       type: 'timerNotification',
       data: {
         phoneNumber: '(202) 555-0000',
-        expireTimer: 60,
+        expireTimer: DurationInSeconds.MINUTE,
         ...getDefaultConversation(),
         type: 'fromOther',
       },

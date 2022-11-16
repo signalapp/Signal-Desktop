@@ -13,9 +13,10 @@ import { Intl } from './Intl';
 import { Modal } from './Modal';
 import { SendStatus } from '../messages/MessageSendState';
 import { Theme } from '../util/theme';
+import { formatDateTimeLong } from '../util/timestamp';
+import { DurationInSeconds } from '../util/durations';
 import { ThemeType } from '../types/Util';
 import { Time } from './Time';
-import { formatDateTimeLong } from '../util/timestamp';
 import { groupBy } from '../util/mapUtil';
 import { format as formatRelativeTime } from '../util/expirationTimer';
 
@@ -189,7 +190,7 @@ export const StoryDetailsModal = ({
   }
 
   const timeRemaining = expirationTimestamp
-    ? expirationTimestamp - Date.now()
+    ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
     : undefined;
 
   return (
@@ -254,7 +255,7 @@ export const StoryDetailsModal = ({
                 id="StoryDetailsModal__disappears-in"
                 components={[
                   <span className="StoryDetailsModal__debugger__button__text">
-                    {formatRelativeTime(i18n, timeRemaining / 1000, {
+                    {formatRelativeTime(i18n, timeRemaining, {
                       largest: 2,
                     })}
                   </span>,

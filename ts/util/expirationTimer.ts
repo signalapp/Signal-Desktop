@@ -1,26 +1,25 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as moment from 'moment';
 import humanizeDuration from 'humanize-duration';
 import type { Unit } from 'humanize-duration';
 import { isNumber } from 'lodash';
 import type { LocalizerType } from '../types/Util';
-import { SECOND } from './durations';
+import { SECOND, DurationInSeconds } from './durations';
 
 const SECONDS_PER_WEEK = 604800;
-export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<number> = [
-  0,
-  moment.duration(4, 'weeks').asSeconds(),
-  moment.duration(1, 'week').asSeconds(),
-  moment.duration(1, 'day').asSeconds(),
-  moment.duration(8, 'hours').asSeconds(),
-  moment.duration(1, 'hour').asSeconds(),
-  moment.duration(5, 'minutes').asSeconds(),
-  moment.duration(30, 'seconds').asSeconds(),
+export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<DurationInSeconds> = [
+  DurationInSeconds.ZERO,
+  DurationInSeconds.fromWeeks(4),
+  DurationInSeconds.fromWeeks(1),
+  DurationInSeconds.fromDays(1),
+  DurationInSeconds.fromHours(8),
+  DurationInSeconds.fromHours(1),
+  DurationInSeconds.fromMinutes(5),
+  DurationInSeconds.fromSeconds(30),
 ];
 
-export const DEFAULT_DURATIONS_SET: ReadonlySet<number> = new Set<number>(
+export const DEFAULT_DURATIONS_SET: ReadonlySet<DurationInSeconds> = new Set(
   DEFAULT_DURATIONS_IN_SECONDS
 );
 
@@ -31,7 +30,7 @@ export type FormatOptions = {
 
 export function format(
   i18n: LocalizerType,
-  dirtySeconds?: number,
+  dirtySeconds?: DurationInSeconds,
   { capitalizeOff = false, largest }: FormatOptions = {}
 ): string {
   let seconds = Math.abs(dirtySeconds || 0);
@@ -66,7 +65,7 @@ export function format(
   const defaultUnits: Array<Unit> =
     seconds % SECONDS_PER_WEEK === 0 ? ['w'] : ['d', 'h', 'm', 's'];
 
-  return humanizeDuration(seconds * 1000, {
+  return humanizeDuration(seconds * SECOND, {
     // if we have an explict `largest` specified,
     // allow it to pick from all the units
     units: largest ? allUnits : defaultUnits,
@@ -82,10 +81,10 @@ export function calculateExpirationTimestamp({
   expireTimer,
   expirationStartTimestamp,
 }: {
-  expireTimer: number | undefined;
+  expireTimer: DurationInSeconds | undefined;
   expirationStartTimestamp: number | undefined | null;
 }): number | undefined {
   return isNumber(expirationStartTimestamp) && isNumber(expireTimer)
-    ? expirationStartTimestamp + expireTimer * SECOND
+    ? expirationStartTimestamp + DurationInSeconds.toMillis(expireTimer)
     : undefined;
 }

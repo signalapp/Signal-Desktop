@@ -1,9 +1,9 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DAY } from './durations';
 import { getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
+import { DurationInSeconds } from './durations';
 import { markViewed } from '../services/MessageUpdater';
 import { storageServiceUploadJob } from '../services/storage';
 
@@ -29,7 +29,7 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
       }
 
       message.set({
-        expireTimer: DAY,
+        expireTimer: DurationInSeconds.DAY,
       });
 
       message.set(markViewed(message.attributes, storyReadDate));

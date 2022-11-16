@@ -38,6 +38,7 @@ import type { UUIDStringType } from '../../types/UUID';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
+import { DurationInSeconds } from '../../util/durations';
 import {
   isDirectConversation,
   isGroupV1,
@@ -634,7 +635,7 @@ const getGroupCreationComposerState = createSelector(
   ): {
     groupName: string;
     groupAvatar: undefined | Uint8Array;
-    groupExpireTimer: number;
+    groupExpireTimer: DurationInSeconds;
     selectedConversationIds: Array<string>;
   } => {
     switch (composerState?.step) {
@@ -649,7 +650,7 @@ const getGroupCreationComposerState = createSelector(
         return {
           groupName: '',
           groupAvatar: undefined,
-          groupExpireTimer: 0,
+          groupExpireTimer: DurationInSeconds.ZERO,
           selectedConversationIds: [],
         };
     }
@@ -668,7 +669,7 @@ export const getComposeGroupName = createSelector(
 
 export const getComposeGroupExpireTimer = createSelector(
   getGroupCreationComposerState,
-  (composerState): number => composerState.groupExpireTimer
+  (composerState): DurationInSeconds => composerState.groupExpireTimer
 );
 
 export const getComposeSelectedContacts = createSelector(

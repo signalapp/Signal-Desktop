@@ -7,23 +7,27 @@ import protobuf from '../protobuf/wrap';
 
 import { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
+import { DurationInSeconds } from '../util/durations';
 import * as log from '../logging/log';
 
 import Avatar = Proto.ContactDetails.IAvatar;
 
 const { Reader } = protobuf;
 
-type OptionalAvatar = { avatar?: Avatar | null };
+type OptionalFields = { avatar?: Avatar | null; expireTimer?: number | null };
 
-type DecoderBase<Message extends OptionalAvatar> = {
+type DecoderBase<Message extends OptionalFields> = {
   decodeDelimited(reader: protobuf.Reader): Message | undefined;
 };
 
-export type MessageWithAvatar<Message extends OptionalAvatar> = Omit<
+type HydratedAvatar = Avatar & { data: Uint8Array };
+
+type MessageWithAvatar<Message extends OptionalFields> = Omit<
   Message,
   'avatar'
 > & {
-  avatar?: (Avatar & { data: Uint8Array }) | null;
+  avatar?: HydratedAvatar;
+  expireTimer?: DurationInSeconds;
 };
 
 export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
@@ -32,7 +36,7 @@ export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
 
 /* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
 abstract class ParserBase<
-  Message extends OptionalAvatar,
+  Message extends OptionalFields,
   Decoder extends DecoderBase<Message>,
   Result
 > implements Iterable<Result>
@@ -57,28 +61,33 @@ abstract class ParserBase<
         return undefined;
       }
 
-      if (!proto.avatar) {
-        return {
-          ...proto,
-          avatar: null,
+      let avatar: HydratedAvatar | undefined;
+      if (proto.avatar) {
+        const attachmentLen = proto.avatar.length ?? 0;
+        const avatarData = this.reader.buf.slice(
+          this.reader.pos,
+          this.reader.pos + attachmentLen
+        );
+        this.reader.skip(attachmentLen);
+
+        avatar = {
+          ...proto.avatar,
+
+          data: avatarData,
         };
       }
 
-      const attachmentLen = proto.avatar.length ?? 0;
-      const avatarData = this.reader.buf.slice(
-        this.reader.pos,
-        this.reader.pos + attachmentLen
-      );
-      this.reader.skip(attachmentLen);
+      let expireTimer: DurationInSeconds | undefined;
+
+      if (proto.expireTimer != null) {
+        expireTimer = DurationInSeconds.fromSeconds(proto.expireTimer);
+      }
 
       return {
         ...proto,
 
-        avatar: {
-          ...proto.avatar,
-
-          data: avatarData,
-        },
+        avatar,
+        expireTimer,
       };
     } catch (error) {
       log.error(
@@ -118,6 +127,7 @@ export class GroupBuffer extends ParserBase<
     if (!proto.members) {
       return proto;
     }
+
     return {
       ...proto,
       members: proto.members.map((member, i) => {

@@ -28,6 +28,7 @@ import { ScrollBehavior } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
+import type { DurationInSeconds } from '../util/durations';
 import type { WidthBreakpoint } from './_util';
 import { getConversationListWidthBreakpoint } from './_util';
 import * as KeyboardLayout from '../services/keyboardLayout';
@@ -106,7 +107,7 @@ export type PropsType = {
   savePreferredLeftPaneWidth: (_: number) => void;
   searchInConversation: (conversationId: string) => unknown;
   setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
-  setComposeGroupExpireTimer: (_: number) => void;
+  setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
   setComposeGroupName: (_: string) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   showArchivedConversations: () => void;

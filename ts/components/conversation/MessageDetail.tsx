@@ -24,6 +24,7 @@ import { SendStatus } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 import { formatDateTimeLong } from '../../util/timestamp';
+import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
 
 export type Contact = Pick<
@@ -302,7 +303,7 @@ export class MessageDetail extends React.Component<Props> {
     } = this.props;
 
     const timeRemaining = expirationTimestamp
-      ? expirationTimestamp - Date.now()
+      ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
       : undefined;
 
     return (
@@ -422,7 +423,7 @@ export class MessageDetail extends React.Component<Props> {
                   {i18n('MessageDetail--disappears-in')}
                 </td>
                 <td>
-                  {formatRelativeTime(i18n, timeRemaining / 1000, {
+                  {formatRelativeTime(i18n, timeRemaining, {
                     largest: 2,
                   })}
                 </td>

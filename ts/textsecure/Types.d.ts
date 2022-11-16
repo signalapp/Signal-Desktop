@@ -7,6 +7,7 @@ import type { UUID, UUIDStringType } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
+import type { DurationInSeconds } from '../util/durations';
 
 export {
   IdentityKeyType,
@@ -207,7 +208,7 @@ export type ProcessedDataMessage = {
   group?: ProcessedGroupContext;
   groupV2?: ProcessedGroupV2Context;
   flags: number;
-  expireTimer: number;
+  expireTimer: DurationInSeconds;
   profileKey?: string;
   timestamp: number;
   quote?: ProcessedQuote;

@@ -36,6 +36,7 @@ import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
 import { showToast } from '../../util/showToast';
+import type { DurationInSeconds } from '../../util/durations';
 import { hasFailed, isDownloaded, isDownloading } from '../../types/Attachment';
 import {
   getConversationSelector,
@@ -79,7 +80,7 @@ export type StoryDataType = {
   | 'type'
 > & {
     // don't want the fields to be optional as in MessageAttributesType
-    expireTimer: number | undefined;
+    expireTimer: DurationInSeconds | undefined;
     expirationStartTimestamp: number | undefined;
   };
 

@@ -172,7 +172,7 @@ import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
-import { SECOND } from '../util/durations';
+import { DurationInSeconds } from '../util/durations';
 import dataInterface from '../sql/Client';
 
 function isSameUuid(
@@ -566,7 +566,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const expireTimer = this.get('expireTimer');
     const expirationStartTimestamp = this.get('expirationStartTimestamp');
     const expirationLength = isNumber(expireTimer)
-      ? expireTimer * SECOND
+      ? DurationInSeconds.toMillis(expireTimer)
       : undefined;
     const expirationTimestamp = expirationTimer.calculateExpirationTimestamp({
       expireTimer,

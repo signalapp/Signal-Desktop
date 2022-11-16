@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import { DisappearingTimerSelect } from './DisappearingTimerSelect';
 import { setupI18n } from '../util/setupI18n';
+import { DurationInSeconds } from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
 
 export default {
@@ -23,7 +24,7 @@ const TimerSelectWrap: React.FC<Props> = ({ initialValue }) => {
   return (
     <DisappearingTimerSelect
       i18n={i18n}
-      value={value}
+      value={DurationInSeconds.fromSeconds(value)}
       onChange={newValue => setValue(newValue)}
     />
   );

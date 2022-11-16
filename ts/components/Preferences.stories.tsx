@@ -12,6 +12,7 @@ import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { objectMap } from '../util/objectMap';
+import { DurationInSeconds } from '../util/durations';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -107,7 +108,7 @@ const getDefaultArgs = (): PropsDataType => ({
   selectedSpeaker: availableSpeakers[1],
   shouldShowStoriesSettings: true,
   themeSetting: 'system',
-  universalExpireTimer: 3600,
+  universalExpireTimer: DurationInSeconds.HOUR,
   whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
   whoCanSeeMe: PhoneNumberSharingMode.Everybody,
   zoomFactor: 1,
@@ -186,7 +187,7 @@ BlockedMany.args = {
 
 export const CustomUniversalExpireTimer = Template.bind({});
 CustomUniversalExpireTimer.args = {
-  universalExpireTimer: 9000,
+  universalExpireTimer: DurationInSeconds.fromSeconds(9000),
 };
 CustomUniversalExpireTimer.story = {
   name: 'Custom universalExpireTimer',

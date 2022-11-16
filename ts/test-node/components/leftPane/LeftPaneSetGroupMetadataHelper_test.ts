@@ -5,13 +5,14 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { RowType } from '../../../components/ConversationList';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { DurationInSeconds } from '../../../util/durations';
 
 import { LeftPaneSetGroupMetadataHelper } from '../../../components/leftPane/LeftPaneSetGroupMetadataHelper';
 
 function getComposeState() {
   return {
     groupAvatar: undefined,
-    groupExpireTimer: 0,
+    groupExpireTimer: DurationInSeconds.ZERO,
     groupName: '',
     hasError: false,
     isCreating: false,

@@ -34,6 +34,7 @@ import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assertDev } from './assert';
 import * as durations from './durations';
+import type { DurationInSeconds } from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import {
   parseE164FromSignalDotMeHash,
@@ -66,7 +67,7 @@ export type IPCEventsValuesType = {
   spellCheck: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
-  universalExpireTimer: number;
+  universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
   storyViewReceiptsEnabled: boolean;
 

@@ -8,6 +8,7 @@ import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 
 import type { ReactionType } from '../../types/Reactions';
+import { DurationInSeconds } from '../../util/durations';
 import type { MessageAttributesType } from '../../model-types.d';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
@@ -331,7 +332,7 @@ describe('sql/markRead', () => {
     const start = Date.now();
     const readAt = start + 20;
     const conversationId = getUuid();
-    const expireTimer = 15;
+    const expireTimer = DurationInSeconds.fromSeconds(15);
     const ourUuid = getUuid();
 
     const message1: MessageAttributesType = {

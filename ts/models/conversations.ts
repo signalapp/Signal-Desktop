@@ -80,7 +80,7 @@ import { updateConversationsWithUuidLookup } from '../updateConversationsWithUui
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import * as durations from '../util/durations';
+import { MINUTE, DurationInSeconds } from '../util/durations';
 import {
   concat,
   filter,
@@ -155,7 +155,7 @@ const {
   getNewerMessagesByConversation,
 } = window.Signal.Data;
 
-const FIVE_MINUTES = durations.MINUTE * 5;
+const FIVE_MINUTES = MINUTE * 5;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
 const SEND_REPORTING_THRESHOLD_MS = 25;
@@ -471,7 +471,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async updateExpirationTimerInGroupV2(
-    seconds?: number
+    seconds?: DurationInSeconds
   ): Promise<Proto.GroupChange.Actions | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
@@ -485,7 +485,7 @@ export class ConversationModel extends window.Backbone
     }
 
     return window.Signal.Groups.buildDisappearingMessagesTimerChange({
-      expireTimer: seconds || 0,
+      expireTimer: seconds || DurationInSeconds.ZERO,
       group: this.attributes,
     });
   }
@@ -1382,7 +1382,7 @@ export class ConversationModel extends window.Backbone
     if (!this.newMessageQueue) {
       this.newMessageQueue = new PQueue({
         concurrency: 1,
-        timeout: durations.MINUTE * 30,
+        timeout: MINUTE * 30,
       });
     }
 
@@ -3944,7 +3944,7 @@ export class ConversationModel extends window.Backbone
     );
 
     let expirationStartTimestamp: number | undefined;
-    let expireTimer: number | undefined;
+    let expireTimer: DurationInSeconds | undefined;
 
     // If it's a group story reply then let's match the expiration timers
     // with the parent story's expiration.
@@ -3952,7 +3952,7 @@ export class ConversationModel extends window.Backbone
       const parentStory = await getMessageById(storyId);
       expirationStartTimestamp =
         parentStory?.expirationStartTimestamp || Date.now();
-      expireTimer = parentStory?.expireTimer || durations.DAY;
+      expireTimer = parentStory?.expireTimer || DurationInSeconds.DAY;
     } else {
       await this.maybeApplyUniversalTimer();
       expireTimer = this.get('expireTimer');
@@ -4431,7 +4431,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async updateExpirationTimer(
-    providedExpireTimer: number | undefined,
+    providedExpireTimer: DurationInSeconds | undefined,
     {
       reason,
       receivedAt,
@@ -4479,7 +4479,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    let expireTimer: number | undefined = providedExpireTimer;
+    let expireTimer: DurationInSeconds | undefined = providedExpireTimer;
     let source = providedSource;
     if (this.get('left')) {
       return false;

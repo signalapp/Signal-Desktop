@@ -35,6 +35,7 @@ import {
   isGroupV1,
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
+import type { DurationInSeconds } from '../util/durations';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
   canReply,
@@ -347,7 +348,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const conversationHeaderProps = {
       id: this.model.id,
 
-      onSetDisappearingMessages: (seconds: number) =>
+      onSetDisappearingMessages: (seconds: DurationInSeconds) =>
         this.setDisappearingMessages(seconds),
       onDeleteMessages: () => this.destroyMessages(),
       onSearchInConversation: () => {
@@ -2260,7 +2261,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
   }
 
-  async setDisappearingMessages(seconds: number): Promise<void> {
+  async setDisappearingMessages(seconds: DurationInSeconds): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
     const valueToSet = seconds > 0 ? seconds : undefined;
