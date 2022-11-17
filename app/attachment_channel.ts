@@ -74,15 +74,27 @@ async function cleanupOrphanedAttachments({
   // Delete orphaned attachments from conversations and messages.
 
   const orphanedAttachments = new Set(await getAllAttachments(userDataPath));
+  console.log(
+    'cleanupOrphanedAttachments: found ' +
+      `${orphanedAttachments.size} attachments on disk`
+  );
 
   {
     const attachments: ReadonlyArray<string> = await sql.sqlCall(
       'getKnownConversationAttachments'
     );
 
+    let missing = 0;
     for (const known of attachments) {
-      orphanedAttachments.delete(known);
+      if (!orphanedAttachments.delete(known)) {
+        missing += 1;
+      }
     }
+
+    console.log(
+      `cleanupOrphanedAttachments: found ${attachments.length} conversation ` +
+        `attachments (${missing} missing), ${orphanedAttachments.size} remain`
+    );
   }
 
   // This call is intentionally not awaited. We block the app while running
@@ -103,6 +115,8 @@ function deleteOrphanedAttachments({
   // This function *can* throw.
   async function runWithPossibleException(): Promise<void> {
     let cursor: MessageAttachmentsCursorType | undefined;
+    let totalFound = 0;
+    let totalMissing = 0;
     try {
       do {
         let attachments: ReadonlyArray<string>;
@@ -113,8 +127,12 @@ function deleteOrphanedAttachments({
           cursor
         ));
 
+        totalFound += attachments.length;
+
         for (const known of attachments) {
-          orphanedAttachments.delete(known);
+          if (!orphanedAttachments.delete(known)) {
+            totalMissing += 1;
+          }
         }
 
         if (cursor === undefined) {
@@ -131,6 +149,12 @@ function deleteOrphanedAttachments({
         await sql.sqlCall('finishGetKnownMessageAttachments', cursor);
       }
     }
+
+    console.log(
+      `cleanupOrphanedAttachments: found ${totalFound} message ` +
+        `attachments, (${totalMissing} missing) ` +
+        `${orphanedAttachments.size} remain`
+    );
 
     await deleteAllAttachments({
       userDataPath,

@@ -5182,7 +5182,7 @@ async function getKnownMessageAttachments(
       count += 1;
     }
 
-    const done = messages.length < chunkSize;
+    const done = rowids.length < chunkSize;
     return {
       attachments: Array.from(result),
       cursor: { runId, count, done },
