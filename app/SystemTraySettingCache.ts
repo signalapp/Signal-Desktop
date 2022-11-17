@@ -62,7 +62,7 @@ export class SystemTraySettingCache {
 
       const value =
         fastValue ??
-        (await this.sql.sqlCall('getItemById', ['system-tray-setting']))?.value;
+        (await this.sql.sqlCall('getItemById', 'system-tray-setting'))?.value;
 
       if (value !== undefined) {
         result = parseSystemTraySetting(value);

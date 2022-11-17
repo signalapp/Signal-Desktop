@@ -3,21 +3,18 @@
 
 import { ipcMain } from 'electron';
 
+import type { MainSQL } from '../ts/sql/main';
 import { remove as removeUserConfig } from './user_config';
 import { remove as removeEphemeralConfig } from './ephemeral_config';
 
-type SQLType = {
-  sqlCall(callName: string, args: ReadonlyArray<unknown>): unknown;
-};
-
-let sql: SQLType | undefined;
+let sql: Pick<MainSQL, 'sqlCall'> | undefined;
 
 let initialized = false;
 
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
 
-export function initialize(mainSQL: SQLType): void {
+export function initialize(mainSQL: Pick<MainSQL, 'sqlCall'>): void {
   if (initialized) {
     throw new Error('sqlChannels: already initialized!');
   }
@@ -25,33 +22,15 @@ export function initialize(mainSQL: SQLType): void {
 
   sql = mainSQL;
 
-  ipcMain.on(SQL_CHANNEL_KEY, async (event, jobId, callName, ...args) => {
-    try {
-      if (!sql) {
-        throw new Error(`${SQL_CHANNEL_KEY}: Not yet initialized!`);
-      }
-      const result = await sql.sqlCall(callName, args);
-      event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, null, result);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(
-        `sql channel error with call ${callName}: ${errorForDisplay}`
-      );
-      if (!event.sender.isDestroyed()) {
-        event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, errorForDisplay);
-      }
+  ipcMain.handle(SQL_CHANNEL_KEY, (_event, callName, ...args) => {
+    if (!sql) {
+      throw new Error(`${SQL_CHANNEL_KEY}: Not yet initialized!`);
     }
+    return sql.sqlCall(callName, ...args);
   });
 
-  ipcMain.on(ERASE_SQL_KEY, async event => {
-    try {
-      removeUserConfig();
-      removeEphemeralConfig();
-      event.sender.send(`${ERASE_SQL_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`sql-erase error: ${errorForDisplay}`);
-      event.sender.send(`${ERASE_SQL_KEY}-done`, error);
-    }
+  ipcMain.handle(ERASE_SQL_KEY, () => {
+    removeUserConfig();
+    removeEphemeralConfig();
   });
 }

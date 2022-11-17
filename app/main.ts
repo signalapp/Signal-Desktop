@@ -224,17 +224,17 @@ let sqlInitTimeEnd = 0;
 const sql = new MainSQL();
 const heicConverter = getHeicConverter();
 
-async function getSpellCheckSetting() {
+async function getSpellCheckSetting(): Promise<boolean> {
   const fastValue = ephemeralConfig.get('spell-check');
-  if (fastValue !== undefined) {
+  if (typeof fastValue === 'boolean') {
     getLogger().info('got fast spellcheck setting', fastValue);
     return fastValue;
   }
 
-  const json = await sql.sqlCall('getItemById', ['spell-check']);
+  const json = await sql.sqlCall('getItemById', 'spell-check');
 
   // Default to `true` if setting doesn't exist yet
-  const slowValue = json ? json.value : true;
+  const slowValue = typeof json?.value === 'boolean' ? json.value : true;
 
   ephemeralConfig.set('spell-check', slowValue);
 
@@ -260,7 +260,7 @@ async function getThemeSetting({
     return 'system';
   }
 
-  const json = await sql.sqlCall('getItemById', ['theme-setting']);
+  const json = await sql.sqlCall('getItemById', 'theme-setting');
 
   // Default to `system` if setting doesn't exist or is invalid
   const setting: unknown = json?.value;
@@ -928,7 +928,7 @@ async function createWindow() {
 }
 
 // Renderer asks if we are done with the database
-ipc.on('database-ready', async event => {
+ipc.handle('database-ready', async () => {
   if (!sqlInitPromise) {
     getLogger().error('database-ready requested, but sqlInitPromise is falsey');
     return;
@@ -944,7 +944,6 @@ ipc.on('database-ready', async event => {
   }
 
   getLogger().info('sending `database-ready`');
-  event.sender.send('database-ready');
 });
 
 ipc.on('show-window', () => {
@@ -1259,8 +1258,8 @@ async function showSettingsWindow() {
 
 async function getIsLinked() {
   try {
-    const number = await sql.sqlCall('getItemById', ['number_id']);
-    const password = await sql.sqlCall('getItemById', ['password']);
+    const number = await sql.sqlCall('getItemById', 'number_id');
+    const password = await sql.sqlCall('getItemById', 'password');
     return Boolean(number && password);
   } catch (e) {
     return false;
@@ -1651,12 +1650,10 @@ app.on('ready', async () => {
 
     // Update both stores
     ephemeralConfig.set('system-tray-setting', newValue);
-    await sql.sqlCall('createOrUpdateItem', [
-      {
-        id: 'system-tray-setting',
-        value: newValue,
-      },
-    ]);
+    await sql.sqlCall('createOrUpdateItem', {
+      id: 'system-tray-setting',
+      value: newValue,
+    });
 
     if (OS.isWindows()) {
       getLogger().info('app.ready: enabling open at login');
@@ -1806,8 +1803,8 @@ app.on('ready', async () => {
   // Initialize IPC channels before creating the window
 
   attachmentChannel.initialize({
+    sql,
     configDir: userDataPath,
-    cleanupOrphanedAttachments,
   });
   sqlChannels.initialize(sql);
   PowerChannel.initialize({
@@ -1835,53 +1832,16 @@ app.on('ready', async () => {
 
   try {
     const IDB_KEY = 'indexeddb-delete-needed';
-    const item = await sql.sqlCall('getItemById', [IDB_KEY]);
+    const item = await sql.sqlCall('getItemById', IDB_KEY);
     if (item && item.value) {
-      await sql.sqlCall('removeIndexedDBFiles', []);
-      await sql.sqlCall('removeItemById', [IDB_KEY]);
+      await sql.sqlCall('removeIndexedDBFiles');
+      await sql.sqlCall('removeItemById', IDB_KEY);
     }
   } catch (err) {
     getLogger().error(
       '(ready event handler) error deleting IndexedDB:',
       err && err.stack ? err.stack : err
     );
-  }
-
-  async function cleanupOrphanedAttachments() {
-    const allAttachments = await attachments.getAllAttachments(userDataPath);
-    const orphanedAttachments = await sql.sqlCall('removeKnownAttachments', [
-      allAttachments,
-    ]);
-    await attachments.deleteAll({
-      userDataPath,
-      attachments: orphanedAttachments,
-    });
-
-    await attachments.deleteAllBadges({
-      userDataPath,
-      pathsToKeep: await sql.sqlCall('getAllBadgeImageFileLocalPaths', []),
-    });
-
-    const allStickers = await attachments.getAllStickers(userDataPath);
-    const orphanedStickers = await sql.sqlCall('removeKnownStickers', [
-      allStickers,
-    ]);
-    await attachments.deleteAllStickers({
-      userDataPath,
-      stickers: orphanedStickers,
-    });
-
-    const allDraftAttachments = await attachments.getAllDraftAttachments(
-      userDataPath
-    );
-    const orphanedDraftAttachments = await sql.sqlCall(
-      'removeKnownDraftAttachments',
-      [allDraftAttachments]
-    );
-    await attachments.deleteAllDraftAttachments({
-      userDataPath,
-      attachments: orphanedDraftAttachments,
-    });
   }
 
   ready = true;
@@ -2320,10 +2280,7 @@ ipc.on('install-sticker-pack', (_event, packId, packKeyHex) => {
   }
 });
 
-ipc.on('ensure-file-permissions', async event => {
-  await ensureFilePermissions();
-  event.reply('ensure-file-permissions-done');
-});
+ipc.handle('ensure-file-permissions', () => ensureFilePermissions());
 
 /**
  * Ensure files in the user's data directory have the proper permissions.

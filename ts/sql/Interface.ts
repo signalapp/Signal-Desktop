@@ -344,6 +344,17 @@ export type GetConversationRangeCenteredOnMessageResultType<Message> =
     metrics: ConversationMetricsType;
   }>;
 
+export type MessageAttachmentsCursorType = Readonly<{
+  done: boolean;
+  runId: string;
+  count: number;
+}>;
+
+export type GetKnownMessageAttachmentsResultType = Readonly<{
+  cursor: MessageAttachmentsCursorType;
+  attachments: ReadonlyArray<string>;
+}>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -777,17 +788,24 @@ export type ServerInterface = DataInterface & {
     key: string;
   }) => Promise<void>;
 
-  removeKnownAttachments: (
-    allAttachments: Array<string>
+  getKnownMessageAttachments: (
+    cursor?: MessageAttachmentsCursorType
+  ) => Promise<GetKnownMessageAttachmentsResultType>;
+  finishGetKnownMessageAttachments: (
+    cursor: MessageAttachmentsCursorType
+  ) => Promise<void>;
+  getKnownConversationAttachments: () => Promise<Array<string>>;
+  removeKnownStickers: (
+    allStickers: ReadonlyArray<string>
   ) => Promise<Array<string>>;
-  removeKnownStickers: (allStickers: Array<string>) => Promise<Array<string>>;
   removeKnownDraftAttachments: (
-    allStickers: Array<string>
+    allStickers: ReadonlyArray<string>
   ) => Promise<Array<string>>;
   getAllBadgeImageFileLocalPaths: () => Promise<Set<string>>;
 };
 
-export type ClientInterface = DataInterface & {
+// Differing signature on client/server
+export type ClientExclusiveInterface = {
   // Differing signature on client/server
 
   updateConversation: (data: ConversationType) => void;
@@ -870,21 +888,10 @@ export type ClientInterface = DataInterface & {
   cleanupOrphanedAttachments: () => Promise<void>;
   ensureFilePermissions: () => Promise<void>;
 
-  _jobs: { [id: string]: ClientJobType };
-
   // To decide whether to use IPC to use the database in the main process or
   //   use the db already running in the renderer.
   goBackToMainProcess: () => Promise<void>;
   startInRendererProcess: (isTesting?: boolean) => Promise<void>;
 };
 
-export type ClientJobType = {
-  fnName: string;
-  start: number;
-  resolve?: (value: unknown) => void;
-  reject?: (error: Error) => void;
-
-  // Only in DEBUG mode
-  complete?: boolean;
-  args?: ReadonlyArray<unknown>;
-};
+export type ClientInterface = DataInterface & ClientExclusiveInterface;

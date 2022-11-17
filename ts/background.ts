@@ -849,16 +849,7 @@ export async function startApp(): Promise<void> {
     );
 
     if (newVersion) {
-      // We've received reports that this update can take longer than two minutes, so we
-      //   allow it to continue and just move on in that timeout case.
-      try {
-        await window.Signal.Data.cleanupOrphanedAttachments();
-      } catch (error) {
-        log.error(
-          'background: Failed to cleanup orphaned attachments:',
-          error && error.stack ? error.stack : error
-        );
-      }
+      await window.Signal.Data.cleanupOrphanedAttachments();
 
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();

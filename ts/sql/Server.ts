@@ -6,6 +6,7 @@
 import { join } from 'path';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
+import { randomBytes } from 'crypto';
 import type { Database, Statement } from 'better-sqlite3';
 import SQL from 'better-sqlite3';
 import pProps from 'p-props';
@@ -64,7 +65,6 @@ import {
   getById,
   bulkAdd,
   createOrUpdate,
-  TableIterator,
   setUserVersion,
   getUserVersion,
   getSchemaVersion,
@@ -80,6 +80,7 @@ import type {
   DeleteSentProtoRecipientResultType,
   EmojiType,
   GetConversationRangeCenteredOnMessageResultType,
+  GetKnownMessageAttachmentsResultType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   StoredIdentityKeyType,
@@ -87,6 +88,7 @@ import type {
   ItemKeyType,
   StoredItemType,
   ConversationMessageStatsType,
+  MessageAttachmentsCursorType,
   MessageMetricsType,
   MessageType,
   MessageTypeUnhydrated,
@@ -344,7 +346,9 @@ const dataInterface: ServerInterface = {
   initialize,
   initializeRenderer,
 
-  removeKnownAttachments,
+  getKnownMessageAttachments,
+  finishGetKnownMessageAttachments,
+  getKnownConversationAttachments,
   removeKnownStickers,
   removeKnownDraftAttachments,
   getAllBadgeImageFileLocalPaths,
@@ -924,7 +928,7 @@ async function insertSentProto(
       `
     );
 
-    for (const messageId of messageIds) {
+    for (const messageId of new Set(messageIds)) {
       messageStatement.run({
         id,
         messageId,
@@ -4512,6 +4516,11 @@ async function _deleteAllStoryDistributions(): Promise<void> {
 async function createNewStoryDistribution(
   distribution: StoryDistributionWithMembersType
 ): Promise<void> {
+  strictAssert(
+    distribution.name,
+    'Distribution list does not have a valid name'
+  );
+
   const db = getInstance();
 
   db.transaction(() => {
@@ -4613,6 +4622,18 @@ function modifyStoryDistributionSync(
   db: Database,
   payload: StoryDistributionForDatabase
 ): void {
+  if (payload.deletedAtTimestamp) {
+    strictAssert(
+      !payload.name,
+      'Attempt to delete distribution list but still has a name'
+    );
+  } else {
+    strictAssert(
+      payload.name,
+      'Cannot clear distribution list name without deletedAtTimestamp set'
+    );
+  }
+
   prepare(
     db,
     `
@@ -5079,39 +5100,129 @@ function getExternalDraftFilesForConversation(
   return files;
 }
 
-async function removeKnownAttachments(
-  allAttachments: Array<string>
-): Promise<Array<string>> {
+async function getKnownMessageAttachments(
+  cursor?: MessageAttachmentsCursorType
+): Promise<GetKnownMessageAttachmentsResultType> {
   const db = getInstance();
-  const lookup: Dictionary<boolean> = fromPairs(
-    map(allAttachments, file => [file, true])
-  );
-  const chunkSize = 500;
+  const result = new Set<string>();
+  const chunkSize = 1000;
 
-  const total = getMessageCountSync();
-  logger.info(
-    `removeKnownAttachments: About to iterate through ${total} messages`
-  );
+  return db.transaction(() => {
+    let count = cursor?.count ?? 0;
 
-  let count = 0;
+    strictAssert(
+      !cursor?.done,
+      'getKnownMessageAttachments: iteration cannot be restarted'
+    );
 
-  for (const message of new TableIterator<MessageType>(db, 'messages')) {
-    const externalFiles = getExternalFilesForMessage(message);
-    forEach(externalFiles, file => {
-      delete lookup[file];
-    });
-    count += 1;
+    let runId: string;
+    if (cursor === undefined) {
+      runId = randomBytes(8).toString('hex');
+
+      const total = getMessageCountSync();
+      logger.info(
+        `getKnownMessageAttachments(${runId}): ` +
+          `Starting iteration through ${total} messages`
+      );
+
+      db.exec(
+        `
+        CREATE TEMP TABLE tmp_${runId}_updated_messages
+          (rowid INTEGER PRIMARY KEY ASC);
+
+        INSERT INTO tmp_${runId}_updated_messages (rowid)
+        SELECT rowid FROM messages;
+
+        CREATE TEMP TRIGGER tmp_${runId}_message_updates
+        UPDATE OF json ON messages
+        BEGIN
+          INSERT OR IGNORE INTO tmp_${runId}_updated_messages (rowid)
+          VALUES (NEW.rowid);
+        END;
+
+        CREATE TEMP TRIGGER tmp_${runId}_message_inserts
+        AFTER INSERT ON messages
+        BEGIN
+          INSERT OR IGNORE INTO tmp_${runId}_updated_messages (rowid)
+          VALUES (NEW.rowid);
+        END;
+        `
+      );
+    } else {
+      ({ runId } = cursor);
+    }
+
+    const rowids: Array<number> = db
+      .prepare<Query>(
+        `
+      DELETE FROM tmp_${runId}_updated_messages
+      RETURNING rowid
+      LIMIT $chunkSize;
+      `
+      )
+      .pluck()
+      .all({ chunkSize });
+
+    const messages = batchMultiVarQuery(
+      db,
+      rowids,
+      (batch: Array<number>): Array<MessageType> => {
+        const query = db.prepare<ArrayQuery>(
+          `SELECT json FROM messages WHERE rowid IN (${Array(batch.length)
+            .fill('?')
+            .join(',')});`
+        );
+        const rows: JSONRows = query.all(batch);
+        return rows.map(row => jsonToObject(row.json));
+      }
+    );
+
+    for (const message of messages) {
+      const externalFiles = getExternalFilesForMessage(message);
+      forEach(externalFiles, file => result.add(file));
+      count += 1;
+    }
+
+    const done = messages.length < chunkSize;
+    return {
+      attachments: Array.from(result),
+      cursor: { runId, count, done },
+    };
+  })();
+}
+
+async function finishGetKnownMessageAttachments({
+  runId,
+  count,
+  done,
+}: MessageAttachmentsCursorType): Promise<void> {
+  const db = getInstance();
+
+  const logId = `finishGetKnownMessageAttachments(${runId})`;
+  if (!done) {
+    logger.warn(`${logId}: iteration not finished`);
   }
 
-  logger.info(`removeKnownAttachments: Done processing ${count} messages`);
+  logger.info(`${logId}: reached the end after processing ${count} messages`);
+  db.exec(`
+    DROP TABLE tmp_${runId}_updated_messages;
+    DROP TRIGGER tmp_${runId}_message_updates;
+    DROP TRIGGER tmp_${runId}_message_inserts;
+  `);
+}
+
+async function getKnownConversationAttachments(): Promise<Array<string>> {
+  const db = getInstance();
+  const result = new Set<string>();
+  const chunkSize = 500;
 
   let complete = false;
-  count = 0;
   let id = '';
 
   const conversationTotal = await getConversationCount();
   logger.info(
-    `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
+    'getKnownConversationAttachments: About to iterate through ' +
+      `${conversationTotal}`
   );
 
   const fetchConversations = db.prepare<Query>(
@@ -5134,9 +5245,7 @@ async function removeKnownAttachments(
     );
     conversations.forEach(conversation => {
       const externalFiles = getExternalFilesForConversation(conversation);
-      externalFiles.forEach(file => {
-        delete lookup[file];
-      });
+      externalFiles.forEach(file => result.add(file));
     });
 
     const lastMessage: ConversationType | undefined = last(conversations);
@@ -5144,16 +5253,15 @@ async function removeKnownAttachments(
       ({ id } = lastMessage);
     }
     complete = conversations.length < chunkSize;
-    count += conversations.length;
   }
 
-  logger.info(`removeKnownAttachments: Done processing ${count} conversations`);
+  logger.info('getKnownConversationAttachments: Done processing');
 
-  return Object.keys(lookup);
+  return Array.from(result);
 }
 
 async function removeKnownStickers(
-  allStickers: Array<string>
+  allStickers: ReadonlyArray<string>
 ): Promise<Array<string>> {
   const db = getInstance();
   const lookup: Dictionary<boolean> = fromPairs(
@@ -5204,7 +5312,7 @@ async function removeKnownStickers(
 }
 
 async function removeKnownDraftAttachments(
-  allStickers: Array<string>
+  allStickers: ReadonlyArray<string>
 ): Promise<Array<string>> {
   const db = getInstance();
   const lookup: Dictionary<boolean> = fromPairs(

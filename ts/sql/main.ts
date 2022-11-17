@@ -10,6 +10,7 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import type { LoggerType } from '../types/Logging';
 import { isCorruptionError } from './errors';
+import type DB from './Server';
 
 const MIN_TRACE_DURATION = 40;
 
@@ -32,9 +33,8 @@ export type WorkerRequest = Readonly<
     }
   | {
       type: 'sqlCall';
-      method: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      args: ReadonlyArray<any>;
+      method: keyof typeof DB;
+      args: ReadonlyArray<unknown>;
     }
 >;
 
@@ -164,8 +164,10 @@ export class MainSQL {
     await this.send({ type: 'removeDB' });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async sqlCall(method: string, args: ReadonlyArray<any>): Promise<any> {
+  public async sqlCall<Method extends keyof typeof DB>(
+    method: Method,
+    ...args: Parameters<typeof DB[Method]>
+  ): Promise<ReturnType<typeof DB[Method]>> {
     if (this.onReady) {
       await this.onReady;
     }
@@ -175,8 +177,7 @@ export class MainSQL {
     }
 
     type SqlCallResult = Readonly<{
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result: any;
+      result: ReturnType<typeof DB[Method]>;
       duration: number;
     }>;
 

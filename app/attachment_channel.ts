@@ -4,11 +4,22 @@
 import { ipcMain } from 'electron';
 import * as rimraf from 'rimraf';
 import {
+  getAllAttachments,
   getPath,
   getStickersPath,
   getTempPath,
   getDraftPath,
+  deleteAll as deleteAllAttachments,
+  deleteAllBadges,
+  getAllStickers,
+  deleteAllStickers,
+  getAllDraftAttachments,
+  deleteAllDraftAttachments,
 } from './attachments';
+import type { MainSQL } from '../ts/sql/main';
+import type { MessageAttachmentsCursorType } from '../ts/sql/Interface';
+import * as Errors from '../ts/types/errors';
+import { sleep } from '../ts/util/sleep';
 
 let initialized = false;
 
@@ -18,12 +29,140 @@ const ERASE_TEMP_KEY = 'erase-temp';
 const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 
+const INTERACTIVITY_DELAY = 50;
+
+type DeleteOrphanedAttachmentsOptionsType = Readonly<{
+  orphanedAttachments: Set<string>;
+  sql: MainSQL;
+  userDataPath: string;
+}>;
+
+type CleanupOrphanedAttachmentsOptionsType = Readonly<{
+  sql: MainSQL;
+  userDataPath: string;
+}>;
+
+async function cleanupOrphanedAttachments({
+  sql,
+  userDataPath,
+}: CleanupOrphanedAttachmentsOptionsType): Promise<void> {
+  await deleteAllBadges({
+    userDataPath,
+    pathsToKeep: await sql.sqlCall('getAllBadgeImageFileLocalPaths'),
+  });
+
+  const allStickers = await getAllStickers(userDataPath);
+  const orphanedStickers = await sql.sqlCall(
+    'removeKnownStickers',
+    allStickers
+  );
+  await deleteAllStickers({
+    userDataPath,
+    stickers: orphanedStickers,
+  });
+
+  const allDraftAttachments = await getAllDraftAttachments(userDataPath);
+  const orphanedDraftAttachments = await sql.sqlCall(
+    'removeKnownDraftAttachments',
+    allDraftAttachments
+  );
+  await deleteAllDraftAttachments({
+    userDataPath,
+    attachments: orphanedDraftAttachments,
+  });
+
+  // Delete orphaned attachments from conversations and messages.
+
+  const orphanedAttachments = new Set(await getAllAttachments(userDataPath));
+
+  {
+    const attachments: ReadonlyArray<string> = await sql.sqlCall(
+      'getKnownConversationAttachments'
+    );
+
+    for (const known of attachments) {
+      orphanedAttachments.delete(known);
+    }
+  }
+
+  // This call is intentionally not awaited. We block the app while running
+  // all fetches above to ensure that there are no in-flight attachments that
+  // are saved to disk, but not put into any message or conversation model yet.
+  deleteOrphanedAttachments({
+    orphanedAttachments,
+    sql,
+    userDataPath,
+  });
+}
+
+function deleteOrphanedAttachments({
+  orphanedAttachments,
+  sql,
+  userDataPath,
+}: DeleteOrphanedAttachmentsOptionsType): void {
+  // This function *can* throw.
+  async function runWithPossibleException(): Promise<void> {
+    let cursor: MessageAttachmentsCursorType | undefined;
+    try {
+      do {
+        let attachments: ReadonlyArray<string>;
+
+        // eslint-disable-next-line no-await-in-loop
+        ({ attachments, cursor } = await sql.sqlCall(
+          'getKnownMessageAttachments',
+          cursor
+        ));
+
+        for (const known of attachments) {
+          orphanedAttachments.delete(known);
+        }
+
+        if (cursor === undefined) {
+          break;
+        }
+
+        // Let other SQL calls come through. There are hundreds of thousands of
+        // messages in the database and it might take time to go through them all.
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(INTERACTIVITY_DELAY);
+      } while (cursor !== undefined && !cursor.done);
+    } finally {
+      if (cursor !== undefined) {
+        await sql.sqlCall('finishGetKnownMessageAttachments', cursor);
+      }
+    }
+
+    await deleteAllAttachments({
+      userDataPath,
+      attachments: Array.from(orphanedAttachments),
+    });
+  }
+
+  async function runSafe() {
+    const start = Date.now();
+    try {
+      await runWithPossibleException();
+    } catch (error) {
+      console.error(
+        'deleteOrphanedAttachments: error',
+        Errors.toLogFormat(error)
+      );
+    } finally {
+      const duration = Date.now() - start;
+      console.log(`deleteOrphanedAttachments: took ${duration}ms`);
+    }
+  }
+
+  // Intentionally not awaiting
+  runSafe();
+}
+
 export function initialize({
   configDir,
-  cleanupOrphanedAttachments,
+  sql,
 }: {
   configDir: string;
-  cleanupOrphanedAttachments: () => Promise<void>;
+  sql: MainSQL;
 }): void {
   if (initialized) {
     throw new Error('initialze: Already initialized!');
@@ -35,58 +174,15 @@ export function initialize({
   const tempDir = getTempPath(configDir);
   const draftDir = getDraftPath(configDir);
 
-  ipcMain.on(ERASE_TEMP_KEY, event => {
-    try {
-      rimraf.sync(tempDir);
-      event.sender.send(`${ERASE_TEMP_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`erase temp error: ${errorForDisplay}`);
-      event.sender.send(`${ERASE_TEMP_KEY}-done`, error);
-    }
-  });
+  ipcMain.handle(ERASE_TEMP_KEY, () => rimraf.sync(tempDir));
+  ipcMain.handle(ERASE_ATTACHMENTS_KEY, () => rimraf.sync(attachmentsDir));
+  ipcMain.handle(ERASE_STICKERS_KEY, () => rimraf.sync(stickersDir));
+  ipcMain.handle(ERASE_DRAFTS_KEY, () => rimraf.sync(draftDir));
 
-  ipcMain.on(ERASE_ATTACHMENTS_KEY, event => {
-    try {
-      rimraf.sync(attachmentsDir);
-      event.sender.send(`${ERASE_ATTACHMENTS_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`erase attachments error: ${errorForDisplay}`);
-      event.sender.send(`${ERASE_ATTACHMENTS_KEY}-done`, error);
-    }
-  });
-
-  ipcMain.on(ERASE_STICKERS_KEY, event => {
-    try {
-      rimraf.sync(stickersDir);
-      event.sender.send(`${ERASE_STICKERS_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`erase stickers error: ${errorForDisplay}`);
-      event.sender.send(`${ERASE_STICKERS_KEY}-done`, error);
-    }
-  });
-
-  ipcMain.on(ERASE_DRAFTS_KEY, event => {
-    try {
-      rimraf.sync(draftDir);
-      event.sender.send(`${ERASE_DRAFTS_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`erase drafts error: ${errorForDisplay}`);
-      event.sender.send(`${ERASE_DRAFTS_KEY}-done`, error);
-    }
-  });
-
-  ipcMain.on(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async event => {
-    try {
-      await cleanupOrphanedAttachments();
-      event.sender.send(`${CLEANUP_ORPHANED_ATTACHMENTS_KEY}-done`);
-    } catch (error) {
-      const errorForDisplay = error && error.stack ? error.stack : error;
-      console.log(`cleanup orphaned attachments error: ${errorForDisplay}`);
-      event.sender.send(`${CLEANUP_ORPHANED_ATTACHMENTS_KEY}-done`, error);
-    }
+  ipcMain.handle(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async () => {
+    const start = Date.now();
+    await cleanupOrphanedAttachments({ sql, userDataPath: configDir });
+    const duration = Date.now() - start;
+    console.log(`cleanupOrphanedAttachments: took ${duration}ms`);
   });
 }
