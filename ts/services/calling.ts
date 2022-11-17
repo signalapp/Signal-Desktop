@@ -822,6 +822,11 @@ export class CallingClass {
       return;
     }
 
+    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
+    if (!haveMediaPermissions) {
+      log.info('Permissions were denied, but allow joining group call');
+    }
+
     await this.startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
@@ -1743,7 +1748,7 @@ export class CallingClass {
         ringerUuid,
       });
     } else {
-      log.info('handleGroupCallRingUpdate: canceling any existing ring');
+      log.info('handleGroupCallRingUpdate: canceling the existing ring');
       this.reduxInterface?.cancelIncomingGroupCallRing({
         conversationId,
         ringId,
