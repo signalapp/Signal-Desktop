@@ -45,6 +45,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
       run: yarn generate

@@ -33,6 +33,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - run: yarn generate
     - run: yarn lint
@@ -63,6 +65,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -102,6 +106,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - run: yarn generate
     - run: yarn prepare-beta-build
@@ -142,6 +148,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - run: yarn generate
     - run: yarn test-node
@@ -193,6 +201,8 @@ jobs:
     - name: Install Desktop node_modules
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
+      env:
+        NPM_CONFIG_LOGLEVEL: verbose
 
     - name: Build typescript
       run: yarn generate
