@@ -359,11 +359,13 @@ export const getStories = createSelector(
         return;
       }
 
+      const isSignalStory = story.sourceUuid === SIGNAL_ACI;
+
       // if for some reason this story is already expired (bug)
       // log it and skip it. Unless it's the onboarding story, that story
       // doesn't have an expiration until it is viewed.
       if (
-        !story.sourceUuid === SIGNAL_ACI &&
+        !isSignalStory &&
         (calculateExpirationTimestamp(story) ?? 0) < Date.now()
       ) {
         const messageIdForLogging = getMessageIdForLogging({
@@ -447,20 +449,24 @@ export const getStories = createSelector(
         storiesMap = storiesById;
       }
 
-      const existingConversationStory = storiesMap.get(
-        conversationStory.conversationId
-      );
+      const existingConversationStory =
+        storiesMap.get(conversationStory.conversationId) || conversationStory;
 
-      storiesMap.set(conversationStory.conversationId, {
+      const conversationStoryObject = {
         ...existingConversationStory,
-        ...conversationStory,
         hasReplies:
           existingConversationStory?.hasReplies || conversationStory.hasReplies,
         hasRepliesFromSelf:
           existingConversationStory?.hasRepliesFromSelf ||
           conversationStory.hasRepliesFromSelf,
-        storyView: conversationStory.storyView,
-      });
+      };
+
+      // For the signal story we want the thumbnail to be from the first story
+      if (!isSignalStory) {
+        conversationStoryObject.storyView = conversationStory.storyView;
+      }
+
+      storiesMap.set(conversationStory.conversationId, conversationStoryObject);
     });
 
     return {

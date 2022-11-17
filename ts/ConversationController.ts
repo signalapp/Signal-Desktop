@@ -417,6 +417,13 @@ export class ConversationController {
       profileSharing: true,
     });
 
+    if (conversation.get('profileAvatar')?.path !== SIGNAL_AVATAR_PATH) {
+      conversation.set({
+        profileAvatar: { hash: SIGNAL_AVATAR_PATH, path: SIGNAL_AVATAR_PATH },
+      });
+      updateConversation(conversation.attributes);
+    }
+
     this._signalConversationId = conversation.id;
 
     return conversation;
