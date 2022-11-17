@@ -6155,22 +6155,6 @@
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Facing a conversation with a long list of Voice Notes to listen to? Click play, sit back, and relax - they'll continue playing automatically!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "You can now attach some video flavor to a message along with your vacation photos!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Can’t remember which of your friends named Lou is on your basketball team? Check contact details to see shared groups between you and a friend.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Easily add a friend to a group from their contact details screen to keep the conversation exciting.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you.",
     "description": "Release notes for v5.63"
@@ -6178,5 +6162,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Start using and testing our new stories feature. You can use the feature with other beta testers and let us know how it's working.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Stories are now in Signal! Share disappearing text, images, and video updates with select friends or groups that automatically disappear after 24 hours. For everyone who loves sharing stories, here’s a way to do it privately and without seeing any ads. If you don’t want to see or share stories, you can opt out of it all in your Preferences > Privacy.",
+    "description": "Release notes for v6.0"
   }
 }
