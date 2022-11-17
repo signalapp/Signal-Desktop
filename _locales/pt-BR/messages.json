@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Adicionar uma mensagem",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Enviar mensagem",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Pronto",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Adicionar a um grupo",
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Carregando...",
+    "message": "Carregando…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Otimizando o aplicativo...",
+    "message": "Otimizando o aplicativo…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Otimizando mensagens... $status$ carregadas.",
+    "message": "Otimizando mensagens… $status$ carregadas.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -354,7 +373,7 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Carregando mensagens. $count$ até agora...",
+    "message": "Carregando mensagens. $count$ até agora…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Carregando pré-visualização...",
+    "message": "Carregando pré-visualização…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Conectando...",
+    "message": "Conectando…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "Contatos SMS/MMS não estão disponíveis no Signal para Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Nenhum resultado para \"$searchTerm$\" em $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Nenhum resultado para \"{searchTerm}\" em {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Toque em $plusButton$ (Android) ou em $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Saiba mais",
+  "icu:Install__qr-failed": {
+    "messageformat": "Não foi possível carregar o QR code. Verifique a sua conexão de internet e tente novamente. <learnMoreLink>Saiba mais</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importando...",
+    "message": "Importando…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "desligar",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mensagens efêmeras",
+  "icu:disappearingMessages": {
+    "messageformat": "Mensagens efêmeras",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nenhum contato encontrado",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nenhum grupo encontrado",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nenhuma conversa encontrada",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Instalando pacote de figurinhas...",
+    "message": "Instalando pacote de figurinhas…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Voltar",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Adicionar suas figurinhas",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Adicionar suas figurinhas",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Mostrar margens",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Adicionar $count$ ou mais",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Adicionar {count,number} ou mais",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Só mais alguns detalhes...",
+    "message": "Só mais alguns detalhes…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Dê uma olhada nesse novo pacote de figurinhas que criei para o Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ imagem(s) adicionada(s)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 imagem adicionada} other {{count,number} imagens adicionadas}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ membros",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "Um membro",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 membro} other {{count,number} membros}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Membro de $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Recebendo chamada de voz...",
+    "message": "Recebendo chamada de voz…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Recebendo chamada de vídeo...",
+    "message": "Recebendo chamada de vídeo…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Tocando...",
+    "message": "Tocando…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Reconectando...",
+    "message": "Reconectando…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Atualizando...",
+    "message": "Atualizando…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Baixando o anexo de áudio...",
+    "message": "Baixando o anexo de áudio…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Clique no $composeIcon$ acima para pesquisar os seus contatos ou grupos e enviar mensagens para eles.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Clique no {composeIcon} acima para pesquisar os seus contatos ou grupos e enviar mensagens para eles.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Tempo personalizado...",
+    "message": "Tempo personalizado…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Adicionar descrição do grupo...",
+    "message": "Adicionar descrição do grupo…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Nome de usuário",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Insira um nome de usuário",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Nomes de usuário são opcionais no Signal. Se você decidir criar um nome de usuário, outros usuários poderão usá-lo para encontrar você e entrar em contato, mesmo que não saibam o seu número de telefone.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Escolha o seu nome de usuário",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Nomes de usuário podem conter apenas a-z, 0-9 e _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Nomes de usuário não podem começar com um número.",
@@ -4945,6 +4964,10 @@
     "message": "Nomes de usuário devem ter no máximo $max$ caracteres.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Este nome de usuário não está disponível",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Este nome de usuário já está sendo utilizado.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Não foi possível remover seu nome de usuário. Verifique a sua conexão e tente novamente.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Nome de usuário copiado",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Link copiado",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Excluindo nome de usuário",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Remover nome de usuário",
@@ -4969,8 +5004,24 @@
     "message": "Excluir",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Copiar ou excluir nome de usuário",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Copiar nome de usuário",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Copiar link",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Excluir",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Escreva algo sobre você...",
+    "message": "Escreva algo sobre você…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Gostaria de descartar essas mudanças?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "O seu perfil é criptografado de ponta a ponta. O seu perfil e as mudanças nele ficarão visíveis aos seus contatos e quando você iniciar ou aceitar novas conversas. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "O seu perfil é criptografado de ponta a ponta. O seu perfil e as mudanças nele ficarão visíveis aos seus contatos e quando você iniciar ou aceitar novas conversas. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Quem pode...",
+    "message": "Quem pode…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Aparelhos",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Ativar stories",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Desativar stories",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Desativar",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Você não poderá mais compartilhar ou ver stories. As atualizações de stories que você compartilhou recentemente também serão excluídas.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Atualização disponível para a versão $version$",
@@ -5317,8 +5384,12 @@
     "message": "Cortar",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Adicionar uma mensagem",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Meus Stories",
+    "message": "Meu Story",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ visualização",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ visualizações",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} visualização} other {{views,number} visualizações}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "VIsualizações desativadas",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ resposta",
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo deles",
+    "message": "Seus contatos conseguem ver seu nome, foto e publicações nos seus stories, a menos que você oculte esse conteúdo",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Meus Stories",
+    "message": "Meu Story",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5405,6 +5484,14 @@
     "message": "Nenhum story em exibição no momento",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Enviando…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Falha no envio",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Clique para ver um story",
     "description": "Placeholder label for the story view"
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Enviando resposta...",
+    "message": "Enviando resposta…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Enviando reação...",
+    "message": "Enviando reação…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "Configurações do Story",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Os stories desaparecem automaticamente após 24 horas. Escolha quem pode ver seu story ou crie novos stories com visualizadores ou grupos específicos.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Novo story privado",
-    "description": "Label to create a new private story list"
+    "message": "Novo story personalizado",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Somente você pode ver o nome deste story.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ visualizador",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ visualizadores",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {{count,number} visualizador} other {{count,number} visualizadores}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Quem pode ver esse story",
+    "message": "Quem pode ver esse story?",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Remover",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Remover $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Essa pessoa não verá mais o seu story.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Respostas e reações",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Excluir story privado",
-    "description": "Button label to delete a private distribution list"
+    "message": "Excluir story personalizado",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Excluir story privado?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Tem certeza de que deseja excluir \"$name$\"? As atualizações desse story também serão excluídas.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Escolher visualizadores",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Escolha um nome para este story",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Nome do story",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Nome do story (obrigatório)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Todos os contatos do Signal, exceto...",
+    "message": "Todos, exceto…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Compartilhar apenas com...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Compartilhar apenas com…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Compartilhar apenas com pessoas selecionadas",
@@ -5537,6 +5636,14 @@
     "message": "Configurações do Story",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Ver confirmações de leitura",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Para alterar essa configuração, abra o app do Signal no seu dispositivo móvel e navegue até Configurações > Stories",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Escolha quem pode ver o seu story",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "Enviar story",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Story personalizado",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Story em grupo",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Compartilhar só com",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} excluído} other {{count,number} excluídos}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Novo story",
+    "message": "Novidade",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "Novo story personalizado",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Somente você pode ver o nome deste story.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visível apenas para pessoas específicas",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Novo story privado",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Visível apenas para pessoas específicas",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Novo story de grupo",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Privacidade dos meus stories",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Privacidade do meu story",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Escolha quais contatos do Signal podem ver o seu story. É possível mudar isso nas configurações de privacidade. $learnMore$",
@@ -5588,6 +5723,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "Quer remover o story? Esta ação removerá o story desta lista, mas você ainda poderá ver stories desse grupo.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Somente admins podem enviar stories para esse grupo.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Compartilhar e visualizar Stories",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "VIsualizações desativadas",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Enviado à(s) $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Ative as confirmações de leitura para saber quem quem viu seus stories. Abra o app do Signal no seu dispositivo móvel e acesse Configurações > Privacidade.",
+    "message": "Ative as confirmações de leitura para saber quem viu seus stories. Abra o app do Signal no seu dispositivo móvel e acesse Configurações > Stories.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagiu ao story",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Você não pode responder a este story porque não faz mais parte do grupo.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -5710,7 +5853,7 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Não é possível publicar o vídeo no story, porque ele é muito longo",
+    "message": "O vídeo é muito longo e não é possível publicá-lo no story",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
@@ -5805,6 +5948,18 @@
     "message": "Reagiu a um story",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reagiu com $emoji$ ao seu story",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Você reagiu com $emoji$ a um story de $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Você reagiu com $emoji$ a um story",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Não está mais disponível",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Menu de contexto",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Nome de usuário",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Os nomes de usuário permitem que outras pessoas enviem mensagens para você sem precisar do seu número de telefone. Eles são pareados com um conjunto de dígitos para ajudar a manter seu endereço privado.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Saiba mais",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "O que é esse número?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Esses dígitos ajudam a manter seu nome de usuário privado para evitar mensagens indesejadas. Compartilhe seu nome de usuário apenas com as pessoas e grupos com os quais gostaria de conversar. Se mudar seu nome de usuário, você receberá um novo conjunto de dígitos.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Novidades",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Adicione um amigo a um grupo na tela de contatos para manter a conversa animada.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Estamos trabalhando para corrigir bugs e fazer outras melhorias de desempenho para manter o app funcionando bem.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Comece a usar e teste nosso novo recurso de stories. Você pode usar o recurso com outros usuários da versão beta e contar para a gente como ele está funcionando.",
+    "description": "Release notes for v5.63"
   }
 }

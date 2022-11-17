@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Legg til en melding",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Melding",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Ferdig",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Legg til gruppen",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Legger til $contact$ ...",
+    "message": "Legger til $contact$ …",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Laster...",
+    "message": "Laster inn …",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimaliserer applikasjon...",
+    "message": "Optimaliserer applikasjonen …",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimaliserer meldinger... $status$fullført.",
+    "message": "Optimaliserer meldinger … $status$ fullført.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Oppgraderer database. Dette kan ta litt tid...",
+    "message": "Oppgraderer databasen. Dette kan ta litt tid …",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... for å se hele loggen, trykk på Lagre",
+    "message": "… for å se hele loggen trykker du på Lagre",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Laster forhåndsvisning...",
+    "message": "Laster inn forhåndsvisning …",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS-kontakter er ikke tilgjengelig på Desktop versjonen av Signal.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ingen resultater for \"$searchTerm$\" i $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ingen resultater for \"{searchTerm}\" i {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Trykk på $plusButton$ (Android) eller $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lær mer",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR-koden kunne ikke lastes inn. Sjekk internettilkoblingen og prøv igjen. <learnMoreLink>Les mer</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "av",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Tidsavgrensede meldinger",
+  "icu:disappearingMessages": {
+    "messageformat": "Tidsavgrensede meldinger",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Start en ny samtale...",
+    "message": "Start en ny samtale …",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Stories",
+    "message": "Storyer",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Ingen kontakter funnet",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ingen grupper funnet",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Ingen samtaler funnet",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Installerer klistremerkepakke...",
+    "message": "Installerer klistremerkepakke …",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Tilbake",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Legg til dine klistremerker",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Legg til dine klistremerker",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Vis marginer",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Legg til $count$ eller flere",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Legg til {count,number} eller flere",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Ta en titt på denne nye klistremerkepakken jeg lagde for Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$bilde(r) lagt til",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 bilde ble lagt til} other {{count,number} bilder ble lagt til}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ medlemmer",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 medlem",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 medlem} other {{count,number} medlemmer}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Medlem av $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Innkommende lydsamtale...",
+    "message": "Innkommende anrop …",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Innkommende videosamtale...",
+    "message": "Innkommende videoanrop …",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Det ringer...",
+    "message": "Det ringer …",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Kober til på nytt...",
+    "message": "Kobler til på nytt …",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Oppdaterer...",
+    "message": "Oppdaterer …",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Laster ned lydfil...",
+    "message": "Laster ned lydfil …",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0.5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klikk på $composeIcon$ ovenfor og søk etter kontakter eller grupper å melde til.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klikk på {composeIcon} ovenfor og søk etter kontakter eller grupper å melde til.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4921,17 +4944,13 @@
     "message": "Brukernavn",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Skriv inn et brukernavn",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Brukernavn på Signal er valgfri. Hvis du velger å opprette et brukernavn, vil andre Signal-brukere kunne finne deg ved dette brukernavnet og kontakte deg uten å vite telefonnummeret ditt.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Velg et brukernavn",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Brukernavn kan bare inneholde a-z, 0-9 og _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Brukernavn kan ikke begynne med et nummer.",
@@ -4945,6 +4964,10 @@
     "message": "Brukernavn kan ha maks. $max$ tegn.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Dette brukernavnet er ikke tilgjengelig",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Dette brukernavnet er tatt.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Brukernavnet ditt kunne ikke fjernes. Sjekk internettilkoblingen og prøv igjen.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Brukernavnet er kopiert",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Lenken er kopiert",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Sletter brukernavnet",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Slett brukernavnet",
@@ -4969,8 +5004,24 @@
     "message": "Slett",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kopier eller slett brukernavnet",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kopier brukernavnet",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Kopier lenken",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Slett",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Skriv noe om deg selv ...",
+    "message": "Skriv noe om deg selv …",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Vil du forkaste disse endringene?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profilen din er kryptert. Profilen din, og endringer i den, vil være synlige for kontaktene dine og når du starter eller godtar nye samtaler. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profilen din er kryptert. Profilen din, og endringer i den, vil være synlige for kontaktene dine og når du starter eller godtar nye samtaler. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Hvem kan...",
+    "message": "Hvem kan …",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Enheter",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Slå på storyer",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Slå av storyer",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Skru av",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Du vil ikke lenger kunne dele eller se storyer. Oppdateringer av storyer som du nylig har delt, slettes også.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Oppdatering til versjon $version$ er tilgjengelig",
@@ -5317,8 +5384,12 @@
     "message": "Beskjær",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Legg til en melding",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Mine stories",
+    "message": "Min story",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "Sett av $num$",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "Sett av $num$",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {Sett av {views,number}} other {{views,number} visninger}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Visninger er slått av",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ svar",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Slette storyen? Dette vil slette storyen for deg og alle du har delt den med.",
+    "message": "Vil du slette storyen? Dette vil slette storyen for deg og alle du har delt den med.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5378,11 +5457,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Stories",
+    "message": "Storyer",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Mine stories",
+    "message": "Min story",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5390,7 +5469,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "Tekst-story",
+    "message": "Story med tekst",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5405,6 +5484,14 @@
     "message": "Ingen nylige storyer å vise",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Sender …",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Sending feilet",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Klikk for å se en story",
     "description": "Placeholder label for the story view"
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Sender svar ...",
+    "message": "Sender svar …",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Sender reaksjon ...",
+    "message": "Sender reaksjon …",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,17 +5516,29 @@
     "message": "Innstillinger for story",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Storyer forsvinner automatisk etter 24 timer. Velg hvem som kan se storyen din, eller del nye storyer med utvalgte personer og grupper.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Ny privat story",
-    "description": "Label to create a new private story list"
+    "message": "Ny egendefinert story",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Navnet på denne storyen vises bare for deg.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "Sett av $num$",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "Sett av $num$",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {Sett av 1} other {Sett av {count,number}}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
     "message": "Disse kan se denne storyen",
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Fjern",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Fjern $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Denne personen vil ikke kunne se storyen din lenger.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "Denne personen kan ikke lenger se storyen din.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Svar og reaksjoner",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Slett den private storyen",
-    "description": "Button label to delete a private distribution list"
+    "message": "Slett egendefinert story",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Vil du slette den private storyen?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Er du sikker på at du vil slette «$name$»? Oppdateringene knyttet til denne storyen, slettes også.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Velg seere",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Gi et navn til denne storyen",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Gi navn til storyen",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Navn på story (obligatorisk)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Alle Signal-kontaktene unntatt ...",
+    "message": "Alle unntatt …",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Del kun med ...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Del kun med …",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Del kun med utvalgte personer",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Velg hvem som kan se storyen din. Dette vil ikke påvirke storyene som du allerede har delt. $learnMore$",
+    "message": "Velg hvem som kan se storyen din. Dette vil ikke påvirke storyer som du allerede har delt. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5536,6 +5635,14 @@
   "StoriesSettings__context-menu": {
     "message": "Innstillinger for story",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Visningsbekreftelser",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Åpne Signal på mobilenheten din og gå til Innstillinger > Storyer for å endre denne innstillingen",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Velg hvem som kan se storyen din",
@@ -5549,17 +5656,45 @@
     "message": "Send story",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Egendefinert story",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Gruppestory",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Del kun med",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} ekskludert} other {{count,number} ekskludert}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Ny story",
+    "message": "Ny",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "Ny egendefinert story",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Navnet på denne storyen vises bare for deg.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Kun synlig for utvalgte personer",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Ny privat story",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Kun synlig for utvalgte personer",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Ny gruppestory",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Personvern for Mine stories",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Personvern for Min story",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Velg hvilke Signal-kontakter som kan se storyen din. Du kan når som helst endre dette via personvernsinntillingene.$learnMore$",
@@ -5586,15 +5721,19 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Vil du slette storyen? Dette vil fjerne storyen fra listen. Du vil fremdeles se de andre storyene fra denne gruppen.",
+    "message": "Vil du slette storyen? Dette vil fjerne storyen fra listen. Du kan fremdeles se de andre storyene fra denne gruppen.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Kun administratorer kan sende storyer til denne gruppen.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Del og se storyer",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Du kan ikke lenger dele og se storyer når dette alternativet er slått av.",
+    "message": "Du kan ikke dele og se storyer når dette alternativet er slått av.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Visninger er slått av",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sendt $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Slå på lesebekreftelser for å se hvem som har sett storyene dine. Åpne Signal-appen på mobilen din og gå til Innstillinger > Personvern.",
+    "message": "Aktiver visningsbekreftelser for å finne ut hvem som har sett storyene dine. Åpne Signal på mobilenheten din og gå til Innstillinger > Storyer.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reagerte på storyen",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Du kan ikke svare på denne storyen fordi du ikke er medlem av denne gruppen lenger.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -5770,7 +5913,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Legg til tekst",
+    "message": "Legg til tekst i storyen",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5782,7 +5925,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Del en link med de som ser storyen din",
+    "message": "Del en lenke med de som ser storyen din",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5805,6 +5948,18 @@
     "message": "Reagerte på en story",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reagerte med $emoji$ på storyen din",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Du reagerte med $emoji$ på storyen til $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Du reagerte med $emoji$ på en story",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Ikke lenger tilgjengelig",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Kontekstmeny",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Brukernavn",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Brukernavnet gjør det mulig for andre å sende deg meldinger uten telefonnummeret ditt. Det er knyttet til en tallrekke for å holde adressen din skjult.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Les mer",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Hva er dette nummeret?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Disse tallene holder brukernavnet ditt skjult slik at du unngår uønskede meldinger. Det kan være lurt å bare dele brukernavnet ditt med personer og grupper du ønsker å ha en samtale med. Du får en ny tallrekke hvis du bytter brukernavn.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Siste nytt",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Du kan legge til en venn i en av gruppene dine fra vedkommendes kontaktdetaljer for å holde samtalen gående.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Jobber iherdig med å fikse feil og andre ytelsesforbedringer som sørger for at appen fungerer optimalt.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Bli med å teste den nye Storyer-funksjonen vår. Du kan prøve ut funksjonen med andre beta-testere, og fortelle oss hvordan den fungerer.",
+    "description": "Release notes for v5.63"
   }
 }

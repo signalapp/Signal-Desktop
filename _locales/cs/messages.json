@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Přidat zprávu",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Zpráva",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Hotovo",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Přidat do skupiny",
@@ -354,7 +373,7 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Načítání zpráv. $count$ z více...",
+    "message": "Načítání zpráv. Zatím $count$…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... pro zobrazení celého protokolu klikněte na Uložit",
+    "message": "…chcete-li zobrazit celý záznam, klikněte na Uložit",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontakty nejsou na Desktopu dostupné",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Žádné výsledky pro „$searchTerm$“ v  $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Žádné výsledky pro „{searchTerm}“ v  {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Klepněte na $plusButton$ (Android), nebo na $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Zjistit více",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR kód se nepodařilo načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. <learnMoreLink>Zjistit více</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "vyp.",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mizející zprávy",
+  "icu:disappearingMessages": {
+    "messageformat": "Mizející zprávy",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Nebyly nalezeny žádné kontakty",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nebyly nalezeny žádné skupiny",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Nebyly nalezeny žádné konverzace",
@@ -2741,8 +2760,8 @@
     "message": "Zpět",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Přidejte své nálepky",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Přidejte své nálepky",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Zobrazit okraje",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Přidat $count$ nebo víc",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Přidat {count,number} nebo víc",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Mrkněte na tenhle balíček nálepek, který jsem vytvořil/a pro Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ přidaných obrázků",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Byl přidán jeden obrázek} few {Byly přidány {count,number} obrázky} many {Bylo přidáno {count,number} obrázků} other {Bylo přidáno {count,number} obrázků}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ členů",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 člen",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 člen} few {{count,number} členové} many {{count,number} členů} other {{count,number} členů}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Člen skupiny $group$",
@@ -3122,7 +3145,7 @@
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Příchozí videohovor...",
+    "message": "Příchozí videohovor…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Vyzvání...",
+    "message": "Vyzvání…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Opětovné připojování...",
+    "message": "Opětovné připojování…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Aktualizuji...",
+    "message": "Aktualizuji…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Stahování zvukové přílohy...",
+    "message": "Stahování zvukové přílohy…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klikněte na $composeIcon$ výše a vyhledejte kontakty nebo skupiny, kterým chcete poslat zprávu.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klikněte na {composeIcon} výše a vyhledejte kontakty nebo skupiny, kterým chcete poslat zprávu.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Vlastní čas...",
+    "message": "Vlastní čas…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Přidejte popisek skupiny...",
+    "message": "Přidejte popisek skupiny…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Uživatelské jméno",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Zadejte uživatelské jméno",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Uživatelská jména jsou v aplikaci Signal nepovinná. Pokud se rozhodnete si uživatelské jméno vytvořit, budou vás ostatní uživatelé služby Signal moci podle tohoto uživatelského jména najít a kontaktovat, aniž by znali vaše telefonní číslo.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Vyberte si uživatelské jméno",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Uživatelská jména mohou obsahovat pouze znaky a–z, 0–9 a _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Uživatelská jména nesmí začínat číslicí.",
@@ -4945,6 +4964,10 @@
     "message": "Uživatelská jména mohou mít maximálně $max$ znaků.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Toto uživatelské jméno není k dispozici",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Toto uživatelské jméno je obsazeno.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Vaše uživatelské jméno se nepodařilo odstranit. Zkontrolujte připojení a zkuste to znovu.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Uživatelské jméno zkopírováno",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Odkaz zkopírován",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Mazání uživatelské jméno",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Smazat uživatelské jméno",
@@ -4969,8 +5004,24 @@
     "message": "Smazat",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Zkopírovat nebo smazat uživatelské jméno",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Zkopírovat uživatelské jméno",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Zkopírovat odkaz",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Smazat",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Napište něco o sobě...",
+    "message": "Napište něco o sobě…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Chcete tyto změny zahodit?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Váš profil je zašifrovaný. Váš profil a jeho změny budou viditelné pro vaše kontakty a při zahájení nebo přijetí nových konverzací. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Kdo může...",
+    "message": "Kdo může…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Zařízení",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Zapnout příběhy",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Vypnout příběhy",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Vypnout",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Příběhy již nebudete moci sdílet ani zobrazovat. Aktualizace příběhů, které jste nedávno sdíleli, budou také odstraněny.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "K dispozici je aktualizace na verzi $version$",
@@ -5317,8 +5384,12 @@
     "message": "Oříznout",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Přidat zprávu",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Moje příběhy",
+    "message": "Můj příběh",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ zobrazení",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ zobrazení",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} zobrazení} few {{views,number} zobrazení} many {{views,number} zobrazení} other {{views,number} zobrazení}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Zobrazení vypnuta",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ odpověď",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Smazat tento příběh? Smaže se také všem, kteří jej obdrželi.",
+    "message": "Smazat tento příběh? Smaže se také všem, kdo jej obdrželi.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Vaše spojení vidí vaše jméno a fotografii a mohou vidět příspěvky v sekci „Můj příběh“, pokud je před nimi neskryjete.",
+    "message": "Vaše spojení vidí vaše jméno a fotografii a mohou vidět příspěvky v sekci „Můj příběh“, pokud je před nimi neskryjete.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Moje příběhy",
+    "message": "Můj příběh",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5402,8 +5481,16 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Žádné nové příběhy k zobrazení",
+    "message": "Žádné nové příběhy k zobrazení",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "Odesílání…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Odeslání se nezdařilo",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "Kliknutím zobrazíte příběh",
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Odesílám odpověď...",
+    "message": "Odesílám odpověď…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Odesílám reakci...",
+    "message": "Odesílám reakci…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "Nastavení příběhu",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Příběhy po 24 hodinách automaticky zmizí. Vyberte, kdo si může váš příběh zobrazit, nebo vytvořte nový příběh pro konkrétní sledující nebo skupiny.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nový soukromý příběh",
-    "description": "Label to create a new private story list"
+    "message": "Nový vlastní příběh",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Název tohoto příběhu vidíte pouze vy.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$sledující",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ sledující",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 zobrazení} few {{count,number} zobrazení} many {{count,number} zobrazení} other {{count,number} zobrazení}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Kdo může vidět tento příběh",
+    "message": "Kdo může tento příběh zobrazit",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Odebrat",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Odstranit – $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Tato osoba již váš příběh neuvidí.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Odpovědi a reakce",
@@ -5470,24 +5569,24 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Umožněte lidem, kteří si mohou zobrazit váš příběh, reagovat a odpovídat.",
+    "message": "Umožněte lidem, kteří si mohou zobrazit váš příběh, reagovat a odpovídat.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Smazat soukromý příběh",
-    "description": "Button label to delete a private distribution list"
+    "message": "Smazat vlastní příběh",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Smazat soukromý příběh?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Opravdu chcete smazat příběh „$name$“? Aktualizace sdílené k tomuto příběhu budou také smazány.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Vybrat sledující",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Pojmenovat tento příběh",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Pojmenovat příběh",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Název příběhu (povinné)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Všechna spojení Signal kromě…",
+    "message": "Všichni kromě…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Sdílet jen s…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Sdílet jen s vybranými lidmi",
@@ -5537,6 +5636,14 @@
     "message": "Nastavení příběhu",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Potvrzení o zobrazení",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Pokud chcete toto nastavení změnit, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Příběhy",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Vyberte, kdo váš příběh uvidí",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "Odeslat příběh",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Vlastní příběh",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Skupinový příběh",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Sdílet pouze s",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} vyloučené spojení} few {{count,number} vyloučená spojení} many {{count,number} vyloučených spojení} other {{count,number} vyloučených spojení}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Nový příběh",
+    "message": "Nový",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "Nový vlastní příběh",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Název tohoto příběhu vidíte pouze vy.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Viditelný pouze vybraným lidem",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Nový soukromý příběh",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Viditelný pouze vybraným lidem",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Nový skupinový příběh",
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Soukromí mých příběhů",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Soukromí mého příběhu",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Vyberte, která spojení Signal uvidí váš příběh. Toto nastavení můžete vždy změnit v nastavení soukromí. $learnMore$",
+    "message": "Vyberte, která spojení Signal váš příběh uvidí. Toto nastavení můžete vždy změnit v nastavení soukromí. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5586,15 +5721,19 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Smazat příběh? Tímto příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
+    "message": "Smazat příběh? Tím příběh odstraníte ze svého seznamu, ale příběhy z této skupiny si budete moci i nadále prohlížet.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Do této skupiny mohou příběhy posílat pouze správci.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "Sdílet a zobrazit příběhy",
+    "message": "Sdílet a zobrazovat příběhy",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Po vypnutí této možnosti již nebudete moci sdílet ani zobrazovat příběhy.",
+    "message": "Po vypnutí této možnosti již nebudete moci příběhy sdílet ani zobrazovat.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Zobrazení vypnuta",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Odesláno $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Aktivujte si potvrzení o přečtení, abyste viděli, kdo si vaše příběhy zobrazil. Otevřete aplikaci Signal v mobilním zařízení a přejděte do Nastavení > Soukromí.",
+    "message": "Povolte potvrzení o zobrazení, abyste viděli, kdo si vaše příběhy zobrazil. Otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Příběhy.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "Reagoval/a na příběh",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Na tento příběh nemůžete reagovat, protože už nejste členem této skupiny.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "Příběh",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Skrýt příběh? Nové aktualizace příběhů od $name$ se již nebudou zobrazovat v horní části seznamu příběhů.",
+    "message": "Skrýt příběh? Nové aktualizace příběhu od $name$ se již nebudou zobrazovat v horní části seznamu příběhů.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5702,11 +5845,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Příběh se nepodařilo stáhnout. $name$ ho bude muset sdílet znovu.",
+    "message": "Příběh se nepodařilo stáhnout. $name$ ho bude muset znovu sdílet.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Příběh se nepodařilo stáhnout. Budete ho muset sdílet znovu.",
+    "message": "Příběh se nepodařilo stáhnout. Budete ho muset znovu sdílet.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5714,7 +5857,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Video nelze přidat k příběhu, protože se jedná o nepodporovaný formát souboru.",
+    "message": "Video nelze přidat k příběhu, protože se jedná o nepodporovaný formát souboru.",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5805,6 +5948,18 @@
     "message": "Reagoval/a na příběh",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Posílá $emoji$ v reakci na váš příběh",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Posíláte $emoji$ v reakci na příběh uživatele $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "V reakci na příběh posíláte $emoji$",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Již není k dispozici",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Kontextová nabídka",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Uživatelské jméno",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Uživatelská jména umožňují ostatním posílat vám zprávy, aniž by k tomu potřebovali vaše telefonní číslo. Jsou spárována se sadou číslic, které pomáhají udržet vaši adresu v soukromí.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Zjistit více",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Co je to za číslo?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Co je nového",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Přítele jednoduše přidáte do skupiny z obrazovky s jeho kontaktními údaji, a pak už můžete zahájit konverzaci.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Usilovně pracujeme na opravách chyb a na dalším zvyšování výkonu, aby vám aplikace fungovala bez problémů.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Začněte používat a testovat naši novou funkci příběhů. Můžete ji vyzkoušet společně s dalšími testery a dát nám vědět, jak funguje.",
+    "description": "Release notes for v5.63"
   }
 }

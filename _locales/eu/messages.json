@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Gehitu mezu bat",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mezua",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Eginda",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Gehitu taldera",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Hobespenak...",
+    "message": "Hobespenak…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Kargatzen...",
+    "message": "Kargatzen…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Aplikazioa optimizatzen...",
+    "message": "Aplikazioa optimizatzen…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Mezuak optimizatzen... $status$ eginda.",
+    "message": "Mezuak optimizatzen… $status$ osatu da.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Datubasea eguneratzen. Honek denbora bat hartuko du...",
+    "message": "Datu-basea berritzen. Baliteke denbora pixka bat behar izatea…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Mezuak kargatzen. $count$ dagoeneko...",
+    "message": "Mezuak kargatzen. $count$ dagoeneko…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Aurrebista Kargatzen...",
+    "message": "Aurrebista kargatzen…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontaktuak ez daude erabilgarri ordenagailurako bertsioan.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ez da topatu emaitzarik \"$searchTerm$\" bilaketarako $conversationName$ solasaldian",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ez da topatu emaitzarik \"{searchTerm}\" bilaketarako {conversationName} solasaldian",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Sakatu $plusButton$ (Android-en) edo $linkNewDevice$ (iPhone-etan)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Lortu informazio gehiago",
+  "icu:Install__qr-failed": {
+    "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <learnMoreLink>Informazio gehiago</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Inportatzen...",
+    "message": "Inportatzen…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "desaktibatu",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Mezuen desagerpena",
+  "icu:disappearingMessages": {
+    "messageformat": "Mezuen desagerpena",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Hasi solasaldi berria...",
+    "message": "Hasi elkarrizketa berri bat…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Ez da kontakturik aurkitu",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ez da talderik aurkitu",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Ez da elkarrizketarik aurkitu",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Eranskailuen paketea instalatzen...",
+    "message": "Eranskailuen paketea instalatzen…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Atzera",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Gehitu zure eranskailuak",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Gehitu zure eranskailuak",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Erakutsi marjinak",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Gehitu $count$ edo gehiago",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Gehitu {count,number} edo gehiago",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Bakarrik beste xehetasun batzuk...",
+    "message": "Xehetasun gutxi batzuk besterik ez…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Begiratu bat botaiozu sortu dudan eranskailu pakete berriari. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ irudi gehituta",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 irudi gehitu da} other {{count,number} irudi gehitu dira}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ partaide",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "partaide 1",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {{count,number} kide} other {{count,number} kide}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$ taldeko kidea",
@@ -3118,7 +3141,7 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Sarrerako audio-deia...",
+    "message": "Sarrerako audio-deia…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Deitzen...",
+    "message": "Deitzen…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Birkonektatzen...",
+    "message": "Berriro konektatzen…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Eguneratzen...",
+    "message": "Eguneratzen…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Audio eranskina deskargatzen...",
+    "message": "Audio-eranskina deskargatzen…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Egin klik $composeIcon$goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Egin klik {composeIcon}goiko aldean eta bilatu zure kontaktuak edo taldeak bidaltzeko.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Denbora pertsonalizatua...",
+    "message": "Denbora pertsonalizatua…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4921,17 +4944,13 @@
     "message": "Erabiltzailearen izena",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Sartu erabiltzaile izen bat",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Erabiltzaile izenak aukerazkoak dira Signal-en. Erabiltzaile bat sortzea erabakitzen baduzu, beste erabiltzaile batzuek topatu ahal izango zaituzte izen hau erabiliz eta zurekin harremanetan jarri ahal izango dira zure telefono zenbakia jakin gabe.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Aukeratu erabiltzaile-izena",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Erabiltzaile izenak bakarrik karaktere hauez osatuta egon daitezke: a-z, 0-9 eta _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Erabiltzaile izenak ezin dira zenbaki batez hasi.",
@@ -4945,6 +4964,10 @@
     "message": "Erabiltzaile izenek gehienez $max$ karaktere izan behar dituzte.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Erabiltzaile-izen hori ez dago erabilgarri",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Erabiltzaile izen hau hartuta dago.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Ezin izan da zure erabiltzaile-izena gorde. Egiaztatu konexioa eta saiatu berriro.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Kopiatu da erabiltzaile-izena",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Kopiatu da esteka",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Erabiltzaile-izena ezabatzen",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Ezabatu erabiltzaile-izena",
@@ -4969,8 +5004,24 @@
     "message": "Ezabatu",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kopiatu edo ezabatu erabiltzaile-izena",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kopiatu erabiltzaile-izena",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Kopiatu esteka",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Ezabatu",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Idatzi zuri buruzko hitz batzuk...",
+    "message": "Idatzi zeure buruari buruzko zerbait…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Baztertu nahi dituzu aldaketa hauek?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Zure profila enkriptatuta dago. Zure profila eta bertan egindako aldaketak zure kontaktuek ikusgai izango dituzte eta txat berriak hasten edo onartzen dituzunean.$learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Zure profila enkriptatuta dago. Zure profila eta bertan egindako aldaketak zure kontaktuek ikusgai izango dituzte eta txat berriak hasten edo onartzen dituzunean.{learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Nork egin dezake...",
+    "message": "Nork egin ditzake ekintza hauek?",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Gailuak",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Aktibatu istorioak",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Desaktibatu istorioak",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Desaktibatu",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Aurrerantzean ezingo dituzu partekatu edo ikusi istorioak. Duela gutxi partekatu dituzun istorio-eguneratzeak ere ezabatuko dira.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Eguneratu $version$eskuragarri dagoen bertsiora",
@@ -5317,16 +5384,20 @@
     "message": "Moztu",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Gehitu mezu bat",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Nire storie-ak",
+    "message": "Nire istorioa",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Zure storie-a",
+    "message": "Zure istorioa",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Deskargatu storie-a",
+    "message": "Deskargatu istorioa",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "Ikustaldi $num$",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ikustaldi",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {Ikustaldi {views,number}} other {{views,number} ikustaldi}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Irakurragiriak desaktibatuta daude",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "Erantzun $num$",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Storie hau ezabatu? Jaso duten guztientzat ere ezabatuko da.",
+    "message": "Istorio hau ezabatu nahi duzu? Jaso duten guztientzat ere ezabatuko da.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5378,15 +5457,15 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Storie-ak",
+    "message": "Istorioak",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Nire storie-ak",
+    "message": "Nire istorioa",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Gehitu storie bat",
+    "message": "Gehitu istorio bat",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5398,15 +5477,23 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Ezkutuko storie-ak",
+    "message": "Istorio ezkutuak",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Une honetan ez dago azken storie-rik erakusteko",
+    "message": "Une honetan ez dago azken istoriorik erakusteko",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Bidaltzen…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Bidaltzeak huts egin du",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "Klikatu storie bat ikusteko",
+    "message": "Istorio bat ikusteko, egin klik hartan",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5426,23 +5513,35 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Story ezarpenak",
+    "message": "Istorioen ezarpenak",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Istorioak automatikoki desagertzen dira 24 orduren buruan. Aukeratu nork ikus dezakeen zure istorioa, edo sortu istorioak ikusle edo talde zehatzekin.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Story pribatu berria",
-    "description": "Label to create a new private story list"
+    "message": "Istorio pertsonalizatu berria",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Zuk bakarrik ikus dezakezu istorio honen izena.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ikusle",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ ikusle",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {{count,number} ikusle} other {{count,number} ikusle}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Nork ikus dezake story hau",
+    "message": "Nork ikus dezake istorio hau?",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Ezabatu",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Kendu $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Pertsona honek ez du gehiago ikusiko zure storie-a.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "Aurrerantzean, pertsona honek ez du zure istorioa ikusiko.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Erantzunak eta erreakzioak",
@@ -5470,31 +5569,31 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "Eman zure istorioa ikus dezakeen jendeari erreakzionatu eta erantzuteko aukera",
+    "message": "Eman zure istorioa ikus dezakeen jendeari erreakzionatu eta erantzuteko aukera.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Story pribatua ezabatu",
-    "description": "Button label to delete a private distribution list"
+    "message": "Ezabatu istorio pertsonalizatua",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Istorio pribatua ezabatu nahi duzu?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Ziur \"$name$\" ezabatu nahi duzula? Istorio honetan partekatutako eguneraketak ere ezabatu egingo dira.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Aukeratu ikusleak",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Jarri izena istorio honi",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Jarri izena istorioari",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Story izena (beharrezkoa)",
+    "message": "Istorioaren izena (beharrezkoa)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Ezkutatu storie-a honi:",
+    "message": "Ezkutatu istorioa hauei:",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Signal-eko konexio guztiak, hauek izan ezik…",
+    "message": "Guztiak, hauek izan ezik…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Partekatu hauekin bakarrik…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Partekatu hautatutako pertsonekin bakarrik",
@@ -5534,8 +5633,16 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story ezarpenak",
+    "message": "Istorioen ezarpenak",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Ikusi irakurragiriak",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Ezarpen hau aldatzeko, ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak -> Istorioak atalera",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Aukeratu nork ikus dezakeen zure istorioa",
@@ -5549,17 +5656,45 @@
     "message": "Bidali istorioa",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Istorio pertsonalizatua",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Taldeko istorioa",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Partekatu hauekin bakarrik:",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Istorio berria",
+    "message": "Berria",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Story pribatu berria",
+  "SendStoryModal__new-custom--title": {
+    "message": "Istorio pertsonalizatu berria",
     "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Zuk bakarrik ikus dezakezu istorio honen izena.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Pertsona zehatzentzat bakarrik ikusgai",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "Istorio pribatu berria",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Pertsona zehatzentzat bakarrik ikusgai",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Taldeko istorio berria",
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Nire istorioen pribatutasuna",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Nire istorioaren pribatutasuna",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Aukeratu Signal-eko zer konexiok ikus dezaketen zure istorioa. Nahi duzunean alda dezakezu hautapena pribatutasun-ezarpenetan.$learnMore$",
+    "message": "Aukeratu Signal-eko zer konexiok ikus dezaketen zure istorioa. Nahi duzunean alda dezakezu hautapena pribatutasun-ezarpenetan. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5586,8 +5721,12 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Ezabatu istorioa? Honek istorioa zure zerrendatik ezabatuko du, baina oraindik talde honetatik istorioak ikusten jarraitu ahalko duzu.",
+    "message": "Istorioa ezabatu nahi duzu? Istorioa zerrendatik ezabatuko da, baina talde honetatik istorioak ikusten jarraitu ahalko duzu.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Administratzaileek soilik bidal ditzakete istorioak talde honetara.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Partekatu eta ikusi istorioak",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Irakurragiriak desaktibatuta daude",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Bidaltze-data: $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Baimendu ordainagiri irakurriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa zure mugikorrean eta joan Ezarpenak > Pribatutasuna atalera.",
+    "message": "Gaitu irakurragiriak zure istorioak nork ikusi dituen jakiteko. Ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak > Istorioak atalera.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5662,23 +5801,27 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Erreakzionatu storie-ari",
+    "message": "Bidali istorioari buruzko erreakzio bat",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Storie-ari erreakzionatu diozu",
+    "message": "Istorioari buruzko erreakzio bat bidali duzu",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Ezin diozu erantzun istorio honi, jada ez zarelako talde honetako kidea.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
-    "message": "Story",
+    "message": "Istorioa",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Erakutsi storie-ak",
+    "message": "Erakutsi istorioak",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Ezkutatu storie-ak",
+    "message": "Ezkutatu istorioa",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Storie-a ezkutatu? Istorioen eguneratze berriak $name$tik ez dira istorioen zerrendaren goialdean agertuko.",
+    "message": "Istorioa ezkutatu nahi duzu? Aurrerantzean, $name$(r)en istorioen eguneratzeak ez dira agertuko istorioen zerrendaren goialdean.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5794,16 +5937,28 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Story",
+    "message": "Istorioa",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ren story bati erreakzionatu diozu",
+    "message": "$name$(r)en istorio bati buruzko erreakzio bat bidali duzu",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Storie-ari erreakzionatu dio",
+    "message": "Istorio bati buruzko erreakzio bat bidali duzu",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "$emoji$ emojiarekin erreakzionatu du zure istorioa ikustean",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$emoji$ emojiarekin erreakzionatu duzu $name$(r)en istorioa ikustean",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "$emoji$ emojiarekin erreakzionatu duzu istorio bat ikustean",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "Ez dago erabilgarri",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Laster-menua",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Erabiltzaile-izena",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Erabiltzaile-izenei esker, beste erabiltzaileek zure telefono-zenbakiaren beharrik gabe bidal diezazkizukete mezuak. Digitu multzo batekin parekatzen dira, zure helbidea pribatu mantentzeko.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Informazio gehiago",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Zer da zenbaki hau?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Digitu hauei esker, erabiltzaile-izena pribatu mantentzen da, nahi ez dituzun mezuak jaso ez ditzazun. Partekatu zure erabiltzaile-izena txateatu nahi duzun pertsona eta taldeekin soilik. Erabiltzaile-izena aldatzen baduzu, digitu multzo berri bat esleituko zaizu.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Zer berri",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Gehitu erraz lagun bat talde batean haren kontaktu-xehetasunen pantailatik eta jarraitu elkarrizketa interesgarriak izaten.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Hasi istorioen eginbide berria erabiltzen eta probatzen. Beste beta-probatzaile batzuekin erabil dezakezu, eta guri nola dabilen jakinarazi.",
+    "description": "Release notes for v5.63"
   }
 }

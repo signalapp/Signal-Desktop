@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Afegiu-hi un missatge",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Missatge",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Fet",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Afegeix-lo a un grup",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Preferències...",
+    "message": "Preferències…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "S'està carregant...",
+    "message": "Carregant…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "S'optimitza l'aplicació...",
+    "message": "Optimitzant l'aplicació…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "S'optimitzen els missatges... $status$ fet.",
+    "message": "Optimitzant els missatges… $status$ completat.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "S'actualitza la base de dades. Això pot trigar una mica...",
+    "message": "Actualitzant la base de dades. Això pot trigar una estona…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Es carreguen els missatges. $count$ fins ara...",
+    "message": "Carregant missatges. $count$ de moment…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... per veure el registre complet, cliqueu a Desa",
+    "message": "… per veure el registre complet, clica Desar",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "S'està carregant la previsualització...",
+    "message": "Carregant la previsualització…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Es connecta...",
+    "message": "Connectant…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "Els contactes d'SMS / MMS no estan disponibles a la versió d'escriptori.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "No hi ha resultats per a \"$searchTerm$\" a $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "No hi ha resultats per a \"{searchTerm}\" a {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Toqueu $plusButton$ (Android) o $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "No s'ha pogut carregar el codi QR. Comproveu la connexió a Internet i torneu-ho a provar. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Més informació",
+  "icu:Install__qr-failed": {
+    "messageformat": "No s'ha pogut carregar el codi QR. Comprova la connexió a Internet i torna-ho a provar. <learnMoreLink>Més informació</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "S'importa...",
+    "message": "Important…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "desactivat",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Missatges efímers",
+  "icu:disappearingMessages": {
+    "messageformat": "Missatges efímers",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Comenceu una conversa nova...",
+    "message": "Comença una nova conversa…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "No s'ha trobat cap contacte.",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "No s'ha trobat cap grup.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "No s'ha trobat cap conversa.",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "S'instal·la el paquet d'adhesius...",
+    "message": "Instal·lant el paquet de stickers…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Enrere",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Afegiu-hi adhesius",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Afegiu-hi adhesius",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Mostra'n els marges",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Afegeix $count$ o més",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Afegeix {count,number} o més",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Uns quants detalls més...",
+    "message": "Uns quants detalls més…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Mireu aquest paquet d'adhesius nou que he creat per al Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ imatge/s afegida/es",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 imatge afegida} other {{count,number} imatges afegides}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ membres",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 membre",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 membre} other {{count,number} membres}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Membre de $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Trucada d'àudio entrant...",
+    "message": "Trucada d'àudio entrant…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Trucada de vídeo entrant...",
+    "message": "Trucada de vídeo entrant…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Sona...",
+    "message": "Sonant…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Es torna a connectar...",
+    "message": "Tornant a connectar…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "S'actualitza...",
+    "message": "Actualitzant…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Es baixa l'àudio adjunt...",
+    "message": "Baixant l'àudio adjunt…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Cliqueu el $composeIcon$ i cerqueu contactes i grups a qui enviar missatges.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Cliqueu el {composeIcon} i cerqueu contactes i grups a qui enviar missatges.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Temps personalitzat...",
+    "message": "Temps personalitzat…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Afegiu-hi una descripció del grup...",
+    "message": "Afegeix-hi una descripció del grup…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Nom d'usuari",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Escriviu un nom d'usuari",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Els noms d’usuari al Signal són opcionals. Si trieu crear un nom d’usuari, altres usuaris de Signal us podran trobar per aquest nom d’usuari i contactar sense saber el vostre número de telèfon.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Tria un nom d'usuari",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Els noms d'usuari només poden contenir a-z, 0-9 i _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Els noms d'usuari no poden començar amb un número.",
@@ -4945,6 +4964,10 @@
     "message": "Els noms d'usuari han de tenir un màxim de$max$ caràcters.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Aquest nom d'usuari no està disponible",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Aquest nom d'usuari ja està agafat.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "No s'ha pogut suprimir el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "S'ha copiat el nom d'usuari",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "S'ha copiat l'enllaç",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Suprimint el nom d'usuari",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Suprimeix el nom d'usuari",
@@ -4969,8 +5004,24 @@
     "message": "Suprimits",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Copiar o suprimir el nom d'usuari",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Copiar el nom d'usuari",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Copiar l'enllaç",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Suprimir",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Escriviu alguna cosa sobre vosaltres...",
+    "message": "Escriu alguna cosa sobre tu…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Voleu descartar aquests canvis?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "El perfil està encriptat. El perfil i els canvis seran visibles per als vostres contactes quan inicieu o accepteu converses noves. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "El perfil està encriptat. El perfil i els canvis seran visibles per als vostres contactes quan inicieu o accepteu converses noves. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Qui pot...",
+    "message": "Qui pot…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Dispositius",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Activar històries",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Desactivar històries",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Desactiva",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Ja no podràs compartir o veure històries. Les històries que hagis compartit recentment també seran eliminades.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Actualització a la versió $version$ disponible",
@@ -5317,8 +5384,12 @@
     "message": "Retalla",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Afegiu-hi un missatge",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Les meves històries",
+    "message": "La meva història",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ visualitzacions",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ visualitzacions",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} visualització} other {{views,number} visualitzacions}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Visualitzacions desactivades",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ respostes",
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Les meves històries",
+    "message": "La meva història",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5402,8 +5481,16 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Ara no hi ha històries per veure.",
+    "message": "Ara no hi ha històries per veure",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "Enviant…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "L'enviament ha fallat",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "Cliqueu per veure la història",
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Enviant resposta...",
+    "message": "Enviant resposta…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Enviant reacció...",
+    "message": "Enviant reacció…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,17 +5516,29 @@
     "message": "Configuració de la història",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Les històries desapareixeran automàticament després de 24 hores. Tria qui pot veure la teva història o crea noves històries amb espectadors o grups específics.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Història privada nova",
-    "description": "Label to create a new private story list"
+    "message": "Nova història personalitzada",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Només tu pots veure el nom d'aquesta història.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ espectador",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ espectadors",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 espectador} other {{count,number} espectadors}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
     "message": "Qui pot veure aquesta història",
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Suprimeix",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Eliminar $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Aquesta persona ja no veurà la vostra història.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Respostes i reaccions",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Suprimeix la història privada",
-    "description": "Button label to delete a private distribution list"
+    "message": "Eliminar història personalitzada",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Eliminar història privada?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Segur que vols eliminar a \"$name$\"? També s'eliminaran les actualitzacions compartides en aquesta història.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Triar espectadors",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Posa títol a aquesta història",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Nom de la història",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Nom de la història (cal)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Tots els contactes de Signal menys...",
+    "message": "Tothom menys…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Compartir només amb...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Compartir només amb…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Compartir només amb les persones seleccionades",
@@ -5537,6 +5636,14 @@
     "message": "Configuració de la història",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Veure rebuts",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Per a canviar aquesta configuració, obre l'aplicació de Signal al dispositiu mòbil i ves a Configuració > Històries.",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "Tria qui pot veure la teva història",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "Enviar història",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Història personalitzada",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Història del grup",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Compartir només amb",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} persona exclosa} other {{count,number} persones excloses}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Nova història",
+    "message": "Nova",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "Nova història personalitzada",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Només tu pots veure el nom d'aquesta història.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Visible només per a persones específiques",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Història privada nova",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Visible només per a persones específiques",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Nova història de grup",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Privacitat de les meves històries",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Privacitat de la meva història",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Tria quines connexions de Signal poden veure la teva història. Sempre podràs fer-hi canvis als Ajustos de privacitat. $learnMore$",
@@ -5588,6 +5723,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "Eliminar història? Aquesta acció eliminarà la història de la teva llista, però podràs continuar veient les històries d'aquest grup.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Només els administradors poden enviar històries a aquest grup.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Compartir i veure històries",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Visualitzacions desactivades",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Enviat a les $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Activa les confirmacions de lectura per veure qui ha vist les teves Històries. Obre l'app de Signal al teu dispositiu mòbil i ves a Ajustos > Privacitat.",
+    "message": "Activa les confirmacions de visualització per veure qui ha vist les teves històries. Obre l'app de Signal al teu dispositiu mòbil i ves a Ajustos > Històries.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Ha reaccionat a la història",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "No pots respondre a aquesta història perquè ja no pertanys a aquest grup.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Història",
@@ -5802,8 +5945,20 @@
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Ha reaccionat a una història.",
+    "message": "Ha reaccionat a una història",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Ha reaccionat $emoji$ a la teva història",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Has reaccionat $emoji$ a la història de $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Has reaccionat $emoji$ a una història",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "Ja no està disponible",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Menú de context",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Nom d'usuari",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Els noms d'usuari permeten a altres persones enviar-te un missatge sense necessitat del teu número de telèfon. Funcionen conjuntament amb una sèrie de dígits per ajudar-te a mantenir privada la teva adreça.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Més informació",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Què és aquest número?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Aquests dígits ajudaran a mantenir el teu nom d'usuari en privat per tal d'evitar rebre missatges no desitjats. Comparteix el teu nom d'usuari només amb aquelles persones i grups amb les que desitges parlar. Si canvies el teu nom d'usuari, rebràs una nova sèrie de dígits.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Què hi ha de nou",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Afegeix fàcilment amics a un grup des de la pantalla de les seves dades de contacte per mantenir la conversa emocionant.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Treballant força per tal de corregir errors i fer altres tasques de millora de rendiment per aconseguir que l'aplicació funcioni sense problemes.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Comença a utilitzar i provar la nostra nova funció d'històries. Pots fer servir la funció amb altres provadors beta i fer-nos saber com funciona.",
+    "description": "Release notes for v5.63"
   }
 }

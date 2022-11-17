@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "စာ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ပြီးပါပြီ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်မယ်",
@@ -242,11 +261,11 @@
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "အပလီကေးရှင်းကို ချိန်ညှိနေဆဲ...",
+    "message": "အက်ပ်ကို ချိန်ညှိနေဆဲ...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "မက်ဆေ့ချ်များကို ချိန်ညှိနေဆဲ... $status$ ပြီးစီးပြီး။",
+    "message": "မက်ဆေ့ချ်များကို ချိန်ညှိနေဆဲ... $status$ ပြီးပါပြီ။",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Upgrading database. This may take some time...",
+    "message": "ဒေတာဘေ့စ် အဆင့်မြှင့်တင်နေပါသည်။ အချိန်အနည်းငယ် ကြာနိုင်ပါသည်...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Loading messages. $count$ so far...",
+    "message": "မက်ဆေ့ချ်များ ထည့်သွင်းလုပ်ဆောင်နေပါသည်။ $count$ ပြီးစီးပြီး...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... မှတ်တမ်းအပြည့်ကြည့်ရန် သိမ်းရန်ကို နှိပ်ပါ",
+    "message": "... မှတ်တမ်းအပြည့်ကြည့်ရန်အတွက် သိမ်းရန်ကို နှိပ်ပါ",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS အဆက်အသွယ်များကို Desktop တွင် မရရှိနိုင်ပါ။",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ တွင် \"$searchTerm$\" အတွက် ရလဒ်များ မရှိပါ",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} တွင် \"{searchTerm}\" အတွက် ရလဒ်များ မရှိပါ",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) သို့မဟုတ် $linkNewDevice$ (iPhone) ကို နှိပ်ပါ",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR ကုဒ်ကို လုပ်ဆောင်မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။ $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "ထပ်မံလေ့လာရန်",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR ကုဒ် လုပ်ဆောင်မရပါ။ သင့်အင်တာနက်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importing...",
+    "message": "ထည့်သွင်းနေဆဲ...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ပိတ်သည်",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "စာများအား ပျောက်သွားစေခြင်း",
+  "icu:disappearingMessages": {
+    "messageformat": "စာများအား ပျောက်သွားစေခြင်း",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "စတိုရီ",
+    "message": "စတိုရီများ",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "အဆက်အသွယ်များ ရှာမတွေ့ပါ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "အဖွဲ့ မတွေ့ရှိပါ",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "စကားဝိုင်းများ ရှာမတွေ့ပါ",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "စတစ်ကာတွဲကို ထည့်သွင်းနေဆဲ...",
+    "message": "စတစ်ကာတွဲ ထည့်သွင်းနေဆဲ...",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "နောက်သို့",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "သင့်စတစ်ကာများကို ပေါင်းထည့်ရန်",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "သင့်စတစ်ကာများကို ပေါင်းထည့်ရန်",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "မာဂျင်များ ပြရန်",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ သို့မဟုတ် ထိုအထက် ပေါင်းထည့်ရန်",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} သို့မဟုတ် ထိုအထက် ပေါင်းထည့်ရန်",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal အတွက် ကျွန်ုပ် ဖန်တီးထားသော ဤစတစ်ကာတွဲ အသစ်ကို ကြည့်လိုက်ပါ။ #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ပုံ ပေါင်းထည့်ပြီး",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} ပုံ ပေါင်းထည့်ပြီး}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "မန်ဘာ $count$ ဦး",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "အဖွဲ့ဝင် ၁ ဦး",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, other {မန်ဘာ {count,number} ဦး}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "အဖွဲ့ဝင်$group$",
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "အထက်ပါ $composeIcon$ ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။",
+  "icu:emptyInboxMessage": {
+    "messageformat": "အထက်ပါ {composeIcon} ကို နှိပ်ပြီး မက်ဆေ့ချ်ပို့ရန် သင့်အဆက်အသွယ်များ သို့မဟုတ် အဖွဲ့များကို ရှာပါ။",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4921,17 +4944,13 @@
     "message": "သုံးသူအမည်",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "သုံးသူအမည် ရိုက်ထည့်ပေးပါ",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal ပေါ်တွင် သုံးသူအမည်များ ဖြည့်စရာမလိုပါ။ သုံးသူအမည် သင်ဖြည့်ခဲ့လျှင် အခြား Signal သုံးသူများသည် သင့်အား ၎င်းအမည်သုံး၍ ရှာဖွေနိုင်ပါသည် သို့မဟုတ် သင့် ဖုန်းနံပါတ် မသိရှိဘဲ သင့်ကို ဆက်သွယ်နိုင်ပါသည်။",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "သင်၏ သုံးစွဲသူအမည်ကို ရွေးရန်",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "သုံးစွဲသူအမည်များတွင် a-z ၊ 0-9 နှင့် _ တို့ ပါဝင်နိုင်ပါသည်",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "သုံးသူအမည်များသည် နံပါတ်နှင့် စတင်၍ မရပါ။",
@@ -4945,6 +4964,10 @@
     "message": "သုံးစွဲသူအမည်များတွင် အက္ခရာ $max$ လုံး အများဆုံး ရှိရပါမည်။",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ဤသုံးစွဲသူအမည်ကို မရရှိနိုင်ပါ",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ဤအသုံးပြုသူအမည်ကို ယူထားပြီးပါပြီ။",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4957,6 +4980,18 @@
     "message": "သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှား၍ မရနိုင်ပါ။ သင့်၏ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "သုံးစွဲသူအမည် ကူးပြီး",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "လင့်ခ် ကူးပြီး",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "သုံးစွဲသူအမည်ကို ဖျက်နေဆဲ",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "သုံးစွဲသူအမည်ကို ဖျက်ရန်",
     "description": "Shown as aria label for trash icon next to username"
@@ -4968,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "ဖျက်မယ်",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "သုံးစွဲသူအမည်ကို ကူးရန် သို့မဟုတ် ဖျက်ရန်",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "သုံးစွဲသူအမည်ကို ကူးရန်",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "လင့်ခ် ကူးရန်",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "ဖျက်ရန်",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "သင့်အကြောင်းတစ်ခုခု ရေးပါ...",
@@ -4985,8 +5036,8 @@
     "message": "ပြောင်းလဲမှုများကို ပြန်ရုပ်သိမ်းမှာလား?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "သင်၏ ပရိုဖိုင်ကို ကုဒ်ပြောင်းဝှက်ထားပါသည်။ သင်၏ ပရိုဖိုင်နှင့် ယင်း၏ပြောင်းလဲမှုများကို ချက်(တ်)အသစ်ကို သင် စတင်ချိန် သို့မဟုတ် လက်ခံလိုက်ချိန်တွင် သင့်အဆက်အသွယ်များက မြင်ရပါမည်။ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "စက်များ",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "စတိုရီများ ဖွင့်ရန်",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "စတိုရီများ ပိတ်ရန်",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ပိတ်မည်",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "သင်သည် စတိုရီများ ဝေမျှရန် သို့မဟုတ် ကြည့်ရန် လုပ်ဆောင်နိုင်တော့မည် မဟုတ်ပါ။ မကြာသေးမီက သင် ဝေမျှထားသည့် အပ်ဒိတ်များကိုလည်း ဖျက်ပစ်ပါမည်။",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "ဗားရှင်း $version$ အတွက် အပ်ဒိတ် ရရှိပါပြီ",
     "description": "Tooltip for new update available"
@@ -5317,6 +5384,10 @@
     "message": "ဖြတ်တောက်ရန်",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
     "message": "ကျွန်ုပ်၏ စတိုရီ",
     "description": "Title for the my stories list"
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "ကြည့်ရှုမှု $num$",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "ကြည့်ရှုမှု $num$",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, other {ကြည့်ရှုမှု {views,number} ကြိမ်}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "ကြည့်ရှုမှုများကို ပိတ်ထားပါသည်",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "ပြန်စာ $num$ ခု",
@@ -5378,7 +5457,7 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "စတိုရီ",
+    "message": "စတိုရီများ",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
@@ -5405,6 +5484,14 @@
     "message": "ယခု ပြသရန် မကြာသေးမီက စတိုရီများ မရှိသေးပါ",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "ပို့နေဆဲ...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "ပေးပို့ခြင်း မအောင်မြင်ပါ",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "စတိုရီကို ကြည့်ရန် နှိပ်ပါ",
     "description": "Placeholder label for the story view"
@@ -5429,17 +5516,29 @@
     "message": "စတိုရီ ဆက်တင်",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "စတိုရီများသည် 24 နာရီ ကြာပြီးနောက် အော်တိုပျောက်သွားပါမည်။ သင့်စတိုရီကို မြင်နိုင်မည့်သူများအား ရွေးချယ်ပါ သို့မဟုတ် အချို့သော ကြည့်ရှုသူများ သို့မဟုတ် အဖွဲ့များဖြင့်သာ စတိုရီအသစ် ဖန်တီးပါ။",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "သီးသန့် စတိုရီ အသစ်",
-    "description": "Label to create a new private story list"
+    "message": "စိတ်ကြိုက်စတိုရီ အသစ်",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "ဤစတိုရီ၏ အမည်ကို သင်တစ်ဦးတည်းသာ မြင်နိုင်ပါသည်။",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "ကြည့်ရှုသူ $num$ ဦး",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "ကြည့်ရှုသူ $num$ ဦး",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, other {ကြည့်ရှုသူ {count,number} ဦး}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
     "message": "ဤစတိုရီကို ကြည့်နိုင်မည့်သူများ",
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "ဖယ်ရှားမယ်",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$ ကို ဖယ်ရှားရန်",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "ဤပုဂ္ဂိုလ်က သင့်စတိုရီကို မမြင်နိုင်တော့ပါ။",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "ပြန်စာများနှင့် တုံ့ပြန်မှုများ",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "သီးသန့် စတိုရီကို ဖျက်ရန်",
-    "description": "Button label to delete a private distribution list"
+    "message": "စိတ်ကြိုက်စတိုရီကို ဖျက်ရန်",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "သီးသန့် စတိုရီကို ဖျက်မည်လား။",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "\"$name$\" ကို ဖျက်လိုသည်မှာ သေချာပါသလား။ ဤစတိုရီအတွက် ဝေမျှထားသည့် အပ်ဒိတ်များကိုလည်း ဖျက်သွားပါမည်။",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "ကြည့်ရှုသူများ ရွေးရန်",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ဤစတိုရီကို အမည်ပေးရန်",
-    "description": "Modal title when naming a private distribution list"
+    "message": "စတိုရီကို အမည်ပေးရန်",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "စတိုရီ အမည် (လိုအပ်ပါသည်)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "ဖော်ပြပါမှ Signal အဆက်အသွယ်များအားလုံး...",
+    "message": "ဖော်ပြပါတို့မှလွဲ၍ အားလုံး...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "ဖော်ပြပါတို့ထံသာ ဝေမျှရန်...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "ရွေးထားသူများထံသာ ဝေမျှရန်",
@@ -5537,6 +5636,14 @@
     "message": "စတိုရီ ဆက်တင်",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "လက်ခံရရှိမှုများကို ကြည့်ရန်",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "ဤဆက်တင်ကို ပြောင်းရန် သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > စတိုရီသို့ သွားပါ",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "သင့်စတိုရီကို ကြည့်နိုင်မည့်သူများကိုရွေးရန်",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "စတိုရီ ပို့ရန်",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "စိတ်ကြိုက်စတိုရီ",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "အဖွဲ့ စတိုရီ",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "ဖော်ပြပါထံသာဝေမျှရန်",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, other {{count,number} ဖယ်ထားပါသည်}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "စတိုရီ အသစ်",
+    "message": "အသစ်",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "စိတ်ကြိုက်စတိုရီ အသစ်",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "ဤစတိုရီ၏ အမည်ကို သင်တစ်ဦးတည်းသာ မြင်နိုင်ပါသည်။",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "အချို့သူများကသာ မြင်နိုင်သည်",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "သီးသန့် စတိုရီ အသစ်",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "အချို့သူများကသာ မြင်နိုင်သည်",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "အဖွဲ့ စတိုရီ အသစ်",
@@ -5575,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "ကျွန်ုပ်၏ စတိုရီ ကိုယ်ပိုင်အချက်အလက်",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "သင့်စတိုရီကို ကြည့်နိုင်မည့် Signal အဆက်အသွယ်များကို ရွေးပါ။ ဤသည်ကို ကိုယ်ပိုင်အချက်အလက် ဆက်တင်တွင် အမြဲပြောင်းလဲနိုင်ပါသည်။ $learnMore$",
@@ -5588,6 +5723,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "စတိုရီကို ဖယ်ရှားမည်လား။ ၎င်းသည် သင့်စာရင်းမှ စတိုရီကို ဖယ်ရှားသွားမည် ဖြစ်သော်လည်း သင်သည် ဤအဖွဲ့မှ စတိုရီများကို ဆက်လက်ကြည့်ရှုနိုင်ပါမည်။",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "အက်ဒ်မင်များသာလျှင် ဤအဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့နိုင်ပါသည်။",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ကြည့်ရှုမှုများကို ပိတ်ထားပါသည်",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "ပေးပို့ပြီး $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "သင်စတိုရီများအား ကြည့်ရှုခဲ့သူများကို ကြည့်ရန် ဖတ်ပြီးကြောင်းညွှန်ပြမှုကို ဖွင့်ပါ။ သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > ကိုယ်ပိုင်အချက်အလက်သို့ သွားပါ။",
+    "message": "သင့်စတိုရီများအား ကြည့်ရှုခဲ့သူများကို ကြည့်ရန် ကြည့်ရှုမှုပြီးကြောင်းညွှန်ပြမှု သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > စတိုရီသို့ သွားပါ။",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "စတိုရီကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "သင်သည် ဤအဖွဲ့ဝင် မဟုတ်တော့သောကြောင့် ဤစတိုရီကို စာပြန်နိုင်တော့မည် မဟုတ်ပါ။",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "စတိုရီ",
@@ -5734,7 +5877,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "စတိုရီနောက်ခံအရောင်ကို ပြောင်းရန်",
+    "message": "စတိုရီ နောက်ခံအရောင်ကို ပြောင်းရန်",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5805,6 +5948,18 @@
     "message": "စတိုရီတစ်ခုကို တုံ့ပြန်မှု ပေးခဲ့ပါသည်",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "သင့်စတိုရီကို $emoji$ ဖြင့် တုံ့ပြန်ခဲ့ပါသည်",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$name$ ထံမှ စတိုရီတစ်ခုကို $emoji$ ဖြင့် တုံ့ပြန်ခဲ့ပါသည်",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "စတိုရီတစ်ခုကို $emoji$ ဖြင့် တုံ့ပြန်ခဲ့ပါသည်",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "နောက်ထပ် မရရှိနိုင်တော့ပါ",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "အကြောင်းအရာ မီနူး",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "သုံးစွဲသူအမည်",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "သုံးစွဲသူအမည်များသည် သင့်ဖုန်းနံပါတ် မလိုဘဲ အခြားသူများက သင့်ထံ မက်ဆေ့ချ်ပို့နိုင်စေပါသည်။ သင့်လိပ်စာကို သီးသန့်လျှို့ဝှက်ထားရာတွင် အကူအညီဖြစ်စေရန် ၎င်းတို့အား ဂဏန်းအစုံလိုက်ဖြင့် တွဲထားပါသည်။",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "ပိုလေ့လာရန်",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ဤနံပါတ်က ဘာလဲ။",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "ဤဂဏန်းများသည် သင့်သုံးစွဲသူအမည်ကို သီးသန့်လျှို့ဝှက်ပေးထားသောကြောင့် မလိုချင်သည့် မက်ဆေ့ချ်များကို ရှောင်နိုင်ပါသည်။ သင့်သုံးစွဲသူအမည်ကို သင် ချက်(တ်)လိုသည့် လူများ၊ အဖွဲ့များထံသာ ဝေမျှနိုင်ပါသည်။ သုံးစွဲသူအမည်ကို ပြောင်းလိုက်ပါက ဂဏန်းတွဲအသစ် ရရှိပါမည်။",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "အသစ်များ",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ပြောဆိုဆွေးနွေးမှုကို ဆက်လက်စိတ်လှုပ်ဖွယ် ကောင်းနေစေရန် ၎င်းတို့၏ အဆက်အသွယ် အသေးစိတ် စခရင်မှ အဖွဲ့သို့ မိတ်ဆွေတစ်ဦးအား အလွယ်တကူ ပေါင်းထည့်ပါ။",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "အက်ပ်အား သင့်အတွက် ချောမွေ့စွာ အလုပ်လုပ်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများကို ကြိုးစားလုပ်ဆောင်ထားပြီး အခြားသော စွမ်းဆောင်ရည် မွမ်းမံမှုများကို ပြုလုပ်ထားပါသည်။",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ကျွန်ုပ်တို့၏ စတိုရီ လုပ်ဆောင်ချက်အင်္ဂါရပ် အသစ်ကို စတင်သုံးစွဲပြီး စမ်းသပ်လိုက်ပါ။ သင်သည် အခြား Beta စမ်းသပ်သုံးစွဲသူများနှင့်အတူ ဤလုပ်ဆောင်ချက်အင်္ဂါရပ်ကို သုံးစွဲနိုင်ပြီး ၎င်းအလုပ်လုပ်ပုံအကြောင်း ကျွန်ုပ်တို့အား အသိပေးပါ။",
+    "description": "Release notes for v5.63"
   }
 }

@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "បន្ថែមសារមួយ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "សារ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "បញ្ចប់",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "បន្ថែមទៅក្រុមមួយ",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "ចំណង់ចំណូលចិត្ត...",
+    "message": "ចំណូលចិត្ត…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "កំពុងផ្ទុក...",
+    "message": "កំពុងផ្ទុក…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "ធ្វើឱ្យកម្មវិធីប្រសើរឡើង ...",
+    "message": "កំពុងធ្វើឲ្យកម្មវិធីប្រសើរឡើង…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "កំពុងរៀបចំសារ... $status$ រួចរាល់។",
+    "message": "កំពុងធ្វើឲ្យសារប្រសើរឡើង… បញ្ចប់បាន $status$។",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "កំពុងដំឡើងទិន្នន័យ។ វាអាចចំណាយពេលខ្លះ...",
+    "message": "កំពុងដំឡើងកម្រិតមូលដ្ឋានទិន្នន័យ។ វាអាចនឹងចំណាយពេលខ្លះ…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "កំពុងផ្ទុកសារ។ $count$ ឥឡូវនេះ...",
+    "message": "កំពុងផ្ទុកសារ។ មកដល់ពេលនេះបាន $count$ …",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "កំពុងផ្ទុកការមើល...",
+    "message": "កំពុងផ្ទុកការមើលជាមុន…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "កំពុងភ្ជាប់...",
+    "message": "កំពុងភ្ជាប់…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "ឈ្មោះទំនាក់ទំនងសម្រាប់សារជាអក្សរ និងសារពហុមេឌៀមិនមាននៅលើកំព្យូទ័រលើតុទេ។",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "គ្មានលទ្ធផលសម្រាប់ \"$searchTerm$\" ក្នុង $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "គ្មានលទ្ធផលសម្រាប់ \"{searchTerm}\" ក្នុង {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "ចុច $plusButton$ (Android) ឬ $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមពិនិត្យមើលអ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។ $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "សិក្សាបន្ថែម",
+  "icu:Install__qr-failed": {
+    "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "កំពុងនាំចូល...",
+    "message": "កំពុងនាំចូល…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "បិទ",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "សារបាត់ទៅវិញ",
+  "icu:disappearingMessages": {
+    "messageformat": "សារបាត់ទៅវិញ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "ចាប់ផ្តើមការសន្ទនាថ្មី...",
+    "message": "ចាប់ផ្តើមការសន្ទនាថ្មី…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "រកមិនឃើញបញ្ជីទំនាក់ទំនង",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "រកមិនឃើញក្រុមទេ",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "រកមិនឃើញការសន្ទនា",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "កំពុងដំឡើងកញ្ចប់ស្ទីកគ័រ...",
+    "message": "កំពុងដំឡើងកញ្ចប់ស្ទីកគ័រ…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "ត្រលប់ក្រោយ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "បន្ថែមស្ទីកគ័ររបស់អ្នក",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "បង្ហាញគែម",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "បន្ថែម $count$ ឬច្រើន",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "បន្ថែម {count,number} ឬច្រើន",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "ឆែកមើលកញ្ចប់ស្ទីកគ័រថ្មីនេះ ដែលខ្ញុំបានបង្កើតសម្រាប់ Signal ។ #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ រូបភាព បានបន្ថែម",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {{count,number} រូបភាពត្រូវបានបញ្ចូល}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "សមាជិក $count$ នាក់",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "សមាជិក 1",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, other {សមាជិក {count,number} នាក់}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "សមាជិកនៃ $group$",
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "ចុច $composeIcon$ ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
+  "icu:emptyInboxMessage": {
+    "messageformat": "ចុច {composeIcon} ខាងលើ ហើយស្វែងរកបញ្ជីទំនាក់ទំនង ឬក្រុមរបស់អ្នកដើម្បីផ្ញើសារ។",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "ពេលកំណត់ផ្ទាល់ខ្លួន...",
+    "message": "ពេលកំណត់ផ្ទាល់ខ្លួន…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "បន្ថែមការពណ៌នាក្រុម...",
+    "message": "បញ្ចូលការពណ៌នាក្រុម…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "ឈ្មោះអ្នកប្រើប្រាស់",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "បញ្ចូល អ្នកប្រើប្រាស់ មួយ",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "ឈ្មោះអ្នកប្រើប្រាស់លើ Signal ជាជម្រើស។ បើអ្នកជ្រើសរើសបង្កើតឈ្មោះអ្នកប្រើប្រាស់មួយ អ្នកប្រើប្រាស់ Signal ផ្សេងទៀតនឹងអាចស្វែងរកអ្នកតាមរយៈឈ្មោះអ្នកប្រើប្រាស់នេះ និងទាក់ទងអ្នក ដោយមិនចាំបាច់ដឹងពីលេខទូរស័ព្ទរបស់អ្នកឡើយ។",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "ជ្រើសរើសឈ្មោះអ្នកប្រើរបស់អ្នក",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "ឈ្មោះអ្នកប្រើអាចមានត្រឹមតែ a-z, 0-9 និង _ ប៉ុណ្ណោះ",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "ឈ្មោះអ្នកប្រើប្រាស់មិនអាចចាប់ផ្តើមពីលេខ។",
@@ -4945,6 +4964,10 @@
     "message": "ឈ្មោះ​អ្នក​ប្រើ​ត្រូវ​តែ​មានច្រើន​បំផុត $max$ ​តួអក្សរ។",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ឈ្មោះអ្នកប្រើនេះមិនអាចប្រើបានទេ",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ឈ្មោះអ្នកប្រើនេះត្រូវបានយក។",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "ឈ្មោះអ្នកប្រើរបស់អ្នកមិនអាចដកចេញបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "បានចម្លងឈ្មោះអ្នកប្រើ",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "បានចម្លងតំណ",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "កំពុងលុបឈ្មោះអ្នកប្រើ",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "លុបឈ្មោះអ្នកប្រើ",
@@ -4969,8 +5004,24 @@
     "message": "លុប",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "ចម្លង ឬលុបឈ្មោះអ្នកប្រើ",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "ចម្លងឈ្មោះអ្នកប្រើ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "ចម្លងតំណ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "លុប",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "សរសេរអ្វីមួយអំពីខ្លួនអ្នក...",
+    "message": "សរសេរអ្វីមួយអំពីខ្លួនអ្នក…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "តើអ្នកចង់បោះបង់ការកែប្រែទាំងនេះទេ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ប្រូហ្វាល់របស់អ្នកត្រូវបានអ៊ិនគ្រីប។ ប្រូហ្វាល់របស់អ្នក និងការផ្លាស់ប្តូរទាំងនេះនឹងអាចមើលឃើញដោយបញ្ជីទំនាក់ទំនងរបស់អ្នក និងនៅពេលដែលអ្នកចាប់ផ្តើម ឬទទួលយកការជជែកថ្មីៗ។ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "អ្នកដែលអាច...",
+    "message": "អ្នកដែលអាច…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "ឧបករណ៍",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "បើករឿងរ៉ាវ",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "បិទរឿងរ៉ាវ",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "បិទ",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ។ បច្ចុប្បន្នភាពរឿងរ៉ាវដែលអ្នកបានចែករំលែកនាពេលថ្មីៗនេះក៏នឹងត្រូវបានលុបចោលផងដែរ។",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "ដំឡើងកំណែទៅ $version$ ដែលមាន",
@@ -5317,6 +5384,10 @@
     "message": "កាត់តម្រឹម",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "បន្ថែមសារមួយ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
     "message": "រឿងរ៉ាវរបស់ខ្ញុំ",
     "description": "Title for the my stories list"
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "ចំនួនមើល $num$ ដង",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "ចំនួនមើល $num$ ដង",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, other {ចំនួនមើល {views,number}}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "បានបិទចំនួនមើល",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "ចំនួនឆ្លើយតប $num$",
@@ -5390,7 +5469,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "រឿងរ៉ាវអត្ថបទ",
+    "message": "រឿងរ៉ាវជាអត្ថបទ",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5404,6 +5483,14 @@
   "Stories__list-empty": {
     "message": "មិនមានរឿងរ៉ាវថ្មីៗសម្រាប់បង្ហាញឥឡូវនេះទេ",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "កំពុងផ្ញើ…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "ផ្ញើបរាជ័យ",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "ចុចដើម្បីមើលរឿងរ៉ាវ",
@@ -5429,20 +5516,32 @@
     "message": "ការកំណត់រឿងរ៉ាវ",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "រឿងរ៉ាវនឹងបាត់ដោយស្វ័យប្រវត្តិបន្ទាប់ពី 24 ម៉ោង។ ជ្រើសរើសអ្នកណាដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន ឬបង្កើតរឿងរ៉ាវថ្មីៗជាមួយអ្នកមើល ឬក្រុមជាក់លាក់។",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "រឿងរ៉ាវឯកជនថ្មី",
-    "description": "Label to create a new private story list"
+    "message": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួនថ្មី",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "មានតែអ្នកទេដែលអាចឃើញឈ្មោះនៃរឿងរ៉ាវនេះ។",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "អ្នកមើល $num$ នាក់",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "អ្នកមើល $num$ នាក់",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, other {អ្នកមើល {count,number} នាក់}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "អ្នកដែលអាចមើលឃើញរឿងរ៉ាវនេះ",
+    "message": "អ្នកដែលអាចមើលរឿងរ៉ាវនេះបាន",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "លុបចេញ",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "ដក $title$ ចេញ",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "បុគ្គលនេះនឹងមិនឃើញរឿងរ៉ាវរបស់អ្នកទៀតទេ។",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "ការឆ្លើយតប និងប្រតិកម្ម",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "លុបរឿងរ៉ាវឯកជន",
-    "description": "Button label to delete a private distribution list"
+    "message": "លុបរឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួន",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "លុបរឿងរ៉ាវឯកជនឬ?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "តើអ្នកច្បាស់ថាចង់លុប \"$name$\" ឬ? បច្ចុប្បន្នភាពដែលបានចែករំលែកចំពោះរឿងរ៉ាវនេះក៏នឹងត្រូវបានលុបផងដែរ។",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "ជ្រើសរើសអ្នកមើល",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ដាក់ឈ្មោះរឿងរ៉ាវនេះ",
-    "description": "Modal title when naming a private distribution list"
+    "message": "ដាក់ឈ្មោះរឿងរ៉ាវ",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "ឈ្មោះរឿងរ៉ាវ (ចាំបាច់)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "អ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ទាំងអស់លើកលែងតែ…",
+    "message": "ទាំងអស់លើកលែងតែ…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "គ្រាន់តែចែករំលែកជាមួយ…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "ចែករំលែកជាមួយមនុស្សដែលបានជ្រើសរើសប៉ុណ្ណោះ",
@@ -5537,6 +5636,14 @@
     "message": "ការកំណត់រឿងរ៉ាវ",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "មុខងារមើលសារ",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ -> រឿងរ៉ាវ",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "ជ្រើសរើសអ្នកដែលអាចមើលរឿងរ៉ាវរបស់អ្នក",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "ផ្ញើរឿងរ៉ាវ",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួន",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "រឿងរ៉ាវក្រុម",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "ចែករំលកតែជាមួយ",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, other {មិនរាប់បញ្ចូល {count,number}}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "រឿងរ៉ាវថ្មី",
+    "message": "ថ្មី",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួនថ្មី",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "មានតែអ្នកទេដែលអាចឃើញឈ្មោះនៃរឿងរ៉ាវនេះ។",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "មានតែមនុស្សជាក់លាក់ប៉ុណ្ណោះទើបអាចមើលឃើញ",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "រឿងរ៉ាវឯកជនថ្មី",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "អាចមើលឃើញតែចំពោះមនុស្សជាក់លាក់ប៉ុណ្ណោះ",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "រឿងរ៉ាវក្រុមថ្មី",
@@ -5575,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "ឯកជនភាពនៃរឿងរ៉ាវរបស់ខ្ញុំ",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "ជ្រើសរើសថាតើអ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ណាខ្លះដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន។ អ្នកអាចផ្លាស់ប្តូរវានៅក្នុងការកំណត់ឯកជនភាពបានជានិច្ច។ $learnMore$",
@@ -5588,6 +5723,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "ដករឿងរ៉ាវចេញឬ? ការធ្វើបែបនេះនឹងដករឿងរ៉ាវចេញពីបញ្ជីរបស់អ្នក ប៉ុន្តែអ្នកនៅតែអាចមើលរឿងរ៉ាវពីក្រុមនេះបាន។",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះទើបអាចផ្ញើរឿងរ៉ាវទៅក្រុមនេះបាន។",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "បានបិទចំនួនមើល",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "បានផ្ញើ $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "បើកមុខងារអានសារដើម្បីមើលថានរណាខ្លះដែលបានមើលរឿងរ៉ាវរបស់អ្នក។ បើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > ឯកជនភាព។",
+    "message": "បើកមុខងារមើលសារដើម្បីមើលថានរណាខ្លះដែលបានមើលរឿងរ៉ាវរបស់អ្នក។ បើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ > រឿងរ៉ាវ។",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវ",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "អ្នកមិនអាចឆ្លើយតបទៅនឹងរឿងរ៉ាវនេះទេ ដោយសារអ្នកលែងជាសមាជិកនៃក្រុមនេះទៀតហើយ។",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "រឿងរ៉ាវ",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "លាក់រឿងរ៉ាវឬ? រឿងរ៉ាវថ្មីៗពី $name$ នឹងមិនបង្ហាញនៅផ្នែកខាងលើនៃបញ្ជីរឿងរ៉ាវទៀតទេ។",
+    "message": "លាក់រឿងរ៉ាវឬ? រឿងរ៉ាវថ្មីៗពី $name$ នឹងមិនបង្ហាញនៅផ្នែកខាងលើបំផុតនៃបញ្ជីរឿងរ៉ាវទៀតទេ។",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5714,7 +5857,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេ ព្រោះ​វា​ជា​ទម្រង់​ឯកសារ​ដែលកម្មវិធី​មិនស្គាល់",
+    "message": "មិនអាចបង្ហោះវីដេអូទៅក្នុងរឿងរ៉ាវបានទេ ព្រោះវាជាទម្រង់ឯកសារដែលកម្មវិធីមិនស្គាល់",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5805,6 +5948,18 @@
     "message": "បានប្រតិកម្មទៅនឹងរឿងរ៉ាវមួយ",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "បានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវរបស់អ្នក",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវពី $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "អ្នកបានប្រតិកម្ម $emoji$ ទៅនឹងរឿងរ៉ាវ",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "លែងមានទៀតហើយ",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "ម៉ឺនុយបរិបទ",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "ឈ្មោះអ្នកប្រើ",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "ឈ្មោះអ្នកប្រើអាចឲ្យអ្នកផ្សេងទៀតផ្ញើសារមកអ្នកបាន ដោយមិនចាំបាច់មានលេខទូរសព្ទរបស់អ្នកទេ។ វាត្រូវបានផ្គូផ្គងជាមួយនឹងសំណុំលេខមួយចំនួនដើម្បីជួយរក្សាឲ្យអាសយដ្ឋានរបស់អ្នកស្ថិតក្នុងភាពឯកជន។",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "ស្វែងយល់បន្ថែម",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "តើលេខនេះគឺជាលេខអ្វី?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "លេខទាំងនេះជួយរក្សាឲ្យឈ្មោះអ្នកប្រើរបស់អ្នកស្ថិតក្នុងភាពឯកជន ដើម្បីឲ្យអ្នកអាចជៀសវាងនូវការទទួលសារដែលមិនចង់បាន។ សូមចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នកតែជាមួយមនុស្ស និងក្រុមដែលអ្នកចង់ជជែកជាមួយប៉ុណ្ណោះ។ ប្រសិនបើអ្នកប្តូរឈ្មោះអ្នកប្រើ អ្នកនឹងទទួលបានសំណុំលេខថ្មី។",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "អ្វីដែលថ្មី",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ងាយស្រួលបញ្ចូលមិត្តភក្តិទៅក្នុងក្រុមពីអេក្រង់ព័ត៌មានទំនាក់ទំនងលម្អិតរបស់ពួកគេ ដើម្បីធ្វើឲ្យការសន្ទនាមានភាពរំភើបរីករាយរហូត។",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ចាប់ផ្តើមប្រើ និងធ្វើតេស្តសាកល្បងមុខងាររឿងរ៉ាវថ្មីរបស់យើង។ អ្នកអាចប្រើមុខងារនេះជាមួយកម្មវិធីសាកល្បងបេតាផ្សេងទៀត ហើយប្រាប់ឲ្យយើងបានដឹងថាតើវាដំណើរការយ៉ាងណាដែរ។",
+    "description": "Release notes for v5.63"
   }
 }

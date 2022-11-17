@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Додати повідомлення",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Повідомлення",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Готово",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Додати до групи",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Налаштування...",
+    "message": "Налаштування…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -242,11 +261,11 @@
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Оптимізація застосунку...",
+    "message": "Оптимізація застосунку…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Оптимізація повідомлень... $status$ завершено.",
+    "message": "Оптимізація повідомлень… $status$ завершено.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... для перегляду журналу відладки клацніть Зберегти",
+    "message": "… для перегляду повного журналу натисніть «Зберегти»",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Завантаження Попереднього перегляду...",
+    "message": "Завантаження попереднього перегляду…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Підключення...",
+    "message": "Підключення…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "Контакти SMS/MMS недоступні в Signal Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Немає результатів для «$searchTerm$» у $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Немає результатів для «{searchTerm}» у {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Клацніть на $plusButton$ (Android) чи $linkNewDevice$(iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-код не вдалось завантажити. Перевірте з'єднання з інтернет та спробуйте пізніше. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Дізнатись більше",
+  "icu:Install__qr-failed": {
+    "messageformat": "Не вдалося завантажити QR-код. Перевірте з'єднання з інтернетом і спробуйте ще раз. <learnMoreLink>Докладніше</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Імпортую...",
+    "message": "Імпорт…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "вимкн",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Зникаючі повідомлення",
+  "icu:disappearingMessages": {
+    "messageformat": "Зникаючі повідомлення",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Почати нову розмову...",
+    "message": "Почати нову розмову…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Історії",
+    "message": "Сторіз",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Контактів не знайдено",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Груп не знайдено",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Розмов не знайдено",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Установка набору стікерів...",
+    "message": "Встановлюємо набір стікерів…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Назад",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Додайте ваші наліпки",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Додайте ваші наліпки",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Показати поля (margin)",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Додайте $count$ або більше",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Додайте {count,number} або більше",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Ще кілька деталей...",
+    "message": "Ще кілька деталей…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Подивіться цей новий набір наліпок, який я створив для Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$зображення додано (-і)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Додано 1 зображення} few {Додано {count,number} зображення} many {Додано {count,number} зображень} other {Додано {count,number} зображення}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "Учасників $count$",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 учасник",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 учасник} few {{count,number} учасники} many {{count,number} учасників} other {{count,number} учасника}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Полягає в $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Вхідний аудіодзвінок...",
+    "message": "Вхідний аудіовиклик…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Вхідний відеодзвінок...",
+    "message": "Вхідний відеовиклик…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Чекаємо на відповідь...",
+    "message": "Чекаємо на відповідь…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Перепідключення...",
+    "message": "Повторне з’єднання…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Оновлення...",
+    "message": "Оновлення…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Завантаження аудіо вмісту...",
+    "message": "Завантажуємо вкладення з аудіо…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Натисніть на $composeIcon$ вище і пошукайте ваші контакти або групи для спілкування.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Натисніть на {composeIcon} вище і пошукайте ваші контакти або групи для спілкування.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Власний час...",
+    "message": "Настроюваний час…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Додати опис групи...",
+    "message": "Додайте опис групи…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Ім'я користувача",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Введіть ім'я користувача",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Імена користувачів в Signal необов'язкові. Якщо ви вирішите створити ім'я користувача, інші користувачі Signal зможуть знайти вас по цьому імені і зв'язатися з вами, не знаючи ваш номер телефону.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Виберіть ім’я користувача",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Ім'я користувача може містити лише a-z, 0-9 та _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Ім'я користувача не може починатися з цифри.",
@@ -4945,6 +4964,10 @@
     "message": "Імена користувачів мають містити щонайбільше $max$ символів.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Це ім'я користувача недоступне",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Цей псевдонім вже використовується.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Ваше ім’я користувача не вдалося видалити. Перевірте з’єднання та спробуйте ще раз.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Ім'я користувача скопійовано",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Посилання скопійовано",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Видаляємо ім'я користувача",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Видалити ім'я користувача",
@@ -4969,8 +5004,24 @@
     "message": "Видалити",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Копіювати або видалити ім'я користувача",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Копіювати ім'я користувача",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Копіювати посилання",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Видалити",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Напишіть щось про себе...",
+    "message": "Напишіть щось про себе…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Ви хочете відхилити ці зміни?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Ваш профіль захищено наскрізним шифрованням. Ваш профіль та зміни у ньому будуть доступні для ваших контактів, коли ви починаєте нові чати чи приєднуєтесь до створених. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Ваш профіль захищено наскрізним шифрованням. Ваш профіль та зміни у ньому будуть доступні для ваших контактів, коли ви починаєте нові чати чи приєднуєтесь до створених. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Хто може...",
+    "message": "Хто може…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Пристрої",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Увімкнути сторіз",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Вимкнути сторіз",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Відключити",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Ви більше не зможете публікувати чи переглядати сторіз. Оновлення сторі, які ви нещодавно публікували, також видаляться.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Наявне оновлення до версії $version$",
@@ -5317,16 +5384,20 @@
     "message": "Обрізати",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Додати повідомлення",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Мої історії",
+    "message": "Моя сторі",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Ваші історії",
+    "message": "Ваша сторі",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Завантажити історію",
+    "message": "Завантажити сторі",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ перегляд",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ переглядів",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} перегляд} few {{views,number} перегляди} many {{views,number} переглядів} other {{views,number} перегляда}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Не відображаються перегляди",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ відповідь",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Видалити історію? Також її буде видалено для усіх, хто її отримав.",
+    "message": "Видалити сторі? Також її буде видалено для всіх, хто її отримав.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5378,15 +5457,15 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Історії",
+    "message": "Сторіз",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Мої історії",
+    "message": "Моя сторі",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Додати історію",
+    "message": "Додати сторі",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5398,15 +5477,23 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Приховані історії",
+    "message": "Приховані сторіз",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Нових історій немає",
+    "message": "Нових сторіз немає",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Надсилаємо…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Не вдалося надіслати",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "Клацніть для перегляду історії",
+    "message": "Натисніть, щоб переглянути сторі",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Надсилаємо відповідь...",
+    "message": "Надсилаємо відповідь…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Надсилаємо реакцію...",
+    "message": "Надсилаємо реакцію…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5426,23 +5513,35 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Налаштування історії",
+    "message": "Налаштування сторі",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Сторіз автоматично зникають через 24 години. Оберіть, хто може переглядати вашу сторі, або створюйте нові сторіз для конкретних глядачів чи груп.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Нова приватна історія",
-    "description": "Label to create a new private story list"
+    "message": "Нова настроювана сторі",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Тільки ви можете бачити назву цієї сторі.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ глядач",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "Глядачі: $num$",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 глядач} few {{count,number} глядачі} many {{count,number} глядачів} other {{count,number} глядача}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Хто може бачити цю історію",
+    "message": "Хто може бачити цю сторі",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Видалити",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Вилучити користувача $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ця особа більше не бачитиме ваших історій.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "Ця людина більше не бачитиме вашу сторі.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Відповіді та реакції",
@@ -5474,27 +5573,27 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Видалити приватну історію",
-    "description": "Button label to delete a private distribution list"
+    "message": "Видалити настроювану сторі",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Видалити приватну сторі?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Ви дійсно хочете видалити «$name$»? Оновлення до цієї сторі також будуть видалені.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Виберіть глядачів",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Дайте назву для сторі",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Дайте сторі назву",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Назва історії (обов'язкова)",
+    "message": "Назва сторі (обов'язкова)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Сховати історію від",
+    "message": "Приховати сторі від",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Усі контакти Signal, крім...",
+    "message": "Усі, крім…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Ділитися тільки з...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Ділитися тільки з…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Ділитися тільки з вибраними людьми",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Виберіть, хто може переглядати ваші сторіз. Зміни не впливатимуть на вже надіслані сторіз. $learnMore$",
+    "message": "Виберіть, хто може переглядати вашу сторі. Зміни не впливатимуть на вже надіслані сторіз. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5534,8 +5633,16 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Налаштування історії",
+    "message": "Налаштування сторі",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Сповіщення про перегляд",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Щоб змінити це налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть до Налаштування -> Сторіз",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Виберіть, хто може бачити вашу сторі",
@@ -5549,17 +5656,45 @@
     "message": "Надіслати сторі",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Настроювана сторі",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Групова сторі",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Ділитися тільки з",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {Вилучено {count,number}} few {Вилучено {count,number}} many {Вилучено {count,number}} other {Вилучено {count,number}}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Нова сторі",
+    "message": "Нова",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Нова приватна історія",
+  "SendStoryModal__new-custom--title": {
+    "message": "Нова настроювана сторі",
     "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Тільки ви можете бачити назву цієї сторі.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Можуть побачити лише окремі особи",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "Нова приватна сторі",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Можуть побачити лише окремі особи",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Нова групова сторі",
@@ -5575,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "Конфіденційність сторіз",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Виберіть, які контакти Signal можуть бачити вашу сторі. Змінити дозвіл можна в налаштуваннях конфіденційності. $learnMore$",
@@ -5589,12 +5724,16 @@
     "message": "Вилучити сторі? Ця дія вилучить сторі з вашого переліку, але ви все одно зможете переглядати сторіз у цій групі.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Лише адміністратори можуть надсилати сторіз у цю групу.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "Поширення і перегляд сторіз",
+    "message": "Ділитися і переглядати сторіз",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Ви не зможете ділитись або переглядати Сторіз, якщо ця опція вимкнена.",
+    "message": "Ви не зможете ділитись або переглядати сторіз, якщо ця опція вимкнена.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Не відображаються перегляди",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Відправлено $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Увімкніть відображення переглядів, аби знати, хто переглянув ваші сторіз. Для цього відкрийте застосунок Signal на своєму мобільному пристрої і перейдіть до Налаштування > Конфіденційність.",
+    "message": "Увімкніть сповіщення про перегляд, щоб знати, хто переглянув ваші сторіз. Для цього відкрийте застосунок Signal на своєму мобільному пристрої і перейдіть до Налаштування > Сторіз.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5662,23 +5801,27 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Реагувати на історію",
+    "message": "Реагувати на сторі",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Зреагував на історію",
+    "message": "Реакція на сторі",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Ви не можете відповісти на цю сторі, тому що ви більше не є учасником цієї групи.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
-    "message": "Історія",
+    "message": "Сторі",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Показати історії",
+    "message": "Показати сторіз",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Сховати історію",
+    "message": "Приховати сторі",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Сховати історію? Оновлення історій від $name$ більше не з'являтимуться нагорі списку історій.",
+    "message": "Приховати сторі? Оновлення сторіз від користувача $name$ більше не з'являтимуться вгорі переліку сторіз.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5794,16 +5937,28 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Історія",
+    "message": "Сторі",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Реакція на історію від $name$",
+    "message": "Реакція на сторі від користувача $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Реакції на історію",
+    "message": "Реакція на сторі",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Реакція на вашу сторі: $emoji$",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Ваша реакція на сторі користувача $name$: $emoji$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Ваша реакція на сторі: $emoji$",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "Більше недоступна",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Контекстне меню",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Ім'я користувача",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Завдяки імені користувача вам зможуть писати люди, які не знають вашого номеру телефону. Поряд з іменем є кілька цифр, які захищають конфіденційність вашої адреси.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Дізнатися більше",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Що означають ці цифри?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Ці цифри зберігають конфіденційність вашого імені користувача і допомагають захистити вас від небажаних повідомлень. Діліться своїм іменем користувача тільки з тими людьми і групами, з якими ви хочете спілкуватися. Якщо змінити ім'я користувача, цифри також зміняться.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Що нового",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Додайте друга до групи просто з екрана з деталями контакту і продовжуйте спілкуватися.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Невтомно працюємо, виправляючи помилки і додаючи інші поліпшення, аби ви користувалися застосунком із задоволенням.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Протестуйте нашу нову функцію – сторіз. Ви можете користуватися цією функцією разом з іншими бета-тестерами та ділитися з нами своїми відгуками.",
+    "description": "Release notes for v5.63"
   }
 }

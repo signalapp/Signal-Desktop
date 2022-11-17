@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Dodaj sporočilo",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Sporočilo",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "OK",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Dodaj v skupino",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Dodajanje uporabnika_ice $contact$ ...",
+    "message": "Dodajanje uporabnika_ice $contact$ …",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Nastavitve ...",
+    "message": "Nastavitve …",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Nalagam ...",
+    "message": "Nalagam …",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Optimiziranje nastavitev ...",
+    "message": "Optimiziranje nastavitev …",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Optimiziranje sporočil ... $status$",
+    "message": "Optimiziranje sporočil … $status$ zaključeno.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa ...",
+    "message": "Posodabljam zbirko podatkov. To lahko traja nekaj časa …",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Nalagam sporočila. $count$ doslej ...",
+    "message": "Nalagam sporočila. $count$ doslej …",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... za ogled celotne zabeležbe kliknite Shrani",
+    "message": "... za ogled celotnega dnevnika kliknite Shrani",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -733,8 +752,8 @@
     "message": "Stiki SMS/MMS niso na voljo na Signalu Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Ni rezultatov za \"$searchTerm$\" v $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Ni rezultatov za \"{searchTerm}\" v {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Tapnite $plusButton$ (Android) ali $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Kode QR ni bilo mogoče prikazati. Preverite svojo internetno povezavo in poskusite znova. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Preberite več",
+  "icu:Install__qr-failed": {
+    "messageformat": "Kode QR ni bilo mogoče naložiti. Preverite svojo internetno povezavo in poskusite znova. <learnMoreLink>Preberite več</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "izklopljen",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Izginjajoča sporočila",
+  "icu:disappearingMessages": {
+    "messageformat": "Izginjajoča sporočila",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Najden ni bil noben stik",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ni najdenih skupin",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Najden ni bil noben pogovor",
@@ -2741,8 +2760,8 @@
     "message": "Nazaj",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Dodajte svoje nalepke",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Dodajte svoje nalepke",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Prikaži robove",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Dodaj $count$ ali več",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Dodaj {count,number} ali več",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Poglej si moj novi paket nalepk za Signal! #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "Dodanih slik: $count$",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {Dodana je 1 slika} two {Dodani sta {count,number} sliki} few {Dodane so {count,number} slike} other {Dodanih je {count,number} slik}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "Članov: $count$",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 član_ica",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 član_ica} two {{count,number} člana_ici} few {{count,number} člani_ce} other {{count,number} članov_ic}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Član_ica skupine $group$",
@@ -3998,7 +4021,7 @@
     "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
   },
   "GroupV1--Migration--learn-more": {
-    "message": "Več o tem...",
+    "message": "Več o tem",
     "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
   },
   "GroupV1--Migration--migrate": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Kliknite $composeIcon$ zgoraj in poiščite stik ali skupino, ki ji želite pisati.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Kliknite {composeIcon} zgoraj in poiščite stik ali skupino, ki ji želite pisati.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4921,17 +4944,13 @@
     "message": "Uporabniško ime",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Vnesite uporabniško ime",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signalova uporabniška imena so neobvezna. Če si boste ustvarili Signalovo uporabniško ime, vas bodo drugi_e uporabniki_ce lahko našli_e po njem in vam pošiljali_e sporočila, ne da bi poznali_e vašo telefonsko številko.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Izberite uporabniško ime",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Uporabniško ime lahko vsebuje le črke od a do z, številke od 0 do 9 in _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Uporabniško ime se ne more začeti s števko.",
@@ -4945,6 +4964,10 @@
     "message": "Uporabniško ime lahko vsebuje največ  $max$ znakov.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "To uporabniško ime ni na voljo",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Uporabniško ime je že zasedeno.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4957,6 +4980,18 @@
     "message": "Vaše uporabniško ime ni moglo biti izbrisano. Preverite internetno povezavo in poskusite znova.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Uporabniško ime kopirano",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Povezana kopirana",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Brisanje uporabniškega imena",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "Izbriši uporabniško ime",
     "description": "Shown as aria label for trash icon next to username"
@@ -4968,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "Izbriši",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kopiranje ali brisanje uporabniškega imena",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kopiraj uporabniško ime",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Kopiraj povezavo",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Izbriši",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "Napišite kaj o sebi ...",
@@ -4985,12 +5036,12 @@
     "message": "Želite zavreči te spremembe?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Vaš profil je šifriran. Skupaj s spremembami na njem bo viden vašim stikom, ko boste začeli nov pogovor, oziroma prejeli prvo sporočilo. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Vaš profil je šifriran. Skupaj s spremembami na njem bo viden vašim stikom, ko boste začeli nov pogovor, oziroma prejeli prvo sporočilo. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
-    "message": "Več o tem...",
+    "message": "Več o tem",
     "description": "Text that links to a support article"
   },
   "Bio--speak-freely": {
@@ -5181,6 +5232,22 @@
     "message": "Naprave",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Vklopite zgodbe",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Izklopite zgodbe",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Izklopi",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Zgodb ne boste mogli več deliti ali si jih ogledovati. Izbrisane bodo tudi posodobitve zgodb, ki ste jih nedavno delili.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Na voljo je nadgradnja na različico $version$",
     "description": "Tooltip for new update available"
@@ -5317,8 +5384,12 @@
     "message": "Obreži",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Dodaj sporočilo",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Moje zgodbe",
+    "message": "Moja Zgodba",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ ogled",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ogledov",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} ogled} two {{views,number} ogleda} few {{views,number} ogledi} other {{views,number} ogledov}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Ogledi so izklopljeni",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ odgovor",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah dugih prejemnikov_ic.",
+    "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah drugih prejemnikov_ic.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Moje zgodbe",
+    "message": "Moja Zgodba",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5405,6 +5484,14 @@
     "message": "Trenutno ni nobenih zgodb za prikaz",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Pošiljam ...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Pošiljanje ni uspelo",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Klikni za ogled zgodbe",
     "description": "Placeholder label for the story view"
@@ -5422,27 +5509,39 @@
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "Ta Zgodba nima zvoka",
+    "message": "Ta zgodba nima zvoka",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Nastavitve zgodbe",
+    "message": "Nastavitve Zgodbe",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Zgodbe samodejno izginejo po 24 urah. Izberite, kdo si lahko ogleda vašo Zgodbo, ali ustvarite nove z določenimi gledalci ali skupinami.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nova zasebna zgodba",
-    "description": "Label to create a new private story list"
+    "message": "Nova Zgodba po meri",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Samo vi lahko vidite ime te Zgodbe.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ gledalec_ka",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ gledalci_ke",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 gledalec_ka} two {{count,number} gledalca_ki} few {{count,number} gledalci_ke} other {{count,number} gledalcev_k}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Kdo lahko vidi to zgodbo",
+    "message": "Kdo lahko vidi to Zgodbo",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Odstrani",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Odstrani $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Oseba ne bo več videla vaše zgodbe.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Odgovori in odzivi",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Izbriši zasebno zgodbo",
-    "description": "Button label to delete a private distribution list"
+    "message": "Izbriši Zgodbo po meri",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Želite izbrisati zasebno zgodbo?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Ali ste prepričani, da želite izbrisati »$name$«? Izbrisane bodo tudi posodobitve te zgodbe v skupni rabi.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Izberite gledalce_ke",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Poimenujte to zgodbo",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Poimenujte Zgodbo",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Ime zgodbe (zahtevano)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Vse Signal povezave, razen ...",
+    "message": "Vsi razen ...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Deli le s/z ...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Deli le z izbranimi ljudmi",
@@ -5537,8 +5636,16 @@
     "message": "Nastavitve zgodbe",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Kdo gleda Zgodbe",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Za spremembo te nastavitve odprite Signal na vaši mobilni napravi in pojdite na Nastavitve > Zgodbe",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Izberite, kdo lahko vidi vašo Zgodbo",
+    "message": "Izberite, kdo lahko vidi vašo zgodbo",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5546,23 +5653,51 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "Pošlji Zgodbo",
+    "message": "Pošlji zgodbo",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Zgodba po meri",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Skupinska Zgodba",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Deli le s/z",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 izključena} two {{count,number} izključeni} few {{count,number} izključene} other {{count,number} izključenih}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Nova Zgodba",
+    "message": "Novo",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Nova zasebna zgodba",
+  "SendStoryModal__new-custom--title": {
+    "message": "Nova Zgodba po meri",
     "description": "Create a new distribution list"
   },
-  "SendStoryModal__new-private--description": {
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Samo vi lahko vidite ime te Zgodbe.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
     "message": "Vidna le določenim ljudem",
     "description": "Description of what a distribution list would do"
   },
+  "SendStoryModal__new-private--title": {
+    "message": "Nova zasebna zgodba",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
+  },
+  "SendStoryModal__new-private--description": {
+    "message": "Vidna le določenim ljudem",
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
+  },
   "SendStoryModal__new-group--title": {
-    "message": "Nova Zgodba skupine",
+    "message": "Nova zgodba skupine",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Zasebnost mojih Zgodb",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Zasebnost Moje zgodbe",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "Izberite, katere Signalove povezave si lahko ogledajo vašo Zgodbo. To lahko kadarkoli spremenite v nastavitvah zasebnosti. $learnMore$",
+    "message": "Izberite, katere Signalove povezave si lahko ogledajo vašo zgodbo. To lahko kadarkoli spremenite v nastavitvah zasebnosti. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5586,11 +5721,15 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Želite odstraniti Zgodbo? To bo odstranilo Zgodbo s seznama, še vedno pa si boste lahko ogledovali Zgodbe iz te skupine.",
+    "message": "Želite odstraniti Zgodbo? To bo odstranilo zgodbo s seznama, še vedno pa si boste lahko ogledovali zgodbe iz te skupine.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "V to skupino lahko zgodbe pošiljajo le skrbniki.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "Deljenje & Ogled Zgodb",
+    "message": "Deljenje & ogled zgodb",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Ogledi so izklopljeni",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ poslanih",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Omogočite potrdila o branju, da vidite, kdo si je ogledal vaše Zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zasebnost.",
+    "message": "Omogočite potrdila o ogledu, da vidite, kdo si je ogledal vaše Zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zgodbe.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reakcije na zgodbo",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Na to Zgodbo ne morete odgovoriti, ker niste več član_ica te skupine.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Zgodba",
@@ -5710,11 +5853,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Videoposnetek je predolg za objavo v Zgodbi",
+    "message": "Videoposnetek je predolg za objavo v zgodbi",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Videoposnetka ni mogoče objaviti v Zgodbi, ker gre za nepodprto obliko datoteke",
+    "message": "Videoposnetka ni mogoče objaviti v zgodbi, ker gre za nepodprto obliko datoteke",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5770,7 +5913,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "K Zgodbi dodaj besedilo",
+    "message": "K zgodbi dodaj besedilo",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5805,6 +5948,18 @@
     "message": "Reakcija na zgodbo",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Na vašo Zgodbo se je odzval_a: $emoji$",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Na Zgodbo uporabnika_ce $name$ ste se odzvali z $emoji$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Na Zgodbo ste se odzvali z $emoji$",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Ni več na voljo",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Meni bližnjic",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Uporabniško ime",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "S pomočjo uporabniških imen vam lahko drugi pošljejo sporočilo, ne da bi potrebovali vašo telefonsko številko. Seznanjeni so z nizom številk, ki pomagajo ohranjati zasebnost vašega naslova.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Več o tem",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Kaj je ta številka?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Te številke pomagajo ohranjati zasebnost vašega uporabniškega imena, da se lahko izognete neželenim sporočilom. Svoje uporabniško ime delite samo z osebami in skupinami, s katerimi želite klepetati. Če spremenite uporabniška imena, boste prejeli nov nabor številk.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Kaj je novega",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Preprosto dodajte prijatelja_ico v skupino z zaslona z njegovimi_nimi kontaktnimi podatki, da bo pogovor še naprej zanimiv.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Trdo delamo, da odpravimo napake in uvedemo druge izboljšave delovanja, da bo aplikacija za vas delovala nemoteno.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Začnite uporabljati in preizkušati našo novo funkcijo zgodb. Funkcijo lahko uporabljate z drugimi beta preizkuševalci in nam sporočite, kako deluje.",
+    "description": "Release notes for v5.63"
   }
 }

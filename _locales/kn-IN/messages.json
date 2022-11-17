@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "ಮೆಸೇಜ್ ಸೇರಿಸಿ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "ಸಂದೇಶ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ಮುಗಿದಿದೆ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
@@ -354,7 +373,7 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "ಮೆಸೇಜ್‌ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ. ಈವರೆ $count$...",
+    "message": "ಮೆಸೇಜ್‍ಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ. ಈವರೆಗೆ $count$...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -733,8 +752,8 @@
     "message": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿ ಎಸ್ಎಂಎಸ್/ಎಂಎಂಎಸ್ ಸಂಪರ್ಕಗಳು ಲಭ್ಯವಿಲ್ಲ.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ನಲ್ಲಿ \"$searchTerm$\" ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName}ನಲ್ಲಿ \"{searchTerm}\" ಗೆ ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "ಟ್ಯಾಪ್ ಮಾಡಿ $plusButton$ (ಆಂಡ್ರಾಯ್ಡ್) ಅಥವಾ $linkNewDevice$ (ಐಫೋನ್)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "ಕ್ಯೂಆರ್ ಕೋಡ್ ಲೋಡ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+  "icu:Install__qr-failed": {
+    "messageformat": "ಕ್ಯೂಆರ್ ಕೋಡ್ ಲೋಡ್ ಆಗಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ ...",
+    "message": "ಆಮದು ಮಾಡಲಾಗುತ್ತಿದೆ...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ಆಫ಼್",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "ಕಣ್ಮರೆಯಾಗುವ ಸಂದೇಶಗಳು",
+  "icu:disappearingMessages": {
+    "messageformat": "ಕಣ್ಮರೆಯಾಗುವ ಸಂದೇಶಗಳು",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "ಹೊಸ ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ...",
+    "message": "ಹೊಸ ಸಂಭಾಷಣೆ ಪ್ರಾರಂಭಿಸಿ…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "ಯಾವುದೇ ಸಂಪರ್ಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ಯಾವುದೇ ಗ್ರೂಪ್ ಕಂಡುಬಂದಿಲ್ಲ.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "ಸಂಭಾಷಣೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "ಸ್ಟಿಕ್ಕರ್‌ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "ಹಿಂದಕ್ಕೆ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "ನಿಮ್ಮ ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸೇರಿಸಿ",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "ಮಾರ್ಜಿನ್‌ಗಳನ್ನು ತೋರಿಸಿ",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ ಅಥವಾ ಇನ್ನಷ್ಟನ್ನು ಸೇರಿಸಿ",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} ಅಥವಾ ಇನ್ನಷ್ಟನ್ನು ಸೇರಿಸಿ",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "ಇನ್ನು ಕೆಲವೇ ಹೆಚ್ಚು ವಿವರಗಳು...",
+    "message": "ಇನ್ನು ಕೆಲವೇ ವಿವರಗಳು…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal ಗಾಗಿ ನಾನು ರಚಿಸಿದ ಹೊಸ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ಅನ್ನು ನೋಡಿ. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ಚಿತ್ರ(ಗಳನ್ನು) ಸೇರಿಸಲಾಗಿದೆ",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 ಚಿತ್ರವನ್ನು ಸೇರಿಸಲಾಗಿದೆ} other {{count,number} ಚಿತ್ರಗಳನ್ನು ಸೇರಿಸಲಾಗಿದೆ}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ ಸದಸ್ಯರು",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 ಸದಸ್ಯ",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 ಸದಸ್ಯ} other {{count,number} ಸದಸ್ಯರು}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$ ರ ಸದಸ್ಯ",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ...",
+    "message": "ಒಳಬರುವ ಆಡಿಯೊ ಕರೆ…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕಾಲ್...",
+    "message": "ಒಳಬರುವ ವೀಡಿಯೊ ಕರೆ…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "ರಿಂಗ್ ಆಗುತ್ತಿದೆ...",
+    "message": "ರಿಂಗ್ ಆಗುತ್ತಿದೆ…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಮರುಸಂಪರ್ಕಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಅಪ್‍ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "message": "ಆಡಿಯೊ ಅಟ್ಯಾಚ್‍ಮೆಂಟ್ ಡೌನ್‍ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "ಮೇಲಿರುವ $composeIcon$ ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೆಸೇಜ್ ಮಾಡಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಹುಡುಕಿ.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "ಮೇಲಿರುವ {composeIcon} ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಮೆಸೇಜ್ ಮಾಡಲು ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳನ್ನು ಹುಡುಕಿ.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "ಕಸ್ಟಮ್ ಸಮಯ...",
+    "message": "ಕಸ್ಟಮ್ ಸಮಯ…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ...",
+    "message": "ಗುಂಪು ವಿವರಣೆ ಸೇರಿಸಿ…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "ಬಳಕೆದಾರ ಹೆಸರು",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal ನಲ್ಲಿನ ಬಳಕೆದಾರ ಹೆಸರು ಐಚ್ಛಿಕವಾಗಿರುತ್ತವೆ. ನೀವು ಬಳಕೆದಾರಹೆಸರನ್ನು ರಚಿಸಲು ಆರಿಸಿದರೆ ಇತರ Signal ಬಳಕೆದಾರರು ಈ ಬಳಕೆದಾರ ಹೆಸರಿನಿಂದ ನಿಮ್ಮನ್ನು ಹುಡುಕಲು ಮತ್ತು ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ತಿಳಿಯದೆ ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಆಯ್ಕೆ ಮಾಡಿಕೊಳ್ಳಿ",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು a-z, 0-9 ಮತ್ತು _ ಅನ್ನು ಮಾತ್ರ ಹೊಂದಿರಬಹುದು",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "ಬಳಕೆದಾರ ಹೆಸರುಗಳು ಸಂಖ್ಯೆಯಿಂದ ಪ್ರಾರಂಭವಾಗುವಂತಿಲ್ಲ.",
@@ -4945,6 +4964,10 @@
     "message": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಗರಿಷ್ಠ $max$ ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ಈ ಯೂಸರ್‌ನೇಮ್ ಲಭ್ಯವಿಲ್ಲ",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ಈ ಬಳಕೆದಾರ ಹೆಸರು ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ತೆಗೆದುಹಾಕಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "ನಕಲಿಸಲಾದ ಯೂಸರ್‌ನೇಮ್",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "ನಕಲಿಸಲಾದ ಲಿಂಕ್",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "ಯೂಸರ್‌ನೇಮ್ ಅಳಿಸಲಾಗುತ್ತಿದೆ",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "ಯೂಸರ್‌ನೇಮ್ ಅಳಿಸಿ",
@@ -4969,8 +5004,24 @@
     "message": "ಅಳಿಸು",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "ಯೂಸರ್‌ನೇಮ್ ನಕಲಿಸಿ ಅಥವಾ ಅಳಿಸಿ",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "ಯೂಸರ್‌ನೇಮ್ ನಕಲಿಸಿ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "ಲಿಂಕ್ ನಕಲಿಸಿ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "ಅಳಿಸಿ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "ನಿಮ್ಮ ಬಗ್ಗೆ ಏನಾದರೂ ಬರೆಯಿರಿ...",
+    "message": "ನಿಮ್ಮ ಬಗ್ಗೆ ಏನಾದರೂ ಬರೆಯಿರಿ…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "ಈ ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸಲು ನೀವು ಬಯಸುವಿರಾ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿದೆ. ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಮತ್ತು ಅದಕ್ಕೆ ಮಾಡಿದ ಬದಲಾವಣೆಗಳು ಹೊಸ ಚಾಟ್‌ಗಳನ್ನು ನೀವು ಆರಂಭಿಸಿದಾಗ ಅಥವಾ ಸ್ವೀಕರಿಸಿದಾಗ ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಕಾಣಿಸುತ್ತದೆ. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿದೆ. ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಮತ್ತು ಅದಕ್ಕೆ ಮಾಡಿದ ಬದಲಾವಣೆಗಳು ಹೊಸ ಚಾಟ್‌ಗಳನ್ನು ನೀವು ಆರಂಭಿಸಿದಾಗ ಅಥವಾ ಸ್ವೀಕರಿಸಿದಾಗ ನಿಮ್ಮ ಸಂಪರ್ಕಗಳಿಗೆ ಕಾಣಿಸುತ್ತದೆ. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "ಸಾಧನಗಳು",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "ಸ್ಟೋರೀಸ್ ಆನ್ ಮಾಡಿ",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ಸ್ಟೋರೀಸ್ ಆಫ್ ಮಾಡಿ",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ಆಫ್ ಮಾಡಿ",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಇನ್ನು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇತ್ತೀಚೆಗೆ ಹಂಚಿಕೊಂಡ ಸ್ಟೋರಿ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡಾ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "ಲಭ್ಯವಿರುವ ಆವೃತ್ತಿ $version$ ಕ್ಕೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ",
     "description": "Tooltip for new update available"
@@ -5317,8 +5384,12 @@
     "message": "ಕ್ರಾಪ್ ಮಾಡಿ",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "ಮೆಸೇಜ್ ಸೇರಿಸಿ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
+    "message": "ನನ್ನ ಸ್ಟೋರಿ",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5326,7 +5397,7 @@
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಿ",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ ವೀಕ್ಷಣೆ",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ ವೀಕ್ಷಣೆಗಳು",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} view} other {{views,number} ವೀಕ್ಷಣೆಗಳು}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "ವೀಕ್ಷಣೆಗಳು ಆಫ್ ಆಗಿವೆ",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ ಉತ್ತರ",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
+    "message": "ಈ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕುವುದೇ? ಇದನ್ನು ಸ್ವೀಕರಿಸಿದ ಎಲ್ಲರಿಗೂ ಇದನ್ನು ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ‌ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್‌ಗಳನ್ನು ನೋಡಬಹುದು",
+    "message": "ನಿಮ್ಮ ಸಂಪರ್ಕಗಳು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಫೊಟೋವನ್ನು ನೋಡಬಹುದು ಮತ್ತು ನೀವು ಅವರಿಂದ ಮರೆಮಾಡದ ಹೊರತಾಗಿ, \"ನನ್ನ ಸ್ಟೋರಿ\" ಯ ಪೋಸ್ಟ್ ಗಳನ್ನು ನೋಡಬಹುದು",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
+    "message": "ನನ್ನ ಸ್ಟೋರಿ",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5390,7 +5469,7 @@
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
-    "message": "ಪಠ್ಯ ಸ್ಟೋರಿ",
+    "message": "ಟೆಕ್ಸ್ಟ್ ಸ್ಟೋರಿ",
     "description": "Label to create a new text story"
   },
   "Stories__add-story--media": {
@@ -5405,6 +5484,14 @@
     "message": "ಪ್ರಸ್ತುತ ತೋರಿಸಲು ಯಾವುದೇ ಸ್ಟೋರೀಸ್ ಇಲ್ಲ",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "ಸ್ಟೋರಿ ವೀಕ್ಷಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
     "description": "Placeholder label for the story view"
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "ಉತ್ತರ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಉತ್ತರ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ...",
+    "message": "ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5426,23 +5513,35 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "24 ಗಂಟೆಗಳ ನಂತರ ಸ್ಟೋರೀಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮರೆಯಾಗುತ್ತವೆ. ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂದು ಆಯ್ಕೆ ಮಾಡಿ ಅಥವಾ ನಿರ್ದಿಷ್ಟ ವೀಕ್ಷಕರು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಹೊಸ ಸ್ಟೋರೀಸ್ ರಚಿಸಿ.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "ಹೊಸ ಖಾಸಗಿ ಸ್ಟೋರಿ",
-    "description": "Label to create a new private story list"
+    "message": "ಹೊಸ ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "ಈ ಸ್ಟೋರಿಯ ಹೆಸರನ್ನು ನೀವು ಮಾತ್ರ ನೋಡಬಹುದು.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ವೀಕ್ಷಕ",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ ವೀಕ್ಷಕರು",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 ವೀಕ್ಷಕ} other {{count,number} ವೀಕ್ಷಕರು}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ಈ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ನೋಡಬಹುದು",
+    "message": "ಈ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "ತೆಗೆದುಹಾಕಿ",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$ ತೆಗೆದುಹಾಕಿ",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "ಈ ವ್ಯಕ್ತಿ ಇನ್ನು ಮುಂದೆ ನಿಮ್ಮ ಸ್ಟೋರಿ ನೋಡುವುದಿಲ್ಲ.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "ಉತ್ತರಗಳು ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆಗಳು",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸಿ",
-    "description": "Button label to delete a private distribution list"
+    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿರಿ",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ಖಾಸಗಿ ಸ್ಟೋರಿ ಅಳಿಸುವುದೇ?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "\"$name$\" ಅನ್ನು ಅಳಿಸಲು ನೀವು ಖಚಿತವಾಗಿ ಅಳಿಸಿಹಾಕಲು ಬಯಸುತ್ತೀರಾ? ಈ ಸ್ಟೋರಿಗೆ ಹಂಚಿಕೊಳ್ಳಲಾದ ಅಪ್ಡೇಟ್ ಗಳನ್ನು ಕೂಡ ಅಳಿಸಿಹಾಕಲಾಗುತ್ತದೆ.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "ವೀಕ್ಷಕರನ್ನು ಆಯ್ಕೆ ಮಾಡಿ",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ಈ ಸ್ಟೋರಿಯನ್ನು ಹೆಸರಿಸಿ",
-    "description": "Modal title when naming a private distribution list"
+    "message": "ಸ್ಟೋರಿಯನ್ನು ಹೆಸರಿಸಿ",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "ಸ್ಟೋರಿ ಹೆಸರು (ಅಗತ್ಯವಿದೆ)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "ಇದರ ಹೊರತಾದ ಎಲ್ಲಾ Signal ಸಂಪರ್ಕಗಳು...",
+    "message": "ಇದನ್ನು ಹೊರತುಪಡಿಸಿ ಎಲ್ಲಾ…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "ಇವರೊಂದಿಗೆ ಮಾತ್ರ ಹಂಚಿಕೊಳ್ಳಿ…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "ಆಯ್ದ ಜನರೊಂದಿಗೆ ಮಾತ್ರ ಹಂಚಿಕೊಳ್ಳಿ",
@@ -5534,8 +5633,16 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "ವೀಕ್ಷಣೆ ರಸೀದಿಗಳು",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು -> ಸ್ಟೋರೀಸ್ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿರಿ",
@@ -5549,17 +5656,45 @@
     "message": "ಸ್ಟೋರಿ ಕಳುಹಿಸಿ",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "ಗ್ರೂಪ್ ಸ್ಟೋರಿ",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "ಇವರಿಗಷ್ಟೇ ಶೇರ್ ಮಾಡಿ",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "ಹೊಸ ಸ್ಟೋರಿ",
+    "message": "ಹೊಸ",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "ಹೊಸ ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "ಈ ಸ್ಟೋರಿಯ ಹೆಸರನ್ನು ನೀವು ಮಾತ್ರ ನೋಡಬಹುದು.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "ನಿರ್ದಿಷ್ಟ ಜನರಿಗೆ ಮಾತ್ರ ಕಾಣಿಸುತ್ತದೆ",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "ಹೊಸ ಖಾಸಗಿ ಸ್ಟೋರಿ",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "ನಿರ್ದಿಷ್ಟ ಜನರಿಗೆ ಮಾತ್ರ ಕಾಣಿಸುತ್ತದೆ",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "ಹೊಸ ಗ್ರೂಪ್ ಸ್ಟೋರಿ",
@@ -5574,20 +5709,24 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "ನನ್ನ ಸ್ಟೋರೀಸ್ ಗೌಪ್ಯತೆ",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "ನನ್ನ ಸ್ಟೋರಿ ಗೌಪ್ಯತೆ",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ನೀವು ಯಾವತ್ತೂ ಗೌಪ್ಯತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಲ್ಲಿ ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾವ Signal ಸಂಪರ್ಕಗಳು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ಗೌಪ್ಯತೆಯ ಸೆಟ್ಟಿಂಗ್ ಗಳಲ್ಲಿ ನೀವು ಇದನ್ನು ಯಾವಾಗ ಬೇಕಾದರೂ ಬದಲಾಯಿಸಬಹುದು. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿ",
+    "message": "ಸ್ಟೋರಿ ಅಳಿಸಿಹಾಕಿ",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
     "message": "ಸ್ಟೋರಿಯನ್ನು ತೆಗೆದುಹಾಕಬೇಕೇ? ಇದು ನಿಮ್ಮ ಪಟ್ಟಿಯಿಂದ ಸ್ಟೋರಿಯನ್ನು ತೆಗೆದುಹಾಕಲಿದೆ, ಆದರೆ ಈಗಲೂ ನೀವು ಈ ಗ್ರೂಪ್‍ನಿಂದ ಸ್ಟೋರೀಸ್ ಅನ್ನು ವೀಕ್ಷಿಸಬಹುದು.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "ಈ ಗ್ರೂಪ್ ಗೆ ಅಡ್ಮಿನ್ ಗಳು ಮಾತ್ರ ಸ್ಟೋರೀಸ್ ಕಳುಹಿಸಬಹುದು.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ವೀಕ್ಷಿಸಿ",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ವೀಕ್ಷಣೆಗಳು ಆಫ್ ಆಗಿವೆ",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "ನಿಮ್ಮ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಯಾರು ವೀಕ್ಷಿಸಿದ್ದಾರೆ ಎಂದು ನೋಡಲು ಓದಿದ ರಸೀದಿಗಳು ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಗೌಪ್ಯತೆ ಎಂಬಲ್ಲಿಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಯಾರು ವೀಕ್ಷಿಸಿದ್ದಾರೆ ಎಂದು ನೋಡಲು ರಸೀದಿಗಳನ್ನು ವೀಕ್ಷಿಸಿ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಸ್ಟೋರೀಸ್ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಲಾಗಿದೆ",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "ಈ ಸ್ಟೋರಿಗೆ ನೀವು ಉತ್ತರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ, ಯಾಕೆಂದರೆ ನೀವೀಗ ಈ ಗ್ರೂಪ್‌ನ ಸದಸ್ಯರಾಗಿ ಉಳಿದಿಲ್ಲ.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "ಸ್ಟೋರಿ",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡುವುದೇ? $name$ ಅವರ ಹೊಸ ಸ್ಟೋರಿ ಅಪ್‌ಡೇಟ್‌ಗಳು ಇನ್ನುಮುಂದೆ ಸ್ಟೋರೀಸ್ ಪಟ್ಟಿಯಲ್ಲಿ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣಿಸುವುದಿಲ್ಲ.",
+    "message": "ಸ್ಟೋರಿಯನ್ನು ಮರೆಮಾಡುವುದೇ? $name$ ಅವರ ಹೊಸ ಸ್ಟೋರಿ ಅಪ್ ಡೇಟ್ ಗಳು ಇನ್ನುಮುಂದೆ ಸ್ಟೋರೀಸ್ ಪಟ್ಟಿಯ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಕಾಣಿಸುವುದಿಲ್ಲ.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5702,11 +5845,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. $name$ ಅವರು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. $name$ ಅವರು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "ಸ್ಟೋರಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
+    "message": "ಸ್ಟೋರಿ ಡೌನ್ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು ಇದನ್ನು ಮತ್ತೆ ಹಂಚಿಕೊಳ್ಳಬೇಕಿದೆ.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5805,6 +5948,18 @@
     "message": "ಸ್ಟೋರಿಗೆ ಪ್ರತಿಕ್ರಿಯಿಸಲಾಗಿದೆ",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಗೆ $emoji$ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$name$ ಅವರ ಸ್ಟೋರಿಗೆ ನೀವು $emoji$ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದೀರಿ",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "ಸ್ಟೋರಿಗೆ ನೀವು $emoji$ ಎಂದು ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದೀರಿ",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "ಲಭ್ಯವಿಲ್ಲ",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "ಸಾಂದರ್ಭಿಕ‌ ಮೆನು",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "ಯೂಸರ್‌ನೇಮ್",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "ಯೂಸರ್‌ನೇಮ್‌ಗಳು ಇತರರಿಗೆ ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯ ಅಗತ್ಯವಿಲ್ಲದೆ ಮೆಸೇಜ್ ಮಾಡಲು ಅನುಮತಿಸುತ್ತದೆ. ನಿಮ್ಮ ವಿಳಾಸವನ್ನು ಗೌಪ್ಯವಾಗಿರಿಸಲು ನೆರವಾಗಲು ಅಂಕಿಗಳ ಸೆಟ್‌ನೊಂದಿಗೆ ಅವುಗಳನ್ನು ಜೋಡಿಸಲಾಗುತ್ತದೆ.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ಈ ಸಂಖ್ಯೆ ಏನು?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "ಈ ಅಂಕಿಗಳು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಗೌಪ್ಯವಾಗಿರಿಸಲು ನೆರವಾಗುತ್ತವೆ, ಹಾಗಾಗಿ ನೀವು ಅನಪೇಕ್ಷಿತ ಮೆಸೇಜ್‌ಗಳನ್ನು ತಪ್ಪಿಸಬಹುದು. ನೀವು ಚಾಟ್ ಮಾಡಲು ಬಯಸುವ ಜನರು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಮಾತ್ರ ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಹಂಚಿಕೊಳ್ಳಿ. ಯೂಸರ್‌ನೇಮ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ ಅಂಕಿಗಳ ಹೊಸ ಸೆಟ್ ಅನ್ನು ನೀವು ಪಡೆಯುತ್ತೀರಿ.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "ಹೊಸತೇನಿದೆ",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "ಸಂಭಾಷಣೆಯನ್ನು ರೋಚಕವಾಗಿಸಲು ಫ್ರೆಂಡ್ ಅನ್ನು ಅವರ ಸಂಪರ್ಕ ವಿವರಗಳ ಸ್ಕ್ರೀನ್ ನಿಂದ ಸುಲಭವಾಗಿ ಗ್ರೂಪ್‍ಗೆ ಸೇರಿಸಿ.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "ನಿಮ್ಮ‌ ಆ್ಯಪ್ ಅನ್ನು ಸರಾಗವಾಗಿರಿಸಲು ಬಗ್ ಫಿಕ್ಸಿಂಗ್ ಮತ್ತು ಇತರೆ ನಿರ್ವಹಣಾ ಸುಧಾರಣೆಗಳನ್ನು ಮಾಡುವ ಕೆಲಸದಲ್ಲಿ ನಿರತರಾಗಿದ್ದೇವೆ.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ನಮ್ಮ ಹೊಸ ಸ್ಟೋರೀಸ್ ಫೀಚರ್ ಅನ್ನು ಬಳಸಲು ಮತ್ತು ಪರೀಕ್ಷಿಸಲು ಪ್ರಾರಂಭಿಸಿ. ಇತರೆ ಬೀಟಾ ಟೆಸ್ಟರ್ ಗಳೊಂದಿಗೆ ಈ ಫೀಚರ್ ಅನ್ನು ನೀವು ಬಳಸಬಹುದು ಮತ್ತು ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತಿದೆ ಎಂದು ನಮಗೆ ತಿಳಿಸಿ.",
+    "description": "Release notes for v5.63"
   }
 }

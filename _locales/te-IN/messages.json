@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "ఒక సందేశాన్ని జోడించండి",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "సందేశం",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "పూర్తి",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "సమూహంకి కలపండి",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ జోడిస్తోంది...",
+    "message": "$contact$ ను జోడిస్తోంది...",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "ప్రాధాన్యతలు ...",
+    "message": "ప్రాధాన్యతలు...",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "లోడింగ్...",
+    "message": "లోడ్ చేస్తోంది...",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "అనువర్తనాన్ని ఆప్టిమైజ్ చేస్తోంది ...",
+    "message": "అప్లికేషన్‌ను ఆప్టిమైజ్ చేస్తోంది...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "సందేశాలను ఆప్టిమైజ్ చేస్తోంది ... $status$ పూర్తయింది",
+    "message": "సందేశాలను ఆప్టిమైజ్ చేస్తోంది... $status$ పూర్తి అయింది.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "దత్తాంశమూల అప్‌గ్రేడ్ చేస్తోంది. దీనికి కొంత సమయం పడుతుంది ...",
+    "message": "డేటాబేస్‌ను అప్‌గ్రేడ్ చేస్తోంది. దీనికి కొంత సమయం పట్టవచ్చు...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "సందేశాలను లోడ్ చేస్తోంది. $count$ ఇప్పటివరకు ...",
+    "message": "సందేశాలను లోడ్ చేస్తోంది. ఇప్పటివరకు $count$ చేయబడ్డాయి…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... ఫుల్ లాగ్ చూడటానికి, సేవ్ క్లిక్ చేయండి",
+    "message": "... పూర్తి లాగ్ చూడటానికి, సేవ్ క్లిక్ చేయండి",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "పరిదృశ్యం లోడ్ అవుతోంది ...",
+    "message": "ప్రివ్యూను లోడ్ చేస్తోంది...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "కలుస్తుంది...",
+    "message": "కనెక్ట్ చేస్తోంది...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "SMS / MMS పరిచయాలు డెస్క్‌టాప్‌లో అందుబాటులో లేవు.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ లో $searchTerm$ కోసం ఫలితాలు లేవు",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} లో {searchTerm} కోసం ఫలితాలు లేవు",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) లేదా $linkNewDevice$ (iPhone)ని తట్టండి",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR కోడ్ లోడ్ కాదు, మీ ఇంటర్నెట్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "ఇంకా నేర్చుకో",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ ఇంటర్నెట్‌ను తనిఖీ చేయండి మరియు మళ్లీ ప్రయత్నించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "దిగుమతి అవుతోంది ...",
+    "message": "దిగుమతి చేస్తోంది...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ఆఫ్",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "అదృశ్యమవుతున్న  సందేశాలు",
+  "icu:disappearingMessages": {
+    "messageformat": "అదృశ్యమవుతున్న  సందేశాలు",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "స్టోరీలు",
+    "message": "కథలు",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "పరిచయాలు ఏవీ కనుగొనబడలేదు",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ఏ గ్రూపులు కనుగొనబడలేదు",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "సంభాషణలు కనుగొనబడలేదు",
@@ -2186,15 +2205,15 @@
     "description": "Shown to label the gift badge in notifications and the left pane"
   },
   "message--giftBadge--preview--redeemed": {
-    "message": "మీరు ఒక గిఫ్ట్ బ్యాడ్జీని రీడిమ్ చేసుకున్నారు",
+    "message": "మీరు ఒక బహుమతి బ్యాడ్జిని రీడిమ్ చేసుకున్నారు",
     "description": "Shown to label the redeemed gift badge in notifications and the left pane"
   },
   "message--giftBadge--preview--sent": {
-    "message": "మీరు ఒక గిఫ్ట్ బ్యాడ్జీని పంపారు",
+    "message": "మీరు ఒక బహుమతి బ్యాడ్జిని పంపారు",
     "description": "Shown to label a gift badge you've sent in notifications and the left pane"
   },
   "message--giftBadge": {
-    "message": "గిఫ్ట్ బ్యాడ్జీ",
+    "message": "బహుమతి బ్యాడ్జి",
     "description": "Shown to label the gift badge you've redeemed on another device"
   },
   "quote--giftBadge": {
@@ -2234,7 +2253,7 @@
     "description": "The title of the outgoing gift badge detail dialog"
   },
   "modal--giftBadge--description": {
-    "message": "మీరు $name$కు బ్యాడ్జీని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జీని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
+    "message": "మీరు $name$కు బ్యాడ్జిని బహుమతిగా ఇచ్చారు. వారు ఆమోదించినప్పుడు, వారికి బ్యాడ్జిని చూపించడం లేదా దాచిపెట్టాలని ఎంపిక ఇవ్వబడుతుంది.",
     "description": "The description of the outgoing gift badge detail dialog"
   },
   "stickers--toast--InstallFailed": {
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "స్టిక్కర్ ప్యాక్‌ని ఇన్‌స్టాల్ చేస్తోంది ...",
+    "message": "స్టిక్కర్ ప్యాక్‌ను ఇన్‌స్టాల్ చేస్తోంది...",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "తిరిగి",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "మీ స్టిక్కర్లను జోడించండి",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "మీ స్టిక్కర్లను జోడించండి",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "మార్జిన్లు చూపించు",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ లేదా అంతకంటే ఎక్కువ జోడించండి",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} లేదా అంతకంటే ఎక్కువ జోడించండి",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "మరికొన్ని వివరాలు ...",
+    "message": "కేవలం మరికొన్ని వివరాలు...",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal కోసం నేను సృష్టించిన ఈ కొత్త స్టిక్కర్ ప్యాక్‌ని చూడండి. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ చిత్రం (లు) జోడించబడ్డాయి",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 చిత్రం జోడించబడింది} other {{count,number} చిత్రాలు జోడించబడ్డాయి}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ సభ్యులు",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 సభ్యుడు",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 సభ్యుడు} other {{count,number} సభ్యులు}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$ సభ్యుడు",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ఇన్‌కమింగ్ ఆడియో కాల్ ...",
+    "message": "ఇన్‌కమింగ్ ఆడియో కాల్...",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "ఇన్కమింగ్ వీడియో కాల్ ...",
+    "message": "ఇన్‌కమింగ్ వీడియో కాల్…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "మోగుతున్నది...",
+    "message": "రింగ్ అవుతోంది...",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "నవీకరిస్తోంది ...",
+    "message": "అప్‌డేట్ చేస్తోంది...",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4130,7 +4153,7 @@
     "description": "Displayed while checking if the contact is SMS-only"
   },
   "countMutedConversationsDescription": {
-    "message": "బ్యాడ్జీ కౌంట్‌లో మ్యూట్ చేసిన సంభాషణలను జోడించండి",
+    "message": "బ్యాడ్జి కౌంట్‌లో మ్యూట్ చేసిన సంభాషణలను జోడించండి",
     "description": "Description for counting muted conversations in badge setting"
   },
   "ContactModal--message": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ఆడియో జోడింపును డౌన్‌లోడ్ చేస్తోంది...",
+    "message": "ఆడియో అటాచ్‌మెంట్‌ను డౌన్‌లోడ్ చేస్తోంది...",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "పై $composeIcon$ పై క్లిక్ చేసి, సందేశానికి మీ పరిచయాలు లేదా సమూహాల కోసం శోధించండి.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "పై {composeIcon} పై క్లిక్ చేసి, సందేశానికి మీ పరిచయాలు లేదా సమూహాల కోసం శోధించండి.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "సమూహ వివరణను జోడించండి ...",
+    "message": "గ్రూప్ వివరణను జోడించండి...",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "వినియోగదారుడు",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "వినియోగదారు పేరును నమోదు చేయండి",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal లోని వినియోగదారు పేర్లు ఐచ్ఛికం. మీరు వినియోగదారు పేరును సృష్టించాలని ఎంచుకుంటే ఇతర Signal వినియోగదారులు ఈ వినియోగదారు పేరు ద్వారా మిమ్మల్ని కనుగొని, మీ ఫోన్ నంబర్ తెలియకుండానే మిమ్మల్ని సంప్రదించగలరు.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "మీ యూజర్‌నేమ్‌ను ఎంచుకోండి",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "యూజర్‌నేమ్‌ల్లో a-z, 0-9 మరియు ఇవి ఉండవచ్చు _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "వినియోగదారు పేర్లు సంఖ్యతో ప్రారంభం కాకపోవచ్చు.",
@@ -4945,6 +4964,10 @@
     "message": "యూజర్‌నేమ్‌లో గరిష్టంగా $max$ క్యారెక్టర్‌లు ఉండాలి.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ఈ యూజర్‌నేమ్ అందుబాటులో లేదు",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ఈ వినియోగదారు పేరు తీసుకోబడింది.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "మీ యూజర్‌నేమ్‌ని తొలగించలేం. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "యూజర్‌నేమ్ కాపీ చేయబడింది",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "లింక్ కాపీ చేయబడింది",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "యూజర్‌నేమ్‌ను తొలగిస్తోంది",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "యూజర్‌నేమ్‌ని డిలీట్ చేయండి",
@@ -4969,8 +5004,24 @@
     "message": "తొలగించండి",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "యూజర్‌నేమ్‌ను కాపీ చేయండి లేదా తొలగించండి",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "యూజర్‌నేమ్‌ను కాపీ చేయండి",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "లింక్‌ను కాపీ చేయండి",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "తొలగించండి",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "మీ గురించి ఏదైనా రాయండి...",
+    "message": "మీ గురించి ఏదో ఒకటి రాయండి...",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "మీరు ఈ మార్పులను విస్మరించాలనుకుంటున్నారా?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "మీ ప్రొఫైల్ ఎన్‌క్రిప్ట్ చేయబడింది. మీరు కొత్త చాట్‌లను ప్రారంభించినప్పుడు లేదా ఆమోదించినప్పుడు మీ ప్రొఫైల్ మరియు దానికి మార్పులు మీ కాంటాక్ట్‌లకు కనిపిస్తాయి. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "మీ ప్రొఫైల్ ఎన్‌క్రిప్ట్ చేయబడింది. మీరు కొత్త చాట్‌లను ప్రారంభించినప్పుడు లేదా ఆమోదించినప్పుడు మీ ప్రొఫైల్ మరియు దానికి మార్పులు మీ కాంటాక్ట్‌లకు కనిపిస్తాయి. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "పరికరాలు",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "కథలను ఆన్ చేయండి",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "కథలను ఆఫ్ చేయండి",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "తీసివేయు",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "మీరు ఇక ఏమాత్రం కథలను పంచుకోలేరు లేదా వీక్షించలేరు. మీరు ఇటీవల పంచుకున్న కథ అప్‌డేట్స్ కూడా తొలగించబడతాయి.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "వెర్షన్ $version$కు అప్‌డేట్ లభ్యమవుతోంది",
     "description": "Tooltip for new update available"
@@ -5317,16 +5384,20 @@
     "message": "క్రాప్",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "ఒక సందేశాన్ని జోడించండి",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "నా స్టోరీలు",
+    "message": "నా కథ",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "మీ స్టోరీ",
+    "message": "మీ కథ",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "స్టోరీని డౌన్‌లోడ్ చేయండి",
+    "message": "కథను డౌన్‌లోడ్ చేయండి",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ వీక్షణ",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ వీక్షణలు",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} వీక్షణ} other {{views,number} వీక్షణలు}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "వీక్షణలు ఆఫ్ చేయబడ్డాయి",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ రిప్లై",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ఈ స్టోరీని డిలీట్ చేయాలా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది డిలీట్ చేయబడుతుంది.",
+    "message": "ఈ కథను తొలగించేదా? దీనిని అందుకున్న ప్రతిఒక్కరి కొరకు కూడా ఇది తొలగించబడుతుంది.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,19 +5453,19 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "మీ కనెక్షన్‌లు మీ పేరు మరియు ఫోటోని చూడగలరు, వారి నుంచి మీరు దాచిపెట్టినట్లయితే తప్ప, ‘‘నా స్టోరీ’’కు చేసే పోస్ట్‌లను చూడవచ్చు",
+    "message": "మీ కనెక్షన్స్ మీ పేరు మరియు ఫోటోను చూడగలరు, మరియు దాన్ని వారి నుంచి మీరు దాచిపెడితే తప్ప, ‘‘నా కథ’’ కు పోస్ట్‌లను చూడగలరు",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "స్టోరీలు",
+    "message": "కథలు",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "నా స్టోరీలు",
+    "message": "నా కథ",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "ఒక స్టోరీని జోడించండి",
+    "message": "ఒక కథను జోడించండి",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5398,15 +5477,23 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "దాచిపెట్టబడ్డ స్టోరీలు",
+    "message": "దాయబడ్డ కథలు",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవల స్టోరీలు లేవు",
+    "message": "ఇప్పుడు చూపించడానికి ఎలాంటి ఇటీవలి కథలు లేవు",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "పంపుతోంది...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "పంపడం విఫలమైంది",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "స్టోరీని చూడటానికి క్లిక్ చేయండి",
+    "message": "ఒక కథను చూడటానికి క్లిక్ చేయండి",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5418,31 +5505,43 @@
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "రియాక్షన్ పంపుతోంది...",
+    "message": "ప్రతిస్పందనను పంపుతోంది...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
-    "message": "ఈ స్టోరీకి సౌండ్ లేదు",
+    "message": "ఈ కథకు సౌండ్ లేదు",
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "స్టోరీ సెట్టింగ్‌లు",
+    "message": "కథ సెట్టింగ్స్",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "24 గంటల తరువాత కథలు ఆటోమేటిక్‌గా అదృశ్యమౌతాయి. మీ కథను ఎవరు వీక్షించవచ్చు లేదా నిర్దిష్ట వీక్షకులు లేదా గ్రూపులతో ఎవరు కొత్త కథలను సృష్టించవచ్చు అనేది ఎంచుకోండి.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "కొత్త ప్రైవేట్ స్టోరీ",
-    "description": "Label to create a new private story list"
+    "message": "కొత్త అనుకూల కథ",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "ఈ కథ పేరును మీరు మాత్రమే చూడవచ్చు.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ వీక్షకుడు",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ వీక్షకులు",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 వీక్షకుడు} other {{count,number} వీక్షకులు}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ఈ స్టోరీని ఎవరు చూడవచ్చు",
+    "message": "ఈ కథను ఎవరు వీక్షించవచ్చు",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "తొలగించు",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$ని తొలగించండి",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "ఈ వ్యక్తి మీ స్టోరీని ఇక ఏమాత్రం చూడలేడు.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "ఈ వ్యక్తి మీ కథను ఇక ఏమాత్రం చూడలేడు.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "ప్రత్యుత్తరాలు & ప్రతిస్పందనలు",
@@ -5470,31 +5569,31 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "మీ స్టోరీని చూసే వ్యక్తులు ప్రతిస్పందించేందుకు మరియు ప్రత్యుత్తరాన్ని ఇవ్వనివ్వండి.",
+    "message": "మీ కథను చూడగల వ్యక్తులు ప్రతిస్పందించేందుకు మరియు ప్రత్యుత్తరాన్ని ఇచ్చేందుకు అనుమతించండి.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయండి",
-    "description": "Button label to delete a private distribution list"
+    "message": "అనుకూల కథను తొలగించండి",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ప్రైవేట్ స్టోరీని డిలీట్ చేయాలా?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "\"$name$\" ను మీరు ఖచ్చితంగా తొలగించాలని అనుకుంటున్నారా? ఈ కథకు పంచబడ్డ అప్‌డేట్స్ కూడా తొలగించబడతాయి.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "వీక్షకులను ఎంచుకోండి",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ఈ స్టోరీకి పేరు పెట్టండి",
-    "description": "Modal title when naming a private distribution list"
+    "message": "కథకు పేరుపెట్టండి",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "స్టోరీ పేరు (అవసరం)",
+    "message": "కథ పేరు (అవసరం)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "దీని నుంచి స్టోరీని దాచిపెట్టండి",
+    "message": "వీరి నుంచి కథను దాయండి",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "ఇది మినహా అన్ని Signal కనెక్షన్‌లు...",
+    "message": "ఇవి మినహా అన్నీ...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "కేవలం వీరితో పంచుకోండి...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "వీరితో మాత్రమే పంచుకోండి...",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "ఎంపిక చేసిన వ్యక్తులతో మాత్రమే పంచుకోండి",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "మీ స్టోరీని ఎవరు చూడవచ్చు అనేది ఎంచుకోండి. మీరు ఇప్పటికే పంపిన స్టోరీలకు మార్పులు వర్తించవు. $learnMore$",
+    "message": "మీ కథను ఎవరు చూడవచ్చు అనేది ఎంచుకోండి. మీరు ఇప్పటికే పంపిన కథలను మార్పులు ప్రభావితం చేయవు. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5534,8 +5633,16 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "స్టోరీ సెట్టింగ్‌లు",
+    "message": "కథ సెట్టింగ్స్",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "రిసిప్ట్‌లను వీక్షించండి",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "ఈ సెట్టింగ్‌ను మార్చడానికి, మీ మొబైల్ పరికరంలో Signal యాప్‌ను తెరవండి మరియు సెట్టింగ్‌లు -> కథలకు వెళ్ళండి.",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "మీ కథను ఎవరు వీక్షించవచ్చో ఎంచుకోండి",
@@ -5546,23 +5653,51 @@
     "description": "Title for the send story modal"
   },
   "SendStoryModal__send": {
-    "message": "స్టోరీని పంపండి",
+    "message": "కథను పంపండి",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "అనుకూల కథ",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "గ్రూప్ కథ",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "వీరితో మాత్రమే పంచుకోండి",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "కొత్త కథ",
+    "message": "కొత్తది",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "కొత్త ప్రైవేట్ కథ",
+  "SendStoryModal__new-custom--title": {
+    "message": "కొత్త అనుకూల కథ",
     "description": "Create a new distribution list"
   },
-  "SendStoryModal__new-private--description": {
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "ఈ కథ పేరును మీరు మాత్రమే చూడవచ్చు.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
     "message": "నిర్దిష్ట వ్యక్తులకు మాత్రమే కనిపిస్తుంది",
     "description": "Description of what a distribution list would do"
   },
+  "SendStoryModal__new-private--title": {
+    "message": "కొత్త ప్రైవేట్ కథ",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
+  },
+  "SendStoryModal__new-private--description": {
+    "message": "నిర్దిష్ట వ్యక్తులకు మాత్రమే కనిపిస్తుంది",
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
+  },
   "SendStoryModal__new-group--title": {
-    "message": "కొత్త గ్రూపు కథ",
+    "message": "కొత్త గ్రూప్ కథ",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "నా కథల గోప్యత",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "నా కథ గోప్యత",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "మీ కథను ఏ Signal కనెక్షన్లు వీక్షించవచ్చు అనేది ఎంచుకోండి. మీరు దీనిని ఎప్పుడూ మీ గోప్యతా సెట్టింగ్‌లలో మార్చవచ్చు. $learnMore$",
+    "message": "మీ కథను ఏ Signal కనెక్షన్లు వీక్షించవచ్చు అనేది ఎంచుకోండి. మీరు దీనిని ఎప్పుడూ గోప్యతా సెట్టింగ్స్‌లో మార్చవచ్చు. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5589,12 +5724,16 @@
     "message": "కథను తొలగించేదా? ఇది మీ జాబితా నుంచి కథను తొలగిస్తుంది, కానీ మీరు ఈ గ్రూప్ నుంచి కథలను ఇంకా వీక్షించగలుగుతారు.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "అడ్మిన్స్ మాత్రమే ఈ గ్రూపుకు కథలను పంపగలరు.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "స్టోరీస్ చూడండి & పంచుకోండి",
+    "message": "కథలను పంచుకోండి & వీక్షించండి",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ఈ ఆప్షన్‌ను ఆఫ్ చేసినప్పుడు, మీరు స్టోరీస్ పంచుకోలేరు లేదా వీక్షించలేరు.",
+    "message": "ఈ వికల్పాన్ని ఆఫ్ చేసినప్పుడు, మీరు ఇక ఏ మాత్రం కథలను పంచుకోలేరు లేదా వీక్షించలేరు.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "వీక్షణలు ఆఫ్ చేయబడ్డాయి",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ సార్లు పంపారు",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రీడ్ రిసిప్ట్‌లను ప్రారంభించండి. మీ మొబైల్ పరికరంపై Signal యాప్‌ను తెరవండి, సెట్టింగ్‌లు > గోప్యతకు వెళ్లండి.",
+    "message": "మీ కథలను ఎవరు వీక్షించారనేది చూడటానికి రిసిప్ట్‌లను వీక్షించండి ప్రారంభించండి. మీ మొబైల్ పరికరంలో Signal యాప్‌ను తెరవండి, సెట్టింగ్స్ > కథలకు వెళ్ళండి.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5662,23 +5801,27 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "స్టోరీకి రియాక్ట్ కావడం",
+    "message": "కథకు ప్రతిస్పందించండి",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "స్టోరీకి రియాక్ట్ అయ్యారు",
+    "message": "కథకు ప్రతిస్పందించారు",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "మీరు ఈ గ్రూపులో ఇక సభ్యులు కానందున మీరు ఈ కథకు ప్రత్యుత్తరం ఇవ్వలేరు.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
-    "message": "స్టోరీ",
+    "message": "కథ",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "స్టోరీలు చూపించండి",
+    "message": "కథలను చూపించండి",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "స్టోరీని దాచిపెట్టండి",
+    "message": "కథను దాయండి",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "స్టోరిని దాచిపెట్టాలా? స్టోరీల యొక్క లిస్ట్‌పై $name$ నుంచి కొత్త స్టోరీ అప్‌డేట్‌లు ఇక ఏమాత్రం కనిపించవు.",
+    "message": "కథను దాచేదా? కథల జాబితా పైభాాగాన $name$ నుంచి కొత్త కథ అప్‌డేట్స్ ఇక ఏమాత్రం కనిపించవు.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5710,11 +5853,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "ఇది చాలా పొడవు ఉండటం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+    "message": "కథకు వీడియోను పోస్ట్ చేయలేము ఎందుకంటే ఇది చాలా పొడవుగా ఉంది",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మెట్‌ కావడం వల్ల కథకు వీడియోని పోస్ట్ చేయలేము",
+    "message": "ఇది మద్దతు లేని ఫైల్ ఫార్మాట్ కావడం వల్ల కథకు వీడియోను పోస్ట్ చేయలేము",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5734,7 +5877,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "స్టోరీ బ్యాక్‌గ్రౌండ్ కలర్‌ని మార్చండి",
+    "message": "కథ నేపథ్య రంగును మార్చండి",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5770,7 +5913,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "స్టోరీ టెక్ట్స్‌ని జోడించండి",
+    "message": "కథ టెక్స్ట్‌ను జోడించండి",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5782,7 +5925,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "మీ స్టోరీ వీక్షకుల కొరకు లింక్‌ని జోడించండి",
+    "message": "మీ కథ యొక్క వీక్షకుల కొరకు ఒక లింక్‌ను జోడించండి",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5794,16 +5937,28 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "స్టోరీ",
+    "message": "కథ",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$ నుంచి స్టోరీకి రియాక్ట్ అయింది",
+    "message": "$name$ నుంచి కథకు ప్రతిస్పందించారు",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "ఒక స్టోరీకి రియాక్ట్ అయ్యారు",
+    "message": "కథకు ప్రతిస్పందించారు",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "మీ కథకు $emoji$ తో ప్రతిస్పందించారు",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$name$ నుంచి కథకు మీరు $emoji$ తో ప్రతిస్పందించారు",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "ఒక కథకు మీరు $emoji$ తో ప్రతిస్పందించారు",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "ఇక ఏమాత్రం లభ్యం కాదు",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "సందర్భ మెనూ",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "యూజర్‌నేమ్",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "మీ ఫోన్ నంబర్ అవసరం లేకుండానే ఇతరులు మీకు సందేశం పంపడానికి యూజర్‌నేమ్‌లు అనుమతిస్తాయి. మీ చిరునామాను గోప్యంగా ఉంచడంలో సహాయం చేయడానికి అవి అమర్చబడిన అంకెలతో జతచేయబడతాయి.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "మరింత తెలుసుకోండి",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ఈ నంబర్ ఏమిటి?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "ఈ అంకెలు మీ యూజర్‌నేమ్‌ను గోప్యంగా ఉంచడానికి సహాయపడతాయి, కాబట్టి మీరు అవాంఛిత సందేశాలను నివారించవచ్చు. మీరు చాట్ చేయడానికి ఇష్టపడే వ్యక్తులు మరియు గ్రూపులతో మాత్రమే మీ యూజర్‌నేమ్‌ను పంచుకోండి. ఒకవేళ మీరు యూజర్‌నేమ్‌లను మార్చితే, మీరు కొత్త అంకెల అమరికను పొందుతారు.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "కొత్తది ఏమిటి",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "సంభాషణను ఉత్తేజకరంగా ఉంచడానికి వారి సంప్రదింపు వివరాల స్క్రీన్ నుంచి ఒక గ్రూపుకు స్నేహితుడిని సులభంగా జోడించండి.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "మీ కొరకు యాప్ సజావుగా రన్ అయ్యేలా చేయడానికి బగ్‌లను ఫిక్స్ చేయడం మరియు ఇతర పనితీరు మెరుగుదలలు చేయడానికి ఎంతో కష్టపడి పనిచేశాం.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "మా కొత్త కథల ఫీచర్‌ను ఉపయోగించడం మరియు పరీక్షించడం ప్రారంభించండి. ఇతర బీటా టెస్టర్లతో మీరు ఫీచర్‌ను ఉపయోగించవచ్చు మరియు అది ఎలా పనిచేస్తుందో మాకు తెలియజేయండి.",
+    "description": "Release notes for v5.63"
   }
 }

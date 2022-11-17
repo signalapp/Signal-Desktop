@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "സന്ദേശം",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ചെയ്‌തു",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക",
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "ലഭ്യമാക്കുന്നു...",
+    "message": "ലോഡ് ചെയ്യുന്നു...",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "അപ്ലിക്കേഷൻ ഒപ്റ്റിമൈസ് ചെയ്യുന്നു...",
+    "message": "ആപ്പ് ഒപ്റ്റിമൈസ് ചെയ്യുന്നു...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "സന്ദേശങ്ങള്‍ ക്രമീകരിക്കുന്നു... $status$ പൂര്‍ണമായി.",
+    "message": "സന്ദേശങ്ങള്‍ ഒപ്‌റ്റിമൈസ് ചെയ്യുന്നു... $status$ പൂര്‍ത്തിയായി.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,7 +369,7 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "ഡാറ്റാബേസ് നവീകരിക്കുന്നു. ഇത് കുറച്ച് സമയമെടുത്തേക്കാം...",
+    "message": "ഡാറ്റാബേസ് അപ്‌ഗ്രേഡ് ചെയ്യുന്നു. ഇത് കുറച്ച് സമയമെടുത്തേക്കാം...",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "പ്രിവ്യൂ ലഭ്യമാക്കുന്നു...",
+    "message": "പ്രിവ്യൂ ലോഡ് ചെയ്യുന്നു...",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Connecting...",
+    "message": "കണക്റ്റ് ചെയ്യുന്നു...",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "എസ്എംഎസ്/എംഎംഎസ് കോൺ‌ടാക്റ്റുകൾ ഡെസ്ക്ടോപ്പ്-ൽ ലഭ്യമല്ല.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ ല്‍ \"$searchTerm$\" എന്നതിന് ഫലങ്ങളില്ല",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} ല്‍ \"{searchTerm}\" എന്നതിന് ഫലങ്ങളില്ല",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (Android) അല്ലെങ്കിൽ $linkNewDevice$(iPhone) ടാപ്പ് ചെയ്യുക",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR കോഡ് ലോഡ് ചെയ്യാനായില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "കൂടുതൽ അറിയുക",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR കോഡ് ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക. <learnMoreLink>കൂടുതൽ അറിയുക</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "ഇറക്കുമതി ചെയ്യുന്നു...",
+    "message": "ഇമ്പോർട്ട് ചെയ്യുന്നു...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ഓഫ്",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ",
+  "icu:disappearingMessages": {
+    "messageformat": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "സ്റ്റോറീസ്",
+    "message": "സ്റ്റോറികൾ",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "കോൺ‌ടാക്റ്റുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ഗ്രൂപ്പുകൾ ഒന്നും കണ്ടെത്തിയില്ല",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല",
@@ -2741,8 +2760,8 @@
     "message": "തിരികെ പോകുക",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "നിങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "നിങളുടെ സ്റ്റിക്കറുകൾ ചേർക്കുക",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "മാർജിനുകൾ കാണിക്കുക",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ അല്ലെങ്കിൽ അതിലധികമോ ചേർക്കുക",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} അല്ലെങ്കിൽ അതിലധികമോ ചേർക്കുക",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "കുറച്ച് വിശദാംശങ്ങൾ മാത്രം കൂടി...",
+    "message": "കുറച്ച് വിശദാംശങ്ങൾ കൂടി മാത്രം...",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal-നായി സൃഷ്ടിച്ച ഈ പുതിയ സ്റ്റിക്കർ പായ്ക്ക് I പരിശോധിക്കുക. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ ചിത്രം(കൾ) ചേർത്തു",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 ചിത്രം ചേർത്തു} other {{count,number} ചിത്രങ്ങൾ ചേർത്തു}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ അംഗങ്ങൾ",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 അംഗം",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {{count,number} അംഗം} other {{count,number} അംഗങ്ങൾ}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$ അംഗം",
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "വീണ്ടും ബന്ധിപ്പിക്കുന്നു...",
+    "message": "വീണ്ടും കണക്റ്റ് ചെയ്യുന്നു...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "അപ്‌ഡേറ്റുചെയ്യുന്നു...",
+    "message": "അപ്‌ഡേറ്റ് ചെയ്യുന്നു...",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "മുകളിലുള്ള $composeIcon$'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "മുകളിലുള്ള {composeIcon}'ക്ലിക്ക് ചെയ്ത് സന്ദേശം-മയയ്‌ക്കാൻ നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ളോ ഗ്രൂപ്പുകളോ തിരയുക.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "ഇഷ്ടാനുസൃത സമയം...",
+    "message": "ഇഷ്‌ടാനുസൃത സമയം...",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4921,17 +4944,13 @@
     "message": "ഉപയോക്തൃനാമം",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "ഒരു യൂസർ പേര് നൽകുക",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal ൽ യൂസർ പേര് ഓപ്ഷണൽ ആണ്.  നിങ്ങൾ ഒരു യൂസർ പേര് സൃഷ്ടിക്കുകയാണെങ്കിൽ, മറ്റ് Signal യൂസർമാർക്ക് നിങ്ങളുടെ ഈ യൂസർ പേര് വച്ച് നിങ്ങളെ കണ്ടുപിടിക്കാനും നിങ്ങളുടെ ഫോൺ നമ്പർ അറിയാതെ തന്നെ നിങ്ങളെ ബന്ധപ്പെടാനും സാധിക്കും.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "നിങ്ങളുടെ ഉപയോക്തൃനാമം തിരഞ്ഞെടുക്കുക",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "ഉപയോക്തൃനാമത്തിൽ a-z, 0-9, _ എന്നിവ മാത്രമേ അടങ്ങിയിരിക്കാൻ പാടുള്ളു",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "യൂസർ പേര് ഒരു അക്കത്തിൽ ആരംഭിച്ചേക്കില്ല.",
@@ -4945,6 +4964,10 @@
     "message": "ഉപയോക്തൃനാമത്തിൽ പരമാവധി $max$ പ്രതീകങ്ങൾ മാത്രമേ പാടുള്ളു.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ഈ ഉപയോക്തൃനാമം ലഭ്യമല്ല",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "ഈ ഉപയോക്തൃനാമം എടുത്തിട്ടുണ്ട്.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "നിങ്ങളുടെ ഉപയോക്തൃനാമം നീക്കം ചെയ്യാനായില്ല. കണക്ഷൻ പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "ഉപയോക്തൃനാമം പകർത്തി",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "ലിങ്ക് പകർത്തി",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "ഉപയോക്തൃനാമം ഇല്ലാതാക്കുന്നു",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "ഉപയോക്തൃനാമം ഇല്ലാതാക്കുക",
@@ -4969,8 +5004,24 @@
     "message": "ഇല്ലാതാക്കൂ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "ഉപയോക്തൃനാമം പകർത്തുക അല്ലെങ്കിൽ ഇല്ലാതാക്കുക",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "ഉപയോക്തൃനാമം പകർത്തുക",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "ലിങ്ക് പകർത്തുക",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "ഇല്ലാതാക്കുക",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "നിങ്ങളെക്കുറിച്ച് എന്തെങ്കിലും എഴുതുക...",
+    "message": "നിങ്ങളെക്കുറിച്ച് സ്വയം എന്തെങ്കിലും എഴുതുക...",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "ഈ മാറ്റങ്ങൾ നിങ്ങൾക്ക് നിരാകരിക്കണമെന്നുണ്ടോ?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു. നിങ്ങളുടെ പ്രൊഫൈലും അതിലേക്കുള്ള മാറ്റങ്ങളും നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ക്കും നിങ്ങൾ പുതിയ ചാറ്റുകൾ ആരംഭിക്കുകയോ സ്വീകരിക്കുകയോ ചെയ്യുമ്പോൾ ദൃശ്യമാകും. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ എൻക്രിപ്റ്റ് ചെയ്തിരിക്കുന്നു. നിങ്ങളുടെ പ്രൊഫൈലും അതിലേക്കുള്ള മാറ്റങ്ങളും നിങ്ങളുടെ കോൺ‌ടാക്റ്റുകൾ-ക്കും നിങ്ങൾ പുതിയ ചാറ്റുകൾ ആരംഭിക്കുകയോ സ്വീകരിക്കുകയോ ചെയ്യുമ്പോൾ ദൃശ്യമാകും. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "ഉപകരണങ്ങൾ",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "സ്റ്റോറികൾ ഓണാക്കുക",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "സ്റ്റോറികൾ ഓഫാക്കുക",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ഓഫ് ആക്കുക",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "നിങ്ങൾക്ക് ഇനിമുതൽ സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല. നിങ്ങൾ അടുത്തിടെ പങ്കിട്ട സ്റ്റോറി അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ എന്ന പതിപ്പിലേക്കുള്ള അപ്‌ഡേറ്റ് ലഭ്യമാണ്",
     "description": "Tooltip for new update available"
@@ -5317,8 +5384,12 @@
     "message": "ക്രോപ്പ് ചെയ്യുക",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "ഒരു സന്ദേശം ചേര്‍ക്കുക",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "എന്റെ കഥകള്‍",
+    "message": "എന്റെ സ്റ്റോറി",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ കാഴ്‌ച",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ കാഴ്‌ചകള്‍",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} കാഴ്‌ച} other {{views,number} കാഴ്‌ചകൾ}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "കാഴ്ച്ചകൾ ഓഫാണ്",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ മറുപടി",
@@ -5378,11 +5457,11 @@
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "സ്റ്റോറീസ്",
+    "message": "സ്റ്റോറികൾ",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "എന്റെ കഥകള്‍",
+    "message": "എന്റെ സ്റ്റോറി",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5398,12 +5477,20 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "മറച്ച സ്റ്റോറീസ്",
+    "message": "മറച്ച സ്റ്റോറികൾ",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറീസ് ഒന്നുമില്ല",
+    "message": "ഇപ്പോൾ കാണിക്കാൻ സമീപകാല സ്റ്റോറികൾ ഒന്നുമില്ല",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "അയയ്ക്കുന്നു...",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "ഒരു സ്റ്റോറി കാണാൻ ക്ലിക്ക് ചെയ്യുക",
@@ -5429,20 +5516,32 @@
     "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "24 മണിക്കൂറിന് ശേഷം സ്റ്റോറികൾ സ്വയമേവ അപ്രത്യക്ഷമാകും. നിങ്ങളുടെ സ്റ്റോറി ആർക്കൊക്കെ കാണാൻ കഴിയുമെന്ന് തീരുമാനിക്കുകയോ കുറച്ച് കാഴ്‌ചക്കാർക്കോ ഗ്രൂപ്പുകൾക്കോ ആയി പുതിയ സ്റ്റോറികൾ സൃഷ്‌ടിക്കുകയോ ചെയ്യുക.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "പുതിയ സ്വകാര്യ സ്റ്റോറി",
-    "description": "Label to create a new private story list"
+    "message": "പുതിയ കസ്റ്റം സ്റ്റോറി",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "നിങ്ങൾക്ക് മാത്രമേ ഈ സ്റ്റോറിയുടെ പേര് കാണാൻ കഴിയൂ.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ആൾ കണ്ടു",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ കാഴ്‌ചക്കാർ",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {{count,number} ആൾ കണ്ടു} other {{count,number} കാഴ്‌ചക്കാർ}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ആർക്കൊക്കെ ഈ സ്റ്റോറി കാണാനാകും",
+    "message": "ആർക്കൊക്കെ ഈ സ്റ്റോറി കാണാൻ കഴിയും",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "നീക്കം ചെയ്യുക",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$ എന്നയാളെ നീക്കം ചെയ്യുക",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "ഈ വ്യക്തിക്ക് ഇനി നിങ്ങളുടെ സ്റ്റോറി കാണാനാകില്ല.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "മറുപടികളും പ്രതികരണങ്ങളും",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "സ്വകാര്യ സ്റ്റോറി ഇല്ലാതാക്കുക",
-    "description": "Button label to delete a private distribution list"
+    "message": "കസ്റ്റം സ്റ്റോറി ഇല്ലാതാക്കുക",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "സ്വകാര്യ സ്റ്റോറി ഇല്ലാതാക്കണോ?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "\"$name$\" ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ? ഈ സ്റ്റോറിയിലേക്ക് പങ്കിട്ട അപ്‌ഡേറ്റുകളും ഇല്ലാതാക്കപ്പെടും.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "കാഴ്‌ചക്കാരെ തിരഞ്ഞെടുക്കുക",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ഈ സ്റ്റോറിക്ക് പേര് നൽകുക",
-    "description": "Modal title when naming a private distribution list"
+    "message": "സ്റ്റോറിക്ക് പേരിടുക",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "സ്റ്റോറിയുടെ പേര് (ആവശ്യമാണ്)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "ഇനിപ്പറയുന്നവ ഒഴികെ എല്ലാ Signal കണക്ഷനുകളും...",
+    "message": "ഇനിപ്പറയുന്നവർ ഒഴികെ എല്ലാം…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "ഇനിപ്പറയുന്നവരുമായി മാത്രം പങ്കിടുക...",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "തിരഞ്ഞെടുത്തവരുമായി മാത്രം പങ്കിടുക",
@@ -5537,6 +5636,14 @@
     "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "സ്റ്റോറി കണ്ടതിന്റെ രസീതുകൾ",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "ഈ ക്രമീകരണം മാറ്റുന്നതിന്, നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്റ്റോറികൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "ആർക്കൊക്കെ നിങ്ങളുടെ സ്റ്റോറി കാണാനാകുമെന്ന് തിരഞ്ഞെടുക്കുക",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "സ്റ്റോറി അയയ്ക്കുക",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "കസ്റ്റം സ്റ്റോറി",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "ഗ്രൂപ്പ് സ്റ്റോറി",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "ഇവയുമായി മാത്രം പങ്കിടുക",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "പുതിയ സ്റ്റോറി",
+    "message": "പുതിയത്",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "പുതിയ കസ്റ്റം സ്റ്റോറി",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "നിങ്ങൾക്ക് മാത്രമേ ഈ സ്റ്റോറിയുടെ പേര് കാണാൻ കഴിയൂ.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "നിർദ്ദിഷ്‌ട ആളുകൾക്ക് മാത്രമെ കാണാനാകൂ",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "പുതിയ സ്വകാര്യ സ്റ്റോറി",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "നിർദ്ദിഷ്ട ആളുകൾക്ക് മാത്രമെ കാണാനാകൂ",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "പുതിയ ഗ്രൂപ്പ് സ്റ്റോറി",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "എന്‍റെ സ്റ്റോറികളുടെ സ്വകാര്യത",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "എന്റെ സ്റ്റോറിയുടെ സ്വകാര്യത",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "ഏതൊക്കെ Signal കണക്ഷനുകൾക്ക് നിങ്ങളുടെ സ്റ്റോറി കാണാനാകുമെന്ന് തിരഞ്ഞെടുക്കുക. നിങ്ങൾക്ക് ഇത് സ്വകാര്യതാ ക്രമീകരണങ്ങളിൽ എപ്പോൾ വേണമെങ്കിലും മാറ്റാം. $learnMore$",
@@ -5589,12 +5724,16 @@
     "message": "സ്റ്റോറി നീക്കം ചെയ്യണോ? ഇത് നിങ്ങളുടെ ലിസ്റ്റിൽ നിന്ന് സ്റ്റോറി നീക്കം ചെയ്യും, എന്നാൽ നിങ്ങൾക്ക് തുടർന്നും ഈ ഗ്രൂപ്പിൽ നിന്നുള്ള സ്റ്റോറികൾ കാണാൻ കഴിയും.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "അഡ്‌മിൻമാർക്ക് മാത്രമേ ഈ ഗ്രൂപ്പിലേക്ക് സ്റ്റോറികൾ അയയ്‌ക്കാൻ കഴിയൂ.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "സ്റ്റോറീസ് പങ്കിടുകയും കാണുകയും ചെയ്യുക",
+    "message": "സ്റ്റോറികൾ പങ്കിടുകയും കാണുകയും ചെയ്യുക",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറീസ് പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
+    "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "കാഴ്ച്ചകൾ ഓഫാണ്",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "അയച്ചു $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "നിങ്ങളുടെ സ്റ്റോറികൾ ആരാണ് കണ്ടതെന്ന് കാണാൻ, വായിച്ചതിനുള്ള സ്ഥിരീകരണം പ്രവർത്തനസജ്ജമാക്കുക. നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക.",
+    "message": "നിങ്ങളുടെ സ്റ്റോറികൾ ആരൊക്കെയാണ് കണ്ടതെന്ന് കാണാൻ, കണ്ടതിനുള്ള സ്ഥിരീകരണം പ്രവർത്തനസജ്ജമാക്കുക. നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്റ്റോറികൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,12 +5808,16 @@
     "message": "സ്റ്റോറിയോട് പ്രതികരിച്ചു",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "നിങ്ങൾ നിലവിൽ ഈ ഗ്രൂപ്പിൽ അംഗമല്ലാത്തതിനാൽ, നിങ്ങൾക്ക് ഈ സ്റ്റോറിക്ക് മറുപടി അയയ്‌ക്കാൻ കഴിയില്ല.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "സ്റ്റോറി",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "സ്റ്റോറീസ് കാണിക്കുക",
+    "message": "സ്റ്റോറികൾ കാണിക്കുക",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$ എന്നയാളിൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്‌റ്റോറീസ് ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
+    "message": "സ്റ്റോറി മറയ്‌ക്കണോ? $name$ എന്നയാളിൽ നിന്നുള്ള പുതിയ സ്റ്റോറി അപ്‌ഡേറ്റുകൾ ഇനി സ്റ്റോറികളുടെ ലിസ്റ്റിന്റെ മുകളിൽ ദൃശ്യമാകില്ല.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5734,7 +5877,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "സ്റ്റോറി പശ്ചാത്തല നിറം മാറ്റുക",
+    "message": "സ്റ്റോറിയുടെ പശ്ചാത്തല നിറം മാറ്റുക",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5805,6 +5948,18 @@
     "message": "ഒരു സ്റ്റോറിയോട് പ്രതികരിച്ചു",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "നിങ്ങളുടെ സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$name$ എന്നയാളുടെ സ്റ്റോറിയോട് നിങ്ങൾ $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "നിങ്ങൾ ഒരു സ്റ്റോറിയോട് $emoji$ എന്ന് പ്രതികരിച്ചു",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "ഇനി ലഭ്യമല്ല",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "കോൺടെക്‌സ്റ്റ് മെനു",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "ഉപയോക്തൃനാമം",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "ഫോൺ നമ്പറില്ലാതെ നിങ്ങൾക്ക് സന്ദേശം അയയ്‌ക്കാൻ ഉപയോക്തൃനാമങ്ങൾ മറ്റുള്ളവരെ അനുവദിക്കുന്നു. നിങ്ങളുടെ മേൽവിലാസം സ്വകാര്യമായി സൂക്ഷിക്കുന്നതിന്, അത് ഒരു കൂട്ടം അക്കങ്ങളുമായി ജോടിയാക്കിയിരിക്കുന്നു.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "കൂടുതൽ അറിയുക",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ഈ നമ്പർ ഏതാണ്?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "അനാവശ്യ സന്ദേശങ്ങൾ ഒഴിവാക്കുന്നതിന്, ഈ അക്കങ്ങൾ നിങ്ങളുടെ ഉപയോക്തൃനാമം സ്വകാര്യമായി സൂക്ഷിക്കാൻ സഹായിക്കുന്നു. നിങ്ങൾ ചാറ്റ് ചെയ്യാൻ ആഗ്രഹിക്കുന്ന ആളുകളുമായും ഗ്രൂപ്പുകളുമായും മാത്രം നിങ്ങളുടെ ഉപയോക്തൃനാമം പങ്കിടുക. ഉപയോക്തൃനാമങ്ങൾ മാറ്റുകയാണെങ്കിൽ, നിങ്ങൾക്ക് ഒരു കൂട്ടം പുതിയ അക്കങ്ങൾ ലഭിക്കും.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "പുതിയതായി എന്തുണ്ട്",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "സംഭാഷണം ആവേശകരമാക്കാൻ, ഒരു സുഹൃത്തിനെ അവരുടെ കോൺടാക്റ്റ് വിശദാംശങ്ങളുടെ സ്ക്രീനിൽ നിന്ന് ഒരു ഗ്രൂപ്പിലേക്ക് എളുപ്പത്തിൽ ചേർക്കുക.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ഞങ്ങളുടെ പുതിയ സ്റ്റോറികൾ സവിശേഷത ഉപയോഗിക്കാനും പരീക്ഷിക്കാനും ആരംഭിക്കുക. നിങ്ങൾക്ക് മറ്റ് ബീറ്റാ ടെസ്റ്റർമാർക്കൊപ്പം സവിശേഷത ഉപയോഗിക്കാനും അത് എങ്ങനെ പ്രവർത്തിക്കുന്നുവെന്ന് ഞങ്ങളെ അറിയിക്കാനും കഴിയും.",
+    "description": "Release notes for v5.63"
   }
 }

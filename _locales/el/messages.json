@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Προσθήκη μηνύματος",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Μήνυμα",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Τέλος",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Προσθήκη σε μια ομάδα",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "Προσθήκη $contact$...",
+    "message": "Προσθήκη $contact$…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Επιλογές...",
+    "message": "Επιλογές…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Φορτώνει...",
+    "message": "Φορτώνει…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Βελτιστοποίηση εφαρμογής...",
+    "message": "Βελτιστοποίηση εφαρμογής…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Βελτιστοποίηση μηνυμάτων... $status$ ολοκληρώθηκαν.",
+    "message": "Βελτιστοποίηση μηνυμάτων… $status$ ολοκληρώθηκαν.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Αναβάθμιση βάσης δεδομένων. Αυτό μπορεί να πάρει κάποια ώρα...",
+    "message": "Αναβάθμιση βάσης δεδομένων. Μπορεί να διαρκέσει λίγη ώρα…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Φόρτωση μηνυμάτων. $count$ μέχρι στιγμής...",
+    "message": "Φόρτωση μηνυμάτων. $count$ μέχρι τώρα…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... για να δεις ολόκληρο το αρχείο, πάτα Αποθήκευση",
+    "message": "… για να δεις ολόκληρο το αρχείο, πάτα Αποθήκευση",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Φόρτωση προεπισκόπησης...",
+    "message": "Φόρτωση προεπισκόπησης…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Γίνεται σύνδεση...",
+    "message": "Γίνεται σύνδεση…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "Οι επαφές SMS/MMS δεν είναι διαθέσιμες στο Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Δε βρέθηκαν αποτελέσματα για \"$searchTerm$\" στο $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Δε βρέθηκαν αποτελέσματα για \"{searchTerm}\" στο {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Πάτα το $plusButton$ (Android) ή το $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Ο κωδικός QR δεν μπόρεσε να φορτωθεί. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Μάθε περισσότερα",
+  "icu:Install__qr-failed": {
+    "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Εισαγωγή...",
+    "message": "Εισαγωγή…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ανενεργό",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Μηνύματα που εξαφανίζονται",
+  "icu:disappearingMessages": {
+    "messageformat": "Μηνύματα που εξαφανίζονται",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Εκκίνηση νέας συνομιλίας...",
+    "message": "Εκκίνηση νέας συνομιλίας…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Δεν βρέθηκαν επαφές",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Δεν βρέθηκαν ομάδες",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Δεν βρέθηκαν συνομιλίες",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Το πακέτο αυτοκολλήτων εγκαθίσταται...",
+    "message": "Το πακέτο αυτοκόλλητων εγκαθίσταται…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Πίσω",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Προσθήκη αυτοκολλήτων σας",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Προσθήκη αυτοκολλήτων σας",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Προβολή περιθωρίων",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Προσθήκη $count$ ή περισσότερων",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Προσθήκη {count,number} ή περισσότερων",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Μερικές ακόμα λεπτομέρειες...",
+    "message": "Μερικές ακόμα λεπτομέρειες…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Δείτε το νέο πακέτο αυτοκολλήτων που έφτιαξα για το Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ εικόνα/ες προστεθηκαν",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {προστέθηκε 1 εικόνα} other {προστέθηκαν {count,number} εικόνες}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ μέλη",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 μέλος",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 μέλος} other {{count,number} μέλη}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Μέλος του $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Εισερχόμενη κλήση φωνής...",
+    "message": "Εισερχόμενη κλήση φωνής…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Εισερχόμενη βιντεοκλήση...",
+    "message": "Εισερχόμενη βιντεοκλήση…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Χτυπάει...",
+    "message": "Χτυπάει…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Επανασύνδεση...",
+    "message": "Επανασύνδεση…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Αναβαθμίζεται...",
+    "message": "Αναβαθμίζεται…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Το συνημμένο ήχου κατεβαίνει...",
+    "message": "Το συνημμένο ήχου κατεβαίνει…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Κάντε κλικ στο $composeIcon$ παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Κάντε κλικ στο {composeIcon} παραπάνω και αναζητήστε τις επαφές ή τις ομάδες σας για αποστολή μηνύματος.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Προσαρμοσμένος χρόνος...",
+    "message": "Προσαρμοσμένος χρόνος…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Προσθήκη περιγραφής ομάδας...",
+    "message": "Προσθήκη περιγραφής ομάδας…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Όνομα χρήστη",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Συμπλήρωσε ένα όνομα χρήστη",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Τα ονόματα χρήστη του Signal είναι προαιρετικά. Αν διαλέξεις να δημιουργήσεις ένα όνομα χρήστη, τότε άλλοι χρήστες/τριες του Signal θα μπορούν να σε βρουν αναζητώντας σε με αυτό το όνομα χρήστη, και θα μπορούν να επικοινωνούν μαζί σου χωρίς να ξέρουν τον αριθμό τηλεφώνου σου.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Διάλεξε όνομα χρήστη",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Τα ονόματα χρήστη μπορούν να περιέχουν μόνο λατινικούς χαρακτήρες a-z, νούμερα 0-9 και την κάτω παύλα _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Τα ονόματα χρήστη δεν μπορούν να ξεκινούν με αριθμό.",
@@ -4945,6 +4964,10 @@
     "message": "Τα ονόματα χρήστη πρέπει να αποτελούνται το πολύ από $max$ χαρακτήρες.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Αυτό το όνομα χρήστη δεν είναι διαθέσιμο",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Αυτό το όνομα χρήστη χρησιμοποιείται ήδη.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Το όνομα χρήστη σου δεν μπόρεσε να αφαιρεθεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Αντιγράφηκε το όνομα χρήστη",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Αντιγράφηκε ο σύνδεσμος",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Διαγραφή ονόματος χρήστη",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Διαγραφή ονόματος χρήστη",
@@ -4969,8 +5004,24 @@
     "message": "Διαγραφή",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Αντιγραφή ή διαγραφή ονόματος χρήστη",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Αντιγραφή ονόματος χρήστη",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Αντιγραφή συνδέσμου",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Διαγραφή",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Γράψε κάτι για εσένα...",
+    "message": "Γράψε κάτι για εσένα…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Θες να απορρίψεις αυτές τις αλλαγές;",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Το προφίλ σου είναι κρυπτογραφημένο. Το προφίλ σου και οι αλλαγές σε αυτό θα γίνονται διαθέσιμα στις επαφές σου και όταν ξεκινάς ή αποδέχεσαι νέες συνομιλίες. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Το προφίλ σου είναι κρυπτογραφημένο. Το προφίλ σου και οι αλλαγές σε αυτό θα γίνονται διαθέσιμα στις επαφές σου και όταν ξεκινάς ή αποδέχεσαι νέες συνομιλίες. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Ποιοί μπορούν...",
+    "message": "Ποια άτομα μπορούν…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Συσκευές",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Ενεργοποίηση ιστοριών",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Απενεργοποίηση ιστοριών",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Απενεργοποίηση",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Δεν θα μπορείς πλέον να μοιράζεσαι ή να βλέπεις ιστορίες. Οι ενημερώσεις ιστορίας που κοινοποίησες πρόσφατα θα διαγραφούν επίσης.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Αναβάθμιση στη διαθέσιμη έκδοση $version$",
@@ -5317,8 +5384,12 @@
     "message": "Περικοπή",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Προσθήκη μηνύματος",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Οι ιστορίες μου",
+    "message": "Η ιστορία μου",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ προβολή",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ προβολές",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} προβολή} other {{views,number} προβολές}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Αναφορές προβολής ανενεργές",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ απάντηση",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλους όσους την έχουν λάβει.",
+    "message": "Διαγραφή της ιστορίας; Θα διαγραφεί και για όλα τα άτομα που την έλαβαν.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτούς.",
+    "message": "Οι επαφές σου μπορούν να δουν το όνομα και τη φωτογραφία σου, και μπορούν να δουν δημοσιεύσεις στην ενότητα \"Η ιστορία μου\", εκτός αν την κρύψεις από αυτές.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Οι ιστορίες μου",
+    "message": "Η ιστορία μου",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5405,6 +5484,14 @@
     "message": "Δεν υπάρχουν πρόσφατες ιστορίες αυτή τη στιγμή",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Αποστολή…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Αποτυχία αποστολής",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "Κάνε κλικ για να δεις μια ιστορία",
     "description": "Placeholder label for the story view"
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Γίνεται αποστολή απάντησης...",
+    "message": "Γίνεται αποστολή απάντησης…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Γίνεται αποστολή αντίδρασης...",
+    "message": "Γίνεται αποστολή αντίδρασης…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "Ρυθμίσεις ιστορίας",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Οι ιστορίες εξαφανίζονται αυτόματα μετά από 24 ώρες. Επίλεξε ποια άτομα μπορούν να δουν την ιστορία σου ή δημιούργησε νέες ιστορίες για συγκεκριμένους θεατές ή ομάδες.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Νέα ιδιωτική ιστορία",
-    "description": "Label to create a new private story list"
+    "message": "Νέα προσαρμοσμένη ιστορία",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Μόνο εσύ μπορείς να δεις το όνομα αυτής της ιστορίας.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ προβολή",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ προβολές",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 θεατής} other {{count,number} θεατές}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Ποιοι μπορούν να δουν αυτή την ιστορία",
+    "message": "Ποια άτομα μπορούν να δουν αυτήν την ιστορία",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Αφαίρεση",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Αφαίρεση $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Αυτό το άτομο δεν θα βλέπει πλέον την ιστορία σου.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Απαντήσεις και αντιδράσεις",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Διαγραφή ιδιωτικής ιστορίας",
-    "description": "Button label to delete a private distribution list"
+    "message": "Διαγραφή προσαρμοσμένης ιστορίας",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Διαγραφή ιδιωτικής ιστορίας;",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"$name$\"; Οι ενημερώσεις που κοινοποιούνται σε αυτήν την ιστορία θα διαγραφούν επίσης.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Επιλογή θεατών",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Δώσε όνομα σε αυτήν την ιστορία",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Όνομα ιστορίας",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Όνομα ιστορίας (υποχρεωτικό)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Όλες οι επαφές Signal εκτός από...",
+    "message": "Όλα τα άτομα εκτός από…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Κοινοποίηση μόνο σε...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Κοινοποίηση μόνο σε…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Κοινοποίηση μόνο σε συγκεκριμένα άτομα",
@@ -5537,8 +5636,16 @@
     "message": "Ρυθμίσεις ιστορίας",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Προβολή αποδεικτικών ανάγνωσης",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Για να αλλάξεις αυτή τη ρύθμιση, άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις -> Ιστορίες",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Επίλεξε ποιοι μπορούν να δουν αυτήν την ιστορία",
+    "message": "Επίλεξε ποια άτομα μπορούν να δουν αυτήν την ιστορία",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5549,17 +5656,45 @@
     "message": "Αποστολή ιστορίας",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Προσαρμοσμένη ιστορία",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Ιστορία ομάδας",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Κοινοποίηση μόνο σε",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} αποκλεισμός} other {{count,number} αποκλεισμοί}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Νέα ιστορία",
+    "message": "Νέα",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "Νέα προσαρμοσμένη ιστορία",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Μόνο εσύ μπορείς να δεις το όνομα αυτής της ιστορίας.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Ορατή μόνο σε συγκεκριμένα άτομα",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "Νέα ιδιωτική ιστορία",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "Ορατή μόνο σε συγκεκριμένα άτομα",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Νέα ιστορία ομάδας",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Απόρρητο ιστοριών",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Απόρρητο της ιστορίας μου",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Επίλεξε ποιες επαφές σου στο Signal μπορούν να δουν την ιστορία σου. Μπορείς πάντα να το αλλάξεις αυτό στις ρυθμίσεις απορρήτου. $learnMore$",
@@ -5586,8 +5721,12 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Αφαίρεση ιστορίας; Αυτό θα αφαιρέσει την ιστορία από τη λίστα σου, αλλά θα μπορείς ακόμα να βλέπεις ιστορίες από αυτήν την ομάδα.",
+    "message": "Αφαίρεση ιστορίας; Με αυτήν την ενέργεια, η ιστορία θα αφαιρεθεί από τη λίστα σου, αλλά θα μπορείς ακόμα να βλέπεις ιστορίες από αυτήν την ομάδα.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Μόνο οι διαχειριστές μπορούν να στέλνουν ιστορίες σε αυτήν την ομάδα.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Κοινοποίηση και προβολή ιστοριών",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Αναφορές προβολής ανενεργές",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Εστάλη $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Ενεργοποίησε το αποδεικτικό ανάγνωσης για να δεις ποιοι βλέπουν τις ιστορίες σου. Άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Απόρρητο.",
+    "message": "Ενεργοποίησε το αποδεικτικό ανάγνωσης για να βλέπεις ποια άτομα βλέπουν τις ιστορίες σου. Άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις > Ιστορίες.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "Αντέδρασε στην ιστορία",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Δεν μπορείς να απαντήσεις σε αυτήν την ιστορία γιατί δεν είσαι πια μέλος της ομάδας.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "Ιστορία",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Απόκρυψη ιστορίας; Νέες ιστορίες από τον/την $name$ δεν θα εμφανίζονται πλέον στη κορυφή της λίστας ιστοριών.",
+    "message": "Απόκρυψη ιστορίας; Νέες ιστορίες από τον χρήστη $name$ δεν θα εμφανίζονται πλέον στην κορυφή της λίστας ιστοριών.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5702,11 +5845,11 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Η λήψη της ιστορίας απέτυχε. Ο χρήστης $name$ θα χρειαστεί να την μοιραστεί ξανά.",
+    "message": "Η λήψη της ιστορίας απέτυχε. Ο χρήστης $name$ πρέπει να τη μοιραστεί ξανά.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "Η λήψη της ιστορίας απέτυχε. Θα χρειαστεί να την μοιραστείς ξανά.",
+    "message": "Η λήψη της ιστορίας απέτυχε. Πρέπει να τη μοιραστείς ξανά.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5714,7 +5857,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Δεν είναι δυνατή η δημοσίευση του βίντεο στην ιστορία, η μορφή του δεν είναι υποστηριζόμενη",
+    "message": "Δεν είναι δυνατή η δημοσίευση του βίντεο στην ιστορία, η μορφή του δεν υποστηρίζεται",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5798,12 +5941,24 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Αντέδρασε σε ιστορία του/της $name$",
+    "message": "Αντέδρασε σε ιστορία του χρήστη $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
     "message": "Αντέδρασε σε μια ιστορία",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Αντέδρασε με $emoji$ στην ιστορία σου",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Αντέδρασες με $emoji$ στην ιστορία του χρήστη $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Αντέδρασες με $emoji$ σε μια ιστορία",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "Δεν είναι πλέον διαθέσιμη",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Μενού περιβάλλοντος",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Όνομα χρήστη",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Τα ονόματα χρήστη επιτρέπουν σε άλλους χρήστες να σου στείλουν μηνύματα χωρίς τον αριθμό τηλεφώνου σου. Είναι συνδεδεμένα με ένα σετ ψηφίων ώστε να διατηρούν απόρρητη τη διεύθυνσή σου.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Μάθε περισσότερα",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Τι είναι αυτός ο αριθμός;",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Αυτά τα ψηφία διατηρούν απόρρητο το δικό σου όνομα χρήστη ώστε να μη λαμβάνεις ανεπιθύμητα μηνύματα. Να μοιράζεσαι το δικό σου όνομα χρήστη μόνο με άτομα και ομάδες που θέλεις να συνομιλείς. Εάν θέλεις να αλλάξεις όνομα χρήστη, θα λάβεις έναν νέο σετ ψηφίων.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Νέες δυνατότητες",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Πρόσθεσε εύκολα έναν φίλο/μία φίλη σε μια ομάδα από την οθόνη στοιχείων επικοινωνίας για να κρατήσεις το ενδιαφέρον στη συνομιλία.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Δουλεύουμε σκληρά για να την επιδιόρθωση σφαλμάτων και τη δημιουργία άλλων βελτιώσεων απόδοσης για να διατηρηθεί η ομαλή λειτουργία της εφαρμογής για εσάς.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Ξεκίνα να χρησιμοποιείς και να δοκιμάζεις τη νέα λειτουργία ιστοριών. Μπορείς να χρησιμοποιήσεις αυτήν τη λειτουργία με άλλους δοκιμαστές beta και να μας ενημερώσεις για το πώς λειτουργεί.",
+    "description": "Release notes for v5.63"
   }
 }

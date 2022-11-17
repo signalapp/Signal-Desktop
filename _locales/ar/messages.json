@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "إضافة نص",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "إرسال",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "تمّ",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "إضافة إلى مجموعة",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "التفضيلات...‏",
+    "message": "التفضيلات…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "‫قيد التحميل...‬",
+    "message": "جارٍ التحميل…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "يجري تحسين التطبيق...‏",
+    "message": "جارٍ تحسين التطبيق…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "يجري تحسين الرسائل... تمّ $status$.",
+    "message": "جارٍ تحسين الرسائل… $status$ تمّ.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "تجري ترقية قاعدة البيانات. قد تستغرق العملية بعض الوقت...",
+    "message": "جارٍ ترقية قاعدة البيانات. قد تستغرق العملية بعض الوقت…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "‫يجري تحميل الرسائل. $count$ حتى الآن...‬",
+    "message": "جارٍ تحميل الرسائل. $count$ حتى الآن…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "يجلب المعاينة...",
+    "message": "جارٍ المعاينة…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "يجري الاتصال...‏",
+    "message": "جارٍ الاتصال…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "جهات اتصال الرسائل القصيرة ورسائل الوسائط المتعددة غير متاحة في هذا التطبيق.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "لم يعثر على نتائج حول \"$searchTerm$\" في $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "لم يعثر على نتائج حول \"{searchTerm}\" في {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "‫يُرجى لمس $plusButton$ (أندرويد) أو $linkNewDevice$ (آيفون)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "لقد تعذر تحميل الرمز المربع. يُرجى التحقق من اتصالك بالانترنت ثم المحاولة مرة أخرى. $learnMore$‏",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "لمعرفة المزيد",
+  "icu:Install__qr-failed": {
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <learnMoreLink>معرفة المزيد</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "يُزامِن الآن...",
+    "message": "جارٍ الاستيراد…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "تعطيل",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "الرسائل المختفية",
+  "icu:disappearingMessages": {
+    "messageformat": "الرسائل المختفية",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "لم يعثر على أي جهات اتصال",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "لم يُعثَر على أية مجموعة.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "لم يعثر على أي محادثة",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "يتم تثبيت حزمة الملصقات...",
+    "message": "جارٍ تثبيت حزمة الملصقات…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "الرجوع للخلف.",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "يُرجى إضافة ملصقاتك",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "يُرجى إضافة ملصقاتك",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "إظهار الهامش",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "إضافة $count$ أو أكثر",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "إضافة {count,number} أو أكثر",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "فقط بعض التفاصيل الإضافية...",
+    "message": "فقط بعض التفاصيل الإضافية…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "ألقوا نظرة على هذه الحزمة من الملصقات الجديدة التي صممتُها ﻷجل Signal.  #اجعل_الخصوصية_متوفرة_دائماً",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "تمت إضافة $count$ صور",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, zero {تمت إضافة {count,number} صورة} one {تمت إضافة صورة واحدة} two {تمت إضافة صورتين {count,number}} few {تمت إضافة {count,number} صور} many {تمت إضافة {count,number} صورة} other {تمت إضافة {count,number} صورة}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ أعضاء",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "عضو واحد",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, zero {{count,number} عضو} one {1 عضو} two {{count,number} عضوان} few {{count,number} أعضاء} many {{count,number} عضوًا} other {{count,number} عضو}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "عضو في $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "مكالمة بالصوت واردة...",
+    "message": "مكالمة بالصوت واردة…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "مكالمة بالصورة واردة...",
+    "message": "مكالمة بالصورة واردة…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "يرن...",
+    "message": "يرن…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "يعيد الاتصال...",
+    "message": "جارٍ إعادة الاتصال…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "يجري التحديث...",
+    "message": "جارٍ التحديث…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "يجري تنزيل المرفق الصوتي...",
+    "message": "جارٍ تنزيل المرفق الصوتي…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "يٌرجى الضغط على $composeIcon$ أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "يٌرجى الضغط على {composeIcon} أعلاه، ثم البحث عن جهة اتصالك أو مجموعتك للتراسُل معها.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "مهلة مخصصة...",
+    "message": "المهلة المخصصة…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "إضافة وصف للمجموعة...‏",
+    "message": "إضافة وصف للمجموعة…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "اِسمُ المُستخدِم",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "أدخل اسم المستخدم",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "اسماء المُستخدمين على Signal اختيارية. إذا اخترت إنشاء اسم مُستخدم، سيتمكن مُستخدمو Signal الآخرون من العُثور عليك بواسطة اسم المُستخدم هذا والاتصال بك دون معرفة رقم الهاتف الخاص بك.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "يُرجى اختيار اسم المستخدم",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "يُمكن لاسم المستخدم أن يحتوي على a-z، و0-9، و_ فقط",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "لا يُمكن أن يُبتدأ اسم المُستخدم بِرَقم.",
@@ -4945,6 +4964,10 @@
     "message": "يجب أن تحتوي أسماء المستخدمين على $max$ رموز كحد أقصى.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "اسم المستخدم هذا غير متاح",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "اسم المستخدم هذا غير متوفّر.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "تعذّر حذف اسم المستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "تمّ نسخ اِسمُ المُستخدِم",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "تمّ نسخ الرابط",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "جارٍ حذف اِسمُ المُستخدِم",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "حذف اسم المستخدم",
@@ -4969,8 +5004,24 @@
     "message": "حذف",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "نسخ أو حذف اِسمُ المُستخدِم",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "نسخ اِسمُ المُستخدِم",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "نسخ الرابط",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "حذف",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "يمكنك كتابة بضع كلمات عنك...",
+    "message": "أكتب شيئًا عن نفسك…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "هل تريد تجاهل هذه التغييرات؟",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "ملفك الشخصي مُعمَّى من طرف إلى طرف. إن ملفك الشخصي، إضافة إلى كل تغيير يطرأ عليه، سيصبح مرئيا لجهات اتصالك وكذلك بدئك أو موافقتك على أي محادثة جديدة. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "ملفك الشخصي مُعمَّى من طرف إلى طرف. إن ملفك الشخصي، إضافة إلى كل تغيير يطرأ عليه، سيصبح مرئيا لجهات اتصالك وكذلك بدئك أو موافقتك على أي محادثة جديدة. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "من يمكنه...",
+    "message": "من يمكنه…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "الأجهزة",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "تفعيل القِصص",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "إيقاف تشغيل القِصص",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "أطفىء",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "لن تتمكن من مشاركة القِصص أو مُشَاهداتها بعد الآن. وسيتم أيضًا حذف تحديثات القصة التي شاركتها مؤخرًا.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "إن اﻹصدار $version$ متاح حاليا",
@@ -5317,8 +5384,12 @@
     "message": "قص",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "إضافة نص",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "قصصي",
+    "message": "قصتي",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "‫$num$ مشاهدة",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "‫$num$ مشاهدات",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, zero {{views,number} مشاهدات} one {مشاهدة واحدة ({views,number})} two {{views,number} مشاهدات} few {{views,number} مشاهدات} many {{views,number} مشاهدات} other {{views,number} مشاهدات}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "المشاهدات غير مُشغلة",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "‫$num$ رد",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "‫حذف هذه القصة ؟ سوف تُحذَف أيضا من عن جميع من استلموها.",
+    "message": "‫حذف هذه القصة؟ سَتُحذَف أيضًا من عند جميع من استلموها.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "يُمكن لمعارفك رؤية اسمك وصورتك، كما يمكنهم الاطلاع على منشوراتك في \"قصتي\" إلاّ إذا أخفيتها عنهم.",
+    "message": "يُمكن لِمعارفك رؤية اسمك وصورتك، كما يُمكنهم الاطلاع على منشوراتك في \"قِصتي\" إلاّ إذا أخفيتها عنهم.",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "قصصي",
+    "message": "قصتي",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5398,12 +5477,20 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "القصص المخفية",
+    "message": "القِصص المخفية",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
     "message": "لا توجد قصص حديثة للمشاهدة حاليا",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "جارٍ الإرسال…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "فشل الإرسال",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "يُرجى الضغط لمشاهدة قصة",
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "جاري إرسال الإجابة...",
+    "message": "جاري إرسال الردّ…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "جاري إرسال التفاعل...",
+    "message": "جارٍ إرسال التفاعل…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "إعدادات القصص",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اِختر من يمكنه مشاهدة قصتك أو أنشئ قِصص جديدة مع مشاهدين أو مجموعات مُحددة.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "قصة خاصة جديدة",
-    "description": "Label to create a new private story list"
+    "message": "قصة مُخصصة جديدة",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "أنت فقط من يرى اسم هذه القصة.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ مشاهدة",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ مشاهدين",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, zero {{count,number} مشاهد} one {1 مشاهد} two {{count,number} مشاهدان} few {{count,number} مشاهدين} many {{count,number} مشاهدًا} other {{count,number} مشاهدٍ}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "من يمكنه رؤية هذه القصة",
+    "message": "من يُمكنه مشاهدة هذه القصة",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "إزالة",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "إزالة $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "لن يتمكن هذا الشخص بعد ذلك من رؤية قصتك.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "الإجابات وردود الفعل",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "حذف قصة خاصة",
-    "description": "Button label to delete a private distribution list"
+    "message": "حذف القصة المُخصصة",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "حذف قصة خاصة؟",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "هل أنت مُتأكد من أنك تُريد حذف \"$name$\"؟ سَيتم أيضًا حذف تحديثات شاركتَها مؤخرًا في هذه القصة.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "اختر المشاهدين",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "أطلقِ اسمًا على هذه القصة",
-    "description": "Modal title when naming a private distribution list"
+    "message": "اسم القصة",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "اسم القصة (مطلوب)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "جميع جهات الاتصال في Signal إلا...",
+    "message": "الجميع ما عدا…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "مشاركة فقط مع...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "مشاركة فقط مع…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "مشاركة مع الأشخاص المختارين فقط",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "اِختر من يُمكنه رؤية قصتك. لن تؤثر التغييرات على القصص التي أرسلتها من قبل. $learnMore$",
+    "message": "اِختر من يُمكنه رؤية قصتك. لن تؤثر التغييرات على القِصص التي أرسلتها من قبل. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5536,6 +5635,14 @@
   "StoriesSettings__context-menu": {
     "message": "إعدادات القصص",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "مشاهدة الإيصالات",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "اِختر من يُمكنه مُشاهدة قصتك",
@@ -5549,17 +5656,45 @@
     "message": "إرسال القصة",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "قِصة مُخصّصة",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "قِصة المجموعة",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "مشاركة فقط مع",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, zero {{count,number} مُستبعد} one {{count,number} مُستبعدٌ} two {{count,number} مُستبعدان} few {{count,number} مُستبعدين} many {{count,number} مُستبعدًا} other {{count,number} مُستبعد}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "قصة جديدة",
+    "message": "جديد",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "قصة مُخصصة جديدة",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "أنت فقط من يُمكنه رُؤية اسم هذه القصة.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "مرئية فقط لأشخاص مُعينين",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "قصة خاصة جديدة",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "ظاهرة فقط لأفراد معينين",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "قصة مجموعة جديدة",
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "إعدادات خصوصية قِصتي",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "خصوصية قصّتي",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "اِختر من يمكنه مشاهدة قصتك من معارف ‫Signal. يُمكنك تغيير هذا في إي وقت في إعدادات الخصوصية. $learnMore$",
+    "message": "اِختر من يمكنه مشاهدة قِصتك من معارف ‫Signal. يُمكنك تغيير هذا في أي وقت في إعدادات الخصوصية. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5589,12 +5724,16 @@
     "message": "إزالة القصة؟ سَتتم إزالة القصة من لائحتك، لكن سَيبقى بإمكانك مشاهدة قِصص هذه المجموعة.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "يُمكن فقط للمشرفين إرسال القِصص في هذه المجموعة.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
     "message": "مشاركة و إظهار القصص",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "لن يصبح بإمكانك بعد الآن مشاركة القصص أو مشاهدتها حينما يكون هذا الخيار غير مُشغَّل.",
+    "message": "لن يصبح بإمكانك بعد الآن مشاركة القِصص أو مشاهدتها حينما يكون هذا الخيار غير مُشغَّل.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "المشاهدات غير مُشغلة",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "أُرسل $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "فعّل الإيصالات المقروءة لترى من شاهد قِصصك. افتح تطبيق Signal على جهازك الجوّال وتوجّه إلى الإعدادات > الخصوصية.",
+    "message": "فعِّل إيصالات القراءة لرؤية من شاهد قِصصك. يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "المتفاعلون مع القصة",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "لا تستطيع الردّ على هذه المجموعة لأنك لم تعد عضواً فيها.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "القصص",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "‫إخفاء القصة ؟ إن تحديثات القصة من المستخدم $name$ لن تظهر في أعلى لائحة القصص بعد ذلك.",
+    "message": "‫إخفاء القصة ؟ لن تظهر مُستجدات قِصص $name$ الجديدة في أعلى لائحة القصص بعد الآن.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5706,7 +5849,7 @@
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
-    "message": "تعذّر تحميل القصة. ستحتاج إلى مشاركتها مرة أخرى.",
+    "message": "تعذّر تحميل القصة. سَتحتاج إلى مشاركتها مرة أخرى.",
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
@@ -5805,6 +5948,18 @@
     "message": "التفاعلات مع قصة",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "تفاعل $emoji$ مع قِصتك",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "تفاعلت بـ $emoji$ مع قصة $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "تفاعلت بـ $emoji$ مع قصة",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "لم تعد متاحة",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "قائمة السياق",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "اِسمُ المُستخدِم",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "تسمح أسماء المُستخدمين للآخرين بمراسلتك دون الحاجة إلى رقم هاتفك. يتم إقرانها بمجموعة من الأرقام للمساعدة في الحفاظ على خصوصية عنوانك.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "معرفة المزيد",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ماذا يعني هذا الرقم؟",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "تُساعد هذه الأرقام في الحفاظ على خصوصية اسم المستخدم الخاص بك حتى تتجنب الرسائل غير المرغوب فيها. شارك اسم المستخدم الخاص بك فقط مع الأشخاص والمجموعات الذين ترغب في الدردشة معهم. إذا غيّرتَ أسماء المستخدمين الخاصة بك، فسَتحصل على مجموعة جديدة من الأرقام.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "ما الجديد",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "يُمكنك إضافة صديق بسهولة إلى مجموعة ما انطلاقًا من شاشة تفاصيل جهة الاتصال الخاصة به لإبقاء المُحادثة مُشوّقة.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ندعوك إلى استخدام واختبار ميزة قِصصنا الجديدة. يُمكنك استخدام الميزة مع الأشخاص الآخرين الذين يختبرون النسخة التجريبية وإعلامنا بأدائها.",
+    "description": "Release notes for v5.63"
   }
 }

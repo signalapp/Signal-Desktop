@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Добавьте сообщение",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Сообщение",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Готово",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Добавить в группу",
@@ -733,8 +752,8 @@
     "message": "Контакты SMS/MMS недоступны в Signal Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Нет результатов для «$searchTerm$» в $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Нет результатов для «{searchTerm}» в {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Нажмите $plusButton$ (Android) или $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Не удалось загрузить QR-код. Проверьте подключение к интернету и попробуйте снова. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Узнать больше",
+  "icu:Install__qr-failed": {
+    "messageformat": "Не удалось загрузить QR-код. Проверьте подключение к интернету и попробуйте снова. <learnMoreLink>Узнать больше</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "отключена",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Исчезающие сообщения",
+  "icu:disappearingMessages": {
+    "messageformat": "Исчезающие сообщения",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Контакты не найдены",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Группы не найдены.",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Разговоры не найдены",
@@ -2741,8 +2760,8 @@
     "message": "Назад",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Добавьте ваши стикеры",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Добавьте ваши стикеры",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Показать поля (margin)",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Добавьте $count$ или больше",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Добавьте {count,number} или больше",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Посмотрите на этот новый набор стикеров, созданных мною для Signal. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ изображение(-я/-й) добавлено",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 изображение добавлено} few {{count,number} изображения добавлено} many {{count,number} изображений добавлено} other {{count,number} изображения добавлено}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ участников",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 участник",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {{count,number} участник} few {{count,number} участника} many {{count,number} участников} other {{count,number} участника}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Состоит в $group$",
@@ -4569,8 +4592,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Нажмите на $composeIcon$ выше и найдите контакта или группу для общения.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Нажмите на {composeIcon} выше и найдите контакта или группу для общения.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4921,17 +4944,13 @@
     "message": "Имя пользователя",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Введите имя пользователя",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Имена пользователей в Signal необязательны. Если вы решите создать имя пользователя, другие пользователи Signal смогут найти вас по этому имени пользователя и связаться с вами, не зная ваш номер телефона.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Выберите ваше имя пользователя",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Имена пользователей могут содержать только a-z, 0-9 и _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Имена пользователей не могут начинаться с цифр.",
@@ -4945,6 +4964,10 @@
     "message": "Имя пользователя не может содержать больше чем $max$ символов.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Это имя пользователя недоступно.",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Это имя пользователя занято.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4957,6 +4980,18 @@
     "message": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Имя пользователя скопировано",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Ссылка скопирована",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Удаление имени пользователя",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "Удалить имя пользователя",
     "description": "Shown as aria label for trash icon next to username"
@@ -4968,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "Удалить",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Копировать или удалить имя пользователя",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Копировать имя пользователя",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Копировать ссылку",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Удалить",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "Напишите несколько слов о себе…",
@@ -4985,8 +5036,8 @@
     "message": "Вы хотите сбросить внесенные изменения?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Ваш профиль зашифрован. Ваш профиль и его изменения будут видны вашим контактам, а также другим людям, когда вы начинаете или принимаете новые чаты. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Ваш профиль зашифрован. Ваш профиль и его изменения будут видны вашим контактам, а также другим людям, когда вы начинаете или принимаете новые чаты. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "Устройства",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Включить истории",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Отключить истории",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Отключить",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Вы больше не сможете делиться историями или просматривать их. Все истории, которыми вы недавно поделились, будут также удалены.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Доступно обновление до версии $version$",
     "description": "Tooltip for new update available"
@@ -5317,8 +5384,12 @@
     "message": "Обрезать",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Добавьте сообщение",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Мои истории",
+    "message": "Моя история",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ просмотр",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ просмотров",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} просмотр} few {{views,number} просмотра} many {{views,number} просмотров} other {{views,number} просмотров}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Просмотры отключены",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ ответ",
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Ваши контакты могут видеть ваше имя и фото, а также обновления истории «Моя история», если вы не скроете её от них",
+    "message": "Ваши контакты могут видеть ваше имя и фото, а также обновления в «Моей истории», если вы не скроете её от них",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Мои истории",
+    "message": "Моя история",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5404,6 +5483,14 @@
   "Stories__list-empty": {
     "message": "Нет недавних историй",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "Отправляем…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Отправка не удалась",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "Нажмите на историю, чтобы просмотреть её",
@@ -5429,20 +5516,32 @@
     "message": "Настройки историй",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Истории автоматически исчезают через 24 часа. Выберите, кто может просматривать вашу историю, или создавайте новые истории с заданными зрителями или группами.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Новая частная история",
-    "description": "Label to create a new private story list"
+    "message": "Новая пользовательская история",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Только вы можете видеть название этой истории.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "Зрителей: $num$",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ зрителей",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {{count,number} зритель} few {{count,number} зрителя} many {{count,number} зрителей} other {{count,number} зрителя}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Кто может видеть эту историю",
+    "message": "Кто может просматривать эту историю",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Удалить",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Удалить $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "Этот человек больше не будет видеть вашу историю.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Ответы и реакции",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Удалить частную историю",
-    "description": "Button label to delete a private distribution list"
+    "message": "Удалить пользовательскую историю",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Удалить частную историю?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Вы действительно хотите удалить историю «$name$»? Все обновления, которыми вы недавно поделились в этой истории, будут также удалены.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Выберите зрителей",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Назовите эту историю",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Назовите историю",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Название истории (обязательно)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Все контакты Signal, кроме...",
+    "message": "Все, кроме…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "Поделиться только с...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "Поделиться только с…",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Поделиться только с конкретными людьми",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Выберите, кто может просмотреть вашу историю. Изменения не повлияют на истории, которые вы уже отправили. $learnMore$",
+    "message": "Выберите, кто может просматривать вашу историю. Изменения не повлияют на истории, которые вы уже отправили. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5536,6 +5635,14 @@
   "StoriesSettings__context-menu": {
     "message": "Настройки историй",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Уведомления о просмотрах",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Чтобы изменить эту настройку, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки -> Истории",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Выберите, кто может просматривать эту историю",
@@ -5549,20 +5656,48 @@
     "message": "Отправить историю",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Пользовательская история",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "История в группе",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Поделиться только с",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {Исключено: {count,number}} few {Исключено: {count,number}} many {Исключено: {count,number}} other {Исключено: {count,number}}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Новая история",
+    "message": "Новая",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Новая частная история",
+  "SendStoryModal__new-custom--title": {
+    "message": "Новая пользовательская история",
     "description": "Create a new distribution list"
   },
-  "SendStoryModal__new-private--description": {
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Только вы можете видеть название этой истории.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
     "message": "Видна только определённым людям",
     "description": "Description of what a distribution list would do"
   },
+  "SendStoryModal__new-private--title": {
+    "message": "Новая частная история",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
+  },
+  "SendStoryModal__new-private--description": {
+    "message": "Видна только определённым людям",
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
+  },
   "SendStoryModal__new-group--title": {
-    "message": "Новая история группы",
+    "message": "Новая история в группе",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Настройки приватности моих историй",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Настройки приватности «Моей истории»",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Выберите, какие контакты Signal могут просматривать вашу историю. Вы всегда можете изменить это в настройках конфиденциальности. $learnMore$",
@@ -5586,8 +5721,12 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Удалить историю? Это приведет к удалению истории из вашего списка, но вы по-прежнему сможете просматривать истории этой группы.",
+    "message": "Удалить историю? Это приведет к удалению истории из вашего списка, но вы по-прежнему сможете просматривать истории в этой группе.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Только администраторы могут отправлять истории в этой группе.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Делиться историями и просматривать их",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Просмотры отключены",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Отправлен $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Включите уведомления о прочтении, чтобы видеть, кто просматривал ваши истории. Откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Конфиденциальность",
+    "message": "Включите уведомления о прочтении, чтобы узнать, кто просматривал ваши истории. Откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Истории.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Отреагировал(-а) на историю",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Вы не можете отвечать на эту историю, потому что больше не являетесь участником группы.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "История",
@@ -5714,7 +5857,7 @@
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Невозможно опубликовать видео в истории, так как данный тип файл не поддерживается",
+    "message": "Невозможно опубликовать видео в истории, так как данный тип файла не поддерживается",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5805,6 +5948,18 @@
     "message": "Отреагировал(-а) на историю",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Отреагировал(-а) $emoji$ на вашу историю",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Вы отреагировали $emoji$ на историю от $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Вы отреагировали $emoji$ на историю",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Больше не доступна",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Контекстное меню",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Имя пользователя",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Имена пользователей позволяют другим пользователям отправлять вам сообщения без вашего номера телефона. Они соединены с набором цифр, чтобы сохранить ваш адрес в тайне.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Узнать больше",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Что это за число?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Эти цифры помогают сохранить ваше имя пользователя в тайне и избежать нежелательных сообщений. Делитесь своим именем пользователя только с теми людьми и группами, с которыми вы хотели бы общаться. Если вы измените имя пользователя, вы получите новый набор цифр.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Что нового",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Просто добавьте друга в группу с экрана его контактных данных и продолжайте интересную беседу.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Мы усердно работаем над исправлением ошибок и другими улучшениями производительности, чтобы приложение работало для вас бесперебойно.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Начните использовать и тестировать нашу новую функцию историй. Вы можете использовать эту функцию вместе с другими бета-тестерами и сообщить нам, как она работает.",
+    "description": "Release notes for v5.63"
   }
 }

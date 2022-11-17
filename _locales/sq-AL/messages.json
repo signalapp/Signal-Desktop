@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Shtoni një mesazh",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Mesazh",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "U bë",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Shtoje te grup",
@@ -733,8 +752,8 @@
     "message": "Kontaktet SMS/MMS s’janë të passhëm në Desktop.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "S’ka përfundime për \"$searchTerm$\" te $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "S’ka përfundime për \"{searchTerm}\" te {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Prekni $plusButton$ (Android) ose $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "Kodi QR s’u ngarkua dot. Kontrolloni lidhjen tuaj në internet dhe riprovoni. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Mësoni më tepër",
+  "icu:Install__qr-failed": {
+    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <learnMoreLink>Mëso më shumë</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1777,8 +1792,8 @@
     "message": "off",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Zhdukje mesazhesh",
+  "icu:disappearingMessages": {
+    "messageformat": "Zhdukje mesazhesh",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "Histori",
+    "message": "Postimet e përkohshme",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "S’u gjetën kontakte.",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Nuk u gjend asnjë grup",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "S’u gjetën biseda.",
@@ -2741,8 +2760,8 @@
     "message": "Mbrapsht",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Shtoni ngjitësit tuaj",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Shtoni ngjitësit tuaj",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Shfaq mënjana",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Shtoni $count$ ose më tepër",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Shtoni {count,number} ose më tepër",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2841,8 +2860,8 @@
     "message": "Hidhini një sy kësaj pakete të re ngjitësish që krijova për Signal-in. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "U shtua $count$ figurë(a)",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 imazh u shtua} other {{count,number} imazhe u shtuan}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ anëtarë",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 anëtar",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 anëtar} other {{count,number} anëtarë}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Anëtar i $group$",
@@ -4569,8 +4592,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klikoni $composeIcon$ më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klikoni {composeIcon} më sipër dhe kërkoni për kontaktet ose grupet tuaja për t’u dërguar mesazh.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4921,17 +4944,13 @@
     "message": "Emër përdoruesi",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Jepni një emër përdoruesi",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Emrat e përdoruesve në Signal janë opsionalë. Nëse vendosni të krijoni një emër përdoruesi, përdorues të tjerë të Signal-it do të jenë në gjendje t’ju gjejnë me këtë emër përdoruesi dhe të lidhen me ju pa ditur numrin tuaj të telefonit.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Zgjidh emrin e përdoruesit",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Emra e përdoruesve mund të përmbajnë vetëm a-z, 0-9 dhe _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Emrat e përdoruesve s’mund të fillojnë me një numër.",
@@ -4945,6 +4964,10 @@
     "message": "Emrat e përdoruesve duhet të kenë e shumta $max$ shenja.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Ky emër përdoruesi nuk është i lirë",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Ky emër përdoruesi është i zënë.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4957,6 +4980,18 @@
     "message": "Emri juaj i përdoruesit s’u hoq dot. Kontrolloni lidhjen tuaj dhe riprovoni.",
     "description": "Shown if something unknown has gone wrong with username delete."
   },
+  "ProfileEditor--username--copied-username": {
+    "message": "Emri i përdoruesit u kopjua",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Linku u kopjua",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Emri i përdoruesit po fshihet",
+    "description": "Shown as aria label for spinner icon next to username"
+  },
   "ProfileEditor--username--delete-username": {
     "message": "Fshije emrin e përdoruesit",
     "description": "Shown as aria label for trash icon next to username"
@@ -4968,6 +5003,22 @@
   "ProfileEditor--username--confirm-delete-button": {
     "message": "Fshiji",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
+  },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kopjo ose fshi emrin e përdoruesit",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kopjo emrin e përdoruesit",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Kopjo linkun",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Fshije",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
   },
   "ProfileEditor--about-placeholder": {
     "message": "Shkruani diçka rreth vetes…",
@@ -4985,8 +5036,8 @@
     "message": "Doni të hidhen tej këto ndryshime?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profili juaj është i fshehtëzuar. Profili juaj dhe ndryshime në të do të jenë të dukshme për kontaktet tuaj dhe kur nisni ose pranoni fjalosje të reja. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profili juaj është i fshehtëzuar. Profili juaj dhe ndryshime në të do të jenë të dukshme për kontaktet tuaj dhe kur nisni ose pranoni fjalosje të reja. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "Pajisje",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "Aktivizo postimet e përkohshme",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Çaktivizo postimet e përkohshme",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Çaktivizoje",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Nuk do të mund të ndash apo shikosh më postime të përkohshme. Përditësimet e postimeve të përkohshme që ke ndarë së fundi do të fshihen gjithashtu.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "Ka të gatshëm përditësim me versionin $version$",
     "description": "Tooltip for new update available"
@@ -5317,16 +5384,20 @@
     "message": "Qethe",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Shtoni një mesazh",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Historitë e Mia",
+    "message": "Postimi im i përkohshëm",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Historia juaj",
+    "message": "Postimi yt i përkohshëm",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
-    "message": "Shkarkoni histori",
+    "message": "Shkarko postimin e përkohshëm",
     "description": "aria-label for the download button"
   },
   "MyStories__more": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ parje",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ parje",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} parje} other {{views,number} parje}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Shikimet u çaktivizuan",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ përgjigje",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Të fshihet kjo histori? Do të fshihet gjithashtu edhe për këdo që e mori.",
+    "message": "Të fshihet ky postim i përkohshëm? Do të fshihet edhe për këdo që e mori.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,19 +5453,19 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Kontaktet mund të shohin emrin dhe fotografinë tënde, si dhe mund të shohin postimet e përkohshme nëse nuk ua fsheh",
+    "message": "Kontaktet mund të shohin emrin e fotografinë tënde, si dhe postimet e përkohshme, nëse nuk ua fsheh",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "Histori",
+    "message": "Postimet e përkohshme",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Historitë e Mia",
+    "message": "Postimi im i përkohshëm",
     "description": "Label for your stories"
   },
   "Stories__add": {
-    "message": "Shtoni një histori",
+    "message": "Shto një postim të përkohshëm",
     "description": "Description hint to add a story"
   },
   "Stories__add-story--text": {
@@ -5398,15 +5477,23 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Histori të fshehura",
+    "message": "Postime të përkohshme të fshehura",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "Tani për tani s’ka histori të freskëta për t’u shfaqur",
+    "message": "S’ka postime të përkohshme të freskëta për t’u shfaqur",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "Po dërgohet…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Dërgimi dështoi",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "Klikoni që të shihni një histori",
+    "message": "Kliko që të shohësh një postim të përkohshëm",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Përgjigjja po dërgohet ...",
+    "message": "Përgjigjja po dërgohet...",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Reagimi po dërgohet ...",
+    "message": "Reagimi po dërgohet...",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5426,23 +5513,35 @@
     "description": "Toast message"
   },
   "StoriesSettings__title": {
-    "message": "Rregullime historie",
+    "message": "Parametrat e postimit të përkohshëm",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Postimet e përkohshme zhduken automatikisht pas 24 orësh. Zgjidh kush mund të shohë postimet e tua të përkohshme ose krijo postime të reja të përkohshme për shikues ose grupe të veçanta.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Histori e re private",
-    "description": "Label to create a new private story list"
+    "message": "Postim i ri i përkohshëm i personalizuar",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Vetëm ti mund ta shohësh emrin e këtij postimi të përkohshëm.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ shikues",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ shikues",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 shikues} other {{count,number} shikues}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Kush mund ta shohë këtë histori",
+    "message": "Kush mund ta shikojë këtë postim të përkohshëm",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Fshije",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Hiq $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Ky person s’do ta shohë më historinë tuaj.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "Ky person s’do ta shohë më postimin tënd të përkohshëm.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Përgjigje & reagime",
@@ -5474,27 +5573,27 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Fshi histori private",
-    "description": "Button label to delete a private distribution list"
+    "message": "Fshij postimin e përkohshëm të personalizuar",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Të fshihet postimi privat i përkohshëm?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Je i sigurt që do të fshish \"$name$\"? Përditësimet e ndara në këtë postim të përkohshëm do të fshihen.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Zgjidh shikuesit",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
     "message": "Emërto postimin e përkohshëm",
-    "description": "Modal title when naming a private distribution list"
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "Emër historie (I domosdoshëm)",
+    "message": "Emri i postimit të përkohshëm (i domosdoshëm)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "Fshihe historinë nga",
+    "message": "Fshih postimin e përkohshëm nga",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Të gjitha kontaktet e Signal përveç…",
+    "message": "Të gjithë përveç...",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Shpërndaje vetëm me…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Shpërndaj vetëm me personat e zgjedhur",
@@ -5534,8 +5633,16 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Rregullime historie",
+    "message": "Parametrat e postimit të përkohshëm",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Shiko kush e ka parë postimin",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Që të ndryshosh këtë parametër, hap aplikacionin Signal në celularin tënd dhe shko te Parametrat -> Postimet e përkohshme",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Zgjidh kush mund ta shohë postimin tënd të përkohshëm",
@@ -5549,20 +5656,48 @@
     "message": "Dërgo postimin e përkohshëm",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Postim i përkohshëm i personalizuar",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Postim i përkohshëm i grupit",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Shpërndaje vetëm me",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Postim i përkohshëm i ri",
+    "message": "I ri",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Histori e re private",
+  "SendStoryModal__new-custom--title": {
+    "message": "Postim i ri i përkohshëm i personalizuar",
     "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Vetëm ti mund ta shohësh emrin e këtij postimi të përkohshëm.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "E dukshme vetëm për persona të caktuar",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "Postim i ri privat i përkohshëm",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "E dukshme vetëm për persona specifikë",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
-    "message": "Postim grupi i përkohshëm i ri",
+    "message": "Postim grupi i ri i përkohshëm",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5574,27 +5709,31 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Privatësia e postimeve të mia të përkohshme",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Privatësia e postimit tim të përkohshëm",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Zgjidh se cili nga kontaktet e Signal mund të shohë postimin tënd të përkohshëm. Këtë mund ta ndryshosh në çdo çast te parametrat e privatësisë. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
-    "message": "Fshij postimin e përkohshëm",
+    "message": "Fshi postimin e përkohshëm",
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
     "message": "Të hiqet postimi i përkohshëm? Kjo do të heqë postimin e përkohshëm nga lista jote, por ti do të mund t'i shohësh postimet e përkohshme të këtij grupi.",
     "description": "Confirmation body for removing a group story"
   },
+  "SendStoryModal__announcements-only": {
+    "message": "Vetëm administratorët mund të dërgojnë postime të përkohshme në këtë grup.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
+  },
   "Stories__settings-toggle--title": {
-    "message": "Shpërndaj dhe shiko postimet e përkohshme",
+    "message": "Shpërnda dhe shiko postimet e përkohshme",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më materiale me të tjerë apo të shohësh postimet e përkohshme.",
+    "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më postime të përkohshme ose të shohësh të të tjerëve.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Shikimet u çaktivizuan",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Dërguar $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Aktivizo leximin e mesazheve për të parë se kush i ka parë postimet e tua të përkohshme. Hap aplikacionin e Signal në celularin tënd dhe shko te Parametrat > Privatësia.",
+    "message": "Aktivizo leximin e mesazheve për të parë se kush i ka parë postimet e tua të përkohshme. Hap aplikacionin e Signal në celularin tënd dhe shko te Parametrat > Postimet e përkohshme.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5662,23 +5801,27 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "Reagoni ndaj një historie",
+    "message": "Reago ndaj një postimi të përkohshëm",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "Reagoi ndaj historisë",
+    "message": "Reagoi ndaj postimit të përkohshëm",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Nuk mund t'i përgjigjesh këtij postimi të përkohshëm, sepse nuk je më anëtar i këtij grupi.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
-    "message": "Histori",
+    "message": "Postim i përkohshëm",
     "description": "aria-label for the story list button"
   },
   "StoryListItem__unhide": {
-    "message": "Shfaq histori",
+    "message": "Shfaq postimin e përkohshëm",
     "description": "Label for menu item to un-hide the story"
   },
   "StoryListItem__hide": {
-    "message": "Fshihe historinë",
+    "message": "Fshih postimin e përkohshëm",
     "description": "Label for menu item to hide the story"
   },
   "StoryListItem__go-to-chat": {
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Të fshihet historia? Përditësime për histori të reja nga $name$ s’do të shfaqen më në krye të listës së historive.",
+    "message": "Të fshihet postimi i përkohshëm? Përditësimet për postime të reja të përkohshme nga $name$ s’do të shfaqen më në krye të listës së postimeve të përkohshme.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5710,11 +5853,11 @@
     "description": "Description for image errors but when it is your own image"
   },
   "StoryCreator__error--video-too-long": {
-    "message": "Videoja nuk mund të publikohet në postimet e përkohshme, sepse është shumë e gjatë",
+    "message": "Videoja nuk mund të publikohet te postimet e përkohshme, sepse është shumë e gjatë",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-unsupported": {
-    "message": "Videoja nuk mund të publikohet në postimet e përkohshme, pasi formati i skedarit është i papërshtatshëm",
+    "message": "Videoja nuk mund të publikohet te postimet e përkohshme, pasi formati i skedarit është i papërshtatshëm",
     "description": "Error string for when a video post to story fails"
   },
   "StoryCreator__error--video-error": {
@@ -5770,7 +5913,7 @@
     "description": "Label for font"
   },
   "StoryCreator__control--text": {
-    "message": "Shtoni tekstin në postimin e përkohshëm",
+    "message": "Shto tekst në postimin e përkohshëm",
     "description": "aria-label for edit text button"
   },
   "StoryCreator__control--link": {
@@ -5782,7 +5925,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "Shto lidhje për shikuesit e postimit të përkohshëm",
+    "message": "Shto një link për shikuesit e postimit të përkohshëm",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5794,16 +5937,28 @@
     "description": "Title for the link preview tooltip"
   },
   "Quote__story": {
-    "message": "Histori",
+    "message": "Postim i përkohshëm",
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "Reagoi ndaj një historie prej $name$",
+    "message": "Reagoi ndaj një postimi të përkohshëm të $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "Reagoi te një histori",
+    "message": "Reagoi ndaj një postimi të përkohshëm",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reagoi me $emoji$ ndaj postimit tënd të përkohshëm",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Ti reagove me $emoji$ në postimin e përkohshëm të $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Ti reagove me $emoji$ në një postim të përkohshëm",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "S’mund të kihet më",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Menyja e kontekstit",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Emër përdoruesi",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Emrat e përdoruesve lejojnë që të tjerët të të dërgojnë mesazhe, pa pasur nevojë për numrin tënd të telefonit. Ata binjakëzohen me një bashkësi shifrash për ruajtur fshehtësinë e adresës tënde.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Mësoni më tepër",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Çfarë është ky numër?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Këto shifra ndihmojnë të ruash fshehtësinë e emrit të përdoruesit, që të shmangësh mesazhet e padëshiruara. Ndaj emrin e përdoruesit vetëm me personat dhe grupet me të cilat dëshiron të bisedosh. Nëse ndryshon emrin e përdoruesit, atëherë do të marrësh një bashkësi të re shifrash.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Ç’ka të Re",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Shto lehtësisht një mik në një grup nga ekrani i detajeve të kontaktit të tyre për ta bërë bisedën më emocionuese.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Punojmë fort për të rregulluar problemet dhe për të bërë përmirësime të tjera të mbarëvajtjes, që aplikacioni të funksionojë pa probleme.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Fillo të përdorësh dhe testosh funksionin tonë të ri të postimeve të përkohshme. Mund ta përdorësh funksionin me testues të tjerë beta dhe të na thuash si funksionon.",
+    "description": "Release notes for v5.63"
   }
 }

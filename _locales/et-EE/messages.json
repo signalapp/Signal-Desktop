@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "Lisa sõnum",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "Sõnum",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Tehtud",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Lisa gruppi",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Eelistused...",
+    "message": "Eelistused…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Laadimine...",
+    "message": "Laadimine…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Rakenduse optimeerimine...",
+    "message": "Rakenduse optimeerimine…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "Sõnumite optimeerimine... $status$ tehtud.",
+    "message": "Sõnumite optimeerimine… $status$ valmis.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Andmebaasi uuendamine. See võib võtta pisut aega...",
+    "message": "Andmebaasi uuendamine. See võib võtta pisut aega…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "Sõnumite laadimine, siiamaani $count$...",
+    "message": "Sõnumite laadimine, siiamaani $count$…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Eelvaate laadimine...",
+    "message": "Eelvaate laadimine…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Ühendamine...",
+    "message": "Ühendamine…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kontaktid pole Signal Desktopis saadaval.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "Vestlusest $conversationName$ ei leitud \"$searchTerm$\"",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "Vestlusest {conversationName} ei leitud \"{searchTerm}\"",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "Toksa $plusButton$ (Android) või $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR-koodi laadimine nurjus. Kontrolli oma internetiühendust ja proovi uuesti. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Rohkem infot",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR-koodi ei saanud lugeda. Kontrolli oma internetiühendust ja proovi uuesti. <learnMoreLink>Rohkem teavet</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "Importimine...",
+    "message": "Importimine…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "väljas",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Kaduvad sõnumid",
+  "icu:disappearingMessages": {
+    "messageformat": "Kaduvad sõnumid",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "Alusta uut vestlust...",
+    "message": "Alusta uut vestlust…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Kontakte ei leitud",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Ühtegi gruppi ei leitud",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Vestlusi ei leitud",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Kleebisepaki paigaldamine...",
+    "message": "Kleebisepaki paigaldamine…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Tagasi",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Lisa enda kleebised",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Lisa enda kleebised",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Näita veeriseid",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "Lisa $count$ või rohkem",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "Lisa {count,number} või rohkem",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Lihtsalt mõned detailid veel...",
+    "message": "Lihtsalt mõned detailid veel…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Vaata seda uut kleebisepakki, mille ma Signali jaoks tegin. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ pilt(i) lisatud",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 pilt lisatud} other {{count,number} pilti lisatud}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ liiget",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 liige",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 liige} other {{count,number} liiget}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "Grupi $group$ liige",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Sissetulev häälkõne...",
+    "message": "Sissetulev häälkõne…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Sissetulev videokõne...",
+    "message": "Sissetulev videokõne…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Helisemine...",
+    "message": "Helisemine…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Ühenduse taastamine...",
+    "message": "Ühenduse taastamine…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Uuendamine...",
+    "message": "Uuendamine…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Helimanuse allalaadimine...",
+    "message": "Helimanuse allalaadimine…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": "0,5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Klõpsa üleval $composeIcon$ ja otsi sõnumi saatmiseks kontakte või gruppe..",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Klõpsa üleval {composeIcon} ja otsi sõnumi saatmiseks kontakte või gruppe..",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Kohandatud aeg...",
+    "message": "Kohandatud aeg…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "Lisa grupi kirjeldus...",
+    "message": "Lisa grupi kirjeldus…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "Kasutajanimi",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Sisesta kasutajanimi",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Kasutajanimed on Signalis vabatahtlikud. Kui otsustad endale Signalis kasutajanime luua, siis saavad teised Signali kasutajad leida sind kasutajanime järgi ja võtta ühendust sinu telefoninumbrit teadmata.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Vali omale kasutajanimi",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Kasutajanimed tohivad sisaldada a-z, 0-9 ja _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Kasutajanimed ei tohi alata numbriga.",
@@ -4945,6 +4964,10 @@
     "message": "Kasutajanimed peavad sisaldama maksimaalselt $max$ tähemärki.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "See kasutajanimi ei ole saadaval",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "See kasutajanimi on võetud.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Sinu kasutajanime eemaldamine ei õnnestunud. Kontrolli internetiühendust ja proovi uuesti.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Kasutajanimi kopeeritud",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Link kopeeritud",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Kasutajanime kustutamine",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Eemalda kasutajanimi",
@@ -4969,8 +5004,24 @@
     "message": "Kustuta",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kopeeri või kustuta kasutajanimi",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kopeeri kasutajanimi",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Kopeeri link",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Kustuta",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Kirjuta enda kohta midagi...",
+    "message": "Kirjuta enda kohta midagi…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Kas sa soovid neid muudatusi tühistada?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Sinu profiil on krüptitud. Sinu profiil ja sellele tehtud muudatused on nähtavad ainult sinu kontaktidele ja siis kui alustad vestlust või liitud mõne vestlusega. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Sinu profiil on krüptitud. Sinu profiil ja sellele tehtud muudatused on nähtavad ainult sinu kontaktidele ja siis kui alustad vestlust või liitud mõne vestlusega. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Kes saab...",
+    "message": "Kes saab…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Seadmed",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Lülita lood sisse",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Lülita lood välja",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Lülita välja",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Sa ei saa enam lugusid jagada ega vaadata. Sinu hiljuti jagatud lugude uuendused kustutatakse samuti.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "Versioonile $version$ on uuendus saadaval",
@@ -5317,8 +5384,12 @@
     "message": "Kärbi",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "Lisa sõnum",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Minu lood",
+    "message": "Minu lugu",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ vaatamine",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ vaatamist",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} vaatamine} other {{views,number} vaatamist}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Vaatamised väljas",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ vastus",
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Minu lood",
+    "message": "Minu lugu",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5404,6 +5483,14 @@
   "Stories__list-empty": {
     "message": "Hetkel puuduvad kuvamiseks hiljutised lood",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "Saatmine…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Saatmine ei õnnestunud",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "Klõpsa loo vaatamiseks",
@@ -5429,17 +5516,29 @@
     "message": "Loo sätted",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Lood kaovad automaatselt 24 tunni pärast. Vali, kes saavad sinu lugu vaadata või loo uusi lugusid konkreetsetele vaatajatele või gruppidele.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Uus privaatne lugu",
-    "description": "Label to create a new private story list"
+    "message": "Uus kohandatud lugu",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Ainult sina näed selle loo nime.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ vaataja",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ vaatajat",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 vaataja} other {{count,number} vaatajat}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
     "message": "Kes seda lugu näevad",
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Eemalda",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "Eemalda $title$",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "See isik ei näe enam sinu lugu.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Vastused ja reaktsioonid",
@@ -5474,20 +5573,20 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "Kustuta privaatne lugu",
-    "description": "Button label to delete a private distribution list"
+    "message": "Kustuta kohandatud lugu",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Kas kustutada privaatne lugu?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "Kas sa tõesti soovid kustutada loo „$name$“? Kustutatakse ka selles loos jagatud uuendused.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Vali vaatajad",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Anna sellele loole nimi",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Anna loole nimi",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Loo nimi (kohustuslik)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Kõik Signali kontaktid, välja arvatud …",
+    "message": "Kõik, välja arvatud…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Jaga ainult nendega:",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Jaga ainult valitud isikutega",
@@ -5537,8 +5636,16 @@
     "message": "Loo sätted",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Vaata kviitungeid",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Selle sätte muutmiseks ava enda nutiseadmes Signali äpp ja vali Sätted -> Lood",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
-    "message": "Vali, kes sinu lugu näevad",
+    "message": "Vali, kes saavad sinu lugu vaadata",
     "description": "Shown during the first time posting a story"
   },
   "SendStoryModal__title": {
@@ -5549,20 +5656,48 @@
     "message": "Saada lugu",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Kohandatud lugu",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Grupi lugu",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Jaga ainult nendega:",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {1 Excluded} other {{count,number} Excluded}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Uus lugu",
+    "message": "Uus",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "Uus privaatne lugu",
+  "SendStoryModal__new-custom--title": {
+    "message": "Uus kohandatud lugu",
     "description": "Create a new distribution list"
   },
-  "SendStoryModal__new-private--description": {
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Ainult sina näed selle loo nime.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
     "message": "Nähtav ainult konkreetsetele isikutele",
     "description": "Description of what a distribution list would do"
   },
+  "SendStoryModal__new-private--title": {
+    "message": "Uus privaatne lugu",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
+  },
+  "SendStoryModal__new-private--description": {
+    "message": "Nähtav ainult konkreetsetele isikutele",
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
+  },
   "SendStoryModal__new-group--title": {
-    "message": "Uus grupilugu",
+    "message": "Uus grupi lugu",
     "description": "Select a group to send a story to"
   },
   "SendStoryModal__new-group--description": {
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Minu lugude privaatsus",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Minu loo privaatsus",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Vali, millised Signali kontaktid sinu lugu näevad. Saad seda alati privaatsussätete alt muuta. $learnMore$",
@@ -5588,6 +5723,10 @@
   "SendStoryModal__confirm-remove-group": {
     "message": "Kas eemaldada lugu? See eemaldab loo sinu loendist, kuid näed endiselt selle grupi lugusid.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Ainult administraatorid saavad sellesse gruppi lugusid saata.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Jaga ja vaata lugusid",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Vaatamised väljas",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Saadetud $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Luba kättesaamiskinnitused, et näha, kes on sinu lugusid vaadanud. Ava Signali äpp oma mobiiliseadmes ja vali Sätted > Privaatsus",
+    "message": "Luba kättesaamiskinnitused, et näha, kes on su lugusid vaadanud. Ava enda nutiseadmes Signali äpp ja vali Sätted -> Lood.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5668,6 +5807,10 @@
   "StoryViewsNRepliesModal__reacted": {
     "message": "Reageeris loole",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Sa ei saa sellele loole vastata, sest sa ei ole enam selle grupi liige.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "Lugu",
@@ -5805,6 +5948,18 @@
     "message": "Reageeris loole",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Reageeris sinu loole: $emoji$",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "Reageerisid kasutaja $name$ loole: $emoji$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Reageerisid loole: $emoji$",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "Ei ole enam saadaval",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "Kontekstimenüü",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Kasutajanimi",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Kasutajanime abil saavad teised sulle sõnumeid saata ilma su telefoninumbrit teadmata. Kasutajanimi seotakse numbrilise koodiga, mis aitab sul oma aadressi privaatsena hoida.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Uuri täpsemalt",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Mis number see on?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "See numbrikombinatsioon aitab sinu kasutajanime privaatsena hoida, et saaksid soovimatuid sõnumeid vältida. Jaga oma kasutajanime ainult nende inimeste ja gruppidega, kellega soovid suhelda. Kui kasutajanime muudad, saadetakse sulle uus numbrikombinatsioon.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Mis on uut",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Hoia vestlus põnev, lisades gruppi veel sõpru. Saad seda teha mugavalt kontaktandmete kuva kaudu.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Anname endast parima, et vigu parandada ning jõudlust suurendada, muutes nii rakenduse tööd sujuvamaks.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Proovi ja testi meie uut lugude funktsiooni. Saad seda funktsiooni koos teiste beetatestijatega proovidega ning meiega oma kogemusi jagada.",
+    "description": "Release notes for v5.63"
   }
 }

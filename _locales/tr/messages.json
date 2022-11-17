@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "İleti ekle",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "İleti",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "Tamam",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "Bir gruba ekle",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ ekleniyor...",
+    "message": "$contact$ ekleniyor…",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "Tercihler...",
+    "message": "Tercihler…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "Yükleniyor...",
+    "message": "Yükleniyor…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "Uygulama optimize ediliyor...",
+    "message": "Uygulama optimize ediliyor…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "İletiler optimize ediliyor... $status$ tamamlandı.",
+    "message": "İletiler optimize ediliyor… $status$ tamamlandı.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "Veritabanı yükseltiliyor. Bu biraz zaman alabilir...",
+    "message": "Veri tabanı yükseltiliyor. Bu biraz zaman alabilir…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "İletiler yükleniyor. Şimdiye kadar $count$...",
+    "message": "İletiler yükleniyor. Şu ana kadar $count$ tamamlandı…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... tüm günlüğü görmek için, Kaydet'e tıklayın",
+    "message": "…tüm günlüğü görmek için Kaydet'e tıkla",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "Öz İzleme Yükleniyor...",
+    "message": "Öz İzleme yükleniyor…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "Bağlanılıyor...",
+    "message": "Bağlanılıyor…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS kişileri Desktop'ta mevcut değil.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ konuşması \"$searchTerm$\" için sonuç bulunamadı",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} konuşması \"{searchTerm}\" için sonuç bulunamadı",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$'ya (Android) ya da $linkNewDevice$'a (iOS) tıklayın",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR kod yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "Dahasını öğrenin",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR kod yüklenemedi. İnternet bağlantını kontrol et ve tekrar dene. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "İçe aktarılıyor...",
+    "message": "İçe aktarılıyor…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "kapalı",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "Kaybolan iletiler",
+  "icu:disappearingMessages": {
+    "messageformat": "Kaybolan iletiler",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "Kişi bulunamadı",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "Grup bulunamadı",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "Konuşma yok",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "Çıkartma paketi yükleniyor...",
+    "message": "Çıkartma paketi yükleniyor…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "Geri",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "Çıkartmalarınızı ekleyin",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "Çıkartmalarınızı ekleyin",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "Kenar boşluklarını göster",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$ veya daha fazlasını ekleyin",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number} veya daha fazlasını ekleyin",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "Yalnızca birkaç detay daha...",
+    "message": "Yalnızca birkaç detay daha…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal için oluşturduğum bu çıkartma paketine göz atın. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$ resim eklendi",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 görsel eklendi} other {{count,number} görsel eklendi}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ üye",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 üye",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 üye} other {{count,number} üye}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$ grubuna üye",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Gelen sesli arama...",
+    "message": "Gelen sesli arama…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "Gelen görüntülü arama...",
+    "message": "Gelen görüntülü arama…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3146,7 +3169,7 @@
     "description": "Shown in the incoming call bar when someone is ringing you for a group call"
   },
   "outgoingCallRinging": {
-    "message": "Çalıyor...",
+    "message": "Çalıyor…",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
   "makeOutgoingCall": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "Yeniden bağlanıyor...",
+    "message": "Yeniden bağlanıyor…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "Güncelleniyor...",
+    "message": "Güncelleniyor…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "Ses eklentisi indiriliyor...",
+    "message": "Ses eklentisi indiriliyor…",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ",5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "Yukarıdaki $composeIcon$ simgesine tıklayın ve ileti göndermek için kişilerinizi veya gruplarınızı arayın.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "Yukarıdaki {composeIcon} simgesine tıklayın ve ileti göndermek için kişilerinizi veya gruplarınızı arayın.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "Özel zaman...",
+    "message": "Özel zaman…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4921,17 +4944,13 @@
     "message": "Kullanıcı adı",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "Bir kullanıcı adı girin",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal'de kullanıcı adları tamamen isteğe bağlıdır. Eğer kullanıcı adı oluşturursanız diğer Signal kullanıcıları bu kullanıcı adı ile sizi bulup telefon numaranızı bilmeden size ulaşabileceklerdir.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "Kullanıcı adını seç",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "Kullanıcı adları yalznıca a-z, 0-9 ve _ içerebilir",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "Kullanıcı adları rakam ile başlayamaz.",
@@ -4945,6 +4964,10 @@
     "message": "Kullanıcı adları en fazla $max$ karakter içermelidir.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "Bu kullanıcı adı kullanılamıyor",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "Bu kullanıcı adı alınmış.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "Kullanıcı adınız kaldırılamadı. Bağlantınızı kontrol edip tekrar deneyin.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "Kopyalanan kullanıcı adı",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "Kopyalanan bağlantı",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "Kullanıcı adı siliniyor",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "Kullanıcı adını kaldır",
@@ -4969,8 +5004,24 @@
     "message": "Sil",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "Kullanıcı adını kopyala veya sil",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "Kullanıcı adını kopyala",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "Bağlantıyı kopyala",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "Sil",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "Hakkınızda bir şey yazın...",
+    "message": "Hakkında bir şeyler yaz…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "Bu değişiklerden vazgeçmek ister misiniz?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "Profiliniz şifrelidir. Profiliniz ve profilinizdeki değişiklikler, yeni konuşmalar başlattığınızda veya kabul ettiğinizde kişileriniz tarafından görülecektir. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "Profiliniz şifrelidir. Profiliniz ve profilinizdeki değişiklikler, yeni konuşmalar başlattığınızda veya kabul ettiğinizde kişileriniz tarafından görülecektir. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "Kim...",
+    "message": "Kim…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "Cihazlar",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "Hikayeleri etkinleştir",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "Hikayeleri kapat",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "Kapat",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "Artık hikaye paylaşamayacak veya görüntüleyemeyeceksin. Yakın zamanda paylaştığın hikaye güncellemeleri de silinecek.",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "$version$ sürümüne güncelleme mevcut",
@@ -5317,12 +5384,16 @@
     "message": "Kırpma",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "İleti ekle",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "Hikayelerim",
+    "message": "Hikayem",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
-    "message": "Hikayeniz",
+    "message": "Hikayen",
     "description": "aria-label for each one of your stories"
   },
   "MyStories__download": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ görüntüleme",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ görüntüleme",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} görülme} other {{views,number} görüntüleme}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "Görüntüleme kapalı",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ yanıt",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "Bu hikaye silinsin mi? Aynı zamanda tüm alıcılardan silinecektir.",
+    "message": "Bu hikaye silinsin mi? Aynı zamanda hikayeyi alan herkesten silinecektir.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,7 +5453,7 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler.",
+    "message": "Bağlantıların, adını ve fotoğrafını görebilir ve onlardan gizlemediğin sürece \"Hikayem\"deki gönderileri görüntüleyebilirler",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
@@ -5382,7 +5461,7 @@
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "Hikayelerim",
+    "message": "Hikayem",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5398,12 +5477,20 @@
     "description": "Label to create a new multimedia story"
   },
   "Stories__hidden-stories": {
-    "message": "Gizlenmiş hikayeler",
+    "message": "Gizli hikayeler",
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
     "message": "Şu anda gösterilecek yeni hikaye yok",
     "description": "Description for when there are no stories to show"
+  },
+  "Stories__list--sending": {
+    "message": "Gönderiliyor…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "Gönderme başarısız",
+    "description": "Error text for story failed to send in list view"
   },
   "Stories__placeholder--text": {
     "message": "Bir hikayeyi görüntülemek için tıkla",
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "Yanıt gönderiliyor...",
+    "message": "Yanıt gönderiliyor…",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "Tepki gönderiliyor...",
+    "message": "Tepki gönderiliyor…",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "Hikaye ayarları",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "Hikayeler 24 saat sonra otomatik olarak kaybolur. Hikayeni kimlerin görüntüleyebileceğini seç veya belirli kişiler ya da gruplarla yeni hikayeler oluştur.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
     "message": "Yeni özel hikaye",
-    "description": "Label to create a new private story list"
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "Bu hikayenin adını sadece sen görebilirsin.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ görüntüleyen",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ görüntüleyen",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 görüntüleyen} other {{count,number} görüntüleyen}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "Bu hikayeyi kim görebilir",
+    "message": "Bu hikayeyi kimler görüntüleyebilir",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "Kaldır",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$öğesini kaldır",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "Bu kişi artık hikayelerinizi göremeyecek.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "Bu kişi artık hikayelerini göremeyecek.",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "Yanıtlar ve tepkiler",
@@ -5475,19 +5574,19 @@
   },
   "StoriesSettings__delete-list": {
     "message": "Özel hikayeyi sil",
-    "description": "Button label to delete a private distribution list"
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "Gizli hikaye silinsin mi?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "\"$name$\" hikayesini silmek istediğinden emin misin? Bu hikayede paylaşılan güncellemeler de silinecek.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "Görüntüleyenleri Seçin",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "Bu hikayeye bir isim verin",
-    "description": "Modal title when naming a private distribution list"
+    "message": "Hikayeye ad ver",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
     "message": "Hikaye adı (gerekli)",
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "Aşağıdakiler dışında tüm Signal bağlantıları:",
+    "message": "…hariç herkes",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "Sadece aşağıdakilerle paylaş:",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "Yalnızca seçili kişilerle paylaş",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "Hikayeni kimlerin görüntüleyebileceğini seç. Yaptığın değişiklikler, daha önce gönderdiğin hikayeleri etkilemez.$learnMore$",
+    "message": "Hikayeni kimlerin görüntüleyebileceğini seç. Yaptığın değişiklikler, daha önce gönderdiğin hikayeleri etkilemez. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5536,6 +5635,14 @@
   "StoriesSettings__context-menu": {
     "message": "Hikaye ayarları",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "Görüntülenme bilgisi",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "Bu ayarı değiştirmek için mobil cihazındaki Signal uygulamasını aç ve Ayarlar -> Hikayeler kısmına git",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Hikayeni kimlerin görüntüleyebileceğini seç",
@@ -5549,17 +5656,45 @@
     "message": "Hikayeyi gönder",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "Özel hikaye",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "Grup hikayesi",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "Şu kişilerle paylaş",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} Kişi Hariç Tutuldu} other {{count,number} Kişi Hariç Tutuldu}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "Yeni hikaye",
+    "message": "Yeni",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
+  "SendStoryModal__new-custom--title": {
     "message": "Yeni özel hikaye",
     "description": "Create a new distribution list"
   },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "Bu hikayenin adını sadece sen görebilirsin.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "Sadece belirli kişiler görebilir",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "Yeni özel hikaye",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
+  },
   "SendStoryModal__new-private--description": {
     "message": "Sadece özel kişiler görebilir",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "Yeni grup hikayesi",
@@ -5574,8 +5709,8 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "Hikayelerimin gizliliği",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "Hikaye gizliliğim",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "Hikayeni hangi Signal bağlantılarının görüntüleyebileceğini seç. Seçimini her zaman gizlilik ayarlarından değiştirebilirsin. $learnMore$",
@@ -5586,15 +5721,19 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "Hikaye kaldırılsın mı? Bu işlem, hikayeyi listenden kaldırsa da bu gruptaki hikayeleri görüntüleyebileceksin.",
+    "message": "Hikaye kaldırılsın mı? Bu işlem hikayeyi listenden kaldırsa da bu gruptaki hikayeleri görüntüleyebilirsin.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "Bu gruba yalnızca yöneticiler hikaye gönderebilir.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "Hikayeleri Paylaş ve Görüntüle",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Bu seçenek kapatıldığında artık Hikayeleri paylaşamayacak veya görüntüleyemeyeceksiniz.",
+    "message": "Bu seçenek kapatıldığında artık Hikayeleri paylaşamayacak veya görüntüleyemeyeceksin.",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "Görüntüleme kapalı",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$gönderildi",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "Hikayelerini kimlerin görüntülediğini görmek için okundu bilgilerini etkinleştir. Mobil cihazında Signal uygulamasını aç ve Ayarlar'dan Gizlilik'e git.",
+    "message": "Hikayelerini kimlerin görüntülediğini görmek için okundu bilgisini etkinleştir. Mobil cihazında Signal uygulamasını aç ve Ayarlar > Hikayeler'e git.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "Hikayeye tepki verildi",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "Artık bu grubun bir üyesi olmadığın için bu hikayeye yanıt veremezsin.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "Hikaye",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "Hikaye gizlensin mi? $name$'den yeni hikaye güncellemeleri artık hikaye listesinin başında görünmeyecek.",
+    "message": "Hikaye gizlensin mi? $name$ adlı kişinin yeni hikaye güncellemeleri artık hikaye listesinin başında görünmeyecek.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5702,7 +5845,7 @@
     "description": "Action button for the confirmation dialog to hide a story"
   },
   "StoryImage__error2": {
-    "message": "Hikaye indirilemiyor. $name$ hikayeyi tekrar paylaşmalı.",
+    "message": "Hikaye indirilemiyor. $name$ adlı kişi hikayeyi tekrar paylaşmalı.",
     "description": "Description for image errors"
   },
   "StoryImage__error--you": {
@@ -5798,12 +5941,24 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "$name$'dan bir hikayeye tepki verildi",
+    "message": "$name$ adlı kişinin hikayesine tepki verildi",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
     "message": "Bir hikayeye tepki verildi",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "Hikayene $emoji$ tepkisi verildi",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "$name$ adlı kişinin hikayesine $emoji$ tepkisi verdin",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "Bir hikayeye $emoji$ tepkisi verdin",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "Artık mevcut değil.",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "İçerik menüsü",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "Kullanıcı adı",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "Kullanıcı adları, telefon numarana ihtiyaç duymadan diğer kullanıcıların sana mesaj göndermesini sağlar. Adresini gizli tutmaya yardımcı olmak için kullanıcı adın bir dizi rakamla eşleştirilir.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "Daha Fazlasını Öğren",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "Bu numara kimin?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "Bu rakamlar, istenmeyen mesajlar almaman için kullanıcı adının gizli kalmasına yardımcı olur. Kullanıcı adını yalnızca sohbet etmek istediğin kişi ve gruplarla paylaş. Kullanıcı adını değiştirirsen, yeni bir rakam seti alırsın.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "Neler Yeni",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "Muhabbeti artırmak için kişi bilgileri ekranından bir gruba kolayca arkadaş ekle.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Uygulamanın sorunsuz çalışmasını sağlamak için hataları düzelttik ve performans iyileştirmeleri yaptık.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Yeni hikayeler özelliğimizi kullanmaya ve test etmeye başla. Bu özelliği diğer beta test kullanıcıları ile kullanabilir ve bize yorumlarını bildirebilirsin.",
+    "description": "Release notes for v5.63"
   }
 }

@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "संदेश जोडा",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "संदेश",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "ठीक",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "गटात जोडा",
@@ -30,7 +49,7 @@
     "description": "Shown in toast after a user is added to an existing group"
   },
   "AddUserToAnotherGroupModal__toast--adding-user-to-group": {
-    "message": "$contact$ ला जोडत आहे...",
+    "message": "$contact$ ला जोडत आहे(...)",
     "description": "Shown in toast while a user is being added to a group"
   },
   "GroupListItem__message-default": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "लोड करत आहे...",
+    "message": "लोड करत आहे(...)",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "अॅपलिकेशन ऑप्टीमाईझ करत आहे...",
+    "message": "अ‍ॅप्लिकेशन सानुकूलित करत आहे(...)",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "संदेश ऑप्टीमाईझ करत आहे... $status$ पूर्ण.",
+    "message": "संदेश सानुकूलित करणे (...) $status$ पूर्ण झाले.",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "डेटाबेस श्रेणीसुधारित करत आहे. ह्याला काही वेळ लागू शकतो...",
+    "message": "डेटाबेस श्रेणीसुधारित करत आहे. ह्याला काही वेळ लागू शकतो(...)",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "संदेश लोड करत आहे. आतापर्यंत$count$...",
+    "message": "संदेश लोड करत आहे. आतापर्यंत $count$(...)",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -462,7 +481,7 @@
     "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogLogIsIncomplete": {
-    "message": "... संपूर्ण लॉग पाहण्यास, जतन करा क्लिक करा",
+    "message": "(...) संपूर्ण लॉग पाहण्यास, जतन करा वर क्लिक करा",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogCopy": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "पुनरावलोकन लोड करत आहे...",
+    "message": "पुनरावलोकन लोड करत आहे(...)",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "कनेक्ट करत आहे...",
+    "message": "कनेक्ट करत आहे(...)",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "SMS/MMS संपर्क डेस्कटॉपवर उपलब्ध नाहीत.",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "$conversationName$ मध्ये \"$searchTerm$\" करिता कुठलेही परिणाम नाहीत",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "{conversationName} मध्ये \"{searchTerm}\" करिता कुठलेही परिणाम नाहीत",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "$plusButton$ (अॅऩ्ड्राई़ड ) किंवा $linkNewDevice$ (iPhone) वर टॅप करा",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "QR कोड लोड केला जाऊ शकत नाही. आपले इंटरनेट तपासा आणि पुन्हा प्रयत्न करा. $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "अधिक जाणा",
+  "icu:Install__qr-failed": {
+    "messageformat": "QR कोड लोड केला जाऊ शकत नाही. आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "आयात करत आहे...",
+    "message": "इम्पोर्ट करत आहे(...)",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "बंद",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "हरवणारे संदेश",
+  "icu:disappearingMessages": {
+    "messageformat": "हरवणारे संदेश",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1890,7 +1905,7 @@
     "description": "Label for header when starting a new conversation"
   },
   "stories": {
-    "message": "स्टोरीज्",
+    "message": "स्टोरीज",
     "description": "Label for header to go to stories view"
   },
   "contactSearchPlaceholder": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "कुठलेही संपर्क सापडले नाहीत",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "कोणतेही ग्रुप आढळले नाहीत",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "कुठलेही संभाषण सापडले नाहीत",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "स्टिकर पॅक स्थापना करत आहे...",
+    "message": "स्टिकर पॅक स्थापित करत आहे(...)",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "मागे",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "आपले स्टिकर जोडा",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "आपले स्टिकर जोडा",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "मार्जिन दर्शवा",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "$count$किंवा जास्त जोडा",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "{count,number}किंवा जास्त जोडा",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "फक्त आणखीन अधिक तपशील...",
+    "message": "फक्त आणखी काही तपशील(...)",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "Signal साठी मी तयार केलेला हा नवीन स्टिकर पॅक पहा. #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "$count$चित्र(चित्रे) जोडले",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, one {1 प्रतिमा जोडली} other {{count,number} प्रतिमा जोडल्या}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$सदस्य",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 सदस्य",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, one {1 सदस्य} other {{count,number} सदस्य}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "$group$चा सदस्य",
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "पुन्हा कनेक्ट करत आहे...",
+    "message": "पुन्हा कनेक्ट करत आहे(...)",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "अद्यतन करत आहे...",
+    "message": "अद्यतन करत आहे(...)",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4546,7 +4569,7 @@
     "description": "Aria label for audio attachment's Download button"
   },
   "MessageAudio--pending": {
-    "message": "ऑडिओ संलग्न डाउनलोड करत आहे...",
+    "message": "ऑडिओ संलग्नक डाउनलोड करत आहे(...)",
     "description": "Aria label for pending audio attachment spinner"
   },
   "MessageAudio--slider": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "वरील $composeIcon$ वर क्लिक करा आणि संदेश पाठवण्यासाठी आपले संपर्क किंवा गट शोधा.",
+  "icu:emptyInboxMessage": {
+    "messageformat": "वरील {composeIcon} वर क्लिक करा आणि संदेश पाठवण्यासाठी आपले संपर्क किंवा गट शोधा.",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "कस्टम वेळ...",
+    "message": "सानुकूल वेळ(...)",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "गट विवरण जोडा...",
+    "message": "ग्रुप वर्णन जोडा(...)",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "वापरकर्तानाव",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "वापरकर्तानाव प्रविष्ट करा",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "Signal वर वापरकर्तानाव पर्यायी आहेत. जर आपण वापरकर्तानाव तयार करायचे ठरवले तर इतर Signal वापरकर्ते आपल्याला आपल्या वापरकर्तानावाद्वारे शोधू शकतील आणि आपला फोन नंबर न जाणता देखील आपल्याला संपर्क साधू शकतील.",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "आपले वापरकर्तानाव निवडा",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "वापरकर्ता नावांत फक्त a-z, 0-9 आणि _ समाविष्ट असू शकतात",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "वापरकर्तानावे अंकांसोबत सोबत चालू होऊ शकत नाहीत.",
@@ -4945,6 +4964,10 @@
     "message": "वापरकर्ता नावात कमाल $max$ वर्णच असलेच पाहिजेत.",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "हे वापरकर्तानाव उपलब्ध नाही",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "हे वापरकर्तानाव घेतलेले आहे.",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "तुमचे वापरकर्ता नाव हटवता आले नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "वापरकर्तानाव कॉपी केले",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "कॉपी केलेली लिंक",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "वापरकर्तानाव हटवत आहे",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "वापरकर्ता नाव हटवा",
@@ -4969,8 +5004,24 @@
     "message": "हटवा",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "वापरकर्तानाव कॉपी करा किंवा हटवा",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "वापरकर्तानाव कॉपी करा",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "लिंक कॉपी करा",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "काढून टाका",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "स्वतःबद्दल काहीतरी लिहा...",
+    "message": "स्वतःबद्दल काहीतरी लिहा(...)",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "आपल्याला हे बदल टाकून देण्यास आवडतील?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "आपली प्रोफाइल एन्क्रिप्टेड आहे. जेव्हा आपण नवीन चॅट प्रारंभ करता किंवा स्वीकार करता तेव्हा आपले प्रोफाइल आणि त्यामधील बदल आपल्या संपर्कांना दृश्यमान असतील. $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "आपली प्रोफाइल एन्क्रिप्टेड आहे. जेव्हा आपण नवीन चॅट प्रारंभ करता किंवा स्वीकार करता तेव्हा आपले प्रोफाइल आणि त्यामधील बदल आपल्या संपर्कांना दृश्यमान असतील. {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5181,6 +5232,22 @@
     "message": "डिव्हाइसेस",
     "description": "Label for Device list in call settings pane"
   },
+  "Preferences__turn-stories-on": {
+    "message": "स्टोरीज सुरु करा",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "स्टोरीज बंद करा",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "बंद करा",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "आपण यापुढे स्टोरीज शेअर किंवा पाहू शकणार नाही. आपण अलिकडेच शेअर केलेली स्टोरीज अद्यतने देखील हटवली जातील.",
+    "description": "Confirmation modal body for disabling stories"
+  },
   "DialogUpdate--version-available": {
     "message": "$version$ वर अपडेट आवृती उपलब्ध आहे",
     "description": "Tooltip for new update available"
@@ -5317,8 +5384,12 @@
     "message": "कापा",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "संदेश जोडा",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
-    "message": "माझ्या स्टोरीज्",
+    "message": "माझी स्टोरी",
     "description": "Title for the my stories list"
   },
   "MyStories__story": {
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "$num$ दृश्य",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "$num$ दृश्ये",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, one {{views,number} दृश्य} other {{views,number} दृश्ये}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "दृश्ये बंद आहेत",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "$num$ प्रत्त्युत्तर",
@@ -5350,7 +5429,7 @@
     "description": "Number of replies your story has"
   },
   "MyStories__delete": {
-    "message": "ही स्टोरी हटवायची? ते ज्यांना प्राप्त होऊ शकते त्या प्रत्येकासाठी देखील हटवले जाईल.",
+    "message": "ही स्टोरी हटवायची? ती ज्यांना प्राप्त होऊ शकते त्या प्रत्येकासाठी देखील हटवली जाईल.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "SignalConnectionsModal__title": {
@@ -5374,15 +5453,15 @@
     "description": "A way that signal connection is formed"
   },
   "SignalConnectionsModal__footer": {
-    "message": "आपले कनेक्शन्स आपले नाव आणि फोटो पाहू शकतात, आपण त्यांच्यापासून लपवलेले नसल्यास ते \"माय स्टोरी\" वर पोस्ट पाहू शकतात",
+    "message": "आपले कनेक्शन्स आपले नाव आणि फोटो पाहू शकतात, आपण त्यांच्यापासून लपवत नाही तोपर्यंत ते \"माझ्या स्टोरी\" वर पोस्ट्स पाहू शकतात",
     "description": "Additional information about signal connections and the stories they can see"
   },
   "Stories__title": {
-    "message": "स्टोरीज्",
+    "message": "स्टोरीज",
     "description": "Title for the stories list"
   },
   "Stories__mine": {
-    "message": "माझ्या स्टोरीज्",
+    "message": "माझी स्टोरी",
     "description": "Label for your stories"
   },
   "Stories__add": {
@@ -5402,11 +5481,19 @@
     "description": "Button label to go to hidden stories pane"
   },
   "Stories__list-empty": {
-    "message": "आपणाला आत्ता दाखवण्यास अलिकडील स्टोरीज नाहीत",
+    "message": "आता दाखवण्यासाठी अलिकडील स्टोरीज नाहीत",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "पाठवत आहे(...)",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "पाठविणे अयशस्वी",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
-    "message": "एक स्टोरी पाहण्यास क्लिक करा",
+    "message": "स्टोरी पाहण्यास क्लिक करा",
     "description": "Placeholder label for the story view"
   },
   "Stories__from-to-group": {
@@ -5414,11 +5501,11 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "प्रत्युत्तर पाठवत आहे...",
+    "message": "प्रत्युत्तर पाठवत आहे(...)",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
-    "message": "प्रतिक्रिया पाठवत आहे...",
+    "message": "प्रतिक्रिया पाठवत आहे(...)",
     "description": "Toast message"
   },
   "Stories__toast--hasNoSound": {
@@ -5429,20 +5516,32 @@
     "message": "स्टोरी सेटिंग्ज",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "स्टोरीज 24 तासानंतर आपोआप अदृश्य होतील. आपली स्टोरी कोण पाहू शकते ते निवडा किंवा विशिष्ट दर्शक किंवा ग्रुप्ससह नवीन स्टोरीज तयार करा.",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "नविन खाजगी स्टोरी",
-    "description": "Label to create a new private story list"
+    "message": "नवीन सानुकूल स्टोरी",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "फक्त आपण या स्टोरी चे नाव पाहू शकता.",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ दर्शक",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "$num$ दर्शक",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, one {1 दर्शक} other {{count,number} दर्शक}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ही स्टोरी कोण पाहू शकेल",
+    "message": "ही स्टोरी कोण पाहू शकतात",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,7 +5550,7 @@
   },
   "StoriesSettings__remove--action": {
     "message": "काढा",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "$title$हटवा",
@@ -5459,7 +5558,7 @@
   },
   "StoriesSettings__remove--body": {
     "message": "ही व्यक्ती यापुढे आपली स्टोरी पाहू शकणार नाही.",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "प्रत्त्युत्तरे आणि प्रतिक्रिया",
@@ -5470,31 +5569,31 @@
     "description": "Checkbox label to allow or disallow replies to your stories"
   },
   "StoriesSettings__replies-reactions--description": {
-    "message": "आपली स्टोरी पाहू शकतील अशा लोकांना प्रतिक्रिया आणि प्रत्युत्तर देऊ द्या.",
+    "message": "आपली स्टोरी पाहू शकतील अशा लोकांना प्रतिक्रिया आणि उत्तर देऊ द्या.",
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "खाजगी स्टोरी हटवा",
-    "description": "Button label to delete a private distribution list"
+    "message": "सानुकूल स्टोरी हटवा",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "खाजगी स्टोरी हटवायची?",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "आपण खात्रीने \"$name$\"हटवू इच्छिता? या स्टोरी ला शेअर केलेली अद्यतने देखील हटवली जातील.",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "दर्शक निवडा",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "या स्टोरीला नाव द्या",
-    "description": "Modal title when naming a private distribution list"
+    "message": "स्टोरीला नाव द्या",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "स्टोरी नाव (आवश्यक)",
+    "message": "स्टोरीचे नाव (आवश्यक)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
-    "message": "यांच्यापासून स्टोरी  लपवा",
+    "message": "पासून स्टोरी लपवा",
     "description": "Modal title when hiding people from my stories"
   },
   "StoriesSettings__mine__all--label": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "शिवाय इतर सर्व Signal कनेक्शन्स...",
+    "message": "वगळून सर्व जण(...)",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5514,8 +5613,8 @@
     "description": "Description of how many people are excluded in a list"
   },
   "StoriesSettings__mine__only--label": {
-    "message": "फक्त यांच्यासह शेअर करा...",
-    "description": "Input label to create an exclusive allow list"
+    "message": "फक्त यांच्यासह शेअर करा(...)",
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "निवडक लोकांसोबत शेअर करा",
@@ -5526,7 +5625,7 @@
     "description": "Description of how many people are in the exclusive allow list"
   },
   "StoriesSettings__mine__disclaimer": {
-    "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा. आपण आधीच पाठवलेल्या स्टोरीजवर बदलांचा परिणाम होणार नाही.$learnMore$",
+    "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा. आपण आधीच पाठवलेल्या स्टोरीजवर बदलांचा परिणाम होणार नाही. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "StoriesSettings__mine__disclaimer--learn-more": {
@@ -5536,6 +5635,14 @@
   "StoriesSettings__context-menu": {
     "message": "स्टोरी सेटिंग्ज",
     "description": "Button label to get to story settings"
+  },
+  "StoriesSettings__view-receipts--label": {
+    "message": "पावत्या पहा",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "हे सेटिंग बदलण्यासाठी, आपल्या मोबाईल डिव्हाइसवरील Signal ॲप उघडा आणि सेटिंग्ज> स्टोरीज कडे नेव्हिगेट करा",
+    "description": "Description of how view receipts can be changed in story settings"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा",
@@ -5549,17 +5656,45 @@
     "message": "स्टोरी पाठवा",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "सानुकूल स्टोरी",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "ग्रुप स्टोरी",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "फक्त सह शेअर करा",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, one {{count,number} वगळले} other {{count,number} वगळले}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "नवीन स्टोरी",
+    "message": "नवीन",
     "description": "button to create a new distribution list to send story to"
   },
-  "SendStoryModal__new-private--title": {
-    "message": "नविन खाजगी स्टोरी",
+  "SendStoryModal__new-custom--title": {
+    "message": "नवीन सानुकूल स्टोरी",
     "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "फक्त आपण या स्टोरी चे नाव पाहू शकता.",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "केवळ विशिष्ट लोकांसाठी दृश्यमान",
+    "description": "Description of what a distribution list would do"
+  },
+  "SendStoryModal__new-private--title": {
+    "message": "नवीन खाजगी स्टोरी",
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "केवळ विशिष्ट लोकांसाठी दृश्यमान",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "नवीन ग्रुप स्टोरी",
@@ -5574,11 +5709,11 @@
     "description": "Modal title when choosing groups"
   },
   "SendStoryModal__my-stories-privacy": {
-    "message": "माझ्या स्टोरीज ची गोपनीयता",
-    "description": "Modal title for setting privacy for My Stories"
+    "message": "माझ्या स्टोरीची गोपनीयता",
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
-    "message": "कोणती Signal कनेक्शन्स आपली स्टोरी पाहू शकतील ते निवडा. आपण नेहमी हे गोपनीयता सेटिंग्ज मध्ये बदलू शकता. $learnMore$",
+    "message": "कोणती Signal कनेक्शन्स आपली स्टोरी पाहू शकतील ते निवडा. आपण गोपनीयता सेटिंग्ज मध्ये हे नेहमी बदलू शकता. $learnMore$",
     "description": "Disclaimer on how changes to story settings work"
   },
   "SendStoryModal__delete-story": {
@@ -5586,8 +5721,12 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "स्टोरी हटवायची? हे आपल्या सूचीमधून स्टोरीला हटवेल, परंतु आपण अद्याप या ग्रुपमधून स्टोरीज पाहू शकाल.",
+    "message": "स्टोरी हटवायची? हे आपल्या सूचीमधून स्टोरी हटवेल, परंतु आपण अद्याप या ग्रुपमधून स्टोरीज पाहू शकाल.",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "फक्त अ‍ॅडमिन या ग्रुपला स्टोरीज पाठवू शकतात.",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "स्टोरीज शेअर करा व पहा",
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "दृश्ये बंद आहेत",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ पाठवल्या",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "आपल्या स्टोरीज कोणी पाहिल्या हे पाहण्यासाठी वाचल्याची पोच सक्षम करा. आपल्या मोबाइल डिव्हाइसवर  Signal ॲप उघडा आणि सेटिंग्ज > गोपनीयता मध्ये नॅव्हिगेट करा.",
+    "message": "आपल्या स्टोरीज कोणी पाहिल्या ते पाहण्यासाठी वाचल्याची पोच सक्षम करा. आपल्या मोबाइल डिव्हाइसमध्ये Signal अ‍ॅप उघडा आणि सेटिंग्ज > स्टोरीज कडे नेव्हिगेट करा.",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5669,6 +5808,10 @@
     "message": "स्टोरीला प्रतिक्रिया दिली",
     "description": "Description of someone reacting to a story"
   },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "आपण या स्टोरी ला उत्तर देऊ शकणार नाही कारण आपण यापुढे या ग्रुपचे सदस्य नाही.",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
   "StoryListItem__label": {
     "message": "स्टोरी",
     "description": "aria-label for the story list button"
@@ -5694,7 +5837,7 @@
     "description": "Label for menu item to get a story's information"
   },
   "StoryListItem__hide-modal--body": {
-    "message": "स्टोरी लपवा?  $name$ कडील नवीन स्टोरी अद्यतन स्टोरीजच्या यादीमध्ये शीर्ष स्थानी दृश्यमान होणार नाही.",
+    "message": "स्टोरी लपवायची? $name$ कडून नवीन स्टोरी अद्यतने स्टोरीजच्या यादीमध्ये शीर्ष स्थानी दृश्यमान होणार नाही.",
     "description": "Body for the confirmation dialog for hiding a story"
   },
   "StoryListItem__hide-modal--confirm": {
@@ -5734,7 +5877,7 @@
     "description": "Button label"
   },
   "StoryCreator__story-bg": {
-    "message": "स्टोरीच्या मागील रंग बदला",
+    "message": "स्टोरीच्या पार्श्वभागातील रंग बदला",
     "description": "Button label"
   },
   "StoryCreator__next": {
@@ -5782,7 +5925,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "आपल्या स्टोरीच्या दर्शकांसाठी एक दुवा जोडा",
+    "message": "आपल्या स्टोरीच्या दर्शकांसाठी एक लिंक जोडा",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5805,6 +5948,18 @@
     "message": "स्टोरीला प्रतिक्रिया दिली",
     "description": "Used whenever we can't find a user's first name"
   },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "आपल्या स्टोरी वर $emoji$ प्रतिक्रिया दिली",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "आपण $name$ कडील स्टोरी वर $emoji$ प्रतिक्रिया दिली",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "आपण स्टोरी $emoji$ वर प्रतिक्रिया दिलीत",
+    "description": "Notification test for outgoing story reactions but no name"
+  },
   "Quote__story-unavailable": {
     "message": "आता उपलब्ध नाही",
     "description": "Label for when a story is not found"
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "संदर्भ मेनू",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "वापरकर्तानाव",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "वापरकर्तानाव आपला फोन नंबर असण्याच्या गरजेशिवाय आपणाला संदेश करु देते. ते आपला पत्ता खाजगी ठेवण्यास मदत करण्यास अंकाच्या सेटसह जुळवलेले आहेत.",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "अधिक जाणा",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "हा नंबर काय आहे?",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "हे अंक आपले वापरकर्तानाव गोपनीय ठेवण्यास मदत करतील ज्यामुळे आपण नको असलेले संदेश टाळू शकाल. आपणाला ज्याच्या सोबत चॅट करणे आवडते फक्त अशा लोकांसह आणि ग्रुप्ससह आपले वापरकर्तानाव शेअर करा. आपण वापरकर्तानाव बदलल्यास आपणाला अंकांचा नवीन संच मिळेल.",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "नवीन काय आहे",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "संभाषणाला रोमांचक बनवण्यासाठी मित्रांना त्यांच्या संपर्क तपशीलामधून सहजपणे गटामध्ये जोडा.",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "आपल्यासाठी अ‍ॅप सुरळीतपणे सुरु ठेवण्यासाठी दोष निवारणाचे काम करणे आणि इतर कामगिरींमध्ये सुधारणा करणे यावर कठोर परिश्रम घेत आहे.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "आमचे नवीन स्टोरीज वैशिष्ट्य वापरून पाहण्यास आणि चाचणी करण्यास सुरूवात करा. आपण हे वैशिष्ट्य इतर बिटा परिक्षकांसह वापरू शकता आणि ते कसे काम करत आहे ते आम्हाला कळवा.",
+    "description": "Release notes for v5.63"
   }
 }

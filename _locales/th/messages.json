@@ -1,13 +1,32 @@
 {
   "smartling": {
     "placeholder_format_custom": "(\\$.+?\\$)",
+    "string_format_paths": "icu: [*/messageformat]",
     "translate_paths": [
+      {
+        "path": "*/messageformat",
+        "key": "{*}/messageformat",
+        "instruction": "*/description"
+      },
+
       {
         "key": "{*}/message",
         "path": "*/message",
         "instruction": "*/description"
       }
     ]
+  },
+  "AddCaptionModal__title": {
+    "message": "เพิ่มข้อความ",
+    "description": "Shown as the title of the dialog that allows you to add a caption to a story"
+  },
+  "AddCaptionModal__placeholder": {
+    "message": "ข้อความ",
+    "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
+  },
+  "AddCaptionModal__submit-button": {
+    "message": "เสร็จสิ้น",
+    "description": "Label on the button that submits changes to a story's caption in the add-caption dialog"
   },
   "AddUserToAnotherGroupModal__title": {
     "message": "เพิ่มเข้ากลุ่ม",
@@ -102,7 +121,7 @@
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
-    "message": "การกำหนด...",
+    "message": "ค่ากำหนด…",
     "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuServices": {
@@ -238,15 +257,15 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "loading": {
-    "message": "กำลังโหลด...",
+    "message": "กำลังโหลด…",
     "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
-    "message": "กำลังปรับแต่งโปรแกรม...",
+    "message": "กำลังเพิ่มประสิทธิภาพแอปพลิเคชัน…",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
-    "message": "จัดระเบียบข้อความ... สำเร็จ  $status$",
+    "message": "กำลังเพิ่มประสิทธิภาพข้อความ… $status$ สำเร็จ",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "archivedConversations": {
@@ -350,11 +369,11 @@
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
-    "message": "กำลังปรับรุ่นฐานข้อมูล นี่อาจใช้เวลาพักหนึ่ง...",
+    "message": "กำลังอัปเดตฐานข้อมูล อาจใช้เวลาสักครู่…",
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
-    "message": "ถึงตอนนี้กำลังโหลดข้อความไปแล้ว $count$ ข้อความ...",
+    "message": "กำลังโหลดข้อความ สำเร็จแล้ว $count$ รายการ…",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages"
   },
   "view": {
@@ -576,7 +595,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
-    "message": "กำลังเรียกภาพตัวอย่าง...",
+    "message": "กำลังโหลดตัวอย่าง…",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
@@ -622,7 +641,7 @@
     "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
-    "message": "กำลังเชื่อมต่อ...",
+    "message": "กำลังเชื่อมต่อ…",
     "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "connect": {
@@ -733,8 +752,8 @@
     "message": "ไม่มีผู้ติดต่อ SMS/MMS บนเดสก์ท็อป",
     "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
-  "noSearchResultsInConversation": {
-    "message": "ไม่มีผลลัพ์สำหรับ \"$searchTerm$\" ใน  $conversationName$",
+  "icu:noSearchResultsInConversation": {
+    "messageformat": "ไม่มีผลลัพ์สำหรับ \"{searchTerm}\" ใน  {conversationName}",
     "description": "Shown in the search left pane when no results were found"
   },
   "conversationsHeader": {
@@ -1212,12 +1231,8 @@
     "message": "แตะ $plusButton$ (Android) หรือ $linkNewDevice$ (iPhone)",
     "description": "Instructions on the device link screen"
   },
-  "Install__qr-failed": {
-    "message": "ไม่สามารถโหลดรหัส QR ได้ ตรวจสอบอินเทอร์เน็ตของคุณแล้วลองอีกครั้ง $learnMore$",
-    "description": "Shown on the install screen if the QR code fails to load"
-  },
-  "Install__qr-failed__learn-more": {
-    "message": "เรียนรู้เพิ่มเติม",
+  "icu:Install__qr-failed": {
+    "messageformat": "ไม่สามารถโหลด QR Code ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -1702,7 +1717,7 @@
     "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
-    "message": "กำลังนำเข้า...",
+    "message": "กำลังนำเข้า…",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
@@ -1777,8 +1792,8 @@
     "message": "ปิด",
     "description": "Label for option to turn off message expiration in the timer menu"
   },
-  "disappearingMessages": {
-    "message": "ข้อความที่ลบตัวเอง",
+  "icu:disappearingMessages": {
+    "messageformat": "ข้อความที่ลบตัวเอง",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "disappearingMessagesDisabled": {
@@ -1882,7 +1897,7 @@
     "description": "Label text for menu bar visibility setting"
   },
   "startConversation": {
-    "message": "เริ่มการสนทนาใหม่...",
+    "message": "เริ่มการสนทนาใหม่…",
     "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newConversation": {
@@ -1900,6 +1915,10 @@
   "noContactsFound": {
     "message": "ไม่พบรายชื่อผู้ติดต่อ",
     "description": "Label shown when there are no contacts to compose to"
+  },
+  "noGroupsFound": {
+    "message": "ไม่พบกลุ่ม",
+    "description": "Label shown when there are no groups to compose to"
   },
   "noConversationsFound": {
     "message": "ไม่พบบทสนทนา",
@@ -2314,7 +2333,7 @@
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
   },
   "stickers--StickerPicker--DownloadPending": {
-    "message": "กำลังติดตั้งชุดสติกเกอร์...",
+    "message": "กำลังติดตั้งชุดสติกเกอร์…",
     "description": "Shown in the sticker picker when one or more stickers are still downloading."
   },
   "stickers--StickerPicker--Empty": {
@@ -2741,8 +2760,8 @@
     "message": "กลับ",
     "description": "Default text for the previous button on all stages of the sticker creator"
   },
-  "StickerCreator--DropStage--title": {
-    "message": "เพิ่มสติกเกอร์ของคุณ",
+  "icu:StickerCreator--DropStage--title": {
+    "messageformat": "เพิ่มสติกเกอร์ของคุณ",
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--removeSticker": {
@@ -2761,8 +2780,8 @@
     "message": "แสดงระยะเว้นขอบ",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
-  "StickerCreator--DropStage--addMore": {
-    "message": "เพิ่ม  $count$ หรือมากกว่า",
+  "icu:StickerCreator--DropStage--addMore": {
+    "messageformat": "เพิ่ม  {count,number} หรือมากกว่า",
     "description": "Text to show user how many more stickers they must add"
   },
   "StickerCreator--EmojiStage--title": {
@@ -2774,7 +2793,7 @@
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--MetaStage--title": {
-    "message": "รายละเอียดอีกสักเล็กน้อย...",
+    "message": "รายละเอียดอีกสักเล็กน้อย…",
     "description": "Title for the meta stage of the sticker creator"
   },
   "StickerCreator--MetaStage--Field--title": {
@@ -2841,8 +2860,8 @@
     "message": "ลองดูชุดสติกเกอร์ใหม่ที่ฉันสร้างให้ Signal #makeprivacystick",
     "description": "Text which is shared to social media platforms for sticker packs"
   },
-  "StickerCreator--Toasts--imagesAdded": {
-    "message": "เพิ่มภาพแล้ว $count$ ภาพ",
+  "icu:StickerCreator--Toasts--imagesAdded": {
+    "messageformat": "{count, plural, other {เพิ่มแล้ว {count,number} ภาพ}}",
     "description": "Text for the toast when images are added to the sticker creator"
   },
   "StickerCreator--Toasts--animated": {
@@ -3019,11 +3038,15 @@
   },
   "ConversationHero--members": {
     "message": "$count$ สมาชิก",
-    "description": "Specifies the number of members in a group conversation"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation"
   },
   "ConversationHero--members-1": {
     "message": "1 สมาชิก",
-    "description": "Specifies the number of members in a group conversation when there is one member"
+    "description": "(deleted 2022/11/21) Specifies the number of members in a group conversation when there is one member"
+  },
+  "icu:ConversationHero--members": {
+    "messageformat": "{count, plural, other {สมาชิก {count,number} คน}}",
+    "description": "Specifies the number of members in a group conversation"
   },
   "member-of-1-group": {
     "message": "สมาชิกของ $group$",
@@ -3118,11 +3141,11 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "สายเรียกเข้า...",
+    "message": "สายเรียกเข้า…",
     "description": "Shown in both the incoming call bar and notification for an incoming audio call"
   },
   "incomingVideoCall": {
-    "message": "สายวิดีโอเรียกเข้า...",
+    "message": "วิดีโอคอลเรียกเข้า…",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "incomingGroupCall__ringing-you": {
@@ -3166,7 +3189,7 @@
     "description": "Shown when a call is rejected because the other party hasn't approved the message/call request"
   },
   "callReconnecting": {
-    "message": "กำลังเชื่อมต่อใหม่...",
+    "message": "กำลังเชื่อมต่อใหม่…",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "callDuration": {
@@ -3442,7 +3465,7 @@
     "description": "Label for describing the general non-privileged members of a group"
   },
   "updating": {
-    "message": "กำลังปรับปรุง...",
+    "message": "กำลังอัปเดต…",
     "description": "Shown along with a spinner when an update operation takes longer than one second"
   },
   "GroupV2--create--you": {
@@ -4569,8 +4592,8 @@
     "message": ".5",
     "description": "Button in the voice note message widget that shows the current playback rate of .5x (half speed) and allows the user to toggle to the next rate. Don't include the 'x'."
   },
-  "emptyInboxMessage": {
-    "message": "คลิก $composeIcon$ ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
+  "icu:emptyInboxMessage": {
+    "messageformat": "คลิก {composeIcon} ด้านบน และค้นหาผู้ติดต่อหรือกลุ่มของคุณเพื่อส่งข้อความ",
     "description": "Shown in the left-pane when the inbox is empty"
   },
   "composeIcon": {
@@ -4786,7 +4809,7 @@
     "description": "Modal title for the custom color editor"
   },
   "customDisappearingTimeOption": {
-    "message": "กำหนดเวลา...",
+    "message": "กำหนดเวลา…",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "selectedCustomDisappearingTimeOption": {
@@ -4858,7 +4881,7 @@
     "description": "Label text shown when editing group description"
   },
   "ConversationDetailsHeader--add-group-description": {
-    "message": "เพิ่มคำอธิบายกลุ่ม...",
+    "message": "เพิ่มคำอธิบายกลุ่ม…",
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
@@ -4921,17 +4944,13 @@
     "message": "ชื่อผู้ใช้",
     "description": "Default text for username field"
   },
-  "ProfileEditor--username--placeholder": {
-    "message": "ใส่ชื่อผู้ใช้",
-    "description": "Placeholder for the username field"
-  },
-  "ProfileEditor--username--helper": {
-    "message": "ชื่อผู้ใช้ใน Signal นั้นจะมีหรือไม่ก็ได้ ถ้าคุณเลือกสร้างชื่อผู้ใช้ ผู้ใช้ Signal คนอื่นจะสามารถหาและติดต่อคุณได้จากชื่อผู้ใช้นี้โดยไม่จำเป็นต้องรู้หมายเลขโทรศัพท์ของคุณ",
-    "description": "Shown on the edit username screen"
+  "ProfileEditor--username--title": {
+    "message": "เลือกชื่อผู้ใช้ของคุณ",
+    "description": "Title text for username modal"
   },
   "ProfileEditor--username--check-characters": {
     "message": "ชื่อผู้ใช้จะมีได้เฉพาะ a-z, 0-9 และ _",
-    "description": "Shown if user has attempted to use forbidden characters"
+    "description": "Shown if user has attempted to use forbidden characters in username"
   },
   "ProfileEditor--username--check-starting-character": {
     "message": "ชื่อผู้ใช้จะขึ้นต้นด้วยตัวเลขไม่ได้",
@@ -4945,6 +4964,10 @@
     "message": "ชื่อผู้ใช้มีได้มากที่สุด $max$ อักขระ",
     "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
   },
+  "ProfileEditor--username--unavailable": {
+    "message": "ไม่สามารถใช้ชื่อผู้ใช้นี้ได้",
+    "description": "Shown if the username is not available for registration"
+  },
   "ProfileEditor--username--check-username-taken": {
     "message": "มีผู้ใช้ชื่อนี้แล้ว",
     "description": "Shown if user has attempted to save a username which is not available"
@@ -4956,6 +4979,18 @@
   "ProfileEditor--username--delete-general-error": {
     "message": "ไม่สามารถลบชื่อผู้ใช้ของคุณได้ ตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง",
     "description": "Shown if something unknown has gone wrong with username delete."
+  },
+  "ProfileEditor--username--copied-username": {
+    "message": "คัดลอกชื่อผู้ใช้แล้ว",
+    "description": "Shown when username is copied to clipboard."
+  },
+  "ProfileEditor--username--copied-username-link": {
+    "message": "คัดลอกลิงก์แล้ว",
+    "description": "Shown when username link is copied to clipboard."
+  },
+  "ProfileEditor--username--deleting-username": {
+    "message": "กำลังลบชื่อผู้ใช้",
+    "description": "Shown as aria label for spinner icon next to username"
   },
   "ProfileEditor--username--delete-username": {
     "message": "ลบชื่อผู้ใช้",
@@ -4969,8 +5004,24 @@
     "message": "ลบ",
     "description": "Shown in dialog button if user has saved an empty string to delete their username"
   },
+  "ProfileEditor--username--context-menu": {
+    "message": "คัดลอกหรือลบชื่อผู้ใช้",
+    "description": "Shown as aria label for context menu next to username"
+  },
+  "ProfileEditor--username--copy": {
+    "message": "คัดลอกชื่อผู้ใช้",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put username into the clipboard."
+  },
+  "ProfileEditor--username--copy-link": {
+    "message": "คัดลอกลิงก์",
+    "description": "Shown as a button in context menu next to username. The action of the button is to put a username link into the clipboard."
+  },
+  "ProfileEditor--username--delete": {
+    "message": "ลบ",
+    "description": "Shown as a button in context menu next to username. The action of the button is to open a confirmation dialog for deleting username."
+  },
   "ProfileEditor--about-placeholder": {
-    "message": "เขียนอะไรบางอย่างเกี่ยวกับตัวคุณ...",
+    "message": "เขียนอะไรบางอย่างเกี่ยวกับตัวคุณ…",
     "description": "Placeholder text for about input field"
   },
   "ProfileEditor--first-name": {
@@ -4985,8 +5036,8 @@
     "message": "คุณต้องการจะยกเลิกการเปลี่ยนแปลงเหล่านี้หรือไม่?",
     "description": "ConfirmationDialog text for discarding changes"
   },
-  "ProfileEditor--info": {
-    "message": "โปรไฟล์ของคุณถูกเข้ารหัสลับ ผู้ติดต่อของคุณจะมองเห็นโปรไฟล์และความเปลี่ยนแปลงที่เกิดขึ้นกับโปรไฟล์ของคุณเมื่อคุณเริ่มต้นหรือตอบรับการแชตใหม่ $learnMore$",
+  "icu:ProfileEditor--info": {
+    "messageformat": "โปรไฟล์ของคุณถูกเข้ารหัสลับ ผู้ติดต่อของคุณจะมองเห็นโปรไฟล์และความเปลี่ยนแปลงที่เกิดขึ้นกับโปรไฟล์ของคุณเมื่อคุณเริ่มต้นหรือตอบรับการแชตใหม่ {learnMore}",
     "description": "Information shown at the bottom of the profile editor section"
   },
   "ProfileEditor--learnMore": {
@@ -5126,7 +5177,7 @@
     "description": "Number of contacts blocked plural"
   },
   "Preferences__who-can--title": {
-    "message": "ใครสามารถ...",
+    "message": "ใครสามารถ…",
     "description": "Title for the 'who can do X' setting"
   },
   "Preferences__privacy--description": {
@@ -5180,6 +5231,22 @@
   "Preferences__devices": {
     "message": "อุปกรณ์",
     "description": "Label for Device list in call settings pane"
+  },
+  "Preferences__turn-stories-on": {
+    "message": "เปิดใช้งานสตอรี่",
+    "description": "Label to enable stories"
+  },
+  "Preferences__turn-stories-off": {
+    "message": "ปิดใช้งานสตอรี่",
+    "description": "Label to disable stories"
+  },
+  "Preferences__turn-stories-off--action": {
+    "message": "ปิด",
+    "description": "Label in confirmation modal to disable stories"
+  },
+  "Preferences__turn-stories-off--body": {
+    "message": "คุณจะไม่สามารถแชร์หรือดูสตอรี่ได้อีกต่อไป การอัปเดตสตอรี่ที่คุณเพิ่งแชร์จะถูกลบด้วยเช่นกัน",
+    "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
     "message": "ปรับรุ่นเป็น $version$",
@@ -5317,6 +5384,10 @@
     "message": "ครอบตัด",
     "description": "Performs the crop"
   },
+  "MediaEditor__caption-button": {
+    "message": "เพิ่มข้อความ",
+    "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
+  },
   "MyStories__title": {
     "message": "สตอรี่ของฉัน",
     "description": "Title for the my stories list"
@@ -5335,11 +5406,19 @@
   },
   "MyStories__views--singular": {
     "message": "มีผู้เข้าชม $num$ ครั้ง",
-    "description": "Number of views your story has"
+    "description": "(deleted 2022/10/13) Number of views your story has"
   },
   "MyStories__views--plural": {
     "message": "มีผู้เข้าชมรวม $num$ ครั้ง",
+    "description": "(deleted 2022/10/13) Number of views your story has"
+  },
+  "icu:MyStories__views": {
+    "messageformat": "{views, plural, other {ผู้ชม {views,number}}}",
     "description": "Number of views your story has"
+  },
+  "icu:MyStories__views-off": {
+    "messageformat": "ปิดการแจ้งว่าอ่านแล้ว",
+    "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
     "message": "มีผู้ตอบกลับ $num$ ครั้ง",
@@ -5405,6 +5484,14 @@
     "message": "ไม่มีสตอรี่ใหม่ๆ ให้แสดงในตอนนี้",
     "description": "Description for when there are no stories to show"
   },
+  "Stories__list--sending": {
+    "message": "กำลังส่ง…",
+    "description": "Pending text for story being sent in list view"
+  },
+  "Stories__list--send_failed": {
+    "message": "การส่งล้มเหลว",
+    "description": "Error text for story failed to send in list view"
+  },
   "Stories__placeholder--text": {
     "message": "คลิกเพื่อดูสตอรี่",
     "description": "Placeholder label for the story view"
@@ -5429,20 +5516,32 @@
     "message": "การตั้งค่าสตอรี่",
     "description": "Title for the story settings modal"
   },
+  "icu:StoriesSettings__description": {
+    "messageformat": "สตอรี่จะหายไปโดยอัตโนมัติหลังจากครบ 24 ชั่วโมง เลือกได้ว่าจะให้ใครเห็นสตอรี่ของคุณ หรือสร้างสตอรี่ใหม่พร้อมกำหนดผู้ชมหรือกลุ่มเฉพาะ",
+    "description": "Description for story settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "สตอรี่ส่วนตัวใหม่",
-    "description": "Label to create a new private story list"
+    "message": "สตอรี่ที่กำหนดเองใหม่",
+    "description": "Label to create a new custom distribution list"
+  },
+  "StoriesSettings__new-list--visibility": {
+    "message": "มีแค่คุณเท่านั้นที่เห็นชื่อของสตอรี่นี้",
+    "description": "Explanation about the visibility of custom distribution list names"
   },
   "StoriesSettings__viewers--singular": {
     "message": "มีผู้ชม $num$ คน",
-    "description": "A single viewer"
+    "description": "(deleted 2022/10/21) A single viewer"
   },
   "StoriesSettings__viewers--plural": {
     "message": "มีผู้ชม $num$ คน",
-    "description": "More than one viewer"
+    "description": "(deleted 2022/10/21) More than one viewer"
+  },
+  "icu:StoriesSettings__viewers": {
+    "messageformat": "{count, plural, other {ผู้ชม {count,number} คน}}",
+    "description": "The number of viewers for a story distribution list"
   },
   "StoriesSettings__who-can-see": {
-    "message": "ใครที่เห็นสตอรี่นี้ได้บ้าง",
+    "message": "ใครเห็นสตอรี่นี้บ้าง",
     "description": "Title for the who can see this story section"
   },
   "StoriesSettings__add-viewer": {
@@ -5451,15 +5550,15 @@
   },
   "StoriesSettings__remove--action": {
     "message": "ลบ",
-    "description": "Button to remove a member from a private list"
+    "description": "Button to remove a member from a custom list"
   },
   "StoriesSettings__remove--title": {
     "message": "ลบ $title$",
     "description": "Title of the confirmation dialog, has a person's name"
   },
   "StoriesSettings__remove--body": {
-    "message": "คนคนนี้จะไม่เห็นสตอรี่ของคุณอีกต่อไป",
-    "description": "Body of the confirmation dialog to remove someone from a private distribution list"
+    "message": "บุคคลนี้จะไม่เห็นสตอรี่ของคุณอีกต่อไป",
+    "description": "Body of the confirmation dialog to remove someone from a custom distribution list"
   },
   "StoriesSettings__replies-reactions--title": {
     "message": "การตอบกลับและการแสดงความรู้สึก",
@@ -5474,23 +5573,23 @@
     "description": "Description of checkbox to allow or disallow replies to your stories"
   },
   "StoriesSettings__delete-list": {
-    "message": "ลบสตอรี่ส่วนตัว",
-    "description": "Button label to delete a private distribution list"
+    "message": "ลบสตอรี่ที่กำหนดเอง",
+    "description": "Button label to delete a custom distribution list"
   },
   "StoriesSettings__delete-list--confirm": {
-    "message": "ลบสตอรี่ส่วนตัวใช่หรือไม่",
-    "description": "Confirmation text to delete a private distribution list"
+    "message": "คุณแน่ใจหรือไม่ว่าต้องการลบ \"$name$\" การอัปเดตต่างๆ ที่แชร์ในสตอรี่นี้จะถูกลบด้วยเช่นกัน",
+    "description": "Confirmation text to delete a custom distribution list"
   },
   "StoriesSettings__choose-viewers": {
     "message": "เลือกผู้ชม",
-    "description": "Modal title when choosing to add a viewer to a private distribution list"
+    "description": "Modal title when choosing to add a viewer to a custom distribution list"
   },
   "StoriesSettings__name-story": {
-    "message": "ตั้งชื่อสตอรี่นี้",
-    "description": "Modal title when naming a private distribution list"
+    "message": "ตั้งชื่อสตอรี่",
+    "description": "Modal title when naming a custom distribution list"
   },
   "StoriesSettings__name-placeholder": {
-    "message": "ชื่อสตอรี่ (ต้องมี)",
+    "message": "ชื่อสตอรี่ (ต้องระบุ)",
     "description": "Placeholder for input field"
   },
   "StoriesSettings__hide-story": {
@@ -5506,7 +5605,7 @@
     "description": "Description of button StoriesSettings__mine__all--label"
   },
   "StoriesSettings__mine__exclude--label": {
-    "message": "เครือข่าย Signal ทั้งหมด ยกเว้น…",
+    "message": "ทุกคน ยกเว้น…",
     "description": "Input label to create a block list"
   },
   "StoriesSettings__mine__exclude--description": {
@@ -5515,7 +5614,7 @@
   },
   "StoriesSettings__mine__only--label": {
     "message": "แชร์ให้เฉพาะ…",
-    "description": "Input label to create an exclusive allow list"
+    "description": "Input label to create an exclude list"
   },
   "StoriesSettings__mine__only--description": {
     "message": "แชร์ให้เฉพาะคนที่เลือกเท่านั้น",
@@ -5537,6 +5636,14 @@
     "message": "การตั้งค่าสตอรี่",
     "description": "Button label to get to story settings"
   },
+  "StoriesSettings__view-receipts--label": {
+    "message": "ตัวแจ้งการรับชมสตอรี่",
+    "description": "Label of view receipts checkbox in story settings"
+  },
+  "StoriesSettings__view-receipts--description": {
+    "message": "หากต้องการเปลี่ยนแปลงการตั้งค่านี้ ให้เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่การตั้งค่า -> สตอรี่",
+    "description": "Description of how view receipts can be changed in story settings"
+  },
   "SendStoryModal__choose-who-can-view": {
     "message": "เลือกว่าจะให้ใครเห็นสตอรี่ของคุณบ้าง",
     "description": "Shown during the first time posting a story"
@@ -5549,17 +5656,45 @@
     "message": "ส่งสตอรี่",
     "description": "aria-label for the send story button"
   },
+  "SendStoryModal__custom-story": {
+    "message": "สตอรี่ที่กำหนดเอง",
+    "description": "Subtitle for custom stories in the 'send to' list - shown next to the viewer count"
+  },
+  "SendStoryModal__group-story": {
+    "message": "สตอรี่กลุ่ม",
+    "description": "Subtitle for group stories in the 'send to' list - shown next to the member count"
+  },
+  "SendStoryModal__only-share-with": {
+    "message": "แชร์ให้เฉพาะ",
+    "description": "Subtitle for My Story when the user has chosen an exclude list"
+  },
+  "icu:SendStoryModal__excluded": {
+    "messageformat": "{count, plural, other {ซ่อนจาก {count,number}}}",
+    "description": "Label for excluded count for My Story as an exclude list"
+  },
   "SendStoryModal__new": {
-    "message": "สตอรี่ใหม่",
+    "message": "ใหม่",
     "description": "button to create a new distribution list to send story to"
+  },
+  "SendStoryModal__new-custom--title": {
+    "message": "สตอรี่ที่กำหนดเองใหม่",
+    "description": "Create a new distribution list"
+  },
+  "SendStoryModal__new-custom--name-visibility": {
+    "message": "มีแค่คุณเท่านั้นที่เห็นชื่อของสตอรี่นี้",
+    "description": "Clarification below the text box to name your story distribution list"
+  },
+  "SendStoryModal__new-custom--description": {
+    "message": "เห็นได้เฉพาะบางคนเท่านั้น",
+    "description": "Description of what a distribution list would do"
   },
   "SendStoryModal__new-private--title": {
     "message": "สตอรี่ส่วนตัวใหม่",
-    "description": "Create a new distribution list"
+    "description": "(deleted 2022/11/21) Create a new distribution list"
   },
   "SendStoryModal__new-private--description": {
     "message": "เห็นได้เป็นบางคนเท่านั้น",
-    "description": "Description of what a distribution list would do"
+    "description": "(deleted 2022/11/21) Description of what a distribution list would do"
   },
   "SendStoryModal__new-group--title": {
     "message": "สตอรี่กลุ่มใหม่",
@@ -5575,7 +5710,7 @@
   },
   "SendStoryModal__my-stories-privacy": {
     "message": "ความเป็นส่วนตัวของสตอรี่",
-    "description": "Modal title for setting privacy for My Stories"
+    "description": "Modal title for setting privacy for My Story"
   },
   "SendStoryModal__privacy-disclaimer": {
     "message": "เลือกว่าจะให้เครือข่าย Signal คนไหนเห็นสตอรี่ของคุณบ้าง คุณสามารถเปลี่ยนแปลงตัวเลือกนี้ได้ทุกเมื่อในการตั้งค่าความเป็นส่วนตัว $learnMore$",
@@ -5586,15 +5721,19 @@
     "description": "Button label to delete a story"
   },
   "SendStoryModal__confirm-remove-group": {
-    "message": "ลบสตอรี่ใช่หรือไม่ สตอรี่จะถูกลบออกจากรายการของคุณ แต่คุณจะยังสามารถรับชมสตอรี่จากกลุ่มนี้ได้",
+    "message": "ลบสตอรี่ใช่หรือไม่ สตอรี่จะถูกลบออกจากรายการของคุณ แต่คุณจะยังสามารถดูสตอรี่จากกลุ่มนี้ได้",
     "description": "Confirmation body for removing a group story"
+  },
+  "SendStoryModal__announcements-only": {
+    "message": "เฉพาะผู้ดูแลเท่านั้นที่ส่งสตอรี่ไปยังกลุ่มนี้ได้",
+    "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "Stories__settings-toggle--title": {
     "message": "แชร์และดูสตอรี่",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "คุณจะแชร์หรือรับชมสตอรี่ไม่ได้อีกต่อไป ถ้าตัวเลือกนี้ถูกปิด",
+    "message": "หากตัวเลือกนี้ถูกปิด คุณจะไม่สามารถแชร์หรือดูสตอรี่ได้อีกต่อไป",
     "description": "Select box description for the stories on/off toggle"
   },
   "StoryViewer__pause": {
@@ -5623,7 +5762,7 @@
   },
   "StoryViewer__views-off": {
     "message": "ปิดการแจ้งว่าอ่านแล้ว",
-    "description": "When the user has read receipts turned off"
+    "description": "(deleted 2022/10/13) When the user has read receipts turned off"
   },
   "StoryDetailsModal__sent-time": {
     "message": "ส่งเมื่อ $time$",
@@ -5642,7 +5781,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
-    "message": "เปิดใช้ตัวเลือกการแจ้งว่าอ่านแล้ว เพื่อแสดงว่าใครดูสตอรี่ของคุณ โดยเปิดแอป Signal บนมือถือ แล้วไปที่ การตั้งค่า > ความเป็นส่วนตัว",
+    "message": "เปิดใช้ตัวเลือกการแจ้งว่าอ่านแล้ว เพื่อแสดงว่าใครดูสตอรี่ของคุณ เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่การตั้งค่า > สตอรี่",
     "description": "Instructions on how to enable read receipts"
   },
   "StoryViewsNRepliesModal__no-replies": {
@@ -5662,12 +5801,16 @@
     "description": "Title for replies tab"
   },
   "StoryViewsNRepliesModal__react": {
-    "message": "ตอบสนองกับสตอรี่",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "aria-label for reaction button"
   },
   "StoryViewsNRepliesModal__reacted": {
-    "message": "โต้ตอบสตอรี่ของคุณ",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "Description of someone reacting to a story"
+  },
+  "icu:StoryViewsNRepliesModal__not-a-member": {
+    "messageformat": "คุณไม่สามารถตอบกลับสตอรี่นี้ได้ เนื่องจากคุณไม่ได้เป็นสมาชิกในกลุ่มนี้แล้ว",
+    "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "StoryListItem__label": {
     "message": "สตอรี่",
@@ -5782,7 +5925,7 @@
     "description": "Placeholder for the URL input for link previews"
   },
   "StoryCreator__link-preview-empty": {
-    "message": "เพิ่มลิงก์สำหรับผู้ที่รับชมสตอรี่ของคุณ",
+    "message": "เพิ่มลิงก์สำหรับผู้ที่ดูสตอรี่ของคุณ",
     "description": "Empty state for the link preview"
   },
   "TextAttachment__placeholder": {
@@ -5798,12 +5941,24 @@
     "description": "Title for replies to stories"
   },
   "Quote__story-reaction": {
-    "message": "ตอบสนองกับสตอรี่จาก $name$",
+    "message": "แสดงความรู้สึกต่อสตอรี่ของ $name$",
     "description": "Label for when a person reacts to a story"
   },
   "Quote__story-reaction--single": {
-    "message": "ตอบสนองกับสตอรี่",
+    "message": "แสดงความรู้สึกต่อสตอรี่",
     "description": "Used whenever we can't find a user's first name"
+  },
+  "Quote__story-reaction-notification--incoming": {
+    "message": "แสดงความรู้สึกต่อสตอรี่ของคุณด้วย $emoji$",
+    "description": "Notification test for incoming story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing": {
+    "message": "คุณแสดงความรู้สึกด้วย $emoji$ ต่อสตอรี่ของ $name$",
+    "description": "Notification test for outgoing story reactions"
+  },
+  "Quote__story-reaction-notification--outgoing--nameless": {
+    "message": "คุณแสดงความรู้สึกต่อสตอรี่ด้วย $emoji$",
+    "description": "Notification test for outgoing story reactions but no name"
   },
   "Quote__story-unavailable": {
     "message": "ไม่มีอีกต่อไปแล้ว",
@@ -5812,6 +5967,26 @@
   "ContextMenu--button": {
     "message": "เมนูลัด",
     "description": "Default aria-label for the context menu buttons"
+  },
+  "EditUsernameModalBody__username-placeholder": {
+    "message": "ชื่อผู้ใช้",
+    "description": "Placeholder for the username field"
+  },
+  "EditUsernameModalBody__username-helper": {
+    "message": "ชื่อผู้ใช้จะช่วยให้ผู้ใช้รายอื่นส่งข้อความหาคุณได้โดยไม่จำเป็นต้องมีหมายเลขโทรศัพท์ของคุณ ชื่อผู้ใช้จะถูกผูกเข้ากับกลุ่มตัวเลขเพื่อช่วยรักษาความเป็นส่วนตัวของข้อมูลคุณ",
+    "description": "Shown on the edit username screen"
+  },
+  "EditUsernameModalBody__learn-more": {
+    "message": "เรียนรู้เพิ่มเติม",
+    "description": "Text that open a popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__title": {
+    "message": "ตัวเลขนี้คืออะไร",
+    "description": "Title of the popup with information about discriminator in username"
+  },
+  "EditUsernameModalBody__learn-more__body": {
+    "message": "ตัวเลขนี้จะช่วยรักษาความเป็นส่วนตัวให้ชื่อผู้ใช้ของคุณ ป้องกันไม่ให้คุณได้รับข้อความที่ไม่ต้องการ เราขอแนะนำให้แชร์ชื่อผู้ใช้ของคุณเฉพาะกับคนและกลุ่มที่คุณอยากติดต่อด้วยเท่านั้น โดยหากเปลี่ยนชื่อผู้ใช้ คุณจะได้รับตัวเลขใหม่",
+    "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
     "message": "ฟีเจอร์และบริการใหม่ๆ",
@@ -5860,5 +6035,13 @@
   "WhatsNew__v5.62--1": {
     "message": "เพิ่มเพื่อนเข้ากลุ่มได้ง่ายๆ จากหน้าข้อมูลผู้ติดต่อของเพื่อน เพื่อการพูดคุยที่ราบรื่นไม่มีสะดุดและสนุกทุกเมื่อ",
     "description": "Release notes for v5.62"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "เรามุ่งมั่นทุ่มเททำงานอย่างหนักเพื่อแก้ไขบั๊กต่างๆ และปรับปรุงประสิทธิภาพอื่นๆ เพื่อให้แอปทำงานได้ราบรื่นไร้ปัญหา",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "เริ่มใช้และทดสอบฟีเจอร์สตอรี่ใหม่ของเรา คุณสามารถใช้ฟีเจอร์นี้กับผู้ทดสอบรุ่นเบต้าคนอื่นๆ แล้วบอกให้เราทราบว่าคุณถูกใจหรือมีส่วนไหนที่ควรปรับปรุง",
+    "description": "Release notes for v5.63"
   }
 }
