@@ -44,6 +44,7 @@ import updateToSchemaVersion65 from './65-add-storage-id-to-stickers';
 import updateToSchemaVersion66 from './66-add-pni-signature-to-sent-protos';
 import updateToSchemaVersion67 from './67-add-story-to-unprocessed';
 import updateToSchemaVersion68 from './68-drop-deprecated-columns';
+import updateToSchemaVersion69 from './69-group-call-ring-cancellations';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1950,6 +1951,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion66,
   updateToSchemaVersion67,
   updateToSchemaVersion68,
+  updateToSchemaVersion69,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

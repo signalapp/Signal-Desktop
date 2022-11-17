@@ -80,6 +80,12 @@ export const getIncomingCall = createSelector(
   }
 );
 
+export const areAnyCallsActiveOrRinging = createSelector(
+  getActiveCall,
+  getIncomingCall,
+  (activeCall, incomingCall): boolean => Boolean(activeCall || incomingCall)
+);
+
 export const isInSpeakerView = (
   call: Pick<ActiveCallStateType, 'viewMode'> | undefined
 ): boolean => {

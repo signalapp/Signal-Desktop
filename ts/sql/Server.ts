@@ -46,7 +46,6 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { BadgeType, BadgeImageType } from '../badges/types';
 import { parseBadgeCategory } from '../badges/BadgeCategory';
@@ -333,9 +332,9 @@ const dataInterface: ServerInterface = {
   insertJob,
   deleteJob,
 
-  processGroupCallRingRequest,
-  processGroupCallRingCancelation,
-  cleanExpiredGroupCallRings,
+  wasGroupCallRingPreviouslyCanceled,
+  processGroupCallRingCancellation,
+  cleanExpiredGroupCallRingCancellations,
 
   getMaxMessageCounter,
 
@@ -4819,7 +4818,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM badges;
       DELETE FROM conversations;
       DELETE FROM emojis;
-      DELETE FROM groupCallRings;
+      DELETE FROM groupCallRingCancellations;
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
@@ -5425,69 +5424,36 @@ async function deleteJob(id: string): Promise<void> {
   db.prepare<Query>('DELETE FROM jobs WHERE id = $id').run({ id });
 }
 
-async function processGroupCallRingRequest(
+async function wasGroupCallRingPreviouslyCanceled(
   ringId: bigint
-): Promise<ProcessGroupCallRingRequestResult> {
+): Promise<boolean> {
   const db = getInstance();
 
-  return db.transaction(() => {
-    let result: ProcessGroupCallRingRequestResult;
-
-    const wasRingPreviouslyCanceled = Boolean(
-      db
-        .prepare<Query>(
-          `
-          SELECT 1 FROM groupCallRings
-          WHERE ringId = $ringId AND isActive = 0
-          LIMIT 1;
-          `
-        )
-        .pluck(true)
-        .get({ ringId })
-    );
-
-    if (wasRingPreviouslyCanceled) {
-      result = ProcessGroupCallRingRequestResult.RingWasPreviouslyCanceled;
-    } else {
-      const isThereAnotherActiveRing = Boolean(
-        db
-          .prepare<EmptyQuery>(
-            `
-            SELECT 1 FROM groupCallRings
-            WHERE isActive = 1
-            LIMIT 1;
-            `
-          )
-          .pluck(true)
-          .get()
+  return db
+    .prepare<Query>(
+      `
+      SELECT EXISTS (
+        SELECT 1 FROM groupCallRingCancellations
+        WHERE ringId = $ringId
+        AND createdAt >= $ringsOlderThanThisAreIgnored
       );
-      if (isThereAnotherActiveRing) {
-        result = ProcessGroupCallRingRequestResult.ThereIsAnotherActiveRing;
-      } else {
-        result = ProcessGroupCallRingRequestResult.ShouldRing;
-      }
-
-      db.prepare<Query>(
-        `
-        INSERT OR IGNORE INTO groupCallRings (ringId, isActive, createdAt)
-        VALUES ($ringId, 1, $createdAt);
-        `
-      );
-    }
-
-    return result;
-  })();
+      `
+    )
+    .pluck()
+    .get({
+      ringId,
+      ringsOlderThanThisAreIgnored: Date.now() - MAX_GROUP_CALL_RING_AGE,
+    });
 }
 
-async function processGroupCallRingCancelation(ringId: bigint): Promise<void> {
+async function processGroupCallRingCancellation(ringId: bigint): Promise<void> {
   const db = getInstance();
 
   db.prepare<Query>(
     `
-    INSERT INTO groupCallRings (ringId, isActive, createdAt)
-    VALUES ($ringId, 0, $createdAt)
-    ON CONFLICT (ringId) DO
-    UPDATE SET isActive = 0;
+    INSERT INTO groupCallRingCancellations (ringId, createdAt)
+    VALUES ($ringId, $createdAt)
+    ON CONFLICT (ringId) DO NOTHING;
     `
   ).run({ ringId, createdAt: Date.now() });
 }
@@ -5496,12 +5462,12 @@ async function processGroupCallRingCancelation(ringId: bigint): Promise<void> {
 //   that, it doesn't really matter what the value is.
 const MAX_GROUP_CALL_RING_AGE = 30 * durations.MINUTE;
 
-async function cleanExpiredGroupCallRings(): Promise<void> {
+async function cleanExpiredGroupCallRingCancellations(): Promise<void> {
   const db = getInstance();
 
   db.prepare<Query>(
     `
-    DELETE FROM groupCallRings
+    DELETE FROM groupCallRingCancellations
     WHERE createdAt < $expiredRingTime;
     `
   ).run({

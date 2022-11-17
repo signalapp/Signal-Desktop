@@ -2390,4 +2390,36 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion69', () => {
+    beforeEach(() => {
+      updateToVersion(69);
+    });
+
+    it('removes the legacy groupCallRings table', () => {
+      const tableCount = db
+        .prepare(
+          `
+          SELECT COUNT(*) FROM sqlite_schema
+          WHERE type = "table"
+          AND name = "groupCallRings"
+          `
+        )
+        .pluck();
+
+      assert.strictEqual(tableCount.get(), 0);
+    });
+
+    it('adds the groupCallRingCancellations table', () => {
+      assert.doesNotThrow(() => {
+        db.exec(
+          `
+          INSERT INTO groupCallRingCancellations
+          (ringId, createdAt)
+          VALUES (1, 2);
+          `
+        );
+      });
+    });
+  });
 });

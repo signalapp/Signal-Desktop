@@ -10,7 +10,6 @@ import type {
 import type { StoredJob } from '../jobs/types';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
-import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
 import type { BodyRangesType, BytesToStrings } from '../types/Util';
@@ -689,11 +688,9 @@ export type DataInterface = {
   insertJob(job: Readonly<StoredJob>): Promise<void>;
   deleteJob(id: string): Promise<void>;
 
-  processGroupCallRingRequest(
-    ringId: bigint
-  ): Promise<ProcessGroupCallRingRequestResult>;
-  processGroupCallRingCancelation(ringId: bigint): Promise<void>;
-  cleanExpiredGroupCallRings(): Promise<void>;
+  wasGroupCallRingPreviouslyCanceled(ringId: bigint): Promise<boolean>;
+  processGroupCallRingCancellation(ringId: bigint): Promise<void>;
+  cleanExpiredGroupCallRingCancellations(): Promise<void>;
 
   getMaxMessageCounter(): Promise<number | undefined>;
 

@@ -103,6 +103,7 @@ import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
+import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
@@ -1049,7 +1050,11 @@ export async function startApp(): Promise<void> {
         window.reduxActions.updates
       );
       window.Signal.Services.calling.initialize(
-        window.reduxActions.calling,
+        {
+          ...window.reduxActions.calling,
+          areAnyCallsActiveOrRinging: () =>
+            areAnyCallsActiveOrRinging(window.reduxStore.getState()),
+        },
         window.getSfuUrl()
       );
       window.reduxActions.expiration.hydrateExpirationStatus(
