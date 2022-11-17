@@ -7535,10 +7535,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@20.3.4:
-  version "20.3.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-20.3.4.tgz#a982196c7901a17d1107618634b1d0839f49c1df"
-  integrity sha512-kZYy7lgR9k24rkz89lQSXA28PkjMz1Z6Fr5ewvfjUatKOSrc0NJKlZ+mJ9KDmTvD5+gqOmewAyVecEGsMLFVow==
+electron@21.3.0:
+  version "21.3.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-21.3.0.tgz#e9905e240add950443dc115b4be13d36162f0a05"
+  integrity sha512-MGRpshN8fBcx4IRuBABIsGDv0tB/MclIFsyFHFFXsBCUc+vIXaE/E6vuWaniGIFSz5WyeuapfTH5IeRb+7yIfw==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
