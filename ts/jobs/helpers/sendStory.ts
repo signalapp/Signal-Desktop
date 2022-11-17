@@ -492,7 +492,7 @@ export async function sendStory(
           return acc;
         }
 
-        if (recipient.isUnregistered()) {
+        if (recipient.isEverUnregistered()) {
           if (!isSent(oldSendState.status)) {
             // We should have filtered this out on initial send, but we'll drop them from
             //   send list here if needed.

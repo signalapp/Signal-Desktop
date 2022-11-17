@@ -6,6 +6,12 @@ import { HOUR, MONTH } from './durations';
 
 const SIX_HOURS = 6 * HOUR;
 
+export function isConversationEverUnregistered({
+  discoveredUnregisteredAt,
+}: Readonly<{ discoveredUnregisteredAt?: number }>): boolean {
+  return discoveredUnregisteredAt !== undefined;
+}
+
 export function isConversationUnregistered({
   discoveredUnregisteredAt,
 }: Readonly<{ discoveredUnregisteredAt?: number }>): boolean {

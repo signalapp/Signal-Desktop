@@ -96,7 +96,7 @@ export async function sendStoryMessage(
               return acc;
             }
 
-            if (convo.isUnregistered()) {
+            if (convo.isEverUnregistered()) {
               return acc;
             }
 

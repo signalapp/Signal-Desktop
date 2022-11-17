@@ -52,6 +52,7 @@ import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import {
+  isConversationEverUnregistered,
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
 } from '../util/isConversationUnregistered';
@@ -785,7 +786,7 @@ export class ConversationModel extends window.Backbone
   }
 
   isEverUnregistered(): boolean {
-    return Boolean(this.get('discoveredUnregisteredAt'));
+    return isConversationEverUnregistered(this.attributes);
   }
 
   isUnregistered(): boolean {
