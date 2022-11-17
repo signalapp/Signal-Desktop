@@ -118,6 +118,7 @@ import { generateBlurHash } from '../util/generateBlurHash';
 import { TEXT_ATTACHMENT } from '../types/MIME';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
+import { isNotNil } from '../util/isNotNil';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -2078,7 +2079,21 @@ export default class MessageReceiver
           receivedAtDate: envelope.receivedAtDate,
           serverTimestamp: envelope.serverTimestamp,
           timestamp: envelope.timestamp,
-          unidentifiedStatus: sentMessage.unidentifiedStatus,
+          unidentifiedStatus: sentMessage.storyMessageRecipients
+            ?.map(({ destinationUuid, isAllowedToReply }) => {
+              if (!destinationUuid) {
+                return;
+              }
+
+              return {
+                destinationUuid: normalizeUuid(
+                  destinationUuid,
+                  'handleStoryMessage.destinationUuid'
+                ),
+                isAllowedToReplyToStory: Boolean(isAllowedToReply),
+              };
+            })
+            .filter(isNotNil),
         },
         this.removeFromCache.bind(this, envelope)
       );
