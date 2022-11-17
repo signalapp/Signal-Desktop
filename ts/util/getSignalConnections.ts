@@ -6,13 +6,16 @@ import type { ConversationModel } from '../models/conversations';
 import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from './isInSystemContacts';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { isConversationEverUnregistered } from './isConversationUnregistered';
 
 export function isSignalConnection(
   conversation: ConversationType | ConversationAttributesType
 ): boolean {
   return (
     isDirectConversation(conversation) &&
-    (conversation.profileSharing || isInSystemContacts(conversation))
+    (conversation.profileSharing || isInSystemContacts(conversation)) &&
+    conversation.uuid !== undefined &&
+    !isConversationEverUnregistered(conversation)
   );
 }
 
