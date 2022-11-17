@@ -5351,9 +5351,9 @@ better-opn@^2.1.1:
   dependencies:
     open "^7.0.3"
 
-"better-sqlite3@https://github.com/signalapp/better-sqlite3#a92f637708b41a478601c388f5a66223f766021b":
+"better-sqlite3@https://github.com/signalapp/better-sqlite3#c4ab3697af7c16b6bd9f39b034cbd9dfb72aa389":
   version "7.5.1"
-  resolved "https://github.com/signalapp/better-sqlite3#a92f637708b41a478601c388f5a66223f766021b"
+  resolved "https://github.com/signalapp/better-sqlite3#c4ab3697af7c16b6bd9f39b034cbd9dfb72aa389"
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
