@@ -312,6 +312,13 @@ export const StoryViewer = ({
 
     animation.addEventListener('finish', onFinish);
 
+    // Reset the stuff that pauses a story when you switch story views
+    setConfirmDeleteStory(undefined);
+    setHasConfirmHideStory(false);
+    setHasExpandedCaption(false);
+    setIsShowingContextMenu(false);
+    setPauseStory(false);
+
     return () => {
       animation.removeEventListener('finish', onFinish);
       animation.cancel();
@@ -345,7 +352,7 @@ export const StoryViewer = ({
     } else {
       animationRef.current?.play();
     }
-  }, [shouldPauseViewing]);
+  }, [shouldPauseViewing, story.messageId, storyDuration]);
 
   useEffect(() => {
     markStoryRead(messageId);
