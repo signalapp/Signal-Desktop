@@ -62,7 +62,7 @@ enum SubModalState {
   MemberRemove = 'MemberRemove',
 }
 
-export const ContactModal = ({
+export function ContactModal({
   areWeASubscriber,
   areWeAdmin,
   badges,
@@ -81,7 +81,7 @@ export const ContactModal = ({
   toggleAddUserToAnotherGroupModal,
   updateConversationModelSharedGroups,
   viewUserStories,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
   }
@@ -319,4 +319,4 @@ export const ContactModal = ({
     default:
       throw missingCaseError(view);
   }
-};
+}

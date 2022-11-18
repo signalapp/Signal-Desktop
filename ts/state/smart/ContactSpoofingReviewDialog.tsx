@@ -33,9 +33,9 @@ export type PropsType = Omit<DownstreamPropsType, 'type'> &
       }
   );
 
-export const SmartContactSpoofingReviewDialog: React.ComponentType<
-  PropsType
-> = props => {
+export function SmartContactSpoofingReviewDialog(
+  props: PropsType
+): JSX.Element {
   const { type } = props;
 
   const getConversation = useSelector<StateType, GetConversationByIdType>(
@@ -52,4 +52,4 @@ export const SmartContactSpoofingReviewDialog: React.ComponentType<
   }
 
   return <ContactSpoofingReviewDialog {...props} />;
-};
+}

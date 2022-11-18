@@ -37,7 +37,7 @@ export type PropsType = {
   readonly storyId: string;
 };
 
-export const StoryImage = ({
+export function StoryImage({
   attachment,
   children,
   firstName,
@@ -50,7 +50,7 @@ export const StoryImage = ({
   moduleClassName,
   queueStoryDownload,
   storyId,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const shouldDownloadAttachment =
     (!isDownloaded(attachment) && !isDownloading(attachment)) ||
     hasNotResolved(attachment);
@@ -170,4 +170,4 @@ export const StoryImage = ({
       {children}
     </div>
   );
-};
+}

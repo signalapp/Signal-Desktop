@@ -22,7 +22,7 @@ export type Props = {
     'i18n' | 'state' | 'onChangeState'
   >;
 
-export const MessageRequestActions = ({
+export function MessageRequestActions({
   conversationType,
   firstName,
   i18n,
@@ -33,7 +33,7 @@ export const MessageRequestActions = ({
   onDelete,
   onUnblock,
   title,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
   return (
@@ -112,4 +112,4 @@ export const MessageRequestActions = ({
       </div>
     </>
   );
-};
+}

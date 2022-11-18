@@ -37,7 +37,7 @@ const createProps = (
   onCloseAttachment: action('onCloseAttachment'),
 });
 
-export const OneFile = (): JSX.Element => {
+export function OneFile(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -48,9 +48,9 @@ export const OneFile = (): JSX.Element => {
     ],
   });
   return <AttachmentList {...props} />;
-};
+}
 
-export const MultipleVisualAttachments = (): JSX.Element => {
+export function MultipleVisualAttachments(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -73,9 +73,9 @@ export const MultipleVisualAttachments = (): JSX.Element => {
   });
 
   return <AttachmentList {...props} />;
-};
+}
 
-export const MultipleWithNonVisualTypes = (): JSX.Element => {
+export function MultipleWithNonVisualTypes(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -108,14 +108,14 @@ export const MultipleWithNonVisualTypes = (): JSX.Element => {
   });
 
   return <AttachmentList {...props} />;
-};
+}
 
 MultipleWithNonVisualTypes.story = {
   name: 'Multiple with Non-Visual Types',
 };
 
-export const EmptyList = (): JSX.Element => {
+export function EmptyList(): JSX.Element {
   const props = createProps();
 
   return <AttachmentList {...props} />;
-};
+}

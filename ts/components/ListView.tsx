@@ -24,7 +24,7 @@ type Props = {
  * Thin wrapper around react-virtualized List. Simplified API and provides common
  * defaults.
  */
-export const ListView = ({
+export function ListView({
   width,
   height,
   rowCount,
@@ -35,7 +35,7 @@ export const ListView = ({
   scrollable = true,
   shouldRecomputeRowHeights = false,
   scrollBehavior = ScrollBehavior.Default,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const listRef = useRef<null | List>(null);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ export const ListView = ({
       tabIndex={-1}
     />
   );
-};
+}

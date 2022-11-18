@@ -16,7 +16,7 @@ export default {
   title: 'Components/Emoji/EmojiButton',
 };
 
-export const Base = (): JSX.Element => {
+export function Base(): JSX.Element {
   return (
     <div
       style={{
@@ -68,4 +68,4 @@ export const Base = (): JSX.Element => {
       />
     </div>
   );
-};
+}

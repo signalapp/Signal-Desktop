@@ -1,7 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FC, ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import type { VideoFrameSource } from 'ringrtc';
@@ -27,14 +27,14 @@ type PropsType = {
   remoteAudioLevels: Map<number, number>;
 };
 
-export const GroupCallOverflowArea: FC<PropsType> = ({
+export function GroupCallOverflowArea({
   getFrameBuffer,
   getGroupCallVideoFrameSource,
   i18n,
   onParticipantVisibilityChanged,
   overflowedParticipants,
   remoteAudioLevels,
-}) => {
+}: PropsType): JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
 
@@ -147,7 +147,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
       />
     </div>
   );
-};
+}
 
 function OverflowAreaScrollMarker({
   i18n,

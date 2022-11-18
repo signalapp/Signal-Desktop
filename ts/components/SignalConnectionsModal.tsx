@@ -13,10 +13,10 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export const SignalConnectionsModal = ({
+export function SignalConnectionsModal({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Modal
       modalName="SignalConnectionsModal"
@@ -57,4 +57,4 @@ export const SignalConnectionsModal = ({
       </div>
     </Modal>
   );
-};
+}

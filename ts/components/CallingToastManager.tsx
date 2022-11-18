@@ -104,7 +104,7 @@ function useScreenSharingToast({ activeCall, i18n }: PropsType): ToastType {
 
 // In the future, this component should show toasts when users join or leave. See
 //   DESKTOP-902.
-export const CallingToastManager: React.FC<PropsType> = props => {
+export function CallingToastManager(props: PropsType): JSX.Element {
   const reconnectingToast = getReconnectingToast(props);
   const screenSharingToast = useScreenSharingToast(props);
 
@@ -144,4 +144,4 @@ export const CallingToastManager: React.FC<PropsType> = props => {
       {toastMessage}
     </CallingToast>
   );
-};
+}

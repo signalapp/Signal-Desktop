@@ -35,7 +35,7 @@ export type PropsType = {
   tooltipDirection?: TooltipPlacement;
 };
 
-export const CallingButton = ({
+export function CallingButton({
   buttonType,
   i18n,
   isVisible = true,
@@ -43,7 +43,7 @@ export const CallingButton = ({
   onMouseEnter,
   onMouseLeave,
   tooltipDirection,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const uniqueButtonId = useMemo(() => uuid(), []);
 
   let classNameSuffix = '';
@@ -145,4 +145,4 @@ export const CallingButton = ({
       </div>
     </Tooltip>
   );
-};
+}

@@ -16,19 +16,19 @@ export default {
   title: 'Components/InstallScreen/InstallScreenChoosingDeviceNameStep',
 };
 
-export const Default = (): JSX.Element => {
-  const Wrapper = () => {
-    const [deviceName, setDeviceName] = useState<string>('Default value');
+function Wrapper() {
+  const [deviceName, setDeviceName] = useState<string>('Default value');
 
-    return (
-      <InstallScreenChoosingDeviceNameStep
-        i18n={i18n}
-        deviceName={deviceName}
-        setDeviceName={setDeviceName}
-        onSubmit={action('onSubmit')}
-      />
-    );
-  };
+  return (
+    <InstallScreenChoosingDeviceNameStep
+      i18n={i18n}
+      deviceName={deviceName}
+      setDeviceName={setDeviceName}
+      onSubmit={action('onSubmit')}
+    />
+  );
+}
 
+export function Default(): JSX.Element {
   return <Wrapper />;
-};
+}

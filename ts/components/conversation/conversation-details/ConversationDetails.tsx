@@ -127,7 +127,7 @@ type ActionProps = {
 
 export type Props = StateProps & ActionProps;
 
-export const ConversationDetails: React.ComponentType<Props> = ({
+export function ConversationDetails({
   addMembers,
   areWeASubscriber,
   badges,
@@ -174,7 +174,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
   userAvatarData,
-}) => {
+}: Props): JSX.Element {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
   );
@@ -453,22 +453,20 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           />
         )}
         {!isGroup && !conversation.isMe && (
-          <>
-            <PanelRow
-              onClick={() => toggleSafetyNumberModal(conversation.id)}
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('verifyNewNumber')}
-                  icon={IconType.verify}
-                />
-              }
-              label={
-                <div className="ConversationDetails__safety-number">
-                  {i18n('verifyNewNumber')}
-                </div>
-              }
-            />
-          </>
+          <PanelRow
+            onClick={() => toggleSafetyNumberModal(conversation.id)}
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('verifyNewNumber')}
+                icon={IconType.verify}
+              />
+            }
+            label={
+              <div className="ConversationDetails__safety-number">
+                {i18n('verifyNewNumber')}
+              </div>
+            }
+          />
         )}
       </PanelSection>
 
@@ -563,7 +561,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       {modalNode}
     </div>
   );
-};
+}
 
 function ConversationDetailsCallButton({
   disabled,

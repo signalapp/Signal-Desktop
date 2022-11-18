@@ -23,7 +23,7 @@ type EventWrapperPropsType = {
 const TooltipEventWrapper = React.forwardRef<
   HTMLSpanElement,
   EventWrapperPropsType
->(({ onHoverChanged, children }, ref) => {
+>(function TooltipEvent({ onHoverChanged, children }, ref): JSX.Element {
   const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
 
   const on = React.useCallback(() => {
@@ -77,13 +77,14 @@ export enum TooltipPlacement {
 export type PropsType = {
   content: string | JSX.Element;
   className?: string;
+  children?: React.ReactNode;
   direction?: TooltipPlacement;
   popperModifiers?: Array<StrictModifiers>;
   sticky?: boolean;
   theme?: Theme;
 };
 
-export const Tooltip: React.FC<PropsType> = ({
+export function Tooltip({
   children,
   className,
   content,
@@ -91,7 +92,7 @@ export const Tooltip: React.FC<PropsType> = ({
   sticky,
   theme,
   popperModifiers = [],
-}) => {
+}: PropsType): JSX.Element {
   const [isHovering, setIsHovering] = React.useState(false);
 
   const showTooltip = isHovering || Boolean(sticky);
@@ -137,4 +138,4 @@ export const Tooltip: React.FC<PropsType> = ({
       </Popper>
     </Manager>
   );
-};
+}

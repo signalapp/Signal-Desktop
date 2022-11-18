@@ -10,9 +10,9 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastDangerousFileType = ({
+export function ToastDangerousFileType({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('dangerousFileType')}</Toast>;
-};
+}

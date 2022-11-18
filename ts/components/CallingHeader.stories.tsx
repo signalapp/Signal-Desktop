@@ -34,61 +34,73 @@ export default {
   title: 'Components/CallingHeader',
 };
 
-export const Default = (): JSX.Element => <CallingHeader {...createProps()} />;
+export function Default(): JSX.Element {
+  return <CallingHeader {...createProps()} />;
+}
 
-export const LobbyStyle = (): JSX.Element => (
-  <CallingHeader
-    {...createProps()}
-    title={undefined}
-    togglePip={undefined}
-    onCancel={action('onClose')}
-  />
-);
+export function LobbyStyle(): JSX.Element {
+  return (
+    <CallingHeader
+      {...createProps()}
+      title={undefined}
+      togglePip={undefined}
+      onCancel={action('onClose')}
+    />
+  );
+}
 
 LobbyStyle.story = {
   name: 'Lobby style',
 };
 
-export const WithParticipants = (): JSX.Element => (
-  <CallingHeader
-    {...createProps({
-      isGroupCall: true,
-      participantCount: 10,
-    })}
-  />
-);
+export function WithParticipants(): JSX.Element {
+  return (
+    <CallingHeader
+      {...createProps({
+        isGroupCall: true,
+        participantCount: 10,
+      })}
+    />
+  );
+}
 
-export const WithParticipantsShown = (): JSX.Element => (
-  <CallingHeader
-    {...createProps({
-      isGroupCall: true,
-      participantCount: 10,
-      showParticipantsList: true,
-    })}
-  />
-);
+export function WithParticipantsShown(): JSX.Element {
+  return (
+    <CallingHeader
+      {...createProps({
+        isGroupCall: true,
+        participantCount: 10,
+        showParticipantsList: true,
+      })}
+    />
+  );
+}
 
 WithParticipantsShown.story = {
   name: 'With Participants (shown)',
 };
 
-export const LongTitle = (): JSX.Element => (
-  <CallingHeader
-    {...createProps({
-      title:
-        'What do I got to, what do I got to do to wake you up? To shake you up, to break the structure up?',
-    })}
-  />
-);
+export function LongTitle(): JSX.Element {
+  return (
+    <CallingHeader
+      {...createProps({
+        title:
+          'What do I got to, what do I got to do to wake you up? To shake you up, to break the structure up?',
+      })}
+    />
+  );
+}
 
-export const TitleWithMessage = (): JSX.Element => (
-  <CallingHeader
-    {...createProps({
-      title: 'Hello world',
-      message: 'Goodbye earth',
-    })}
-  />
-);
+export function TitleWithMessage(): JSX.Element {
+  return (
+    <CallingHeader
+      {...createProps({
+        title: 'Hello world',
+        message: 'Goodbye earth',
+      })}
+    />
+  );
+}
 
 TitleWithMessage.story = {
   name: 'Title with message',

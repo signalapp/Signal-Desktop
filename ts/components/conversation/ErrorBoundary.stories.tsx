@@ -18,13 +18,13 @@ const Fail: React.FC<Record<string, never>> = () => {
   throw new Error('Failed');
 };
 
-export const ErrorState = (): JSX.Element => {
+export function ErrorState(): JSX.Element {
   return (
     <ErrorBoundary i18n={i18n} showDebugLog={action('showDebugLog')}>
       <Fail />
     </ErrorBoundary>
   );
-};
+}
 
 ErrorState.story = {
   name: 'Error state',

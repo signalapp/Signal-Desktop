@@ -10,7 +10,7 @@ export default {
   title: 'Components/IdenticonSVG',
 };
 
-export const AllColors = (): JSX.Element => {
+export function AllColors(): JSX.Element {
   const stories: Array<JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
@@ -24,4 +24,4 @@ export const AllColors = (): JSX.Element => {
   );
 
   return <>{stories}</>;
-};
+}

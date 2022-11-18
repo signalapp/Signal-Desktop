@@ -113,7 +113,7 @@ function getListMemberUuids(
   return memberUuids;
 }
 
-export const SendStoryModal = ({
+export function SendStoryModal({
   draftAttachment,
   candidateConversations,
   distributionLists,
@@ -138,7 +138,7 @@ export const SendStoryModal = ({
   toggleGroupsForStorySend,
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
@@ -987,4 +987,4 @@ export const SendStoryModal = ({
       {confirmDiscardModal}
     </>
   );
-};
+}

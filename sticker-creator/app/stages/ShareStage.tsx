@@ -15,7 +15,7 @@ import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 import { Intl } from '../../../ts/components/Intl';
 
-export const ShareStage: React.ComponentType = () => {
+export function ShareStage(): JSX.Element {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const title = stickersDuck.useTitle();
@@ -94,4 +94,4 @@ export const ShareStage: React.ComponentType = () => {
       ) : null}
     </AppStage>
   );
-};
+}

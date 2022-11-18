@@ -119,7 +119,7 @@ function DirectCallHeaderMessage({
   return null;
 }
 
-export const CallScreen: React.FC<PropsType> = ({
+export function CallScreen({
   activeCall,
   getGroupCallVideoFrameSource,
   getPresentingSources,
@@ -143,7 +143,7 @@ export const CallScreen: React.FC<PropsType> = ({
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
   toggleSpeakerView,
-}) => {
+}: PropsType): JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -539,7 +539,7 @@ export const CallScreen: React.FC<PropsType> = ({
       </div>
     </div>
   );
-};
+}
 
 function getCallModeClassSuffix(
   callMode: CallMode.Direct | CallMode.Group

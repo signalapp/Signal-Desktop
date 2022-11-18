@@ -10,6 +10,8 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-export const ResetSessionNotification = ({ i18n }: Props): JSX.Element => (
-  <SystemMessage contents={i18n('sessionEnded')} icon="session-refresh" />
-);
+export function ResetSessionNotification({ i18n }: Props): JSX.Element {
+  return (
+    <SystemMessage contents={i18n('sessionEnded')} icon="session-refresh" />
+  );
+}

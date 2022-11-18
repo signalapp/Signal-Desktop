@@ -134,15 +134,15 @@ const fullContact = {
   ],
 };
 
-export const FullyFilledOut = (): JSX.Element => {
+export function FullyFilledOut(): JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-};
+}
 
-export const OnlyEmail = (): JSX.Element => {
+export function OnlyEmail(): JSX.Element {
   const props = createProps({
     contact: {
       email: [
@@ -156,9 +156,9 @@ export const OnlyEmail = (): JSX.Element => {
   });
 
   return <ContactDetail {...props} />;
-};
+}
 
-export const GivenName = (): JSX.Element => {
+export function GivenName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -169,9 +169,9 @@ export const GivenName = (): JSX.Element => {
   });
 
   return <ContactDetail {...props} />;
-};
+}
 
-export const Organization = (): JSX.Element => {
+export function Organization(): JSX.Element {
   const props = createProps({
     contact: {
       organization: 'Company 5',
@@ -180,9 +180,9 @@ export const Organization = (): JSX.Element => {
   });
 
   return <ContactDetail {...props} />;
-};
+}
 
-export const GivenFamilyName = (): JSX.Element => {
+export function GivenFamilyName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -194,13 +194,13 @@ export const GivenFamilyName = (): JSX.Element => {
   });
 
   return <ContactDetail {...props} />;
-};
+}
 
 GivenFamilyName.story = {
   name: 'Given + Family Name',
 };
 
-export const FamilyName = (): JSX.Element => {
+export function FamilyName(): JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -211,9 +211,9 @@ export const FamilyName = (): JSX.Element => {
   });
 
   return <ContactDetail {...props} />;
-};
+}
 
-export const LoadingAvatar = (): JSX.Element => {
+export function LoadingAvatar(): JSX.Element {
   const props = createProps({
     contact: {
       avatar: {
@@ -227,25 +227,25 @@ export const LoadingAvatar = (): JSX.Element => {
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-};
+}
 
-export const EmptyWithAccount = (): JSX.Element => {
+export function EmptyWithAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
-};
+}
 
 EmptyWithAccount.story = {
   name: 'Empty with Account',
 };
 
-export const EmptyWithoutAccount = (): JSX.Element => {
+export function EmptyWithoutAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: false,
   });
   return <ContactDetail {...props} />;
-};
+}
 
 EmptyWithoutAccount.story = {
   name: 'Empty without Account',

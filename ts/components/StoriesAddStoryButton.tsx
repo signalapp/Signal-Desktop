@@ -23,14 +23,14 @@ export type PropsType = {
   showToast: ShowToastActionCreatorType;
 };
 
-export const StoriesAddStoryButton = ({
+export function StoriesAddStoryButton({
   children,
   i18n,
   moduleClassName,
   onAddStory,
   showToast,
   onContextMenuShowingChanged,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <ContextMenu
       ariaLabel={i18n('Stories__add')}
@@ -90,4 +90,4 @@ export const StoriesAddStoryButton = ({
       {children}
     </ContextMenu>
   );
-};
+}

@@ -41,9 +41,9 @@ const createProps = (): PropsType => ({
   ),
 });
 
-export const Default = (): JSX.Element => (
-  <ChatColorPicker {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <ChatColorPicker {...createProps()} />;
+}
 
 const CUSTOM_COLORS = {
   abc: {
@@ -62,14 +62,16 @@ const CUSTOM_COLORS = {
   },
 };
 
-export const CustomColors = (): JSX.Element => (
-  <ChatColorPicker
-    {...createProps()}
-    customColors={CUSTOM_COLORS}
-    selectedColor="custom"
-    selectedCustomColor={{
-      id: 'ghi',
-      value: SAMPLE_CUSTOM_COLOR,
-    }}
-  />
-);
+export function CustomColors(): JSX.Element {
+  return (
+    <ChatColorPicker
+      {...createProps()}
+      customColors={CUSTOM_COLORS}
+      selectedColor="custom"
+      selectedCustomColor={{
+        id: 'ghi',
+        value: SAMPLE_CUSTOM_COLOR,
+      }}
+    />
+  );
+}

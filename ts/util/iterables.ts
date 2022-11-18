@@ -116,6 +116,7 @@ export function collectFirst<T, S>(
   iterable: Iterable<T>,
   fn: (value: T) => S | undefined
 ): S | undefined {
+  // eslint-disable-next-line no-unreachable-loop
   for (const v of collect(iterable, fn)) {
     return v;
   }

@@ -10,13 +10,13 @@ import { strictAssert } from '../util/assert';
 import { parseNumber } from '../util/libphonenumberUtil';
 import { getChallengeURL } from '../challenge';
 
-const PhoneInput = ({
+function PhoneInput({
   onValidation,
   onNumberChange,
 }: {
   onValidation: (isValid: boolean) => void;
   onNumberChange: (number?: string) => void;
-}): JSX.Element => {
+}): JSX.Element {
   const [isValid, setIsValid] = useState(false);
   const pluginRef = useRef<Plugin | undefined>();
   const elemRef = useRef<HTMLInputElement | null>(null);
@@ -90,9 +90,9 @@ const PhoneInput = ({
       </div>
     </div>
   );
-};
+}
 
-export const StandaloneRegistration = ({
+export function StandaloneRegistration({
   onComplete,
   requestVerification,
   registerSingleDevice,
@@ -104,7 +104,7 @@ export const StandaloneRegistration = ({
     token: string
   ) => Promise<void>;
   registerSingleDevice: (number: string, code: string) => Promise<void>;
-}): JSX.Element => {
+}): JSX.Element {
   useEffect(() => {
     window.readyForUpdates();
   }, []);
@@ -269,4 +269,4 @@ export const StandaloneRegistration = ({
       </div>
     </div>
   );
-};
+}

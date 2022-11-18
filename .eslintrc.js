@@ -94,6 +94,33 @@ const rules = {
   // Prefer functional components with default params
   'react/require-default-props': 'off',
 
+  // Empty fragments are used in adapters between backbone and react views.
+  'react/jsx-no-useless-fragment': ['error', {
+    allowExpressions: true,
+  }],
+
+  // Our code base has tons of arrow functions passed directly to components.
+  'react/jsx-no-bind': 'off',
+
+  // Does not support forwardRef
+  'react/no-unused-prop-types': 'off',
+
+  // Not useful for us as we have lots of complicated types.
+  'react/destructuring-assignment': 'off',
+
+  'react/function-component-definition': ['error', {
+    namedComponents: 'function-declaration',
+    unnamedComponents: 'arrow-function',
+  }],
+
+  'react/display-name': 'error',
+
+  // Allow returning values from promise executors for brevity.
+  'no-promise-executor-return': 'off',
+
+  // Redux ducks use this a lot
+  'default-param-last': 'off',
+
   'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
 
   'no-restricted-syntax': [

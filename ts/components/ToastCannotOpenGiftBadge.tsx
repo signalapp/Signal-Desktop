@@ -11,14 +11,14 @@ export type ToastPropsType = {
   onClose: () => unknown;
 };
 
-export const ToastCannotOpenGiftBadge = ({
+export function ToastCannotOpenGiftBadge({
   i18n,
   isIncoming,
   onClose,
-}: ToastPropsType): JSX.Element => {
+}: ToastPropsType): JSX.Element {
   const key = `message--giftBadge--unopened--toast--${
     isIncoming ? 'incoming' : 'outgoing'
   }`;
 
   return <Toast onClose={onClose}>{i18n(key)}</Toast>;
-};
+}

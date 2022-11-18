@@ -105,7 +105,7 @@ type ActiveCallManagerPropsType = PropsType & {
   activeCall: ActiveCallType;
 };
 
-const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
+function ActiveCallManager({
   activeCall,
   availableCameras,
   cancelCall,
@@ -137,7 +137,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   toggleScreenRecordingPermissionsDialog,
   toggleSettings,
   toggleSpeakerView,
-}) => {
+}: ActiveCallManagerPropsType): JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -374,9 +374,9 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       ) : null}
     </>
   );
-};
+}
 
-export const CallManager: React.FC<PropsType> = props => {
+export function CallManager(props: PropsType): JSX.Element | null {
   const {
     acceptCall,
     activeCall,
@@ -449,7 +449,7 @@ export const CallManager: React.FC<PropsType> = props => {
   }
 
   return null;
-};
+}
 
 function getShouldRing({
   activeCall,

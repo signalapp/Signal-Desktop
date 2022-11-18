@@ -94,7 +94,7 @@ function getCurves({
   };
 }
 
-export const ImageGrid = ({
+export function ImageGrid({
   attachments,
   bottomOverlay,
   direction,
@@ -109,7 +109,7 @@ export const ImageGrid = ({
   theme,
   withContentAbove,
   withContentBelow,
-}: Props): JSX.Element | null => {
+}: Props): JSX.Element | null {
   const { curveTopLeft, curveTopRight, curveBottomLeft, curveBottomRight } =
     getCurves({
       direction,
@@ -438,4 +438,4 @@ export const ImageGrid = ({
       </div>
     </div>
   );
-};
+}

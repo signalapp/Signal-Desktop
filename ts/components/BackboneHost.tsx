@@ -9,7 +9,7 @@ type PropsType = {
   className?: string;
 };
 
-export const BackboneHost = ({ View, className }: PropsType): JSX.Element => {
+export function BackboneHost({ View, className }: PropsType): JSX.Element {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<Backbone.View | undefined>(undefined);
 
@@ -35,4 +35,4 @@ export const BackboneHost = ({ View, className }: PropsType): JSX.Element => {
       <div className={className} ref={hostRef} />
     </div>
   );
-};
+}

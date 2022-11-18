@@ -61,7 +61,7 @@ type PropsActionType = {
 
 export type PropsType = PropsDataType & PropsActionType;
 
-export const ChatColorPicker = ({
+export function ChatColorPicker({
   addCustomColor,
   colorSelected,
   conversationId,
@@ -77,7 +77,7 @@ export const ChatColorPicker = ({
   selectedColor = ConversationColors[0],
   selectedCustomColor,
   setGlobalDefaultConversationColor,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
   const [confirmResetWhat, setConfirmResetWhat] = useState(false);
   const [customColorToEdit, setCustomColorToEdit] = useState<
@@ -264,7 +264,7 @@ export const ChatColorPicker = ({
       />
     </div>
   );
-};
+}
 
 type CustomColorBubblePropsType = {
   color: CustomColorType;
@@ -280,7 +280,7 @@ type CustomColorBubblePropsType = {
   onChoose: () => unknown;
 };
 
-const CustomColorBubble = ({
+function CustomColorBubble({
   color,
   colorId,
   getConversationsWithCustomColor,
@@ -290,7 +290,7 @@ const CustomColorBubble = ({
   onDupe,
   onEdit,
   onChoose,
-}: CustomColorBubblePropsType): JSX.Element => {
+}: CustomColorBubblePropsType): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const menuRef = useRef<any | null>(null);
   const [confirmDeleteCount, setConfirmDeleteCount] = useState<
@@ -410,7 +410,7 @@ const CustomColorBubble = ({
       </ContextMenu>
     </>
   );
-};
+}
 
 type CustomColorEditorWrapperPropsType = {
   customColorToEdit?: CustomColorDataType;
@@ -419,12 +419,12 @@ type CustomColorEditorWrapperPropsType = {
   onSave: (color: CustomColorType) => unknown;
 };
 
-const CustomColorEditorWrapper = ({
+function CustomColorEditorWrapper({
   customColorToEdit,
   i18n,
   onClose,
   onSave,
-}: CustomColorEditorWrapperPropsType): JSX.Element => {
+}: CustomColorEditorWrapperPropsType): JSX.Element {
   const editor = (
     <CustomColorEditor
       customColor={customColorToEdit?.value}
@@ -447,4 +447,4 @@ const CustomColorEditorWrapper = ({
       {editor}
     </Modal>
   );
-};
+}

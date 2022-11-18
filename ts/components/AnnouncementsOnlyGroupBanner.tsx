@@ -15,12 +15,12 @@ type PropsType = {
   theme: ThemeType;
 };
 
-export const AnnouncementsOnlyGroupBanner = ({
+export function AnnouncementsOnlyGroupBanner({
   groupAdmins,
   i18n,
   openConversation,
   theme,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [isShowingAdmins, setIsShowingAdmins] = useState(false);
 
   return (
@@ -64,4 +64,4 @@ export const AnnouncementsOnlyGroupBanner = ({
       </div>
     </>
   );
-};
+}

@@ -72,17 +72,17 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = useProps();
 
   return <PendingInvites {...props} />;
-};
+}
 
-export const WithBadges = (): JSX.Element => {
+export function WithBadges(): JSX.Element {
   const props = useProps({ getPreferredBadge: () => getFakeBadge() });
 
   return <PendingInvites {...props} />;
-};
+}
 
 WithBadges.story = {
   name: 'With badges',

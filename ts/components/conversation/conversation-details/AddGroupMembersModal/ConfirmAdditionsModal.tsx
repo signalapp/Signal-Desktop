@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType } from '../../../../types/Util';
@@ -26,14 +26,14 @@ export type StatePropsType = {
 
 type PropsType = StatePropsType;
 
-export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
+export function ConfirmAdditionsModal({
   groupTitle,
   i18n,
   makeRequest,
   onClose,
   requestState,
   selectedContacts,
-}) => {
+}: PropsType): JSX.Element {
   const firstContact = selectedContacts[0];
   assertDev(
     firstContact,
@@ -106,4 +106,4 @@ export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
       </div>
     </ModalHost>
   );
-};
+}

@@ -17,7 +17,7 @@ export type PropsType = {
   verificationDisabled: boolean;
 };
 
-export const SafetyNumberViewer = ({
+export function SafetyNumberViewer({
   contact,
   generateSafetyNumber,
   i18n,
@@ -25,7 +25,7 @@ export const SafetyNumberViewer = ({
   safetyNumber,
   toggleVerified,
   verificationDisabled,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   React.useEffect(() => {
     if (!contact) {
       return;
@@ -94,7 +94,7 @@ export const SafetyNumberViewer = ({
       </div>
     </div>
   );
-};
+}
 
 function getPlaceholder(): string {
   return Array.from(Array(12))

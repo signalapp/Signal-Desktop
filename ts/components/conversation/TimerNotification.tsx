@@ -1,7 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import { ContactName } from './ContactName';
@@ -20,7 +20,7 @@ export type TimerNotificationType =
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
-/* eslint-disable react/destructuring-assignment */
+
 export type PropsData = {
   type: TimerNotificationType;
   title: string;
@@ -38,7 +38,7 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export const TimerNotification: FunctionComponent<Props> = props => {
+export function TimerNotification(props: Props): JSX.Element {
   const { disabled, i18n, title, type } = props;
 
   let changeKey: string;
@@ -88,4 +88,4 @@ export const TimerNotification: FunctionComponent<Props> = props => {
   const icon = disabled ? 'timer-disabled' : 'timer';
 
   return <SystemMessage icon={icon} contents={message} />;
-};
+}

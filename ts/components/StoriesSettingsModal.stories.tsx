@@ -60,6 +60,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => <StoriesSettingsModal {...args} />;
 
 export const MyStories = Template.bind({});

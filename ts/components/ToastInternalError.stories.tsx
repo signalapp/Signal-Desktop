@@ -23,25 +23,29 @@ export default {
   title: 'Components/ToastInternalError',
 };
 
-export const ToastDecryptionError = (): JSX.Element => (
-  <ToastInternalError
-    kind={ToastInternalErrorKind.DecryptionError}
-    deviceId={3}
-    name="Someone Somewhere"
-    {...defaultProps}
-  />
-);
+export function ToastDecryptionError(): JSX.Element {
+  return (
+    <ToastInternalError
+      kind={ToastInternalErrorKind.DecryptionError}
+      deviceId={3}
+      name="Someone Somewhere"
+      {...defaultProps}
+    />
+  );
+}
 
 ToastDecryptionError.story = {
   name: 'ToastDecryptionError',
 };
 
-export const ToastCDSMirroringError = (): JSX.Element => (
-  <ToastInternalError
-    kind={ToastInternalErrorKind.CDSMirroringError}
-    {...defaultProps}
-  />
-);
+export function ToastCDSMirroringError(): JSX.Element {
+  return (
+    <ToastInternalError
+      kind={ToastInternalErrorKind.CDSMirroringError}
+      {...defaultProps}
+    />
+  );
+}
 
 ToastDecryptionError.story = {
   name: 'ToastCDSMirroringError',

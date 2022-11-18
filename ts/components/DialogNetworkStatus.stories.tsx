@@ -29,7 +29,7 @@ export default {
   title: 'Components/DialogNetworkStatus',
 };
 
-export const KnobsPlayground = (args: PropsType): JSX.Element => {
+export function KnobsPlayground(args: PropsType): JSX.Element {
   /*
   const socketStatus = select(
     'socketStatus',
@@ -48,7 +48,7 @@ export const KnobsPlayground = (args: PropsType): JSX.Element => {
       <DialogNetworkStatus {...defaultProps} {...args} />
     </FakeLeftPaneContainer>
   );
-};
+}
 KnobsPlayground.args = {
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   hasNetworkDialog: true,
@@ -56,113 +56,129 @@ KnobsPlayground.args = {
   socketStatus: SocketStatus.CONNECTING,
 };
 
-export const ConnectingWide = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Wide}
-      socketStatus={SocketStatus.CONNECTING}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ConnectingWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        socketStatus={SocketStatus.CONNECTING}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ConnectingWide.story = {
   name: 'Connecting Wide',
 };
 
-export const ClosingWide = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Wide}
-      socketStatus={SocketStatus.CLOSING}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ClosingWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        socketStatus={SocketStatus.CLOSING}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ClosingWide.story = {
   name: 'Closing Wide',
 };
 
-export const ClosedWide = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Wide}
-      socketStatus={SocketStatus.CLOSED}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ClosedWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        socketStatus={SocketStatus.CLOSED}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ClosedWide.story = {
   name: 'Closed Wide',
 };
 
-export const OfflineWide = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Wide}
-      isOnline={false}
-    />
-  </FakeLeftPaneContainer>
-);
+export function OfflineWide(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Wide}
+        isOnline={false}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 OfflineWide.story = {
   name: 'Offline Wide',
 };
 
-export const ConnectingNarrow = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Narrow}
-      socketStatus={SocketStatus.CONNECTING}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ConnectingNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        socketStatus={SocketStatus.CONNECTING}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ConnectingNarrow.story = {
   name: 'Connecting Narrow',
 };
 
-export const ClosingNarrow = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Narrow}
-      socketStatus={SocketStatus.CLOSING}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ClosingNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        socketStatus={SocketStatus.CLOSING}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ClosingNarrow.story = {
   name: 'Closing Narrow',
 };
 
-export const ClosedNarrow = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Narrow}
-      socketStatus={SocketStatus.CLOSED}
-    />
-  </FakeLeftPaneContainer>
-);
+export function ClosedNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        socketStatus={SocketStatus.CLOSED}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 ClosedNarrow.story = {
   name: 'Closed Narrow',
 };
 
-export const OfflineNarrow = (): JSX.Element => (
-  <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
-    <DialogNetworkStatus
-      {...defaultProps}
-      containerWidthBreakpoint={WidthBreakpoint.Narrow}
-      isOnline={false}
-    />
-  </FakeLeftPaneContainer>
-);
+export function OfflineNarrow(): JSX.Element {
+  return (
+    <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={WidthBreakpoint.Narrow}
+        isOnline={false}
+      />
+    </FakeLeftPaneContainer>
+  );
+}
 
 OfflineNarrow.story = {
   name: 'Offline Narrow',

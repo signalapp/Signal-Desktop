@@ -11,17 +11,19 @@ export default {
   title: 'Components/Conversation/MediaGallery/DocumentListItem',
 };
 
-export const Single = (): JSX.Element => (
-  <DocumentListItem
-    timestamp={date('timestamp', new Date())}
-    fileName={text('fileName', 'meow.jpg')}
-    fileSize={number('fileSize', 1024 * 1000 * 2)}
-    shouldShowSeparator={boolean('shouldShowSeparator', false)}
-    onClick={action('onClick')}
-  />
-);
+export function Single(): JSX.Element {
+  return (
+    <DocumentListItem
+      timestamp={date('timestamp', new Date())}
+      fileName={text('fileName', 'meow.jpg')}
+      fileSize={number('fileSize', 1024 * 1000 * 2)}
+      shouldShowSeparator={boolean('shouldShowSeparator', false)}
+      onClick={action('onClick')}
+    />
+  );
+}
 
-export const Multiple = (): JSX.Element => {
+export function Multiple(): JSX.Element {
   const items = [
     {
       fileName: 'meow.jpg',
@@ -52,4 +54,4 @@ export const Multiple = (): JSX.Element => {
       ))}
     </>
   );
-};
+}

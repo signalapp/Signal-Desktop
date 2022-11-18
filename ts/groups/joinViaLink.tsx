@@ -157,6 +157,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     const timestamp = existingConversation.get('timestamp') || Date.now();
     // eslint-disable-next-line camelcase
     const active_at = existingConversation.get('active_at') || Date.now();
+    // eslint-disable-next-line camelcase
     existingConversation.set({ active_at, timestamp });
     window.Signal.Data.updateConversation(existingConversation.attributes);
 
@@ -301,6 +302,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               const active_at =
                 targetConversation.get('active_at') || Date.now();
               targetConversation.set({
+                // eslint-disable-next-line camelcase
                 active_at,
                 avatar:
                   localAvatar && localAvatar.path && result.avatar

@@ -184,14 +184,14 @@ function getKnobCoordinates(
   };
 }
 
-export const GradientDial = ({
+export function GradientDial({
   deg = 180,
   knob1Style,
   knob2Style,
   onChange,
   onClick,
   selectedKnob,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [knobDim, setKnobDim] = useState<{
@@ -325,4 +325,4 @@ export const GradientDial = ({
       )}
     </div>
   );
-};
+}

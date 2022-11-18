@@ -20,10 +20,10 @@ export type AppPropsType = Readonly<{
   hasCustomTitleBar: boolean;
 }>;
 
-export const App = ({
+export function App({
   executeMenuRole,
   hasCustomTitleBar,
-}: AppPropsType): JSX.Element => {
+}: AppPropsType): JSX.Element {
   const i18n = useI18n();
   const theme = useTheme();
 
@@ -57,4 +57,4 @@ export const App = ({
       </div>
     </TitleBarContainer>
   );
-};
+}

@@ -10,9 +10,9 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastConversationMarkedUnread = ({
+export function ToastConversationMarkedUnread({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('conversationMarkedUnread')}</Toast>;
-};
+}

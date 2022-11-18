@@ -28,7 +28,7 @@ const getClassName = ({ inner }: Props, isDragActive: boolean) => {
   return styles.standalone;
 };
 
-export const DropZone: React.ComponentType<Props> = props => {
+export function DropZone(props: Props): JSX.Element {
   const { inner, label, onDrop, onDragActive } = props;
   const i18n = useI18n();
 
@@ -52,7 +52,7 @@ export const DropZone: React.ComponentType<Props> = props => {
     <div
       {...getRootProps({ className: getClassName(props, isDragActive) })}
       role="button"
-      area-label={label}
+      aria-label={label}
     >
       <input {...getInputProps()} />
       <svg viewBox="0 0 36 36" width="36px" height="36px">
@@ -67,4 +67,4 @@ export const DropZone: React.ComponentType<Props> = props => {
       ) : null}
     </div>
   );
-};
+}

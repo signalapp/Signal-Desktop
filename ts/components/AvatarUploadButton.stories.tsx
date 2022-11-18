@@ -22,6 +22,6 @@ export default {
   title: 'Components/AvatarUploadButton',
 };
 
-export const Default = (): JSX.Element => (
-  <AvatarUploadButton {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <AvatarUploadButton {...createProps()} />;
+}

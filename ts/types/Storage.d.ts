@@ -41,7 +41,7 @@ export type IdentityKeyMap = Record<
 >;
 
 // This should be in sync with `STORAGE_UI_KEYS` in `ts/types/StorageUIKeys.ts`.
-/* eslint-disable camelcase */
+
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;

@@ -33,17 +33,17 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   const props = createProps({});
   return <ShortcutGuide {...props} />;
-};
+}
 
-export const Mac = (): JSX.Element => {
+export function Mac(): JSX.Element {
   const props = createProps({ platform: 'darwin' });
   return <ShortcutGuide {...props} />;
-};
+}
 
-export const HasStickers = (): JSX.Element => {
+export function HasStickers(): JSX.Element {
   const props = createProps({ hasInstalledStickers: true });
   return <ShortcutGuide {...props} />;
-};
+}

@@ -20,14 +20,14 @@ export type PropsType = NetworkStateType & {
   manualReconnect: () => void;
 };
 
-export const DialogNetworkStatus = ({
+export function DialogNetworkStatus({
   containerWidthBreakpoint,
   hasNetworkDialog,
   i18n,
   isOnline,
   socketStatus,
   manualReconnect,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const [isConnecting, setIsConnecting] = React.useState<boolean>(
     socketStatus === SocketStatus.CONNECTING
   );
@@ -93,4 +93,4 @@ export const DialogNetworkStatus = ({
       onClick={reconnect}
     />
   );
-};
+}

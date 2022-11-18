@@ -18,13 +18,13 @@ export type PropsType = Readonly<{
   visible: boolean;
 }>;
 
-export const TimelineFloatingHeader = ({
+export function TimelineFloatingHeader({
   i18n,
   isLoading,
   style,
   timestamp,
   visible,
-}: PropsType): ReactElement => {
+}: PropsType): ReactElement {
   const [hasRendered, setHasRendered] = useState(false);
   const [showSpinner, setShowSpinner] = useState(isLoading);
 
@@ -86,4 +86,4 @@ export const TimelineFloatingHeader = ({
       )}
     </div>
   );
-};
+}

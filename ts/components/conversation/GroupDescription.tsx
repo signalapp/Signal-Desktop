@@ -16,11 +16,11 @@ export type PropsType = {
   text: string;
 };
 
-export const GroupDescription = ({
+export function GroupDescription({
   i18n,
   title,
   text,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const textRef = useRef<HTMLDivElement | null>(null);
   const [hasReadMore, setHasReadMore] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -67,4 +67,4 @@ export const GroupDescription = ({
       )}
     </>
   );
-};
+}

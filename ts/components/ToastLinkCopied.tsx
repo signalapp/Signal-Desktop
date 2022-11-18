@@ -10,6 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastLinkCopied = ({ i18n, onClose }: PropsType): JSX.Element => {
+export function ToastLinkCopied({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('debugLogLinkCopied')}</Toast>;
-};
+}

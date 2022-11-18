@@ -11,7 +11,7 @@ export type Props = {
 };
 
 export const LastSeenIndicator = forwardRef<HTMLDivElement, Props>(
-  ({ count, i18n }, ref) => {
+  function LastSeenIndicatorInner({ count, i18n }, ref) {
     const message =
       count === 1
         ? i18n('unreadMessage')

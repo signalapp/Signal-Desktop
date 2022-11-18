@@ -44,7 +44,7 @@ enum EditMode {
   Text = 'Text',
 }
 
-export const AvatarEditor = ({
+export function AvatarEditor({
   avatarColor,
   avatarPath,
   avatarValue,
@@ -58,7 +58,7 @@ export const AvatarEditor = ({
   userAvatarData,
   replaceAvatar,
   saveAvatarToDisk,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [provisionalSelectedAvatar, setProvisionalSelectedAvatar] = useState<
     AvatarDataType | undefined
   >();
@@ -298,4 +298,4 @@ export const AvatarEditor = ({
   }
 
   return <div className="AvatarEditor">{content}</div>;
-};
+}

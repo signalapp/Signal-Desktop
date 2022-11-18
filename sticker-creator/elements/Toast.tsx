@@ -9,12 +9,18 @@ export type Props = React.HTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
 };
 
-export const Toast = React.memo(({ children, className, ...rest }: Props) => (
-  <button
-    type="button"
-    className={classNames(styles.base, className)}
-    {...rest}
-  >
-    {children}
-  </button>
-));
+export const Toast = React.memo(function ToastInner({
+  children,
+  className,
+  ...rest
+}: Props) {
+  return (
+    <button
+      type="button"
+      className={classNames(styles.base, className)}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+});

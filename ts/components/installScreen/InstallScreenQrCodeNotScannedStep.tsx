@@ -19,7 +19,7 @@ import { getClassNamesFor } from '../../util/getClassNamesFor';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
-/* eslint-disable react/destructuring-assignment */
+
 type PropsType = {
   i18n: LocalizerType;
   provisioningUrl: Loadable<string>;
@@ -32,56 +32,60 @@ const getQrCodeClassName = getClassNamesFor(
   'module-InstallScreenQrCodeNotScannedStep__qr-code'
 );
 
-export const InstallScreenQrCodeNotScannedStep = ({
+export function InstallScreenQrCodeNotScannedStep({
   i18n,
   provisioningUrl,
-}: Readonly<PropsType>): ReactElement => (
-  <div className="module-InstallScreenQrCodeNotScannedStep">
-    <TitlebarDragArea />
+}: Readonly<PropsType>): ReactElement {
+  return (
+    <div className="module-InstallScreenQrCodeNotScannedStep">
+      <TitlebarDragArea />
 
-    <InstallScreenSignalLogo />
+      <InstallScreenSignalLogo />
 
-    <div className="module-InstallScreenQrCodeNotScannedStep__contents">
-      <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
-      <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
-        <h1>{i18n('Install__scan-this-code')}</h1>
-        <ol>
-          <li>{i18n('Install__instructions__1')}</li>
-          <li>
-            <Intl
-              i18n={i18n}
-              id="Install__instructions__2"
-              components={{
-                settings: (
-                  <strong>{i18n('Install__instructions__2__settings')}</strong>
-                ),
-                linkedDevices: <strong>{i18n('linkedDevices')}</strong>,
-              }}
-            />
-          </li>
-          <li>
-            <Intl
-              i18n={i18n}
-              id="Install__instructions__3"
-              components={{
-                plusButton: (
-                  <div
-                    className="module-InstallScreenQrCodeNotScannedStep__android-plus"
-                    aria-label="+"
-                  />
-                ),
-                linkNewDevice: <strong>{i18n('linkNewDevice')}</strong>,
-              }}
-            />
-          </li>
-        </ol>
-        <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
-          {i18n('Install__support-link')}
-        </a>
+      <div className="module-InstallScreenQrCodeNotScannedStep__contents">
+        <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
+        <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
+          <h1>{i18n('Install__scan-this-code')}</h1>
+          <ol>
+            <li>{i18n('Install__instructions__1')}</li>
+            <li>
+              <Intl
+                i18n={i18n}
+                id="Install__instructions__2"
+                components={{
+                  settings: (
+                    <strong>
+                      {i18n('Install__instructions__2__settings')}
+                    </strong>
+                  ),
+                  linkedDevices: <strong>{i18n('linkedDevices')}</strong>,
+                }}
+              />
+            </li>
+            <li>
+              <Intl
+                i18n={i18n}
+                id="Install__instructions__3"
+                components={{
+                  plusButton: (
+                    <div
+                      className="module-InstallScreenQrCodeNotScannedStep__android-plus"
+                      aria-label="+"
+                    />
+                  ),
+                  linkNewDevice: <strong>{i18n('linkNewDevice')}</strong>,
+                }}
+              />
+            </li>
+          </ol>
+          <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
+            {i18n('Install__support-link')}
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 function InstallScreenQrCode(
   props: Loadable<string> & { i18n: LocalizerType }
@@ -100,6 +104,7 @@ function InstallScreenQrCode(
             i18n={i18n}
             id="icu:Install__qr-failed"
             components={{
+              // eslint-disable-next-line react/no-unstable-nested-components
               learnMoreLink: children => (
                 <a href={QR_CODE_FAILED_LINK}>{children}</a>
               ),

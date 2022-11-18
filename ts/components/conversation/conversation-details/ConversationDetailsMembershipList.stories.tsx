@@ -53,67 +53,67 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   theme: ThemeType.light,
 });
 
-export const Few = (): JSX.Element => {
+export function Few(): JSX.Element {
   const memberships = createMemberships(3);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
-export const Limit = (): JSX.Element => {
+export function Limit(): JSX.Element {
   const memberships = createMemberships(5);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
-export const Limit1 = (): JSX.Element => {
+export function Limit1(): JSX.Element {
   const memberships = createMemberships(6);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
 Limit1.story = {
   name: 'Limit +1',
 };
 
-export const Limit2 = (): JSX.Element => {
+export function Limit2(): JSX.Element {
   const memberships = createMemberships(7);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
 Limit2.story = {
   name: 'Limit +2',
 };
 
-export const Many = (): JSX.Element => {
+export function Many(): JSX.Element {
   const memberships = createMemberships(100);
 
   const props = createProps({ memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
-export const None = (): JSX.Element => {
+export function None(): JSX.Element {
   const props = createProps({ memberships: [] });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
-export const CanAddNewMembers = (): JSX.Element => {
+export function CanAddNewMembers(): JSX.Element {
   const memberships = createMemberships(10);
 
   const props = createProps({ canAddNewMembers: true, memberships });
 
   return <ConversationDetailsMembershipList {...props} />;
-};
+}
 
 CanAddNewMembers.story = {
   name: 'Can add new members',

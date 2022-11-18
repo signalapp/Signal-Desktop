@@ -19,13 +19,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   color: overrideProps.color || '',
 });
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   const props = createProps();
 
   return <TypingAnimation {...props} />;
-};
+}
 
-export const Light = (): JSX.Element => {
+export function Light(): JSX.Element {
   const props = createProps({
     color: 'light',
   });
@@ -35,4 +35,4 @@ export const Light = (): JSX.Element => {
       <TypingAnimation {...props} />
     </div>
   );
-};
+}

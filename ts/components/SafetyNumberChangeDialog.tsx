@@ -84,7 +84,7 @@ function getStartingDialogState(count: number): DialogState {
   return DialogState.StartingInReview;
 }
 
-export const SafetyNumberChangeDialog = ({
+export function SafetyNumberChangeDialog({
   confirmText,
   contacts,
   getPreferredBadge,
@@ -94,7 +94,7 @@ export const SafetyNumberChangeDialog = ({
   removeFromStory,
   renderSafetyNumber,
   theme,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const totalCount = contacts.reduce(
     (count, item) => count + item.contacts.length,
     0
@@ -260,7 +260,7 @@ export const SafetyNumberChangeDialog = ({
       </div>
     </ConfirmationDialog>
   );
-};
+}
 
 function ContactSection({
   section,

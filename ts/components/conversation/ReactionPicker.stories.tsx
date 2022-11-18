@@ -35,7 +35,7 @@ export default {
   title: 'Components/Conversation/ReactionPicker',
 };
 
-export const Base = (): JSX.Element => {
+export function Base(): JSX.Element {
   return (
     <ReactionPicker
       i18n={i18n}
@@ -48,9 +48,9 @@ export const Base = (): JSX.Element => {
       renderEmojiPicker={renderEmojiPicker}
     />
   );
-};
+}
 
-export const SelectedReaction = (): JSX.Element => {
+export function SelectedReaction(): JSX.Element {
   return (
     <>
       {['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (
@@ -70,4 +70,4 @@ export const SelectedReaction = (): JSX.Element => {
       ))}
     </>
   );
-};
+}

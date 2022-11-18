@@ -13,6 +13,6 @@ export default {
   title: 'Components/InContactsIcon',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <InContactsIcon i18n={i18n} />;
-};
+}

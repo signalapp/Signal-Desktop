@@ -73,7 +73,7 @@ export type PropsType = {
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
-export const StoriesPane = ({
+export function StoriesPane({
   getPreferredBadge,
   hiddenStories,
   i18n,
@@ -89,7 +89,7 @@ export const StoriesPane = ({
   toggleHideStories,
   toggleStoriesView,
   viewUserStories,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
   const [isShowingHiddenStories, setIsShowingHiddenStories] = useState(false);
   const [renderedStories, setRenderedStories] =
@@ -151,76 +151,72 @@ export const StoriesPane = ({
         value={searchTerm}
       />
       <div className="Stories__pane__list">
-        <>
-          <MyStoryButton
+        <MyStoryButton
+          i18n={i18n}
+          me={me}
+          myStories={myStories}
+          onAddStory={onAddStory}
+          onClick={onMyStoriesClicked}
+          queueStoryDownload={queueStoryDownload}
+          showToast={showToast}
+        />
+        {renderedStories.map(story => (
+          <StoryListItem
+            conversationId={story.conversationId}
+            getPreferredBadge={getPreferredBadge}
+            hasReplies={story.hasReplies}
+            hasRepliesFromSelf={story.hasRepliesFromSelf}
+            group={story.group}
             i18n={i18n}
-            me={me}
-            myStories={myStories}
-            onAddStory={onAddStory}
-            onClick={onMyStoriesClicked}
+            key={story.storyView.timestamp}
+            onGoToConversation={conversationId => {
+              showConversation({ conversationId });
+              toggleStoriesView();
+            }}
+            onHideStory={toggleHideStories}
             queueStoryDownload={queueStoryDownload}
-            showToast={showToast}
+            story={story.storyView}
+            viewUserStories={viewUserStories}
           />
-          {renderedStories.map(story => (
-            <StoryListItem
-              conversationId={story.conversationId}
-              getPreferredBadge={getPreferredBadge}
-              hasReplies={story.hasReplies}
-              hasRepliesFromSelf={story.hasRepliesFromSelf}
-              group={story.group}
-              i18n={i18n}
-              key={story.storyView.timestamp}
-              onGoToConversation={conversationId => {
-                showConversation({ conversationId });
-                toggleStoriesView();
-              }}
-              onHideStory={toggleHideStories}
-              queueStoryDownload={queueStoryDownload}
-              story={story.storyView}
-              viewUserStories={viewUserStories}
-            />
-          ))}
-          {Boolean(hiddenStories.length) && (
-            <>
-              <button
-                className={classNames('Stories__hidden-stories', {
-                  'Stories__hidden-stories--expanded': isShowingHiddenStories,
-                })}
-                onClick={() =>
-                  setIsShowingHiddenStories(!isShowingHiddenStories)
-                }
-                type="button"
-              >
-                {i18n('Stories__hidden-stories')}
-              </button>
-              {isShowingHiddenStories &&
-                hiddenStories.map(story => (
-                  <StoryListItem
-                    conversationId={story.conversationId}
-                    getPreferredBadge={getPreferredBadge}
-                    group={story.group}
-                    i18n={i18n}
-                    isHidden
-                    key={story.storyView.timestamp}
-                    onGoToConversation={conversationId => {
-                      showConversation({ conversationId });
-                      toggleStoriesView();
-                    }}
-                    onHideStory={toggleHideStories}
-                    queueStoryDownload={queueStoryDownload}
-                    story={story.storyView}
-                    viewUserStories={viewUserStories}
-                  />
-                ))}
-            </>
-          )}
-          {!stories.length && (
-            <div className="Stories__pane__list--empty">
-              {i18n('Stories__list-empty')}
-            </div>
-          )}
-        </>
+        ))}
+        {Boolean(hiddenStories.length) && (
+          <>
+            <button
+              className={classNames('Stories__hidden-stories', {
+                'Stories__hidden-stories--expanded': isShowingHiddenStories,
+              })}
+              onClick={() => setIsShowingHiddenStories(!isShowingHiddenStories)}
+              type="button"
+            >
+              {i18n('Stories__hidden-stories')}
+            </button>
+            {isShowingHiddenStories &&
+              hiddenStories.map(story => (
+                <StoryListItem
+                  conversationId={story.conversationId}
+                  getPreferredBadge={getPreferredBadge}
+                  group={story.group}
+                  i18n={i18n}
+                  isHidden
+                  key={story.storyView.timestamp}
+                  onGoToConversation={conversationId => {
+                    showConversation({ conversationId });
+                    toggleStoriesView();
+                  }}
+                  onHideStory={toggleHideStories}
+                  queueStoryDownload={queueStoryDownload}
+                  story={story.storyView}
+                  viewUserStories={viewUserStories}
+                />
+              ))}
+          </>
+        )}
+        {!stories.length && (
+          <div className="Stories__pane__list--empty">
+            {i18n('Stories__list-empty')}
+          </div>
+        )}
       </div>
     </>
   );
-};
+}

@@ -46,7 +46,7 @@ export type CompositionTextAreaProps = {
  * Meant for modals that need to collect a message or caption. It is
  * basically a rectangle input with an emoji selector floating at the top-right
  */
-export const CompositionTextArea = ({
+export function CompositionTextArea({
   i18n,
   placeholder,
   maxLength,
@@ -63,7 +63,7 @@ export const CompositionTextArea = ({
   theme,
   recentEmojis,
   skinTone,
-}: CompositionTextAreaProps): JSX.Element => {
+}: CompositionTextAreaProps): JSX.Element {
   const inputApiRef = React.useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = React.useState(
     grapheme.count(draftText)
@@ -158,4 +158,4 @@ export const CompositionTextArea = ({
         )}
     </div>
   );
-};
+}

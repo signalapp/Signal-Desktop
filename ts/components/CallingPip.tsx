@@ -70,7 +70,7 @@ const PIP_WIDTH = 120;
 const PIP_TOP_MARGIN = 56;
 const PIP_PADDING = 8;
 
-export const CallingPip = ({
+export function CallingPip({
   activeCall,
   getGroupCallVideoFrameSource,
   hangUpActiveCall,
@@ -82,7 +82,7 @@ export const CallingPip = ({
   switchToPresentationView,
   switchFromPresentationView,
   togglePip,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
   const localVideoRef = React.useRef(null);
 
@@ -315,4 +315,4 @@ export const CallingPip = ({
       </div>
     </div>
   );
-};
+}

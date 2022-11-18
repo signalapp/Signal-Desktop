@@ -10,13 +10,13 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastAlreadyRequestedToJoin = ({
+export function ToastAlreadyRequestedToJoin({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
       {i18n('GroupV2--join--already-awaiting-approval')}
     </Toast>
   );
-};
+}

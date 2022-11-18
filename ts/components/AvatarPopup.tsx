@@ -28,7 +28,7 @@ export type Props = {
   name?: string;
 } & Omit<AvatarProps, 'onClick'>;
 
-export const AvatarPopup = (props: Props): JSX.Element => {
+export function AvatarPopup(props: Props): JSX.Element {
   const {
     hasPendingUpdate,
     i18n,
@@ -121,4 +121,4 @@ export const AvatarPopup = (props: Props): JSX.Element => {
       )}
     </div>
   );
-};
+}

@@ -16,7 +16,7 @@ export type Props = LinkPreviewType & {
   i18n: LocalizerType;
 };
 
-export const StoryLinkPreview = ({
+export function StoryLinkPreview({
   description,
   domain,
   forceCompactMode,
@@ -24,7 +24,7 @@ export const StoryLinkPreview = ({
   image,
   title,
   url,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const isImage = isImageAttachment(image);
   const location = domain || getDomain(String(url));
   const isCompact = forceCompactMode || !image;
@@ -90,4 +90,4 @@ export const StoryLinkPreview = ({
       {content}
     </div>
   );
-};
+}

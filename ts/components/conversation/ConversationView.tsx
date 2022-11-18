@@ -9,11 +9,11 @@ export type PropsType = {
   renderTimeline: () => JSX.Element;
 };
 
-export const ConversationView = ({
+export function ConversationView({
   renderCompositionArea,
   renderConversationHeader,
   renderTimeline,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div className="ConversationView">
       <div className="ConversationView__header">
@@ -31,4 +31,4 @@ export const ConversationView = ({
       </div>
     </div>
   );
-};
+}

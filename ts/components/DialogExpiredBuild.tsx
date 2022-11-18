@@ -15,11 +15,11 @@ type PropsType = {
   i18n: LocalizerType;
 };
 
-export const DialogExpiredBuild = ({
+export function DialogExpiredBuild({
   containerWidthBreakpoint,
   hasExpired,
   i18n,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   if (!hasExpired) {
     return null;
   }
@@ -37,4 +37,4 @@ export const DialogExpiredBuild = ({
       {i18n('expiredWarning')}{' '}
     </LeftPaneDialog>
   );
-};
+}

@@ -15,12 +15,12 @@ export type PropsType = {
   onSave: () => unknown;
 };
 
-export const AvatarModalButtons = ({
+export function AvatarModalButtons({
   hasChanges,
   i18n,
   onCancel,
   onSave,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [confirmDiscardAction, setConfirmDiscardAction] = useState<
     (() => unknown) | undefined
   >(undefined);
@@ -51,4 +51,4 @@ export const AvatarModalButtons = ({
       )}
     </Modal.ButtonFooter>
   );
-};
+}

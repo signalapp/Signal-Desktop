@@ -13,7 +13,9 @@ export type PropsType = {
   readonly i18n: LocalizerType;
 };
 
-export const ShortcutGuideModal = React.memo((props: PropsType) => {
+export const ShortcutGuideModal = React.memo(function ShortcutGuideModalInner(
+  props: PropsType
+) {
   const { i18n, close, hasInstalledStickers, platform } = props;
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
 

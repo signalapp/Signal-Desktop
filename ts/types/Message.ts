@@ -1,8 +1,6 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
-
 import type { DurationInSeconds } from '../util/durations';
 import type { AttachmentType } from './Attachment';
 import type { EmbeddedContactType } from './EmbeddedContact';

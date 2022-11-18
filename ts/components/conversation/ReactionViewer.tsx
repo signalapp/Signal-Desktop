@@ -66,7 +66,7 @@ type ReactionCategory = {
 type ReactionWithEmojiData = Reaction & EmojiData;
 
 export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
-  (
+  function ReactionViewerInner(
     {
       getPreferredBadge,
       i18n,
@@ -77,7 +77,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       ...rest
     },
     ref
-  ) => {
+  ) {
     const reactionsWithEmojiData = React.useMemo(
       () =>
         reactions

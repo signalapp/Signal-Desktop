@@ -33,15 +33,15 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     : undefined,
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = createProps({
     label: 'this is a panel row',
   });
 
   return <PanelRow {...props} />;
-};
+}
 
-export const Simple = (): JSX.Element => {
+export function Simple(): JSX.Element {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -49,9 +49,9 @@ export const Simple = (): JSX.Element => {
   });
 
   return <PanelRow {...props} />;
-};
+}
 
-export const Full = (): JSX.Element => {
+export function Full(): JSX.Element {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -61,9 +61,9 @@ export const Full = (): JSX.Element => {
   });
 
   return <PanelRow {...props} />;
-};
+}
 
-export const Button = (): JSX.Element => {
+export function Button(): JSX.Element {
   const props = createProps({
     label: 'this is a panel row',
     icon: 'with icon',
@@ -72,4 +72,4 @@ export const Button = (): JSX.Element => {
   });
 
   return <PanelRow {...props} />;
-};
+}

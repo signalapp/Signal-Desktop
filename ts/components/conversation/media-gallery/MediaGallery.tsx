@@ -34,7 +34,7 @@ type TabSelectEvent = {
   type: 'media' | 'documents';
 };
 
-const Tab = ({
+function Tab({
   isSelected,
   label,
   onSelect,
@@ -44,7 +44,7 @@ const Tab = ({
   label: string;
   onSelect?: (event: TabSelectEvent) => void;
   type: 'media' | 'documents';
-}) => {
+}) {
   const handleClick = onSelect
     ? () => {
         onSelect({ type });
@@ -66,7 +66,7 @@ const Tab = ({
       {label}
     </div>
   );
-};
+}
 
 export class MediaGallery extends React.Component<Props, State> {
   public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();

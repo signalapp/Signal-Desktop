@@ -23,7 +23,7 @@ type PropsType = {
 } & PropsDataType &
   Omit<ProfileEditorPropsType, 'onEditStateChanged' | 'onProfileChanged'>;
 
-export const ProfileEditorModal = ({
+export function ProfileEditorModal({
   hasError,
   i18n,
   myProfileChanged,
@@ -31,7 +31,7 @@ export const ProfileEditorModal = ({
   toggleProfileEditor,
   toggleProfileEditorHasError,
   ...restProps
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string> = {
     [EditState.BetterAvatar]: i18n('ProfileEditorModal--avatar'),
     [EditState.Bio]: i18n('ProfileEditorModal--about'),
@@ -58,24 +58,22 @@ export const ProfileEditorModal = ({
   }
 
   return (
-    <>
-      <Modal
-        modalName="ProfileEditorModal"
-        hasXButton
+    <Modal
+      modalName="ProfileEditorModal"
+      hasXButton
+      i18n={i18n}
+      onClose={toggleProfileEditor}
+      title={modalTitle}
+    >
+      <ProfileEditor
+        {...restProps}
         i18n={i18n}
-        onClose={toggleProfileEditor}
-        title={modalTitle}
-      >
-        <ProfileEditor
-          {...restProps}
-          i18n={i18n}
-          onEditStateChanged={editState => {
-            setModalTitle(MODAL_TITLES_BY_EDIT_STATE[editState]);
-          }}
-          onProfileChanged={myProfileChanged}
-          onSetSkinTone={onSetSkinTone}
-        />
-      </Modal>
-    </>
+        onEditStateChanged={editState => {
+          setModalTitle(MODAL_TITLES_BY_EDIT_STATE[editState]);
+        }}
+        onProfileChanged={myProfileChanged}
+        onSetSkinTone={onSetSkinTone}
+      />
+    </Modal>
   );
-};
+}

@@ -14,13 +14,13 @@ export default {
   title: 'Components/GroupTitleInput',
 };
 
-const Wrapper = ({
+function Wrapper({
   disabled,
   startingValue = '',
 }: {
   disabled?: boolean;
   startingValue?: string;
-}) => {
+}) {
   const [value, setValue] = useState(startingValue);
 
   return (
@@ -31,14 +31,18 @@ const Wrapper = ({
       value={value}
     />
   );
-};
+}
 
-export const Default = (): JSX.Element => <Wrapper />;
+export function Default(): JSX.Element {
+  return <Wrapper />;
+}
 
-export const Disabled = (): JSX.Element => (
-  <>
-    <Wrapper disabled />
-    <br />
-    <Wrapper disabled startingValue="Has a value" />
-  </>
-);
+export function Disabled(): JSX.Element {
+  return (
+    <>
+      <Wrapper disabled />
+      <br />
+      <Wrapper disabled startingValue="Has a value" />
+    </>
+  );
+}

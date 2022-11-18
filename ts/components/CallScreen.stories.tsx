@@ -189,11 +189,11 @@ export default {
   title: 'Components/CallScreen',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <CallScreen {...createProps()} />;
-};
+}
 
-export const PreRing = (): JSX.Element => {
+export function PreRing(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -202,7 +202,7 @@ export const PreRing = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 PreRing.story = {
   name: 'Pre-Ring',
@@ -241,7 +241,7 @@ export const _Ended = (): JSX.Element => {
   );
 };
 
-export const HasLocalAudio = (): JSX.Element => {
+export function HasLocalAudio(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -250,13 +250,13 @@ export const HasLocalAudio = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 HasLocalAudio.story = {
   name: 'hasLocalAudio',
 };
 
-export const HasLocalVideo = (): JSX.Element => {
+export function HasLocalVideo(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -265,13 +265,13 @@ export const HasLocalVideo = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 HasLocalVideo.story = {
   name: 'hasLocalVideo',
 };
 
-export const HasRemoteVideo = (): JSX.Element => {
+export function HasRemoteVideo(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -280,34 +280,36 @@ export const HasRemoteVideo = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 HasRemoteVideo.story = {
   name: 'hasRemoteVideo',
 };
 
-export const GroupCall1 = (): JSX.Element => (
-  <CallScreen
-    {...createProps({
-      callMode: CallMode.Group,
-      remoteParticipants: [
-        {
-          demuxId: 0,
-          hasRemoteAudio: true,
-          hasRemoteVideo: true,
-          presenting: false,
-          sharingScreen: false,
-          videoAspectRatio: 1.3,
-          ...getDefaultConversation({
-            isBlocked: false,
-            uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
-            title: 'Tyler',
-          }),
-        },
-      ],
-    })}
-  />
-);
+export function GroupCall1(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: [
+          {
+            demuxId: 0,
+            hasRemoteAudio: true,
+            hasRemoteVideo: true,
+            presenting: false,
+            sharingScreen: false,
+            videoAspectRatio: 1.3,
+            ...getDefaultConversation({
+              isBlocked: false,
+              uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
+              title: 'Tyler',
+            }),
+          },
+        ],
+      })}
+    />
+  );
+}
 
 GroupCall1.story = {
   name: 'Group call - 1',
@@ -327,7 +329,7 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   }),
 }));
 
-export const GroupCallMany = (): JSX.Element => {
+export function GroupCallMany(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -344,74 +346,80 @@ export const GroupCallMany = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 GroupCallMany.story = {
   name: 'Group call - Many',
 };
 
-export const GroupCallReconnecting = (): JSX.Element => (
-  <CallScreen
-    {...createProps({
-      callMode: CallMode.Group,
-      connectionState: GroupCallConnectionState.Reconnecting,
-      remoteParticipants: [
-        {
-          demuxId: 0,
-          hasRemoteAudio: true,
-          hasRemoteVideo: true,
-          presenting: false,
-          sharingScreen: false,
-          videoAspectRatio: 1.3,
-          ...getDefaultConversation({
-            isBlocked: false,
-            title: 'Tyler',
-            uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
-          }),
-        },
-      ],
-    })}
-  />
-);
+export function GroupCallReconnecting(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        connectionState: GroupCallConnectionState.Reconnecting,
+        remoteParticipants: [
+          {
+            demuxId: 0,
+            hasRemoteAudio: true,
+            hasRemoteVideo: true,
+            presenting: false,
+            sharingScreen: false,
+            videoAspectRatio: 1.3,
+            ...getDefaultConversation({
+              isBlocked: false,
+              title: 'Tyler',
+              uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
+            }),
+          },
+        ],
+      })}
+    />
+  );
+}
 
 GroupCallReconnecting.story = {
   name: 'Group call - reconnecting',
 };
 
-export const GroupCall0 = (): JSX.Element => (
-  <CallScreen
-    {...createProps({
-      callMode: CallMode.Group,
-      remoteParticipants: [],
-    })}
-  />
-);
+export function GroupCall0(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: [],
+      })}
+    />
+  );
+}
 
 GroupCall0.story = {
   name: 'Group call - 0',
 };
 
-export const GroupCallSomeoneIsSharingScreen = (): JSX.Element => (
-  <CallScreen
-    {...createProps({
-      callMode: CallMode.Group,
-      remoteParticipants: allRemoteParticipants
-        .slice(0, 5)
-        .map((participant, index) => ({
-          ...participant,
-          presenting: index === 1,
-          sharingScreen: index === 1,
-        })),
-    })}
-  />
-);
+export function GroupCallSomeoneIsSharingScreen(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants: allRemoteParticipants
+          .slice(0, 5)
+          .map((participant, index) => ({
+            ...participant,
+            presenting: index === 1,
+            sharingScreen: index === 1,
+          })),
+      })}
+    />
+  );
+}
 
 GroupCallSomeoneIsSharingScreen.story = {
   name: 'Group call - someone is sharing screen',
 };
 
-export const GroupCallSomeoneIsSharingScreenAndYoureReconnecting =
-  (): JSX.Element => (
+export function GroupCallSomeoneIsSharingScreenAndYoureReconnecting(): JSX.Element {
+  return (
     <CallScreen
       {...createProps({
         callMode: CallMode.Group,
@@ -426,6 +434,7 @@ export const GroupCallSomeoneIsSharingScreenAndYoureReconnecting =
       })}
     />
   );
+}
 
 GroupCallSomeoneIsSharingScreenAndYoureReconnecting.story = {
   name: "Group call - someone is sharing screen and you're reconnecting",

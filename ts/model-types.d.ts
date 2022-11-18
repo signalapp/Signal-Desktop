@@ -118,7 +118,6 @@ export type MessageReactionType = {
   isSentByConversationId?: Record<string, boolean>;
 };
 
-/* eslint-disable camelcase */
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: BodyRangesType;
@@ -259,7 +258,6 @@ export type ValidateConversationType = Pick<
   'e164' | 'uuid' | 'type' | 'groupId'
 >;
 
-/* eslint-disable camelcase */
 export type ConversationAttributesType = {
   accessKey?: string | null;
   addedBy?: string;

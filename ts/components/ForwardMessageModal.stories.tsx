@@ -72,35 +72,35 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   regionCode: 'US',
 });
 
-export const Modal = (): JSX.Element => {
+export function Modal(): JSX.Element {
   return <ForwardMessageModal {...useProps()} />;
-};
+}
 
-export const WithText = (): JSX.Element => {
+export function WithText(): JSX.Element {
   return <ForwardMessageModal {...useProps({ messageBody: 'sup' })} />;
-};
+}
 
 WithText.story = {
   name: 'with text',
 };
 
-export const ASticker = (): JSX.Element => {
+export function ASticker(): JSX.Element {
   return <ForwardMessageModal {...useProps({ isSticker: true })} />;
-};
+}
 
 ASticker.story = {
   name: 'a sticker',
 };
 
-export const WithAContact = (): JSX.Element => {
+export function WithAContact(): JSX.Element {
   return <ForwardMessageModal {...useProps({ hasContact: true })} />;
-};
+}
 
 WithAContact.story = {
   name: 'with a contact',
 };
 
-export const LinkPreview = (): JSX.Element => {
+export function LinkPreview(): JSX.Element {
   return (
     <ForwardMessageModal
       {...useProps({
@@ -120,13 +120,13 @@ export const LinkPreview = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 LinkPreview.story = {
   name: 'link preview',
 };
 
-export const MediaAttachments = (): JSX.Element => {
+export function MediaAttachments(): JSX.Element {
   return (
     <ForwardMessageModal
       {...useProps({
@@ -150,23 +150,25 @@ export const MediaAttachments = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 MediaAttachments.story = {
   name: 'media attachments',
 };
 
-export const AnnouncementOnlyGroupsNonAdmin = (): JSX.Element => (
-  <ForwardMessageModal
-    {...useProps()}
-    candidateConversations={[
-      getDefaultConversation({
-        announcementsOnly: true,
-        areWeAdmin: false,
-      }),
-    ]}
-  />
-);
+export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
+  return (
+    <ForwardMessageModal
+      {...useProps()}
+      candidateConversations={[
+        getDefaultConversation({
+          announcementsOnly: true,
+          areWeAdmin: false,
+        }),
+      ]}
+    />
+  );
+}
 
 AnnouncementOnlyGroupsNonAdmin.story = {
   name: 'announcement only groups non-admin',

@@ -121,14 +121,14 @@ function getBgButtonAriaLabel(
   return i18n('StoryCreator__text-bg--none');
 }
 
-export const TextStoryCreator = ({
+export function TextStoryCreator({
   debouncedMaybeGrabLinkPreview,
   i18n,
   isSending,
   linkPreview,
   onClose,
   onDone,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [showConfirmDiscardModal, setShowConfirmDiscardModal] = useState(false);
 
   const onTryClose = useCallback(() => {
@@ -594,4 +594,4 @@ export const TextStoryCreator = ({
       </div>
     </FocusTrap>
   );
-};
+}

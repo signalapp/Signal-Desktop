@@ -27,7 +27,7 @@ type PropsType = {
   ) => void;
 };
 
-export const LeftPaneSearchInput = ({
+export function LeftPaneSearchInput({
   clearConversationSearch,
   clearSearch,
   disabled,
@@ -38,7 +38,7 @@ export const LeftPaneSearchInput = ({
   updateSearchTerm,
   showConversation,
   onEnterKeyDown,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   const prevSearchConversationId = usePrevious(
@@ -158,4 +158,4 @@ export const LeftPaneSearchInput = ({
       )}
     </SearchInput>
   );
-};
+}

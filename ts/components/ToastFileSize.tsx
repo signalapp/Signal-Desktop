@@ -15,16 +15,16 @@ type PropsType = {
   onClose: () => unknown;
 } & ToastPropsType;
 
-export const ToastFileSize = ({
+export function ToastFileSize({
   i18n,
   limit,
   onClose,
   units,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
       {i18n('fileSizeWarning')} {limit}
       {units}
     </Toast>
   );
-};
+}

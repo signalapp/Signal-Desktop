@@ -30,41 +30,41 @@ export default {
   title: 'Components/Conversation/MessageRequestActions',
 };
 
-export const Direct = (): JSX.Element => {
+export function Direct(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MessageRequestActions {...getBaseProps()} />
     </div>
   );
-};
+}
 
-export const DirectBlocked = (): JSX.Element => {
+export function DirectBlocked(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MessageRequestActions {...getBaseProps()} isBlocked />
     </div>
   );
-};
+}
 
 DirectBlocked.story = {
   name: 'Direct (Blocked)',
 };
 
-export const Group = (): JSX.Element => {
+export function Group(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MessageRequestActions {...getBaseProps(true)} />
     </div>
   );
-};
+}
 
-export const GroupBlocked = (): JSX.Element => {
+export function GroupBlocked(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MessageRequestActions {...getBaseProps(true)} isBlocked />
     </div>
   );
-};
+}
 
 GroupBlocked.story = {
   name: 'Group (Blocked)',

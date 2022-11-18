@@ -95,7 +95,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   viewStory: action('viewStory'),
 });
 
-export const DeliveredIncoming = (): JSX.Element => {
+export function DeliveredIncoming(): JSX.Element {
   const props = createProps({
     contacts: [
       {
@@ -110,9 +110,9 @@ export const DeliveredIncoming = (): JSX.Element => {
     ],
   });
   return <MessageDetail {...props} />;
-};
+}
 
-export const DeliveredOutgoing = (): JSX.Element => {
+export function DeliveredOutgoing(): JSX.Element {
   const props = createProps({
     message: {
       ...defaultMessage,
@@ -121,9 +121,9 @@ export const DeliveredOutgoing = (): JSX.Element => {
     },
   });
   return <MessageDetail {...props} />;
-};
+}
 
-export const MessageStatuses = (): JSX.Element => {
+export function MessageStatuses(): JSX.Element {
   const props = createProps({
     contacts: [
       {
@@ -174,9 +174,9 @@ export const MessageStatuses = (): JSX.Element => {
     },
   });
   return <MessageDetail {...props} />;
-};
+}
 
-export const NotDelivered = (): JSX.Element => {
+export function NotDelivered(): JSX.Element {
   const props = createProps({
     message: {
       ...defaultMessage,
@@ -188,9 +188,9 @@ export const NotDelivered = (): JSX.Element => {
   props.receivedAt = undefined as any;
 
   return <MessageDetail {...props} />;
-};
+}
 
-export const NoContacts = (): JSX.Element => {
+export function NoContacts(): JSX.Element {
   const props = createProps({
     contacts: [],
     message: {
@@ -200,9 +200,9 @@ export const NoContacts = (): JSX.Element => {
     },
   });
   return <MessageDetail {...props} />;
-};
+}
 
-export const AllErrors = (): JSX.Element => {
+export function AllErrors(): JSX.Element {
   const props = createProps({
     errors: [
       {
@@ -247,4 +247,4 @@ export const AllErrors = (): JSX.Element => {
     ],
   });
   return <MessageDetail {...props} />;
-};
+}

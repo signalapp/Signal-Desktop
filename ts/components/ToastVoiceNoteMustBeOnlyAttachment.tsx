@@ -10,11 +10,11 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastVoiceNoteMustBeOnlyAttachment = ({
+export function ToastVoiceNoteMustBeOnlyAttachment({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>{i18n('voiceNoteMustBeOnlyAttachment')}</Toast>
   );
-};
+}

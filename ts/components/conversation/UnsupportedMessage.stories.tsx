@@ -29,7 +29,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   downloadNewVersion: action('downloadNewVersion'),
 });
 
-export const FromSomeone = (): JSX.Element => {
+export function FromSomeone(): JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -38,9 +38,9 @@ export const FromSomeone = (): JSX.Element => {
   const props = createProps({ contact });
 
   return <UnsupportedMessage {...props} />;
-};
+}
 
-export const AfterUpgrade = (): JSX.Element => {
+export function AfterUpgrade(): JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -49,9 +49,9 @@ export const AfterUpgrade = (): JSX.Element => {
   const props = createProps({ contact, canProcessNow: true });
 
   return <UnsupportedMessage {...props} />;
-};
+}
 
-export const FromYourself = (): JSX.Element => {
+export function FromYourself(): JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -61,9 +61,9 @@ export const FromYourself = (): JSX.Element => {
   const props = createProps({ contact });
 
   return <UnsupportedMessage {...props} />;
-};
+}
 
-export const FromYourselfAfterUpgrade = (): JSX.Element => {
+export function FromYourselfAfterUpgrade(): JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -73,4 +73,4 @@ export const FromYourselfAfterUpgrade = (): JSX.Element => {
   const props = createProps({ contact, canProcessNow: true });
 
   return <UnsupportedMessage {...props} />;
-};
+}

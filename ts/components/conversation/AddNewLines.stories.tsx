@@ -17,51 +17,51 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-export const AllNewlines = (): JSX.Element => {
+export function AllNewlines(): JSX.Element {
   const props = createProps({
     text: '\n\n\n',
   });
 
   return <AddNewLines {...props} />;
-};
+}
 
 AllNewlines.story = {
   name: 'All newlines',
 };
 
-export const StartingEndingWithNewlines = (): JSX.Element => {
+export function StartingEndingWithNewlines(): JSX.Element {
   const props = createProps({
     text: '\nSome text\n',
   });
 
   return <AddNewLines {...props} />;
-};
+}
 
 StartingEndingWithNewlines.story = {
   name: 'Starting/Ending with Newlines',
 };
 
-export const NewlinesInTheMiddle = (): JSX.Element => {
+export function NewlinesInTheMiddle(): JSX.Element {
   const props = createProps({
     text: 'Some\ntext',
   });
 
   return <AddNewLines {...props} />;
-};
+}
 
 NewlinesInTheMiddle.story = {
   name: 'Newlines in the Middle',
 };
 
-export const NoNewlines = (): JSX.Element => {
+export function NoNewlines(): JSX.Element {
   const props = createProps({
     text: 'Some text',
   });
 
   return <AddNewLines {...props} />;
-};
+}
 
-export const CustomRenderFunction = (): JSX.Element => {
+export function CustomRenderFunction(): JSX.Element {
   const props = createProps({
     text: 'Some text',
     renderNonNewLine: ({ text: theText, key }) => (
@@ -72,4 +72,4 @@ export const CustomRenderFunction = (): JSX.Element => {
   });
 
   return <AddNewLines {...props} />;
-};
+}

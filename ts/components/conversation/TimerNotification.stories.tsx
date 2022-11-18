@@ -44,7 +44,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       }),
 });
 
-export const SetByOther = (): JSX.Element => {
+export function SetByOther(): JSX.Element {
   const props = createProps({
     expireTimer: DurationInSeconds.fromHours(1),
     type: 'fromOther',
@@ -58,9 +58,9 @@ export const SetByOther = (): JSX.Element => {
       <TimerNotification {...props} disabled />
     </>
   );
-};
+}
 
-export const SetByOtherWithALongName = (): JSX.Element => {
+export function SetByOtherWithALongName(): JSX.Element {
   const longName = '🦴🧩📴'.repeat(50);
 
   const props = createProps({
@@ -76,13 +76,13 @@ export const SetByOtherWithALongName = (): JSX.Element => {
       <TimerNotification {...props} disabled />
     </>
   );
-};
+}
 
 SetByOtherWithALongName.story = {
   name: 'Set By Other (with a long name)',
 };
 
-export const SetByYou = (): JSX.Element => {
+export function SetByYou(): JSX.Element {
   const props = createProps({
     expireTimer: DurationInSeconds.fromHours(1),
     type: 'fromMe',
@@ -96,9 +96,9 @@ export const SetByYou = (): JSX.Element => {
       <TimerNotification {...props} disabled />
     </>
   );
-};
+}
 
-export const SetBySync = (): JSX.Element => {
+export function SetBySync(): JSX.Element {
   const props = createProps({
     expireTimer: DurationInSeconds.fromHours(1),
     type: 'fromSync',
@@ -112,4 +112,4 @@ export const SetBySync = (): JSX.Element => {
       <TimerNotification {...props} disabled />
     </>
   );
-};
+}

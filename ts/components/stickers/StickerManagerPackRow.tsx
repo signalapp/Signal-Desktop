@@ -18,13 +18,13 @@ export type OwnProps = {
 export type Props = OwnProps;
 
 export const StickerManagerPackRow = React.memo(
-  ({
+  function StickerManagerPackRowInner({
     installStickerPack,
     uninstallStickerPack,
     onClickPreview,
     pack,
     i18n,
-  }: Props) => {
+  }: Props) {
     const { id, key, isBlessed } = pack;
     const [uninstalling, setUninstalling] = React.useState(false);
 

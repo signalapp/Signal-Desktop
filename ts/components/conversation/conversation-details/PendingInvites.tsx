@@ -56,7 +56,7 @@ type StagedMembershipType = {
   membership: GroupV2PendingMembership | GroupV2RequestingMembership;
 };
 
-export const PendingInvites: React.ComponentType<PropsType> = ({
+export function PendingInvites({
   approvePendingMembership,
   conversation,
   getPreferredBadge,
@@ -66,7 +66,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   pendingApprovalMemberships,
   revokePendingMemberships,
   theme,
-}) => {
+}: PropsType): JSX.Element {
   if (!conversation || !ourUuid) {
     throw new Error(
       'PendingInvites rendered without a conversation or ourUuid'
@@ -160,7 +160,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
       )}
     </div>
   );
-};
+}
 
 function MembershipActionConfirmation({
   approvePendingMembership,

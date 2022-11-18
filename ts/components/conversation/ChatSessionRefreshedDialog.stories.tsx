@@ -14,7 +14,7 @@ export default {
   title: 'Components/Conversation/ChatSessionRefreshedDialog',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return (
     <ChatSessionRefreshedDialog
       contactSupport={action('contactSupport')}
@@ -22,4 +22,4 @@ export const Default = (): JSX.Element => {
       i18n={i18n}
     />
   );
-};
+}

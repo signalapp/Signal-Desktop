@@ -50,60 +50,70 @@ const contactPillProps = (
   onClickRemove: action('onClickRemove'),
 });
 
-export const EmptyList = (): JSX.Element => <ContactPills />;
+export function EmptyList(): JSX.Element {
+  return <ContactPills />;
+}
 
 EmptyList.story = {
   name: 'Empty list',
 };
 
-export const OneContact = (): JSX.Element => (
-  <ContactPills>
-    <ContactPill {...contactPillProps()} />
-  </ContactPills>
-);
+export function OneContact(): JSX.Element {
+  return (
+    <ContactPills>
+      <ContactPill {...contactPillProps()} />
+    </ContactPills>
+  );
+}
 
 OneContact.story = {
   name: 'One contact',
 };
 
-export const ThreeContacts = (): JSX.Element => (
-  <ContactPills>
-    <ContactPill {...contactPillProps(contacts[0])} />
-    <ContactPill {...contactPillProps(contacts[1])} />
-    <ContactPill {...contactPillProps(contacts[2])} />
-  </ContactPills>
-);
+export function ThreeContacts(): JSX.Element {
+  return (
+    <ContactPills>
+      <ContactPill {...contactPillProps(contacts[0])} />
+      <ContactPill {...contactPillProps(contacts[1])} />
+      <ContactPill {...contactPillProps(contacts[2])} />
+    </ContactPills>
+  );
+}
 
 ThreeContacts.story = {
   name: 'Three contacts',
 };
 
-export const FourContactsOneWithALongName = (): JSX.Element => (
-  <ContactPills>
-    <ContactPill {...contactPillProps(contacts[0])} />
-    <ContactPill
-      {...contactPillProps({
-        ...contacts[1],
-        title:
-          'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-      })}
-    />
-    <ContactPill {...contactPillProps(contacts[2])} />
-    <ContactPill {...contactPillProps(contacts[3])} />
-  </ContactPills>
-);
+export function FourContactsOneWithALongName(): JSX.Element {
+  return (
+    <ContactPills>
+      <ContactPill {...contactPillProps(contacts[0])} />
+      <ContactPill
+        {...contactPillProps({
+          ...contacts[1],
+          title:
+            'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
+        })}
+      />
+      <ContactPill {...contactPillProps(contacts[2])} />
+      <ContactPill {...contactPillProps(contacts[3])} />
+    </ContactPills>
+  );
+}
 
 FourContactsOneWithALongName.story = {
   name: 'Four contacts, one with a long name',
 };
 
-export const FiftyContacts = (): JSX.Element => (
-  <ContactPills>
-    {contacts.map(contact => (
-      <ContactPill key={contact.id} {...contactPillProps(contact)} />
-    ))}
-  </ContactPills>
-);
+export function FiftyContacts(): JSX.Element {
+  return (
+    <ContactPills>
+      {contacts.map(contact => (
+        <ContactPill key={contact.id} {...contactPillProps(contact)} />
+      ))}
+    </ContactPills>
+  );
+}
 
 FiftyContacts.story = {
   name: 'Fifty contacts',

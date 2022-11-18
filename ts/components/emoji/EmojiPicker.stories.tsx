@@ -16,7 +16,7 @@ export default {
   title: 'Components/Emoji/EmojiPicker',
 };
 
-export const Base = (): JSX.Element => {
+export function Base(): JSX.Element {
   return (
     <EmojiPicker
       i18n={i18n}
@@ -60,9 +60,9 @@ export const Base = (): JSX.Element => {
       ]}
     />
   );
-};
+}
 
-export const NoRecents = (): JSX.Element => {
+export function NoRecents(): JSX.Element {
   return (
     <EmojiPicker
       i18n={i18n}
@@ -73,9 +73,9 @@ export const NoRecents = (): JSX.Element => {
       recentEmojis={[]}
     />
   );
-};
+}
 
-export const WithSettingsButton = (): JSX.Element => {
+export function WithSettingsButton(): JSX.Element {
   return (
     <EmojiPicker
       i18n={i18n}
@@ -87,7 +87,7 @@ export const WithSettingsButton = (): JSX.Element => {
       recentEmojis={[]}
     />
   );
-};
+}
 
 WithSettingsButton.story = {
   name: 'With settings button',

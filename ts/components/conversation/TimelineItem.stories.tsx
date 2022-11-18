@@ -118,7 +118,7 @@ export default {
   title: 'Components/Conversation/TimelineItem',
 };
 
-export const PlainMessage = (): JSX.Element => {
+export function PlainMessage(): JSX.Element {
   const item = {
     type: 'message',
     data: {
@@ -134,9 +134,9 @@ export const PlainMessage = (): JSX.Element => {
   } as TimelineItemProps['item'];
 
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
-};
+}
 
-export const Notification = (): JSX.Element => {
+export function Notification(): JSX.Element {
   const items = [
     {
       type: 'timerNotification',
@@ -502,9 +502,9 @@ export const Notification = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
-export const UnknownType = (): JSX.Element => {
+export function UnknownType(): JSX.Element {
   const item = {
     type: 'random',
     data: {
@@ -514,11 +514,11 @@ export const UnknownType = (): JSX.Element => {
   } as any as TimelineItemProps['item'];
 
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
-};
+}
 
-export const MissingItem = (): JSX.Element => {
+export function MissingItem(): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const item = null as any as TimelineItemProps['item'];
 
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
-};
+}

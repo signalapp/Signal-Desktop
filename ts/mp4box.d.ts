@@ -1,8 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
-
 declare module 'mp4box' {
   type MP4MediaTrack = {
     alternate_group: number;

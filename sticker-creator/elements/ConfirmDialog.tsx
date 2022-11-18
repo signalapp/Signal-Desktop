@@ -14,14 +14,14 @@ export type Props = {
   readonly onCancel: () => unknown;
 };
 
-export const ConfirmDialog: React.ComponentType<Props> = ({
+export function ConfirmDialog({
   title,
   children,
   confirm,
   cancel,
   onConfirm,
   onCancel,
-}) => {
+}: Props): JSX.Element {
   const i18n = useI18n();
   const cancelText = cancel || i18n('StickerCreator--ConfirmDialog--cancel');
 
@@ -43,4 +43,4 @@ export const ConfirmDialog: React.ComponentType<Props> = ({
       </div>
     </div>
   );
-};
+}

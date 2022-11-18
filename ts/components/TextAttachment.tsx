@@ -104,7 +104,7 @@ function getTextStyles(
   };
 }
 
-export const TextAttachment = ({
+export function TextAttachment({
   disableLinkPreviewPopup,
   i18n,
   isEditingText,
@@ -113,7 +113,7 @@ export const TextAttachment = ({
   onClick,
   onRemoveLinkPreview,
   textAttachment,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const linkPreview = useRef<HTMLDivElement | null>(null);
   const [linkPreviewOffsetTop, setLinkPreviewOffsetTop] = useState<
     number | undefined
@@ -242,52 +242,44 @@ export const TextAttachment = ({
                 </div>
               )}
               {textAttachment.preview && textAttachment.preview.url && (
-                <>
-                  <div
-                    className={classNames('TextAttachment__preview-container', {
-                      'TextAttachment__preview-container--large': Boolean(
-                        textAttachment.preview.title
-                      ),
-                    })}
-                    ref={linkPreview}
-                    onFocus={() => {
-                      if (!disableLinkPreviewPopup) {
-                        setLinkPreviewOffsetTop(
-                          linkPreview?.current?.offsetTop
-                        );
-                      }
-                    }}
-                    onMouseOver={() => {
-                      if (!disableLinkPreviewPopup) {
-                        setLinkPreviewOffsetTop(
-                          linkPreview?.current?.offsetTop
-                        );
-                      }
-                    }}
-                  >
-                    {onRemoveLinkPreview && (
-                      <div className="TextAttachment__preview__remove">
-                        <button
-                          aria-label={i18n(
-                            'Keyboard--remove-draft-link-preview'
-                          )}
-                          type="button"
-                          onClick={onRemoveLinkPreview}
-                        />
-                      </div>
-                    )}
-                    <StoryLinkPreview
-                      {...textAttachment.preview}
-                      domain={getDomain(String(textAttachment.preview.url))}
-                      forceCompactMode={
-                        getTextSize(textContent) !== TextSize.Large
-                      }
-                      i18n={i18n}
-                      title={textAttachment.preview.title || undefined}
-                      url={textAttachment.preview.url}
-                    />
-                  </div>
-                </>
+                <div
+                  className={classNames('TextAttachment__preview-container', {
+                    'TextAttachment__preview-container--large': Boolean(
+                      textAttachment.preview.title
+                    ),
+                  })}
+                  ref={linkPreview}
+                  onFocus={() => {
+                    if (!disableLinkPreviewPopup) {
+                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+                    }
+                  }}
+                  onMouseOver={() => {
+                    if (!disableLinkPreviewPopup) {
+                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+                    }
+                  }}
+                >
+                  {onRemoveLinkPreview && (
+                    <div className="TextAttachment__preview__remove">
+                      <button
+                        aria-label={i18n('Keyboard--remove-draft-link-preview')}
+                        type="button"
+                        onClick={onRemoveLinkPreview}
+                      />
+                    </div>
+                  )}
+                  <StoryLinkPreview
+                    {...textAttachment.preview}
+                    domain={getDomain(String(textAttachment.preview.url))}
+                    forceCompactMode={
+                      getTextSize(textContent) !== TextSize.Large
+                    }
+                    i18n={i18n}
+                    title={textAttachment.preview.title || undefined}
+                    url={textAttachment.preview.url}
+                  />
+                </div>
               )}
             </div>
           </div>
@@ -295,4 +287,4 @@ export const TextAttachment = ({
       }}
     </Measure>
   );
-};
+}

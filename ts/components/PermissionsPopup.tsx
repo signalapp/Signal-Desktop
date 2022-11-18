@@ -19,12 +19,12 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const PermissionsPopup = ({
+export function PermissionsPopup({
   i18n,
   message,
   onAccept,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   useEscapeHandling(onClose);
 
   return (
@@ -48,4 +48,4 @@ export const PermissionsPopup = ({
       </div>
     </div>
   );
-};
+}

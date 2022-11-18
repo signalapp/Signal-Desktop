@@ -173,7 +173,7 @@ export type PropsType = {
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
   onSelectConversation: (conversationId: string, messageId?: string) => void;
-  renderMessageSearchResult: (id: string) => JSX.Element;
+  renderMessageSearchResult?: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   showConversation: ShowConversationType;
 } & LookupConversationWithoutUuidActionsType;
@@ -182,7 +182,7 @@ const NORMAL_ROW_HEIGHT = 76;
 const SELECT_ROW_HEIGHT = 52;
 const HEADER_ROW_HEIGHT = 40;
 
-export const ConversationList: React.FC<PropsType> = ({
+export function ConversationList({
   dimensions,
   getPreferredBadge,
   getRow,
@@ -202,7 +202,7 @@ export const ConversationList: React.FC<PropsType> = ({
   setIsFetchingUUID,
   showConversation,
   theme,
-}) => {
+}: PropsType): JSX.Element | null {
   const calculateRowHeight = useCallback(
     (index: number): number => {
       const row = getRow(index);
@@ -252,7 +252,7 @@ export const ConversationList: React.FC<PropsType> = ({
           );
           break;
         case RowType.Blank:
-          result = <></>;
+          result = undefined;
           break;
         case RowType.Contact: {
           const { isClickable = true } = row;
@@ -381,7 +381,7 @@ export const ConversationList: React.FC<PropsType> = ({
           );
           break;
         case RowType.MessageSearchResult:
-          result = <>{renderMessageSearchResult(row.messageId)}</>;
+          result = <>{renderMessageSearchResult?.(row.messageId)}</>;
           break;
         case RowType.SearchResultsLoadingFakeHeader:
           result = <SearchResultsLoadingFakeHeaderComponent />;
@@ -479,4 +479,4 @@ export const ConversationList: React.FC<PropsType> = ({
       scrollBehavior={scrollBehavior}
     />
   );
-};
+}

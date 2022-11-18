@@ -29,10 +29,10 @@ export type ClassyProviderProps = {
   children?: React.ReactChildren;
 };
 
-export const ClassyProvider: React.FunctionComponent<ClassyProviderProps> = ({
+export function ClassyProvider({
   classes,
   children,
-}) => {
+}: ClassyProviderProps): JSX.Element {
   const api = React.useMemo(() => makeApi(classes), [classes]);
 
   return (
@@ -40,4 +40,4 @@ export const ClassyProvider: React.FunctionComponent<ClassyProviderProps> = ({
       {children}
     </PopperRootContext.Provider>
   );
-};
+}

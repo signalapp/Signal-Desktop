@@ -10,11 +10,11 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastCannotStartGroupCall = ({
+export function ToastCannotStartGroupCall({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>{i18n('GroupV2--cannot-start-group-call')}</Toast>
   );
-};
+}

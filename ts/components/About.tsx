@@ -18,14 +18,14 @@ export type PropsType = {
   executeMenuRole: ExecuteMenuRoleType;
 };
 
-export const About = ({
+export function About({
   closeAbout,
   i18n,
   environment,
   version,
   hasCustomTitleBar,
   executeMenuRole,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   useEscapeHandling(closeAbout);
 
   const theme = useTheme();
@@ -63,4 +63,4 @@ export const About = ({
       </div>
     </TitleBarContainer>
   );
-};
+}

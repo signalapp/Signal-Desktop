@@ -23,11 +23,11 @@ export default {
   title: 'Components/CallingScreenSharingController',
 };
 
-export const Controller = (): JSX.Element => {
+export function Controller(): JSX.Element {
   return <CallingScreenSharingController {...createProps()} />;
-};
+}
 
-export const ReallyLongAppName = (): JSX.Element => {
+export function ReallyLongAppName(): JSX.Element {
   return (
     <CallingScreenSharingController
       {...createProps({
@@ -36,7 +36,7 @@ export const ReallyLongAppName = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 ReallyLongAppName.story = {
   name: 'Really long app name',

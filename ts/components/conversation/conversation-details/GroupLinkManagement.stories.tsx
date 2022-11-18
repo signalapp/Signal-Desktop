@@ -55,59 +55,59 @@ const createProps = (
   ),
 });
 
-export const OffAdmin = (): JSX.Element => {
+export function OffAdmin(): JSX.Element {
   const props = createProps(undefined, true);
 
   return <GroupLinkManagement {...props} />;
-};
+}
 
 OffAdmin.story = {
   name: 'Off (Admin)',
 };
 
-export const OnAdmin = (): JSX.Element => {
+export function OnAdmin(): JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY),
     true
   );
 
   return <GroupLinkManagement {...props} />;
-};
+}
 
 OnAdmin.story = {
   name: 'On (Admin)',
 };
 
-export const OnAdminAdminApprovalNeeded = (): JSX.Element => {
+export function OnAdminAdminApprovalNeeded(): JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ADMINISTRATOR),
     true
   );
 
   return <GroupLinkManagement {...props} />;
-};
+}
 
 OnAdminAdminApprovalNeeded.story = {
   name: 'On (Admin + Admin Approval Needed)',
 };
 
-export const OnNonAdmin = (): JSX.Element => {
+export function OnNonAdmin(): JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY)
   );
 
   return <GroupLinkManagement {...props} />;
-};
+}
 
 OnNonAdmin.story = {
   name: 'On (Non-admin)',
 };
 
-export const OffNonAdminUserCannotGetHere = (): JSX.Element => {
+export function OffNonAdminUserCannotGetHere(): JSX.Element {
   const props = createProps(undefined, false);
 
   return <GroupLinkManagement {...props} />;
-};
+}
 
 OffNonAdminUserCannotGetHere.story = {
   name: 'Off (Non-admin) - user cannot get here',

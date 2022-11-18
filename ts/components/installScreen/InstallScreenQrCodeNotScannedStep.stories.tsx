@@ -16,7 +16,7 @@ export default {
   title: 'Components/InstallScreen/InstallScreenQrCodeNotScannedStep',
 };
 
-const Simulation = ({ finalResult }: { finalResult: Loadable<string> }) => {
+function Simulation({ finalResult }: { finalResult: Loadable<string> }) {
   const [provisioningUrl, setProvisioningUrl] = useState<Loadable<string>>({
     loadingState: LoadingState.Loading,
   });
@@ -36,72 +36,82 @@ const Simulation = ({ finalResult }: { finalResult: Loadable<string> }) => {
       provisioningUrl={provisioningUrl}
     />
   );
-};
+}
 
-export const QrCodeLoading = (): JSX.Element => (
-  <InstallScreenQrCodeNotScannedStep
-    i18n={i18n}
-    provisioningUrl={{
-      loadingState: LoadingState.Loading,
-    }}
-  />
-);
+export function QrCodeLoading(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      i18n={i18n}
+      provisioningUrl={{
+        loadingState: LoadingState.Loading,
+      }}
+    />
+  );
+}
 
 QrCodeLoading.story = {
   name: 'QR code loading',
 };
 
-export const QrCodeFailedToLoad = (): JSX.Element => (
-  <InstallScreenQrCodeNotScannedStep
-    i18n={i18n}
-    provisioningUrl={{
-      loadingState: LoadingState.LoadFailed,
-      error: new Error('uh oh'),
-    }}
-  />
-);
+export function QrCodeFailedToLoad(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      i18n={i18n}
+      provisioningUrl={{
+        loadingState: LoadingState.LoadFailed,
+        error: new Error('uh oh'),
+      }}
+    />
+  );
+}
 
 QrCodeFailedToLoad.story = {
   name: 'QR code failed to load',
 };
 
-export const QrCodeLoaded = (): JSX.Element => (
-  <InstallScreenQrCodeNotScannedStep
-    i18n={i18n}
-    provisioningUrl={{
-      loadingState: LoadingState.Loaded,
-      value:
-        'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
-    }}
-  />
-);
+export function QrCodeLoaded(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      i18n={i18n}
+      provisioningUrl={{
+        loadingState: LoadingState.Loaded,
+        value:
+          'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
+      }}
+    />
+  );
+}
 
 QrCodeLoaded.story = {
   name: 'QR code loaded',
 };
 
-export const SimulatedLoading = (): JSX.Element => (
-  <Simulation
-    finalResult={{
-      loadingState: LoadingState.Loaded,
-      value:
-        'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
-    }}
-  />
-);
+export function SimulatedLoading(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.Loaded,
+        value:
+          'https://example.com/fake-signal-link?uuid=56cdd548-e595-4962-9a27-3f1e8210a959&pub_key=SW4gdGhlIHZhc3QsIGRlZXAgZm9yZXN0IG9mIEh5cnVsZS4uLg%3D%3D',
+      }}
+    />
+  );
+}
 
 SimulatedLoading.story = {
   name: 'Simulated loading',
 };
 
-export const SimulatedFailure = (): JSX.Element => (
-  <Simulation
-    finalResult={{
-      loadingState: LoadingState.LoadFailed,
-      error: new Error('uh oh'),
-    }}
-  />
-);
+export function SimulatedFailure(): JSX.Element {
+  return (
+    <Simulation
+      finalResult={{
+        loadingState: LoadingState.LoadFailed,
+        error: new Error('uh oh'),
+      }}
+    />
+  );
+}
 
 SimulatedFailure.story = {
   name: 'Simulated failure',

@@ -37,13 +37,13 @@ export type Props = {
 
 const bem = bemGenerator('ConversationDetails-icon');
 
-export const ConversationDetailsIcon: React.ComponentType<Props> = ({
+export function ConversationDetailsIcon({
   ariaLabel,
   disabled,
   icon,
   fakeButton,
   onClick,
-}) => {
+}: Props): JSX.Element {
   let content: React.ReactChild;
 
   if (icon === IconType.spinner) {
@@ -105,4 +105,4 @@ export const ConversationDetailsIcon: React.ComponentType<Props> = ({
   }
 
   return content;
-};
+}

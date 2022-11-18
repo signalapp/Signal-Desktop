@@ -32,7 +32,7 @@ export default {
   title: 'Components/CallingButton',
 };
 
-export const KitchenSink = (): JSX.Element => {
+export function KitchenSink(): JSX.Element {
   return (
     <>
       {Object.keys(CallingButtonType).map(buttonType => (
@@ -43,71 +43,71 @@ export const KitchenSink = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
-export const AudioOn = (): JSX.Element => {
+export function AudioOn(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_ON,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const AudioOff = (): JSX.Element => {
+export function AudioOff(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_OFF,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const AudioDisabled = (): JSX.Element => {
+export function AudioDisabled(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.AUDIO_DISABLED,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const VideoOn = (): JSX.Element => {
+export function VideoOn(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_ON,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const VideoOff = (): JSX.Element => {
+export function VideoOff(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_OFF,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const VideoDisabled = (): JSX.Element => {
+export function VideoDisabled(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.VIDEO_DISABLED,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const TooltipRight = (): JSX.Element => {
+export function TooltipRight(): JSX.Element {
   const props = createProps({
     tooltipDirection: TooltipPlacement.Right,
   });
   return <CallingButton {...props} />;
-};
+}
 
 TooltipRight.story = {
   name: 'Tooltip right',
 };
 
-export const PresentingOn = (): JSX.Element => {
+export function PresentingOn(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.PRESENTING_ON,
   });
   return <CallingButton {...props} />;
-};
+}
 
-export const PresentingOff = (): JSX.Element => {
+export function PresentingOff(): JSX.Element {
   const props = createProps({
     buttonType: CallingButtonType.PRESENTING_OFF,
   });
   return <CallingButton {...props} />;
-};
+}

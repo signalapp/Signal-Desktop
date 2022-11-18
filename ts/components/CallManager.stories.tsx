@@ -121,128 +121,142 @@ export default {
   title: 'Components/CallManager',
 };
 
-export const NoCall = (): JSX.Element => <CallManager {...createProps()} />;
+export function NoCall(): JSX.Element {
+  return <CallManager {...createProps()} />;
+}
 
-export const OngoingDirectCall = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      activeCall: {
-        ...getCommonActiveCallData(),
-        callMode: CallMode.Direct,
-        callState: CallState.Accepted,
-        peekedParticipants: [],
-        remoteParticipants: [
-          { hasRemoteVideo: true, presenting: false, title: 'Remy' },
-        ],
-      },
-    })}
-  />
-);
+export function OngoingDirectCall(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: {
+          ...getCommonActiveCallData(),
+          callMode: CallMode.Direct,
+          callState: CallState.Accepted,
+          peekedParticipants: [],
+          remoteParticipants: [
+            { hasRemoteVideo: true, presenting: false, title: 'Remy' },
+          ],
+        },
+      })}
+    />
+  );
+}
 
-export const OngoingGroupCall = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      activeCall: {
-        ...getCommonActiveCallData(),
-        callMode: CallMode.Group,
-        connectionState: GroupCallConnectionState.Connected,
-        conversationsWithSafetyNumberChanges: [],
-        deviceCount: 0,
-        joinState: GroupCallJoinState.Joined,
-        maxDevices: 5,
-        groupMembers: [],
-        isConversationTooBigToRing: false,
-        peekedParticipants: [],
-        remoteParticipants: [],
-        remoteAudioLevels: new Map<number, number>(),
-      },
-    })}
-  />
-);
+export function OngoingGroupCall(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: {
+          ...getCommonActiveCallData(),
+          callMode: CallMode.Group,
+          connectionState: GroupCallConnectionState.Connected,
+          conversationsWithSafetyNumberChanges: [],
+          deviceCount: 0,
+          joinState: GroupCallJoinState.Joined,
+          maxDevices: 5,
+          groupMembers: [],
+          isConversationTooBigToRing: false,
+          peekedParticipants: [],
+          remoteParticipants: [],
+          remoteAudioLevels: new Map<number, number>(),
+        },
+      })}
+    />
+  );
+}
 
-export const RingingDirectCall = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      incomingCall: {
-        callMode: CallMode.Direct as const,
-        conversation: getConversation(),
-        isVideoCall: true,
-      },
-    })}
-  />
-);
+export function RingingDirectCall(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        incomingCall: {
+          callMode: CallMode.Direct as const,
+          conversation: getConversation(),
+          isVideoCall: true,
+        },
+      })}
+    />
+  );
+}
 
 RingingDirectCall.story = {
   name: 'Ringing (direct call)',
 };
 
-export const RingingGroupCall = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      incomingCall: {
-        callMode: CallMode.Group as const,
-        conversation: {
-          ...getConversation(),
-          type: 'group',
-          title: 'Tahoe Trip',
+export function RingingGroupCall(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        incomingCall: {
+          callMode: CallMode.Group as const,
+          conversation: {
+            ...getConversation(),
+            type: 'group',
+            title: 'Tahoe Trip',
+          },
+          otherMembersRung: [
+            { firstName: 'Morty', title: 'Morty Smith' },
+            { firstName: 'Summer', title: 'Summer Smith' },
+          ],
+          ringer: { firstName: 'Rick', title: 'Rick Sanchez' },
         },
-        otherMembersRung: [
-          { firstName: 'Morty', title: 'Morty Smith' },
-          { firstName: 'Summer', title: 'Summer Smith' },
-        ],
-        ringer: { firstName: 'Rick', title: 'Rick Sanchez' },
-      },
-    })}
-  />
-);
+      })}
+    />
+  );
+}
 
 RingingGroupCall.story = {
   name: 'Ringing (group call)',
 };
 
-export const CallRequestNeeded = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      activeCall: {
-        ...getCommonActiveCallData(),
-        callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
-        callMode: CallMode.Direct,
-        callState: CallState.Accepted,
-        peekedParticipants: [],
-        remoteParticipants: [
-          { hasRemoteVideo: true, presenting: false, title: 'Mike' },
-        ],
-      },
-    })}
-  />
-);
+export function CallRequestNeeded(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: {
+          ...getCommonActiveCallData(),
+          callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
+          callMode: CallMode.Direct,
+          callState: CallState.Accepted,
+          peekedParticipants: [],
+          remoteParticipants: [
+            { hasRemoteVideo: true, presenting: false, title: 'Mike' },
+          ],
+        },
+      })}
+    />
+  );
+}
 
-export const GroupCallSafetyNumberChanged = (): JSX.Element => (
-  <CallManager
-    {...createProps({
-      activeCall: {
-        ...getCommonActiveCallData(),
-        callMode: CallMode.Group,
-        connectionState: GroupCallConnectionState.Connected,
-        conversationsWithSafetyNumberChanges: [
-          {
-            ...getDefaultConversation({
-              title: 'Aaron',
-            }),
-          },
-        ],
-        deviceCount: 0,
-        joinState: GroupCallJoinState.Joined,
-        maxDevices: 5,
-        groupMembers: [],
-        isConversationTooBigToRing: false,
-        peekedParticipants: [],
-        remoteParticipants: [],
-        remoteAudioLevels: new Map<number, number>(),
-      },
-    })}
-  />
-);
+export function GroupCallSafetyNumberChanged(): JSX.Element {
+  return (
+    <CallManager
+      {...createProps({
+        activeCall: {
+          ...getCommonActiveCallData(),
+          callMode: CallMode.Group,
+          connectionState: GroupCallConnectionState.Connected,
+          conversationsWithSafetyNumberChanges: [
+            {
+              ...getDefaultConversation({
+                title: 'Aaron',
+              }),
+            },
+          ],
+          deviceCount: 0,
+          joinState: GroupCallJoinState.Joined,
+          maxDevices: 5,
+          groupMembers: [],
+          isConversationTooBigToRing: false,
+          peekedParticipants: [],
+          remoteParticipants: [],
+          remoteAudioLevels: new Map<number, number>(),
+        },
+      })}
+    />
+  );
+}
 
 GroupCallSafetyNumberChanged.story = {
   name: 'Group call - Safety Number Changed',

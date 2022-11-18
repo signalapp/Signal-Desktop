@@ -12,28 +12,31 @@ export type Props = {
   onChange?: (value: string) => unknown;
 };
 
-export const LabeledInput = React.memo(
-  ({ children, value, placeholder, onChange }: Props) => {
-    const handleChange = React.useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (onChange !== undefined) {
-          onChange(e.currentTarget.value);
-        }
-      },
-      [onChange]
-    );
+export const LabeledInput = React.memo(function LabeledInputInner({
+  children,
+  value,
+  placeholder,
+  onChange,
+}: Props) {
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (onChange !== undefined) {
+        onChange(e.currentTarget.value);
+      }
+    },
+    [onChange]
+  );
 
-    return (
-      <label className={styles.container}>
-        <Inline className={styles.label}>{children}</Inline>
-        <input
-          type="text"
-          className={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChange={handleChange}
-        />
-      </label>
-    );
-  }
-);
+  return (
+    <label className={styles.container}>
+      <Inline className={styles.label}>{children}</Inline>
+      <input
+        type="text"
+        className={styles.input}
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChange}
+      />
+    </label>
+  );
+});

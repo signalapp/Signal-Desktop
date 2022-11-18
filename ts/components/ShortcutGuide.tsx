@@ -230,7 +230,7 @@ const CALLING_SHORTCUTS: Array<ShortcutType> = [
   },
 ];
 
-export const ShortcutGuide = (props: Props): JSX.Element => {
+export function ShortcutGuide(props: Props): JSX.Element {
   const { i18n, close, hasInstalledStickers, platform } = props;
   const isMacOS = platform === 'darwin';
 
@@ -308,7 +308,7 @@ export const ShortcutGuide = (props: Props): JSX.Element => {
       </div>
     </div>
   );
-};
+}
 
 function renderShortcut(
   shortcut: ShortcutType,

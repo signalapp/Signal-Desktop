@@ -1,7 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React, {
   useCallback,
   useEffect,
@@ -76,7 +75,7 @@ export type PropsType = DataPropsType & ActionPropsType;
 
 const MAX_FORWARD = 5;
 
-export const ForwardMessageModal: FunctionComponent<PropsType> = ({
+export function ForwardMessageModal({
   attachments,
   candidateConversations,
   doForwardMessage,
@@ -92,7 +91,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   RenderCompositionTextArea,
   theme,
   regionCode,
-}) => {
+}: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
@@ -428,4 +427,4 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
       </ModalHost>
     </>
   );
-};
+}

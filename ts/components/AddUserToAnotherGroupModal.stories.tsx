@@ -39,6 +39,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<Props> = args => (
   <AddUserToAnotherGroupModal
     {...args}

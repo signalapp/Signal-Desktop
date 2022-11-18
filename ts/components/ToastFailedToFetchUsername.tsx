@@ -10,13 +10,13 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastFailedToFetchUsername = ({
+export function ToastFailedToFetchUsername({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose} style={{ maxWidth: '280px' }}>
       {i18n('Toast--failed-to-fetch-username')}
     </Toast>
   );
-};
+}

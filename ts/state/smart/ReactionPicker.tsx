@@ -27,7 +27,7 @@ type ExternalProps = Omit<
 export const SmartReactionPicker = React.forwardRef<
   HTMLDivElement,
   ExternalProps
->((props, ref) => {
+>(function SmartReactionPickerInner(props, ref) {
   const { openCustomizePreferredReactionsModal } =
     usePreferredReactionsActions();
   const { onSetSkinTone } = useItemsActions();

@@ -10,7 +10,9 @@ export type PropsType = {
 };
 
 // TODO: This should use <Modal>. See DESKTOP-1038.
-export const ProgressDialog = React.memo(({ i18n }: PropsType) => {
+export const ProgressDialog = React.memo(function ProgressDialogInner({
+  i18n,
+}: PropsType) {
   return (
     <div className="module-progress-dialog">
       <div className="module-progress-dialog__spinner">

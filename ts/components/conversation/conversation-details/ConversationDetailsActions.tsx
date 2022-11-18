@@ -25,7 +25,7 @@ export type Props = {
   onUnblock: () => void;
 };
 
-export const ConversationDetailsActions: React.ComponentType<Props> = ({
+export function ConversationDetailsActions({
   cannotLeaveBecauseYouAreLastAdmin,
   conversationTitle,
   i18n,
@@ -35,7 +35,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
   onBlock,
   onLeave,
   onUnblock,
-}) => {
+}: Props): JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
   const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);
@@ -268,4 +268,4 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
       )}
     </>
   );
-};
+}

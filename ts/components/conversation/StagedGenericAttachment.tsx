@@ -13,11 +13,11 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-export const StagedGenericAttachment = ({
+export function StagedGenericAttachment({
   attachment,
   i18n,
   onClose,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const { fileName, contentType } = attachment;
   const extension = getExtensionForDisplay({ contentType, fileName });
 
@@ -45,4 +45,4 @@ export const StagedGenericAttachment = ({
       </div>
     </div>
   );
-};
+}

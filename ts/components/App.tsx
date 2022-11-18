@@ -55,7 +55,7 @@ type PropsType = {
   viewStory: ViewStoryActionCreatorType;
 } & ComponentProps<typeof Inbox>;
 
-export const App = ({
+export function App({
   appView,
   executeMenuAction,
   executeMenuRole,
@@ -89,7 +89,7 @@ export const App = ({
   toast,
   toggleStoriesView,
   viewStory,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   let contents;
 
   if (appView === AppViewType.Installer) {
@@ -183,4 +183,4 @@ export const App = ({
       </div>
     </TitleBarContainer>
   );
-};
+}

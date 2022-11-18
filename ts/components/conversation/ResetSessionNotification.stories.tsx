@@ -13,6 +13,6 @@ export default {
   title: 'Components/Conversation/ResetSessionNotification',
 };
 
-export const Notification = (): JSX.Element => {
+export function Notification(): JSX.Element {
   return <ResetSessionNotification i18n={i18n} />;
-};
+}

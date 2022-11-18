@@ -29,7 +29,7 @@ function getNewestMyStory(story: MyStoryType): StoryViewType {
   return story.stories[0];
 }
 
-export const MyStoryButton = ({
+export function MyStoryButton({
   i18n,
   me,
   myStories,
@@ -37,7 +37,7 @@ export const MyStoryButton = ({
   onClick,
   queueStoryDownload,
   showToast,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [active, setActive] = useState(false);
 
   const newestStory = myStories.length
@@ -79,14 +79,12 @@ export const MyStoryButton = ({
           <div className="MyStories__avatar__add-story" />
         </div>
         <div className="StoryListItem__info">
-          <>
-            <div className="StoryListItem__info--title">
-              {i18n('Stories__mine')}
-            </div>
-            <div className="StoryListItem__info--timestamp">
-              {i18n('Stories__add')}
-            </div>
-          </>
+          <div className="StoryListItem__info--title">
+            {i18n('Stories__mine')}
+          </div>
+          <div className="StoryListItem__info--timestamp">
+            {i18n('Stories__add')}
+          </div>
         </div>
       </StoriesAddStoryButton>
     );
@@ -197,4 +195,4 @@ export const MyStoryButton = ({
       </div>
     </div>
   );
-};
+}

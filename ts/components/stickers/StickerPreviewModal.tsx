@@ -72,7 +72,9 @@ function renderBody({ pack, i18n }: Props) {
   );
 }
 
-export const StickerPreviewModal = React.memo((props: Props) => {
+export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
+  props: Props
+) {
   const {
     onClose,
     pack,

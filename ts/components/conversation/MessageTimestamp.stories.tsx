@@ -81,10 +81,10 @@ export const Normal = (): JSX.Element => {
   return createTable();
 };
 
-export const Knobs = (): JSX.Element => {
+export function Knobs(): JSX.Element {
   const props = createProps({
     timestamp: date('timestamp', new Date()),
   });
 
   return <MessageTimestamp {...props} />;
-};
+}

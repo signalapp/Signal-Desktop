@@ -27,11 +27,7 @@ export type I18nProps = {
   messages: LocaleMessagesType;
 };
 
-export const I18n = ({
-  messages,
-  locale,
-  children,
-}: I18nProps): JSX.Element => {
+export function I18n({ messages, locale, children }: I18nProps): JSX.Element {
   const { icuMessages, legacyMessages } = React.useMemo(() => {
     return classifyMessages(messages);
   }, [messages]);
@@ -115,6 +111,6 @@ export const I18n = ({
   return (
     <I18nContext.Provider value={getMessage}>{children}</I18nContext.Provider>
   );
-};
+}
 
 export const useI18n = (): LocalizerType => React.useContext(I18nContext);

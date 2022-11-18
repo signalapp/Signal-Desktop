@@ -17,14 +17,14 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export const AvatarLightbox = ({
+export function AvatarLightbox({
   avatarColor,
   avatarPath,
   conversationTitle,
   i18n,
   isGroup,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Lightbox close={onClose} i18n={i18n} media={[]}>
       <AvatarPreview
@@ -43,4 +43,4 @@ export const AvatarLightbox = ({
       />
     </Lightbox>
   );
-};
+}

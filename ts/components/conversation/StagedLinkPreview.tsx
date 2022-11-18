@@ -20,7 +20,7 @@ export type Props = LinkPreviewType & {
   onClose?: () => void;
 };
 
-export const StagedLinkPreview: React.FC<Props> = ({
+export function StagedLinkPreview({
   date,
   description,
   domain,
@@ -30,7 +30,7 @@ export const StagedLinkPreview: React.FC<Props> = ({
   moduleClassName,
   onClose,
   title,
-}: Props) => {
+}: Props): JSX.Element {
   const isImage = isImageAttachment(image);
   const isLoaded = Boolean(domain);
 
@@ -111,4 +111,4 @@ export const StagedLinkPreview: React.FC<Props> = ({
       )}
     </div>
   );
-};
+}

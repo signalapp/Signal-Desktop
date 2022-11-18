@@ -70,17 +70,17 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   width: number('width', overrideProps.width || 100),
 });
 
-export const UrlWithHeightWidth = (): JSX.Element => {
+export function UrlWithHeightWidth(): JSX.Element {
   const props = createProps();
 
   return <Image {...props} />;
-};
+}
 
 UrlWithHeightWidth.story = {
   name: 'URL with Height/Width',
 };
 
-export const Caption = (): JSX.Element => {
+export function Caption(): JSX.Element {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -91,25 +91,25 @@ export const Caption = (): JSX.Element => {
   };
 
   return <Image {...props} />;
-};
+}
 
-export const PlayIcon = (): JSX.Element => {
+export function PlayIcon(): JSX.Element {
   const props = createProps({
     playIconOverlay: true,
   });
 
   return <Image {...props} />;
-};
+}
 
-export const CloseButton = (): JSX.Element => {
+export function CloseButton(): JSX.Element {
   const props = createProps({
     closeButton: true,
   });
 
   return <Image {...props} />;
-};
+}
 
-export const NoBorderOrBackground = (): JSX.Element => {
+export function NoBorderOrBackground(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -126,13 +126,13 @@ export const NoBorderOrBackground = (): JSX.Element => {
       <Image {...props} />
     </div>
   );
-};
+}
 
 NoBorderOrBackground.story = {
   name: 'No Border or Background',
 };
 
-export const Pending = (): JSX.Element => {
+export function Pending(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -143,9 +143,9 @@ export const Pending = (): JSX.Element => {
   });
 
   return <Image {...props} />;
-};
+}
 
-export const PendingWBlurhash = (): JSX.Element => {
+export function PendingWBlurhash(): JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -163,13 +163,13 @@ export const PendingWBlurhash = (): JSX.Element => {
       height={400}
     />
   );
-};
+}
 
 PendingWBlurhash.story = {
   name: 'Pending w/blurhash',
 };
 
-export const CurvedCorners = (): JSX.Element => {
+export function CurvedCorners(): JSX.Element {
   const props = createProps({
     curveBottomLeft: CurveType.Normal,
     curveBottomRight: CurveType.Normal,
@@ -178,17 +178,17 @@ export const CurvedCorners = (): JSX.Element => {
   });
 
   return <Image {...props} />;
-};
+}
 
-export const SmallCurveTopLeft = (): JSX.Element => {
+export function SmallCurveTopLeft(): JSX.Element {
   const props = createProps({
     curveTopLeft: CurveType.Small,
   });
 
   return <Image {...props} />;
-};
+}
 
-export const SoftCorners = (): JSX.Element => {
+export function SoftCorners(): JSX.Element {
   const props = createProps({
     curveBottomLeft: CurveType.Tiny,
     curveBottomRight: CurveType.Tiny,
@@ -197,30 +197,30 @@ export const SoftCorners = (): JSX.Element => {
   });
 
   return <Image {...props} />;
-};
+}
 
-export const BottomOverlay = (): JSX.Element => {
+export function BottomOverlay(): JSX.Element {
   const props = createProps({
     bottomOverlay: true,
   });
 
   return <Image {...props} />;
-};
+}
 
-export const FullOverlayWithText = (): JSX.Element => {
+export function FullOverlayWithText(): JSX.Element {
   const props = createProps({
     darkOverlay: true,
     overlayText: 'Honk!',
   });
 
   return <Image {...props} />;
-};
+}
 
 FullOverlayWithText.story = {
   name: 'Full Overlay with Text',
 };
 
-export const Blurhash = (): JSX.Element => {
+export function Blurhash(): JSX.Element {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -228,28 +228,28 @@ export const Blurhash = (): JSX.Element => {
   };
 
   return <Image {...props} />;
-};
+}
 
-export const UndefinedBlurHash = (): JSX.Element => {
-  const Wrapper = () => {
-    const theme = React.useContext(StorybookThemeContext);
-    const props = createProps({
-      blurHash: undefined,
-      theme,
-      url: undefined,
-    });
+function UndefinedBlurHashWrapper() {
+  const theme = React.useContext(StorybookThemeContext);
+  const props = createProps({
+    blurHash: undefined,
+    theme,
+    url: undefined,
+  });
 
-    return <Image {...props} />;
-  };
+  return <Image {...props} />;
+}
 
-  return <Wrapper />;
-};
+export function UndefinedBlurHash(): JSX.Element {
+  return <UndefinedBlurHashWrapper />;
+}
 
 UndefinedBlurHash.story = {
   name: 'undefined blurHash',
 };
 
-export const MissingImage = (): JSX.Element => {
+export function MissingImage(): JSX.Element {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -258,4 +258,4 @@ export const MissingImage = (): JSX.Element => {
   };
 
   return <Image {...props} />;
-};
+}

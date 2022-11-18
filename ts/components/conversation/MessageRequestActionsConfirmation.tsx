@@ -27,7 +27,7 @@ export type Props = {
   onChangeState(state: MessageRequestState): unknown;
 } & Omit<ContactNameProps, 'module'>;
 
-export const MessageRequestActionsConfirmation = ({
+export function MessageRequestActionsConfirmation({
   conversationType,
   i18n,
   onBlock,
@@ -37,7 +37,7 @@ export const MessageRequestActionsConfirmation = ({
   onUnblock,
   state,
   title,
-}: Props): JSX.Element | null => {
+}: Props): JSX.Element | null {
   if (state === MessageRequestState.blocking) {
     return (
       <ConfirmationDialog
@@ -134,4 +134,4 @@ export const MessageRequestActionsConfirmation = ({
   }
 
   return null;
-};
+}

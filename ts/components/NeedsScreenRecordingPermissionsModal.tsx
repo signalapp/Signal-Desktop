@@ -19,11 +19,11 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const NeedsScreenRecordingPermissionsModal = ({
+export function NeedsScreenRecordingPermissionsModal({
   i18n,
   openSystemPreferencesAction,
   toggleScreenRecordingPermissionsDialog,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const footer = (
     <>
       <Button
@@ -61,4 +61,4 @@ export const NeedsScreenRecordingPermissionsModal = ({
       </ol>
     </Modal>
   );
-};
+}

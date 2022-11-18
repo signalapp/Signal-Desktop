@@ -1,7 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FC } from 'react';
 import React from 'react';
 import { memoize, times } from 'lodash';
 import { number } from '@storybook/addon-knobs';
@@ -44,70 +43,80 @@ const defaultProps = {
 };
 
 // This component is usually rendered on a call screen.
-const Container: FC = ({ children }) => (
-  <div
-    style={{
-      background: 'black',
-      display: 'inline-flex',
-      height: '80vh',
-    }}
-  >
-    {children}
-  </div>
-);
+function Container({ children }: { children: JSX.Element }): JSX.Element {
+  return (
+    <div
+      style={{
+        background: 'black',
+        display: 'inline-flex',
+        height: '80vh',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
-export const NoOverflowedParticipants = (): JSX.Element => (
-  <Container>
-    <GroupCallOverflowArea {...defaultProps} overflowedParticipants={[]} />
-  </Container>
-);
+export function NoOverflowedParticipants(): JSX.Element {
+  return (
+    <Container>
+      <GroupCallOverflowArea {...defaultProps} overflowedParticipants={[]} />
+    </Container>
+  );
+}
 
 NoOverflowedParticipants.story = {
   name: 'No overflowed participants',
 };
 
-export const OneOverflowedParticipant = (): JSX.Element => (
-  <Container>
-    <GroupCallOverflowArea
-      {...defaultProps}
-      overflowedParticipants={allRemoteParticipants.slice(0, 1)}
-    />
-  </Container>
-);
+export function OneOverflowedParticipant(): JSX.Element {
+  return (
+    <Container>
+      <GroupCallOverflowArea
+        {...defaultProps}
+        overflowedParticipants={allRemoteParticipants.slice(0, 1)}
+      />
+    </Container>
+  );
+}
 
 OneOverflowedParticipant.story = {
   name: 'One overflowed participant',
 };
 
-export const ThreeOverflowedParticipants = (): JSX.Element => (
-  <Container>
-    <GroupCallOverflowArea
-      {...defaultProps}
-      overflowedParticipants={allRemoteParticipants.slice(0, 3)}
-    />
-  </Container>
-);
+export function ThreeOverflowedParticipants(): JSX.Element {
+  return (
+    <Container>
+      <GroupCallOverflowArea
+        {...defaultProps}
+        overflowedParticipants={allRemoteParticipants.slice(0, 3)}
+      />
+    </Container>
+  );
+}
 
 ThreeOverflowedParticipants.story = {
   name: 'Three overflowed participants',
 };
 
-export const ManyOverflowedParticipants = (): JSX.Element => (
-  <Container>
-    <GroupCallOverflowArea
-      {...defaultProps}
-      overflowedParticipants={allRemoteParticipants.slice(
-        0,
-        number('Participant count', MAX_PARTICIPANTS, {
-          range: true,
-          min: 0,
-          max: MAX_PARTICIPANTS,
-          step: 1,
-        })
-      )}
-    />
-  </Container>
-);
+export function ManyOverflowedParticipants(): JSX.Element {
+  return (
+    <Container>
+      <GroupCallOverflowArea
+        {...defaultProps}
+        overflowedParticipants={allRemoteParticipants.slice(
+          0,
+          number('Participant count', MAX_PARTICIPANTS, {
+            range: true,
+            min: 0,
+            max: MAX_PARTICIPANTS,
+            step: 1,
+          })
+        )}
+      />
+    </Container>
+  );
+}
 
 ManyOverflowedParticipants.story = {
   name: 'Many overflowed participants',

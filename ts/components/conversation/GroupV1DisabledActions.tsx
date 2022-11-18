@@ -10,10 +10,10 @@ export type PropsType = {
   onStartGroupMigration: () => unknown;
 };
 
-export const GroupV1DisabledActions = ({
+export function GroupV1DisabledActions({
   i18n,
   onStartGroupMigration,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div className="module-group-v1-disabled-actions">
       <p className="module-group-v1-disabled-actions__message">
@@ -46,4 +46,4 @@ export const GroupV1DisabledActions = ({
       </div>
     </div>
   );
-};
+}

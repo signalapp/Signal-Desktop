@@ -116,7 +116,7 @@ function createCameraChangeHandler(
   };
 }
 
-export const CallingDeviceSelection = ({
+export function CallingDeviceSelection({
   availableCameras,
   availableMicrophones,
   availableSpeakers,
@@ -126,7 +126,7 @@ export const CallingDeviceSelection = ({
   selectedMicrophone,
   selectedSpeaker,
   toggleSettings,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const selectedMicrophoneIndex = selectedMicrophone
     ? selectedMicrophone.index
     : undefined;
@@ -212,4 +212,4 @@ export const CallingDeviceSelection = ({
       </div>
     </Modal>
   );
-};
+}

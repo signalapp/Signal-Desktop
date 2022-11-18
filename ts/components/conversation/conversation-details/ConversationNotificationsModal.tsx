@@ -17,12 +17,12 @@ type PropsType = {
   setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
 };
 
-export const ConversationNotificationsModal = ({
+export function ConversationNotificationsModal({
   i18n,
   muteExpiresAt,
   onClose,
   setMuteExpiration,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const muteOptions = useMemo(
     () =>
       getMuteOptions(muteExpiresAt, i18n).map(({ disabled, name, value }) => ({
@@ -78,4 +78,4 @@ export const ConversationNotificationsModal = ({
         ))}
     </Modal>
   );
-};
+}

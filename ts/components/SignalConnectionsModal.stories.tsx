@@ -22,6 +22,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => <SignalConnectionsModal {...args} />;
 
 export const Modal = Template.bind({});

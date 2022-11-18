@@ -29,11 +29,11 @@ type Props = {
 
 const AUTO_CLOSE_MS = 10000;
 
-export const CallNeedPermissionScreen: React.FC<Props> = ({
+export function CallNeedPermissionScreen({
   conversation,
   i18n,
   close,
-}) => {
+}: Props): JSX.Element {
   const title = conversation.title || i18n('unknownContact');
 
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);
@@ -79,4 +79,4 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
       </button>
     </div>
   );
-};
+}

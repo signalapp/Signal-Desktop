@@ -31,7 +31,7 @@ type PropsType = {
   timestamp: number;
 };
 
-export const MessageMetadata = ({
+export function MessageMetadata({
   deletedForEveryone,
   direction,
   expirationLength,
@@ -48,7 +48,7 @@ export const MessageMetadata = ({
   status,
   textPending,
   timestamp,
-}: Readonly<PropsType>): ReactElement => {
+}: Readonly<PropsType>): ReactElement {
   const withImageNoCaption = Boolean(!isSticker && !hasText && isShowingImage);
   const metadataDirection = isSticker ? undefined : direction;
 
@@ -187,4 +187,4 @@ export const MessageMetadata = ({
   }
 
   return <div className={className}>{children}</div>;
-};
+}

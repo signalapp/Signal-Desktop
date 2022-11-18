@@ -102,6 +102,7 @@ const sizes = Object.values(AvatarSize).filter(
   x => typeof x === 'number'
 ) as Array<AvatarSize>;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<Props> = args => (
   <>
     {sizes.map(size => (
@@ -110,6 +111,7 @@ const Template: Story<Props> = args => (
   </>
 );
 
+// eslint-disable-next-line react/function-component-definition
 const TemplateSingle: Story<Props> = args => (
   <Avatar {...args} size={AvatarSize.ONE_HUNDRED_TWELVE} />
 );
@@ -198,7 +200,7 @@ SearchIcon.args = createProps({
   searchResult: true,
 });
 
-export const Colors = (): JSX.Element => {
+export function Colors(): JSX.Element {
   const props = createProps();
 
   return (
@@ -208,7 +210,7 @@ export const Colors = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
 export const BrokenColor = Template.bind({});
 BrokenColor.args = createProps({

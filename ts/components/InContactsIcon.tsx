@@ -13,7 +13,7 @@ type PropsType = {
   i18n: LocalizerType;
 };
 
-export const InContactsIcon = (props: PropsType): JSX.Element => {
+export function InContactsIcon(props: PropsType): JSX.Element {
   const { className, i18n, tooltipContainerRef } = props;
 
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
@@ -38,4 +38,4 @@ export const InContactsIcon = (props: PropsType): JSX.Element => {
     </Tooltip>
   );
   /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
-};
+}

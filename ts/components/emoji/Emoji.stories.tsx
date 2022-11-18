@@ -27,7 +27,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-export const Sizes = (): JSX.Element => {
+export function Sizes(): JSX.Element {
   const props = createProps({
     shortName: 'grinning_face_with_star_eyes',
   });
@@ -39,9 +39,9 @@ export const Sizes = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
-export const SkinTones = (): JSX.Element => {
+export function SkinTones(): JSX.Element {
   const props = createProps({
     shortName: 'raised_back_of_hand',
   });
@@ -53,12 +53,12 @@ export const SkinTones = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
-export const FromEmoji = (): JSX.Element => {
+export function FromEmoji(): JSX.Element {
   const props = createProps({
     emoji: '😂',
   });
 
   return <Emoji {...props} />;
-};
+}

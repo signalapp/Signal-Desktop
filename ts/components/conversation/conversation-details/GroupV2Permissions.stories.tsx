@@ -40,50 +40,56 @@ const createProps = (): PropsType => ({
   setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = createProps();
 
   return <GroupV2Permissions {...props} />;
-};
+}
 
-export const NotAdmin = (): JSX.Element => (
-  <GroupV2Permissions
-    {...createProps()}
-    conversation={getDefaultConversation({
-      announcementsOnly: true,
-      areWeAdmin: false,
-    })}
-  />
-);
+export function NotAdmin(): JSX.Element {
+  return (
+    <GroupV2Permissions
+      {...createProps()}
+      conversation={getDefaultConversation({
+        announcementsOnly: true,
+        areWeAdmin: false,
+      })}
+    />
+  );
+}
 
 NotAdmin.story = {
   name: 'Not admin',
 };
 
-export const AdminButNotAnnouncementReady = (): JSX.Element => (
-  <GroupV2Permissions
-    {...createProps()}
-    conversation={getDefaultConversation({
-      announcementsOnlyReady: false,
-      areWeAdmin: true,
-    })}
-  />
-);
+export function AdminButNotAnnouncementReady(): JSX.Element {
+  return (
+    <GroupV2Permissions
+      {...createProps()}
+      conversation={getDefaultConversation({
+        announcementsOnlyReady: false,
+        areWeAdmin: true,
+      })}
+    />
+  );
+}
 
 AdminButNotAnnouncementReady.story = {
   name: 'Admin but not announcement ready',
 };
 
-export const AdminNotAnnouncementReadyButItWasOn = (): JSX.Element => (
-  <GroupV2Permissions
-    {...createProps()}
-    conversation={getDefaultConversation({
-      announcementsOnly: true,
-      announcementsOnlyReady: false,
-      areWeAdmin: true,
-    })}
-  />
-);
+export function AdminNotAnnouncementReadyButItWasOn(): JSX.Element {
+  return (
+    <GroupV2Permissions
+      {...createProps()}
+      conversation={getDefaultConversation({
+        announcementsOnly: true,
+        announcementsOnlyReady: false,
+        areWeAdmin: true,
+      })}
+    />
+  );
+}
 
 AdminNotAnnouncementReadyButItWasOn.story = {
   name: 'Admin, not announcement ready, but it was on',

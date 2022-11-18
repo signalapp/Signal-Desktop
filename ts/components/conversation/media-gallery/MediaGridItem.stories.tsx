@@ -50,7 +50,7 @@ const createMediaItem = (
   },
 });
 
-export const Image = (): JSX.Element => {
+export function Image(): JSX.Element {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/fixtures/kitten-1-64-64.jpg',
     contentType: stringToMIMEType('image/jpeg'),
@@ -61,9 +61,9 @@ export const Image = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const Video = (): JSX.Element => {
+export function Video(): JSX.Element {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/fixtures/kitten-2-64-64.jpg',
     contentType: stringToMIMEType('video/mp4'),
@@ -74,9 +74,9 @@ export const Video = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const MissingImage = (): JSX.Element => {
+export function MissingImage(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('image/jpeg'),
   });
@@ -86,9 +86,9 @@ export const MissingImage = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const MissingVideo = (): JSX.Element => {
+export function MissingVideo(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('video/mp4'),
   });
@@ -98,9 +98,9 @@ export const MissingVideo = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const BrokenImage = (): JSX.Element => {
+export function BrokenImage(): JSX.Element {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/missing-fixtures/nope.jpg',
     contentType: stringToMIMEType('image/jpeg'),
@@ -111,9 +111,9 @@ export const BrokenImage = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const BrokenVideo = (): JSX.Element => {
+export function BrokenVideo(): JSX.Element {
   const mediaItem = createMediaItem({
     thumbnailObjectUrl: '/missing-fixtures/nope.mp4',
     contentType: stringToMIMEType('video/mp4'),
@@ -124,9 +124,9 @@ export const BrokenVideo = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
-export const OtherContentType = (): JSX.Element => {
+export function OtherContentType(): JSX.Element {
   const mediaItem = createMediaItem({
     contentType: stringToMIMEType('application/text'),
   });
@@ -136,7 +136,7 @@ export const OtherContentType = (): JSX.Element => {
   });
 
   return <MediaGridItem {...props} />;
-};
+}
 
 OtherContentType.story = {
   name: 'Other ContentType',

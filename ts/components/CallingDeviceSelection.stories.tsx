@@ -41,11 +41,11 @@ export default {
   title: 'Components/CallingDeviceSelection',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <CallingDeviceSelection {...createProps()} />;
-};
+}
 
-export const SomeDevices = (): JSX.Element => {
+export function SomeDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',
@@ -72,9 +72,9 @@ export const SomeDevices = (): JSX.Element => {
   });
 
   return <CallingDeviceSelection {...props} />;
-};
+}
 
-export const DefaultDevices = (): JSX.Element => {
+export function DefaultDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'default (Headphones)',
@@ -103,9 +103,9 @@ export const DefaultDevices = (): JSX.Element => {
   });
 
   return <CallingDeviceSelection {...props} />;
-};
+}
 
-export const AllDevices = (): JSX.Element => {
+export function AllDevices(): JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',
@@ -179,4 +179,4 @@ export const AllDevices = (): JSX.Element => {
   });
 
   return <CallingDeviceSelection {...props} />;
-};
+}

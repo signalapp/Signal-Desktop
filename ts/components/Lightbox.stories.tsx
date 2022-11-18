@@ -63,7 +63,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
 });
 
-export const Multimedia = (): JSX.Element => {
+export function Multimedia(): JSX.Element {
   const props = createProps({
     media: [
       {
@@ -120,9 +120,9 @@ export const Multimedia = (): JSX.Element => {
   });
 
   return <Lightbox {...props} />;
-};
+}
 
-export const MissingMedia = (): JSX.Element => {
+export function MissingMedia(): JSX.Element {
   const props = createProps({
     media: [
       {
@@ -147,185 +147,207 @@ export const MissingMedia = (): JSX.Element => {
   });
 
   return <Lightbox {...props} />;
-};
+}
 
-export const SingleImage = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        }),
-      ],
-    })}
-  />
-);
+export function SingleImage(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
-export const ImageWithCaptionNormalImage = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          caption:
-            'This lighthouse is really cool because there are lots of rocks and there is a tower that has a light and the light is really bright because it shines so much. The day was super duper cloudy and stormy and you can see all the waves hitting against the rocks. Wait? What is that weird red hose line thingy running all the way to the tower? Those rocks look slippery! I bet that water is really cold. I am cold now, can I get a sweater? I wonder where this place is, probably somewhere cold like Coldsgar, Frozenville.',
-          objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        }),
-      ],
-    })}
-  />
-);
+export function ImageWithCaptionNormalImage(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            caption:
+              'This lighthouse is really cool because there are lots of rocks and there is a tower that has a light and the light is really bright because it shines so much. The day was super duper cloudy and stormy and you can see all the waves hitting against the rocks. Wait? What is that weird red hose line thingy running all the way to the tower? Those rocks look slippery! I bet that water is really cold. I am cold now, can I get a sweater? I wonder where this place is, probably somewhere cold like Coldsgar, Frozenville.',
+            objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
 ImageWithCaptionNormalImage.story = {
   name: 'Image with Caption (normal image)',
 };
 
-export const ImageWithCaptionAllWhiteImage = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          caption:
-            'This is the user-provided caption. It should be visible on light backgrounds.',
-          objectURL: '/fixtures/2000x2000-white.png',
-        }),
-      ],
-    })}
-  />
-);
+export function ImageWithCaptionAllWhiteImage(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            caption:
+              'This is the user-provided caption. It should be visible on light backgrounds.',
+            objectURL: '/fixtures/2000x2000-white.png',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
 ImageWithCaptionAllWhiteImage.story = {
   name: 'Image with Caption (all-white image)',
 };
 
-export const SingleVideo = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          contentType: VIDEO_MP4,
-          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-        }),
-      ],
-    })}
-  />
-);
+export function SingleVideo(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            contentType: VIDEO_MP4,
+            objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
-export const SingleVideoWCaption = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          caption:
-            'This is the user-provided caption. It can get long and wrap onto multiple lines.',
-          contentType: VIDEO_MP4,
-          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-        }),
-      ],
-    })}
-  />
-);
+export function SingleVideoWCaption(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            caption:
+              'This is the user-provided caption. It can get long and wrap onto multiple lines.',
+            contentType: VIDEO_MP4,
+            objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
 SingleVideoWCaption.story = {
   name: 'Single Video w/caption',
 };
 
-export const UnsupportedImageType = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          contentType: stringToMIMEType('image/tiff'),
-          objectURL: 'unsupported-image.tiff',
-        }),
-      ],
-    })}
-  />
-);
+export function UnsupportedImageType(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            contentType: stringToMIMEType('image/tiff'),
+            objectURL: 'unsupported-image.tiff',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
-export const UnsupportedVideoType = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          contentType: VIDEO_QUICKTIME,
-          objectURL: 'unsupported-video.mov',
-        }),
-      ],
-    })}
-  />
-);
+export function UnsupportedVideoType(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            contentType: VIDEO_QUICKTIME,
+            objectURL: 'unsupported-video.mov',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
-export const UnsupportedContent = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      media: [
-        createMediaItem({
-          contentType: AUDIO_MP3,
-          objectURL: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-        }),
-      ],
-    })}
-  />
-);
+export function UnsupportedContent(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        media: [
+          createMediaItem({
+            contentType: AUDIO_MP3,
+            objectURL: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+          }),
+        ],
+      })}
+    />
+  );
+}
 
-export const CustomChildren = (): JSX.Element => (
-  <Lightbox {...createProps({})} media={[]}>
-    <div
-      style={{
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      I am middle child
-    </div>
-  </Lightbox>
-);
+export function CustomChildren(): JSX.Element {
+  return (
+    <Lightbox {...createProps({})} media={[]}>
+      <div
+        style={{
+          color: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        I am middle child
+      </div>
+    </Lightbox>
+  );
+}
 
 CustomChildren.story = {
   name: 'Custom children',
 };
 
-export const Forwarding = (): JSX.Element => (
-  <Lightbox {...createProps({})} onForward={action('onForward')} />
-);
+export function Forwarding(): JSX.Element {
+  return <Lightbox {...createProps({})} onForward={action('onForward')} />;
+}
 
-export const ConversationHeader = (): JSX.Element => (
-  <Lightbox
-    {...createProps({})}
-    getConversation={() => ({
-      acceptedMessageRequest: true,
-      avatarPath: '/fixtures/kitten-1-64-64.jpg',
-      badges: [],
-      id: '1234',
-      isMe: false,
-      name: 'Test',
-      profileName: 'Test',
-      sharedGroupNames: [],
-      title: 'Test',
-      type: 'direct',
-    })}
-    media={[
-      createMediaItem({
-        contentType: VIDEO_MP4,
-        objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-      }),
-    ]}
-  />
-);
-
-export const ViewOnceVideo = (): JSX.Element => (
-  <Lightbox
-    {...createProps({
-      isViewOnce: true,
-      media: [
+export function ConversationHeader(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({})}
+      getConversation={() => ({
+        acceptedMessageRequest: true,
+        avatarPath: '/fixtures/kitten-1-64-64.jpg',
+        badges: [],
+        id: '1234',
+        isMe: false,
+        name: 'Test',
+        profileName: 'Test',
+        sharedGroupNames: [],
+        title: 'Test',
+        type: 'direct',
+      })}
+      media={[
         createMediaItem({
           contentType: VIDEO_MP4,
           objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
         }),
-      ],
-    })}
-    isViewOnce
-  />
-);
+      ]}
+    />
+  );
+}
+
+export function ViewOnceVideo(): JSX.Element {
+  return (
+    <Lightbox
+      {...createProps({
+        isViewOnce: true,
+        media: [
+          createMediaItem({
+            contentType: VIDEO_MP4,
+            objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+          }),
+        ],
+      })}
+      isViewOnce
+    />
+  );
+}

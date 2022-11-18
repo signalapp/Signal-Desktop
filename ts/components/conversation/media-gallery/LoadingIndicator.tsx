@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export const LoadingIndicator = (): JSX.Element => {
+export function LoadingIndicator(): JSX.Element {
   return (
     <div className="loading-widget">
       <div className="container">
@@ -13,4 +13,4 @@ export const LoadingIndicator = (): JSX.Element => {
       </div>
     </div>
   );
-};
+}

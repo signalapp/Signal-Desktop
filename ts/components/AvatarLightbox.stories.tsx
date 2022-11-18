@@ -32,15 +32,17 @@ export default {
   title: 'Components/AvatarLightbox',
 };
 
-export const Group = (): JSX.Element => (
-  <AvatarLightbox
-    {...createProps({
-      isGroup: true,
-    })}
-  />
-);
+export function Group(): JSX.Element {
+  return (
+    <AvatarLightbox
+      {...createProps({
+        isGroup: true,
+      })}
+    />
+  );
+}
 
-export const Person = (): JSX.Element => {
+export function Person(): JSX.Element {
   const conversation = getDefaultConversation();
   return (
     <AvatarLightbox
@@ -50,12 +52,14 @@ export const Person = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const Photo = (): JSX.Element => (
-  <AvatarLightbox
-    {...createProps({
-      avatarPath: '/fixtures/kitten-1-64-64.jpg',
-    })}
-  />
-);
+export function Photo(): JSX.Element {
+  return (
+    <AvatarLightbox
+      {...createProps({
+        avatarPath: '/fixtures/kitten-1-64-64.jpg',
+      })}
+    />
+  );
+}

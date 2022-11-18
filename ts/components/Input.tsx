@@ -57,218 +57,213 @@ export type PropsType = {
 export const Input = forwardRef<
   HTMLInputElement | HTMLTextAreaElement,
   PropsType
->(
-  (
-    {
-      countBytes = byteLength,
-      countLength = grapheme.count,
-      disabled,
-      disableSpellcheck,
-      expandable,
-      hasClearButton,
-      i18n,
-      icon,
-      maxByteCount = 0,
-      maxLengthCount = 0,
-      moduleClassName,
-      onChange,
-      onEnter,
-      placeholder,
-      value = '',
-      whenToShowRemainingCount = Infinity,
-      children,
+>(function InputInner(
+  {
+    countBytes = byteLength,
+    countLength = grapheme.count,
+    disabled,
+    disableSpellcheck,
+    expandable,
+    hasClearButton,
+    i18n,
+    icon,
+    maxByteCount = 0,
+    maxLengthCount = 0,
+    moduleClassName,
+    onChange,
+    onEnter,
+    placeholder,
+    value = '',
+    whenToShowRemainingCount = Infinity,
+    children,
+  },
+  ref
+) {
+  const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
+  const valueOnKeydownRef = useRef<string>(value);
+  const selectionStartOnKeydownRef = useRef<number>(value.length);
+  const [isLarge, setIsLarge] = useState(false);
+  const refMerger = useRefMerger();
+
+  const maybeSetLarge = useCallback(() => {
+    if (!expandable) {
+      return;
+    }
+
+    const inputEl = innerRef.current;
+    if (!inputEl) {
+      return;
+    }
+
+    if (
+      inputEl.scrollHeight > inputEl.clientHeight ||
+      inputEl.scrollWidth > inputEl.clientWidth
+    ) {
+      setIsLarge(true);
+    }
+  }, [expandable]);
+
+  const handleKeyDown = useCallback(
+    event => {
+      if (onEnter && event.key === 'Enter') {
+        onEnter();
+      }
+
+      const inputEl = innerRef.current;
+      if (!inputEl) {
+        return;
+      }
+
+      valueOnKeydownRef.current = inputEl.value;
+      selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
     },
-    ref
-  ) => {
-    const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(
-      null
-    );
-    const valueOnKeydownRef = useRef<string>(value);
-    const selectionStartOnKeydownRef = useRef<number>(value.length);
-    const [isLarge, setIsLarge] = useState(false);
-    const refMerger = useRefMerger();
+    [onEnter]
+  );
 
-    const maybeSetLarge = useCallback(() => {
-      if (!expandable) {
-        return;
-      }
+  const handleChange = useCallback(() => {
+    const inputEl = innerRef.current;
+    if (!inputEl) {
+      return;
+    }
 
+    const newValue = inputEl.value;
+
+    const newLengthCount = maxLengthCount ? countLength(newValue) : 0;
+    const newByteCount = maxByteCount ? countBytes(newValue) : 0;
+
+    if (newLengthCount <= maxLengthCount && newByteCount <= maxByteCount) {
+      onChange(newValue);
+    } else {
+      inputEl.value = valueOnKeydownRef.current;
+      inputEl.selectionStart = selectionStartOnKeydownRef.current;
+      inputEl.selectionEnd = selectionStartOnKeydownRef.current;
+    }
+
+    maybeSetLarge();
+  }, [
+    countLength,
+    countBytes,
+    maxLengthCount,
+    maxByteCount,
+    maybeSetLarge,
+    onChange,
+  ]);
+
+  const handlePaste = useCallback(
+    (event: ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const inputEl = innerRef.current;
-      if (!inputEl) {
+      if (!inputEl || !maxLengthCount || !maxByteCount) {
         return;
       }
 
-      if (
-        inputEl.scrollHeight > inputEl.clientHeight ||
-        inputEl.scrollWidth > inputEl.clientWidth
-      ) {
-        setIsLarge(true);
-      }
-    }, [expandable]);
+      const selectionStart = inputEl.selectionStart || 0;
+      const selectionEnd = inputEl.selectionEnd || inputEl.selectionStart || 0;
+      const textBeforeSelection = value.slice(0, selectionStart);
+      const textAfterSelection = value.slice(selectionEnd);
 
-    const handleKeyDown = useCallback(
-      event => {
-        if (onEnter && event.key === 'Enter') {
-          onEnter();
-        }
+      const pastedText = event.clipboardData.getData('Text');
 
-        const inputEl = innerRef.current;
-        if (!inputEl) {
-          return;
-        }
+      const newLengthCount =
+        countLength(textBeforeSelection) +
+        countLength(pastedText) +
+        countLength(textAfterSelection);
+      const newByteCount =
+        countBytes(textBeforeSelection) +
+        countBytes(pastedText) +
+        countBytes(textAfterSelection);
 
-        valueOnKeydownRef.current = inputEl.value;
-        selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
-      },
-      [onEnter]
-    );
-
-    const handleChange = useCallback(() => {
-      const inputEl = innerRef.current;
-      if (!inputEl) {
-        return;
-      }
-
-      const newValue = inputEl.value;
-
-      const newLengthCount = maxLengthCount ? countLength(newValue) : 0;
-      const newByteCount = maxByteCount ? countBytes(newValue) : 0;
-
-      if (newLengthCount <= maxLengthCount && newByteCount <= maxByteCount) {
-        onChange(newValue);
-      } else {
-        inputEl.value = valueOnKeydownRef.current;
-        inputEl.selectionStart = selectionStartOnKeydownRef.current;
-        inputEl.selectionEnd = selectionStartOnKeydownRef.current;
+      if (newLengthCount > maxLengthCount || newByteCount > maxByteCount) {
+        event.preventDefault();
       }
 
       maybeSetLarge();
-    }, [
+    },
+    [
       countLength,
       countBytes,
       maxLengthCount,
       maxByteCount,
       maybeSetLarge,
-      onChange,
-    ]);
-
-    const handlePaste = useCallback(
-      (event: ClipboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const inputEl = innerRef.current;
-        if (!inputEl || !maxLengthCount || !maxByteCount) {
-          return;
-        }
-
-        const selectionStart = inputEl.selectionStart || 0;
-        const selectionEnd =
-          inputEl.selectionEnd || inputEl.selectionStart || 0;
-        const textBeforeSelection = value.slice(0, selectionStart);
-        const textAfterSelection = value.slice(selectionEnd);
-
-        const pastedText = event.clipboardData.getData('Text');
-
-        const newLengthCount =
-          countLength(textBeforeSelection) +
-          countLength(pastedText) +
-          countLength(textAfterSelection);
-        const newByteCount =
-          countBytes(textBeforeSelection) +
-          countBytes(pastedText) +
-          countBytes(textAfterSelection);
-
-        if (newLengthCount > maxLengthCount || newByteCount > maxByteCount) {
-          event.preventDefault();
-        }
-
-        maybeSetLarge();
-      },
-      [
-        countLength,
-        countBytes,
-        maxLengthCount,
-        maxByteCount,
-        maybeSetLarge,
-        value,
-      ]
-    );
-
-    useEffect(() => {
-      maybeSetLarge();
-    }, [maybeSetLarge]);
-
-    const lengthCount = maxLengthCount ? countLength(value) : -1;
-    const getClassName = getClassNamesFor('Input', moduleClassName);
-
-    const inputProps = {
-      className: classNames(
-        getClassName('__input'),
-        icon && getClassName('__input--with-icon'),
-        isLarge && getClassName('__input--large'),
-        expandable && getClassName('__input--expandable')
-      ),
-      disabled: Boolean(disabled),
-      spellCheck: !disableSpellcheck,
-      onChange: handleChange,
-      onKeyDown: handleKeyDown,
-      onPaste: handlePaste,
-      placeholder,
-      ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
-        ref,
-        innerRef
-      ),
-      type: 'text',
       value,
-    };
+    ]
+  );
 
-    const clearButtonElement =
-      hasClearButton && value ? (
-        <button
-          tabIndex={-1}
-          className={getClassName('__clear-icon')}
-          onClick={() => onChange('')}
-          type="button"
-          aria-label={i18n('cancel')}
-        />
-      ) : null;
+  useEffect(() => {
+    maybeSetLarge();
+  }, [maybeSetLarge]);
 
-    const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
-      <div className={getClassName('__remaining-count')}>
-        {maxLengthCount - lengthCount}
-      </div>
-    );
+  const lengthCount = maxLengthCount ? countLength(value) : -1;
+  const getClassName = getClassNamesFor('Input', moduleClassName);
 
-    return (
-      <div
-        className={classNames(
-          getClassName('__container'),
-          expandable && getClassName('__container--expandable'),
-          disabled && getClassName('__container--disabled')
-        )}
-      >
-        {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
-        {expandable ? (
-          <textarea rows={1} {...inputProps} />
-        ) : (
-          <input {...inputProps} />
-        )}
-        {isLarge ? (
-          <>
-            <div className={getClassName('__controls')}>
-              {clearButtonElement}
-              {children}
-            </div>
-            <div className={getClassName('__remaining-count--large')}>
-              {lengthCountElement}
-            </div>
-          </>
-        ) : (
+  const inputProps = {
+    className: classNames(
+      getClassName('__input'),
+      icon && getClassName('__input--with-icon'),
+      isLarge && getClassName('__input--large'),
+      expandable && getClassName('__input--expandable')
+    ),
+    disabled: Boolean(disabled),
+    spellCheck: !disableSpellcheck,
+    onChange: handleChange,
+    onKeyDown: handleKeyDown,
+    onPaste: handlePaste,
+    placeholder,
+    ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
+      ref,
+      innerRef
+    ),
+    type: 'text',
+    value,
+  };
+
+  const clearButtonElement =
+    hasClearButton && value ? (
+      <button
+        tabIndex={-1}
+        className={getClassName('__clear-icon')}
+        onClick={() => onChange('')}
+        type="button"
+        aria-label={i18n('cancel')}
+      />
+    ) : null;
+
+  const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
+    <div className={getClassName('__remaining-count')}>
+      {maxLengthCount - lengthCount}
+    </div>
+  );
+
+  return (
+    <div
+      className={classNames(
+        getClassName('__container'),
+        expandable && getClassName('__container--expandable'),
+        disabled && getClassName('__container--disabled')
+      )}
+    >
+      {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
+      {expandable ? (
+        <textarea rows={1} {...inputProps} />
+      ) : (
+        <input {...inputProps} />
+      )}
+      {isLarge ? (
+        <>
           <div className={getClassName('__controls')}>
-            {lengthCountElement}
             {clearButtonElement}
             {children}
           </div>
-        )}
-      </div>
-    );
-  }
-);
+          <div className={getClassName('__remaining-count--large')}>
+            {lengthCountElement}
+          </div>
+        </>
+      ) : (
+        <div className={getClassName('__controls')}>
+          {lengthCountElement}
+          {clearButtonElement}
+          {children}
+        </div>
+      )}
+    </div>
+  );
+});

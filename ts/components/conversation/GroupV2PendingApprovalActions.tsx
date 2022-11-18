@@ -9,10 +9,10 @@ export type PropsType = {
   onCancelJoinRequest: () => unknown;
 };
 
-export const GroupV2PendingApprovalActions = ({
+export function GroupV2PendingApprovalActions({
   i18n,
   onCancelJoinRequest,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div className="module-group-v2-pending-approval-actions">
       <p className="module-group-v2-pending-approval-actions__message">
@@ -30,4 +30,4 @@ export const GroupV2PendingApprovalActions = ({
       </div>
     </div>
   );
-};
+}

@@ -17,12 +17,12 @@ export type Props = {
   text: string;
 };
 
-export const AtMentionify = ({
+export function AtMentionify({
   bodyRanges,
   direction,
   openConversation,
   text,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   if (!bodyRanges) {
     return <>{text}</>;
   }
@@ -88,7 +88,7 @@ export const AtMentionify = ({
   }
 
   return <>{results}</>;
-};
+}
 
 // At-mentions need to be pre-processed before being pushed through the
 // AtMentionify component, this is due to bodyRanges containing start+length

@@ -10,9 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastReactionFailed = ({
-  i18n,
-  onClose,
-}: PropsType): JSX.Element => {
+export function ToastReactionFailed({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('Reactions--error')}</Toast>;
-};
+}

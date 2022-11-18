@@ -11,9 +11,11 @@ type PropsType = {
 };
 
 export const TimelineWarnings = forwardRef<HTMLDivElement, PropsType>(
-  ({ children }, ref) => (
-    <div className={CLASS_NAME} ref={ref}>
-      {children}
-    </div>
-  )
+  function TimelineWarningsInner({ children }, ref) {
+    return (
+      <div className={CLASS_NAME} ref={ref}>
+        {children}
+      </div>
+    );
+  }
 );

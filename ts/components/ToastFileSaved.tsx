@@ -14,11 +14,11 @@ type PropsType = {
   onClose: () => unknown;
 } & ToastPropsType;
 
-export const ToastFileSaved = ({
+export function ToastFileSaved({
   i18n,
   onClose,
   onOpenFile,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast
       onClose={onClose}
@@ -30,4 +30,4 @@ export const ToastFileSaved = ({
       {i18n('attachmentSaved')}
     </Toast>
   );
-};
+}

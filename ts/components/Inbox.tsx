@@ -30,7 +30,7 @@ export type PropsType = {
   showWhatsNewModal: () => unknown;
 };
 
-export const Inbox = ({
+export function Inbox({
   hasInitialLoadCompleted,
   i18n,
   isCustomizingPreferredReactions,
@@ -41,7 +41,7 @@ export const Inbox = ({
   selectedMessageSource,
   showConversation,
   showWhatsNewModal,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [loadingMessageCount, setLoadingMessageCount] = useState(0);
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
@@ -250,4 +250,4 @@ export const Inbox = ({
       {activeModal}
     </>
   );
-};
+}

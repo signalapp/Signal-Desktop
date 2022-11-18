@@ -23,6 +23,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderText: overrideProps.renderText,
 });
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<Props> = args => <Intl {...args} />;
 
 export const NoReplacements = Template.bind({});

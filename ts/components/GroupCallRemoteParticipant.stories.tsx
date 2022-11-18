@@ -67,57 +67,65 @@ export default {
   title: 'Components/GroupCallRemoteParticipant',
 };
 
-export const Default = (): JSX.Element => (
-  <GroupCallRemoteParticipant
-    {...createProps({
-      isInPip: false,
-      height: 120,
-      left: 0,
-      top: 0,
-      width: 120,
-    })}
-  />
-);
-
-export const Speaking = (): JSX.Element => (
-  <GroupCallRemoteParticipant
-    {...createProps(
-      {
+export function Default(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps({
         isInPip: false,
         height: 120,
         left: 0,
         top: 0,
         width: 120,
-        audioLevel: select('audioLevel', [0, 0.5, 1], 0.5),
-      },
-      { hasRemoteAudio: true }
-    )}
-  />
-);
+      })}
+    />
+  );
+}
 
-export const IsInPip = (): JSX.Element => (
-  <GroupCallRemoteParticipant
-    {...createProps({
-      isInPip: true,
-    })}
-  />
-);
+export function Speaking(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+          audioLevel: select('audioLevel', [0, 0.5, 1], 0.5),
+        },
+        { hasRemoteAudio: true }
+      )}
+    />
+  );
+}
+
+export function IsInPip(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps({
+        isInPip: true,
+      })}
+    />
+  );
+}
 
 IsInPip.story = {
   name: 'isInPip',
 };
 
-export const Blocked = (): JSX.Element => (
-  <GroupCallRemoteParticipant
-    {...createProps(
-      {
-        isInPip: false,
-        height: 120,
-        left: 0,
-        top: 0,
-        width: 120,
-      },
-      { isBlocked: true }
-    )}
-  />
-);
+export function Blocked(): JSX.Element {
+  return (
+    <GroupCallRemoteParticipant
+      {...createProps(
+        {
+          isInPip: false,
+          height: 120,
+          left: 0,
+          top: 0,
+          width: 120,
+        },
+        { isBlocked: true }
+      )}
+    />
+  );
+}

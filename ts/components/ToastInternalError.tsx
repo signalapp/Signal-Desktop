@@ -29,7 +29,7 @@ type PropsType = {
   onClose: () => unknown;
 } & ToastPropsType;
 
-export const ToastInternalError = (props: PropsType): JSX.Element => {
+export function ToastInternalError(props: PropsType): JSX.Element {
   const { kind, i18n, onClose, onShowDebugLog } = props;
 
   let body: string;
@@ -60,4 +60,4 @@ export const ToastInternalError = (props: PropsType): JSX.Element => {
       {body}
     </Toast>
   );
-};
+}

@@ -24,7 +24,7 @@ export type PropsType = {
   onClick?: () => unknown;
 };
 
-export const Checkbox = ({
+export function Checkbox({
   checked,
   children,
   description,
@@ -35,7 +35,7 @@ export const Checkbox = ({
   name,
   onChange,
   onClick,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
   const id = useMemo(() => `${name}::${uuid()}`, [name]);
 
@@ -76,4 +76,4 @@ export const Checkbox = ({
       </div>
     </div>
   );
-};
+}

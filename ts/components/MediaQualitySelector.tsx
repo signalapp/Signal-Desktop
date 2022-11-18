@@ -17,11 +17,11 @@ export type PropsType = {
   onSelectQuality: (isHQ: boolean) => unknown;
 };
 
-export const MediaQualitySelector = ({
+export function MediaQualitySelector({
   i18n,
   isHighQuality,
   onSelectQuality,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [menuShowing, setMenuShowing] = useState(false);
   const [popperRoot, setPopperRoot] = useState<HTMLElement | null>(null);
   const [focusedOption, setFocusedOption] = useState<0 | 1 | undefined>(
@@ -196,4 +196,4 @@ export const MediaQualitySelector = ({
         : null}
     </Manager>
   );
-};
+}

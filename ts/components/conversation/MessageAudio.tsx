@@ -126,7 +126,7 @@ const timeToText = (time: number): string => {
  * for play button and playback rate button
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (props, ref) => {
+  function ButtonInner(props, ref) {
     const {
       i18n,
       variant,
@@ -197,13 +197,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-const PlayedDot = ({
+function PlayedDot({
   played,
   onHide,
 }: {
   played: boolean;
   onHide: () => void;
-}) => {
+}) {
   const start = played ? 1 : 0;
   const end = played ? 0 : 1;
 
@@ -231,7 +231,7 @@ const PlayedDot = ({
       )}
     />
   );
-};
+}
 
 /**
  * Display message audio attachment along with its waveform, duration, and
@@ -246,7 +246,7 @@ const PlayedDot = ({
  * `context` is required for displaying separate MessageAudio instances in
  * MessageDetails and Message React components.
  */
-export const MessageAudio: React.FC<Props> = (props: Props) => {
+export function MessageAudio(props: Props): JSX.Element {
   const {
     active,
     buttonRef,
@@ -625,4 +625,4 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       {metadata}
     </div>
   );
-};
+}

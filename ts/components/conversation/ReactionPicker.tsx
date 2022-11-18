@@ -35,7 +35,7 @@ export type OwnProps = {
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
-  (
+  function ReactionPickerInner(
     {
       i18n,
       onClose,
@@ -48,7 +48,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       style,
     },
     ref
-  ) => {
+  ) {
     const [pickingOther, setPickingOther] = React.useState(false);
 
     // Handle escape key

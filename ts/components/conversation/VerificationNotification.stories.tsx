@@ -24,47 +24,47 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contact: overrideProps.contact || contact,
 });
 
-export const MarkAsVerified = (): JSX.Element => {
+export function MarkAsVerified(): JSX.Element {
   const props = createProps({ type: 'markVerified' });
 
   return <VerificationNotification {...props} />;
-};
+}
 
 MarkAsVerified.story = {
   name: 'Mark as Verified',
 };
 
-export const MarkAsNotVerified = (): JSX.Element => {
+export function MarkAsNotVerified(): JSX.Element {
   const props = createProps({ type: 'markNotVerified' });
 
   return <VerificationNotification {...props} />;
-};
+}
 
 MarkAsNotVerified.story = {
   name: 'Mark as Not Verified',
 };
 
-export const MarkAsVerifiedRemotely = (): JSX.Element => {
+export function MarkAsVerifiedRemotely(): JSX.Element {
   const props = createProps({ type: 'markVerified', isLocal: false });
 
   return <VerificationNotification {...props} />;
-};
+}
 
 MarkAsVerifiedRemotely.story = {
   name: 'Mark as Verified Remotely',
 };
 
-export const MarkAsNotVerifiedRemotely = (): JSX.Element => {
+export function MarkAsNotVerifiedRemotely(): JSX.Element {
   const props = createProps({ type: 'markNotVerified', isLocal: false });
 
   return <VerificationNotification {...props} />;
-};
+}
 
 MarkAsNotVerifiedRemotely.story = {
   name: 'Mark as Not Verified Remotely',
 };
 
-export const LongName = (): JSX.Element => {
+export function LongName(): JSX.Element {
   const longName = '🎆🍬🏈'.repeat(50);
 
   const props = createProps({
@@ -73,7 +73,7 @@ export const LongName = (): JSX.Element => {
   });
 
   return <VerificationNotification {...props} />;
-};
+}
 
 LongName.story = {
   name: 'Long name',

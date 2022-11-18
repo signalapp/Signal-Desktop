@@ -25,11 +25,11 @@ export default {
   title: 'Components/ErrorModal',
 };
 
-export const Normal = (): JSX.Element => {
+export function Normal(): JSX.Element {
   return <ErrorModal {...createProps()} />;
-};
+}
 
-export const CustomStrings = (): JSX.Element => {
+export function CustomStrings(): JSX.Element {
   return (
     <ErrorModal
       {...createProps({
@@ -39,4 +39,4 @@ export const CustomStrings = (): JSX.Element => {
       })}
     />
   );
-};
+}

@@ -49,37 +49,37 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: React.useContext(StorybookThemeContext),
 });
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   const props = useProps();
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const Large = (): JSX.Element => {
+export function Large(): JSX.Element {
   const props = useProps({
     large: true,
   });
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const Disabled = (): JSX.Element => {
+export function Disabled(): JSX.Element {
   const props = useProps({
     disabled: true,
   });
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const StartingText = (): JSX.Element => {
+export function StartingText(): JSX.Element {
   const props = useProps({
     draftText: "here's some starting text",
   });
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const MultilineText = (): JSX.Element => {
+export function MultilineText(): JSX.Element {
   const props = useProps({
     draftText: `here's some starting text
 and more on another line
@@ -93,9 +93,9 @@ and we're done`,
   });
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const Emojis = (): JSX.Element => {
+export function Emojis(): JSX.Element {
   const props = useProps({
     draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
@@ -105,9 +105,9 @@ export const Emojis = (): JSX.Element => {
   });
 
   return <CompositionInput {...props} />;
-};
+}
 
-export const Mentions = (): JSX.Element => {
+export function Mentions(): JSX.Element {
   const props = useProps({
     sortedGroupMembers: [
       getDefaultConversation({
@@ -129,4 +129,4 @@ export const Mentions = (): JSX.Element => {
   });
 
   return <CompositionInput {...props} />;
-};
+}

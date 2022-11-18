@@ -37,30 +37,37 @@ export function TimelineWarning({
   );
 }
 
-TimelineWarning.IconContainer = ({
+function IconContainer({
   children,
-}: Readonly<{ children: ReactNode }>): JSX.Element => (
-  <div className={ICON_CONTAINER_CLASS_NAME}>{children}</div>
-);
+}: Readonly<{ children: ReactNode }>): JSX.Element {
+  return <div className={ICON_CONTAINER_CLASS_NAME}>{children}</div>;
+}
 
-TimelineWarning.GenericIcon = () => <div className={GENERIC_ICON_CLASS_NAME} />;
+TimelineWarning.IconContainer = IconContainer;
 
-TimelineWarning.Text = ({
-  children,
-}: Readonly<{ children: ReactNode }>): JSX.Element => (
-  <div className={TEXT_CLASS_NAME}>{children}</div>
-);
+function GenericIcon() {
+  return <div className={GENERIC_ICON_CLASS_NAME} />;
+}
+
+TimelineWarning.GenericIcon = GenericIcon;
+
+function Text({ children }: Readonly<{ children: ReactNode }>): JSX.Element {
+  return <div className={TEXT_CLASS_NAME}>{children}</div>;
+}
+
+TimelineWarning.Text = Text;
 
 type LinkProps = {
   children: ReactNode;
   onClick: () => void;
 };
 
-TimelineWarning.Link = ({
-  children,
-  onClick,
-}: Readonly<LinkProps>): JSX.Element => (
-  <button className={LINK_CLASS_NAME} onClick={onClick} type="button">
-    {children}
-  </button>
-);
+function Link({ children, onClick }: Readonly<LinkProps>): JSX.Element {
+  return (
+    <button className={LINK_CLASS_NAME} onClick={onClick} type="button">
+      {children}
+    </button>
+  );
+}
+
+TimelineWarning.Link = Link;

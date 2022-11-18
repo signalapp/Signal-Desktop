@@ -57,6 +57,6 @@ export default {
   title: 'Components/CallingSelectPresentingSourcesModal',
 };
 
-export const Modal = (): JSX.Element => {
+export function Modal(): JSX.Element {
   return <CallingSelectPresentingSourcesModal {...createProps()} />;
-};
+}

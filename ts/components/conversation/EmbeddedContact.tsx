@@ -23,7 +23,7 @@ export type Props = {
   onClick?: () => void;
 };
 
-export const EmbeddedContact: React.FC<Props> = (props: Props) => {
+export function EmbeddedContact(props: Props): JSX.Element {
   const {
     contact,
     i18n,
@@ -74,4 +74,4 @@ export const EmbeddedContact: React.FC<Props> = (props: Props) => {
       </div>
     </button>
   );
-};
+}

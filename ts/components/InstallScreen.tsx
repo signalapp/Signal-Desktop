@@ -19,7 +19,7 @@ export enum InstallScreenStep {
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
-/* eslint-disable react/destructuring-assignment */
+
 type PropsType =
   | {
       step: InstallScreenStep.Error;

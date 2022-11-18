@@ -10,55 +10,65 @@ export default {
   title: 'Components/Button',
 };
 
-export const KitchenSink = (): JSX.Element => (
-  <>
-    {Object.values(ButtonVariant).map(variant => (
-      <React.Fragment key={variant}>
-        {[ButtonSize.Large, ButtonSize.Medium, ButtonSize.Small].map(size => (
-          <React.Fragment key={size}>
-            <p>
-              <Button onClick={action('onClick')} size={size} variant={variant}>
-                {variant}
-              </Button>
-            </p>
-            <p>
-              <Button
-                disabled
-                onClick={action('onClick')}
-                size={size}
-                variant={variant}
-              >
-                {variant}
-              </Button>
-            </p>
-          </React.Fragment>
-        ))}
-      </React.Fragment>
-    ))}
-  </>
-);
+export function KitchenSink(): JSX.Element {
+  return (
+    <>
+      {Object.values(ButtonVariant).map(variant => (
+        <React.Fragment key={variant}>
+          {[ButtonSize.Large, ButtonSize.Medium, ButtonSize.Small].map(size => (
+            <React.Fragment key={size}>
+              <p>
+                <Button
+                  onClick={action('onClick')}
+                  size={size}
+                  variant={variant}
+                >
+                  {variant}
+                </Button>
+              </p>
+              <p>
+                <Button
+                  disabled
+                  onClick={action('onClick')}
+                  size={size}
+                  variant={variant}
+                >
+                  {variant}
+                </Button>
+              </p>
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
 
 KitchenSink.story = {
   name: 'Kitchen sink',
 };
 
-export const AriaLabel = (): JSX.Element => (
-  <Button
-    aria-label="hello"
-    className="module-ForwardMessageModal__header--back"
-    onClick={action('onClick')}
-  />
-);
+export function AriaLabel(): JSX.Element {
+  return (
+    <Button
+      aria-label="hello"
+      className="module-ForwardMessageModal__header--back"
+      onClick={action('onClick')}
+    />
+  );
+}
 
 AriaLabel.story = {
   name: 'aria-label',
 };
 
-export const CustomStyles = (): JSX.Element => (
-  <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
-    Hello world
-  </Button>
-);
+export function CustomStyles(): JSX.Element {
+  return (
+    <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
+      Hello world
+    </Button>
+  );
+}
 
 CustomStyles.story = {
   name: 'Custom styles',

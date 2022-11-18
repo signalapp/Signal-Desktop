@@ -7,6 +7,7 @@ import { bemGenerator } from './util';
 
 export type Props = {
   actions?: React.ReactNode;
+  children?: React.ReactNode;
   borderless?: boolean;
   centerTitle?: boolean;
   title?: string;
@@ -15,20 +16,24 @@ export type Props = {
 const bem = bemGenerator('ConversationDetails-panel-section');
 const borderlessClass = bem('root', 'borderless');
 
-export const PanelSection: React.ComponentType<Props> = ({
+export function PanelSection({
   actions,
   borderless,
   centerTitle,
   children,
   title,
-}) => (
-  <div className={classNames(bem('root'), borderless ? borderlessClass : null)}>
-    {(title || actions) && (
-      <div className={bem('header', { center: centerTitle || false })}>
-        {title && <div className={bem('title')}>{title}</div>}
-        {actions && <div>{actions}</div>}
-      </div>
-    )}
-    <div>{children}</div>
-  </div>
-);
+}: Props): JSX.Element {
+  return (
+    <div
+      className={classNames(bem('root'), borderless ? borderlessClass : null)}
+    >
+      {(title || actions) && (
+        <div className={bem('header', { center: centerTitle || false })}>
+          {title && <div className={bem('title')}>{title}</div>}
+          {actions && <div>{actions}</div>}
+        </div>
+      )}
+      <div>{children}</div>
+    </div>
+  );
+}

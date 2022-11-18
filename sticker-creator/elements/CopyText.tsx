@@ -14,7 +14,7 @@ export type Props = {
 };
 
 export const CopyText: React.ComponentType<Props> = React.memo(
-  ({ label, onCopy, value }) => {
+  function CopyTextInner({ label, onCopy, value }) {
     const i18n = useI18n();
     const handleClick = React.useCallback(() => {
       copy(value);

@@ -48,7 +48,7 @@ enum ToastType {
 
 const START_DURATION_TEXT = '0:00';
 
-export const AudioCapture = ({
+export function AudioCapture({
   cancelRecording,
   completeRecording,
   conversationId,
@@ -59,7 +59,7 @@ export const AudioCapture = ({
   recordingState,
   onSendAudioRecording,
   startRecording,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [durationText, setDurationText] = useState<string>(START_DURATION_TEXT);
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
@@ -251,4 +251,4 @@ export const AudioCapture = ({
       {toastElement}
     </>
   );
-};
+}

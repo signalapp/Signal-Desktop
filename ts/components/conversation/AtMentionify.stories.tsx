@@ -24,19 +24,19 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-export const NoMentions = (): JSX.Element => {
+export function NoMentions(): JSX.Element {
   const props = createProps({
     text: 'Hello World',
   });
 
   return <AtMentionify {...props} />;
-};
+}
 
 NoMentions.story = {
   name: 'No @mentions',
 };
 
-export const MultipleMentions = (): JSX.Element => {
+export function MultipleMentions(): JSX.Element {
   const bodyRanges = [
     {
       start: 4,
@@ -67,13 +67,13 @@ export const MultipleMentions = (): JSX.Element => {
   });
 
   return <AtMentionify {...props} />;
-};
+}
 
 MultipleMentions.story = {
   name: 'Multiple @Mentions',
 };
 
-export const ComplexMentions = (): JSX.Element => {
+export function ComplexMentions(): JSX.Element {
   const bodyRanges = [
     {
       start: 80,
@@ -107,7 +107,7 @@ export const ComplexMentions = (): JSX.Element => {
   });
 
   return <AtMentionify {...props} />;
-};
+}
 
 ComplexMentions.story = {
   name: 'Complex @mentions',

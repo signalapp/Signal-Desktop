@@ -10,9 +10,9 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastMessageBodyTooLong = ({
+export function ToastMessageBodyTooLong({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('messageBodyTooLong')}</Toast>;
-};
+}

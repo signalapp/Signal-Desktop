@@ -21,18 +21,18 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
 });
 
-export const One = (): JSX.Element => {
+export function One(): JSX.Element {
   const props = createProps();
   return <LastSeenIndicator {...props} />;
-};
+}
 
-export const MoreThanOne = (): JSX.Element => {
+export function MoreThanOne(): JSX.Element {
   const props = createProps({
     count: 5,
   });
 
   return <LastSeenIndicator {...props} />;
-};
+}
 
 MoreThanOne.story = {
   name: 'More than One',

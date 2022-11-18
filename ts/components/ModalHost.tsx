@@ -36,120 +36,118 @@ export type PropsType = Readonly<{
   useFocusTrap?: boolean;
 }>;
 
-export const ModalHost = React.memo(
-  ({
-    children,
-    modalName,
-    moduleClassName,
-    noMouseClose,
-    onClose,
-    onEscape,
-    onTopOfEverything,
-    overlayStyles,
-    theme,
-    useFocusTrap = true,
-  }: PropsType) => {
-    const [root, setRoot] = React.useState<HTMLElement | null>(null);
-    const containerRef = React.useRef<HTMLDivElement | null>(null);
-    const previousModalName = usePrevious(modalName, modalName);
-    const modalContainer = useContext(ModalContainerContext) ?? document.body;
+export const ModalHost = React.memo(function ModalHostInner({
+  children,
+  modalName,
+  moduleClassName,
+  noMouseClose,
+  onClose,
+  onEscape,
+  onTopOfEverything,
+  overlayStyles,
+  theme,
+  useFocusTrap = true,
+}: PropsType) {
+  const [root, setRoot] = React.useState<HTMLElement | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const previousModalName = usePrevious(modalName, modalName);
+  const modalContainer = useContext(ModalContainerContext) ?? document.body;
 
-    if (previousModalName !== modalName) {
-      log.error(
-        `ModalHost detected conflict between ${previousModalName} ` +
-          `and ${modalName}. Consider using "key" attributes on both modals.`
-      );
-      assertDev(false, 'Modal conflict');
+  if (previousModalName !== modalName) {
+    log.error(
+      `ModalHost detected conflict between ${previousModalName} ` +
+        `and ${modalName}. Consider using "key" attributes on both modals.`
+    );
+    assertDev(false, 'Modal conflict');
+  }
+
+  useEffect(() => {
+    const div = document.createElement('div');
+    modalContainer.appendChild(div);
+    setRoot(div);
+
+    return () => {
+      modalContainer.removeChild(div);
+      setRoot(null);
+    };
+  }, [modalContainer]);
+
+  useEscapeHandling(onEscape || onClose);
+  useEffect(() => {
+    if (noMouseClose) {
+      return noop;
     }
+    return handleOutsideClick(
+      node => {
+        // ignore clicks that originate in the calling/pip
+        // when we're not handling a component in the calling/pip
+        if (
+          modalContainer === document.body &&
+          node instanceof Element &&
+          node.closest('.module-calling__modal-container')
+        ) {
+          return false;
+        }
+        onClose();
+        return true;
+      },
+      { containerElements: [containerRef], name: modalName }
+    );
+  }, [noMouseClose, onClose, containerRef, modalName, modalContainer]);
 
-    useEffect(() => {
-      const div = document.createElement('div');
-      modalContainer.appendChild(div);
-      setRoot(div);
+  const className = classNames([
+    theme ? themeClassName(theme) : undefined,
+    onTopOfEverything ? 'module-modal-host--on-top-of-everything' : undefined,
+  ]);
+  const getClassName = getClassNamesFor('module-modal-host', moduleClassName);
 
-      return () => {
-        modalContainer.removeChild(div);
-        setRoot(null);
-      };
-    }, [modalContainer]);
-
-    useEscapeHandling(onEscape || onClose);
-    useEffect(() => {
-      if (noMouseClose) {
-        return noop;
-      }
-      return handleOutsideClick(
-        node => {
-          // ignore clicks that originate in the calling/pip
-          // when we're not handling a component in the calling/pip
-          if (
-            modalContainer === document.body &&
-            node instanceof Element &&
-            node.closest('.module-calling__modal-container')
-          ) {
-            return false;
-          }
-          onClose();
-          return true;
-        },
-        { containerElements: [containerRef], name: modalName }
-      );
-    }, [noMouseClose, onClose, containerRef, modalName, modalContainer]);
-
-    const className = classNames([
-      theme ? themeClassName(theme) : undefined,
-      onTopOfEverything ? 'module-modal-host--on-top-of-everything' : undefined,
-    ]);
-    const getClassName = getClassNamesFor('module-modal-host', moduleClassName);
-
-    const modalContent = (
-      <div className={className}>
-        <animated.div
-          role="presentation"
-          className={getClassName('__overlay')}
-          style={overlayStyles}
-        />
-        <div className={getClassName('__overlay-container')}>
-          <div ref={containerRef} className={getClassName('__width-container')}>
-            {children}
-          </div>
+  const modalContent = (
+    <div className={className}>
+      <animated.div
+        role="presentation"
+        className={getClassName('__overlay')}
+        style={overlayStyles}
+      />
+      <div className={getClassName('__overlay-container')}>
+        <div ref={containerRef} className={getClassName('__width-container')}>
+          {children}
         </div>
       </div>
-    );
+    </div>
+  );
 
-    return root
-      ? createPortal(
-          useFocusTrap ? (
-            <FocusTrap
-              focusTrapOptions={{
-                allowOutsideClick: ({ target }) => {
-                  if (!target || !(target instanceof HTMLElement)) {
-                    return false;
-                  }
-
-                  // Exemptions:
-                  // - TitleBar should always receive clicks.
-                  // - Quill suggestions since they are placed in the document.body
-                  // - Calling module (and pip) are always above everything else
-                  const exemptParent = target.closest(
-                    '.TitleBarContainer__title, ' +
-                      '.module-composition-input__suggestions, ' +
-                      '.module-calling__modal-container'
-                  );
-                  if (exemptParent) {
-                    return true;
-                  }
+  return root
+    ? createPortal(
+        useFocusTrap ? (
+          <FocusTrap
+            focusTrapOptions={{
+              allowOutsideClick: ({ target }) => {
+                if (!target || !(target instanceof HTMLElement)) {
                   return false;
-                },
-              }}
-            >
-              {modalContent}
-            </FocusTrap>
-          ) : (
-            modalContent
-          ),
-          root
-        )
-      : null;
-  }
-);
+                }
+
+                // Exemptions:
+                // - TitleBar should always receive clicks.
+                // - Quill suggestions since they are placed in the document.body
+                // - Calling module (and pip) are always above everything else
+                const exemptParent = target.closest(
+                  '.TitleBarContainer__title, ' +
+                    '.module-composition-input__suggestions, ' +
+                    '.module-calling__modal-container'
+                );
+                if (exemptParent) {
+                  return true;
+                }
+                return false;
+              },
+            }}
+          >
+            {modalContent}
+          </FocusTrap>
+        ) : (
+          modalContent
+        ),
+        root
+      )
+    : null;
+});

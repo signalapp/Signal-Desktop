@@ -55,13 +55,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-export const OneImage = (): JSX.Element => {
+export function OneImage(): JSX.Element {
   const props = createProps();
 
   return <ImageGrid {...props} />;
-};
+}
 
-export const TwoImages = (): JSX.Element => {
+export function TwoImages(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -82,39 +82,9 @@ export const TwoImages = (): JSX.Element => {
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
-export const ThreeImages = (): JSX.Element => {
-  const props = createProps({
-    attachments: [
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        height: 1200,
-        url: pngUrl,
-        width: 800,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
-      fakeAttachment({
-        contentType: IMAGE_PNG,
-        fileName: 'sax.png',
-        height: 1200,
-        url: pngUrl,
-        width: 800,
-      }),
-    ],
-  });
-
-  return <ImageGrid {...props} />;
-};
-
-export const FourImages = (): JSX.Element => {
+export function ThreeImages(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -138,20 +108,13 @@ export const FourImages = (): JSX.Element => {
         url: pngUrl,
         width: 800,
       }),
-      fakeAttachment({
-        contentType: IMAGE_JPEG,
-        fileName: 'tina-rolf-269345-unsplash.jpg',
-        height: 1680,
-        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        width: 3000,
-      }),
     ],
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
-export const FiveImages = (): JSX.Element => {
+export function FourImages(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -182,6 +145,43 @@ export const FiveImages = (): JSX.Element => {
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
       }),
+    ],
+  });
+
+  return <ImageGrid {...props} />;
+}
+
+export function FiveImages(): JSX.Element {
+  const props = createProps({
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        url: pngUrl,
+        width: 800,
+      }),
+      fakeAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        height: 1680,
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: 3000,
+      }),
       fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
@@ -193,7 +193,7 @@ export const FiveImages = (): JSX.Element => {
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
 export const _6Images = (): JSX.Element => {
   const props = createProps({
@@ -257,7 +257,7 @@ _6Images.story = {
   name: '6+ Images',
 };
 
-export const MixedContentTypes = (): JSX.Element => {
+export function MixedContentTypes(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -295,9 +295,9 @@ export const MixedContentTypes = (): JSX.Element => {
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
-export const Sticker = (): JSX.Element => {
+export function Sticker(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -313,25 +313,25 @@ export const Sticker = (): JSX.Element => {
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
-export const ContentAboveAndBelow = (): JSX.Element => {
+export function ContentAboveAndBelow(): JSX.Element {
   const props = createProps({
     withContentAbove: true,
     withContentBelow: true,
   });
 
   return <ImageGrid {...props} />;
-};
+}
 
 ContentAboveAndBelow.story = {
   name: 'Content Above and Below',
 };
 
-export const BottomOverlay = (): JSX.Element => {
+export function BottomOverlay(): JSX.Element {
   const props = createProps({
     bottomOverlay: true,
   });
 
   return <ImageGrid {...props} />;
-};
+}

@@ -113,7 +113,7 @@ export type PropsType = {
   deleteGroupStoryReplyForEveryone: (id: string) => void;
 };
 
-export const StoryViewsNRepliesModal = ({
+export function StoryViewsNRepliesModal({
   authorTitle,
   canReply,
   getPreferredBadge,
@@ -139,7 +139,7 @@ export const StoryViewsNRepliesModal = ({
   onChangeViewTarget,
   deleteGroupStoryReply,
   deleteGroupStoryReplyForEveryone,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const [deleteReplyId, setDeleteReplyId] = useState<string | undefined>(
     undefined
   );
@@ -497,7 +497,7 @@ export const StoryViewsNRepliesModal = ({
       )}
     </>
   );
-};
+}
 
 type ReplyOrReactionMessageProps = {
   i18n: LocalizerType;
@@ -511,7 +511,7 @@ type ReplyOrReactionMessageProps = {
   onContextMenu?: (ev: React.MouseEvent) => void;
 };
 
-const ReplyOrReactionMessage = ({
+function ReplyOrReactionMessage({
   i18n,
   reply,
   deleteGroupStoryReply,
@@ -520,7 +520,7 @@ const ReplyOrReactionMessage = ({
   getPreferredBadge,
   shouldCollapseAbove,
   shouldCollapseBelow,
-}: ReplyOrReactionMessageProps) => {
+}: ReplyOrReactionMessageProps) {
   const renderContent = (onContextMenu?: (ev: React.MouseEvent) => void) => {
     if (reply.reactionEmoji && !reply.deletedForEveryone) {
       return (
@@ -622,4 +622,4 @@ const ReplyOrReactionMessage = ({
   ) : (
     renderContent()
   );
-};
+}

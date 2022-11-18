@@ -61,12 +61,12 @@ type CallButtonProps = {
   onClick: () => void;
 };
 
-const CallButton = ({
+function CallButton({
   classSuffix,
   onClick,
   tabIndex,
   tooltipContent,
-}: CallButtonProps): JSX.Element => {
+}: CallButtonProps): JSX.Element {
   return (
     <Tooltip content={tooltipContent} theme={Theme.Dark}>
       <button
@@ -80,9 +80,9 @@ const CallButton = ({
       </button>
     </Tooltip>
   );
-};
+}
 
-const GroupCallMessage = ({
+function GroupCallMessage({
   i18n,
   otherMembersRung,
   ringer,
@@ -90,7 +90,7 @@ const GroupCallMessage = ({
   i18n: LocalizerType;
   otherMembersRung: Array<Pick<ConversationType, 'firstName' | 'title'>>;
   ringer: Pick<ConversationType, 'firstName' | 'title'>;
-}>): JSX.Element => {
+}>): JSX.Element {
   // As an optimization, we only process the first two names.
   const [first, second] = otherMembersRung
     .slice(0, 2)
@@ -155,9 +155,9 @@ const GroupCallMessage = ({
         />
       );
   }
-};
+}
 
-export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
+export function IncomingCallBar(props: PropsType): JSX.Element | null {
   const {
     acceptCall,
     bounceAppIconStart,
@@ -309,4 +309,4 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
       </div>
     </div>
   );
-};
+}

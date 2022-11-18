@@ -18,88 +18,88 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-export const EmojiOnly = (): JSX.Element => {
+export function EmojiOnly(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const SkinColorModifier = (): JSX.Element => {
+export function SkinColorModifier(): JSX.Element {
   const props = createProps({
     text: '👍🏾',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const Jumbo = (): JSX.Element => {
+export function Jumbo(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     sizeClass: 'max',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const ExtraLarge = (): JSX.Element => {
+export function ExtraLarge(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     sizeClass: 'extra-large',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const Large = (): JSX.Element => {
+export function Large(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     sizeClass: 'large',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const Medium = (): JSX.Element => {
+export function Medium(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     sizeClass: 'medium',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const Small = (): JSX.Element => {
+export function Small(): JSX.Element {
   const props = createProps({
     text: '😹😹😹',
     sizeClass: 'small',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const PlusText = (): JSX.Element => {
+export function PlusText(): JSX.Element {
   const props = createProps({
     text: 'this 😹 cat 😹 is 😹 so 😹 joyful',
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const AllTextNoEmoji = (): JSX.Element => {
+export function AllTextNoEmoji(): JSX.Element {
   const props = createProps({
     text: 'this cat is so joyful',
   });
 
   return <Emojify {...props} />;
-};
+}
 
 AllTextNoEmoji.story = {
   name: 'All Text, No Emoji',
 };
 
-export const CustomTextRender = (): JSX.Element => {
+export function CustomTextRender(): JSX.Element {
   const props = createProps({
     text: 'this 😹 cat 😹 is 😹 so 😹 joyful',
     renderNonEmoji: ({ text: theText, key }) => (
@@ -110,27 +110,27 @@ export const CustomTextRender = (): JSX.Element => {
   });
 
   return <Emojify {...props} />;
-};
+}
 
-export const TensOfThousandsOfEmoji = (): JSX.Element => {
+export function TensOfThousandsOfEmoji(): JSX.Element {
   const props = createProps({
     text: '💅'.repeat(40000),
   });
 
   return <Emojify {...props} />;
-};
+}
 
 TensOfThousandsOfEmoji.story = {
   name: 'Tens of thousands of emoji',
 };
 
-export const TensOfThousandsOfEmojiInterspersedWithText = (): JSX.Element => {
+export function TensOfThousandsOfEmojiInterspersedWithText(): JSX.Element {
   const props = createProps({
     text: '💅 hi '.repeat(40000),
   });
 
   return <Emojify {...props} />;
-};
+}
 
 TensOfThousandsOfEmojiInterspersedWithText.story = {
   name: 'Tens of thousands of emoji, interspersed with text',

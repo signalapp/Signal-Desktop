@@ -58,7 +58,7 @@ export default {
   title: 'Components/SafetyNumberChangeDialog',
 };
 
-export const SingleContactDialog = (): JSX.Element => {
+export function SingleContactDialog(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -80,9 +80,9 @@ export const SingleContactDialog = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
-export const DifferentConfirmationText = (): JSX.Element => {
+export function DifferentConfirmationText(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -105,9 +105,9 @@ export const DifferentConfirmationText = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
-export const MultiContactDialog = (): JSX.Element => {
+export function MultiContactDialog(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -133,9 +133,9 @@ export const MultiContactDialog = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
-export const AllVerified = (): JSX.Element => {
+export function AllVerified(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -160,12 +160,12 @@ export const AllVerified = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 AllVerified.story = {
   name: 'All verified; Send button instead',
 };
 
-export const MultipleContactsAllWithBadges = (): JSX.Element => {
+export function MultipleContactsAllWithBadges(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -192,13 +192,13 @@ export const MultipleContactsAllWithBadges = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
 MultipleContactsAllWithBadges.story = {
   name: 'Multiple contacts, all with badges',
 };
 
-export const TenContacts = (): JSX.Element => {
+export function TenContacts(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -231,13 +231,13 @@ export const TenContacts = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
 TenContacts.story = {
   name: 'Ten contacts; first isReviewing = false, then scrolling dialog',
 };
 
-export const NoContacts = (): JSX.Element => {
+export function NoContacts(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -271,9 +271,9 @@ export const NoContacts = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}
 
-export const InMultipleStories = (): JSX.Element => {
+export function InMultipleStories(): JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -322,4 +322,4 @@ export const InMultipleStories = (): JSX.Element => {
       theme={theme}
     />
   );
-};
+}

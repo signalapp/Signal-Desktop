@@ -55,7 +55,7 @@ export type PropsType = BasePropsType &
   (InPipPropsType | InOverflowAreaPropsType | InGridPropsType);
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
-  props => {
+  function GroupCallRemoteParticipantInner(props) {
     const {
       getFrameBuffer,
       getGroupCallVideoFrameSource,

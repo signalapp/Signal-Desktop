@@ -17,11 +17,11 @@ export type PropsType = {
   onClose: (avatarData?: AvatarDataType) => unknown;
 };
 
-export const AvatarIconEditor = ({
+export function AvatarIconEditor({
   avatarData: initialAvatarData,
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>();
   const [avatarData, setAvatarData] =
     useState<AvatarDataType>(initialAvatarData);
@@ -81,4 +81,4 @@ export const AvatarIconEditor = ({
       />
     </>
   );
-};
+}

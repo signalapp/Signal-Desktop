@@ -19,7 +19,10 @@ export const SmartEmojiPicker = React.forwardRef<
     EmojiPickerProps,
     'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone' | 'onClose' | 'style'
   >
->(({ onClickSettings, onPickEmoji, onSetSkinTone, onClose, style }, ref) => {
+>(function SmartEmojiPickerInner(
+  { onClickSettings, onPickEmoji, onSetSkinTone, onClose, style },
+  ref
+) {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const skinTone = useSelector<StateType, number>(state =>
     getEmojiSkinTone(state)

@@ -12,7 +12,7 @@ export type Props = {
 };
 
 export const ShareButtons: React.ComponentType<Props> = React.memo(
-  ({ value }) => {
+  function ShareButtonsInner({ value }) {
     const i18n = useI18n();
 
     const buttonPaths = React.useMemo<

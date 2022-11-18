@@ -18,7 +18,7 @@ export type PropsType = {
   style?: CSSProperties;
 };
 
-export const BetterAvatarBubble = ({
+export function BetterAvatarBubble({
   children,
   color,
   i18n,
@@ -26,7 +26,7 @@ export const BetterAvatarBubble = ({
   onDelete,
   onSelect,
   style,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div
       className={classNames(
@@ -58,4 +58,4 @@ export const BetterAvatarBubble = ({
       {children}
     </div>
   );
-};
+}

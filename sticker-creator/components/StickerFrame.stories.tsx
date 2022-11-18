@@ -47,7 +47,7 @@ _StickerFrame.story = {
   name: 'StickerFrame, add sticker',
 };
 
-export const EmojiSelectMode = (): JSX.Element => {
+export function EmojiSelectMode(): JSX.Element {
   const image = text('image url', '/fixtures/512x515-thumbs-up-lincoln.webp');
   const setSkinTone = action('setSkinTone');
   const onRemove = action('onRemove');
@@ -71,7 +71,7 @@ export const EmojiSelectMode = (): JSX.Element => {
       />
     </StoryRow>
   );
-};
+}
 
 EmojiSelectMode.story = {
   name: 'StickerFrame, emoji select mode',

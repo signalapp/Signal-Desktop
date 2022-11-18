@@ -29,14 +29,14 @@ export default {
   title: 'Components/TimelineFloatingHeader',
 };
 
-export const Visible = (): JSX.Element => {
+export function Visible(): JSX.Element {
   return <TimelineFloatingHeader {...createProps({ visible: true })} />;
-};
+}
 
-export const Loading = (): JSX.Element => {
+export function Loading(): JSX.Element {
   return (
     <TimelineFloatingHeader
       {...createProps({ visible: true, isLoading: true })}
     />
   );
-};
+}

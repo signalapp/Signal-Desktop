@@ -168,7 +168,7 @@ export type Props = Pick<
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
-export const CompositionArea = ({
+export function CompositionArea({
   // Base props
   addAttachment,
   addPendingAttachment,
@@ -258,7 +258,7 @@ export const CompositionArea = ({
   // SMS-only contacts
   isSMSOnly,
   isFetchingUUID,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [disabled, setDisabled] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
@@ -744,4 +744,4 @@ export const CompositionArea = ({
       />
     </div>
   );
-};
+}

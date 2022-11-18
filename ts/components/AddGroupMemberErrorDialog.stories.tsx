@@ -35,13 +35,15 @@ _MaximumGroupSize.story = {
   name: 'Maximum group size',
 };
 
-export const MaximumRecommendedGroupSize = (): JSX.Element => (
-  <AddGroupMemberErrorDialog
-    {...defaultProps}
-    mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
-    recommendedMaximumNumberOfContacts={123}
-  />
-);
+export function MaximumRecommendedGroupSize(): JSX.Element {
+  return (
+    <AddGroupMemberErrorDialog
+      {...defaultProps}
+      mode={AddGroupMemberErrorDialogMode.RecommendedMaximumGroupSize}
+      recommendedMaximumNumberOfContacts={123}
+    />
+  );
+}
 
 MaximumRecommendedGroupSize.story = {
   name: 'Maximum recommended group size',

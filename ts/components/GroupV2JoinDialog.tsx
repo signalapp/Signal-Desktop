@@ -30,7 +30,9 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const GroupV2JoinDialog = React.memo((props: PropsType) => {
+export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner(
+  props: PropsType
+) {
   const [isWorking, setIsWorking] = React.useState(false);
   const [isJoining, setIsJoining] = React.useState(false);
   const {

@@ -19,14 +19,14 @@ export type Props = {
   ) => JSX.Element;
 };
 
-export const AddCaptionModal = ({
+export function AddCaptionModal({
   i18n,
   onClose,
   onSubmit,
   draftText,
   RenderCompositionTextArea,
   theme,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [messageText, setMessageText] = React.useState('');
 
   const [isScrolledTop, setIsScrolledTop] = React.useState(true);
@@ -84,4 +84,4 @@ export const AddCaptionModal = ({
       />
     </Modal>
   );
-};
+}

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactChild, ReactNode } from 'react';
+import type { ReactChild, ReactNode } from 'react';
 import React, { useState } from 'react';
 import { concat, orderBy } from 'lodash';
 
@@ -60,9 +60,7 @@ enum ConfirmationStateType {
   ConfirmingGroupRemoval,
 }
 
-export const ContactSpoofingReviewDialog: FunctionComponent<
-  PropsType
-> = props => {
+export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   const {
     getPreferredBadge,
     i18n,
@@ -364,4 +362,4 @@ export const ContactSpoofingReviewDialog: FunctionComponent<
       {contents}
     </Modal>
   );
-};
+}

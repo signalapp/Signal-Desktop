@@ -20,7 +20,7 @@ export type Props = {
 const bem = bemGenerator('ConversationDetails-panel-row');
 
 export const PanelRow = React.forwardRef<HTMLButtonElement, Props>(
-  (
+  function PanelRowInner(
     {
       alwaysShowActions,
       className,
@@ -33,7 +33,7 @@ export const PanelRow = React.forwardRef<HTMLButtonElement, Props>(
       onClick,
     }: Props,
     ref: React.Ref<HTMLButtonElement>
-  ) => {
+  ) {
     const content = (
       <>
         {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}

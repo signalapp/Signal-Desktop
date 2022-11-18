@@ -30,7 +30,7 @@ export type PropsType = {
 const PRODUCTION_DOWNLOAD_URL = 'https://signal.org/download/';
 const BETA_DOWNLOAD_URL = 'https://support.signal.org/beta';
 
-export const DialogUpdate = ({
+export function DialogUpdate({
   containerWidthBreakpoint,
   dialogType,
   didSnooze,
@@ -43,7 +43,7 @@ export const DialogUpdate = ({
   startUpdate,
   version,
   currentVersion,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   if (hasNetworkDialog) {
     return null;
   }
@@ -237,4 +237,4 @@ export const DialogUpdate = ({
       closeLabel={i18n('autoUpdateIgnoreButtonLabel')}
     />
   );
-};
+}

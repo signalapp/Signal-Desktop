@@ -21,13 +21,13 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
 };
 
-export const OutgoingGiftBadgeModal = ({
+export function OutgoingGiftBadgeModal({
   recipientTitle,
   i18n,
   badgeId,
   hideOutgoingGiftBadgeModal,
   getPreferredBadge,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const badge = getPreferredBadge([{ id: badgeId }]);
   const badgeSize = 140;
   const badgeImagePath = getBadgeImageFileLocalPath(
@@ -75,4 +75,4 @@ export const OutgoingGiftBadgeModal = ({
       </div>
     </Modal>
   );
-};
+}

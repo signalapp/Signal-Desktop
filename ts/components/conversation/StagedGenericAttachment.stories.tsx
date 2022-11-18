@@ -35,7 +35,7 @@ const createAttachment = (
   size: 14243,
 });
 
-export const TextFile = (): JSX.Element => {
+export function TextFile(): JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.txt',
@@ -43,9 +43,9 @@ export const TextFile = (): JSX.Element => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-};
+}
 
-export const LongName = (): JSX.Element => {
+export function LongName(): JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'this-is-my-very-important-manifesto-you-must-read-it.txt',
@@ -53,9 +53,9 @@ export const LongName = (): JSX.Element => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-};
+}
 
-export const LongExtension = (): JSX.Element => {
+export function LongExtension(): JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.reallylongtxt',
@@ -63,4 +63,4 @@ export const LongExtension = (): JSX.Element => {
   const props = createProps({ attachment });
 
   return <StagedGenericAttachment {...props} />;
-};
+}

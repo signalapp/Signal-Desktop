@@ -36,7 +36,7 @@ enum ConversationDetailsHeaderActiveModal {
 
 const bem = bemGenerator('ConversationDetails-header');
 
-export const ConversationDetailsHeader: React.ComponentType<Props> = ({
+export function ConversationDetailsHeader({
   areWeASubscriber,
   badges,
   canEdit,
@@ -47,7 +47,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
   memberships,
   startEditing,
   theme,
-}) => {
+}: Props): JSX.Element {
   const [activeModal, setActiveModal] = useState<
     undefined | ConversationDetailsHeaderActiveModal
   >();
@@ -189,4 +189,4 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
       <div className={bem('subtitle')}>{subtitle}</div>
     </div>
   );
-};
+}

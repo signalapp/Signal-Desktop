@@ -1,7 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React, {
   useEffect,
   useMemo,
@@ -71,7 +70,7 @@ type ActionPropsType = Omit<
 type PropsType = StatePropsType & ActionPropsType;
 
 // TODO: This should use <Modal>. See DESKTOP-1038.
-export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
+export function ChooseGroupMembersModal({
   regionCode,
   candidateContacts,
   confirmAdds,
@@ -89,7 +88,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   lookupConversationWithoutUuid,
   showUserNotFoundModal,
   isUsernamesEnabled,
-}) => {
+}: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
@@ -400,4 +399,4 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
       </div>
     </ModalHost>
   );
-};
+}

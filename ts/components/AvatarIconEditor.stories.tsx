@@ -25,24 +25,28 @@ export default {
   title: 'Components/AvatarIconEditor',
 };
 
-export const PersonalIcon = (): JSX.Element => (
-  <AvatarIconEditor
-    {...createProps({
-      avatarData: createAvatarData({
-        color: AvatarColors[3],
-        icon: PersonalAvatarIcons[0],
-      }),
-    })}
-  />
-);
+export function PersonalIcon(): JSX.Element {
+  return (
+    <AvatarIconEditor
+      {...createProps({
+        avatarData: createAvatarData({
+          color: AvatarColors[3],
+          icon: PersonalAvatarIcons[0],
+        }),
+      })}
+    />
+  );
+}
 
-export const GroupIcon = (): JSX.Element => (
-  <AvatarIconEditor
-    {...createProps({
-      avatarData: createAvatarData({
-        color: AvatarColors[8],
-        icon: GroupAvatarIcons[0],
-      }),
-    })}
-  />
-);
+export function GroupIcon(): JSX.Element {
+  return (
+    <AvatarIconEditor
+      {...createProps({
+        avatarData: createAvatarData({
+          color: AvatarColors[8],
+          icon: GroupAvatarIcons[0],
+        }),
+      })}
+    />
+  );
+}

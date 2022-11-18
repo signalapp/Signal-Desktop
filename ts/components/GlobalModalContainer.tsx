@@ -52,7 +52,7 @@ export type PropsType = {
   hideWhatsNewModal: () => unknown;
 };
 
-export const GlobalModalContainer = ({
+export function GlobalModalContainer({
   i18n,
   // ContactModal
   contactModalState,
@@ -85,7 +85,7 @@ export const GlobalModalContainer = ({
   // WhatsNewModal
   hideWhatsNewModal,
   isWhatsNewVisible,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   // We want the send anyway dialog to supersede most modals since this is an
   // immediate action the user needs to take.
   if (hasSafetyNumberChangeModal || safetyNumberChangedBlockingData) {
@@ -159,4 +159,4 @@ export const GlobalModalContainer = ({
   }
 
   return null;
-};
+}

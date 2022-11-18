@@ -41,7 +41,7 @@ export type PropsType = {
 };
 
 export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
-  (
+  function CompositionUploadInner(
     {
       addAttachment,
       addPendingAttachment,
@@ -52,7 +52,7 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
       removeAttachment,
     },
     ref
-  ) => {
+  ) {
     const [toastType, setToastType] = useState<
       AttachmentToastType | undefined
     >();

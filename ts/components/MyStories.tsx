@@ -32,7 +32,7 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
 };
 
-export const MyStories = ({
+export function MyStories({
   i18n,
   myStories,
   onBack,
@@ -43,7 +43,7 @@ export const MyStories = ({
   retrySend,
   viewStory,
   hasViewReceiptSetting,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();
@@ -111,7 +111,7 @@ export const MyStories = ({
       )}
     </>
   );
-};
+}
 
 type StorySentPropsType = Pick<
   PropsType,

@@ -31,7 +31,9 @@ const getClassName = ({ left, right, top, bottom }: Props) => {
   return styles.base;
 };
 
-export const StoryRow: React.ComponentType<Props> = ({
+export function StoryRow({
   children,
   ...props
-}) => <div className={getClassName(props)}>{children}</div>;
+}: React.PropsWithChildren<Props>): JSX.Element {
+  return <div className={getClassName(props)}>{children}</div>;
+}

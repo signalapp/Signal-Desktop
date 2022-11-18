@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React from 'react';
 import { take } from 'lodash';
 
@@ -15,11 +14,11 @@ type PropsType = {
   sharedGroupNames: Array<string>;
 };
 
-export const SharedGroupNames: FunctionComponent<PropsType> = ({
+export function SharedGroupNames({
   i18n,
   nameClassName,
   sharedGroupNames,
-}) => {
+}: PropsType): JSX.Element {
   const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
     // We cannot guarantee uniqueness of group names
     // eslint-disable-next-line react/no-array-index-key
@@ -94,4 +93,4 @@ export const SharedGroupNames: FunctionComponent<PropsType> = ({
   }
 
   return <>{i18n('no-groups-in-common')}</>;
-};
+}

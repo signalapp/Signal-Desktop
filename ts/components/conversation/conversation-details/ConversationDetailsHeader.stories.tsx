@@ -35,7 +35,7 @@ const createConversation = (): ConversationType =>
     ),
   });
 
-const Wrapper = (overrideProps: Partial<Props>) => {
+function Wrapper(overrideProps: Partial<Props>) {
   const theme = React.useContext(StorybookThemeContext);
 
   return (
@@ -52,32 +52,40 @@ const Wrapper = (overrideProps: Partial<Props>) => {
       {...overrideProps}
     />
   );
-};
+}
 
-export const Basic = (): JSX.Element => <Wrapper />;
-export const Editable = (): JSX.Element => <Wrapper canEdit />;
+export function Basic(): JSX.Element {
+  return <Wrapper />;
+}
+export function Editable(): JSX.Element {
+  return <Wrapper canEdit />;
+}
 
-export const BasicNoDescription = (): JSX.Element => (
-  <Wrapper
-    conversation={getDefaultConversation({
-      title: 'My Group',
-      type: 'group',
-    })}
-  />
-);
+export function BasicNoDescription(): JSX.Element {
+  return (
+    <Wrapper
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
+}
 
 BasicNoDescription.story = {
   name: 'Basic no-description',
 };
 
-export const EditableNoDescription = (): JSX.Element => (
-  <Wrapper
-    conversation={getDefaultConversation({
-      title: 'My Group',
-      type: 'group',
-    })}
-  />
-);
+export function EditableNoDescription(): JSX.Element {
+  return (
+    <Wrapper
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
+}
 
 EditableNoDescription.story = {
   name: 'Editable no-description',
@@ -91,7 +99,9 @@ _11.story = {
   name: '1:1',
 };
 
-export const NoteToSelf = (): JSX.Element => <Wrapper isMe />;
+export function NoteToSelf(): JSX.Element {
+  return <Wrapper isMe />;
+}
 
 NoteToSelf.story = {
   name: 'Note to self',

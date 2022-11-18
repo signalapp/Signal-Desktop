@@ -121,7 +121,7 @@ function convertMenu(
   });
 }
 
-export const TitleBarContainer = (props: PropsType): JSX.Element => {
+export function TitleBarContainer(props: PropsType): JSX.Element {
   const {
     theme,
     isMaximized,
@@ -269,4 +269,4 @@ export const TitleBarContainer = (props: PropsType): JSX.Element => {
       />
     </div>
   );
-};
+}

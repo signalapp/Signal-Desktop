@@ -64,11 +64,11 @@ export default {
   title: 'Components/SafetyNumberViewer',
 };
 
-export const SafetyNumber = (): JSX.Element => {
+export function SafetyNumber(): JSX.Element {
   return <SafetyNumberViewer {...createProps({})} />;
-};
+}
 
-export const SafetyNumberNotVerified = (): JSX.Element => {
+export function SafetyNumberNotVerified(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -79,13 +79,13 @@ export const SafetyNumberNotVerified = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 SafetyNumberNotVerified.story = {
   name: 'Safety Number (not verified)',
 };
 
-export const VerificationDisabled = (): JSX.Element => {
+export function VerificationDisabled(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -93,9 +93,9 @@ export const VerificationDisabled = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const SafetyNumberDialogClose = (): JSX.Element => {
+export function SafetyNumberDialogClose(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -103,13 +103,13 @@ export const SafetyNumberDialogClose = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 SafetyNumberDialogClose.story = {
   name: 'Safety Number (dialog close)',
 };
 
-export const JustProfileAndNumber = (): JSX.Element => {
+export function JustProfileAndNumber(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -117,13 +117,13 @@ export const JustProfileAndNumber = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 JustProfileAndNumber.story = {
   name: 'Just Profile and Number',
 };
 
-export const JustNumber = (): JSX.Element => {
+export function JustNumber(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -131,9 +131,9 @@ export const JustNumber = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const NoPhoneNumberCannotVerify = (): JSX.Element => {
+export function NoPhoneNumberCannotVerify(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -141,7 +141,7 @@ export const NoPhoneNumberCannotVerify = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 NoPhoneNumberCannotVerify.story = {
   name: 'No Phone Number (cannot verify)',

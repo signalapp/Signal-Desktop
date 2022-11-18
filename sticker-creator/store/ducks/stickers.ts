@@ -31,6 +31,8 @@ import type { EmojiPickDataType } from '../../../ts/components/emoji/EmojiPicker
 import { convertShortName } from '../../../ts/components/emoji/lib';
 import { isNotNil } from '../../../ts/util/isNotNil';
 
+type StickerEmojiData = { id: string; emoji: EmojiPickDataType };
+
 export const initializeStickers = createAction<Array<string>>(
   'stickers/initializeStickers'
 );
@@ -41,8 +43,7 @@ export const removeSticker = createAction<string>('stickers/removeSticker');
 export const moveSticker = createAction<SortEnd>('stickers/moveSticker');
 export const setCover = createAction<StickerImageData>('stickers/setCover');
 export const resetCover = createAction<StickerImageData>('stickers/resetCover');
-export const setEmoji =
-  createAction<{ id: string; emoji: EmojiPickDataType }>('stickers/setEmoji');
+export const setEmoji = createAction<StickerEmojiData>('stickers/setEmoji');
 export const setTitle = createAction<string>('stickers/setTitle');
 export const setAuthor = createAction<string>('stickers/setAuthor');
 export const setPackMeta = createAction<PackMetaData>('stickers/setPackMeta');

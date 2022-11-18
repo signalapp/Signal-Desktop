@@ -35,7 +35,7 @@ const getClassName = ({ noMessage, empty }: Props) => {
   return styles.main;
 };
 
-export const AppStage: React.ComponentType<Props> = props => {
+export function AppStage(props: Props): JSX.Element {
   const {
     children,
     next,
@@ -101,4 +101,4 @@ export const AppStage: React.ComponentType<Props> = props => {
       />
     </>
   );
-};
+}

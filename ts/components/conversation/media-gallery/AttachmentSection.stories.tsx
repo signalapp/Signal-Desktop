@@ -108,16 +108,16 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   mediaItems: overrideProps.mediaItems || [],
 });
 
-export const Documents = () => {
+export function Documents() {
   const mediaItems = createRandomDocuments(now, days(1));
   const props = createProps({ mediaItems, type: 'documents' });
 
   return <AttachmentSection {...props} />;
-};
+}
 
-export const Media = () => {
+export function Media() {
   const mediaItems = createRandomMedia(now, days(1));
   const props = createProps({ mediaItems, type: 'media' });
 
   return <AttachmentSection {...props} />;
-};
+}

@@ -20,11 +20,11 @@ export type PropsType = {
 
 const SHORT_TIMEOUT = 3 * SECOND;
 
-export const ToastManager = ({
+export function ToastManager({
   hideToast,
   i18n,
   toast,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   if (toast === undefined) {
     return null;
   }
@@ -144,4 +144,4 @@ export const ToastManager = ({
   }
 
   throw missingCaseError(toastType);
-};
+}

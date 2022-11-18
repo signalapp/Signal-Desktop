@@ -15,12 +15,12 @@ type PropsType = {
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
-export const DirectCallRemoteParticipant: React.FC<PropsType> = ({
+export function DirectCallRemoteParticipant({
   conversation,
   hasRemoteVideo,
   i18n,
   setRendererCanvas,
-}) => {
+}: PropsType): JSX.Element {
   const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const DirectCallRemoteParticipant: React.FC<PropsType> = ({
   ) : (
     renderAvatar(i18n, conversation)
   );
-};
+}
 
 function renderAvatar(
   i18n: LocalizerType,

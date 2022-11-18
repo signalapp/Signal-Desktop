@@ -17,14 +17,14 @@ export type PropsType = {
   title: string;
 };
 
-export const ContactName = ({
+export function ContactName({
   contactNameColor,
   firstName,
   isSignalConversation,
   module,
   preferFirstName,
   title,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
   let text: string;
@@ -48,4 +48,4 @@ export const ContactName = ({
       )}
     </span>
   );
-};
+}

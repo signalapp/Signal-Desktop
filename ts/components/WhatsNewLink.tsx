@@ -12,7 +12,7 @@ export type PropsType = {
   showWhatsNewModal: () => unknown;
 };
 
-export const WhatsNewLink = (props: PropsType): JSX.Element => {
+export function WhatsNewLink(props: PropsType): JSX.Element {
   const { i18n, showWhatsNewModal } = props;
 
   return (
@@ -26,4 +26,4 @@ export const WhatsNewLink = (props: PropsType): JSX.Element => {
       ]}
     />
   );
-};
+}

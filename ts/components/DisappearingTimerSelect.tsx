@@ -21,7 +21,7 @@ export type Props = {
   onChange(value: DurationInSeconds): void;
 };
 
-export const DisappearingTimerSelect: React.FC<Props> = (props: Props) => {
+export function DisappearingTimerSelect(props: Props): JSX.Element {
   const { i18n, value = DurationInSeconds.ZERO, onChange } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,4 +104,4 @@ export const DisappearingTimerSelect: React.FC<Props> = (props: Props) => {
       {modalNode}
     </div>
   );
-};
+}

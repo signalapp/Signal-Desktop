@@ -9,6 +9,8 @@ export type Props = {
   children: React.ReactNode;
 };
 
-export const PageHeader = React.memo(({ children }: Props) => (
-  <H1 className={styles.base}>{children}</H1>
-));
+export const PageHeader = React.memo(function PageHeaderInner({
+  children,
+}: Props) {
+  return <H1 className={styles.base}>{children}</H1>;
+});

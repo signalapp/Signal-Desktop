@@ -31,24 +31,24 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   },
 });
 
-export const LinksEnabled = (): JSX.Element => {
+export function LinksEnabled(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
   });
 
   return <MessageBody {...props} />;
-};
+}
 
-export const LinksDisabled = (): JSX.Element => {
+export function LinksDisabled(): JSX.Element {
   const props = createProps({
     disableLinks: true,
     text: 'Check out https://www.signal.org',
   });
 
   return <MessageBody {...props} />;
-};
+}
 
-export const EmojiSizeBasedOnCount = (): JSX.Element => {
+export function EmojiSizeBasedOnCount(): JSX.Element {
   const props = createProps();
 
   return (
@@ -64,38 +64,38 @@ export const EmojiSizeBasedOnCount = (): JSX.Element => {
       <MessageBody {...props} text="😹😹😹😹😹😹😹😹😹" />
     </>
   );
-};
+}
 
-export const JumbomojiEnabled = (): JSX.Element => {
+export function JumbomojiEnabled(): JSX.Element {
   const props = createProps({
     text: '😹',
   });
 
   return <MessageBody {...props} />;
-};
+}
 
-export const JumbomojiDisabled = (): JSX.Element => {
+export function JumbomojiDisabled(): JSX.Element {
   const props = createProps({
     disableJumbomoji: true,
     text: '😹',
   });
 
   return <MessageBody {...props} />;
-};
+}
 
-export const JumbomojiDisabledByText = (): JSX.Element => {
+export function JumbomojiDisabledByText(): JSX.Element {
   const props = createProps({
     text: 'not a jumbo kitty 😹',
   });
 
   return <MessageBody {...props} />;
-};
+}
 
 JumbomojiDisabledByText.story = {
   name: 'Jumbomoji Disabled by Text',
 };
 
-export const TextPending = (): JSX.Element => {
+export function TextPending(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -104,9 +104,9 @@ export const TextPending = (): JSX.Element => {
   });
 
   return <MessageBody {...props} />;
-};
+}
 
-export const Mention = (): JSX.Element => {
+export function Mention(): JSX.Element {
   const props = createProps({
     bodyRanges: [
       {
@@ -121,13 +121,13 @@ export const Mention = (): JSX.Element => {
   });
 
   return <MessageBody {...props} />;
-};
+}
 
 Mention.story = {
   name: '@Mention',
 };
 
-export const MultipleMentions = (): JSX.Element => {
+export function MultipleMentions(): JSX.Element {
   const props = createProps({
     // These are intentionally in a mixed order to test how we deal with that
     bodyRanges: [
@@ -157,13 +157,13 @@ export const MultipleMentions = (): JSX.Element => {
   });
 
   return <MessageBody {...props} />;
-};
+}
 
 MultipleMentions.story = {
   name: 'Multiple @Mentions',
 };
 
-export const ComplexMessageBody = (): JSX.Element => {
+export function ComplexMessageBody(): JSX.Element {
   const props = createProps({
     bodyRanges: [
       // These are intentionally in a mixed order to test how we deal with that
@@ -194,7 +194,7 @@ export const ComplexMessageBody = (): JSX.Element => {
   });
 
   return <MessageBody {...props} />;
-};
+}
 
 ComplexMessageBody.story = {
   name: 'Complex MessageBody',

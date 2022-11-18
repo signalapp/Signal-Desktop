@@ -4,7 +4,6 @@
 import * as Constants from './constants';
 
 export type DurationInSeconds = number & {
-  // eslint-disable-next-line camelcase
   __time_difference_in_seconds: never;
 };
 

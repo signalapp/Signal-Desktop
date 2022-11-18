@@ -183,11 +183,11 @@ export type GlobalAudioProps = {
  * A global context that holds Audio, AudioContext, LRU instances that are used
  * inside the conversation by ts/components/conversation/MessageAudio.tsx
  */
-export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
+export function GlobalAudioProvider({
   conversationId,
   children,
   unloadMessageAudio,
-}) => {
+}: GlobalAudioProps): JSX.Element {
   // When moving between conversations - stop audio
   React.useEffect(() => {
     return () => {
@@ -200,4 +200,4 @@ export const GlobalAudioProvider: React.FC<GlobalAudioProps> = ({
       {children}
     </GlobalAudioContext.Provider>
   );
-};
+}

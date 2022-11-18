@@ -70,7 +70,7 @@ export default {
   title: 'Components/Conversation/GroupV2Change',
 };
 
-export const Multiple = (): JSX.Element => {
+export function Multiple(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -110,9 +110,9 @@ export const Multiple = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const Create = (): JSX.Element => {
+export function Create(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -140,9 +140,9 @@ export const Create = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const Title = (): JSX.Element => {
+export function Title(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -196,9 +196,9 @@ export const Title = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const Avatar = (): JSX.Element => {
+export function Avatar(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -255,9 +255,9 @@ export const Avatar = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const AccessAttributes = (): JSX.Element => {
+export function AccessAttributes(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -314,13 +314,13 @@ export const AccessAttributes = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 AccessAttributes.story = {
   name: 'Access (Attributes)',
 };
 
-export const AccessMembers = (): JSX.Element => {
+export function AccessMembers(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -377,13 +377,13 @@ export const AccessMembers = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 AccessMembers.story = {
   name: 'Access (Members)',
 };
 
-export const AccessInviteLink = (): JSX.Element => {
+export function AccessInviteLink(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -440,13 +440,13 @@ export const AccessInviteLink = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 AccessInviteLink.story = {
   name: 'Access (Invite Link)',
 };
 
-export const MemberAdd = (): JSX.Element => {
+export function MemberAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -503,9 +503,9 @@ export const MemberAdd = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const MemberAddFromInvited = (): JSX.Element => {
+export function MemberAddFromInvited(): JSX.Element {
   return (
     <>
       {/* the strings where someone added you - shown like a normal add */}
@@ -620,13 +620,13 @@ export const MemberAddFromInvited = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 MemberAddFromInvited.story = {
   name: 'Member Add (from invited)',
 };
 
-export const MemberAddFromLink = (): JSX.Element => {
+export function MemberAddFromLink(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -657,13 +657,13 @@ export const MemberAddFromLink = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 MemberAddFromLink.story = {
   name: 'Member Add (from link)',
 };
 
-export const MemberAddFromAdminApproval = (): JSX.Element => {
+export function MemberAddFromAdminApproval(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -711,13 +711,13 @@ export const MemberAddFromAdminApproval = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 MemberAddFromAdminApproval.story = {
   name: 'Member Add (from admin approval)',
 };
 
-export const MemberRemove = (): JSX.Element => {
+export function MemberRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -783,9 +783,9 @@ export const MemberRemove = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const MemberPrivilege = (): JSX.Element => {
+export function MemberPrivilege(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -886,9 +886,9 @@ export const MemberPrivilege = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
-export const PendingAddOne = (): JSX.Element => {
+export function PendingAddOne(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -936,13 +936,13 @@ export const PendingAddOne = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 PendingAddOne.story = {
   name: 'Pending Add - one',
 };
 
-export const PendingAddMany = (): JSX.Element => {
+export function PendingAddMany(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -973,13 +973,13 @@ export const PendingAddMany = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 PendingAddMany.story = {
   name: 'Pending Add - many',
 };
 
-export const PendingRemoveOne = (): JSX.Element => {
+export function PendingRemoveOne(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1120,13 +1120,13 @@ export const PendingRemoveOne = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 PendingRemoveOne.story = {
   name: 'Pending Remove - one',
 };
 
-export const PendingRemoveMany = (): JSX.Element => {
+export function PendingRemoveMany(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1216,13 +1216,13 @@ export const PendingRemoveMany = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 PendingRemoveMany.story = {
   name: 'Pending Remove - many',
 };
 
-export const AdminApprovalAdd = (): JSX.Element => {
+export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1243,13 +1243,13 @@ export const AdminApprovalAdd = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 AdminApprovalAdd.story = {
   name: 'Admin Approval (Add)',
 };
 
-export const AdminApprovalRemove = (): JSX.Element => {
+export function AdminApprovalRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1361,13 +1361,13 @@ export const AdminApprovalRemove = (): JSX.Element => {
       )}
     </>
   );
-};
+}
 
 AdminApprovalRemove.story = {
   name: 'Admin Approval (Remove)',
 };
 
-export const GroupLinkAdd = (): JSX.Element => {
+export function GroupLinkAdd(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1424,13 +1424,13 @@ export const GroupLinkAdd = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 GroupLinkAdd.story = {
   name: 'Group Link (Add)',
 };
 
-export const GroupLinkReset = (): JSX.Element => {
+export function GroupLinkReset(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1458,13 +1458,13 @@ export const GroupLinkReset = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 GroupLinkReset.story = {
   name: 'Group Link (Reset)',
 };
 
-export const GroupLinkRemove = (): JSX.Element => {
+export function GroupLinkRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1492,13 +1492,13 @@ export const GroupLinkRemove = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 GroupLinkRemove.story = {
   name: 'Group Link (Remove)',
 };
 
-export const DescriptionRemove = (): JSX.Element => {
+export function DescriptionRemove(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1529,13 +1529,13 @@ export const DescriptionRemove = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 DescriptionRemove.story = {
   name: 'Description (Remove)',
 };
 
-export const DescriptionChange = (): JSX.Element => {
+export function DescriptionChange(): JSX.Element {
   return (
     <>
       {renderChange(
@@ -1578,13 +1578,13 @@ export const DescriptionChange = (): JSX.Element => {
       )}
     </>
   );
-};
+}
 
 DescriptionChange.story = {
   name: 'Description (Change)',
 };
 
-export const AnnouncementGroupChange = (): JSX.Element => {
+export function AnnouncementGroupChange(): JSX.Element {
   return (
     <>
       {renderChange({
@@ -1641,7 +1641,7 @@ export const AnnouncementGroupChange = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 AnnouncementGroupChange.story = {
   name: 'Announcement Group (Change)',

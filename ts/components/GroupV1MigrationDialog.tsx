@@ -28,7 +28,7 @@ export type HousekeepingPropsType = {
 export type PropsType = DataPropsType & HousekeepingPropsType;
 
 export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
-  React.memo((props: PropsType) => {
+  React.memo(function GroupV1MigrationDialogInner(props: PropsType) {
     const {
       areWeInvited,
       droppedMembers,

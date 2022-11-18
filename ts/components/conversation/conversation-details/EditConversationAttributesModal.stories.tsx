@@ -36,51 +36,59 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-export const NoAvatarEmptyTitle = (): JSX.Element => (
-  <EditConversationAttributesModal {...createProps({ title: '' })} />
-);
+export function NoAvatarEmptyTitle(): JSX.Element {
+  return <EditConversationAttributesModal {...createProps({ title: '' })} />;
+}
 
 NoAvatarEmptyTitle.story = {
   name: 'No avatar, empty title',
 };
 
-export const AvatarAndTitle = (): JSX.Element => (
-  <EditConversationAttributesModal
-    {...createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    })}
-  />
-);
+export function AvatarAndTitle(): JSX.Element {
+  return (
+    <EditConversationAttributesModal
+      {...createProps({
+        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+      })}
+    />
+  );
+}
 
 AvatarAndTitle.story = {
   name: 'Avatar and title',
 };
 
-export const InitiallyFocusingDescription = (): JSX.Element => (
-  <EditConversationAttributesModal
-    {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
-  />
-);
+export function InitiallyFocusingDescription(): JSX.Element {
+  return (
+    <EditConversationAttributesModal
+      {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
+    />
+  );
+}
 
 InitiallyFocusingDescription.story = {
   name: 'Initially focusing description',
 };
 
-export const RequestActive = (): JSX.Element => (
-  <EditConversationAttributesModal
-    {...createProps({ requestState: RequestState.Active })}
-  />
-);
+export function RequestActive(): JSX.Element {
+  return (
+    <EditConversationAttributesModal
+      {...createProps({ requestState: RequestState.Active })}
+    />
+  );
+}
 
 RequestActive.story = {
   name: 'Request active',
 };
 
-export const HasError = (): JSX.Element => (
-  <EditConversationAttributesModal
-    {...createProps({ requestState: RequestState.InactiveWithError })}
-  />
-);
+export function HasError(): JSX.Element {
+  return (
+    <EditConversationAttributesModal
+      {...createProps({ requestState: RequestState.InactiveWithError })}
+    />
+  );
+}
 
 HasError.story = {
   name: 'Has error',

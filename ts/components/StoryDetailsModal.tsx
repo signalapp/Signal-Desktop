@@ -61,7 +61,7 @@ function getI18nKey(sendStatus: SendStatus | undefined): string {
   return 'from';
 }
 
-export const StoryDetailsModal = ({
+export function StoryDetailsModal({
   getPreferredBadge,
   i18n,
   onClose,
@@ -70,7 +70,7 @@ export const StoryDetailsModal = ({
   size,
   timestamp,
   expirationTimestamp,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   // the sender is included in the sendState data
   // but we don't want to show the sender in the "Sent To" list
   const actualRecipientsSendState = sendState?.filter(
@@ -269,4 +269,4 @@ export const StoryDetailsModal = ({
       {content}
     </Modal>
   );
-};
+}

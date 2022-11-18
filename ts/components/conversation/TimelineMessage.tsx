@@ -65,7 +65,7 @@ type Trigger = {
 /**
  * Message with menu/context-menu (as necessary for rendering in the timeline)
  */
-export const TimelineMessage = (props: Props): JSX.Element => {
+export function TimelineMessage(props: Props): JSX.Element {
   const {
     i18n,
     id,
@@ -306,7 +306,7 @@ export const TimelineMessage = (props: Props): JSX.Element => {
       />
     </>
   );
-};
+}
 
 type MessageMenuProps = {
   i18n: LocalizerType;
@@ -319,7 +319,7 @@ type MessageMenuProps = {
   onReact: (() => void) | undefined;
 } & Pick<MessageProps, 'i18n' | 'direction'>;
 
-const MessageMenu = ({
+function MessageMenu({
   i18n,
   triggerId,
   direction,
@@ -329,7 +329,7 @@ const MessageMenu = ({
   onDownload,
   onReplyToMessage,
   onReact,
-}: MessageMenuProps) => {
+}: MessageMenuProps) {
   // This a menu meant for mouse use only
   /* eslint-disable jsx-a11y/interactive-supports-focus */
   /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -445,7 +445,7 @@ const MessageMenu = ({
       {menuButton}
     </div>
   );
-};
+}
 
 type MessageContextProps = {
   i18n: LocalizerType;

@@ -49,7 +49,7 @@ function getUrl(
   return attachment.url;
 }
 
-export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
+export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
   attachments,
   canEditImages,
   i18n,
@@ -57,7 +57,7 @@ export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
   onClickAttachment,
   onCloseAttachment,
   onClose,
-}: Props<T>): JSX.Element | null => {
+}: Props<T>): JSX.Element | null {
   if (!attachments.length) {
     return null;
   }
@@ -151,4 +151,4 @@ export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
       </div>
     </div>
   );
-};
+}

@@ -22,6 +22,6 @@ export default {
   title: 'Components/ConfirmDiscardDialog',
 };
 
-export const Default = (): JSX.Element => (
-  <ConfirmDiscardDialog {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <ConfirmDiscardDialog {...createProps()} />;
+}

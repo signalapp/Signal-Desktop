@@ -28,7 +28,7 @@ export default {
   title: 'Components/Conversation/SafetyNumberNotification',
 };
 
-export const GroupConversation = (): JSX.Element => {
+export function GroupConversation(): JSX.Element {
   const props = createProps({
     isGroup: true,
     contact: createContact({
@@ -37,9 +37,9 @@ export const GroupConversation = (): JSX.Element => {
   });
 
   return <SafetyNumberNotification {...props} />;
-};
+}
 
-export const DirectConversation = (): JSX.Element => {
+export function DirectConversation(): JSX.Element {
   const props = createProps({
     isGroup: false,
     contact: createContact({
@@ -48,9 +48,9 @@ export const DirectConversation = (): JSX.Element => {
   });
 
   return <SafetyNumberNotification {...props} />;
-};
+}
 
-export const LongNameInGroup = (): JSX.Element => {
+export function LongNameInGroup(): JSX.Element {
   const props = createProps({
     isGroup: true,
     contact: createContact({
@@ -59,7 +59,7 @@ export const LongNameInGroup = (): JSX.Element => {
   });
 
   return <SafetyNumberNotification {...props} />;
-};
+}
 
 LongNameInGroup.story = {
   name: 'Long name in group',

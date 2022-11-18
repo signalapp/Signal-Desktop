@@ -14,7 +14,10 @@ type PropsType = {
 };
 
 export const GroupDescriptionInput = forwardRef<HTMLInputElement, PropsType>(
-  ({ i18n, disabled = false, onChangeValue, value }, ref) => {
+  function GroupDescriptionInput(
+    { i18n, disabled = false, onChangeValue, value },
+    ref
+  ) {
     return (
       <Input
         disabled={disabled}

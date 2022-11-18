@@ -16,7 +16,7 @@ export type PropsType = {
   setPresenting: (_?: PresentedSource) => void;
 };
 
-const Source = ({
+function Source({
   onSourceClick,
   source,
   sourceToPresent,
@@ -24,7 +24,7 @@ const Source = ({
   onSourceClick: (source: PresentedSource) => void;
   source: PresentableSource;
   sourceToPresent?: PresentedSource;
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <button
       className={classNames({
@@ -62,13 +62,13 @@ const Source = ({
       </div>
     </button>
   );
-};
+}
 
-export const CallingSelectPresentingSourcesModal = ({
+export function CallingSelectPresentingSourcesModal({
   i18n,
   presentingSourcesAvailable,
   setPresenting,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const [sourceToPresent, setSourceToPresent] = useState<
     PresentedSource | undefined
   >(undefined);
@@ -137,4 +137,4 @@ export const CallingSelectPresentingSourcesModal = ({
       </div>
     </Modal>
   );
-};
+}

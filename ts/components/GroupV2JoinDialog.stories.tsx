@@ -30,11 +30,11 @@ export default {
   title: 'Components/GroupV2JoinDialog',
 };
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   return <GroupV2JoinDialog {...createProps()} />;
-};
+}
 
-export const ApprovalRequired = (): JSX.Element => {
+export function ApprovalRequired(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -43,13 +43,13 @@ export const ApprovalRequired = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 ApprovalRequired.story = {
   name: 'Approval required',
 };
 
-export const WithAvatar = (): JSX.Element => {
+export function WithAvatar(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -60,13 +60,13 @@ export const WithAvatar = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 WithAvatar.story = {
   name: 'With avatar',
 };
 
-export const WithOneMember = (): JSX.Element => {
+export function WithOneMember(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -75,13 +75,13 @@ export const WithOneMember = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 WithOneMember.story = {
   name: 'With one member',
 };
 
-export const AvatarLoadingState = (): JSX.Element => {
+export function AvatarLoadingState(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -92,13 +92,13 @@ export const AvatarLoadingState = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 AvatarLoadingState.story = {
   name: 'Avatar loading state',
 };
 
-export const Full = (): JSX.Element => {
+export function Full(): JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -111,4 +111,4 @@ export const Full = (): JSX.Element => {
       })}
     />
   );
-};
+}

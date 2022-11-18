@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../types/Util';
@@ -20,9 +20,13 @@ type PropsType = {
   theme: ThemeType;
 };
 
-export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<
-  PropsType
-> = ({ contacts, getPreferredBadge, i18n, onClose, theme }) => {
+export function NewlyCreatedGroupInvitedContactsDialog({
+  contacts,
+  getPreferredBadge,
+  i18n,
+  onClose,
+  theme,
+}: PropsType): JSX.Element {
   let title: string;
   let body: ReactNode;
   if (contacts.length === 1) {
@@ -86,4 +90,4 @@ export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<
       {body}
     </GroupDialog>
   );
-};
+}

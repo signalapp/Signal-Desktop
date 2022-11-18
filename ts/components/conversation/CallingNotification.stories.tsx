@@ -38,103 +38,119 @@ const getCommonProps = () => ({
 />
  */
 
-export const AcceptedIncomingAudioCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={1618894800000}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined={false}
-    wasIncoming
-    wasVideoCall={false}
-  />
-);
+export function AcceptedIncomingAudioCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={1618894800000}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined={false}
+      wasIncoming
+      wasVideoCall={false}
+    />
+  );
+}
 
-export const AcceptedIncomingVideoCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={1618894800000}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined={false}
-    wasIncoming
-    wasVideoCall
-  />
-);
+export function AcceptedIncomingVideoCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={1618894800000}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined={false}
+      wasIncoming
+      wasVideoCall
+    />
+  );
+}
 
-export const DeclinedIncomingAudioCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={undefined}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined
-    wasIncoming
-    wasVideoCall={false}
-  />
-);
+export function DeclinedIncomingAudioCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={undefined}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined
+      wasIncoming
+      wasVideoCall={false}
+    />
+  );
+}
 
-export const DeclinedIncomingVideoCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={undefined}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined
-    wasIncoming
-    wasVideoCall
-  />
-);
+export function DeclinedIncomingVideoCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={undefined}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined
+      wasIncoming
+      wasVideoCall
+    />
+  );
+}
 
-export const AcceptedOutgoingAudioCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={1618894800000}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined={false}
-    wasIncoming={false}
-    wasVideoCall={false}
-  />
-);
+export function AcceptedOutgoingAudioCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={1618894800000}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined={false}
+      wasIncoming={false}
+      wasVideoCall={false}
+    />
+  );
+}
 
-export const AcceptedOutgoingVideoCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={1618894800000}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined={false}
-    wasIncoming={false}
-    wasVideoCall
-  />
-);
+export function AcceptedOutgoingVideoCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={1618894800000}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined={false}
+      wasIncoming={false}
+      wasVideoCall
+    />
+  );
+}
 
-export const DeclinedOutgoingAudioCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={undefined}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined
-    wasIncoming={false}
-    wasVideoCall={false}
-  />
-);
+export function DeclinedOutgoingAudioCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={undefined}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined
+      wasIncoming={false}
+      wasVideoCall={false}
+    />
+  );
+}
 
-export const DeclinedOutgoingVideoCall = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    acceptedTime={undefined}
-    callMode={CallMode.Direct}
-    endedTime={1618894800000}
-    wasDeclined
-    wasIncoming={false}
-    wasVideoCall
-  />
-);
+export function DeclinedOutgoingVideoCall(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      acceptedTime={undefined}
+      callMode={CallMode.Direct}
+      endedTime={1618894800000}
+      wasDeclined
+      wasIncoming={false}
+      wasVideoCall
+    />
+  );
+}
 
-export const TwoIncomingDirectCallsBackToBack = (): JSX.Element => {
+export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
   const call1: CallingNotificationType = {
     callMode: CallMode.Direct,
     wasIncoming: true,
@@ -161,13 +177,13 @@ export const TwoIncomingDirectCallsBackToBack = (): JSX.Element => {
       <CallingNotification {...getCommonProps()} {...call2} />
     </>
   );
-};
+}
 
 TwoIncomingDirectCallsBackToBack.story = {
   name: 'Two incoming direct calls back-to-back',
 };
 
-export const TwoOutgoingDirectCallsBackToBack = (): JSX.Element => {
+export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
   const call1: CallingNotificationType = {
     callMode: CallMode.Direct,
     wasIncoming: false,
@@ -194,49 +210,55 @@ export const TwoOutgoingDirectCallsBackToBack = (): JSX.Element => {
       <CallingNotification {...getCommonProps()} {...call2} />
     </>
   );
-};
+}
 
 TwoOutgoingDirectCallsBackToBack.story = {
   name: 'Two outgoing direct calls back-to-back',
 };
 
-export const GroupCallByUnknown = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    callMode={CallMode.Group}
-    creator={undefined}
-    deviceCount={15}
-    ended={false}
-    maxDevices={16}
-    startedTime={1618894800000}
-  />
-);
+export function GroupCallByUnknown(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      creator={undefined}
+      deviceCount={15}
+      ended={false}
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+}
 
-export const GroupCallByYou = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    callMode={CallMode.Group}
-    creator={{ isMe: true, title: 'Alicia' }}
-    deviceCount={15}
-    ended={false}
-    maxDevices={16}
-    startedTime={1618894800000}
-  />
-);
+export function GroupCallByYou(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      creator={{ isMe: true, title: 'Alicia' }}
+      deviceCount={15}
+      ended={false}
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+}
 
-export const GroupCallBySomeone = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    callMode={CallMode.Group}
-    creator={{ isMe: false, title: 'Alicia' }}
-    deviceCount={15}
-    ended={false}
-    maxDevices={16}
-    startedTime={1618894800000}
-  />
-);
+export function GroupCallBySomeone(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      creator={{ isMe: false, title: 'Alicia' }}
+      deviceCount={15}
+      ended={false}
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+}
 
-export const GroupCallStartedBySomeoneWithALongName = (): JSX.Element => {
+export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
   const longName = '😤🪐🦆'.repeat(50);
 
   return (
@@ -253,37 +275,41 @@ export const GroupCallStartedBySomeoneWithALongName = (): JSX.Element => {
       startedTime={1618894800000}
     />
   );
-};
+}
 
 GroupCallStartedBySomeoneWithALongName.story = {
   name: 'Group call: started by someone with a long name',
 };
 
-export const GroupCallActiveCallFull = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    callMode={CallMode.Group}
-    deviceCount={16}
-    ended={false}
-    maxDevices={16}
-    startedTime={1618894800000}
-  />
-);
+export function GroupCallActiveCallFull(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      deviceCount={16}
+      ended={false}
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+}
 
 GroupCallActiveCallFull.story = {
   name: 'Group call: active, call full',
 };
 
-export const GroupCallEnded = (): JSX.Element => (
-  <CallingNotification
-    {...getCommonProps()}
-    callMode={CallMode.Group}
-    deviceCount={0}
-    ended
-    maxDevices={16}
-    startedTime={1618894800000}
-  />
-);
+export function GroupCallEnded(): JSX.Element {
+  return (
+    <CallingNotification
+      {...getCommonProps()}
+      callMode={CallMode.Group}
+      deviceCount={0}
+      ended
+      maxDevices={16}
+      startedTime={1618894800000}
+    />
+  );
+}
 
 GroupCallEnded.story = {
   name: 'Group call: ended',

@@ -16,7 +16,7 @@ export default {
 const i18n = setupI18n('en', enMessages);
 const sender = getDefaultConversation();
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return (
     <DeliveryIssueNotification
       i18n={i18n}
@@ -25,9 +25,9 @@ export const Default = (): JSX.Element => {
       sender={sender}
     />
   );
-};
+}
 
-export const WithALongName = (): JSX.Element => {
+export function WithALongName(): JSX.Element {
   const longName = '🤷🏽‍♀️❤️🐞'.repeat(50);
   return (
     <DeliveryIssueNotification
@@ -42,13 +42,13 @@ export const WithALongName = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 WithALongName.story = {
   name: 'With a long name',
 };
 
-export const InGroup = (): JSX.Element => {
+export function InGroup(): JSX.Element {
   return (
     <DeliveryIssueNotification
       i18n={i18n}
@@ -57,4 +57,4 @@ export const InGroup = (): JSX.Element => {
       sender={sender}
     />
   );
-};
+}

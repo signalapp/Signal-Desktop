@@ -237,7 +237,7 @@ export function ModalPage({
   );
 }
 
-Modal.ButtonFooter = function ButtonFooter({
+function ButtonFooter({
   children,
 }: Readonly<{
   children: ReactNode;
@@ -257,7 +257,8 @@ Modal.ButtonFooter = function ButtonFooter({
       {children}
     </div>
   );
-};
+}
+Modal.ButtonFooter = ButtonFooter;
 
 type PagedModalProps = Readonly<{
   modalName: string;

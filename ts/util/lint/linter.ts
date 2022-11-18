@@ -110,6 +110,9 @@ const excludedFilesRegexp = RegExp(
     // Modules used only in test/development scenarios
     '^node_modules/@babel/.+',
     '^node_modules/@chanzuckerberg/axe-storybook-testing/.+',
+    '^node_modules/@humanwhocodes/config-array/.+',
+    '^node_modules/@mixer/parallel-prettier/.+',
+    '^node_modules/@eslint/.+',
     '^node_modules/@signalapp/mock-server/.+',
     '^node_modules/@svgr/.+',
     '^node_modules/@types/.+',
@@ -165,17 +168,21 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/esbuild/.+',
     '^node_modules/escodegen/.+',
     '^node_modules/eslint.+',
+    '^node_modules/espree.+',
     '^node_modules/@typescript-eslint.+',
     '^node_modules/esprima/.+',
     '^node_modules/express/.+',
     '^node_modules/fast-glob/.+',
+    '^node_modules/file-entry-cache/.+',
     '^node_modules/file-loader/.+',
     '^node_modules/file-system-cache/.+', // Currently only used in storybook
     '^node_modules/finalhandler/.+',
+    '^node_modules/flat-cache/.+',
     '^node_modules/foreground-chat/.+',
     '^node_modules/fsevents/.+',
     '^node_modules/gauge/.+',
     '^node_modules/global-agent/.+',
+    '^node_modules/globby/.+',
     '^node_modules/globule/.+',
     '^node_modules/handle-thing/.+',
     '^node_modules/handlebars/.+', // Used by nyc#istanbul-reports
@@ -189,6 +196,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/jimp/.+',
     '^node_modules/jquery/.+',
     '^node_modules/jake/.+',
+    '^node_modules/js-sdsl/.+',
     '^node_modules/jss-global/.+',
     '^node_modules/jss/.+',
     '^node_modules/liftup/.+',
@@ -203,6 +211,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/needle/.+',
     '^node_modules/nise/.+',
     '^node_modules/node-gyp/.+',
+    '^node_modules/normalize-package-data/.+',
     '^node_modules/npm-run-all/.+',
     '^node_modules/nsp/.+',
     '^node_modules/nyc/.+',
@@ -217,12 +226,14 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/prop-types/.+',
     '^node_modules/protobufjs/cli/.+',
     '^node_modules/ramda/.+',
+    '^node_modules/rambda/.+',
     '^node_modules/react-dev-utils/.+',
     '^node_modules/react-docgen/.+',
     '^node_modules/react-error-overlay/.+',
     '^node_modules/read-config-file/.+', // Used by electron-builder
     '^node_modules/read-pkg/.+', // Used by npm-run-all
     '^node_modules/recast/.+',
+    '^node_modules/rechoir/.+',
     '^node_modules/reduce-css-calc/.+',
     '^node_modules/requizzle/.+',
     '^node_modules/resolve/.+',
@@ -395,7 +406,7 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
               exception.rule === rule.name &&
               exception.path === relativePath &&
               (line.length < 300
-                ? exception.line === line
+                ? exception.line?.trim() === line.trim()
                 : exception.line === undefined)
           );
 

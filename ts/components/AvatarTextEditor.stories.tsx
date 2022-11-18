@@ -24,35 +24,41 @@ export default {
   title: 'Components/AvatarTextEditor',
 };
 
-export const Empty = (): JSX.Element => <AvatarTextEditor {...createProps()} />;
+export function Empty(): JSX.Element {
+  return <AvatarTextEditor {...createProps()} />;
+}
 
-export const WithData = (): JSX.Element => (
-  <AvatarTextEditor
-    {...createProps({
-      avatarData: {
-        id: '123',
-        color: AvatarColors[6],
-        text: 'SUP',
-      },
-    })}
-  />
-);
+export function WithData(): JSX.Element {
+  return (
+    <AvatarTextEditor
+      {...createProps({
+        avatarData: {
+          id: '123',
+          color: AvatarColors[6],
+          text: 'SUP',
+        },
+      })}
+    />
+  );
+}
 
 WithData.story = {
   name: 'with Data',
 };
 
-export const WithWideCharacters = (): JSX.Element => (
-  <AvatarTextEditor
-    {...createProps({
-      avatarData: {
-        id: '123',
-        color: AvatarColors[6],
-        text: '‱௸𒈙',
-      },
-    })}
-  />
-);
+export function WithWideCharacters(): JSX.Element {
+  return (
+    <AvatarTextEditor
+      {...createProps({
+        avatarData: {
+          id: '123',
+          color: AvatarColors[6],
+          text: '‱௸𒈙',
+        },
+      })}
+    />
+  );
+}
 
 WithWideCharacters.story = {
   name: 'with wide characters',

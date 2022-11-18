@@ -4,7 +4,6 @@
 import type { ReactElement } from 'react';
 import React from 'react';
 
-export const InstallScreenSignalLogo = (): ReactElement => (
-  // Because "Signal" should be the same in every language, this is not localized.
-  <div className="InstallScreenSignalLogo">Signal</div>
-);
+export function InstallScreenSignalLogo(): ReactElement {
+  return <div className="InstallScreenSignalLogo">Signal</div>;
+}

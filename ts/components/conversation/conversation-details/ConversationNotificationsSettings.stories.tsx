@@ -25,31 +25,35 @@ const getCommonProps = () => ({
   setMuteExpiration: action('setMuteExpiration'),
 });
 
-export const GroupConversationAllDefault = (): JSX.Element => (
-  <ConversationNotificationsSettings {...getCommonProps()} />
-);
+export function GroupConversationAllDefault(): JSX.Element {
+  return <ConversationNotificationsSettings {...getCommonProps()} />;
+}
 
 GroupConversationAllDefault.story = {
   name: 'Group conversation, all default',
 };
 
-export const GroupConversationMuted = (): JSX.Element => (
-  <ConversationNotificationsSettings
-    {...getCommonProps()}
-    muteExpiresAt={Date.UTC(2099, 5, 9)}
-  />
-);
+export function GroupConversationMuted(): JSX.Element {
+  return (
+    <ConversationNotificationsSettings
+      {...getCommonProps()}
+      muteExpiresAt={Date.UTC(2099, 5, 9)}
+    />
+  );
+}
 
 GroupConversationMuted.story = {
   name: 'Group conversation, muted',
 };
 
-export const GroupConversationMentionsMuted = (): JSX.Element => (
-  <ConversationNotificationsSettings
-    {...getCommonProps()}
-    dontNotifyForMentionsIfMuted
-  />
-);
+export function GroupConversationMentionsMuted(): JSX.Element {
+  return (
+    <ConversationNotificationsSettings
+      {...getCommonProps()}
+      dontNotifyForMentionsIfMuted
+    />
+  );
+}
 
 GroupConversationMentionsMuted.story = {
   name: 'Group conversation, @mentions muted',

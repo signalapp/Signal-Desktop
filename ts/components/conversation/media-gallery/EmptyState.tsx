@@ -7,6 +7,6 @@ type Props = {
   label: string;
 };
 
-export const EmptyState = ({ label }: Props): JSX.Element => (
-  <div className="module-empty-state">{label}</div>
-);
+export function EmptyState({ label }: Props): JSX.Element {
+  return <div className="module-empty-state">{label}</div>;
+}

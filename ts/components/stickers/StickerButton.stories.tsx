@@ -85,46 +85,46 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showPickerHint: boolean('showPickerHint', false),
 });
 
-export const OnlyInstalled = (): JSX.Element => {
+export function OnlyInstalled(): JSX.Element {
   const props = createProps({ installedPacks });
 
   return <StickerButton {...props} />;
-};
+}
 
-export const OnlyReceived = (): JSX.Element => {
+export function OnlyReceived(): JSX.Element {
   const props = createProps({ receivedPacks });
 
   return <StickerButton {...props} />;
-};
+}
 
-export const OnlyKnown = (): JSX.Element => {
+export function OnlyKnown(): JSX.Element {
   const props = createProps({ knownPacks });
 
   return <StickerButton {...props} />;
-};
+}
 
-export const OnlyBlessed = (): JSX.Element => {
+export function OnlyBlessed(): JSX.Element {
   const props = createProps({ blessedPacks });
 
   return <StickerButton {...props} />;
-};
+}
 
-export const NoPacks = (): JSX.Element => {
+export function NoPacks(): JSX.Element {
   const props = createProps();
 
   return <StickerButton {...props} />;
-};
+}
 
-export const InstalledPackTooltip = (): JSX.Element => {
+export function InstalledPackTooltip(): JSX.Element {
   const props = createProps({
     installedPacks,
     installedPack: installedPacks[0],
   });
 
   return <StickerButton {...props} />;
-};
+}
 
-export const InstalledPackTooltipWide = (): JSX.Element => {
+export function InstalledPackTooltipWide(): JSX.Element {
   const installedPack = createPack({ id: 'installed-pack-wide' }, wideSticker);
 
   const props = createProps({
@@ -133,13 +133,13 @@ export const InstalledPackTooltipWide = (): JSX.Element => {
   });
 
   return <StickerButton {...props} />;
-};
+}
 
 InstalledPackTooltipWide.story = {
   name: 'Installed Pack Tooltip (Wide)',
 };
 
-export const InstalledPackTooltipTall = (): JSX.Element => {
+export function InstalledPackTooltipTall(): JSX.Element {
   const installedPack = createPack({ id: 'installed-pack-tall' }, tallSticker);
 
   const props = createProps({
@@ -148,17 +148,17 @@ export const InstalledPackTooltipTall = (): JSX.Element => {
   });
 
   return <StickerButton {...props} />;
-};
+}
 
 InstalledPackTooltipTall.story = {
   name: 'Installed Pack Tooltip (Tall)',
 };
 
-export const NewInstallTooltip = (): JSX.Element => {
+export function NewInstallTooltip(): JSX.Element {
   const props = createProps({
     installedPacks,
     showIntroduction: true,
   });
 
   return <StickerButton {...props} />;
-};
+}

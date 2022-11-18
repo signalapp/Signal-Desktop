@@ -27,108 +27,120 @@ const defaultProps: ComponentProps<typeof BadgeDialog> = {
   title: 'Alice Levine',
 };
 
-export const NoBadgesClosedImmediately = (): JSX.Element => (
-  <BadgeDialog {...defaultProps} badges={[]} />
-);
+export function NoBadgesClosedImmediately(): JSX.Element {
+  return <BadgeDialog {...defaultProps} badges={[]} />;
+}
 
 NoBadgesClosedImmediately.story = {
   name: 'No badges (closed immediately)',
 };
 
-export const OneBadge = (): JSX.Element => (
-  <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />
-);
+export function OneBadge(): JSX.Element {
+  return <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />;
+}
 
 OneBadge.story = {
   name: 'One badge',
 };
 
-export const BadgeWithNoImageShouldBeImpossible = (): JSX.Element => (
-  <BadgeDialog
-    {...defaultProps}
-    badges={[
-      {
-        ...getFakeBadge(),
-        images: [],
-      },
-    ]}
-  />
-);
+export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
+  return (
+    <BadgeDialog
+      {...defaultProps}
+      badges={[
+        {
+          ...getFakeBadge(),
+          images: [],
+        },
+      ]}
+    />
+  );
+}
 
 BadgeWithNoImageShouldBeImpossible.story = {
   name: 'Badge with no image (should be impossible)',
 };
 
-export const BadgeWithPendingImage = (): JSX.Element => (
-  <BadgeDialog
-    {...defaultProps}
-    badges={[
-      {
-        ...getFakeBadge(),
-        images: Array(4).fill(
-          zipObject(
-            Object.values(BadgeImageTheme),
-            repeat({ url: 'https://example.com/ignored.svg' })
-          )
-        ),
-      },
-    ]}
-  />
-);
-
-BadgeWithPendingImage.story = {
-  name: 'Badge with pending image',
-};
-
-export const BadgeWithOnlyOneLowDetailImage = (): JSX.Element => (
-  <BadgeDialog
-    {...defaultProps}
-    badges={[
-      {
-        ...getFakeBadge(),
-        images: [
-          zipObject(
-            Object.values(BadgeImageTheme),
-            repeat({
-              localPath: '/fixtures/orange-heart.svg',
-              url: 'https://example.com/ignored.svg',
-            })
-          ),
-          ...Array(3).fill(
+export function BadgeWithPendingImage(): JSX.Element {
+  return (
+    <BadgeDialog
+      {...defaultProps}
+      badges={[
+        {
+          ...getFakeBadge(),
+          images: Array(4).fill(
             zipObject(
               Object.values(BadgeImageTheme),
               repeat({ url: 'https://example.com/ignored.svg' })
             )
           ),
-        ],
-      },
-    ]}
-  />
-);
+        },
+      ]}
+    />
+  );
+}
+
+BadgeWithPendingImage.story = {
+  name: 'Badge with pending image',
+};
+
+export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
+  return (
+    <BadgeDialog
+      {...defaultProps}
+      badges={[
+        {
+          ...getFakeBadge(),
+          images: [
+            zipObject(
+              Object.values(BadgeImageTheme),
+              repeat({
+                localPath: '/fixtures/orange-heart.svg',
+                url: 'https://example.com/ignored.svg',
+              })
+            ),
+            ...Array(3).fill(
+              zipObject(
+                Object.values(BadgeImageTheme),
+                repeat({ url: 'https://example.com/ignored.svg' })
+              )
+            ),
+          ],
+        },
+      ]}
+    />
+  );
+}
 
 BadgeWithOnlyOneLowDetailImage.story = {
   name: 'Badge with only one, low-detail image',
 };
 
-export const FiveBadges = (): JSX.Element => (
-  <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />
-);
+export function FiveBadges(): JSX.Element {
+  return <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />;
+}
 
 FiveBadges.story = {
   name: 'Five badges',
 };
 
-export const ManyBadges = (): JSX.Element => (
-  <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />
-);
+export function ManyBadges(): JSX.Element {
+  return <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />;
+}
 
 ManyBadges.story = {
   name: 'Many badges',
 };
 
-export const ManyBadgesUserIsASubscriber = (): JSX.Element => (
-  <BadgeDialog {...defaultProps} areWeASubscriber badges={getFakeBadges(50)} />
-);
+export function ManyBadgesUserIsASubscriber(): JSX.Element {
+  return (
+    <BadgeDialog
+      {...defaultProps}
+      areWeASubscriber
+      badges={getFakeBadges(50)}
+    />
+  );
+}
 
 ManyBadgesUserIsASubscriber.story = {
   name: 'Many badges, user is a subscriber',

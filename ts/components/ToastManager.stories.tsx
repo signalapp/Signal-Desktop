@@ -26,6 +26,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => <ToastManager {...args} />;
 
 export const UndefinedToast = Template.bind({});

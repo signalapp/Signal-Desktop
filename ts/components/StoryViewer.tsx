@@ -118,7 +118,7 @@ enum Arrow {
   Right,
 }
 
-export const StoryViewer = ({
+export function StoryViewer({
   currentIndex,
   deleteGroupStoryReply,
   deleteGroupStoryReplyForEveryone,
@@ -155,7 +155,7 @@ export const StoryViewer = ({
   storyViewMode,
   viewStory,
   viewTarget,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
@@ -827,52 +827,50 @@ export const StoryViewer = ({
                   tabIndex={0}
                   type="button"
                 >
-                  <>
-                    {isSent || replyCount > 0 ? (
-                      <span className="StoryViewer__reply__chevron">
-                        {isSent && !hasViewReceiptSetting && !replyCount && (
-                          <>{i18n('StoryViewer__views-off')}</>
-                        )}
-                        {isSent &&
-                          hasViewReceiptSetting &&
-                          (viewCount === 1 ? (
-                            <Intl
-                              i18n={i18n}
-                              id="MyStories__views--singular"
-                              components={[<strong>{viewCount}</strong>]}
-                            />
-                          ) : (
-                            <Intl
-                              i18n={i18n}
-                              id="MyStories__views--plural"
-                              components={[<strong>{viewCount}</strong>]}
-                            />
-                          ))}
-                        {(isSent || viewCount > 0) && replyCount > 0 && ' '}
-                        {replyCount > 0 &&
-                          (replyCount === 1 ? (
-                            <Intl
-                              i18n={i18n}
-                              id="MyStories__replies--singular"
-                              components={[<strong>{replyCount}</strong>]}
-                            />
-                          ) : (
-                            <Intl
-                              i18n={i18n}
-                              id="MyStories__replies--plural"
-                              components={[<strong>{replyCount}</strong>]}
-                            />
-                          ))}
-                      </span>
-                    ) : null}
-                    {!isSent && !replyCount && (
-                      <span className="StoryViewer__reply__arrow">
-                        {isGroupStory
-                          ? i18n('StoryViewer__reply-group')
-                          : i18n('StoryViewer__reply')}
-                      </span>
-                    )}
-                  </>
+                  {isSent || replyCount > 0 ? (
+                    <span className="StoryViewer__reply__chevron">
+                      {isSent && !hasViewReceiptSetting && !replyCount && (
+                        <>{i18n('StoryViewer__views-off')}</>
+                      )}
+                      {isSent &&
+                        hasViewReceiptSetting &&
+                        (viewCount === 1 ? (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__views--singular"
+                            components={[<strong>{viewCount}</strong>]}
+                          />
+                        ) : (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__views--plural"
+                            components={[<strong>{viewCount}</strong>]}
+                          />
+                        ))}
+                      {(isSent || viewCount > 0) && replyCount > 0 && ' '}
+                      {replyCount > 0 &&
+                        (replyCount === 1 ? (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__replies--singular"
+                            components={[<strong>{replyCount}</strong>]}
+                          />
+                        ) : (
+                          <Intl
+                            i18n={i18n}
+                            id="MyStories__replies--plural"
+                            components={[<strong>{replyCount}</strong>]}
+                          />
+                        ))}
+                    </span>
+                  ) : null}
+                  {!isSent && !replyCount && (
+                    <span className="StoryViewer__reply__arrow">
+                      {isGroupStory
+                        ? i18n('StoryViewer__reply-group')
+                        : i18n('StoryViewer__reply')}
+                    </span>
+                  )}
                 </button>
               )}
             </div>
@@ -980,4 +978,4 @@ export const StoryViewer = ({
       </div>
     </FocusTrap>
   );
-};
+}

@@ -411,34 +411,6 @@
     "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
-    "line": "        load(exts, x, loadAsFilePackage);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
-    "line": "        function load(exts, x, loadPackage) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
-    "line": "                    if (r) return load(",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@mdx-js/mdx/node_modules/resolve/lib/async.js",
-    "line": "                load(exts.slice(1), x, pkg);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/@mdx-js/mdx/node_modules/source-map/dist/source-map.debug.js",
     "line": "\t      this.prepend(aChunk[i]);",
@@ -464,20 +436,6 @@
     "line": "      this.prepend(aChunk[i]);",
     "reasonCategory": "falseMatch",
     "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@mixer/parallel-prettier/node_modules/commander/index.js",
-    "line": "        return helper.wrap(fullText, helpWidth - itemIndentWidth, termWidth + itemSeparatorWidth);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-03-22T19:29:46.099Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/@mixer/parallel-prettier/node_modules/commander/index.js",
-    "line": "  wrap(str, width, indent, minColumnWidth = 40) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-03-22T19:29:46.099Z"
   },
   {
     "rule": "eval",
@@ -1802,34 +1760,6 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
-    "line": "    if (tok.value || tok.output) append(tok);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-14T16:45:31.703Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
-    "line": "      append({ value });",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-14T16:45:31.703Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
-    "line": "      append({ value });",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-14T16:45:31.703Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/del/node_modules/picomatch/lib/parse.js",
-    "line": "      append({ value });",
-    "reasonCategory": "falseMatch|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2022-02-14T16:45:31.703Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -2011,161 +1941,10 @@
     "updated": "2022-06-01T22:57:44.591Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
-    "line": "    return this.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
-    "line": "    return this.options.multiple ? super.space(ch) : this.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
-    "line": "  append(ch) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
-    "line": "    return this.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/editable.js",
-    "line": "  append(char, key) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/editable.js",
-    "line": "    return this.focused.editable ? this.append(char) : super.space();",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/editable.js",
-    "line": "    return this.focused.editable ? this.append(char) : super.number(char);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/form.js",
-    "line": "    return !!char && this.append(char);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/form.js",
-    "line": "  append(char) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/snippet.js",
-    "line": "      this.append(ch, key);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/prompts/snippet.js",
-    "line": "  append(ch, key) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/number.js",
-    "line": "  append(ch) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/number.js",
-    "line": "    return super.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/number.js",
-    "line": "    return super.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/string.js",
-    "line": "        return this.append('\\n', key);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/string.js",
-    "line": "    this.append(ch);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/string.js",
-    "line": "  append(ch) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/enquirer/lib/types/string.js",
-    "line": "    this.append(str);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/envinfo/dist/envinfo.js",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/espree/node_modules/acorn/dist/acorn.js",
-    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
   },
   {
     "rule": "React-ref",
@@ -2230,13 +2009,6 @@
     "updated": "2021-12-01T01:13:59.892Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/file-entry-cache/cache.js",
-    "line": "    var cache = flatCache.load( cacheId, _path );",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/filelist/index.js",
     "line": "    wrap(ARRAY_METHODS[i]);",
@@ -2249,20 +2021,6 @@
     "line": "\t\tif (options.multiArgs) {",
     "reasonCategory": "falseMatch",
     "updated": "2020-08-25T00:30:50.619Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/flat-cache/cache.js",
-    "line": "    me.load( fName, dir );",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/flat-cache/cache.js",
-    "line": "    obj.load( docId, cacheDir );",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "React-findDOMNode",
@@ -8063,34 +7821,6 @@
     "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
-    "line": "        load(exts, x, loadAsFilePackage);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
-    "line": "        function load(exts, x, loadPackage) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
-    "line": "                    if (r) return load(",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/remark-mdx/node_modules/resolve/lib/async.js",
-    "line": "                load(exts.slice(1), x, pkg);",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "node_modules/remark-mdx/node_modules/source-map/dist/source-map.debug.js",
     "line": "\t      this.prepend(aChunk[i]);",
@@ -8254,14 +7984,6 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-11T21:58:24.827Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/table/dist/createStream.js",
-    "line": "        return append(row, columnWidthIndex, config);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
   },
   {
     "rule": "jQuery-append(",
@@ -9045,13 +8767,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/ListView.tsx",
-    "line": "  const listRef = useRef<null | List>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-11-11T17:11:07.659Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/DirectCallRemoteParticipant.tsx",
     "line": "  const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -9133,7 +8848,7 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Input.tsx",
-    "line": "    const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(",
+    "line": "    const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
   },
@@ -9199,6 +8914,13 @@
     "line": "  const zoomCacheRef = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/ListView.tsx",
+    "line": "  const listRef = useRef<null | List>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-11-11T17:11:07.659Z"
   },
   {
     "rule": "React-createRef",

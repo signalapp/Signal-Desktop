@@ -41,15 +41,15 @@ export default {
   title: 'Components/DialogRelink',
 };
 
-export const KnobsPlayground = (): JSX.Element => {
+export function KnobsPlayground(): JSX.Element {
   const isRegistrationDone = boolean('isRegistrationDone', false);
 
   return (
     <DialogRelink {...defaultProps} isRegistrationDone={isRegistrationDone} />
   );
-};
+}
 
-export const Iterations = (): JSX.Element => {
+export function Iterations(): JSX.Element {
   return (
     <>
       {permutations.map(({ props, title }) => (
@@ -64,4 +64,4 @@ export const Iterations = (): JSX.Element => {
       ))}
     </>
   );
-};
+}

@@ -35,48 +35,52 @@ type PropsHousekeeping = {
 
 type PropsType = CallingNotificationType & PropsActionsType & PropsHousekeeping;
 
-export const CallingNotification: React.FC<PropsType> = React.memo(props => {
-  const { i18n } = props;
+export const CallingNotification: React.FC<PropsType> = React.memo(
+  function CallingNotificationInner(props) {
+    const { i18n } = props;
 
-  let timestamp: number;
-  let wasMissed = false;
-  switch (props.callMode) {
-    case CallMode.Direct:
-      timestamp = props.acceptedTime || props.endedTime;
-      wasMissed =
-        props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
-      break;
-    case CallMode.Group:
-      timestamp = props.startedTime;
-      break;
-    default:
-      log.error(`CallingNotification missing case: ${missingCaseError(props)}`);
-      return null;
+    let timestamp: number;
+    let wasMissed = false;
+    switch (props.callMode) {
+      case CallMode.Direct:
+        timestamp = props.acceptedTime || props.endedTime;
+        wasMissed =
+          props.wasIncoming && !props.acceptedTime && !props.wasDeclined;
+        break;
+      case CallMode.Group:
+        timestamp = props.startedTime;
+        break;
+      default:
+        log.error(
+          `CallingNotification missing case: ${missingCaseError(props)}`
+        );
+        return null;
+    }
+
+    const icon = getCallingIcon(props);
+
+    return (
+      <SystemMessage
+        button={renderCallingNotificationButton(props)}
+        contents={
+          <>
+            {getCallingNotificationText(props, i18n)} &middot;{' '}
+            <MessageTimestamp
+              direction="outgoing"
+              i18n={i18n}
+              timestamp={timestamp}
+              withImageNoCaption={false}
+              withSticker={false}
+              withTapToViewExpired={false}
+            />
+          </>
+        }
+        icon={icon}
+        isError={wasMissed}
+      />
+    );
   }
-
-  const icon = getCallingIcon(props);
-
-  return (
-    <SystemMessage
-      button={renderCallingNotificationButton(props)}
-      contents={
-        <>
-          {getCallingNotificationText(props, i18n)} &middot;{' '}
-          <MessageTimestamp
-            direction="outgoing"
-            i18n={i18n}
-            timestamp={timestamp}
-            withImageNoCaption={false}
-            withSticker={false}
-            withTapToViewExpired={false}
-          />
-        </>
-      }
-      icon={icon}
-      isError={wasMissed}
-    />
-  );
-});
+);
 
 function renderCallingNotificationButton(
   props: Readonly<PropsType>

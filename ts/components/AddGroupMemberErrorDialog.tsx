@@ -1,7 +1,7 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType } from '../types/Util';
@@ -28,9 +28,7 @@ type PropsType = {
   onClose: () => void;
 } & PropsDataType;
 
-export const AddGroupMemberErrorDialog: FunctionComponent<
-  PropsType
-> = props => {
+export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
   const { i18n, onClose } = props;
 
   let title: string;
@@ -57,4 +55,4 @@ export const AddGroupMemberErrorDialog: FunctionComponent<
   }
 
   return <Alert body={body} i18n={i18n} onClose={onClose} title={title} />;
-};
+}

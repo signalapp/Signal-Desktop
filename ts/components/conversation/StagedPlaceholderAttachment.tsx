@@ -9,16 +9,18 @@ type Props = {
   i18n: LocalizerType;
 };
 
-export const StagedPlaceholderAttachment = ({
+export function StagedPlaceholderAttachment({
   i18n,
   onClick,
-}: Props): JSX.Element => (
-  <button
-    type="button"
-    className="module-staged-placeholder-attachment"
-    onClick={onClick}
-    title={i18n('addImageOrVideoattachment')}
-  >
-    <div className="module-staged-placeholder-attachment__plus-icon" />
-  </button>
-);
+}: Props): JSX.Element {
+  return (
+    <button
+      type="button"
+      className="module-staged-placeholder-attachment"
+      onClick={onClick}
+      title={i18n('addImageOrVideoattachment')}
+    >
+      <div className="module-staged-placeholder-attachment__plus-icon" />
+    </button>
+  );
+}

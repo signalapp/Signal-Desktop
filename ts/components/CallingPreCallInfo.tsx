@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React from 'react';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
@@ -42,7 +41,7 @@ type PropsType = {
   >;
 };
 
-export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
+export function CallingPreCallInfo({
   conversation,
   groupMembers = [],
   i18n,
@@ -50,7 +49,7 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
   me,
   peekedParticipants = [],
   ringMode,
-}) => {
+}: PropsType): JSX.Element {
   let subtitle: string;
   if (ringMode === RingMode.IsRinging) {
     subtitle = i18n('outgoingCallRinging');
@@ -183,4 +182,4 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
       <div className="module-CallingPreCallInfo__subtitle">{subtitle}</div>
     </div>
   );
-};
+}

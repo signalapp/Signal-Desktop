@@ -6,8 +6,10 @@ import React from 'react';
 
 const SPACING = 10;
 
-export const MessageTextMetadataSpacer = ({
+export function MessageTextMetadataSpacer({
   metadataWidth,
-}: Readonly<{ metadataWidth: number }>): ReactElement => (
-  <span style={{ display: 'inline-block', width: metadataWidth + SPACING }} />
-);
+}: Readonly<{ metadataWidth: number }>): ReactElement {
+  return (
+    <span style={{ display: 'inline-block', width: metadataWidth + SPACING }} />
+  );
+}

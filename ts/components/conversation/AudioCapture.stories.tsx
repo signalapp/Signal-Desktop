@@ -38,9 +38,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   startRecording: action('startRecording'),
 });
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <AudioCapture {...createProps()} />;
-};
+}
 
 export const _Initializing = (): JSX.Element => {
   return (
@@ -62,7 +62,7 @@ export const _Recording = (): JSX.Element => {
   );
 };
 
-export const VoiceLimit = (): JSX.Element => {
+export function VoiceLimit(): JSX.Element {
   return (
     <AudioCapture
       {...createProps({
@@ -71,9 +71,9 @@ export const VoiceLimit = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const SwitchedApps = (): JSX.Element => {
+export function SwitchedApps(): JSX.Element {
   return (
     <AudioCapture
       {...createProps({
@@ -82,4 +82,4 @@ export const SwitchedApps = (): JSX.Element => {
       })}
     />
   );
-};
+}

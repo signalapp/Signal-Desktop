@@ -21,62 +21,69 @@ export const ReactionPickerPickerEmojiButton = React.forwardRef<
     onClick: () => unknown;
     title?: string;
   }
->(({ emoji, onClick, isSelected, title }, ref) => (
-  <button
-    type="button"
-    ref={ref}
-    tabIndex={0}
-    className={classNames(
-      'module-ReactionPickerPicker__button',
-      'module-ReactionPickerPicker__button--emoji',
-      isSelected && 'module-ReactionPickerPicker__button--selected'
-    )}
-    onClick={event => {
-      event.stopPropagation();
-      onClick();
-    }}
-    onKeyDown={event => {
-      if (event.key === 'Enter' || event.key === 'Space') {
+>(function ReactionPickerPickerEmojiButtonInner(
+  { emoji, onClick, isSelected, title },
+  ref
+) {
+  return (
+    <button
+      type="button"
+      ref={ref}
+      tabIndex={0}
+      className={classNames(
+        'module-ReactionPickerPicker__button',
+        'module-ReactionPickerPicker__button--emoji',
+        isSelected && 'module-ReactionPickerPicker__button--selected'
+      )}
+      onClick={event => {
         event.stopPropagation();
-        event.preventDefault();
         onClick();
-      }
-    }}
-  >
-    <Emoji size={48} emoji={emoji} title={title} />
-  </button>
-));
+      }}
+      onKeyDown={event => {
+        if (event.key === 'Enter' || event.key === 'Space') {
+          event.stopPropagation();
+          event.preventDefault();
+          onClick();
+        }
+      }}
+    >
+      <Emoji size={48} emoji={emoji} title={title} />
+    </button>
+  );
+});
 
-export const ReactionPickerPickerMoreButton = ({
+export function ReactionPickerPickerMoreButton({
   i18n,
   onClick,
 }: Readonly<{
   i18n: LocalizerType;
   onClick: () => unknown;
-}>): JSX.Element => (
-  <button
-    aria-label={i18n('Reactions--more')}
-    className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
-    onClick={event => {
-      event.stopPropagation();
-      onClick();
-    }}
-    onKeyDown={event => {
-      if (event.key === 'Enter' || event.key === 'Space') {
+}>): JSX.Element {
+  return (
+    <button
+      aria-label={i18n('Reactions--more')}
+      className="module-ReactionPickerPicker__button module-ReactionPickerPicker__button--more"
+      onClick={event => {
         event.stopPropagation();
-        event.preventDefault();
         onClick();
-      }
-    }}
-    tabIndex={0}
-    title={i18n('Reactions--more')}
-    type="button"
-  >
-    <div className="module-ReactionPickerPicker__button--more__dot" />
-    <div className="module-ReactionPickerPicker__button--more__dot" />
-    <div className="module-ReactionPickerPicker__button--more__dot" />
-  </button>
-);
+      }}
+      onKeyDown={event => {
+        if (event.key === 'Enter' || event.key === 'Space') {
+          event.stopPropagation();
+          event.preventDefault();
+          onClick();
+        }
+      }}
+      tabIndex={0}
+      title={i18n('Reactions--more')}
+      type="button"
+    >
+      <div className="module-ReactionPickerPicker__button--more__dot" />
+      <div className="module-ReactionPickerPicker__button--more__dot" />
+      <div className="module-ReactionPickerPicker__button--more__dot" />
+    </button>
+  );
+}
 
 export const ReactionPickerPicker = forwardRef<
   HTMLDivElement,
@@ -86,21 +93,27 @@ export const ReactionPickerPicker = forwardRef<
     pickerStyle: ReactionPickerPickerStyle;
     style?: CSSProperties;
   }
->(({ children, isSomethingSelected, pickerStyle, style }, ref) => (
-  <div
-    className={classNames(
-      'module-ReactionPickerPicker',
-      isSomethingSelected && 'module-ReactionPickerPicker--something-selected',
-      {
-        'module-ReactionPickerPicker--picker-style':
-          pickerStyle === ReactionPickerPickerStyle.Picker,
-        'module-ReactionPickerPicker--menu-style':
-          pickerStyle === ReactionPickerPickerStyle.Menu,
-      }
-    )}
-    ref={ref}
-    style={style}
-  >
-    {children}
-  </div>
-));
+>(function ReactionPickerPickerInner(
+  { children, isSomethingSelected, pickerStyle, style },
+  ref
+) {
+  return (
+    <div
+      className={classNames(
+        'module-ReactionPickerPicker',
+        isSomethingSelected &&
+          'module-ReactionPickerPicker--something-selected',
+        {
+          'module-ReactionPickerPicker--picker-style':
+            pickerStyle === ReactionPickerPickerStyle.Picker,
+          'module-ReactionPickerPicker--menu-style':
+            pickerStyle === ReactionPickerPickerStyle.Menu,
+        }
+      )}
+      ref={ref}
+      style={style}
+    >
+      {children}
+    </div>
+  );
+});

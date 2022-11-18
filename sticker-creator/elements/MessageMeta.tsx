@@ -22,7 +22,7 @@ const getItemClass = ({ kind }: Props) => {
   return styles.bubble;
 };
 
-export const MessageMeta = React.memo((props: Props) => {
+export const MessageMeta = React.memo(function MessageMetaInner(props: Props) {
   const i18n = useI18n();
   const itemClass = getItemClass(props);
 

@@ -34,14 +34,14 @@ export type PropsType = PropsDataType & {
   ) => unknown;
 };
 
-export const GroupLinkManagement: React.ComponentType<PropsType> = ({
+export function GroupLinkManagement({
   changeHasGroupLink,
   conversation,
   generateNewGroupLink,
   i18n,
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
-}) => {
+}: PropsType): JSX.Element {
   const groupLinkSelectId = useUniqueId();
   const approveSelectId = useUniqueId();
 
@@ -191,4 +191,4 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
       ) : null}
     </>
   );
-};
+}

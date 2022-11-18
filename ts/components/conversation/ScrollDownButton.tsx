@@ -14,12 +14,12 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-export const ScrollDownButton = ({
+export function ScrollDownButton({
   conversationId,
   unreadCount,
   i18n,
   scrollDown,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const altText = unreadCount ? i18n('messagesBelow') : i18n('scrollDown');
 
   let badgeText: string | undefined;
@@ -48,4 +48,4 @@ export const ScrollDownButton = ({
       </button>
     </div>
   );
-};
+}

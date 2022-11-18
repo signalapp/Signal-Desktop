@@ -20,13 +20,13 @@ type Props = {
   showConversation: ShowConversationType;
 };
 
-export const ConversationDetailsGroups = ({
+export function ConversationDetailsGroups({
   contactId,
   i18n,
   groupsInCommon,
   toggleAddUserToAnotherGroupModal,
   showConversation,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [showAllGroups, setShowAllGroups] = React.useState(false);
 
   const maxShownGroupCount = 5;
@@ -81,4 +81,4 @@ export const ConversationDetailsGroups = ({
       )}
     </PanelSection>
   );
-};
+}

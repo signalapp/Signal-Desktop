@@ -115,7 +115,7 @@ const DEFAULT_BIOS: Array<DefaultBio> = [
   },
 ];
 
-export const ProfileEditor = ({
+export function ProfileEditor({
   aboutEmoji,
   aboutText,
   color,
@@ -141,7 +141,7 @@ export const ProfileEditor = ({
   userAvatarData,
   username,
   usernameEditState,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(EditState.None);
   const [confirmDiscardAction, setConfirmDiscardAction] = useState<
@@ -666,4 +666,4 @@ export const ProfileEditor = ({
       <div className="ProfileEditor">{content}</div>
     </>
   );
-};
+}

@@ -21,13 +21,13 @@ export type PropsType = {
   setAnnouncementsOnly: (value: boolean) => void;
 };
 
-export const GroupV2Permissions = ({
+export function GroupV2Permissions({
   conversation,
   i18n,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const addMembersSelectId = useUniqueId();
   const groupInfoSelectId = useUniqueId();
   const announcementSelectId = useUniqueId();
@@ -111,4 +111,4 @@ export const GroupV2Permissions = ({
       )}
     </PanelSection>
   );
-};
+}

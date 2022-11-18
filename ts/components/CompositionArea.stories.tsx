@@ -120,63 +120,63 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   isFetchingUUID: overrideProps.isFetchingUUID || false,
 });
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   const props = useProps();
 
   return <CompositionArea {...props} />;
-};
+}
 
-export const StartingText = (): JSX.Element => {
+export function StartingText(): JSX.Element {
   const props = useProps({
     draftText: "here's some starting text",
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
-export const StickerButton = (): JSX.Element => {
+export function StickerButton(): JSX.Element {
   const props = useProps({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     knownPacks: [{} as any],
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
-export const MessageRequest = (): JSX.Element => {
+export function MessageRequest(): JSX.Element {
   const props = useProps({
     messageRequestsEnabled: true,
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
-export const SmsOnlyFetchingUuid = (): JSX.Element => {
+export function SmsOnlyFetchingUuid(): JSX.Element {
   const props = useProps({
     isSMSOnly: true,
     isFetchingUUID: true,
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
 SmsOnlyFetchingUuid.story = {
   name: 'SMS-only fetching UUID',
 };
 
-export const SmsOnly = (): JSX.Element => {
+export function SmsOnly(): JSX.Element {
   const props = useProps({
     isSMSOnly: true,
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
 SmsOnly.story = {
   name: 'SMS-only',
 };
 
-export const Attachments = (): JSX.Element => {
+export function Attachments(): JSX.Element {
   const props = useProps({
     draftAttachments: [
       fakeDraftAttachment({
@@ -187,33 +187,37 @@ export const Attachments = (): JSX.Element => {
   });
 
   return <CompositionArea {...props} />;
-};
+}
 
-export const AnnouncementsOnlyGroup = (): JSX.Element => (
-  <CompositionArea
-    {...useProps({
-      announcementsOnly: true,
-      areWeAdmin: false,
-    })}
-  />
-);
+export function AnnouncementsOnlyGroup(): JSX.Element {
+  return (
+    <CompositionArea
+      {...useProps({
+        announcementsOnly: true,
+        areWeAdmin: false,
+      })}
+    />
+  );
+}
 
 AnnouncementsOnlyGroup.story = {
   name: 'Announcements Only group',
 };
 
-export const Quote = (): JSX.Element => (
-  <CompositionArea
-    {...useProps({
-      quotedMessageProps: {
-        text: 'something',
-        conversationColor: ConversationColors[10],
-        isGiftBadge: false,
-        isViewOnce: false,
-        referencedMessageNotFound: false,
-        authorTitle: 'Someone',
-        isFromMe: false,
-      },
-    })}
-  />
-);
+export function Quote(): JSX.Element {
+  return (
+    <CompositionArea
+      {...useProps({
+        quotedMessageProps: {
+          text: 'something',
+          conversationColor: ConversationColors[10],
+          isGiftBadge: false,
+          isViewOnce: false,
+          referencedMessageNotFound: false,
+          authorTitle: 'Someone',
+          isFromMe: false,
+        },
+      })}
+    />
+  );
+}

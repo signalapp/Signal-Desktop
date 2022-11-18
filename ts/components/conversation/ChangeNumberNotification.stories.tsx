@@ -15,23 +15,27 @@ export default {
 
 const i18n = setupI18n('en', enMessages);
 
-export const Default = (): JSX.Element => (
-  <ChangeNumberNotification
-    sender={getDefaultConversation()}
-    timestamp={1618894800000}
-    i18n={i18n}
-  />
-);
+export function Default(): JSX.Element {
+  return (
+    <ChangeNumberNotification
+      sender={getDefaultConversation()}
+      timestamp={1618894800000}
+      i18n={i18n}
+    />
+  );
+}
 
-export const LongName = (): JSX.Element => (
-  <ChangeNumberNotification
-    sender={getDefaultConversation({
-      firstName: '💅😇🖋'.repeat(50),
-    })}
-    timestamp={1618894800000}
-    i18n={i18n}
-  />
-);
+export function LongName(): JSX.Element {
+  return (
+    <ChangeNumberNotification
+      sender={getDefaultConversation({
+        firstName: '💅😇🖋'.repeat(50),
+      })}
+      timestamp={1618894800000}
+      i18n={i18n}
+    />
+  );
+}
 
 LongName.story = {
   name: 'Long name',

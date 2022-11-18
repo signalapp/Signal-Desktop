@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FormEventHandler, FunctionComponent } from 'react';
+import type { FormEventHandler } from 'react';
 import React, { useRef, useState } from 'react';
 
 import type { LocalizerType } from '../../../types/Util';
@@ -44,7 +44,7 @@ type PropsType = {
   userAvatarData: Array<AvatarDataType>;
 };
 
-export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
+export function EditConversationAttributesModal({
   avatarColor,
   avatarPath: externalAvatarPath,
   conversationId,
@@ -59,7 +59,7 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
   replaceAvatar,
   saveAvatarToDisk,
   userAvatarData,
-}) => {
+}: PropsType): JSX.Element {
   const focusDescriptionRef = useRef<undefined | boolean>(
     initiallyFocusDescription
   );
@@ -242,4 +242,4 @@ export const EditConversationAttributesModal: FunctionComponent<PropsType> = ({
       {content}
     </Modal>
   );
-};
+}

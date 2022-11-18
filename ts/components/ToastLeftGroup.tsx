@@ -10,6 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastLeftGroup = ({ i18n, onClose }: PropsType): JSX.Element => {
+export function ToastLeftGroup({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('youLeftTheGroup')}</Toast>;
-};
+}

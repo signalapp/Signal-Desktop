@@ -22,7 +22,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export const ErrorModal = (props: PropsType): JSX.Element => {
+export function ErrorModal(props: PropsType): JSX.Element {
   const { buttonText, description, i18n, onClose, title } = props;
 
   const footer = (
@@ -44,4 +44,4 @@ export const ErrorModal = (props: PropsType): JSX.Element => {
       </div>
     </Modal>
   );
-};
+}

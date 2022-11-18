@@ -40,26 +40,26 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
 });
 
-export const Direct = (): JSX.Element => {
+export function Direct(): JSX.Element {
   const props = createProps();
 
   return <TypingBubble {...props} />;
-};
+}
 
-export const Group = (): JSX.Element => {
+export function Group(): JSX.Element {
   const props = createProps({ conversationType: 'group' });
 
   return <TypingBubble {...props} />;
-};
+}
 
-export const GroupWithBadge = (): JSX.Element => {
+export function GroupWithBadge(): JSX.Element {
   const props = createProps({
     badge: getFakeBadge(),
     conversationType: 'group',
   });
 
   return <TypingBubble {...props} />;
-};
+}
 
 GroupWithBadge.story = {
   name: 'Group (with badge)',

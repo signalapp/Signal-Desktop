@@ -31,18 +31,18 @@ export default {
   title: 'Components/Conversation/MandatoryProfileSharingActions',
 };
 
-export const Direct = (): JSX.Element => {
+export function Direct(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MandatoryProfileSharingActions {...getBaseProps()} />
     </div>
   );
-};
+}
 
-export const Group = (): JSX.Element => {
+export function Group(): JSX.Element {
   return (
     <div style={{ width: '480px' }}>
       <MandatoryProfileSharingActions {...getBaseProps(true)} />
     </div>
   );
-};
+}

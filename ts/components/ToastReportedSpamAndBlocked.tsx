@@ -10,13 +10,13 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastReportedSpamAndBlocked = ({
+export function ToastReportedSpamAndBlocked({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
       {i18n('MessageRequests--block-and-report-spam-success-toast')}
     </Toast>
   );
-};
+}

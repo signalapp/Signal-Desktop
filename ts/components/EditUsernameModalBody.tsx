@@ -45,7 +45,7 @@ export type PropsType = PropsDataType &
   ActionPropsDataType &
   ExternalPropsDataType;
 
-export const EditUsernameModalBody = ({
+export function EditUsernameModalBody({
   i18n,
   currentUsername,
   reserveUsername,
@@ -57,7 +57,7 @@ export const EditUsernameModalBody = ({
   error,
   state,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const currentNickname = useMemo(() => {
     if (!currentUsername) {
       return undefined;
@@ -266,4 +266,4 @@ export const EditUsernameModalBody = ({
       )}
     </>
   );
-};
+}

@@ -82,28 +82,37 @@ export default {
   title: 'Components/AvatarEditor',
 };
 
-export const NoAvatarGroup = (): JSX.Element => (
-  <AvatarEditor
-    {...createProps({ isGroup: true, userAvatarData: getDefaultAvatars(true) })}
-  />
-);
+export function NoAvatarGroup(): JSX.Element {
+  return (
+    <AvatarEditor
+      {...createProps({
+        isGroup: true,
+        userAvatarData: getDefaultAvatars(true),
+      })}
+    />
+  );
+}
 
 NoAvatarGroup.story = {
   name: 'No Avatar (group)',
 };
 
-export const NoAvatarMe = (): JSX.Element => (
-  <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
-);
+export function NoAvatarMe(): JSX.Element {
+  return (
+    <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
+  );
+}
 
 NoAvatarMe.story = {
   name: 'No Avatar (me)',
 };
 
-export const HasAvatar = (): JSX.Element => (
-  <AvatarEditor
-    {...createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-    })}
-  />
-);
+export function HasAvatar(): JSX.Element {
+  return (
+    <AvatarEditor
+      {...createProps({
+        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+      })}
+    />
+  );
+}

@@ -23,29 +23,33 @@ export default {
   title: 'Components/NewlyCreatedGroupInvitedContactsDialog',
 };
 
-export const OneContact = (): JSX.Element => (
-  <NewlyCreatedGroupInvitedContactsDialog
-    contacts={[conversations[0]]}
-    getPreferredBadge={() => undefined}
-    i18n={i18n}
-    onClose={action('onClose')}
-    theme={ThemeType.light}
-  />
-);
+export function OneContact(): JSX.Element {
+  return (
+    <NewlyCreatedGroupInvitedContactsDialog
+      contacts={[conversations[0]]}
+      getPreferredBadge={() => undefined}
+      i18n={i18n}
+      onClose={action('onClose')}
+      theme={ThemeType.light}
+    />
+  );
+}
 
 OneContact.story = {
   name: 'One contact',
 };
 
-export const TwoContacts = (): JSX.Element => (
-  <NewlyCreatedGroupInvitedContactsDialog
-    contacts={conversations}
-    getPreferredBadge={() => undefined}
-    i18n={i18n}
-    onClose={action('onClose')}
-    theme={ThemeType.light}
-  />
-);
+export function TwoContacts(): JSX.Element {
+  return (
+    <NewlyCreatedGroupInvitedContactsDialog
+      contacts={conversations}
+      getPreferredBadge={() => undefined}
+      i18n={i18n}
+      onClose={action('onClose')}
+      theme={ThemeType.light}
+    />
+  );
+}
 
 TwoContacts.story = {
   name: 'Two contacts',

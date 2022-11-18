@@ -10,11 +10,11 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastGroupLinkCopied = ({
+export function ToastGroupLinkCopied({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>{i18n('GroupLinkManagement--clipboard')}</Toast>
   );
-};
+}

@@ -37,28 +37,30 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     skinTone: 4,
   };
 
-export const Default = (): JSX.Element => (
-  <CustomizingPreferredReactionsModal {...defaultProps} />
-);
+export function Default(): JSX.Element {
+  return <CustomizingPreferredReactionsModal {...defaultProps} />;
+}
 
-export const DraftEmojiSelected = (): JSX.Element => (
-  <CustomizingPreferredReactionsModal
-    {...defaultProps}
-    selectedDraftEmojiIndex={4}
-  />
-);
+export function DraftEmojiSelected(): JSX.Element {
+  return (
+    <CustomizingPreferredReactionsModal
+      {...defaultProps}
+      selectedDraftEmojiIndex={4}
+    />
+  );
+}
 
 DraftEmojiSelected.story = {
   name: 'Draft emoji selected',
 };
 
-export const Saving = (): JSX.Element => (
-  <CustomizingPreferredReactionsModal {...defaultProps} isSaving />
-);
+export function Saving(): JSX.Element {
+  return <CustomizingPreferredReactionsModal {...defaultProps} isSaving />;
+}
 
-export const HadError = (): JSX.Element => (
-  <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />
-);
+export function HadError(): JSX.Element {
+  return <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />;
+}
 
 HadError.story = {
   name: 'Had error',

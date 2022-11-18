@@ -20,6 +20,6 @@ export default {
   title: 'Components/Conversation/GroupV2PendingApprovalActions',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <GroupV2PendingApprovalActions {...createProps()} />;
-};
+}

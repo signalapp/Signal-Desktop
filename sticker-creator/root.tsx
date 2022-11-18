@@ -12,17 +12,19 @@ import { I18n } from './util/i18n';
 
 const { localeMessages, SignalContext } = window;
 
-const ColdRoot = () => (
-  <ReduxProvider store={store}>
-    <Router history={history}>
-      <I18n messages={localeMessages} locale={SignalContext.config.locale}>
-        <App
-          executeMenuRole={SignalContext.executeMenuRole}
-          hasCustomTitleBar={SignalContext.OS.hasCustomTitleBar()}
-        />
-      </I18n>
-    </Router>
-  </ReduxProvider>
-);
+function ColdRoot() {
+  return (
+    <ReduxProvider store={store}>
+      <Router history={history}>
+        <I18n messages={localeMessages} locale={SignalContext.config.locale}>
+          <App
+            executeMenuRole={SignalContext.executeMenuRole}
+            hasCustomTitleBar={SignalContext.OS.hasCustomTitleBar()}
+          />
+        </I18n>
+      </Router>
+    </ReduxProvider>
+  );
+}
 
 export const Root = hot(ColdRoot);

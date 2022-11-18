@@ -1433,6 +1433,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const view = new ReactWrapperView({
       className: 'panel',
       // We present an empty panel briefly, while we wait for props to load.
+      // eslint-disable-next-line react/jsx-no-useless-fragment
       JSX: <></>,
       onClose: () => {
         unsubscribe();

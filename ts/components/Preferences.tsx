@@ -196,7 +196,7 @@ const DEFAULT_ZOOM_FACTORS = [
   },
 ];
 
-export const Preferences = ({
+export function Preferences({
   addCustomColor,
   availableCameras,
   availableMicrophones,
@@ -285,7 +285,7 @@ export const Preferences = ({
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const storiesId = useUniqueId();
   const themeSelectId = useUniqueId();
   const zoomSelectId = useUniqueId();
@@ -1174,24 +1174,24 @@ export const Preferences = ({
       </div>
     </TitleBarContainer>
   );
-};
+}
 
-const SettingsRow = ({
+function SettingsRow({
   children,
   title,
 }: {
   children: ReactNode;
   title?: string;
-}): JSX.Element => {
+}): JSX.Element {
   return (
     <div className="Preferences__settings-row">
       {title && <h3 className="Preferences__padding">{title}</h3>}
       {children}
     </div>
   );
-};
+}
 
-const Control = ({
+function Control({
   left,
   onClick,
   right,
@@ -1199,7 +1199,7 @@ const Control = ({
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
-}): JSX.Element => {
+}): JSX.Element {
   const content = (
     <>
       <div className="Preferences__control--key">{left}</div>
@@ -1220,7 +1220,7 @@ const Control = ({
   }
 
   return <div className="Preferences__control">{content}</div>;
-};
+}
 
 function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
   return deviceLabel.toLowerCase().startsWith('default')

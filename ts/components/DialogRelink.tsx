@@ -15,12 +15,12 @@ export type PropsType = {
   relinkDevice: () => void;
 };
 
-export const DialogRelink = ({
+export function DialogRelink({
   containerWidthBreakpoint,
   i18n,
   isRegistrationDone,
   relinkDevice,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   if (isRegistrationDone) {
     return null;
   }
@@ -36,4 +36,4 @@ export const DialogRelink = ({
       hasAction
     />
   );
-};
+}

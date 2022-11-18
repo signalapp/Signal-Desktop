@@ -122,10 +122,10 @@ const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
  * It doesn't handle consecutive playback
  * since that logic mostly lives in the audioPlayer duck
  */
-const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
+function MessageAudioContainer({
   played,
   ...props
-}) => {
+}: AudioAttachmentProps): JSX.Element {
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [playbackRate, setPlaybackRate] = React.useState<number>(1);
@@ -212,7 +212,7 @@ const MessageAudioContainer: React.FC<AudioAttachmentProps> = ({
       setCurrentTime={setCurrentTimeAction}
     />
   );
-};
+}
 
 const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
   <MessageAudioContainer {...props} />
@@ -372,102 +372,104 @@ PlainRtlMessage.story = {
   name: 'Plain RTL Message',
 };
 
-export const EmojiMessages = (): JSX.Element => (
-  <>
-    <TimelineMessage {...createProps({ text: '😀' })} />
-    <br />
-    <TimelineMessage {...createProps({ text: '😀😀' })} />
-    <br />
-    <TimelineMessage {...createProps({ text: '😀😀😀' })} />
-    <br />
-    <TimelineMessage {...createProps({ text: '😀😀😀😀' })} />
-    <br />
-    <TimelineMessage {...createProps({ text: '😀😀😀😀😀' })} />
-    <br />
-    <TimelineMessage {...createProps({ text: '😀😀😀😀😀😀😀' })} />
-    <br />
-    <TimelineMessage
-      {...createProps({
-        previews: [
-          {
-            domain: 'signal.org',
-            image: fakeAttachment({
-              contentType: IMAGE_PNG,
-              fileName: 'the-sax.png',
-              height: 240,
-              url: pngUrl,
-              width: 320,
+export function EmojiMessages(): JSX.Element {
+  return (
+    <>
+      <TimelineMessage {...createProps({ text: '😀' })} />
+      <br />
+      <TimelineMessage {...createProps({ text: '😀😀' })} />
+      <br />
+      <TimelineMessage {...createProps({ text: '😀😀😀' })} />
+      <br />
+      <TimelineMessage {...createProps({ text: '😀😀😀😀' })} />
+      <br />
+      <TimelineMessage {...createProps({ text: '😀😀😀😀😀' })} />
+      <br />
+      <TimelineMessage {...createProps({ text: '😀😀😀😀😀😀😀' })} />
+      <br />
+      <TimelineMessage
+        {...createProps({
+          previews: [
+            {
+              domain: 'signal.org',
+              image: fakeAttachment({
+                contentType: IMAGE_PNG,
+                fileName: 'the-sax.png',
+                height: 240,
+                url: pngUrl,
+                width: 320,
+              }),
+              isStickerPack: false,
+              title: 'Signal',
+              description:
+                'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+              url: 'https://www.signal.org',
+              date: new Date(2020, 2, 10).valueOf(),
+            },
+          ],
+          text: '😀',
+        })}
+      />
+      <br />
+      <TimelineMessage
+        {...createProps({
+          attachments: [
+            fakeAttachment({
+              url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+              fileName: 'tina-rolf-269345-unsplash.jpg',
+              contentType: IMAGE_JPEG,
+              width: 128,
+              height: 128,
             }),
-            isStickerPack: false,
-            title: 'Signal',
-            description:
-              'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
-            url: 'https://www.signal.org',
-            date: new Date(2020, 2, 10).valueOf(),
-          },
-        ],
-        text: '😀',
-      })}
-    />
-    <br />
-    <TimelineMessage
-      {...createProps({
-        attachments: [
-          fakeAttachment({
-            url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-            fileName: 'tina-rolf-269345-unsplash.jpg',
-            contentType: IMAGE_JPEG,
-            width: 128,
-            height: 128,
-          }),
-        ],
-        text: '😀',
-      })}
-    />
-    <br />
-    <TimelineMessage
-      {...createProps({
-        attachments: [
-          fakeAttachment({
-            contentType: AUDIO_MP3,
-            fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-            url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-          }),
-        ],
-        text: '😀',
-      })}
-    />
-    <br />
-    <TimelineMessage
-      {...createProps({
-        attachments: [
-          fakeAttachment({
-            contentType: stringToMIMEType('text/plain'),
-            fileName: 'my-resume.txt',
-            url: 'my-resume.txt',
-          }),
-        ],
-        text: '😀',
-      })}
-    />
-    <br />
-    <TimelineMessage
-      {...createProps({
-        attachments: [
-          fakeAttachment({
-            contentType: VIDEO_MP4,
-            flags: SignalService.AttachmentPointer.Flags.GIF,
-            fileName: 'cat-gif.mp4',
-            url: '/fixtures/cat-gif.mp4',
-            width: 400,
-            height: 332,
-          }),
-        ],
-        text: '😀',
-      })}
-    />
-  </>
-);
+          ],
+          text: '😀',
+        })}
+      />
+      <br />
+      <TimelineMessage
+        {...createProps({
+          attachments: [
+            fakeAttachment({
+              contentType: AUDIO_MP3,
+              fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+              url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+            }),
+          ],
+          text: '😀',
+        })}
+      />
+      <br />
+      <TimelineMessage
+        {...createProps({
+          attachments: [
+            fakeAttachment({
+              contentType: stringToMIMEType('text/plain'),
+              fileName: 'my-resume.txt',
+              url: 'my-resume.txt',
+            }),
+          ],
+          text: '😀',
+        })}
+      />
+      <br />
+      <TimelineMessage
+        {...createProps({
+          attachments: [
+            fakeAttachment({
+              contentType: VIDEO_MP4,
+              flags: SignalService.AttachmentPointer.Flags.GIF,
+              fileName: 'cat-gif.mp4',
+              url: '/fixtures/cat-gif.mp4',
+              width: 400,
+              height: 332,
+            }),
+          ],
+          text: '😀',
+        })}
+      />
+    </>
+  );
+}
 
 export const Delivered = Template.bind({});
 Delivered.args = {
@@ -737,7 +739,7 @@ Sticker.args = {
   status: 'sent',
 };
 
-export const Deleted = (): JSX.Element => {
+export function Deleted(): JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     deletedForEveryone: true,
@@ -755,7 +757,7 @@ export const Deleted = (): JSX.Element => {
       {renderBothDirections(propsSending)}
     </>
   );
-};
+}
 
 export const DeletedWithExpireTimer = Template.bind({});
 DeletedWithExpireTimer.args = {
@@ -770,7 +772,7 @@ DeletedWithExpireTimer.story = {
   name: 'Deleted with expireTimer',
 };
 
-export const DeletedWithError = (): JSX.Element => {
+export function DeletedWithError(): JSX.Element {
   const propsPartialError = createProps({
     timestamp: Date.now() - 60 * 1000,
     // canDeleteForEveryone: true,
@@ -794,7 +796,7 @@ export const DeletedWithError = (): JSX.Element => {
       {renderThree(propsError)}
     </>
   );
-};
+}
 DeletedWithError.story = {
   name: 'Deleted with error',
 };
@@ -1067,7 +1069,7 @@ LinkPreviewWithTooNewADate.story = {
   name: 'Link Preview with too new a date',
 };
 
-export const Image = (): JSX.Element => {
+export function Image(): JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1099,7 +1101,7 @@ export const Image = (): JSX.Element => {
       {renderBothDirections(lightImageProps)}
     </>
   );
-};
+}
 
 export const MultipleImages2 = Template.bind({});
 MultipleImages2.args = {
@@ -1322,7 +1324,7 @@ PendingGif.story = {
 };
 
 export const _Audio = (): JSX.Element => {
-  const Wrapper = () => {
+  function Wrapper() {
     const [isPlayed, setIsPlayed] = React.useState(false);
 
     const messageProps = createProps({
@@ -1362,7 +1364,7 @@ export const _Audio = (): JSX.Element => {
         {renderBothDirections(messageProps)}
       </>
     );
-  };
+  }
 
   return <Wrapper />;
 };
@@ -1581,7 +1583,7 @@ DangerousFileType.args = {
   status: 'sent',
 };
 
-export const Colors = (): JSX.Element => {
+export function Colors(): JSX.Element {
   return (
     <>
       {ConversationColors.map(color => (
@@ -1596,7 +1598,7 @@ export const Colors = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
 export const Mentions = Template.bind({});
 Mentions.args = {
@@ -1615,7 +1617,7 @@ Mentions.story = {
   name: '@Mentions',
 };
 
-export const AllTheContextMenus = (): JSX.Element => {
+export function AllTheContextMenus(): JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -1633,7 +1635,7 @@ export const AllTheContextMenus = (): JSX.Element => {
   });
 
   return <TimelineMessage {...props} direction="outgoing" />;
-};
+}
 AllTheContextMenus.story = {
   name: 'All the context menus',
 };
@@ -1666,27 +1668,29 @@ NotApprovedWithLinkPreview.story = {
   name: 'Not approved, with link preview',
 };
 
-export const CustomColor = (): JSX.Element => (
-  <>
-    {renderThree({
-      ...createProps({ text: 'Solid.' }),
-      direction: 'outgoing',
-      customColor: {
-        start: { hue: 82, saturation: 35 },
-      },
-    })}
-    <br style={{ clear: 'both' }} />
-    {renderThree({
-      ...createProps({ text: 'Gradient.' }),
-      direction: 'outgoing',
-      customColor: {
-        deg: 192,
-        start: { hue: 304, saturation: 85 },
-        end: { hue: 231, saturation: 76 },
-      },
-    })}
-  </>
-);
+export function CustomColor(): JSX.Element {
+  return (
+    <>
+      {renderThree({
+        ...createProps({ text: 'Solid.' }),
+        direction: 'outgoing',
+        customColor: {
+          start: { hue: 82, saturation: 35 },
+        },
+      })}
+      <br style={{ clear: 'both' }} />
+      {renderThree({
+        ...createProps({ text: 'Gradient.' }),
+        direction: 'outgoing',
+        customColor: {
+          deg: 192,
+          start: { hue: 304, saturation: 85 },
+          end: { hue: 231, saturation: 76 },
+        },
+      })}
+    </>
+  );
+}
 
 export const CollapsingTextOnlyDMs = (): JSX.Element => {
   const them = getDefaultConversation();

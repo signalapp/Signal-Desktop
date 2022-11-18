@@ -43,7 +43,7 @@ export type PropsType = {
       }
   );
 
-export const LeftPaneDialog: React.FC<PropsType> = ({
+export function LeftPaneDialog({
   icon = 'warning',
   type,
   onClick,
@@ -58,7 +58,7 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
   hasXButton,
   onClose,
   closeLabel,
-}) => {
+}: PropsType): JSX.Element {
   const onClickWrap = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -188,4 +188,4 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
   }
 
   return dialogNode;
-};
+}

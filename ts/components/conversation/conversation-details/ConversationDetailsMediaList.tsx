@@ -27,13 +27,13 @@ const MEDIA_ITEM_LIMIT = 6;
 
 const bem = bemGenerator('ConversationDetails-media-list');
 
-export const ConversationDetailsMediaList: React.ComponentType<Props> = ({
+export function ConversationDetailsMediaList({
   conversation,
   i18n,
   loadRecentMediaItems,
   showAllMedia,
   showLightboxForMedia,
-}) => {
+}: Props): JSX.Element | null {
   const mediaItems = conversation.recentMediaItems || [];
 
   const mediaItemsLength = mediaItems.length;
@@ -71,4 +71,4 @@ export const ConversationDetailsMediaList: React.ComponentType<Props> = ({
       </div>
     </PanelSection>
   );
-};
+}

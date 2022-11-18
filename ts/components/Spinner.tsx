@@ -28,14 +28,14 @@ export type Props = {
   svgSize: SpinnerSvgSize;
 };
 
-export const Spinner = ({
+export function Spinner({
   ariaLabel,
   direction,
   moduleClassName,
   role,
   size,
   svgSize,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const getClassName = getClassNamesFor('module-spinner', moduleClassName);
 
   return (
@@ -71,4 +71,4 @@ export const Spinner = ({
       />
     </div>
   );
-};
+}

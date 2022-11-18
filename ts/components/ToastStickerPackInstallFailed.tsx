@@ -10,11 +10,11 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastStickerPackInstallFailed = ({
+export function ToastStickerPackInstallFailed({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>{i18n('stickers--toast--InstallFailed')}</Toast>
   );
-};
+}

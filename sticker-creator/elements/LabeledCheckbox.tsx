@@ -17,28 +17,30 @@ const checkSvg = (
   </svg>
 );
 
-export const LabeledCheckbox = React.memo(
-  ({ children, value, onChange }: Props) => {
-    const handleChange = React.useCallback(() => {
-      if (onChange !== undefined) {
-        onChange(!value);
-      }
-    }, [onChange, value]);
+export const LabeledCheckbox = React.memo(function LabeledCheckboxInner({
+  children,
+  value,
+  onChange,
+}: Props) {
+  const handleChange = React.useCallback(() => {
+    if (onChange !== undefined) {
+      onChange(!value);
+    }
+  }, [onChange, value]);
 
-    const className = value ? styles.checkboxChecked : styles.checkbox;
+  const className = value ? styles.checkboxChecked : styles.checkbox;
 
-    return (
-      <label className={styles.base}>
-        <input
-          type="checkbox"
-          className={styles.input}
-          checked={value}
-          aria-checked={value}
-          onChange={handleChange}
-        />
-        <span className={className}>{value ? checkSvg : null}</span>
-        <Inline className={styles.label}>{children}</Inline>
-      </label>
-    );
-  }
-);
+  return (
+    <label className={styles.base}>
+      <input
+        type="checkbox"
+        className={styles.input}
+        checked={value}
+        aria-checked={value}
+        onChange={handleChange}
+      />
+      <span className={className}>{value ? checkSvg : null}</span>
+      <Inline className={styles.label}>{children}</Inline>
+    </label>
+  );
+});

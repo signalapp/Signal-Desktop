@@ -33,7 +33,7 @@ enum ImageStatus {
   HasImage = 'has-image',
 }
 
-export const AvatarPreview = ({
+export function AvatarPreview({
   avatarColor = AvatarColors[0],
   avatarPath,
   avatarValue,
@@ -45,7 +45,7 @@ export const AvatarPreview = ({
   onClear,
   onClick,
   style = {},
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
   // Loads the initial avatarPath if one is provided, but only if we're in editable mode.
@@ -199,4 +199,4 @@ export const AvatarPreview = ({
       </div>
     </div>
   );
-};
+}

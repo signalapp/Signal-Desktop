@@ -73,17 +73,19 @@ export const _Left = (): JSX.Element => (
   </Tooltip>
 );
 
-export const Sticky = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      sticky: true,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
+export function Sticky(): JSX.Element {
+  return (
+    <Tooltip
+      {...createProps({
+        sticky: true,
+      })}
+    >
+      {Trigger}
+    </Tooltip>
+  );
+}
 
-export const WithAppliedPopperModifiers = (): JSX.Element => {
+export function WithAppliedPopperModifiers(): JSX.Element {
   return (
     <Tooltip
       {...createProps({
@@ -101,15 +103,17 @@ export const WithAppliedPopperModifiers = (): JSX.Element => {
       {Trigger}
     </Tooltip>
   );
-};
+}
 
-export const DarkTheme = (): JSX.Element => (
-  <Tooltip
-    {...createProps({
-      sticky: true,
-      theme: Theme.Dark,
-    })}
-  >
-    {Trigger}
-  </Tooltip>
-);
+export function DarkTheme(): JSX.Element {
+  return (
+    <Tooltip
+      {...createProps({
+        sticky: true,
+        theme: Theme.Dark,
+      })}
+    >
+      {Trigger}
+    </Tooltip>
+  );
+}

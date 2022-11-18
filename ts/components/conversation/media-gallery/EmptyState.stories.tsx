@@ -9,6 +9,6 @@ export default {
   title: 'Components/Conversation/MediaGallery/EmptyState',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <EmptyState label={text('label', 'placeholder text')} />;
-};
+}

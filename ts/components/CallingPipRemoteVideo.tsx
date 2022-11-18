@@ -27,13 +27,13 @@ import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteP
 //   less than `MAX_FRAME_HEIGHT`.
 const PIP_VIDEO_HEIGHT_PX = 120;
 
-const NoVideo = ({
+function NoVideo({
   activeCall,
   i18n,
 }: {
   activeCall: ActiveCallType;
   i18n: LocalizerType;
-}): JSX.Element => {
+}): JSX.Element {
   const {
     acceptedMessageRequest,
     avatarPath,
@@ -68,7 +68,7 @@ const NoVideo = ({
       </CallBackgroundBlur>
     </div>
   );
-};
+}
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -81,13 +81,13 @@ export type PropsType = {
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
-export const CallingPipRemoteVideo = ({
+export function CallingPipRemoteVideo({
   activeCall,
   getGroupCallVideoFrameSource,
   i18n,
   setGroupCallVideoRequest,
   setRendererCanvas,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const { conversation } = activeCall;
 
   const getGroupCallFrameBuffer = useGetCallingFrameBuffer();
@@ -177,4 +177,4 @@ export const CallingPipRemoteVideo = ({
     default:
       throw missingCaseError(activeCall);
   }
-};
+}

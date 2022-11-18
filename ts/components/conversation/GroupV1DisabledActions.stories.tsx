@@ -20,6 +20,6 @@ export default {
   title: 'Components/Conversation/GroupV1DisabledActions',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return <GroupV1DisabledActions {...createProps()} />;
-};
+}

@@ -10,11 +10,11 @@ type PropsType = {
   toggleSafetyNumberModal: () => unknown;
 } & Omit<SafetyNumberViewerPropsType, 'onClose'>;
 
-export const SafetyNumberModal = ({
+export function SafetyNumberModal({
   i18n,
   toggleSafetyNumberModal,
   ...safetyNumberViewerProps
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   return (
     <Modal
       modalName="SafetyNumberModal"
@@ -31,4 +31,4 @@ export const SafetyNumberModal = ({
       />
     </Modal>
   );
-};
+}

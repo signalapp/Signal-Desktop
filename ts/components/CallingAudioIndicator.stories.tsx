@@ -11,7 +11,7 @@ export default {
   title: 'Components/CallingAudioIndicator',
 };
 
-export const Extreme = (): JSX.Element => {
+export function Extreme(): JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -30,9 +30,9 @@ export const Extreme = (): JSX.Element => {
       audioLevel={audioLevel}
     />
   );
-};
+}
 
-export const Random = (): JSX.Element => {
+export function Random(): JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -51,4 +51,4 @@ export const Random = (): JSX.Element => {
       audioLevel={audioLevel}
     />
   );
-};
+}

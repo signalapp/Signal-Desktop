@@ -4,6 +4,6 @@
 import type { ReactElement } from 'react';
 import React from 'react';
 
-export const TitlebarDragArea = (): ReactElement => (
-  <div className="module-title-bar-drag-area" />
-);
+export function TitlebarDragArea(): ReactElement {
+  return <div className="module-title-bar-drag-area" />;
+}

@@ -41,7 +41,7 @@ enum ToastType {
   Loading,
 }
 
-export const DebugLogWindow = ({
+export function DebugLogWindow({
   closeWindow,
   downloadLog,
   i18n,
@@ -49,7 +49,7 @@ export const DebugLogWindow = ({
   uploadLogs,
   hasCustomTitleBar,
   executeMenuRole,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
   const [publicLogURL, setPublicLogURL] = useState<string | undefined>();
@@ -230,4 +230,4 @@ export const DebugLogWindow = ({
       </div>
     </TitleBarContainer>
   );
-};
+}

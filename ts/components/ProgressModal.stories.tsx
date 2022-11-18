@@ -14,6 +14,6 @@ export default {
   title: 'Components/ProgressModal',
 };
 
-export const Normal = (): JSX.Element => {
+export function Normal(): JSX.Element {
   return <ProgressModal i18n={i18n} />;
-};
+}

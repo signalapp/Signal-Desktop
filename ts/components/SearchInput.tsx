@@ -30,7 +30,7 @@ export type PropTypes = {
 const BASE_CLASS_NAME = 'module-SearchInput';
 
 export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
-  (
+  function SearchInputInner(
     {
       children,
       disabled = false,
@@ -46,7 +46,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
       value,
     },
     ref
-  ) => {
+  ) {
     const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
     return (
       <div className={getClassName('__container')}>

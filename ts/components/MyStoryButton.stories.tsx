@@ -38,6 +38,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => <MyStoryButton {...args} />;
 
 const interactionTest: PlayFunction<ReactFramework, PropsType> = async ({

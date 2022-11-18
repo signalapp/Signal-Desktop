@@ -1,7 +1,7 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-script-url, jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 import * as React from 'react';
 import { text } from '@storybook/addon-knobs';
@@ -13,7 +13,7 @@ export default {
   title: 'Sticker Creator/elements',
 };
 
-export const Typography = (): JSX.Element => {
+export function Typography(): JSX.Element {
   const child = text('text', 'foo bar');
 
   return (
@@ -32,11 +32,9 @@ export const Typography = (): JSX.Element => {
       <StoryRow left>
         <Text>
           {child} {child} {child} {child}{' '}
-          <a href="javascript: void 0;">
-            Something something something dark side.
-          </a>
+          <a href="#">Something something something dark side.</a>
         </Text>
       </StoryRow>
     </>
   );
-};
+}

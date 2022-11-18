@@ -116,31 +116,31 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-export const Full = (): JSX.Element => {
+export function Full(): JSX.Element {
   const props = createProps({ packs, recentStickers });
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const PickerHint = (): JSX.Element => {
+export function PickerHint(): JSX.Element {
   const props = createProps({ packs, recentStickers, showPickerHint: true });
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const NoRecentStickers = (): JSX.Element => {
+export function NoRecentStickers(): JSX.Element {
   const props = createProps({ packs });
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const Empty = (): JSX.Element => {
+export function Empty(): JSX.Element {
   const props = createProps();
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const PendingDownload = (): JSX.Element => {
+export function PendingDownload(): JSX.Element {
   const pack = createPack(
     { status: 'pending', stickers: [abeSticker] },
     abeSticker
@@ -148,9 +148,9 @@ export const PendingDownload = (): JSX.Element => {
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const Error = (): JSX.Element => {
+export function Error(): JSX.Element {
   const pack = createPack(
     { status: 'error', stickers: [abeSticker] },
     abeSticker
@@ -158,11 +158,11 @@ export const Error = (): JSX.Element => {
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-};
+}
 
-export const NoCover = (): JSX.Element => {
+export function NoCover(): JSX.Element {
   const pack = createPack({ status: 'error', stickers: [abeSticker] });
   const props = createProps({ packs: [pack] });
 
   return <StickerPicker {...props} />;
-};
+}

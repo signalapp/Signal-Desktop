@@ -115,7 +115,7 @@ function isCmdOrCtrl(ev: KeyboardEvent): boolean {
   return commandKey || controlKey;
 }
 
-export const MediaEditor = ({
+export function MediaEditor({
   doneButtonLabel,
   i18n,
   imageSrc,
@@ -127,7 +127,7 @@ export const MediaEditor = ({
   installedPacks,
   recentStickers,
   ...props
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
   const [isStickerPopperOpen, setIsStickerPopperOpen] =
@@ -1198,7 +1198,7 @@ export const MediaEditor = ({
     </div>,
     portal
   );
-};
+}
 
 function getPendingCrop(
   fabricCanvas: fabric.Canvas

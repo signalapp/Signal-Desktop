@@ -12,7 +12,11 @@ export type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 const DEFAULT_DISMISS = 1e4;
 
-export const Toaster = React.memo(({ loaf, onDismiss, className }: Props) => {
+export const Toaster = React.memo(function ToasterInner({
+  loaf,
+  onDismiss,
+  className,
+}: Props) {
   const slice = last(loaf);
 
   React.useEffect(() => {

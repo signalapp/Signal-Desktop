@@ -34,6 +34,7 @@ const getDefaultProps = (): Props => ({
   url: 'https://www.signal.org',
 });
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<Props> = args => <StagedLinkPreview {...args} />;
 
 export const Loading = Template.bind({});

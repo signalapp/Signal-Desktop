@@ -153,7 +153,7 @@ const VALID_URI_CHARACTERS = new Set([
   '_',
   '~',
 ]);
-const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
+const ASCII_PATTERN = /[\u0020-\u007F]/g;
 const MAX_HREF_LENGTH = 2 ** 12;
 
 export function isLinkSneaky(href: string): boolean {

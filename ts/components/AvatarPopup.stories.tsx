@@ -61,54 +61,54 @@ export default {
   title: 'Components/Avatar Popup',
 };
 
-export const AvatarOnly = (): JSX.Element => {
+export function AvatarOnly(): JSX.Element {
   const props = useProps();
 
   return <AvatarPopup {...props} />;
-};
+}
 
-export const HasBadge = (): JSX.Element => {
+export function HasBadge(): JSX.Element {
   const props = useProps({
     badge: getFakeBadge(),
     title: 'Janet Yellen',
   });
 
   return <AvatarPopup {...props} />;
-};
+}
 
 HasBadge.story = {
   name: 'Has badge',
 };
 
-export const Title = (): JSX.Element => {
+export function Title(): JSX.Element {
   const props = useProps({
     title: 'My Great Title',
   });
 
   return <AvatarPopup {...props} />;
-};
+}
 
-export const ProfileName = (): JSX.Element => {
+export function ProfileName(): JSX.Element {
   const props = useProps({
     profileName: 'Sam Neill',
   });
 
   return <AvatarPopup {...props} />;
-};
+}
 
-export const PhoneNumber = (): JSX.Element => {
+export function PhoneNumber(): JSX.Element {
   const props = useProps({
     profileName: 'Sam Neill',
     phoneNumber: '(555) 867-5309',
   });
 
   return <AvatarPopup {...props} />;
-};
+}
 
-export const UpdateAvailable = (): JSX.Element => {
+export function UpdateAvailable(): JSX.Element {
   const props = useProps({
     hasPendingUpdate: true,
   });
 
   return <AvatarPopup {...props} />;
-};
+}

@@ -23,14 +23,16 @@ export default {
   title: 'Components/AvatarColorPicker',
 };
 
-export const Default = (): JSX.Element => (
-  <AvatarColorPicker {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <AvatarColorPicker {...createProps()} />;
+}
 
-export const Selected = (): JSX.Element => (
-  <AvatarColorPicker
-    {...createProps({
-      selectedColor: AvatarColors[7],
-    })}
-  />
-);
+export function Selected(): JSX.Element {
+  return (
+    <AvatarColorPicker
+      {...createProps({
+        selectedColor: AvatarColors[7],
+      })}
+    />
+  );
+}

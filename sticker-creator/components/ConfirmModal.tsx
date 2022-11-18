@@ -9,7 +9,9 @@ import { ConfirmDialog } from '../elements/ConfirmDialog';
 
 export type Mode = 'removable' | 'pick-emoji' | 'add';
 
-export const ConfirmModal = React.memo((props: Props) => {
+export const ConfirmModal = React.memo(function ConfirmModalInner(
+  props: Props
+) {
   const { onCancel } = props;
   const [popperRoot, setPopperRoot] = React.useState<HTMLDivElement>();
 

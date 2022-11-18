@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import type { ConversationType } from '../state/ducks/conversations';
@@ -28,7 +27,7 @@ export type PropsType = {
   | 'unblurredAvatarPath'
 >;
 
-export const ContactPill: FunctionComponent<PropsType> = ({
+export function ContactPill({
   acceptedMessageRequest,
   avatarPath,
   color,
@@ -42,7 +41,7 @@ export const ContactPill: FunctionComponent<PropsType> = ({
   title,
   unblurredAvatarPath,
   onClickRemove,
-}) => {
+}: PropsType): JSX.Element {
   const removeLabel = i18n('ContactPill--remove');
 
   return (
@@ -80,4 +79,4 @@ export const ContactPill: FunctionComponent<PropsType> = ({
       />
     </div>
   );
-};
+}

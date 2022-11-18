@@ -10,10 +10,10 @@ export type PropsType = {
   text?: string;
 };
 
-export const About = ({
+export function About({
   className = 'module-about__text',
   text,
-}: PropsType): JSX.Element | null => {
+}: PropsType): JSX.Element | null {
   if (!text) {
     return null;
   }
@@ -23,4 +23,4 @@ export const About = ({
       <Emojify text={text || ''} />
     </span>
   );
-};
+}

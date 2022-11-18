@@ -57,39 +57,39 @@ _2Minutes.story = {
   name: '2 minutes',
 };
 
-export const InProgress = (): JSX.Element => {
+export function InProgress(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 15 * 1000,
   });
 
   return <ExpireTimer {...props} />;
-};
+}
 
-export const Expired = (): JSX.Element => {
+export function Expired(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() - 30 * 1000,
   });
 
   return <ExpireTimer {...props} />;
-};
+}
 
-export const Sticker = (): JSX.Element => {
+export function Sticker(): JSX.Element {
   const props = createProps({
     withSticker: true,
   });
 
   return <ExpireTimer {...props} />;
-};
+}
 
-export const TapToViewExpired = (): JSX.Element => {
+export function TapToViewExpired(): JSX.Element {
   const props = createProps({
     withTapToViewExpired: true,
   });
 
   return <ExpireTimer {...props} />;
-};
+}
 
-export const ImageNoCaption = (): JSX.Element => {
+export function ImageNoCaption(): JSX.Element {
   const props = createProps({
     withImageNoCaption: true,
   });
@@ -99,9 +99,9 @@ export const ImageNoCaption = (): JSX.Element => {
       <ExpireTimer {...props} />
     </div>
   );
-};
+}
 
-export const Incoming = (): JSX.Element => {
+export function Incoming(): JSX.Element {
   const props = createProps({
     direction: 'incoming',
   });
@@ -111,12 +111,12 @@ export const Incoming = (): JSX.Element => {
       <ExpireTimer {...props} />
     </div>
   );
-};
+}
 
-export const ExpirationTooFarOut = (): JSX.Element => {
+export function ExpirationTooFarOut(): JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 150 * 1000,
   });
 
   return <ExpireTimer {...props} />;
-};
+}

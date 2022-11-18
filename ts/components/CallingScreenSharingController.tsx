@@ -12,12 +12,12 @@ export type PropsType = {
   presentedSourceName: string;
 };
 
-export const CallingScreenSharingController = ({
+export function CallingScreenSharingController({
   i18n,
   onCloseController,
   onStopSharing,
   presentedSourceName,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div className="module-CallingScreenSharingController">
       <div className="module-CallingScreenSharingController__text">
@@ -40,4 +40,4 @@ export const CallingScreenSharingController = ({
       </div>
     </div>
   );
-};
+}

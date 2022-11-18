@@ -14,8 +14,8 @@ export default {
   title: 'Components/Conversation/StagedPlaceholderAttachment',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return (
     <StagedPlaceholderAttachment i18n={i18n} onClick={action('onClick')} />
   );
-};
+}

@@ -10,14 +10,11 @@ export type Props = Pick<MessageMetaProps, 'minutesAgo'> & {
   children: React.ReactNode;
 };
 
-export const MessageBubble: React.ComponentType<Props> = ({
-  children,
-  minutesAgo,
-}) => {
+export function MessageBubble({ children, minutesAgo }: Props): JSX.Element {
   return (
     <div className={styles.base}>
       {children}
       <MessageMeta kind="bubble" minutesAgo={minutesAgo} />
     </div>
   );
-};
+}

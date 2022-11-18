@@ -23,14 +23,16 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSelectQuality: action('onSelectQuality'),
 });
 
-export const StandardQuality = (): JSX.Element => (
-  <MediaQualitySelector {...createProps()} />
-);
+export function StandardQuality(): JSX.Element {
+  return <MediaQualitySelector {...createProps()} />;
+}
 
-export const HighQuality = (): JSX.Element => (
-  <MediaQualitySelector
-    {...createProps({
-      isHighQuality: true,
-    })}
-  />
-);
+export function HighQuality(): JSX.Element {
+  return (
+    <MediaQualitySelector
+      {...createProps({
+        isHighQuality: true,
+      })}
+    />
+  );
+}

@@ -10,7 +10,7 @@ export default {
   title: 'Components/Select',
 };
 
-export const Normal = (): JSX.Element => {
+export function Normal(): JSX.Element {
   const [value, setValue] = useState(0);
 
   const onChange = action('onChange');
@@ -29,20 +29,22 @@ export const Normal = (): JSX.Element => {
       }}
     />
   );
-};
+}
 
-export const WithDisabledOptions = (): JSX.Element => (
-  <Select
-    options={[
-      { value: 'a', text: 'Apples' },
-      { value: 'b', text: 'Bananas', disabled: true },
-      { value: 'c', text: 'Cabbage' },
-      { value: 'd', text: 'Durian', disabled: true },
-    ]}
-    onChange={action('onChange')}
-    value="c"
-  />
-);
+export function WithDisabledOptions(): JSX.Element {
+  return (
+    <Select
+      options={[
+        { value: 'a', text: 'Apples' },
+        { value: 'b', text: 'Bananas', disabled: true },
+        { value: 'c', text: 'Cabbage' },
+        { value: 'd', text: 'Durian', disabled: true },
+      ]}
+      onChange={action('onChange')}
+      value="c"
+    />
+  );
+}
 
 WithDisabledOptions.story = {
   name: 'With disabled options',

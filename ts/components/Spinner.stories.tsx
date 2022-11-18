@@ -25,13 +25,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
 });
 
-export const Normal = (): JSX.Element => {
+export function Normal(): JSX.Element {
   const props = createProps();
 
   return <Spinner {...props} />;
-};
+}
 
-export const SvgSizes = (): JSX.Element => {
+export function SvgSizes(): JSX.Element {
   const props = createProps();
 
   return (
@@ -41,13 +41,13 @@ export const SvgSizes = (): JSX.Element => {
       ))}
     </>
   );
-};
+}
 
 SvgSizes.story = {
   name: 'SVG Sizes',
 };
 
-export const Directions = (): JSX.Element => {
+export function Directions(): JSX.Element {
   const props = createProps();
 
   return (
@@ -57,4 +57,4 @@ export const Directions = (): JSX.Element => {
       ))}
     </>
   );
-};
+}

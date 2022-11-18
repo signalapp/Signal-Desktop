@@ -1,13 +1,7 @@
 // Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type {
-  CSSProperties,
-  FunctionComponent,
-  MouseEvent,
-  ReactChild,
-  ReactNode,
-} from 'react';
+import type { CSSProperties, MouseEvent, ReactChild, ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
@@ -98,7 +92,7 @@ const getDefaultBlur = (
 ): AvatarBlur =>
   shouldBlurAvatar(...args) ? AvatarBlur.BlurPicture : AvatarBlur.NoBlur;
 
-export const Avatar: FunctionComponent<Props> = ({
+export function Avatar({
   acceptedMessageRequest,
   avatarPath,
   badge,
@@ -126,7 +120,7 @@ export const Avatar: FunctionComponent<Props> = ({
     sharedGroupNames,
     unblurredAvatarPath,
   }),
-}) => {
+}: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {
@@ -312,7 +306,7 @@ export const Avatar: FunctionComponent<Props> = ({
       {badgeNode}
     </div>
   );
-};
+}
 
 // This is only exported for testing.
 export function _getBadgeSize(avatarSize: number): undefined | number {

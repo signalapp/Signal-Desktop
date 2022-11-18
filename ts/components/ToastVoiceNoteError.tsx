@@ -10,9 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastVoiceNoteLimit = ({
-  i18n,
-  onClose,
-}: PropsType): JSX.Element => {
+export function ToastVoiceNoteLimit({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('voiceNoteError')}</Toast>;
-};
+}

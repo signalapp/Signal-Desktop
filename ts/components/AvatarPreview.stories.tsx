@@ -39,85 +39,97 @@ export default {
   title: 'Components/AvatarPreview',
 };
 
-export const NoStatePersonal = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({
-      avatarColor: AvatarColors[0],
-      conversationTitle: 'Just Testing',
-    })}
-  />
-);
+export function NoStatePersonal(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarColor: AvatarColors[0],
+        conversationTitle: 'Just Testing',
+      })}
+    />
+  );
+}
 
 NoStatePersonal.story = {
   name: 'No state (personal)',
 };
 
-export const NoStateGroup = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({
-      avatarColor: AvatarColors[1],
-      isGroup: true,
-    })}
-  />
-);
+export function NoStateGroup(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarColor: AvatarColors[1],
+        isGroup: true,
+      })}
+    />
+  );
+}
 
 NoStateGroup.story = {
   name: 'No state (group)',
 };
 
-export const NoStateGroupUploadMe = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({
-      avatarColor: AvatarColors[1],
-      isEditable: true,
-      isGroup: true,
-    })}
-  />
-);
+export function NoStateGroupUploadMe(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarColor: AvatarColors[1],
+        isEditable: true,
+        isGroup: true,
+      })}
+    />
+  );
+}
 
 NoStateGroupUploadMe.story = {
   name: 'No state (group) + upload me',
 };
 
-export const Value = (): JSX.Element => (
-  <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />
-);
+export function Value(): JSX.Element {
+  return <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />;
+}
 
 Value.story = {
   name: 'value',
 };
 
-export const Path = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({ avatarPath: '/fixtures/kitten-3-64-64.jpg' })}
-  />
-);
+export function Path(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({ avatarPath: '/fixtures/kitten-3-64-64.jpg' })}
+    />
+  );
+}
 
 Path.story = {
   name: 'path',
 };
 
-export const ValuePath = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({
-      avatarPath: '/fixtures/kitten-3-64-64.jpg',
-      avatarValue: TEST_IMAGE,
-    })}
-  />
-);
+export function ValuePath(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarPath: '/fixtures/kitten-3-64-64.jpg',
+        avatarValue: TEST_IMAGE,
+      })}
+    />
+  );
+}
 
 ValuePath.story = {
   name: 'value & path',
 };
 
-export const Style = (): JSX.Element => (
-  <AvatarPreview
-    {...createProps({
-      avatarValue: TEST_IMAGE,
-      style: { height: 100, width: 100 },
-    })}
-  />
-);
+export function Style(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarValue: TEST_IMAGE,
+        style: { height: 100, width: 100 },
+      })}
+    />
+  );
+}
 
 Style.story = {
   name: 'style',

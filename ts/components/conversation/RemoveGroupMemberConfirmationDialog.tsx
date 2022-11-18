@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -20,9 +19,13 @@ type PropsType = {
   onRemove: () => void;
 };
 
-export const RemoveGroupMemberConfirmationDialog: FunctionComponent<
-  PropsType
-> = ({ conversation, group, i18n, onClose, onRemove }) => {
+export function RemoveGroupMemberConfirmationDialog({
+  conversation,
+  group,
+  i18n,
+  onClose,
+  onRemove,
+}: PropsType): JSX.Element {
   const descriptionKey = isAccessControlEnabled(
     group.accessControlAddFromInviteLink
   )
@@ -52,4 +55,4 @@ export const RemoveGroupMemberConfirmationDialog: FunctionComponent<
       }
     />
   );
-};
+}

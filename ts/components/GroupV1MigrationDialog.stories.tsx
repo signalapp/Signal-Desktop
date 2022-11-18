@@ -49,15 +49,15 @@ export default {
   title: 'Components/GroupV1MigrationDialog',
 };
 
-export const NotYetMigratedBasic = (): JSX.Element => {
+export function NotYetMigratedBasic(): JSX.Element {
   return <GroupV1MigrationDialog {...createProps()} />;
-};
+}
 
 NotYetMigratedBasic.story = {
   name: 'Not yet migrated, basic',
 };
 
-export const MigratedBasic = (): JSX.Element => {
+export function MigratedBasic(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -65,13 +65,13 @@ export const MigratedBasic = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 MigratedBasic.story = {
   name: 'Migrated, basic',
 };
 
-export const MigratedYouAreInvited = (): JSX.Element => {
+export function MigratedYouAreInvited(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -80,29 +80,28 @@ export const MigratedYouAreInvited = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 MigratedYouAreInvited.story = {
   name: 'Migrated, you are invited',
 };
 
-export const NotYetMigratedMultipleDroppedAndInvitedMembers =
-  (): JSX.Element => {
-    return (
-      <GroupV1MigrationDialog
-        {...createProps({
-          droppedMembers: [contact3, contact1, contact2],
-          invitedMembers: [contact2, contact3, contact1],
-        })}
-      />
-    );
-  };
+export function NotYetMigratedMultipleDroppedAndInvitedMembers(): JSX.Element {
+  return (
+    <GroupV1MigrationDialog
+      {...createProps({
+        droppedMembers: [contact3, contact1, contact2],
+        invitedMembers: [contact2, contact3, contact1],
+      })}
+    />
+  );
+}
 
 NotYetMigratedMultipleDroppedAndInvitedMembers.story = {
   name: 'Not yet migrated, multiple dropped and invited members',
 };
 
-export const NotYetMigratedNoMembers = (): JSX.Element => {
+export function NotYetMigratedNoMembers(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -111,13 +110,13 @@ export const NotYetMigratedNoMembers = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 NotYetMigratedNoMembers.story = {
   name: 'Not yet migrated, no members',
 };
 
-export const NotYetMigratedJustDroppedMember = (): JSX.Element => {
+export function NotYetMigratedJustDroppedMember(): JSX.Element {
   return (
     <GroupV1MigrationDialog
       {...createProps({
@@ -125,7 +124,7 @@ export const NotYetMigratedJustDroppedMember = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 NotYetMigratedJustDroppedMember.story = {
   name: 'Not yet migrated, just dropped member',

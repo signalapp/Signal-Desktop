@@ -41,91 +41,107 @@ function Controller(props: PropsType): JSX.Element {
   return <Input {...props} onChange={setValue} value={value} />;
 }
 
-export const Simple = (): JSX.Element => <Controller {...createProps()} />;
+export function Simple(): JSX.Element {
+  return <Controller {...createProps()} />;
+}
 
-export const HasClearButton = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      hasClearButton: true,
-    })}
-  />
-);
+export function HasClearButton(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        hasClearButton: true,
+      })}
+    />
+  );
+}
 
 HasClearButton.story = {
   name: 'hasClearButton',
 };
 
-export const CharacterCount = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      maxLengthCount: 10,
-    })}
-  />
-);
+export function CharacterCount(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        maxLengthCount: 10,
+      })}
+    />
+  );
+}
 
 CharacterCount.story = {
   name: 'character count',
 };
 
-export const CharacterCountCustomizableShow = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      maxLengthCount: 64,
-      whenToShowRemainingCount: 32,
-    })}
-  />
-);
+export function CharacterCountCustomizableShow(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        maxLengthCount: 64,
+        whenToShowRemainingCount: 32,
+      })}
+    />
+  );
+}
 
 CharacterCountCustomizableShow.story = {
   name: 'character count (customizable show)',
 };
 
-export const Expandable = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      expandable: true,
-    })}
-  />
-);
+export function Expandable(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        expandable: true,
+      })}
+    />
+  );
+}
 
 Expandable.story = {
   name: 'expandable',
 };
 
-export const ExpandableWCount = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      expandable: true,
-      hasClearButton: true,
-      maxLengthCount: 140,
-      whenToShowRemainingCount: 0,
-    })}
-  />
-);
+export function ExpandableWCount(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        expandable: true,
+        hasClearButton: true,
+        maxLengthCount: 140,
+        whenToShowRemainingCount: 0,
+      })}
+    />
+  );
+}
 
 ExpandableWCount.story = {
   name: 'expandable w/count',
 };
 
-export const Disabled = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      disabled: true,
-    })}
-  />
-);
+export function Disabled(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        disabled: true,
+      })}
+    />
+  );
+}
 
 Disabled.story = {
   name: 'disabled',
 };
 
-export const SpellcheckDisabled = (): JSX.Element => (
-  <Controller
-    {...createProps({
-      disableSpellcheck: true,
-    })}
-  />
-);
+export function SpellcheckDisabled(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        disableSpellcheck: true,
+      })}
+    />
+  );
+}
 
 SpellcheckDisabled.story = {
   name: 'spellcheck disabled',

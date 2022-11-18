@@ -15,37 +15,47 @@ export default {
 
 const i18n = setupI18n('en', enMessages);
 
-export const Seconds = (): JSX.Element => (
-  <UniversalTimerNotification
-    i18n={i18n}
-    expireTimer={EXPIRE_TIMERS[0].value}
-  />
-);
+export function Seconds(): JSX.Element {
+  return (
+    <UniversalTimerNotification
+      i18n={i18n}
+      expireTimer={EXPIRE_TIMERS[0].value}
+    />
+  );
+}
 
-export const Minutes = (): JSX.Element => (
-  <UniversalTimerNotification
-    i18n={i18n}
-    expireTimer={EXPIRE_TIMERS[1].value}
-  />
-);
+export function Minutes(): JSX.Element {
+  return (
+    <UniversalTimerNotification
+      i18n={i18n}
+      expireTimer={EXPIRE_TIMERS[1].value}
+    />
+  );
+}
 
-export const Hours = (): JSX.Element => (
-  <UniversalTimerNotification
-    i18n={i18n}
-    expireTimer={EXPIRE_TIMERS[2].value}
-  />
-);
+export function Hours(): JSX.Element {
+  return (
+    <UniversalTimerNotification
+      i18n={i18n}
+      expireTimer={EXPIRE_TIMERS[2].value}
+    />
+  );
+}
 
-export const Days = (): JSX.Element => (
-  <UniversalTimerNotification
-    i18n={i18n}
-    expireTimer={EXPIRE_TIMERS[3].value}
-  />
-);
+export function Days(): JSX.Element {
+  return (
+    <UniversalTimerNotification
+      i18n={i18n}
+      expireTimer={EXPIRE_TIMERS[3].value}
+    />
+  );
+}
 
-export const Weeks = (): JSX.Element => (
-  <UniversalTimerNotification
-    i18n={i18n}
-    expireTimer={EXPIRE_TIMERS[4].value}
-  />
-);
+export function Weeks(): JSX.Element {
+  return (
+    <UniversalTimerNotification
+      i18n={i18n}
+      expireTimer={EXPIRE_TIMERS[4].value}
+    />
+  );
+}

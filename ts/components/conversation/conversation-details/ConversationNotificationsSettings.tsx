@@ -1,7 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React, { useMemo } from 'react';
 
 import type { ConversationTypeType } from '../../../state/ducks/conversations';
@@ -26,16 +25,14 @@ type PropsType = {
   setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
 };
 
-export const ConversationNotificationsSettings: FunctionComponent<
-  PropsType
-> = ({
+export function ConversationNotificationsSettings({
   conversationType,
   dontNotifyForMentionsIfMuted,
   i18n,
   muteExpiresAt,
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
-}) => {
+}: PropsType): JSX.Element {
   const muteNotificationsSelectId = useUniqueId();
   const mentionsSelectId = useUniqueId();
   const muteOptions = useMemo(
@@ -138,4 +135,4 @@ export const ConversationNotificationsSettings: FunctionComponent<
       </PanelSection>
     </div>
   );
-};
+}

@@ -100,7 +100,7 @@ const renderMembershipRow = ({
   );
 };
 
-export const ConversationHero = ({
+export function ConversationHero({
   i18n,
   about,
   acceptedMessageRequest,
@@ -124,7 +124,7 @@ export const ConversationHero = ({
   unblurredAvatarPath,
   updateSharedGroups,
   viewUserStories,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
     useState(false);
   const closeMessageRequestWarning = () => {
@@ -257,4 +257,4 @@ export const ConversationHero = ({
     </>
   );
   /* eslint-enable no-nested-ternary */
-};
+}

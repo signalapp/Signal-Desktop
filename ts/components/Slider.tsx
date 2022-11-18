@@ -14,14 +14,14 @@ export type PropsType = {
   value: number;
 };
 
-export const Slider = ({
+export function Slider({
   containerStyle = {},
   label,
   handleStyle = {},
   moduleClassName,
   onChange,
   value,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const diff = useRef<number>(0);
   const handleRef = useRef<HTMLDivElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -124,4 +124,4 @@ export const Slider = ({
       />
     </div>
   );
-};
+}

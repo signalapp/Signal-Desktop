@@ -185,6 +185,7 @@ const renderInMessage = ({
   );
 };
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<Props> = args => <Quote {...args} />;
 const TemplateInMessage: Story<Props> = args => renderInMessage(args);
 
@@ -222,7 +223,7 @@ IncomingByMe.story = {
   name: 'Incoming by Me',
 };
 
-export const IncomingOutgoingColors = (args: Props): JSX.Element => {
+export function IncomingOutgoingColors(args: Props): JSX.Element {
   return (
     <>
       {ConversationColors.map(color =>
@@ -230,7 +231,7 @@ export const IncomingOutgoingColors = (args: Props): JSX.Element => {
       )}
     </>
   );
-};
+}
 IncomingOutgoingColors.args = {};
 IncomingOutgoingColors.story = {
   name: 'Incoming/Outgoing Colors',
@@ -499,26 +500,28 @@ MentionIncomingMe.story = {
   name: '@mention + incoming + me',
 };
 
-export const CustomColor = (args: Props): JSX.Element => (
-  <>
-    <Quote
-      {...args}
-      customColor={{
-        start: { hue: 82, saturation: 35 },
-      }}
-    />
-    <Quote
-      {...args}
-      isIncoming={false}
-      text="A gradient"
-      customColor={{
-        deg: 192,
-        start: { hue: 304, saturation: 85 },
-        end: { hue: 231, saturation: 76 },
-      }}
-    />
-  </>
-);
+export function CustomColor(args: Props): JSX.Element {
+  return (
+    <>
+      <Quote
+        {...args}
+        customColor={{
+          start: { hue: 82, saturation: 35 },
+        }}
+      />
+      <Quote
+        {...args}
+        isIncoming={false}
+        text="A gradient"
+        customColor={{
+          deg: 192,
+          start: { hue: 304, saturation: 85 },
+          end: { hue: 231, saturation: 76 },
+        }}
+      />
+    </>
+  );
+}
 CustomColor.args = {
   isIncoming: true,
   text: 'Solid + Gradient',

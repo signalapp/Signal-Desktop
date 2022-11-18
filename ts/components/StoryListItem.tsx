@@ -78,7 +78,7 @@ function StoryListItemAvatar({
   );
 }
 
-export const StoryListItem = ({
+export function StoryListItem({
   conversationId,
   getPreferredBadge,
   group,
@@ -91,7 +91,7 @@ export const StoryListItem = ({
   queueStoryDownload,
   story,
   viewUserStories,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
 
   const { attachment, isUnread, sender, timestamp } = story;
@@ -168,22 +168,20 @@ export const StoryListItem = ({
           {...(group || sender)}
         />
         <div className="StoryListItem__info">
-          <>
-            <div className="StoryListItem__info--title">
-              {group ? group.title : title}
-              {isSignalOfficial && (
-                <span className="StoryListItem__signal-official" />
-              )}
-            </div>
-            {!isSignalOfficial && (
-              <MessageTimestamp
-                i18n={i18n}
-                isRelativeTime
-                module="StoryListItem__info--timestamp"
-                timestamp={timestamp}
-              />
+          <div className="StoryListItem__info--title">
+            {group ? group.title : title}
+            {isSignalOfficial && (
+              <span className="StoryListItem__signal-official" />
             )}
-          </>
+          </div>
+          {!isSignalOfficial && (
+            <MessageTimestamp
+              i18n={i18n}
+              isRelativeTime
+              module="StoryListItem__info--timestamp"
+              timestamp={timestamp}
+            />
+          )}
           {repliesElement}
         </div>
 
@@ -220,4 +218,4 @@ export const StoryListItem = ({
       )}
     </>
   );
-};
+}

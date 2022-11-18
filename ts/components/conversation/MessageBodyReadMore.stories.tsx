@@ -43,49 +43,56 @@ function MessageBodyReadMoreTest({
   );
 }
 
-export const LongText100More = (): JSX.Element => (
-  <MessageBodyReadMoreTest
-    text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
-  />
-);
+export function LongText100More(): JSX.Element {
+  return (
+    <MessageBodyReadMoreTest
+      text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
+    />
+  );
+}
 
 LongText100More.story = {
   name: 'Long text + 100 more',
 };
 
-export const LotsOfCakeWithSomeCherriesOnTop = (): JSX.Element => (
-  <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
-);
+export function LotsOfCakeWithSomeCherriesOnTop(): JSX.Element {
+  return (
+    <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
+  );
+}
 
 LotsOfCakeWithSomeCherriesOnTop.story = {
   name: 'Lots of cake with some cherries on top',
 };
 
-export const LeafyNotBuffered = (): JSX.Element => (
-  <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />
-);
+export function LeafyNotBuffered(): JSX.Element {
+  return <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />;
+}
 
 LeafyNotBuffered.story = {
   name: 'Leafy not buffered',
 };
 
-export const Links = (): JSX.Element => (
-  <MessageBodyReadMoreTest
-    text={`${'test '.repeat(176)}https://www.signal.org`}
-  />
-);
+export function Links(): JSX.Element {
+  return (
+    <MessageBodyReadMoreTest
+      text={`${'test '.repeat(176)}https://www.signal.org`}
+    />
+  );
+}
 
-export const ExcessiveAmountsOfCake = (): JSX.Element => (
-  <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />
-);
+export function ExcessiveAmountsOfCake(): JSX.Element {
+  return <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />;
+}
 
 ExcessiveAmountsOfCake.story = {
   name: 'Excessive amounts of cake',
 };
 
-export const LongText = (): JSX.Element => (
-  <MessageBodyReadMoreTest
-    text={`
+export function LongText(): JSX.Element {
+  return (
+    <MessageBodyReadMoreTest
+      text={`
       SCENE I. Rome. A street.
       Enter FLAVIUS, MARULLUS, and certain Commoners
       FLAVIUS
@@ -183,8 +190,9 @@ export const LongText = (): JSX.Element => (
       Who else would soar above the view of men
       And keep us all in servile fearfulness.
       `}
-  />
-);
+    />
+  );
+}
 
 LongText.story = {
   name: 'Long text',

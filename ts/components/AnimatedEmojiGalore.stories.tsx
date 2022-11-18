@@ -18,6 +18,6 @@ function getDefaultProps(): PropsType {
   };
 }
 
-export const Hearts = (): JSX.Element => (
-  <AnimatedEmojiGalore {...getDefaultProps()} />
-);
+export function Hearts(): JSX.Element {
+  return <AnimatedEmojiGalore {...getDefaultProps()} />;
+}

@@ -12,12 +12,12 @@ export type PropsType = {
   color?: AvatarColorType;
 };
 
-export const CallBackgroundBlur = ({
+export function CallBackgroundBlur({
   avatarPath,
   children,
   className,
   color,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <div
       className={classNames(
@@ -39,4 +39,4 @@ export const CallBackgroundBlur = ({
       {children}
     </div>
   );
-};
+}

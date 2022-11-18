@@ -17,79 +17,79 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-export const OnlyLink = (): JSX.Element => {
+export function OnlyLink(): JSX.Element {
   const props = createProps({
     text: 'https://www.signal.org',
   });
 
   return <Linkify {...props} />;
-};
+}
 
-export const LinksWithText = (): JSX.Element => {
+export function LinksWithText(): JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
   });
 
   return <Linkify {...props} />;
-};
+}
 
 LinksWithText.story = {
   name: 'Links with Text',
 };
 
-export const LinksWithEmojiWithoutSpace = (): JSX.Element => {
+export function LinksWithEmojiWithoutSpace(): JSX.Element {
   const props = createProps({
     text: '👍https://www.signal.org😎',
   });
 
   return <Linkify {...props} />;
-};
+}
 
 LinksWithEmojiWithoutSpace.story = {
   name: 'Links with Emoji without space',
 };
 
-export const LinksWithEmojiAndText = (): JSX.Element => {
+export function LinksWithEmojiAndText(): JSX.Element {
   const props = createProps({
     text: 'https://example.com ⚠️ 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ https://example.com',
   });
 
   return <Linkify {...props} />;
-};
+}
 
 LinksWithEmojiAndText.story = {
   name: 'Links with Emoji and Text',
 };
 
-export const NoLink = (): JSX.Element => {
+export function NoLink(): JSX.Element {
   const props = createProps({
     text: 'I am fond of cats',
   });
 
   return <Linkify {...props} />;
-};
+}
 
-export const BlockedProtocols = (): JSX.Element => {
+export function BlockedProtocols(): JSX.Element {
   const props = createProps({
     text: 'smailto:someone@somewhere.com - ftp://something.com - //local/share - \\localshare',
   });
 
   return <Linkify {...props} />;
-};
+}
 
-export const MissingProtocols = (): JSX.Element => {
+export function MissingProtocols(): JSX.Element {
   const props = createProps({
     text: 'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
 
   return <Linkify {...props} />;
-};
+}
 
 MissingProtocols.story = {
   name: 'Missing protocols',
 };
 
-export const CustomTextRender = (): JSX.Element => {
+export function CustomTextRender(): JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
     renderNonLink: ({ text: theText, key }) => (
@@ -100,4 +100,4 @@ export const CustomTextRender = (): JSX.Element => {
   });
 
   return <Linkify {...props} />;
-};
+}

@@ -296,6 +296,7 @@ export class Timeline extends React.Component<
   private delayedPeekTimeout?: NodeJS.Timeout;
   private peekInterval?: NodeJS.Timeout;
 
+  // eslint-disable-next-line react/state-in-constructor
   override state: StateType = {
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,

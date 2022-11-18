@@ -30,35 +30,41 @@ export default {
   title: 'Components/BetterAvatar',
 };
 
-export const Text = (): JSX.Element => (
-  <BetterAvatar
-    {...createProps({
-      avatarData: createAvatarData({
-        color: AvatarColors[0],
-        text: 'AH',
-      }),
-    })}
-  />
-);
+export function Text(): JSX.Element {
+  return (
+    <BetterAvatar
+      {...createProps({
+        avatarData: createAvatarData({
+          color: AvatarColors[0],
+          text: 'AH',
+        }),
+      })}
+    />
+  );
+}
 
-export const PersonalIcon = (): JSX.Element => (
-  <BetterAvatar
-    {...createProps({
-      avatarData: createAvatarData({
-        color: AvatarColors[1],
-        icon: PersonalAvatarIcons[1],
-      }),
-    })}
-  />
-);
+export function PersonalIcon(): JSX.Element {
+  return (
+    <BetterAvatar
+      {...createProps({
+        avatarData: createAvatarData({
+          color: AvatarColors[1],
+          icon: PersonalAvatarIcons[1],
+        }),
+      })}
+    />
+  );
+}
 
-export const GroupIcon = (): JSX.Element => (
-  <BetterAvatar
-    {...createProps({
-      avatarData: createAvatarData({
-        color: AvatarColors[1],
-        icon: GroupAvatarIcons[1],
-      }),
-    })}
-  />
-);
+export function GroupIcon(): JSX.Element {
+  return (
+    <BetterAvatar
+      {...createProps({
+        avatarData: createAvatarData({
+          color: AvatarColors[1],
+          icon: GroupAvatarIcons[1],
+        }),
+      })}
+    />
+  );
+}

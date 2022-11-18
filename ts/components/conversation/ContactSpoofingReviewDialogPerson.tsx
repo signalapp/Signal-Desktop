@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -22,9 +22,14 @@ type PropsType = {
   theme: ThemeType;
 };
 
-export const ContactSpoofingReviewDialogPerson: FunctionComponent<
-  PropsType
-> = ({ children, conversation, getPreferredBadge, i18n, onClick, theme }) => {
+export function ContactSpoofingReviewDialogPerson({
+  children,
+  conversation,
+  getPreferredBadge,
+  i18n,
+  onClick,
+  theme,
+}: PropsType): JSX.Element {
   assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
@@ -77,4 +82,4 @@ export const ContactSpoofingReviewDialogPerson: FunctionComponent<
   return (
     <div className="module-ContactSpoofingReviewDialogPerson">{contents}</div>
   );
-};
+}

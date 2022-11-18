@@ -30,39 +30,39 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   media: overrideProps.media || [],
 });
 
-export const Populated = (): JSX.Element => {
+export function Populated(): JSX.Element {
   const documents = createRandomDocuments(now, days(1)).slice(0, 1);
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 
   return <MediaGallery {...props} />;
-};
+}
 
-export const NoDocuments = (): JSX.Element => {
+export function NoDocuments(): JSX.Element {
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ media });
 
   return <MediaGallery {...props} />;
-};
+}
 
-export const NoMedia = (): JSX.Element => {
+export function NoMedia(): JSX.Element {
   const documents = createPreparedMediaItems(createRandomDocuments);
   const props = createProps({ documents });
 
   return <MediaGallery {...props} />;
-};
+}
 
-export const OneEach = (): JSX.Element => {
+export function OneEach(): JSX.Element {
   const media = createRandomMedia(now, days(1)).slice(0, 1);
   const documents = createRandomDocuments(now, days(1)).slice(0, 1);
 
   const props = createProps({ documents, media });
 
   return <MediaGallery {...props} />;
-};
+}
 
-export const Empty = (): JSX.Element => {
+export function Empty(): JSX.Element {
   const props = createProps();
 
   return <MediaGallery {...props} />;
-};
+}

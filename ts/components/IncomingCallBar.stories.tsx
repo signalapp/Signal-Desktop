@@ -55,109 +55,123 @@ export default {
   title: 'Components/IncomingCallBar',
 };
 
-export const IncomingDirectCallVideo = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={directConversation}
-    callMode={CallMode.Direct}
-    isVideoCall
-  />
-);
+export function IncomingDirectCallVideo(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={directConversation}
+      callMode={CallMode.Direct}
+      isVideoCall
+    />
+  );
+}
 
 IncomingDirectCallVideo.story = {
   name: 'Incoming direct call (video)',
 };
 
-export const IncomingDirectCallAudio = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={directConversation}
-    callMode={CallMode.Direct}
-    isVideoCall={false}
-  />
-);
+export function IncomingDirectCallAudio(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={directConversation}
+      callMode={CallMode.Direct}
+      isVideoCall={false}
+    />
+  );
+}
 
 IncomingDirectCallAudio.story = {
   name: 'Incoming direct call (audio)',
 };
 
-export const IncomingGroupCallOnlyCallingYou = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={groupConversation}
-    callMode={CallMode.Group}
-    otherMembersRung={[]}
-    ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
-  />
-);
+export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={groupConversation}
+      callMode={CallMode.Group}
+      otherMembersRung={[]}
+      ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
+    />
+  );
+}
 
 IncomingGroupCallOnlyCallingYou.story = {
   name: 'Incoming group call (only calling you)',
 };
 
-export const IncomingGroupCallCallingYouAnd1Other = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={groupConversation}
-    callMode={CallMode.Group}
-    otherMembersRung={[{ firstName: 'Morty', title: 'Morty Smith' }]}
-    ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
-  />
-);
+export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={groupConversation}
+      callMode={CallMode.Group}
+      otherMembersRung={[{ firstName: 'Morty', title: 'Morty Smith' }]}
+      ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
+    />
+  );
+}
 
 IncomingGroupCallCallingYouAnd1Other.story = {
   name: 'Incoming group call (calling you and 1 other)',
 };
 
-export const IncomingGroupCallCallingYouAnd2Others = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={groupConversation}
-    callMode={CallMode.Group}
-    otherMembersRung={[
-      { firstName: 'Morty', title: 'Morty Smith' },
-      { firstName: 'Summer', title: 'Summer Smith' },
-    ]}
-    ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
-  />
-);
+export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={groupConversation}
+      callMode={CallMode.Group}
+      otherMembersRung={[
+        { firstName: 'Morty', title: 'Morty Smith' },
+        { firstName: 'Summer', title: 'Summer Smith' },
+      ]}
+      ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
+    />
+  );
+}
 
 IncomingGroupCallCallingYouAnd2Others.story = {
   name: 'Incoming group call (calling you and 2 others)',
 };
 
-export const IncomingGroupCallCallingYouAnd3Others = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={groupConversation}
-    callMode={CallMode.Group}
-    otherMembersRung={[
-      { firstName: 'Morty', title: 'Morty Smith' },
-      { firstName: 'Summer', title: 'Summer Smith' },
-      { firstName: 'Beth', title: 'Beth Smith' },
-    ]}
-    ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
-  />
-);
+export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={groupConversation}
+      callMode={CallMode.Group}
+      otherMembersRung={[
+        { firstName: 'Morty', title: 'Morty Smith' },
+        { firstName: 'Summer', title: 'Summer Smith' },
+        { firstName: 'Beth', title: 'Beth Smith' },
+      ]}
+      ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
+    />
+  );
+}
 
 IncomingGroupCallCallingYouAnd3Others.story = {
   name: 'Incoming group call (calling you and 3 others)',
 };
 
-export const IncomingGroupCallCallingYouAnd4Others = (): JSX.Element => (
-  <IncomingCallBar
-    {...commonProps}
-    conversation={groupConversation}
-    callMode={CallMode.Group}
-    otherMembersRung={[
-      { firstName: 'Morty', title: 'Morty Smith' },
-      { firstName: 'Summer', title: 'Summer Smith' },
-      { firstName: 'Beth', title: 'Beth Sanchez' },
-      { firstName: 'Jerry', title: 'Beth Smith' },
-    ]}
-    ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
-  />
-);
+export function IncomingGroupCallCallingYouAnd4Others(): JSX.Element {
+  return (
+    <IncomingCallBar
+      {...commonProps}
+      conversation={groupConversation}
+      callMode={CallMode.Group}
+      otherMembersRung={[
+        { firstName: 'Morty', title: 'Morty Smith' },
+        { firstName: 'Summer', title: 'Summer Smith' },
+        { firstName: 'Beth', title: 'Beth Sanchez' },
+        { firstName: 'Jerry', title: 'Beth Smith' },
+      ]}
+      ringer={{ firstName: 'Rick', title: 'Rick Sanchez' }}
+    />
+  );
+}
 
 IncomingGroupCallCallingYouAnd4Others.story = {
   name: 'Incoming group call (calling you and 4 others)',

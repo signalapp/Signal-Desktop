@@ -13,7 +13,7 @@ type PropsType = {
 };
 
 export const SystemMessage = forwardRef<HTMLDivElement, PropsType>(
-  ({ icon, contents, button, isError }, ref) => {
+  function SystemMessageInner({ icon, contents, button, isError }, ref) {
     return (
       <div
         className={classNames(

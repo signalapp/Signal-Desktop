@@ -34,23 +34,23 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isGroup: true,
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetailsActions {...props} />;
-};
+}
 
-export const LeftTheGroup = (): JSX.Element => {
+export function LeftTheGroup(): JSX.Element {
   const props = createProps({ left: true });
 
   return <ConversationDetailsActions {...props} />;
-};
+}
 
 LeftTheGroup.story = {
   name: 'Left the group',
 };
 
-export const BlockedAndLeftTheGroup = (): JSX.Element => {
+export function BlockedAndLeftTheGroup(): JSX.Element {
   const props = createProps({
     left: true,
     isBlocked: true,
@@ -58,17 +58,17 @@ export const BlockedAndLeftTheGroup = (): JSX.Element => {
   });
 
   return <ConversationDetailsActions {...props} />;
-};
+}
 
 BlockedAndLeftTheGroup.story = {
   name: 'Blocked and left the group',
 };
 
-export const CannotLeaveBecauseYouAreTheLastAdmin = (): JSX.Element => {
+export function CannotLeaveBecauseYouAreTheLastAdmin(): JSX.Element {
   const props = createProps({ cannotLeaveBecauseYouAreLastAdmin: true });
 
   return <ConversationDetailsActions {...props} />;
-};
+}
 
 CannotLeaveBecauseYouAreTheLastAdmin.story = {
   name: 'Cannot leave because you are the last admin',

@@ -9,7 +9,7 @@ import { StickerGrid } from '../../components/StickerGrid';
 import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
-export const EmojiStage: React.ComponentType = () => {
+export function EmojiStage(): JSX.Element {
   const i18n = useI18n();
   const emojisReady = stickersDuck.useEmojisReady();
 
@@ -26,4 +26,4 @@ export const EmojiStage: React.ComponentType = () => {
       </div>
     </AppStage>
   );
-};
+}

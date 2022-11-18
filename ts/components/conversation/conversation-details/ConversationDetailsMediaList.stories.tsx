@@ -33,9 +33,9 @@ const createProps = (mediaItems?: Array<MediaItemType>): Props => ({
   showLightboxForMedia: action('showLightboxForMedia'),
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const mediaItems = createPreparedMediaItems(createRandomMedia);
   const props = createProps(mediaItems);
 
   return <ConversationDetailsMediaList {...props} />;
-};
+}

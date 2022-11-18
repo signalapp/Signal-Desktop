@@ -236,7 +236,7 @@ function GroupStoryItem({
   );
 }
 
-export const StoriesSettingsModal = ({
+export function StoriesSettingsModal({
   candidateConversations,
   distributionLists,
   groupStories,
@@ -258,7 +258,7 @@ export const StoriesSettingsModal = ({
   toggleStoriesView,
   setStoriesDisabled,
   getConversationByUuid,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
   const [listToEditId, setListToEditId] = useState<string | undefined>(
@@ -539,7 +539,7 @@ export const StoriesSettingsModal = ({
       {confirmDiscardModal}
     </>
   );
-};
+}
 
 type DistributionListSettingsModalPropsType = {
   i18n: LocalizerType;
@@ -559,7 +559,7 @@ type DistributionListSettingsModalPropsType = {
   | 'toggleSignalConnectionsModal'
 >;
 
-export const DistributionListSettingsModal = ({
+export function DistributionListSettingsModal({
   getPreferredBadge,
   i18n,
   listToEdit,
@@ -573,7 +573,7 @@ export const DistributionListSettingsModal = ({
   setSelectedContacts,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: DistributionListSettingsModalPropsType): JSX.Element => {
+}: DistributionListSettingsModalPropsType): JSX.Element {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
     | {
@@ -761,7 +761,7 @@ export const DistributionListSettingsModal = ({
       )}
     </ModalPage>
   );
-};
+}
 
 type CheckboxRenderProps = {
   checkboxNode: ReactNode;
@@ -801,7 +801,7 @@ type EditMyStoryPrivacyPropsType = {
   'setMyStoriesToAllSignalConnections' | 'toggleSignalConnectionsModal'
 >;
 
-export const EditMyStoryPrivacy = ({
+export function EditMyStoryPrivacy({
   hasDisclaimerAbove,
   i18n,
   learnMore,
@@ -812,7 +812,7 @@ export const EditMyStoryPrivacy = ({
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: EditMyStoryPrivacyPropsType): JSX.Element => {
+}: EditMyStoryPrivacyPropsType): JSX.Element {
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
       <Intl
@@ -935,7 +935,7 @@ export const EditMyStoryPrivacy = ({
       {!hasDisclaimerAbove && disclaimerElement}
     </>
   );
-};
+}
 
 type EditDistributionListModalPropsType = {
   onCreateList: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
@@ -956,7 +956,7 @@ type EditDistributionListModalPropsType = {
  * @param param0
  * @returns
  */
-export const EditDistributionListModal = ({
+export function EditDistributionListModal({
   candidateConversations,
   getPreferredBadge,
   i18n,
@@ -967,7 +967,7 @@ export const EditDistributionListModal = ({
   selectedContacts,
   setSelectedContacts,
   onBackButtonClick,
-}: EditDistributionListModalPropsType): JSX.Element => {
+}: EditDistributionListModalPropsType): JSX.Element {
   const [storyName, setStoryName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -1226,7 +1226,7 @@ export const EditDistributionListModal = ({
       )}
     </ModalPage>
   );
-};
+}
 
 type GroupStorySettingsModalProps = {
   i18n: LocalizerType;
@@ -1237,14 +1237,14 @@ type GroupStorySettingsModalProps = {
   onRemoveGroup(group: ConversationType): void;
 };
 
-export const GroupStorySettingsModal = ({
+export function GroupStorySettingsModal({
   i18n,
   group,
   onClose,
   onBackButtonClick,
   getConversationByUuid,
   onRemoveGroup,
-}: GroupStorySettingsModalProps): JSX.Element => {
+}: GroupStorySettingsModalProps): JSX.Element {
   const groupMemberships = getGroupMemberships(group, getConversationByUuid);
   return (
     <ModalPage
@@ -1319,4 +1319,4 @@ export const GroupStorySettingsModal = ({
       </button>
     </ModalPage>
   );
-};
+}

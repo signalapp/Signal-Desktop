@@ -27,32 +27,38 @@ export default {
   title: 'Components/BetterAvatarBubble',
 };
 
-export const Children = (): JSX.Element => (
-  <BetterAvatarBubble
-    {...createProps({
-      children: <div>HI</div>,
-      color: AvatarColors[8],
-    })}
-  />
-);
+export function Children(): JSX.Element {
+  return (
+    <BetterAvatarBubble
+      {...createProps({
+        children: <div>HI</div>,
+        color: AvatarColors[8],
+      })}
+    />
+  );
+}
 
-export const Selected = (): JSX.Element => (
-  <BetterAvatarBubble
-    {...createProps({
-      color: AvatarColors[1],
-      isSelected: true,
-    })}
-  />
-);
+export function Selected(): JSX.Element {
+  return (
+    <BetterAvatarBubble
+      {...createProps({
+        color: AvatarColors[1],
+        isSelected: true,
+      })}
+    />
+  );
+}
 
-export const Style = (): JSX.Element => (
-  <BetterAvatarBubble
-    {...createProps({
-      style: {
-        height: 120,
-        width: 120,
-      },
-      color: AvatarColors[2],
-    })}
-  />
-);
+export function Style(): JSX.Element {
+  return (
+    <BetterAvatarBubble
+      {...createProps({
+        style: {
+          height: 120,
+          width: 120,
+        },
+        color: AvatarColors[2],
+      })}
+    />
+  );
+}

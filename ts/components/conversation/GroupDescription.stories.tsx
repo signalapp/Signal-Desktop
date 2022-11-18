@@ -22,61 +22,71 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   text: text('text', overrideProps.text || 'Default group description'),
 });
 
-export const Default = (): JSX.Element => (
-  <GroupDescription {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <GroupDescription {...createProps()} />;
+}
 
-export const Long = (): JSX.Element => (
-  <GroupDescription
-    {...createProps({
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed vehicula urna. Ut rhoncus, justo a vestibulum elementum, libero ligula molestie massa, et volutpat nibh ipsum sit amet enim. Vestibulum ac mi enim. Nulla fringilla justo justo, volutpat semper ex convallis quis. Proin posuere, mi at auctor tincidunt, magna turpis mattis nibh, ullamcorper vehicula lectus mauris in mauris. Nullam blandit sapien tortor, quis vehicula quam molestie nec. Nam sagittis dolor in eros dapibus scelerisque. Proin vitae ex sed magna lobortis tincidunt. Aenean dictum laoreet dolor, at suscipit ligula fermentum ac. Nam condimentum turpis quis sollicitudin rhoncus.',
-    })}
-  />
-);
+export function Long(): JSX.Element {
+  return (
+    <GroupDescription
+      {...createProps({
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed vehicula urna. Ut rhoncus, justo a vestibulum elementum, libero ligula molestie massa, et volutpat nibh ipsum sit amet enim. Vestibulum ac mi enim. Nulla fringilla justo justo, volutpat semper ex convallis quis. Proin posuere, mi at auctor tincidunt, magna turpis mattis nibh, ullamcorper vehicula lectus mauris in mauris. Nullam blandit sapien tortor, quis vehicula quam molestie nec. Nam sagittis dolor in eros dapibus scelerisque. Proin vitae ex sed magna lobortis tincidunt. Aenean dictum laoreet dolor, at suscipit ligula fermentum ac. Nam condimentum turpis quis sollicitudin rhoncus.',
+      })}
+    />
+  );
+}
 
-export const WithNewlines = (): JSX.Element => (
-  <GroupDescription
-    {...createProps({
-      text: 'This is long\n\nSo many lines\n\nToo many lines?',
-    })}
-  />
-);
+export function WithNewlines(): JSX.Element {
+  return (
+    <GroupDescription
+      {...createProps({
+        text: 'This is long\n\nSo many lines\n\nToo many lines?',
+      })}
+    />
+  );
+}
 
 WithNewlines.story = {
   name: 'With newlines',
 };
 
-export const WithEmoji = (): JSX.Element => (
-  <GroupDescription
-    {...createProps({
-      text: '🍒🍩🌭',
-    })}
-  />
-);
+export function WithEmoji(): JSX.Element {
+  return (
+    <GroupDescription
+      {...createProps({
+        text: '🍒🍩🌭',
+      })}
+    />
+  );
+}
 
 WithEmoji.story = {
   name: 'With emoji',
 };
 
-export const WithLink = (): JSX.Element => (
-  <GroupDescription
-    {...createProps({
-      text: 'I love https://example.com and http://example.com and example.com, but not https://user:bar@example.com',
-    })}
-  />
-);
+export function WithLink(): JSX.Element {
+  return (
+    <GroupDescription
+      {...createProps({
+        text: 'I love https://example.com and http://example.com and example.com, but not https://user:bar@example.com',
+      })}
+    />
+  );
+}
 
 WithLink.story = {
   name: 'With link',
 };
 
-export const KitchenSink = (): JSX.Element => (
-  <GroupDescription
-    {...createProps({
-      text: '🍒 https://example.com this is a long thing\nhttps://example.com on another line\nhttps://example.com',
-    })}
-  />
-);
+export function KitchenSink(): JSX.Element {
+  return (
+    <GroupDescription
+      {...createProps({
+        text: '🍒 https://example.com this is a long thing\nhttps://example.com on another line\nhttps://example.com',
+      })}
+    />
+  );
+}
 
 KitchenSink.story = {
   name: 'Kitchen sink',

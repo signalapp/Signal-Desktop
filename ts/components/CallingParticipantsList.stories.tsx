@@ -47,16 +47,16 @@ export default {
   title: 'Components/CallingParticipantsList',
 };
 
-export const NoOne = (): JSX.Element => {
+export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
-};
+}
 
 NoOne.story = {
   name: 'No one',
 };
 
-export const SoloCall = (): JSX.Element => {
+export function SoloCall(): JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -65,9 +65,9 @@ export const SoloCall = (): JSX.Element => {
     ],
   });
   return <CallingParticipantsList {...props} />;
-};
+}
 
-export const ManyParticipants = (): JSX.Element => {
+export function ManyParticipants(): JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -95,13 +95,13 @@ export const ManyParticipants = (): JSX.Element => {
     ],
   });
   return <CallingParticipantsList {...props} />;
-};
+}
 
-export const Overflow = (): JSX.Element => {
+export function Overflow(): JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)
       .map(() => createParticipant({ title: 'Kirby' })),
   });
   return <CallingParticipantsList {...props} />;
-};
+}

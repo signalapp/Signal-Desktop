@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent, ReactChild } from 'react';
+import type { ReactChild } from 'react';
 import React, { useState } from 'react';
 import { noop } from 'lodash';
 
@@ -19,6 +19,13 @@ export enum CallingLobbyJoinButtonVariant {
   Start = 'Start',
 }
 
+type PropsType = {
+  disabled?: boolean;
+  i18n: LocalizerType;
+  onClick: () => void;
+  variant: CallingLobbyJoinButtonVariant;
+};
+
 /**
  * This component is a little weird. Why not just render a button with some children?
  *
@@ -29,12 +36,12 @@ export enum CallingLobbyJoinButtonVariant {
  * For example, we might initially render "Join call" and then render a spinner when you
  * click the button. The button shouldn't resize in that situation.
  */
-export const CallingLobbyJoinButton: FunctionComponent<{
-  disabled?: boolean;
-  i18n: LocalizerType;
-  onClick: () => void;
-  variant: CallingLobbyJoinButtonVariant;
-}> = ({ disabled, i18n, onClick, variant }) => {
+export function CallingLobbyJoinButton({
+  disabled,
+  i18n,
+  onClick,
+  variant,
+}: PropsType): JSX.Element {
   const [width, setWidth] = useState<undefined | number>();
   const [height, setHeight] = useState<undefined | number>();
 
@@ -103,4 +110,4 @@ export const CallingLobbyJoinButton: FunctionComponent<{
       </div>
     </>
   );
-};
+}

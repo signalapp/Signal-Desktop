@@ -53,36 +53,36 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   uninstallStickerPack: action('uninstallStickerPack'),
 });
 
-export const Full = (): JSX.Element => {
+export function Full(): JSX.Element {
   const props = createProps({ installedPacks, receivedPacks, blessedPacks });
 
   return <StickerManager {...props} />;
-};
+}
 
-export const InstalledPacks = (): JSX.Element => {
+export function InstalledPacks(): JSX.Element {
   const props = createProps({ installedPacks });
 
   return <StickerManager {...props} />;
-};
+}
 
-export const ReceivedPacks = (): JSX.Element => {
+export function ReceivedPacks(): JSX.Element {
   const props = createProps({ receivedPacks });
 
   return <StickerManager {...props} />;
-};
+}
 
-export const InstalledKnownPacks = (): JSX.Element => {
+export function InstalledKnownPacks(): JSX.Element {
   const props = createProps({ installedPacks, knownPacks });
 
   return <StickerManager {...props} />;
-};
+}
 
 InstalledKnownPacks.story = {
   name: 'Installed + Known Packs',
 };
 
-export const Empty = (): JSX.Element => {
+export function Empty(): JSX.Element {
   const props = createProps();
 
   return <StickerManager {...props} />;
-};
+}

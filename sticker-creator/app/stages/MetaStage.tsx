@@ -14,7 +14,7 @@ import { ConfirmModal } from '../../components/ConfirmModal';
 import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
-export const MetaStage: React.ComponentType = () => {
+export function MetaStage(): JSX.Element {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const valid = stickersDuck.useAllDataValid();
@@ -99,4 +99,4 @@ export const MetaStage: React.ComponentType = () => {
       </div>
     </AppStage>
   );
-};
+}

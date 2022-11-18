@@ -27,11 +27,11 @@ const getClassName = ({ primary, pill }: Props) => {
   return styles.base;
 };
 
-export const Button: React.ComponentType<Props> = ({
+export function Button({
   className,
   children,
   ...otherProps
-}) => {
+}: React.PropsWithChildren<Props>): JSX.Element {
   return (
     <button
       type="button"
@@ -41,4 +41,4 @@ export const Button: React.ComponentType<Props> = ({
       {children}
     </button>
   );
-};
+}

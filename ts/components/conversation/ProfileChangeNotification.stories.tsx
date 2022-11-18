@@ -14,7 +14,7 @@ export default {
   title: 'Components/Conversation/ProfileChangeNotification',
 };
 
-export const FromContact = (): JSX.Element => {
+export function FromContact(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -31,13 +31,13 @@ export const FromContact = (): JSX.Element => {
       }}
     />
   );
-};
+}
 
 FromContact.story = {
   name: 'From contact',
 };
 
-export const FromNonContact = (): JSX.Element => {
+export function FromNonContact(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -53,13 +53,13 @@ export const FromNonContact = (): JSX.Element => {
       }}
     />
   );
-};
+}
 
 FromNonContact.story = {
   name: 'From non-contact',
 };
 
-export const FromContactWithLongNamesBeforeAndAfter = (): JSX.Element => {
+export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -75,7 +75,7 @@ export const FromContactWithLongNamesBeforeAndAfter = (): JSX.Element => {
       }}
     />
   );
-};
+}
 
 FromContactWithLongNamesBeforeAndAfter.story = {
   name: 'From contact with long names before and after',

@@ -11,27 +11,29 @@ export type Props = {
   author: string;
 };
 
-export const StickerPackPreview = React.memo(
-  ({ images, title, author }: Props) => {
-    const i18n = useI18n();
+export const StickerPackPreview = React.memo(function StickerPackPreviewInner({
+  images,
+  title,
+  author,
+}: Props) {
+  const i18n = useI18n();
 
-    return (
-      <div className={styles.container}>
-        <div className={styles.titleBar}>
-          {i18n('StickerCreator--Preview--title')}
-        </div>
-        <div className={styles.scroller}>
-          <div className={styles.grid}>
-            {images.map(src => (
-              <img key={src} className={styles.sticker} src={src} alt={src} />
-            ))}
-          </div>
-        </div>
-        <div className={styles.meta}>
-          <div className={styles.metaTitle}>{title}</div>
-          <div className={styles.metaAuthor}>{author}</div>
+  return (
+    <div className={styles.container}>
+      <div className={styles.titleBar}>
+        {i18n('StickerCreator--Preview--title')}
+      </div>
+      <div className={styles.scroller}>
+        <div className={styles.grid}>
+          {images.map(src => (
+            <img key={src} className={styles.sticker} src={src} alt={src} />
+          ))}
         </div>
       </div>
-    );
-  }
-);
+      <div className={styles.meta}>
+        <div className={styles.metaTitle}>{title}</div>
+        <div className={styles.metaAuthor}>{author}</div>
+      </div>
+    </div>
+  );
+});

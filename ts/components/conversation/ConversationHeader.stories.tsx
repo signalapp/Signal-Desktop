@@ -60,7 +60,7 @@ const commonProps = {
   viewUserStories: action('viewUserStories'),
 };
 
-export const PrivateConvo = (): JSX.Element => {
+export function PrivateConvo(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'With name and profile, verified',
@@ -214,13 +214,13 @@ export const PrivateConvo = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 PrivateConvo.story = {
   name: '1:1 conversation',
 };
 
-export const Group = (): JSX.Element => {
+export function Group(): JSX.Element {
   const items: ItemsType = [
     {
       title: 'Basic',
@@ -300,13 +300,13 @@ export const Group = (): JSX.Element => {
       })}
     </>
   );
-};
+}
 
 Group.story = {
   name: 'In a group',
 };
 
-const NoteToSelf = () => {
+function NoteToSelf() {
   const items: ItemsType = [
     {
       title: 'In chat with yourself',
@@ -338,13 +338,13 @@ const NoteToSelf = () => {
       })}
     </>
   );
-};
+}
 
 NoteToSelf.story = {
   name: 'Note to Self',
 };
 
-const Unaccepted = () => {
+function Unaccepted() {
   const items: ItemsType = [
     {
       title: '1:1 conversation',
@@ -376,7 +376,7 @@ const Unaccepted = () => {
       })}
     </>
   );
-};
+}
 
 Unaccepted.story = {
   name: 'Unaccepted',

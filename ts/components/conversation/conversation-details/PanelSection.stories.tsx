@@ -24,24 +24,24 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ) : null,
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = createProps({
     title: 'panel section header',
   });
 
   return <PanelSection {...props} />;
-};
+}
 
-export const Centered = (): JSX.Element => {
+export function Centered(): JSX.Element {
   const props = createProps({
     title: 'this is a panel row',
     centerTitle: true,
   });
 
   return <PanelSection {...props} />;
-};
+}
 
-export const WithActions = (): JSX.Element => {
+export function WithActions(): JSX.Element {
   const props = createProps({
     title: 'this is a panel row',
     actions: (
@@ -52,9 +52,9 @@ export const WithActions = (): JSX.Element => {
   });
 
   return <PanelSection {...props} />;
-};
+}
 
-export const WithContent = (): JSX.Element => {
+export function WithContent(): JSX.Element {
   const props = createProps({
     title: 'this is a panel row',
   });
@@ -67,4 +67,4 @@ export const WithContent = (): JSX.Element => {
       <PanelRow label="this is panel row four" />
     </PanelSection>
   );
-};
+}

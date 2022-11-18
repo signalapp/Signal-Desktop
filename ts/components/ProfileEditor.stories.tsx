@@ -104,6 +104,7 @@ function renderEditUsernameModalBody(props: {
   );
 }
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => {
   const [skinTone, setSkinTone] = useState(0);
 

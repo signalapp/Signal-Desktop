@@ -52,6 +52,7 @@ export default {
   },
 } as Meta;
 
+// eslint-disable-next-line react/function-component-definition
 const Template: Story<PropsType> = args => <MainHeader {...args} />;
 
 export const Basic = Template.bind({});

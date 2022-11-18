@@ -10,9 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastDebugLogError = ({
-  i18n,
-  onClose,
-}: PropsType): JSX.Element => {
+export function ToastDebugLogError({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('debugLogError')}</Toast>;
-};
+}

@@ -12,10 +12,10 @@ type PropsType = {
   name: string;
 };
 
-export const StoryDistributionListName = ({
+export function StoryDistributionListName({
   i18n,
   id,
   name,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return <>{getStoryDistributionListName(i18n, id, name)}</>;
-};
+}

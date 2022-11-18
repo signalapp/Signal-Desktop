@@ -67,7 +67,7 @@ export type KeyPairType = {
 
 export type OuterSignedPrekeyType = {
   confirmed: boolean;
-  // eslint-disable-next-line camelcase
+
   created_at: number;
   keyId: number;
   privKey: Uint8Array;

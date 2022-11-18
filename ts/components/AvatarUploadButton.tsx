@@ -14,11 +14,11 @@ export type PropsType = {
   onChange: (avatar: Uint8Array) => unknown;
 };
 
-export const AvatarUploadButton = ({
+export function AvatarUploadButton({
   className,
   i18n,
   onChange,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
   const [processingFile, setProcessingFile] = useState<File | undefined>();
@@ -84,4 +84,4 @@ export const AvatarUploadButton = ({
       />
     </>
   );
-};
+}

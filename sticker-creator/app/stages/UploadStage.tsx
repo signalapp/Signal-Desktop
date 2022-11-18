@@ -18,7 +18,7 @@ const handleCancel = () => {
   history.push('/add-meta');
 };
 
-export const UploadStage: React.ComponentType = () => {
+export function UploadStage(): JSX.Element {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const cover = stickersDuck.useCover();
@@ -81,4 +81,4 @@ export const UploadStage: React.ComponentType = () => {
       </div>
     </AppStage>
   );
-};
+}

@@ -28,7 +28,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   theme: ThemeType.light,
 });
 
-export const AllReactions = (): JSX.Element => {
+export function AllReactions(): JSX.Element {
   const props = createProps({
     reactions: [
       {
@@ -126,9 +126,9 @@ export const AllReactions = (): JSX.Element => {
     ],
   });
   return <ReactionViewer {...props} />;
-};
+}
 
-export const PickedReaction = (): JSX.Element => {
+export function PickedReaction(): JSX.Element {
   const props = createProps({
     pickedReaction: '❤️',
     reactions: [
@@ -155,9 +155,9 @@ export const PickedReaction = (): JSX.Element => {
     ],
   });
   return <ReactionViewer {...props} />;
-};
+}
 
-export const PickedMissingReaction = (): JSX.Element => {
+export function PickedMissingReaction(): JSX.Element {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [
@@ -184,7 +184,7 @@ export const PickedMissingReaction = (): JSX.Element => {
     ],
   });
   return <ReactionViewer {...props} />;
-};
+}
 
 const skinTones = [
   '\u{1F3FB}',
@@ -210,7 +210,7 @@ const createReaction = (
   timestamp,
 });
 
-export const ReactionSkinTones = (): JSX.Element => {
+export function ReactionSkinTones(): JSX.Element {
   const props = createProps({
     pickedReaction: '😡',
     reactions: [
@@ -223,4 +223,4 @@ export const ReactionSkinTones = (): JSX.Element => {
     ],
   });
   return <ReactionViewer {...props} />;
-};
+}

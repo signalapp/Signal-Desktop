@@ -10,27 +10,29 @@ export default {
   title: 'Components/Conversation/ContactName',
 };
 
-export const FirstNameAndTitleTitlePreferred = (): JSX.Element => (
-  <ContactName firstName="Ignored" title="Someone 🔥 Somewhere" />
-);
+export function FirstNameAndTitleTitlePreferred(): JSX.Element {
+  return <ContactName firstName="Ignored" title="Someone 🔥 Somewhere" />;
+}
 
 FirstNameAndTitleTitlePreferred.story = {
   name: 'First name and title; title preferred',
 };
 
-export const FirstNameAndTitleFirstNamePreferred = (): JSX.Element => (
-  <ContactName
-    firstName="Someone 🔥 Somewhere"
-    title="Ignored"
-    preferFirstName
-  />
-);
+export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
+  return (
+    <ContactName
+      firstName="Someone 🔥 Somewhere"
+      title="Ignored"
+      preferFirstName
+    />
+  );
+}
 
 FirstNameAndTitleFirstNamePreferred.story = {
   name: 'First name and title; first name preferred',
 };
 
-export const Colors = (): JSX.Element => {
+export function Colors(): JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (
@@ -40,4 +42,4 @@ export const Colors = (): JSX.Element => {
       ))}
     </>
   );
-};
+}

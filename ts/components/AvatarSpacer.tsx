@@ -5,8 +5,8 @@ import type { ReactElement } from 'react';
 import React from 'react';
 import type { AvatarSize } from './Avatar';
 
-export const AvatarSpacer = ({
+export function AvatarSpacer({
   size,
-}: Readonly<{ size: AvatarSize }>): ReactElement => (
-  <div style={{ minWidth: size, height: size, width: size }} />
-);
+}: Readonly<{ size: AvatarSize }>): ReactElement {
+  return <div style={{ minWidth: size, height: size, width: size }} />;
+}

@@ -72,7 +72,7 @@ export type PropsType = {
     | 'toggleSignalConnectionsModal'
   >;
 
-export const StoryCreator = ({
+export function StoryCreator({
   candidateConversations,
   debouncedMaybeGrabLinkPreview,
   distributionLists,
@@ -106,7 +106,7 @@ export const StoryCreator = ({
   toggleGroupsForStorySend,
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [draftAttachment, setDraftAttachment] = useState<
     AttachmentType | undefined
   >();
@@ -240,4 +240,4 @@ export const StoryCreator = ({
       )}
     </>
   );
-};
+}

@@ -22,6 +22,6 @@ const createProps = (): PropsType => ({
   onSave: action('onSave'),
 });
 
-export const Default = (): JSX.Element => (
-  <CustomColorEditor {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <CustomColorEditor {...createProps()} />;
+}

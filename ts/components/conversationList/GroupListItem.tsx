@@ -31,11 +31,11 @@ export type Props = {
   group: GroupListItemConversationType;
 };
 
-export const GroupListItem = ({
+export function GroupListItem({
   group,
   i18n,
   onSelectGroup,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:
@@ -66,4 +66,4 @@ export const GroupListItem = ({
       messageText={messageText}
     />
   );
-};
+}

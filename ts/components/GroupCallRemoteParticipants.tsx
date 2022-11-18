@@ -84,14 +84,14 @@ enum VideoRequestMode {
 //    "scalar": how much can we scale these boxes up while still fitting them on the
 //    screen? The biggest scalar wins as the "best arrangement".
 // 4. Lay out this arrangement on the screen.
-export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
+export function GroupCallRemoteParticipants({
   getGroupCallVideoFrameSource,
   i18n,
   isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
   remoteAudioLevels,
-}) => {
+}: PropsType): JSX.Element {
   const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -443,7 +443,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       )}
     </Measure>
   );
-};
+}
 
 // This function is only meant for use with `useInvisibleParticipants`. It helps avoid
 //   returning new set instances when the underlying values are equal.

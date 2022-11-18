@@ -10,9 +10,6 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastMaxAttachments = ({
-  i18n,
-  onClose,
-}: PropsType): JSX.Element => {
+export function ToastMaxAttachments({ i18n, onClose }: PropsType): JSX.Element {
   return <Toast onClose={onClose}>{i18n('maximumAttachments')}</Toast>;
-};
+}

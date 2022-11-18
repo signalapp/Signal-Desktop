@@ -32,68 +32,74 @@ const getCommonProps = () => ({
   theme: ThemeType.light,
 });
 
-export const DirectConversationsWithSameTitle = (): JSX.Element => (
-  <ContactSpoofingReviewDialog
-    {...getCommonProps()}
-    type={ContactSpoofingType.DirectConversationWithSameTitle}
-    possiblyUnsafeConversation={getDefaultConversation()}
-    safeConversation={getDefaultConversation()}
-  />
-);
+export function DirectConversationsWithSameTitle(): JSX.Element {
+  return (
+    <ContactSpoofingReviewDialog
+      {...getCommonProps()}
+      type={ContactSpoofingType.DirectConversationWithSameTitle}
+      possiblyUnsafeConversation={getDefaultConversation()}
+      safeConversation={getDefaultConversation()}
+    />
+  );
+}
 
 DirectConversationsWithSameTitle.story = {
   name: 'Direct conversations with same title',
 };
 
-export const NotAdmin = (): JSX.Element => (
-  <ContactSpoofingReviewDialog
-    {...getCommonProps()}
-    type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-    group={{
-      ...getDefaultConversation(),
-      areWeAdmin: false,
-    }}
-    collisionInfoByTitle={{
-      Alice: times(2, () => ({
-        oldName: 'Alicia',
-        conversation: getDefaultConversation({ title: 'Alice' }),
-      })),
-      Bob: times(3, () => ({
-        conversation: getDefaultConversation({ title: 'Bob' }),
-      })),
-      Charlie: times(5, () => ({
-        conversation: getDefaultConversation({ title: 'Charlie' }),
-      })),
-    }}
-  />
-);
+export function NotAdmin(): JSX.Element {
+  return (
+    <ContactSpoofingReviewDialog
+      {...getCommonProps()}
+      type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+      group={{
+        ...getDefaultConversation(),
+        areWeAdmin: false,
+      }}
+      collisionInfoByTitle={{
+        Alice: times(2, () => ({
+          oldName: 'Alicia',
+          conversation: getDefaultConversation({ title: 'Alice' }),
+        })),
+        Bob: times(3, () => ({
+          conversation: getDefaultConversation({ title: 'Bob' }),
+        })),
+        Charlie: times(5, () => ({
+          conversation: getDefaultConversation({ title: 'Charlie' }),
+        })),
+      }}
+    />
+  );
+}
 
 NotAdmin.story = {
   name: 'Group conversation many group members',
 };
 
-export const Admin = (): JSX.Element => (
-  <ContactSpoofingReviewDialog
-    {...getCommonProps()}
-    type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
-    group={{
-      ...getDefaultConversation(),
-      areWeAdmin: true,
-    }}
-    collisionInfoByTitle={{
-      Alice: times(2, () => ({
-        oldName: 'Alicia',
-        conversation: getDefaultConversation({ title: 'Alice' }),
-      })),
-      Bob: times(3, () => ({
-        conversation: getDefaultConversation({ title: 'Bob' }),
-      })),
-      Charlie: times(5, () => ({
-        conversation: getDefaultConversation({ title: 'Charlie' }),
-      })),
-    }}
-  />
-);
+export function Admin(): JSX.Element {
+  return (
+    <ContactSpoofingReviewDialog
+      {...getCommonProps()}
+      type={ContactSpoofingType.MultipleGroupMembersWithSameTitle}
+      group={{
+        ...getDefaultConversation(),
+        areWeAdmin: true,
+      }}
+      collisionInfoByTitle={{
+        Alice: times(2, () => ({
+          oldName: 'Alicia',
+          conversation: getDefaultConversation({ title: 'Alice' }),
+        })),
+        Bob: times(3, () => ({
+          conversation: getDefaultConversation({ title: 'Bob' }),
+        })),
+        Charlie: times(5, () => ({
+          conversation: getDefaultConversation({ title: 'Charlie' }),
+        })),
+      }}
+    />
+  );
+}
 
 Admin.story = {
   name: 'Group conversation many group members, and we are admin',

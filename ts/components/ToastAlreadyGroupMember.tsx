@@ -10,11 +10,11 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastAlreadyGroupMember = ({
+export function ToastAlreadyGroupMember({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>{i18n('GroupV2--join--already-in-group')}</Toast>
   );
-};
+}

@@ -40,12 +40,12 @@ export type PropsType = {
 const BUBBLE_SIZE = 120;
 const MAX_LENGTH = 3;
 
-export const AvatarTextEditor = ({
+export function AvatarTextEditor({
   avatarData,
   i18n,
   onCancel,
   onDone,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const initialText = useMemo(() => avatarData?.text || '', [avatarData]);
   const initialColor = useMemo(
     () => avatarData?.color || AvatarColors[0],
@@ -194,4 +194,4 @@ export const AvatarTextEditor = ({
       </div>
     </>
   );
-};
+}

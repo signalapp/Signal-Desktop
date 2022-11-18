@@ -33,12 +33,12 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
 
-export const UnsupportedMessage = ({
+export function UnsupportedMessage({
   canProcessNow,
   contact,
   i18n,
   downloadNewVersion,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const { isMe } = contact;
 
   const otherStringId = canProcessNow
@@ -87,4 +87,4 @@ export const UnsupportedMessage = ({
       }
     />
   );
-};
+}

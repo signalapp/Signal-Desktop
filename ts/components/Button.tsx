@@ -100,7 +100,7 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
 ]);
 
 export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
-  (props, ref) => {
+  function ButtonInner(props, ref) {
     const {
       children,
       className,

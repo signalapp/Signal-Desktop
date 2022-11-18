@@ -27,9 +27,9 @@ export type SmartCompositionTextAreaProps = Pick<
   | 'scrollerRef'
 >;
 
-export const SmartCompositionTextArea = (
+export function SmartCompositionTextArea(
   props: SmartCompositionTextAreaProps
-): JSX.Element => {
+): JSX.Element {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
   const { onUseEmoji: onPickEmoji } = useEmojiActions();
@@ -47,4 +47,4 @@ export const SmartCompositionTextArea = (
       onTextTooLong={() => showToast(ToastMessageBodyTooLong)}
     />
   );
-};
+}

@@ -23,7 +23,7 @@ export type Props = {
     'conversationType' | 'onBlock' | 'onBlockAndReportSpam' | 'onDelete'
   >;
 
-export const MandatoryProfileSharingActions = ({
+export function MandatoryProfileSharingActions({
   conversationType,
   firstName,
   i18n,
@@ -32,7 +32,7 @@ export const MandatoryProfileSharingActions = ({
   onBlockAndReportSpam,
   onDelete,
   title,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
   return (
@@ -112,4 +112,4 @@ export const MandatoryProfileSharingActions = ({
       </div>
     </>
   );
-};
+}

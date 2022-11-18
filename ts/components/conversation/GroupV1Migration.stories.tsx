@@ -42,73 +42,83 @@ export default {
   title: 'Components/Conversation/GroupV1Migration',
 };
 
-export const YouWereInvited = (): JSX.Element => (
-  <GroupV1Migration
-    {...createProps({
-      areWeInvited: true,
-    })}
-  />
-);
+export function YouWereInvited(): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...createProps({
+        areWeInvited: true,
+      })}
+    />
+  );
+}
 
 YouWereInvited.story = {
   name: 'You were invited',
 };
 
-export const SingleDroppedAndSingleInvitedMember = (): JSX.Element => (
-  <GroupV1Migration {...createProps()} />
-);
+export function SingleDroppedAndSingleInvitedMember(): JSX.Element {
+  return <GroupV1Migration {...createProps()} />;
+}
 
 SingleDroppedAndSingleInvitedMember.story = {
   name: 'Single dropped and single invited member',
 };
 
-export const MultipleDroppedAndInvitedMembers = (): JSX.Element => (
-  <GroupV1Migration
-    {...createProps({
-      invitedMembers: [contact1, contact2],
-      droppedMembers: [contact1, contact2],
-    })}
-  />
-);
+export function MultipleDroppedAndInvitedMembers(): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...createProps({
+        invitedMembers: [contact1, contact2],
+        droppedMembers: [contact1, contact2],
+      })}
+    />
+  );
+}
 
 MultipleDroppedAndInvitedMembers.story = {
   name: 'Multiple dropped and invited members',
 };
 
-export const JustInvitedMembers = (): JSX.Element => (
-  <GroupV1Migration
-    {...createProps({
-      invitedMembers: [contact1, contact1, contact2, contact2],
-      droppedMembers: [],
-    })}
-  />
-);
+export function JustInvitedMembers(): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...createProps({
+        invitedMembers: [contact1, contact1, contact2, contact2],
+        droppedMembers: [],
+      })}
+    />
+  );
+}
 
 JustInvitedMembers.story = {
   name: 'Just invited members',
 };
 
-export const JustDroppedMembers = (): JSX.Element => (
-  <GroupV1Migration
-    {...createProps({
-      invitedMembers: [],
-      droppedMembers: [contact1, contact1, contact2, contact2],
-    })}
-  />
-);
+export function JustDroppedMembers(): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...createProps({
+        invitedMembers: [],
+        droppedMembers: [contact1, contact1, contact2, contact2],
+      })}
+    />
+  );
+}
 
 JustDroppedMembers.story = {
   name: 'Just dropped members',
 };
 
-export const NoDroppedOrInvitedMembers = (): JSX.Element => (
-  <GroupV1Migration
-    {...createProps({
-      invitedMembers: [],
-      droppedMembers: [],
-    })}
-  />
-);
+export function NoDroppedOrInvitedMembers(): JSX.Element {
+  return (
+    <GroupV1Migration
+      {...createProps({
+        invitedMembers: [],
+        droppedMembers: [],
+      })}
+    />
+  );
+}
 
 NoDroppedOrInvitedMembers.story = {
   name: 'No dropped or invited members',

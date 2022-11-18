@@ -42,7 +42,7 @@ type DispatchProps = {
 
 export type Props = OwnProps & DispatchProps;
 
-export const AddUserToAnotherGroupModal = ({
+export function AddUserToAnotherGroupModal({
   i18n,
   theme,
   contact,
@@ -51,7 +51,7 @@ export const AddUserToAnotherGroupModal = ({
   showToast,
   candidateConversations,
   regionCode,
-}: Props): JSX.Element | null => {
+}: Props): JSX.Element | null {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filteredConversations, setFilteredConversations] = React.useState(
     filterAndSortConversationsByRecent(candidateConversations, '', undefined)
@@ -177,7 +177,6 @@ export const AddUserToAnotherGroupModal = ({
                     onClickArchiveButton={noop}
                     onClickContactCheckbox={noop}
                     onSelectConversation={setSelectedGroupId}
-                    renderMessageSearchResult={_ => <></>}
                     showChooseGroupMembers={noop}
                     lookupConversationWithoutUuid={async _ => undefined}
                     showUserNotFoundModal={noop}
@@ -223,4 +222,4 @@ export const AddUserToAnotherGroupModal = ({
       )}
     </>
   );
-};
+}

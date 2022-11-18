@@ -49,7 +49,7 @@ type ActiveCallBaseType = {
   showParticipantsList: boolean;
 };
 
-type ActiveDirectCallType = ActiveCallBaseType & {
+export type ActiveDirectCallType = ActiveCallBaseType & {
   callMode: CallMode.Direct;
   callState?: CallState;
   callEndedReason?: CallEndedReason;
@@ -64,7 +64,7 @@ type ActiveDirectCallType = ActiveCallBaseType & {
   ];
 };
 
-type ActiveGroupCallType = ActiveCallBaseType & {
+export type ActiveGroupCallType = ActiveCallBaseType & {
   callMode: CallMode.Group;
   connectionState: GroupCallConnectionState;
   conversationsWithSafetyNumberChanges: Array<ConversationType>;

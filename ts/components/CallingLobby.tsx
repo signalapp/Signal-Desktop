@@ -63,7 +63,7 @@ export type PropsType = {
   toggleSettings: () => void;
 };
 
-export const CallingLobby = ({
+export function CallingLobby({
   availableCameras,
   conversation,
   groupMembers,
@@ -86,7 +86,7 @@ export const CallingLobby = ({
   toggleParticipants,
   toggleSettings,
   outgoingRing,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [isMutedToastVisible, setIsMutedToastVisible] = React.useState(
     !hasLocalAudio
   );
@@ -303,4 +303,4 @@ export const CallingLobby = ({
       </div>
     </FocusTrap>
   );
-};
+}

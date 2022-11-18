@@ -10,13 +10,13 @@ type PropsType = {
   onClose: () => unknown;
 };
 
-export const ToastTapToViewExpiredIncoming = ({
+export function ToastTapToViewExpiredIncoming({
   i18n,
   onClose,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
       {i18n('Message--tap-to-view--incoming--expired-toast')}
     </Toast>
   );
-};
+}

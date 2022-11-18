@@ -14,11 +14,11 @@ export type PropsType = {
   onClose: () => unknown;
 } & ToastPropsType;
 
-export const ToastConversationArchived = ({
+export function ToastConversationArchived({
   i18n,
   onClose,
   undo,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   return (
     <Toast
       toastAction={{
@@ -33,4 +33,4 @@ export const ToastConversationArchived = ({
       {i18n('conversationArchived')}
     </Toast>
   );
-};
+}

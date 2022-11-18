@@ -90,65 +90,69 @@ const createProps = (
   ...overrideProps,
 });
 
-export const Default = (): JSX.Element => (
-  <AddGroupMembersModal {...createProps()} />
-);
+export function Default(): JSX.Element {
+  return <AddGroupMembersModal {...createProps()} />;
+}
 
-export const Only3Contacts = (): JSX.Element => (
-  <AddGroupMembersModal
-    {...createProps({}, allCandidateContacts.slice(0, 3))}
-  />
-);
+export function Only3Contacts(): JSX.Element {
+  return (
+    <AddGroupMembersModal
+      {...createProps({}, allCandidateContacts.slice(0, 3))}
+    />
+  );
+}
 
 Only3Contacts.story = {
   name: 'Only 3 contacts',
 };
 
-export const NoCandidateContacts = (): JSX.Element => (
-  <AddGroupMembersModal {...createProps({}, [])} />
-);
+export function NoCandidateContacts(): JSX.Element {
+  return <AddGroupMembersModal {...createProps({}, [])} />;
+}
 
 NoCandidateContacts.story = {
   name: 'No candidate contacts',
 };
 
-export const EveryoneAlreadyAdded = (): JSX.Element => (
-  <AddGroupMembersModal
-    {...createProps({
-      conversationIdsAlreadyInGroup: new Set(
-        allCandidateContacts.map(contact => contact.id)
-      ),
-    })}
-  />
-);
+export function EveryoneAlreadyAdded(): JSX.Element {
+  return (
+    <AddGroupMembersModal
+      {...createProps({
+        conversationIdsAlreadyInGroup: new Set(
+          allCandidateContacts.map(contact => contact.id)
+        ),
+      })}
+    />
+  );
+}
 
 EveryoneAlreadyAdded.story = {
   name: 'Everyone already added',
 };
 
-export const RequestFailsAfter1Second = (): JSX.Element => {
-  const Wrapper = () => {
-    const [requestState, setRequestState] = useState(RequestState.Inactive);
+function RequestFailsAfter1SecondWrapper() {
+  const [requestState, setRequestState] = useState(RequestState.Inactive);
 
-    return (
-      <AddGroupMembersModal
-        {...createProps({
-          clearRequestError: () => {
-            setRequestState(RequestState.Inactive);
-          },
-          makeRequest: async () => {
-            setRequestState(RequestState.Active);
-            await sleep(1000);
-            setRequestState(RequestState.InactiveWithError);
-          },
-          requestState,
-        })}
-      />
-    );
-  };
+  return (
+    <AddGroupMembersModal
+      {...createProps({
+        clearRequestError: () => {
+          setRequestState(RequestState.Inactive);
+        },
+        makeRequest: async () => {
+          setRequestState(RequestState.Active);
+          await sleep(1000);
+          setRequestState(RequestState.InactiveWithError);
+        },
+        requestState,
+      })}
+    />
+  );
+}
 
-  return <Wrapper />;
-};
+export function RequestFailsAfter1Second(): JSX.Element {
+  return <RequestFailsAfter1SecondWrapper />;
+}
 
 RequestFailsAfter1Second.story = {
   name: 'Request fails after 1 second',

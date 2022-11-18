@@ -14,11 +14,11 @@ export default {
   title: 'Components/Conversation/ChatSessionRefreshedNotification',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return (
     <ChatSessionRefreshedNotification
       contactSupport={action('contactSupport')}
       i18n={i18n}
     />
   );
-};
+}

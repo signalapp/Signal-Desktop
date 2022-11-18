@@ -36,7 +36,7 @@ export type Props = {
 
 type MediaEvent = React.SyntheticEvent<HTMLVideoElement, Event>;
 
-export const GIF: React.FC<Props> = props => {
+export function GIF(props: Props): JSX.Element {
   const {
     attachment,
     size,
@@ -258,4 +258,4 @@ export const GIF: React.FC<Props> = props => {
       {fileSize}
     </div>
   );
-};
+}

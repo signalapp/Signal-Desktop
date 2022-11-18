@@ -54,7 +54,7 @@ export type PropsType = {
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
-export const Stories = ({
+export function Stories({
   addStoryData,
   deleteStoryForEveryone,
   getPreferredBadge,
@@ -80,7 +80,7 @@ export const Stories = ({
   toggleStoriesView,
   viewStory,
   viewUserStories,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
     requiresFullWidth: true,
   });
@@ -150,4 +150,4 @@ export const Stories = ({
       </div>
     </div>
   );
-};
+}

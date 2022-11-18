@@ -34,10 +34,10 @@ function transform(y: number, scale: number, rotate: number): string {
   return `translateY(${y}px) scale(${scale}) rotate(${rotate}deg)`;
 }
 
-export const AnimatedEmojiGalore = ({
+export function AnimatedEmojiGalore({
   emoji,
   onAnimationEnd,
-}: PropsType): JSX.Element => {
+}: PropsType): JSX.Element {
   const [springs] = useSprings(NUM_EMOJIS, i => ({
     ...to(i, onAnimationEnd),
     from: from(i),
@@ -69,4 +69,4 @@ export const AnimatedEmojiGalore = ({
       ))}
     </>
   );
-};
+}

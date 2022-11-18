@@ -10,7 +10,9 @@ export type PropsType = {
   readonly i18n: LocalizerType;
 };
 
-export const ProgressModal = React.memo(({ i18n }: PropsType) => {
+export const ProgressModal = React.memo(function ProgressModalInner({
+  i18n,
+}: PropsType) {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
   // Note: We explicitly don't register for user interaction here, since this dialog

@@ -43,7 +43,7 @@ _ConfirmationDialog.story = {
   name: 'ConfirmationDialog',
 };
 
-export const CustomCancelText = (): JSX.Element => {
+export function CustomCancelText(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -62,13 +62,13 @@ export const CustomCancelText = (): JSX.Element => {
       Because.
     </ConfirmationDialog>
   );
-};
+}
 
 CustomCancelText.story = {
   name: 'Custom cancel text',
 };
 
-export const NoDefaultCancel = (): JSX.Element => {
+export function NoDefaultCancel(): JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -87,4 +87,4 @@ export const NoDefaultCancel = (): JSX.Element => {
       No default cancel!
     </ConfirmationDialog>
   );
-};
+}

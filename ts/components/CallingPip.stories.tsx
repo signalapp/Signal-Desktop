@@ -10,7 +10,7 @@ import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './CallingPip';
 import { CallingPip } from './CallingPip';
-import type { ActiveCallType } from '../types/Calling';
+import type { ActiveDirectCallType } from '../types/Calling';
 import {
   CallMode,
   CallViewMode,
@@ -52,7 +52,7 @@ const getCommonActiveCallData = () => ({
   showParticipantsList: false,
 });
 
-const defaultCall: ActiveCallType = {
+const defaultCall: ActiveDirectCallType = {
   ...getCommonActiveCallData(),
   callMode: CallMode.Direct as CallMode.Direct,
   callState: CallState.Accepted,
@@ -80,12 +80,12 @@ export default {
   title: 'Components/CallingPip',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   const props = createProps({});
   return <CallingPip {...props} />;
-};
+}
 
-export const ContactWithAvatarAndNoVideo = (): JSX.Element => {
+export function ContactWithAvatarAndNoVideo(): JSX.Element {
   const props = createProps({
     activeCall: {
       ...defaultCall,
@@ -99,13 +99,13 @@ export const ContactWithAvatarAndNoVideo = (): JSX.Element => {
     },
   });
   return <CallingPip {...props} />;
-};
+}
 
 ContactWithAvatarAndNoVideo.story = {
   name: 'Contact (with avatar and no video)',
 };
 
-export const ContactNoColor = (): JSX.Element => {
+export function ContactNoColor(): JSX.Element {
   const props = createProps({
     activeCall: {
       ...defaultCall,
@@ -116,13 +116,13 @@ export const ContactNoColor = (): JSX.Element => {
     },
   });
   return <CallingPip {...props} />;
-};
+}
 
 ContactNoColor.story = {
   name: 'Contact (no color)',
 };
 
-export const GroupCall = (): JSX.Element => {
+export function GroupCall(): JSX.Element {
   const props = createProps({
     activeCall: {
       ...getCommonActiveCallData(),
@@ -140,4 +140,4 @@ export const GroupCall = (): JSX.Element => {
     },
   });
   return <CallingPip {...props} />;
-};
+}

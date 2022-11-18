@@ -29,12 +29,12 @@ export type PropsActions = {
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
 
-export const SafetyNumberNotification = ({
+export function SafetyNumberNotification({
   contact,
   isGroup,
   i18n,
   showIdentity,
-}: Props): JSX.Element => {
+}: Props): JSX.Element {
   const changeKey = isGroup
     ? 'safetyNumberChangedGroup'
     : 'safetyNumberChanged';
@@ -72,4 +72,4 @@ export const SafetyNumberNotification = ({
       }
     />
   );
-};
+}

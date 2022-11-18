@@ -30,7 +30,12 @@ export type PropsType = {
 };
 
 export const CallingParticipantsList = React.memo(
-  ({ i18n, onClose, ourUuid, participants }: PropsType) => {
+  function CallingParticipantsListInner({
+    i18n,
+    onClose,
+    ourUuid,
+    participants,
+  }: PropsType) {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     const modalContainer = useContext(ModalContainerContext) ?? document.body;

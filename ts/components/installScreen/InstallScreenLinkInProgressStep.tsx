@@ -10,16 +10,18 @@ import { Spinner } from '../Spinner';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 
-export const InstallScreenLinkInProgressStep = ({
+export function InstallScreenLinkInProgressStep({
   i18n,
-}: Readonly<{ i18n: LocalizerType }>): ReactElement => (
-  <div className="module-InstallScreenLinkInProgressStep">
-    <TitlebarDragArea />
+}: Readonly<{ i18n: LocalizerType }>): ReactElement {
+  return (
+    <div className="module-InstallScreenLinkInProgressStep">
+      <TitlebarDragArea />
 
-    <InstallScreenSignalLogo />
+      <InstallScreenSignalLogo />
 
-    <Spinner size="50px" svgSize="normal" />
-    <h1>{i18n('initialSync')}</h1>
-    <h2>{i18n('initialSync__subtitle')}</h2>
-  </div>
-);
+      <Spinner size="50px" svgSize="normal" />
+      <h1>{i18n('initialSync')}</h1>
+      <h2>{i18n('initialSync__subtitle')}</h2>
+    </div>
+  );
+}

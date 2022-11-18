@@ -39,7 +39,7 @@ const tallSticker = {
   packId: 'tall',
 };
 
-export const Full = (): JSX.Element => {
+export function Full(): JSX.Element {
   const title = text('title', 'Foo');
   const author = text('author', 'Foo McBarrington');
 
@@ -72,9 +72,9 @@ export const Full = (): JSX.Element => {
       pack={pack}
     />
   );
-};
+}
 
-export const JustFourStickers = (): JSX.Element => {
+export function JustFourStickers(): JSX.Element {
   const title = text('title', 'Foo');
   const author = text('author', 'Foo McBarrington');
 
@@ -101,13 +101,13 @@ export const JustFourStickers = (): JSX.Element => {
       pack={pack}
     />
   );
-};
+}
 
 JustFourStickers.story = {
   name: 'Just four stickers',
 };
 
-export const InitialDownload = (): JSX.Element => {
+export function InitialDownload(): JSX.Element {
   return (
     <StickerPreviewModal
       onClose={action('onClose')}
@@ -119,13 +119,13 @@ export const InitialDownload = (): JSX.Element => {
       pack={{} as any}
     />
   );
-};
+}
 
 InitialDownload.story = {
   name: 'Initial download',
 };
 
-export const PackDeleted = (): JSX.Element => {
+export function PackDeleted(): JSX.Element {
   return (
     <StickerPreviewModal
       onClose={action('onClose')}
@@ -136,7 +136,7 @@ export const PackDeleted = (): JSX.Element => {
       pack={undefined}
     />
   );
-};
+}
 
 PackDeleted.story = {
   name: 'Pack deleted',

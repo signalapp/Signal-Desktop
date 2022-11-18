@@ -131,23 +131,23 @@ const createProps = (
   },
 });
 
-export const Basic = (): JSX.Element => {
+export function Basic(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} />;
-};
+}
 
-export const AsAdmin = (): JSX.Element => {
+export function AsAdmin(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} isAdmin />;
-};
+}
 
 AsAdmin.story = {
   name: 'as Admin',
 };
 
-export const AsLastAdmin = (): JSX.Element => {
+export function AsLastAdmin(): JSX.Element {
   const props = createProps();
 
   return (
@@ -162,13 +162,13 @@ export const AsLastAdmin = (): JSX.Element => {
       }))}
     />
   );
-};
+}
 
 AsLastAdmin.story = {
   name: 'as last admin',
 };
 
-export const AsOnlyAdmin = (): JSX.Element => {
+export function AsOnlyAdmin(): JSX.Element {
   const props = createProps();
 
   return (
@@ -185,33 +185,33 @@ export const AsOnlyAdmin = (): JSX.Element => {
       ]}
     />
   );
-};
+}
 
 AsOnlyAdmin.story = {
   name: 'as only admin',
 };
 
-export const GroupEditable = (): JSX.Element => {
+export function GroupEditable(): JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} canEditGroupInfo />;
-};
+}
 
-export const GroupEditableWithCustomDisappearingTimeout = (): JSX.Element => {
+export function GroupEditableWithCustomDisappearingTimeout(): JSX.Element {
   const props = createProps(false, DurationInSeconds.fromDays(3));
 
   return <ConversationDetails {...props} canEditGroupInfo />;
-};
+}
 
 GroupEditableWithCustomDisappearingTimeout.story = {
   name: 'Group Editable with custom disappearing timeout',
 };
 
-export const GroupLinksOn = (): JSX.Element => {
+export function GroupLinksOn(): JSX.Element {
   const props = createProps(true);
 
   return <ConversationDetails {...props} isAdmin />;
-};
+}
 
 export const _11 = (): JSX.Element => (
   <ConversationDetails {...createProps()} isGroup={false} />

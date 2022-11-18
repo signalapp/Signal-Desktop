@@ -14,6 +14,6 @@ export default {
   title: 'Components/InstallScreen/InstallScreenLinkInProgressStep',
 };
 
-export const Default = (): JSX.Element => (
-  <InstallScreenLinkInProgressStep i18n={i18n} />
-);
+export function Default(): JSX.Element {
+  return <InstallScreenLinkInProgressStep i18n={i18n} />;
+}

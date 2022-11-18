@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FunctionComponent } from 'react';
 import React, { useCallback } from 'react';
 
 import { BaseConversationListItem } from './BaseConversationListItem';
@@ -22,7 +21,7 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
+export function UsernameSearchResultListItem({
   i18n,
   isFetchingUsername,
   lookupConversationWithoutUuid,
@@ -30,7 +29,7 @@ export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
-}) => {
+}: Props): JSX.Element {
   const usernameText = i18n('at-username', { username });
   const boundOnClick = useCallback(async () => {
     if (isFetchingUsername) {
@@ -71,4 +70,4 @@ export const UsernameSearchResultListItem: FunctionComponent<Props> = ({
       title={usernameText}
     />
   );
-};
+}

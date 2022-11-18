@@ -44,18 +44,18 @@ export default {
   title: 'Components/OutgoingGiftBadgeModal',
 };
 
-export const Normal = (): JSX.Element => {
+export function Normal(): JSX.Element {
   return <OutgoingGiftBadgeModal {...createProps()} />;
-};
+}
 
-export const MissingBadge = (): JSX.Element => {
+export function MissingBadge(): JSX.Element {
   const props = {
     ...createProps(),
     getPreferredBadge: () => undefined,
   };
 
   return <OutgoingGiftBadgeModal {...props} />;
-};
+}
 
 MissingBadge.story = {
   name: 'Missing badge',

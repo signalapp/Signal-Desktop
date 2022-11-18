@@ -70,7 +70,7 @@ function sortMemberships(
   return sortedMemberships;
 }
 
-export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
+export function ConversationDetailsMembershipList({
   canAddNewMembers,
   conversationId,
   getPreferredBadge,
@@ -80,7 +80,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   showContactModal,
   startAddingNewMembers,
   theme,
-}) => {
+}: Props): JSX.Element {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
 
@@ -139,4 +139,4 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
       )}
     </PanelSection>
   );
-};
+}

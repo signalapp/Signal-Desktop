@@ -16,7 +16,7 @@ export default {
   title: 'Components/Conversation/DeliveryIssueDialog',
 };
 
-export const Default = (): JSX.Element => {
+export function Default(): JSX.Element {
   return (
     <DeliveryIssueDialog
       i18n={i18n}
@@ -26,9 +26,9 @@ export const Default = (): JSX.Element => {
       onClose={action('onClose')}
     />
   );
-};
+}
 
-export const InGroup = (): JSX.Element => {
+export function InGroup(): JSX.Element {
   return (
     <DeliveryIssueDialog
       i18n={i18n}
@@ -38,4 +38,4 @@ export const InGroup = (): JSX.Element => {
       onClose={action('onClose')}
     />
   );
-};
+}

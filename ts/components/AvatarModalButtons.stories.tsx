@@ -23,21 +23,23 @@ export default {
   title: 'Components/AvatarModalButtons',
 };
 
-export const HasChanges = (): JSX.Element => (
-  <AvatarModalButtons
-    {...createProps({
-      hasChanges: true,
-    })}
-  />
-);
+export function HasChanges(): JSX.Element {
+  return (
+    <AvatarModalButtons
+      {...createProps({
+        hasChanges: true,
+      })}
+    />
+  );
+}
 
 HasChanges.story = {
   name: 'Has changes',
 };
 
-export const NoChanges = (): JSX.Element => (
-  <AvatarModalButtons {...createProps()} />
-);
+export function NoChanges(): JSX.Element {
+  return <AvatarModalButtons {...createProps()} />;
+}
 
 NoChanges.story = {
   name: 'No changes',
