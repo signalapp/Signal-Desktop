@@ -448,7 +448,7 @@
     "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, other {You have # connections who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.}}",
+    "messageformat": "You have {count, plural, one {1 connection} other {# connections}} who may have reinstalled Signal or changed devices. You can optionally review their safety numbers before sending.",
     "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
   },
   "safetyNumberChangeDialog__post-review": {
@@ -456,7 +456,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "Are you sure you want to remove {count, plural, 1 {one recipient} other {# recipients}} from story {story}?",
+    "messageformat": "Are you sure you want to remove {count, plural, one {1 recipient} other {# recipients}} from story {story}?",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
