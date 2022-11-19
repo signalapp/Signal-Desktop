@@ -24,6 +24,7 @@ import { setupI18n } from '../util/setupI18n';
 import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
+import { StorySendMode } from '../types/Stories';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -194,6 +195,8 @@ export function RingingGroupCall(): JSX.Element {
             ...getConversation(),
             type: 'group',
             title: 'Tahoe Trip',
+            acknowledgedGroupNameCollisions: {},
+            storySendMode: StorySendMode.IfActive,
           },
           otherMembersRung: [
             { firstName: 'Morty', title: 'Morty Smith' },
