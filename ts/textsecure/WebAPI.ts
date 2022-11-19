@@ -128,6 +128,7 @@ type PromiseAjaxOptionsType = {
   certificateAuthority?: string;
   contentType?: string;
   data?: Uint8Array | string;
+  disableSessionResumption?: boolean;
   headers?: HeaderListType;
   host?: string;
   password?: string;
@@ -240,7 +241,10 @@ async function _promiseAjax(
     agents[cacheKey] = {
       agent: proxyUrl
         ? new ProxyAgent(proxyUrl)
-        : new Agent({ keepAlive: true }),
+        : new Agent({
+            keepAlive: !options.disableSessionResumption,
+            maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
+          }),
       timestamp: Date.now(),
     };
   }
@@ -567,6 +571,7 @@ type AjaxOptionsType = {
   call: keyof typeof URL_CALLS;
   contentType?: string;
   data?: Uint8Array | Buffer | Uint8Array | string;
+  disableSessionResumption?: boolean;
   headers?: HeaderListType;
   host?: string;
   httpType: HTTPCodeType;
@@ -2569,6 +2574,7 @@ export function initialize({
         contentType: 'application/x-protobuf',
         responseType: 'bytes',
         host: storageUrl,
+        disableSessionResumption: true,
       });
 
       return Proto.GroupExternalCredential.decode(response);
@@ -2639,6 +2645,7 @@ export function initialize({
         httpType: 'GET',
         responseType: 'bytes',
         host: storageUrl,
+        disableSessionResumption: true,
       });
       const attributes = Proto.AvatarUploadAttributes.decode(response);
 
@@ -2687,6 +2694,7 @@ export function initialize({
         contentType: 'application/x-protobuf',
         data,
         host: storageUrl,
+        disableSessionResumption: true,
         httpType: 'PUT',
       });
     }
@@ -2704,6 +2712,7 @@ export function initialize({
         call: 'groups',
         contentType: 'application/x-protobuf',
         host: storageUrl,
+        disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'bytes',
       });
@@ -2728,6 +2737,7 @@ export function initialize({
         call: 'groupsViaLink',
         contentType: 'application/x-protobuf',
         host: storageUrl,
+        disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'bytes',
         urlParameters: safeInviteLinkPassword
@@ -2759,6 +2769,7 @@ export function initialize({
         contentType: 'application/x-protobuf',
         data,
         host: storageUrl,
+        disableSessionResumption: true,
         httpType: 'PATCH',
         responseType: 'bytes',
         urlParameters: safeInviteLinkPassword
@@ -2795,6 +2806,7 @@ export function initialize({
           call: 'groupJoinedAtVersion',
           contentType: 'application/x-protobuf',
           host: storageUrl,
+          disableSessionResumption: true,
           httpType: 'GET',
           responseType: 'byteswithdetails',
         });
@@ -2815,6 +2827,7 @@ export function initialize({
         call: 'groupLog',
         contentType: 'application/x-protobuf',
         host: storageUrl,
+        disableSessionResumption: true,
         httpType: 'GET',
         responseType: 'byteswithdetails',
         urlParameters:
