@@ -818,7 +818,8 @@ export const StoryViewer = ({
                   {i18n('StoryViewer__sending')}
                 </div>
               )}
-              {sendStatus === ResolvedSendStatus.Sent && (canReply || isSent) && (
+              {(canReply ||
+                (isSent && sendStatus === ResolvedSendStatus.Sent)) && (
                 <button
                   className="StoryViewer__reply"
                   onClick={() =>
