@@ -2529,6 +2529,18 @@ export default class MessageReceiver
     logUnexpectedUrgentValue(envelope, 'callingMessage');
 
     this.removeFromCache(envelope);
+
+    if (
+      (envelope.source && this.isBlocked(envelope.source)) ||
+      (envelope.sourceUuid && this.isUuidBlocked(envelope.sourceUuid))
+    ) {
+      const logId = getEnvelopeId(envelope);
+
+      log.info(`${logId}: Dropping calling message from blocked sender`);
+      this.removeFromCache(envelope);
+      return;
+    }
+
     await window.Signal.Services.calling.handleCallingMessage(
       envelope,
       callingMessage

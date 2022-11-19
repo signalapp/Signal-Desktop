@@ -66,7 +66,7 @@ import {
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
 import type { LocalizerType } from '../types/Util';
-import { UUID } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
@@ -1720,6 +1720,33 @@ export class CallingClass {
       log.error('handleGroupCallRingUpdate(): could not find conversation');
       return;
     }
+
+    const logId = `handleGroupCallRingUpdate(${conversation.idForLogging()})`;
+    if (conversation.isBlocked()) {
+      log.warn(`${logId}: is blocked`);
+      return;
+    }
+
+    const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+
+    if (conversation.get('left') || !conversation.hasMember(ourACI)) {
+      log.warn(`${logId}: we left the group`);
+      return;
+    }
+
+    if (!conversation.hasMember(new UUID(ringerUuid))) {
+      log.warn(`${logId}: they left the group`);
+      return;
+    }
+
+    if (
+      conversation.get('announcementsOnly') &&
+      !conversation.isAdmin(new UUID(ringerUuid))
+    ) {
+      log.warn(`${logId}: non-admin update to announcement-only group`);
+      return;
+    }
+
     const conversationId = conversation.id;
 
     let shouldRing = false;
@@ -1809,6 +1836,13 @@ export class CallingClass {
     const conversation = window.ConversationController.get(call.remoteUserId);
     if (!conversation) {
       log.error('Missing conversation, ignoring incoming call.');
+      return null;
+    }
+
+    if (conversation.isBlocked()) {
+      log.warn(
+        `handleIncomingCall(): ${conversation.idForLogging()} is blocked`
+      );
       return null;
     }
 
