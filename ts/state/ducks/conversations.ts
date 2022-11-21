@@ -194,7 +194,6 @@ export type ConversationType = {
   bannedMemberships?: Array<UUIDStringType>;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
-  type: ConversationTypeType;
   isMe: boolean;
   lastUpdated?: number;
   // This is used by the CompositionInput for @mentions
@@ -219,12 +218,10 @@ export type ConversationType = {
   groupVersion?: 1 | 2;
   groupId?: string;
   groupLink?: string;
-  storySendMode?: StorySendMode;
   messageRequestsEnabled?: boolean;
   acceptedMessageRequest: boolean;
   secretParams?: string;
   publicParams?: string;
-  acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
   profileKey?: string;
   voiceNotePlaybackRate?: number;
 
@@ -238,7 +235,18 @@ export type ConversationType = {
         isVisible: boolean;
       }
   >;
-};
+} & (
+  | {
+      type: 'direct';
+      storySendMode?: undefined;
+      acknowledgedGroupNameCollisions?: undefined;
+    }
+  | {
+      type: 'group';
+      storySendMode: StorySendMode;
+      acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
+    }
+);
 export type ProfileDataType = {
   firstName: string;
 } & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>;

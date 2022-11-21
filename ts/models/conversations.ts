@@ -1884,7 +1884,6 @@ export class ConversationModel extends window.Backbone
       groupVersion,
       groupId: this.get('groupId'),
       groupLink: this.getGroupLink(),
-      storySendMode: this.getStorySendMode(),
       hideStory: Boolean(this.get('hideStory')),
       inboxPosition,
       isArchived: this.get('isArchived'),
@@ -1945,6 +1944,7 @@ export class ConversationModel extends window.Backbone
             acknowledgedGroupNameCollisions:
               this.get('acknowledgedGroupNameCollisions') || {},
             sharedGroupNames: [],
+            storySendMode: this.getGroupStorySendMode(),
           }),
       voiceNotePlaybackRate: this.get('voiceNotePlaybackRate'),
     };
@@ -5548,9 +5548,20 @@ export class ConversationModel extends window.Backbone
 
   /** @return only undefined if not a group */
   getStorySendMode(): StorySendMode | undefined {
-    if (!isGroup(this.attributes)) {
+    // isDirectConversation is used instead of isGroup because this is what
+    // used in `format()` when sending conversation "type" to redux.
+    if (isDirectConversation(this.attributes)) {
       return undefined;
     }
+
+    return this.getGroupStorySendMode();
+  }
+
+  private getGroupStorySendMode(): StorySendMode {
+    strictAssert(
+      !isDirectConversation(this.attributes),
+      'Must be a group to have send story mode'
+    );
 
     return this.get('storySendMode') ?? StorySendMode.IfActive;
   }

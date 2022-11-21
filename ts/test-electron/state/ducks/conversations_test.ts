@@ -38,6 +38,7 @@ import { UUID } from '../../../types/UUID';
 import {
   getDefaultConversation,
   getDefaultConversationWithUuid,
+  getDefaultGroup,
 } from '../../../test-both/helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
 import {
@@ -111,6 +112,7 @@ describe('both/state/ducks/conversations', () => {
   describe('helpers', () => {
     describe('getConversationCallMode', () => {
       const fakeConversation: ConversationType = getDefaultConversation();
+      const fakeGroup: ConversationType = getDefaultGroup();
 
       it("returns CallMode.None if you've left the conversation", () => {
         assert.strictEqual(
@@ -155,19 +157,16 @@ describe('both/state/ducks/conversations', () => {
       it('returns CallMode.None for v1 groups', () => {
         assert.strictEqual(
           getConversationCallMode({
-            ...fakeConversation,
-            type: 'group',
+            ...fakeGroup,
             groupVersion: 1,
-            sharedGroupNames: [],
           }),
           CallMode.None
         );
 
         assert.strictEqual(
           getConversationCallMode({
-            ...fakeConversation,
-            type: 'group',
-            sharedGroupNames: [],
+            ...fakeGroup,
+            groupVersion: undefined,
           }),
           CallMode.None
         );
@@ -183,10 +182,8 @@ describe('both/state/ducks/conversations', () => {
       it('returns CallMode.Group if the conversation is a v2 group', () => {
         assert.strictEqual(
           getConversationCallMode({
-            ...fakeConversation,
-            type: 'group',
+            ...fakeGroup,
             groupVersion: 2,
-            sharedGroupNames: [],
           }),
           CallMode.Group
         );

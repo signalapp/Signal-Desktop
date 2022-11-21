@@ -8,6 +8,7 @@ import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 import { getRandomColor } from './getRandomColor';
 import { ConversationColors } from '../../types/Colors';
+import { StorySendMode } from '../../types/Stories';
 
 export const getAvatarPath = (): string =>
   sample([
@@ -37,9 +38,11 @@ export function getDefaultConversation(
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     titleNoDefault: `${firstName} ${lastName}`,
-    type: 'direct' as const,
     uuid: UUID.generate().toString(),
     ...overrideProps,
+    type: 'direct' as const,
+    acknowledgedGroupNameCollisions: undefined,
+    storySendMode: undefined,
   };
 }
 
@@ -70,9 +73,11 @@ export function getDefaultGroup(
     memberships,
     sharedGroupNames: [],
     title: casual.title,
-    type: 'group' as const,
     uuid: UUID.generate().toString(),
+    acknowledgedGroupNameCollisions: {},
+    storySendMode: StorySendMode.IfActive,
     ...overrideProps,
+    type: 'group' as const,
   };
 }
 
