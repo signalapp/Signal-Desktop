@@ -151,7 +151,7 @@ async function main() {
   await forEachRelevantFile(async file => {
     const [firstLine] = await readFirstLines(file, 1);
     const { groups = {} } =
-      firstLine.match(/(?:\d{4}-)?(?<endYearString>\d{4})/) || [];
+      firstLine.match(/(?:\d{4}-)?(?<endYearString>\d{4})/) || {};
     const { endYearString } = groups;
     const endYear = Number(endYearString);
 

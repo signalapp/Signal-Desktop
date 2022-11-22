@@ -20,4 +20,7 @@ module.exports = {
     // Deprecated! Please remove when all uses have been migrated to controls.
     '@storybook/addon-knobs',
   ],
+  features: {
+    storyStoreV7: true,
+  },
 };

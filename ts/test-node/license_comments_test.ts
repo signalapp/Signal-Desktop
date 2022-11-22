@@ -32,7 +32,7 @@ describe('license comments', () => {
       const { groups = {} } =
         firstLine.match(
           /Copyright (?<startYearWithDash>\d{4}-)?(?<endYearString>\d{4}) Signal Messenger, LLC/
-        ) || [];
+        ) || {};
       const { startYearWithDash, endYearString } = groups;
       const endYear = Number(endYearString);
 
