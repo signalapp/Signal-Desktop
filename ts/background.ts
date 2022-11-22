@@ -608,7 +608,7 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.info(
             'User chose not to delete old data. Shutting down.',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
           window.shutdown();
           return;
@@ -626,7 +626,7 @@ export async function startApp(): Promise<void> {
       } catch (error) {
         log.error(
           'Failed to remove IndexedDB file or remove SQL data:',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
 
@@ -867,7 +867,7 @@ export async function startApp(): Promise<void> {
     try {
       await window.Signal.Data.startInRendererProcess();
     } catch (err) {
-      log.error('SQL failed to initialize', err && err.stack ? err.stack : err);
+      log.error('SQL failed to initialize', Errors.toLogFormat(err));
     }
 
     setAppLoadingScreenMessage(window.i18n('loading'), window.i18n);
@@ -958,7 +958,7 @@ export async function startApp(): Promise<void> {
       } catch (error) {
         log.warn(
           'background/setInterval: Failed to parse integer from desktop.retryRespondMaxAge feature flag',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
 
@@ -969,7 +969,7 @@ export async function startApp(): Promise<void> {
       } catch (error) {
         log.error(
           'background/onready/setInterval: Error deleting sent protos: ',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
 
@@ -999,7 +999,7 @@ export async function startApp(): Promise<void> {
       } catch (error) {
         log.error(
           'background/onready/setInterval: Error getting expired retry placeholders: ',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
     }, FIVE_MINUTES);
@@ -1046,7 +1046,7 @@ export async function startApp(): Promise<void> {
     } catch (error) {
       log.error(
         'background.js: ConversationController failed to load:',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     } finally {
       initializeRedux({ mainWindowStats, menuOptions });
@@ -2144,7 +2144,7 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'connect: Error refreshing remote config:',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
 
@@ -2230,7 +2230,7 @@ export async function startApp(): Promise<void> {
         } catch (e) {
           log.error(
             'Problem with account manager updates after starting new version: ',
-            e && e.stack ? e.stack : e
+            Errors.toLogFormat(e)
           );
         }
       }
@@ -2243,7 +2243,7 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'Error: Unable to register for unauthenticated delivery support.',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
       }
@@ -2274,7 +2274,7 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
       }
@@ -2863,7 +2863,10 @@ export async function startApp(): Promise<void> {
             return;
           }
         } catch (error) {
-          log.error('respondWithProfileKeyBatcher error', error && error.stack);
+          log.error(
+            'respondWithProfileKeyBatcher error',
+            Errors.toLogFormat(error)
+          );
         }
 
         sender.queueJob('sendProfileKeyUpdate', () =>
@@ -3525,7 +3528,7 @@ export async function startApp(): Promise<void> {
       log.error(
         'unlinkAndDisconnect: Something went wrong clearing ' +
           'local configuration',
-        eraseError && eraseError.stack ? eraseError.stack : eraseError
+        Errors.toLogFormat(eraseError)
       );
     } finally {
       window.Signal.Util.Registration.markEverDone();

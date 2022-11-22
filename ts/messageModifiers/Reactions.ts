@@ -10,6 +10,7 @@ import type {
   MessageAttributesType,
   ReactionAttributesType,
 } from '../model-types.d';
+import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { getContactId, getContact } from '../messages/helpers';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
@@ -213,10 +214,7 @@ export class Reactions extends Collection<ReactionModel> {
         this.remove(reaction);
       });
     } catch (error) {
-      log.error(
-        'Reactions.onReaction error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('Reactions.onReaction error:', Errors.toLogFormat(error));
     }
   }
 }

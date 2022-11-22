@@ -299,7 +299,7 @@ export class ConversationController {
         log.error(
           'Contact is not valid. Not saving, but adding to collection:',
           conversation.idForLogging(),
-          validationError.stack
+          Errors.toLogFormat(validationError)
         );
 
         return conversation;
@@ -316,7 +316,7 @@ export class ConversationController {
           identifier,
           type,
           'Error:',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
         throw error;
       }
@@ -1247,7 +1247,7 @@ export class ConversationController {
           } catch (error) {
             log.error(
               'ConversationController.load/map: Failed to prepare a conversation',
-              error && error.stack ? error.stack : error
+              Errors.toLogFormat(error)
             );
           }
         })
@@ -1256,7 +1256,7 @@ export class ConversationController {
     } catch (error) {
       log.error(
         'ConversationController: initial fetch failed',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
       throw error;
     }

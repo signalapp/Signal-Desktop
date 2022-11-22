@@ -8,6 +8,7 @@ import protobuf from '../protobuf/wrap';
 import { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { DurationInSeconds } from '../util/durations';
+import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 
 import Avatar = Proto.ContactDetails.IAvatar;
@@ -90,10 +91,7 @@ abstract class ParserBase<
         expireTimer,
       };
     } catch (error) {
-      log.error(
-        'ProtoParser.next error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('ProtoParser.next error:', Errors.toLogFormat(error));
       return undefined;
     }
   }

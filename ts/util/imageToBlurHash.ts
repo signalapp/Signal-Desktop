@@ -13,9 +13,9 @@ const loadImageData = async (input: Input): Promise<ImageData> => {
       canvasOrError => {
         if (canvasOrError instanceof Event && canvasOrError.type === 'error') {
           const processError = new Error(
-            'imageToBlurHash: Failed to process image'
+            'imageToBlurHash: Failed to process image',
+            { cause: canvasOrError }
           );
-          processError.originalError = canvasOrError;
           reject(processError);
           return;
         }

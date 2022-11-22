@@ -392,7 +392,7 @@ export class SignalProtocolStore extends EventEmitter {
     } catch (error) {
       log.error(
         'removePreKey error triggering removePreKey:',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     }
 
@@ -604,7 +604,7 @@ export class SignalProtocolStore extends EventEmitter {
           await this.commitZoneChanges('saveSenderKey');
         }
       } catch (error) {
-        const errorString = error && error.stack ? error.stack : error;
+        const errorString = Errors.toLogFormat(error);
         log.error(
           `saveSenderKey: failed to save senderKey ${senderId}/${distributionId}: ${errorString}`
         );
@@ -653,7 +653,7 @@ export class SignalProtocolStore extends EventEmitter {
         log.info('Successfully fetched sender key(cache miss):', id);
         return item;
       } catch (error) {
-        const errorString = error && error.stack ? error.stack : error;
+        const errorString = Errors.toLogFormat(error);
         log.error(
           `getSenderKey: failed to load sender key ${senderId}/${distributionId}: ${errorString}`
         );
@@ -679,7 +679,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       this.senderKeys.delete(id);
     } catch (error) {
-      const errorString = error && error.stack ? error.stack : error;
+      const errorString = Errors.toLogFormat(error);
       log.error(
         `removeSenderKey: failed to remove senderKey ${senderId}/${distributionId}: ${errorString}`
       );
@@ -860,7 +860,7 @@ export class SignalProtocolStore extends EventEmitter {
         `pending sender keys size ${this.pendingSenderKeys.size}, ` +
         `pending sessions size ${this.pendingSessions.size}, ` +
         `pending unprocessed size ${this.pendingUnprocessed.size}`,
-      error && error.stack
+      Errors.toLogFormat(error)
     );
     this.pendingSenderKeys.clear();
     this.pendingSessions.clear();
@@ -961,7 +961,7 @@ export class SignalProtocolStore extends EventEmitter {
         //   and save it to the database.
         return await this._maybeMigrateSession(entry.fromDB, { zone });
       } catch (error) {
-        const errorString = error && error.stack ? error.stack : error;
+        const errorString = Errors.toLogFormat(error);
         log.error(`loadSession: failed to load session ${id}: ${errorString}`);
         return undefined;
       }
@@ -1095,7 +1095,7 @@ export class SignalProtocolStore extends EventEmitter {
           await this.commitZoneChanges('storeSession');
         }
       } catch (error) {
-        const errorString = error && error.stack ? error.stack : error;
+        const errorString = Errors.toLogFormat(error);
         log.error(`storeSession: Save failed for ${id}: ${errorString}`);
         throw error;
       }
@@ -1189,7 +1189,7 @@ export class SignalProtocolStore extends EventEmitter {
       } catch (error) {
         log.error(
           'getOpenDevices: Failed to get devices',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
         throw error;
       }
@@ -1692,7 +1692,7 @@ export class SignalProtocolStore extends EventEmitter {
       } catch (error) {
         log.error(
           'saveIdentity: error triggering keychange:',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
 

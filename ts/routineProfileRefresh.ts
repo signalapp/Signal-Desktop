@@ -144,7 +144,7 @@ export async function routineProfileRefresh({
     } catch (err) {
       log.error(
         `${logId}: refreshed profile for ${conversation.idForLogging()}`,
-        err?.stack || err
+        Errors.toLogFormat(err)
       );
     }
   }

@@ -7,6 +7,7 @@ import type { MessageModel } from '../models/messages';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
+import * as Errors from '../types/errors';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
@@ -65,7 +66,7 @@ class ExpiringMessagesDeletionService {
     } catch (error) {
       window.SignalContext.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
       window.SignalContext.log.info(
         'destroyExpiredMessages: Waiting 30 seconds before trying again'

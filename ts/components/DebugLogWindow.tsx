@@ -15,6 +15,7 @@ import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import { ToastLoadingFullLogs } from './ToastLoadingFullLogs';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { createSupportUrl } from '../util/createSupportUrl';
+import * as Errors from '../types/errors';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useTheme } from '../hooks/useTheme';
 
@@ -107,10 +108,7 @@ export const DebugLogWindow = ({
       const publishedLogURL = await uploadLogs(text);
       setPublicLogURL(publishedLogURL);
     } catch (error) {
-      log.error(
-        'DebugLogWindow error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('DebugLogWindow error:', Errors.toLogFormat(error));
       setLoadState(LoadState.Loaded);
       setToastType(ToastType.Error);
     }

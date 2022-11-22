@@ -4,6 +4,7 @@
 import { Environment, getEnvironment } from '../environment';
 import { isInPast } from './timestamp';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 const ONE_DAY_MS = 86400 * 1000;
 const NINETY_ONE_DAYS = 91 * ONE_DAY_MS;
@@ -18,7 +19,7 @@ export function hasExpired(): boolean {
       log.info('Build expires: ', new Date(buildExpiration).toISOString());
     }
   } catch (e) {
-    log.error('Error retrieving build expiration date', e.stack);
+    log.error('Error retrieving build expiration date', Errors.toLogFormat(e));
 
     return true;
   }

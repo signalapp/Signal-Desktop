@@ -4,6 +4,7 @@
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import * as log from '../logging/log';
 import type { WebAudioRecorderClass } from '../window.d';
+import * as Errors from '../types/errors';
 
 export class RecorderClass {
   private context?: AudioContext;
@@ -84,10 +85,7 @@ export class RecorderClass {
       this.source.connect(this.input);
       this.stream = stream;
     } catch (err) {
-      log.error(
-        'Recorder.onGetUserMediaError:',
-        err && err.stack ? err.stack : err
-      );
+      log.error('Recorder.onGetUserMediaError:', Errors.toLogFormat(err));
       this.clear();
       throw err;
     }
@@ -135,7 +133,7 @@ export class RecorderClass {
 
     this.clear();
 
-    log.error('Recorder/onError:', error && error.stack ? error.stack : error);
+    log.error('Recorder/onError:', Errors.toLogFormat(error));
   }
 
   getBlob(): Blob {

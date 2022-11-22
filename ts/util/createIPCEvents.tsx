@@ -14,6 +14,7 @@ import type {
   DefaultConversationColorType,
 } from '../types/Colors';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
+import * as Errors from '../types/errors';
 import * as Stickers from '../types/Stickers';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { parseSystemTraySetting } from '../types/SystemTraySetting';
@@ -453,7 +454,7 @@ export function createIPCEvents(
         window.isShowingModal = false;
         log.error(
           'showStickerPack: Ran into an error!',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
         const errorView = new ReactWrapperView({
           className: 'error-modal-wrapper',
@@ -483,7 +484,7 @@ export function createIPCEvents(
       } catch (error) {
         log.error(
           'showGroupViaLink: Ran into an error!',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
         const errorView = new ReactWrapperView({
           className: 'error-modal-wrapper',

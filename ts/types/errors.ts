@@ -4,15 +4,20 @@
 import { get, has } from 'lodash';
 
 export function toLogFormat(error: unknown): string {
+  let result = '';
   if (error instanceof Error && error.stack) {
-    return error.stack;
+    result = error.stack;
+  } else if (has(error, 'message')) {
+    result = get(error, 'message');
+  } else {
+    result = String(error);
   }
 
-  if (has(error, 'message')) {
-    return get(error, 'message');
+  if (has(error, 'cause')) {
+    result += `\nCaused by: ${String(get(error, 'cause'))}`;
   }
 
-  return String(error);
+  return result;
 }
 
 export class ProfileDecryptError extends Error {}

@@ -46,6 +46,7 @@ import { strictAssert } from '../ts/util/assert';
 import { consoleLogger } from '../ts/util/consoleLogger';
 import type { ThemeSettingType } from '../ts/types/StorageUIKeys';
 import { ThemeType } from '../ts/types/Util';
+import * as Errors from '../ts/types/errors';
 
 import './startup_config';
 
@@ -471,7 +472,7 @@ async function handleUrl(event: Electron.Event, rawTarget: string) {
     try {
       await shell.openExternal(target);
     } catch (error) {
-      getLogger().error(`Failed to open url: ${error.stack}`);
+      getLogger().error(`Failed to open url: ${Errors.toLogFormat(error)}`);
     }
   }
 }
@@ -938,7 +939,7 @@ ipc.on('database-ready', async event => {
   if (error) {
     getLogger().error(
       'database-ready requested, but got sql error',
-      error && error.stack
+      Errors.toLogFormat(error)
     );
     return;
   }
@@ -1030,7 +1031,7 @@ async function readyForUpdates() {
   } catch (error) {
     getLogger().error(
       'Error starting update checks:',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
   }
 }
@@ -1040,10 +1041,7 @@ async function forceUpdate() {
     getLogger().info('starting force update');
     await updater.force();
   } catch (error) {
-    getLogger().error(
-      'Error during force update:',
-      error && error.stack ? error.stack : error
-    );
+    getLogger().error('Error during force update:', Errors.toLogFormat(error));
   }
 }
 
@@ -1478,7 +1476,7 @@ const runSQLCorruptionHandler = async () => {
       `Restarting the application immediately. Error: ${error.message}`
   );
 
-  await onDatabaseError(error.stack || error.message);
+  await onDatabaseError(Errors.toLogFormat(error));
 };
 
 async function initializeSQL(
@@ -1799,7 +1797,7 @@ app.on('ready', async () => {
   } catch (err) {
     logger.error(
       'main/ready: Error deleting temp dir:',
-      err && err.stack ? err.stack : err
+      Errors.toLogFormat(err)
     );
   }
 
@@ -1826,7 +1824,7 @@ app.on('ready', async () => {
   if (sqlError) {
     getLogger().error('sql.initialize was unsuccessful; returning early');
 
-    await onDatabaseError(sqlError.stack || sqlError.message);
+    await onDatabaseError(Errors.toLogFormat(sqlError));
 
     return;
   }
@@ -1843,7 +1841,7 @@ app.on('ready', async () => {
   } catch (err) {
     getLogger().error(
       '(ready event handler) error deleting IndexedDB:',
-      err && err.stack ? err.stack : err
+      Errors.toLogFormat(err)
     );
   }
 
@@ -1989,10 +1987,7 @@ async function requestShutdown() {
   try {
     await request;
   } catch (error) {
-    getLogger().error(
-      'requestShutdown error:',
-      error && error.stack ? error.stack : error
-    );
+    getLogger().error('requestShutdown error:', Errors.toLogFormat(error));
   }
 }
 
@@ -2197,7 +2192,7 @@ ipc.handle(
     } catch (error) {
       getLogger().error(
         'show-permissions-popup error:',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     }
   }
@@ -2240,7 +2235,10 @@ ipc.on('get-built-in-images', async () => {
     if (mainWindow && mainWindow.webContents) {
       mainWindow.webContents.send('get-success-built-in-images', error.message);
     } else {
-      getLogger().error('Error handling get-built-in-images:', error.stack);
+      getLogger().error(
+        'Error handling get-built-in-images:',
+        Errors.toLogFormat(error)
+      );
     }
   }
 });

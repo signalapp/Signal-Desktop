@@ -3,6 +3,7 @@
 
 import { getEnvironment, Environment } from '../environment';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 /**
  * In production and beta, logs a warning and continues. For development it
@@ -15,7 +16,7 @@ export function softAssert(condition: unknown, message: string): void {
     }
 
     const err = new Error(message);
-    log.warn('softAssert failure:', err && err.stack ? err.stack : err);
+    log.warn('softAssert failure:', Errors.toLogFormat(err));
   }
 }
 
@@ -34,7 +35,7 @@ export function assertDev(
       }
       throw err;
     }
-    log.error('assert failure:', err && err.stack ? err.stack : err);
+    log.error('assert failure:', Errors.toLogFormat(err));
   }
 }
 

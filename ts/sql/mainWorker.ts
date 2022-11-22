@@ -4,6 +4,7 @@
 import { parentPort } from 'worker_threads';
 
 import type { LoggerType } from '../types/Logging';
+import * as Errors from '../types/errors';
 import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
@@ -22,7 +23,7 @@ function respond(seq: number, error: Error | undefined, response?: any) {
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
     seq,
-    error: error?.stack,
+    error: error === undefined ? undefined : Errors.toLogFormat(error),
     response,
   };
   port.postMessage(wrappedResponse);

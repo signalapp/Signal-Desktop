@@ -3,13 +3,10 @@
 
 // Captures the globals put in place by preload.js, background.js and others
 
-/* eslint-disable max-classes-per-file */
-
 import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
 import type * as Underscore from 'underscore';
 import type PQueue from 'p-queue/dist';
-import type { Ref } from 'react';
 import type { assert } from 'chai';
 import type * as Mustache from 'mustache';
 
@@ -358,15 +355,6 @@ declare global {
     };
   }
 
-  interface Error {
-    originalError?: Event;
-    reason?: unknown;
-    stackForLog?: string;
-
-    // Used in sticker creator to attach messages to errors
-    errorMessageI18nKey?: string;
-  }
-
   interface Element {
     // WebKit-specific
     scrollIntoViewIfNeeded: (bringToCenter?: boolean) => void;
@@ -385,19 +373,6 @@ declare global {
   interface SharedArrayBuffer {
     __arrayBuffer: never;
   }
-}
-
-export class GumVideoCapturer {
-  constructor(
-    maxWidth: number,
-    maxHeight: number,
-    maxFramerate: number,
-    localPreview: Ref<HTMLVideoElement>
-  );
-}
-
-export class CanvasVideoRenderer {
-  constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
 export type WhisperType = {

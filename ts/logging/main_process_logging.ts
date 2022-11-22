@@ -19,6 +19,7 @@ import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
 
 import type { LoggerType } from '../types/Logging';
+import * as Errors from '../types/errors';
 import * as durations from '../util/durations';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
@@ -67,7 +68,9 @@ export async function initialize(
   try {
     await cleanupLogs(logPath);
   } catch (error) {
-    const errorString = `Failed to clean logs; deleting all. Error: ${error.stack}`;
+    const errorString =
+      'Failed to clean logs; deleting all. ' +
+      `Error: ${Errors.toLogFormat(error)}`;
     console.error(errorString);
     await deleteAllLogs(logPath);
     mkdirp.sync(logPath);
@@ -136,7 +139,7 @@ export async function initialize(
         ...rest,
       };
     } catch (error) {
-      logger.error(`Problem loading log data: ${error.stack}`);
+      logger.error(`Problem loading log data: ${Errors.toLogFormat(error)}`);
       return;
     }
 
@@ -151,7 +154,7 @@ export async function initialize(
     try {
       await deleteAllLogs(logPath);
     } catch (error) {
-      logger.error(`Problem deleting all logs: ${error.stack}`);
+      logger.error(`Problem deleting all logs: ${Errors.toLogFormat(error)}`);
     }
   });
 
@@ -196,7 +199,7 @@ async function cleanupLogs(logPath: string) {
   } catch (error) {
     console.error(
       'Error cleaning logs; deleting and starting over from scratch.',
-      error.stack
+      Errors.toLogFormat(error)
     );
 
     // delete and re-create the log directory
@@ -215,7 +218,7 @@ export function isLineAfterDate(line: string, date: Readonly<Date>): boolean {
     const data = JSON.parse(line);
     return new Date(data.time).getTime() > date.getTime();
   } catch (e) {
-    console.log('error parsing log line', e.stack, line);
+    console.log('error parsing log line', Errors.toLogFormat(e), line);
     return false;
   }
 }

@@ -22,6 +22,7 @@ import {
 } from './shared';
 import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
+import * as Errors from '../types/errors';
 import { createRotatingPinoDest } from '../util/rotatingPinoDest';
 
 // Backwards-compatible logging, simple strings and no level (defaulted to INFO)
@@ -114,14 +115,13 @@ window.SignalContext.log = {
 };
 
 window.onerror = (_message, _script, _line, _col, error) => {
-  const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
+  const errorInfo = Errors.toLogFormat(error);
   log.error(`Top-level unhandled error: ${errorInfo}`);
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {
   const error = rejectionEvent.reason;
-  const errorString =
-    error && error.stack ? error.stack : JSON.stringify(error);
+  const errorString = Errors.toLogFormat(error);
   log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
 
