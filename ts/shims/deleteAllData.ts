@@ -3,6 +3,7 @@
 
 import * as log from '../logging/log';
 import { deleteAllLogs } from '../util/deleteAllLogs';
+import * as Errors from '../types/errors';
 
 export async function deleteAllData(): Promise<void> {
   try {
@@ -28,7 +29,7 @@ export async function deleteAllData(): Promise<void> {
   } catch (error) {
     log.error(
       'Something went wrong deleting all data:',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
   }
   window.restart();

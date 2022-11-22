@@ -4,6 +4,7 @@
 import { ipcRenderer } from 'electron';
 
 import { strictAssert } from './assert';
+import * as Errors from '../types/errors';
 import type { UnwrapPromise } from '../types/Util';
 import type {
   IPCEventsValuesType,
@@ -104,11 +105,7 @@ export function installSetting(
       try {
         ipcRenderer.send('settings:response', seq, null, await getFn());
       } catch (error) {
-        ipcRenderer.send(
-          'settings:response',
-          seq,
-          error && error.stack ? error.stack : error
-        );
+        ipcRenderer.send('settings:response', seq, Errors.toLogFormat(error));
       }
     });
   }
@@ -132,11 +129,7 @@ export function installSetting(
         await setFn(value);
         ipcRenderer.send('settings:response', seq, null);
       } catch (error) {
-        ipcRenderer.send(
-          'settings:response',
-          seq,
-          error && error.stack ? error.stack : error
-        );
+        ipcRenderer.send('settings:response', seq, Errors.toLogFormat(error));
       }
     });
   }
@@ -152,11 +145,7 @@ export function installCallback<Name extends keyof IPCEventsCallbacksType>(
     try {
       ipcRenderer.send('settings:response', seq, null, await hook(...args));
     } catch (error) {
-      ipcRenderer.send(
-        'settings:response',
-        seq,
-        error && error.stack ? error.stack : error
-      );
+      ipcRenderer.send('settings:response', seq, Errors.toLogFormat(error));
     }
   });
 }

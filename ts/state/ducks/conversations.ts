@@ -55,6 +55,7 @@ import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
 import { MY_STORY_ID, StorySendMode } from '../../types/Stories';
+import * as Errors from '../../types/errors';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -1206,7 +1207,7 @@ function myProfileChanged(
         payload: null,
       });
     } catch (err) {
-      log.error('myProfileChanged', err && err.stack ? err.stack : err);
+      log.error('myProfileChanged', Errors.toLogFormat(err));
       dispatch({ type: TOGGLE_PROFILE_EDITOR_ERROR });
     }
   };
@@ -1606,7 +1607,7 @@ function createGroup(
         })
       );
     } catch (err) {
-      log.error('Failed to create group', err && err.stack ? err.stack : err);
+      log.error('Failed to create group', Errors.toLogFormat(err));
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
     }
   };

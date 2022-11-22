@@ -7,6 +7,7 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import { getContactId } from '../messages/helpers';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
 
 export type DeleteAttributesType = {
@@ -97,10 +98,7 @@ export class Deletes extends Collection<DeleteModel> {
         this.remove(del);
       });
     } catch (error) {
-      log.error(
-        'Deletes.onDelete error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('Deletes.onDelete error:', Errors.toLogFormat(error));
     }
   }
 }

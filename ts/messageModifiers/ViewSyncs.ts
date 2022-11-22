@@ -9,6 +9,7 @@ import type { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { isDownloaded } from '../types/Attachment';
+import * as Errors from '../types/errors';
 import { isIncoming } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
@@ -111,10 +112,7 @@ export class ViewSyncs extends Collection {
 
       this.remove(sync);
     } catch (error) {
-      log.error(
-        'ViewSyncs.onSync error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('ViewSyncs.onSync error:', Errors.toLogFormat(error));
     }
   }
 }

@@ -18,6 +18,7 @@ import { initialize as initializeWebAPI } from '../../ts/textsecure/WebAPI';
 
 import { SignalContext } from '../../ts/windows/context';
 import { getAnimatedPngDataIfExists } from '../../ts/util/getAnimatedPngDataIfExists';
+import { ProcessStickerImageError } from '../errors';
 
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
@@ -42,12 +43,6 @@ const WebAPI = initializeWebAPI({
   version: config.version,
 });
 
-function processStickerError(message: string, i18nKey: string): Error {
-  const result = new Error(message);
-  result.errorMessageI18nKey = i18nKey;
-  return result;
-}
-
 window.processStickerImage = async (path: string | undefined) => {
   if (!path) {
     throw new Error(`Path ${path} is not valid!`);
@@ -59,7 +54,7 @@ window.processStickerImage = async (path: string | undefined) => {
 
   const { width, height } = meta;
   if (!width || !height) {
-    throw processStickerError(
+    throw new ProcessStickerImageError(
       'Sticker height or width were falsy',
       'StickerCreator--Toasts--errorProcessing'
     );
@@ -75,31 +70,31 @@ window.processStickerImage = async (path: string | undefined) => {
   const animatedPngDataIfExists = getAnimatedPngDataIfExists(imgBuffer);
   if (animatedPngDataIfExists) {
     if (imgBuffer.byteLength > MAX_STICKER_BYTE_LENGTH) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Sticker file was too large',
         'StickerCreator--Toasts--tooLarge'
       );
     }
     if (width !== height) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Sticker must be square',
         'StickerCreator--Toasts--APNG--notSquare'
       );
     }
     if (width > MAX_STICKER_DIMENSION) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Sticker dimensions are too large',
         'StickerCreator--Toasts--APNG--dimensionsTooLarge'
       );
     }
     if (width < MIN_STICKER_DIMENSION) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Sticker dimensions are too small',
         'StickerCreator--Toasts--APNG--dimensionsTooSmall'
       );
     }
     if (animatedPngDataIfExists.numPlays !== Infinity) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Animated stickers must loop forever',
         'StickerCreator--Toasts--mustLoopForever'
       );
@@ -118,7 +113,7 @@ window.processStickerImage = async (path: string | undefined) => {
       .webp()
       .toBuffer();
     if (processedBuffer.byteLength > MAX_STICKER_BYTE_LENGTH) {
-      throw processStickerError(
+      throw new ProcessStickerImageError(
         'Sticker file was too large',
         'StickerCreator--Toasts--tooLarge'
       );

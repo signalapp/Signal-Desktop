@@ -1242,7 +1242,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     } catch (error) {
       log.error(
         `Error erasing data for message ${this.idForLogging()}:`,
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     }
 
@@ -1358,11 +1358,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     errors.forEach(e => {
-      log.error(
-        'Message.saveErrors:',
-        e && e.reason ? e.reason : null,
-        e && e.stack ? e.stack : e
-      );
+      log.error('Message.saveErrors:', Errors.toLogFormat(e));
     });
     errors = errors.map(e => {
       // Note: in our environment, instanceof can be scary, so we have a backup check
@@ -2415,7 +2411,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 sentAt: message.get('sent_at'),
               });
             } catch (error) {
-              const errorText = error && error.stack ? error.stack : error;
+              const errorText = Errors.toLogFormat(error);
               log.error(
                 `${idLog}: Failed to process group update as part of message ${message.idForLogging()}: ${errorText}`
               );
@@ -3050,7 +3046,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         log.info(`${idLog}: Batching save`);
         this.saveAndNotify(conversation, confirm);
       } catch (error) {
-        const errorForLog = error && error.stack ? error.stack : error;
+        const errorForLog = Errors.toLogFormat(error);
         log.error(`${idLog}: error:`, errorForLog);
         throw error;
       }

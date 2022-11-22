@@ -11,6 +11,7 @@ import { ThemeType } from '../../types/Util';
 import { getEnvironment, Environment } from '../../environment';
 import { SignalContext } from '../context';
 import * as log from '../../logging/log';
+import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
 
@@ -90,7 +91,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   } catch (error) {
     log.error(
       `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     return true;
   }
@@ -101,7 +102,7 @@ window.isAfterVersion = (toCheck, baseVersion) => {
   } catch (error) {
     log.error(
       `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     return true;
   }
@@ -305,7 +306,7 @@ ipc.on('delete-all-data', async () => {
   try {
     await deleteAllData();
   } catch (error) {
-    log.error('delete-all-data: error', error && error.stack);
+    log.error('delete-all-data: error', Errors.toLogFormat(error));
   }
 });
 
@@ -362,10 +363,7 @@ ipc.on('get-ready-for-shutdown', async () => {
     await shutdown();
     ipc.send('now-ready-for-shutdown');
   } catch (error) {
-    ipc.send(
-      'now-ready-for-shutdown',
-      error && error.stack ? error.stack : error
-    );
+    ipc.send('now-ready-for-shutdown', Errors.toLogFormat(error));
   }
 });
 

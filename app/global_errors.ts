@@ -13,27 +13,28 @@ let quitText = 'Quit';
 let copyErrorAndQuitText = 'Copy error and quit';
 
 function handleError(prefix: string, error: Error): void {
+  const formattedError = Errors.toLogFormat(error);
   if (console._error) {
-    console._error(`${prefix}:`, Errors.toLogFormat(error));
+    console._error(`${prefix}:`, formattedError);
   }
-  console.error(`${prefix}:`, Errors.toLogFormat(error));
+  console.error(`${prefix}:`, formattedError);
 
   if (app.isReady()) {
     // title field is not shown on macOS, so we don't use it
     const buttonIndex = dialog.showMessageBoxSync({
       buttons: [quitText, copyErrorAndQuitText],
       defaultId: 0,
-      detail: redactAll(error.stack || ''),
+      detail: redactAll(formattedError),
       message: prefix,
       noLink: true,
       type: 'error',
     });
 
     if (buttonIndex === 1) {
-      clipboard.writeText(`${prefix}\n\n${redactAll(error.stack || '')}`);
+      clipboard.writeText(`${prefix}\n\n${redactAll(formattedError)}`);
     }
   } else {
-    dialog.showErrorBox(prefix, error.stack || '');
+    dialog.showErrorBox(prefix, formattedError);
   }
 
   app.exit(1);

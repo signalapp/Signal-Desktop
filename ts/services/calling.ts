@@ -67,6 +67,7 @@ import {
 } from '../calling/findBestMatchingDevice';
 import type { LocalizerType } from '../types/Util';
 import { UUID, UUIDKind } from '../types/UUID';
+import * as Errors from '../types/errors';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
@@ -1061,10 +1062,7 @@ export class CallingClass {
       sendType: 'callingMessage',
       timestamp,
     }).catch(err => {
-      log.error(
-        'Failed to send group call update:',
-        err && err.stack ? err.stack : err
-      );
+      log.error('Failed to send group call update:', Errors.toLogFormat(err));
     });
   }
 
@@ -1877,7 +1875,7 @@ export class CallingClass {
 
       return await this.getCallSettings(conversation);
     } catch (err) {
-      log.error(`Ignoring incoming call: ${err.stack}`);
+      log.error(`Ignoring incoming call: ${Errors.toLogFormat(err)}`);
       this.addCallHistoryForFailedIncomingCall(
         conversation,
         call.isVideoCall,

@@ -575,7 +575,7 @@ export default class AccountManager extends EventTarget {
       } catch (error) {
         log.error(
           'Something went wrong deleting data from previous number',
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
     } else {

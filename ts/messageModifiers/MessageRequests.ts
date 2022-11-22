@@ -6,6 +6,7 @@
 import { Collection, Model } from 'backbone';
 import type { ConversationModel } from '../models/conversations';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 export type MessageRequestAttributesType = {
   threadE164?: string;
@@ -122,10 +123,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
 
       this.remove(sync);
     } catch (error) {
-      log.error(
-        'MessageRequests.onResponse error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('MessageRequests.onResponse error:', Errors.toLogFormat(error));
     }
   }
 }

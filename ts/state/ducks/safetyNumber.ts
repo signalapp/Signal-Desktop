@@ -8,6 +8,7 @@ import {
   toggleVerification,
 } from '../../shims/contactVerification';
 import * as log from '../../logging/log';
+import * as Errors from '../../types/errors';
 
 export type SafetyNumberContactType = {
   safetyNumber: string;
@@ -108,10 +109,7 @@ async function alterVerification(contact: ConversationType): Promise<void> {
       if (result.name === 'OutgoingIdentityKeyError') {
         throw result;
       } else {
-        log.error(
-          'failed to toggle verified:',
-          result && result.stack ? result.stack : result
-        );
+        log.error('failed to toggle verified:', Errors.toLogFormat(result));
       }
     } else {
       const keyError = result.errors.find(
@@ -121,10 +119,7 @@ async function alterVerification(contact: ConversationType): Promise<void> {
         throw keyError;
       } else {
         result.errors.forEach((error: Error) => {
-          log.error(
-            'failed to toggle verified:',
-            error && error.stack ? error.stack : error
-          );
+          log.error('failed to toggle verified:', Errors.toLogFormat(error));
         });
       }
     }

@@ -19,6 +19,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
+import * as Errors from '../types/errors';
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 
@@ -222,7 +223,7 @@ export async function queueAttachmentDownloads(
       } catch (error) {
         log.error(
           `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
     }

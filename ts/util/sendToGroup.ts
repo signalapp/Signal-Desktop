@@ -5,6 +5,7 @@ import { differenceWith, omit, partition } from 'lodash';
 
 import {
   ErrorCode,
+  LibSignalErrorBase,
   groupEncrypt,
   ProtocolAddress,
   sealedSenderMultiRecipientEncrypt,
@@ -21,6 +22,7 @@ import {
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
+import * as Errors from '../types/errors';
 import { getValue, isEnabled } from '../RemoteConfig';
 import type { UUIDStringType } from '../types/UUID';
 import { isRecord } from './isRecord';
@@ -216,7 +218,7 @@ export async function sendContentMessageToGroup({
 
       log.error(
         `sendToGroup/${logId}: Sender Key send failed, logging, proceeding to normal send`,
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     }
   }
@@ -581,7 +583,10 @@ export async function sendToGroupViaSenderKey(options: {
         recursionCount: recursionCount + 1,
       });
     }
-    if (error.code === ErrorCode.InvalidRegistrationId && error.addr) {
+    if (
+      error instanceof LibSignalErrorBase &&
+      error.code === ErrorCode.InvalidRegistrationId
+    ) {
       const address = error.addr as ProtocolAddress;
       const name = address.name();
 
@@ -742,7 +747,7 @@ function getSenderKeyExpireDuration(): number {
   } catch (error) {
     log.warn(
       `getSenderKeyExpireDuration: Failed to parse integer. Using default of ${MAX_SENDER_KEY_EXPIRE_DURATION}.`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     return MAX_SENDER_KEY_EXPIRE_DURATION;
   }
@@ -753,7 +758,10 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     log.error(`_shouldFailSend/${logId}: ${message}`);
   };
 
-  if (error instanceof Error && error.message.includes('untrusted identity')) {
+  if (
+    error instanceof LibSignalErrorBase &&
+    error.code === ErrorCode.UntrustedIdentity
+  ) {
     logError("'untrusted identity' error, failing.");
     return true;
   }
@@ -1271,7 +1279,7 @@ async function fetchKeysForIdentifiers(
   } catch (error) {
     log.error(
       'fetchKeysForIdentifiers: Failed to fetch keys:',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     throw error;
   }

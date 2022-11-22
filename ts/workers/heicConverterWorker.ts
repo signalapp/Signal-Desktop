@@ -18,7 +18,7 @@ const port = parentPort;
 function respond(uuid: string, error: Error | undefined, response?: File) {
   const wrappedResponse: WrappedWorkerResponse = {
     uuid,
-    error: error ? error.stack : undefined,
+    error: error?.stack,
     response,
   };
   port.postMessage(wrappedResponse);

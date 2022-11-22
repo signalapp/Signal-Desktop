@@ -8,11 +8,11 @@ import { getValue } from '../RemoteConfig';
 
 import { parseIntOrThrow } from './parseIntOrThrow';
 import { scaleImageToLevel } from './scaleImageToLevel';
-import { isRecord } from './isRecord';
 import type { AttachmentType } from '../types/Attachment';
 import { canBeTranscoded } from '../types/Attachment';
 import type { LoggerType } from '../types/Logging';
 import * as MIME from '../types/MIME';
+import * as Errors from '../types/errors';
 
 const MEBIBYTE = 1024 * 1024;
 const DEFAULT_MAX = 100 * MEBIBYTE;
@@ -87,8 +87,7 @@ export async function autoOrientJPEG(
 
     return xcodedAttachment;
   } catch (error: unknown) {
-    const errorString =
-      isRecord(error) && 'stack' in error ? error.stack : error;
+    const errorString = Errors.toLogFormat(error);
     logger.error(
       'autoOrientJPEG: Failed to rotate/scale attachment',
       errorString

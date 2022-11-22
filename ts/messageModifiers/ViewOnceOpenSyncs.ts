@@ -6,6 +6,7 @@
 import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 export type ViewOnceOpenSyncAttributesType = {
   source?: string;
@@ -94,10 +95,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
 
       this.remove(sync);
     } catch (error) {
-      log.error(
-        'ViewOnceOpenSyncs.onSync error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('ViewOnceOpenSyncs.onSync error:', Errors.toLogFormat(error));
     }
   }
 }

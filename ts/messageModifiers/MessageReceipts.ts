@@ -15,6 +15,7 @@ import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { createWaitBatcher } from '../util/waitBatcher';
 import type { UUIDStringType } from '../types/UUID';
+import * as Errors from '../types/errors';
 import {
   SendActionType,
   SendStatus,
@@ -331,10 +332,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       this.remove(receipt);
     } catch (error) {
-      log.error(
-        'MessageReceipts.onReceipt error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('MessageReceipts.onReceipt error:', Errors.toLogFormat(error));
     }
   }
 }

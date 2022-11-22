@@ -12,6 +12,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
 import type { StorageInterface } from '../types/Storage.d';
+import * as Errors from '../types/errors';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 
@@ -171,7 +172,7 @@ export class SenderCertificateService {
         `Sender certificate service could not fetch a ${modeToLogString(
           mode
         )} certificate. Returning undefined`,
-        err && err.stack ? err.stack : err
+        Errors.toLogFormat(err)
       );
       return undefined;
     }

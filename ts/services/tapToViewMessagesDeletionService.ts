@@ -4,6 +4,7 @@
 import { debounce } from 'lodash';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { DAY } from '../util/durations';
+import * as Errors from '../types/errors';
 
 async function eraseTapToViewMessages() {
   try {
@@ -30,7 +31,7 @@ async function eraseTapToViewMessages() {
   } catch (error) {
     window.SignalContext.log.error(
       'eraseTapToViewMessages: Error erasing messages',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
   }
 

@@ -11,6 +11,7 @@ import type {
   MaybeGrabLinkPreviewOptionsType,
   AddLinkPreviewOptionsType,
 } from '../types/LinkPreview';
+import * as Errors from '../types/errors';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import type { MIMEType } from '../types/MIME';
 import * as Bytes from '../Bytes';
@@ -216,7 +217,7 @@ export async function addLinkPreview(
   } catch (error) {
     log.error(
       'Problem loading link preview, disabling.',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     disableLinkPreviews = true;
     removeLinkPreview();
@@ -455,10 +456,7 @@ async function getStickerPackPreview(
       url,
     };
   } catch (error) {
-    log.error(
-      'getStickerPackPreview error:',
-      error && error.stack ? error.stack : error
-    );
+    log.error('getStickerPackPreview error:', Errors.toLogFormat(error));
     return null;
   } finally {
     if (id) {
@@ -530,7 +528,7 @@ async function getGroupPreview(
         ),
       };
     } catch (error) {
-      const errorString = error && error.stack ? error.stack : error;
+      const errorString = Errors.toLogFormat(error);
       log.error(
         `getGroupPreview/${logId}: Failed to fetch avatar ${errorString}`
       );

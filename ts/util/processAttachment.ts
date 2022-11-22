@@ -8,6 +8,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
+import * as Errors from '../types/errors';
 import { getMaximumAttachmentSize } from './attachments';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { fileToBytes } from './fileToBytes';
@@ -105,7 +106,7 @@ export async function processAttachment(
   } catch (e) {
     log.error(
       `Was unable to generate thumbnail for fileType ${fileType}`,
-      e && e.stack ? e.stack : e
+      Errors.toLogFormat(e)
     );
     const data = await fileToBytes(file);
     attachment = {
@@ -125,7 +126,7 @@ export async function processAttachment(
   } catch (error) {
     log.error(
       'Error ensuring that image is properly sized:',
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
 
     throw error;

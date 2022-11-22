@@ -7,6 +7,7 @@ import { app } from 'electron';
 
 import { start } from './base_config';
 import config from './config';
+import * as Errors from '../ts/types/errors';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development
@@ -23,7 +24,7 @@ if (userData !== undefined) {
   try {
     mkdirSync(userData, { recursive: true });
   } catch (error) {
-    console.error('Failed to create userData', error?.stack || String(error));
+    console.error('Failed to create userData', Errors.toLogFormat(error));
   }
 
   app.setPath('userData', userData);

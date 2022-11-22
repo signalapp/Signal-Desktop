@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
+  ErrorCode,
+  LibSignalErrorBase,
   PreKeyBundle,
   processPreKeyBundle,
   ProtocolAddress,
@@ -9,9 +11,9 @@ import {
 } from '@signalapp/libsignal-client';
 
 import {
+  OutgoingIdentityKeyError,
   UnregisteredUserError,
   HTTPError,
-  OutgoingIdentityKeyError,
 } from './Errors';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { Address } from '../types/Address';
@@ -72,13 +74,6 @@ async function getServerKeys(
       }),
     };
   } catch (error: unknown) {
-    if (
-      error instanceof Error &&
-      error.message.includes('untrusted identity')
-    ) {
-      throw new OutgoingIdentityKeyError(identifier);
-    }
-
     if (
       accessKey &&
       isRecord(error) &&
@@ -155,22 +150,27 @@ async function handleServerKeys(
         ourUuid,
         new Address(theirUuid, deviceId)
       );
-      await window.textsecure.storage.protocol
-        .enqueueSessionJob(address, () =>
-          processPreKeyBundle(
-            preKeyBundle,
-            protocolAddress,
-            sessionStore,
-            identityKeyStore
-          )
-        )
-        .catch(error => {
-          if (error?.message?.includes('untrusted identity for address')) {
-            // eslint-disable-next-line no-param-reassign
-            error.identityKey = response.identityKey;
-          }
-          throw error;
-        });
+
+      try {
+        await window.textsecure.storage.protocol.enqueueSessionJob(
+          address,
+          () =>
+            processPreKeyBundle(
+              preKeyBundle,
+              protocolAddress,
+              sessionStore,
+              identityKeyStore
+            )
+        );
+      } catch (error) {
+        if (
+          error instanceof LibSignalErrorBase &&
+          error.code === ErrorCode.UntrustedIdentity
+        ) {
+          throw new OutgoingIdentityKeyError(identifier);
+        }
+        throw error;
+      }
     })
   );
 }

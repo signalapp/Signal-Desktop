@@ -10,6 +10,7 @@ import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 export type ReadSyncAttributesType = {
   senderId: string;
@@ -142,10 +143,7 @@ export class ReadSyncs extends Collection {
 
       this.remove(sync);
     } catch (error) {
-      log.error(
-        'ReadSyncs.onSync error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('ReadSyncs.onSync error:', Errors.toLogFormat(error));
     }
   }
 }

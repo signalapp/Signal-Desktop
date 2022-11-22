@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { LibSignalErrorBase } from '@signalapp/libsignal-client';
 
 import {
   _analyzeSenderKeyDevices,
@@ -172,7 +173,11 @@ describe('sendToGroup', () => {
     });
 
     it("returns true for any error with 'untrusted' identity", async () => {
-      const error = new Error('This was an untrusted identity.');
+      const error = new LibSignalErrorBase(
+        'untrusted identity',
+        'UntrustedIdentity',
+        'ignored'
+      );
       assert.isTrue(_shouldFailSend(error, 'logId'));
     });
 

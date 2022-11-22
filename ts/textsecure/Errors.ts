@@ -54,8 +54,9 @@ export class ReplayableError extends Error {
     name?: string;
     message: string;
     functionCode?: number;
+    cause?: unknown;
   }) {
-    super(options.message);
+    super(options.message, { cause: options.cause });
 
     this.name = options.name || 'ReplayableError';
     this.message = options.message;
@@ -71,7 +72,7 @@ export class ReplayableError extends Error {
 }
 
 export class OutgoingIdentityKeyError extends ReplayableError {
-  identifier: string;
+  public readonly identifier: string;
 
   // Note: Data to resend message is no longer captured
   constructor(incomingIdentifier: string) {
@@ -162,6 +163,7 @@ export class SendMessageChallengeError extends ReplayableError {
     super({
       name: 'SendMessageChallengeError',
       message: httpError.message,
+      cause: httpError,
     });
 
     [this.identifier] = identifier.split('.');
@@ -237,9 +239,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
       return 'No errors';
     }
 
-    return errors
-      .map(error => (error.stackForLog ? error.stackForLog : error.toString()))
-      .join(', ');
+    return errors.map(error => error.toString()).join(', ');
   }
 }
 

@@ -13,6 +13,8 @@ import type {
   PlaintextContent,
 } from '@signalapp/libsignal-client';
 import {
+  ErrorCode,
+  LibSignalErrorBase,
   CiphertextMessageType,
   ProtocolAddress,
   sealedSenderEncrypt,
@@ -34,6 +36,7 @@ import {
 import type { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Address } from '../types/Address';
+import * as Errors from '../types/errors';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID, isValidUuid } from '../types/UUID';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
@@ -244,8 +247,7 @@ export default class OutgoingMessage {
       }
     }
 
-    error.reason = reason;
-    error.stackForLog = providedError ? providedError.stack : undefined;
+    error.cause = reason;
 
     this.errors[this.errors.length] = error;
     this.numberCompleted();
@@ -284,21 +286,14 @@ export default class OutgoingMessage {
         : { accessKey: undefined };
     const { accessKey } = info;
 
-    try {
-      const { accessKeyFailed } = await getKeysForIdentifier(
-        identifier,
-        this.server,
-        updateDevices,
-        accessKey
-      );
-      if (accessKeyFailed && !this.failoverIdentifiers.includes(identifier)) {
-        this.failoverIdentifiers.push(identifier);
-      }
-    } catch (error) {
-      if (error?.message?.includes('untrusted identity for address')) {
-        error.timestamp = this.timestamp;
-      }
-      throw error;
+    const { accessKeyFailed } = await getKeysForIdentifier(
+      identifier,
+      this.server,
+      updateDevices,
+      accessKey
+    );
+    if (accessKeyFailed && !this.failoverIdentifiers.includes(identifier)) {
+      this.failoverIdentifiers.push(identifier);
     }
   }
 
@@ -626,8 +621,13 @@ export default class OutgoingMessage {
             );
           });
         }
-        if (error?.message?.includes('untrusted identity for address')) {
-          error.timestamp = this.timestamp;
+
+        let newError = error;
+        if (
+          error instanceof LibSignalErrorBase &&
+          error.code === ErrorCode.UntrustedIdentity
+        ) {
+          newError = new OutgoingIdentityKeyError(identifier);
           log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             identifier,
@@ -643,7 +643,8 @@ export default class OutgoingMessage {
               },
               innerError => {
                 log.error(
-                  `doSendMessage: Error closing sessions: ${innerError.stack}`
+                  'doSendMessage: Error closing sessions: ' +
+                    `${Errors.toLogFormat(innerError)}`
                 );
                 throw error;
               }
@@ -653,7 +654,7 @@ export default class OutgoingMessage {
         this.registerError(
           identifier,
           'Failed to create or send message',
-          error
+          newError
         );
 
         return undefined;
@@ -712,7 +713,7 @@ export default class OutgoingMessage {
         } catch (error) {
           log.error(
             `sendToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
-            error && error.stack ? error.stack : error
+            Errors.toLogFormat(error)
           );
         }
       } else {
@@ -731,7 +732,10 @@ export default class OutgoingMessage {
       }
       await this.reloadDevicesAndSend(identifier, true)();
     } catch (error) {
-      if (error?.message?.includes('untrusted identity for address')) {
+      if (
+        error instanceof LibSignalErrorBase &&
+        error.code === ErrorCode.UntrustedIdentity
+      ) {
         const newError = new OutgoingIdentityKeyError(identifier);
         this.registerError(identifier, 'Untrusted identity', newError);
       } else {

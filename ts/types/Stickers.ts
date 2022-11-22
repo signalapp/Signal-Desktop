@@ -529,7 +529,7 @@ export async function downloadEphemeralPack(
     }
     log.error(
       `Ephemeral download error for sticker pack ${redactPackId(packId)}:`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
   }
 }
@@ -554,7 +554,7 @@ export async function downloadStickerPack(
     } catch (error) {
       log.error(
         'doDownloadStickerPack threw an error:',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     }
   });
@@ -696,7 +696,7 @@ async function doDownloadStickerPack(
   } catch (error) {
     log.error(
       `Error downloading manifest for sticker pack ${redactPackId(packId)}:`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
 
     const pack = {
@@ -779,7 +779,7 @@ async function doDownloadStickerPack(
   } catch (error) {
     log.error(
       `Error downloading stickers for sticker pack ${redactPackId(packId)}:`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
 
     const errorStatus = 'error';

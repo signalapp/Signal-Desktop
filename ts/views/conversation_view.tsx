@@ -12,6 +12,7 @@ import { render } from 'mustache';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Stickers from '../types/Stickers';
+import * as Errors from '../types/errors';
 import type { DraftBodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
@@ -1693,7 +1694,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         } catch (error) {
           log.error(
             'Error sending delete-for-everyone',
-            error && error.stack,
+            Errors.toLogFormat(error),
             messageId
           );
           showToast(ToastDeleteForEveryoneFailed);
@@ -2375,7 +2376,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const { packId, stickerId } = options;
       this.model.sendStickerMessage(packId, stickerId);
     } catch (error) {
-      log.error('clickSend error:', error && error.stack ? error.stack : error);
+      log.error('clickSend error:', Errors.toLogFormat(error));
     }
   }
 
@@ -2531,10 +2532,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     } catch (error) {
       this.enableMessageField();
-      log.error(
-        'sendMessage error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('sendMessage error:', Errors.toLogFormat(error));
       return;
     }
 
@@ -2596,7 +2594,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     } catch (error) {
       log.error(
         'Error pulling attached files before send',
-        error && error.stack ? error.stack : error
+        Errors.toLogFormat(error)
       );
     } finally {
       this.enableMessageField();

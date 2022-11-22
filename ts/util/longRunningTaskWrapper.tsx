@@ -6,6 +6,7 @@ import { ReactWrapperView } from '../views/ReactWrapperView';
 import { ErrorModal } from '../components/ErrorModal';
 import { ProgressModal } from '../components/ProgressModal';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 
 export async function longRunningTaskWrapper<T>({
@@ -62,7 +63,7 @@ export async function longRunningTaskWrapper<T>({
   } catch (error) {
     log.error(
       `longRunningTaskWrapper/${idLog}: Error!`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
 
     clearTimeoutIfNecessary(progressTimeout);

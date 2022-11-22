@@ -102,7 +102,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   } catch (error) {
     log.warn(
       `onRetryRequest/${logId}: Failed to parse integer from desktop.retryRespondMaxAge feature flag`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
   }
 
@@ -349,7 +349,7 @@ async function sendDistributionMessageOrNullMessage(
       } catch (error) {
         log.error(
           `sendDistributionMessageOrNullMessage/${logId}: Failed to send sender key distribution message`,
-          error && error.stack ? error.stack : error
+          Errors.toLogFormat(error)
         );
       }
     }
@@ -651,7 +651,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   } catch (error) {
     log.error(
       `requestResend/${logId}: Failed to send retry request, failing over to automatic reset`,
-      error && error.stack ? error.stack : error
+      Errors.toLogFormat(error)
     );
     startAutomaticSessionReset(decryptionError);
     return;
