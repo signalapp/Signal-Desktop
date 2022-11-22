@@ -17,6 +17,7 @@ import type {
   CDSResponseType,
   CDSAuthType,
 } from './Types.d';
+import { RateLimitedError } from './RateLimitedError';
 import { connect as connectWebSocket } from '../WebSocket';
 
 const REQUEST_TIMEOUT = 10 * SECOND;
@@ -65,19 +66,19 @@ export abstract class CDSSocketManagerBase<
       }
 
       // Send request
-      const { response, retryAfterSecs = 0 } = await pTimeout(
-        socket.request(options),
-        timeout
-      );
-
-      if (retryAfterSecs > 0) {
-        this.retryAfter = Math.max(
-          this.retryAfter ?? Date.now(),
-          Date.now() + retryAfterSecs * durations.SECOND
-        );
-      }
+      const response = await pTimeout(socket.request(options), timeout);
 
       return response;
+    } catch (error) {
+      if (error instanceof RateLimitedError) {
+        if (error.retryAfterSecs > 0) {
+          this.retryAfter = Math.max(
+            this.retryAfter ?? Date.now(),
+            Date.now() + error.retryAfterSecs * durations.SECOND
+          );
+        }
+      }
+      throw error;
     } finally {
       log.info('CDSSocketManager: closing socket');
       socket.close(3000, 'Normal');
