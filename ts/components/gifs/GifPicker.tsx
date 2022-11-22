@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import FocusTrap from 'focus-trap-react';
 import type {
-  TypeOption,
-  PaginationOptions,
   GifsResult,
+  PaginationOptions,
+  TypeOption,
 } from '@giphy/js-fetch-api';
 import { GiphyFetch } from '@giphy/js-fetch-api';
-import { Grid } from '@giphy/react-components';
 import classNames from 'classnames';
 import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
@@ -40,6 +39,17 @@ export type Props = Readonly<{
 const API_KEY = 'ZsUpUm2L6cVbvei347EQNp7HrROjbOdc';
 
 const giphy = new GiphyFetch(API_KEY);
+
+/*
+ * The normal Giphy Grid triggers some CSS-in-JS process to kick off
+ * *at import time*, which requires document.head to exist, which it
+ * doesn't at import time. Hence, the import needs to be delayed and
+ * wrapping the lazy import in a Suspense is just a way to do that.
+ * For more info, see https://github.com/emotion-js/emotion/issues/2919
+ */
+const Grid = React.lazy(async () => ({
+  default: (await import('@giphy/react-components')).Grid,
+}));
 
 export const GifPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
@@ -157,15 +167,18 @@ export const GifPicker = React.memo(
                 placeholder={i18n('gifs--GifPicker--SearchPlaceholder')}
                 hasClearButton
               />
-              <Grid
-                // force rerender when tab or search change
-                key={currentTabName + searchTerm}
-                columns={3}
-                fetchGifs={fetchGifs}
-                width={width}
-                onGifClick={onGifClick}
-                hideAttribution
-              />
+              {/* See Grid component definition (top of file) for explanation */}
+              <Suspense fallback={null}>
+                <Grid
+                  // force rerender when tab or search change
+                  key={currentTabName + searchTerm}
+                  columns={3}
+                  fetchGifs={fetchGifs}
+                  width={width}
+                  onGifClick={onGifClick}
+                  hideAttribution
+                />
+              </Suspense>
             </div>
           </div>
         </FocusTrap>
