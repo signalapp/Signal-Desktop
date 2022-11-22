@@ -9,7 +9,6 @@ import Long from 'long';
 
 import type { LoggerType } from '../../types/Logging';
 import { strictAssert } from '../../util/assert';
-import { dropNull } from '../../util/dropNull';
 import { UUID_BYTE_SIZE } from '../../types/UUID';
 import * as Bytes from '../../Bytes';
 import { uuidToBytes, bytesToUuid } from '../../Crypto';
@@ -19,15 +18,11 @@ import type {
   CDSResponseEntryType,
   CDSResponseType,
 } from './Types.d';
+import { RateLimitedError } from './RateLimitedError';
 
 export type CDSSocketBaseOptionsType = Readonly<{
   logger: LoggerType;
   socket: WebSocket;
-}>;
-
-export type CDSSocketResponseType = Readonly<{
-  response: CDSResponseType;
-  retryAfterSecs?: number;
 }>;
 
 export enum CDSSocketState {
@@ -71,7 +66,7 @@ export abstract class CDSSocketBase<
     acis,
     accessKeys,
     returnAcisWithoutUaks = false,
-  }: CDSRequestOptionsType): Promise<CDSSocketResponseType> {
+  }: CDSRequestOptionsType): Promise<CDSResponseType> {
     const log = this.logger;
 
     strictAssert(
@@ -117,7 +112,6 @@ export abstract class CDSSocketBase<
     await this.sendRequest(version, Buffer.from(request));
 
     const resultMap: Map<string, CDSResponseEntryType> = new Map();
-    let retryAfterSecs: number | undefined;
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -134,21 +128,12 @@ export abstract class CDSSocketBase<
       log.info('CDSSocket.request(): processing response message');
 
       const response = Proto.CDSClientResponse.decode(message);
-      const newRetryAfterSecs = dropNull(response.retryAfterSecs);
 
       decodeSingleResponse(resultMap, response);
-
-      if (newRetryAfterSecs) {
-        retryAfterSecs = Math.max(newRetryAfterSecs, retryAfterSecs ?? 0);
-      }
     }
 
     log.info('CDSSocket.request(): done');
-
-    return {
-      response: resultMap,
-      retryAfterSecs,
-    };
+    return resultMap;
   }
 
   // Abstract methods
@@ -200,6 +185,19 @@ export abstract class CDSSocketBase<
     this.socket.on('close', (code, reason) => {
       if (code === 1000) {
         stream.push(null);
+      } else if (code === 4008) {
+        try {
+          const payload = JSON.parse(reason);
+
+          stream.destroy(new RateLimitedError(payload));
+        } catch (error) {
+          stream.destroy(
+            new Error(
+              `Socket closed with code ${code} and reason ${reason}, ` +
+                'but rate limiting response cannot be parsed'
+            )
+          );
+        }
       } else {
         stream.destroy(
           new Error(`Socket closed with code ${code} and reason ${reason}`)
