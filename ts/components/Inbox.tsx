@@ -95,9 +95,6 @@ export function Inbox({
     ) {
       conversation.trigger('scroll-to-message', selectedMessage);
     }
-
-    // Make sure poppers are positioned properly
-    window.dispatchEvent(new Event('resize'));
   }, [
     prevConversation,
     selectedConversationId,

@@ -2193,11 +2193,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         timeout = undefined;
 
         panel.view.remove();
-
-        if (this.panels.length === 0) {
-          // Make sure poppers are positioned properly
-          window.dispatchEvent(new Event('resize'));
-        }
       };
       panel.view.$el
         .addClass('panel--remove')
