@@ -74,6 +74,13 @@ export const getUsernamesEnabled = createSelector(
     isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
 );
 
+export const isInternalUser = createSelector(
+  getRemoteConfig,
+  (remoteConfig: ConfigMapType): boolean => {
+    return isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser');
+  }
+);
+
 // Note: ts/util/stories is the other place this check is done
 export const getStoriesEnabled = createSelector(
   getItems,

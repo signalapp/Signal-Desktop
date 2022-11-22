@@ -15,6 +15,8 @@ import { SendStatus } from '../messages/MessageSendState';
 import { Theme } from '../util/theme';
 import { formatDateTimeLong } from '../util/timestamp';
 import { DurationInSeconds } from '../util/durations';
+import type { saveAttachment } from '../util/saveAttachment';
+import type { AttachmentType } from '../types/Attachment';
 import { ThemeType } from '../types/Util';
 import { Time } from './Time';
 import { groupBy } from '../util/mapUtil';
@@ -23,10 +25,12 @@ import { format as formatRelativeTime } from '../util/expirationTimer';
 export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  isInternalUser?: boolean;
   onClose: () => unknown;
+  saveAttachment: typeof saveAttachment;
   sender: StoryViewType['sender'];
   sendState?: Array<StorySendStateType>;
-  size?: number;
+  attachment?: AttachmentType;
   expirationTimestamp: number | undefined;
   timestamp: number;
 };
@@ -62,12 +66,14 @@ function getI18nKey(sendStatus: SendStatus | undefined): string {
 }
 
 export function StoryDetailsModal({
+  attachment,
   getPreferredBadge,
   i18n,
+  isInternalUser,
   onClose,
+  saveAttachment,
   sender,
   sendState,
-  size,
   timestamp,
   expirationTimestamp,
 }: PropsType): JSX.Element {
@@ -193,6 +199,26 @@ export function StoryDetailsModal({
     ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
     : undefined;
 
+  const menuOptions = [
+    {
+      icon: 'StoryDetailsModal__copy-icon',
+      label: i18n('StoryDetailsModal__copy-timestamp'),
+      onClick: () => {
+        window.navigator.clipboard.writeText(String(timestamp));
+      },
+    },
+  ];
+
+  if (isInternalUser && attachment) {
+    menuOptions.push({
+      icon: 'StoryDetailsModal__download-icon',
+      label: i18n('StoryDetailsModal__download-attachment'),
+      onClick: () => {
+        saveAttachment(attachment);
+      },
+    });
+  }
+
   return (
     <Modal
       modalName="StoryDetailsModal"
@@ -205,15 +231,7 @@ export function StoryDetailsModal({
       title={
         <ContextMenu
           i18n={i18n}
-          menuOptions={[
-            {
-              icon: 'StoryDetailsModal__copy-icon',
-              label: i18n('StoryDetailsModal__copy-timestamp'),
-              onClick: () => {
-                window.navigator.clipboard.writeText(String(timestamp));
-              },
-            },
-          ]}
+          menuOptions={menuOptions}
           moduleClassName="StoryDetailsModal__debugger"
           popperOptions={{
             placement: 'bottom',
@@ -235,14 +253,14 @@ export function StoryDetailsModal({
               ]}
             />
           </div>
-          {size && (
+          {attachment && (
             <div>
               <Intl
                 i18n={i18n}
                 id="StoryDetailsModal__file-size"
                 components={[
                   <span className="StoryDetailsModal__debugger__button__text">
-                    {formatFileSize(size)}
+                    {formatFileSize(attachment.size)}
                   </span>,
                 ]}
               />

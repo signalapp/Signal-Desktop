@@ -41,6 +41,15 @@
     }
   }
 
+  &__download-icon {
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+    }
+    @include light-theme {
+      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-black);
+    }
+  }
+
   &__contact-container {
     border-top: 1px solid $color-gray-75;
   }

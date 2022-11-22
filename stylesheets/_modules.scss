@@ -8160,4 +8160,20 @@ button.module-image__border-overlay:focus {
       );
     }
   }
+
+  &__copy-timestamp::before {
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/copy-outline-24.svg',
+        $color-black
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/copy-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
 }

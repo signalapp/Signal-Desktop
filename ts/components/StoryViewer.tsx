@@ -45,6 +45,7 @@ import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
 import { graphemeAwareSlice } from '../util/graphemeAwareSlice';
+import type { saveAttachment } from '../util/saveAttachment';
 import { isVideoAttachment } from '../types/Attachment';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
@@ -75,6 +76,7 @@ export type PropsType = {
   hasAllStoriesUnmuted: boolean;
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
+  isInternalUser?: boolean;
   isSignalConversation?: boolean;
   isWindowActive: boolean;
   loadStoryReplies: (conversationId: string, messageId: string) => unknown;
@@ -98,6 +100,7 @@ export type PropsType = {
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
   retrySend: (messageId: string) => unknown;
+  saveAttachment: typeof saveAttachment;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;
@@ -130,6 +133,7 @@ export function StoryViewer({
   hasAllStoriesUnmuted,
   hasViewReceiptSetting,
   i18n,
+  isInternalUser,
   isSignalConversation,
   isWindowActive,
   loadStoryReplies,
@@ -148,6 +152,7 @@ export function StoryViewer({
   renderEmojiPicker,
   replyState,
   retrySend,
+  saveAttachment,
   setHasAllStoriesUnmuted,
   showToast,
   skinTone,
@@ -886,12 +891,14 @@ export function StoryViewer({
         </div>
         {currentViewTarget === StoryViewTargetType.Details && (
           <StoryDetailsModal
+            attachment={attachment}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
+            isInternalUser={isInternalUser}
             onClose={() => setCurrentViewTarget(null)}
+            saveAttachment={saveAttachment}
             sender={story.sender}
             sendState={sendState}
-            size={attachment?.size}
             timestamp={timestamp}
             expirationTimestamp={story.expirationTimestamp}
           />
@@ -905,6 +912,7 @@ export function StoryViewer({
             hasViewReceiptSetting={hasViewReceiptSetting}
             hasViewsCapability={isSent}
             i18n={i18n}
+            isInternalUser={isInternalUser}
             group={group}
             onClose={() => setCurrentViewTarget(null)}
             onReact={emoji => {
