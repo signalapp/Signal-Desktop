@@ -1109,6 +1109,7 @@ export async function startApp(): Promise<void> {
       ),
       emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
       expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
+      gifs: bindActionCreators(actionCreators.gifs, store.dispatch),
       globalModals: bindActionCreators(
         actionCreators.globalModals,
         store.dispatch
