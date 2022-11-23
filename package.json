@@ -324,7 +324,7 @@
     "sharp/color/color-string": "1.9.0"
   },
   "engines": {
-    "node": "16.15.0"
+    "node": "16.16.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
