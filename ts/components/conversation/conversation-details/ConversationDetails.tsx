@@ -52,6 +52,7 @@ import type {
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
 import { PanelType } from '../../../types/Panels';
+import { getClassNamesFor } from '../../../util/getClassNamesFor';
 
 enum ModalState {
   NothingOpen,
@@ -116,6 +117,7 @@ type ActionProps = {
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
+  toggleAutoplay: (conversationId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
 } & Pick<ConversationDetailsMediaListPropsType, 'showLightboxWithMedia'>;
 
@@ -164,6 +166,7 @@ export function ConversationDetails({
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
   userAvatarData,
+  toggleAutoplay,
 }: Props): JSX.Element {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
@@ -318,6 +321,8 @@ export function ConversationDetails({
 
   const isMuted = isConversationMuted(conversation);
 
+  const getClassName = getClassNamesFor('Checkbox');
+
   return (
     <div className="conversation-details-panel">
       <ConversationDetailsHeader
@@ -471,6 +476,23 @@ export function ConversationDetails({
             }
           />
         )}
+        <PanelRow
+          icon={
+            <ConversationDetailsIcon
+              ariaLabel={i18n('autoplayVoiceMessages')}
+              icon={IconType.play}
+            />
+          }
+          label={i18n('autoplayVoiceMessages')}
+          onClick={() => toggleAutoplay(conversation.id)}
+          right={
+            <input
+              type="checkbox"
+              checked={conversation.autoplay}
+              className={getClassName('__checkbox')}
+            />
+          }
+        />
       </PanelSection>
 
       {isGroup && (
