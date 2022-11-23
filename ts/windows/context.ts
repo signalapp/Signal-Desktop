@@ -30,6 +30,8 @@ import { initialize as initializeLogging } from '../logging/set_up_renderer_logg
 import { waitForSettingsChange } from './waitForSettingsChange';
 import { createNativeThemeListener } from '../context/createNativeThemeListener';
 import { isWindows, isLinux, isMacOS, hasCustomTitleBar } from '../OS';
+import type { GiphyRendererWrapper } from '../services/GiphyRendererWrapper';
+import { createGiphyRendererWrapper } from '../services/GiphyRendererWrapper';
 
 const activeWindowService = new ActiveWindowService();
 activeWindowService.initialize(window.document, ipcRenderer);
@@ -88,6 +90,7 @@ export type SignalContextType = {
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   executeMenuAction: (action: MenuActionType) => Promise<void>;
+  giphyRendererWrapper: GiphyRendererWrapper;
 };
 
 export const SignalContext: SignalContextType = {
@@ -136,6 +139,7 @@ export const SignalContext: SignalContextType = {
   async executeMenuAction(action: MenuActionType): Promise<void> {
     return ipcRenderer.invoke('executeMenuAction', action);
   },
+  giphyRendererWrapper: createGiphyRendererWrapper(ipcRenderer),
 };
 
 window.SignalContext = SignalContext;

@@ -61,7 +61,6 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { GifButton } from './gifs/GifButton';
 import type { Props as GifPickerProps } from './gifs/GifPicker';
-import { giphyRendererWrapper } from '../services/GiphyRendererWrapper';
 
 export type CompositionAPIType =
   | {
@@ -238,7 +237,7 @@ export function CompositionArea({
   // Gifs
   recentGifs,
   onPickGif,
-  giphyWrapper = giphyRendererWrapper,
+  giphyWrapper = window.SignalContext.giphyRendererWrapper,
   // Message Requests
   acceptedMessageRequest,
   areWePending,
