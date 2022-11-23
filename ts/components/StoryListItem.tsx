@@ -106,9 +106,9 @@ export function StoryListItem({
   }
 
   let repliesElement: JSX.Element | undefined;
-  if (hasRepliesFromSelf) {
+  if (group === undefined && hasRepliesFromSelf) {
     repliesElement = <div className="StoryListItem__info--replies--self" />;
-  } else if (hasReplies) {
+  } else if (group && (hasReplies || hasRepliesFromSelf)) {
     repliesElement = <div className="StoryListItem__info--replies--others" />;
   }
 

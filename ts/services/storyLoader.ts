@@ -16,7 +16,6 @@ import { isNotNil } from '../util/isNotNil';
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
 import { DurationInSeconds } from '../util/durations';
-import { isGroup } from '../util/whatTypeOfConversation';
 import { SIGNAL_ACI } from '../types/SignalConversation';
 
 let storyData:
@@ -33,14 +32,6 @@ export async function loadStories(): Promise<void> {
 
   storyData = await Promise.all(
     stories.map(async story => {
-      const conversation = window.ConversationController.get(
-        story.conversationId
-      );
-
-      if (!isGroup(conversation?.attributes)) {
-        return story;
-      }
-
       const [hasReplies, hasRepliesFromSelf] = await Promise.all([
         dataInterface.hasStoryReplies(story.id),
         dataInterface.hasStoryRepliesFromSelf(story.id),
