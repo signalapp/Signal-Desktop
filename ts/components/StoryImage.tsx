@@ -76,6 +76,10 @@ export const StoryImage = ({
     }
   }, [isPaused]);
 
+  useEffect(() => {
+    setHasImgError(false);
+  }, [attachment?.url, attachment?.thumbnail?.url]);
+
   if (!attachment) {
     return null;
   }
