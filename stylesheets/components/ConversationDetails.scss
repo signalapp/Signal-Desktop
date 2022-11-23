@@ -440,6 +440,21 @@
           }
         }
       }
+
+      &--play {
+        &::after {
+          -webkit-mask: url(../images/icons/v2/play-solid-24.svg) no-repeat
+            center;
+
+          @include light-theme {
+            background-color: $color-gray-75;
+          }
+
+          @include dark-theme {
+            background-color: $color-gray-15;
+          }
+        }
+      }
     }
   }
 
