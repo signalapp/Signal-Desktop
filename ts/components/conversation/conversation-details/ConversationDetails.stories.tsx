@@ -94,6 +94,7 @@ const createProps = (
   userAvatarData: [],
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
+  toggleAutoplay: action('toggleAutoplay'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),

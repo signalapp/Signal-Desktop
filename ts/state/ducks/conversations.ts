@@ -246,6 +246,7 @@ export type ConversationType = {
   publicParams?: string;
   profileKey?: string;
   voiceNotePlaybackRate?: number;
+  autoplay?: boolean;
 
   badges: Array<
     | {
@@ -937,6 +938,7 @@ export const actions = {
   startComposing,
   startSettingGroupMetadata,
   toggleAdmin,
+  toggleAutoplay,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
   toggleGroupsForStorySend,
@@ -2867,6 +2869,21 @@ function toggleAdmin(
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
       conversationModel.toggleAdmin(contactId);
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function toggleAutoplay(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      conversationModel.toggleAutoplay();
     }
     dispatch({
       type: 'NOOP',

@@ -274,6 +274,7 @@ export type ValidateConversationType = Pick<
 export type ConversationAttributesType = {
   accessKey?: string | null;
   addedBy?: string;
+  autoplay?: boolean;
   badges?: Array<
     | { id: string }
     | {

@@ -731,6 +731,14 @@ export class ConversationModel extends window.Backbone
     });
   }
 
+  toggleAutoplay(): void {
+    const autoplay = !this.get('autoplay');
+    log.info(`toggleAutoplay(${this.idForLogging()}): newValue=${autoplay}`);
+    this.set({ autoplay });
+    this.captureChange('autoplay');
+    window.Signal.Data.updateConversation(this.attributes);
+  }
+
   async modifyGroupV2({
     usingCredentialsFrom,
     createGroupChange,
@@ -1829,6 +1837,7 @@ export class ConversationModel extends window.Backbone
         ourConversationId && ourACI && this.isMemberAwaitingApproval(ourACI)
       ),
       areWeAdmin: this.areWeAdmin(),
+      autoplay: this.get('autoplay'),
       avatars: getAvatarData(this.attributes),
       badges: this.get('badges') || [],
       canChangeTimer: this.canChangeTimer(),
