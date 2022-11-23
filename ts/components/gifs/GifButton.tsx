@@ -10,6 +10,7 @@ import { useRefMerger } from '../../hooks/useRefMerger';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { GifPicker } from './GifPicker';
 import type { GifFromGiphyType } from '../../sql/Interface';
+import type { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
 
 export type Props = Readonly<{
   className?: string;
@@ -19,6 +20,7 @@ export type Props = Readonly<{
   onPickGif?: (gif: GifFromGiphyType) => void;
   position?: 'top-end' | 'top-start';
   theme?: Theme;
+  giphyWrapper: GiphyRendererWrapper;
 }>;
 
 export const GifButton = React.memo(
@@ -30,6 +32,7 @@ export const GifButton = React.memo(
     onPickGif = noop,
     position = 'top-end',
     recentGifs,
+    giphyWrapper,
   }: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -128,6 +131,7 @@ export const GifButton = React.memo(
                       recentGifs={recentGifs}
                       showPickerHint={false}
                       onClose={handleClose}
+                      giphyWrapper={giphyWrapper}
                     />
                   </div>
                 )}

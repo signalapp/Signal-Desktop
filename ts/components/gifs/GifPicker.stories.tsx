@@ -5,6 +5,7 @@ import { setupI18n } from '../../util/setupI18n';
 import type { Props } from './GifPicker';
 import { GifPicker } from './GifPicker';
 import enMessages from '../../../_locales/en/messages.json';
+import { getUnwrappedGiphyForStorybook } from '../../services/GiphyRendererWrapper';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -17,6 +18,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onPickGif: action('onPickGif'),
   onClose: action('onClose'),
   recentGifs: [],
+  giphyWrapper: getUnwrappedGiphyForStorybook(),
   ...overrideProps,
 });
 

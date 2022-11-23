@@ -5,14 +5,9 @@ import type { SearchOptions, TrendingOptions } from '@giphy/js-fetch-api';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { ipcMain } from 'electron';
 import type { GifChannelTypeSpec } from '../types/Gifs';
-import { GIF_CHANNEL_PREFIX } from '../types/Gifs';
+import { GIF_CHANNEL_PREFIX, GIPHY_API_KEY } from '../types/Gifs';
 
-// Signal iOS API Key, taken from
-// https://github.com/signalapp/Signal-iOS/blob/main/SignalServiceKit/src/Network/API/Giphy/GiphyAPI.swift
-// TODO: Replace this with a different API key
-const API_KEY = 'ZsUpUm2L6cVbvei347EQNp7HrROjbOdc';
-
-const giphy = new GiphyFetch(API_KEY);
+const giphy = new GiphyFetch(GIPHY_API_KEY);
 
 // Object containing handlers for all the events that
 // can be sent over the Gifs channel. Completeness and

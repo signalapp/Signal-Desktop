@@ -61,6 +61,7 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { GifButton } from './gifs/GifButton';
 import type { Props as GifPickerProps } from './gifs/GifPicker';
+import { giphyRendererWrapper } from '../services/GiphyRendererWrapper';
 
 export type CompositionAPIType =
   | {
@@ -166,6 +167,7 @@ export type Props = Pick<
     | 'clearShowPickerHint'
   > &
   Pick<GifPickerProps, 'recentGifs' | 'onPickGif'> &
+  Partial<Pick<GifPickerProps, 'giphyWrapper'>> &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
@@ -236,6 +238,7 @@ export function CompositionArea({
   // Gifs
   recentGifs,
   onPickGif,
+  giphyWrapper = giphyRendererWrapper,
   // Message Requests
   acceptedMessageRequest,
   areWePending,
@@ -473,6 +476,7 @@ export function CompositionArea({
         recentGifs={recentGifs}
         position={stickerAndGifButtonPlacement}
         onPickGif={onPickGif}
+        giphyWrapper={giphyWrapper}
       />
     </div>
   );

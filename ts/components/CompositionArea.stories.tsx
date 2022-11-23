@@ -20,6 +20,7 @@ import { RecordingState } from '../state/ducks/audioRecorder';
 import { ConversationColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { PaymentEventKind } from '../types/Payment';
+import { getUnwrappedGiphyForStorybook } from '../services/GiphyRendererWrapper';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -122,6 +123,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   isFetchingUUID: overrideProps.isFetchingUUID || false,
   onPickGif: action('onPickGif'),
   recentGifs: [],
+  giphyWrapper: getUnwrappedGiphyForStorybook(),
 });
 
 export function Default(): JSX.Element {

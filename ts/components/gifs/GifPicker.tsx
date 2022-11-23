@@ -10,7 +10,7 @@ import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
 import { Input } from '../Input';
 import type { GifFromGiphyType } from '../../sql/Interface';
-import { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
+import type { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
 
 const CATEGORIES = [
   'trending',
@@ -31,6 +31,7 @@ export type Props = Readonly<{
   recentGifs: Array<string>;
   showPickerHint?: boolean;
   style?: React.HTMLProps<HTMLDivElement>['style'];
+  giphyWrapper: GiphyRendererWrapper;
 }>;
 
 /*
@@ -46,7 +47,7 @@ const Grid = React.lazy(async () => ({
 
 export const GifPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
-    ({ style, onPickGif, recentGifs, i18n }, ref) => {
+    ({ style, onPickGif, recentGifs, i18n, giphyWrapper }, ref) => {
       const { ref: resizeDetectorRef, width = 330 } = useResizeDetector({
         observerOptions: {
           box: 'content-box',
@@ -84,18 +85,18 @@ export const GifPicker = React.memo(
           };
 
           if (currentTabName === 'recent') {
-            return GiphyRendererWrapper.gifs(recentGifs);
+            return giphyWrapper.gifs(recentGifs);
           }
           if (currentTabName === 'search' && searchTerm) {
-            return GiphyRendererWrapper.search(searchTerm, config);
+            return giphyWrapper.search(searchTerm, config);
           }
           // Default to trending before search term has been entered
           if (currentTabName === 'search' || currentTabName === 'trending') {
-            return GiphyRendererWrapper.trending(config);
+            return giphyWrapper.trending(config);
           }
-          return GiphyRendererWrapper.search(currentTabName, config);
+          return giphyWrapper.search(currentTabName, config);
         },
-        [currentTabName, recentGifs, searchTerm]
+        [currentTabName, recentGifs, searchTerm, giphyWrapper]
       );
 
       return (
