@@ -116,6 +116,7 @@ import type { LocaleType } from './locale';
 import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
+import { installGifsChannel } from '../ts/main/gifsChannel';
 
 const animationSettings = systemPreferences.getAnimationSettings();
 
@@ -1666,6 +1667,8 @@ app.on('ready', async () => {
 
   settingsChannel = new SettingsChannel();
   settingsChannel.install();
+
+  installGifsChannel();
 
   // We use this event only a single time to log the startup time of the app
   // from when it's first ready until the loading screen disappears.

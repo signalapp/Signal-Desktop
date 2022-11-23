@@ -102,6 +102,7 @@
     "classnames": "2.2.5",
     "config": "1.28.1",
     "copy-text-to-clipboard": "2.1.0",
+    "cross-fetch": "^3.1.5",
     "dashdash": "1.14.1",
     "dicer": "0.3.1",
     "direction": "1.0.4",

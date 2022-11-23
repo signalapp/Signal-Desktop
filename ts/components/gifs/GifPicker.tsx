@@ -5,12 +5,12 @@ import type {
   PaginationOptions,
   TypeOption,
 } from '@giphy/js-fetch-api';
-import { GiphyFetch } from '@giphy/js-fetch-api';
 import classNames from 'classnames';
 import { useResizeDetector } from 'react-resize-detector';
 import type { LocalizerType } from '../../types/Util';
 import { Input } from '../Input';
 import type { GifFromGiphyType } from '../../sql/Interface';
+import { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
 
 const CATEGORIES = [
   'trending',
@@ -32,13 +32,6 @@ export type Props = Readonly<{
   showPickerHint?: boolean;
   style?: React.HTMLProps<HTMLDivElement>['style'];
 }>;
-
-// Signal iOS API Key, taken from
-// https://github.com/signalapp/Signal-iOS/blob/main/SignalServiceKit/src/Network/API/Giphy/GiphyAPI.swift
-// TODO: Replace this with a different API key
-const API_KEY = 'ZsUpUm2L6cVbvei347EQNp7HrROjbOdc';
-
-const giphy = new GiphyFetch(API_KEY);
 
 /*
  * The normal Giphy Grid triggers some CSS-in-JS process to kick off
@@ -91,16 +84,16 @@ export const GifPicker = React.memo(
           };
 
           if (currentTabName === 'recent') {
-            return giphy.gifs(recentGifs);
+            return GiphyRendererWrapper.gifs(recentGifs);
           }
           if (currentTabName === 'search' && searchTerm) {
-            return giphy.search(searchTerm, config);
+            return GiphyRendererWrapper.search(searchTerm, config);
           }
           // Default to trending before search term has been entered
           if (currentTabName === 'search' || currentTabName === 'trending') {
-            return giphy.trending(config);
+            return GiphyRendererWrapper.trending(config);
           }
-          return giphy.search(currentTabName, config);
+          return GiphyRendererWrapper.search(currentTabName, config);
         },
         [currentTabName, recentGifs, searchTerm]
       );
