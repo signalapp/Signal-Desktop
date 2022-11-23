@@ -238,7 +238,9 @@
       border-radius: 2px;
       display: block;
       height: 100%;
-      transition: width 500ms ease-out;
+      width: 100%;
+      transform: translateX(-100%);
+      transition: transform 500ms ease-out;
     }
   }
 

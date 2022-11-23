@@ -3924,8 +3924,8 @@ button.module-image__border-overlay:focus {
     line-height: 0;
     overflow: hidden;
     border-radius: 5px;
-    transition: top 200ms linear, left 200ms linear, width 200ms linear,
-      height 200ms linear;
+    transform: translate(0, 0);
+    transition: transform 200ms linear, width 200ms linear, height 200ms linear;
 
     &__remote-video {
       // The background-color is seen while the video loads.

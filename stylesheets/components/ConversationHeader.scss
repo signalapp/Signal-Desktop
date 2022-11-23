@@ -55,11 +55,12 @@
     width: 24px;
     height: 24px;
     min-width: 24px;
-    margin-left: -24px;
+    margin-left: 12px;
+    transform: translateX(-36px);
     vertical-align: text-bottom;
     border: none;
     opacity: 0;
-    transition: margin-left $transition, opacity $transition;
+    transition: transform $transition, opacity $transition;
 
     &:disabled {
       cursor: default;
@@ -68,7 +69,7 @@
     &--show {
       opacity: 1;
       margin-right: 6px;
-      margin-left: 12px;
+      transform: translateX(0px);
     }
 
     @include light-theme {

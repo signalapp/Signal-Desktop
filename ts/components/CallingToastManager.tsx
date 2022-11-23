@@ -115,33 +115,33 @@ export function CallingToastManager(props: PropsType): JSX.Element {
     toast = screenSharingToast;
   }
 
-  const [toastMessage, setToastMessage] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const dismissToast = useCallback(() => {
     if (timeoutRef) {
-      setToastMessage('');
+      setIsVisible(false);
     }
-  }, [setToastMessage, timeoutRef]);
+  }, [setIsVisible, timeoutRef]);
 
   useEffect(() => {
-    if (toast) {
-      if (toast.type === 'dismissable') {
-        clearTimeoutIfNecessary(timeoutRef.current);
-        timeoutRef.current = setTimeout(dismissToast, DEFAULT_LIFETIME);
-      }
+    setIsVisible(toast !== undefined);
+  }, [toast]);
 
-      setToastMessage(toast.message);
+  useEffect(() => {
+    if (toast?.type === 'dismissable') {
+      clearTimeoutIfNecessary(timeoutRef.current);
+      timeoutRef.current = setTimeout(dismissToast, DEFAULT_LIFETIME);
     }
 
     return () => {
       clearTimeoutIfNecessary(timeoutRef.current);
     };
-  }, [dismissToast, setToastMessage, timeoutRef, toast]);
+  }, [dismissToast, setIsVisible, timeoutRef, toast]);
 
   return (
-    <CallingToast isVisible={Boolean(toastMessage)} onClick={dismissToast}>
-      {toastMessage}
+    <CallingToast isVisible={isVisible} onClick={dismissToast}>
+      {toast?.message}
     </CallingToast>
   );
 }

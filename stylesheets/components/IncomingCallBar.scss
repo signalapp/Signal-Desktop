@@ -5,6 +5,7 @@
   &__container {
     animation: IncomingCallBar--animation 0.2s forwards ease-out;
     position: fixed;
+    top: 22px;
     width: 100%;
     z-index: $z-index-popup;
     padding: {
@@ -185,12 +186,12 @@
 
 @keyframes IncomingCallBar--animation {
   from {
-    top: -100px;
+    transform: translateY(-100px);
     opacity: 0;
   }
 
   to {
-    top: 22px;
+    transform: translateY(0px);
     opacity: 1;
   }
 }

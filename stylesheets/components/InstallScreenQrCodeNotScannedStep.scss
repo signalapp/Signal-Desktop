@@ -15,6 +15,7 @@
     flex-direction: row;
     animation: 500ms module-InstallScreenQrCodeNotScannedStep__slide-in;
     position: relative;
+    top: 0;
 
     @include light-theme {
       max-width: $base-max-width;
@@ -113,12 +114,12 @@
 
 @keyframes module-InstallScreenQrCodeNotScannedStep__slide-in {
   from {
-    top: -8px;
+    transform: translateY(-8px);
     opacity: 0;
   }
 
   to {
-    top: 0;
+    transform: translateY(0px);
     opacity: 1;
   }
 }

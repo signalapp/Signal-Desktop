@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 import { DialogUpdate } from './DialogUpdate';
 import { DialogType } from '../types/Dialogs';
 import { WidthBreakpoint } from './_util';
+import { SECOND } from '../util/durations';
 import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
 
 import { setupI18n } from '../util/setupI18n';
@@ -110,10 +111,29 @@ FullDownloadReadyWide.story = {
 };
 
 export function DownloadingWide(): JSX.Element {
+  const [downloadedSize, setDownloadedSize] = React.useState(0);
+
+  const { downloadSize } = defaultProps;
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setDownloadedSize(x => {
+        const newValue = x + 0.25 * downloadSize;
+        if (newValue > downloadSize) {
+          return 0;
+        }
+        return newValue;
+      });
+    }, SECOND);
+
+    return () => clearInterval(interval);
+  }, [downloadSize]);
+
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogUpdate
         {...defaultProps}
+        downloadedSize={downloadedSize}
         containerWidthBreakpoint={WidthBreakpoint.Wide}
         currentVersion="5.24.0"
         dialogType={DialogType.Downloading}

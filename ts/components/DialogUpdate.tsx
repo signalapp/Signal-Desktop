@@ -204,7 +204,7 @@ export function DialogUpdate({
         <div className="LeftPaneDialog__progress--container">
           <div
             className="LeftPaneDialog__progress--bar"
-            style={{ width: `${width}%` }}
+            style={{ transform: `translateX(${width - 100}%)` }}
           />
         </div>
       </LeftPaneDialog>
