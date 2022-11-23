@@ -95,6 +95,25 @@ export function getStoryDataFromMessageAttributes(
     attachment = getPropsForAttachment(attachment);
   }
 
+  // for a story, the message should always include the sourceDevice
+  // but some messages got saved without one in the past (sync-sent)
+  // we default those to some reasonable values that won't break the app
+  let sourceDevice: number;
+  if (message.sourceDevice !== undefined) {
+    sourceDevice = message.sourceDevice;
+  } else {
+    log.error('getStoryDataFromMessageAttributes: undefined sourceDevice');
+    // storage user.getDevice() should always produce a value after registration
+    const ourDeviceId = window.storage.user.getDeviceId() ?? -1;
+    if (message.type === 'outgoing') {
+      sourceDevice = ourDeviceId;
+    } else if (message.type === 'incoming') {
+      sourceDevice = 1;
+    } else {
+      sourceDevice = -1;
+    }
+  }
+
   return {
     attachment,
     messageId: message.id,
@@ -114,6 +133,7 @@ export function getStoryDataFromMessageAttributes(
       'timestamp',
       'type',
     ]),
+    sourceDevice,
     expireTimer: message.expireTimer,
     expirationStartTimestamp: dropNull(message.expirationStartTimestamp),
   };

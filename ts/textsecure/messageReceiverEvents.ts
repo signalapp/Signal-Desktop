@@ -184,7 +184,7 @@ export type SentEventData = Readonly<{
   destinationUuid?: string;
   timestamp?: number;
   serverTimestamp?: number;
-  device?: number;
+  device: number | undefined;
   unidentifiedStatus: ProcessedSent['unidentifiedStatus'];
   message: ProcessedDataMessage;
   isRecipientUpdate: boolean;

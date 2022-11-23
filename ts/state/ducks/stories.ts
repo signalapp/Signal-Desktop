@@ -74,7 +74,6 @@ export type StoryDataType = {
   | 'sendStateByConversationId'
   | 'source'
   | 'sourceUuid'
-  | 'sourceDevice'
   | 'storyDistributionListId'
   | 'timestamp'
   | 'type'
@@ -82,6 +81,7 @@ export type StoryDataType = {
     // don't want the fields to be optional as in MessageAttributesType
     expireTimer: DurationInSeconds | undefined;
     expirationStartTimestamp: number | undefined;
+    sourceDevice: number;
   };
 
 export type SelectedStoryDataType = {
@@ -1378,6 +1378,7 @@ export function reducer(
       'sendStateByConversationId',
       'source',
       'sourceUuid',
+      'sourceDevice',
       'storyDistributionListId',
       'timestamp',
       'type',

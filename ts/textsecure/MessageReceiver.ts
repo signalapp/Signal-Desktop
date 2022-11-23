@@ -2138,6 +2138,7 @@ export default class MessageReceiver
             destinationUuid: envelope.destinationUuid.toString(),
             timestamp: envelope.timestamp,
             serverTimestamp: envelope.serverTimestamp,
+            device: envelope.sourceDevice,
             unidentifiedStatus: Array.from(sentToUuids).map(
               destinationUuid => ({
                 destinationUuid,

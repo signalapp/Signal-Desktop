@@ -79,6 +79,7 @@ describe('both/state/ducks/stories', () => {
         readStatus: ReadStatus.Unread,
         timestamp: now - timestampDelta,
         type: 'story',
+        sourceDevice: 1,
       };
     }
 
@@ -545,6 +546,7 @@ describe('both/state/ducks/stories', () => {
             storyDistributionListId,
             timestamp: now - timestampDelta,
             type: 'story',
+            sourceDevice: 1,
           };
         }
 
@@ -930,6 +932,7 @@ describe('both/state/ducks/stories', () => {
           stories: [
             {
               ...messageAttributes,
+              sourceDevice: 1,
               attachment: messageAttributes.attachments[0],
               messageId: messageAttributes.id,
               expireTimer: messageAttributes.expireTimer,
@@ -984,6 +987,7 @@ describe('both/state/ducks/stories', () => {
           stories: [
             {
               ...messageAttributes,
+              sourceDevice: 1,
               attachment: messageAttributes.attachments[0],
               messageId: messageAttributes.id,
               expireTimer: messageAttributes.expireTimer,
