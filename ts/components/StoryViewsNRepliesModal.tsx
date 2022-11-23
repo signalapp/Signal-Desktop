@@ -88,6 +88,7 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   hasViewsCapability: boolean;
   i18n: LocalizerType;
+  isInternalUser?: boolean;
   group: Pick<ConversationType, 'left'> | undefined;
   onClose: () => unknown;
   onReact: (emoji: string) => unknown;
@@ -120,6 +121,7 @@ export const StoryViewsNRepliesModal = ({
   hasViewReceiptSetting,
   hasViewsCapability,
   i18n,
+  isInternalUser,
   group,
   onClose,
   onReact,
@@ -325,6 +327,7 @@ export const StoryViewsNRepliesModal = ({
             <ReplyOrReactionMessage
               key={reply.id}
               i18n={i18n}
+              isInternalUser={isInternalUser}
               reply={reply}
               deleteGroupStoryReply={() => setDeleteReplyId(reply.id)}
               deleteGroupStoryReplyForEveryone={() =>
@@ -501,6 +504,7 @@ export const StoryViewsNRepliesModal = ({
 
 type ReplyOrReactionMessageProps = {
   i18n: LocalizerType;
+  isInternalUser?: boolean;
   reply: ReplyType;
   deleteGroupStoryReply: (replyId: string) => void;
   deleteGroupStoryReplyForEveryone: (replyId: string) => void;
@@ -513,6 +517,7 @@ type ReplyOrReactionMessageProps = {
 
 const ReplyOrReactionMessage = ({
   i18n,
+  isInternalUser,
   reply,
   deleteGroupStoryReply,
   deleteGroupStoryReplyForEveryone,
@@ -595,23 +600,31 @@ const ReplyOrReactionMessage = ({
     );
   };
 
+  const menuOptions = [
+    {
+      icon: 'module-message__context--icon module-message__context__delete-message',
+      label: i18n('icu:StoryViewsNRepliesModal__delete-reply'),
+      onClick: () => deleteGroupStoryReply(reply.id),
+    },
+    {
+      icon: 'module-message__context--icon module-message__context__delete-message-for-everyone',
+      label: i18n('icu:StoryViewsNRepliesModal__delete-reply-for-everyone'),
+      onClick: () => deleteGroupStoryReplyForEveryone(reply.id),
+    },
+  ];
+
+  if (isInternalUser) {
+    menuOptions.push({
+      icon: 'module-message__context--icon module-message__context__copy-timestamp',
+      label: i18n('icu:StoryViewsNRepliesModal__copy-reply-timestamp'),
+      onClick: () => {
+        window.navigator.clipboard.writeText(String(reply.timestamp));
+      },
+    });
+  }
+
   return reply.author.isMe && !reply.deletedForEveryone ? (
-    <ContextMenu
-      i18n={i18n}
-      key={reply.id}
-      menuOptions={[
-        {
-          icon: 'module-message__context--icon module-message__context__delete-message',
-          label: i18n('icu:StoryViewsNRepliesModal__delete-reply'),
-          onClick: () => deleteGroupStoryReply(reply.id),
-        },
-        {
-          icon: 'module-message__context--icon module-message__context__delete-message-for-everyone',
-          label: i18n('icu:StoryViewsNRepliesModal__delete-reply-for-everyone'),
-          onClick: () => deleteGroupStoryReplyForEveryone(reply.id),
-        },
-      ]}
-    >
+    <ContextMenu i18n={i18n} key={reply.id} menuOptions={menuOptions}>
       {({ openMenu, menuNode }) => (
         <>
           {renderContent(openMenu)}

@@ -15,6 +15,7 @@ import {
   getEmojiSkinTone,
   getHasStoryViewReceiptSetting,
   getPreferredReactionEmoji,
+  isInternalUser,
 } from '../selectors/items';
 import { getIntl } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
@@ -28,7 +29,9 @@ import { isInFullScreenCall } from '../selectors/calling';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { retryMessageSend } from '../../util/retryMessageSend';
+import { saveAttachment } from '../../util/saveAttachment';
 import { strictAssert } from '../../util/assert';
+import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
@@ -55,6 +58,8 @@ export function SmartStoryViewer(): JSX.Element | null {
     StateType,
     SelectedStoryDataType | undefined
   >(getSelectedStoryData);
+
+  const internalUser = useSelector<StateType, boolean>(isInternalUser);
 
   strictAssert(selectedStoryData, 'StoryViewer: !selectedStoryData');
 
@@ -97,6 +102,8 @@ export function SmartStoryViewer(): JSX.Element | null {
       hasAllStoriesUnmuted={hasAllStoriesUnmuted}
       hasViewReceiptSetting={hasViewReceiptSetting}
       i18n={i18n}
+      isInternalUser={internalUser}
+      saveAttachment={internalUser ? saveAttachment : asyncShouldNeverBeCalled}
       isSignalConversation={isSignalConversation({
         id: conversationStory.conversationId,
       })}
