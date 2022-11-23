@@ -2164,6 +2164,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       panel.headerTitle
     );
   }
+
   resetPanel(): void {
     if (!this.panels || !this.panels.length) {
       return;
@@ -2391,7 +2392,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const srcUrl = chosenVariant.url;
     const response = await fetch(srcUrl);
     const blob = await response.blob();
-    const file = new File([blob], `${encodeURI(gif.title)}.gif`);
+    const file = new File([blob], `${encodeURI(gif.title)}.gif`, {
+      type: blob.type,
+    });
     await this.processAttachments([file]);
   }
 
