@@ -2388,13 +2388,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // Download file from Giphy and add it as an attachment
     const chosenVariant = gif.images.original;
-    const srcUrl = chosenVariant.webp ?? chosenVariant.url;
+    const srcUrl = chosenVariant.url;
     const response = await fetch(srcUrl);
     const blob = await response.blob();
-    const file = new File(
-      [blob],
-      `${encodeURI(gif.title)}.${chosenVariant.webp ? 'webp' : 'gif'}`
-    );
+    const file = new File([blob], `${encodeURI(gif.title)}.gif`);
     await this.processAttachments([file]);
   }
 
