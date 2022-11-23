@@ -516,8 +516,8 @@ function replyToStory(
   mentions: DraftBodyRangesType,
   timestamp: number,
   story: StoryViewType
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async dispatch => {
+): ThunkAction<void, RootStateType, unknown, StoryChangedActionType> {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
@@ -537,10 +537,23 @@ function replyToStory(
       }
     );
 
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
+    const { stories } = getState().stories;
+
+    const storyData = stories.find(s => s.messageId === story.messageId);
+    if (!storyData) {
+      log.error('replyToStory: story not found', story.messageId);
+      return;
+    }
+
+    // for group stories, this happens automatically through LOAD_STORY_REPLIES
+    // but 1:1 we need to update manually
+    dispatch(
+      storyChanged({
+        ...storyData,
+        hasReplies: true,
+        hasRepliesFromSelf: true,
+      })
+    );
   };
 }
 
@@ -1396,6 +1409,9 @@ export function reducer(
         prevStory.sendStateByConversationId,
         newStory.sendStateByConversationId
       );
+      const hasHasRepliesChanged =
+        prevStory.hasReplies !== newStory.hasReplies ||
+        prevStory.hasRepliesFromSelf !== newStory.hasRepliesFromSelf;
 
       const shouldReplace =
         isDownloadingAttachment ||
@@ -1405,7 +1421,9 @@ export function reducer(
         hasExpirationChanged ||
         hasSendStateChanged ||
         readStatusChanged ||
-        reactionsChanged;
+        reactionsChanged ||
+        hasHasRepliesChanged;
+
       if (!shouldReplace) {
         return state;
       }
