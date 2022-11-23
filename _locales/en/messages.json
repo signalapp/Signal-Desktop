@@ -4231,6 +4231,10 @@
     "message": "Chat color",
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
+  "autoplayVoiceMessages": {
+    "message": "Autoplay voice messages",
+    "description": "Whether to automatically play incoming voice messages or not"
+  },
   "showConversationDetails": {
     "message": "Group settings",
     "description": "This is a button in the conversation context menu to show group settings"

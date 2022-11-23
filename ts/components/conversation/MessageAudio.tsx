@@ -233,6 +233,20 @@ function PlayedDot({
   );
 }
 
+type AutoplayWrapperProps = {
+  callback: () => void;
+};
+
+class AutoplayWrapper extends React.Component<AutoplayWrapperProps> {
+  override componentDidMount() {
+    log.info('Unplayed message -> autoplaying');
+    this.props.callback();
+  }
+  override render() {
+    return this.props.children;
+  }
+}
+
 /**
  * Display message audio attachment along with its waveform, duration, and
  * toggle Play/Pause button.
@@ -536,6 +550,18 @@ export function MessageAudio(props: Props): JSX.Element {
         onClick={toggleIsPlaying}
       />
     );
+
+    if (
+      !played &&
+      window.ConversationController.get(conversationId)?.attributes.autoplay
+    ) {
+      const originalButton = button;
+      button = (
+        <AutoplayWrapper callback={toggleIsPlaying}>
+          {originalButton}
+        </AutoplayWrapper>
+      );
+    }
   }
 
   const countDown = Math.max(0, duration - (active?.currentTime ?? 0));
