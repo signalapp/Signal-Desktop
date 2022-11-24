@@ -20,6 +20,7 @@ import {
   getHexFromNumber,
   getBackgroundColor,
 } from '../util/getStoryBackground';
+import { SECOND } from '../util/durations';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -132,6 +133,32 @@ export function TextAttachment({
     node.focus();
     node.setSelectionRange(node.value.length, node.value.length);
   }, [isEditingText]);
+
+  useEffect(() => {
+    setLinkPreviewOffsetTop(undefined);
+  }, [textAttachment.preview?.url]);
+
+  const [isHoveringOverTooltip, setIsHoveringOverTooltip] = useState(false);
+
+  function showTooltip() {
+    if (disableLinkPreviewPopup) {
+      return;
+    }
+    setIsHoveringOverTooltip(true);
+    setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isHoveringOverTooltip) {
+        setLinkPreviewOffsetTop(undefined);
+      }
+    }, 5 * SECOND);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isHoveringOverTooltip]);
 
   const storyBackgroundColor = {
     background: getBackgroundColor(textAttachment),
@@ -249,16 +276,10 @@ export function TextAttachment({
                     ),
                   })}
                   ref={linkPreview}
-                  onFocus={() => {
-                    if (!disableLinkPreviewPopup) {
-                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
-                    }
-                  }}
-                  onMouseOver={() => {
-                    if (!disableLinkPreviewPopup) {
-                      setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
-                    }
-                  }}
+                  onBlur={() => setIsHoveringOverTooltip(false)}
+                  onFocus={showTooltip}
+                  onMouseOut={() => setIsHoveringOverTooltip(false)}
+                  onMouseOver={showTooltip}
                 >
                   {onRemoveLinkPreview && (
                     <div className="TextAttachment__preview__remove">
