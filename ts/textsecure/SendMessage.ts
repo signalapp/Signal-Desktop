@@ -356,7 +356,9 @@ class Message {
       const placeholders = this.body.match(/\uFFFC/g);
       const placeholderCount = placeholders ? placeholders.length : 0;
       log.info(
-        `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders`
+        `Sending a message with ${mentionCount} mentions and ${placeholderCount} placeholders${
+          this.storyContext ? `, story: ${this.storyContext.timestamp}` : ''
+        }`
       );
     }
     if (this.flags) {
