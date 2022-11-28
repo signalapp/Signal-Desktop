@@ -7,12 +7,15 @@ import classNames from 'classnames';
 import { get, has, noop } from 'lodash';
 import { usePopper } from 'react-popper';
 
+import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
+import type { Props as EmojiButtonPropsType } from './emoji/EmojiButton';
 import type { TextAttachmentType } from '../types/Attachment';
 
 import { Button, ButtonVariant } from './Button';
 import { ContextMenu } from './ContextMenu';
+import { EmojiButton } from './emoji/EmojiButton';
 import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview';
 import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview';
 import { Input } from './Input';
@@ -26,6 +29,7 @@ import {
   COLOR_WHITE_INT,
   getBackgroundColor,
 } from '../util/getStoryBackground';
+import { convertShortName } from './emoji/lib';
 import { objectMap } from '../util/objectMap';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
@@ -42,7 +46,8 @@ export type PropsType = {
   linkPreview?: LinkPreviewType;
   onClose: () => unknown;
   onDone: (textAttachment: TextAttachmentType) => unknown;
-};
+  onUseEmoji: (_: EmojiPickDataType) => unknown;
+} & Pick<EmojiButtonPropsType, 'onSetSkinTone' | 'recentEmojis' | 'skinTone'>;
 
 enum LinkPreviewApplied {
   None = 'None',
@@ -128,6 +133,10 @@ export function TextStoryCreator({
   linkPreview,
   onClose,
   onDone,
+  onSetSkinTone,
+  onUseEmoji,
+  recentEmojis,
+  skinTone,
 }: PropsType): JSX.Element {
   const [showConfirmDiscardModal, setShowConfirmDiscardModal] = useState(false);
 
@@ -144,16 +153,6 @@ export function TextStoryCreator({
   );
   const [sliderValue, setSliderValue] = useState<number>(100);
   const [text, setText] = useState<string>('');
-
-  const textEditorRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (isEditingText) {
-      textEditorRef.current?.focus();
-    } else {
-      textEditorRef.current?.blur();
-    }
-  }, [isEditingText]);
 
   const [isColorPickerShowing, setIsColorPickerShowing] = useState(false);
   const [colorPickerPopperButtonRef, setColorPickerPopperButtonRef] =
@@ -328,6 +327,8 @@ export function TextStoryCreator({
 
   const hasChanges = Boolean(text || hasLinkPreviewApplied);
 
+  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);
+
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <div className="StoryCreator">
@@ -345,6 +346,7 @@ export function TextStoryCreator({
             onRemoveLinkPreview={() => {
               setLinkPreviewApplied(LinkPreviewApplied.None);
             }}
+            ref={textEditorRef}
             textAttachment={textAttachment}
           />
         </div>
@@ -427,6 +429,26 @@ export function TextStoryCreator({
                   }
                 }}
                 type="button"
+              />
+              <EmojiButton
+                className="StoryCreator__emoji-button"
+                i18n={i18n}
+                onPickEmoji={data => {
+                  onUseEmoji(data);
+                  const emoji = convertShortName(data.shortName, data.skinTone);
+                  const insertAt =
+                    textEditorRef.current?.selectionEnd ?? text.length;
+                  setText(
+                    originalText =>
+                      `${originalText.substr(
+                        0,
+                        insertAt
+                      )}${emoji}${originalText.substr(insertAt, text.length)}`
+                  );
+                }}
+                recentEmojis={recentEmojis}
+                skinTone={skinTone}
+                onSetSkinTone={onSetSkinTone}
               />
             </div>
           ) : (
