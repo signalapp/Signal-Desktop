@@ -316,4 +316,10 @@
       width: 24px;
     }
   }
+
+  &__emoji-button,
+  &__emoji-button::after {
+    height: 20px;
+    width: 20px;
+  }
 }

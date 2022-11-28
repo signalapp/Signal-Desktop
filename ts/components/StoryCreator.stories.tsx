@@ -55,8 +55,13 @@ export default {
     onDistributionListCreated: { action: true },
     onHideMyStoriesFrom: { action: true },
     onSend: { action: true },
+    onSetSkinTone: { action: true },
+    onUseEmoji: { action: true },
     onViewersUpdated: { action: true },
     processAttachment: { action: true },
+    recentEmojis: {
+      defaultValue: [],
+    },
     recentStickers: {
       defaultValue: [],
     },
@@ -64,6 +69,9 @@ export default {
     setMyStoriesToAllSignalConnections: { action: true },
     signalConnections: {
       defaultValue: Array.from(Array(42), getDefaultConversation),
+    },
+    skinTone: {
+      defaultValue: 0,
     },
     toggleSignalConnectionsModal: { action: true },
   },

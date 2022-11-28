@@ -9357,21 +9357,21 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
-    "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
+    "line": "    const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-04-06T00:59:17.194Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
-    "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
+    "line": "    const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/TextStoryCreator.tsx",
-    "line": "  const textEditorRef = useRef<HTMLInputElement | null>(null);",
+    "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },

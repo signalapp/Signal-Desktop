@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
+import { SmartCompositionTextArea } from './CompositionTextArea';
 import { StoryCreator } from '../../components/StoryCreator';
 import {
   getAllSignalConnections,
@@ -22,18 +23,23 @@ import {
   getInstalledStickerPacks,
   getRecentStickers,
 } from '../selectors/stickers';
-import { getHasSetMyStoriesPrivacy } from '../selectors/items';
+import { getAddStoryData } from '../selectors/stories';
+import {
+  getEmojiSkinTone,
+  getHasSetMyStoriesPrivacy,
+} from '../selectors/items';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { processAttachment } from '../../util/processAttachment';
 import { imageToBlurHash } from '../../util/imageToBlurHash';
+import { processAttachment } from '../../util/processAttachment';
 import { useConversationsActions } from '../ducks/conversations';
+import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { useActions as useItemsActions } from '../ducks/items';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
+import { useRecentEmojis } from '../selectors/emojis';
 import { useStoriesActions } from '../ducks/stories';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists';
-import { SmartCompositionTextArea } from './CompositionTextArea';
-import { getAddStoryData } from '../selectors/stories';
 
 export type PropsType = {
   file?: File;
@@ -81,6 +87,11 @@ export function SmartStoryCreator(): JSX.Element | null {
   const file = addStoryData?.type === 'Media' ? addStoryData.file : undefined;
   const isSending = addStoryData?.sending || false;
 
+  const recentEmojis = useRecentEmojis();
+  const skinTone = useSelector<StateType, number>(getEmojiSkinTone);
+  const { onSetSkinTone } = useItemsActions();
+  const { onUseEmoji } = useEmojisActions();
+
   return (
     <StoryCreator
       candidateConversations={candidateConversations}
@@ -97,7 +108,9 @@ export function SmartStoryCreator(): JSX.Element | null {
       isSending={isSending}
       linkPreview={linkPreviewForSource(LinkPreviewSourceType.StoryCreator)}
       me={me}
-      ourConversationId={ourConversationId}
+      mostRecentActiveStoryTimestampByGroupOrDistributionList={
+        mostRecentActiveStoryTimestampByGroupOrDistributionList
+      }
       onClose={() => setAddStoryData(undefined)}
       onDeleteList={deleteDistributionList}
       onDistributionListCreated={createDistributionList}
@@ -106,17 +119,19 @@ export function SmartStoryCreator(): JSX.Element | null {
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
       onSend={sendStoryMessage}
+      onSetSkinTone={onSetSkinTone}
+      onUseEmoji={onUseEmoji}
       onViewersUpdated={updateStoryViewers}
+      ourConversationId={ourConversationId}
       processAttachment={processAttachment}
+      recentEmojis={recentEmojis}
       recentStickers={recentStickers}
       renderCompositionTextArea={SmartCompositionTextArea}
       sendStoryModalOpenStateChanged={sendStoryModalOpenStateChanged}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
+      skinTone={skinTone}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
-      mostRecentActiveStoryTimestampByGroupOrDistributionList={
-        mostRecentActiveStoryTimestampByGroupOrDistributionList
-      }
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );

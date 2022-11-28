@@ -15,6 +15,7 @@ import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
 import type { UUIDStringType } from '../types/UUID';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
+import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator';
 
 import { TEXT_ATTACHMENT } from '../types/MIME';
 import { isVideoAttachment } from '../types/Attachment';
@@ -70,6 +71,10 @@ export type PropsType = {
     | 'toggleGroupsForStorySend'
     | 'mostRecentActiveStoryTimestampByGroupOrDistributionList'
     | 'toggleSignalConnectionsModal'
+  > &
+  Pick<
+    TextStoryCreatorPropsType,
+    'onUseEmoji' | 'skinTone' | 'onSetSkinTone' | 'recentEmojis'
   >;
 
 export const StoryCreator = ({
@@ -87,7 +92,7 @@ export const StoryCreator = ({
   isSending,
   linkPreview,
   me,
-  ourConversationId,
+  mostRecentActiveStoryTimestampByGroupOrDistributionList,
   onClose,
   onDeleteList,
   onDistributionListCreated,
@@ -96,15 +101,19 @@ export const StoryCreator = ({
   onRepliesNReactionsChanged,
   onSelectedStoryList,
   onSend,
+  onSetSkinTone,
+  onUseEmoji,
   onViewersUpdated,
+  ourConversationId,
   processAttachment,
+  recentEmojis,
   recentStickers,
   renderCompositionTextArea,
   sendStoryModalOpenStateChanged,
   setMyStoriesToAllSignalConnections,
   signalConnections,
+  skinTone,
   toggleGroupsForStorySend,
-  mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element => {
   const [draftAttachment, setDraftAttachment] = useState<
@@ -236,6 +245,10 @@ export const StoryCreator = ({
             });
             setIsReadyToSend(true);
           }}
+          onUseEmoji={onUseEmoji}
+          onSetSkinTone={onSetSkinTone}
+          recentEmojis={recentEmojis}
+          skinTone={skinTone}
         />
       )}
     </>
