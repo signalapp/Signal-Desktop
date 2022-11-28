@@ -20,6 +20,7 @@ import {
   getHexFromNumber,
   getBackgroundColor,
 } from '../util/getStoryBackground';
+import { SECOND } from '../util/durations';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -133,6 +134,32 @@ export const TextAttachment = ({
     node.setSelectionRange(node.value.length, node.value.length);
   }, [isEditingText]);
 
+  useEffect(() => {
+    setLinkPreviewOffsetTop(undefined);
+  }, [textAttachment.preview?.url]);
+
+  const [isHoveringOverTooltip, setIsHoveringOverTooltip] = useState(false);
+
+  function showTooltip() {
+    if (disableLinkPreviewPopup) {
+      return;
+    }
+    setIsHoveringOverTooltip(true);
+    setLinkPreviewOffsetTop(linkPreview?.current?.offsetTop);
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isHoveringOverTooltip) {
+        setLinkPreviewOffsetTop(undefined);
+      }
+    }, 5 * SECOND);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isHoveringOverTooltip]);
+
   const storyBackgroundColor = {
     background: getBackgroundColor(textAttachment),
   };
@@ -242,52 +269,38 @@ export const TextAttachment = ({
                 </div>
               )}
               {textAttachment.preview && textAttachment.preview.url && (
-                <>
-                  <div
-                    className={classNames('TextAttachment__preview-container', {
-                      'TextAttachment__preview-container--large': Boolean(
-                        textAttachment.preview.title
-                      ),
-                    })}
-                    ref={linkPreview}
-                    onFocus={() => {
-                      if (!disableLinkPreviewPopup) {
-                        setLinkPreviewOffsetTop(
-                          linkPreview?.current?.offsetTop
-                        );
-                      }
-                    }}
-                    onMouseOver={() => {
-                      if (!disableLinkPreviewPopup) {
-                        setLinkPreviewOffsetTop(
-                          linkPreview?.current?.offsetTop
-                        );
-                      }
-                    }}
-                  >
-                    {onRemoveLinkPreview && (
-                      <div className="TextAttachment__preview__remove">
-                        <button
-                          aria-label={i18n(
-                            'Keyboard--remove-draft-link-preview'
-                          )}
-                          type="button"
-                          onClick={onRemoveLinkPreview}
-                        />
-                      </div>
-                    )}
-                    <StoryLinkPreview
-                      {...textAttachment.preview}
-                      domain={getDomain(String(textAttachment.preview.url))}
-                      forceCompactMode={
-                        getTextSize(textContent) !== TextSize.Large
-                      }
-                      i18n={i18n}
-                      title={textAttachment.preview.title || undefined}
-                      url={textAttachment.preview.url}
-                    />
-                  </div>
-                </>
+                <div
+                  className={classNames('TextAttachment__preview-container', {
+                    'TextAttachment__preview-container--large': Boolean(
+                      textAttachment.preview.title
+                    ),
+                  })}
+                  ref={linkPreview}
+                  onBlur={() => setIsHoveringOverTooltip(false)}
+                  onFocus={showTooltip}
+                  onMouseOut={() => setIsHoveringOverTooltip(false)}
+                  onMouseOver={showTooltip}
+                >
+                  {onRemoveLinkPreview && (
+                    <div className="TextAttachment__preview__remove">
+                      <button
+                        aria-label={i18n('Keyboard--remove-draft-link-preview')}
+                        type="button"
+                        onClick={onRemoveLinkPreview}
+                      />
+                    </div>
+                  )}
+                  <StoryLinkPreview
+                    {...textAttachment.preview}
+                    domain={getDomain(String(textAttachment.preview.url))}
+                    forceCompactMode={
+                      getTextSize(textContent) !== TextSize.Large
+                    }
+                    i18n={i18n}
+                    title={textAttachment.preview.title || undefined}
+                    url={textAttachment.preview.url}
+                  />
+                </div>
               )}
             </div>
           </div>
