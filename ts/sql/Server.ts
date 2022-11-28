@@ -78,6 +78,7 @@ import type {
   DeleteSentProtoRecipientOptionsType,
   DeleteSentProtoRecipientResultType,
   EmojiType,
+  GetAllStoriesResultType,
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
   GetUnreadByConversationAndMarkReadResultType,
@@ -248,8 +249,6 @@ const dataInterface: ServerInterface = {
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getAllStories,
-  hasStoryReplies,
-  hasStoryRepliesFromSelf,
   getNewerMessagesByConversation,
   getTotalUnreadForConversation,
   getMessageMetricsForConversation,
@@ -1770,22 +1769,21 @@ async function getMessageCount(conversationId?: string): Promise<number> {
 function hasUserInitiatedMessages(conversationId: string): boolean {
   const db = getInstance();
 
-  const row: { count: number } = db
+  const exists: number = db
     .prepare<Query>(
       `
-      SELECT COUNT(*) as count FROM
-        (
-          SELECT 1 FROM messages
-          WHERE
-            conversationId = $conversationId AND
-            isUserInitiatedMessage = 1
-          LIMIT 1
-        );
+      SELECT EXISTS(
+        SELECT 1 FROM messages
+        WHERE
+          conversationId = $conversationId AND
+          isUserInitiatedMessage = 1
+      );
       `
     )
+    .pluck()
     .get({ conversationId });
 
-  return row.count !== 0;
+  return exists !== 0;
 }
 
 function saveMessageSync(
@@ -2515,12 +2513,29 @@ async function getAllStories({
 }: {
   conversationId?: string;
   sourceUuid?: UUIDStringType;
-}): Promise<Array<MessageType>> {
+}): Promise<GetAllStoriesResultType> {
   const db = getInstance();
-  const rows: JSONRows = db
+  const rows: ReadonlyArray<{
+    json: string;
+    hasReplies: number;
+    hasRepliesFromSelf: number;
+  }> = db
     .prepare<Query>(
       `
-      SELECT json
+      SELECT
+        json,
+        (SELECT EXISTS(
+          SELECT 1
+          FROM messages as replies
+          WHERE replies.storyId IS messages.id
+        )) as hasReplies,
+        (SELECT EXISTS(
+          SELECT 1
+          FROM messages AS selfReplies
+          WHERE
+            selfReplies.storyId IS messages.id AND
+            selfReplies.type IS 'outgoing'
+        )) as hasRepliesFromSelf
       FROM messages
       WHERE
         type IS 'story' AND
@@ -2534,39 +2549,11 @@ async function getAllStories({
       sourceUuid: sourceUuid || null,
     });
 
-  return rows.map(row => jsonToObject(row.json));
-}
-
-async function hasStoryReplies(storyId: string): Promise<boolean> {
-  const db = getInstance();
-
-  const row: { count: number } = db
-    .prepare<Query>(
-      `
-      SELECT COUNT(*) as count
-      FROM messages
-      WHERE storyId IS $storyId;
-      `
-    )
-    .get({ storyId });
-
-  return row.count !== 0;
-}
-
-async function hasStoryRepliesFromSelf(storyId: string): Promise<boolean> {
-  const db = getInstance();
-
-  const sql = `
-  SELECT COUNT(*) as count
-  FROM messages
-  WHERE
-    storyId IS $storyId AND
-    type IS 'outgoing'
-  `;
-
-  const row: { count: number } = db.prepare<Query>(sql).get({ storyId });
-
-  return row.count !== 0;
+  return rows.map(row => ({
+    ...jsonToObject(row.json),
+    hasReplies: row.hasReplies !== 0,
+    hasRepliesFromSelf: row.hasRepliesFromSelf !== 0,
+  }));
 }
 
 async function getNewerMessagesByConversation(
@@ -3016,26 +3003,25 @@ async function hasGroupCallHistoryMessage(
 ): Promise<boolean> {
   const db = getInstance();
 
-  const row: { 'count(*)': number } | undefined = db
+  const exists: number = db
     .prepare<Query>(
       `
-      SELECT count(*) FROM messages
-      WHERE conversationId = $conversationId
-      AND type = 'call-history'
-      AND json_extract(json, '$.callHistoryDetails.callMode') = 'Group'
-      AND json_extract(json, '$.callHistoryDetails.eraId') = $eraId
-      LIMIT 1;
+      SELECT EXISTS(
+        SELECT 1 FROM messages
+        WHERE conversationId = $conversationId
+        AND type = 'call-history'
+        AND json_extract(json, '$.callHistoryDetails.callMode') = 'Group'
+        AND json_extract(json, '$.callHistoryDetails.eraId') = $eraId
+      );
       `
     )
+    .pluck()
     .get({
       conversationId,
       eraId,
     });
 
-  if (row) {
-    return Boolean(row['count(*)']);
-  }
-  return false;
+  return exists !== 0;
 }
 
 async function migrateConversationMessages(

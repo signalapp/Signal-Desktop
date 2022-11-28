@@ -7,6 +7,7 @@ import type { StoryDataType } from '../state/ducks/stories';
 import * as durations from '../util/durations';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
+import type { GetAllStoriesResultType } from '../sql/Interface';
 import {
   getAttachmentsForMessage,
   getPropsForAttachment,
@@ -18,32 +19,10 @@ import { dropNull } from '../util/dropNull';
 import { DurationInSeconds } from '../util/durations';
 import { SIGNAL_ACI } from '../types/SignalConversation';
 
-let storyData:
-  | Array<
-      MessageAttributesType & {
-        hasReplies?: boolean;
-        hasRepliesFromSelf?: boolean;
-      }
-    >
-  | undefined;
+let storyData: GetAllStoriesResultType | undefined;
 
 export async function loadStories(): Promise<void> {
-  const stories = await dataInterface.getAllStories({});
-
-  storyData = await Promise.all(
-    stories.map(async story => {
-      const [hasReplies, hasRepliesFromSelf] = await Promise.all([
-        dataInterface.hasStoryReplies(story.id),
-        dataInterface.hasStoryRepliesFromSelf(story.id),
-      ]);
-
-      return {
-        ...story,
-        hasReplies,
-        hasRepliesFromSelf,
-      };
-    })
-  );
+  storyData = await dataInterface.getAllStories({});
 
   await repairUnexpiredStories();
 }

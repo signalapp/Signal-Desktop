@@ -353,6 +353,13 @@ export type GetKnownMessageAttachmentsResultType = Readonly<{
   attachments: ReadonlyArray<string>;
 }>;
 
+export type GetAllStoriesResultType = ReadonlyArray<
+  MessageType & {
+    hasReplies: boolean;
+    hasRepliesFromSelf: boolean;
+  }
+>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -520,9 +527,7 @@ export type DataInterface = {
   getAllStories: (options: {
     conversationId?: string;
     sourceUuid?: UUIDStringType;
-  }) => Promise<Array<MessageType>>;
-  hasStoryReplies: (storyId: string) => Promise<boolean>;
-  hasStoryRepliesFromSelf: (storyId: string) => Promise<boolean>;
+  }) => Promise<GetAllStoriesResultType>;
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (
     conversationId: string,
