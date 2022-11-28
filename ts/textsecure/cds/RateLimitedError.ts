@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export type RateLimitedErrorPayloadType = Readonly<{
-  // eslint-disable-next-line camelcase
   retry_after?: number;
 }>;
 

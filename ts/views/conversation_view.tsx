@@ -2218,6 +2218,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         limit,
       });
 
+    // Cache these messages in memory to ensure Lightbox can find them
+    messages.forEach(message => {
+      window.MessageController.register(message.id, message);
+    });
+
     const loadedRecentMediaItems = messages
       .filter(message => message.attachments !== undefined)
       .reduce(
