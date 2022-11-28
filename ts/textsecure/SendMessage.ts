@@ -2362,7 +2362,7 @@ export default class MessageSender {
       story,
       urgent,
     }: Readonly<{
-      contentHint: number;
+      contentHint?: number;
       distributionId: string;
       groupId: string | undefined;
       identifiers: ReadonlyArray<string>;
@@ -2373,6 +2373,7 @@ export default class MessageSender {
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const timestamp = Date.now();
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
     const contentMessage = await this.getSenderKeyDistributionMessage(
       distributionId,
       {
@@ -2384,7 +2385,7 @@ export default class MessageSender {
     const sendLogCallback =
       identifiers.length > 1
         ? this.makeSendLogCallback({
-            contentHint,
+            contentHint: contentHint ?? ContentHint.IMPLICIT,
             proto: Buffer.from(Proto.Content.encode(contentMessage).finish()),
             sendType: 'senderKeyDistributionMessage',
             timestamp,
@@ -2394,7 +2395,7 @@ export default class MessageSender {
         : undefined;
 
     return this.sendGroupProto({
-      contentHint,
+      contentHint: contentHint ?? ContentHint.IMPLICIT,
       groupId,
       options,
       proto: contentMessage,
