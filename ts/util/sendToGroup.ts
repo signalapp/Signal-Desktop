@@ -437,7 +437,7 @@ export async function sendToGroupViaSenderKey(options: {
       await handleMessageSend(
         window.textsecure.messaging.sendSenderKeyDistributionMessage(
           {
-            contentHint: ContentHint.RESENDABLE,
+            contentHint,
             distributionId,
             groupId,
             identifiers: newToMemberUuids,

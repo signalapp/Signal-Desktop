@@ -297,7 +297,6 @@ async function sendDistributionMessageOrNullMessage(
   options: RetryRequestEventData,
   didArchive: boolean
 ): Promise<void> {
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const { groupId, requesterUuid } = options;
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
@@ -334,7 +333,6 @@ async function sendDistributionMessageOrNullMessage(
         await handleMessageSend(
           messaging.sendSenderKeyDistributionMessage(
             {
-              contentHint: ContentHint.RESENDABLE,
               distributionId,
               groupId,
               identifiers: [requesterUuid],
