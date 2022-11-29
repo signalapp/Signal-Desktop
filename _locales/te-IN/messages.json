@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "కింది వ్యక్తులు పరికరాలను తిరిగి ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా మార్చవచ్చు. గోప్యతను నిర్ధారించడానికి వారితో మీ భద్రతా సంఖ్యను ధృవీకరించండి.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "దిగువ వ్యక్తులు Signal ను మళ్ళీ ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా పరికరాలను మార్చి ఉండవచ్చు. వారి కొత్త భద్రతా సంఖ్యను నిర్ధారించడానికి గ్రహీత మీద క్లిక్ చేయండి. ఇది ఐచ్ఛికం.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "పెండింగ్ సందేశాలను పంపండి",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "సమీక్ష",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {మీకు {count,number} కనెక్షన్ ఉంది, వారు Signal ను మళ్ళీ ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా పరికరాలను మార్చి ఉండవచ్చు. పంపే ముందు వారి భద్రతా సంఖ్యలను మీరు ఐచ్ఛికంగా సమీక్షించవచ్చు.} other {మీకు {count,number} కనెక్షన్స్ ఉన్నాయి, వారు Signal ను మళ్ళీ ఇన్‌స్టాల్ చేసి ఉండవచ్చు లేదా పరికరాలను మార్చి ఉండవచ్చు. పంపే ముందు వారి భద్రతా సంఖ్యలను మీరు ఐచ్ఛికంగా సమీక్షించవచ్చు.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "అన్ని కనెక్షన్స్ సమీక్షించబడ్డాయి, కొనసాగడానికి పంపండి మీద క్లిక్ చేయండి.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {{story} కథ నుంచి 1 గ్రహీతను మీరు ఖచ్చితంగా తొలగించాలని అనుకుంటున్నారా?} other {{story} కథ నుంచి {count,number} గ్రహీతలను మీరు ఖచ్చితంగా తొలగించాలని అనుకుంటున్నారా?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "అన్నింటిని తొలగించండి",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "భద్రత సంఖ్యను ధృవీకరించండి",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "స్టోరీ నుంచి తొలగించండి",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ కాంటాక్ట్ కొరకు చర్యలు",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ కథ కొరకు చర్యలు",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "$name1$ తో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name2$ Signal‌ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం. ఈ పరిచయంతో మీరు మీ భద్రతా సంఖ్యను ధృవీకరించాలనుకోవచ్చు.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "ఏదేమైనా పంపు",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "పంపు",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "పూర్తి",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "ఏమైనా కాల్ చేయండి",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "నా కథ",
+    "message": "నా కథలు",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "నా కథలు",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "మీ కథ",
@@ -5492,6 +5544,14 @@
     "message": "పంపడం విఫలమైంది",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "పాక్షికంగా పంపబడింది",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "ఒక కథను చూడటానికి క్లిక్ చేయండి",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "ఈ కథకు సౌండ్ లేదు",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "ఈ కథ కొంతమంది వ్యక్తులకు పంపడం వీలు పడలేదు. మీ కనెక్షన్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "కథ సెట్టింగ్స్",
+    "message": "స్టోరీ గోప్యత",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "24 గంటల తరువాత కథలు ఆటోమేటిక్‌గా అదృశ్యమౌతాయి. మీ కథను ఎవరు వీక్షించవచ్చు లేదా నిర్దిష్ట వీక్షకులు లేదా గ్రూపులతో ఎవరు కొత్త కథలను సృష్టించవచ్చు అనేది ఎంచుకోండి.",
+    "messageformat": "24 గంటల తరువాత స్టోరీస్ ఆటోమేటిక్‌గా అదృశ్యమౌతాయి. నిర్దిష్ట వీక్షకులు లేదా గ్రూప్‌లతో మీ స్టోరీను ఎవరు వీక్షించవచ్చు లేదా ఎవరు కొత్త స్టోరీలను సృష్టించవచ్చ అనేది ఎంచుకోండి.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "నా కథలు",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "కొత్త అనుకూల కథ",
+    "message": "కొత్త స్టోరీ",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "ఈ కథ పేరును మీరు మాత్రమే చూడవచ్చు.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "అన్ని Signal కనెక్షన్‌లు",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "అనుకూల కథ",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "గ్రూప్ కథ",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ వీక్షకుడు",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "కథ సెట్టింగ్స్",
+    "message": "స్టోరీ గోప్యత",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "ఈ సెట్టింగ్‌ను మార్చడానికి, మీ మొబైల్ పరికరంలో Signal యాప్‌ను తెరవండి మరియు సెట్టింగ్‌లు -> కథలకు వెళ్ళండి.",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ఈ కథను ఎవరు వీక్షించవచ్చు",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "గ్రూప్ స్టోరీను తొలగించండి",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "మీరు ఖచ్చితంగా “{groupTitle}”ను తొలగించాలని అనుకుంటున్నారా?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "మీ కథను ఎవరు వీక్షించవచ్చో ఎంచుకోండి",
@@ -5728,13 +5824,33 @@
     "message": "అడ్మిన్స్ మాత్రమే ఈ గ్రూపుకు కథలను పంపగలరు.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {ప్రైవేట్ స్టోరీ · {viewersCount,number} వీక్షకుడు} other {ప్రైవేట్ స్టోరీ · {viewersCount,number} వీక్షకులు}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {గ్రూప్ కథ · 1 సభ్యుడు} other {గ్రూప్ కథ · {membersCount,number} సభ్యులు}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "కథలను పంచుకోండి & వీక్షించండి",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ఈ వికల్పాన్ని ఆఫ్ చేసినప్పుడు, మీరు ఇక ఏ మాత్రం కథలను పంచుకోలేరు లేదా వీక్షించలేరు.",
+    "message": "మీరు స్టోరీలను వద్దని ఎంచుకుంటే, మీరు ఇక ఏమాత్రం స్టోరీలను పంచుకోలేరు లేదా వీక్షించలేరు.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "కథలను ఆఫ్ చేయండి",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "నిలుపు",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "వీక్షణలు ఆఫ్ చేయబడ్డాయి",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "పంపుతోంది...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "పంపడం విఫలమైంది. మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "పాక్షికంగా పంపబడింది. మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ సార్లు పంపారు",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "మీరు ఈ గ్రూపులో ఇక సభ్యులు కానందున మీరు ఈ కథకు ప్రత్యుత్తరం ఇవ్వలేరు.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "నాకు మాత్రమే తొలగించు",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "అందరికి తొలగించు",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "కథ",
@@ -6020,22 +6156,6 @@
     "message": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- వినడానికి వాయిస్ నోట్‌ల సుదీర్ఘమైన జాబితాతో సంభాషణను ఎదుర్కొంటున్నారా? ప్లే చేయండిపై క్లిక్ చేయండి, విశ్రాంతిగా కూర్చోండి - అవి ఆటోమేటిక్‌గా ప్లే చేయడాన్ని కొనసాగిస్తాయి!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "మీ విహారయాత్ర ఫోటోలతో పాటుగా ఒక సందేశానికి మీరు ఇప్పుడు కొంత వీడియో ఫ్లేవర్‌ను జోడించవచ్చు!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "మీ బాస్కెట్‌బాల్ జట్టులో మీ స్నేహితుల్లో లౌ అనే పేరు గల వారు ఎవరు ఉన్నారో గుర్తు పెట్టుకోలేెకపోతున్నారా? మీకు మరియు ఒక స్నేహితుడి మధ్య పంచుకోబడ్డ గ్రూపులను చూడటానికి సంప్రదింపు వివరాలను తనిఖీ చేయండి.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "సంభాషణను ఉత్తేజకరంగా ఉంచడానికి వారి సంప్రదింపు వివరాల స్క్రీన్ నుంచి ఒక గ్రూపుకు స్నేహితుడిని సులభంగా జోడించండి.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "మీ కొరకు యాప్ సజావుగా రన్ అయ్యేలా చేయడానికి బగ్‌లను ఫిక్స్ చేయడం మరియు ఇతర పనితీరు మెరుగుదలలు చేయడానికి ఎంతో కష్టపడి పనిచేశాం.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "మా కొత్త కథల ఫీచర్‌ను ఉపయోగించడం మరియు పరీక్షించడం ప్రారంభించండి. ఇతర బీటా టెస్టర్లతో మీరు ఫీచర్‌ను ఉపయోగించవచ్చు మరియు అది ఎలా పనిచేస్తుందో మాకు తెలియజేయండి.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Signal లో ఇప్పుడు కథలు ఉన్నాయి! 24 గంటల తరువాత ఆటోమేటిక్‌గా అదృశ్యమయ్యే టెక్స్ట్, చిత్రాలు, మరియు వీడియో అప్‌డేట్‌లను ఎంపిక చేసిన స్నేహితులు లేదా గ్రూప్‌లతో పంచుకోండి. కథలను పంచుకోవడానికి ఇష్టపడే ప్రతిఒక్కరి కొరకు, దీనిని గోప్యంగా మరియు ఎటువంటి ప్రకటనలు చూడకుండానే చేసే మార్గం ఇదిగో ఇక్కడ ఉంది. ఒకవేళ కథలను చూడటానికి లేదా పంచుకోవడానికి మీరు ఇష్టపడకపోతే, మీ ప్రాధాన్యతలు > గోప్యతలో మీరు వాటిని అన్నింటిని నిలిపివేయవచ్చు.",
+    "description": "Release notes for v6.0"
   }
 }

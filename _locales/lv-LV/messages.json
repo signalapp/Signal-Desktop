@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Iespējams, ka šie cilvēki ir pārinstalējuši vai mainījuši ierīces. Pārbaudiet savu drošības numuru kopā ar šiem cilvēkiem, lai nodrošinātu privātumu.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Tālāk norādītie cilvēki, iespējams, ir pārinstalējuši Signal vai nomainījuši ierīces. Noklikšķiniet uz adresāta, lai apstiprinātu jauno drošības numuru. Šī darbība nav obligāta.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Nosūtīt gaidošās ziņas",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Pārskatīt",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, zero {Jums ir {count,number} kontakti, kuri, iespējams, ir pārinstalējuši Signal vai nomainījuši ierīces. Ja vēlaties, pirms nosūtīšanas varat pārskatīt viņu drošības numurus.} one {Jums ir 1 kontakts, kurš, iespējams, ir pārinstalējis Signal vai nomainījis ierīces. Ja vēlaties, pirms nosūtīšanas varat pārskatīt viņu drošības numurus.} other {Jums ir {count,number} kontakti, kuri, iespējams, ir pārinstalējuši Signal vai nomainījuši ierīces. Ja vēlaties, pirms nosūtīšanas varat pārskatīt viņu drošības numurus.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Visi kontakti ir pārskatīti, noklikšķiniet uz \"nosūtīt\", lai turpinātu.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, zero {Vai tiešām vēlaties noņemt {count,number} adresātus no stāsta {story}?} one {Vai tiešām vēlaties noņemt 1 adresātu no stāsta {story}?} other {Vai tiešām vēlaties noņemt {count,number} adresātus no stāsta {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Noņemt visus",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Apstiprināt drošības numuru",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Noņemt no stāsta",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Darbības kontaktam $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Darbības stāstam $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Jūsu drošības kods ar $name1$ ir mainījies. Tas varētu nozīmēt vai nu to, ka kāds mēģina pārtvert jūsu saziņu, vai arī $name2$ savā ierīcē pārinstalēja Signal. Iespējams, vēlaties pārbaudīt savu drošības kodu ar šo kontaktpersonu.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Tomēr sūtīt",
+    "message": "Sūtīt vienalga",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Sūtīt",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Darīts",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Tomēr zvanīt",
+    "message": "Vienalga zvanīt",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mans stāsts",
+    "message": "Mani stāsti",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Mani stāsti",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Jūsu stāsts",
@@ -5492,6 +5544,14 @@
     "message": "Sūtīšana neizidevās",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Daļēji nosūtīts",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Noklikšķiniet, lai mēģinātu vēlreiz",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Noklikšķiniet, lai skatītu stāstu",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Šim stāstam nav skaņas",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Stāstu dažiem cilvēkiem nevarēja nosūtīt. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Stāsta iestatījumi",
+    "message": "Stāsta privātums",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Stāsti automātiski pazūd pēc 24 stundām. Izvēlieties, kas var redzēt jūsu stāstu, vai izveidojiet jaunus stāstus noteiktiem skatītājiem vai grupām.",
+    "messageformat": "Stāsti automātiski pazūd pēc 24 stundām. Izvēlieties, kas var redzēt jūsu stāstu, vai izveidojiet jaunus stāstus noteiktiem skatītājiem vai grupām.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Mani stāsti",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Jauns pielāgotais stāsts",
+    "message": "Jauns stāsts",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Tikai jūs varat redzēt šī stāsta nosaukumu.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Visi Signal kontakti",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Pielāgotais stāsts",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Grupas stāsts",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ skatītājs",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Stāsta iestatījumi",
+    "message": "Stāsta privātums",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Lai mainītu šo iestatījumu, mobilajā ierīcē atveriet Signal lietotni un pārejiet uz sadaļu Iestatījumi -> Stāsti",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Kas var skatīt šo stāstu",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Šo stāstu redzēt un uz to atbildēt var grupas “{groupTitle}” dalībnieki. Šīs sarunas dalībnieku sarakstu varat rediģēt grupā.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Noņemt grupas stāstu",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Vai tiešām vēlaties dzēst “{groupTitle}”?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Izvēlieties, kas var redzēt jūsu stāstu",
@@ -5728,13 +5824,33 @@
     "message": "Tikai administratori drīkst sūtīt stāstus uz šo grupu.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, zero {Visi Signal kontakti {viewersCount,number} skatītāji} one {Visi Signal kontakti 1 skatītājs} other {Visi Signal kontakti {viewersCount,number} skatītāji}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, zero {Visi Signal kontakti {excludedCount,number} nav iekļauti} one {Visi Signal kontakti 1 nav iekļauts} other {Visi Signal kontakti {excludedCount,number} nav iekļauti}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, zero {Privāts stāsts · {viewersCount,number} skatītāji} one {Privāts stāsts · {viewersCount,number} skatītājs} other {Privāts stāsts · {viewersCount,number} skatītāji}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, zero {Grupas stāsts · {membersCount,number} dalībnieki} one {Grupas stāsts · 1 dalībnieks} other {Grupas stāsts · {membersCount,number} dalībnieki}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Kopīgot un skatīt stāstus",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Jūs vairs nevarēsiet kopīgot un skatīt stāstus, kad šī opcija ir izslēgta.",
+    "message": "Ja atteiksieties no stāstiem, jūs nevarēsiet kopīgot vai skatīt stāstus.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Izslēgt stāstus",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pauzēt",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Skatīšana izslēgta",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Sūta…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Sūtīšana neizdevās. Noklikšķiniet, lai mēģinātu vēlreiz",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Daļēji nosūtīts. Noklikšķiniet, lai mēģinātu vēlreiz",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Nosūtīts $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Jūs nevarat atbildēt uz šo stāstu, jo vairs neesat šīs grupas dalībnieks.",
+    "messageformat": "Jūs uz šo stāstu nevarat atbildēt, jo vairs neesat šīs grupas dalībnieks.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Dzēst man",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Dzēst visiem",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Stāsts",
@@ -6020,22 +6156,6 @@
     "message": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Jums jānoklausās garš balss ziņu saraksts? Sāciet atskaņošanu, iekārtojieties ērtāk un neuztraucieties — atskaņošana tiks automātiski turpināta!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Tagad ziņām varat pievienot ne tikai atvaļinājuma fotogrāfijas, bet arī kādu interesantu video!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nevarat atcerieties, kurš no jūsu draugiem vārdā Mārtiņš spēlē jūsu basketbola komandā? Atveriet kontakta informāciju, lai redzētu, kuras grupas jums ar draugu ir kopīgas.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Ērti pievienojiet draugu grupai no viņa kontakta informācijas loga, lai sarunas arī turpmāk būtu aizraujošas.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Sāciet izmantot un testēt mūsu jauno stāstu funkciju. Varat izmantot šo funkciju kopā ar citiem beta testētājiem un paziņot mums, kā tā darbojas.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Tagad Signal ir pieejami stāsti! Kopīgojiet tekstu, attēlus un video ar noteiktiem draugiem vai grupām. Kopīgotais saturs automātiski pazudīs pēc 24 stundām. Ikviens, kam patīk dalīties ar stāstiem, var to paveikt privāti un bez reklāmām. Ja nevēlaties redzēt vai kopīgot stāstus, varat atteikties no šīs funkcijas sadaļā Preferences > Privātums.",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Мына адамдар құрылғыларын қайта орнатқан немесе өзгерткен болуы мүмкін. Құпиялылықты сақтау үшін олармен қауіпсіздік нөмірін тексеріңіз.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Төмендегі адамдар Signal қолданбасын қайта орнатқан немесе құрылғыларын өзгерткен болуы мүмкін. Алушыны басып, жаңа қауіпсіздік нөмірін растаңыз. Олай істеу міндетті емес.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Жіберілмей күтіп тұрған хаттарды жіберу",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Тексеру",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Сізде Signal қолданбасын қайта орнатқан немесе құрылғыларын өзгерткен 1 контакт бар. Жібермес бұрын олардың қауіпсіздік нөмірлерін тексеріп алуға болады.} other {{count,number} контактіңіз Signal-ды қайта орнатқан немесе құрылғыларын өзгерткен болуы мүмкін. Жібермес бұрын оның қауіпсіздік нөмірлерін тексеріп алуға болады.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Барлық контакт тексерілді, жалғастыру үшін жіберу түймесін басыңыз.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {{story} сторисінен 1 алушыны өшіріп тастағыңыз келе ме?} other {{story} сторисінен {count,number} алушыны өшіріп тастағыңыз келе ме?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Барлығын өшіру",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Қауіпсіздік нөмірін тексеру",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Стористен өшіру",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ контактісіне қатысты әрекеттер",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ сторисіне қатысты әрекеттер",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "$name1$ деген кісімен араңыздағы қауіпсіздік нөмірі өзгерді. Бұл біреу сіздің хаттарыңызға тыңшылық жасауға әрекет жасап жатқанын немесе жай ғана $name2$ Signal-ды қайта орнатқанын білдіруі мүмкін. Осы контактімен қауіпсіздік нөмірін верификациядан өткізсеңіз болады.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Бәрібір жіберу",
+    "message": "Сонда да жіберу",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Жіберу",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Дайын",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Бәрібір қоңырау соғу",
+    "message": "Сонда да қоңырау шалу",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Менің сторисім",
+    "message": "Менің стористерім",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Менің стористерім",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Сторисіңіз",
@@ -5492,6 +5544,14 @@
     "message": "Жіберілмеді",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Ішінара жіберілді",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Қайталау үшін басыңыз",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Стористі көру үшін басыңыз",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Бұл стористің дауысы жоқ",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Бұл сторис кейбір адамдарға жіберілмеді. Контактіні тексеріп, қайталап көріңіз.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Сторис параметрлері",
+    "message": "Сторис құпиялылығы",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Сторис 24 сағаттан кейін өшіп қалады. Стористеріңізді кім көре алатынын таңдаңыз немесе белгілі бір көрерменге немесе топтарға арналған жаңа стористер жасаңыз.",
+    "messageformat": "Сторис 24 сағаттан кейін өшіп қалады. Сторисіңізді кім көре алатынын таңдаңыз немесе кейбір көрермендер немесе топтар ғана көре алатын жаңа стористер жасаңыз.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Менің стористерім",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Жаңа реттелмелі сторис",
+    "message": "Жаңа сторис",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Бұл стористің атын тек сіз көре аласыз.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Барлық Signal контактісі",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Реттелмелі сторис",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Топтық сторис",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ көрермен",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Сторис параметрлері",
+    "message": "Сторис құпиялылығы",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Осы параметрді өзгерту үшін, мобильдік құрылғыңызда Signal қолданбасын ашыңыз да, \"Параметрлер > Стористер\" бөліміне өтіңіз",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Бұл стористі кім көре алады",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Топтық стористі өшіріп тастау",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "«{groupTitle}» тобын өшіру керек пе?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Стористі кім көре алатынын таңдаңыз",
@@ -5728,13 +5824,33 @@
     "message": "Бұл топқа стористерді тек әкімшілер жібере алады.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Жеке стористе · {viewersCount,number} көрермен} other {Жеке стористе · {viewersCount,number} көрермен}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Топтық сторис · 1 мүше} other {Топтық сторис · {membersCount,number} мүше}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Стористерді бөлісу және көру",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Бұл опция өшіп тұрғанда, стористерді бөлісе немесе көре алмайсыз.",
+    "message": "Стористерді өшіріп қойсаңыз, бұдан былай стористерді бөлісе немесе көре алмайтын боласыз.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Стористерді өшіру",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Кідіріс",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Кім көргенін білу функциясы өшірулі",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Жіберілуде...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Жіберілмеді. Қайталау үшін басыңыз",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Ішінара жіберілді. Қайталау үшін басыңыз",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ рет жіберілді",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Бұл сториске жауап бере алмайсыз, себебі сіз ендігәрі бұл топтың мүшесі емессіз.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Меннен ғана жою",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Барлығынан жою",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Сторис",
@@ -6020,22 +6156,6 @@
     "message": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Чатта көп дауыстық хаттарды тыңдау керек болып тұр ма? Ойнату түймесін басыңыз да, арқаны кеңге салып отыра беріңіз. Олар бірінен кейін бірі автоматты түрде ойнатылады!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Енді хатқа демалысыңыздағы суреттер мен видеоларды қосып жібере аласыз!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Баскетбол чатындағы Ерік деген жігіттің кім екенін есіңізге түсіре алмай тұрсыз ба? Контакт туралы мәліметті ашып, екеуіңіз қандай ортақ топтардың мүшесі екендеріңізді көріңіз.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Әңгіме қызықты өрбуі үшін топқа контакт туралы мәлімет экранынан досыңызды қосыңыз.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Қолданбаның ешқандай кінәратсыз жұмыс істеуі үшін, ақаулар түзетілді және басқа да тұстары жетілдірілді.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Стористерге қатысты жаңа функцияны қолданып, байқап көріңіз. Бұл функцияны бета нұсқаны пайдаланатын басқа адамдармен бірге қолданып, оның қалай жұмыс істеп тұрғанын айта аласыз.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Signal-да енді сторис жариялауға болады! 24 сағаттан кейін автоматты түрде жоғалып кететін мәтінді, суреттерді және видеоларды керекті достарыңызбен бөлісіңіз. Сторис бөлісуді жақсы көретіндер үшін оны жеке әрі жарнамасыз бөлісудің жолы төменде көрсетілген. Егер жарнама көргіңіз немесе сторис салғыңыз келмесе, оның барлығын «Параметрлер > Құпиялылық» бөлімінде өшіріп қоюға болады.",
+    "description": "Release notes for v6.0"
   }
 }

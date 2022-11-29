@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "האנשים הבאים ייתכן התקינו מחדש את היישום או שינו מכשירים. וודא את מספר הביטחון שלך איתם כדי להבטיח פרטיות.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "יתכן שהאנשים הבאים התקינו מחדש את Signal או החליפו מכשירים. יש ללחוץ על נמען או נמענת כדי לאשר את מספר הבטיחות החדש שלהם. זו פעולה אופציונלית — לא חייבים.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "שלח הודעות ממתינות",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "סקירה",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {יש לך חבר או חברת Signal {count,number} שיתכן והתקינו מחדש את Signal או החליפו מכשירים. יש לך אפשרות לסקור את מספרי הבטיחות שלהם לפני השליחה.} two {יש לך {count,number} חברי Signal שיתכן והתקינו מחדש את Signal או החליפו מכשירים. יש לך אפשרות לסקור את מספרי הבטיחות שלהם לפני השליחה.} many {יש לך {count,number} חברי Signal שיתכן והתקינו מחדש את Signal או החליפו מכשירים. יש לך אפשרות לסקור את מספרי הבטיחות שלהם לפני השליחה.} other {יש לך {count,number} חברי Signal שיתכן והתקינו מחדש את Signal או החליפו מכשירים. יש לך אפשרות לסקור את מספרי הבטיחות שלהם לפני השליחה.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "כל חברי ה–Signal נסקרו, יש ללחוץ על שליחה כדי להמשיך.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {בטוח שבא לך להסיר נמען/ת 1 מהסטורי {story}?} two {בטוח שבא לך להסיר {count,number} נמענים מהסטורי {story}?} many {בטוח שבא לך להסיר {count,number} נמענים מהסטורי {story}?} other {בטוח שבא לך להסיר {count,number} נמענים מהסטורי {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "להסיר את כולם",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "וודא מספר ביטחון",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "הסרה מסטורי",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "פעולות עבור איש הקשר $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "פעולות עבור הסטורי $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "מספר הביטחון שלך עם $name1$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name2$ פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הביטחון שלך עם איש קשה זה.",
@@ -448,8 +488,16 @@
     "message": "שלח בכל זאת",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "שלח",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "סיים",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "חייג בכל זאת",
+    "message": "התקשר בכל זאת",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "הסטורי שלי",
+    "message": "הסטוריז שלי",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "הסטוריז שלי",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "הסטורי שלך",
@@ -5492,6 +5544,14 @@
     "message": "שליחה נכשלה",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "נשלח חלקית",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "אפשר ללחוץ כדי לנסות שוב",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "אפשר ללחוץ כדי להציג סטורי",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "לסטורי הזה אין צליל",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "לא הצלחנו לשלוח את הסטורי הזה לחלק מהאנשים. יש לבדוק את החיבור שלך ולנסות שוב.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "הגדרות סטורי",
+    "message": "פרטיות של סטורי",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "סטוריז נעלמים אוטומטית אחרי 24 שעות. ניתן לבחור מי יכול לראות את הסטורי שלך או ליצור סטוריז חדשים עם קבוצות או צופים ספציפיים.",
+    "messageformat": "סטוריז נעלמים אוטומטית אחרי 24 שעות. אפשר לבחור מי יכול לראות את הסטורי שלך או ליצור סטוריז חדשים עם קבוצות או צופים ספציפיים.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "הסטוריז שלי",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "סטורי מותאם אישית חדש",
+    "message": "סטורי חדש",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "שם הסטורי הזה גלוי רק לך.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "כל חברי ה-Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "סטורי מותאם אישית",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "סטורי קבוצתי",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "צופה $num$",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "הגדרות סטורי",
+    "message": "פרטיות של סטורי",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "כדי לשנות הגדרה זו, יש לפתוח את אפליקציית Signal בנייד שלך ולנווט אל הגדרות ← סטוריז",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "מי יכול לצפות בסטורי הזה",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "חברי הצ׳אט הקבוצתי ״{groupTitle}״ יכולים לצפות ולהשיב לסטורי הזה. יש לך אפשרות לעדכן את החברוּת בצ׳אט הזה בקבוצה.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "הסרת סטורי קבוצתי",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "בטוח שבא לך להסיר את ״{groupTitle}״?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "אפשר לבחור מי יכול לראות את הסטורי שלך",
@@ -5728,13 +5824,33 @@
     "message": "רק מנהלים יכולים לשלוח סטוריז לקבוצה זו.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {כל חברי ה–Signal · צופה {viewersCount,number}} two {כל חברי ה–Signal · {viewersCount,number} צופים} many {כל חברי ה–Signal · {viewersCount,number} צופים} other {כל חברי ה–Signal · {viewersCount,number} צופים}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {כל חברי ה–Signal · מוסתר מאדם {excludedCount,number}} two {כל חברי ה–Signal · מוסתר מ–{excludedCount,number} אנשים} many {כל חברי ה–Signal · מוסתר מ–{excludedCount,number} אנשים} other {כל חברי ה–Signal · מוסתר מ–{excludedCount,number} אנשים}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {סטורי פרטי · צופה {viewersCount,number}} two {סטורי פרטי · {viewersCount,number} צופים} many {סטורי פרטי · {viewersCount,number} צופים} other {סטורי פרטי · {viewersCount,number} צופים}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {סטורי קבוצתי · חבר/ה 1} two {סטורי קבוצתי · {membersCount,number} חברים} many {סטורי קבוצתי · {membersCount,number} חברים} other {סטורי קבוצתי · {membersCount,number} חברים}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "שיתוף וצפיה בסטוריז",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "לא תהיה לך יותר אפשרות לשתף או לצפות בסטוריז כשאפשרות זו כבויה.",
+    "message": "לאחר כיבוי סטוריז, לא תהיה לך אפשרות לשתף או לראות סטוריז יותר.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "כיבוי סטוריז",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "השהה",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "אישורי קריאה מושבתים",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "שולחים…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "השליחה נכשלה. אפשר ללחוץ כדי לנסות שוב",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "נשלח חלקית. אפשר ללחוץ כדי לנסות שוב",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "נשלח $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "אין לך אפשרות להשיב לסטורי הזה בגלל שאינך חלק מהקבוצה הזו יותר.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "מחק עבורי",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "מחק עבור כולם",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "סטורי",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "הספרות האלה עוזרות לשמור על שם המשתמש שלך פרטי כדי להימנע מהודעות לא רצויות. אפשר לשתף את שם המשתמש שלך רק עם אנשים וקבוצות שמתחשק לך לשוחח איתם. אם משנים את שם המשתמש, מקבלים סט חדש של ספרות.",
+    "message": "הספרות האלה עוזרות לשמור על שם המשתמש שלך פרטי כדי להימנע מהודעות לא רצויות. ניתן לשתף את שם המשתמש שלך רק עם אנשים וקבוצות שמתחשק לך לשוחח איתם. אם משנים את שם המשתמש, מקבלים סט חדש של ספרות.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "– יש לך שיחה עם רשימה ארוכה של הודעות קוליות להקשיב להן? אפשר פשוט ללחוץ פליי, להתרווח, ולהירגע – הן ימשיכו להתנגן אוטומטית!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "עכשיו אפשר לצרף סרטונים להודעה יחד עם התמונות מהחופשה!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "לא מצליחים להיזכר איזה תומר משחק איתכם כדורסל? תומר כהן! או שאולי… תומר לוי? אפשר לבדוק את פרטי הקשר כדי לראות אילו קבוצות יש לכם במשותף עם חבר או חברה.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "אפשר להוסיף חבר או חברה לקבוצה בקלות מתוך מסך פרטי הקשר שלהם כדי לשמור על הריגוש בשיחה.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "עובדים קשה על תיקוני באגים ושיפור הביצועים בעוד דרכים כדי לוודא שהאפליקציה שלך תמשיך לרוץ חלק.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "יש לך אפשרות להתחיל להשתמש ולבדוק בפיצ׳ר הסטוריז החדש שלנו ולבדוק אותו. אפשר להשתמש בפיצ׳ר עם בודקי בטא אחרים ולספר לנו איך הוא עובד.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "סטוריז: עכשיו ב–Signal! משתפים עדכונים נעלמים של טקסט, תמונות וסרטונים עם קבוצות וחברים נבחרים שנעלמים אוטומטית אחרי 24 שעות. לכל מי שאוהב לשתף סטוריז, הנה דרך לעשות את זה בפרטיות ובלי לראות מודעות בכלל. אם אינך רוצה לראות או לשתף סטוריז, אפשר לבטל את האפשרות הזו בהעדפות > פרטיות.",
+    "description": "Release notes for v6.0"
   }
 }

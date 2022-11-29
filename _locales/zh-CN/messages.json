@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "以下用户可能重新安装了 Signal 或更换了设备，请重新与之验证安全码以保护您的隐私。",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "以下用户可能已重新安装 Signal 或更改设备。请点击接收人以核实对方的新安全码。此为非必选操作。",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "发送待发消息",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "检查",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {您有 {count,number} 位密友可能已重新安装 Signal 或更改设备。在给对方发送内容之前，您可以检查对方的安全码，此为非必选操作。}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "已检查所有密友，请点击发送以继续操作。",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {您确定要从{story}动态中移除 {count,number} 位接收人吗？}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "全部移除",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "验证安全码",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "移除出动态",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "联系人相关操作：$contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "动态相关操作：$story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "您与$name1$的安全码已改变。这可能表明有人试图窃听您的对话，也可能只是$name2$重新安装了 Signal。您可以重新验证与联系人的安全码。",
@@ -448,8 +488,16 @@
     "message": "仍要发送",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "发送",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "完成",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "依然呼叫",
+    "message": "仍要呼叫",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5392,6 +5440,10 @@
     "message": "我的动态",
     "description": "Title for the my stories list"
   },
+  "MyStories__list_item": {
+    "message": "我的动态",
+    "description": "Label for the my stories in the list of all stories"
+  },
   "MyStories__story": {
     "message": "您的动态",
     "description": "aria-label for each one of your stories"
@@ -5492,6 +5544,14 @@
     "message": "发送失败",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "未完全发送",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "点击重试",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "点击查看动态",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "此动态没有声音",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "此动态无法发送给一些用户。请检查您的网络连接并重试。",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "动态设置",
+    "message": "动态隐私",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "动态将会在 24 小时后自动消失。请选择谁可以查看您的动态，或创建对特定访客或群组可见的新动态。",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "我的动态",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "新自定义动态",
+    "message": "新动态",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "只有您能看到此动态的名称。",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "所有 Signal 联系人",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "自定义动态",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "群组动态",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ 个访客",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "动态设置",
+    "message": "动态隐私",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "如要更改此设置，请在您的移动设备中打开 Signal 应用，然后前往“设置>动态”",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "谁可以看到此动态",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "“{groupTitle}”群组聊天的成员可以浏览和回复此动态。您可以更新此群组聊天的成员资格。",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "移除群组动态",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "确定要移除“{groupTitle}”吗？",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "选择谁可以看您的动态",
@@ -5728,13 +5824,33 @@
     "message": "只有管理员可以给该群组发送动态。",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {所有 Signal 密友 · {viewersCount,number} 位访客}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {所有 Signal 密友 · 排除 {excludedCount,number}}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {私密动态 · {viewersCount,number} 位访客}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {群组动态 · {membersCount,number} 位成员}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "分享和浏览动态",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "关闭此选项后您将无法分享或浏览动态。",
+    "message": "如果您选择关闭动态，您将无法再分享或浏览动态。",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "关闭动态",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "暂停",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "查看功能关闭",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "正在发送……",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "发送失败。点击重试",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "未完全发送。点击重试",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "已于 $time$ 发送",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "您已不是此群组的成员，因此不能回复此动态。",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "对我删除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "对每个人删除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "动态",
@@ -6020,22 +6156,6 @@
     "message": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- 您的聊天中有一大串待听取的语音消息？您只需点击“播放”即可轻松听取——语音消息将会逐一自动播放！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "您现在可以在消息中附上视频和您的照片啦！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "您记不清哪个叫“李伟”的朋友是您的篮球队友？您可以查看联系人详情，看看您和好友的共同群组。",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "您可以从好友的联系人详情中直接将对方添加到群组，让有趣的对话聊不停。",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "我们努力修复了漏洞并增强了性能，让您的应用可以顺畅运行。",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "欢迎立即体验和测试我们的新动态功能。您可以和其他测试用户一起体验此功能，并与我们分享使用反馈。",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Signal 现在推出动态功能啦！您现在可以给选定的好友或群组分享限时文本、图片和视频动态。这些动态将会在 24 小时后自动消失。喜欢分享动态的用户可以进行私密分享，并且不会看到任何广告。如果您不想浏览其他人的动态，也不想分享动态，您可以在“偏好 > 隐私”中选择退出此功能。",
+    "description": "Release notes for v6.0"
   }
 }

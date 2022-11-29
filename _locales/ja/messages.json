@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "以下の方はアプリを再インストールしたか端末を変更した可能性があります。プライバシーを保証するために安全番号を検証してください。",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "次の人は、Signalを再インストールしたか、端末を変更した可能性があります。受信者をクリックして、相手の新しい安全番号を確認してください。これは任意です。",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "保留中のメッセージを送信します",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "確認",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {{count,number} 人のコネクションがSignalを再インストールしたか端末を変更した可能性があります。送信前に、相手の安全番号を任意で確認できます。}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "すべてのコネクションが確認されました。続行するには送信をクリックしてください。",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {ストーリー{story}から、{count,number}人の受信者を削除しますか？}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "すべて削除",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "安全番号の検証",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "ストーリーから削除する",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "連絡先 $contact$を開く",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "ストーリー $story$を開く",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "$name1$ に対する安全番号が変更されました。だれかが通信を傍受しようとしているかも知れませんし、$name2$ がSignalを再インストールしただけかも知れません。この連絡先に対する安全番号を検証することをお勧めします。",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "とにかく送信する",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "送信する",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "完了",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "とにかく発信する",
@@ -5392,6 +5440,10 @@
     "message": "マイストーリー",
     "description": "Title for the my stories list"
   },
+  "MyStories__list_item": {
+    "message": "マイストーリー",
+    "description": "Label for the my stories in the list of all stories"
+  },
   "MyStories__story": {
     "message": "あなたのストーリー",
     "description": "aria-label for each one of your stories"
@@ -5492,6 +5544,14 @@
     "message": "送信できませんでした",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "一部送信済み",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "クリックして再試行する",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "クリックしてストーリーを表示",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "このストーリーには音声がありません",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "一部のユーザーにストーリーを送信できませんでした。インターネット接続を確認して再度試してください。",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "ストーリーの設定",
+    "message": "ストーリープライバシー",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "ストーリーは24時間後に自動的に消えます。ストーリーを閲覧できるユーザーを選択したり、特定の閲覧者やグループで新しいストーリーを作成することができます。",
+    "messageformat": "ストーリーは24時間後に自動的に消えます。ストーリーを閲覧できるユーザーを選択したり、特定の閲覧者やグループと新しいストーリーを作成することができます。",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "マイストーリー",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "新規カスタムストーリー",
+    "message": "新規ストーリー",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "ストーリー名は自分だけが見ることができます。",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "すべてのSignalコネクション",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "カスタムストーリー",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "グループストーリー",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "閲覧者 $num$人",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ストーリーの設定",
+    "message": "ストーリープライバシー",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "この設定の変更は、モバイル端末でSignalアプリを開き、設定 > ストーリーから行ってください",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ストーリーを閲覧できる人",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "グループチャット「{groupTitle} 」のメンバーはこのストーリーを閲覧し、返信することができます。チャットのメンバーは、グループ内で更新することができます。",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "グループストーリーを削除する",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "本当に「{groupTitle}」を削除してもよろしいですか？",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "ストーリーを閲覧できる人を選択します",
@@ -5728,13 +5824,33 @@
     "message": "管理者のみがグループにストーリーを送信できます。",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {すべてのSignalコネクション · {viewersCount,number} 人の閲覧者}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {すべてのSignalコネクション　{excludedCount,number} 人を除く}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {プライベートストーリー · 閲覧 {viewersCount,number}人}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {グループストーリー {membersCount,number} 人のメンバー}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "ストーリーの共有と閲覧",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "このオプションをオフにすると、ストーリーの共有や閲覧ができなくなります。",
+    "message": "ストーリーを非表示にすると、以後はストーリーを共有したり閲覧したりすることができなくなります。",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "ストーリーを非表示にします",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "一時停止",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "閲覧をオフにする",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "送信中…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "送信に失敗しました。クリックして再試行する",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "一部送信済み。クリックして再試行する",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$に送信",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "このグループのメンバーではなくなったので、このストーリーに返信することはできません。",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "自分の分だけ削除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "全員分を削除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "ストーリー",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "これらの数字は、ユーザーネームを非公開にし、不要なメッセージを避けるのに役立ちます。ユーザーネームは、チャットをしたい人やグループとだけ共有してください。ユーザーネームを変更すると、新しい数字と対になります。",
+    "message": "これらの数字は、ユーザーネームを非公開にし、不要なメッセージを避けるのに役立ちます。ユーザーネームは、チャットをしたい人やグループとだけ共有してください。ユーザーネームを変更すると、新しい数字に更新されます。",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- たくさんの音声メモを聞く必要がありますか？［再生］を押す、座る、あとはリラックス。自動で連続再生されます！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "メッセージに楽しい写真と併せて、動画も添付できるようになりました！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "ミサキという同じ名前の友達のうち、バスケットボールチームにいるのは誰だったか思い出せませんか？連絡先の詳細を確認して、友達との間で共有されているグループを確かめましょう。",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "連絡先の詳細画面から簡単に友達をグループに追加できるようになりました。会話が盛り上がり続けます。",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "アプリがスムーズに動作するよう、バグの修正とその他のパフォーマンスの向上に努めています。",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "新機能「ストーリー」の使用とテストを開始します。ベータ版の「ストーリー」機能をご利用いただき、ご使用感をお知らせください。",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Signalにストーリーが登場しました！！24時間後に自動的に消えるテキスト、画像、動画などのアップデートを、選択した友達やグループと共有できます。ストーリーの共有が大好きな皆様のために、広告なしにプライベートで共有する方法をご紹介します。設定 > プライバシーから、ストーリーを見たり共有したりしないようにできます。",
+    "description": "Release notes for v6.0"
   }
 }

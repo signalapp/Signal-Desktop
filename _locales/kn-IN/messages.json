@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "ಈ ಕೆಳಗಿನ ಜನರು ಸಾಧನಗಳನ್ನು ಪುನಃ ಇನ್‌‌ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು ಅಥವಾ ಬದಲಾಯಿಸಿರಬಹುದು. ಗೌಪ್ಯತೆಯನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಲು ಅವರೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಯನ್ನು ದೃಢೀಕರಿಸಿ.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "ಈ ಕೆಳಗಿನ ಜನರು Signal ಅನ್ನು ಪುನಃ ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದು ಅಥವಾ ಸಾಧನಗಳನ್ನು ಬದಲಿಸಿರಬಹುದು. ಒಬ್ಬ ಸ್ವೀಕೃತಿದಾರರನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ ಅವರ ಹೊಸ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಯನ್ನು ದೃಢೀಕರಿಸಿ. ಇದು ಐಚ್ಛಿಕವಾಗಿದೆ.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "ಬಾಕಿಯಿರುವ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಿ",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "ಪರಿಶೀಲನೆ",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Signal ಅನ್ನು ಪುನಃ ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದಾದ ಅಥವಾ ಸಾಧನಗಳನ್ನು ಬದಲಿಸಿರಬಹುದಾದ {count,number} ಸಂಪರ್ಕವನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ನೀವು ಕಳುಹಿಸುವ ಮುನ್ನ ಅವರ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಗಳನ್ನು ಐಚ್ಛಿಕವಾಗಿ ಪರಿಶೀಲಿಸಬಹುದು.} other {Signal ಅನ್ನು ಪುನಃ ಇನ್‍ಸ್ಟಾಲ್ ಮಾಡಿರಬಹುದಾದ ಅಥವಾ ಸಾಧನಗಳನ್ನು ಬದಲಿಸಿರಬಹುದಾದ {count,number} ಸಂಪರ್ಕಗಳನ್ನು ನೀವು ಹೊಂದಿದ್ದೀರಿ. ನೀವು ಕಳುಹಿಸುವ ಮುನ್ನ ಅವರ ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆಗಳನ್ನು ಐಚ್ಛಿಕವಾಗಿ ಪರಿಶೀಲಿಸಬಹುದು.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "ಎಲ್ಲಾ ಸಂಪರ್ಕಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿದೆ, ಮುಂದುವರಿಸಲು ಕಳಿಸಿ ಅನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {ಸ್ಟೋರಿ {story} ನಿಂದ 1 ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?} other {ಸ್ಟೋರಿ {story} ನಿಂದ {count,number} ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "ಎಲ್ಲವನ್ನೂ ತೆಗೆದುಹಾಕಿ",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "ಸುರಕ್ಷತಾ ಸಂಖ್ಯೆ ದೃಢೀಕರಿಸಿ",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "ಸ್ಟೋರಿಯಿಂದ ತೆಗೆದುಹಾಕಿ",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "ಸಂಪರ್ಕ $contact$ ಗಾಗಿ ಕ್ರಮಗಳು",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "ಸ್ಟೋರಿ $story$ ಗಾಗಿ ಕ್ರಮಗಳು",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "$name1$ಜೊತೆಗಿನ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆ ಬದಲಾಗಿದೆ. ನಿಮ್ಮ ಸಂವಹನವನ್ನು ತಡೆಗಟ್ಟಲು ಯಾರೋ ಪ್ರಯತ್ನಿಸುತ್ತಿದ್ದಾರೆ ಅಥವಾ $name2$ ಅವರು Signal ಅನ್ನು ಪುನಃ ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದ್ದಾರೆ ಎಂದು ಇದರ ಅರ್ಥವಾಗಿರಬಹುದು. ಈ ಸಂಪರ್ಕದೊಂದಿಗೆ ನಿಮ್ಮ ಸುರಕ್ಷತೆ ಸಂಖ್ಯೆಯನ್ನು ಪರಿಶೀಲಿಸಲು ನೀವು ಬಯಸಬಹುದು.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "ಹೇಗಾದರೂ ಕಳುಹಿಸಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "ಕಳುಹಿಸು",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "ಮುಗಿದಿದೆ",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "ಹೇಗಾದರೂ ಕರೆ ಮಾಡಿ",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "ನನ್ನ ಸ್ಟೋರಿ",
+    "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "ನನ್ನ ಸ್ಟೋರೀಸ್",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "ನಿಮ್ಮ ಸ್ಟೋರಿ",
@@ -5492,6 +5544,14 @@
     "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "ಭಾಗಶಃ ಕಳುಹಿಸಲಾಗಿದೆ",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "ಮರುಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "ಸ್ಟೋರಿ ವೀಕ್ಷಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "ಈ ಸ್ಟೋರಿ ಯಾವುದೇ ಶಬ್ದ ಹೊಂದಿಲ್ಲ",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "ಕೆಲವು ಜನರಿಗೆ ಈ ಸ್ಟೋರಿಯನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಗೌಪ್ಯತೆ",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "24 ಗಂಟೆಗಳ ನಂತರ ಸ್ಟೋರೀಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮರೆಯಾಗುತ್ತವೆ. ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂದು ಆಯ್ಕೆ ಮಾಡಿ ಅಥವಾ ನಿರ್ದಿಷ್ಟ ವೀಕ್ಷಕರು ಅಥವಾ ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಹೊಸ ಸ್ಟೋರೀಸ್ ರಚಿಸಿ.",
+    "messageformat": "24 ಗಂಟೆಗಳ ನಂತರ ಸ್ಟೋರೀಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮರೆಯಾಗುತ್ತವೆ. ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂದು ಆಯ್ಕೆ ಮಾಡಿ ಅಥವಾ ನಿರ್ದಿಷ್ಟ ವೀಕ್ಷಕರು ಅಥವಾ ಗ್ರೂಪ್ ಗಳೊಂದಿಗೆ ಹೊಸ ಸ್ಟೋರೀಸ್ ರಚಿಸಿ.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "ನನ್ನ ಸ್ಟೋರೀಸ್",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "ಹೊಸ ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
+    "message": "ಹೊಸ ಸ್ಟೋರಿ",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "ಈ ಸ್ಟೋರಿಯ ಹೆಸರನ್ನು ನೀವು ಮಾತ್ರ ನೋಡಬಹುದು.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "ಎಲ್ಲಾ Signal ಸಂಪರ್ಕಗಳು",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "ಕಸ್ಟಮ್ ಸ್ಟೋರಿ",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "ಗ್ರೂಪ್ ಸ್ಟೋರಿ",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ವೀಕ್ಷಕ",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ಸ್ಟೋರಿ ಸೆಟ್ಟಿಂಗ್ ಗಳು",
+    "message": "ಸ್ಟೋರಿ ಗೌಪ್ಯತೆ",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "ಈ ಸೆಟ್ಟಿಂಗ್ ಬದಲಾಯಿಸಲು, ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ Signal ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳು -> ಸ್ಟೋರೀಸ್ ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ಈ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "ಗ್ರೂಪ್ ಸ್ಟೋರಿ ತೆಗೆದುಹಾಕಿ",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "“{groupTitle}” ಅನ್ನು ತೆಗೆದುಹಾಕಲು ನೀವು ಖಚಿತವಾಗಿ ಬಯಸುತ್ತೀರಾ?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "ನಿಮ್ಮ ಸ್ಟೋರಿಯನ್ನು ಯಾರು ವೀಕ್ಷಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿರಿ",
@@ -5728,13 +5824,33 @@
     "message": "ಈ ಗ್ರೂಪ್ ಗೆ ಅಡ್ಮಿನ್ ಗಳು ಮಾತ್ರ ಸ್ಟೋರೀಸ್ ಕಳುಹಿಸಬಹುದು.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {ಖಾಸಗಿ ಸ್ಟೋರಿ · {viewersCount,number} ವೀಕ್ಷಕ} other {ಖಾಸಗಿ ಸ್ಟೋರಿ · {viewersCount,number} ವೀಕ್ಷಕರು}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {ಗ್ರೂಪ್ ಸ್ಟೋರಿ · 1 ಸದಸ್ಯ} other {ಗ್ರೂಪ್ ಸ್ಟೋರಿ · {membersCount,number} ಸದಸ್ಯರು}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಿ ಮತ್ತು ವೀಕ್ಷಿಸಿ",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ಈ ಆಯ್ಕೆಯನ್ನು ಆಫ್ ಮಾಡಿದಾಗ ಸ್ಟೋರೀಸ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
+    "message": "ಸ್ಟೋರೀಸ್ ನಿಂದ ಹೊರಗುಳಿಯಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಿದರೆ, ಇನ್ನು ನಿಮಗೆ ಸ್ಟೋರೀಸ್ ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ವೀಕ್ಷಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "ಸ್ಟೋರೀಸ್ ಆಫ್ ಮಾಡಿ",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "ಸ್ಥಗಿತಗೊಳಿಸಿ",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "ವೀಕ್ಷಣೆಗಳು ಆಫ್ ಆಗಿವೆ",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "ಕಳಿಸಲು ವಿಫಲವಾಯಿತು. ಮರುಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "ಭಾಗಶಃ ಕಳುಹಿಸಲಾಗಿದೆ. ಮರುಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "ಕಳುಹಿಸಿ ಆಗಿರುವ$time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "ಈ ಸ್ಟೋರಿಗೆ ನೀವು ಉತ್ತರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ, ಯಾಕೆಂದರೆ ನೀವೀಗ ಈ ಗ್ರೂಪ್‌ನ ಸದಸ್ಯರಾಗಿ ಉಳಿದಿಲ್ಲ.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "ನನಗೆ ಮಾತ್ರ ಅಳಿಸು",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸು",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "ಸ್ಟೋರಿ",
@@ -6020,22 +6156,6 @@
     "message": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- ವಾಯ್ಸ್ ನೋಟ್ ಗಳ ಸುದೀರ್ಘ ಪಟ್ಟಿಯೊಂದಿಗಿನ ಸಂಭಾಷೆಯನ್ನು ಎದುರಿಗಿದ್ದೀರೇನು? ಪ್ಲೇ ಕ್ಲಿಕ್ ಮಾಡಿ, ಕುಳಿತು ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ - ಅವು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಪ್ಲೇ ಆಗುತ್ತಾ ಹೋಗುತ್ತವೆ!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "ನಿಮ್ಮ ರಜೆಯ ಫೋಟೋಗಳೊಂದಿಗೆ ವೀಡಿಯೋವನ್ನೂ ಲಗತ್ತಿಸುವ ಮೂಲಕ ಮೆಸೇಜ್ ಅನ್ನು ಇನ್ನಷ್ಟು ಆಕರ್ಷಕಗೊಳಿಸಬಹುದು!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Lou ಹೆಸರಿನ ನಿಮ್ಮ ಗೆಳೆಯರಲ್ಲಿ ನಿಮ್ಮ ಬಾಸ್ಕೆಟ್ ಬಾಲ್ ತಂಡದಲ್ಲಿ ಇದ್ದವ ಯಾರು ಅಂತ ನೆನಪಾಗುತ್ತಿಲ್ಲವೇ? ನೀವು ಹಾಗೂ ನಿಮ್ಮ ಫ್ರೆಂಡ್ ಮಧ್ಯೆ ಶೇರ್ ಮಾಡಿದ ಗ್ರೂಪ್ ಗಳನ್ನು ನೋಡಲು ಸಂಪರ್ಕ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "ಸಂಭಾಷಣೆಯನ್ನು ರೋಚಕವಾಗಿಸಲು ಫ್ರೆಂಡ್ ಅನ್ನು ಅವರ ಸಂಪರ್ಕ ವಿವರಗಳ ಸ್ಕ್ರೀನ್ ನಿಂದ ಸುಲಭವಾಗಿ ಗ್ರೂಪ್‍ಗೆ ಸೇರಿಸಿ.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "ನಿಮ್ಮ‌ ಆ್ಯಪ್ ಅನ್ನು ಸರಾಗವಾಗಿರಿಸಲು ಬಗ್ ಫಿಕ್ಸಿಂಗ್ ಮತ್ತು ಇತರೆ ನಿರ್ವಹಣಾ ಸುಧಾರಣೆಗಳನ್ನು ಮಾಡುವ ಕೆಲಸದಲ್ಲಿ ನಿರತರಾಗಿದ್ದೇವೆ.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "ನಮ್ಮ ಹೊಸ ಸ್ಟೋರೀಸ್ ಫೀಚರ್ ಅನ್ನು ಬಳಸಲು ಮತ್ತು ಪರೀಕ್ಷಿಸಲು ಪ್ರಾರಂಭಿಸಿ. ಇತರೆ ಬೀಟಾ ಟೆಸ್ಟರ್ ಗಳೊಂದಿಗೆ ಈ ಫೀಚರ್ ಅನ್ನು ನೀವು ಬಳಸಬಹುದು ಮತ್ತು ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತಿದೆ ಎಂದು ನಮಗೆ ತಿಳಿಸಿ.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "ಸ್ಟೋರೀಸ್ ಈಗ Signal ನಲ್ಲಿ! ಮಾಯವಾಗುವ ಪಠ್ಯ, ಚಿತ್ರಗಳು, ವಿಡಿಯೋ ಅಪ್ಡೇಟ್‌ಗಳನ್ನು ಆಯ್ದ ಸ್ನೇಹಿತರು, ಗ್ರೂಪ್‌ಗಳ ಜೊತೆ ಹಂಚಿಕೊಳ್ಳಿ, ಅವು 24 ಗಂಟೆಗಳ ನಂತರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮಾಯವಾಗುತ್ತವೆ. ಸ್ಟೋರೀಸ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಇಷ್ಟಪಡುವ ಪ್ರತಿಯೊಬ್ಬರಿಗಾಗಿ, ಇದನ್ನು ಗೌಪ್ಯವಾಗಿ ಮತ್ತು ಯಾವುದೇ ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡದೆ ಮಾಡಲು ಇಲ್ಲಿದೆ ದಾರಿ. ಸ್ಟೋರೀಸ್ ಅನ್ನು ನೋಡಲು ಅಥವಾ ಹಂಚಿಕೊಳ್ಳಲು ನೀವು ಬಯಸದಿದ್ದರೆ, ನಿಮ್ಮ ಆದ್ಯತೆಗಳು > ಗೌಪ್ಯತೆಯಲ್ಲಿ ನೀವು ಅವೆಲ್ಲದರಿಂದ ಹೊರಗುಳಿಯುವ ಆಯ್ಕೆ ಮಾಡಬಹುದು.",
+    "description": "Release notes for v6.0"
   }
 }

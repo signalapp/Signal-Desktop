@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Huenda watu wafuatao wamesakinisha upya programu zao au kubadilisha vifaa. Thibitisha nambari yako ya usalama unayotumia kwao ili kuhakikisha unalinda faragha yako.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Watu wafuatao wanaweza kuwa wamesakinisha upya Signal au kubadilisha vifaa. Bonyeza mpokeaji ili kuthibitisha nambari yao mpya ya usalama. Hii ni kwa hiari.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Tuma jumbe zilizosalia.",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Ukaguzi",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Una muwasiliani (mmoja) ambaye huenda akawa amesakinisha upya Signal au kubadilisha vifaa. Una hiari ya kukagua nambari zao za usalama kabla ya kutuma.} other {Una wawasiliani {count,number} ambao huenda wakawa wamesakinisha upya Signal au kubadilisha vifaa. Una hiari ya kukagua nambari zao za usalama kabla ya kutuma.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Wawasiliani wote wamehakikishwa, bonyeza tuma kuendelea.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Je, una uhakika unataka kumwondoa mpokeaji 1 kutoka kwa stori {story}?} other {Una uhakika unataka kumuondoa mpokeaji {count,number} kutoka kwenye stori {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Ondoa wote",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Thibitisha nambari salama",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Ondoa kwenye stori",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Hatua kwa muwasiliani $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Hatua kwa stori $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Nambari yako ya usalama unayotumia kwa $name1$ imebadilika. Hii inaweza kumaanisha kuwa mtu anajaribu kuzuia mawasiliano yako au kuwa $name2$ amesakinisha Signal upya. Unashauriwa uthibitishe nambari yako ya usalama unayotumia kwa anwani hii.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Tuma Tu",
+    "message": "Tuma tu",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Tuma",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Imekamilika",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Piga hata hivyo",
+    "message": "Piga simu tu",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Stori Yangu",
+    "message": "Stori Zangu",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Stori Zangu",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Stori yako",
@@ -5492,6 +5544,14 @@
     "message": "Kutuma kumeshindwa",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Imetumwa nusu.",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Bonyeza kujaribu tena",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Bonyeza kuangalia stori",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Stori hii haina sauti",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Stori hii haijaweza kutumwa kwa baadhi ya watu. Angalia mwunganisho wa mtandao wako na ujaribu tena.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Mipangilio ya stori",
+    "message": "Faragha ya stori",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Stori zitatoweka zenyewe kiautomatiki baada ya saa 24. Chagua nani anaweza kutazama stori yako au tengeneza stori mpya na watazamaji ama vikundi maalum.",
+    "messageformat": "Stori hufutika zenyewe baada ya saa 24. Chagua nani anayeweza kuona stori au tengeneza stori mpya na watazamaji maalum au vikundi.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Stori Zangu",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Stori mpya ya kipekee.",
+    "message": "Stori Mpya",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Wewe pekee ndiye unayeweza kuona jina la stori hii.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Signal connections wote",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Stori ya kipekee",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Stori ya kikundi",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "mtazamaji $num$",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Mipangilio ya stori",
+    "message": "Faragha ya stori",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Ili kubadili mpangilio huu, fungua programu ya Signal kwenye kifaa chako cha mkononi nenda kwenye Mipangilio -> Stori",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Nani anaweza kutazama stori hii",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Ondoa stori ya kikundi",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Je, una uhakika unataka kuondoa \"{groupTitle}\"?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Chagua nani anayeweza kutazama stori yako",
@@ -5728,13 +5824,33 @@
     "message": "Admins tu ndio wanaoweza kutuma stori kwenye kikundi hiki.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Stori binafsi · Mtazamaji {viewersCount,number}} other {Stori binafsi · Watazamaji {viewersCount,number}}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Stori ya kikundi · Mwanachama 1} other {Stori ya kikundi · Wanachama {membersCount,number}}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Share & Tazama Stori",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Hutoweza tena kushirikisha wengine au kutazama stori wakati ambapo chaguo hili limezimwa.",
+    "message": "Kama ukichagua kuzima stori hutaweza tena kushiriki au kutazama stori.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Zima stori",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Sitisha",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Kutazama kumezuiwa",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Kutuma",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Imeshindikana Kutuma. Bonyeza kujaribu tena",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Imetumwa nusu. Bonyeza kujaribu tena",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Imetumwa $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Huwezi kujibu kwa stori hii kwa sababu wewe sio tena mwanachama wa kikundi hiki.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Nifutie",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Futa kwa kila mtu",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Stori",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Tarakimu hizi zinasaidia kuliweka jina lako la mtumiaji kwa faragha ili uepuke jumbe usizozitaka. Shiriki jina lako la mtumiaji na watu na makundi ambayo ungependa kuzungumza nayo tu. Kama ukibadili jina la mtumiaji utatumiwa seti mpya ya tarakimu.",
+    "message": "Tarakimu hizi zinasaidia kuliweka jina lako la mtumiaji kibinafsi ili kuepuke jumbe zisizotakikana. Share jina lako la mtumiaji na watu na makundi ambayo ungependa kuzungumza nayo tu. Ukibadili jina lako la mtumiaji utatumiwa seti mpya ya tarakimu.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Unakabiliwa na gumzo lenye orodha ndefu ya Jumbe za Sauti za kusikiliza? Bofya cheza, keti, na ujiachie - zitaendelea kucheza kiotomatiki!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Sasa unaweza kuambatanisha ladha ya video katika ujumbe pamoja na picha zako za likizo!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Hukumbuki yupi katika marafiki zako anayeitwa Lou ambaye yupo kwenye timu yako ya mpira wa kikapu? Angalia maelezo ya muwasiliani kuona makundi ambayo mpo pamoja wewe na rafiki yako.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Kwa wepesi muongeze rafiki kwenye kikundi kutoka kwenye maelezo yake ili kuendeleza mazungumzo mazuri.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Tunafanya kazi kwa bidii kurekebisha hitilafu na maboresho mengine ya kiutendaji ili kuifanya programu iwe vizuri kwa ajili yako.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Anza kutumia na kujaribu kipengele chetu kipya cha stori. Unaweza kutumia kipengele hiki na vijaribio vingine vya beta na kutujulisha namna inavyofanya kazi.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Stori sasa zipo Signal! Share jumbe zinazotoweka, masasisho ya picha na video na marafiki na vikundi utakavyochagua, ambayo yatatoweka baada ya saa 24. Kwa kila mtu anayependa kushiriki stori, hii ndiyo njia ya kuifanya kwa kibinafsi na bila kuona matangazo yoyote. Kama hutaki kuona au ku-share stori, unaweza kujiondoa katika Mapendeleo yako > Faragha.",
+    "description": "Release notes for v6.0"
   }
 }

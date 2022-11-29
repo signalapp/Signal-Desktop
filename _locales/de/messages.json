@@ -434,19 +434,67 @@
   },
   "changedVerificationWarning": {
     "message": "Die folgenden Personen haben Signal vielleicht erneut installiert oder das Gerät gewechselt. Verifiziert eure gemeinsame Sicherheitsnummer zur Sicherstellung der Privatsphäre.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Folgende Personen haben Signal möglicherweise erneut installiert oder das Gerät gewechselt. Tippe auf einen Empfänger, um die neue Sicherheitsnummer zu bestätigen. Dies ist optional.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Ausstehende Nachrichten versenden",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Überprüfung",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Du hast {count,number} Verbindung, die Signal möglicherweise erneut installiert oder das Gerät gewechselt hat. Optional kannst du seine/ihre Sicherheitsnummer vor dem Senden überprüfen.} other {Du hast {count,number} Verbindungen, die Signal möglicherweise erneut installiert oder das Gerät gewechselt haben. Optional kannst du ihre Sicherheitsnummern vor dem Senden überprüfen.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Alle Verbindungen wurden überprüft. Klicke auf »Senden«, um fortzufahren.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Bist du sicher, dass du {count,number} Betrachter von Story {story} entfernen möchtest?} other {Bist du sicher, dass du {count,number} Betrachter von Story {story} entfernen möchtest?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Alle entfernen",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Sicherheitsnummer verifizieren",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Aus Story entfernen",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Aktionen für Kontakt $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Aktionen für Story $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Deine Sicherheitsnummer mit $name1$ hat sich geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber $name2$ hat Signal einfach erneut installiert. Vielleicht möchtest du die neue Sicherheitsnummer mit diesem Kontakt verifizieren.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Trotzdem senden",
+    "message": "Trotzdem versenden",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Senden",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Fertig",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Trotzdem anrufen",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Meine Story",
+    "message": "Meine Storys",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Meine Storys",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Deine Story",
@@ -5492,6 +5544,14 @@
     "message": "Senden gescheitert",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Teilweise gesendet",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Zum Wiederholen klicken",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Anklicken, um eine Story anzusehen",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Diese Story hat keinen Ton",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Diese Story konnte an einige Leute nicht gesendet werden. Überprüfe deine Verbindung und versuche es erneut.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Story-Einstellungen",
+    "message": "Story-Datenschutz",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Storys verschwinden automatisch nach 24 Stunden. Lege fest, wer deine Story sehen kann, oder erstelle neue Storys mit bestimmten Betrachtern oder Gruppen.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Meine Storys",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Neue benutzerdefinierte Story",
+    "message": "Neue Story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Nur du kannst den Namen dieser Story sehen.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Alle Signal-Verbindungen",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Benutzerdefinierte Story",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Gruppen-Story",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ Betrachter",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story-Einstellungen",
+    "message": "Story-Datenschutz",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu „Einstellungen“ -> „Storys“",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Wer diese Story sehen kann",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Mitglieder der Gruppe »{groupTitle}« können diese Story sehen und darauf antworten. Du kannst die Mitgliedschaft für diese Unterhaltung in der Gruppe aktualisieren.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Gruppen-Story entfernen",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Bist du sicher, dass du »{groupTitle}« entfernen möchtest?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Lege fest, wer diese Story sehen kann",
@@ -5728,13 +5824,33 @@
     "message": "Nur Admins können Storys an diese Gruppe senden.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Alle Signal-Verbindungen · {viewersCount,number} Betrachter} other {Alle Signal-Verbindungen · {viewersCount,number} Betrachter}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Alle Signal-Verbindungen · {excludedCount,number} ausgenommen} other {Alle Signal-Verbindungen · {excludedCount,number} ausgenommen}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Private Story · {viewersCount,number} Betrachter} other {Private Story · {viewersCount,number} Betrachter}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Gruppen-Story · {membersCount,number} Mitglied} other {Gruppen-Story · {membersCount,number} Mitglieder}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Storys teilen und ansehen",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Wenn diese Option deaktiviert ist, können keine Storys geteilt und angesehen werden.",
+    "message": "Wenn du dich von Storys abmeldest, kannst du keine Storys mehr teilen oder ansehen.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Storys ausschalten",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pause",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Anzeigen aus",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Wird gesendet …",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Senden gescheitert. Zum Wiederholen klicken",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Teilweise gesendet. Zum Wiederholen klicken",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ gesendet",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kannst nicht auf diese Story antworten, weil du nicht mehr Mitglied dieser Gruppe bist.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Für mich löschen",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Für jeden löschen",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Diese Ziffern helfen, deinen Usernamen privat zu halten, damit du keine unerwünschten Nachrichten erhältst. Teile deinen Usernamen nur mit den Personen und Gruppen, mit denen du chatten möchtest. Wenn du deinen Usernamen änderst, bekommst du einen neuen Zifferncode.",
+    "message": "Diese Ziffern helfen, deinen Usernamen privat zu halten, damit du keine unerwünschten Nachrichten erhältst. Teile deinen Usernamen nur mit den Personen und Gruppen, mit denen du dich unterhalten möchtest. Wenn du deinen Usernamen änderst, bekommst du einen neuen Zifferncode.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Du stehst vor einem Gespräch mit einer langen Liste von Sprachnotizen, die du dir anhören musst? Klicke auf »Abspielen« und lehne dich entspannt zurück – sie werden automatisch abgespielt!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Du kannst jetzt zusammen mit deinen Urlaubsfotos ein Video an eine Nachricht anhängen!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Du weißt nicht mehr, welcher deiner Freunde namens Anton in deinem Basketballteam ist? Überprüfe die Kontaktdaten, um zu sehen, welche Gruppen du und ein*e Freund*in gemeinsam nutzen.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Füge eine*n Freund*in ganz einfach über die Kontaktdaten zu einer Gruppe hinzu, um die Unterhaltung spannend zu halten.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Wir arbeiten hart daran, Fehler zu beheben und andere Leistungsverbesserungen vorzunehmen, damit die App für dich reibungslos läuft.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Nutze und teste unsere neue Story-Funktion. Du kannst die Funktion mit anderen Beta-Testern nutzen und uns mitteilen, wie sie sich bewährt.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Jetzt gibt es Storys bei Signal! Teile Nachrichten, Bilder und Video-Updates, die nach 24 Stunden automatisch verschwinden, mit Freunden oder Gruppen. Für alle, die gerne Storys teilen, gibt es hier eine Möglichkeit, dies privat und ohne Werbung zu tun. Wenn du keine Storys sehen oder teilen möchtest, kannst du dies unter Einstellungen > Datenschutz deaktivieren.",
+    "description": "Release notes for v6.0"
   }
 }

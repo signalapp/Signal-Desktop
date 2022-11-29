@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "앱을 재설치했거나 기기를 바꾼 사람의 목록입니다. 보안을 보장하려면 안전 번호를 검증하세요.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "다음 사용자는 Signal을 다시 설치했거나 장치를 변경했을 수 있습니다. 받는 사람을 클릭하여 새로운 안전 번호를 확인하세요. 이 작업은 선택 사항입니다.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "보류 중인 메시지 보내기",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "검토",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {Signal을 다시 설치하거나 장치를 변경했을 수 있는 커넥션이 {count,number}개 있습니다. 해당 사용자의 안전 번호를 전송 전 미리 검토할 수 있습니다.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "모든 커넥션을 검토했습니다. 보내기를 클릭하여 계속하세요.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {{story} 스토리에서 받는 사람 {count,number}명을 삭제할까요?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "모두 제거",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "안전 번호 인증",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "스토리에서 제거",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ 연락처에 대한 조치",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ 스토리에 대한 조치",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "$name1$ 님의 안전 번호가 변경되었습니다. 이 변경 사항은 누군가가 내 통신 내용을 가로채려고 했을 수도, $name2$ 님이 단순히 Signal을 다시 설치했을 수도 있습니다. 이 연락처로 안전 번호를 확인할 수 있습니다.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "무시하고 보내기",
+    "message": "그냥 보내기",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "보내기",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "확인",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "계속 전화",
+    "message": "그냥 전화",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5392,6 +5440,10 @@
     "message": "내 스토리",
     "description": "Title for the my stories list"
   },
+  "MyStories__list_item": {
+    "message": "내 스토리",
+    "description": "Label for the my stories in the list of all stories"
+  },
   "MyStories__story": {
     "message": "내 스토리",
     "description": "aria-label for each one of your stories"
@@ -5492,6 +5544,14 @@
     "message": "보내기 실패",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "일부만 전송됐습니다.",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "클릭하여 다시 시도하세요.",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "클릭하여 스토리 보기",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "소리가 없는 스토리입니다.",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "이 스토리를 일부 사용자에게 보낼 수 없습니다. 연결을 확인하고 다시 시도하세요.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "스토리 설정",
+    "message": "스토리 개인정보보호",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "스토리는 24시간이 지나면 자동으로 사라집니다. 내 스토리를 볼 수 있는 사람을 선택하거나, 볼 수 있는 사람 또는 그룹을 지정하여 새 스토리를 만드세요.",
+    "messageformat": "스토리는 24시간이 지나면 자동으로 사라집니다. 스토리를 볼 수 있는 사람을 선택하거나, 스토리를 볼 수 있는 사람이나 그룹을 지정하여 새 스토리를 만드세요.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "내 스토리",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "새 사용자 지정 스토리",
+    "message": "새 스토리",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "이 스토리의 이름은 나에게만 표시됩니다.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "모든 Signal 커넥션",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "사용자 지정 스토리",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "그룹 스토리",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "볼 수 있는 사람 $num$명",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "스토리 설정",
+    "message": "스토리 개인정보보호",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "이 설정을 변경하려면 모바일 장치에서 Signal 앱을 열고 설정 -> 스토리로 이동합니다.",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "이 스토리를 볼 수 있는 사람",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "''{groupTitle}' 그룹 채팅 멤버는 이 스토리를 보고 여기에 답장할 수 있습니다. 그룹에서 이 채팅에 대한 멤버십을 업데이트할 수 있습니다.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "그룹 스토리 제거",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "''{groupTitle}'을(를) 삭제할까요?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "스토리를 볼 수 있는 사람을 선택하세요.",
@@ -5728,13 +5824,33 @@
     "message": "관리자만 이 그룹에 스토리를 보낼 수 있습니다.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {모든 Signal 커넥션 · 볼 수 있는 사람 {viewersCount,number}명}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {모든 Signal 커넥션 · {excludedCount,number}명 제외}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {비공개 스토리 · 볼 수 있는 사람 {viewersCount,number}명}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {그룹 스토리 · 멤버 {membersCount,number}명}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "스토리 공유 및 보기",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "이 옵션을 끄면 더 이상 스토리를 공유하거나 볼 수 없습니다.",
+    "message": "스토리 기능을 끄면 더 이상 스토리를 보거나 공유할 수 없습니다.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "스토리 끄기",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "일시 정지",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "수신 확인 꺼짐",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "보내는 중…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "전송에 실패했습니다. 클릭하여 다시 시도하세요.",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "일부만 전송됐습니다. 클릭하여 다시 시도하세요.",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "보낸 시간 $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "더 이상 이 그룹의 멤버가 아니므로 이 스토리에 답장할 수 없습니다.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "나에게서 삭제",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "모두에게서 삭제",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "스토리",
@@ -6020,22 +6156,6 @@
     "message": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- 대화에 들어야 할 음성 메시지가 많이 포함되어 있나요? 재생을 누른 다음 편안히 기다리세요. 음성 메시지가 자동으로 재생됩니다!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "이제 휴가 사진과 함께 동영상을 첨부하여 메시지에 재미를 더해보세요!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "'김상혁'이라는 이름의 두 친구 중 누가 농구팀에서 활동하는 친구인지 헷갈리시나요? 연락처 세부 정보에서 나와 친구가 공유하는 그룹을 확인해 보세요.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "친구의 연락처 세부 정보 화면에서 간단하게 그룹에 친구를 추가하여 흥미로운 대화를 계속 이어가세요.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "새 스토리 기능을 사용하고 테스트해 보세요. 이 기능은 Signal의 다른 베타 테스터들과 함께 사용할 수 있습니다. 사용해 보고 감상을 알려주세요!",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "이제 Signal에서 스토리를 사용해 보세요! 24시간 후 자동으로 사라지는 자동 삭제 텍스트, 이미지, 동영상 업데이트를 특정 친구나 그룹과 공유해 보세요. 이제 광고나 개인 정보 유출에 대한 걱정 없이 누구나 스토리를 공유할 수 있습니다. 스토리를 보거나 공유하고 싶지 않다면 기본 설정 > 개인 정보에서 관련 기능을 모두 선택 해제하세요.",
+    "description": "Release notes for v6.0"
   }
 }

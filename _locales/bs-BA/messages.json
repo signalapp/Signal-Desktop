@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Ove su osobe možda iznova instalirale Signal ili promijenile uređaj. Potvrdite svoj sigurnosni broj s njima da osigurate privatnost.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Sljedeće osobe su možda ponovo instalirale Signal ili su promijenile uređaje. Kliknite na primaoca da potvrdite njegov novi sigurnosni broj. Ta radnja nije obavezna.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Pošaljite poruke na čekanju",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Pregled",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Imate {count,number} kontakt koji je možda ponovo instalirao Signal ili je promijenio uređaj. Možete pregledati sigurnosne brojeve te osobe prije slanja.} few {Imate {count,number} kontakta koja su možda ponovo instalirala Signal ili su promijenila uređaje. Možete pregledati sigurnosne brojeve tih osoba prije slanja.} many {Imate {count,number} kontakata koji su možda ponovo instalirali Signal ili su promijenili uređaje. Možete pregledati sigurnosne brojeve tih osoba prije slanja.} other {Imate {count,number} kontakata koji su možda ponovo instalirali Signal ili su promijenili uređaje. Možete pregledati sigurnosne brojeve tih osoba prije slanja.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Svi kontakti su pregledani, kliknite \"Pošalji\" da nastavite.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Jeste li sigurni da želite ukloniti 1 primaoca iz priče {story}?} few {Jeste li sigurni da želite ukloniti {count,number} primaoca iz priče {story}?} many {Jeste li sigurni da želite ukloniti {count,number} primaoca iz priče {story}?} other {Jeste li sigurni da želite ukloniti {count,number} primaoca iz priče {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Ukloni sve",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Provjerite sigurnosni broj",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Ukloni iz priče",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Radnje za kontakt $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Radnje za priču $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Sigurnosni broj koji s kontaktom $name1$ se promijenio. To može značiti da neko pokušava presresti vašu komunikaciju ili da je $name2$ jednostavno ponovo instalirao/la Signal. Možda želite potvrditi svoj sigurnosni broj s ovim kontaktom.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Svakako pošalji",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Šalji",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Uredu",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Svakako nazovi",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Moja priča",
+    "message": "Moje priče",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Moje priče",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Vaša priča",
@@ -5492,6 +5544,14 @@
     "message": "Neuspjelo slanje",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Djelomično poslano",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Kliknite da pokušate ponovo",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Kliknite da prikažete priču",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Ova priča nema zvuk",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Ovu priču nije bilo moguće poslati određenim osobama. Provjerite svoju vezu i pokušajte ponovno.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Podešavanja priče",
+    "message": "Privatnost priča",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Priče automatski nestaju nakon 24 sata. Odaberite ko može vidjeti vašu priču ili kreirajte nove priče s određenim gledaocima ili grupama.",
+    "messageformat": "Priče automatski nestaju nakon 24 sata. Odaberite ko može vidjeti vaše priče ili kreirajte nove priče s određenim gledaocima ili grupama.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Moje priče",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nova prilagođena priča",
+    "message": "Nova priča",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Samo vi možete vidjeti naziv ove priče.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Sve Signal veze",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Prilagođena priča",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Grupna priča",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "Gledaoci: $num$",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Podešavanja priče",
+    "message": "Privatnost priča",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Da promijenite ovu postavku, otvorite aplikaciju Signal na mobilnom uređaju i idite na Postavke -> Priče",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Ko može vidjeti ovu priču",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Ukloni priču grupe",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Jeste li sigurni da želite ukloniti grupu “{groupTitle}”?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Odaberite ko može vidjeti vašu priču",
@@ -5728,13 +5824,33 @@
     "message": "Samo administratori mogu slati priče u ovu grupu.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Svi Signal kontakti · 1 gledalac} few {Svi Signal kontakti · {viewersCount,number} gledaoca} many {Svi Signal kontakti · {viewersCount,number} gledalaca} other {Svi Signal kontakti · {viewersCount,number} gledalaca}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Svi Signal kontakti· 1 je izuzet} few {Svi Signal kontakti · {excludedCount,number} su izuzeta} many {Svi Signal kontakti · {excludedCount,number} je izuzeto} other {Svi Signal kontakti · {excludedCount,number} je izuzeto}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privatna priča · {viewersCount,number} gledalac} few {Privatna priča · {viewersCount,number} gledaoca} many {Privatna priča · {viewersCount,number} gledaoca} other {Privatna priča · {viewersCount,number} gledaoca}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Grupna priča · 1 član} few {Grupna priča · {membersCount,number} člana} many {Grupna priča · {membersCount,number} članova} other {Grupna priča · {membersCount,number} članova}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dijelite i gledajte priče",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Nećete moći dijeliti i vidjeti priče nakon što isključite ovu opciju.",
+    "message": "Ako se isključite iz priča, više nećete moći dijeliti ili pregledati priče.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Isključi priče",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pauziranje",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Prikazi su isključeni",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Slanje…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Slanje nije uspjelo. Kliknite da pokušate ponovo",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Djelomično poslano. Kliknite da pokušate ponovo",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Poslano $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Ne možete odgovoriti na ovu priču jer više niste član ove grupe.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Izbriši za mene",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Izbriši za svakoga",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Priča",
@@ -6020,22 +6156,6 @@
     "message": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Čeka vas razgovor s dugim spiskom Glasovnih bilješki koje morate preslušati? Reproducirajte ih, sjednite i opustite se - reproducirat će se automatski!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Sada možete priložiti videozapis uz poruku zajedno s vašim fotografijama s odmora!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Ne možete se sjetiti koja je Maja s vama u košarkaškom timu? Provjerite detalje o kontaktu da vidite koje grupe dijelite s prijateljem.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "S lakoćom dodajte prijatelja u grupu sa zaslona detalja o kontaktu da bi vaš razgovor bio uzbudljiv.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Naporno radimo da otklonimo greške i uvedemo ostala pobljšanja performansi kako bi vaša aplikacija nesmetano funkcionirala.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Počnite koristiti i testirati našu novu značajku priča. Možete koristiti značajku s drugim beta testerima i obavijestiti nas kako funkcionira.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Sada možete objavljivati priče na Signalu!\n\n Podijelite kratkotrajni tekst, sike i videozapise s odabranim prijateljima ili grupama koji će automatski nestati nakon 24 sata. Za sve koji vole dijeliti priče, evo kako to možete raditi privatno bez prikazivanja oglasa. Ako ne želite gledati niti dijeliti priče, sve to možete isključiti u Postavkama > Privatnost.",
+    "description": "Release notes for v6.0"
   }
 }

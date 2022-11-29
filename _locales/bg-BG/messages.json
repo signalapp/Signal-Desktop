@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Следните контакти може да са преинсталирали или сменили устройствата си. Потвърдете номерата за сигурност, за да гарантирате поверителност.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Следните хора е възможно да са преинсталирали Signal или да са сменили устройството си. Докоснете някой получател, за да потвърдите новия им номер за безопасност. Това не е задължително.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Изпращане на чакащи съобщения",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Преглед",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Имате {count,number} връзка, която е възможно да е преинсталирала Signal или да е сменила устройството си. Преди изпращането можете да прегледате нейния номер за безопасност, ако желаете.} other {Имате {count,number} връзки, които е възможно да са преинсталирали Signal или да са сменили устройството си. Преди изпращането можете да прегледате техните номера за безопасност, ако желаете.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Всички връзки бяха прегледани, докоснете „изпращане“, за да продължите.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Наистина ли искате да премахнете 1 получател от историята {story}?} other {Наистина ли искате да премахнете {count,number} получатели от историята {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Премахване на всички",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Проверка на числата за сигурност",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Премахване от история",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Действия за контакта $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Действия за историята $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Номерът ви за безопасност с $name1$ се е променил. Това може да означава, че някой се опитва да прихване комуникацията ви или че $name2$ просто повторно е инсталирал Signal. Желателно е да потвърдите вашия номер за безопасност с този контакт.",
@@ -448,8 +488,16 @@
     "message": "Изпрати все пак",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Изпращане",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Готово",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Повикване",
+    "message": "Обади се все пак",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Моята история",
+    "message": "Моите истории",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Моите истории",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Вашата история",
@@ -5492,6 +5544,14 @@
     "message": "Изпращането неуспешно",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Частично изпратено",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Кликнете за повторен опит",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Кликнете, за да видите някоя история",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Тази история няма звук",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Тази история не можа да бъде изпратена до някои хора. Проверете връзката си и опитайте отново.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Настройки за истории",
+    "message": "Поверителност на история",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Историите изчезват автоматично след 24 часа. Изберете кой може да вижда вашите истории или създайте нови истории за специфични зрители или групи.",
+    "messageformat": "Историите изчезват автоматично след 24 часа. Изберете кой да вижда вашите истории или създайте нови за специфични зрители или групи.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Моите истории",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Нова персонализирана история",
+    "message": "Нова история",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Само вие можете да видите името на тази история.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Всички връзки в Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Персонализирана история",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "История на група",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ зрител",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Настройки за истории",
+    "message": "Поверителност на история",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "За да промените тази настройка, отворете приложението Signal на мобилното си устройство и отидете в „Настройки -> Истории“",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Кой може да вижда тази история",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Премахване на групова история",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Наистина ли искате да премахнете „{groupTitle}“?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Изберете кой може да вижда вашата история",
@@ -5728,13 +5824,33 @@
     "message": "Само админи могат да изпращат истории до тази група.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Частна история · {viewersCount,number} зрител} other {Частна история · {viewersCount,number} зрители}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Групова история · 1 член} other {Групова история · {membersCount,number} членове}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Споделяне и преглед на истории",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Когато тази опция е изключена, няма да можете да споделяте или разглеждате Истории.",
+    "message": "Ако се откажете от истории, вече няма да можете да споделяте или виждате истории.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Изключете истории",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Пауза",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Изключване на разписки",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Изпращане…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Изпращането беше неуспешно. Кликнете за повторен опит",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Частично изпратено. Кликнете за повторен опит",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Изпратено $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Не може да отговорите на тази история, защото вече не сте член на тази група.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Изтрий за мен",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Изтрий за всички",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "История",
@@ -6020,22 +6156,6 @@
     "message": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Имате разговор с дълъг списък от гласови бележки за прослушване? Кликнете „Пускане“ и релаксирайте – те ще продължат да се пускат автоматично една след друга!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Когато споделяте снимки от почивката, вече можете да добавите и малко видео чар към съобщенията!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Не помните с кой от вашите приятели на име Любо играете баскетбол? Вижте подробностите за контакт, за да видите споделените групи между вас и ваш приятел.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Можете лесно да добавите приятел към група от екрана с подробности за контакта, за да поддържате разговора интересен.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Работим усилено, за да коригираме бъгове и да правим подобрения на процесите, които поддържат гладката работа на приложението за вас.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Започнете да използвате и тествате нашата нова функция за истории. Можете да използвате функцията с други бета тестъри и да ни уведомите как работи.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "В Signal вече има истории! Споделяйте с избрани приятели или групи изчезващи актуализации с текст, изображения и видео, които автоматично изчезват след 24 часа. За всички, които обичат да споделят истории, ето как да го правите поверително и без да виждате реклами. Ако не искате да виждате или споделяте истории, можете да се отпишете от функцията в „Предпочитания > Поверителност“.",
+    "description": "Release notes for v6.0"
   }
 }

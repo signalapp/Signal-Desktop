@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "பின்வரும் நபர்கள் சாதனங்களை மீண்டும் நிறுவியிருக்கலாம் அல்லது மாற்றியிருக்கலாம். தனியுரிமையை உறுதிப்படுத்த அவர்களுடன் உங்கள் பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "பின்வரும் நபர்கள் Signalஐ மீண்டும் நிறுவியிருக்கலாம் அல்லது டிவைஸ்களை மாற்றியிருக்கலாம். புதிய பாதுகாப்பு எண்ணை உறுதிப்படுத்த ஒரு பெறுநரை கிளிக் செய்யவும். இது விருப்பத்தேர்வு.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "நிலுவையில் உள்ள செய்திகளை அனுப்பவும்",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "மதிப்பாய்வு செய்க",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Signalஐ மீண்டும் நிறுவிய அல்லது டிவைஸ்களை மாற்றிய {count,number} இணைப்பு உங்களிடம் உள்ளது. விரும்பினால் அவர்களின் பாதுகாப்பு எண்களை அனுப்பும் முன் மதிப்பாய்வு செய்யலாம்.} other {சிக்னலை மீண்டும் நிறுவிய அல்லது டிவைஸ்களை மாற்றிய {count,number} இணைப்புகள் உங்களிடம் உள்ளன. அவர்களின் பாதுகாப்பு எண்களை அனுப்பும் முன் நீங்கள் விருப்பத்தேர்வாக மதிப்பாய்வு செய்யலாம்.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "அனைத்து இணைப்புகளும் மதிப்பாய்வு செய்யப்பட்டுள்ளன, தொடருவதற்கு அனுப்பு என்பதைக் கிளிக் செய்யவும்.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {{story} ஸ்டோரியிலிருந்து 1 பெறுநரை நிச்சயமாக அகற்ற விரும்புகிறீர்களா?} other {ஸ்டோரியிலிருந்து {count,number} பெறுநர்களை நிச்சயமாக நீக்க விரும்புகிறீர்களா {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "அனைத்தையும் நீக்கு",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "ஸ்டோரியிலிருந்து அகற்றவும்",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ தொடர்புக்கான செயல்கள்",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ ஸ்டோரிக்கான செயல்கள்",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "$name1$ உடனான உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name2$ Signal சிக்னலை மீண்டும் நிறுவியிருக்கலாம்.  உங்கள் பாதுகாப்பு எண்ணை இவருடன் சரிபார்க்கவும்.",
@@ -448,8 +488,16 @@
     "message": "இருந்தாலும் அனுப்பு",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "அனுப்புக",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "முடிந்தது",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "எப்படியாவது அழைக்கவும்",
+    "message": "இருந்தாலும் அழைக்கவும்",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "எனது ஸ்டோரி",
+    "message": "எனது ஸ்டோரீஸ்",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "எனது ஸ்டோரீஸ்",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "உங்கள் ஸ்டோரி",
@@ -5492,6 +5544,14 @@
     "message": "அனுப்புவது தோல்வியுற்றது",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "ஓரளவு அனுப்பப்பட்டது",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "மீண்டும் முயல கிளிக் செய்க",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "ஒரு ஸ்டோரியைப் பார்க்க கிளிக் செய்யவும்",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "இந்த ஸ்டோரியில் ஒலி இல்லை",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "இந்த ஸ்டோரியை சிலருக்கு அனுப்ப முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "ஸ்டோரி அமைப்புகள்",
+    "message": "ஸ்டோரி தனியுரிமை",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "24 மணிநேரத்திற்குப் பிறகு ஸ்டோரீஸ் தானாகவே மறைந்துவிடும். உங்கள் ஸ்டோரியை யார் பார்வையிடலாம் அல்லது குறிப்பிட்ட பார்வையாளர்கள் அல்லது குழுக்களுடன் புதிய ஸ்டோரீஸ்-ஐ உருவாக்கவும்.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "எனது ஸ்டோரீஸ்",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "புதிய தனிப்பயன் ஸ்டோரி",
+    "message": "புதிய ஸ்டோரி",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "இந்த ஸ்டோரியின் பெயரை நீங்கள் மட்டுமே பார்க்க முடியும்.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "அனைத்து சிக்னல் இணைப்புகள்",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "தனிப்பயன் ஸ்டோரி",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "குழு ஸ்டோரி",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ பார்வையாளர்",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ஸ்டோரி அமைப்புகள்",
+    "message": "ஸ்டோரி தனியுரிமை",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "இந்த அமைப்பை மாற்ற, உங்கள் மொபைல் டிவைஸில் Signal செயலியைத் திறந்து, அமைப்புகள் > ஸ்டோரீஸ் என்பதற்குச் செல்லவும்",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "இந்த ஸ்டோரியை யார் பார்வையிட முடியும்",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "குழு ஸ்டோரியை அகற்றவும்",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "“{groupTitle}” குழுவை நிச்சயமாக அகற்ற விரும்புகிறீர்களா?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "உங்கள் ஸ்டோரியை யார் பார்க்கலாம் என்பதைத் தேர்வு செய்யவும்",
@@ -5728,13 +5824,33 @@
     "message": "இந்த குழுவிற்கு நிர்வாகிகள் மட்டுமே ஸ்டோரீஸ்-ஐ அனுப்ப முடியும்.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {தனிப்பட்ட ஸ்டோரி · {viewersCount,number} பார்வையாளர்} other {தனிப்பட்ட ஸ்டோரி · {viewersCount,number} பார்வையாளர்கள்}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {குழு ஸ்டோரி · 1 உறுப்பினர்} other {குழு ஸ்டோரி · {membersCount,number} உறுப்பினர்கள்}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "ஸ்டோரீஸ்-ஐப் பகிரவும் & பார்க்கவும்",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "இந்த விருப்பத்தேர்வு முடக்கப்பட்டிருக்கும் போது உங்களால் இனி ஸ்டோரீஸ்-ஐப் பகிரவோ பார்க்கவோ முடியாது.",
+    "message": "நீங்கள் ஸ்டோரீஸ்-இல் இருந்து விலகினால், இனி உங்களால் ஸ்டோரீஸ்-ஐ பகிரவோ அல்லது பார்க்கவோ முடியாது.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "ஸ்டோரீஸ்-ஐ முடக்கவும்",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "நிறுத்து",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "பார்வைகள் முடக்கப்பட்டுள்ளன",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "அனுப்புகிறது…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "அனுப்புவது தோல்வியுற்றது. மீண்டும் முயல கிளிக் செய்க",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "ஓரளவு அனுப்பப்பட்டது. மீண்டும் முயல கிளிக் செய்க",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ அனுப்பப்பட்டது",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "இந்தக் குழுவில் உறுப்பினராக இல்லாததால் உங்களால் இந்த ஸ்டோரிக்கு பதிலளிக்க முடியாது.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "எனக்கு மட்டும் நீக்கு",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "அனைவருக்கும் நீக்கு",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "ஸ்டோரி",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "நீங்கள் தேவையற்ற செய்திகளைத் தவிர்க்க இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவும். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டுமே உங்கள் பயனர்பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
+    "message": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- கேட்க வேண்டிய குரல் குறிப்புகளின் நீண்ட பட்டியலுடன் உரையாடலை எதிர்கொள்கிறீர்களா? இயக்கு என்பதைக் கிளிக் செய்யவும், உட்கார்ந்து ஓய்வெடுக்கவும் - அவை தானாகவே இயங்குவது தொடரும்!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "நீங்கள் இப்போது உங்கள் விடுமுறை புகைப்படங்களுடன் சில வீடியோ குறிப்புகளை ஒரு செய்தியில் இணைக்கலாம்!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "உங்கள் கூடைப்பந்து அணியில் லூ என்ற உங்கள் நண்பர்கள் யார் என்பதை நினைவில் கொள்ள முடியவில்லையா? உங்களுக்கும் நண்பருக்கும் இடையே பகிரப்பட்ட குழுக்களைப் பார்க்க தொடர்பு விவரங்களைச் சரிபார்க்கவும்.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "உரையாடலை சுவாரசியமாக வைத்திருக்க, அவர்களின் தொடர்பு விவரங்கள் திரையில் இருந்து ஒரு நண்பரை ஒரு குழுவில் எளிதாகச் சேர்க்கவும்.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "பிழை திருத்தம் செய்யவும் மற்றும் உங்களுக்காக ஆப்பை சீராக இயங்க வைப்பதற்கான செயல்திறன் மேம்பாடுகளைச் செய்யவும் கடினமாக உழைக்கிறோம்.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "எங்களின் புதிய ஸ்டோரீஸ் அம்சத்தைப் பயன்படுத்தவும் சோதனை செய்யவும் தொடங்கவும். நீங்கள் மற்ற பீட்டா சோதனையாளர்களுடன் இந்த அம்சத்தைப் பயன்படுத்தலாம் மற்றும் அது எவ்வாறு செயல்படுகிறது என்பதை எங்களுக்குத் தெரியப்படுத்தலாம்.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "இப்போது Signal இல் ஸ்டோரீஸ் கிடைக்கிறது! 24 மணிநேரத்திற்குப் பிறகு தானாகவே மறையும் உரை, படங்கள் மற்றும் வீடியோ புதுப்பிப்புகளைக் குறிப்பிட்ட நண்பர்கள் அல்லது குழுக்களுடன் பகிரவும். ஸ்டோரீஸைப் பகிர விரும்பும் அனைவருக்கும், எந்த விளம்பரங்களையும் காட்டாமல் தனிப்பட்ட முறையில் செய்ய இதோ ஒரு வழி. நீங்கள் ஸ்டோரீஸைப் பார்க்கவோ பகிரவோ விரும்பவில்லை என்றால், உங்கள் விருப்பத்தேர்வுகள் > தனியுரிமை என்பதில் அனைத்திலிருந்தும் விலகலாம்.",
+    "description": "Release notes for v6.0"
   }
 }

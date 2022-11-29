@@ -434,19 +434,67 @@
   },
   "changedVerificationWarning": {
     "message": "A következő személyek lehet, hogy újratelepítették a Signalt vagy készüléket cseréltek. Ellenőrizd biztonsági számotokat az adatvédelem megőrzése érdekében!",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Elképzelhető, hogy az alábbi személyek újratelepítették a Signalt, vagy eszközt cseréltek. Az új biztonsági szám megerősítéséhez koppints egy felhasználóra! Ez a lépés nem kötelező.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Függőben levő üzenetek küldése",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Felülvizsgálat",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Van {count,number} olyan névjegyed, aki újratelepítette a Signalt, vagy eszközt cserélt. Küldés előtt opcionálisan felülvizsgálhatod a biztonsági számát.} other {Van {count,number} olyan névjegyed, aki újratelepítette a Signalt, vagy eszközt cserélt. Küldés előtt opcionálisan felülvizsgálhatod a biztonsági számát.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Minden névjegy ellenőrzése megtörtént, a folytatáshoz koppints a Küldés gombra.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Biztosan eltávolítasz 1 címzettet a(z) {story} Történetből?} other {Biztosan eltávolítasz {count,number} címzettet a(z) {story} Történetből?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Az összes eltávolítása",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Bizt. szám ellenőrzése",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Eltávolítás a Történetből",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Műveletek a(z) $contact$ névjeggyel kapcsolatban",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Műveletek a(z) $story$ Történettel kapcsolatban",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Biztonsági számod $name1$ nevű partnereddel megváltozott. Ez utalhat arra, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name2$ egyszerűen csak újratelepítette a Signalt. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Küldés ennek ellenére",
+    "message": "Küldés így is",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Küldés",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Befejezés",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Hívás ennek ellenére",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Történetem",
+    "message": "Történeteim",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Történeteim",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Történeteid",
@@ -5492,6 +5544,14 @@
     "message": "Küldés sikertelen",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Részben elküldve",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Kattints az újrapróbálkozáshoz",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Kattints ide a Történet megtekintéséhez",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "A Történetnek nincs hangja",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "A Történetet nem sikerült elküldeni néhány személy számára. Ellenőrizd az internetkapcsolatod, és próbáld újra!",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Történet beállításai",
+    "message": "Történet adatvédelmi beállításai",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "A Történetek 24 óra elteltével automatikusan eltűnnek. Válaszd ki, hogy ki tekintheti meg a Történeted, vagy hozz létre újakat meghatározott nézőkkel vagy csoportokkal.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Történeteim",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Új egyéni Történet",
+    "message": "Új Történet",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Csak te láthatod ennek a Történetnek a nevét.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Minden Signal-névjegy",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Egyéni Történet",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Csoport Történet",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ néző",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Történet beállításai",
+    "message": "Történet adatvédelmi beállításai",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "A beállítás megváltoztatásához nyisd meg a Signal-alkalmazást a mobilodon, és lépj a Beállítások -> Történetek menüpontra!",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Ki tekintheti meg ezt a Történetet?",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "A(z) „{groupTitle}” csoport tagjai megtekinthetik ezt a Történetet, és válaszolhatnak is rá. A csoportban frissítheted a csevegésre vonatkozó tagságot.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Csoport Történet eltávolítása",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Biztosan törölni szeretnéd a következőt: „{groupTitle}”?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Döntsd el, hogy ki tekintheti meg a Történeted",
@@ -5728,13 +5824,33 @@
     "message": "Csak adminok küldhetnek Történetet ebbe a csoportba.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Minden Signal Névjegy · {viewersCount,number} néző} other {Minden Signal Névjegy · {viewersCount,number} néző}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Minden Signal Névjegy · Kivéve {excludedCount,number}} other {Minden Signal Névjegy · Kivéve {excludedCount,number}}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privát Történet · {viewersCount,number} néző} other {Privát Történet · {viewersCount,number} néző}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Csoporttörténet · 1 tag} other {Csoporttörténet · {membersCount,number} tag}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Történetek megosztása és megtekintése",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Ha letiltod ezt a funkciót, akkor nem fogsz tudni új Történeteket hozzáadni vagy másokét megtekinteni.",
+    "message": "Ha leiratkozol a Történetekről, többé nem fogsz tudni megosztani vagy megtekinteni Történeteket.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Történetek kikapcsolása",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Szünet",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Megtekintési értesítések kikapcsolva",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Küldés…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Küldés sikertelen. Kattints az újrapróbálkozáshoz",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Részben elküldve. Kattints az újrapróbálkozáshoz",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ elküldve",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Nem válaszolhatsz erre a Történetre, mert már nem vagy tagja ennek a csoportnak.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Törlés számomra",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Törlés mindenki számára",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Történet",
@@ -6020,22 +6156,6 @@
     "message": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Sok hangjegyzetet tartalmazó beszélgetés elé nézel? Kattints a Lejátszásra, dőlj hátra, és lazíts - a lejátszás automatikus!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Mostantól videót is csatolhatsz a nyaralási fotóid mellé az üzenetedben!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nem emlékszel, melyik Lou nevű barátod tagja a kosárlabdacsapatodnak? Nézd meg a névjegyadatokat, és tudd meg, melyik csoportokban vagytok benne mind a ketten.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Egyszerűen csak adj hozzá egy ismerőst egy csoporthoz a Névjegyadatok képernyőn, és tedd izgalmassá a beszélgetést!",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Keményen dolgoztunk a hibák helyrehozásán és egyéb teljesítményjavításokon, hogy az alkalmazás zökkenőmentesen működjön.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Kezdd el használni és teszteld az új Történetfunkciót. A funkciót más béta tesztelőkkel is használhatod, és megoszthatod velünk, hogyan működik.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Megérkeztek a Történetek a Signalba! Ossz meg szövegeket, képeket és videókat az általad kiválasztott ismerőseiddel vagy csoportjaiddal, amelyek aztán 24 óra elteltével automatikusan eltűnnek. Mindenki számára, aki szeret Történeteket megosztani, itt a módja annak, hogy privátban, hirdetések nélkül tegye meg. Ha nem szeretnél Történeteket látni vagy megosztani, a Beállítások > Adatvédelem menüpontban kikapcsolhatod a funkciót.",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "អ្នកទាំងនេះអាចដំឡើង ឬផ្លាស់ប្តូរឧបករណ៍។​ ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយពួកគេ ដើម្បីធានាឯកជនភាព។",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "មនុស្សខាងក្រោមនេះប្រហែលជាបានដំឡើង Signal ឡើងវិញ ឬបានផ្លាស់ប្តូរឧបករណ៍។ ចុចលើអ្នកទទួលដើម្បីបញ្ជាក់លេខសុវត្ថិភាពថ្មីរបស់ពួកគេ។ ស្រេចចិត្តអ្នកទេ។",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "ផ្ញើសារដែលមិនទាន់សម្រេច",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "ពិនិត្យមើល",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {អ្នកមានអ្នកភ្ជាប់ទំនាក់ទំនង {count,number} នាក់ដែលប្រហែលជាបានដំឡើង Signal ឡើងវិញ ឬផ្លាស់ប្តូរឧបករណ៍។ អ្នកអាចពិនិត្យមើលលេខសុវត្ថិភាពរបស់ពួកគេមុនពេលផ្ញើ។ ស្រេចចិត្តអ្នកទេ។}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "អ្នកភ្ជាប់ទំនាក់ទំនងទាំងអស់ត្រូវបានពិនិត្យមើល។ សូមចុចផ្ញើដើម្បីបន្ត។",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {តើអ្នកប្រាកដជាចង់ដកអ្នកទទួលចំនួន {count,number} ចេញពីរឿងរ៉ាវ {story} ឬ?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "ដកចេញទាំងអស់",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "ផ្ទៀងផ្ទាត់លេខសុវត្ថិភាព",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "ដកចេញពីរឿងរ៉ាវ",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "សកម្មភាពសម្រាប់ឈ្មោះទំនាក់ទំនង $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "សកម្មភាពសម្រាប់រឿងរ៉ាវ $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "លេខសុវត្ថិភាពរបស់អ្នកជាមួយ $name1$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថាមាននរណាម្នាក់កំពុងព្យាយាមរំខានដល់ការប្រាស្រ័យទាក់ទងរបស់អ្នក ឬថា $name2$ ទើបដំឡើង Signal ឡើងវិញ។ អ្នកអាចនឹងត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នកជាមួយឈ្មោះទំនាក់ទំនងនេះ។",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "ផ្ញើ ទោះយ៉ាងណាក៏ដោយ",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "ផ្ញើ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "បញ្ចប់",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "ហៅ យ៉ាងណាក៏ដោយ",
@@ -5392,6 +5440,10 @@
     "message": "រឿងរ៉ាវរបស់ខ្ញុំ",
     "description": "Title for the my stories list"
   },
+  "MyStories__list_item": {
+    "message": "រឿងរ៉ាវរបស់ខ្ញុំ",
+    "description": "Label for the my stories in the list of all stories"
+  },
   "MyStories__story": {
     "message": "រឿងរ៉ាវរបស់អ្នក",
     "description": "aria-label for each one of your stories"
@@ -5492,6 +5544,14 @@
     "message": "ផ្ញើបរាជ័យ",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "បានផ្ញើផ្នែកខ្លះ",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "ចុចដើម្បីព្យាយាមម្តងទៀត",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "ចុចដើម្បីមើលរឿងរ៉ាវ",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "រឿងរ៉ាវនេះមិនមានសំឡេងទេ",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "រឿងរ៉ាវនេះមិនអាចផ្ញើទៅកាន់មនុស្សមួយចំនួនបានទេ។ សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "ការកំណត់រឿងរ៉ាវ",
+    "message": "ឯកជនភាពនៃរឿងរ៉ាវ",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "រឿងរ៉ាវនឹងបាត់ដោយស្វ័យប្រវត្តិបន្ទាប់ពី 24 ម៉ោង។ ជ្រើសរើសអ្នកណាដែលអាចមើលរឿងរ៉ាវរបស់អ្នកបាន ឬបង្កើតរឿងរ៉ាវថ្មីៗជាមួយអ្នកមើល ឬក្រុមជាក់លាក់។",
+    "messageformat": "រឿងរ៉ាវនឹងបាត់ដោយស្វ័យប្រវត្តិបន្ទាប់ពី 24 ម៉ោង។ ជ្រើសរើសអ្នកណាដែលអាចមើលរឿងរ៉ាវរបស់អ្នក ឬបង្កើតរឿងរ៉ាវថ្មីជាមួយអ្នកមើល ឬក្រុមជាក់លាក់។",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "រឿងរ៉ាវរបស់ខ្ញុំ",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួនថ្មី",
+    "message": "រឿងរ៉ាវថ្មី",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "មានតែអ្នកទេដែលអាចឃើញឈ្មោះនៃរឿងរ៉ាវនេះ។",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "អ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ទាំងអស់",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "រឿងរ៉ាវកំណត់ផ្ទាល់ខ្លួន",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "រឿងរ៉ាវក្រុម",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "អ្នកមើល $num$ នាក់",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "ការកំណត់រឿងរ៉ាវ",
+    "message": "ឯកជនភាពនៃរឿងរ៉ាវ",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "ដើម្បីផ្លាស់ប្តូរការកំណត់នេះ សូមបើកកម្មវិធី Signal នៅលើឧបករណ៍ចល័តរបស់អ្នក ហើយចូលទៅកាន់ការកំណត់ -> រឿងរ៉ាវ",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "អ្នកដែលអាចមើលរឿងរ៉ាវនេះបាន",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "ដករឿងរ៉ាវក្រុម",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "តើអ្នកប្រាកដជាចង់ដក “{groupTitle}” ចេញឬ?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "ជ្រើសរើសអ្នកដែលអាចមើលរឿងរ៉ាវរបស់អ្នក",
@@ -5728,13 +5824,33 @@
     "message": "មានតែអ្នកគ្រប់គ្រងប៉ុណ្ណោះទើបអាចផ្ញើរឿងរ៉ាវទៅក្រុមនេះបាន។",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {អ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ទាំងអស់ · អ្នកមើល {viewersCount,number} នាក់}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {អ្នកភ្ជាប់ទំនាក់ទំនងក្នុង Signal ទាំងអស់ · {excludedCount,number} ត្រូវបានដកចេញ}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {រឿងរ៉ាវឯកជន · អ្នកមើល {viewersCount,number} នាក់}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {រឿងរ៉ាវក្រុម · សមាជិក {membersCount,number} នាក់}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "ចែករំលែក និងមើលរឿងរ៉ាវ",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវបានទៀតទេ នៅពេលជម្រើសនេះត្រូវបានបិទ។",
+    "message": "ប្រសិនបើអ្នកបិទរឿងរ៉ាវ អ្នកនឹងមិនអាចចែករំលែក ឬមើលរឿងរ៉ាវទៀតទេ។",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "បិទរឿងរ៉ាវ",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "ផ្អាក់",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "បានបិទចំនួនមើល",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "កំពុងផ្ញើ…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "មិនអាចផ្ញើបាន។ ចុចដើម្បីព្យាយាមម្តងទៀត",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "បានផ្ញើផ្នែកខ្លះ។ ចុចដើម្បីព្យាយាមម្តងទៀត",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "បានផ្ញើ $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "អ្នកមិនអាចឆ្លើយតបទៅនឹងរឿងរ៉ាវនេះទេ ដោយសារអ្នកលែងជាសមាជិកនៃក្រុមនេះទៀតហើយ។",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "លុបសម្រាប់ខ្ញុំ",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "លុបសម្រាប់ទាំងអស់គ្នា",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "រឿងរ៉ាវ",
@@ -6020,22 +6156,6 @@
     "message": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- ពិបាកចូលស្តាប់ការសន្ទនាដែលមានកំណត់ចំណាំជាសំឡេងដ៏វែងអន្លាយមែនទេ? សូមចាក់ ហើយអង្គុយស្តាប់តាមសម្រួលចុះ - វានឹងបន្តចាក់ដោយស្វ័យប្រវត្តិ!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "ឥឡូវនេះ អ្នកអាចភ្ជាប់រសជាតិវីដេអូមួយចំនួនជាមួយសារបាន អមជាមួយនឹងរូបថតវិស្សមកាលរបស់អ្នកផងដែរ!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "នៅក្នុងក្រុមបាល់បោះរបស់អ្នក អត់ចាំថាមិត្តភក្តិមួយណារបស់អ្នកមានឈ្មោះថា Lou មែនទេ? សូមមើលព័ត៌មានទំនាក់ទំនងលម្អិត ដើម្បីមើលឃើញក្រុមទាំងឡាយដែលមានអ្នក និងមិត្តភក្តិណាម្នាក់នៅក្នុងនោះដែរ។",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "ងាយស្រួលបញ្ចូលមិត្តភក្តិទៅក្នុងក្រុមពីអេក្រង់ព័ត៌មានទំនាក់ទំនងលម្អិតរបស់ពួកគេ ដើម្បីធ្វើឲ្យការសន្ទនាមានភាពរំភើបរីករាយរហូត។",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "ខិតខំធ្វើការដោះស្រាយបញ្ហា និងធ្វើការកែលម្អប្រតិបត្តិការផ្សេងទៀត ដើម្បីរក្សាឲ្យកម្មវិធីដំណើរការដោយរលូនសម្រាប់អ្នក។",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "ចាប់ផ្តើមប្រើ និងធ្វើតេស្តសាកល្បងមុខងាររឿងរ៉ាវថ្មីរបស់យើង។ អ្នកអាចប្រើមុខងារនេះជាមួយកម្មវិធីសាកល្បងបេតាផ្សេងទៀត ហើយប្រាប់ឲ្យយើងបានដឹងថាតើវាដំណើរការយ៉ាងណាដែរ។",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "ឥឡូវរឿងរ៉ាវមាននៅក្នុង Signal ហើយ! ចែករំលែកបច្ចុប្បន្នភាពនៃអត្ថបទ រូបភាព និងវីដេអូដែលបាត់ទៅវិញ ជាមួយមិត្តភក្តិ ឬក្រុមជាក់លាក់ដែលបាត់ដោយស្វ័យប្រវត្តិបន្ទាប់ពី 24 ម៉ោង។ សម្រាប់អ្នករាល់គ្នាដែលចូលចិត្តចែករំលែករឿងរ៉ាវ នេះគឺជាវិធីដែលអាចធ្វើវាបានជាលក្ខណៈឯកជន និងដោយមិនឃើញពាណិជ្ជកម្មណាមួយឡើយ។ ប្រសិនបើអ្នកមិនចង់ឃើញ ឬចែករំលែករឿងរ៉ាវទេ អ្នកអាចផ្តាច់ចេញពីវាបានទាំងអស់នៅក្នុងចំណូលចិត្តរបស់អ្នក > ឯកជនភាព។",
+    "description": "Release notes for v6.0"
   }
 }

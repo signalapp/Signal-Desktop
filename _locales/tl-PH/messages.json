@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Maaaring nag-reinstall o nagpalit ng devices ang mga nabanggit na tao. I-verify ang safety number mo sa kanila para masiguro ang iyong privacy.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Maaaring nag-reinstall ng Signal o nagpalit ng devices ang mga sumusunod na user. I-click ang isang recipient para ma-confirm ang kanyang bagong safety number. Ito ay optional.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "I-send ang pending messages",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "I-review",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Mayroon kang {count,number} connection na maaaring nag-reinstall ng Signal o nagpalit ng devices. Pwede mong i-review ang kanyang safety numbers bago mag-send ng message.} other {Mayroon kang {count,number} connections na maaaring nag-reinstall ng Signal o nagpalit ng devices. Pwede mong i-review ang kanilang safety numbers bago mag-send ng message.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Na-review na ang lahat ng connections, i-tap ang send para magpatuloy.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Sigurado ka bang gusto mong tanggalin ang 1 recipient mula sa story {story}?} other {Sigurado ka bang gusto mong tanggalin ang {count,number} recipients mula sa story {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Alisin lahat",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Beripikahin ang numerong pangkaligtasan",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Alisin mula sa story",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Actions para sa contact $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Actions para sa story $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name1$ has changed. This could mean na may nagtatangkang i-interrupt ang inyong communication, o maaaring nag-reinstall ng Signal si $name2$. Maaari mong i-verify sa contact na ito ang iyong safety number.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Send anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Ipadala",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Tapos na",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Call anyway",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Story Ko",
+    "message": "My Stories",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "My Stories",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Your story",
@@ -5492,6 +5544,14 @@
     "message": "Failed ang pag-send",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Partially sent",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "I-click para subukan ulit",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "I-click para makita ang story",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Walang sound ang story",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Hindi ma-send sa ibang users ang story na ito. I-check ang iyong connection at subukan ulit.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Story settings",
+    "message": "Story privacy",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Automatic na nawawala ang stories pagkatapos ng 24 oras. Piliin kung sinong pwedeng mag-view ng story mo o gumawa ng bagong stories na may specific viewers o groups.",
+    "messageformat": "Automatic na mawawala ang stories pagkatapos ng 24 oras. Piliin kung sinong makakakita ng iyong story o gumawa ng bagong stories na may specific na viewers o groups.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "My Stories",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Bagong custom story",
+    "message": "Bagong story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Ikaw lang ang makakakita ng pangalan ng story na ito.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "All Signal connections",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Custom story",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Group story",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ viewer",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Story settings",
+    "message": "Story privacy",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Para mabago ang setting na ito, buksan ang Signal app sa iyong mobile device at pumunta sa Settings -> Stories",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Sinong pwedeng makakita ng story na ito",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Pwedeng mag-view at mag-reply sa story na ito ang members ng group chat na \"{groupTitle}\". Pwede mong i-update sa group ang membership para sa chat na ito.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Tanggalin ang group story",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Sigurado ka bang gusto mong tanggalin ang \"{groupTitle}\"?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Piliin kung sinong makakakita ng iyong story",
@@ -5728,13 +5824,33 @@
     "message": "Admins lang ang pwedeng mag-send ng stories sa group na ito.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Lahat ng Signal connections · 1 viewer} other {Lahat ng Signal connections · {viewersCount,number} viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Lahat ng Signal connections · 1 ang hindi kasali} other {Lahat ng Signal connections · {excludedCount,number} ang hindi kasali}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Private story · {viewersCount,number} viewer} other {Private story · {viewersCount,number} viewers}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Group story · 1 member} other {Group story · {membersCount,number} members}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Pag-share at Pag-view ng Stories",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Hindi ka na pwedeng mag-share o mag-view ng Stories kapag naka-off ang option na ito.",
+    "message": "Kung mag-opt out ka sa stories, hindi ka na makakapag-share o makakakita ng stories.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "I-off ang stories",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pause",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Naka-disable ang views",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Sine-send…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Hindi na-send. I-click para subukan ulit",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Bahagyang na-send. I-click para subukan ulit",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sent $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Hindi ka pwedeng mag-reply sa story na ito dahil hindi ka na member ng group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "I-delete sa'kin",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "I-delete sa lahat",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Ang digits na ito'y nakatutulong para mapanatiling private ang username mo at para hindi ka makatanggap ng unwanted messages. I-share lamang ang iyong username sa mga tao at groups na gusto mong maka-chat. Kung magpalit ka ng username, makakakuha ka ng bagong set ng digits.",
+    "message": "Nakatutulong ang digits na ito para mapanatiling private ang username mo at para hindi ka makatanggap ng unwanted messages. I-share lamang ang iyong username sa mga tao at groups na gusto mong maka-chat. Kung magpalit ka ng username, makakakuha ka ng bagong set ng digits.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- May chat ka bang may maraming Voice Notes na kailangan mong pakinggan? I-click lang ang play, mag-sit back at relax - tuloy-tuloy ang pag-play ng mga ito!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Pwede ka nang mag-attach ng video sa isang message kasama ang vacation photos mo!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Hindi mo ba maalala kung sino si Lou sa basketball team mo? I-check ang contact details para makita ang shared groups n'yo ng kaibigan mo.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Pwede mo nang i-add ang friend mo sa isang group sa pagpunta sa contact details screen nila para mas exciting ang chat n'yo.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Patuloy na nagta-trabaho para alisin ang ilang bugs at pagandahin ang takbo ng app para sa iyo.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Simulang gamitin at i-test ang aming bagong stories feature. Pwede mong gamitin ang feature na ito kasama ang ibang beta testers at bigyan kami ng feedback tungkol dito.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Nasa Signal na ang Stories! Mag-share sa piling friends o groups ng disappearing text, images, at video updates na automatic na mawawala pagkalipas ng 24 oras. Para sa lahat ng mahilig mag-share ng stories, ito ang paraan para magawa ito privately at nang walang ads. Kung hindi mo gustong makakita o mag-share ng stories, pwede kang mag-opt out sa lahat ng ito sa iyong Preferences > Privacy.",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Følgende personer kan have geninstalleret eller skiftet enheder. Bekræft dit sikkerhedsnummer med dem for at sikre privatlivsbeskyttelsen.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Følgende personer kan have geninstalleret Signal eller skiftet enhed. Klik på en modtager for at bekræfte vedkommendes nye sikkerhedsnummer. Dette er valgfrit.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Send afventende beskeder",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Gennemgå",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Du har {count,number} kontakt, der muligvis har geninstalleret Signal eller ændret enhed. Du kan eventuelt gennemgå deres sikkerhedsnumre, før du sender.} other {Du har {count,number} kontakter, der muligvis har geninstalleret Signal eller ændret enhed. Du kan eventuelt gennemgå deres sikkerhedsnumre, før du sender.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Alle kontakter er blevet gennemgået, klik på send for at fortsætte.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Er du sikker på, at du vil fjerne 1 modtager fra historien {story}?} other {Er du sikker på, at du vil fjerne {count,number} modtagere fra historien {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Fjern alle",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Verificer sikkerhedsnummer",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Fjern fra historie",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Handlinger for kontakt $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Handlinger for historie $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Dit sikkerhedsnummer med $name1$ er ændret. Det kan enten betyde at nogen forsøger at opfange din kommunikation, eller at $name2$ blot har geninstalleret Signal. Du bør overveje at bekræfte dit sikkerhedsnummer med kontakten",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Send alligevel",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Send",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Udført",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Ring alligevel",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Min Historie",
+    "message": "Mine historier",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Mine historier",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Din historie",
@@ -5492,6 +5544,14 @@
     "message": "Send mislykkedes",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Delvist sendt",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Klik for at prøve igen",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Klik for at se en historie",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Denne historie har ingen lyd",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Denne historie kunne ikke sendes til visse brugere. Tjek din forbindelse, og prøv igen.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Indstillinger for historie",
+    "message": "Privatlivsindstillinger for historier",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Historier forsvinder automatisk efter 24 timer. Vælg, hvem der kan se din historie eller oprette nye historier med bestemte seere eller grupper.",
+    "messageformat": "Historier forsvinder automatisk efter 24 timer. Vælg, hvem der kan se din historie, eller lav nye historier med specifikke seere eller grupper.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Mine historier",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Ny brugerdefineret historie",
+    "message": "Ny historie",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Du kan som den eneste se navnet på denne historie.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Alle Signal-kontakter",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Brugerdefineret historie",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Gruppehistorie",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ seer",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Indstillinger for historie",
+    "message": "Privatlivsindstillinger for historier",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Hvis du vil ændre denne indstilling, skal du åbne Signal-appen på din mobilenhed og gå til Indstillinger > Historier",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Personer, der kan se denne historie",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Medlemmer af gruppechatten \"{groupTitle}\" kan se og svare på denne historie. Du kan opdatere medlemskabet for denne chat i gruppen.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Fjern gruppehistorie",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Er du sikker på, at du vil slette \"{groupTitle}\"?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Vælg, hvem der kan se din historie",
@@ -5728,13 +5824,33 @@
     "message": "Det er kun administratorer, der kan sende historier til denne gruppe.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Alle Signal-kontakter · {viewersCount,number} seer} other {Alle Signal-kontaker · {viewersCount,number} seere}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Alle Signal-kontaker · {excludedCount,number} ekskluderet} other {Alle Signal-kontaker · {excludedCount,number} ekskluderet}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privat historie · {viewersCount,number} seer} other {Privat historie · {viewersCount,number} seere}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Gruppehistorie · 1 medlem} other {Gruppehistorie · {membersCount,number} medlemmer}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Del og se historier",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Du vil ikke længere kunne dele eller se historier, når denne indstilling er slået fra.",
+    "message": "Hvis du slår historier fra, kan du ikke længere dele eller se historier.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Slå historier fra",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pause",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Visninger deaktiveret",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Sender…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Kunne ikke sendes Klik for at prøve igen",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Delvist sendt. Klik for at prøve igen",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Sendt $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Du kan ikke besvare denne historie, da du ikke længere er medlem af denne gruppe.",
+    "messageformat": "Du kan ikke svare på denne historie, da du ikke længere er medlem af gruppen.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Slet for mig",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Slet for alle",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Historie",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Disse cifre hjælper med at skjule dit brugernavn, så du ikke modtager uønskede beskeder. Del kun dit brugernavn med de personer og grupper, du gerne vil chatte med. Hvis du ændrer brugernavne, får du nye cifre.",
+    "message": "Disse cifre hjælper med at skjule dit brugernavn, så du ikke modtager uønskede beskeder. Del kun dit brugernavn med de personer og grupper, du gerne vil chatte med. Hvis du ændrer brugernavn, får du et nyt sæt cifre.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Står du over for en samtale med en lang liste med talebeskeder at lytte til? Afspil, læn dig tilbage og slap af – de fortsætter automatisk med at spille!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Du kan nu vedhæfte video til en besked sammen med dine feriebilleder!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Kan du ikke huske hvilken af dine venner, der hedder Anne, der er med på dit basketballhold? Tjek kontaktoplysninger for at se grupper, som du og din ven har til fælles.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Tilføj nemt og hurtigt en ven til en gruppe med deres kontaktoplysninger for at holde samtalen spændende.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Vi arbejder på at rette nogle bugs og forbedre appens præstation, så den kører uden problemer.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Begynd at bruge og teste vores nye historiefunktion. Du kan bruge funktionen sammen med andre betatestere og fortælle os, om den fungerer ordentligt.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Nu tilbyder Signal historier! Del tekst, billeder og videoer, der automatisk forsvinder efter 24 timer, med udvalgte venner eller grupper. Alle, der elsker at dele historier, kan nu gøre det privat og uden at se nogen reklamer. Hvis du ikke vil se eller dele historier, kan du fravælge det hele i dine Præferencer > Privatliv.",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Seans go bhfuair na daoine seo a leanas gléasanna nua nó go ndearna siad athshuiteáil ar an aip. Deimhnigh d'uimhir shábháilteachta leo ar eagla na heagla.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Seans go ndearna na daoine seo a leanas Signal a athshuiteáil nó gur athraigh siad go gléas eile. Tapáil faighteoir chun an uimhir sábháilteachta nua a dheimhniú. Fút féin atá sé sin.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Seol teachtaireachtaí atá ar feitheamh",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Athbhreithnigh",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Tá 1 teagmhálaí agat a bhfuil seans ann go ndearna sé/sí Signal a athshuiteáil nó gléas a athrú. Tá rogha agat na huimhreacha sábháilteachta a athbhreithniú roimh sheoladh.} two {Tá {count,number} theagmhálaí agat a bhfuil seans ann go ndearna siad Signal a athshuiteáil nó gléas a athrú. Tá rogha agat na huimhreacha sábháilteachta a athbhreithniú roimh sheoladh.} few {Tá {count,number} theagmhálaí agat a bhfuil seans ann go ndearna siad Signal a athshuiteáil nó gléas a athrú. Tá rogha agat na huimhreacha sábháilteachta a athbhreithniú roimh sheoladh.} many {Tá {count,number} dteagmhálaí agat a bhfuil seans ann go ndearna siad Signal a athshuiteáil nó gléas a athrú. Tá rogha agat na huimhreacha sábháilteachta a athbhreithniú roimh sheoladh.} other {Tá {count,number} teagmhálaí agat a bhfuil seans ann go ndearna siad Signal a athshuiteáil nó gléas a athrú. Tá rogha agat na huimhreacha sábháilteachta a athbhreithniú roimh sheoladh.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Rinneadh athbhreithniú ar na teagmhálaithe go léir, tapáil Seol chun leanúint ar aghaidh.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {An bhfuil tú cinnte gur mian leat 1 fhaighteoir a bhaint ó scéal {story}?} two {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint ó scéal {story}?} few {An bhfuil tú cinnte gur mian leat {count,number} fhaighteoir a bhaint ó scéal {story}?} many {An bhfuil tú cinnte gur mian leat {count,number} bhfaighteoir a bhaint ó scéal {story}?} other {An bhfuil tú cinnte gur mian leat {count,number} faighteoir a bhaint ó scéal {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Bain gach duine",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Fíordheimhnigh an uimhir shábháilteachta",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Bain ón scéal",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Gníomhartha don teagmhálaí $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Gníomhartha don scéal $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Athraíodh an uimhir shábháilteachta le $name1$. Seans go bhfuil duine ag iarraidh bualadh isteach i do chomhrá leis sin nó díreach go ndearna $name2$ Signal a athshuiteáil. B'fhéidir gur mhaith leat d'uimhir sábháilteachta a fhíorú leis an teagmhálaí seo.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Seol chuige/chuici mar sin féin",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Seol",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Déanta",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Cuir glao air/uirthi mar sin féin",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Mo Scéal",
+    "message": "Mo Scéalta",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Mo Scéalta",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Do scéal",
@@ -5492,6 +5544,14 @@
     "message": "Theip ar an seoladh",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Seolta go páirteach",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Cliceáil lena atriail",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Cliceáil chun féachaint ar scéal",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Níl aon fhuaim ag an scéal seo",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Níorbh fhéidir an scéal seo a sheoladh chuig daoine áirithe. Seiceáil do nasc agus triail arís.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Socruithe scéalta",
+    "message": "Príobháideachas an scéil",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Imíonn scéalta as radharc go huathoibríoch tar éis 24 uair an chloig. Roghnaigh an lucht féachana ar do scéal nó cruthaigh scéalta nua in éineacht le lucht féachana nó grúpaí ar leith.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Mo Scéalta",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Scéal saincheaptha nua",
+    "message": "Scéal Nua",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Tusa amháin a fheicfidh ainm an scéil seo.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Gach Teagmhálaí Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Scéal saincheaptha",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Scéal grúpa",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ amharcóir",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Socruithe scéalta",
+    "message": "Príobháideachas an scéil",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Chun an socrú seo a athrú, oscail an aip Signal ar do ghléas móibíleach agus déan nascleanúint chuig Socruithe -> Scéalta",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "An lucht féachana ar an scéal seo",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Tá baill den ghrúpchomhrá \"{groupTitle}\" in ann féachaint ar an scéal seo agus freagair dó. Is féidir leat ballraíocht don chomhrá seo a nuashonrú sa ghrúpa.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Bain an scéal grúpa",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Cinnte le “{groupTitle}” a bhaint?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Roghnaigh na daoine ar féidir leo féachaint ar do scéal",
@@ -5728,13 +5824,33 @@
     "message": "Ní féidir ach le riarthóirí scéalta a sheoladh chuig an ngrúpa seo.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Gach Teagmhálaí Signal · {viewersCount,number} Amharcóir} two {Gach Teagmhálaí Signal · {viewersCount,number} Amharcóir} few {Gach Teagmhálaí Signal · {viewersCount,number} Amharcóir} many {Gach Teagmhálaí Signal · {viewersCount,number} nAmharcóir} other {Gach Teagmhálaí Signal · {viewersCount,number} Amharcóir}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Gach Teagmhálaí Signal · {excludedCount,number} as an áireamh} two {Gach Teagmhálaí Signal · {excludedCount,number} as an áireamh} few {Gach Teagmhálaí Signal · {excludedCount,number} as an áireamh} many {Gach Teagmhálaí Signal · {excludedCount,number} as an áireamh} other {Gach Teagmhálaí Signal · {excludedCount,number} as an áireamh}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Scéal príobháideach · {viewersCount,number} amharcóir} two {Scéal príobháideach · {viewersCount,number} amharcóir} few {Scéal príobháideach · {viewersCount,number} amharcóir} many {Scéal príobháideach · {viewersCount,number} n-amharcóir} other {Scéal príobháideach · {viewersCount,number} amharcóir}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Grúpscéal: 1 bhall} two {Grúpscéal: {membersCount,number} bhall} few {Grúpscéal: {membersCount,number} bhall} many {Grúpscéal: {membersCount,number} mball} other {Grúpscéal: {membersCount,number} ball}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Comhroinn agus Féach ar Scéalta",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Ní bheidh tú in ann féachaint ar Scéalta ná iad a chomhroinnt a thuilleadh nuair a bhíonn an rogha seo casta as.",
+    "message": "Má roghnaíonn tú gan scéalta a úsáid, ní bheidh tú in ann scéalta a chomhroinnt ná féachaint orthu a thuilleadh.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Cas as scéalta",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Cuir ar sos é",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Amhairc casta as",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Seoladh…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Theip ar an seoladh. Cliceáil lena atriail",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Cuid seolta. Cliceáil lena atriail",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Seoladh $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Ní féidir leat freagairt don scéal seo mar níl tú i do bhall den ghrúpa seo a thuilleadh.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Scrios Domsa Amháin",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Scrios do chách",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Scéal",
@@ -6020,22 +6156,6 @@
     "message": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- An bhfuil comhrá le liosta fada Nótaí Gutha agat le éisteacht leo? Cliceáil 'Seinn', suigh siar agus lig do scíth - seinnfear iad go huathoibríoch!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Is féidir leat blas físe a chur le teachtaireacht anois, mar aon le do ghrianghraif saoire!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nach féidir leat cuimhneamh ar cé acu cairde darb ainm Seán ar d'fhoireann chispheile? Seiceáil sonraí teagmhála chun grúpaí comhroinnte idir tú féin agus cara a fheiceáil.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Cuir cara le grúpa go héasca óna scáileán sonraí teagmhála chun an comhrá a choinneáil spreagúil.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Ag obair go crua ar fhabhtanna a réiteach agus ar fheabhsúcháin feidhmíochta eile chun an aip a choinneáil ar rith gan stró duit.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Tosaigh ar úsáid agus ar thástáil ár ngné scéalta nua. Is féidir leat an ghné a úsáid i gcomhar le tástálaithe eile béite agus sinn a chur ar an eolas maidir lena feidhmiú.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Tá Scéalta in Signal anois! Comhroinn le cairde nó grúpaí ar leith téacs, íomhánna agus nuashonruithe ar fhíseáin a imíonn as radharc go huathoibríoch tar éis 24 uair an chloig. Seo bealach chun scéalta a chomhroinnt go príobháideach agus gan aon fhógraí a fheiceáil, dóibh siúd go léir ar breá leo scéalta a chomhroinnt. Mura mian leat scéalta a fheiceáil ná a chomhroinnt, is féidir leat gan an méid uile a roghnú i Sainroghanna > Príobháideachas.",
+    "description": "Release notes for v6.0"
   }
 }

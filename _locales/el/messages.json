@@ -434,19 +434,67 @@
   },
   "changedVerificationWarning": {
     "message": "Τα παρακάτω άτομα ίσως επανεγκατεστησαν το Signal ή άλλαξαν συσκευή. Επαλήθευσε τους αριθμούς ασφαλείας με αυτά, για να διασφαλίσεις την ιδιωτικότητα.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Τα παρακάτω άτομα μπορεί να έχουν εγκαταστήσει πάλι το Signal ή να έχουν αλλάξει συσκευή. Κάνε κλικ σε έναν παραλήπτη για να επιβεβαιώσεις τον νέο αριθμό ασφαλείας τους. Αυτή η ενέργεια είναι προαιρετική.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Αποστολή εκκρεμών μηνυμάτων",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Έλεγχος",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Έχεις {count,number} επαφή που μπορεί να έχει εγκαταστήσει πάλι το Signal ή να έχει αλλάξει συσκευή. Μπορείς προαιρετικά να ελέγξεις τον αριθμό ασφαλείας της πριν την αποστολή.} other {Έχεις {count,number} επαφές που μπορεί να έχουν εγκαταστήσει πάλι το Signal ή να έχουν αλλάξει συσκευή. Μπορείς να ελέγξεις τον αριθμό ασφαλείας τους πριν την αποστολή.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Όλες οι επαφές έχουν ελεγχθεί. Κάνε κλικ στην Αποστολή για να συνεχίσεις.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Θέλεις σίγουρα να αφαιρέσεις {count,number} παραλήπτη από την ιστορία {story};} other {Θέλεις σίγουρα να αφαιρέσεις {count,number} παραλήπτες από την ιστορία {story};}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Αφαίρεση όλων",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Επαλήθευση αριθμού ασφαλείας",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Αφαίρεση από την ιστορία",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Ενέργειες για την επαφή $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Ενέργειες για την ιστορία $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Ο αριθμός ασφαλείας σου με τον/την $name1$ έχει αλλάξει. Αυτό μπορεί να σημαίνει είτε ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε απλά ότι ο/η $name2$ επανεγκατέστησε το Signal. Ίσως θες να επαληθεύσεις τον αριθμό ασφαλείας σου με αυτή την επαφή.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Αποστολή παρ' όλα αυτά",
+    "message": "Αποστόλη παρ' όλα αυτά",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Αποστολή",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Τέλος",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Κλήση παρ' όλα αυτά",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Η ιστορία μου",
+    "message": "Οι ιστορίες μου",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Οι ιστορίες μου",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Η ιστορία σου",
@@ -5492,6 +5544,14 @@
     "message": "Αποτυχία αποστολής",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Μερική αποστολή",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Κάνε κλικ για επανάληψη δοκιμής",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Κάνε κλικ για να δεις μια ιστορία",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Αυτή η ιστορία δεν έχει ήχο",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Δεν ήταν δυνατή η αποστολή της ιστορίας σε μερικά άτομα. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Ρυθμίσεις ιστορίας",
+    "message": "Απόρρητο ιστορίας",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Οι ιστορίες εξαφανίζονται αυτόματα μετά από 24 ώρες. Επίλεξε ποια άτομα μπορούν να δουν την ιστορία σου ή δημιούργησε νέες ιστορίες για συγκεκριμένους θεατές ή ομάδες.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Οι ιστορίες μου",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Νέα προσαρμοσμένη ιστορία",
+    "message": "Νέα ιστορία",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Μόνο εσύ μπορείς να δεις το όνομα αυτής της ιστορίας.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Όλες οι επαφές Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Προσαρμοσμένη ιστορία",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Ιστορία ομάδας",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ προβολή",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Ρυθμίσεις ιστορίας",
+    "message": "Απόρρητο ιστορίας",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Για να αλλάξεις αυτή τη ρύθμιση, άνοιξε το Signal στο κινητό σου και πήγαινε στις Ρυθμίσεις -> Ιστορίες",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Ποια άτομα μπορούν να δουν αυτήν την ιστορία",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Τα μέλη αυτής της ομαδικής συνομιλίας \"{groupTitle}\" μπορούν να δουν και να απαντήσουν σε αυτή την ιστορία. Μπορείς να ενημερώσεις τα μέλη για αυτήν τη συνομιλία στην ομάδα.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Αφαίρεση ιστορίας ομάδας",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Σίγουρα θέλεις να διαγράψεις την ιστορία \"{groupTitle}\";",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Επίλεξε ποια άτομα μπορούν να δουν αυτήν την ιστορία",
@@ -5728,13 +5824,33 @@
     "message": "Μόνο οι διαχειριστές μπορούν να στέλνουν ιστορίες σε αυτήν την ομάδα.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Όλες οι επαφές Signal · {viewersCount,number} θεατής} other {Όλες οι επαφές Signal · {viewersCount,number} θεατές}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Όλες οι επαφές Signal · {excludedCount,number} αποκλεισμός} other {Όλες οι επαφές Signal · {excludedCount,number} αποκλεισμοί}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Ιδιωτική ιστορία · {viewersCount,number} θεατής} other {Ιδιωτική ιστορία · {viewersCount,number} θεατές}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Ιστορία ομάδας · {membersCount,number} μέλος} other {Ιστορία ομάδας · {membersCount,number} μέλη}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Κοινοποίηση και προβολή ιστοριών",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Δεν θα μπορείς πια να μοιραστείς ή να δεις Ιστορίες όταν αυτή η επιλογή είναι απενεργοποιημένη.",
+    "message": "Αν απενεργοποιήσεις τις ιστορίες, δεν θα μπορείς πλέον να μοιράζεσαι ή να βλέπεις ιστορίες.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Απενεργοποίηση ιστοριών",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Παύση",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Αναφορές προβολής ανενεργές",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Αποστολή…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Η αποστολή απέτυχε. Κάνε κλικ για επανάληψη δοκιμής",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Στάλθηκε εν μέρει. Κάνε κλικ για επανάληψη αποστολής",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Εστάλη $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Δεν μπορείς να απαντήσεις σε αυτήν την ιστορία γιατί δεν είσαι πια μέλος της ομάδας.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Διαγραφή για εμένα",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Διαγραφή για όλους",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Ιστορία",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Αυτά τα ψηφία διατηρούν απόρρητο το δικό σου όνομα χρήστη ώστε να μη λαμβάνεις ανεπιθύμητα μηνύματα. Να μοιράζεσαι το δικό σου όνομα χρήστη μόνο με άτομα και ομάδες που θέλεις να συνομιλείς. Εάν θέλεις να αλλάξεις όνομα χρήστη, θα λάβεις έναν νέο σετ ψηφίων.",
+    "message": "Αυτά τα ψηφία διατηρούν απόρρητο το δικό σου όνομα χρήστη, ώστε να μη λαμβάνεις ανεπιθύμητα μηνύματα. Να μοιράζεσαι το όνομα χρήστη σου μόνο με άτομα και ομάδες που θέλεις να συνομιλείς. Εάν θέλεις να αλλάξεις όνομα χρήστη, θα λάβεις έναν νέο σετ ψηφίων.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Πρέπει να ακούσεις μια συνομιλία με μια πολλές ηχητικές σημειώσεις; Πάτα αναπαραγωγή, κάτσε αναπαυτικά και χαλάρωσε - θα συνεχίσουν να παίζουν αυτόματα!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Τώρα μπορείς να επισυνάψεις βίντεο σε ένα μήνυμα μαζί με τις φωτογραφίες των διακοπών σου!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Δεν θυμάσαι ποιος από τους φίλους σου με το όνομα Γιώργος είναι στην ομάδα μπάσκετ μαζί σου; Τσέκαρε τα στοιχεία επικοινωνίας για να δεις κοινόχρηστες ομάδες ανάμεσα σε σένα και σε έναν φίλο/μία φίλη σου.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Πρόσθεσε εύκολα έναν φίλο/μία φίλη σε μια ομάδα από την οθόνη στοιχείων επικοινωνίας για να κρατήσεις το ενδιαφέρον στη συνομιλία.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Δουλεύουμε σκληρά για να την επιδιόρθωση σφαλμάτων και τη δημιουργία άλλων βελτιώσεων απόδοσης για να διατηρηθεί η ομαλή λειτουργία της εφαρμογής για εσάς.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Ξεκίνα να χρησιμοποιείς και να δοκιμάζεις τη νέα λειτουργία ιστοριών. Μπορείς να χρησιμοποιήσεις αυτήν τη λειτουργία με άλλους δοκιμαστές beta και να μας ενημερώσεις για το πώς λειτουργεί.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Οι ιστορίες έφτασαν τώρα στο Signal! Μοιράσου κείμενα, εικόνες και ενημερώσεις βίντεο που εξαφανίζονται αυτόματα μετά από 24 ώρες με επιλεγμένους φίλους ή ομάδες. Για όλα τα άτομα που αγαπούν να μοιράζονται ιστορίες, ορίστε ένας τρόπος να το κάνουν ιδιωτικά και χωρίς διαφημίσεις. Εάν δεν θέλεις να βλέπεις ή να μοιράζεσαι ιστορίες, μπορείς να καταργήσεις τη συμμετοχή σου από όλα στις Προτιμήσεις > Απόρρητο.",
+    "description": "Release notes for v6.0"
   }
 }

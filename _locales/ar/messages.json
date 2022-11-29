@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "هؤلاء الأشخاص قاموا بإعادة تثبيت التطبيق أو قاموا بتغير أجهزتهم. يرجى تأكيد رقم الأمان معهم لضمان الخصوصية.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "قد يكون هؤلاء الأشخاص أعادوا تثبيت Signal أو غيّروا أجهزتهم. انقر على مُستلم ما للتأكد من رقم الأمان الجديد. هذا الإجراء اختياري.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "إرسال الرسائل قيد الانتظار",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "مراجعة",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, zero {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} one {لديك {count,number} جهة اتصال قد يكون أعاد تثبيت Signal أو غيّر جهازه. يمكنك مراجعة أرقام الأمان الخاصة به قبل الإرسال.} two {لديك {count,number} جهات اتصال قد يكونا أعادا تثبيت Signal أو غيّرا أجهزتهما. يمكنك مراجعة أرقام الأمان الخاصة بهما قبل الإرسال.} few {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} many {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} other {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "تمت مراجعة كل جهات الاتصال، انقر إرسال للمواصلة.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, zero {هل أنت متأكد من أنك تريد حذف {count,number} مستلم من هذه القصة{story}؟} one {هل أنت متأكد من أنك تريد حذف {count,number} مستلم من هذه القصة{story}؟} two {هل أنت متأكد من أنك تريد حذف {count,number} مستلمين من هذه القصة{story}؟} few {هل أنت متأكد من أنك تريد حذف {count,number} مستلمين من هذه القصة{story}؟} many {هل أنت متأكد من أنك تريد حذف {count,number} مستلمًا من هذه القصة{story}؟} other {هل أنت متأكد من أنك تريد حذف {count,number} مستلم من هذه القصة{story}؟}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "إزالة الكل",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "تحقق من رقم اﻷمان",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "الحذف من القصة",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "إجراءات لجهة الاتصال $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "إجراءات للقصة $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "تم تغيير رقم أمانك مع $name1$.  قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن $name2$ قام بإعادة تثبيت Signal. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
@@ -448,8 +488,16 @@
     "message": "أرسل على كل حال",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "أرسلْ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "تمّ",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "أتصل على كل حال",
+    "message": "الاتصال على كل حال",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "قصتي",
+    "message": "قِصصِي",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "قِصصي",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "قصتك",
@@ -5492,6 +5544,14 @@
     "message": "فشل الإرسال",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "تم الإرسال جزئيًا",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "اضغط لإعادة المحاولة",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "يُرجى الضغط لمشاهدة قصة",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "هذه القصة لا تتوفر على صوت",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "تعذّر إرسال هذه القصة إلى بعض الناس. تحقق من اتصالك بالشبكة ثم حاول مجددًا.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "إعدادات القصص",
+    "message": "إعدادات خصوصية القِصة",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اِختر من يمكنه مشاهدة قصتك أو أنشئ قِصص جديدة مع مشاهدين أو مجموعات مُحددة.",
+    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اِختر من يمكنه مشاهدة قصتك أو إنشاء قصص جديدة مع مشاهدين أو مجموعات معينة.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "قِصصي",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "قصة مُخصصة جديدة",
+    "message": "قصة جديدة",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "أنت فقط من يرى اسم هذه القصة.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "جميع جهات الاتصال في Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "قِصة مُخصّصة",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "قِصة المجموعة",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ مشاهدة",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "إعدادات القصص",
+    "message": "إعدادات خصوصية القِصة",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "من يُمكنه مشاهدة هذه القصة",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "يُمكن لأعضاء هذه المجموعة \"{groupTitle}\" مشاهدة هذه القصة و الرّد عليها. يمكنك تحديث العضوية لهذه الدردشة في المجموعة.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "حذف قصة المجموعة",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "هل أنت مُتأكد من أنك تريد حذف \"{groupTitle}\"؟",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "اِختر من يُمكنه مُشاهدة قصتك",
@@ -5728,13 +5824,33 @@
     "message": "يُمكن فقط للمشرفين إرسال القِصص في هذه المجموعة.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, zero {جميع جهات اتصال Signal · {viewersCount,number} مُشاهدين} one {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِد} two {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدين} few {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدين} many {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدًا} other {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِد}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, zero {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد} one {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد} two {جميع جهات اتصال Signal · {excludedCount,number} مُستَبعَدَيْن} few {جميع جهات اتصال Signal · {excludedCount,number} مُستبعدين} many {جميع جهات اتصال Signal · {excludedCount,number} مُستبعدًا} other {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, zero {قصة خاصة · {viewersCount,number} مشاهد} one {قصة خاصة · {viewersCount,number} مشاهد} two {قصة خاصة · {viewersCount,number} مشاهدين } few {قصة خاصة · {viewersCount,number} مشاهدين} many {قصة خاصة · {viewersCount,number} مشاهدًا} other {قصة خاصة · {viewersCount,number} مشاهد}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, zero {قصة مجموعة · {membersCount,number} أعضاء} one {قصة مجموعة · {membersCount,number} عضو} two {قصة مجموعة · {membersCount,number} عضوين} few {قصة مجموعة · {membersCount,number} أعضاء} many {قصة مجموعة · {membersCount,number} عضوًا} other {قصة مجموعة · {membersCount,number} عضو}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "مشاركة و إظهار القصص",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "لن يصبح بإمكانك بعد الآن مشاركة القِصص أو مشاهدتها حينما يكون هذا الخيار غير مُشغَّل.",
+    "message": "إذا قمت بإلغاء الاشتراك في القِصص، فلن تتمكن بعد ذلك من مشاركة القِصص أو عرضها.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "إيقاف تشغيل القِصص",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "توقف",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "المشاهدات غير مُشغلة",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "جارٍ الإرسال…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "فشل الإرسال. اضغط لإعادة المحاولة",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "تم الإرسال جزئيًا. اضغط لإعادة المحاولة",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "أُرسل $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "لا تستطيع الردّ على هذه المجموعة لأنك لم تعد عضواً فيها.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "احذف بالنسبة لي",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "احذف للجميع",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "القصص",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "تُساعد هذه الأرقام في الحفاظ على خصوصية اسم المستخدم الخاص بك حتى تتجنب الرسائل غير المرغوب فيها. شارك اسم المستخدم الخاص بك فقط مع الأشخاص والمجموعات الذين ترغب في الدردشة معهم. إذا غيّرتَ أسماء المستخدمين الخاصة بك، فسَتحصل على مجموعة جديدة من الأرقام.",
+    "message": "تُساعد هذه الأرقام في الحفاظ على خصوصية اسم المستخدم الخاص بك حتى تتجنب الرسائل غير المرغوب فيها. شارك اسم المستخدم الخاص بك فقط مع الأشخاص والمجموعات الذين ترغب في الدردشة معهم. إذا غيّرتَ أسماء المُستخدم الخاص بك، فسَتحصل على مجموعة جديدة من الأرقام.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- وجدت نفسك أمام محادثة مع قائمة طويلة من الملاحظات الصوتية يجب الاستماع إليها؟ انقر على تشغيل ثم اِسترح واسترخ - سيتم تشغيلها تلقائيًا!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "يُمكنك الآن إرسال رسالة مرفقة بمقطع فيديو وصور عطلتك!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "لا يُمكنك تذكّر أيٌ من أصدقائك الذين يحملون اسم ليث في فريق كرة السلة الذي تلعب فيه؟ تحقّق من تفاصيل جهة الاتصال لإلقاء نظرة على المجموعات المشتركة بينك وبين صديق ما.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "يُمكنك إضافة صديق بسهولة إلى مجموعة ما انطلاقًا من شاشة تفاصيل جهة الاتصال الخاصة به لإبقاء المُحادثة مُشوّقة.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "جاري العمل على تصليح الأعطال وإضافة تحسينات للأداء لنحافظ على سلاسة اشتغال التطبيق من أجلك.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "ندعوك إلى استخدام واختبار ميزة قِصصنا الجديدة. يُمكنك استخدام الميزة مع الأشخاص الآخرين الذين يختبرون النسخة التجريبية وإعلامنا بأدائها.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "أصبحت القِصص الآن على Signal! شارك الرسائل والصور ومستجدات الفيديو التي تختفي تلقائيًا بعد 24 ساعة مع أصدقاء أو مجموعات مُختارة. لِكل من يُحب مشاركة القصص، إليك طريقة للقيام بذلك بشكل خاص وبدون مشاهدة أي إعلانات. إذا لم تكن ترغب في رؤية أو مشاركة القصص، يُمكنك إلغاء ذلك في إعداداتك > الخصوصية.",
+    "description": "Release notes for v6.0"
   }
 }
