@@ -735,8 +735,15 @@ const getSelectedStoryDataForDistributionListId = (
 const getSelectedStoryDataForConversationId = (
   dispatch: ThunkDispatch<RootStateType, unknown, NoopActionType>,
   getState: () => RootStateType,
-  conversationId: string,
-  selectedStoryId?: string
+  {
+    conversationId,
+    onlyFromSelf,
+    selectedStoryId,
+  }: {
+    conversationId: string;
+    onlyFromSelf: boolean;
+    selectedStoryId?: string;
+  }
 ): {
   currentIndex: number;
   hasUnread: boolean;
@@ -746,8 +753,12 @@ const getSelectedStoryDataForConversationId = (
   const state = getState();
   const { stories } = state.stories;
 
+  const ourUuid = window.storage.user.getCheckedUuid().toString();
   const storiesByConversationId = stories.filter(
-    item => item.conversationId === conversationId && !item.deletedForEveryone
+    item =>
+      item.conversationId === conversationId &&
+      !item.deletedForEveryone &&
+      (!onlyFromSelf || item.sourceUuid === ourUuid)
   );
 
   // Find the index of the storyId provided, or if none provided then find the
@@ -802,7 +813,10 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
 }): ThunkAction<void, RootStateType, unknown, ViewStoryActionType> => {
   return (dispatch, getState) => {
     const { currentIndex, hasUnread, numStories, storiesByConversationId } =
-      getSelectedStoryDataForConversationId(dispatch, getState, conversationId);
+      getSelectedStoryDataForConversationId(dispatch, getState, {
+        conversationId,
+        onlyFromSelf: false,
+      });
 
     const story = storiesByConversationId[currentIndex];
     const state = getState();
@@ -921,12 +935,11 @@ const viewStory: ViewStoryActionCreatorType = (
             story.storyDistributionListId,
             storyId
           )
-        : getSelectedStoryDataForConversationId(
-            dispatch,
-            getState,
-            story.conversationId,
-            storyId
-          );
+        : getSelectedStoryDataForConversationId(dispatch, getState, {
+            conversationId: story.conversationId,
+            onlyFromSelf: storyViewMode === StoryViewModeType.MyStories,
+            selectedStoryId: storyId,
+          });
 
     // Go directly to the storyId selected
     if (!viewDirection) {
@@ -1123,7 +1136,10 @@ const viewStory: ViewStoryActionCreatorType = (
         const nextSelectedStoryData = getSelectedStoryDataForConversationId(
           dispatch,
           getState,
-          nextUnreadConversationId
+          {
+            conversationId: nextUnreadConversationId,
+            onlyFromSelf: false,
+          }
         );
 
         dispatch({
@@ -1182,7 +1198,10 @@ const viewStory: ViewStoryActionCreatorType = (
       const nextSelectedStoryData = getSelectedStoryDataForConversationId(
         dispatch,
         getState,
-        conversationStory.conversationId
+        {
+          conversationId: conversationStory.conversationId,
+          onlyFromSelf: false,
+        }
       );
 
       dispatch({
@@ -1217,7 +1236,10 @@ const viewStory: ViewStoryActionCreatorType = (
       const nextSelectedStoryData = getSelectedStoryDataForConversationId(
         dispatch,
         getState,
-        conversationStory.conversationId
+        {
+          conversationId: conversationStory.conversationId,
+          onlyFromSelf: false,
+        }
       );
 
       dispatch({
