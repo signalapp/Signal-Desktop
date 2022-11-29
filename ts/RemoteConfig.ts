@@ -17,7 +17,7 @@ export type ConfigKeyType =
   | 'desktop.calling.audioLevelForSpeaking'
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
-  | 'desktop.groupCallOutboundRing'
+  | 'desktop.groupCallOutboundRing2'
   | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'

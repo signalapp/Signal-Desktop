@@ -1886,6 +1886,7 @@ export class CallingClass {
   }
 
   private handleAutoEndedIncomingCallRequest(
+    _callId: CallId,
     remoteUserId: UserId,
     reason: CallEndedReason,
     ageInSeconds: number,

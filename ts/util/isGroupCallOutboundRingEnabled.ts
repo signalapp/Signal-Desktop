@@ -6,6 +6,6 @@ import * as RemoteConfig from '../RemoteConfig';
 export function isGroupCallOutboundRingEnabled(): boolean {
   return Boolean(
     RemoteConfig.isEnabled('desktop.internalUser') ||
-      RemoteConfig.isEnabled('desktop.groupCallOutboundRing')
+      RemoteConfig.isEnabled('desktop.groupCallOutboundRing2')
   );
 }
