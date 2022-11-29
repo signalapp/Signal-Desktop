@@ -127,6 +127,7 @@ import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import * as Conversation from './types/Conversation';
+import * as Gifs from './util/loadRecentGifs';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
@@ -1021,6 +1022,7 @@ export async function startApp(): Promise<void> {
       await Promise.all([
         window.ConversationController.getOrCreateSignalConversation(),
         Stickers.load(),
+        Gifs.loadGifs(),
         loadRecentEmojis(),
         loadInitialBadgesState(),
         loadStories(),
