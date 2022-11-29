@@ -166,3 +166,9 @@ export enum ResolvedSendStatus {
   Sending = 'Sending',
   Sent = 'Sent',
 }
+
+export type StoryMessageRecipientsType = Array<{
+  destinationUuid: string;
+  distributionListIds: Array<string>;
+  isAllowedToReply: boolean;
+}>;

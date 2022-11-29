@@ -13,7 +13,6 @@ import type {
 } from '../conversationJobQueue';
 import type { LoggerType } from '../../types/Logging';
 import type { MessageModel } from '../../models/messages';
-import type { SenderKeyInfoType } from '../../model-types.d';
 import type {
   SendState,
   SendStateByConversationId,
@@ -25,6 +24,7 @@ import {
 } from '../../messages/MessageSendState';
 import type { UUIDStringType } from '../../types/UUID';
 import * as Errors from '../../types/errors';
+import type { StoryMessageRecipientsType } from '../../types/Stories';
 import dataInterface from '../../sql/Client';
 import { SignalService as Proto } from '../../protobuf';
 import { getMessagesById } from '../../messages/getMessagesById';
@@ -35,9 +35,9 @@ import {
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
-import { isNotNil } from '../../util/isNotNil';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
+import { distributionListToSendTarget } from '../../util/distributionListToSendTarget';
 import { SendMessageChallengeError } from '../../textsecure/Errors';
 
 export async function sendStory(
@@ -283,8 +283,6 @@ export async function sendStory(
 
         const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-        const recipientsSet = new Set(pendingSendRecipientIds);
-
         const sendOptions = await getSendOptionsForRecipients(
           pendingSendRecipientIds,
           { story: true }
@@ -303,28 +301,11 @@ export async function sendStory(
           isGroupV2(conversation.attributes) ||
           Boolean(distributionList?.allowsReplies);
 
-        let inMemorySenderKeyInfo = distributionList?.senderKeyInfo;
-
         const sendTarget = distributionList
-          ? {
-              getGroupId: () => undefined,
-              getMembers: () =>
-                pendingSendRecipientIds
-                  .map(uuid => window.ConversationController.get(uuid))
-                  .filter(isNotNil),
-              hasMember: (uuid: UUIDStringType) => recipientsSet.has(uuid),
-              idForLogging: () => `dl(${receiverId})`,
-              isGroupV2: () => true,
-              isValid: () => true,
-              getSenderKeyInfo: () => inMemorySenderKeyInfo,
-              saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) => {
-                inMemorySenderKeyInfo = senderKeyInfo;
-                await dataInterface.modifyStoryDistribution({
-                  ...distributionList,
-                  senderKeyInfo,
-                });
-              },
-            }
+          ? distributionListToSendTarget(
+              distributionList,
+              pendingSendRecipientIds
+            )
           : conversation.toSenderKeyTarget();
 
         const contentMessage = new Proto.Content();
@@ -530,11 +511,7 @@ export async function sendStory(
   });
 
   // Build up the sync message's storyMessageRecipients and send it
-  const storyMessageRecipients: Array<{
-    destinationUuid: string;
-    distributionListIds: Array<string>;
-    isAllowedToReply: boolean;
-  }> = [];
+  const storyMessageRecipients: StoryMessageRecipientsType = [];
   recipientsByUuid.forEach((distributionListIds, destinationUuid) => {
     storyMessageRecipients.push({
       destinationUuid,

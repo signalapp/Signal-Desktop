@@ -40,8 +40,7 @@ export async function sendDeleteForEveryoneMessage(
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }
-  const messageModel = window.MessageController.register(messageId, message);
-  const idForLogging = getMessageIdForLogging(messageModel.attributes);
+  const idForLogging = getMessageIdForLogging(message.attributes);
 
   const timestamp = Date.now();
   const maxDuration = deleteForEveryoneDuration || THREE_HOURS;
@@ -49,7 +48,7 @@ export async function sendDeleteForEveryoneMessage(
     throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
   }
 
-  messageModel.set({
+  message.set({
     deletedForEveryoneSendStatus: zipObject(
       getRecipientConversationIds(conversationAttributes),
       repeat(false)
@@ -79,7 +78,7 @@ export async function sendDeleteForEveryoneMessage(
         `sendDeleteForEveryoneMessage: Deleting message ${idForLogging} ` +
           `in conversation ${conversationIdForLogging} with job ${jobToInsert.id}`
       );
-      await window.Signal.Data.saveMessage(messageModel.attributes, {
+      await window.Signal.Data.saveMessage(message.attributes, {
         jobToInsert,
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
       });
@@ -97,5 +96,5 @@ export async function sendDeleteForEveryoneMessage(
     serverTimestamp: Date.now(),
     fromId: window.ConversationController.getOurConversationIdOrThrow(),
   });
-  await deleteForEveryone(messageModel, deleteModel);
+  await deleteForEveryone(message, deleteModel);
 }

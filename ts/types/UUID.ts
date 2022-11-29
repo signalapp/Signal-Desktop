@@ -16,11 +16,21 @@ export enum UUIDKind {
 
 export const UUID_BYTE_SIZE = 16;
 
-export const isValidUuid = (value: unknown): value is UUIDStringType =>
-  typeof value === 'string' &&
-  /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(
-    value
-  );
+const UUID_REGEXP =
+  /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
+export const isValidUuid = (value: unknown): value is UUIDStringType => {
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  // Zero UUID is a valid uuid.
+  if (value === '00000000-0000-0000-0000-000000000000') {
+    return true;
+  }
+
+  return UUID_REGEXP.test(value);
+};
 
 export class UUID {
   constructor(protected readonly value: string) {

@@ -55,15 +55,22 @@ export async function sendDeleteForEveryone(
     targetTimestamp,
   } = data;
 
+  const logId = `sendDeleteForEveryone(${conversation.idForLogging()}, ${messageId})`;
+
   const message = await getMessageById(messageId);
   if (!message) {
-    log.error(`Failed to fetch message ${messageId}. Failing job.`);
+    log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;
   }
+
   const story = isStory(message.attributes);
+  if (story && !isGroupV2(conversation.attributes)) {
+    log.error(`${logId}: 1-on-1 Story DOE must use its own job. Failing job`);
+    return;
+  }
 
   if (!shouldContinue) {
-    log.info('Ran out of time. Giving up on sending delete for everyone');
+    log.info(`${logId}: Ran out of time. Giving up on sending`);
     updateMessageWithFailure(message, [new Error('Ran out of time!')], log);
     return;
   }
@@ -72,8 +79,6 @@ export async function sendDeleteForEveryone(
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const contentHint = ContentHint.RESENDABLE;
   const messageIds = [messageId];
-
-  const logId = `deleteForEveryone/${conversation.idForLogging()}`;
 
   const deletedForEveryoneSendStatus = message.get(
     'deletedForEveryoneSendStatus'
@@ -97,9 +102,8 @@ export async function sendDeleteForEveryone(
     'conversationQueue/sendDeleteForEveryone',
     async abortSignal => {
       log.info(
-        `Sending deleteForEveryone to conversation ${logId}`,
-        `with timestamp ${timestamp}`,
-        `for message ${targetTimestamp}`
+        `${logId}: Sending deleteForEveryone with timestamp ${timestamp}` +
+          `for message ${targetTimestamp}, isStory=${story}`
       );
 
       let profileKey: Uint8Array | undefined;
