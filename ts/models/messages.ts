@@ -2552,7 +2552,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           storyQuote.get('sendStateByConversationId') || {};
         const sendState = sendStateByConversationId[sender.id];
 
-        if (!sendState) {
+        const storyQuoteIsFromSelf =
+          storyQuote.get('sourceUuid') ===
+          window.storage.user.getCheckedUuid().toString();
+
+        if (storyQuoteIsFromSelf && !sendState) {
           log.warn(
             `${idLog}: Received storyContext message but sender was not in sendStateByConversationId. Dropping.`
           );
@@ -2561,7 +2565,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return;
         }
 
-        if (sendState.isAllowedToReplyToStory === false) {
+        if (
+          storyQuoteIsFromSelf &&
+          sendState.isAllowedToReplyToStory === false
+        ) {
           log.warn(
             `${idLog}: Received storyContext message but sender is not allowed to reply. Dropping.`
           );
