@@ -18,7 +18,7 @@ export default function updateToSchemaVersion67(
     db.exec(
       `
       CREATE TABLE gifs(
-        id STRING PRIMARY KEY ASC,
+        id INTEGER NOT NULL PRIMARY KEY ASC,
         giphy_id STRING UNIQUE,
         last_used INTEGER
       );

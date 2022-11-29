@@ -4264,7 +4264,7 @@ async function getRecentGifs({ limit }: { limit?: number } = {}): Promise<
   const rows = db
     .prepare<Query>(
       `
-      SELECT gifs.id FROM gifs
+      SELECT gifs.giphy_id FROM gifs
       ORDER BY gifs.last_used DESC
       LIMIT $limit
       `
