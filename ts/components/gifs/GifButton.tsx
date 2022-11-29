@@ -21,6 +21,7 @@ export type Props = Readonly<{
   position?: 'top-end' | 'top-start';
   theme?: Theme;
   giphyWrapper: GiphyRendererWrapper;
+  onClose?: () => void;
 }>;
 
 export const GifButton = React.memo(
@@ -33,6 +34,7 @@ export const GifButton = React.memo(
     position = 'top-end',
     recentGifs,
     giphyWrapper,
+    onClose = noop,
   }: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -40,8 +42,17 @@ export const GifButton = React.memo(
       (value: boolean) => {
         setIsOpen(value);
         onOpenStateChanged?.(value);
+        if (!value) {
+          // When used with the mouse, a click on a GIF will cause
+          // it to be focused. This focus can occur after our onClose
+          // handler, which as of 2022-11-29 focuses the message
+          // input element. Delaying the event by a frame causes it
+          // to be evaluated after the default focus events and any
+          // new focus events will not be overridden.
+          requestAnimationFrame(onClose);
+        }
       },
-      [onOpenStateChanged, setIsOpen]
+      [onOpenStateChanged, setIsOpen, onClose]
     );
 
     const handleClickButton = React.useCallback(() => {

@@ -476,6 +476,7 @@ export function CompositionArea({
         position={stickerAndGifButtonPlacement}
         onPickGif={onPickGif}
         giphyWrapper={giphyWrapper}
+        onClose={focusInput}
       />
     </div>
   );
