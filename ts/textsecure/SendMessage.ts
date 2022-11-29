@@ -1429,11 +1429,7 @@ export default class MessageSender {
     urgent: boolean;
     options?: SendOptionsType;
     storyMessage?: Proto.StoryMessage;
-    storyMessageRecipients?: Array<{
-      destinationUuid: string;
-      distributionListIds: Array<string>;
-      isAllowedToReply: boolean;
-    }>;
+    storyMessageRecipients?: ReadonlyArray<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
   }>): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
@@ -1459,17 +1455,7 @@ export default class MessageSender {
       sentMessage.storyMessage = storyMessage;
     }
     if (storyMessageRecipients) {
-      sentMessage.storyMessageRecipients = storyMessageRecipients.map(
-        recipient => {
-          const storyMessageRecipient =
-            new Proto.SyncMessage.Sent.StoryMessageRecipient();
-          storyMessageRecipient.destinationUuid = recipient.destinationUuid;
-          storyMessageRecipient.distributionListIds =
-            recipient.distributionListIds;
-          storyMessageRecipient.isAllowedToReply = recipient.isAllowedToReply;
-          return storyMessageRecipient;
-        }
-      );
+      sentMessage.storyMessageRecipients = storyMessageRecipients.slice();
     }
 
     if (isUpdate) {

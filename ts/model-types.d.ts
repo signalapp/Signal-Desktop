@@ -154,6 +154,7 @@ export type MessageAttributesType = {
   storyDistributionListId?: string;
   storyId?: string;
   storyReplyContext?: StoryReplyContextType;
+  storyRecipientsVersion?: number;
   supportedVersionAtReceive?: unknown;
   synced?: boolean;
   unidentifiedDeliveryReceived?: boolean;

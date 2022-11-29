@@ -78,6 +78,7 @@ export type StoryDataType = {
   | 'storyDistributionListId'
   | 'timestamp'
   | 'type'
+  | 'storyRecipientsVersion'
 > & {
     // don't want the fields to be optional as in MessageAttributesType
     expireTimer: DurationInSeconds | undefined;

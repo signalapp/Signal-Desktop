@@ -111,6 +111,7 @@ export function getStoryDataFromMessageAttributes(
       'source',
       'sourceUuid',
       'storyDistributionListId',
+      'storyRecipientsVersion',
       'timestamp',
       'type',
     ]),
