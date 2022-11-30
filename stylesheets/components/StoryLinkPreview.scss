@@ -9,6 +9,8 @@
   display: inline-flex;
   max-width: 560px;
   min-width: 560px;
+  // no taller than 2:3
+  max-height: calc(560px / (2 / 3));
   overflow: hidden;
 
   &__content {
@@ -62,6 +64,10 @@
       height: 48px;
       width: 48px;
     }
+  }
+
+  &__icon-container {
+    overflow: hidden;
   }
 
   &--tall {
