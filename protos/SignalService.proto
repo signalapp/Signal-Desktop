@@ -73,41 +73,41 @@ message DataExtractionNotification {
   optional uint64 timestamp = 2;
 }
 
-message GroupInviteMessage {
-  required string         name              = 1;
-  required bytes          memberPrivateKey  = 2;
-}
+// message GroupInviteMessage {
+//   required string         name              = 1;
+//   required bytes          memberPrivateKey  = 2;
+// }
 
 // this will replace our closedGroupControlMessage but we will need to keep both for some time
-message GroupMessage {
-  optional GroupAdminMessage           adminMessage         = 31;
-  optional GroupMemberLeftMessage      memberLeftMessage    = 32;
-  optional GroupInviteMessage          inviteMessage        = 33;
-  optional GroupPromoteMessage         promoteMessage       = 34;
-}
+// message GroupMessage {
+  // optional GroupAdminMessage           adminMessage         = 31;
+  // optional GroupMemberLeftMessage      memberLeftMessage    = 32;
+  // optional GroupInviteMessage          inviteMessage        = 33;
+  // optional GroupPromoteMessage         promoteMessage       = 34;
+// }
 
-message GroupPromoteMessage {
-  required bytes          privateKey        = 1; // this is the group admins key
-}
+// message GroupPromoteMessage {
+  // required bytes          privateKey        = 1; // this is the group admins key
+// }
 
-message GroupAdminMessage {
-  enum Type {
-    DELETE_GROUP                   = 1; // members, groupSignature
-    DELETE_GROUP_ALL_MEMBERS       = 2;  // groupSignature
-    DELETE_MESSAGES_ALL_MEMBERS    = 3;  // groupSignature
-    DELETE_ATTACHMENTS_ALL_MEMBERS = 4;  // groupSignature
-  }
-
+// message GroupAdminMessage {
+  // enum Type {
+  //   DELETE_GROUP                   = 1; // members, groupSignature
+  //   DELETE_GROUP_ALL_MEMBERS       = 2;  // groupSignature
+  //   DELETE_MESSAGES_ALL_MEMBERS    = 3;  // groupSignature
+  //   DELETE_ATTACHMENTS_ALL_MEMBERS = 4;  // groupSignature
+  // }
+//
+  // // @required
+ //  required Type           type              = 1;
+  // repeated bytes          members           = 2;
   // @required
-  required Type           type              = 1;
-  repeated bytes          members           = 2;
-  // @required
-  required bytes          groupSignature    = 3; // used by every members to make sure incoming admin action can be trusted
-}
+ //  required bytes          groupSignature    = 3; // used by every members to make sure incoming admin action can be trusted
+// }
 
-message GroupMemberLeftMessage {
+// message GroupMemberLeftMessage {
  // the pubkey of the member who left is already in the senderIdentity
-}
+// }
 
 
 message DataMessage {
@@ -212,7 +212,7 @@ message DataMessage {
   optional OpenGroupInvitation       openGroupInvitation       = 102;
   optional ClosedGroupControlMessage closedGroupControlMessage = 104;
   optional string                    syncTarget                = 105;
-  optional GroupMessage              groupMessage              = 120;
+  // optional GroupMessage              groupMessage              = 120;
 }
 
 message CallMessage {

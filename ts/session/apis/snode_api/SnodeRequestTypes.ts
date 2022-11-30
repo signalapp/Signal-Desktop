@@ -6,7 +6,7 @@ type RetrieveAlwaysNeeded = {
   pubkey: string;
   namespace: number;
   last_hash: string;
-  timestamp: number;
+  timestamp?: number;
 };
 
 export type RetrievePubkeySubRequestType = {
