@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Följande personer kan ha installerat om eller bytt enheter. Verifiera ditt säkerhetsnummer med dem för att säkerställa integriteten.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Följande personer kan ha ominstallerat Signal eller bytt enheter. Klicka på en mottagare för att bekräfta deras nya säkerhetsnummer. Detta är valfritt.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Skicka väntande meddelanden",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Granska",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Du har {count,number} förbindelse som kan ha installerat om Signal eller bytt enheter. Du kan göra en valfri granskning av deras säkerhetsnummer innan du skickar.} other {Du har {count,number} förbindelser som kan ha installerat om Signal eller bytt enheter. Du kan göra en valfri granskning av deras säkerhetsnummer innan du skickar.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Alla förbindelser har granskats. Klicka på skicka för att fortsätta.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Är du säker på att du vill ta bort 1 mottagare från storyn {story}?} other {Är du säker på att du vill ta bort {count,number} mottagare från storyn {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Ta bort alla",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Verifiera säkerhetsnummer",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Ta bort från story",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Åtgärder för kontakt $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Åtgärder för storyn $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Ditt säkerhetsnummer med $name1$ har ändrats. Det kan antingen innebära att någon försöker avläsa din kommunikation eller att $name2$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med den här kontakten.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Skicka ändå",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Skicka",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Klar",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Ring ändå",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Min story",
+    "message": "Mina Stories",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Mina Stories",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Din story",
@@ -5492,6 +5544,14 @@
     "message": "Att skicka meddelandet misslyckades",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Delvis skickad",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Klicka för att försöka igen",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Klicka för att visa en story",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Storyn har inget ljud",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Den här storyn kunde inte skickas till vissa personer. Kontrollera din anslutning och försök igen.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Storyinställningar",
+    "message": "Storyintegritet",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Stories försvinner automatiskt efter 24 timmar. Välj vilka som kan visa din story eller skapa nya stories för specifika tittare eller grupper.",
+    "messageformat": "Stories försvinner automatiskt efter 24 timmar. Välj vilka som kan se din story eller skapa nya stories för specifika tittare eller grupper.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Mina Stories",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Ny anpassad story",
+    "message": "Ny story",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Bara du kan se namnet på den här storyn.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Alla Signal-förbindelser",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Anpassad story",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Gruppstory",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ tittare",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Storyinställningar",
+    "message": "Storyintegritet",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Om du vill ändra den här inställningen öppnar du Signal-appen på din mobila enhet och navigerar till Inställningar > Stories",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Vem kan visa den här storyn",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Medlemmar i gruppchatten {groupTitle} kan visa och svara på den här storyn. Du kan uppdatera medlemskapet för den här chatten i gruppen.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Ta bort gruppstory",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Är du säker på att du vill ta bort {groupTitle}?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Välj vilka som kan visa din story",
@@ -5728,13 +5824,33 @@
     "message": "Endast administratörer kan skicka stories till denna grupp.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Alla Signal-förbindelser · {viewersCount,number} tittare} other {Alla Signal-förbindelser · {viewersCount,number} tittare}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Alla Signal-förbindelser · {excludedCount,number} exkluderad} other {Alla Signal-förbindelser · {excludedCount,number} exkluderade}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privat story · {viewersCount,number} tittare} other {Privat story · {viewersCount,number} tittare}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Gruppstory · 1 medlem} other {Gruppstory · {membersCount,number} medlemmar}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dela och visa Stories",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Du kommer inte längre kunna dela eller se stories när denna inställning är av.",
+    "message": "Du kommer inte längre kunna dela eller visa stories om du stänger av dem.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Stäng av stories",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pausa",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Visningar av",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Skickar …",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Det gick inte att skicka. Klicka för att försöka igen",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Delvis skickad. Klicka för att försöka igen",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Skickad $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Du kan inte svara på den här storyn eftersom du inte längre är medlem i den här gruppen.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Ta bort för mig",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Ta bort för alla",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "De här siffrorna hjälper till att hålla ditt användarnamn privat så att du kan undvika oönskade meddelanden. Dela ditt användarnamn endast med de personer och grupper du vill chatta med. Om du ändrar användarnamn får du en ny uppsättning siffror.",
+    "message": "De här siffrorna hjälper till att hålla ditt användarnamn privat så att du kan undvika oönskade meddelanden. Dela ditt användarnamn endast med de personer och grupper som du vill chatta med. Om du ändrar användarnamn får du en ny uppsättning siffror.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Har du en konversation med en lång lista med röstanteckningar att lyssna på? Klicka på play, luta dig tillbaka och slappna av - de fortsätter att spelas upp automatiskt.",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Nu kan du piffa upp ett meddelande med en film, tillsammans med dina semesterbilder.",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Kommer du inte ihåg vilken av dina vänner som heter Lou som är med i ditt basketlag? Kontrollera kontaktuppgifter för att se delade grupper mellan dig och en vän.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Lägg enkelt till en vän i en grupp från deras kontaktuppgiftssida för att hålla konversationen spännande.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Vi jobbar hårt med buggfixar och att göra andra prestandaförbättringar för att appen ska fortsätta fungera bra för dig.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Börja använda och testa vår nya berättelsefunktion. Du kan använda funktionen med andra beta-testare och låta oss veta hur den fungerar.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Nu finns Stories i Signal! Dela försvinnande text-, bild- och videouppdateringar med utvalda vänner eller grupper som automatiskt försvinner efter 24 timmar. För alla som älskar att dela stories, här är ett sätt att göra det privat och utan annonser. Om du inte vill se eller dela stories så kan du välja bort detta i dina Inställningar > Sekretess.",
+    "description": "Release notes for v6.0"
   }
 }

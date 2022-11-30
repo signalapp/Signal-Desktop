@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Aşağıdaki kişiler cihazd değiştirmiş veya yeniden yükleme yapmış olabilir. Gizliliğinizden emin olmak için güvenlik numaranızı doğrulayın.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Aşağıdaki kişiler Signal'i yeniden yüklemiş veya cihazlarını değiştirmiş olabilirler. Yeni güvenlik numarasını onaylamak için kişilerden birine tıkla. Bu işlem isteğe bağlıdır.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Bekleyen iletileri gönder",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "İnceleme",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Signal'i yeniden yüklemiş veya cihazını değiştirmiş olabilecek {count,number} bağlantın var. İsteğe bağlı olarak, göndermeden önce güvenlik numarasını inceleyebilirsin.} other {Signal'i yeniden yüklemiş veya cihazlarını değiştirmiş olabilecek {count,number} bağlantın var. İsteğe bağlı olarak, göndermeden önce güvenlik numaralarını inceleyebilirsin.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Tüm bağlantılar gözden geçirildi, devam etmek için gönder butonuna tıkla.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {{story} hikayesinden 1 alıcıyı kaldırmak istediğinden emin misin?} other {{story} hikayesinden {count,number} alıcıyı kaldırmak istediğinden emin misin?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Hepsini çıkar",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Güvenlik numarasını doğrulayın",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Hikayeden çıkar",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ kişisi için işlemler",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ hikayesi için işlemler",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "$name1$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name2$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Yine de Gönder",
+    "message": "Yine de gönder",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Gönder",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Tamam",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Yine de Ara",
+    "message": "Yine de ara",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Hikayem",
+    "message": "Hikayelerim",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Hikayelerim",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Hikayen",
@@ -5492,6 +5544,14 @@
     "message": "Gönderme başarısız",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Kısmen gönderildi",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Tekrar denemek için tıkla",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Bir hikayeyi görüntülemek için tıkla",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Bu hikayede ses yok",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Hikaye bazı kişilere gönderilemedi. Bağlantını kontrol edip tekrar dene.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Hikaye ayarları",
+    "message": "Hikaye gizliliği",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Hikayeler 24 saat sonra otomatik olarak kaybolur. Hikayeni kimlerin görüntüleyebileceğini seç veya belirli kişiler ya da gruplarla yeni hikayeler oluştur.",
+    "messageformat": "Hikayeler 24 saat sonra otomatik olarak kaybolur. Hikayeni kimlerin görüntüleyebileceğini belirle veya belirli izleyiciler veya gruplar için yeni hikayeler oluştur.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Hikayelerim",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Yeni özel hikaye",
+    "message": "Yeni Hikaye",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Bu hikayenin adını sadece sen görebilirsin.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Tüm Signal bağlantıları",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Özel hikaye",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Grup hikayesi",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ görüntüleyen",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Hikaye ayarları",
+    "message": "Hikaye gizliliği",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Bu ayarı değiştirmek için mobil cihazındaki Signal uygulamasını aç ve Ayarlar -> Hikayeler kısmına git",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Bu hikayeyi kimler görüntüleyebilir",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "“{groupTitle}” grup sohbetinin üyeleri bu hikayeyi görüntüleyebilir ve yanıtlayabilir. Gruptaki bu sohbet için üyeliğini güncelleyebilirsin.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Grup hikayesini kaldır",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "“{groupTitle}” hikayesini kaldırmak istediğinden emin misin?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Hikayeni kimlerin görüntüleyebileceğini seç",
@@ -5728,13 +5824,33 @@
     "message": "Bu gruba yalnızca yöneticiler hikaye gönderebilir.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Tüm Signal Bağlantıları · {viewersCount,number} Görüntüleyen} other {Tüm Signal Bağlantıları · {viewersCount,number} Görüntüleyen}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Tüm Signal Bağlantıları · {excludedCount,number} Kişi Hariç Tutuldu} other {Tüm Signal Bağlantıları · {excludedCount,number} Kişi Hariç Tutuldu}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Gizli hikaye · {viewersCount,number} görüntüleyen} other {Gizli hikaye · {viewersCount,number} görüntüleyen}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Grup hikayesi · 1 üye} other {Grup hikayesi · {membersCount,number} üye}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Hikayeleri Paylaş ve Görüntüle",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Bu seçenek kapatıldığında artık Hikayeleri paylaşamayacak veya görüntüleyemeyeceksin.",
+    "message": "Hikayeleri devre dışı bırakırsan, artık hikayeleri paylaşamaz veya görüntüleyemezsin.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Hikayeleri kapat",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Durdur",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Görüntüleme kapalı",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Gönderiliyor…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Gönderme başarısız. Tekrar denemek için tıkla",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Kısmen gönderildi. Tekrar denemek için tıkla",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$gönderildi",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Artık bu grubun bir üyesi olmadığın için bu hikayeye yanıt veremezsin.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Benden sil",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Herkesten sil",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Hikaye",
@@ -6020,22 +6156,6 @@
     "message": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Sesli Notlarla dolu bir konuşmayla mı karşı karşıyasın? Oynat'a tıkla, arkana yaslan ve rahatla - Sesli Notlar otomatik olarak oynamaya devam edecek!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Artık mesajlarına tatil fotoğraflarınla birlikte video da ekleyebilirsin!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Kerem isimli arkadaşlarından hangisinin basketbol takımında olduğunu hatırlayamıyor musun? Bir arkadaşınla paylaştığın grupları görüntülemek için kişi bilgilerini incele.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Muhabbeti artırmak için kişi bilgileri ekranından bir gruba kolayca arkadaş ekle.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Uygulamanın sorunsuz çalışmasını sağlamak için hataları düzelttik ve performans iyileştirmeleri yaptık.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Yeni hikayeler özelliğimizi kullanmaya ve test etmeye başla. Bu özelliği diğer beta test kullanıcıları ile kullanabilir ve bize yorumlarını bildirebilirsin.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Hikayeler artık Signal'da! 24 saat sonra otomatik olarak kaybolan metin, resim ve videoları belirli arkadaşlarınla veya gruplarınla paylaş. Hikaye paylaşmayı seviyorsan, bunu gizli ve reklam görmeden yapmanın bir yolu var. Hikayeleri görmek veya paylaşmak istemiyorsan, Tercihler > Gizlilik bölümünden tümünü devre dışı bırakabilirsin.",
+    "description": "Release notes for v6.0"
   }
 }

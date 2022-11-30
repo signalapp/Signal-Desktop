@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Need inimised on võibolla rakendust reinstallinud või seadet vahetanud. Privaatsuse kindlustamiseks kontrolli nendega turvanumbrit.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Järgmised inimesed võivad olla Signali uuesti alla laadinud või seadet vahetanud. Klõpsa saajale, et kinnitada tema uus turvanumber. See on valikuline.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Saada ootel sõnumid",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Ülevaade",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Sul on {count,number} kontakt, kes võib olla Signali uuesti paigaldanud või oma seadme välja vahetanud. Enne saatmist on sul võimalik kontrollida tema turvanumbrit.} other {Sul on {count,number} kontakti, kes võivad olla Signali uuesti paigaldanud või oma seadme välja vahetanud. Enne saatmist on sul võimalik kontrollida nende turvanumbreid.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Kõik kontaktid on kontrollitud, jätkamiseks toksa „Saada“.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Kas oled kindel, et soovid eemaldada 1 saaja loost {story}?} other {Kas oled kindel, et soovid eemaldada {count,number} saajat loost {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Eemalda kõik",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Kinnita turvanumbrit",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Eemalda loo nägijate hulgast",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Kontaktiga $contact$ seotud tegevused",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Looga $story$ seotud tegevused",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Sinu turvanumber kasutajaga $name1$ on muutunud. See võib tähendada, et keegi püüab teie suhtlust pealt kuulata või et $name2$ on lihtsalt Signali uuesti paigaldanud. Kontrolli enda turvakoodi selle kontaktiga.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Saada ikkagi",
+    "message": "Saada siiski",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Saada",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Tehtud",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Helista ikkagi",
+    "message": "Helista siiski",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Minu lugu",
+    "message": "Minu lood",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Minu lood",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Sinu lugu",
@@ -5492,6 +5544,14 @@
     "message": "Saatmine ei õnnestunud",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Osaliselt saadetud",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Klõpsa uuesti proovimiseks",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Klõpsa loo vaatamiseks",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Sellel lool puudub heli",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Seda lugu ei saanud mõnedele inimestele saata. Kontrolli oma ühendust ja proovi uuesti.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Loo sätted",
+    "message": "Loo privaatsus",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Lood kaovad automaatselt 24 tunni pärast. Vali, kes saavad sinu lugu vaadata või loo uusi lugusid konkreetsetele vaatajatele või gruppidele.",
+    "messageformat": "Lood kaovad automaatselt 24 tunni möödudes. Vaata, kellele su lugu nähtav on, või loo uusi lugusid konkreetsete vaatajate või gruppide jaoks.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Minu lood",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Uus kohandatud lugu",
+    "message": "Uus lugu",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Ainult sina näed selle loo nime.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Kõik Signali kontaktid",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Kohandatud lugu",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Grupi lugu",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ vaataja",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Loo sätted",
+    "message": "Loo privaatsus",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Selle sätte muutmiseks ava enda nutiseadmes Signali äpp ja vali Sätted -> Lood",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Kes seda lugu näevad",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Eemalda grupi lugu",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Kas sa tõesti soovid lugu „{groupTitle}“ eemaldada?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Vali, kes saavad sinu lugu vaadata",
@@ -5728,13 +5824,33 @@
     "message": "Ainult administraatorid saavad sellesse gruppi lugusid saata.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privaatne lugu · {viewersCount,number} vaataja} other {Privaatne lugu · {viewersCount,number} vaatajat}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Grupi lugu · 1 liige} other {Grupi lugu · {membersCount,number} liiget}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Jaga ja vaata lugusid",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Kui see valik välja on lülitatud, ei saa sa enam lugusid jagada ega vaadata.",
+    "message": "Kui lood välja lülitad, ei ole sul enam võimalik lugusid jagada ega vaadata.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Lülita lood välja",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Paus",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Vaatamised väljas",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Saatmine…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Saatmine ei õnnestunud. Klõpsa uuesti proovimiseks",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Osaliselt saadetud. Klõpsa uuesti proovimiseks",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Saadetud $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Sa ei saa sellele loole vastata, sest sa ei ole enam selle grupi liige.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Kustuta minu jaoks",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Kustuta kõigi jaoks",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Lugu",
@@ -6020,22 +6156,6 @@
     "message": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Kas sul on ees vestlus, kus on palju kuulamata häälsõnumeid? Toksa „Mängi“ ning kuula muretult, sest iga järgmine sõnum käivitub automaatselt!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Nüüd saad lisada sõnumitele värvi videote ja toredate piltidega!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Ei mäleta, milline Kristjan sinu korvpallimeeskonnas on? Ava kontakti andmed, et näha, millistesse gruppidesse te mõlemad kuulute.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Hoia vestlus põnev, lisades gruppi veel sõpru. Saad seda teha mugavalt kontaktandmete kuva kaudu.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Anname endast parima, et vigu parandada ning jõudlust suurendada, muutes nii rakenduse tööd sujuvamaks.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Proovi ja testi meie uut lugude funktsiooni. Saad seda funktsiooni koos teiste beetatestijatega proovidega ning meiega oma kogemusi jagada.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Lood on Signalisse jõudnud! Jaga valitud sõprade või gruppidega kaduvaid sõnumeid, pilte ja videoid, mis 24 tunni pärast automaatselt kustutatakse. Kõigil, kellele meeldib lugusid jagada, on nüüd võimalus teha seda privaatselt ja ilma reklaame nägemata. Kui sa ei taha lugusid näha või jagada, võid teha vastava valiku siin: Sätted > Privaatsus",
+    "description": "Release notes for v6.0"
   }
 }

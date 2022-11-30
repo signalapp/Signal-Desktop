@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "以下使用者可能已重新安裝或更換了裝置。與他們一起驗證你的安全碼，以確保隱私性。",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "以下的聯絡人可能已重新安裝 Signal 或更換裝置。請點選接收者以確認新安全碼。這是選擇性的。",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "傳送待處理的訊息",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "檢查",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {你有 {count,number} 位聯絡人可能已重新安裝 Signal 或更換裝置。你可以先檢查他們的安全碼再傳送訊息。}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "已檢查所有聯絡人，請點擊「傳送」以繼續操作。",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {你確定要從 {story} 限時動態中移除 {count,number} 位接收者嗎？}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "全部移除",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "驗證安全碼",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "從限時動態中移除",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "聯絡人 $contact$ 的操作",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "限時動態 $story$ 的操作",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "你的$name1$的安全碼已更改。 這可能意味著有人試圖攔截你的通訊，或者$name2$只是重新安裝了Signal。 你可以希望透過此聯絡人驗證你的安全碼。",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "仍要傳送",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "傳送",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "完成",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "仍要通話",
@@ -5392,6 +5440,10 @@
     "message": "我的限時動態",
     "description": "Title for the my stories list"
   },
+  "MyStories__list_item": {
+    "message": "我的限時動態",
+    "description": "Label for the my stories in the list of all stories"
+  },
   "MyStories__story": {
     "message": "你的限時動態",
     "description": "aria-label for each one of your stories"
@@ -5492,6 +5544,14 @@
     "message": "傳送失敗",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "已部分傳送",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "點擊以重試",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "點擊以瀏覽限時動態",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "此限時動態沒有聲音",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "無法將此限時動態發送給某些聯絡人。請檢查你的網路連線，然後再試一次。",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "限時動態設定",
+    "message": "限時動態隱私",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "限時動態會在 24 小時後自動消失。你可以選擇限時動態的分享對象，亦可為特定對象或群組建立新的限時動態。",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "我的限時動態",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "新自訂限時動態",
+    "message": "新增限時動態",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "只有你可看到此限時動態的名稱。",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "所有 Signal 聯絡人",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "自訂限時動態",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "群組限時動態",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ 位瀏覽者",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "限時動態設定",
+    "message": "限時動態隱私",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "要變更此設定，請在你的行動裝置上開啟 Signal 應用程式，然後前往「設定」 >「限時動態」",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "誰可以瀏覽此限時動態",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "「{groupTitle}」群組聊天的成員可以瀏覽和回覆此限時動態。你可以更新此群組聊天的成員資格。",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "移除群組限時動態",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "你確定要移除「{groupTitle}」嗎？",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "選擇誰可瀏覽你的限時動態",
@@ -5728,13 +5824,33 @@
     "message": "只有管理員可以向此群組傳送限時動態。",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {所有 Signal 聯絡人 · {viewersCount,number} 位瀏覽者}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {所有 Signal 聯絡人 · 已排除 {excludedCount,number} 人}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {私人限時動態 · {viewersCount,number} 位瀏覽者}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {群組限時動態 · {membersCount,number} 位成員}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "分享及瀏覽限時動態",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "關閉此選項後，你將無法再分享或瀏覽限時動態。",
+    "message": "如果選擇關閉限時動態，你將無法再分享或瀏覽限時動態。",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "關閉限時動態",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "暫停",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "已讀標記關閉",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "正在傳送...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "傳送失敗。點擊以重試",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "已部分傳送。點擊以重試",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "已於 $time$ 送出",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "由於你不再是這群組的成員，因此你無法回覆此限時動態。",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "為我刪除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "為所有人刪除",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "限時動態",
@@ -6020,22 +6156,6 @@
     "message": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- 對話內容有很多語音筆記？只要點擊播放，應用程式就會自動播出連續的語音筆記，讓你慢慢收聽！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "你現在除了可以在訊息中加入相片，還可以附上影片！",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "不記得哪個叫 Lou 的朋友也是籃球隊成員？檢視聯絡人詳情以查看你和朋友之間的共同群組。",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "從對方的聯絡人詳情畫面便可輕易地將朋友加入到群組中，以便繼續你們的精彩對話。",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "開始使用和測試最新的限時動態功能。你可以與測試版的其他測試者一同使用該功能，並讓我們知道是否好用。",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Signal 現已推出限時動態功能！與選定的好友或群組分享自動銷毀的訊息、圖像和影片更新，這些內容會在 24 小時後自動消失。喜歡分享限時動態的你，可以透過這種方法私下分享，而無需看到任何廣告。如果你不想瀏覽或分享限時動態，可以在「偏好設定」>「隱私」關閉所有相關功能。",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "အောက်ပါပုဂ္ဂိုလ်များသည် စက်ပစ္စည်းအား ပြန်လည်တပ်ဆင်ခြင့် သို့မဟုတ် ပြောင်းလဲခြင်း ပြုလုပ်ခဲ့နိုင်သည်။ ပုဂ္ဂိုလ်ရေး လုံခြုံစေရန် သင့်လုံခြုံရေးနံပါတ်ကို ၎င်းပုဂ္ဂိုလ်များဖြင့် အတည်ပြုပေးပါ။",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "ဖော်ပြထားသူများသည် Signal ကို ပြန်လည်ထည့်သွင်းခဲ့ပါသည် သို့မဟုတ် စက်များ ပြောင်းခဲ့ပါသည်။ လုံခြုံရေးနံပါတ်အသစ်ကို အတည်ပြုရန် လက်ခံသူကို နှိပ်ပါ။ ဤသည်ကို မလုပ်လည်း ဖြစ်ပါသည်။",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "ဆိုင်းငံ့ထား‌သော မက်ဆေ့ချ်များ ပို့ရန်",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "ပြန်လည်စိစစ်ရန်",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {သင့်တွင် Signal ကို ပြန်လည်ထည့်သွင်းထားသည့် သို့မဟုတ် စက်များ ပြောင်းထားသည့် အဆက်အသွယ် {count,number} ဦး ရှိပါသည်။ ထိုသူတို့ထံ သင့်စတိုရီကို ပေးပို့မှု မလုပ်မီ ၎င်းတို့၏ လုံခြုံရေးနံပါတ်ကို စိတ်ကြိုက် ပြန်လည်စိစစ်နိုင်ပါသည်။}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "အဆက်အသွယ်များအားလုံးကို ပြန်လည်စိစစ်ထားပါသည်၊ ဆက်လုပ်ရန်အတွက် ပေးပို့မည်ကို နှိပ်ပါ။",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {လက်ခံသူ {count,number} ဦးအား စတိုရီ {story} မှ ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "အားလုံး ဖယ်ရှားရန်",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "စိတ်ချရသောနံပါတ်ကို စစ်ဆေးအတည်ပြုခြင်း",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "စတိုရီမှ ဖယ်ရှားရန်",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "အဆက်အသွယ် $contact$ အတွက် လုပ်ဆောင်ချက်များ",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "စတိုရီ $story$ အတွက် လုပ်ဆောင်ချက်များ",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "သင်အတည်ပြုရန် ကြိုးစားနေသော လုံခြုံရေးနံပါတ် ပြောင်းသွားပါသည်။ သင့်လုံခြုံရေးနံပါတ်အသစ်ကို $name1$ နှင့်အတူ သုံးသပ်ပါ။ ဤပြောင်းလဲမှုအားဖြင့် တစ်စုံတစ်ယောက်က သင်တို့၏ ဆက်သွယ်မှုကို ကြားဖြတ်နားထောင်ရန် ကြိုးစားနေကြောင်း ဆိုလိုပါသည်၊ သို့တည်းမဟုတ် $name2$ က Signal ကို ပြန်ထည့်သွင်းလိုက်ခြင်းဖြစ်ပါသည်။ ဤအဆက်အသွယ်နှင့် သင့်လုံခြုံရေးနံပါတ်အား အတည်ပြုလိုပါက ပြုနိုင်ပါသည်။",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "ပို့သာ ပို့လိုက်ပါ",
+    "message": "ဘာပဲဖြစ်ဖြစ်ပို့ပါ",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "ပေးပို့မယ်",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "ပြီးပါပြီ",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "ခေါ်သာ ခေါ်လိုက်ပါ",
+    "message": "ဘာပဲဖြစ်ဖြစ်ဖုန်းခေါ်ပါ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "ကျွန်ုပ်၏ စတိုရီ",
+    "message": "ကျွန်ုပ်၏ စတိုရီများ",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "ကျွန်ုပ်၏ စတိုရီများ",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "သင့်စတိုရီ",
@@ -5492,6 +5544,14 @@
     "message": "ပေးပို့ခြင်း မအောင်မြင်ပါ",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "တစ်စိတ်တစ်ပိုင်း ပို့ပြီး",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "ပြန်ကြိုးစားရန် နှိပ်ပါ",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "စတိုရီကို ကြည့်ရန် နှိပ်ပါ",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "ဤစတိုရီတွင် အသံ မပါပါ",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "ဤစတိုရီကို အချို့သူများထံ ပေးပို့၍ မရခဲ့ပါ။ သင့်အဆက်အသွယ်ကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "စတိုရီ ဆက်တင်",
+    "message": "စတိုရီ ကိုယ်ပိုင်အချက်အလက်",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "စတိုရီများသည် 24 နာရီ ကြာပြီးနောက် အော်တိုပျောက်သွားပါမည်။ သင့်စတိုရီကို မြင်နိုင်မည့်သူများအား ရွေးချယ်ပါ သို့မဟုတ် အချို့သော ကြည့်ရှုသူများ သို့မဟုတ် အဖွဲ့များဖြင့်သာ စတိုရီအသစ် ဖန်တီးပါ။",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "ကျွန်ုပ်၏ စတိုရီများ",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "စိတ်ကြိုက်စတိုရီ အသစ်",
+    "message": "စတိုရီ အသစ်",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "ဤစတိုရီ၏ အမည်ကို သင်တစ်ဦးတည်းသာ မြင်နိုင်ပါသည်။",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Signal အဆက်အသွယ်များ အားလုံး",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "စိတ်ကြိုက်စတိုရီ",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "အဖွဲ့ စတိုရီ",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "ကြည့်ရှုသူ $num$ ဦး",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "စတိုရီ ဆက်တင်",
+    "message": "စတိုရီ ကိုယ်ပိုင်အချက်အလက်",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "ဤဆက်တင်ကို ပြောင်းရန် သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > စတိုရီသို့ သွားပါ",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ဤစတိုရီကို ကြည့်နိုင်မည့်သူများ",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "အဖွဲ့စတိုရီကို ဖယ်ရှားရန်",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "\"{groupTitle}\" ကို ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "သင့်စတိုရီကို ကြည့်နိုင်မည့်သူများကိုရွေးရန်",
@@ -5728,13 +5824,33 @@
     "message": "အက်ဒ်မင်များသာလျှင် ဤအဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့နိုင်ပါသည်။",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {Signal အဆက်အသွယ်များအားလုံး · ကြည့်ရှုသူ {viewersCount,number} ဦး}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {Signal အဆက်အသွယ်များအားလုံး · {excludedCount,number} ဦး မပါဝင်ပါ}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {သီးသန့် စတိုရီ · ကြည့်ရှုသူ · {viewersCount,number} ဦး}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {အဖွဲ့ စတိုရီ · ကြည့်ရှုသူ · မန်ဘာ {membersCount,number} ဦး}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "စတိုရီများကို မျှဝေကြည့်ရှုရန်",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ဤရွေးချယ်မှုကို ပိတ်ထားချိန်တွင် စတိုရီများ မျှဝေခြင်း သို့မဟုတ် ကြည့်ခြင်းကို လုပ်ဆောင်နိုင်တော့မည် မဟုတ်ပါ။",
+    "message": "သင်သည် စတိုရီများတွင် ပါဝင်ရန် မရွေးထားပါက စတိုရီများ ဝေမျှခြင်း သို့မဟုတ် ကြည့်ခြင်းများ လုပ်နိုင်တော့မည် မဟုတ်ပါ။",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "စတိုရီများ ပိတ်ရန်",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "ခဏရပ်သည်",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "ကြည့်ရှုမှုများကို ပိတ်ထားပါသည်",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "ပို့နေဆဲ...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "ပေးပို့မှု မအောင်မြင်ပါ။ ပြန်ကြိုးစားရန် နှိပ်ပါ",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "တစ်စိတ်တစ်ပိုင်း ပို့ပြီး။ ပြန်ကြိုးစားရန် နှိပ်ပါ",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "ပေးပို့ပြီး $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "သင်သည် ဤအဖွဲ့ဝင် မဟုတ်တော့သောကြောင့် ဤစတိုရီကို စာပြန်နိုင်တော့မည် မဟုတ်ပါ။",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "ကျွန်ုပ်အတွက် ဖျက်မယ်",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "လူတိုင်းအတွက်ဖျက်ပါ",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "စတိုရီ",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "ဤဂဏန်းများသည် သင့်သုံးစွဲသူအမည်ကို သီးသန့်လျှို့ဝှက်ပေးထားသောကြောင့် မလိုချင်သည့် မက်ဆေ့ချ်များကို ရှောင်နိုင်ပါသည်။ သင့်သုံးစွဲသူအမည်ကို သင် ချက်(တ်)လိုသည့် လူများ၊ အဖွဲ့များထံသာ ဝေမျှနိုင်ပါသည်။ သုံးစွဲသူအမည်ကို ပြောင်းလိုက်ပါက ဂဏန်းတွဲအသစ် ရရှိပါမည်။",
+    "message": "ဤဂဏန်းများသည် သင့်သုံးစွဲသူအမည်ကို သီးသန့်လျှို့ဝှက်ပေးထားသောကြောင့် မလိုချင်သည့် မက်ဆေ့ချ်များကို ရှောင်နိုင်ပါသည်။ သင့်သုံးစွဲသူအမည်ကို သင် ချက်(တ်)လိုသည့် လူများ၊ အဖွဲ့များထံသာ ဝေမျှနိုင်ပါသည်။ သုံးစွဲသူအမည်များကို ပြောင်းလိုက်ပါက ဂဏန်းတွဲအသစ် ရရှိပါမည်။",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- နားဆင်ရန် Voice Notes စာရင်းရှည်ပါဝင်သော ပြောဆိုဆွေးနွေးမှုကို ရင်ဆိုင်နေရပါသလား။ ဖွင့်ရန် နှိပ်ပါ၊ ထိုင်ပြီး သက်တောင့်သက်သာနေပါ - ၎င်းတို့သည် အော်တို ဆက်ပွင့်နေပါလိမ့်မည်။",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "ယခုအခါ မက်ဆေ့ချ်တစ်စောင်တွင် သင်၏အားလပ်ရက် အပန်းဖြေဓာတ်ပုံများနှင့်အတူ ဗီဒီယိုအချို့ကို ပူးတွဲပေါင်းထည့်နိုင်ပါပြီ။",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "သင်၏ ဘတ်စ်ကတ်ဘောအသင်းရှိ အာကာဟု အမည်ရသော သင့်မိတ်ဆွေများကို မမှတ်မိဘဲ ဖြစ်နေပါသလား။ သင်နှင့် မိတ်ဆွေတစ်ဦးအကြား ဝေမျှထားသော အဖွဲ့များကို ကြည့်ရန် အဆက်အသွယ် အသေးစိတ်ကို စစ်ဆေးပါ။",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "ပြောဆိုဆွေးနွေးမှုကို ဆက်လက်စိတ်လှုပ်ဖွယ် ကောင်းနေစေရန် ၎င်းတို့၏ အဆက်အသွယ် အသေးစိတ် စခရင်မှ အဖွဲ့သို့ မိတ်ဆွေတစ်ဦးအား အလွယ်တကူ ပေါင်းထည့်ပါ။",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "အက်ပ်အား သင့်အတွက် ချောမွေ့စွာ အလုပ်လုပ်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများကို ကြိုးစားလုပ်ဆောင်ထားပြီး အခြားသော စွမ်းဆောင်ရည် မွမ်းမံမှုများကို ပြုလုပ်ထားပါသည်။",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "ကျွန်ုပ်တို့၏ စတိုရီ လုပ်ဆောင်ချက်အင်္ဂါရပ် အသစ်ကို စတင်သုံးစွဲပြီး စမ်းသပ်လိုက်ပါ။ သင်သည် အခြား Beta စမ်းသပ်သုံးစွဲသူများနှင့်အတူ ဤလုပ်ဆောင်ချက်အင်္ဂါရပ်ကို သုံးစွဲနိုင်ပြီး ၎င်းအလုပ်လုပ်ပုံအကြောင်း ကျွန်ုပ်တို့အား အသိပေးပါ။",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "ယခုအခါ Signal တွင် စတိုရီများ ရှိနေပါပြီ။ 24 နာရီကြာပြီးနောက် အော်တိုပျောက်သွားမည့် စာသား၊ ပုံနှင့် ဗီဒီယို အပ်ဒိတ်များကို ရွေးထားသည့် မိတ်ဆွေများ၊ အဖွဲ့များထံ ဝေမျှလိုက်ပါ။ စတိုရီများ ဝေမျှရသည်ကို သဘောကျသူတိုင်းအတွက် ကြော်ငြာများ မပါဘဲ သီးသန့်လုပ်ဆောင်နိုင်မည့် နည်းလမ်း ဒီမှာရှိနေပါပြီ။ စတိုရီများကို မမြင်လိုပါက၊ မဝေမျှလိုပါက ဆက်တင်၌ ပိတ်ထားနိုင်ပါသည်။",
+    "description": "Release notes for v6.0"
   }
 }

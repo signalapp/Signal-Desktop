@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Gali būti, kad šie žmonės iš naujo įdiegė programėlę ar pakeitė įrenginį. Patvirtinkite savo saugumo numerį su kiekvienu iš jų, kad užtikrintumėte privatumą.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Gali būti, kad šie žmonės įdiegė „Signal“ iš naujo arba pakeitė įrenginius. Spustelėk gavėją, kad patvirtintum jo naują saugumo numerį. Tai neprivaloma.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Siųsti laukiančias žinutes",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Peržiūrėti",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Turi {count,number} kontaktą, kuris galbūt iš naujo įdiegė „Signal“ arba pakeitė įrenginį. Jei nori, gali peržiūrėti jo saugumo numerį ir tik tada siųsti.} few {Turi {count,number} kontaktus, kurie galbūt iš naujo įdiegė „Signal“ arba pakeitė įrenginius. Jei nori, gali peržiūrėti jų saugumo numerius ir tik tada siųsti.} many {Turi {count,number} kontakto, kurie galbūt iš naujo įdiegė „Signal“ arba pakeitė įrenginius. Jei nori, gali peržiūrėti jų saugumo numerius ir tik tada siųsti.} other {Turi {count,number} kontaktų, kurie galbūt iš naujo įdiegė „Signal“ arba pakeitė įrenginius. Jei nori, gali peržiūrėti jų saugumo numerius ir tik tada siųsti.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Visi kontaktai peržiūrėti. Bakstelėk „Siųsti“, jei nori tęsti.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Ar tikrai nori pašalinti 1 gavėją iš istorijos {story}?} few {Ar tikrai nori pašalinti {count,number} gavėjus iš istorijos {story}?} many {Ar tikrai nori pašalinti {count,number} gavėjo iš istorijos {story}?} other {Ar tikrai nori pašalinti {count,number} gavėjų iš istorijos {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Pašalinti visus",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Patvirtinti saugumo numerį",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Pašalinti iš istorijos",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Veiksmai su šiuo kontaktu: $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Veiksmai su šia istorija: $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Jūsų saugumo numeris su $name1$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name2$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti savo saugumo numerį su šiuo adresatu.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Vis tiek siųsti",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Siųsti",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Atlikta",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Vis tiek skambinti",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "„Mano istorija“",
+    "message": "Mano istorijos",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Mano istorijos",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Tavo istorija",
@@ -5492,6 +5544,14 @@
     "message": "Išsiuntimas nepavyko",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Iš dalies nusiųsta",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Spustelėk ir bandyk dar kartą",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Spustelėk, jei nori žiūrėti istoriją",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Ši istorija be garso",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Šios istorijos nepavyko nusiųsti visiems. Patikrink interneto ryšį ir bandyk dar kartą.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Istorijos nustatymai",
+    "message": "Istorijų privatumas",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Istorijos automatiškai dingsta po 24 val. Pasirink, kas gali žiūrėti tavo istoriją, arba kurk naujas istorijas tam tikriems žiūrovams ar grupėms.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Mano istorijos",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nauja tinkinta istorija",
+    "message": "Nauja istorija",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Tik tu gali matyti šios istorijos pavadinimą.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Visi „Signal“ kontaktai",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Tinkinta istorija",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Grupės istorija",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ peržiūrėjo",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Istorijos nustatymai",
+    "message": "Istorijų privatumas",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Jei nori pakeisti šį nustatymą, atverk „Signal“ savo mobiliajame įrenginyje, eik į Nustatymus ir pasirink Istorijas",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Kas gali žiūrėti šią istoriją",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Pašalinti grupės istoriją",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Ar tikrai nori pašalinti „{groupTitle}“?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Pasirink, kas gali žiūrėti tavo istoriją",
@@ -5728,13 +5824,33 @@
     "message": "Siųsti istorijas į šią grupę gali tik administratoriai.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Visi „Signal“ kontaktai · 1 žiūrovas} few {Visi „Signal“ kontaktai · {viewersCount,number} žiūrovai} many {Visi „Signal“ kontaktai · {viewersCount,number} žiūrovo} other {Visi „Signal“ kontaktai · {viewersCount,number} žiūrovų}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Visi „Signal“ kontaktai · 1 neįtrauktas} few {Visi „Signal“ kontaktai · {excludedCount,number} neįtraukti} many {Visi „Signal“ kontaktai · {excludedCount,number} neįtraukto} other {Visi „Signal“ kontaktai · {excludedCount,number} neįtrauktų}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privati istorija · {viewersCount,number} žiūrovas} few {Privati istorija · {viewersCount,number} žiūrovai} many {Privati istorija · {viewersCount,number} žiūrovo} other {Privati istorija · {viewersCount,number} žiūrovų}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Grupės istorija · 1 narys} few {Grupės istorija · {membersCount,number} nariai} many {Grupės istorija · {membersCount,number} nario} other {Grupės istorija · {membersCount,number} narių}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Dalintis ir žiūrėti istorijas",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Išjungę šią parinktį daugiau nebegalėsite bendrinti ar žiūrėti istorijų.",
+    "message": "Jei išjungsi istorijas, nebegalėsi nei bendrinti, nei žiūrėti istorijų.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Išjungti Istorijas",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pristabdyti",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Peržiūros išjungtos",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Siunčiama…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Siuntimas nepavyko. Spustelėk ir bandyk dar kartą",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Iš dalies nusiųsta. Spustelėk ir bandyk dar kartą",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Nusiųsta $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Negali atsakyti į šią istoriją, nes nebesi šios grupės narys.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Ištrinti man",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Ištrinti visiems",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Istorija",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Šie skaitmenys padeda užtikrinti tavo naudotojo vardo privatumą, kad išvengtum nepageidaujamų žinučių. Savo naudotojo vardą pasakyk tik tiems žmonėms ir grupėms, su kuriomis nori bendrauti. Pakeitus naudotojo vardą suteikiama nauja skaitmenų kombinacija.",
+    "message": "Šie skaitmenys padeda užtikrinti tavo naudotojo vardo privatumą, kad išvengtum nepageidaujamų žinučių. Savo naudotojo vardą pasakyk tik tiems žmonėms ir grupėms, su kuriais (-iomis) nori bendrauti. Pakeitus naudotojo vardą suteikiama nauja skaitmenų kombinacija.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Laukia pokalbis su daugybe balso žinučių, kurias reikės perklausyti? Spustelėk paleisti, patogiai įsitaisyk ir nesijaudink – jos bus automatiškai leidžiamos iš eilės!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Prie žinutės su savo atostogų nuotraukomis dabar gali pridėti ir vaizdo įrašą!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nebeprisimeni, kuris Tomas iš tavo draugų žaidžia jūsų krepšinio komandoje? Peržvelk kontaktinę informaciją ir pamatysi bendras savo bei draugo grupes.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Be vargo pridėk draugą į grupę iš jo kontaktinės informacijos puslapio, kad palaikytum įdomų pokalbį.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Plušame taisydami klaidas ir kitaip gerindami programėlės veikimą, kad ir toliau ja sklandžiai naudotumeisi.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Pradėk naudoti ir testuoti mūsų naują istorijų funkciją. Gali ją naudoti kartu su kitais mūsų beta testuotojais ir pranešti, kaip veikia.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "„Signal“ istorijos jau čia! Bendrink dingstančias žinutes, nuotraukas ir vaizdo įrašus su pasirinktais draugais ar grupėmis – viskas automatiškai dingsta po 24 val. Visi, kas mėgsta bendrinti istorijas, gali daryti tai privačiai ir be jokių reklamų. Jei nenori žiūrėti ar bendrinti istorijų, gali visa tai išjungti: eik į Parinktis ir pasirink Privatumą.",
+    "description": "Release notes for v6.0"
   }
 }

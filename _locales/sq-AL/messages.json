@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Personat vijues mund të kenë riinstaluar ose ndryshuar pajisjet. Për të siguruar privatësi, verifikoni me ta numrin tuaj të sigurisë.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Personat e mëposhtëm mund të kenë riinstaluar Signal ose të kenë ndryshuar pajisje. Kliko një kontakt për të konfirmuar numrin e tij të ri të sigurisë. Kjo s'është e detyrueshme.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Dërgo mesazhe pezull",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Rishiko",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {{count,number} kontakt mund të ketë riinstaluar Signal ose të ketë ndryshuar pajisje. Nëse dëshiron, mund të rishikosh numrat e sigurisë para se t'i dërgosh.} other {{count,number} kontakte mund të kenë riinstaluar Signal ose të ketë ndryshuar pajisje. Nëse dëshiron, mund të rishikosh numrat e sigurisë para se t'i dërgosh.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Të gjitha kontaktet janë shqyrtuar; kliko dërgo për të vazhduar.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Je i sigurt që dëshiron që të heqësh 1 kontakt nga postimi i përkohshëm {story}?} other {Je i sigurt që dëshiron që të heqësh {count,number} kontakte nga postimi i përkohshëm {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Hiqi të gjithë",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Verifiko numër siguri",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Hiq nga postimi i përkohshëm",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Veprimet për kontaktin $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Veprimet për postimin e përkohshëm $story$",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Numri juaj i sigurisë me $name1$ ka ndryshuar. Kjo do të mund të thoshte se dikush po rreket të përgjojë komunikimin tuaj, ose se$name2$ thjesht ka riinstaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Dërgoje Sido Qoftë",
+    "message": "Dërgoje, sido qoftë",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Dërgoje",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "U bë",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Thirre, Sido Qoftë",
+    "message": "Thirre, sido qoftë",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Postimi im i përkohshëm",
+    "message": "Postimet e mia të përkohshme",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Postimet e mia të përkohshme",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Postimi yt i përkohshëm",
@@ -5492,6 +5544,14 @@
     "message": "Dërgimi dështoi",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Dërguar pjesërisht",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Kliko për të riprovuar",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Kliko që të shohësh një postim të përkohshëm",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Ky postim i përkohshëm nuk ka zë",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Ky postim i përkohshëm nuk mund t'u dërgohej disa personave. Kontrollo lidhjen e internetit dhe riprovo.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Parametrat e postimit të përkohshëm",
+    "message": "Privatësia e postimit të përkohshëm",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Postimet e përkohshme zhduken automatikisht pas 24 orësh. Zgjidh kush mund të shohë postimet e tua të përkohshme ose krijo postime të reja të përkohshme për shikues ose grupe të veçanta.",
+    "messageformat": "Postimet e përkohshme zhduken automatikisht pas 24 orësh. Zgjidh cili mund të shohë postimet e tua të përkohshme ose krijo postime të reja të përkohshme për shikues ose grupe të veçanta.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Postimet e mia të përkohshme",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Postim i ri i përkohshëm i personalizuar",
+    "message": "Story e re",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Vetëm ti mund ta shohësh emrin e këtij postimi të përkohshëm.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Të gjitha kontaktet e Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Postim i përkohshëm i personalizuar",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Postim i përkohshëm i grupit",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ shikues",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Parametrat e postimit të përkohshëm",
+    "message": "Privatësia e postimit të përkohshëm",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Që të ndryshosh këtë parametër, hap aplikacionin Signal në celularin tënd dhe shko te Parametrat -> Postimet e përkohshme",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Kush mund ta shikojë këtë postim të përkohshëm",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Hiq postimin e përkohshëm të grupit",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Je i sigurt që dëshiron të heqësh \"{groupTitle}\"?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Zgjidh kush mund ta shohë postimin tënd të përkohshëm",
@@ -5728,13 +5824,33 @@
     "message": "Vetëm administratorët mund të dërgojnë postime të përkohshme në këtë grup.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Postim i përkohshëm privat · {viewersCount,number} shikues} other {Postim i përkohshëm privat · {viewersCount,number} shikues}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Postimet e përkohshme të grupit · 1 anëtar} other {Postimet e përkohshme të grupit · {membersCount,number} anëtarë}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Shpërnda dhe shiko postimet e përkohshme",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Pasi kjo të çaktivizohet, s’do të mund të shpërndash më postime të përkohshme ose të shohësh të të tjerëve.",
+    "message": "Nëse heq dorë nga postimet e përkohshme, nuk do të mund të ndash ose të shikosh postime të përkohshme.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Çaktivizo postimet e përkohshme",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Ndalesë",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Shikimet u çaktivizuan",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Po dërgohet…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Dërgimi dështoi. Kliko për të riprovuar",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Dërguar pjesërisht. Kliko për të riprovuar",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Dërguar $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Nuk mund t'i përgjigjesh këtij postimi të përkohshëm, sepse nuk je më anëtar i këtij grupi.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Fshije për mua",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Fshije për të gjithë",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Postim i përkohshëm",
@@ -6020,22 +6156,6 @@
     "message": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Ke një bisedë me një listë të gjatë shënimesh zanore që duhen dëgjuar? Kliko luaj, ulu dhe qetësohu - do të luhen automatikisht!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Tani mund t'i bashkëngjitësh disa stile videosh një mesazhi së bashku me fotot e tua të pushimeve!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nuk mbani mend se cili nga miqtë e tu me emrin Arbër është në ekipin tënd të basketbollit? Kontrollo detajet e kontaktit për të parë grupet e përbashkëta mes teje dhe një shoku.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Shto lehtësisht një mik në një grup nga ekrani i detajeve të kontaktit të tyre për ta bërë bisedën më emocionuese.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Punojmë fort për të rregulluar problemet dhe për të bërë përmirësime të tjera të mbarëvajtjes, që aplikacioni të funksionojë pa probleme.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Fillo të përdorësh dhe testosh funksionin tonë të ri të postimeve të përkohshme. Mund ta përdorësh funksionin me testues të tjerë beta dhe të na thuash si funksionon.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Tani postimet e përkohshme janë në Signal! Shpërndaj me miq ose grupe të caktuara përditësimet e teksteve, imazheve dhe videove që zhduken automatikisht pas 24 orësh. Për këdo që do të ndajë postimet e përkohshme, ja një mënyrë për ta bërë atë privatisht dhe pa parë asnjë reklamë. Nëse nuk dëshiron të shohësh ose të ndash postimet e përkohshme, mund të dalësh nga të gjitha te Preferencat > Privatësia.",
+    "description": "Release notes for v6.0"
   }
 }

@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "As seguintes persoas pode que volvesen instalar ou cambiasen de dispositivo. Comproba o número de seguranza con elas para garantir a privacidade.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "As persoas que aparecen a continuación pode que volvesen instalar Signal ou que cambiasen de dispositivos. Preme nun destinatario para confirmar o seu número de seguranza novo. Isto é un paso opcional.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Enviar mensaxes pendentes",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Revisar",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Tes {count,number} conexión que pode que volvese instalar Signal ou que cambiase de dispositivo. Se queres, podes revisar o seu número de seguranza antes de enviar nada.} other {Tes {count,number} conexións que pode que volvesen instalar Signal ou que cambiasen de dispositivos. Se queres, podes revisar os seus números de seguranza antes de enviar nada.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Revisáronse todas as conexións, preme «Enviar» para continuar.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Seguro que queres eliminar 1 destinatario da túa historia {story}?} other {Seguro que queres eliminar {count,number} destinatarios da túa historia {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Eliminar todos",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Comprobar número de seguranza",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Eliminar da historia",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Accións para o contacto $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Accións para a historia $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "O teu número de seguranza con $name1$ cambiou. Isto pode significar que alguén intenta interceptar as túas comunicacións ou que $name2$ volveu instalar Signal. Recomendámosche que verifiques o número con este contacto.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Enviar igualmente",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Enviar",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Feito",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Chamar igualmente",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "A miña historia",
+    "message": "As miñas historias",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "As miñas historias",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "A túa historia",
@@ -5492,6 +5544,14 @@
     "message": "Erro no envío",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Enviada parcialmente",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Preme para tentalo de novo",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Preme para ver historia",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Esta historia non ten son",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Non se enviou esta historia a todas as persoas. Comproba a túa conexión e inténtao de novo.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Configuración das historias",
+    "message": "Privacidade da historia",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "As historias desaparecen automaticamente despois de 24 horas. Elixe quen pode ver as túas historias ou crea novas historias para persoas ou grupos específicos.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "As miñas historias",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nova historia personalizada",
+    "message": "Nova historia",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Só ti podes ver o nome desta historia.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Todas as conexións de Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Historia personalizada",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Historia do grupo",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ espectador",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Configuración das historias",
+    "message": "Privacidade da historia",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Para cambiar esta configuración, abre Signal no teu móbil e vai a Configuración -> Historias",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Quen pode ver esta historia",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Eliminar historia do grupo",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Seguro que queres eliminar «{groupTitle}»?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Elixe quen pode ver a túa historia",
@@ -5728,13 +5824,33 @@
     "message": "Só os administradores poden enviar historias a este grupo.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Historia privada · {viewersCount,number} espectador} other {Historia privada · {viewersCount,number} espectadores}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Historia do grupo · 1 membro} other {Historia do grupo · {membersCount,number} membros}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Compartir e ver historias",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Non poderás compartir ou ver historias cando esta opción estea desactivada.",
+    "message": "Se desactivas as historias non poderás velas nin compartilas.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Desactivar historias",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pausar",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Visualizacións desactivadas",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Enviando…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Erro no envío. Preme para tentalo de novo",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Envío realizado parcialmente. Preme para tentalo de novo",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Enviado: $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Non podes responder a estar historia porque xa non formas parte do grupo.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Eliminar para min",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Eliminar para todos",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Historia",
@@ -6020,22 +6156,6 @@
     "message": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Tes unha conversa pendente chea de notas de voz por escoitar? Dálle a reproducir, senta e reláxate porque seguirán soando automaticamente!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Agora podes engadir uns toques cinematográficos a unha mensaxe coas túas fotos das vacacións!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Non lembras cal dos teus amigos chamado Luís está no teu equipo de baloncesto? Comproba os detalles do contacto para ver os grupos que compartides.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Engade facilmente un amigo a un grupo dende a súa pantalla de detalles dese contacto para que siga a xolda.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Estamos a traballar sen parar arranxando todos os problemas e mellorando o rendemento para que poidas seguir empregando a aplicación sen interrupcións.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Comeza a usar e probar a nova función de historias. Podes empregar esta función con outros probadores beta e informarnos de como está a funcionar.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Xa chegaron as historias a Signal! Comparte textos, imaxes e vídeos temporais cos amigos ou grupos que elixas. Desaparecerán automaticamente tras 24 horas! Para todas aquelas persoas que queren compartir historias, temos a maneira perfecta de facelo coa privacidade que mereces e sen anuncios. Se non queres ver ou compartir historias, podes desactivalas en «Preferencias» > «Privacidade».",
+    "description": "Release notes for v6.0"
   }
 }

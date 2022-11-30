@@ -434,19 +434,67 @@
   },
   "changedVerificationWarning": {
     "message": "Ondoko pertsonek agian gailuak aldatu edo Signal berrinstalatu egin dute. Egiaztatu beraiekin duzun segurtasun zenbakia pribatutasuna ziurtatzeko.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Baliteke pertsona hauek Signal berriro instalatu edo gailuak aldatu izatea. Sakatu hartzaile bat haren segurtasun-zenbaki berria berresteko. Hau hautazkoa da.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Bidaltzeko zain dauden mezuak",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Berrikuspena",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Signal berriro instalatu edo gailuak aldatu dituen {count,number} konexio duzu. Aukeran, haien segurtasun-zenbakiak berrikusi ditzakezu bidali aurretik.} other {Signal berriro instalatu edo gailuak aldatu dituen {count,number} konexio dituzu. Aukeran, haien segurtasun-zenbakiak berrikusi ditzakezu bidali aurretik.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Konexio guztiak berrikusi dira. Aurrera egiteko, sakatu Bidali.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Ziur hartzaile bat {story} istoriotik kendu nahi duzula?} other {Ziur {count,number} hartzaile {story} istoriotik kendu nahi dituzula?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Kendu guztiak",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Segurtasun zenbakia baieztatu",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Kendu istoriotik",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ kontaktuaren ekintzak",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ istoriorako ekintzak",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "$name1$  erabiltzailearekin duzun segurtasun zenbakia aldatu da. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, $name2$ erabiltzaileak Signal berrinstalatu du. Beharbada azpian dagoen segurtasun zenbaki berria egiaztatu nahiko duzu.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Bidali dena den",
+    "message": "Bidali hala eta guztiz ere",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Bidali",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Eginda",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Deitu edonola ere",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Nire istorioa",
+    "message": "Nire istorioak",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Nire istorioak",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Zure istorioa",
@@ -5492,6 +5544,14 @@
     "message": "Bidaltzeak huts egin du",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Partzialki bidalia",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Egin klik berriro saiatzeko",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Istorio bat ikusteko, egin klik hartan",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Istorio honek ez du soinurik",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Istorio hau ezin izan zaie bidali pertsona batzuei. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Istorioen ezarpenak",
+    "message": "Istorioen pribatutasuna",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Istorioak automatikoki desagertzen dira 24 orduren buruan. Aukeratu nork ikus dezakeen zure istorioa, edo sortu istorioak ikusle edo talde zehatzekin.",
+    "messageformat": "Istorioak automatikoki desagertzen dira 24 orduren buruan. Aukeratu nork ikus ditzakeen zure istorioak, edo sortu ikusle edo talde zehatzak dituzten istorioak.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Nire istorioak",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Istorio pertsonalizatu berria",
+    "message": "Istorio berria",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Zuk bakarrik ikus dezakezu istorio honen izena.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Signal-eko konexio guztiak",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Istorio pertsonalizatua",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Taldeko istorioa",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ikusle",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Istorioen ezarpenak",
+    "message": "Istorioen pribatutasuna",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Ezarpen hau aldatzeko, ireki Signal aplikazioa gailu mugikorrean eta joan Ezarpenak -> Istorioak atalera",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Nork ikus dezake istorio hau?",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Ezabatu taldeko istorioa",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Ziur \" {groupTitle} \" kendu nahi duzula?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Aukeratu nork ikus dezakeen zure istorioa",
@@ -5728,13 +5824,33 @@
     "message": "Administratzaileek soilik bidal ditzakete istorioak talde honetara.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Istorio pribatua · {viewersCount,number} ikusle} other {Istorio pribatua · {viewersCount,number} ikusle}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Taldeko istorioa · 1 kide} other {Taldeko istorioa · {membersCount,number} kide}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Partekatu eta ikusi istorioak",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Aukera hau desaktibatzen baduzu, ezingo dituzu partekatu edo ikusi istorioak.",
+    "message": "Istorioak desaktibatuz gero, ezingo duzu istoriorik partekatu edo ikusi.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Desaktibatu istorioak",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pausatu",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Irakurragiriak desaktibatuta daude",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Bidaltzen…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Ezin izan da bidali. Egin klik berriro saiatzeko",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Partzialki bidali da. Egin klik berriro saiatzeko",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Bidaltze-data: $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Ezin diozu erantzun istorio honi, jada ez zarelako talde honetako kidea.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Ezabatu niretzat",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Ezabatu guztientzat",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Istorioa",
@@ -6020,22 +6156,6 @@
     "message": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Entzuteko ahots-ohar asko dituen elkarrizketa bat duzu? Sakatu Erreproduzitu, eseri, eta lasaitu; automatikoki erreproduzituko dira!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Orain, bideoak gehi ditzakezu mezuetan oporretako argazkiekin batera!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Ez duzu gogoratzen zure lagunetako zein Nerea den zure saskibaloi taldean dagoena? Egiaztatu kontaktuaren xehetasunak eta ikusi komunean dituzuen taldeak.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Gehitu erraz lagun bat talde batean haren kontaktu-xehetasunen pantailatik eta jarraitu elkarrizketa interesgarriak izaten.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Hasi istorioen eginbide berria erabiltzen eta probatzen. Beste beta-probatzaile batzuekin erabil dezakezu, eta guri nola dabilen jakinarazi.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Istorioak Signal-era iritsi dira! Partekatu 24 orduren buruan automatikoki desagertzen diren testuak, irudiak eta bideoen-eguneratzeak lagun edo talde jakinekin. Istorioak partekatzea maite duten guztientzat, hona hemen horretarako modu pribatu eta iragarkirik gabea. Istorioak ikusi edo partekatu nahi ez badituzu, aldatu ezarpenak Hobespenak > Pribatutasuna atalean.",
+    "description": "Release notes for v6.0"
   }
 }

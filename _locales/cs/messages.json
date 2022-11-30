@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Následující lidé možná přeinstalovali nebo změnili zařízení. V zájmu zajištění soukromí ověřte své bezpečnostní číslo pro komunikaci s nimi.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Následující osoby pravděpodobně přeinstalovaly aplikaci Signal nebo změnily zařízení. Klepnutím na příjemce potvrdíte jeho nové bezpečnostní číslo. Tato možnost je volitelná.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Odeslat čekající zprávy",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Zkontrolovat",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Máte {count,number} spojení, které si pravděpodobně přeinstalovalo aplikaci Signal nebo změnilo zařízení. Před odesláním obsahu si můžete zkontrolovat jeho bezpečnostní číslo.} few {Máte {count,number} spojení, která si pravděpodobně přeinstalovala aplikaci Signal nebo změnila zařízení. Před odesláním obsahu si můžete zkontrolovat jejich bezpečnostní čísla.} many {Máte {count,number} spojení, která si pravděpodobně přeinstalovala aplikaci Signal nebo změnila zařízení. Před odesláním obsahu si můžete zkontrolovat jejich bezpečnostní čísla.} other {Máte {count,number} spojení, která si pravděpodobně přeinstalovala aplikaci Signal nebo změnila zařízení. Před odesláním obsahu si můžete zkontrolovat jejich bezpečnostní čísla.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Všechna spojení byla zkontrolována, pokračujte klepnutím na tlačítko odeslat.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Opravdu chcete odebrat 1 příjemce příběhu {story}?} few {Opravdu chcete odebrat {count,number} příjemce příběhu {story}?} many {Opravdu chcete odebrat {count,number} příjemců příběhu {story}?} other {Opravdu chcete odebrat {count,number} příjemců příběhu {story}?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Odebrat všechny",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Ověření bezpečnostního čísla",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Odebrat z příběhu",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Úkony pro kontakt $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Úkony pro příběh $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Vaše bezpečnostní číslo pro komunikaci s $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci, nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Přesto poslat",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Odeslat",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Hotovo",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Přesto zavolat",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Můj příběh",
+    "message": "Moje příběhy",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Moje příběhy",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Váš příběh",
@@ -5492,6 +5544,14 @@
     "message": "Odeslání se nezdařilo",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Částečně odesláno",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Kliknutím zkuste znovu",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Kliknutím zobrazíte příběh",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Tento příběh není ozvučený",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Tento příběh se nepodařilo některým lidem odeslat. Zkontrolujte připojení k internetu a zkuste to znovu.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Nastavení příběhu",
+    "message": "Soukromí příběhů",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Příběhy po 24 hodinách automaticky zmizí. Vyberte, kdo si může váš příběh zobrazit, nebo vytvořte nový příběh pro konkrétní sledující nebo skupiny.",
+    "messageformat": "Příběhy automaticky zmizí po 24 hodinách. Vyberte, kdo si může váš příběh prohlédnout, nebo vytvořte nové příběhy pro konkrétní diváky nebo skupiny.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Moje příběhy",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nový vlastní příběh",
+    "message": "Nový příběh",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Název tohoto příběhu vidíte pouze vy.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Všechna spojení Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Vlastní příběh",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Skupinový příběh",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$sledující",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Nastavení příběhu",
+    "message": "Soukromí příběhů",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Pokud chcete toto nastavení změnit, otevřete aplikaci Signal na mobilním zařízení a přejděte do Nastavení > Příběhy",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Kdo může tento příběh zobrazit",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Tento příběh mohou zobrazit a odpovídat na něj členové skupiny „{groupTitle}“. Členství v této konverzaci můžete aktualizovat ve skupině.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Odstranit skupinový příběh",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Opravdu chcete odebrat „{groupTitle}“?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Vyberte, kdo váš příběh uvidí",
@@ -5728,13 +5824,33 @@
     "message": "Do této skupiny mohou příběhy posílat pouze správci.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Všechna spojení Signal · {viewersCount,number} sledující} few {Všechna spojení Signal · {viewersCount,number} sledující} many {Všechna spojení Signal · {viewersCount,number} sledujících} other {Všechna spojení Signal · {viewersCount,number} sledujících}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Všechna spojení Signal · {excludedCount,number} vyloučené} few {Všechna spojení Signal · {excludedCount,number} vyloučená} many {Všechna spojení Signal · {excludedCount,number} vyloučených} other {Všechna spojení Signal · {excludedCount,number} vyloučených}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Soukromý příběh · {viewersCount,number} sledující} few {Soukromý příběh · {viewersCount,number} sledující} many {Soukromý příběh · {viewersCount,number} sledujících} other {Soukromý příběh · {viewersCount,number} sledujících}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Skupinový příběh · 1 člen} few {Skupinový příběh · {membersCount,number} členi} many {Skupinový příběh · {membersCount,number} členů} other {Skupinový příběh · {membersCount,number} členů}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Sdílet a zobrazovat příběhy",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Po vypnutí této možnosti již nebudete moci příběhy sdílet ani zobrazovat.",
+    "message": "Pokud se z příběhů odhlásíte, nebudete je moci dál sdílet ani zobrazovat.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Vypnout příběhy",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pozastavit",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Zobrazení vypnuta",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Odesílání…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Odeslání se nezdařilo. Kliknutím zkuste znovu",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Částečně odesláno. Kliknutím zkuste znovu",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Odesláno $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Na tento příběh nemůžete reagovat, protože už nejste členem této skupiny.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Smazat u mne",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Smazat u všech",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Příběh",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
+    "message": "Tyto číslice pomáhají udržet vaše uživatelské jméno v soukromí, abyste se vyhnuli nechtěným zprávám. Uživatelské jméno sdílejte pouze s lidmi a skupinami, se kterými chcete konverzovat. Pokud uživatelské jméno změníte, obdržíte novou sadu číslic.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Máte před sebou konverzaci s dlouhým seznamem hlasových poznámek k poslechu? Klikněte na přehrávání a pohodlně se usaďte – přehrají se vám automaticky!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Zprávy z dovolené nyní můžete doplnit o zajímavé fotografie a videa!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Nemůžete si vzpomenout, kdo z vašich přátel jménem Petr je ve vašem basketbalovém týmu? Podívejte se na podrobnosti o kontaktu a zobrazte skupiny, které spolu sdílíte.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Přítele jednoduše přidáte do skupiny z obrazovky s jeho kontaktními údaji, a pak už můžete zahájit konverzaci.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Usilovně pracujeme na opravách chyb a na dalším zvyšování výkonu, aby vám aplikace fungovala bez problémů.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Začněte používat a testovat naši novou funkci příběhů. Můžete ji vyzkoušet společně s dalšími testery a dát nám vědět, jak funguje.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "V aplikaci Signal jsou nyní k dispozici příběhy! Sdílejte s vybranými přáteli nebo skupinami novinky ve formě textů, obrázků a videí, které po 24 hodinách automaticky zmizí. Všichni, kdo mají rádi příběhy, je nyní mohou sdílet soukromě a bez zobrazování reklam. Jestli nechcete příběhy zobrazovat nebo sdílet, můžete je vypnout v Nastavení > Soukromí.",
+    "description": "Release notes for v6.0"
   }
 }

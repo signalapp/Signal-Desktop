@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "पुढील व्यक्तींनी डिव्हाइस पुनर्स्थापित केले किंवा बदलले असतील. गोपनीयता सुनिश्चित करण्यासाठी आपला सुरक्षितता नंबर त्यांच्यासोबत सत्यापित करा.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "खालील लोकांनी Signal पुन्हा स्थापना केलेले किंवा डिव्हायसेस बदललेली असू शकते. प्राप्तकर्त्यांकडे त्यांचा नवीन सुरक्षा क्रमांक असल्याची खात्री करण्यास क्लिक करा. हे वैकल्पिक आहे.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "प्रलंबित संदेश पाठवा",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "पुनरावलोकन करा",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {आपल्याकडे {count,number} कनेक्शन आहे ज्यांनी Signal पुन्हा स्थापना केलेले किंवा डिव्हायसेस बदलली असण्याची शक्यता आहे. आपण वैकल्पिकरित्या पाठवण्यापूर्वी त्यांच्या सुरक्षा क्रमांकाचे पुनवरालोकन करु शकता.} other {आपल्याकडे {count,number} कनेक्शन्स आहे ज्यांनी Signal पुन्हा स्थापना केलेले किंवा डिव्हायसेस बदलले असण्याची शक्यता आहे. आपण वैकल्पिकरित्या पाठवण्यापूर्वी त्यांच्या सुरक्षा क्रमांकांचे पुनवरालोकन करु शकता.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "सर्व कनेक्शन्सचे पुनरावलोकन करण्यात आले आहे, पुढे सुरू ठेवण्यासाठी पाठवा क्लिक करा.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {आपण खात्रीने स्टोरीज {story}मधून 1 प्राप्तकर्ता हटवू इच्छिता?} other {आपण खात्रीने स्टोरीज {story} मधून {count,number} प्राप्तकर्त्याना हटवू इच्छित आहात?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "सर्व हटवा",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "सुरक्षितता नंबर सत्यापित करा",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "स्टोरीमधून काढून टाका",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ शी संपर्क करण्यासाठी कृती",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "स्टोरी $story$ साठी कृती",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "$name1$ सोबतचा आपला सुरक्षितता नंबर बदलला आहे. ह्याचा अर्थ असा होऊ शकतो की कुणीतरी आपल्या परस्परसंवादामध्ये अटकाव करण्याचा प्रयत्न करत आहे किंवा $name2$याने Signal पुनर्स्थापित केले आहे. आपण या संपर्कासोबत आपला सुरक्षितता नंबर सत्यापित करू शकता.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "तरीही पाठवा",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "पाठवा",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "ठीक",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "तरीही कॉल करा",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "माझी स्टोरी",
+    "message": "माझ्या स्टोरीज",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "माझ्या स्टोरीज",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "आपली स्टोरी",
@@ -5492,6 +5544,14 @@
     "message": "पाठविणे अयशस्वी",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "अंशतः पाठवले",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "पुन्हा प्रयत्न करण्यासाठी क्लिक करा",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "स्टोरी पाहण्यास क्लिक करा",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "या स्टोरीला ध्वनी नाही",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "ही स्टोरी काही लोकांना पाठवली जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "स्टोरी सेटिंग्ज",
+    "message": "स्टोरी गोपनीयता",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "स्टोरीज 24 तासानंतर आपोआप अदृश्य होतील. आपली स्टोरी कोण पाहू शकते ते निवडा किंवा विशिष्ट दर्शक किंवा ग्रुप्ससह नवीन स्टोरीज तयार करा.",
+    "messageformat": "24 तासांनंतर स्टोरीज स्वयंचलितपणे अदृश्य होतील. आपल्या स्टोरी कोण पाहू शकेल ते निवडा किंवा विशिष्ट दर्शकांच्या किंवा ग्रुप्ससह नवीन स्टोरीज तयार करा.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "माझ्या स्टोरीज",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "नवीन सानुकूल स्टोरी",
+    "message": "नवीन स्टोरी",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "फक्त आपण या स्टोरी चे नाव पाहू शकता.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "सर्व Signal कनेक्शन्स",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "सानुकूल स्टोरी",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "ग्रुप स्टोरी",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ दर्शक",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "स्टोरी सेटिंग्ज",
+    "message": "स्टोरी गोपनीयता",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "हे सेटिंग बदलण्यासाठी, आपल्या मोबाईल डिव्हाइसवरील Signal ॲप उघडा आणि सेटिंग्ज> स्टोरीज कडे नेव्हिगेट करा",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ही स्टोरी कोण पाहू शकतात",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "ग्रुप चॅट “{groupTitle}” चे सदस्य ही स्टोरी पाहू आणि उत्तर देऊ शकतात. आपण या चॅटसाठी ग्रुपमध्ये सदस्यत्व अद्ययावत करू शकता.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "ग्रुप स्टोरी हटवा",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "आपण खात्रीने “{groupTitle}” ला हटवू इच्छिता?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "आपली स्टोरी कोण पाहू शकतात ते निवडा",
@@ -5728,13 +5824,33 @@
     "message": "फक्त अ‍ॅडमिन या ग्रुपला स्टोरीज पाठवू शकतात.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {सर्व Signal कनेक्शन्स · {viewersCount,number} दर्शक} other {सर्व Signal कनेक्शन्स · {viewersCount,number} दर्शक}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {सर्व Signal कनेक्शन्स · {excludedCount,number} वगळले} other {सर्व Signal कनेक्शन्स · {excludedCount,number} वगळले}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {खाजगी स्टोरी · {viewersCount,number} दर्शक} other {खाजगी स्टोरी · {viewersCount,number} दर्शक}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {ग्रुप स्टोरी · 1 सदस्य} other {ग्रुप स्टोरी · {membersCount,number} सदस्य}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "स्टोरीज शेअर करा व पहा",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "हा पर्याय बंद असताना आपण यापुढे स्टोरीज शेअर करू किंवा पाहू शकणार नाही.",
+    "message": "आपण स्टोरीज मधून बाहेर पडल्यास आपण स्टोरी पाहू किंवा शेअर करु शकणार नाही.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "स्टोरीज बंद करा",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "विराम द्या",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "दृश्ये बंद आहेत",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "पाठवत आहे(...)",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "पाठविणे अयशस्वी झाले. पुन्हा प्रयत्न करण्यासाठी क्लिक करा",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "अंशतः पाठवले. पुन्हा प्रयत्न करण्यासाठी क्लिक करा",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ पाठवल्या",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "आपण या स्टोरी ला उत्तर देऊ शकणार नाही कारण आपण यापुढे या ग्रुपचे सदस्य नाही.",
+    "messageformat": "आपण या स्टोरीज ला उत्तर देऊ शकणार नाही कारण आपण यापुढे या ग्रुपचे सदस्य नाही.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "माझ्यासाठी हटवा",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "प्रत्येकासाठी हटवा",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "स्टोरी",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "हे अंक आपले वापरकर्तानाव गोपनीय ठेवण्यास मदत करतील ज्यामुळे आपण नको असलेले संदेश टाळू शकाल. आपणाला ज्याच्या सोबत चॅट करणे आवडते फक्त अशा लोकांसह आणि ग्रुप्ससह आपले वापरकर्तानाव शेअर करा. आपण वापरकर्तानाव बदलल्यास आपणाला अंकांचा नवीन संच मिळेल.",
+    "message": "हे अंक आपले वापरकर्तानाव गोपनीय ठेवण्यास मदत करतील ज्यामुळे आपण नको असलेले संदेश टाळू शकता. आपणाला ज्यांच्या सोबत चॅट करणे आवडते फक्त अशा लोकांसह आणि ग्रुप्ससह आपले वापरकर्तानाव शेअर करा. आपण वापरकर्तानाव बदलल्यास आपणाला अंकांचा नवीन संच मिळेल.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- ऐकण्याच्या व्हॉइस नोट्सच्या दीर्घ सूचीसह संभाषणाचा सामना करत आहात ? प्ले वर क्लिक करा, निवांत व्हा आणि आरामात बसा - ते आपोआप प्ले होणे सुरू राहील!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "आपण आता आपल्या सुट्टीच्या फोटोसह संदेशात मसाला जोडण्यासाठी काही व्हिडिओ संलग्न करू शकता!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "लोऊ नावाचा तुमचा कोणता मित्र तुमच्या बास्केटबॉल संघात आहे हे लक्षात नाही? आपण आणि आपल्या मित्रांमध्ये सामायिक गट पाहण्यासाठी संपर्क तपशील तपासा.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "संभाषणाला रोमांचक बनवण्यासाठी मित्रांना त्यांच्या संपर्क तपशीलामधून सहजपणे गटामध्ये जोडा.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "आपल्यासाठी अ‍ॅप सुरळीतपणे सुरु ठेवण्यासाठी दोष निवारणाचे काम करणे आणि इतर कामगिरींमध्ये सुधारणा करणे यावर कठोर परिश्रम घेत आहे.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "आमचे नवीन स्टोरीज वैशिष्ट्य वापरून पाहण्यास आणि चाचणी करण्यास सुरूवात करा. आपण हे वैशिष्ट्य इतर बिटा परिक्षकांसह वापरू शकता आणि ते कसे काम करत आहे ते आम्हाला कळवा.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "स्टोरीज आता Signal मध्ये! 24 तासानंतर स्वयंचलितपणे लुप्त होणारा मजकूर, प्रतिमा, आणि व्हिडिओ अद्यतने निवडक मित्र किंवा ग्रुप्ससह शेअर करा. स्टोरीज शेअर करणे आवडणाऱ्या प्रत्येकासाठी, खाजगीपणे आणि कोणतीही जाहिरात न पाहता ते करण्याचा एक मार्ग येथे आहे. आपणाला स्टोरीज पाहण्याची किंवा शेअर करण्याची इच्छा नसल्यास, आपण आपल्या प्राधान्ये > गोपनीयता मध्ये या सर्वांमधून बाहेर पडण्याचे निवडू शकता.",
+    "description": "Release notes for v6.0"
   }
 }

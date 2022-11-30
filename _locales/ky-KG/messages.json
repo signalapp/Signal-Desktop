@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "Төмөнкү адамдар түзмөктөрүн кайрадан орнотушкан же алмаштырышкан. Купуялыкты камсыз кылуу үчүн алар менен болгон коопсуздук кодуңузду ырастаңыз.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Төмөнкү адамдар Signal'ды кайра орнотуп же түзмөктөрүн алмаштырган окшойт. Алуучуну басып, жаңы коопсуздук номерин ырастаңыз. Бул милдеттүү нерсе эмес.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Күтүүдөгү билдирүүлөрдү жөнөтүү",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "Карап көрүү",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, other {Signal'ын кайра орноткон же түзмөктөрүн алмаштырган {count,number} байланышыңыз бар. Жөнөтүүдөн мурун коопсуздук номерлерин текшерип койсоңуз болот.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Бардык байланыштар текшерилди, улантуу үчүн жөнөтүү дегенди басыңыз.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, other {{story} деген окуядан {count,number} алуучуну өчүрөсүзбү?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Баарын өчүрүү",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Коопсуздук кодун ырастоо",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Окуядан чыгарып салуу",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ аракеттери",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ аракеттери",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "Сиздин $name1$ менен коопсуздук кодуңуз өзгөрдү. Бул кимдир бирөө сиздин байланыштарыңызга жана чалууларыңызга бөгөт коюуга аракет кылып жатканын же $name2$ жөн эле Signal'ды кайра орнотуп алганын билдириши мүмкүн. Балким, бул байланыш менен коопсуздук номериңизди текшерүүнү каалайсыз.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "Баары бир жөнөтүү",
+    "message": "Баары бир жөнөтөм",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Жөнөтүү",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Бүттү",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Баары бир чалуу",
+    "message": "Баары бир чалам",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Менин окуям",
+    "message": "Менин окуяларым",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Менин окуяларым",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Окуяңыз",
@@ -5492,6 +5544,14 @@
     "message": "Жөнөтүлбөй калды",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Жарым-жартылай жөнөтүлгөн",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Кайталоо үчүн басыңыз",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Окуяны көрүү үчүн басыңыз",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Бул окуянын үнү жок",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Бул окуя айрым адамдарга жөнөтүлбөйт. Байланышыңызды текшерип, кайталап көрүңүз.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Окуяны тууралоо",
+    "message": "Окуянын купуялыгы",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Окуялар 24 сааттан кийин жоголуп кетет. Окуяңызды кимдер көрө аларын тандайсыз же белгилүү бир адамдар же топтор гана көрө турган жаңы окуяларды түзөсүз.",
+    "messageformat": "Окуялар 24 сааттан кийин автоматтык түрдө жоголуп кетет. Аларды кимдер көрө ала турганын чечиңиз же көрүүчүлөр менен топторду алдын ала белгилеп жаңы окуяларды түзүңүз.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Менин окуяларым",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Жаңы жеке окуя",
+    "message": "Жаңы окуя",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Бул окуянын аталышы өзүңүзгө гана көрүнөт.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Signal'дагы бардык байланыштар",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Жеке окуя",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Топтук окуя",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ жолу көрүлдү",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Окуяны тууралоо",
+    "message": "Окуянын купуялыгы",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Бул параметрди өзгөртүү үчүн мобилдик түзмөгүңүздө Signal колдонмосун ачып, Тууралоо > Окуялар дегенге өтүңүз",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Бул окуяны кимдер көрө алат",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "“{groupTitle}” топтук маегинин мүчөлөрү бул окуяны көрүп, жооп жаза алышат. Топтун ичиндеги маекке жазылуу мүмкүнчүлүгүн өзгөртө аласыз.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Топтук окуяны өчүрүү",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Чын эле “{groupTitle}” тобун өчүрөсүзбү?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Окуяңызды кимдер көрө алат?",
@@ -5728,13 +5824,33 @@
     "message": "Администраторлор гана бул топко окуяларды жөнөтө алышат.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, other {Бардык Signal байланыштары · {viewersCount,number} көрүүчү}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, other {Бардык Signal байланыштары · {excludedCount,number} адам чыгып кетти}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, other {Жеке окуя · {viewersCount,number} жолу көрүлдү}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, other {Топтук окуя · {membersCount,number} мүчө}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Окуяларды бөлүшүү жана көрүү",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Эгер бул параметр өчүк болсо, окуяларды бөлүшө албай жана көрө албай каласыз.",
+    "message": "Окуяларды өчүрсөңүз, окуяларды бөлүшө да, көрө да албай каласыз.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Окуяларды өчүрүү",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Тыныгуу",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Көрүү мүмкүнчүлүгү өчүрүлгөн",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Жөнөтүлүүдө...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Жөнөтүлбөй калды. Кайталоо үчүн басыңыз",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Жарым-жартылай жөнөтүлгөн. Кайталоо үчүн басыңыз",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Качан жөнөтүлдү: $time$",
@@ -5811,6 +5939,14 @@
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "Бул топтон чыгып кеткениңизден улам, бул окуяга жооп бере албайсыз.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Менде эле өчсүн",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Бардык жерде өчсүн",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Окуя",
@@ -5985,7 +6121,7 @@
     "description": "Title of the popup with information about discriminator in username"
   },
   "EditUsernameModalBody__learn-more__body": {
-    "message": "Бул сандар менен колдонуучу атыңызды купуя кылып, кереги жок билдирүүлөрдү албайсыз. Колдонуучу атыңызды байланышкыңыз келген адамдар жана топтор менен гана бөлүшүңүз. Колдонуучу аттарын өзгөртсөңүз, жаңы сандардын топтомун аласыз.",
+    "message": "Бул сандар аркылуу колдонуучу атыңызды купуя кылып, кереги жок билдирүүлөрдү албайсыз. Колдонуучу атыңызды байланышкыңыз келген адамдар жана топтор менен гана бөлүшүңүз. Колдонуучу аттарын өзгөртсөңүз, жаңы сандардын топтомун аласыз.",
     "description": "Body of the popup with information about discriminator in username"
   },
   "WhatsNew__modal-title": {
@@ -6020,22 +6156,6 @@
     "message": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Өтө эле көп үн билдирүүлөрүн угууга туура келип жатабы? Бирөөсүн бассаңыз, кийинкилери катары менен угула берет!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Эми эс алууда түшкөн сүрөттөрүңүзгө видео тиркеп жөнөтсөңүз болот!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Бакай деген досторуңуздун кимиси баскетбол командаңызда экенин эстей албай жатасызбы? Досуңуз экөөңөрдүн жалпы топторуңузду көрүү үчүн байланыштын чоо-жайын караңыз.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Маекти кызыктуу улантуу үчүн байланыштын чоо-жайы бөлүмүнөн досуңузду топко кошуп коюңуз.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Колдонмо үзгүлтүксүз иштеши үчүн мүчүлүштүктөрдү оңдоп, иштин майнаптуулугун арттыруучу өзгөрүүлөрдү киргизип, талыкпай эмгектенип жатабыз.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Окуялардын жаңы функциясын колдонуп, сынап көрүңүз. Бул функцияны башка сыноочулар менен чогуу пайдаланып, анын кандай иштерин айта аласыз.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Окуялар эми Signal'да! Тандалган досторуңуз же топторуңуз менен тексттик билдирүү, сүрөт жана видеолоруңузду бөлүшсөңүз болот. Алар 24 сааттан кийин өзүлөрү өчүп калат. Окуяларды жакшы көргөндөр эми аларды жеке шартта, эч кандай жарнамасыз бөлүшө алышат. Эгер окуяларды көргүңүз да, бөлүшкүңүз да келбесе, Тууралоо > Купуялык бөлүмүнөн өчүрүп коюңуз.",
+    "description": "Release notes for v6.0"
   }
 }

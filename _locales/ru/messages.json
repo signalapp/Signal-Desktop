@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Следующие люди могли переустановить Signal или сменить устройства. Подтвердите ваш код безопасности с ними, чтобы обеспечить конфиденциальность.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Следующие люди, возможно, переустановили Signal или сменили устройство. Нажмите на получателя, чтобы подтвердить новый код безопасности. Это необязательно.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Отправить ожидающие сообщения",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Посмотреть всех",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {У вас есть контакты ({count,number}), которые, возможно, переустановили Signal или сменили устройства. Мы можете просмотреть их коды безопасности, прежде чем поделиться с ними своей историей.} few {У вас есть контакты ({count,number}), которые, возможно, переустановили Signal или сменили устройства. Мы можете просмотреть их коды безопасности, прежде чем поделиться с ними своей историей.} many {У вас есть контакты ({count,number}), которые, возможно, переустановили Signal или сменили устройства. Мы можете просмотреть их коды безопасности, прежде чем поделиться с ними своей историей.} other {У вас есть контакты ({count,number}), которые, возможно, переустановили Signal или сменили устройства. Мы можете просмотреть их коды безопасности, прежде чем поделиться с ними своей историей.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Все контакты были проверены, нажмите «отправить», чтобы продолжить.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Вы действительно хотите удалить {count,number} участника из истории «{story}»?} few {Вы действительно хотите удалить {count,number} участников из истории «{story}»?} many {Вы действительно хотите удалить {count,number} участников из истории «{story}»?} other {Вы действительно хотите удалить {count,number} участника из истории «{story}»?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Удалить все",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Подтвердить код безопасности",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Удалить из истории",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Действия для контакта $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Действия для истории «$story$»",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Ваш код безопасности с $name1$ изменился. Это может означать, что кто-то пытается перехватить вашу переписку и звонки или что $name2$ просто переустановил(-а) Signal. Возможно, вы захотите подтвердить ваш код безопасности с этим контактом.",
@@ -447,6 +487,14 @@
   "sendAnyway": {
     "message": "Всё равно отправить",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_send": {
+    "message": "Отправить",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Готово",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
   },
   "callAnyway": {
     "message": "Всё равно позвонить",
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "Моя история",
+    "message": "Мои истории",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "Мои истории",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Ваша история",
@@ -5492,6 +5544,14 @@
     "message": "Отправка не удалась",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Отправлено не полностью",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Нажмите, чтобы попробовать ещё раз",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Нажмите на историю, чтобы просмотреть её",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "В этой истории нет звука",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Не удалось отправить историю некоторым людям. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Настройки историй",
+    "message": "Настройки приватности историй",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Истории автоматически исчезают через 24 часа. Выберите, кто может просматривать вашу историю, или создавайте новые истории с заданными зрителями или группами.",
+    "messageformat": "Истории автоматически исчезают через 24 часа. Выберите, кто может просматривать вашу историю или создавайте новые истории с заданными зрителями или группами.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "Мои истории",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Новая пользовательская история",
+    "message": "Новая история",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Только вы можете видеть название этой истории.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Все контакты Signal",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Пользовательская история",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "История в группе",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "Зрителей: $num$",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Настройки историй",
+    "message": "Настройки приватности историй",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Чтобы изменить эту настройку, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки -> Истории",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Кто может просматривать эту историю",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Участники группы «{groupTitle}» могут просматривать эту историю и отвечать на неё. Вы можете обновить членство в этом чате в группе.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Удалить историю в группе",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Вы действительно хотите удалить «{groupTitle}»?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Выберите, кто может просматривать эту историю",
@@ -5728,13 +5824,33 @@
     "message": "Только администраторы могут отправлять истории в этой группе.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {Все контакты Signal · {viewersCount,number} зритель} few {Все контакты Signal · {viewersCount,number} зрителя} many {Все контакты Signal · {viewersCount,number} зрителей} other {Все контакты Signal · {viewersCount,number} зрителя}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {Все контакты Signal · Исключено: {excludedCount,number}} few {Все контакты Signal · Исключено: {excludedCount,number}} many {Все контакты Signal · Исключено: {excludedCount,number}} other {Все контакты Signal · Исключено: {excludedCount,number}}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Частная история · {viewersCount,number} зритель} few {Частная история · {viewersCount,number} зрителя} many {Частная история · {viewersCount,number} зрителей} other {Частная история · {viewersCount,number} зрителя}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {История в группе · {membersCount,number} участник} few {История в группе · {membersCount,number} участника} many {История в группе · {membersCount,number} участников} other {История в группе · {membersCount,number} участника}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Делиться историями и просматривать их",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Если эта настройка отключена, вы не сможете делиться историями и просматривать их.",
+    "message": "Если вы откажетесь от историй, вы больше не сможете делиться историями или просматривать их.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Отключить истории",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Пауза",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Просмотры отключены",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Отправляем…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Отправка не удалась. Нажмите, чтобы попробовать ещё раз",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Отправлено не полностью. Нажмите, чтобы попробовать ещё раз",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "Отправлен $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Вы не можете отвечать на эту историю, потому что больше не являетесь участником группы.",
+    "messageformat": "Вы не можете отвечать на эту историю, потому что уже не являетесь участником группы.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Удалить для меня",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Удалить для всех",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "История",
@@ -6020,22 +6156,6 @@
     "message": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- В вашем чате длинный список голосовых заметок, которые нужно прослушать? Нажмите на кнопку воспроизведения, откиньтесь на спинку кресла и расслабьтесь — воспроизведение продолжится автоматически!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Теперь вы можете прикрепить к сообщению вкусное видео вместе с фото из отпуска!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Запамятовали, кто из ваших друзей по имени Михаил играет в той же баскетбольной команде, что и вы? Проверьте контактные данные, чтобы увидеть ваши общие группы.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Просто добавьте друга в группу с экрана его контактных данных и продолжайте интересную беседу.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Мы усердно работаем над исправлением ошибок и другими улучшениями производительности, чтобы приложение работало для вас бесперебойно.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Начните использовать и тестировать нашу новую функцию историй. Вы можете использовать эту функцию вместе с другими бета-тестерами и сообщить нам, как она работает.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Истории теперь в Signal! Делитесь с выбранными друзьями или группами исчезающими текстовыми, графическими и видеообновлениями. Они автоматически исчезают через 24 часа. Все, кто любит делиться историями, могут делать это конфиденциально и без рекламы. Не хотите видеть истории или делиться ими? Откажитесь от этого в ваших Предпочтениях > Конфиденциальность.",
+    "description": "Release notes for v6.0"
   }
 }

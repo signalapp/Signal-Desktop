@@ -434,11 +434,51 @@
   },
   "changedVerificationWarning": {
     "message": "Die volgende mense het dalk van toestelle verander of ’n herinstallasie gedoen. Verifieer jou veiligheidsnommer met hulle om privaatheid te verseker.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "Die volgende mense het moontlik Signal herinstalleer of van toestelle verander. Klik op 'n ontvanger om hulle nuwe veiligheidsnommer te bevestig. Dit is opsioneel.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "Stuur hangende boodskappe",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+  },
+  "safetyNumberChangeDialog__review": {
+    "message": "Gaan na",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Jy het 1 konneksie wat moontlik Signal herinstalleer of van toestelle verander het. Voordat jy stuur, het jy die opsie om hulle veiligheidsnommers na te gaan.} other {Jy het {count,number} konneksies wat moontlik Signal herinstalleer of van toestelle verander het. Voordat jy stuur, het jy die opsie om hulle veiligheidsnommers na te gaan.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "Alle konneksies is nagegaan, klik stuur om voort te gaan.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {Is jy seker jy wil 1 ontvanger van storie {story} verwyder?} other {Is jy seker jy wil {count,number} ontvangers van storie {story} verwyder?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "Verwyder almal",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "Verifieer veiligheidsnommer",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "Verwyder uit storie",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "Aksies vir kontak $contact$",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "Aksies vir storie $story$",
+    "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
     "message": "Jou veiligheidsnommer met $name1$ het verander. Dit kan óf beteken dat iemand probeer om jou kommunikasie te onderskep, óf dat $name2$ eenvoudig Signal herïnstalleer het. Jy moet dalk jou veiligheidsnommer met hierdie kontak verifieer.",
@@ -448,8 +488,16 @@
     "message": "Stuur in elk geval",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "Stuur",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "Klaar",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "Bel in elk geval",
+    "message": "Skakel in elk geval",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "My Storie",
+    "message": "My Stories",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "My Stories",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "Jou storie",
@@ -5492,6 +5544,14 @@
     "message": "Kon nie stuur nie",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "Gedeeltelik gestuur",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "Klik om weer te probeer",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "Klik om 'n storie te kyk.",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "Hierdie storie het geen klank nie",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "Hierdie storie kon nie aan sommige mense gestuur word nie. Gaan jou verbinding na en probeer weer.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "Storie-instellings",
+    "message": "Storieprivaatheid",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
     "messageformat": "Stories verdwyn outomaties ná 24 uur. Kies wie na jou storie kan kyk of nuwe stories met spesifieke kykers of groepe kan skep.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "My Stories",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "Nuwe pasgemaakte storie",
+    "message": "Nuwe Storie",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "Slegs jy kan die naam van hierdie storie sien.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "Alle Signal-verbindings",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "Pasgemaakte storie",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "Groepstorie",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ kyker",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Storie-instellings",
+    "message": "Storieprivaatheid",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings -> Stories om hierdie instellings te verander",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "Wie hierdie storie kan sien",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "Verwyder groepstorie",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "Is jy seker jy wil \"{groupTitle}\" verwyder?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "Kies wie jou storie kan sien",
@@ -5728,13 +5824,33 @@
     "message": "Slegs admins kan stories na hierdie groep stuur.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {Privaatstorie · {viewersCount,number} kyker} other {Private storie · {viewersCount,number} kykers}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {Groepstorie · 1 lid} other {Groepstorie · {membersCount,number} lede}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "Deel en Kyk na Stories",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Jy sal nie meer stories kan deel of daarna kyk wanneer hierdie opsie afgeskakel is nie.",
+    "message": "As jy stories afskakel, sal jy nie meer stories kan deel of daarna kyk nie.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "Skakel stories af",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "Pouseer",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "Kykslae afgeskakel",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "Besig om te stuur…",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "Kon nie stuur nie. Klik om weer te probeer",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "Gedeeltelik gestuur. Klik om weer te probeer",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "$time$ gestuur",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Jy kan nie op hierdie storie antwoord nie, want jy is nie meer 'n lid van hierdie groep nie.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "Skrap vir my",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "Skrap vir almal",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "Storie",
@@ -6020,22 +6156,6 @@
     "message": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- Het jy 'n gesprek met 'n lang lys stemnota's waarna jy moet luister? Klik speel, sit terug en ontspan - hulle sal outomaties een na die ander speel!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "Jy kan nou so 'n videosmakie aan 'n boodskap met jou vakansiefoto's verleen!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "Kan jy nie onthou watter van jou vriende met die naam Lou in jou basketbalspan is nie? Gaan kontakbesonderhede na om gedeelde groepe tussen jou en 'n vriend te sien.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "Voeg maklik 'n vriend by 'n groep vanaf hul kontakbesonderhedeskerm om die gesprek opwindend te hou.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "Hard aan die werk om foute reg te stel en ander prestasieverbeterings aan te bring om die toepassing vir jou glad te laat werk.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "Begin om ons nuwe stories-kenmerk te gebruik en te toets. Jy kan die kenmerk saam met ander beta-toetsers gebruik en ons laat weet hoe dit werk.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "Daar is nou Stories in Signal! Deel verdwynende teks, beelde en video-opdaterings met uitgesoekte vriende of groepe wat outomaties ná 24 uur verdwyn. Vir almal wat daarvan hou om stories te deel, hier is 'n manier om dit privaat te doen en sonder om enige advertensies te sien. As jy nie stories wil sien of deel nie, kan jy dit alles in jou Instellings > Privaatheid afskakel.",
+    "description": "Release notes for v6.0"
   }
 }

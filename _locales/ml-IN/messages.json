@@ -434,22 +434,70 @@
   },
   "changedVerificationWarning": {
     "message": "ഇനിപ്പറയുന്ന ആളുകൾ അവരുടെ  ഉപകരണങ്ങൾ വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ മാറ്റുകയോ ചെയ്‌തിരിക്കാം. സ്വകാര്യത ഉറപ്പാക്കാൻ അവരുമായി നിങ്ങളുടെ സുരക്ഷാ നമ്പർ പരിശോധിക്കുക.",
+    "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
+  },
+  "safetyNumberChangeDialog__message": {
+    "message": "ഇനിപ്പറയുന്ന ആളുകൾ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ ഉപകരണങ്ങൾ മാറുകയോ ചെയ്‌തിട്ടുണ്ടാകാം. പുതിയ സുരക്ഷാ നമ്പർ സ്ഥിരീകരിക്കുന്നതിന്, സ്വീകർത്താവിന്റെ പേരിന് നേരെ ക്ലിക്ക് ചെയ്യുക. ഇത് നിർബന്ധമല്ല.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
     "message": "ശേഷിക്കുന്ന സന്ദേശങ്ങൾ അയയ്ക്കുക",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
   },
+  "safetyNumberChangeDialog__review": {
+    "message": "അവലോകനം",
+    "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
+  },
+  "icu:safetyNumberChangeDialog__many-contacts": {
+    "messageformat": "{count, plural, one {Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ ഉപകരണങ്ങൾ മാറ്റുകയോ ചെയ്‌തിട്ടുണ്ടാകാവുന്ന {count,number}  കണക്ഷൻ നിങ്ങൾക്ക് ഉണ്ട്. നിങ്ങൾക്ക് അവരുടെ സുരക്ഷാ നമ്പറുകൾ ഓപ്ഷണലായി അവലോകനം ചെയ്യാം.} other {Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുകയോ ഉപകരണങ്ങൾ മാറ്റുകയോ ചെയ്‌തിട്ടുണ്ടാകാവുന്ന {count,number} കണക്ഷൻ നിങ്ങൾക്ക് ഉണ്ട്. നിങ്ങൾക്ക് അവരുടെ സുരക്ഷാ നമ്പറുകൾ ഓപ്ഷണലായി അവലോകനം ചെയ്യാം.}}",
+    "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
+  },
+  "safetyNumberChangeDialog__post-review": {
+    "message": "എല്ലാ കണക്ഷനുകളും അവലോകനം ചെയ്‌തു, തുടരുന്നതിന് അയയ്ക്കുക എന്നതിൽ ക്ലിക്ക് ചെയ്യുക.",
+    "description": "Shown after reviewing large number of contacts"
+  },
+  "icu:safetyNumberChangeDialog__confirm-remove-all": {
+    "messageformat": "{count, plural, one {{story} സ്‌റ്റോറിയിൽ നിന്ന് 1 സ്വീകർത്താവിനെ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?} other {{story} സ്‌റ്റോറിയിൽ നിന്ന് {count,number} സ്വീകർത്താക്കളെ നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?}}",
+    "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
+  },
+  "safetyNumberChangeDialog__remove-all": {
+    "message": "എല്ലാം നീക്കം ചെയ്യുക",
+    "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
+  },
+  "safetyNumberChangeDialog__verify-number": {
+    "message": "സുരക്ഷാ നമ്പർ ഉറപ്പാക്കു",
+    "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
+  },
+  "safetyNumberChangeDialog__remove": {
+    "message": "സ്റ്റോറിയിൽ നിന്ന് നീക്കം ചെയ്യുക",
+    "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
+  },
+  "safetyNumberChangeDialog__actions-contact": {
+    "message": "$contact$ എന്ന കോൺടാക്റ്റിനുള്ള ആക്ഷനുകൾ",
+    "description": "Label for button that opens context menu for contact"
+  },
+  "safetyNumberChangeDialog__actions-story": {
+    "message": "$story$ സ്റ്റോറി‌ക്കുള്ള ആക്ഷനുകൾ",
+    "description": "Label for button that opens context menu for story"
+  },
   "identityKeyErrorOnSend": {
     "message": "$name1$ ഉള്ള നിങ്ങളുടെ സുരക്ഷാ നമ്പർ മാറിയിരിക്കുന്നു. നിങ്ങളുടെ ആശയവിനിമയം ആരെങ്കിലും തടസ്സപ്പെടുത്താൻ ശ്രമിക്കുന്നു അല്ലെങ്കിൽ $name2$ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്തുവെന്ന് ഇതിനർത്ഥം. ഈ കോൺടാക്റ്റ് ഉപയോഗിച്ച് നിങ്ങളുടെ സുരക്ഷാ നമ്പർ പരിശോധിച്ചുറപ്പിക്കാൻ നിങ്ങൾ ആഗ്രഹിച്ചേക്കാം.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
-    "message": "ഏത് വിധേനയും അയയ്ക്കുക",
+    "message": "എന്തായാലും അയയ്ക്കുക",
     "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
+  "safetyNumberChangeDialog_send": {
+    "message": "അയയ്‌ക്കുക",
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
+  },
+  "safetyNumberChangeDialog_done": {
+    "message": "ചെയ്‌തു",
+    "description": "Used when there are enough safety number changes to require an explicit review step, to signal that the review is complete."
+  },
   "callAnyway": {
-    "message": "ഏത് വിധേനയും കോൾ ചെയ്യുക",
+    "message": "എന്തായാലും വിളിക്കുക",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
   "continueCall": {
@@ -5389,8 +5437,12 @@
     "description": "Label of the button on the bottom of the media editor that trigger the add-caption dialog"
   },
   "MyStories__title": {
-    "message": "എന്റെ സ്റ്റോറി",
+    "message": "എന്റെ സ്റ്റോറികൾ",
     "description": "Title for the my stories list"
+  },
+  "MyStories__list_item": {
+    "message": "എന്റെ സ്റ്റോറികൾ",
+    "description": "Label for the my stories in the list of all stories"
   },
   "MyStories__story": {
     "message": "നിങ്ങളുടെ സ്റ്റോറി",
@@ -5492,6 +5544,14 @@
     "message": "അയയ്‌ക്കുന്നത് പരാജയപ്പെട്ടു",
     "description": "Error text for story failed to send in list view"
   },
+  "Stories__list--partially-sent": {
+    "message": "ഭാഗികമായി അയച്ചു",
+    "description": "Error text for story failed partially to send"
+  },
+  "Stories__list--retry-send": {
+    "message": "വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക",
+    "description": "Actionable link to retry a send"
+  },
   "Stories__placeholder--text": {
     "message": "ഒരു സ്റ്റോറി കാണാൻ ക്ലിക്ക് ചെയ്യുക",
     "description": "Placeholder label for the story view"
@@ -5512,21 +5572,41 @@
     "message": "ഈ സ്റ്റോറിയിൽ ശബ്‌ദമൊന്നുമില്ല",
     "description": "Toast message"
   },
+  "Stories__failed-send": {
+    "message": "ഈ സ്റ്റോറി ചിലർക്ക് അയയ്ക്കാൻ കഴിഞ്ഞില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",
+    "description": "Alert error message when unable to send a story"
+  },
   "StoriesSettings__title": {
-    "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
+    "message": "സ്റ്റോറിയുടെ സ്വകാര്യത",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "24 മണിക്കൂറിന് ശേഷം സ്റ്റോറികൾ സ്വയമേവ അപ്രത്യക്ഷമാകും. നിങ്ങളുടെ സ്റ്റോറി ആർക്കൊക്കെ കാണാൻ കഴിയുമെന്ന് തീരുമാനിക്കുകയോ കുറച്ച് കാഴ്‌ചക്കാർക്കോ ഗ്രൂപ്പുകൾക്കോ ആയി പുതിയ സ്റ്റോറികൾ സൃഷ്‌ടിക്കുകയോ ചെയ്യുക.",
+    "messageformat": "24 മണിക്കൂറിന് ശേഷം സ്റ്റോറികൾ സ്വയമേവ അപ്രത്യക്ഷമാകും. നിങ്ങളുടെ സ്റ്റോറി ആർക്കൊക്കെ കാണാൻ കഴിയുമെന്ന് തീരുമാനിക്കുകയോ കുറച്ച് കാഴ്‌ചക്കാരെയോ ഗ്രൂപ്പുകളെയോ ഉപയോഗിച്ച് പുതിയ സ്റ്റോറികൾ സൃഷ്‌ടിക്കുകയോ ചെയ്യുക.",
     "description": "Description for story settings modal"
   },
+  "icu:StoriesSettings__my_stories": {
+    "messageformat": "എന്റെ സ്റ്റോറികൾ",
+    "description": "Title of distribution lists section in stories settings modal"
+  },
   "StoriesSettings__new-list": {
-    "message": "പുതിയ കസ്റ്റം സ്റ്റോറി",
+    "message": "പുതിയ സ്റ്റോറി",
     "description": "Label to create a new custom distribution list"
   },
   "StoriesSettings__new-list--visibility": {
     "message": "നിങ്ങൾക്ക് മാത്രമേ ഈ സ്റ്റോറിയുടെ പേര് കാണാൻ കഴിയൂ.",
     "description": "Explanation about the visibility of custom distribution list names"
+  },
+  "icu:StoriesSettings__my-story-subtitle": {
+    "messageformat": "എല്ലാ Signal കണക്ഷനുകളും",
+    "description": "(deleted 2022/11/09) Story settings modal my story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__custom-story-subtitle": {
+    "messageformat": "കസ്റ്റം സ്റ്റോറി",
+    "description": "Story settings modal custom story distribution list selection subtitle"
+  },
+  "icu:StoriesSettings__group-story-subtitle": {
+    "messageformat": "ഗ്രൂപ്പ് സ്റ്റോറി",
+    "description": "Story settings modal group story selection subtitle"
   },
   "StoriesSettings__viewers--singular": {
     "message": "$num$ ആൾ കണ്ടു",
@@ -5633,7 +5713,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "സ്റ്റോറി ക്രമീകരണങ്ങൾ",
+    "message": "സ്റ്റോറിയുടെ സ്വകാര്യത",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5643,6 +5723,22 @@
   "StoriesSettings__view-receipts--description": {
     "message": "ഈ ക്രമീകരണം മാറ്റുന്നതിന്, നിങ്ങളുടെ മൊബൈലിൽ Signal ആപ്പ് തുറന്ന് ക്രമീകരണങ്ങൾ > സ്റ്റോറികൾ എന്നതിലേക്ക് നാവിഗേറ്റ് ചെയ്യുക",
     "description": "Description of how view receipts can be changed in story settings"
+  },
+  "icu:GroupStorySettingsModal__members_title": {
+    "messageformat": "ആർക്കൊക്കെ ഈ സ്റ്റോറി കാണാൻ കഴിയും",
+    "description": "Stories settings > Group Story > members list title"
+  },
+  "icu:GroupStorySettingsModal__members_help": {
+    "messageformat": "Members of the group chat “{groupTitle}” can view and reply to this story. You can update the membership for this chat in the group.",
+    "description": "Stories settings > Group Story > group story help text"
+  },
+  "icu:GroupStorySettingsModal__remove_group": {
+    "messageformat": "ഗ്രൂപ്പ് സ്റ്റോറി നീക്കം ചെയ്യുക",
+    "descirption": "Stories settings > Group Story > button to remove group story"
+  },
+  "icu:StoriesSettings__remove_group--confirm": {
+    "messageformat": "“{groupTitle}” നീക്കം ചെയ്യണമെന്ന് ഉറപ്പാണോ?",
+    "descirption": "Stories settings > Group Story > confirm to remove group story"
   },
   "SendStoryModal__choose-who-can-view": {
     "message": "ആർക്കൊക്കെ നിങ്ങളുടെ സ്റ്റോറി കാണാനാകുമെന്ന് തിരഞ്ഞെടുക്കുക",
@@ -5728,13 +5824,33 @@
     "message": "അഡ്‌മിൻമാർക്ക് മാത്രമേ ഈ ഗ്രൂപ്പിലേക്ക് സ്റ്റോറികൾ അയയ്‌ക്കാൻ കഴിയൂ.",
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
+  "icu:SendStoryModal__my-stories-description-all": {
+    "messageformat": "{viewersCount, plural, one {All Signal Connections · 1 Viewer} other {All Signal Connections · {viewersCount,number} Viewers}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
+  },
+  "icu:SendStoryModal__my-stories-description-excluding": {
+    "messageformat": "{excludedCount, plural, one {All Signal Connections · 1 Excluded} other {All Signal Connections · {excludedCount,number} Excluded}}",
+    "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
+  },
+  "icu:SendStoryModal__private-story-description": {
+    "messageformat": "{viewersCount, plural, one {സ്വകാര്യ സ്റ്റോറി · {viewersCount,number} ആൾ കണ്ടു} other {സ്വകാര്യ സ്റ്റോറി · {viewersCount,number} കാഴ്‌ചക്കാർ}}",
+    "description": "Shown as a subtitle of each private story in the send-story-to dialog"
+  },
+  "icu:SendStoryModal__group-story-description": {
+    "messageformat": "{membersCount, plural, one {ഗ്രൂപ്പ് സ്റ്റോറി · 1 അംഗം} other {ഗ്രൂപ്പ് സ്റ്റോറി · {membersCount,number} അംഗങ്ങൾ}}",
+    "description": "Shown as a subtitle of each group story in the send-story-to dialog"
+  },
   "Stories__settings-toggle--title": {
     "message": "സ്റ്റോറികൾ പങ്കിടുകയും കാണുകയും ചെയ്യുക",
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "ഈ ഓപ്ഷൻ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾക്ക് സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
+    "message": "സ്റ്റോറികൾ വേണ്ടെന്ന് തീരുമാനിക്കുകയാണെങ്കിൽ, നിങ്ങൾക്ക് ഇനി സ്റ്റോറികൾ പങ്കിടാനോ കാണാനോ കഴിയില്ല.",
     "description": "Select box description for the stories on/off toggle"
+  },
+  "Stories__settings-toggle--button": {
+    "message": "സ്റ്റോറികൾ ഓഫാക്കുക",
+    "description": "Button to turn off stories in stories settings modal"
   },
   "StoryViewer__pause": {
     "message": "താൽക്കാലികമായി നിർത്തുക",
@@ -5763,6 +5879,18 @@
   "StoryViewer__views-off": {
     "message": "കാഴ്ച്ചകൾ ഓഫാണ്",
     "description": "(deleted 2022/10/13) When the user has read receipts turned off"
+  },
+  "StoryViewer__sending": {
+    "message": "അയയ്ക്കുന്നു...",
+    "description": "Label for when a story is sending"
+  },
+  "StoryViewer__failed": {
+    "message": "അയയ്‌ക്കാനായില്ല. വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക",
+    "description": "Label for when a send failed"
+  },
+  "StoryViewer__partial-fail": {
+    "message": "ഭാഗികമായി അയച്ചു. വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക",
+    "description": "Label for when a send partially failed"
   },
   "StoryDetailsModal__sent-time": {
     "message": "അയച്ചു $time$",
@@ -5809,8 +5937,16 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "നിങ്ങൾ നിലവിൽ ഈ ഗ്രൂപ്പിൽ അംഗമല്ലാത്തതിനാൽ, നിങ്ങൾക്ക് ഈ സ്റ്റോറിക്ക് മറുപടി അയയ്‌ക്കാൻ കഴിയില്ല.",
+    "messageformat": "You can’t reply to this story because you’re no longer a member of this group.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply": {
+    "messageformat": "എനിക്കായി ഇല്ലാതാക്കൂ",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply just for the author"
+  },
+  "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
+    "messageformat": "എല്ലാവർക്കുമായി ഇല്ലാതാക്കൂ",
+    "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "StoryListItem__label": {
     "message": "സ്റ്റോറി",
@@ -6020,22 +6156,6 @@
     "message": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.61--0": {
-    "message": "- കേൾക്കാൻ വോയ്‌സ് നോട്ടുകളുടെ ഒരു നീണ്ട ലിസ്റ്റ് ഉള്ള ഒരു സംഭാഷണം അഭിമുഖീകരിക്കുകയാണോ? പ്ലേ എന്നതിൽ ക്ലിക്ക് ചെയ്യുക, ഇരിക്കുക, വിശ്രമിക്കുക - അവ സ്വയമേവ പ്ലേയായിക്കൊണ്ടിരിക്കും!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.61--1": {
-    "message": "നിങ്ങൾക്ക് ഇപ്പോൾ നിങ്ങളുടെ അവധിക്കാല ഫോട്ടോകൾക്കൊപ്പം ഒരു സന്ദേശത്തിലേക്ക് കുറച്ച് വീഡിയോ ഫ്ലേവർ അറ്റാച്ച് ചെയ്യാൻ കഴിയും!",
-    "description": "Release notes for v5.61"
-  },
-  "WhatsNew__v5.62--0": {
-    "message": "നിങ്ങളുടെ സുഹൃത്തുക്കളിൽ ലൂ എന്ന് പേരുള്ളതിൽ ആരാണ് നിങ്ങളുടെ ബാസ്‌ക്കറ്റ്ബോൾ ടീമിൽ ഉള്ളതെന്ന് ഓർമ്മയില്ലേ? നിങ്ങളും നിങ്ങളുടെ ഒരു സുഹൃത്തും പങ്കിടുന്ന ഗ്രൂപ്പുകൾ കാണുന്നതിന് കോൺടാക്റ്റ് വിശദാംശങ്ങൾ പരിശോധിക്കുക.",
-    "description": "Release notes for v5.62"
-  },
-  "WhatsNew__v5.62--1": {
-    "message": "സംഭാഷണം ആവേശകരമാക്കാൻ, ഒരു സുഹൃത്തിനെ അവരുടെ കോൺടാക്റ്റ് വിശദാംശങ്ങളുടെ സ്ക്രീനിൽ നിന്ന് ഒരു ഗ്രൂപ്പിലേക്ക് എളുപ്പത്തിൽ ചേർക്കുക.",
-    "description": "Release notes for v5.62"
-  },
   "WhatsNew__v5.63--0": {
     "message": "നിങ്ങൾക്കായി ആപ്പ് സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ബഗുകൾ പരിഹരിക്കുന്നതിനും മറ്റ് പ്രകടന മെച്ചപ്പെടുത്തലുകൾ വരുത്തുന്നതിനും കഠിനാധ്വാനം ചെയ്യുന്നു.",
     "description": "Release notes for v5.63"
@@ -6043,5 +6163,9 @@
   "WhatsNew__v5.63--beta.2": {
     "message": "ഞങ്ങളുടെ പുതിയ സ്റ്റോറികൾ സവിശേഷത ഉപയോഗിക്കാനും പരീക്ഷിക്കാനും ആരംഭിക്കുക. നിങ്ങൾക്ക് മറ്റ് ബീറ്റാ ടെസ്റ്റർമാർക്കൊപ്പം സവിശേഷത ഉപയോഗിക്കാനും അത് എങ്ങനെ പ്രവർത്തിക്കുന്നുവെന്ന് ഞങ്ങളെ അറിയിക്കാനും കഴിയും.",
     "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v6.0": {
+    "message": "സ്റ്റോറികൾ ഇപ്പോൾ Signal-ൽ ലഭ്യമാണ്! 24 മണിക്കൂറിൽ അപ്രത്യക്ഷമാകുന്ന ടെക്‌സ്റ്റ്, ഇമേജുകൾ, വീഡിയോ അപ്‌ഡേറ്റുകൾ എന്നിവ ഏതാനും സുഹൃത്തുക്കളുമായോ ഗ്രൂപ്പുകളുമായോ പങ്കിടുക. സ്റ്റോറികൾ പങ്കിടാൻ ഇഷ്‌ടപ്പെടുന്ന എല്ലാവർക്കും, അത് പരസ്യങ്ങളൊന്നും കാണാതെ സ്വകാര്യമായി ചെയ്യാനുള്ള ഒരു മാർഗ്ഗമിതാ. സ്റ്റോറികൾ കാണാനോ പങ്കിടാനോ താൽപ്പര്യമില്ലെങ്കിൽ, നിങ്ങളുടെ ക്രമീകരണങ്ങൾ > സ്വകാര്യത എന്നതിൽ നിങ്ങൾക്ക് അവയിൽ നിന്നെല്ലാം ഒഴിവാകാൻ കഴിയും.",
+    "description": "Release notes for v6.0"
   }
 }
