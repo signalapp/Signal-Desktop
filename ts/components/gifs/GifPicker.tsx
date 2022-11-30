@@ -11,6 +11,7 @@ import type { LocalizerType } from '../../types/Util';
 import { Input } from '../Input';
 import type { GifFromGiphyType } from '../../sql/Interface';
 import type { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 
 const CATEGORIES = [
   'trending',
@@ -47,7 +48,7 @@ const Grid = React.lazy(async () => ({
 
 export const GifPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
-    ({ style, onPickGif, recentGifs, i18n, giphyWrapper }, ref) => {
+    ({ style, onPickGif, recentGifs, i18n, giphyWrapper, onClose }, ref) => {
       const { ref: resizeDetectorRef, width = 330 } = useResizeDetector({
         observerOptions: {
           box: 'content-box',
@@ -97,6 +98,22 @@ export const GifPicker = React.memo(
           return giphyWrapper.search(currentTabName, config);
         },
         [currentTabName, recentGifs, searchTerm, giphyWrapper]
+      );
+
+      useKeyboardShortcuts(
+        React.useCallback(
+          (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+              event.preventDefault();
+              event.stopPropagation();
+              onClose();
+              return true;
+            }
+
+            return false;
+          },
+          [onClose]
+        )
       );
 
       return (
