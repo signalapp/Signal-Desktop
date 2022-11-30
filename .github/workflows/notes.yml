@@ -1,0 +1,26 @@
+# Copyright 2021-2022 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Notes
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  backport:
+    name: Add notes to merge commits
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          repository: signalapp/Signal-Notes-Action-Private
+          path: ./.github/actions/note
+      - name: Run action
+        uses: ./.github/actions/note
+        with:
+          token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          git-email: note-bot@signal.org
+          git-name: Note Bot
