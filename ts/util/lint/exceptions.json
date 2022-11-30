@@ -8523,14 +8523,6 @@
     "updated": "2020-07-21T18:34:59.251Z"
   },
   {
-    "rule": "jQuery-html(",
-    "path": "ts/backbone/views/whisper_view.ts",
-    "line": "      this.$el.html(window.Mustache.render(template, attrs));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Rendered template has been sanitized"
-  },
-  {
     "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.ts",
     "line": "  const ref = useRef<Buffer | null>(null);",
@@ -9391,44 +9383,11 @@
     "updated": "2021-08-03T21:17:38.615Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.tsx",
-    "line": "      if ($('.dark-overlay').length) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.tsx",
-    "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.tsx",
-    "line": "      $('.dark-overlay').on('click', () => $('.dark-overlay').remove());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/util/createIPCEvents.tsx",
-    "line": "    removeDarkOverlay: () => $('.dark-overlay').remove(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
-  },
-  {
     "rule": "jQuery-prepend(",
     "path": "ts/util/createIPCEvents.tsx",
-    "line": "      $(document.body).prepend('<div class=\"dark-overlay\"></div>');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-18T18:22:55.307Z",
-    "reasonDetail": "Legacy code"
+    "line": "      document.body.prepend(newOverlay);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-11-30T00:14:31.394Z"
   },
   {
     "rule": "jQuery-load(",

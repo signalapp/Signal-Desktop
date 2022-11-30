@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber } from 'lodash';
+import { isNumber, clone, debounce } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -197,7 +197,7 @@ export async function startApp(): Promise<void> {
 
   await KeyboardLayout.initialize();
 
-  window.Whisper.events = window._.clone(window.Backbone.Events);
+  window.Whisper.events = clone(window.Backbone.Events);
   window.Signal.Util.MessageController.install();
   window.Signal.conversationControllerStart();
   window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
@@ -1753,7 +1753,7 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on(
     'mightBeUnlinked',
-    window._.debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
+    debounce(enqueueReconnectToWebSocket, 1000, { maxWait: 5000 })
   );
 
   window.Whisper.events.on('unlinkAndDisconnect', () => {
@@ -3137,10 +3137,8 @@ export async function startApp(): Promise<void> {
 
     let unidentifiedDeliveries: Array<string> = [];
     if (unidentifiedStatus.length) {
-      const unidentified = window._.filter(data.unidentifiedStatus, item =>
-        Boolean(item.unidentified)
-      );
-      unidentifiedDeliveries = unidentified
+      unidentifiedDeliveries = unidentifiedStatus
+        .filter(item => Boolean(item.unidentified))
         .map(item => item.destinationUuid || item.destination)
         .filter(isNotNil);
     }

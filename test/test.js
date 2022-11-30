@@ -39,6 +39,6 @@ before(async () => {
 });
 
 window.Whisper = window.Whisper || {};
-window.Whisper.events = _.clone(Backbone.Events);
+window.Whisper.events = { ...Backbone.Events };
 
 window.textsecure.storage.protocol = new window.SignalProtocolStore();

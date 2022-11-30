@@ -5,6 +5,7 @@
 
 import chai, { assert } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import { clone } from 'lodash';
 import {
   Direction,
   IdentityKeyPair,
@@ -563,7 +564,7 @@ describe('SignalProtocolStore', () => {
     describe('with invalid attributes', () => {
       let attributes: IdentityKeyType;
       beforeEach(() => {
-        attributes = window._.clone(validAttributes);
+        attributes = clone(validAttributes);
       });
 
       async function testInvalidAttributes() {

@@ -2,14 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
+  groupBy,
+  difference,
   isEmpty,
   isEqual,
   isNumber,
+  isObject,
   mapValues,
   maxBy,
   noop,
   omit,
+  partition,
+  pick,
+  reject,
   union,
+  without,
 } from 'lodash';
 import type {
   CustomError,
@@ -262,8 +269,6 @@ type PropsForMessageDetail = Pick<
   | 'expirationTimestamp'
 >;
 
-declare const _: typeof window._;
-
 window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
@@ -309,7 +314,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   cachedOutgoingStickerData?: StickerWithHydratedData;
 
   override initialize(attributes: unknown): void {
-    if (_.isObject(attributes)) {
+    if (isObject(attributes)) {
       this.set(
         TypedMessage.initializeSchemaVersion({
           message: attributes as MessageAttributesType,
@@ -516,10 +521,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // If an error has a specific number it's associated with, we'll show it next to
     //   that contact. Otherwise, it will be a standalone entry.
-    const errors = _.reject(allErrors, error =>
+    const errors = reject(allErrors, error =>
       Boolean(error.identifier || error.number)
     );
-    const errorsGroupedById = _.groupBy(allErrors, error => {
+    const errorsGroupedById = groupBy(allErrors, error => {
       const identifier = error.identifier || error.number;
       if (!identifier) {
         return null;
@@ -747,7 +752,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
-        const joinedContacts = _.map(groupUpdate.joined, item =>
+        const joinedContacts = groupUpdate.joined.map(item =>
           window.ConversationController.getOrCreate(item, 'private')
         );
         const joinedWithoutMe = joinedContacts.filter(
@@ -757,7 +762,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         if (joinedContacts.length > 1) {
           messages.push(
             window.i18n('multipleJoinedTheGroup', [
-              _.map(joinedWithoutMe, contact => contact.getTitle()).join(', '),
+              joinedWithoutMe.map(contact => contact.getTitle()).join(', '),
             ])
           );
 
@@ -1026,7 +1031,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   override validate(attributes: Record<string, unknown>): void {
     const required = ['conversationId', 'received_at', 'sent_at'];
-    const missing = _.filter(required, attr => !attributes[attr]);
+    const missing = required.filter(attr => !attributes[attr]);
     if (missing.length) {
       log.warn(`Message missing attributes: ${missing}`);
     }
@@ -1366,7 +1371,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // We check instanceof second because typescript believes that anything that comes
       //   through here must be an instance of Error, so e is 'never' after that check.
       if ((e.message && e.stack) || e instanceof Error) {
-        return _.pick(
+        return pick(
           e,
           'name',
           'message',
@@ -1523,7 +1528,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
     const incomingConversationId =
       window.ConversationController.getConversationId(incomingIdentifier);
-    const errors = _.partition(
+    const errors = partition(
       this.get('errors'),
       e =>
         window.ConversationController.getConversationId(
@@ -2386,12 +2391,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           });
 
           const existingRevision = conversation.get('revision');
-          const isFirstUpdate = !_.isNumber(existingRevision);
+          const isFirstUpdate = !isNumber(existingRevision);
 
           // Standard GroupV2 modification codepath
           const isV2GroupUpdate =
             initialMessage.groupV2 &&
-            _.isNumber(initialMessage.groupV2.revision) &&
+            isNumber(initialMessage.groupV2.revision) &&
             (isFirstUpdate ||
               initialMessage.groupV2.revision > existingRevision);
 
@@ -2708,7 +2713,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               attributes = {
                 ...attributes,
                 name: initialMessage.group.name,
-                members: _.union(members, conversation.get('members')),
+                members: union(members, conversation.get('members')),
               };
 
               if (initialMessage.group.name !== conversation.get('name')) {
@@ -2776,14 +2781,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 );
               }
 
-              const difference = _.difference(
+              const differentMembers = difference(
                 members,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 conversation.get('members')!
               );
-              if (difference.length > 0) {
+              if (differentMembers.length > 0) {
                 // Because GroupV1 groups are based on e164 only
-                const maybeE164s = map(difference, id =>
+                const maybeE164s = map(differentMembers, id =>
                   window.ConversationController.get(id)?.get('e164')
                 );
                 const e164s = filter(maybeE164s, isNotNil);
@@ -2813,7 +2818,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               } else {
                 pendingGroupUpdate.left = sender.get('id');
               }
-              attributes.members = _.without(
+              attributes.members = without(
                 conversation.get('members'),
                 sender.get('id')
               );

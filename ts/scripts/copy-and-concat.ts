@@ -14,7 +14,6 @@ const CONCAT_TARGET = join(__dirname, '../../js/components.js');
 const CONCAT_SOURCES = [
   join(BASE_NODE, 'jquery/dist/jquery.js'),
   join(BASE_NODE, 'mustache/mustache.js'),
-  join(BASE_NODE, 'underscore/underscore.js'),
   join(BASE_BOWER, 'webaudiorecorder/lib/WebAudioRecorder.js'),
 ];
 

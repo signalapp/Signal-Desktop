@@ -5,7 +5,6 @@
 
 import type { Store } from 'redux';
 import type * as Backbone from 'backbone';
-import type * as Underscore from 'underscore';
 import type PQueue from 'p-queue/dist';
 import type { assert } from 'chai';
 import type * as Mustache from 'mustache';
@@ -229,7 +228,6 @@ declare global {
     ) => Promise<void>;
 
     FontFace: typeof FontFace;
-    _: typeof Underscore;
     $: typeof jQuery;
 
     imageToBlurHash: typeof imageToBlurHash;
@@ -393,5 +391,4 @@ export type WhisperType = {
   //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
 
   InboxView: typeof Backbone.View;
-  View: typeof Backbone.View;
 };

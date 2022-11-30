@@ -178,7 +178,6 @@
     "split2": "4.0.0",
     "testcheck": "1.0.0-rc.2",
     "typeface-inter": "3.18.1",
-    "underscore": "1.12.1",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
     "zod": "3.5.1"
@@ -254,7 +253,6 @@
     "@types/sinon": "10.0.2",
     "@types/split2": "3.2.1",
     "@types/terser-webpack-plugin": "5.0.3",
-    "@types/underscore": "1.10.3",
     "@types/uuid": "3.4.4",
     "@types/webpack-dev-server": "3.11.3",
     "@types/websocket": "1.0.0",
@@ -454,6 +452,7 @@
       "sticker-creator/preload.js",
       "sticker-creator/window/*.js",
       "sticker-creator/dist/**",
+      "!node_modules/underscore/**",
       "!node_modules/emoji-datasource/emoji_pretty.json",
       "!node_modules/emoji-datasource/**/*.png",
       "!node_modules/emoji-datasource-apple/emoji_pretty.json",

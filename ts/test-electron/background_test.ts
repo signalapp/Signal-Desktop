@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { pick } from 'lodash';
 
 import { isOverHourIntoPast, cleanupSessionResets } from '../background';
 
@@ -38,7 +39,7 @@ describe('#cleanupSessionResets', () => {
     cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
-    const expected = window._.pick(startValue, ['one', 'two']);
+    const expected = pick(startValue, ['one', 'two']);
     assert.deepEqual(actual, expected);
   });
   it('filters out falsey items', () => {
@@ -50,7 +51,7 @@ describe('#cleanupSessionResets', () => {
     cleanupSessionResets();
     const actual = window.storage.get('sessionResets');
 
-    const expected = window._.pick(startValue, ['two']);
+    const expected = pick(startValue, ['two']);
     assert.deepEqual(actual, expected);
 
     assert.deepEqual(Object.keys(startValue), ['two']);

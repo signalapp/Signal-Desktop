@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
-import { pick } from 'underscore';
+import { pick } from 'lodash';
 
 import { MessageAudio } from '../../components/conversation/MessageAudio';
 import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio';

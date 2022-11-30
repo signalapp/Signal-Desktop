@@ -435,10 +435,6 @@ export type GroupV2PendingAdminApprovalType = {
   timestamp: number;
 };
 
-export type VerificationOptions = {
-  key?: null | Uint8Array;
-};
-
 export type ShallowChallengeError = CustomError & {
   readonly retryAfter: number;
   readonly data: SendMessageChallengeData;

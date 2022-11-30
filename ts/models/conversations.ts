@@ -1,7 +1,15 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, has, isNumber, throttle, debounce } from 'lodash';
+import {
+  compact,
+  has,
+  isNumber,
+  throttle,
+  debounce,
+  head,
+  sortBy,
+} from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
@@ -13,7 +21,6 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
   SenderKeyInfoType,
-  VerificationOptions,
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
@@ -468,7 +475,7 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    return window._.any(membersV2, item => item.uuid === uuid.toString());
+    return membersV2.some(item => item.uuid === uuid.toString());
   }
 
   async updateExpirationTimerInGroupV2(
@@ -1792,10 +1799,8 @@ export class ConversationModel extends window.Backbone
       }
     }
 
-    const typingValues = window._.values(this.contactTypingTimers || {});
-    const typingMostRecent = window._.first(
-      window._.sortBy(typingValues, 'timestamp')
-    );
+    const typingValues = Object.values(this.contactTypingTimers || {});
+    const typingMostRecent = head(sortBy(typingValues, 'timestamp'));
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const timestamp = this.get('timestamp')!;
@@ -2675,36 +2680,24 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  setVerifiedDefault(options?: VerificationOptions): Promise<boolean> {
+  setVerifiedDefault(): Promise<boolean> {
     const { DEFAULT } = this.verifiedEnum;
     return this.queueJob('setVerifiedDefault', () =>
-      this._setVerified(DEFAULT, options)
+      this._setVerified(DEFAULT)
     );
   }
 
-  setVerified(options?: VerificationOptions): Promise<boolean> {
+  setVerified(): Promise<boolean> {
     const { VERIFIED } = this.verifiedEnum;
-    return this.queueJob('setVerified', () =>
-      this._setVerified(VERIFIED, options)
-    );
+    return this.queueJob('setVerified', () => this._setVerified(VERIFIED));
   }
 
-  setUnverified(options: VerificationOptions): Promise<boolean> {
+  setUnverified(): Promise<boolean> {
     const { UNVERIFIED } = this.verifiedEnum;
-    return this.queueJob('setUnverified', () =>
-      this._setVerified(UNVERIFIED, options)
-    );
+    return this.queueJob('setUnverified', () => this._setVerified(UNVERIFIED));
   }
 
-  private async _setVerified(
-    verified: number,
-    providedOptions?: VerificationOptions
-  ): Promise<boolean> {
-    const options = providedOptions || {};
-    window._.defaults(options, {
-      key: null,
-    });
-
+  private async _setVerified(verified: number): Promise<boolean> {
     const { VERIFIED, DEFAULT } = this.verifiedEnum;
 
     if (!isDirectConversation(this.attributes)) {
@@ -2886,13 +2879,13 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes)) {
       return this.safeIsUntrusted(timestampThreshold);
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (!this.contactCollection!.length) {
+    const { contactCollection } = this;
+
+    if (!contactCollection?.length) {
       return false;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.contactCollection!.any(contact => {
+    return contactCollection.some(contact => {
       if (isMe(contact.attributes)) {
         return false;
       }
@@ -3166,7 +3159,7 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes) && uuid) {
       window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
-          window._.forEach(groups, group => {
+          groups.forEach(group => {
             group.addVerifiedChange(this.id, verified, options);
           });
         }
@@ -3303,7 +3296,7 @@ export class ConversationModel extends window.Backbone
     if (isDirectConversation(this.attributes) && uuid) {
       window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
-          window._.forEach(groups, group => {
+          groups.forEach(group => {
             group.addProfileChange(profileChange, this.id);
           });
         }

@@ -399,13 +399,24 @@ export function createIPCEvents(
     },
 
     addDarkOverlay: () => {
-      if ($('.dark-overlay').length) {
+      const elems = document.querySelectorAll('.dark-overlay');
+      if (elems.length) {
         return;
       }
-      $(document.body).prepend('<div class="dark-overlay"></div>');
-      $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
+      const newOverlay = document.createElement('div');
+      newOverlay.className = 'dark-overlay';
+      newOverlay.addEventListener('click', () => {
+        newOverlay.remove();
+      });
+      document.body.prepend(newOverlay);
     },
-    removeDarkOverlay: () => $('.dark-overlay').remove(),
+    removeDarkOverlay: () => {
+      const elems = document.querySelectorAll('.dark-overlay');
+
+      for (const elem of elems) {
+        elem.remove();
+      }
+    },
     showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
 
     deleteAllData: async () => {

@@ -42,7 +42,6 @@ const bundleDefaults = {
     'websocket',
 
     // Things that don't bundle well
-    'backbone',
     'got',
     'jquery',
     'node-fetch',

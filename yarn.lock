@@ -3836,11 +3836,6 @@
   resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.10.14.tgz#a2a831c72a12deddaef26028d16a5aa48aadbee0"
   integrity sha512-VE20ZYf38nmOU1lU0wpQBWcGPlskfKK8uU8AN1UIz5PjxT2YM7HTF0iUA85iGJnbQ3tZweqIfQqmLgLMtP27YQ==
 
-"@types/underscore@1.10.3":
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.10.3.tgz#927ff2b2e516444587fc80fb7845bb5c1806aad2"
-  integrity sha512-WgNbx0H2QO4ccIk2R1aWkteETuPxSa9OYKXoYujBgc0R4u+d2PWsb9MPpP77H+xqwbCXT+wuEBQ/6fl6s4C0OA==
-
 "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2", "@types/unist@^2.0.3":
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
@@ -17195,7 +17190,7 @@ unc-path-regex@^0.1.2:
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
   integrity sha1-5z3T17DXxe2G+6xrCufYxqadUPo=
 
-underscore@1.12.1, underscore@>=1.8.3:
+underscore@>=1.8.3:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.12.1.tgz#7bb8cc9b3d397e201cf8553336d262544ead829e"
   integrity sha512-hEQt0+ZLDVUMhebKxL4x1BTtDY7bavVofhZ9KZ4aI26X9SRaE+Y3m83XUL1UP2jn8ynjndwCCpEHdUG+9pP1Tw==
