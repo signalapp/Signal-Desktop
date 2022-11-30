@@ -18,6 +18,7 @@ export type ConfigKeyType =
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
   | 'desktop.groupCallOutboundRing2'
+  | 'desktop.groupCallOutboundRing2.beta'
   | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'
