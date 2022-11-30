@@ -5581,7 +5581,7 @@
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Истории автоматически исчезают через 24 часа. Выберите, кто может просматривать вашу историю или создавать новые истории с заданными зрителями или группами.",
+    "messageformat": "Истории автоматически исчезают через 24 часа. Выберите, кто может просматривать вашу историю или создавайте новые истории с заданными зрителями или группами.",
     "description": "Description for story settings modal"
   },
   "icu:StoriesSettings__my_stories": {
