@@ -75,7 +75,8 @@ export async function autoScale({
   file: Blob;
   fileName: string;
 }> {
-  if (!canBeTranscoded({ contentType })) {
+  const arrayBuffer = await file.arrayBuffer();
+  if (!canBeTranscoded({ contentType, data: new Uint8Array(arrayBuffer) })) {
     return { contentType, file, fileName };
   }
 

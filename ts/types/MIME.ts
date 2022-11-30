@@ -34,6 +34,8 @@ export const isHeic = (value: string, fileName: string): boolean =>
   fileName.endsWith('.heif');
 export const isGif = (value: string): value is MIMEType =>
   value === 'image/gif';
+export const isWebp = (value: string): value is MIMEType =>
+  value === 'image/webp';
 export const isJPEG = (value: string): value is MIMEType =>
   value === 'image/jpeg';
 export const isImage = (value: string): value is MIMEType =>

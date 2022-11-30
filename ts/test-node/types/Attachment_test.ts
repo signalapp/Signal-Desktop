@@ -12,6 +12,10 @@ import * as logger from '../../logging/log';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
 
+import fs from 'fs/promises';
+import path from 'path';
+import { IMAGE_WEBP } from '../../types/MIME';
+
 describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
@@ -475,6 +479,34 @@ describe('Attachment', () => {
       });
 
       assert.isUndefined(actual.data);
+    });
+  });
+
+  describe('isAnimatedWebpImage', () => {
+    const loadFixtureAsWebpAttachment = async (fixtureName: string) => {
+      const buffer = await fs.readFile(
+        path.join(__dirname, `../../../fixtures/${fixtureName}`)
+      );
+      return {
+        data: new Uint8Array(buffer),
+        contentType: IMAGE_WEBP,
+      };
+    };
+
+    it('should return true for an animated WEBP file', async () => {
+      const animated = await loadFixtureAsWebpAttachment(
+        'giphy-7GFfijngKbeNy.webp'
+      );
+
+      assert.isTrue(Attachment.isAnimatedWebpImage(animated));
+    });
+
+    it('should return false for a static WEBP file', async () => {
+      const staticWebp = await loadFixtureAsWebpAttachment(
+        'cat-screenshot.webp'
+      );
+
+      assert.isFalse(Attachment.isAnimatedWebpImage(staticWebp));
     });
   });
 });

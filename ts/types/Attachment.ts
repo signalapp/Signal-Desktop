@@ -650,13 +650,46 @@ export function isImageAttachment(
   );
 }
 
+export const isAnimatedWebpImage = (
+  attachment: Pick<AttachmentType, 'contentType' | 'data'>
+): boolean => {
+  if (!MIME.isWebp(attachment.contentType) || !attachment.data) {
+    return false;
+  }
+
+  /*
+    According to
+    https://developers.google.com/speed/webp/docs/riff_container#extended_file_format
+    an animated webp file always contains a sequence of ANIM bytes as they are the
+    header for an animated block. Theoretically, it also says that webp
+    images have a certain bit set to 1 if they're animated; however, plenty of static
+    webp images seem to also contain this bit, so it's not a reliable measure.
+   */
+  const [A, N, I, M] = 'ANIM'.split('').map(c => c.charCodeAt(0));
+  let containsAnim = false;
+
+  // No need to check the last 3 chars since a header of 4 chars is needed
+  for (let i = 0; i < attachment.data.length - 3 && !containsAnim; i += 1) {
+    // The code could be made nicer via another loop, but this
+    // enables short-circuiting
+    containsAnim ||=
+      attachment.data[i] === A &&
+      attachment.data[i + 1] === N &&
+      attachment.data[i + 2] === I &&
+      attachment.data[i + 3] === M;
+  }
+
+  return containsAnim;
+};
+
 export function canBeTranscoded(
-  attachment?: Pick<AttachmentType, 'contentType'>
+  attachment?: Pick<AttachmentType, 'contentType' | 'data'>
 ): boolean {
   return Boolean(
     attachment &&
       isImageAttachment(attachment) &&
-      !MIME.isGif(attachment.contentType)
+      !MIME.isGif(attachment.contentType) &&
+      !isAnimatedWebpImage(attachment)
   );
 }
 
