@@ -32,6 +32,7 @@ export type PropsType = {
   onChange: (value: string) => unknown;
   onEnter?: () => unknown;
   placeholder: string;
+  ariaLabel?: string;
   value?: string;
   whenToShowRemainingCount?: number;
   autofocus?: boolean;
@@ -74,13 +75,14 @@ export const Input = forwardRef<
     onChange,
     onEnter,
     placeholder,
+    ariaLabel,
     value = '',
     whenToShowRemainingCount = Infinity,
     children,
-      autofocus,
-    },
-    ref
-  ) {
+    autofocus,
+  },
+  ref
+) {
   const innerRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const valueOnKeydownRef = useRef<string>(value);
   const selectionStartOnKeydownRef = useRef<number>(value.length);
@@ -202,21 +204,23 @@ export const Input = forwardRef<
       getClassName('__input'),
       icon && getClassName('__input--with-icon'),
       isLarge && getClassName('__input--large'),
-      expandable && getClassName('__input--expandable')),
-      disabled: Boolean(disabled),
-      spellCheck: !disableSpellcheck,
-      onChange: handleChange,
-      onKeyDown: handleKeyDown,
-      onPaste: handlePaste,
-      placeholder,
-      ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
-        ref,
-        innerRef
-      ),
-      type: 'text',
-      value,
-      autofocus,
-    };
+      expandable && getClassName('__input--expandable')
+    ),
+    disabled: Boolean(disabled),
+    spellCheck: !disableSpellcheck,
+    onChange: handleChange,
+    onKeyDown: handleKeyDown,
+    onPaste: handlePaste,
+    placeholder,
+    'aria-label': ariaLabel,
+    ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
+      ref,
+      innerRef
+    ),
+    type: 'text',
+    value,
+    autofocus,
+  };
 
   const clearButtonElement =
     hasClearButton && value ? (

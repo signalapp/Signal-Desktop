@@ -185,6 +185,7 @@ export const GifPicker = React.memo(
                 value={currentTabName === 'search' ? searchTerm : ''}
                 onChange={onSearchTermChange}
                 placeholder={i18n('gifs--GifPicker--SearchPlaceholder')}
+                ariaLabel={i18n('gifs--GifPicker--SearchAriaLabel')}
                 hasClearButton
                 ref={inputRef}
               />

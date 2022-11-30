@@ -2456,6 +2456,10 @@
     "message": "GIPHY durchsuchen",
     "description": "Placeholder for the GIF search term input field"
   },
+  "gifs--GifPicker--SearchAriaLabel": {
+    "message": "Hier bitte Suchbegriffe für GIPHY eingeben. Vor diesem Element befinden sich auswählbare GIF-Kategorien; hinter dem Element befinden sich die GIFs.",
+    "description": "Label describing that this is a search box, that the category buttons are in front of it and the GIFs are behind it"
+  },
   "EmojiPicker--empty": {
     "message": "Keine Emojis gefunden",
     "description": "Shown in the emoji picker when a search yields 0 results."
