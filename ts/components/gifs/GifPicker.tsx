@@ -12,6 +12,7 @@ import { Input } from '../Input';
 import type { GifFromGiphyType } from '../../sql/Interface';
 import type { GiphyRendererWrapper } from '../../services/GiphyRendererWrapper';
 import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
+import { useAutofocus } from '../../hooks/useAutofocus';
 
 const CATEGORIES = [
   'trending',
@@ -54,6 +55,12 @@ export const GifPicker = React.memo(
           box: 'content-box',
         },
       });
+
+      const inputRef = React.useRef<
+        HTMLInputElement | HTMLTextAreaElement | null
+      >(null);
+
+      useAutofocus(inputRef);
 
       const onGifClick = React.useCallback(
         (gif: GifsResult['data'][number], event: React.SyntheticEvent) => {
@@ -117,7 +124,9 @@ export const GifPicker = React.memo(
       );
 
       return (
-        <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+        <FocusTrap
+          focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}
+        >
           <div className="module-gif-picker" ref={ref} style={style}>
             <div className="module-gif-picker__header">
               <div className="module-gif-picker__header__categories">
@@ -177,6 +186,7 @@ export const GifPicker = React.memo(
                 onChange={onSearchTermChange}
                 placeholder={i18n('gifs--GifPicker--SearchPlaceholder')}
                 hasClearButton
+                ref={inputRef}
               />
               {/* See Grid component definition (top of file) for explanation */}
               <Suspense fallback={null}>
