@@ -83,6 +83,10 @@ import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
+import { PaymentEventKind } from '../../types/Payment';
+import type { AnyPaymentEvent } from '../../types/Payment';
+import { Emojify } from './Emojify';
+import { getPaymentEventDescription } from '../../messages/helpers';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -216,11 +220,14 @@ export type PropsData = {
   conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
   giftBadge?: GiftBadgeType;
+  payment?: AnyPaymentEvent;
   quote?: {
     conversationColor: ConversationColorType;
+    conversationTitle: string;
     customColor?: CustomColorType;
     text: string;
     rawAttachment?: QuotedAttachmentType;
+    payment?: AnyPaymentEvent;
     isFromMe: boolean;
     sentAt: number;
     authorId: string;
@@ -1405,9 +1412,52 @@ export class Message extends React.PureComponent<Props, State> {
     throw missingCaseError(giftBadge.state);
   }
 
+  public renderPayment(): JSX.Element | null {
+    const {
+      payment,
+      direction,
+      author,
+      conversationTitle,
+      conversationColor,
+      i18n,
+    } = this.props;
+    if (payment == null || payment.kind !== PaymentEventKind.Notification) {
+      return null;
+    }
+
+    return (
+      <div
+        className={`module-payment-notification__container ${
+          direction === 'outgoing'
+            ? `module-payment-notification--outgoing module-payment-notification--outgoing-${conversationColor}`
+            : ''
+        }`}
+      >
+        <p className="module-payment-notification__label">
+          {getPaymentEventDescription(
+            payment,
+            author.title,
+            conversationTitle,
+            author.isMe,
+            i18n
+          )}
+        </p>
+        <p className="module-payment-notification__check_device_box">
+          {i18n('icu:payment-event-notification-check-primary-device')}
+        </p>
+        {payment.note != null && (
+          <p className="module-payment-notification__note">
+            <Emojify text={payment.note} />
+          </p>
+        )}
+      </div>
+    );
+  }
+
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
+      conversationTitle,
       customColor,
       direction,
       disableScroll,
@@ -1441,10 +1491,12 @@ export class Message extends React.PureComponent<Props, State> {
         onClick={clickHandler}
         text={quote.text}
         rawAttachment={quote.rawAttachment}
+        payment={quote.payment}
         isIncoming={isIncoming}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
+        conversationTitle={conversationTitle}
         customColor={customColor}
         isViewOnce={isViewOnce}
         isGiftBadge={isGiftBadge}
@@ -1459,6 +1511,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderStoryReplyContext(): JSX.Element | null {
     const {
+      conversationTitle,
       conversationColor,
       customColor,
       direction,
@@ -1483,6 +1536,7 @@ export class Message extends React.PureComponent<Props, State> {
         <Quote
           authorTitle={storyReplyContext.authorTitle}
           conversationColor={conversationColor}
+          conversationTitle={conversationTitle}
           customColor={customColor}
           i18n={i18n}
           isFromMe={storyReplyContext.isFromMe}
@@ -2169,6 +2223,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderStoryReplyContext()}
         {this.renderAttachment()}
         {this.renderPreview()}
+        {this.renderPayment()}
         {this.renderEmbeddedContact()}
         {this.renderText()}
         {this.renderMetadata()}

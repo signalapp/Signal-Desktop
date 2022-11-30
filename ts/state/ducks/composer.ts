@@ -273,7 +273,7 @@ function setMediaQualitySetting(
 }
 
 function setQuotedMessage(
-  payload?: Pick<MessageAttributesType, 'conversationId' | 'quote'>
+  payload?: Pick<MessageAttributesType, 'conversationId' | 'quote' | 'payment'>
 ): SetQuotedMessageActionType {
   return {
     type: SET_QUOTED_MESSAGE,

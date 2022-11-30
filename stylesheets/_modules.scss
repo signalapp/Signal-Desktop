@@ -3359,6 +3359,72 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-payment-notification {
+  &__container {
+    display: block;
+  }
+
+  &__label {
+    margin: 0 0 7px;
+    @include font-subtitle;
+
+    @include light-theme() {
+      color: $color-gray-60;
+    }
+    @include dark-theme() {
+      color: $color-gray-25;
+    }
+  }
+
+  &__check_device_box {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    @include font-body-2;
+    padding: 22px 7px;
+    padding-left: 12px;
+    border-radius: 18px;
+    margin: 0 -4px;
+
+    @include light-theme() {
+      background: $color-white-alpha-60;
+      color: $color-gray-90;
+    }
+    @include dark-theme() {
+      background: $color-white-alpha-20;
+      color: $color-white;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      @include color-svg('../images/icons/v2/info-16.svg', currentcolor);
+    }
+  }
+
+  &__note {
+    margin: 9px 0 0;
+    @include font-body-1;
+  }
+
+  &--outgoing &__label {
+    @include light-theme() {
+      color: $color-white-alpha-80;
+    }
+    @include dark-theme() {
+      color: $color-white-alpha-80;
+    }
+  }
+
+  &--outgoing &__check_device_box {
+    background: $color-white-alpha-20;
+    color: $color-white;
+  }
+}
+
 // Module: Spinner
 
 .module-spinner__container {

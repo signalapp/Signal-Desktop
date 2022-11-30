@@ -26,6 +26,8 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import type { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
 import { TextDirection } from './Message';
+import { PaymentEventKind } from '../../types/Payment';
+import type { PropsData as TimelineMessageProps } from './TimelineMessage';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -36,61 +38,53 @@ export default {
 // eslint-disable-next-line
 const noop = () => {};
 
-const items: Record<string, TimelineItemType> = {
-  'id-1': {
+function mockMessageTimelineItem(
+  id: string,
+  data: Partial<TimelineMessageProps>
+): TimelineItemType {
+  return {
     type: 'message',
     data: {
-      author: getDefaultConversation({
-        phoneNumber: '(202) 555-2001',
-      }),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'forest',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'incoming',
-      id: 'id-1',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      text: '🔥',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
-    },
-    timestamp: Date.now(),
-  },
-  'id-2': {
-    type: 'message',
-    data: {
+      id,
       author: getDefaultConversation({}),
       canDeleteForEveryone: false,
       canDownload: true,
       canReact: true,
       canReply: true,
       canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'forest',
       conversationId: 'conversation-id',
       conversationTitle: 'Conversation Title',
       conversationType: 'group',
+      conversationColor: 'crimson',
       direction: 'incoming',
-      id: 'id-2',
+      status: 'sent',
+      text: 'Hello there from the new world!',
       isBlocked: false,
       isMessageRequestAccepted: true,
       previews: [],
       readStatus: ReadStatus.Read,
-      text: 'Hello there from the new world! http://somewhere.com',
+      canRetryDeleteForEveryone: true,
       textDirection: TextDirection.Default,
       timestamp: Date.now(),
+      ...data,
     },
     timestamp: Date.now(),
-  },
+  };
+}
+
+const items: Record<string, TimelineItemType> = {
+  'id-1': mockMessageTimelineItem('id-1', {
+    author: getDefaultConversation({
+      phoneNumber: '(202) 555-2001',
+    }),
+    conversationColor: 'forest',
+    text: '🔥',
+  }),
+  'id-2': mockMessageTimelineItem('id-2', {
+    conversationColor: 'forest',
+    direction: 'incoming',
+    text: 'Hello there from the new world! http://somewhere.com',
+  }),
   'id-2.5': {
     type: 'unsupportedMessage',
     data: {
@@ -105,32 +99,7 @@ const items: Record<string, TimelineItemType> = {
     },
     timestamp: Date.now(),
   },
-  'id-3': {
-    type: 'message',
-    data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'crimson',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'incoming',
-      id: 'id-3',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      text: 'Hello there from the new world!',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
-    },
-    timestamp: Date.now(),
-  },
+  'id-3': mockMessageTimelineItem('id-3', {}),
   'id-4': {
     type: 'timerNotification',
     data: {
@@ -206,141 +175,85 @@ const items: Record<string, TimelineItemType> = {
     data: null,
     timestamp: Date.now(),
   },
-  'id-10': {
-    type: 'message',
+  'id-10': mockMessageTimelineItem('id-10', {
+    conversationColor: 'plum',
+    direction: 'outgoing',
+    text: '🔥',
+  }),
+  'id-11': mockMessageTimelineItem('id-11', {
+    direction: 'outgoing',
+    status: 'read',
+    text: 'Hello there from the new world! http://somewhere.com',
+  }),
+  'id-12': mockMessageTimelineItem('id-12', {
+    direction: 'outgoing',
+    text: 'Hello there from the new world! 🔥',
+  }),
+  'id-13': mockMessageTimelineItem('id-13', {
+    direction: 'outgoing',
+    text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+  }),
+  'id-14': mockMessageTimelineItem('id-14', {
+    direction: 'outgoing',
+    status: 'read',
+    text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+  }),
+  'id-15': {
+    type: 'paymentEvent',
     data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'plum',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'outgoing',
-      id: 'id-6',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      status: 'sent',
-      text: '🔥',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
+      event: {
+        kind: PaymentEventKind.ActivationRequest,
+      },
+      sender: getDefaultConversation(),
+      conversation: getDefaultConversation(),
     },
     timestamp: Date.now(),
   },
-  'id-11': {
-    type: 'message',
+  'id-16': {
+    type: 'paymentEvent',
     data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'crimson',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'outgoing',
-      id: 'id-7',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      status: 'read',
-      text: 'Hello there from the new world! http://somewhere.com',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
+      event: {
+        kind: PaymentEventKind.Activation,
+      },
+      sender: getDefaultConversation(),
+      conversation: getDefaultConversation(),
     },
     timestamp: Date.now(),
   },
-  'id-12': {
-    type: 'message',
+  'id-17': {
+    type: 'paymentEvent',
     data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'crimson',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'outgoing',
-      id: 'id-8',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      status: 'sent',
-      text: 'Hello there from the new world! 🔥',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
+      event: {
+        kind: PaymentEventKind.ActivationRequest,
+      },
+      sender: getDefaultConversation({
+        isMe: true,
+      }),
+      conversation: getDefaultConversation(),
     },
     timestamp: Date.now(),
   },
-  'id-13': {
-    type: 'message',
+  'id-18': {
+    type: 'paymentEvent',
     data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'crimson',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'outgoing',
-      id: 'id-9',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      status: 'sent',
-      text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
+      event: {
+        kind: PaymentEventKind.Activation,
+      },
+      sender: getDefaultConversation({
+        isMe: true,
+      }),
+      conversation: getDefaultConversation(),
     },
     timestamp: Date.now(),
   },
-  'id-14': {
-    type: 'message',
-    data: {
-      author: getDefaultConversation({}),
-      canDeleteForEveryone: false,
-      canDownload: true,
-      canReact: true,
-      canReply: true,
-      canRetry: true,
-      canRetryDeleteForEveryone: true,
-      conversationColor: 'crimson',
-      conversationId: 'conversation-id',
-      conversationTitle: 'Conversation Title',
-      conversationType: 'group',
-      direction: 'outgoing',
-      id: 'id-10',
-      isBlocked: false,
-      isMessageRequestAccepted: true,
-      previews: [],
-      readStatus: ReadStatus.Read,
-      status: 'read',
-      text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
-      textDirection: TextDirection.Default,
-      timestamp: Date.now(),
+  'id-19': mockMessageTimelineItem('id-19', {
+    direction: 'outgoing',
+    status: 'read',
+    payment: {
+      kind: PaymentEventKind.Notification,
+      note: 'Thanks',
     },
-    timestamp: Date.now(),
-  },
+  }),
 };
 
 const actions = () => ({

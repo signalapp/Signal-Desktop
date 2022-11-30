@@ -78,6 +78,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canDeleteForEveryone,
     canRetryDeleteForEveryone,
     contact,
+    payment,
     containerElementRef,
     containerWidthBreakpoint,
     deletedForEveryone,
@@ -210,7 +211,7 @@ export function TimelineMessage(props: Props): JSX.Element {
   };
 
   const canForward =
-    !isTapToView && !deletedForEveryone && !giftBadge && !contact;
+    !isTapToView && !deletedForEveryone && !giftBadge && !contact && !payment;
 
   const shouldShowAdditional =
     doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;

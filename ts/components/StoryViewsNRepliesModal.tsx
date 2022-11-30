@@ -82,6 +82,7 @@ export enum StoryViewsNRepliesTab {
 }
 
 export type PropsType = {
+  conversationTitle: string;
   authorTitle: string;
   canReply: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -115,6 +116,7 @@ export type PropsType = {
 };
 
 export function StoryViewsNRepliesModal({
+  conversationTitle,
   authorTitle,
   canReply,
   getPreferredBadge,
@@ -223,6 +225,7 @@ export function StoryViewsNRepliesModal({
           <Quote
             authorTitle={authorTitle}
             conversationColor="ultramarine"
+            conversationTitle={conversationTitle}
             i18n={i18n}
             isFromMe={false}
             isGiftBadge={false}

@@ -29,6 +29,8 @@ import { WarnOnlyError } from './Errors';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { APPLICATION_OCTET_STREAM, stringToMIMEType } from '../types/MIME';
 import { SECOND, DurationInSeconds } from '../util/durations';
+import type { AnyPaymentEvent } from '../types/Payment';
+import { PaymentEventKind } from '../types/Payment';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -121,6 +123,38 @@ export function processGroupV2Context(
     secretParams: Bytes.toBase64(data.secretParams),
     publicParams: Bytes.toBase64(data.publicParams),
   };
+}
+
+export function processPayment(
+  payment?: Proto.DataMessage.IPayment | null
+): AnyPaymentEvent | undefined {
+  if (!payment) {
+    return undefined;
+  }
+
+  if (payment.notification != null) {
+    return {
+      kind: PaymentEventKind.Notification,
+      note: payment.notification.note ?? null,
+    };
+  }
+
+  if (payment.activation != null) {
+    if (
+      payment.activation.type ===
+      Proto.DataMessage.Payment.Activation.Type.REQUEST
+    ) {
+      return { kind: PaymentEventKind.ActivationRequest };
+    }
+    if (
+      payment.activation.type ===
+      Proto.DataMessage.Payment.Activation.Type.ACTIVATED
+    ) {
+      return { kind: PaymentEventKind.Activation };
+    }
+  }
+
+  return undefined;
 }
 
 export function processQuote(
@@ -305,6 +339,7 @@ export function processDataMessage(
         ? Bytes.toBase64(message.profileKey)
         : undefined,
     timestamp,
+    payment: processPayment(message.payment),
     quote: processQuote(message.quote),
     contact: processContact(message.contact),
     preview: processPreview(message.preview),

@@ -18,6 +18,8 @@ import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
 import { RecordingState } from '../state/ducks/audioRecorder';
 import { ConversationColors } from '../types/Colors';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { PaymentEventKind } from '../types/Payment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -211,6 +213,7 @@ export function Quote(): JSX.Element {
         quotedMessageProps: {
           text: 'something',
           conversationColor: ConversationColors[10],
+          conversationTitle: getDefaultConversation().title,
           isGiftBadge: false,
           isViewOnce: false,
           referencedMessageNotFound: false,
@@ -221,3 +224,30 @@ export function Quote(): JSX.Element {
     />
   );
 }
+
+export function QuoteWithPayment(): JSX.Element {
+  return (
+    <CompositionArea
+      {...useProps({
+        quotedMessageProps: {
+          text: '',
+          conversationColor: ConversationColors[10],
+          conversationTitle: getDefaultConversation().title,
+          isGiftBadge: false,
+          isViewOnce: false,
+          referencedMessageNotFound: false,
+          authorTitle: 'Someone',
+          isFromMe: false,
+          payment: {
+            kind: PaymentEventKind.Notification,
+            note: 'Thanks',
+          },
+        },
+      })}
+    />
+  );
+}
+
+QuoteWithPayment.story = {
+  name: 'Quote with payment',
+};

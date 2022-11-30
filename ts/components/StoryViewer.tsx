@@ -906,6 +906,7 @@ export function StoryViewer({
         {(currentViewTarget === StoryViewTargetType.Replies ||
           currentViewTarget === StoryViewTargetType.Views) && (
           <StoryViewsNRepliesModal
+            conversationTitle={group?.title ?? title}
             authorTitle={firstName || title}
             canReply={Boolean(canReply)}
             getPreferredBadge={getPreferredBadge}

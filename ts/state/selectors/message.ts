@@ -25,6 +25,7 @@ import type { PropsData as VerificationNotificationProps } from '../../component
 import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
 import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
+import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -95,9 +96,18 @@ import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 import { DAY, HOUR, DurationInSeconds } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
-import { isIncoming, isOutgoing, isStory } from '../../messages/helpers';
+import type { MessageAttributesWithPaymentEvent } from '../../messages/helpers';
+import {
+  isIncoming,
+  isOutgoing,
+  messageHasPaymentEvent,
+  isStory,
+} from '../../messages/helpers';
+
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import type { AnyPaymentEvent } from '../../types/Payment';
+import { isPaymentNotificationEvent } from '../../types/Payment';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -494,7 +504,10 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
   identity,
 
   (
-    message: Pick<MessageWithUIFieldsType, 'conversationId' | 'quote'>,
+    message: Pick<
+      MessageWithUIFieldsType,
+      'conversationId' | 'quote' | 'payment'
+    >,
     {
       conversationSelector,
       ourConversationId,
@@ -515,6 +528,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       isViewOnce,
       isGiftBadge: isTargetGiftBadge,
       referencedMessageNotFound,
+      payment,
       text = '',
     } = quote;
 
@@ -541,11 +555,13 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       authorTitle,
       bodyRanges: processBodyRanges(quote, { conversationSelector }),
       conversationColor,
+      conversationTitle: conversation.title,
       customColor,
       isFromMe,
       rawAttachment: firstAttachment
         ? processQuoteAttachment(firstAttachment)
         : undefined,
+      payment,
       isGiftBadge: Boolean(isTargetGiftBadge),
       isViewOnce,
       referencedMessageNotFound,
@@ -709,6 +725,12 @@ function getTextAttachment(
   );
 }
 
+function getPayment(
+  message: MessageWithUIFieldsType
+): AnyPaymentEvent | undefined {
+  return message.payment;
+}
+
 export function cleanBodyForDirectionCheck(text: string): string {
   const MENTIONS_REGEX = getMentionsRegex();
   const EMOJI_REGEX = emojiRegex();
@@ -778,6 +800,7 @@ export const getPropsForMessage: (
     getPropsForQuote,
     getPropsForStoryReplyContext,
     getTextAttachment,
+    getPayment,
     getShallowPropsForMessage,
     (
       _,
@@ -789,6 +812,7 @@ export const getPropsForMessage: (
       quote: PropsData['quote'],
       storyReplyContext: PropsData['storyReplyContext'],
       textAttachment: PropsData['textAttachment'],
+      payment: PropsData['payment'],
       shallowProps: ShallowPropsType
     ): Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> => {
       return {
@@ -800,6 +824,7 @@ export const getPropsForMessage: (
         reactions,
         storyReplyContext,
         textAttachment,
+        payment,
         ...shallowProps,
       };
     }
@@ -966,7 +991,29 @@ export function getPropsForBubble(
     };
   }
 
+  if (
+    messageHasPaymentEvent(message) &&
+    !isPaymentNotificationEvent(message.payment)
+  ) {
+    return {
+      type: 'paymentEvent',
+      data: getPropsForPaymentEvent(message, options),
+      timestamp,
+    };
+  }
+
   return getBubblePropsForMessage(message, options);
+}
+
+function getPropsForPaymentEvent(
+  message: MessageAttributesWithPaymentEvent,
+  { conversationSelector }: GetPropsForBubbleOptions
+): Omit<PaymentEventNotificationPropsType, 'i18n'> {
+  return {
+    sender: conversationSelector(message.sourceUuid),
+    conversation: conversationSelector(message.conversationId),
+    event: message.payment,
+  };
 }
 
 // Unsupported Message
@@ -1640,6 +1687,7 @@ function canReplyOrReact(
     | 'canReplyToStory'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'
+    | 'payment'
     | 'type'
   >,
   ourConversationId: string | undefined,

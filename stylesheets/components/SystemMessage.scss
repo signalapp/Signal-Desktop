@@ -267,6 +267,13 @@
         '../images/icons/v2/error-outline-12.svg'
       );
     }
+
+    &--icon-payment-event::before {
+      @include system-message-icon(
+        '../images/icons/v2/credit-card-16.svg',
+        '../images/icons/v2/credit-card-16.svg'
+      );
+    }
   }
 
   &--error {

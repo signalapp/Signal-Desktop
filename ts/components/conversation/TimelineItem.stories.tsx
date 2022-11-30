@@ -17,6 +17,7 @@ import { AvatarColors } from '../../types/Colors';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
+import { PaymentEventKind } from '../../types/Payment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -435,6 +436,50 @@ export function Notification(): JSX.Element {
           newName: 'John',
         },
         changedContact: getDefaultConversation(),
+      },
+    },
+    {
+      type: 'paymentEvent',
+      data: {
+        event: {
+          kind: PaymentEventKind.ActivationRequest,
+        },
+        sender: getDefaultConversation(),
+        conversation: getDefaultConversation(),
+      },
+    },
+    {
+      type: 'paymentEvent',
+      data: {
+        event: {
+          kind: PaymentEventKind.Activation,
+        },
+        sender: getDefaultConversation(),
+        conversation: getDefaultConversation(),
+      },
+    },
+    {
+      type: 'paymentEvent',
+      data: {
+        event: {
+          kind: PaymentEventKind.ActivationRequest,
+        },
+        sender: getDefaultConversation({
+          isMe: true,
+        }),
+        conversation: getDefaultConversation(),
+      },
+    },
+    {
+      type: 'paymentEvent',
+      data: {
+        event: {
+          kind: PaymentEventKind.Activation,
+        },
+        sender: getDefaultConversation({
+          isMe: true,
+        }),
+        conversation: getDefaultConversation(),
       },
     },
     {

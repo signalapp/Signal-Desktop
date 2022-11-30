@@ -44,6 +44,7 @@ import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
 import { UUID } from '../../types/UUID';
 import { BadgeCategory } from '../../badges/BadgeCategory';
+import { PaymentEventKind } from '../../types/Payment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -863,6 +864,7 @@ export const LinkPreviewWithQuote = Template.bind({});
 LinkPreviewWithQuote.args = {
   quote: {
     conversationColor: ConversationColors[2],
+    conversationTitle: getDefaultConversation().title,
     text: 'The quoted message',
     isFromMe: false,
     sentAt: Date.now(),
@@ -2068,4 +2070,14 @@ GiftBadgeMissingBadge.args = {
 };
 GiftBadgeMissingBadge.story = {
   name: 'Gift Badge: Missing Badge',
+};
+
+export const PaymentNotification = Template.bind({});
+PaymentNotification.args = {
+  canReply: false,
+  canReact: false,
+  payment: {
+    kind: PaymentEventKind.Notification,
+    note: 'Hello there',
+  },
 };

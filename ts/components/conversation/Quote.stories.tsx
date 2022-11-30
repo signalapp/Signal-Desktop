@@ -26,6 +26,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
 import { ThemeType } from '../../types/Util';
+import { PaymentEventKind } from '../../types/Payment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -166,6 +167,7 @@ const renderInMessage = ({
       authorId: 'an-author',
       authorTitle,
       conversationColor,
+      conversationTitle: getDefaultConversation().title,
       isFromMe,
       rawAttachment,
       isViewOnce,
@@ -566,4 +568,13 @@ IsStoryReplyEmoji.args = {
 };
 IsStoryReplyEmoji.story = {
   name: 'isStoryReply emoji',
+};
+
+export const Payment = Template.bind({});
+Payment.args = {
+  text: '',
+  payment: {
+    kind: PaymentEventKind.Notification,
+    note: null,
+  },
 };

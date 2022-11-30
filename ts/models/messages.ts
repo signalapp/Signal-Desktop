@@ -159,7 +159,9 @@ import {
   getSource,
   getSourceUuid,
   isCustomError,
+  messageHasPaymentEvent,
   isQuoteAMatch,
+  getPaymentEventNotificationText,
 } from '../messages/helpers';
 import type { ReplacementValuesType } from '../types/I18N';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
@@ -694,6 +696,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
 
       return { text: changes.map(({ text }) => text).join(' ') };
+    }
+
+    if (messageHasPaymentEvent(attributes)) {
+      const sender = findAndFormatContact(attributes.sourceUuid);
+      const conversation = findAndFormatContact(attributes.conversationId);
+      return {
+        text: getPaymentEventNotificationText(
+          attributes.payment,
+          sender.title,
+          conversation.title,
+          sender.isMe,
+          window.i18n
+        ),
+        emoji: '💳',
+      };
     }
 
     const attachments = this.get('attachments') || [];
@@ -1306,6 +1323,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isUniversalTimerNotificationValue =
       isUniversalTimerNotification(attributes);
 
+    const isPayment = messageHasPaymentEvent(attributes);
+
     // Note: not all of these message types go through message.handleDataMessage
 
     const hasSomethingToDisplay =
@@ -1314,6 +1333,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       hasAttachment ||
       hasEmbeddedContact ||
       isSticker ||
+      isPayment ||
       // Rendered sync messages
       isCallHistoryValue ||
       isChatSessionRefreshedValue ||
@@ -2094,6 +2114,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { attachments } = quote;
     const firstAttachment = attachments ? attachments[0] : undefined;
 
+    if (messageHasPaymentEvent(originalMessage.attributes)) {
+      // eslint-disable-next-line no-param-reassign
+      quote.payment = originalMessage.get('payment');
+    }
+
     if (isTapToView(originalMessage.attributes)) {
       // eslint-disable-next-line no-param-reassign
       quote.text = undefined;
@@ -2670,6 +2695,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             dataMessage.requiredProtocolVersion ||
             this.INITIAL_PROTOCOL_VERSION,
           supportedVersionAtReceive: this.CURRENT_PROTOCOL_VERSION,
+          payment: dataMessage.payment,
           quote: dataMessage.quote,
           schemaVersion: dataMessage.schemaVersion,
           sticker: dataMessage.sticker,
@@ -2962,7 +2988,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           !isStory(message.attributes) &&
           !isGroupStoryReply &&
           (!conversationTimestamp ||
-            message.get('sent_at') > conversationTimestamp)
+            message.get('sent_at') > conversationTimestamp) &&
+          messageHasPaymentEvent(message.attributes)
         ) {
           conversation.set({
             lastMessage: message.getNotificationText(),

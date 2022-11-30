@@ -3787,6 +3787,7 @@ export class ConversationModel extends window.Backbone
       attachments: isTapToView(quotedMessage.attributes)
         ? [{ contentType: IMAGE_JPEG, fileName: null }]
         : await this.getQuoteAttachment(attachments, preview, sticker),
+      payment: quotedMessage.get('payment'),
       bodyRanges: quotedMessage.get('bodyRanges'),
       id: quotedMessage.get('sent_at'),
       isViewOnce: isTapToView(quotedMessage.attributes),

@@ -53,6 +53,8 @@ import type { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
+import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification';
+import { PaymentEventNotification } from './PaymentEventNotification';
 import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
 
@@ -116,6 +118,10 @@ type ProfileChangeNotificationType = {
   type: 'profileChange';
   data: ProfileChangeNotificationPropsType;
 };
+type PaymentEventType = {
+  type: 'paymentEvent';
+  data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
+};
 
 export type TimelineItemType = (
   | CallHistoryType
@@ -133,6 +139,7 @@ export type TimelineItemType = (
   | ChangeNumberNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType
+  | PaymentEventType
 ) & { timestamp: number };
 
 type PropsLocalType = {
@@ -297,6 +304,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'profileChange') {
         notification = (
           <ProfileChangeNotification
+            {...this.props}
+            {...item.data}
+            i18n={i18n}
+          />
+        );
+      } else if (item.type === 'paymentEvent') {
+        notification = (
+          <PaymentEventNotification
             {...this.props}
             {...item.data}
             i18n={i18n}

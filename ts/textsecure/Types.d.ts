@@ -8,6 +8,7 @@ import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
 import type { DurationInSeconds } from '../util/durations';
+import type { AnyPaymentEvent } from '../types/Payment';
 
 export {
   IdentityKeyType,
@@ -211,6 +212,7 @@ export type ProcessedDataMessage = {
   expireTimer: DurationInSeconds;
   profileKey?: string;
   timestamp: number;
+  payment?: AnyPaymentEvent;
   quote?: ProcessedQuote;
   contact?: ReadonlyArray<ProcessedContact>;
   preview?: ReadonlyArray<ProcessedPreview>;

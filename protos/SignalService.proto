@@ -132,6 +132,62 @@ message DataMessage {
     PROFILE_KEY_UPDATE      = 4;
   }
 
+  message Payment {
+    message Amount {
+      message MobileCoin {
+        optional uint64 picoMob = 1;  // 1,000,000,000,000 picoMob per Mob
+      }
+
+      oneof Amount {
+        MobileCoin mobileCoin = 1;
+      }
+    }
+
+    message RequestId {
+      optional string uuid = 1;
+    }
+
+    message Request {
+      optional RequestId requestId = 1;
+      optional Amount    amount    = 2;
+      optional string    note      = 3;
+    }
+
+    message Notification {
+      message MobileCoin {
+        optional bytes  receipt = 1;
+      }
+
+      oneof Transaction {
+        MobileCoin mobileCoin = 1;
+      }
+
+      // Optional, Refers to the PaymentRequest message, if any.
+      optional string    note          = 2;
+      optional RequestId requestId     = 1003;
+    }
+
+    message Cancellation {
+      optional RequestId requestId = 1;
+    }
+
+    message Activation {
+      enum Type {
+        REQUEST = 0;
+        ACTIVATED = 1;
+      }
+
+      optional Type type = 1;
+    }
+
+    oneof Item {
+      Notification notification = 1;
+      Activation activation = 2;
+      Request request  = 1002;
+      Cancellation cancellation = 1003;
+    }
+  }
+
   message Quote {
     enum Type {
       NORMAL = 0;
@@ -302,7 +358,7 @@ message DataMessage {
   optional Delete             delete                  = 17;
   repeated BodyRange          bodyRanges              = 18;
   optional GroupCallUpdate    groupCallUpdate         = 19;
-  reserved /* Payment         payment */                20;
+  optional Payment            payment                 = 20;
   optional StoryContext       storyContext            = 21;
   optional GiftBadge          giftBadge               = 22;
 }

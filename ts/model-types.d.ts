@@ -33,6 +33,7 @@ import type { StickerType } from './types/Stickers';
 import type { StorySendMode } from './types/Stories';
 import type { MIMEType } from './types/MIME';
 import type { DurationInSeconds } from './util/durations';
+import type { AnyPaymentEvent } from './types/Payment';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -76,6 +77,7 @@ export type QuotedMessageType = {
   // TODO DESKTOP-3826
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attachments: Array<any>;
+  payment?: AnyPaymentEvent;
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
   author?: string;
@@ -145,6 +147,7 @@ export type MessageAttributesType = {
   message?: unknown;
   messageTimer?: unknown;
   profileChange?: ProfileNameChangeType;
+  payment?: AnyPaymentEvent;
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
   requiredProtocolVersion?: number;
