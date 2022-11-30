@@ -5,13 +5,13 @@ import { isEqual } from 'lodash';
 import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
 import * as log from '../logging/log';
-import { Deletes } from '../messageModifiers/Deletes';
+import { DeleteModel } from '../messageModifiers/Deletes';
 import { SendStatus } from '../messages/MessageSendState';
-import { deleteForEveryone } from './deleteForEveryone';
 import { getConversationIdForLogging } from './idForLogging';
 import { isStory } from '../state/selectors/message';
 import { normalizeUuid } from './normalizeUuid';
 import { queueUpdateMessage } from './messageBatcher';
+import { isMe } from './whatTypeOfConversation';
 
 export async function onStoryRecipientUpdate(
   event: StoryRecipientUpdateEvent
@@ -25,7 +25,12 @@ export async function onStoryRecipientUpdate(
   const logId = `onStoryRecipientUpdate(${destinationUuid}, ${timestamp})`;
 
   if (!conversation) {
-    log.info(`${logId}: no conversation`);
+    log.warn(`${logId}: no conversation`);
+    return;
+  }
+
+  if (!isMe(conversation.attributes)) {
+    log.warn(`${logId}: story recipient update on invalid conversation`);
     return;
   }
 
@@ -47,7 +52,13 @@ export async function onStoryRecipientUpdate(
     const isAllowedToReply = new Map<string, boolean>();
     const distributionListIdToConversationIds = new Map<string, Set<string>>();
     data.storyMessageRecipients.forEach(item => {
-      const convo = window.ConversationController.get(item.destinationUuid);
+      if (!item.destinationUuid) {
+        return;
+      }
+
+      const convo = window.ConversationController.get(
+        normalizeUuid(item.destinationUuid, `${logId}.destinationUuid`)
+      );
 
       if (!convo || !item.distributionListIds) {
         return;
@@ -161,11 +172,16 @@ export async function onStoryRecipientUpdate(
           serverTimestamp: Number(item.serverTimestamp),
           targetSentTimestamp: item.timestamp,
         };
-        const doe = Deletes.getSingleton().add(delAttributes);
+        const doe = new DeleteModel(delAttributes);
+
         // There are no longer any remaining members for this message so lets
         // run it through deleteForEveryone which marks the message as
         // deletedForEveryone locally.
-        deleteForEveryone(message, doe);
+        //
+        // NOTE: We don't call `Deletes.onDelete()` so the message lookup by
+        // sent timestamp doesn't happen (it would return all copies of the
+        // story, not just the one we want to delete).
+        message.handleDeleteForEveryone(doe);
       } else {
         message.set({
           sendStateByConversationId: nextSendStateByConversationId,

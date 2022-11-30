@@ -3559,7 +3559,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     del: DeleteModel,
     shouldPersist = true
   ): Promise<void> {
+    if (this.deletingForEveryone || this.get('deletedForEveryone')) {
+      return;
+    }
+
     log.info('Handling DOE.', {
+      messageId: this.id,
       fromId: del.get('fromId'),
       targetSentTimestamp: del.get('targetSentTimestamp'),
       messageServerTimestamp: this.get('serverTimestamp'),
