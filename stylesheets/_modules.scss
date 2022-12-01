@@ -784,7 +784,8 @@ $message-padding-horizontal: 12px;
 
   &--nonclickable {
     cursor: inherit;
-    .module-image__image {
+    .module-image__image,
+    .module-image__border-overlay--with-click-handler {
       cursor: inherit;
     }
   }

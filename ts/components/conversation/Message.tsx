@@ -6,7 +6,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import getDirection from 'direction';
-import { drop, groupBy, orderBy, take, unescape } from 'lodash';
+import { drop, groupBy, noop, orderBy, take, unescape } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 
@@ -1118,16 +1118,18 @@ export class Message extends React.PureComponent<Props, State> {
         'module-message__link-preview--nonclickable': !isClickable,
       }
     );
-    const onPreviewImageClick = () => {
-      if (first.image && !isDownloaded(first.image)) {
-        kickOffAttachmentDownload({
-          attachment: first.image,
-          messageId: id,
-        });
-        return;
-      }
-      openLink(first.url);
-    };
+    const onPreviewImageClick = isClickable
+      ? () => {
+          if (first.image && !isDownloaded(first.image)) {
+            kickOffAttachmentDownload({
+              attachment: first.image,
+              messageId: id,
+            });
+            return;
+          }
+          openLink(first.url);
+        }
+      : noop;
     const contents = (
       <>
         {first.image && previewHasImage && isFullSizeImage ? (
