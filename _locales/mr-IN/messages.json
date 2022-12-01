@@ -5484,6 +5484,46 @@
     "message": "ही स्टोरी हटवायची? ती ज्यांना प्राप्त होऊ शकते त्या प्रत्येकासाठी देखील हटवली जाईल.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "You started a payment to {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "You started a payment",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} started a payment to you",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "You sent a request to activate Payments.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} can now accept Payments.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "You activated Payments.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Payment",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Check your primary device for this payment’s status",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal कनेक्शन्स",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "टाईमस्टँप कॉपी करा",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Download attachment",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "आपल्या स्टोरीज कोणी पाहिल्या ते पाहण्यासाठी वाचल्याची पोच सक्षम करा. आपल्या मोबाइल डिव्हाइसमध्ये Signal अ‍ॅप उघडा आणि सेटिंग्ज > स्टोरीज कडे नेव्हिगेट करा.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "प्रत्येकासाठी हटवा",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Copy timestamp",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "स्टोरी",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "स्टोरीज आता Signal मध्ये! 24 तासानंतर स्वयंचलितपणे लुप्त होणारा मजकूर, प्रतिमा, आणि व्हिडिओ अद्यतने निवडक मित्र किंवा ग्रुप्ससह शेअर करा. स्टोरीज शेअर करणे आवडणाऱ्या प्रत्येकासाठी, खाजगीपणे आणि कोणतीही जाहिरात न पाहता ते करण्याचा एक मार्ग येथे आहे. आपणाला स्टोरीज पाहण्याची किंवा शेअर करण्याची इच्छा नसल्यास, आपण आपल्या प्राधान्ये > गोपनीयता मध्ये या सर्वांमधून बाहेर पडण्याचे निवडू शकता.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "description": "Release notes for v6.1"
   }
 }
