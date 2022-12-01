@@ -174,7 +174,6 @@
     "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#9a9d9fbc1ca43e7a0707a960ce9642dbf82dc64a",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
-    "sharp": "0.30.5",
     "split2": "4.0.0",
     "testcheck": "1.0.0-rc.2",
     "typeface-inter": "3.18.1",
@@ -249,7 +248,6 @@
     "@types/redux-logger": "3.0.7",
     "@types/rimraf": "2.0.2",
     "@types/semver": "5.5.0",
-    "@types/sharp": "0.29.4",
     "@types/sinon": "10.0.2",
     "@types/split2": "3.2.1",
     "@types/terser-webpack-plugin": "5.0.3",
@@ -318,8 +316,7 @@
     "fabric/canvas": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fast-glob/glob-parent": "5.1.2",
-    "read-last-lines/mz/thenify-all/thenify": "3.3.1",
-    "sharp/color/color-string": "1.9.0"
+    "read-last-lines/mz/thenify-all/thenify": "3.3.1"
   },
   "engines": {
     "node": "16.16.0"
@@ -340,7 +337,7 @@
         }
       ],
       "mergeASARs": true,
-      "singleArchFiles": "node_modules/{@signalapp/libsignal-client/prebuilds/**,ringrtc/build/**,sharp/**}",
+      "singleArchFiles": "node_modules/{@signalapp/libsignal-client/prebuilds/**,ringrtc/build/**}",
       "target": [
         {
           "target": "zip",
@@ -408,7 +405,6 @@
         "signalcaptcha"
       ]
     },
-    "beforeBuild": "scripts/install-cross-deps.js",
     "afterPack": "ts/scripts/after-pack.js",
     "afterSign": "ts/scripts/after-sign.js",
     "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
@@ -416,9 +412,7 @@
       "smartUnpack": false
     },
     "asarUnpack": [
-      "**/*.node",
-      "node_modules/sharp/{build,vendor}/**",
-      "!node_modules/sharp/**/*.{js,json}"
+      "**/*.node"
     ],
     "files": [
       "package.json",
@@ -473,13 +467,6 @@
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
-      "node_modules/sharp/build/**/*${arch}*.node",
-      "node_modules/sharp/build/**/*.dll",
-      "!node_modules/sharp/{install,src,vendor}",
-      "!node_modules/sharp/vendor",
-      "node_modules/sharp/vendor/*/*${arch}*/**",
-      "!node_modules/sharp/vendor/*/*${arch}*/**/include/**",
-      "!node_modules/sharp/vendor/*/*win32*/**/*.{dll,lib}",
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",

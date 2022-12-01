@@ -1,8 +1,10 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Metadata } from 'sharp';
-import type { ProcessStickerImageErrorType } from '../window/phase3-sticker-functions';
+import type {
+  ProcessStickerImageErrorType,
+  StickerImageData,
+} from '../window/phase3-sticker-functions';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -14,12 +16,7 @@ declare global {
   }
 }
 
-export type StickerImageData = {
-  buffer: Buffer;
-  src: string;
-  path: string;
-  meta: Metadata;
-};
+export { StickerImageData };
 
 type ProcessStickerImageFn = (
   path: string | undefined

@@ -8,16 +8,7 @@ import type { Draft } from 'redux-ts-utils';
 import { createAction, handleAction, reduceReducers } from 'redux-ts-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import {
-  clamp,
-  find,
-  isNumber,
-  isString,
-  pull,
-  remove,
-  take,
-  uniq,
-} from 'lodash';
+import { clamp, find, isString, pull, remove, take, uniq } from 'lodash';
 import type { SortEnd } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
@@ -136,11 +127,7 @@ export const reducer = reduceReducers<State>(
     }),
 
     handleAction(addImageData, (state, { payload }) => {
-      if (isNumber(payload.meta.pages)) {
-        state.toasts.push({ key: 'StickerCreator--Toasts--animated' });
-        pull(state.order, payload.path);
-        delete state.data[payload.path];
-      } else if (payload.buffer.byteLength > maxByteSize) {
+      if (payload.buffer.byteLength > maxByteSize) {
         state.toasts.push({ key: 'StickerCreator--Toasts--tooLarge' });
         pull(state.order, payload.path);
         delete state.data[payload.path];
