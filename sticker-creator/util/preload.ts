@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Metadata } from 'sharp';
+import type { ProcessStickerImageErrorType } from '../window/phase3-sticker-functions';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -9,6 +10,7 @@ declare global {
   interface Window {
     processStickerImage: ProcessStickerImageFn;
     encryptAndUpload: EncryptAndUploadFn;
+    ProcessStickerImageError: ProcessStickerImageErrorType;
   }
 }
 
