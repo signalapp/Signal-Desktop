@@ -18,7 +18,14 @@ import { initialize as initializeWebAPI } from '../../ts/textsecure/WebAPI';
 
 import { SignalContext } from '../../ts/windows/context';
 import { getAnimatedPngDataIfExists } from '../../ts/util/getAnimatedPngDataIfExists';
-import { ProcessStickerImageError } from '../errors';
+
+class ProcessStickerImageError extends Error {
+  constructor(message: string, public readonly errorMessageI18nKey: string) {
+    super(message);
+  }
+}
+export type ProcessStickerImageErrorType = typeof ProcessStickerImageError;
+window.ProcessStickerImageError = ProcessStickerImageError;
 
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;

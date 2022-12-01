@@ -13,7 +13,6 @@ import type { Props as DropZoneProps } from '../elements/DropZone';
 import { DropZone } from '../elements/DropZone';
 import { processStickerImage } from '../util/preload';
 import { useI18n } from '../util/i18n';
-import { ProcessStickerImageError } from '../errors';
 import { MINUTE } from '../../ts/util/durations';
 import * as Errors from '../../ts/types/errors';
 
@@ -71,7 +70,7 @@ const InnerGrid = SortableContainer(
               actions.removeSticker(path);
 
               const key =
-                e instanceof ProcessStickerImageError
+                e instanceof window.ProcessStickerImageError
                   ? e.errorMessageI18nKey
                   : 'StickerCreator--Toasts--errorProcessing';
               actions.addToast({
