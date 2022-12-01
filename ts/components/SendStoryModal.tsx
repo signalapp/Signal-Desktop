@@ -420,6 +420,7 @@ export function SendStoryModal({
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         onCreateList={(name, uuids) => {
+          setSelectedContacts([]);
           onDistributionListCreated(name, uuids);
           setPage(Page.SendStory);
         }}
