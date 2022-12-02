@@ -424,6 +424,11 @@ export class ConversationController {
       updateConversation(conversation.attributes);
     }
 
+    if (!conversation.get('profileName')) {
+      conversation.set({ profileName: 'Signal' });
+      updateConversation(conversation.attributes);
+    }
+
     this._signalConversationId = conversation.id;
 
     return conversation;
