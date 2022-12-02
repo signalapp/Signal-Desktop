@@ -95,9 +95,12 @@ const rules = {
   'react/require-default-props': 'off',
 
   // Empty fragments are used in adapters between backbone and react views.
-  'react/jsx-no-useless-fragment': ['error', {
-    allowExpressions: true,
-  }],
+  'react/jsx-no-useless-fragment': [
+    'error',
+    {
+      allowExpressions: true,
+    },
+  ],
 
   // Our code base has tons of arrow functions passed directly to components.
   'react/jsx-no-bind': 'off',
@@ -108,10 +111,13 @@ const rules = {
   // Not useful for us as we have lots of complicated types.
   'react/destructuring-assignment': 'off',
 
-  'react/function-component-definition': ['error', {
-    namedComponents: 'function-declaration',
-    unnamedComponents: 'arrow-function',
-  }],
+  'react/function-component-definition': [
+    'error',
+    {
+      namedComponents: 'function-declaration',
+      unnamedComponents: 'arrow-function',
+    },
+  ],
 
   'react/display-name': 'error',
 
@@ -195,6 +201,9 @@ const typescriptRules = {
 
   // Already enforced by TypeScript
   'consistent-return': 'off',
+
+  // TODO: DESKTOP-4655
+  'import/no-cycle': 'off',
 };
 
 module.exports = {
@@ -253,7 +262,11 @@ module.exports = {
     },
   ],
 
-  rules,
+  rules: {
+    ...rules,
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
+  },
 
   reportUnusedDisableDirectives: true,
 };
