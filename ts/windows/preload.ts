@@ -61,6 +61,7 @@ installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
 installSetting('spellCheck');
 installSetting('systemTraySetting');
+installSetting('sentMediaQualitySetting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');

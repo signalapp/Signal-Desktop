@@ -82,7 +82,7 @@ describe('both/state/ducks/composer', () => {
       assert.deepEqual(state.attachments, attachments);
 
       assert.deepEqual(state.attachments, attachments);
-      assert.isFalse(state.shouldSendHighQualityAttachments);
+      assert.isUndefined(state.shouldSendHighQualityAttachments);
     });
 
     it('does not update redux if the conversation is not selected', () => {
@@ -122,7 +122,7 @@ describe('both/state/ducks/composer', () => {
       const { setMediaQualitySetting } = actions;
       const state = getEmptyState();
 
-      assert.isFalse(state.shouldSendHighQualityAttachments);
+      assert.isUndefined(state.shouldSendHighQualityAttachments);
 
       const nextState = reducer(state, setMediaQualitySetting(true));
 

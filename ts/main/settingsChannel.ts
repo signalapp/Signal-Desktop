@@ -85,6 +85,7 @@ export class SettingsChannel extends EventEmitter {
     this.installSetting('audioNotification');
     this.installSetting('countMutedConversations');
 
+    this.installSetting('sentMediaQualitySetting');
     this.installSetting('spellCheck', {
       isEphemeral: true,
     });

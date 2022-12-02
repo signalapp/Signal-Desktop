@@ -53,6 +53,11 @@ export type LocalizerType = {
   getLocale(): string;
 };
 
+export enum SentMediaQualityType {
+  'standard' = 'standard',
+  'high' = 'high',
+}
+
 export enum ThemeType {
   'light' = 'light',
   'dark' = 'dark',

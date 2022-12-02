@@ -2563,9 +2563,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         ).filter(isNotNil);
       }
 
+      const shouldSendHighQualityAttachments = window.reduxStore
+        ? window.reduxStore.getState().composer.shouldSendHighQualityAttachments
+        : undefined;
+
       const sendHQImages =
-        window.reduxStore &&
-        window.reduxStore.getState().composer.shouldSendHighQualityAttachments;
+        shouldSendHighQualityAttachments !== undefined
+          ? shouldSendHighQualityAttachments
+          : window.storage.get('sent-media-quality') === 'high';
+
       const sendDelta = Date.now() - this.sendStart;
 
       log.info('Send pre-checks took', sendDelta, 'milliseconds');

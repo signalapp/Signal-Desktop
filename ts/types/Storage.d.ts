@@ -30,6 +30,8 @@ export type SerializedCertificateType = {
 
 export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
 
+export type SentMediaQualitySettingType = 'standard' | 'high';
+
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IdentityKeyMap = Record<
@@ -57,6 +59,7 @@ export type StorageAccessType = {
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
+  'sent-media-quality': SentMediaQualitySettingType;
   'spell-check': boolean;
   'theme-setting': ThemeSettingType;
   attachmentMigration_isComplete: boolean;

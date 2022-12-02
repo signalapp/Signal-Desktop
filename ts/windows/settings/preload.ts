@@ -43,6 +43,7 @@ const settingNotificationDrawAttention = createSetting(
 const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSpellCheck = createSetting('spellCheck');
+const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
 
@@ -157,6 +158,7 @@ const renderPreferences = async () => {
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
+    sentMediaQualitySetting,
     systemTraySetting,
     themeSetting,
     universalExpireTimer,
@@ -195,6 +197,7 @@ const renderPreferences = async () => {
     selectedCamera: settingVideoInput.getValue(),
     selectedMicrophone: settingAudioInput.getValue(),
     selectedSpeaker: settingAudioOutput.getValue(),
+    sentMediaQualitySetting: settingSentMediaQuality.getValue(),
     systemTraySetting: settingSystemTraySetting.getValue(),
     themeSetting: settingTheme.getValue(),
     universalExpireTimer: settingUniversalExpireTimer.getValue(),
@@ -254,6 +257,7 @@ const renderPreferences = async () => {
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
+    sentMediaQualitySetting,
     themeSetting,
     universalExpireTimer: DurationInSeconds.fromSeconds(universalExpireTimer),
     whoCanFindMe,
@@ -350,6 +354,7 @@ const renderPreferences = async () => {
     onSelectedCameraChange: reRender(settingVideoInput.setValue),
     onSelectedMicrophoneChange: reRender(settingAudioInput.setValue),
     onSelectedSpeakerChange: reRender(settingAudioOutput.setValue),
+    onSentMediaQualityChange: reRender(settingSentMediaQuality.setValue),
     onSpellCheckChange: reRender(settingSpellCheck.setValue),
     onThemeChange: reRender(settingTheme.setValue),
     onUniversalExpireTimerChange: (newValue: number): Promise<void> => {

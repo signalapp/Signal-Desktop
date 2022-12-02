@@ -9,8 +9,9 @@ import type { AudioDevice } from 'ringrtc';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
-  ZoomFactorType,
   NotificationSettingType,
+  SentMediaQualitySettingType,
+  ZoomFactorType,
 } from '../types/Storage.d';
 import type { ThemeSettingType } from '../types/StorageUIKeys';
 import { Button, ButtonVariant } from './Button';
@@ -24,7 +25,11 @@ import type {
   DefaultConversationColorType,
 } from '../types/Colors';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import type {
+  LocalizerType,
+  SentMediaQualityType,
+  ThemeType,
+} from '../types/Util';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';
@@ -76,6 +81,7 @@ export type PropsDataType = {
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
+  sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType;
   universalExpireTimer: DurationInSeconds;
   whoCanFindMe: PhoneNumberDiscoverability;
@@ -149,6 +155,7 @@ type PropsFunctionType = {
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
@@ -267,6 +274,7 @@ export function Preferences({
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
+  onSentMediaQualityChange,
   onSpellCheckChange,
   onThemeChange,
   onUniversalExpireTimerChange,
@@ -278,6 +286,7 @@ export function Preferences({
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
+  sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
   shouldShowStoriesSettings,
   themeSetting,
@@ -534,6 +543,25 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
             onChange={noop}
+          />
+          <Control
+            left={i18n('Preferences__sent-media-quality')}
+            right={
+              <Select
+                onChange={onSentMediaQualityChange}
+                options={[
+                  {
+                    text: i18n('sentMediaQualityStandard'),
+                    value: 'standard',
+                  },
+                  {
+                    text: i18n('sentMediaQualityHigh'),
+                    value: 'high',
+                  },
+                ]}
+                value={sentMediaQualitySetting}
+              />
+            }
           />
         </SettingsRow>
         {isSyncSupported && (

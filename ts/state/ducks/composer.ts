@@ -36,7 +36,7 @@ export type ComposerStateType = {
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
-  shouldSendHighQualityAttachments: boolean;
+  shouldSendHighQualityAttachments?: boolean;
 };
 
 // Actions
@@ -287,7 +287,6 @@ export function getEmptyState(): ComposerStateType {
   return {
     attachments: [],
     linkPreviewLoading: false,
-    shouldSendHighQualityAttachments: false,
   };
 }
 
@@ -306,7 +305,7 @@ export function reducer(
       attachments,
       ...(attachments.length
         ? {}
-        : { shouldSendHighQualityAttachments: false }),
+        : { shouldSendHighQualityAttachments: undefined }),
     };
   }
 

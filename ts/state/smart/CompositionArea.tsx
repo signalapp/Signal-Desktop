@@ -93,7 +93,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // MediaEditor
     imageToBlurHash,
     // MediaQualitySelector
-    shouldSendHighQualityAttachments,
+    shouldSendHighQualityAttachments:
+      shouldSendHighQualityAttachments !== undefined
+        ? shouldSendHighQualityAttachments
+        : window.storage.get('sent-media-quality') === 'high',
     // StagedLinkPreview
     linkPreviewLoading,
     linkPreviewResult,
