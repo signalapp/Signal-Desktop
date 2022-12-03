@@ -2498,6 +2498,7 @@ export function buildMigrationBubble(
   ].map(uuid => {
     const conversation = window.ConversationController.lookupOrCreate({
       uuid,
+      reason: 'buildMigrationBubble',
     });
     strictAssert(conversation, `Conversation not found for ${uuid}`);
     return conversation.id;

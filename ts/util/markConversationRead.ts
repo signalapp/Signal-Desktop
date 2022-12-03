@@ -93,6 +93,7 @@ export async function markConversationRead(
       senderId: window.ConversationController.lookupOrCreate({
         e164: messageSyncData.source,
         uuid: messageSyncData.sourceUuid,
+        reason: 'markConversationRead',
       })?.id,
       timestamp: messageSyncData.sent_at,
       isDirectConversation: isDirectConversation(conversationAttrs),

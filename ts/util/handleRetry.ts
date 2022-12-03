@@ -729,6 +729,7 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
 
   const conversation = window.ConversationController.lookupOrCreate({
     uuid: senderUuid,
+    reason: 'startAutomaticSessionReset',
   });
   if (!conversation) {
     log.warn(

@@ -71,6 +71,7 @@ function isStoryAMatch(
   const authorConversation = window.ConversationController.lookupOrCreate({
     e164: undefined,
     uuid: authorUuid,
+    reason: 'isStoryAMatch',
   });
 
   return (

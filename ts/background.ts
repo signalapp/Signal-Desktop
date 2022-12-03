@@ -2964,6 +2964,7 @@ export async function startApp(): Promise<void> {
       const fromConversation = window.ConversationController.lookupOrCreate({
         e164: data.source,
         uuid: data.sourceUuid,
+        reason: 'onMessageReceived:reaction',
       });
       strictAssert(fromConversation, 'Reaction without fromConversation');
 
@@ -2997,6 +2998,7 @@ export async function startApp(): Promise<void> {
       const fromConversation = window.ConversationController.lookupOrCreate({
         e164: data.source,
         uuid: data.sourceUuid,
+        reason: 'onMessageReceived:delete',
       });
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
@@ -3113,6 +3115,7 @@ export async function startApp(): Promise<void> {
           const conversation = window.ConversationController.lookupOrCreate({
             uuid: destinationUuid,
             e164: destination,
+            reason: 'createSentMessage',
           });
           if (!conversation || conversation.id === ourId) {
             return result;
@@ -3742,6 +3745,7 @@ export async function startApp(): Promise<void> {
     const senderConversation = window.ConversationController.lookupOrCreate({
       e164: sender,
       uuid: senderUuid,
+      reason: 'onReadSync',
     });
     const senderId = senderConversation?.id;
 
@@ -3780,6 +3784,7 @@ export async function startApp(): Promise<void> {
     const senderConversation = window.ConversationController.lookupOrCreate({
       e164: senderE164,
       uuid: senderUuid,
+      reason: 'onViewSync',
     });
     const senderId = senderConversation?.id;
 

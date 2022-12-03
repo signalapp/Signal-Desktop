@@ -395,6 +395,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conversation = window.ConversationController.lookupOrCreate({
       e164: source,
       uuid: sourceUuid,
+      reason: 'MessageModel.getSenderIdentifier',
     })!;
 
     return `${conversation?.id}.${sourceDevice}-${sentAt}`;
@@ -2458,6 +2459,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const sender = window.ConversationController.lookupOrCreate({
         e164: source,
         uuid: sourceUuid,
+        reason: 'handleDataMessage',
       })!;
       const hasGroupV2Prop = Boolean(initialMessage.groupV2);
       const isV1GroupUpdate =
@@ -2959,6 +2961,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               const local = window.ConversationController.lookupOrCreate({
                 e164: source,
                 uuid: sourceUuid,
+                reason: 'handleDataMessage:setProfileKey',
               });
               local?.setProfileKey(profileKey);
             }

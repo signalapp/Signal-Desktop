@@ -89,6 +89,7 @@ export async function lookupConversationWithoutUuid(
       if (foundUsername) {
         const convo = window.ConversationController.lookupOrCreate({
           uuid: foundUsername.uuid,
+          reason: 'lookupConversationWithoutUuid',
         });
 
         strictAssert(convo, 'We just ensured conversation existence');

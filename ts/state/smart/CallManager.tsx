@@ -124,6 +124,7 @@ const mapStateToActiveCallProp = (
   >(uuid => {
     const convoForUuid = window.ConversationController.lookupOrCreate({
       uuid,
+      reason: 'CallManager.mapStateToActiveCallProp',
     });
     return convoForUuid ? conversationSelector(convoForUuid.id) : undefined;
   });

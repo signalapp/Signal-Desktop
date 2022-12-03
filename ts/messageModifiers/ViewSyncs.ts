@@ -41,6 +41,7 @@ export class ViewSyncs extends Collection {
     const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
       uuid: message.get('sourceUuid'),
+      reason: 'ViewSyncs.forMessage',
     });
     const syncs = this.filter(item => {
       return (
@@ -69,6 +70,7 @@ export class ViewSyncs extends Collection {
         const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
           uuid: item.sourceUuid,
+          reason: 'ViewSyncs.onSync',
         });
 
         return sender?.id === sync.get('senderId');

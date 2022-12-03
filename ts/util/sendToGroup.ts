@@ -1327,6 +1327,12 @@ async function fetchKeysForIdentifier(
       await markIdentifierUnregistered(identifier);
       return;
     }
+    log.error(
+      `fetchKeysForIdentifier: Error fetching ${
+        devices || 'all'
+      } devices for ${identifier}`,
+      Errors.toLogFormat(error)
+    );
     throw error;
   }
 }

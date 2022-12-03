@@ -8,6 +8,7 @@ export async function getProfile(uuid?: string, e164?: string): Promise<void> {
   const c = window.ConversationController.lookupOrCreate({
     uuid,
     e164,
+    reason: 'getProfile',
   });
   if (!c) {
     log.error('getProfile: failed to find conversation; doing nothing');

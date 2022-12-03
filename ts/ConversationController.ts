@@ -642,15 +642,19 @@ export class ConversationController {
   lookupOrCreate({
     e164,
     uuid,
+    reason,
   }: {
     e164?: string | null;
     uuid?: string | null;
+    reason: string;
   }): ConversationModel | undefined {
     const normalizedUuid = uuid ? uuid.toLowerCase() : undefined;
     const identifier = normalizedUuid || e164;
 
     if ((!e164 && !uuid) || !identifier) {
-      log.warn('lookupOrCreate: Called with neither e164 nor uuid!');
+      log.warn(
+        `lookupOrCreate: Called with neither e164 nor uuid! reason: ${reason}`
+      );
       return undefined;
     }
 
@@ -684,7 +688,7 @@ export class ConversationController {
     //   are truthy by this point. So we'll throw if that isn't the case.
     if (!convoE164 || !convoUuid) {
       throw new Error(
-        'lookupOrCreate: convoE164 or convoUuid are falsey but should both be true!'
+        `lookupOrCreate: convoE164 or convoUuid are falsey but should both be true! reason: ${reason}`
       );
     }
 
@@ -695,7 +699,7 @@ export class ConversationController {
 
     // 5. If the two lookups disagree, log and return the UUID match
     log.warn(
-      `lookupOrCreate: Found a split contact - UUID ${normalizedUuid} and E164 ${e164}. Returning UUID match.`
+      `lookupOrCreate: Found a split contact - UUID ${normalizedUuid} and E164 ${e164}. Returning UUID match. reason: ${reason}`
     );
     return convoUuid;
   }

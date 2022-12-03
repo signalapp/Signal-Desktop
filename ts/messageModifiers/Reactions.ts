@@ -48,6 +48,7 @@ export class Reactions extends Collection<ReactionModel> {
     const reactionsBySource = this.filter(re => {
       const targetSender = window.ConversationController.lookupOrCreate({
         uuid: re.get('targetAuthorUuid'),
+        reason: 'Reactions.forMessage',
       });
       const targetTimestamp = re.get('targetTimestamp');
       return targetSender?.id === senderId && targetTimestamp === sentAt;
@@ -92,6 +93,7 @@ export class Reactions extends Collection<ReactionModel> {
       const targetAuthorConversation =
         window.ConversationController.lookupOrCreate({
           uuid: reaction.get('targetAuthorUuid'),
+          reason: 'Reactions.onReaction',
         });
       const targetConversationId = targetAuthorConversation?.id;
       if (!targetConversationId) {

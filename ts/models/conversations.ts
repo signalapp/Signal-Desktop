@@ -1354,6 +1354,7 @@ export class ConversationModel extends window.Backbone
     const source = window.ConversationController.lookupOrCreate({
       uuid,
       e164,
+      reason: 'ConversationModel.onNewMessage',
     });
     const typingToken = `${source?.id}.${sourceDevice}`;
 

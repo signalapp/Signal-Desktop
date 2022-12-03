@@ -1346,6 +1346,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
                     window.ConversationController.lookupOrCreate({
                       uuid: message.sourceUuid,
                       e164: message.source,
+                      reason: 'conversation_view.showAllMedia',
                     })?.id || message.conversationId,
                   id: message.id,
                   received_at: message.received_at,
@@ -1824,6 +1825,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             window.ConversationController.lookupOrCreate({
               uuid: message.get('sourceUuid'),
               e164: message.get('source'),
+              reason: 'conversation_view.showLightBox',
             })?.id || message.get('conversationId'),
           received_at: message.get('received_at'),
           received_at_ms: Number(message.get('received_at_ms')),
@@ -2122,6 +2124,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const conversation = window.ConversationController.lookupOrCreate({
       e164,
       uuid,
+      reason: 'conversation_view.startConversation',
     });
     strictAssert(
       conversation,

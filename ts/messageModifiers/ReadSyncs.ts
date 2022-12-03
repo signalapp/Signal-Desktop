@@ -62,6 +62,7 @@ export class ReadSyncs extends Collection {
     const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
       uuid: message.get('sourceUuid'),
+      reason: 'ReadSyncs.forMessage',
     });
     const sync = this.find(item => {
       return (
@@ -88,6 +89,7 @@ export class ReadSyncs extends Collection {
         const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
           uuid: item.sourceUuid,
+          reason: 'ReadSyncs.onSync',
         });
 
         return isIncoming(item) && sender?.id === sync.get('senderId');

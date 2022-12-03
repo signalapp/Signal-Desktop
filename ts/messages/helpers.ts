@@ -121,6 +121,7 @@ export function isQuoteAMatch(
   const authorConversation = window.ConversationController.lookupOrCreate({
     e164: 'author' in quote ? quote.author : undefined,
     uuid: authorUuid,
+    reason: 'helpers.isQuoteAMatch',
   });
 
   return (
@@ -143,6 +144,7 @@ export function getContactId(
   const conversation = window.ConversationController.lookupOrCreate({
     e164: source,
     uuid: sourceUuid,
+    reason: 'helpers.getContactId',
   });
   return conversation?.id;
 }

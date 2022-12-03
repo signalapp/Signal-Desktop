@@ -66,6 +66,7 @@ export async function sendReceipts({
       const sender = window.ConversationController.lookupOrCreate({
         e164: senderE164,
         uuid: senderUuid,
+        reason: 'sendReceipts',
       });
       if (!sender) {
         throw new Error(

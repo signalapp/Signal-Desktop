@@ -1062,6 +1062,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       const conversation = window.ConversationController.lookupOrCreate({
         uuid: uuid.toString(),
+        reason: 'SignalProtocolStore.storeSession',
       });
       strictAssert(
         conversation !== undefined,
@@ -1393,6 +1394,7 @@ export class SignalProtocolStore extends EventEmitter {
       // First, fetch this conversation
       const conversation = window.ConversationController.lookupOrCreate({
         uuid: uuid.toString(),
+        reason: 'SignalProtocolStore.lightSessionReset',
       });
       assertDev(conversation, `lightSessionReset/${id}: missing conversation`);
 

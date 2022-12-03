@@ -107,6 +107,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         conversation = window.ConversationController.lookupOrCreate({
           e164: threadE164,
           uuid: threadUuid,
+          reason: 'MessageRequests.onResponse',
         });
       }
 
