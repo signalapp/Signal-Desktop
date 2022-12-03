@@ -218,6 +218,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <TimelineMessage
           {...this.props}
           {...item.data}
+          isSelected={isSelected}
           shouldCollapseAbove={shouldCollapseAbove}
           shouldCollapseBelow={shouldCollapseBelow}
           shouldHideMetadata={shouldHideMetadata}

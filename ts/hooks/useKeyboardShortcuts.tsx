@@ -159,6 +159,28 @@ export function useAttachFileShortcut(
   );
 }
 
+export function useToggleReactionPicker(
+  handleReact: () => unknown
+): KeyboardShortcutHandlerType {
+  return useCallback(
+    ev => {
+      const { shiftKey } = ev;
+      const key = KeyboardLayout.lookup(ev);
+
+      if (isCmdOrCtrl(ev) && shiftKey && (key === 'e' || key === 'E')) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        handleReact();
+        return true;
+      }
+
+      return false;
+    },
+    [handleReact]
+  );
+}
+
 export function useKeyboardShortcuts(
   ...eventHandlers: Array<KeyboardShortcutHandlerType>
 ): void {

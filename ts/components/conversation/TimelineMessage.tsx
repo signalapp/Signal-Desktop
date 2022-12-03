@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
+import { noop } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Ref } from 'react';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -25,6 +26,7 @@ import type {
 } from './Message';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
+import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
 
 export type PropsData = {
   canDownload: boolean;
@@ -33,6 +35,7 @@ export type PropsData = {
   canReact: boolean;
   canReply: boolean;
   selectedReaction?: string;
+  isSelected?: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
@@ -86,6 +89,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     deleteMessageForEveryone,
     direction,
     giftBadge,
+    isSelected,
     isSticker,
     isTapToView,
     reactToMessage,
@@ -232,6 +236,20 @@ export function TimelineMessage(props: Props): JSX.Element {
   const handleReplyToMessage = canReply ? () => replyToMessage(id) : undefined;
 
   const handleReact = canReact ? () => toggleReactionPicker() : undefined;
+
+  const toggleReactionPickerKeyboard = useToggleReactionPicker(
+    handleReact || noop
+  );
+
+  useEffect(() => {
+    if (isSelected) {
+      document.addEventListener('keydown', toggleReactionPickerKeyboard);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', toggleReactionPickerKeyboard);
+    };
+  }, [isSelected, toggleReactionPickerKeyboard]);
 
   return (
     <>
