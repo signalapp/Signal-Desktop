@@ -42,4 +42,14 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   await window.Signal.Data.removeMessages(existingOnboardingStoryMessageIds);
 
   window.storage.put('existingOnboardingStoryMessageIds', undefined);
+
+  const signalConversation =
+    await window.ConversationController.getOrCreateSignalConversation();
+
+  existingOnboardingStoryMessageIds.forEach(messageId =>
+    window.reduxActions.conversations.messageDeleted(
+      messageId,
+      signalConversation.id
+    )
+  );
 }
