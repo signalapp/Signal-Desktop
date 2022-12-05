@@ -5484,6 +5484,46 @@
     "message": "이 스토리를 삭제할까요? 스토리를 받은 모든 사람에게서 해당 스토리가 삭제됩니다.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "You started a payment to {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "You started a payment",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} started a payment to you",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "You sent a request to activate Payments.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} can now accept Payments.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "You activated Payments.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "결제",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Check your primary device for this payment’s status",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal 커넥션",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "타임스탬프 복사",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "첨부 파일 다운로드",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "내 스토리를 본 사람을 확인하려면 수신 확인을 활성화하세요. 모바일 장치에서 Signal 앱을 열고 설정 > 스토리로 이동합니다.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "모두에게서 삭제",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "타임스탬프 복사",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "스토리",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "이제 Signal에서 스토리를 사용해 보세요! 24시간 후 자동으로 사라지는 자동 삭제 텍스트, 이미지, 동영상 업데이트를 특정 친구나 그룹과 공유해 보세요. 이제 광고나 개인 정보 유출에 대한 걱정 없이 누구나 스토리를 공유할 수 있습니다. 스토리를 보거나 공유하고 싶지 않다면 기본 설정 > 개인 정보에서 관련 기능을 모두 선택 해제하세요.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "description": "Release notes for v6.1"
   }
 }

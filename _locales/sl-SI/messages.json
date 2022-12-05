@@ -5484,6 +5484,46 @@
     "message": "Želite izbrisati to zgodbo? Izbrisana bo tudi na napravah drugih prejemnikov_ic.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Začeli ste plačilo za {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Začeli ste plačilo",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} je začel_a plačilo za vas",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} želi, da aktivirate Plačila. Plačila pošiljajte le osebam, ki jim zaupate. Plačila lahko aktivirate na svoji mobilni napravi tako, da odprete Nastavitve -> Plačila.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Osebi {receiver} ste poslali zahtevo za aktiviranje Plačil.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Poslali ste zahtevo za aktiviranje Plačil.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} lahko zdaj sprejema Plačila.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Aktivirali ste Plačila.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Plačilo",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Preverite stanje tega plačila v vaši primarni napravi",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal povezave",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Kopiraj časovni žig",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Prenesi priponko",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Omogočite potrdila o ogledu, da vidite, kdo si je ogledal vaše Zgodbe. Odprite Signal na svoji mobilni napravi in pojdite na Nastavitve > Zgodbe.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Izbriši za vse",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Kopiraj časovni žig",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Zgodba",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Zgodbe so zdaj na Signalu! Z izbranimi prijatelji ali skupinami delite izginjajoča sporočila, slike in video posodobitve, ki samodejno izginejo po 24 urah. Za vse, ki radi delite Zgodbe, je tukaj način, kako to storiti zasebno in brez prikazovanja oglasov. Če ne želite videti ali deliti Zgodb, jih lahko onemogočite tako, da greste v Nastavitve > Zasebnost.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Ko začnete skupinski klic za majhne skupine (do 16 oseb), lahko izberete pošiljanje obvestila o zvonjenju. Člani skupine bodo slišali zvonjenje, če uporabljajo iOS beta, namizni računalnik ali Android.",
+    "description": "Release notes for v6.1"
   }
 }

@@ -5484,6 +5484,46 @@
     "message": "‫حذف هذه القصة؟ سَتُحذَف أيضًا من عند جميع من استلموها.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "لقد بدأت عملية الدفع لـ {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "لقد بدأت بعملية الدفع",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} قام ببدء عملية الدفع لك",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "يريدك {sender} أن تُفعّل عمليات الدفع. أرسل عمليات الدفع فقط للأشخاص الذين تثق بهم. يُمكن تشغيل عمليات الدفع على حسابك الشخصي عبر الذهاب إلى الإعدادات -> عمليات الدفع.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "أرسلت لـ {receiver} طلبًا لتفعيل عمليات الدفع",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "أرسلت طلبًا لتفعيل عمليات الدفع",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "يُمكن لـ {sender} قبول عمليات الدفع الآن",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "لقد فعّلت عمليات الدفع",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "عمليات الدفع",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "تحقق من الجهاز الأساسي الخاص بك لحالة الدفع هذه",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "جهات الاتصال في Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "نسخ الطابع الزمني",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "تنزيل المرفقات",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "فعِّل إيصالات القراءة لرؤية من شاهد قِصصك. يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "احذف للجميع",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "نسخ الطابع الزمني",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "القصص",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "أصبحت القِصص الآن على Signal! شارك الرسائل والصور ومستجدات الفيديو التي تختفي تلقائيًا بعد 24 ساعة مع أصدقاء أو مجموعات مُختارة. لِكل من يُحب مشاركة القصص، إليك طريقة للقيام بذلك بشكل خاص وبدون مشاهدة أي إعلانات. إذا لم تكن ترغب في رؤية أو مشاركة القصص، يُمكنك إلغاء ذلك في إعداداتك > الخصوصية.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "عندما تقوم ببدء مُكالمة مجموعة لمجموعات صغيرة (حتى 16 شخصًا)، يمكنك اختيار إرسال إشعار رنّان. سيسمع أعضاء المجموعة رنينًا إذا كانوا يستخدمون iOS beta أو Desktop أو Android.",
+    "description": "Release notes for v6.1"
   }
 }

@@ -5484,6 +5484,46 @@
     "message": "Excluir esse story? Ele também será excluído para todos que o receberam.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Você iniciou um pagamento para {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Você iniciou um pagamento",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} iniciou um pagamento para você",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} quer que você ative Pagamentos. Envie pagamentos apenas para pessoas em quem você confia. Os Pagamentos podem ser ativados no seu dispositivo móvel em Configurações -> Pagamentos.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Você enviou uma solicitação para {receiver} para ativar Pagamentos.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Você enviou uma solicitação para ativar Pagamentos.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} já pode aceitar Pagamentos.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Seus Pagamentos foram ativados.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Pagamento",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Confira seu dispositivo principal para ver o status deste pagamento",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Contatos do Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Copiar marcação horária",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Baixar anexo",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Ative as confirmações de leitura para saber quem viu seus stories. Abra o app do Signal no seu dispositivo móvel e acesse Configurações > Stories.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Apagar para todos",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Copiar marcação horária",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Os stories chegaram ao Signal! Compartilhe atualizações de texto, imagens e vídeos com amigos ou grupos. Os stories desaparecerão automaticamente após 24 horas. Quem ama compartilhar stories pode fazer isso de forma privada e sem ver anúncios. Se não quiser ver ou compartilhar stories, desative essa opção em Preferências > Privacidade.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Ao iniciar uma chamada em grupo com grupos pequenos (até 16 pessoas), você pode decidir se quer enviar uma notificação de ligação. Os membros do grupo ouvirão um toque se estiverem usando a versão beta do iOS ou as versões para Desktop ou Android.",
+    "description": "Release notes for v6.1"
   }
 }

@@ -5484,6 +5484,46 @@
     "message": "Xóa story này? Story cũng sẽ được xóa với tất cả những người đã nhận nó.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Bạn đã gửi một khoản thanh toán cho {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Bạn đã gửi một khoản thanh toán",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} đã gửi một khoản thanh toán cho bạn",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} muốn bạn bật tính năng Thanh toán. Chỉ gửi khoản thanh toán đến những người bạn tin tưởng. Tính năng Thanh toán có thể được bật trên thiết bị di động của bạn bằng cách vào Cài đặt -> Thanh toán.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Bạn đã gửi cho {receiver} một yêu cầu bật tính năng Thanh toán.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Bạn đã gửi một yêu cầu bật tính năng Thanh toán.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} giờ đã có thể nhận Thanh toán.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Bạn đã bật tính năng Thanh toán.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Thanh toán",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Kiểm tra thiết bị chính của bạn để xem trang thái của khoản thanh toán này",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Các Liên hệ Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Sao chép dấu thời gian",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Tải Tập tin đính kèm",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Bật thông báo đã xem để biết ai đã xem story của bạn. Hãy mở ứng dụng Signal trên thiết bị di động của bạn và điều hướng đến Cài đặt > Story.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Xóa cho mọi người",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Sao chép dấu thời gian",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Story đã có mặt trên Signal! Chia sẻ các cập nhật văn bản, hình ảnh, và video với những người bạn hoặc nhóm bạn chọn, tự động biến mất sau 24 giờ. Với những thành viên thích story, đây là một cách chia sẻ riêng tư và không có quảng cáo. Nếu bạn không muốn chia sẻ hoặc thấy story, bạn có thể tắt tính năng này trong mục Cài đặt > Riêng tư.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Khi bạn bắt đầu cuộc gọi nhóm cho nhóm nhỏ (đến 16 người), bạn có thể chọn thông báo bằng cách đổ chuông. Các thành viên nhóm sẽ nghe thấy tiếng chuông báo nếu đang sử dụng phiên bản iOS beta hoặc bản Desktop hay Android.",
+    "description": "Release notes for v6.1"
   }
 }

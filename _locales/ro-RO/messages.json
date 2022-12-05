@@ -5484,6 +5484,46 @@
     "message": "Ștergi această poveste? Povestea va fi ștearsă și pentru cei care au primit-o.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Ai început o plată către {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Ai început o plată",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} a început o plată către tine",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} vrea să activezi Plăți. Trimite plăți doar persoanelor în care ai încredere. Plățile pot fi activate pe dispozitivul tău mobil mergând la Setări -> Plăți.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "I-ai trimis lui {receiver} o cerere de activare a Plăților.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Ai trimis o cerere să activezi Plăți.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} poate să accepte acum Plăți.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Ai activat Plăți.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Plată",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Verifică dispozitivul primar pentru statusul acestei plăți",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Conexiunile Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Copiază marcajul temporal",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Descarcă atașamentul",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Activează confirmările de citire ca să știi cine ți-a văzut poveștile. Deschide aplicația Signal de pe dispozitivul mobil și navighează la Setări > Povești.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Șterge pentru toată lumea",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Copiază marcajul temporal",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Poveste",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Poveștile sunt acum în Signal! Distribuie text, imagini și actualizări video care dispar cu anumiți prieteni și grupuri și ei le vor vedea timp de 24 de ore. Pentru toate persoanele care adoră să trimită povești, iată un mod de a o face în mod privat și fără să vezi anunțuri. Dacă nu vrei să vezi sau să distribui povești, poți să renunți la ele din Preferințe > Confidențialitate.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Când începi un apel de grup pentru grupuri mici (până la 16 persoane), poți să alegi să trimiți o notificare sonoră. Membri grupului vor auzi un sunet dacă sunt pe iOS beta sau dacă folosesc Desktop sau Android.",
+    "description": "Release notes for v6.1"
   }
 }

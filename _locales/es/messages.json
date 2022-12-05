@@ -5484,6 +5484,46 @@
     "message": "¿Eliminar esta historia? También se eliminará para quien la haya recibido.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Has iniciado un pago a {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Has iniciado un pago",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} ha iniciado un pago para ti",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} quiere que actives Pagos. Envía pagos solamente a las personas en las que confíes. Puedes activar Pagos en tu dispositivo móvil yendo a Ajustes -> Pagos.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Has mandado una solicitud a {receiver} para activar Pagos.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Has mandado una solicitud para activar Pagos.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} ya puede aceptar Pagos.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Has activado Pagos.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Pago",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Comprueba el estado de este pago en tu dispositivo principal",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Contactos de Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Copiar timestamp",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Descargar archivo adjunto",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Habilita las confirmaciones de vista para ver quién ha visto tus historias. Abre la app de Signal en tu dispositivo móvil y ve a Ajustes > Historias.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Eliminar del chat",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Copiar timestamp",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Historia",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "¡Ya han llegado las historias a Signal! Comparte historias temporales de texto, imagen y vídeo con aquellas personas o grupos que tú quieras. Las historias desaparecerán automáticamente después de 24 horas. Para aquellas personas que no pueden vivir sin compartir historias, aquí hay la manera de hacerlo con privacidad y sin anuncios. Si no quieres ver o compartir historias, puedes desactivar esta función en tus Preferencias > Privacidad.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Cuando se inicia una llamada de grupo para grupos pequeños (hasta 16 personas), tienes la opción de enviar una notificación de llamada. Los miembros del grupo escucharán un timbre si están en la versión beta de iOS o si utilizan Desktop o Android.",
+    "description": "Release notes for v6.1"
   }
 }

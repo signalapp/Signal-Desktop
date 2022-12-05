@@ -5484,6 +5484,46 @@
     "message": "Желите ли да избришете ову причу? Такође ће бити избрисана свима који су је примили.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Започели сте плаћање примаоцу ({receiver})",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Започели сте плаћање",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} је започео/ла плаћање вама",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} жели да активирате плаћања. Шаљите плаћања само људима којима верујете. Плаћања можете активирати на мобилном уређају тако што ћете отићи на Подешавања -> Плаћања.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "{receiver} ће од вас примити захтев за активирање плаћања.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Послали сте захтев за активирање плаћања.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} сада може да прима плаћања.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Активирали сте плаћања.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Плаћање",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Проверите статус овог плаћања на свом примарном уређају",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal veze",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Kopiraj vremensku oznaku",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Преузми прилог",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Активирајте потврде о гледању да бисте знали ко је видео ваше приче. Отворите апликацију Signal на мобилном уређају и идите у Подешавања > Приче.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Избриши за сваког",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Kopiraj vremensku oznaku",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Прича",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Приче су сада на Signal-у! Са одабраним пријатељима или групама делите поруке, слике и видео снимке који аутоматски нестају након 24 сата. Свима који воле да деле приче, ево начина да то урадите приватно и без гледања огласа. Ако не желите да видите или делите приче, можете да их искључите у менију Подешавања > Приватност.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Када започнете групни позив у малим групама (до 16 особа), можете да пошаљете обавештење у виду звона. Чланови групе ће чути звоно ако су на бета верзији за iOS или ако користе верзију за рачунар или Android.",
+    "description": "Release notes for v6.1"
   }
 }

@@ -5484,6 +5484,46 @@
     "message": "Vil du slette storyen? Dette vil slette storyen for deg og alle du har delt den med.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Du satte i gang en betaling til {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Du har satt i gang en betaling",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} satte i gang en betaling til deg",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} vil at du skal aktivere betalinger. Send kun betalinger til personer du stoler på. Betalinger kan aktiveres på mobilenheten din under Innstillinger -> Betalinger.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Du har sendt en forespørsel til {receiver} om å aktivere betalinger.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Du har sendt en forespørsel om å aktivere betalinger.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} kan nå motta betalinger.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Du har aktivert betalinger.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Betaling",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Sjekk hovedenheten din for å finne statusen til denne betalingen",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal-kontakter",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Kopier tidsstempel",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Last ned Vedlegg",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Aktiver visningsbekreftelser for å finne ut hvem som har sett storyene dine. Åpne Signal på mobilenheten din og gå til Innstillinger > Storyer.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Slett for alle",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Kopier tidsstempel",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Storyer har kommet til Signal! Del tekst, bilder og videoer med utvalgte venner og grupper. Storyene forsvinner automatisk etter 24 timer. For alle som elsker å dele storyer – her kan du gjøre det helt privat uten annonser. Hvis du ikke vil se eller dele storyer, kan du velge bort dette alternativet under Preferanser > Personvern.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Når du starter en gruppesamtale for små grupper (opptil 16 personer), kan du velge å sende et ringevarsel. Gruppemedlemmene får en ringelyd hvis de bruker betaversjonen for iOS eller Desktop eller Android.",
+    "description": "Release notes for v6.1"
   }
 }

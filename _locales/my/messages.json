@@ -5484,6 +5484,46 @@
     "message": "ဤစတိုရီကို ဖျက်မည်လား။ ၎င်းကို လက်ခံရရှိသူတိုင်းအတွက် ၎င်းကို ဖျက်သွားပါမည်။",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "{receiver} ထံ ငွေပေးချေမှု စတင်ထားပါသည်",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "ငွေပေးချေမှု စတင်ထားပါသည်",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} သည် သင့်ထံ ငွေပေးချေမှု စတင်ထားပါသည်",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} သည် သင့်အား ငွေပေးချေမှုများကို သက်ဝင်လုပ်ဆောင်စေလိုပါသည်။ သင်ယုံကြည်ရသူများထံသာ ငွေပေးချေမှုများ ပို့ပါ။ ငွေပေးချေမှုများကို သင့်မိုဘိုင်းစက်တွင် ဆက်တင် -> ငွေပေးချေမှုသို့ သွား၍ သက်ဝင်လုပ်ဆောင်နိုင်ပါသည်။",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "{receiver} ထံ ငွေပေးချေမှုများကို သက်ဝင်လုပ်ဆောင်ရန် တောင်းဆိုချက် ပို့ထားပါသည်။",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "ငွေပေးချေမှုများကို သက်ဝင်လုပ်ဆောင်ရန် တောင်းဆိုချက် ပို့ထားပါသည်။",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "ယခုအခါ {sender} သည် ငွေပေးချေမှုများကို လက်ခံနိုင်ပါသည်။",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "ငွေပေးချေမှုများကို သက်ဝင်လုပ်ဆောင်ထားပါသည်။",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "ငွေပေးချေမှု",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "ဤငွေပေးချေမှု အခြေအနေအတွက် သင့်ပင်မစက်ကို စစ်ဆေးပါ",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal အဆက်အသွယ်များ",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Timestamp ကူးရန်",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "ပူးတွဲဖိုင်ကို ဒေါင်းလုဒ် လုပ်ရန်",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "သင့်စတိုရီများအား ကြည့်ရှုခဲ့သူများကို ကြည့်ရန် ကြည့်ရှုမှုပြီးကြောင်းညွှန်ပြမှု သင့်မိုဘိုင်းစက်တွင် Signal အက်ပ်ကို ဖွင့်ပြီး ဆက်တင် > စတိုရီသို့ သွားပါ။",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "လူတိုင်းအတွက်ဖျက်ပါ",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Timestamp ကူးရန်",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "စတိုရီ",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "ယခုအခါ Signal တွင် စတိုရီများ ရှိနေပါပြီ။ 24 နာရီကြာပြီးနောက် အော်တိုပျောက်သွားမည့် စာသား၊ ပုံနှင့် ဗီဒီယို အပ်ဒိတ်များကို ရွေးထားသည့် မိတ်ဆွေများ၊ အဖွဲ့များထံ ဝေမျှလိုက်ပါ။ စတိုရီများ ဝေမျှရသည်ကို သဘောကျသူတိုင်းအတွက် ကြော်ငြာများ မပါဘဲ သီးသန့်လုပ်ဆောင်နိုင်မည့် နည်းလမ်း ဒီမှာရှိနေပါပြီ။ စတိုရီများကို မမြင်လိုပါက၊ မဝေမျှလိုပါက ဆက်တင်၌ ပိတ်ထားနိုင်ပါသည်။",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "အဖွဲ့ငယ် (လူ 16 ဦးအထိ) အတွက် အဖွဲ့ကောလ်ကို စတင်သည့်အခါ ဖုန်းမြည်သံ အသိပေးချက် ပို့ရန် ရွေးချယ်နိုင်ပါသည်။ အဖွဲ့ဝင်များသည် iOS beta သို့မဟုတ် ဒတ်ခ်စတော့(ပ်) သို့မဟုတ် Android ကို သုံးနေပါက ဖုန်းမြည်သံကို ကြားရပါမည်။",
+    "description": "Release notes for v6.1"
   }
 }

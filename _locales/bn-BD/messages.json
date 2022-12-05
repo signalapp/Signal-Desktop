@@ -5484,6 +5484,46 @@
     "message": "স্টোরিটি মুছে ফেলবেন? যারা এটি পেয়েছেন তাদের জন্যও এটি মুছে ফেলা হবে৷",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "আপনি {receiver}-কে পেমেন্ট দিতে শুরু করেছেন",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "আপনি পেমেন্ট দিতে শুরু করেছেন",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} আপনাকে পেমেন্ট দেওয়া শুরু করেছেন",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} আপনাকে পেমেন্ট সক্রিয় করাতে চান। আপনি যাদের বিশ্বাস করেন শুধুমাত্র তাদেরকে পেমেন্ট পাঠান। সেটিংস -> পেমেন্ট-এ গিয়ে আপনার মোবাইল ডিভাইসে পেমেন্ট সক্রিয় করা যাবে।",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "পেমেন্ট সক্রিয় করার জন্য আপনি {receiver}-কে একটি অনুরোধ পাঠিয়েছেন।",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "পেমেন্ট সক্রিয় করার জন্য আপনি একটি অনুরোধ পাঠিয়েছেন।",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} এখন পেমেন্ট গ্রহণ করতে পারবেন।",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "আপনি পেমেন্ট সক্রিয় করেছেন।",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "পেমেন্ট",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "এই পেমেন্টের অবস্থা জানতে আপনার প্রাথমিক ডিভাইসটি দেখুন",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal কানেকশন",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "টাইমস্ট্যাম্প কপি করুন",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "সংযুক্তি ডাউনলোড",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "কে আপনার স্টোরি দেখেছেন তা দেখতে 'রিসিপ্ট দেখুন' সক্রিয় করুন৷ আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > স্টোরি-তে যান।",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "প্রত্যেকের জন্য মুছুন",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "টাইমস্ট্যাম্প কপি করুন",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "স্টোরি",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "এখন Signal-এ স্টোরি থাকছে! 24 ঘন্টা পরে স্বয়ংক্রিয়ভাবে অদৃশ্য হয়ে যায় এমন টেক্সট, ছবি এবং ভিডিও আপডেটগুলো নির্বাচিত বন্ধু বা গ্ৰুপের সাথে শেয়ার করুন৷ যারা স্টোরি শেয়ার করতে পছন্দ করেন তাদের প্রত্যেকের জন্য গোপনে ও বিজ্ঞাপন এড়িয়ে এটি করার একটি উপায় এখানে রয়েছে। আপনি যদি স্টোরি দেখতে বা শেয়ার করতে না চান, তবে আপনি পছন্দ > গোপনীয়তা থেকে এগুলো বাদ দিতে পারেন।",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "আপনি যখন একটি ছোট গ্রুপকে গ্রুপ কল দিতে শুরু করেন (16 জন পর্যন্ত), তখন আপনি একটি রিংগিং নোটিফিকেশন পাঠাতে পারেন। গ্ৰুপের সদস্যরা যদি iOS বেটা সংস্করণে থাকেন বা ডেস্কটপ বা Android ব্যবহার করে থাকেন, তবে তারা রিং শুনতে পাবেন।",
+    "description": "Release notes for v6.1"
   }
 }

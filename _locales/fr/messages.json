@@ -5484,6 +5484,46 @@
     "message": "Supprimer cette Story ? Elle sera aussi supprimée pour quiconque l’a reçue.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Vous avez initié une procédure de paiement pour {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Vous avez initié une procédure de paiement",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} a initié une procédure de paiement pour vous",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} souhaite que vous activiez les paiements. Envoyez des paiements uniquement aux personnes en qui vous avez confiance. Les paiements peuvent être activés depuis votre téléphone mobile en vous rendant dans Paramètres -> Paiements.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Vous avez envoyé une demande d’activation des paiements à {receiver}",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Vous avez envoyé une demande d’activation des paiements.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} accepte désormais les paiements.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Vous avez activé les paiements.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Paiement",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Veuillez consulter votre appareil principal pour vérifier l'état de ce paiement.",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Connexions Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Copier l'horodatage",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Télécharger le fichier joint",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Activer les confirmations de vue pour savoir qui a consulté vos Stories. Ouvrez l’application Signal depuis votre appareil mobile puis rendez-vous dans Paramètres > Confidentialité.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Supprimer pour tout le monde",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Copier l'horodatage",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Les stories sont disponibles sur Signal ! Partagez du texte, des images et des vidéos éphémères qui disparaissent automatiquement après 24 heures avec une sélection d’amis ou de groupes. Pour tous ceux qui aiment partager des stories, voici un moyen de le faire en privé et sans voir de publicité. Si vous ne souhaitez pas voir ou partager des stories, vous pouvez les désactiver dans Préférences > Réglages.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Lorsque vous organisez un appel de groupe pour un petit groupe (jusqu'à 16 participants), vous avez la possibilité d'envoyer une notification sonore. Les membres du groupe entendront une sonnerie s'ils utilisent la version Desktop, la version Android ou la version bêta d'iOS.",
+    "description": "Release notes for v6.1"
   }
 }

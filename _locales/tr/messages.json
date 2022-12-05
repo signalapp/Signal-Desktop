@@ -5484,6 +5484,46 @@
     "message": "Bu hikaye silinsin mi? Aynı zamanda hikayeyi alan herkesten silinecektir.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "{receiver} için bir ödeme başlattın",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Bir ödeme başlattın",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} senin için bir ödeme başlattı",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} Ödemeleri etkinleştirmeni istiyor. Yalnızca güvendiğin kişilere ödeme gönder. Ödemeler, mobil cihazında Ayarlar -> Ödemeler'e giderek etkinleştirilebilir.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Ödemeleri etkinleştirmek için {receiver} adlı kişiye bir istek gönderdin",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Ödemeleri etkinleştirmek için bir istek gönderdin",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} artık Ödemeleri kabul edebilir",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Ödemeleri etkinleştirdin",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Ödeme",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Bu ödemenin durumunu görmek için birincil cihazını kontrol et",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal Bağlantıları",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Zaman damgasını kopyala",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Eklentiyi İndir",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Hikayelerini kimlerin görüntülediğini görmek için okundu bilgisini etkinleştir. Mobil cihazında Signal uygulamasını aç ve Ayarlar > Hikayeler'e git.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Herkesten sil",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Zaman damgasını kopyala",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Hikaye",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Hikayeler artık Signal'da! 24 saat sonra otomatik olarak kaybolan metin, resim ve videoları belirli arkadaşlarınla veya gruplarınla paylaş. Hikaye paylaşmayı seviyorsan, bunu gizli ve reklam görmeden yapmanın bir yolu var. Hikayeleri görmek veya paylaşmak istemiyorsan, Tercihler > Gizlilik bölümünden tümünü devre dışı bırakabilirsin.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Küçük gruplar (16 kişiye kadar) için bir grup araması başlattığında sesli bir bildirim göndermeyi seçebilirsin. Grup üyeleri, iOS beta, Masaüstü veya Android kullanıyorlarsa bir zil sesi duyarlar.",
+    "description": "Release notes for v6.1"
   }
 }

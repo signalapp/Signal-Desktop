@@ -5484,6 +5484,46 @@
     "message": "Skrap hierdie storie? Dit sal ook geskrap word vir almal wat dit ontvang het.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Jy het begin met 'n betaling aan {receiver}",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Jy het met 'n betaling begin",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} het met 'n betaling aan jou begin",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} wil hê jy moet Betalings aktiveer. Stuur slegs betalings aan mense wat jy vertrou. Betalings kan op jou mobiele toestel geaktiveer word deur na Instellings -> Betalings te gaan.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Jy het aan {receiver} 'n versoek gestuur om Betalings te aktiveer.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Jy het 'n versoek gestuur om Betalings te aktiveer.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} kan nou Betalings aanvaar.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Jy het Betalings geaktiveer.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Betaling",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Gaan jou primêre toestel na vir die status van hierdie betaling.",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal-verbindings",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Kopieer tydstempel",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Laai aanhegsel af",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Aktiveer kykbewyse om te sien wie na jou stories gekyk het. Maak die Signal-toepassing op jou mobiele toestel oop en gaan na Instellings > Stories.",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Skrap vir almal",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Kopieer tydstempel",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Storie",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Daar is nou Stories in Signal! Deel verdwynende teks, beelde en video-opdaterings met uitgesoekte vriende of groepe wat outomaties ná 24 uur verdwyn. Vir almal wat daarvan hou om stories te deel, hier is 'n manier om dit privaat te doen en sonder om enige advertensies te sien. As jy nie stories wil sien of deel nie, kan jy dit alles in jou Instellings > Privaatheid afskakel.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Wanneer jy 'n groepoproep vir klein groepe (tot 16 mense) begin, kan jy kies om 'n luitoon as kennisgewing te stuur. Groeplede sal 'n luitoon hoor as hulle op iOS-beta is, of Desktop of Android gebruik.",
+    "description": "Release notes for v6.1"
   }
 }

@@ -5484,6 +5484,46 @@
     "message": "Diese Story löschen? Sie wird auch für jeden gelöscht, der sie erhalten hat.",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "Du hast eine Zahlung an {receiver} veranlasst.",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "Du hast eine Zahlung veranlasst.",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} hat eine Zahlung an dich veranlasst.",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} möchte, dass du Zahlungen aktivierst. Sende Zahlungen nur an Personen, denen du vertraust. Zahlungen kannst du auf deinem mobilen Gerät aktivieren, indem du zu Einstellungen -> Zahlungen gehst.",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "Du hast {receiver} eine Anfrage zur Aktivierung von Zahlungen geschickt.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "Du hast eine Anfrage zur Aktivierung von Zahlungen geschickt.",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} kann Zahlungen jetzt akzeptieren.",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "Du hast Zahlungen aktiviert.",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "Zahlung",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "Überprüfe den Status dieser Zahlung auf deinem Hauptgerät.",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "Signal-Verbindungen",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "Zeitstempel kopieren",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "Anhang herunterladen",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "Lesebestätigungen aktivieren, um zu sehen, wer deine Storys gesehen hat. Öffne die Signal-App auf deinem mobilen Gerät und navigiere zu „Einstellungen“ > „Storys“",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "Für jeden löschen",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "Zeitstempel kopieren",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "Story",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Jetzt gibt es Storys bei Signal! Teile Nachrichten, Bilder und Video-Updates, die nach 24 Stunden automatisch verschwinden, mit Freunden oder Gruppen. Für alle, die gerne Storys teilen, gibt es hier eine Möglichkeit, dies privat und ohne Werbung zu tun. Wenn du keine Storys sehen oder teilen möchtest, kannst du dies unter Einstellungen > Datenschutz deaktivieren.",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "Wenn du einen Gruppenanruf für kleine Gruppen (bis zu 16 Personen) startest, kannst du wählen, ob du eine Klingelbenachrichtigung senden möchtest. Die Gruppenmitglieder hören ein Klingeln, wenn sie auf iOS Beta sind bzw. wenn sie Desktop oder Android nutzen.",
+    "description": "Release notes for v6.1"
   }
 }

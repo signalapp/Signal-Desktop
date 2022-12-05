@@ -5484,6 +5484,46 @@
     "message": "ต้องการลบสตอรี่นี้ใช่ไหม สตอรี่จะถูกลบสำหรับทุกคนที่ได้รับด้วยเช่นกัน",
     "description": "Confirmation dialog description text for deleting a story"
   },
+  "icu:payment-event-notification-message-you-label": {
+    "messageformat": "คุณเริ่มการชำระเงินให้ {receiver} แล้ว",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-you-label-without-receiver": {
+    "messageformat": "คุณเริ่มการชำระเงินแล้ว",
+    "description": "Payment event notification from you message bubble label"
+  },
+  "icu:payment-event-notification-message-label": {
+    "messageformat": "{sender} เริ่มการชำระเงินให้คุณแล้ว",
+    "description": "Payment event notification from contact message bubble label"
+  },
+  "icu:payment-event-activation-request-label": {
+    "messageformat": "{sender} ต้องการให้คุณเปิดใช้การชำระเงิน เราขอแนะนำให้ส่งเงินให้คนที่คุณไว้วางใจเท่านั้น คุณสามารถเปิดใช้การชำระเงินได้บนอุปกรณ์เคลื่อนที่ ด้วยการไปที่การตั้งค่า -> การชำระเงิน",
+    "description": "Payment event activation request from contact label"
+  },
+  "icu:payment-event-activation-request-you-label": {
+    "messageformat": "คุณได้ส่งคำขอให้ {receiver} เปิดใช้การชำระเงินแล้ว",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activation-request-you-label-without-receiver": {
+    "messageformat": "คุณส่งคำขอให้เปิดใช้การชำระเงินแล้ว",
+    "description": "Payment event activation request from you label"
+  },
+  "icu:payment-event-activated-label": {
+    "messageformat": "{sender} สามารถรับการชำระเงินได้แล้ว",
+    "description": "Payment event activation from contact label"
+  },
+  "icu:payment-event-activated-you-label": {
+    "messageformat": "คุณเปิดใช้การชำระเงินเรียบร้อยแล้ว",
+    "description": "Payment event activation from you label"
+  },
+  "icu:payment-event-notification-label": {
+    "messageformat": "การชำระเงิน",
+    "description": "Payment event notification label"
+  },
+  "icu:payment-event-notification-check-primary-device": {
+    "messageformat": "ตรวจสอบสถานะของการชำระเงินนี้ได้ที่อุปกรณ์หลักของคุณ",
+    "description": "Payment event notification check device label"
+  },
   "SignalConnectionsModal__title": {
     "message": "เครือข่าย Signal",
     "description": "The phrase/term: 'Signal Connections'"
@@ -5908,6 +5948,10 @@
     "message": "คัดลอกข้อมูลเวลา",
     "description": "Context menu item to help debugging"
   },
+  "StoryDetailsModal__download-attachment": {
+    "message": "ดาวน์โหลดแฟ้มแนบ",
+    "description": "Context menu item to help debugging"
+  },
   "StoryViewsNRepliesModal__read-receipts-off": {
     "message": "เปิดใช้ตัวเลือกการแจ้งว่าอ่านแล้ว เพื่อแสดงว่าใครดูสตอรี่ของคุณ เปิดแอป Signal บนอุปกรณ์เคลื่อนที่ของคุณ แล้วไปที่การตั้งค่า > สตอรี่",
     "description": "Instructions on how to enable read receipts"
@@ -5947,6 +5991,10 @@
   "icu:StoryViewsNRepliesModal__delete-reply-for-everyone": {
     "messageformat": "ลบของทุกคน",
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
+  },
+  "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
+    "messageformat": "คัดลอกข้อมูลเวลา",
+    "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
     "message": "สตอรี่",
@@ -6167,5 +6215,9 @@
   "WhatsNew__v6.0": {
     "message": "Signal ให้คุณสนุกกับสตอรี่ได้แล้ววันนี้! แชร์ข้อความ รูปภาพ หรือวิดีโอในสตอรี่กับเพื่อนคนสนิทหรือกลุ่มเฉพาะที่คุณเลือกเองได้ สตอรี่จะหายไปโดยอัตโนมัติภายใน 24 ชั่วโมง ถูกใจคนชอบแชร์สตอรี่ ด้วยความเป็นส่วนตัวอีกขั้น แถมยังไม่มีโฆษณามากวนใจ แต่หากคุณไม่ใช่สายสตอรี่ที่ไม่ต้องการรับชมหรือแชร์ ก็สามารถปิดใช้งานได้ง่ายๆ ที่ค่ากำหนด > ความเป็นส่วนตัว",
     "description": "Release notes for v6.0"
+  },
+  "WhatsNew__v6.1--1": {
+    "message": "เมื่อคุณเริ่มการโทรแบบกลุ่มกับกลุ่มขนาดเล็ก (สมาชิกไม่เกิน 16 คน) คุณสามารถเลือกได้ว่าจะส่งเสียงแจ้งเตือนหรือไม่ สมาชิกในกลุ่มที่ใช้ iOS รุ่นเบต้า หรือใช้แอปบนเดสก์ท็อปหรือ Android จะได้ยินเสียงโทรเข้า",
+    "description": "Release notes for v6.1"
   }
 }
