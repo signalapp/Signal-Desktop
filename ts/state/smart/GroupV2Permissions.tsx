@@ -4,22 +4,20 @@
 import { connect } from 'react-redux';
 
 import type { StateType } from '../reducer';
-import type { PropsType } from '../../components/conversation/conversation-details/GroupV2Permissions';
+import type { PropsDataType } from '../../components/conversation/conversation-details/GroupV2Permissions';
+import { mapDispatchToProps } from '../actions';
 import { GroupV2Permissions } from '../../components/conversation/conversation-details/GroupV2Permissions';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 
 export type SmartGroupV2PermissionsProps = {
   conversationId: string;
-  setAccessControlAttributesSetting: (value: number) => void;
-  setAccessControlMembersSetting: (value: number) => void;
-  setAnnouncementsOnly: (value: boolean) => void;
 };
 
 const mapStateToProps = (
   state: StateType,
   props: SmartGroupV2PermissionsProps
-): PropsType => {
+): PropsDataType => {
   const conversation = getConversationSelector(state)(props.conversationId);
 
   return {
@@ -29,6 +27,6 @@ const mapStateToProps = (
   };
 };
 
-const smart = connect(mapStateToProps);
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartGroupV2Permissions = smart(GroupV2Permissions);

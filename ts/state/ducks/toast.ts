@@ -18,6 +18,7 @@ export enum ToastType {
   FailedToDeleteUsername = 'FailedToDeleteUsername',
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',
+  DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
 }
 
 // State
@@ -32,13 +33,13 @@ export type ToastStateType = {
 // Actions
 
 const HIDE_TOAST = 'toast/HIDE_TOAST';
-const SHOW_TOAST = 'toast/SHOW_TOAST';
+export const SHOW_TOAST = 'toast/SHOW_TOAST';
 
 type HideToastActionType = {
   type: typeof HIDE_TOAST;
 };
 
-type ShowToastActionType = {
+export type ShowToastActionType = {
   type: typeof SHOW_TOAST;
   payload: {
     toastType: ToastType;

@@ -326,7 +326,7 @@ export class MessageDetail extends React.Component<Props> {
             displayLimit={Number.MAX_SAFE_INTEGER}
             displayTapToViewMessage={displayTapToViewMessage}
             downloadAttachment={() =>
-              log.warn('MessageDetail: deleteMessageForEveryone called!')
+              log.warn('MessageDetail: downloadAttachment called!')
             }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             getPreferredBadge={getPreferredBadge}
@@ -355,7 +355,7 @@ export class MessageDetail extends React.Component<Props> {
               showExpiredOutgoingTapToViewToast
             }
             showMessageDetail={() => {
-              log.warn('MessageDetail: deleteMessageForEveryone called!');
+              log.warn('MessageDetail: showMessageDetail called!');
             }}
             showVisualAttachment={showVisualAttachment}
             startConversation={startConversation}

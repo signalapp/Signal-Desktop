@@ -66,7 +66,6 @@ export type TimelinePropsType = ExternalProps &
     | 'contactSupport'
     | 'blockGroupLinkRequests'
     | 'deleteMessage'
-    | 'deleteMessageForEveryone'
     | 'displayTapToViewMessage'
     | 'downloadAttachment'
     | 'downloadNewVersion'

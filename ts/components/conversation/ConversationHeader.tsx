@@ -28,6 +28,7 @@ import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isConversationMuted } from '../../util/isConversationMuted';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { DurationInSeconds } from '../../util/durations';
 import {
   useStartCallShortcuts,
@@ -80,8 +81,7 @@ export type PropsDataType = {
 
 export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
-  onSetDisappearingMessages: (seconds: DurationInSeconds) => void;
-  onDeleteMessages: () => void;
+  destroyMessages: (conversationId: string) => void;
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
@@ -95,6 +95,10 @@ export type PropsActionsType = {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
+  setDisappearingMessages: (
+    conversationId: string,
+    seconds: DurationInSeconds
+  ) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -112,6 +116,7 @@ enum ModalState {
 }
 
 type StateType = {
+  hasDeleteMessagesConfirmation: boolean;
   isNarrow: boolean;
   modalState: ModalState;
 };
@@ -130,7 +135,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   public constructor(props: PropsType) {
     super(props);
 
-    this.state = { isNarrow: false, modalState: ModalState.NothingOpen };
+    this.state = {
+      hasDeleteMessagesConfirmation: false,
+      isNarrow: false,
+      modalState: ModalState.NothingOpen,
+    };
 
     this.menuTriggerRef = React.createRef();
     this.headerRef = React.createRef();
@@ -329,6 +338,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       expireTimer,
       groupVersion,
       i18n,
+      id,
       isArchived,
       isMissingMandatoryProfileSharing,
       isPinned,
@@ -337,15 +347,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       markedUnread,
       muteExpiresAt,
       onArchive,
-      onDeleteMessages,
       onMarkUnread,
       onMoveToInbox,
-      onSetDisappearingMessages,
       onSetMuteNotifications,
       onSetPin,
       onShowAllMedia,
       onShowConversationDetails,
       onShowGroupMembers,
+      setDisappearingMessages,
       type,
     } = this.props;
 
@@ -425,7 +434,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             modalState: ModalState.CustomDisappearingTimeout,
           });
         } else {
-          onSetDisappearingMessages(seconds);
+          setDisappearingMessages(id, seconds);
         }
       };
 
@@ -487,7 +496,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         ) : (
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
         )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        <MenuItem
+          onClick={() => this.setState({ hasDeleteMessagesConfirmation: true })}
+        >
+          {i18n('deleteMessages')}
+        </MenuItem>
         {isPinned ? (
           <MenuItem onClick={() => onSetPin(false)}>
             {i18n('unpinConversation')}
@@ -498,6 +511,37 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           </MenuItem>
         )}
       </ContextMenu>
+    );
+  }
+
+  private renderConfirmationDialog(): ReactNode {
+    const { hasDeleteMessagesConfirmation } = this.state;
+    const { destroyMessages, i18n, id } = this.props;
+
+    if (!hasDeleteMessagesConfirmation) {
+      return;
+    }
+
+    return (
+      <ConfirmationDialog
+        dialogName="ConversationHeader.destroyMessages"
+        actions={[
+          {
+            action: () => {
+              this.setState({ hasDeleteMessagesConfirmation: false });
+              destroyMessages(id);
+            },
+            style: 'negative',
+            text: i18n('delete'),
+          },
+        ]}
+        i18n={i18n}
+        onClose={() => {
+          this.setState({ hasDeleteMessagesConfirmation: false });
+        }}
+      >
+        {i18n('deleteConversationConfirmation')}
+      </ConfirmationDialog>
     );
   }
 
@@ -579,8 +623,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       isSignalConversation,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,
-      onSetDisappearingMessages,
       outgoingCallButtonStyle,
+      setDisappearingMessages,
       showBackButton,
     } = this.props;
     const { isNarrow, modalState } = this.state;
@@ -596,7 +640,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           initialValue={expireTimer}
           onSubmit={value => {
             this.setState({ modalState: ModalState.NothingOpen });
-            onSetDisappearingMessages(value);
+            setDisappearingMessages(id, value);
           }}
           onClose={() => this.setState({ modalState: ModalState.NothingOpen })}
         />
@@ -608,6 +652,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     return (
       <>
         {modalNode}
+        {this.renderConfirmationDialog()}
         <Measure
           bounds
           onResize={({ bounds }) => {

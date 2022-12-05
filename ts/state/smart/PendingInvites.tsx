@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import type { PropsType } from '../../components/conversation/conversation-details/PendingInvites';
+import type { PropsDataType } from '../../components/conversation/conversation-details/PendingInvites';
 import { PendingInvites } from '../../components/conversation/conversation-details/PendingInvites';
 import type { StateType } from '../reducer';
 
@@ -20,14 +20,12 @@ import type { UUIDStringType } from '../../types/UUID';
 export type SmartPendingInvitesProps = {
   conversationId: string;
   ourUuid: UUIDStringType;
-  readonly approvePendingMembership: (conversationid: string) => void;
-  readonly revokePendingMemberships: (membershipIds: Array<string>) => void;
 };
 
 const mapStateToProps = (
   state: StateType,
   props: SmartPendingInvitesProps
-): PropsType => {
+): PropsDataType => {
   const conversationSelector = getConversationByIdSelector(state);
   const conversationByUuidSelector = getConversationByUuidSelector(state);
 

@@ -26,6 +26,7 @@ import type {
 } from './Message';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
 
 export type PropsData = {
@@ -237,6 +238,8 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const handleReact = canReact ? () => toggleReactionPicker() : undefined;
 
+  const [hasDOEConfirmation, setHasDOEConfirmation] = useState(false);
+
   const toggleReactionPickerKeyboard = useToggleReactionPicker(
     handleReact || noop
   );
@@ -253,6 +256,22 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   return (
     <>
+      {hasDOEConfirmation && canDeleteForEveryone && (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () => deleteMessageForEveryone(id),
+              style: 'negative',
+              text: i18n('delete'),
+            },
+          ]}
+          dialogName="TimelineMessage/deleteMessageForEveryone"
+          i18n={i18n}
+          onClose={() => setHasDOEConfirmation(false)}
+        >
+          {i18n('deleteForEveryoneWarning')}
+        </ConfirmationDialog>
+      )}
       <Message
         {...props}
         renderingContext="conversation/TimelineItem"
@@ -319,7 +338,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         onForward={canForward ? () => showForwardMessageModal(id) : undefined}
         onDeleteForMe={() => deleteMessage(id)}
         onDeleteForEveryone={
-          canDeleteForEveryone ? () => deleteMessageForEveryone(id) : undefined
+          canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
         }
         onMoreInfo={() => showMessageDetail(id)}
       />

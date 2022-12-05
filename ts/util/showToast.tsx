@@ -27,7 +27,6 @@ import type {
   ToastInternalError,
   ToastPropsType as ToastInternalErrorPropsType,
 } from '../components/ToastInternalError';
-import type { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import type { ToastExpired } from '../components/ToastExpired';
 import type {
   ToastFileSaved,
@@ -79,7 +78,6 @@ export function showToast(
   Toast: typeof ToastInternalError,
   props: ToastInternalErrorPropsType
 ): void;
-export function showToast(Toast: typeof ToastDeleteForEveryoneFailed): void;
 export function showToast(Toast: typeof ToastExpired): void;
 export function showToast(
   Toast: typeof ToastFileSaved,

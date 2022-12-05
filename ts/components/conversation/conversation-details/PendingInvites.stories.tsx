@@ -48,7 +48,9 @@ const conversation: ConversationType = {
 const OUR_UUID = UUID.generate().toString();
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  approvePendingMembership: action('approvePendingMembership'),
+  approvePendingMembershipFromGroupV2: action(
+    'approvePendingMembershipFromGroupV2'
+  ),
   conversation,
   getPreferredBadge: () => undefined,
   i18n,
@@ -70,7 +72,9 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       },
     })),
   ],
-  revokePendingMemberships: action('revokePendingMemberships'),
+  revokePendingMembershipsFromGroupV2: action(
+    'revokePendingMembershipsFromGroupV2'
+  ),
   theme: React.useContext(StorybookThemeContext),
   ...overrideProps,
 });

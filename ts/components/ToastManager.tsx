@@ -143,5 +143,9 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.DeleteForEveryoneFailed) {
+    return <Toast onClose={hideToast}>{i18n('deleteForEveryoneFailed')}</Toast>;
+  }
+
   throw missingCaseError(toastType);
 }

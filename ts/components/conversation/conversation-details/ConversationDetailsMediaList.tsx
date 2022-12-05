@@ -15,7 +15,7 @@ import { MediaGridItem } from '../media-gallery/MediaGridItem';
 export type Props = {
   conversation: ConversationType;
   i18n: LocalizerType;
-  loadRecentMediaItems: (limit: number) => void;
+  loadRecentMediaItems: (id: string, limit: number) => void;
   showAllMedia: () => void;
   showLightboxForMedia: (
     selectedMediaItem: MediaItemType,
@@ -39,8 +39,8 @@ export function ConversationDetailsMediaList({
   const mediaItemsLength = mediaItems.length;
 
   React.useEffect(() => {
-    loadRecentMediaItems(MEDIA_ITEM_LIMIT);
-  }, [loadRecentMediaItems, mediaItemsLength]);
+    loadRecentMediaItems(conversation.id, MEDIA_ITEM_LIMIT);
+  }, [conversation.id, loadRecentMediaItems, mediaItemsLength]);
 
   if (mediaItemsLength === 0) {
     return null;

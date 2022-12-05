@@ -150,6 +150,9 @@ import { getSendTarget } from '../util/getSendTarget';
 import { getRecipients } from '../util/getRecipients';
 import { validateConversation } from '../util/validateConversation';
 import { isSignalConversation } from '../util/isSignalConversation';
+import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
+import { removePendingMember } from '../util/removePendingMember';
+import { isMemberPending } from '../util/isMemberPending';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -436,29 +439,11 @@ export class ConversationModel extends window.Backbone
   }
 
   private isMemberRequestingToJoin(uuid: UUID): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-    const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
-
-    if (!pendingAdminApprovalV2 || !pendingAdminApprovalV2.length) {
-      return false;
-    }
-
-    return pendingAdminApprovalV2.some(item => item.uuid === uuid.toString());
+    return isMemberRequestingToJoin(this.attributes, uuid);
   }
 
   isMemberPending(uuid: UUID): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-    const pendingMembersV2 = this.get('pendingMembersV2');
-
-    if (!pendingMembersV2 || !pendingMembersV2.length) {
-      return false;
-    }
-
-    return pendingMembersV2.some(item => item.uuid === uuid.toString());
+    return isMemberPending(this.attributes, uuid);
   }
 
   private isMemberBanned(uuid: UUID): boolean {
@@ -566,28 +551,6 @@ export class ConversationModel extends window.Backbone
       isPendingPniAciProfileKey: true,
       profileKeyCredentialBase64,
       serverPublicParamsBase64: window.getServerPublicParams(),
-    });
-  }
-
-  private async approvePendingApprovalRequest(
-    uuid: UUID
-  ): Promise<Proto.GroupChange.Actions | undefined> {
-    const idLog = this.idForLogging();
-
-    // This user's pending state may have changed in the time between the user's
-    //   button press and when we get here. It's especially important to check here
-    //   in conflict/retry cases.
-    if (!this.isMemberRequestingToJoin(uuid)) {
-      log.warn(
-        `approvePendingApprovalRequest/${idLog}: ${uuid} is not requesting ` +
-          'to join the group. Returning early.'
-      );
-      return undefined;
-    }
-
-    return window.Signal.Groups.buildPromotePendingAdminApprovalMemberChange({
-      group: this.attributes,
-      uuid,
     });
   }
 
@@ -712,32 +675,7 @@ export class ConversationModel extends window.Backbone
   private async removePendingMember(
     uuids: ReadonlyArray<UUID>
   ): Promise<Proto.GroupChange.Actions | undefined> {
-    const idLog = this.idForLogging();
-
-    const pendingUuids = uuids
-      .map(uuid => {
-        // This user's pending state may have changed in the time between the user's
-        //   button press and when we get here. It's especially important to check here
-        //   in conflict/retry cases.
-        if (!this.isMemberPending(uuid)) {
-          log.warn(
-            `removePendingMember/${idLog}: ${uuid} is not a pending member of group. Returning early.`
-          );
-          return undefined;
-        }
-
-        return uuid;
-      })
-      .filter(isNotNil);
-
-    if (!uuids.length) {
-      return undefined;
-    }
-
-    return window.Signal.Groups.buildDeletePendingMemberChange({
-      group: this.attributes,
-      uuids: pendingUuids,
-    });
+    return removePendingMember(this.attributes, uuids);
   }
 
   private async removeMember(
@@ -2629,85 +2567,6 @@ export class ConversationModel extends window.Backbone
       usingCredentialsFrom: [member],
       createGroupChange: () => this.toggleAdminChange(uuid),
     });
-  }
-
-  async approvePendingMembershipFromGroupV2(
-    conversationId: string
-  ): Promise<void> {
-    const logId = this.idForLogging();
-
-    const pendingMember = window.ConversationController.get(conversationId);
-    if (!pendingMember) {
-      throw new Error(
-        `approvePendingMembershipFromGroupV2/${logId}: No conversation found for conversation ${conversationId}`
-      );
-    }
-
-    const uuid = pendingMember.getCheckedUuid(
-      `approvePendingMembershipFromGroupV2/${logId}`
-    );
-
-    if (isGroupV2(this.attributes) && this.isMemberRequestingToJoin(uuid)) {
-      await this.modifyGroupV2({
-        name: 'approvePendingApprovalRequest',
-        usingCredentialsFrom: [pendingMember],
-        createGroupChange: () => this.approvePendingApprovalRequest(uuid),
-      });
-    }
-  }
-
-  async revokePendingMembershipsFromGroupV2(
-    conversationIds: Array<string>
-  ): Promise<void> {
-    if (!isGroupV2(this.attributes)) {
-      return;
-    }
-
-    // Only pending memberships can be revoked for multiple members at once
-    if (conversationIds.length > 1) {
-      const uuids = conversationIds.map(id => {
-        const uuid = window.ConversationController.get(id)?.getUuid();
-        strictAssert(uuid, `UUID does not exist for ${id}`);
-        return uuid;
-      });
-      await this.modifyGroupV2({
-        name: 'removePendingMember',
-        usingCredentialsFrom: [],
-        createGroupChange: () => this.removePendingMember(uuids),
-        extraConversationsForSend: conversationIds,
-      });
-      return;
-    }
-
-    const [conversationId] = conversationIds;
-
-    const pendingMember = window.ConversationController.get(conversationId);
-    if (!pendingMember) {
-      const logId = this.idForLogging();
-      throw new Error(
-        `revokePendingMembershipsFromGroupV2/${logId}: No conversation found for conversation ${conversationId}`
-      );
-    }
-
-    const uuid = pendingMember.getCheckedUuid(
-      'revokePendingMembershipsFromGroupV2'
-    );
-
-    if (this.isMemberRequestingToJoin(uuid)) {
-      await this.modifyGroupV2({
-        name: 'denyPendingApprovalRequest',
-        usingCredentialsFrom: [],
-        createGroupChange: () => this.denyPendingApprovalRequest(uuid),
-        extraConversationsForSend: [conversationId],
-      });
-    } else if (this.isMemberPending(uuid)) {
-      await this.modifyGroupV2({
-        name: 'removePendingMember',
-        usingCredentialsFrom: [],
-        createGroupChange: () => this.removePendingMember([uuid]),
-        extraConversationsForSend: [conversationId],
-      });
-    }
   }
 
   async removeFromGroupV2(conversationId: string): Promise<void> {

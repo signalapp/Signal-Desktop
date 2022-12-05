@@ -12,6 +12,7 @@ import {
   without,
 } from 'lodash';
 
+import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
 import * as log from '../../logging/log';
@@ -90,12 +91,19 @@ import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import {
   isDirectConversation,
   isGroup,
+  isGroupV2,
 } from '../../util/whatTypeOfConversation';
 import { missingCaseError } from '../../util/missingCaseError';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { isIncoming } from '../selectors/message';
+import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
+import type { ShowToastActionType } from './toast';
+import { SHOW_TOAST, ToastType } from './toast';
+import { isMemberRequestingToJoin } from '../../util/isMemberRequestingToJoin';
+import { removePendingMember } from '../../util/removePendingMember';
+import { denyPendingApprovalRequest } from '../../util/denyPendingApprovalRequest';
 
 // State
 
@@ -833,6 +841,7 @@ export type ConversationActionType =
 
 export const actions = {
   addMemberToGroup,
+  approvePendingMembershipFromGroupV2,
   cancelConversationVerification,
   changeHasGroupLink,
   clearCancelledConversationVerification,
@@ -854,9 +863,12 @@ export const actions = {
   conversationUnloaded,
   createGroup,
   deleteAvatarFromDisk,
+  deleteMessageForEveryone,
+  destroyMessages,
   discardMessages,
   doubleCheckMissingQuoteReference,
   generateNewGroupLink,
+  loadRecentMediaItems,
   messageChanged,
   messageDeleted,
   messageExpanded,
@@ -872,31 +884,35 @@ export const actions = {
   resetAllChatColors,
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
+  revokePendingMembershipsFromGroupV2,
   saveAvatarToDisk,
   scrollToMessage,
   selectMessage,
   setAccessControlAddFromInviteLinkSetting,
+  setAccessControlAttributesSetting,
+  setAccessControlMembersSetting,
+  setAnnouncementsOnly,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
   setComposeGroupName,
   setComposeSearchTerm,
+  setDisappearingMessages,
   setIsFetchingUUID,
   setIsNearBottom,
   setMessageLoadingState,
   setPreJoinConversation,
-  setRecentMediaItems,
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
   setVoiceNotePlaybackRate,
   showArchivedConversations,
   showChooseGroupMembers,
-  showInbox,
   showConversation,
+  showInbox,
   startComposing,
   startSettingGroupMetadata,
   toggleAdmin,
-  toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
+  toggleConversationInChooseMembers,
   toggleGroupsForStorySend,
   toggleHideStories,
   updateConversationModelSharedGroups,
@@ -996,6 +1012,125 @@ function changeHasGroupLink(
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.toggleGroupLink(value),
     });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setAnnouncementsOnly(
+  conversationId: string,
+  value: boolean
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'updateAnnouncementsOnly',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.updateAnnouncementsOnly(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setAccessControlMembersSetting(
+  conversationId: string,
+  value: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'updateAccessControlMembers',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.updateAccessControlMembers(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setAccessControlAttributesSetting(
+  conversationId: string,
+  value: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'updateAccessControlAttributes',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.updateAccessControlAttributes(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setDisappearingMessages(
+  conversationId: string,
+  seconds: DurationInSeconds
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    const valueToSet = seconds > 0 ? seconds : undefined;
+
+    await longRunningTaskWrapper({
+      name: 'updateExpirationTimer',
+      idForLogging: conversation.idForLogging(),
+      task: async () =>
+        conversation.updateExpirationTimer(valueToSet, {
+          reason: 'setDisappearingMessages',
+        }),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function destroyMessages(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      name: 'destroymessages',
+      idForLogging: conversation.idForLogging(),
+      task: async () => {
+        conversation.trigger('unload', 'delete messages');
+        await conversation.destroyMessages();
+        conversation.updateLastMessage();
+      },
+    });
+
     dispatch({
       type: 'NOOP',
       payload: null,
@@ -1845,15 +1980,248 @@ function setSelectedConversationPanelDepth(
     payload: { panelDepth },
   };
 }
-function setRecentMediaItems(
-  id: string,
-  recentMediaItems: Array<MediaItemType>
-): SetRecentMediaItemsActionType {
-  return {
-    type: 'SET_RECENT_MEDIA_ITEMS',
-    payload: { id, recentMediaItems },
+
+function deleteMessageForEveryone(
+  messageId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    const message = window.MessageController.getById(messageId);
+    if (!message) {
+      throw new Error(
+        `deleteMessageForEveryone: Message ${messageId} missing!`
+      );
+    }
+
+    const conversation = message.getConversation();
+    if (!conversation) {
+      throw new Error('deleteMessageForEveryone: no conversation');
+    }
+
+    try {
+      await sendDeleteForEveryoneMessage(conversation.attributes, {
+        id: message.id,
+        timestamp: message.get('sent_at'),
+      });
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    } catch (error) {
+      log.error(
+        'Error sending delete-for-everyone',
+        Errors.toLogFormat(error),
+        messageId
+      );
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.DeleteForEveryoneFailed,
+        },
+      });
+    }
   };
 }
+
+function approvePendingMembershipFromGroupV2(
+  conversationId: string,
+  memberId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        `approvePendingMembershipFromGroupV2: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    const logId = conversation.idForLogging();
+
+    const pendingMember = window.ConversationController.get(memberId);
+    if (!pendingMember) {
+      throw new Error(
+        `approvePendingMembershipFromGroupV2/${logId}: No member found for conversation ${conversationId}`
+      );
+    }
+
+    const uuid = pendingMember.getCheckedUuid(
+      `approvePendingMembershipFromGroupV2/${logId}`
+    );
+
+    if (
+      isGroupV2(conversation.attributes) &&
+      isMemberRequestingToJoin(conversation.attributes, uuid)
+    ) {
+      await window.Signal.Groups.modifyGroupV2({
+        conversation,
+        usingCredentialsFrom: [pendingMember],
+        createGroupChange: async () => {
+          // This user's pending state may have changed in the time between the user's
+          //   button press and when we get here. It's especially important to check here
+          //   in conflict/retry cases.
+          if (!isMemberRequestingToJoin(conversation.attributes, uuid)) {
+            log.warn(
+              `approvePendingMembershipFromGroupV2/${logId}: ${uuid} is not requesting ` +
+                'to join the group. Returning early.'
+            );
+            return undefined;
+          }
+
+          return window.Signal.Groups.buildPromotePendingAdminApprovalMemberChange(
+            {
+              group: conversation.attributes,
+              uuid,
+            }
+          );
+        },
+        name: 'approvePendingMembershipFromGroupV2',
+      });
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function revokePendingMembershipsFromGroupV2(
+  conversationId: string,
+  memberIds: Array<string>
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        `approvePendingMembershipFromGroupV2: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    if (!isGroupV2(conversation.attributes)) {
+      return;
+    }
+
+    // Only pending memberships can be revoked for multiple members at once
+    if (memberIds.length > 1) {
+      const uuids = memberIds.map(id => {
+        const uuid = window.ConversationController.get(id)?.getUuid();
+        strictAssert(uuid, `UUID does not exist for ${id}`);
+        return uuid;
+      });
+      await conversation.modifyGroupV2({
+        name: 'removePendingMember',
+        usingCredentialsFrom: [],
+        createGroupChange: () =>
+          removePendingMember(conversation.attributes, uuids),
+        extraConversationsForSend: memberIds,
+      });
+      return;
+    }
+
+    const [memberId] = memberIds;
+
+    const pendingMember = window.ConversationController.get(memberId);
+    if (!pendingMember) {
+      const logId = conversation.idForLogging();
+      throw new Error(
+        `revokePendingMembershipsFromGroupV2/${logId}: No conversation found for conversation ${memberId}`
+      );
+    }
+
+    const uuid = pendingMember.getCheckedUuid(
+      'revokePendingMembershipsFromGroupV2'
+    );
+
+    if (isMemberRequestingToJoin(conversation.attributes, uuid)) {
+      await conversation.modifyGroupV2({
+        name: 'denyPendingApprovalRequest',
+        usingCredentialsFrom: [],
+        createGroupChange: () =>
+          denyPendingApprovalRequest(conversation.attributes, uuid),
+        extraConversationsForSend: [memberId],
+      });
+    } else if (conversation.isMemberPending(uuid)) {
+      await conversation.modifyGroupV2({
+        name: 'removePendingMember',
+        usingCredentialsFrom: [],
+        createGroupChange: () =>
+          removePendingMember(conversation.attributes, [uuid]),
+        extraConversationsForSend: [memberId],
+      });
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function loadRecentMediaItems(
+  conversationId: string,
+  limit: number
+): ThunkAction<void, RootStateType, unknown, SetRecentMediaItemsActionType> {
+  return async dispatch => {
+    const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
+
+    const messages: Array<MessageAttributesType> =
+      await window.Signal.Data.getMessagesWithVisualMediaAttachments(
+        conversationId,
+        {
+          limit,
+        }
+      );
+
+    // Cache these messages in memory to ensure Lightbox can find them
+    messages.forEach(message => {
+      window.MessageController.register(message.id, message);
+    });
+
+    const recentMediaItems = messages
+      .filter(message => message.attachments !== undefined)
+      .reduce(
+        (acc, message) => [
+          ...acc,
+          ...(message.attachments || []).map(
+            (attachment: AttachmentType, index: number): MediaItemType => {
+              const { thumbnail } = attachment;
+
+              return {
+                objectURL: getAbsoluteAttachmentPath(attachment.path || ''),
+                thumbnailObjectUrl: thumbnail?.path
+                  ? getAbsoluteAttachmentPath(thumbnail.path)
+                  : '',
+                contentType: attachment.contentType,
+                index,
+                attachment,
+                message: {
+                  attachments: message.attachments || [],
+                  conversationId:
+                    window.ConversationController.get(message.sourceUuid)?.id ||
+                    message.conversationId,
+                  id: message.id,
+                  received_at: message.received_at,
+                  received_at_ms: Number(message.received_at_ms),
+                  sent_at: message.sent_at,
+                },
+              };
+            }
+          ),
+        ],
+        [] as Array<MediaItemType>
+      );
+
+    dispatch({
+      type: 'SET_RECENT_MEDIA_ITEMS',
+      payload: { id: conversationId, recentMediaItems },
+    });
+  };
+}
+
 function clearInvitedUuidsForNewlyCreatedGroup(): ClearInvitedUuidsForNewlyCreatedGroupActionType {
   return { type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP' };
 }

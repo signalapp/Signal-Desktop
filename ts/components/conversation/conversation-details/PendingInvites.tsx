@@ -17,17 +17,28 @@ import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { isAccessControlEnabled } from '../../../groups/util';
 import { assertDev } from '../../../util/assert';
 
-export type PropsType = {
+export type PropsDataType = {
   readonly conversation?: ConversationType;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
   readonly ourUuid: UUIDStringType;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
-  readonly approvePendingMembership: (conversationId: string) => void;
-  readonly revokePendingMemberships: (conversationIds: Array<string>) => void;
   readonly theme: ThemeType;
 };
+
+type PropsActionType = {
+  readonly approvePendingMembershipFromGroupV2: (
+    conversationId: string,
+    memberId: string
+  ) => void;
+  readonly revokePendingMembershipsFromGroupV2: (
+    conversationId: string,
+    memberIds: Array<string>
+  ) => void;
+};
+
+export type PropsType = PropsDataType & PropsActionType;
 
 export type GroupV2PendingMembership = {
   metadata: {
@@ -57,14 +68,14 @@ type StagedMembershipType = {
 };
 
 export function PendingInvites({
-  approvePendingMembership,
+  approvePendingMembershipFromGroupV2,
   conversation,
   getPreferredBadge,
   i18n,
   ourUuid,
   pendingMemberships,
   pendingApprovalMemberships,
-  revokePendingMemberships,
+  revokePendingMembershipsFromGroupV2,
   theme,
 }: PropsType): JSX.Element {
   if (!conversation || !ourUuid) {
@@ -148,13 +159,17 @@ export function PendingInvites({
 
       {stagedMemberships && stagedMemberships.length && (
         <MembershipActionConfirmation
-          approvePendingMembership={approvePendingMembership}
+          approvePendingMembershipFromGroupV2={
+            approvePendingMembershipFromGroupV2
+          }
           conversation={conversation}
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           onClose={() => setStagedMemberships(null)}
           ourUuid={ourUuid}
-          revokePendingMemberships={revokePendingMemberships}
+          revokePendingMembershipsFromGroupV2={
+            revokePendingMembershipsFromGroupV2
+          }
           stagedMemberships={stagedMemberships}
         />
       )}
@@ -163,29 +178,36 @@ export function PendingInvites({
 }
 
 function MembershipActionConfirmation({
-  approvePendingMembership,
+  approvePendingMembershipFromGroupV2,
   conversation,
   i18n,
   members,
   onClose,
   ourUuid,
-  revokePendingMemberships,
+  revokePendingMembershipsFromGroupV2,
   stagedMemberships,
 }: {
-  approvePendingMembership: (conversationId: string) => void;
+  approvePendingMembershipFromGroupV2: (
+    conversationId: string,
+    memberId: string
+  ) => void;
   conversation: ConversationType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
   onClose: () => void;
   ourUuid: string;
-  revokePendingMemberships: (conversationIds: Array<string>) => void;
+  revokePendingMembershipsFromGroupV2: (
+    conversationId: string,
+    memberIds: Array<string>
+  ) => void;
   stagedMemberships: Array<StagedMembershipType>;
 }) {
   const revokeStagedMemberships = () => {
     if (!stagedMemberships) {
       return;
     }
-    revokePendingMemberships(
+    revokePendingMembershipsFromGroupV2(
+      conversation.id,
       stagedMemberships.map(({ membership }) => membership.member.id)
     );
   };
@@ -194,7 +216,10 @@ function MembershipActionConfirmation({
     if (!stagedMemberships) {
       return;
     }
-    approvePendingMembership(stagedMemberships[0].membership.member.id);
+    approvePendingMembershipFromGroupV2(
+      conversation.id,
+      stagedMemberships[0].membership.member.id
+    );
   };
 
   const membershipType = stagedMemberships[0].type;

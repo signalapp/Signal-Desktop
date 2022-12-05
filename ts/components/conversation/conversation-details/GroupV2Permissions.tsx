@@ -13,13 +13,18 @@ import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 
-export type PropsType = {
+export type PropsDataType = {
   conversation?: ConversationType;
   i18n: LocalizerType;
-  setAccessControlAttributesSetting: (value: number) => void;
-  setAccessControlMembersSetting: (value: number) => void;
-  setAnnouncementsOnly: (value: boolean) => void;
 };
+
+type PropsActionType = {
+  setAccessControlAttributesSetting: (id: string, value: number) => void;
+  setAccessControlMembersSetting: (id: string, value: number) => void;
+  setAnnouncementsOnly: (id: string, value: boolean) => void;
+};
+
+export type PropsType = PropsDataType & PropsActionType;
 
 export function GroupV2Permissions({
   conversation,
@@ -37,14 +42,17 @@ export function GroupV2Permissions({
   }
 
   const updateAccessControlAttributes = (value: string) => {
-    setAccessControlAttributesSetting(Number(value));
+    setAccessControlAttributesSetting(conversation.id, Number(value));
   };
   const updateAccessControlMembers = (value: string) => {
-    setAccessControlMembersSetting(Number(value));
+    setAccessControlMembersSetting(conversation.id, Number(value));
   };
   const AccessControlEnum = Proto.AccessControl.AccessRequired;
   const updateAnnouncementsOnly = (value: string) => {
-    setAnnouncementsOnly(Number(value) === AccessControlEnum.ADMINISTRATOR);
+    setAnnouncementsOnly(
+      conversation.id,
+      Number(value) === AccessControlEnum.ADMINISTRATOR
+    );
   };
   const accessControlOptions = getAccessControlOptions(i18n);
   const announcementsOnlyValue = String(

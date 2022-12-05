@@ -36,7 +36,6 @@ import {
   isGroupV1,
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
-import type { DurationInSeconds } from '../util/durations';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
   canReply,
@@ -67,7 +66,6 @@ import { ToastConversationArchived } from '../components/ToastConversationArchiv
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
-import { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import { ToastExpired } from '../components/ToastExpired';
 import { ToastFileSize } from '../components/ToastFileSize';
 import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
@@ -107,13 +105,13 @@ import {
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { closeLightbox, showLightbox } from '../util/showLightbox';
 import { saveAttachment } from '../util/saveAttachment';
-import { sendDeleteForEveryoneMessage } from '../util/sendDeleteForEveryoneMessage';
 import { SECOND } from '../util/durations';
 import { blockSendUntilConversationsAreVerified } from '../util/blockSendUntilConversationsAreVerified';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { getOwn } from '../util/getOwn';
 import { CallMode } from '../types/Calling';
 import { isAnybodyElseInGroupCall } from '../state/ducks/calling';
+import { startConversation } from '../util/startConversation';
 
 type AttachmentOptions = {
   messageId: string;
@@ -136,7 +134,6 @@ const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
   deleteMessage: (messageId: string) => unknown;
-  deleteMessageForEveryone: (messageId: string) => unknown;
   displayTapToViewMessage: (messageId: string) => unknown;
   downloadAttachment: (options: {
     attachment: AttachmentType;
@@ -337,9 +334,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const conversationHeaderProps = {
       id: this.model.id,
 
-      onSetDisappearingMessages: (seconds: DurationInSeconds) =>
-        this.setDisappearingMessages(seconds),
-      onDeleteMessages: () => this.destroyMessages(),
       onSearchInConversation: () => {
         const { searchInConversation } = window.reduxActions.search;
         searchInConversation(this.model.id);
@@ -737,9 +731,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const deleteMessage = (messageId: string) => {
       this.deleteMessage(messageId);
     };
-    const deleteMessageForEveryone = (messageId: string) => {
-      this.deleteMessageForEveryone(messageId);
-    };
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
@@ -826,11 +817,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
 
     const showForwardMessageModal = this.showForwardMessageModal.bind(this);
-    const startConversation = this.startConversation.bind(this);
 
     return {
       deleteMessage,
-      deleteMessageForEveryone,
       displayTapToViewMessage,
       downloadAttachment,
       downloadNewVersion,
@@ -1661,38 +1650,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
 
-  deleteMessageForEveryone(messageId: string): void {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(
-        `deleteMessageForEveryone: Message ${messageId} missing!`
-      );
-    }
-
-    window.showConfirmationDialog({
-      dialogName: 'deleteMessageForEveryone',
-      confirmStyle: 'negative',
-      message: window.i18n('deleteForEveryoneWarning'),
-      okText: window.i18n('delete'),
-      resolve: async () => {
-        try {
-          await sendDeleteForEveryoneMessage(this.model.attributes, {
-            id: message.id,
-            timestamp: message.get('sent_at'),
-          });
-        } catch (error) {
-          log.error(
-            'Error sending delete-for-everyone',
-            Errors.toLogFormat(error),
-            messageId
-          );
-          showToast(ToastDeleteForEveryoneFailed);
-        }
-        this.resetPanel();
-      },
-    });
-  }
-
   showStickerPackPreview(packId: string, packKey: string): void {
     Stickers.downloadEphemeralPack(packId, packKey);
 
@@ -1873,11 +1830,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore,
         {
           conversationId: this.model.id,
-          setAccessControlAttributesSetting:
-            this.setAccessControlAttributesSetting.bind(this),
-          setAccessControlMembersSetting:
-            this.setAccessControlMembersSetting.bind(this),
-          setAnnouncementsOnly: this.setAnnouncementsOnly.bind(this),
         }
       ),
     });
@@ -1893,12 +1845,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
         conversationId: this.model.id,
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-        approvePendingMembership: (conversationId: string) => {
-          this.model.approvePendingMembershipFromGroupV2(conversationId);
-        },
-        revokePendingMemberships: conversationIds => {
-          this.model.revokePendingMembershipsFromGroupV2(conversationIds);
-        },
       }),
     });
     const headerTitle = window.i18n(
@@ -1971,8 +1917,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const props = {
       addMembers: this.model.addMembersV2.bind(this.model),
       conversationId: this.model.get('id'),
-      loadRecentMediaItems: this.loadRecentMediaItems.bind(this),
-      setDisappearingMessages: this.setDisappearingMessages.bind(this),
       showAllMedia: this.showAllMedia.bind(this),
       showContactModal: this.showContactModal.bind(this),
       showChatColorEditor: this.showChatColorEditor.bind(this),
@@ -2092,10 +2036,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           hasSignalAccount={Boolean(signalAccount)}
           onSendMessage={() => {
             if (signalAccount) {
-              this.startConversation(
-                signalAccount.phoneNumber,
-                signalAccount.uuid
-              );
+              startConversation(signalAccount.phoneNumber, signalAccount.uuid);
             }
           }}
         />
@@ -2106,20 +2047,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
 
     this.addPanel({ view });
-  }
-
-  startConversation(e164: string, uuid: UUIDStringType): void {
-    const conversation = window.ConversationController.lookupOrCreate({
-      e164,
-      uuid,
-      reason: 'conversation_view.startConversation',
-    });
-    strictAssert(
-      conversation,
-      `startConversation failed given ${e164}/${uuid} combination`
-    );
-
-    this.openConversation(conversation.id);
   }
 
   async openConversation(
@@ -2199,124 +2126,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       this.panels[0]?.headerTitle
     );
-  }
-
-  async loadRecentMediaItems(limit: number): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    const messages: Array<MessageAttributesType> =
-      await window.Signal.Data.getMessagesWithVisualMediaAttachments(model.id, {
-        limit,
-      });
-
-    // Cache these messages in memory to ensure Lightbox can find them
-    messages.forEach(message => {
-      window.MessageController.register(message.id, message);
-    });
-
-    const loadedRecentMediaItems = messages
-      .filter(message => message.attachments !== undefined)
-      .reduce(
-        (acc, message) => [
-          ...acc,
-          ...(message.attachments || []).map(
-            (attachment: AttachmentType, index: number): MediaItemType => {
-              const { thumbnail } = attachment;
-
-              return {
-                objectURL: getAbsoluteAttachmentPath(attachment.path || ''),
-                thumbnailObjectUrl: thumbnail?.path
-                  ? getAbsoluteAttachmentPath(thumbnail.path)
-                  : '',
-                contentType: attachment.contentType,
-                index,
-                attachment,
-                message: {
-                  attachments: message.attachments || [],
-                  conversationId:
-                    window.ConversationController.get(message.sourceUuid)?.id ||
-                    message.conversationId,
-                  id: message.id,
-                  received_at: message.received_at,
-                  received_at_ms: Number(message.received_at_ms),
-                  sent_at: message.sent_at,
-                },
-              };
-            }
-          ),
-        ],
-        [] as Array<MediaItemType>
-      );
-
-    window.reduxActions.conversations.setRecentMediaItems(
-      model.id,
-      loadedRecentMediaItems
-    );
-  }
-
-  async setDisappearingMessages(seconds: DurationInSeconds): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    const valueToSet = seconds > 0 ? seconds : undefined;
-
-    await this.longRunningTaskWrapper({
-      name: 'updateExpirationTimer',
-      task: async () =>
-        model.updateExpirationTimer(valueToSet, {
-          reason: 'setDisappearingMessages',
-        }),
-    });
-  }
-
-  async setAccessControlAttributesSetting(value: number): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    await this.longRunningTaskWrapper({
-      name: 'updateAccessControlAttributes',
-      task: async () => model.updateAccessControlAttributes(value),
-    });
-  }
-
-  async setAccessControlMembersSetting(value: number): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    await this.longRunningTaskWrapper({
-      name: 'updateAccessControlMembers',
-      task: async () => model.updateAccessControlMembers(value),
-    });
-  }
-
-  async setAnnouncementsOnly(value: boolean): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    await this.longRunningTaskWrapper({
-      name: 'updateAnnouncementsOnly',
-      task: async () => model.updateAnnouncementsOnly(value),
-    });
-  }
-
-  async destroyMessages(): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    window.showConfirmationDialog({
-      dialogName: 'destroyMessages',
-      confirmStyle: 'negative',
-      message: window.i18n('deleteConversationConfirmation'),
-      okText: window.i18n('delete'),
-      resolve: () => {
-        this.longRunningTaskWrapper({
-          name: 'destroymessages',
-          task: async () => {
-            model.trigger('unload', 'delete messages');
-            await model.destroyMessages();
-            model.updateLastMessage();
-          },
-        });
-      },
-      reject: () => {
-        log.info('destroyMessages: User canceled delete');
-      },
-    });
   }
 
   async isCallSafe(): Promise<boolean> {

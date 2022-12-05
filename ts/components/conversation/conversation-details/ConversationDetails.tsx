@@ -73,14 +73,12 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   isGroup: boolean;
-  loadRecentMediaItems: (limit: number) => void;
   groupsInCommon: Array<ConversationType>;
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
   memberships: Array<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
-  setDisappearingMessages: (seconds: DurationInSeconds) => void;
   showAllMedia: () => void;
   showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
@@ -116,13 +114,15 @@ export type StateProps = {
 
 type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  loadRecentMediaItems: (id: string, limit: number) => void;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
+  searchInConversation: (id: string) => unknown;
+  setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
-  toggleSafetyNumberModal: (conversationId: string) => unknown;
-  searchInConversation: (id: string) => unknown;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
+  toggleSafetyNumberModal: (conversationId: string) => unknown;
 };
 
 export type Props = StateProps & ActionProps;
@@ -412,7 +412,9 @@ export function ConversationDetails({
               <DisappearingTimerSelect
                 i18n={i18n}
                 value={conversation.expireTimer || DurationInSeconds.ZERO}
-                onChange={setDisappearingMessages}
+                onChange={value =>
+                  setDisappearingMessages(conversation.id, value)
+                }
               />
             }
           />
