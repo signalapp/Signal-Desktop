@@ -951,11 +951,6 @@ type EditDistributionListModalPropsType = {
   onBackButtonClick: () => void;
 } & Pick<PropsType, 'candidateConversations' | 'getPreferredBadge' | 'i18n'>;
 
-/**
- *
- * @param param0
- * @returns
- */
 export const EditDistributionListModal = ({
   candidateConversations,
   getPreferredBadge,
