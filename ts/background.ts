@@ -2260,7 +2260,6 @@ export async function startApp(): Promise<void> {
               announcementGroup: true,
               giftBadges: true,
               'gv2-3': true,
-              'gv1-migration': true,
               senderKey: true,
               changeNumber: true,
               stories: true,

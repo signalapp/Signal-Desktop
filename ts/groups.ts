@@ -2149,23 +2149,11 @@ export async function getGroupMigrationMembers(
           return null;
         }
 
-        let capabilities = contact.get('capabilities');
-
         // Refresh our local data to be sure
-        if (
-          !capabilities?.['gv1-migration'] ||
-          !contact.get('profileKeyCredential')
-        ) {
+        if (!contact.get('profileKeyCredential')) {
           await contact.getProfiles();
         }
 
-        capabilities = contact.get('capabilities');
-        if (!capabilities?.['gv1-migration']) {
-          log.warn(
-            `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
-          );
-          return null;
-        }
         if (!contact.get('profileKeyCredential')) {
           log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
@@ -2219,15 +2207,6 @@ export async function getGroupMigrationMembers(
       if (!contactUuid) {
         log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
-        );
-        droppedGV2MemberIds.push(conversationId);
-        return null;
-      }
-
-      const capabilities = contact.get('capabilities');
-      if (!capabilities?.['gv1-migration']) {
-        log.warn(
-          `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
         );
         droppedGV2MemberIds.push(conversationId);
         return null;

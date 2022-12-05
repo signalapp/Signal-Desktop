@@ -609,7 +609,6 @@ export type WebAPIConnectType = {
 export type CapabilitiesType = {
   announcementGroup: boolean;
   giftBadges: boolean;
-  'gv1-migration': boolean;
   senderKey: boolean;
   changeNumber: boolean;
   stories: boolean;
@@ -618,7 +617,6 @@ export type CapabilitiesUploadType = {
   announcementGroup: true;
   giftBadges: true;
   'gv2-3': true;
-  'gv1-migration': true;
   senderKey: true;
   changeNumber: true;
   stories: true;
@@ -1856,7 +1854,6 @@ export function initialize({
         announcementGroup: true,
         giftBadges: true,
         'gv2-3': true,
-        'gv1-migration': true,
         senderKey: true,
         changeNumber: true,
         stories: true,
