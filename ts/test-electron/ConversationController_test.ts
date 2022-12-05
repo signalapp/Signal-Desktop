@@ -8,6 +8,7 @@ import { strictAssert } from '../util/assert';
 
 import type { ConversationModel } from '../models/conversations';
 import type { UUIDStringType } from '../types/UUID';
+import type { SafeCombineConversationsParams } from '../ConversationController';
 
 const ACI_1 = UUID.generate().toString();
 const ACI_2 = UUID.generate().toString();
@@ -26,17 +27,16 @@ type ParamsType = {
 
 describe('ConversationController', () => {
   describe('maybeMergeContacts', () => {
-    let mergeOldAndNew: (options: {
-      logId: string;
-      oldConversation: ConversationModel;
-      newConversation: ConversationModel;
-    }) => Promise<void>;
+    let mergeOldAndNew: (
+      options: SafeCombineConversationsParams
+    ) => Promise<void>;
 
     beforeEach(async () => {
       await window.Signal.Data._removeAllConversations();
 
       window.ConversationController.reset();
       await window.ConversationController.load();
+      await window.textsecure.storage.protocol.hydrateCaches();
 
       mergeOldAndNew = () => {
         throw new Error('mergeOldAndNew: Should not be called!');
@@ -145,21 +145,23 @@ describe('ConversationController', () => {
 
     describe('non-destructive updates', () => {
       it('creates a new conversation with just ACI if no matches', () => {
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
         });
 
-        const second = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          reason,
-        });
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            reason,
+          });
 
         expectPropsAndLookups(second, 'second', {
           aci: ACI_1,
@@ -168,21 +170,23 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, second?.id, 'result and second match');
       });
       it('creates a new conversation with just e164 if no matches', () => {
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
           e164: E164_1,
         });
 
-        const second = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          reason,
-        });
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            reason,
+          });
 
         expectPropsAndLookups(second, 'second', {
           e164: E164_1,
@@ -191,28 +195,30 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, second?.id, 'result and second match');
       });
       it('creates a new conversation with e164+PNI if no matches', () => {
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
-          aci: PNI_1,
+          uuid: PNI_1,
           e164: E164_1,
           pni: PNI_1,
         });
 
-        const second = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
 
         expectPropsAndLookups(second, 'second', {
-          aci: PNI_1,
+          uuid: PNI_1,
           e164: E164_1,
           pni: PNI_1,
         });
@@ -220,13 +226,14 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, second?.id, 'result and second match');
       });
       it('creates a new conversation with all data if no matches', () => {
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
@@ -234,13 +241,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const second = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
 
         expectPropsAndLookups(second, 'second', {
           uuid: ACI_1,
@@ -258,11 +266,12 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
@@ -280,12 +289,13 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
 
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
@@ -302,13 +312,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -328,12 +339,13 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -348,13 +360,14 @@ describe('ConversationController', () => {
           uuid: ACI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -369,13 +382,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -390,13 +404,14 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -410,12 +425,13 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_1,
@@ -429,13 +445,14 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           aci: ACI_1,
           e164: E164_1,
@@ -449,13 +466,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           aci: ACI_1,
           e164: E164_1,
@@ -475,12 +493,13 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_1,
@@ -499,13 +518,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_2,
-          pni: PNI_2,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_2,
+            pni: PNI_2,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_2,
@@ -530,12 +550,14 @@ describe('ConversationController', () => {
           e164: E164_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          pni: PNI_2,
-          e164: E164_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: PNI_2,
+            pni: PNI_2,
+            e164: E164_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_2,
           e164: E164_1,
@@ -556,13 +578,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_2,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_2,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -584,13 +607,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_2,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_2,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_2,
           e164: E164_1,
@@ -615,13 +639,14 @@ describe('ConversationController', () => {
           uuid: ACI_2,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_2,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_2,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(aciOnly, 'aciOnly', {
           uuid: ACI_2,
           e164: E164_1,
@@ -646,12 +671,13 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_1,
@@ -672,12 +698,13 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_2,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_2,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_2,
@@ -693,10 +720,8 @@ describe('ConversationController', () => {
         );
       });
       it('deletes PNI-only previous conversation, adds it to e164 match', () => {
-        mergeOldAndNew = ({ oldConversation }) => {
-          window.ConversationController.dangerouslyRemoveById(
-            oldConversation.id
-          );
+        mergeOldAndNew = ({ obsolete }) => {
+          window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
@@ -707,12 +732,13 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_1,
@@ -728,10 +754,8 @@ describe('ConversationController', () => {
         );
       });
       it('deletes previous conversation with PNI as UUID only, adds it to e164 match', () => {
-        mergeOldAndNew = ({ oldConversation }) => {
-          window.ConversationController.dangerouslyRemoveById(
-            oldConversation.id
-          );
+        mergeOldAndNew = ({ obsolete }) => {
+          window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
@@ -742,12 +766,13 @@ describe('ConversationController', () => {
           uuid: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: PNI_1,
           e164: E164_1,
@@ -763,10 +788,8 @@ describe('ConversationController', () => {
         );
       });
       it('deletes e164+PNI previous conversation, adds data to ACI match', () => {
-        mergeOldAndNew = ({ oldConversation }) => {
-          window.ConversationController.dangerouslyRemoveById(
-            oldConversation.id
-          );
+        mergeOldAndNew = ({ obsolete }) => {
+          window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
@@ -778,13 +801,14 @@ describe('ConversationController', () => {
           aci: ACI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -813,13 +837,14 @@ describe('ConversationController', () => {
           e164: E164_2,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -831,10 +856,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, withACI?.id, 'result and withACI match');
       });
       it('handles three matching conversations: ACI-only, E164-only (deleted), and with PNI', () => {
-        mergeOldAndNew = ({ oldConversation }) => {
-          window.ConversationController.dangerouslyRemoveById(
-            oldConversation.id
-          );
+        mergeOldAndNew = ({ obsolete }) => {
+          window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
@@ -849,13 +872,14 @@ describe('ConversationController', () => {
           e164: E164_2,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,
@@ -868,10 +892,8 @@ describe('ConversationController', () => {
         assert.strictEqual(result?.id, withACI?.id, 'result and withACI match');
       });
       it('merges three matching conversations: ACI-only, E164-only (deleted), PNI-only (deleted)', () => {
-        mergeOldAndNew = ({ oldConversation }) => {
-          window.ConversationController.dangerouslyRemoveById(
-            oldConversation.id
-          );
+        mergeOldAndNew = ({ obsolete }) => {
+          window.ConversationController.dangerouslyRemoveById(obsolete.id);
           return Promise.resolve();
         };
 
@@ -885,13 +907,14 @@ describe('ConversationController', () => {
           pni: PNI_1,
         });
 
-        const result = window.ConversationController.maybeMergeContacts({
-          mergeOldAndNew,
-          aci: ACI_1,
-          e164: E164_1,
-          pni: PNI_1,
-          reason,
-        });
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ACI_1,
+            e164: E164_1,
+            pni: PNI_1,
+            reason,
+          });
         expectPropsAndLookups(result, 'result', {
           uuid: ACI_1,
           e164: E164_1,

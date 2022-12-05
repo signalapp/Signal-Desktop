@@ -957,7 +957,7 @@ export async function mergeContactRecord(
     return { hasConflict: false, shouldDrop: true, details: ['our own uuid'] };
   }
 
-  const conversation = window.ConversationController.maybeMergeContacts({
+  const { conversation } = window.ConversationController.maybeMergeContacts({
     aci: uuid,
     e164,
     pni,

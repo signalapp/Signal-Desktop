@@ -23,6 +23,10 @@ export type ConversationOpenInfoType = Readonly<{
   delta: number;
 }>;
 
+export type StorageServiceInfoType = Readonly<{
+  manifestVersion: number;
+}>;
+
 export type AppOptionsType = Readonly<{
   main: string;
   args: ReadonlyArray<string>;
@@ -64,6 +68,21 @@ export class App {
 
   public async waitForChallenge(): Promise<ChallengeRequestType> {
     return this.waitForEvent('challenge');
+  }
+
+  public async waitForStorageService(): Promise<StorageServiceInfoType> {
+    return this.waitForEvent('storageServiceComplete');
+  }
+
+  public async waitForManifestVersion(version: number): Promise<void> {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      // eslint-disable-next-line no-await-in-loop
+      const { manifestVersion } = await this.waitForStorageService();
+      if (manifestVersion >= version) {
+        break;
+      }
+    }
   }
 
   public async solveChallenge(response: ChallengeResponseType): Promise<void> {

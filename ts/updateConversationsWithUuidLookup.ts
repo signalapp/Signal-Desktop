@@ -40,7 +40,7 @@ export async function updateConversationsWithUuidLookup({
 
       const pairFromServer = serverLookup.get(e164);
       if (pairFromServer) {
-        const maybeFinalConversation =
+        const { conversation: maybeFinalConversation } =
           conversationController.maybeMergeContacts({
             aci: pairFromServer.aci,
             pni: pairFromServer.pni,

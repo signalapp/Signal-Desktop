@@ -249,6 +249,17 @@ describe('pnp/PNI Signature', function needsName() {
         'third message must not have pni signature message'
       );
     }
+
+    debug('Verify final state');
+    {
+      // One incoming, three outgoing
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 4, 'message count');
+
+      // No notifications
+      const notifications = window.locator('.SystemMessage');
+      assert.strictEqual(await notifications.count(), 0, 'notification count');
+    }
   });
 
   it('should be received by Desktop and trigger contact merge', async () => {
@@ -345,6 +356,27 @@ describe('pnp/PNI Signature', function needsName() {
 
       assert.strictEqual(aci?.serviceUuid, pniContact.device.uuid);
       assert.strictEqual(aci?.pni, pniContact.device.pni);
+
+      // Two outgoing, one incoming
+      const messages = window.locator('.module-message__text');
+      assert.strictEqual(await messages.count(), 3, 'messages');
+
+      // Two 'verify contact' and nothing else
+      const notifications = window.locator('.SystemMessage');
+      assert.strictEqual(await notifications.count(), 2, 'notifications');
+
+      // TODO: DESKTOP-4663
+      const first = await notifications.first();
+      assert.match(
+        await first.innerText(),
+        /You marked your Safety Number with Unknown contact as verified from another device/
+      );
+
+      const second = await notifications.nth(1);
+      assert.match(
+        await second.innerText(),
+        /You marked your Safety Number with ACI Contact as verified from another device/
+      );
     }
   });
 });

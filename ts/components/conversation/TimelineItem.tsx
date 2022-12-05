@@ -55,6 +55,10 @@ import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileC
 import { ProfileChangeNotification } from './ProfileChangeNotification';
 import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification';
 import { PaymentEventNotification } from './PaymentEventNotification';
+import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
+import { ConversationMergeNotification } from './ConversationMergeNotification';
+import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
 
@@ -118,6 +122,14 @@ type ProfileChangeNotificationType = {
   type: 'profileChange';
   data: ProfileChangeNotificationPropsType;
 };
+type ConversationMergeNotificationType = {
+  type: 'conversationMerge';
+  data: ConversationMergeNotificationPropsType;
+};
+type PhoneNumberDiscoveryNotificationType = {
+  type: 'phoneNumberDiscovery';
+  data: PhoneNumberDiscoveryNotificationPropsType;
+};
 type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
@@ -125,18 +137,20 @@ type PaymentEventType = {
 
 export type TimelineItemType = (
   | CallHistoryType
+  | ChangeNumberNotificationType
   | ChatSessionRefreshedType
+  | ConversationMergeNotificationType
   | DeliveryIssueType
   | GroupNotificationType
   | GroupV1MigrationType
   | GroupV2ChangeType
   | MessageType
+  | PhoneNumberDiscoveryNotificationType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UniversalTimerNotificationType
-  | ChangeNumberNotificationType
   | UnsupportedMessageType
   | VerificationNotificationType
   | PaymentEventType
@@ -299,6 +313,22 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'groupV1Migration') {
         notification = (
           <GroupV1Migration {...this.props} {...item.data} i18n={i18n} />
+        );
+      } else if (item.type === 'conversationMerge') {
+        notification = (
+          <ConversationMergeNotification
+            {...this.props}
+            {...item.data}
+            i18n={i18n}
+          />
+        );
+      } else if (item.type === 'phoneNumberDiscovery') {
+        notification = (
+          <PhoneNumberDiscoveryNotification
+            {...this.props}
+            {...item.data}
+            i18n={i18n}
+          />
         );
       } else if (item.type === 'resetSessionNotification') {
         notification = <ResetSessionNotification {...this.props} i18n={i18n} />;

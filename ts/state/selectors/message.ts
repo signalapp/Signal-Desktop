@@ -26,6 +26,8 @@ import type { PropsDataType as GroupsV2Props } from '../../components/conversati
 import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
 import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification';
+import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification';
+import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -108,6 +110,7 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
+import { getTitle, renderNumber } from '../../util/getTitle';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -990,6 +993,20 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isConversationMerge(message)) {
+    return {
+      type: 'conversationMerge',
+      data: getPropsForConversationMerge(message, options),
+      timestamp,
+    };
+  }
+  if (isPhoneNumberDiscovery(message)) {
+    return {
+      type: 'phoneNumberDiscovery',
+      data: getPhoneNumberDiscovery(message, options),
+      timestamp,
+    };
+  }
 
   if (
     messageHasPaymentEvent(message) &&
@@ -1214,7 +1231,14 @@ function getPropsForSafetyNumberNotification(
   const conversation = getConversation(message, conversationSelector);
   const isGroup = conversation?.type === 'group';
   const identifier = message.key_changed;
-  const contact = conversationSelector(identifier);
+
+  if (isGroup && !identifier) {
+    throw new Error(
+      'getPropsForSafetyNumberNotification: isGroup = true, but no identifier!'
+    );
+  }
+
+  const contact = identifier ? conversationSelector(identifier) : conversation;
 
   return {
     isGroup,
@@ -1476,6 +1500,55 @@ export function isChatSessionRefreshed(
 }
 
 // Note: props are null
+
+export function isConversationMerge(message: MessageWithUIFieldsType): boolean {
+  return message.type === 'conversation-merge';
+}
+export function getPropsForConversationMerge(
+  message: MessageWithUIFieldsType,
+  { conversationSelector }: GetPropsForBubbleOptions
+): ConversationMergePropsType {
+  const { conversationMerge } = message;
+  if (!conversationMerge) {
+    throw new Error(
+      'getPropsForConversationMerge: message is missing conversationMerge!'
+    );
+  }
+
+  const conversation = getConversation(message, conversationSelector);
+  const conversationTitle = conversation.title;
+
+  const { type, e164 } = conversationMerge.renderInfo;
+  const obsoleteConversationTitle = e164 ? getTitle({ type, e164 }) : undefined;
+
+  return {
+    conversationTitle,
+    obsoleteConversationTitle,
+  };
+}
+export function isPhoneNumberDiscovery(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'phone-number-discovery';
+}
+export function getPhoneNumberDiscovery(
+  message: MessageWithUIFieldsType,
+  { conversationSelector }: GetPropsForBubbleOptions
+): PhoneNumberDiscoveryPropsType {
+  const { phoneNumberDiscovery } = message;
+  if (!phoneNumberDiscovery) {
+    throw new Error(
+      'getPhoneNumberDiscovery: message is missing phoneNumberDiscovery!'
+    );
+  }
+
+  const conversation = getConversation(message, conversationSelector);
+  const conversationTitle = conversation.title;
+  const sharedGroup = conversation.sharedGroupNames[0];
+  const phoneNumber = renderNumber(phoneNumberDiscovery.e164);
+
+  return { conversationTitle, sharedGroup, phoneNumber };
+}
 
 // Delivery Issue
 

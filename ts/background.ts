@@ -2634,13 +2634,12 @@ export async function startApp(): Promise<void> {
 
     let conversation;
 
-    const senderConversation = window.ConversationController.maybeMergeContacts(
-      {
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
         e164: sender,
         aci: senderUuid,
         reason: `onTyping(${typing.timestamp})`,
-      }
-    );
+      });
 
     // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
     if (groupV2Id) {
@@ -2874,14 +2873,21 @@ export async function startApp(): Promise<void> {
     maxSize: Infinity,
   });
 
-  function onEnvelopeReceived({ envelope }: EnvelopeEvent): void {
+  async function onEnvelopeReceived({
+    envelope,
+  }: EnvelopeEvent): Promise<void> {
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
-      window.ConversationController.maybeMergeContacts({
-        e164: envelope.source,
-        aci: envelope.sourceUuid,
-        reason: `onEnvelopeReceived(${envelope.timestamp})`,
-      });
+      const { mergePromises } =
+        window.ConversationController.maybeMergeContacts({
+          e164: envelope.source,
+          aci: envelope.sourceUuid,
+          reason: `onEnvelopeReceived(${envelope.timestamp})`,
+        });
+
+      if (mergePromises.length > 0) {
+        await Promise.all(mergePromises);
+      }
     }
   }
 
@@ -3028,7 +3034,7 @@ export async function startApp(): Promise<void> {
     data,
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
-    const conversation = window.ConversationController.maybeMergeContacts({
+    const { conversation } = window.ConversationController.maybeMergeContacts({
       aci: data.sourceUuid,
       e164: data.source,
       reason: 'onProfileKeyUpdate',
@@ -3250,11 +3256,12 @@ export async function startApp(): Promise<void> {
       }
 
       // If we can't find one, we treat this as a normal GroupV1 group
-      const fromContact = window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `getMessageDescriptor(${message.timestamp}): group v1`,
-      });
+      const { conversation: fromContact } =
+        window.ConversationController.maybeMergeContacts({
+          aci: sourceUuid,
+          e164: source,
+          reason: `getMessageDescriptor(${message.timestamp}): group v1`,
+        });
 
       const conversationId = window.ConversationController.ensureGroup(id, {
         addedBy: fromContact?.id,
@@ -3266,7 +3273,7 @@ export async function startApp(): Promise<void> {
       };
     }
 
-    const conversation = window.ConversationController.maybeMergeContacts({
+    const { conversation } = window.ConversationController.maybeMergeContacts({
       aci: destinationUuid,
       e164: destination,
       reason: `getMessageDescriptor(${message.timestamp}): private`,
@@ -3696,13 +3703,12 @@ export async function startApp(): Promise<void> {
       sourceDevice,
       wasSentEncrypted,
     } = event.receipt;
-    const sourceConversation = window.ConversationController.maybeMergeContacts(
-      {
+    const { conversation: sourceConversation } =
+      window.ConversationController.maybeMergeContacts({
         aci: sourceUuid,
         e164: source,
         reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-      }
-    );
+      });
     log.info(
       logTitle,
       `${sourceUuid || source}.${sourceDevice}`,
@@ -3830,13 +3836,12 @@ export async function startApp(): Promise<void> {
 
     ev.confirm();
 
-    const sourceConversation = window.ConversationController.maybeMergeContacts(
-      {
+    const { conversation: sourceConversation } =
+      window.ConversationController.maybeMergeContacts({
         aci: sourceUuid,
         e164: source,
         reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-      }
-    );
+      });
 
     log.info(
       'delivery receipt from',

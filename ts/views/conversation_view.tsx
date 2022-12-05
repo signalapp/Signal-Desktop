@@ -6,7 +6,7 @@
 import type * as Backbone from 'backbone';
 import type { ComponentProps } from 'react';
 import * as React from 'react';
-import { debounce, flatten, throttle } from 'lodash';
+import { debounce, flatten } from 'lodash';
 import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
@@ -122,8 +122,6 @@ type AttachmentOptions = {
 
 type PanelType = { view: Backbone.View; headerTitle?: string };
 
-const FIVE_MINUTES = 1000 * 60 * 5;
-
 const { Message } = window.Signal.Types;
 
 const {
@@ -206,7 +204,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     messageText: string,
     bodyRanges: DraftBodyRangesType
   ) => Promise<void>;
-  private lazyUpdateVerified: () => void;
 
   // Composing messages
   private compositionApi: {
@@ -233,19 +230,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   constructor(...args: Array<any>) {
     super(...args);
 
-    this.lazyUpdateVerified = debounce(
-      this.model.updateVerified.bind(this.model),
-      1000 // one second
-    );
-    this.model.throttledGetProfiles =
-      this.model.throttledGetProfiles ||
-      throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
-
     this.debouncedSaveDraft = debounce(this.saveDraft.bind(this), 200);
 
     // Events on Conversation model
     this.listenTo(this.model, 'destroy', this.stopListening);
-    this.listenTo(this.model, 'newmessage', this.lazyUpdateVerified);
 
     // These are triggered by InboxView
     this.listenTo(this.model, 'opened', this.onOpened);

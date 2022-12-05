@@ -46,6 +46,7 @@ import updateToSchemaVersion67 from './67-add-story-to-unprocessed';
 import updateToSchemaVersion68 from './68-drop-deprecated-columns';
 import updateToSchemaVersion69 from './69-group-call-ring-cancellations';
 import updateToSchemaVersion70 from './70-story-reply-index';
+import updateToSchemaVersion71 from './71-merge-notifications';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1893,6 +1894,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion7,
   updateToSchemaVersion8,
   updateToSchemaVersion9,
+
   updateToSchemaVersion10,
   updateToSchemaVersion11,
   updateToSchemaVersion12,
@@ -1903,6 +1905,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion17,
   updateToSchemaVersion18,
   updateToSchemaVersion19,
+
   updateToSchemaVersion20,
   updateToSchemaVersion21,
   updateToSchemaVersion22,
@@ -1913,6 +1916,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion27,
   updateToSchemaVersion28,
   updateToSchemaVersion29,
+
   updateToSchemaVersion30,
   updateToSchemaVersion31,
   updateToSchemaVersion32,
@@ -1923,6 +1927,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion37,
   updateToSchemaVersion38,
   updateToSchemaVersion39,
+
   updateToSchemaVersion40,
   updateToSchemaVersion41,
   updateToSchemaVersion42,
@@ -1933,6 +1938,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion47,
   updateToSchemaVersion48,
   updateToSchemaVersion49,
+
   updateToSchemaVersion50,
   updateToSchemaVersion51,
   updateToSchemaVersion52,
@@ -1943,6 +1949,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion57,
   updateToSchemaVersion58,
   updateToSchemaVersion59,
+
   updateToSchemaVersion60,
   updateToSchemaVersion61,
   updateToSchemaVersion62,
@@ -1953,7 +1960,9 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion67,
   updateToSchemaVersion68,
   updateToSchemaVersion69,
+
   updateToSchemaVersion70,
+  updateToSchemaVersion71,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

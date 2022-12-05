@@ -10,6 +10,7 @@ import { UUID } from '../../types/UUID';
 import { SignalProtocolStore } from '../../SignalProtocolStore';
 import type { ConversationModel } from '../../models/conversations';
 import * as KeyChangeListener from '../../textsecure/KeyChangeListener';
+import * as Bytes from '../../Bytes';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -54,11 +55,10 @@ describe('KeyChangeListener', () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
 
-    convo = window.ConversationController.dangerouslyCreateAndAdd({
-      id: uuidWithKeyChange,
-      type: 'private',
-    });
-    await window.Signal.Data.saveConversation(convo.attributes);
+    convo = await window.ConversationController.getOrCreateAndWait(
+      uuidWithKeyChange,
+      'private'
+    );
 
     store = new SignalProtocolStore();
     await store.hydrateCaches();
@@ -78,8 +78,7 @@ describe('KeyChangeListener', () => {
   describe('When we have a conversation with this contact', () => {
     it('generates a key change notice in the private conversation with this contact', done => {
       const original = convo.addKeyChange;
-      convo.addKeyChange = async keyChangedId => {
-        assert.equal(uuidWithKeyChange, keyChangedId.toString());
+      convo.addKeyChange = async () => {
         convo.addKeyChange = original;
         done();
       };
@@ -91,12 +90,15 @@ describe('KeyChangeListener', () => {
     let groupConvo: ConversationModel;
 
     beforeEach(async () => {
-      groupConvo = window.ConversationController.dangerouslyCreateAndAdd({
-        id: 'groupId',
-        type: 'group',
-        members: [convo.id],
-      });
-      await window.Signal.Data.saveConversation(groupConvo.attributes);
+      groupConvo = await window.ConversationController.getOrCreateAndWait(
+        Bytes.toBinary(
+          new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5])
+        ),
+        'group',
+        {
+          members: [uuidWithKeyChange],
+        }
+      );
     });
 
     afterEach(async () => {
@@ -108,8 +110,8 @@ describe('KeyChangeListener', () => {
 
     it('generates a key change notice in the group conversation with this contact', done => {
       const original = groupConvo.addKeyChange;
-      groupConvo.addKeyChange = async keyChangedId => {
-        assert.equal(uuidWithKeyChange, keyChangedId.toString());
+      groupConvo.addKeyChange = async (_, keyChangedId) => {
+        assert.equal(uuidWithKeyChange, keyChangedId?.toString());
         groupConvo.addKeyChange = original;
         done();
       };

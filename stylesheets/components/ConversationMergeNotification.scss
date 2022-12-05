@@ -1,0 +1,29 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-conversation-merge-notification {
+  &__dialog__image {
+    text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__dialog__text-1 {
+    text-align: center;
+
+    margin-top: 32px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  &__dialog__text-2 {
+    text-align: center;
+
+    margin-top: 24px;
+    margin-bottom: 37px;
+
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+}

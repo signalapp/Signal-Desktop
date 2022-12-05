@@ -35,7 +35,10 @@ describe('updateConversationsWithUuidLookup', () => {
       e164?: string | null;
       aci?: string | null;
       reason?: string;
-    }): ConversationModel | undefined {
+    }): {
+      conversation: ConversationModel | undefined;
+      mergePromises: Array<Promise<void>>;
+    } {
       assert(
         e164,
         'FakeConversationController is not set up for this case (E164 must be provided)'
@@ -59,21 +62,21 @@ describe('updateConversationsWithUuidLookup', () => {
 
       if (convoE164 && convoUuid) {
         if (convoE164 === convoUuid) {
-          return convoUuid;
+          return { conversation: convoUuid, mergePromises: [] };
         }
 
         convoE164.unset('e164');
         convoUuid.updateE164(e164);
-        return convoUuid;
+        return { conversation: convoUuid, mergePromises: [] };
       }
 
       if (convoE164 && !convoUuid) {
         convoE164.updateUuid(normalizedUuid);
-        return convoE164;
+        return { conversation: convoE164, mergePromises: [] };
       }
 
       assert.fail('FakeConversationController should never get here');
-      return undefined;
+      return { conversation: undefined, mergePromises: [] };
     }
 
     lookupOrCreate({

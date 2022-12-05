@@ -90,12 +90,14 @@ function checkForAccount(
       const maybePair = uuidLookup.get(phoneNumber);
 
       if (maybePair) {
-        uuid = window.ConversationController.maybeMergeContacts({
-          aci: maybePair.aci,
-          pni: maybePair.pni,
-          e164: phoneNumber,
-          reason: 'checkForAccount',
-        })?.get('uuid');
+        const { conversation: maybeMerged } =
+          window.ConversationController.maybeMergeContacts({
+            aci: maybePair.aci,
+            pni: maybePair.pni,
+            e164: phoneNumber,
+            reason: 'checkForAccount',
+          });
+        uuid = maybeMerged?.get('uuid');
       }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));

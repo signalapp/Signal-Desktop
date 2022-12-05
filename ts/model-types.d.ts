@@ -166,19 +166,21 @@ export type MessageAttributesType = {
   id: string;
   type:
     | 'call-history'
+    | 'change-number-notification'
     | 'chat-session-refreshed'
+    | 'conversation-merge'
     | 'delivery-issue'
-    | 'group'
     | 'group-v1-migration'
     | 'group-v2-change'
+    | 'group'
     | 'incoming'
     | 'keychange'
     | 'outgoing'
+    | 'phone-number-discovery'
     | 'profile-change'
     | 'story'
     | 'timer-notification'
     | 'universal-timer-notification'
-    | 'change-number-notification'
     | 'verified-change';
   body?: string;
   attachments?: Array<AttachmentType>;
@@ -207,6 +209,13 @@ export type MessageAttributesType = {
     source?: string;
     sourceUuid?: string;
   };
+  phoneNumberDiscovery?: {
+    e164: string;
+  };
+  conversationMerge?: {
+    renderInfo: ConversationRenderInfoType;
+  };
+
   // Legacy fields for timer update notification only
   flags?: number;
   groupV2Change?: GroupV2ChangeType;
@@ -349,6 +358,7 @@ export type ConversationAttributesType = {
   pendingUniversalTimer?: string;
   username?: string;
   shareMyPhoneNumber?: boolean;
+  previousIdentityKey?: string;
 
   // Group-only
   groupId?: string;
@@ -408,6 +418,17 @@ export type ConversationAttributesType = {
   unblurredAvatarPath?: string;
 };
 /* eslint-enable camelcase */
+
+export type ConversationRenderInfoType = Pick<
+  ConversationAttributesType,
+  | 'e164'
+  | 'name'
+  | 'profileFamilyName'
+  | 'profileName'
+  | 'systemGivenName'
+  | 'type'
+  | 'username'
+>;
 
 export type GroupV2MemberType = {
   uuid: UUIDStringType;

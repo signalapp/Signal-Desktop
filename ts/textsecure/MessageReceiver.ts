@@ -1154,9 +1154,11 @@ export default class MessageReceiver
 
       logId = getEnvelopeId(unsealedEnvelope);
 
+      const taskId = `dispatchEvent(EnvelopeEvent(${logId}))`;
       this.addToQueue(
-        async () => this.dispatchEvent(new EnvelopeEvent(unsealedEnvelope)),
-        `dispatchEvent(EnvelopeEvent(${logId}))`,
+        async () =>
+          this.dispatchAndWait(taskId, new EnvelopeEvent(unsealedEnvelope)),
+        taskId,
         TaskType.Decrypted
       );
 
@@ -2514,12 +2516,18 @@ export default class MessageReceiver
 
     if (isValid) {
       log.info(`${logId}: merging pni=${pni} aci=${aci}`);
-      window.ConversationController.maybeMergeContacts({
-        pni,
-        aci,
-        e164: window.ConversationController.get(pni)?.get('e164'),
-        reason: logId,
-      });
+      const { mergePromises } =
+        window.ConversationController.maybeMergeContacts({
+          pni,
+          aci,
+          e164: window.ConversationController.get(pni)?.get('e164'),
+          fromPniSignature: true,
+          reason: logId,
+        });
+
+      if (mergePromises.length) {
+        await Promise.all(mergePromises);
+      }
     }
   }
 

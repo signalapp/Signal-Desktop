@@ -17,6 +17,7 @@ import PQueue from 'p-queue';
 import type {
   ConversationAttributesType,
   ConversationLastProfileType,
+  ConversationRenderInfoType,
   LastMessageStatus,
   MessageAttributesType,
   QuotedMessageType,
@@ -24,7 +25,6 @@ import type {
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
-import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
@@ -70,7 +70,12 @@ import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
 import { UUID, UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
-import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
+import {
+  constantTimeEqual,
+  decryptProfile,
+  decryptProfileName,
+  deriveAccessKey,
+} from '../Crypto';
 import * as Bytes from '../Bytes';
 import type { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util/getTextWithMentions';
@@ -81,6 +86,12 @@ import { notificationService } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { getSendOptions } from '../util/getSendOptions';
 import { isConversationAccepted } from '../util/isConversationAccepted';
+import {
+  getNumber,
+  getProfileName,
+  getTitle,
+  getTitleNoDefault,
+} from '../util/getTitle';
 import { markConversationRead } from '../util/markConversationRead';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
@@ -88,7 +99,7 @@ import { updateConversationsWithUuidLookup } from '../updateConversationsWithUui
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import { MINUTE, DurationInSeconds } from '../util/durations';
+import { MINUTE, SECOND, DurationInSeconds } from '../util/durations';
 import {
   concat,
   filter,
@@ -220,6 +231,8 @@ export class ConversationModel extends window.Backbone
 
   throttledGetProfiles?: () => Promise<void>;
 
+  throttledUpdateVerified?: () => void;
+
   typingRefreshTimer?: NodeJS.Timer | null;
 
   typingPauseTimer?: NodeJS.Timer | null;
@@ -301,14 +314,10 @@ export class ConversationModel extends window.Backbone
     //   our first save to the database. Or first fetch from the database.
     this.initialPromise = Promise.resolve();
 
-    this.throttledBumpTyping = throttle(this.bumpTyping, 300);
     this.debouncedUpdateLastMessage = debounce(
       this.updateLastMessage.bind(this),
       200
     );
-    this.throttledUpdateSharedGroups =
-      this.throttledUpdateSharedGroups ||
-      throttle(this.updateSharedGroups.bind(this), FIVE_MINUTES);
 
     this.contactCollection = this.getContactCollection();
     this.contactCollection.on(
@@ -370,6 +379,11 @@ export class ConversationModel extends window.Backbone
     // conversation for the first time.
     this.isFetchingUUID = this.isSMSOnly();
 
+    this.throttledBumpTyping = throttle(this.bumpTyping, 300);
+    this.throttledUpdateSharedGroups = throttle(
+      this.updateSharedGroups.bind(this),
+      FIVE_MINUTES
+    );
     this.throttledFetchSMSOnlyUUID = throttle(
       this.fetchSMSOnlyUUID.bind(this),
       FIVE_MINUTES
@@ -378,6 +392,16 @@ export class ConversationModel extends window.Backbone
       this.maybeMigrateV1Group.bind(this),
       FIVE_MINUTES
     );
+    this.throttledGetProfiles = throttle(
+      this.getProfiles.bind(this),
+      FIVE_MINUTES
+    );
+    this.throttledUpdateVerified = throttle(
+      this.updateVerified.bind(this),
+      SECOND
+    );
+
+    this.on('newmessage', this.throttledUpdateVerified);
 
     const migratedColor = this.getColor();
     if (this.get('color') !== migratedColor) {
@@ -1956,49 +1980,166 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  updateE164(e164?: string | null): void {
+  updateE164(
+    e164?: string | null,
+    {
+      disableDiscoveryNotification,
+    }: {
+      disableDiscoveryNotification?: boolean;
+    } = {}
+  ): void {
     const oldValue = this.get('e164');
-    if (e164 !== oldValue) {
-      this.set('e164', e164 || undefined);
-
-      if (oldValue && e164) {
-        this.addChangeNumberNotification(oldValue, e164);
-      }
-
-      window.Signal.Data.updateConversation(this.attributes);
-      this.trigger('idUpdated', this, 'e164', oldValue);
-      this.captureChange('updateE164');
+    if (e164 === oldValue) {
+      return;
     }
+
+    this.set('e164', e164 || undefined);
+
+    // We just discovered a new phone number for this account. If we're not merging
+    //   then we'll add a standalone notification here.
+    const haveSentMessage = Boolean(
+      this.get('profileSharing') || this.get('sentMessageCount')
+    );
+    if (!oldValue && e164 && haveSentMessage && !disableDiscoveryNotification) {
+      this.addPhoneNumberDiscovery(e164);
+    }
+
+    // This user changed their phone number
+    if (oldValue && e164) {
+      this.addChangeNumberNotification(oldValue, e164);
+    }
+
+    window.Signal.Data.updateConversation(this.attributes);
+    this.trigger('idUpdated', this, 'e164', oldValue);
+    this.captureChange('updateE164');
   }
 
   updateUuid(uuid?: string): void {
     const oldValue = this.get('uuid');
-    if (uuid !== oldValue) {
-      this.set('uuid', uuid ? UUID.cast(uuid.toLowerCase()) : undefined);
-      window.Signal.Data.updateConversation(this.attributes);
-      this.trigger('idUpdated', this, 'uuid', oldValue);
-      this.captureChange('updateUuid');
+    if (uuid === oldValue) {
+      return;
     }
+
+    this.set('uuid', uuid ? UUID.cast(uuid.toLowerCase()) : undefined);
+    window.Signal.Data.updateConversation(this.attributes);
+    this.trigger('idUpdated', this, 'uuid', oldValue);
+
+    // We should delete the old sessions and identity information in all situations except
+    //   for the case where we need to do old and new PNI comparisons. We'll wait
+    //   for the PNI update to do that.
+    if (oldValue && oldValue !== this.get('pni')) {
+      // We've already changed our UUID, so we need account for lookups on that old UUID
+      //   to returng nothing: pass conversationId into removeAllSessions, and disable
+      //   auto-deletion in removeIdentityKey.
+      window.textsecure.storage.protocol.removeAllSessions(this.id);
+      window.textsecure.storage.protocol.removeIdentityKey(
+        UUID.cast(oldValue),
+        { disableSessionDeletion: true }
+      );
+    }
+
+    this.captureChange('updateUuid');
+  }
+
+  trackPreviousIdentityKey(publicKey: Uint8Array): void {
+    const logId = `trackPreviousIdentityKey/${this.idForLogging()}`;
+    const identityKey = Bytes.toBase64(publicKey);
+
+    if (!isDirectConversation(this.attributes)) {
+      throw new Error(`${logId}: Called for non-private conversation`);
+    }
+
+    const existingIdentityKey = this.get('previousIdentityKey');
+    if (existingIdentityKey && existingIdentityKey !== identityKey) {
+      log.warn(
+        `${logId}: Already had previousIdentityKey, new one does not match`
+      );
+      this.addKeyChange('trackPreviousIdentityKey - change');
+    }
+
+    log.warn(`${logId}: Setting new previousIdentityKey`);
+    this.set({
+      previousIdentityKey: identityKey,
+    });
+    window.Signal.Data.updateConversation(this.attributes);
   }
 
   updatePni(pni?: string): void {
     const oldValue = this.get('pni');
-    if (pni !== oldValue) {
-      this.set('pni', pni ? UUID.cast(pni.toLowerCase()) : undefined);
+    if (pni === oldValue) {
+      return;
+    }
 
-      if (
-        oldValue &&
-        pni &&
-        (!this.get('uuid') || this.get('uuid') === oldValue)
-      ) {
-        // TODO: DESKTOP-3974
-        this.addKeyChange(UUID.checkedLookup(oldValue));
+    this.set('pni', pni ? UUID.cast(pni.toLowerCase()) : undefined);
+
+    const pniIsPrimaryId =
+      !this.get('uuid') ||
+      this.get('uuid') === oldValue ||
+      this.get('uuid') === pni;
+    const haveSentMessage = Boolean(
+      this.get('profileSharing') || this.get('sentMessageCount')
+    );
+
+    if (oldValue && pniIsPrimaryId && haveSentMessage) {
+      // We're going from an old PNI to a new PNI
+      if (pni) {
+        const oldIdentityRecord =
+          window.textsecure.storage.protocol.getIdentityRecord(
+            UUID.cast(oldValue)
+          );
+        const newIdentityRecord =
+          window.textsecure.storage.protocol.getIdentityRecord(
+            UUID.checkedLookup(pni)
+          );
+
+        if (
+          newIdentityRecord &&
+          oldIdentityRecord &&
+          !constantTimeEqual(
+            oldIdentityRecord.publicKey,
+            newIdentityRecord.publicKey
+          )
+        ) {
+          this.addKeyChange('updatePni - change');
+        } else if (!newIdentityRecord && oldIdentityRecord) {
+          this.trackPreviousIdentityKey(oldIdentityRecord.publicKey);
+        }
       }
 
-      window.Signal.Data.updateConversation(this.attributes);
-      this.trigger('idUpdated', this, 'pni', oldValue);
-      this.captureChange('updatePni');
+      // We're just dropping the PNI
+      if (!pni) {
+        const oldIdentityRecord =
+          window.textsecure.storage.protocol.getIdentityRecord(
+            UUID.cast(oldValue)
+          );
+
+        if (oldIdentityRecord) {
+          this.trackPreviousIdentityKey(oldIdentityRecord.publicKey);
+        }
+      }
     }
+
+    // If this PNI is going away or going to someone else, we'll delete all its sessions
+    if (oldValue) {
+      // We've already changed our UUID, so we need account for lookups on that old UUID
+      //   to returng nothing: pass conversationId into removeAllSessions, and disable
+      //   auto-deletion in removeIdentityKey.
+      window.textsecure.storage.protocol.removeAllSessions(this.id);
+      window.textsecure.storage.protocol.removeIdentityKey(
+        UUID.cast(oldValue),
+        { disableSessionDeletion: true }
+      );
+    }
+
+    if (pni && !this.get('uuid')) {
+      log.warn(
+        `updatePni/${this.idForLogging()}: pni field set to ${pni}, but uuid field is empty!`
+      );
+    }
+
+    window.Signal.Data.updateConversation(this.attributes);
+    this.trigger('idUpdated', this, 'pni', oldValue);
+    this.captureChange('updatePni');
   }
 
   updateGroupId(groupId?: string): void {
@@ -3044,40 +3185,47 @@ export class ConversationModel extends window.Backbone
     this.updateUnread();
   }
 
-  async addKeyChange(keyChangedId: UUID): Promise<void> {
-    const keyChangedIdString = keyChangedId.toString();
+  async addKeyChange(reason: string, keyChangedId?: UUID): Promise<void> {
+    const keyChangedIdString = keyChangedId?.toString();
     return this.queueJob(`addKeyChange(${keyChangedIdString})`, async () => {
       log.info(
-        'adding key change advisory for',
+        'adding key change advisory in',
         this.idForLogging(),
-        keyChangedIdString,
-        this.get('timestamp')
+        'for',
+        keyChangedIdString || 'this conversation',
+        this.get('timestamp'),
+        'reason:',
+        reason
       );
 
+      if (!keyChangedId && !isDirectConversation(this.attributes)) {
+        throw new Error(
+          'addKeyChange: Cannot omit keyChangedId in group conversation!'
+        );
+      }
+
       const timestamp = Date.now();
-      const message = {
+      const message: MessageAttributesType = {
+        id: generateGuid(),
         conversationId: this.id,
         type: 'keychange',
-        sent_at: this.get('timestamp'),
+        sent_at: timestamp,
+        timestamp,
         received_at: window.Signal.Util.incrementMessageCounter(),
         received_at_ms: timestamp,
         key_changed: keyChangedIdString,
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Unseen,
         schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
-        // TODO: DESKTOP-722
-        // this type does not fully implement the interface it is expected to
-      } as unknown as MessageAttributesType;
+      };
 
-      const id = await window.Signal.Data.saveMessage(message, {
+      await window.Signal.Data.saveMessage(message, {
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        forceSave: true,
       });
       const model = window.MessageController.register(
-        id,
-        new window.Whisper.Message({
-          ...message,
-          id,
-        })
+        message.id,
+        new window.Whisper.Message(message)
       );
 
       const isUntrusted = await this.isUntrusted();
@@ -3088,6 +3236,17 @@ export class ConversationModel extends window.Backbone
       // Group calls are always with folks that have a UUID
       if (isUntrusted && uuid) {
         window.reduxActions.calling.keyChanged({ uuid });
+      }
+
+      if (isDirectConversation(this.attributes) && uuid) {
+        const parsedUuid = UUID.checkedLookup(uuid);
+        const groups =
+          await window.ConversationController.getAllGroupsInvolvingUuid(
+            parsedUuid
+          );
+        groups.forEach(group => {
+          group.addKeyChange('addKeyChange - group fan-out', parsedUuid);
+        });
       }
 
       // Drop a member from sender key distribution list.
@@ -3106,6 +3265,82 @@ export class ConversationModel extends window.Backbone
         window.Signal.Data.updateConversation(this.attributes);
       }
     });
+  }
+
+  async addPhoneNumberDiscovery(e164: string): Promise<void> {
+    log.info(
+      `addPhoneNumberDiscovery/${this.idForLogging()}: Adding for ${e164}`
+    );
+
+    const timestamp = Date.now();
+    const message: MessageAttributesType = {
+      id: generateGuid(),
+      conversationId: this.id,
+      type: 'phone-number-discovery',
+      sent_at: timestamp,
+      timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
+      phoneNumberDiscovery: {
+        e164,
+      },
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Unseen,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+    };
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      forceSave: true,
+    });
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
+  }
+
+  async addConversationMerge(
+    renderInfo: ConversationRenderInfoType
+  ): Promise<void> {
+    log.info(
+      `addConversationMerge/${this.idForLogging()}: Adding notification`
+    );
+
+    const timestamp = Date.now();
+    const message: MessageAttributesType = {
+      id: generateGuid(),
+      conversationId: this.id,
+      type: 'conversation-merge',
+      sent_at: timestamp,
+      timestamp,
+      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at_ms: timestamp,
+      conversationMerge: {
+        renderInfo,
+      },
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Unseen,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+    };
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      forceSave: true,
+    });
+    const model = window.MessageController.register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      })
+    );
+
+    this.trigger('newmessage', model);
   }
 
   async addVerifiedChange(
@@ -4985,69 +5220,19 @@ export class ConversationModel extends window.Backbone
   }
 
   getTitle(options?: { isShort?: boolean }): string {
-    const title = this.getTitleNoDefault(options);
-    if (title) {
-      return title;
-    }
-
-    if (isDirectConversation(this.attributes)) {
-      return window.i18n('unknownContact');
-    }
-    return window.i18n('unknownGroup');
+    return getTitle(this.attributes, options);
   }
 
-  getTitleNoDefault({ isShort = false }: { isShort?: boolean } = {}):
-    | string
-    | undefined {
-    if (isDirectConversation(this.attributes)) {
-      const username = this.get('username');
-
-      return (
-        (isShort ? this.get('systemGivenName') : undefined) ||
-        this.get('name') ||
-        (isShort ? this.get('profileName') : undefined) ||
-        this.getProfileName() ||
-        this.getNumber() ||
-        (username && window.i18n('at-username', { username }))
-      );
-    }
-    return this.get('name');
+  getTitleNoDefault(options?: { isShort?: boolean }): string | undefined {
+    return getTitleNoDefault(this.attributes, options);
   }
 
   getProfileName(): string | undefined {
-    if (isDirectConversation(this.attributes)) {
-      return Util.combineNames(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.get('profileName')!,
-        this.get('profileFamilyName')
-      );
-    }
-
-    return undefined;
+    return getProfileName(this.attributes);
   }
 
   getNumber(): string {
-    if (!isDirectConversation(this.attributes)) {
-      return '';
-    }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const number = this.get('e164')!;
-    try {
-      const parsedNumber = window.libphonenumberInstance.parse(number);
-      const regionCode = getRegionCodeForNumber(number);
-      if (regionCode === window.storage.get('regionCode')) {
-        return window.libphonenumberInstance.format(
-          parsedNumber,
-          window.libphonenumberFormat.NATIONAL
-        );
-      }
-      return window.libphonenumberInstance.format(
-        parsedNumber,
-        window.libphonenumberFormat.INTERNATIONAL
-      );
-    } catch (e) {
-      return number;
-    }
+    return getNumber(this.attributes);
   }
 
   getColor(): AvatarColorType {

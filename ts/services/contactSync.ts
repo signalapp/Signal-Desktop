@@ -117,7 +117,7 @@ async function doContactSync({
       continue;
     }
 
-    const conversation = window.ConversationController.maybeMergeContacts({
+    const { conversation } = window.ConversationController.maybeMergeContacts({
       e164: details.number,
       aci: details.uuid,
       reason: logId,
