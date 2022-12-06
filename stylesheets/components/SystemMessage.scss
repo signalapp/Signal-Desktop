@@ -156,6 +156,13 @@
       );
     }
 
+    &--icon-group-summary::before {
+      @include system-message-icon(
+        '../images/icons/v2/info-16.svg',
+        '../images/icons/v2/info-16.svg'
+      );
+    }
+
     &--icon-info::before {
       @include system-message-icon(
         '../images/icons/v2/info-16.svg',

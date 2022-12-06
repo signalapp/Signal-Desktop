@@ -1278,14 +1278,45 @@ export function AdminApprovalRemove(): JSX.Element {
           },
         ],
       })}
+    </>
+  );
+}
+
+AdminApprovalRemove.story = {
+  name: 'Admin Approval (Remove)',
+};
+
+export function AdminApprovalBounce(): JSX.Element {
+  return (
+    <>
       Should show button:
       {renderChange(
         {
+          // From Joiner
           from: CONTACT_A,
           details: [
             {
-              type: 'admin-approval-remove-one',
+              type: 'admin-approval-bounce',
               uuid: CONTACT_A,
+              times: 1,
+              isApprovalPending: false,
+            },
+          ],
+        },
+        {
+          groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
+          groupBannedMemberships: [CONTACT_B],
+        }
+      )}
+      {renderChange(
+        {
+          // From nobody
+          details: [
+            {
+              type: 'admin-approval-bounce',
+              uuid: CONTACT_A,
+              times: 1,
+              isApprovalPending: false,
             },
           ],
         },
@@ -1295,37 +1326,26 @@ export function AdminApprovalRemove(): JSX.Element {
         }
       )}
       {renderChange({
-        from: ADMIN_A,
         details: [
           {
-            type: 'admin-approval-remove-one',
+            type: 'admin-approval-bounce',
             uuid: CONTACT_A,
+            times: 1,
+            isApprovalPending: false,
           },
+          // No group membership info
         ],
       })}
-      Should show button:
-      {renderChange(
-        {
-          details: [
-            {
-              type: 'admin-approval-remove-one',
-              uuid: CONTACT_A,
-            },
-          ],
-        },
-        {
-          groupMemberships: [{ uuid: CONTACT_C, isAdmin: false }],
-          groupBannedMemberships: [CONTACT_B],
-        }
-      )}
       Would show button, but we&apos;re not admin:
       {renderChange(
         {
           from: CONTACT_A,
           details: [
             {
-              type: 'admin-approval-remove-one',
+              type: 'admin-approval-bounce',
               uuid: CONTACT_A,
+              times: 1,
+              isApprovalPending: false,
             },
           ],
         },
@@ -1338,8 +1358,10 @@ export function AdminApprovalRemove(): JSX.Element {
           from: CONTACT_A,
           details: [
             {
-              type: 'admin-approval-remove-one',
+              type: 'admin-approval-bounce',
               uuid: CONTACT_A,
+              times: 1,
+              isApprovalPending: false,
             },
           ],
         },
@@ -1351,8 +1373,10 @@ export function AdminApprovalRemove(): JSX.Element {
           from: CONTACT_A,
           details: [
             {
-              type: 'admin-approval-remove-one',
+              type: 'admin-approval-bounce',
               uuid: CONTACT_A,
+              times: 1,
+              isApprovalPending: false,
             },
           ],
         },
@@ -1363,8 +1387,8 @@ export function AdminApprovalRemove(): JSX.Element {
   );
 }
 
-AdminApprovalRemove.story = {
-  name: 'Admin Approval (Remove)',
+AdminApprovalBounce.story = {
+  name: 'Admin Approval (Bounce)',
 };
 
 export function GroupLinkAdd(): JSX.Element {
@@ -1646,3 +1670,18 @@ export function AnnouncementGroupChange(): JSX.Element {
 AnnouncementGroupChange.story = {
   name: 'Announcement Group (Change)',
 };
+
+export function Summary(): JSX.Element {
+  return (
+    <>
+      {renderChange({
+        from: OUR_ACI,
+        details: [
+          {
+            type: 'summary',
+          },
+        ],
+      })}
+    </>
+  );
+}

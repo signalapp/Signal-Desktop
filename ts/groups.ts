@@ -202,6 +202,9 @@ export type GroupV2DescriptionChangeType = {
   // Adding this field; cannot remove previous field for backwards compatibility
   description?: string;
 };
+export type GroupV2SummaryType = {
+  type: 'summary';
+};
 
 export type GroupV2ChangeDetailType =
   | GroupV2AccessAttributesChangeType
@@ -227,6 +230,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2PendingAddOneChangeType
   | GroupV2PendingRemoveManyChangeType
   | GroupV2PendingRemoveOneChangeType
+  | GroupV2SummaryType
   | GroupV2TitleChangeType;
 
 export type GroupV2ChangeType = {
@@ -3658,32 +3662,62 @@ async function updateGroupViaSingleChange({
   groupChange: Proto.IGroupChange;
   newRevision: number;
 }): Promise<UpdatesResultType> {
+  const previouslyKnewAboutThisGroup =
+    isNumber(group.revision) && group.membersV2?.length;
   const wasInGroup = !group.left;
-  const result: UpdatesResultType = await integrateGroupChange({
+  const singleChangeResult: UpdatesResultType = await integrateGroupChange({
     group,
     groupChange,
     newRevision,
   });
 
-  const nowInGroup = !result.newAttributes.left;
+  const nowInGroup = !singleChangeResult.newAttributes.left;
 
   // If we were just added to the group (for example, via a join link), we go fetch the
   //   entire group state to make sure we're up to date.
   if (!wasInGroup && nowInGroup) {
-    const { newAttributes, members } = await updateGroupViaState({
-      group: result.newAttributes,
+    const {
+      newAttributes,
+      members,
+      groupChangeMessages: catchupMessages,
+    } = await updateGroupViaState({
+      group: singleChangeResult.newAttributes,
     });
+
+    const groupChangeMessages = [...singleChangeResult.groupChangeMessages];
+    // If we've just been added to a group we were previously in, we do want to show
+    //   a summary instead of nothing.
+    if (
+      groupChangeMessages.length > 0 &&
+      previouslyKnewAboutThisGroup &&
+      catchupMessages.length > 0
+    ) {
+      groupChangeMessages.push({
+        ...generateBasicMessage(),
+        type: 'group-v2-change',
+        groupV2Change: {
+          details: [
+            {
+              type: 'summary',
+            },
+          ],
+        },
+        readStatus: ReadStatus.Read,
+        // For simplicity, since we don't know who this change is from here, always Seen
+        seenStatus: SeenStatus.Seen,
+      });
+    }
 
     // We discard any change events that come out of this full group fetch, but we do
     //   keep the final group attributes generated, as well as any new members.
     return {
-      ...result,
-      members: [...result.members, ...members],
+      groupChangeMessages,
+      members: [...singleChangeResult.members, ...members],
       newAttributes,
     };
   }
 
-  return result;
+  return singleChangeResult;
 }
 
 async function updateGroupViaLogs({
@@ -4170,6 +4204,21 @@ function extractDiffs({
   let areWePendingApproval = false;
   let whoInvitedUsUserId = null;
 
+  function isUs(uuid: UUIDStringType): boolean {
+    return uuid === ourACI.toString() || uuid === ourPNI?.toString();
+  }
+  function keepOnlyOurAdds(
+    list: Array<GroupV2ChangeDetailType>
+  ): Array<GroupV2ChangeDetailType> {
+    return list.filter(
+      item =>
+        (item.type === 'member-add-from-invite' && isUs(item.uuid)) ||
+        (item.type === 'member-add-from-link' && isUs(item.uuid)) ||
+        (item.type === 'member-add-from-admin-approval' && isUs(item.uuid)) ||
+        (item.type === 'member-add' && isUs(item.uuid))
+    );
+  }
+
   // access control
 
   if (
@@ -4274,6 +4323,10 @@ function extractDiffs({
   const oldMemberLookup = new Map<UUIDStringType, GroupV2MemberType>(
     (old.membersV2 || []).map(member => [member.uuid, member])
   );
+  const didWeStartInGroup =
+    (ourACI && oldMemberLookup.get(ourACI.toString())) ||
+    (ourPNI && oldMemberLookup.get(ourPNI.toString()));
+
   const oldPendingMemberLookup = new Map<
     UUIDStringType,
     GroupV2PendingMemberType
@@ -4288,16 +4341,16 @@ function extractDiffs({
 
   (current.membersV2 || []).forEach(currentMember => {
     const { uuid } = currentMember;
-    const isUs = uuid === ourACI.toString();
+    const uuidIsUs = isUs(uuid);
 
-    if (isUs) {
+    if (uuidIsUs) {
       areWeInGroup = true;
     }
 
     const oldMember = oldMemberLookup.get(uuid);
     if (!oldMember) {
       let pendingMember = oldPendingMemberLookup.get(uuid);
-      if (isUs && ourPNI && !pendingMember) {
+      if (uuidIsUs && ourPNI && !pendingMember) {
         pendingMember = oldPendingMemberLookup.get(ourPNI.toString());
       }
       if (pendingMember) {
@@ -4347,7 +4400,7 @@ function extractDiffs({
     // pretend that the PNI wasn't pending so that we won't generate a
     // pending-add-one notification below.
     if (
-      isUs &&
+      uuidIsUs &&
       ourPNI &&
       !oldMember &&
       oldPendingMemberLookup.has(ourPNI.toString()) &&
@@ -4373,7 +4426,7 @@ function extractDiffs({
     const { uuid } = currentPendingMember;
     const oldPendingMember = oldPendingMemberLookup.get(uuid);
 
-    if (uuid === ourACI.toString() || uuid === ourPNI?.toString()) {
+    if (isUs(uuid)) {
       if (uuid === ourACI.toString()) {
         uuidKindInvitedToGroup = UUIDKind.ACI;
       } else if (uuidKindInvitedToGroup === undefined) {
@@ -4494,8 +4547,9 @@ function extractDiffs({
 
   const firstUpdate = !isNumber(old.revision);
   const isFromUs = ourACI.toString() === sourceUuid;
+  const justJoinedGroup = !firstUpdate && !didWeStartInGroup && areWeInGroup;
 
-  // Here we hardcode initial messages if this is our first time processing data this
+  // Here we hardcode initial messages if this is our first time processing data for this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
   //   'you were invited', or 'you created.'
   if (firstUpdate && uuidKindInvitedToGroup !== undefined) {
@@ -4554,17 +4608,19 @@ function extractDiffs({
       seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   } else if (firstUpdate && areWeInGroup) {
+    const filteredDetails = keepOnlyOurAdds(details);
+
+    strictAssert(
+      filteredDetails.length === 1,
+      'extractDiffs/firstUpdate: Should be only one self-add!'
+    );
+
     message = {
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
         from: sourceUuid,
-        details: [
-          {
-            type: 'member-add',
-            uuid: ourACI.toString(),
-          },
-        ],
+        details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
       seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
@@ -4580,6 +4636,32 @@ function extractDiffs({
             type: 'create',
           },
         ],
+      },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
+    };
+  } else if (justJoinedGroup) {
+    const filteredDetails = keepOnlyOurAdds(details);
+
+    strictAssert(
+      filteredDetails.length === 1,
+      'extractDiffs/justJoinedGroup: Should be only one self-add!'
+    );
+
+    // If we've dropped other changes, we collapse them into a single summary
+    if (details.length > 1) {
+      filteredDetails.push({
+        type: 'summary',
+      });
+    }
+
+    message = {
+      ...generateBasicMessage(),
+      type: 'group-v2-change',
+      sourceUuid,
+      groupV2Change: {
+        from: sourceUuid,
+        details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
       seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,

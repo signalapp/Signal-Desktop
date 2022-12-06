@@ -70,6 +70,7 @@ type GroupIconType =
   | 'group-avatar'
   | 'group-decline'
   | 'group-edit'
+  | 'group-summary'
   | 'group-leave'
   | 'group-remove';
 
@@ -119,6 +120,9 @@ function getIcon(
   // bounce notification.
   if (changeType === 'admin-approval-bounce' && isLastText) {
     possibleIcon = undefined;
+  }
+  if (changeType === 'summary') {
+    possibleIcon = 'group-summary';
   }
   return possibleIcon || 'group';
 }

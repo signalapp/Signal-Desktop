@@ -925,6 +925,9 @@ export function renderChangeDetail<T>(
     }
     return renderString('GroupV2--announcements--member--unknown', i18n);
   }
+  if (detail.type === 'summary') {
+    return renderString('icu:GroupV2--summary', i18n);
+  }
 
   throw missingCaseError(detail);
 }
