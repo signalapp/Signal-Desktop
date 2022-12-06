@@ -321,10 +321,10 @@ const actions = () => ({
     'reviewMessageRequestNameCollision'
   ),
 
-  onBlock: action('onBlock'),
-  onBlockAndReportSpam: action('onBlockAndReportSpam'),
-  onDelete: action('onDelete'),
-  onUnblock: action('onUnblock'),
+  acceptConversation: action('acceptConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  blockConversation: action('blockConversation'),
+  deleteConversation: action('deleteConversation'),
   removeMember: action('removeMember'),
 
   unblurAvatar: action('unblurAvatar'),

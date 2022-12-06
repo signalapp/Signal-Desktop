@@ -27,8 +27,6 @@ import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
-import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
-import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isDirectConversation,
@@ -57,7 +55,6 @@ import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import type { CompositionAPIType } from '../components/CompositionArea';
-import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
 import { ToastCannotMixMultiAndNonMultiAttachments } from '../components/ToastCannotMixMultiAndNonMultiAttachments';
@@ -75,7 +72,6 @@ import { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedM
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
-import { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndBlocked';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
@@ -368,7 +364,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.conversations.setSelectedConversationHeaderTitle();
 
     // setupTimeline
-    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const contactSupport = () => {
       const baseUrl =
@@ -433,19 +428,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       });
     };
 
-    const createMessageRequestResponseHandler =
-      (name: string, enumValue: number): ((conversationId: string) => void) =>
-      conversationId => {
-        const conversation = window.ConversationController.get(conversationId);
-        if (!conversation) {
-          log.error(
-            `createMessageRequestResponseHandler: Expected a conversation to be found in ${name}. Doing nothing`
-          );
-          return;
-        }
-        this.syncMessageRequestResponse(name, conversation, enumValue);
-      };
-
     const timelineProps = {
       id: this.model.id,
 
@@ -465,28 +447,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       loadNewestMessages: this.model.loadNewestMessages.bind(this.model),
       loadOlderMessages: this.model.loadOlderMessages.bind(this.model),
       markMessageRead,
-      onBlock: createMessageRequestResponseHandler(
-        'onBlock',
-        messageRequestEnum.BLOCK
-      ),
-      onBlockAndReportSpam: (conversationId: string) => {
-        const conversation = window.ConversationController.get(conversationId);
-        if (!conversation) {
-          log.error(
-            `onBlockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
-          );
-          return;
-        }
-        this.blockAndReportSpam(conversation);
-      },
-      onDelete: createMessageRequestResponseHandler(
-        'onDelete',
-        messageRequestEnum.DELETE
-      ),
-      onUnblock: createMessageRequestResponseHandler(
-        'onUnblock',
-        messageRequestEnum.ACCEPT
-      ),
       removeMember: (conversationId: string) => {
         longRunningTaskWrapper({
           idForLogging: this.model.idForLogging(),
@@ -518,37 +478,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
-      onAccept: () => {
-        this.syncMessageRequestResponse(
-          'onAccept',
-          this.model,
-          messageRequestEnum.ACCEPT
-        );
-      },
-      onBlock: () => {
-        this.syncMessageRequestResponse(
-          'onBlock',
-          this.model,
-          messageRequestEnum.BLOCK
-        );
-      },
-      onUnblock: () => {
-        this.syncMessageRequestResponse(
-          'onUnblock',
-          this.model,
-          messageRequestEnum.ACCEPT
-        );
-      },
-      onDelete: () => {
-        this.syncMessageRequestResponse(
-          'onDelete',
-          this.model,
-          messageRequestEnum.DELETE
-        );
-      },
-      onBlockAndReportSpam: () => {
-        this.blockAndReportSpam(this.model);
-      },
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
         await window.showConfirmationDialog({
@@ -1006,39 +935,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     this.processAttachments(files);
-  }
-
-  syncMessageRequestResponse(
-    name: string,
-    model: ConversationModel,
-    messageRequestType: number
-  ): Promise<void> {
-    return longRunningTaskWrapper({
-      idForLogging: this.model.idForLogging(),
-      name,
-      task: model.syncMessageRequestResponse.bind(model, messageRequestType),
-    });
-  }
-
-  blockAndReportSpam(model: ConversationModel): Promise<void> {
-    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
-    return longRunningTaskWrapper({
-      idForLogging: this.model.idForLogging(),
-      name: 'blockAndReportSpam',
-      task: async () => {
-        await Promise.all([
-          model.syncMessageRequestResponse(messageRequestEnum.BLOCK),
-          addReportSpamJob({
-            conversation: model.format(),
-            getMessageServerGuidsForSpam:
-              window.Signal.Data.getMessageServerGuidsForSpam,
-            jobQueue: reportSpamJobQueue,
-          }),
-        ]);
-        showToast(ToastReportedSpamAndBlocked);
-      },
-    });
   }
 
   async saveModel(): Promise<void> {
@@ -1803,8 +1699,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.model.throttledGetProfiles();
     }
 
-    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
     // these methods are used in more than one place and should probably be
     // dried up and hoisted to methods on ConversationView
 
@@ -1814,14 +1708,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         name: 'onLeave',
         task: () => this.model.leaveGroupV2(),
       });
-    };
-
-    const onBlock = () => {
-      this.syncMessageRequestResponse(
-        'onBlock',
-        this.model,
-        messageRequestEnum.BLOCK
-      );
     };
 
     const props = {
@@ -1840,14 +1726,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.model
       ),
       onLeave,
-      onBlock,
-      onUnblock: () => {
-        this.syncMessageRequestResponse(
-          'onUnblock',
-          this.model,
-          messageRequestEnum.ACCEPT
-        );
-      },
     };
 
     const view = new ReactWrapperView({

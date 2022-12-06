@@ -25,14 +25,14 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 export type PropsType = {
+  acceptConversation: (conversationId: string) => unknown;
+  blockAndReportSpam: (conversationId: string) => unknown;
+  blockConversation: (conversationId: string) => unknown;
+  deleteConversation: (conversationId: string) => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  onBlock: (conversationId: string) => unknown;
-  onBlockAndReportSpam: (conversationId: string) => unknown;
   onClose: () => void;
-  onDelete: (conversationId: string) => unknown;
   onShowContactModal: (contactId: string, conversationId?: string) => unknown;
-  onUnblock: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
   theme: ThemeType;
 } & (
@@ -62,14 +62,14 @@ enum ConfirmationStateType {
 
 export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   const {
+    acceptConversation,
+    blockAndReportSpam,
+    blockConversation,
+    deleteConversation,
     getPreferredBadge,
     i18n,
-    onBlock,
-    onBlockAndReportSpam,
     onClose,
-    onDelete,
     onShowContactModal,
-    onUnblock,
     removeMember,
     theme,
   } = props;
@@ -96,21 +96,14 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       case ConfirmationStateType.ConfirmingBlock:
         return (
           <MessageRequestActionsConfirmation
-            i18n={i18n}
-            onBlock={() => {
-              onBlock(affectedConversation.id);
-            }}
-            onBlockAndReportSpam={() => {
-              onBlockAndReportSpam(affectedConversation.id);
-            }}
-            onUnblock={() => {
-              onUnblock(affectedConversation.id);
-            }}
-            onDelete={() => {
-              onDelete(affectedConversation.id);
-            }}
-            title={affectedConversation.title}
+            acceptConversation={acceptConversation}
+            blockAndReportSpam={blockAndReportSpam}
+            blockConversation={blockConversation}
+            conversationId={affectedConversation.id}
             conversationType="direct"
+            deleteConversation={deleteConversation}
+            i18n={i18n}
+            title={affectedConversation.title}
             state={
               type === ConfirmationStateType.ConfirmingDelete
                 ? MessageRequestState.deleting
@@ -279,7 +272,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                 <Button
                   variant={ButtonVariant.SecondaryAffirmative}
                   onClick={() => {
-                    onUnblock(conversationInfo.conversation.id);
+                    acceptConversation(conversationInfo.conversation.id);
                   }}
                 >
                   {i18n('MessageRequests--unblock')}

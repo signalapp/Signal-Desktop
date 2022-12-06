@@ -13,17 +13,17 @@ import enMessages from '../../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const getBaseProps = (isGroup = false): MessageRequestActionsProps => ({
+  conversationId: '123',
   i18n,
   conversationType: isGroup ? 'group' : 'direct',
   firstName: text('firstName', 'Cayce'),
   title: isGroup
     ? text('title', 'NYC Rock Climbers')
     : text('title', 'Cayce Bollard'),
-  onBlock: action('block'),
-  onDelete: action('delete'),
-  onBlockAndReportSpam: action('blockAndReportSpam'),
-  onUnblock: action('unblock'),
-  onAccept: action('accept'),
+  acceptConversation: action('acceptConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  blockConversation: action('blockConversation'),
+  deleteConversation: action('deleteConversation'),
 });
 
 export default {

@@ -19,19 +19,20 @@ export default {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  acceptConversation: action('acceptConversation'),
+  blockConversation: action('blockConversation'),
   cannotLeaveBecauseYouAreLastAdmin: isBoolean(
     overrideProps.cannotLeaveBecauseYouAreLastAdmin
   )
     ? overrideProps.cannotLeaveBecauseYouAreLastAdmin
     : false,
+  conversationId: '123',
   conversationTitle: overrideProps.conversationTitle || '',
-  left: isBoolean(overrideProps.left) ? overrideProps.left : false,
-  onBlock: action('onBlock'),
-  onLeave: action('onLeave'),
-  onUnblock: action('onUnblock'),
   i18n,
   isBlocked: isBoolean(overrideProps.isBlocked),
   isGroup: true,
+  left: isBoolean(overrideProps.left) ? overrideProps.left : false,
+  onLeave: action('onLeave'),
 });
 
 export function Basic(): JSX.Element {

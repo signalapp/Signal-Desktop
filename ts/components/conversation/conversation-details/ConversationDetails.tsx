@@ -96,9 +96,7 @@ export type StateProps = {
       title?: string;
     }>
   ) => Promise<void>;
-  onBlock: () => void;
   onLeave: () => void;
-  onUnblock: () => void;
   theme: ThemeType;
   userAvatarData: Array<AvatarDataType>;
   renderChooseGroupMembersModal: (
@@ -110,6 +108,8 @@ export type StateProps = {
 };
 
 type ActionProps = {
+  acceptConversation: (id: string) => void;
+  blockConversation: (id: string) => void;
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   loadRecentMediaItems: (id: string, limit: number) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
@@ -128,9 +128,11 @@ type ActionProps = {
 export type Props = StateProps & ActionProps;
 
 export function ConversationDetails({
+  acceptConversation,
   addMembers,
   areWeASubscriber,
   badges,
+  blockConversation,
   canEditGroupInfo,
   canAddNewMembers,
   conversation,
@@ -146,11 +148,9 @@ export function ConversationDetails({
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
-  onBlock,
   onLeave,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
-  onUnblock,
   pendingApprovalMemberships,
   pendingMemberships,
   renderChooseGroupMembersModal,
@@ -551,15 +551,16 @@ export function ConversationDetails({
 
       {!conversation.isMe && (
         <ConversationDetailsActions
+          acceptConversation={acceptConversation}
+          blockConversation={blockConversation}
           cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
+          conversationId={conversation.id}
           conversationTitle={conversation.title}
           i18n={i18n}
           isBlocked={Boolean(conversation.isBlocked)}
           isGroup={isGroup}
           left={Boolean(conversation.left)}
-          onBlock={onBlock}
           onLeave={onLeave}
-          onUnblock={onUnblock}
         />
       )}
 

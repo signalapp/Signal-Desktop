@@ -97,6 +97,14 @@ export function ToastManager({
     return <ToastMessageBodyTooLong i18n={i18n} onClose={hideToast} />;
   }
 
+  if (toastType === ToastType.ReportedSpamAndBlocked) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('MessageRequests--block-and-report-spam-success-toast')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.StoryMuted) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>

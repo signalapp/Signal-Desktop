@@ -165,10 +165,10 @@ export type PropsActionsType = {
   loadNewerMessages: (messageId: string) => unknown;
   loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
   markMessageRead: (messageId: string) => unknown;
-  onBlock: (conversationId: string) => unknown;
-  onBlockAndReportSpam: (conversationId: string) => unknown;
-  onDelete: (conversationId: string) => unknown;
-  onUnblock: (conversationId: string) => unknown;
+  blockConversation: (conversationId: string) => unknown;
+  blockAndReportSpam: (conversationId: string) => unknown;
+  deleteConversation: (conversationId: string) => unknown;
+  acceptConversation: (conversationId: string) => unknown;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
@@ -224,10 +224,10 @@ const getActions = createSelector(
       'loadNewestMessages',
       'markMessageRead',
       'markViewed',
-      'onBlock',
-      'onBlockAndReportSpam',
-      'onDelete',
-      'onUnblock',
+      'acceptConversation',
+      'blockAndReportSpam',
+      'blockConversation',
+      'deleteConversation',
       'peekGroupCallForTheFirstTime',
       'peekGroupCallIfItHasMembers',
       'removeMember',
@@ -827,10 +827,14 @@ export class Timeline extends React.Component<
 
   public override render(): JSX.Element | null {
     const {
+      acceptConversation,
       acknowledgeGroupMemberNameCollisions,
+      blockAndReportSpam,
+      blockConversation,
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
+      deleteConversation,
       getPreferredBadge,
       getTimestampForMessage,
       haveNewest,
@@ -844,15 +848,11 @@ export class Timeline extends React.Component<
       items,
       messageLoadingState,
       oldestUnseenIndex,
-      onBlock,
-      onBlockAndReportSpam,
-      onDelete,
-      onUnblock,
       removeMember,
+      renderContactSpoofingReviewDialog,
       renderHeroRow,
       renderItem,
       renderTypingBubble,
-      renderContactSpoofingReviewDialog,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
       showContactModal,
@@ -1082,14 +1082,14 @@ export class Timeline extends React.Component<
     let contactSpoofingReviewDialog: ReactNode;
     if (contactSpoofingReview) {
       const commonProps = {
+        acceptConversation,
+        blockAndReportSpam,
+        blockConversation,
+        deleteConversation,
         getPreferredBadge,
         i18n,
-        onBlock,
-        onBlockAndReportSpam,
         onClose: closeContactSpoofingReview,
-        onDelete,
         onShowContactModal: showContactModal,
-        onUnblock,
         removeMember,
         theme,
       };

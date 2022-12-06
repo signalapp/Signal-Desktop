@@ -15,7 +15,6 @@ import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
-  onAccept(): unknown;
 } & Omit<ContactNameProps, 'module'> &
   Omit<
     MessageRequestActionsConfirmationProps,
@@ -23,15 +22,15 @@ export type Props = {
   >;
 
 export function MessageRequestActions({
+  acceptConversation,
+  blockAndReportSpam,
+  blockConversation,
+  conversationId,
   conversationType,
+  deleteConversation,
   firstName,
   i18n,
   isBlocked,
-  onAccept,
-  onBlock,
-  onBlockAndReportSpam,
-  onDelete,
-  onUnblock,
   title,
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
@@ -40,15 +39,16 @@ export function MessageRequestActions({
     <>
       {mrState !== MessageRequestState.default ? (
         <MessageRequestActionsConfirmation
-          i18n={i18n}
-          onBlock={onBlock}
-          onBlockAndReportSpam={onBlockAndReportSpam}
-          onUnblock={onUnblock}
-          onDelete={onDelete}
-          title={title}
+          acceptConversation={acceptConversation}
+          blockAndReportSpam={blockAndReportSpam}
+          blockConversation={blockConversation}
+          conversationId={conversationId}
           conversationType={conversationType}
-          state={mrState}
+          deleteConversation={deleteConversation}
+          i18n={i18n}
           onChangeState={setMrState}
+          state={mrState}
+          title={title}
         />
       ) : null}
       <div className="module-message-request-actions">
@@ -102,7 +102,7 @@ export function MessageRequestActions({
           )}
           {!isBlocked ? (
             <Button
-              onClick={onAccept}
+              onClick={() => acceptConversation(conversationId)}
               variant={ButtonVariant.SecondaryAffirmative}
             >
               {i18n('MessageRequests--accept')}

@@ -19,15 +19,15 @@ export default {
 };
 
 const getCommonProps = () => ({
+  acceptConversation: action('acceptConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  blockConversation: action('blockConversation'),
+  deleteConversation: action('deleteConversation'),
   getPreferredBadge: () => undefined,
-  i18n,
   groupConversationId: 'convo-id',
-  onBlock: action('onBlock'),
-  onBlockAndReportSpam: action('onBlockAndReportSpam'),
+  i18n,
   onClose: action('onClose'),
-  onDelete: action('onDelete'),
   onShowContactModal: action('onShowContactModal'),
-  onUnblock: action('onUnblock'),
   removeMember: action('removeMember'),
   theme: ThemeType.light,
 });

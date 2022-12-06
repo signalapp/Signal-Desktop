@@ -14,27 +14,29 @@ import { PanelSection } from './PanelSection';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 export type Props = {
+  acceptConversation: (id: string) => void;
+  blockConversation: (id: string) => void;
   cannotLeaveBecauseYouAreLastAdmin: boolean;
+  conversationId: string;
   conversationTitle: string;
   i18n: LocalizerType;
   isBlocked: boolean;
   isGroup: boolean;
   left: boolean;
-  onBlock: () => void;
   onLeave: () => void;
-  onUnblock: () => void;
 };
 
 export function ConversationDetailsActions({
+  acceptConversation,
+  blockConversation,
   cannotLeaveBecauseYouAreLastAdmin,
+  conversationId,
   conversationTitle,
   i18n,
   isBlocked,
   isGroup,
   left,
-  onBlock,
   onLeave,
-  onUnblock,
 }: Props): JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
@@ -193,7 +195,7 @@ export function ConversationDetailsActions({
               text: i18n(
                 'ConversationDetailsActions--block-group-modal-confirm'
               ),
-              action: onBlock,
+              action: () => blockConversation(conversationId),
               style: 'affirmative',
             },
           ]}
@@ -214,7 +216,7 @@ export function ConversationDetailsActions({
               text: i18n(
                 'ConversationDetailsActions--unblock-group-modal-confirm'
               ),
-              action: onUnblock,
+              action: () => acceptConversation(conversationId),
               style: 'affirmative',
             },
           ]}
@@ -234,7 +236,7 @@ export function ConversationDetailsActions({
           actions={[
             {
               text: i18n('MessageRequests--block'),
-              action: onBlock,
+              action: () => blockConversation(conversationId),
               style: 'affirmative',
             },
           ]}
@@ -253,7 +255,7 @@ export function ConversationDetailsActions({
           actions={[
             {
               text: i18n('MessageRequests--unblock'),
-              action: onUnblock,
+              action: () => acceptConversation(conversationId),
               style: 'affirmative',
             },
           ]}

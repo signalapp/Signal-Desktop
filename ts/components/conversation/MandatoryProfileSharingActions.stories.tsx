@@ -15,16 +15,17 @@ const i18n = setupI18n('en', enMessages);
 const getBaseProps = (
   isGroup = false
 ): MandatoryProfileSharingActionsProps => ({
+  conversationId: '123',
   i18n,
   conversationType: isGroup ? 'group' : 'direct',
   firstName: text('firstName', 'Cayce'),
   title: isGroup
     ? text('title', 'NYC Rock Climbers')
     : text('title', 'Cayce Bollard'),
-  onBlock: action('block'),
-  onBlockAndReportSpam: action('onBlockAndReportSpam'),
-  onDelete: action('delete'),
-  onAccept: action('accept'),
+  acceptConversation: action('acceptConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  blockConversation: action('blockConversation'),
+  deleteConversation: action('deleteConversation'),
 });
 
 export default {

@@ -104,6 +104,9 @@ import { SHOW_TOAST, ToastType } from './toast';
 import { isMemberRequestingToJoin } from '../../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../../util/removePendingMember';
 import { denyPendingApprovalRequest } from '../../util/denyPendingApprovalRequest';
+import { SignalService as Proto } from '../../protobuf';
+import { addReportSpamJob } from '../../jobs/helpers/addReportSpamJob';
+import { reportSpamJobQueue } from '../../jobs/reportSpamJobQueue';
 
 // State
 
@@ -840,8 +843,11 @@ export type ConversationActionType =
 // Action Creators
 
 export const actions = {
+  acceptConversation,
   addMemberToGroup,
   approvePendingMembershipFromGroupV2,
+  blockAndReportSpam,
+  blockConversation,
   cancelConversationVerification,
   changeHasGroupLink,
   clearCancelledConversationVerification,
@@ -863,6 +869,7 @@ export const actions = {
   conversationUnloaded,
   createGroup,
   deleteAvatarFromDisk,
+  deleteConversation,
   deleteMessageForEveryone,
   destroyMessages,
   discardMessages,
@@ -2202,6 +2209,121 @@ function revokePendingMembershipsFromGroupV2(
       type: 'NOOP',
       payload: null,
     });
+  };
+}
+
+function blockAndReportSpam(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      log.error(
+        `blockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
+      );
+      return;
+    }
+
+    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+    const idForLogging = conversation.idForLogging();
+
+    longRunningTaskWrapper({
+      name: 'blockAndReportSpam',
+      idForLogging,
+      task: async () => {
+        await Promise.all([
+          conversation.syncMessageRequestResponse(messageRequestEnum.BLOCK),
+          addReportSpamJob({
+            conversation: conversation.format(),
+            getMessageServerGuidsForSpam:
+              window.Signal.Data.getMessageServerGuidsForSpam,
+            jobQueue: reportSpamJobQueue,
+          }),
+        ]);
+
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            toastType: ToastType.ReportedSpamAndBlocked,
+          },
+        });
+      },
+    });
+  };
+}
+
+function acceptConversation(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'acceptConversation: Expected a conversation to be found. Doing nothing'
+    );
+  }
+
+  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+
+  longRunningTaskWrapper({
+    name: 'acceptConversation',
+    idForLogging: conversation.idForLogging(),
+    task: conversation.syncMessageRequestResponse.bind(
+      conversation,
+      messageRequestEnum.ACCEPT
+    ),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function blockConversation(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'blockConversation: Expected a conversation to be found. Doing nothing'
+    );
+  }
+
+  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+
+  longRunningTaskWrapper({
+    name: 'blockConversation',
+    idForLogging: conversation.idForLogging(),
+    task: conversation.syncMessageRequestResponse.bind(
+      conversation,
+      messageRequestEnum.BLOCK
+    ),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function deleteConversation(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'deleteConversation: Expected a conversation to be found. Doing nothing'
+    );
+  }
+
+  const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
+
+  longRunningTaskWrapper({
+    name: 'deleteConversation',
+    idForLogging: conversation.idForLogging(),
+    task: conversation.syncMessageRequestResponse.bind(
+      conversation,
+      messageRequestEnum.DELETE
+    ),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
   };
 }
 

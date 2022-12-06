@@ -240,11 +240,10 @@ export function CompositionArea({
   isMissingMandatoryProfileSharing,
   left,
   messageRequestsEnabled,
-  onAccept,
-  onBlock,
-  onBlockAndReportSpam,
-  onDelete,
-  onUnblock,
+  acceptConversation,
+  blockConversation,
+  blockAndReportSpam,
+  deleteConversation,
   title,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
@@ -497,14 +496,14 @@ export function CompositionArea({
   ) {
     return (
       <MessageRequestActions
-        i18n={i18n}
+        acceptConversation={acceptConversation}
+        blockAndReportSpam={blockAndReportSpam}
+        blockConversation={blockConversation}
+        conversationId={conversationId}
         conversationType={conversationType}
+        deleteConversation={deleteConversation}
+        i18n={i18n}
         isBlocked={isBlocked}
-        onBlock={onBlock}
-        onBlockAndReportSpam={onBlockAndReportSpam}
-        onUnblock={onUnblock}
-        onDelete={onDelete}
-        onAccept={onAccept}
         title={title}
       />
     );
@@ -549,12 +548,13 @@ export function CompositionArea({
   ) {
     return (
       <MandatoryProfileSharingActions
-        i18n={i18n}
+        acceptConversation={acceptConversation}
+        blockAndReportSpam={blockAndReportSpam}
+        blockConversation={blockConversation}
+        conversationId={conversationId}
         conversationType={conversationType}
-        onBlock={onBlock}
-        onBlockAndReportSpam={onBlockAndReportSpam}
-        onDelete={onDelete}
-        onAccept={onAccept}
+        deleteConversation={deleteConversation}
+        i18n={i18n}
         title={title}
       />
     );

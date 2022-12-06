@@ -16,25 +16,27 @@ export enum MessageRequestState {
 }
 
 export type Props = {
-  i18n: LocalizerType;
+  acceptConversation(conversationId: string): unknown;
+  blockAndReportSpam(conversationId: string): unknown;
+  blockConversation(conversationId: string): unknown;
+  conversationId: string;
   conversationType: 'group' | 'direct';
+  deleteConversation(conversationId: string): unknown;
+  i18n: LocalizerType;
   isBlocked?: boolean;
-  onBlock(): unknown;
-  onBlockAndReportSpam(): unknown;
-  onUnblock(): unknown;
-  onDelete(): unknown;
-  state: MessageRequestState;
   onChangeState(state: MessageRequestState): unknown;
+  state: MessageRequestState;
 } & Omit<ContactNameProps, 'module'>;
 
 export function MessageRequestActionsConfirmation({
+  acceptConversation,
+  blockAndReportSpam,
+  blockConversation,
+  conversationId,
   conversationType,
+  deleteConversation,
   i18n,
-  onBlock,
-  onBlockAndReportSpam,
   onChangeState,
-  onDelete,
-  onUnblock,
   state,
   title,
 }: Props): JSX.Element | null {
@@ -58,14 +60,14 @@ export function MessageRequestActionsConfirmation({
             ? [
                 {
                   text: i18n('MessageRequests--block-and-report-spam'),
-                  action: onBlockAndReportSpam,
+                  action: () => blockAndReportSpam(conversationId),
                   style: 'negative' as const,
                 },
               ]
             : []),
           {
             text: i18n('MessageRequests--block'),
-            action: onBlock,
+            action: () => blockConversation(conversationId),
             style: 'negative',
           },
         ]}
@@ -95,7 +97,7 @@ export function MessageRequestActionsConfirmation({
         actions={[
           {
             text: i18n('MessageRequests--unblock'),
-            action: onUnblock,
+            action: () => acceptConversation(conversationId),
             style: 'affirmative',
           },
         ]}
@@ -123,7 +125,7 @@ export function MessageRequestActionsConfirmation({
         actions={[
           {
             text: i18n(`MessageRequests--delete-${conversationType}`),
-            action: onDelete,
+            action: () => deleteConversation(conversationId),
             style: 'negative',
           },
         ]}

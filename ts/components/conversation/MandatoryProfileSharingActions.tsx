@@ -16,21 +16,26 @@ import type { LocalizerType } from '../../types/Util';
 export type Props = {
   i18n: LocalizerType;
   firstName?: string;
-  onAccept(): unknown;
 } & Omit<ContactNameProps, 'module'> &
   Pick<
     MessageRequestActionsConfirmationProps,
-    'conversationType' | 'onBlock' | 'onBlockAndReportSpam' | 'onDelete'
+    | 'acceptConversation'
+    | 'blockAndReportSpam'
+    | 'blockConversation'
+    | 'conversationId'
+    | 'conversationType'
+    | 'deleteConversation'
   >;
 
 export function MandatoryProfileSharingActions({
+  acceptConversation,
+  blockAndReportSpam,
+  blockConversation,
+  conversationId,
   conversationType,
+  deleteConversation,
   firstName,
   i18n,
-  onAccept,
-  onBlock,
-  onBlockAndReportSpam,
-  onDelete,
   title,
 }: Props): JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
@@ -39,15 +44,16 @@ export function MandatoryProfileSharingActions({
     <>
       {mrState !== MessageRequestState.default ? (
         <MessageRequestActionsConfirmation
-          i18n={i18n}
-          onBlock={onBlock}
-          onBlockAndReportSpam={onBlockAndReportSpam}
-          onUnblock={() => {
+          acceptConversation={() => {
             throw new Error(
               'Should not be able to unblock from MandatoryProfileSharingActions'
             );
           }}
-          onDelete={onDelete}
+          blockConversation={blockConversation}
+          conversationId={conversationId}
+          deleteConversation={deleteConversation}
+          i18n={i18n}
+          blockAndReportSpam={blockAndReportSpam}
           title={title}
           conversationType={conversationType}
           state={mrState}
@@ -103,7 +109,7 @@ export function MandatoryProfileSharingActions({
             {i18n('MessageRequests--delete')}
           </Button>
           <Button
-            onClick={onAccept}
+            onClick={() => acceptConversation(conversationId)}
             variant={ButtonVariant.SecondaryAffirmative}
           >
             {i18n('MessageRequests--continue')}

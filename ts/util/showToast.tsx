@@ -46,7 +46,6 @@ import type { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooL
 import type { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import type { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import type { ToastReactionFailed } from '../components/ToastReactionFailed';
-import type { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndBlocked';
 import type { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 import type { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import type { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
@@ -96,7 +95,6 @@ export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
 export function showToast(Toast: typeof ToastOriginalMessageNotFound): void;
 export function showToast(Toast: typeof ToastPinnedConversationsFull): void;
 export function showToast(Toast: typeof ToastReactionFailed): void;
-export function showToast(Toast: typeof ToastReportedSpamAndBlocked): void;
 export function showToast(Toast: typeof ToastStickerPackInstallFailed): void;
 export function showToast(Toast: typeof ToastTapToViewExpiredIncoming): void;
 export function showToast(Toast: typeof ToastTapToViewExpiredOutgoing): void;

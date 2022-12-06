@@ -96,11 +96,10 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   clearShowPickerHint: action('clearShowPickerHint'),
   // Message Requests
   conversationType: 'direct',
-  onAccept: action('onAccept'),
-  onBlock: action('onBlock'),
-  onBlockAndReportSpam: action('onBlockAndReportSpam'),
-  onDelete: action('onDelete'),
-  onUnblock: action('onUnblock'),
+  acceptConversation: action('acceptConversation'),
+  blockConversation: action('blockConversation'),
+  blockAndReportSpam: action('blockAndReportSpam'),
+  deleteConversation: action('deleteConversation'),
   messageRequestsEnabled: boolean(
     'messageRequestsEnabled',
     overrideProps.messageRequestsEnabled || false

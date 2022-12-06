@@ -54,9 +54,7 @@ export type SmartConversationDetailsProps = {
       title?: string;
     }>
   ) => Promise<void>;
-  onBlock: () => void;
   onLeave: () => void;
-  onUnblock: () => void;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;

@@ -80,3 +80,10 @@ StoryVideoError.args = {
     toastType: ToastType.StoryVideoError,
   },
 };
+
+export const ReportedSpamAndBlocked = Template.bind({});
+ReportedSpamAndBlocked.args = {
+  toast: {
+    toastType: ToastType.ReportedSpamAndBlocked,
+  },
+};
