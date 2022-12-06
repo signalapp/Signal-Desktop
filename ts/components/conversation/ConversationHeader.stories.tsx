@@ -41,7 +41,6 @@ const commonProps = {
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
   onSearchInConversation: action('onSearchInConversation'),
-  onSetMuteNotifications: action('onSetMuteNotifications'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -57,6 +56,7 @@ const commonProps = {
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   onSetPin: action('onSetPin'),
+  setMuteExpiration: action('onSetMuteNotifications'),
   viewUserStories: action('viewUserStories'),
 };
 

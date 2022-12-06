@@ -101,9 +101,6 @@ export type StateProps = {
   onUnblock: () => void;
   theme: ThemeType;
   userAvatarData: Array<AvatarDataType>;
-  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
-  onOutgoingAudioCallInConversation: () => unknown;
-  onOutgoingVideoCallInConversation: () => unknown;
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
   ) => JSX.Element;
@@ -115,10 +112,13 @@ export type StateProps = {
 type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   loadRecentMediaItems: (id: string, limit: number) => void;
+  onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
+  onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   searchInConversation: (id: string) => unknown;
   setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
+  setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
@@ -291,6 +291,7 @@ export function ConversationDetails({
       modalNode = (
         <ConversationNotificationsModal
           i18n={i18n}
+          id={conversation.id}
           muteExpiresAt={conversation.muteExpiresAt}
           onClose={() => {
             setModalState(ModalState.NothingOpen);
@@ -305,7 +306,7 @@ export function ConversationDetails({
           dialogName="ConversationDetails.unmuteNotifications"
           actions={[
             {
-              action: () => setMuteExpiration(0),
+              action: () => setMuteExpiration(conversation.id, 0),
               style: 'affirmative',
               text: i18n('unmute'),
             },
@@ -354,14 +355,16 @@ export function ConversationDetails({
             <ConversationDetailsCallButton
               disabled={hasActiveCall}
               i18n={i18n}
-              onClick={onOutgoingVideoCallInConversation}
+              onClick={() => onOutgoingVideoCallInConversation(conversation.id)}
               type="video"
             />
             {!isGroup && (
               <ConversationDetailsCallButton
                 disabled={hasActiveCall}
                 i18n={i18n}
-                onClick={onOutgoingAudioCallInConversation}
+                onClick={() =>
+                  onOutgoingAudioCallInConversation(conversation.id)
+                }
                 type="audio"
               />
             )}

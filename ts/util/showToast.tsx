@@ -13,7 +13,6 @@ import type {
   ToastCannotOpenGiftBadge,
   ToastPropsType as ToastCannotOpenGiftBadgePropsType,
 } from '../components/ToastCannotOpenGiftBadge';
-import type { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import type { ToastCaptchaFailed } from '../components/ToastCaptchaFailed';
 import type { ToastCaptchaSolved } from '../components/ToastCaptchaSolved';
 import type {
@@ -60,7 +59,6 @@ export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
 export function showToast(Toast: typeof ToastBlocked): void;
 export function showToast(Toast: typeof ToastBlockedGroup): void;
 export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
-export function showToast(Toast: typeof ToastCannotStartGroupCall): void;
 export function showToast(
   Toast: typeof ToastCannotOpenGiftBadge,
   props: Omit<ToastCannotOpenGiftBadgePropsType, 'i18n' | 'onClose'>

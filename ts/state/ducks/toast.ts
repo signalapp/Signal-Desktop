@@ -5,7 +5,13 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ReplacementValuesType } from '../../types/Util';
 
 export enum ToastType {
+  AddingUserToGroup = 'AddingUserToGroup',
+  CannotStartGroupCall = 'CannotStartGroupCall',
+  CopiedUsername = 'CopiedUsername',
+  CopiedUsernameLink = 'CopiedUsernameLink',
+  DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
   Error = 'Error',
+  FailedToDeleteUsername = 'FailedToDeleteUsername',
   MessageBodyTooLong = 'MessageBodyTooLong',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
@@ -13,12 +19,7 @@ export enum ToastType {
   StoryVideoError = 'StoryVideoError',
   StoryVideoTooLong = 'StoryVideoTooLong',
   StoryVideoUnsupported = 'StoryVideoUnsupported',
-  AddingUserToGroup = 'AddingUserToGroup',
   UserAddedToGroup = 'UserAddedToGroup',
-  FailedToDeleteUsername = 'FailedToDeleteUsername',
-  CopiedUsername = 'CopiedUsername',
-  CopiedUsernameLink = 'CopiedUsernameLink',
-  DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
 }
 
 // State

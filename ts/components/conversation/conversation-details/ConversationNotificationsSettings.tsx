@@ -15,17 +15,23 @@ import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
 import { useUniqueId } from '../../../hooks/useUniqueId';
 
 type PropsType = {
+  id: string;
   conversationType: ConversationTypeType;
   dontNotifyForMentionsIfMuted: boolean;
   i18n: LocalizerType;
   muteExpiresAt: undefined | number;
   setDontNotifyForMentionsIfMuted: (
+    conversationId: string,
     dontNotifyForMentionsIfMuted: boolean
   ) => unknown;
-  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
+  setMuteExpiration: (
+    conversationId: string,
+    muteExpiresAt: undefined | number
+  ) => unknown;
 };
 
 export function ConversationNotificationsSettings({
+  id,
   conversationType,
   dontNotifyForMentionsIfMuted,
   i18n,
@@ -62,11 +68,11 @@ export function ConversationNotificationsSettings({
       rawValue,
       'NotificationSettings: mute ms was not an integer'
     );
-    setMuteExpiration(ms);
+    setMuteExpiration(id, ms);
   };
 
   const onChangeDontNotifyForMentionsIfMuted = (rawValue: string) => {
-    setDontNotifyForMentionsIfMuted(rawValue === 'yes');
+    setDontNotifyForMentionsIfMuted(id, rawValue === 'yes');
   };
 
   return (

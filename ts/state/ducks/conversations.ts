@@ -897,9 +897,11 @@ export const actions = {
   setComposeGroupName,
   setComposeSearchTerm,
   setDisappearingMessages,
+  setDontNotifyForMentionsIfMuted,
   setIsFetchingUUID,
   setIsNearBottom,
   setMessageLoadingState,
+  setMuteExpiration,
   setPreJoinConversation,
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
@@ -943,7 +945,7 @@ async function getAvatarsAndUpdateConversation(
 ): Promise<Array<AvatarDataType>> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('No conversation found');
+    throw new Error('getAvatarsAndUpdateConversation: No conversation found');
   }
 
   const { conversationLookup } = conversations;
@@ -1004,7 +1006,7 @@ function changeHasGroupLink(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('changeHasGroupLink: No conversation found');
     }
 
     await longRunningTaskWrapper({
@@ -1026,7 +1028,7 @@ function setAnnouncementsOnly(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('setAnnouncementsOnly: No conversation found');
     }
 
     await longRunningTaskWrapper({
@@ -1048,7 +1050,7 @@ function setAccessControlMembersSetting(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('setAccessControlMembersSetting: No conversation found');
     }
 
     await longRunningTaskWrapper({
@@ -1070,7 +1072,9 @@ function setAccessControlAttributesSetting(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error(
+        'setAccessControlAttributesSetting: No conversation found'
+      );
     }
 
     await longRunningTaskWrapper({
@@ -1092,7 +1096,7 @@ function setDisappearingMessages(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('setDisappearingMessages: No conversation found');
     }
 
     const valueToSet = seconds > 0 ? seconds : undefined;
@@ -1112,13 +1116,51 @@ function setDisappearingMessages(
   };
 }
 
+function setDontNotifyForMentionsIfMuted(
+  conversationId: string,
+  newValue: boolean
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('setDontNotifyForMentionsIfMuted: No conversation found');
+  }
+
+  conversation.setDontNotifyForMentionsIfMuted(newValue);
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function setMuteExpiration(
+  conversationId: string,
+  muteExpiresAt = 0
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('setMuteExpiration: No conversation found');
+  }
+
+  conversation.setMuteExpiration(
+    muteExpiresAt >= Number.MAX_SAFE_INTEGER
+      ? muteExpiresAt
+      : Date.now() + muteExpiresAt
+  );
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
 function destroyMessages(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('destroyMessages: No conversation found');
     }
 
     await longRunningTaskWrapper({
@@ -1144,7 +1186,7 @@ function generateNewGroupLink(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error('generateNewGroupLink: No conversation found');
     }
 
     await longRunningTaskWrapper({
@@ -1217,7 +1259,9 @@ function setAccessControlAddFromInviteLinkSetting(
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      throw new Error('No conversation found');
+      throw new Error(
+        'setAccessControlAddFromInviteLinkSetting: No conversation found'
+      );
     }
 
     await longRunningTaskWrapper({
@@ -1280,7 +1324,7 @@ function saveAvatarToDisk(
 ): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     if (!avatarData.buffer) {
-      throw new Error('No avatar Uint8Array provided');
+      throw new Error('saveAvatarToDisk: No avatar Uint8Array provided');
     }
 
     strictAssert(conversationId, 'conversationId not provided');

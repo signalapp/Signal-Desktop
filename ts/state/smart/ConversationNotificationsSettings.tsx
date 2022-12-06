@@ -7,36 +7,31 @@ import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getConversationByIdSelector } from '../selectors/conversations';
 import { strictAssert } from '../../util/assert';
+import { mapDispatchToProps } from '../actions';
 
 export type OwnProps = {
   conversationId: string;
-  setDontNotifyForMentionsIfMuted: (
-    dontNotifyForMentionsIfMuted: boolean
-  ) => unknown;
-  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
 };
 
 const mapStateToProps = (state: StateType, props: OwnProps) => {
-  const { conversationId, setDontNotifyForMentionsIfMuted, setMuteExpiration } =
-    props;
+  const { conversationId } = props;
 
   const conversationSelector = getConversationByIdSelector(state);
   const conversation = conversationSelector(conversationId);
   strictAssert(conversation, 'Expected a conversation to be found');
 
   return {
+    id: conversationId,
     conversationType: conversation.type,
     dontNotifyForMentionsIfMuted: Boolean(
       conversation.dontNotifyForMentionsIfMuted
     ),
     i18n: getIntl(state),
     muteExpiresAt: conversation.muteExpiresAt,
-    setDontNotifyForMentionsIfMuted,
-    setMuteExpiration,
   };
 };
 
-const smart = connect(mapStateToProps, {});
+const smart = connect(mapStateToProps, mapDispatchToProps);
 
 export const SmartConversationNotificationsSettings = smart(
   ConversationNotificationsSettings

@@ -17,6 +17,7 @@ export default {
 };
 
 const getCommonProps = () => ({
+  id: 'conversation-id',
   muteExpiresAt: undefined,
   conversationType: 'group' as const,
   dontNotifyForMentionsIfMuted: false,

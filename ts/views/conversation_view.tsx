@@ -61,7 +61,6 @@ import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
 import { ToastCannotMixMultiAndNonMultiAttachments } from '../components/ToastCannotMixMultiAndNonMultiAttachments';
-import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
@@ -108,10 +107,8 @@ import { saveAttachment } from '../util/saveAttachment';
 import { SECOND } from '../util/durations';
 import { blockSendUntilConversationsAreVerified } from '../util/blockSendUntilConversationsAreVerified';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
-import { getOwn } from '../util/getOwn';
-import { CallMode } from '../types/Calling';
-import { isAnybodyElseInGroupCall } from '../state/ducks/calling';
 import { startConversation } from '../util/startConversation';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 
 type AttachmentOptions = {
   messageId: string;
@@ -306,12 +303,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return this;
   }
 
-  setMuteExpiration(ms = 0): void {
-    this.model.setMuteExpiration(
-      ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
-    );
-  }
-
   setPin(value: boolean): void {
     if (value) {
       const pinnedConversationIds = window.storage.get(
@@ -338,15 +329,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         const { searchInConversation } = window.reduxActions.search;
         searchInConversation(this.model.id);
       },
-      onSetMuteNotifications: this.setMuteExpiration.bind(this),
       onSetPin: this.setPin.bind(this),
-      // These are view only and don't update the Conversation model, so they
-      //   need a manual update call.
-      onOutgoingAudioCallInConversation:
-        this.onOutgoingAudioCallInConversation.bind(this),
-      onOutgoingVideoCallInConversation:
-        this.onOutgoingVideoCallInConversation.bind(this),
-
       onShowConversationDetails: () => {
         this.showConversationDetails();
       },
@@ -505,7 +488,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         messageRequestEnum.ACCEPT
       ),
       removeMember: (conversationId: string) => {
-        this.longRunningTaskWrapper({
+        longRunningTaskWrapper({
+          idForLogging: this.model.idForLogging(),
           name: 'removeMember',
           task: () => this.model.removeFromGroupV2(conversationId),
         });
@@ -575,7 +559,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           okText: window.i18n('GroupV2--join--cancel-request-to-join--yes'),
           cancelText: window.i18n('GroupV2--join--cancel-request-to-join--no'),
           resolve: () => {
-            this.longRunningTaskWrapper({
+            longRunningTaskWrapper({
+              idForLogging: this.model.idForLogging(),
               name: 'onCancelJoinRequest',
               task: async () => this.model.cancelJoinRequest(),
             });
@@ -628,83 +613,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.conversationView = new ReactWrapperView({ JSX });
     this.$('.ConversationView__template').append(this.conversationView.el);
-  }
-
-  async onOutgoingVideoCallInConversation(): Promise<void> {
-    log.info('onOutgoingVideoCallInConversation: about to start a video call');
-
-    // if it's a group call on an announcementsOnly group
-    // only allow join if the call has already been started (presumably by the admin)
-    if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
-      const call = getOwn(
-        window.reduxStore.getState().calling.callsByConversation,
-        this.model.id
-      );
-
-      // technically not necessary, but isAnybodyElseInGroupCall requires it
-      const ourUuid = window.storage.user.getCheckedUuid().toString();
-
-      const isOngoingGroupCall =
-        call &&
-        ourUuid &&
-        call.callMode === CallMode.Group &&
-        call.peekInfo &&
-        isAnybodyElseInGroupCall(call.peekInfo, ourUuid);
-
-      if (!isOngoingGroupCall) {
-        showToast(ToastCannotStartGroupCall);
-        return;
-      }
-    }
-
-    if (await this.isCallSafe()) {
-      log.info(
-        'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
-      );
-      window.reduxActions.calling.startCallingLobby({
-        conversationId: this.model.id,
-        isVideoCall: true,
-      });
-      log.info('onOutgoingVideoCallInConversation: started the call');
-    } else {
-      log.info(
-        'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
-      );
-    }
-  }
-
-  async onOutgoingAudioCallInConversation(): Promise<void> {
-    log.info('onOutgoingAudioCallInConversation: about to start an audio call');
-
-    if (await this.isCallSafe()) {
-      log.info(
-        'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
-      );
-      window.reduxActions.calling.startCallingLobby({
-        conversationId: this.model.id,
-        isVideoCall: false,
-      });
-      log.info('onOutgoingAudioCallInConversation: started the call');
-    } else {
-      log.info(
-        'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
-      );
-    }
-  }
-
-  async longRunningTaskWrapper<T>({
-    name,
-    task,
-  }: {
-    name: string;
-    task: () => Promise<T>;
-  }): Promise<T> {
-    const idForLogging = this.model.idForLogging();
-    return window.Signal.Util.longRunningTaskWrapper({
-      name,
-      idForLogging,
-      task,
-    });
   }
 
   getMessageActions(): MessageActionsType {
@@ -896,7 +804,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const migrate = () => {
       onClose();
 
-      this.longRunningTaskWrapper({
+      longRunningTaskWrapper({
+        idForLogging: this.model.idForLogging(),
         name: 'initiateMigrationToGroupV2',
         task: () => window.Signal.Groups.initiateMigrationToGroupV2(this.model),
       });
@@ -905,7 +814,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     // Note: this call will throw if, after generating member lists, we are no longer a
     //   member or are in the pending member list.
     const { droppedGV2MemberIds, pendingMembersV2 } =
-      await this.longRunningTaskWrapper({
+      await longRunningTaskWrapper({
+        idForLogging: this.model.idForLogging(),
         name: 'getGroupMigrationMembers',
         task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
       });
@@ -1103,7 +1013,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     model: ConversationModel,
     messageRequestType: number
   ): Promise<void> {
-    return this.longRunningTaskWrapper({
+    return longRunningTaskWrapper({
+      idForLogging: this.model.idForLogging(),
       name,
       task: model.syncMessageRequestResponse.bind(model, messageRequestType),
     });
@@ -1112,7 +1023,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   blockAndReportSpam(model: ConversationModel): Promise<void> {
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-    return this.longRunningTaskWrapper({
+    return longRunningTaskWrapper({
+      idForLogging: this.model.idForLogging(),
       name: 'blockAndReportSpam',
       task: async () => {
         await Promise.all([
@@ -1862,9 +1774,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore,
         {
           conversationId: this.model.id,
-          setDontNotifyForMentionsIfMuted:
-            this.model.setDontNotifyForMentionsIfMuted.bind(this.model),
-          setMuteExpiration: this.setMuteExpiration.bind(this),
         }
       ),
     });
@@ -1900,7 +1809,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     // dried up and hoisted to methods on ConversationView
 
     const onLeave = () => {
-      this.longRunningTaskWrapper({
+      longRunningTaskWrapper({
+        idForLogging: this.model.idForLogging(),
         name: 'onLeave',
         task: () => this.model.leaveGroupV2(),
       });
@@ -1938,11 +1848,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           messageRequestEnum.ACCEPT
         );
       },
-      setMuteExpiration: this.setMuteExpiration.bind(this),
-      onOutgoingAudioCallInConversation:
-        this.onOutgoingAudioCallInConversation.bind(this),
-      onOutgoingVideoCallInConversation:
-        this.onOutgoingVideoCallInConversation.bind(this),
     };
 
     const view = new ReactWrapperView({
@@ -2126,28 +2031,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       this.panels[0]?.headerTitle
     );
-  }
-
-  async isCallSafe(): Promise<boolean> {
-    const recipientsByConversation = {
-      [this.model.id]: {
-        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
-      },
-    };
-
-    const callAnyway = await blockSendUntilConversationsAreVerified(
-      recipientsByConversation,
-      SafetyNumberChangeSource.Calling
-    );
-
-    if (!callAnyway) {
-      log.info(
-        'Safety number change dialog not accepted, new call not allowed.'
-      );
-      return false;
-    }
-
-    return true;
   }
 
   async sendStickerMessage(options: {

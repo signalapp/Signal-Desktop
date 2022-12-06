@@ -80,11 +80,10 @@ export type PropsDataType = {
 >;
 
 export type PropsActionsType = {
-  onSetMuteNotifications: (seconds: number) => void;
   destroyMessages: (conversationId: string) => void;
   onSearchInConversation: () => void;
-  onOutgoingAudioCallInConversation: () => void;
-  onOutgoingVideoCallInConversation: () => void;
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onSetPin: (value: boolean) => void;
 
   onShowConversationDetails: () => void;
@@ -95,6 +94,7 @@ export type PropsActionsType = {
   onArchive: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
+  setMuteExpiration: (conversationId: string, seconds: number) => void;
   setDisappearingMessages: (
     conversationId: string,
     seconds: DurationInSeconds
@@ -349,12 +349,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onArchive,
       onMarkUnread,
       onMoveToInbox,
-      onSetMuteNotifications,
       onSetPin,
       onShowAllMedia,
       onShowConversationDetails,
       onShowGroupMembers,
       setDisappearingMessages,
+      setMuteExpiration,
       type,
     } = this.props;
 
@@ -371,7 +371,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             {isMuted ? (
               <MenuItem
                 onClick={() => {
-                  onSetMuteNotifications(0);
+                  setMuteExpiration(id, 0);
                 }}
               >
                 {i18n('unmute')}
@@ -379,7 +379,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             ) : (
               <MenuItem
                 onClick={() => {
-                  onSetMuteNotifications(Number.MAX_SAFE_INTEGER);
+                  setMuteExpiration(id, Number.MAX_SAFE_INTEGER);
                 }}
               >
                 {i18n('muteAlways')}
@@ -465,7 +465,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               key={item.name}
               disabled={item.disabled}
               onClick={() => {
-                onSetMuteNotifications(item.value);
+                setMuteExpiration(id, item.value);
               }}
             >
               {item.name}
@@ -676,6 +676,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                   announcementsOnly={announcementsOnly}
                   areWeAdmin={areWeAdmin}
                   i18n={i18n}
+                  id={id}
                   isNarrow={isNarrow}
                   onOutgoingAudioCallInConversation={
                     onOutgoingAudioCallInConversation
@@ -702,6 +703,7 @@ function OutgoingCallButtons({
   announcementsOnly,
   areWeAdmin,
   i18n,
+  id,
   isNarrow,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
@@ -712,6 +714,7 @@ function OutgoingCallButtons({
   | 'announcementsOnly'
   | 'areWeAdmin'
   | 'i18n'
+  | 'id'
   | 'onOutgoingAudioCallInConversation'
   | 'onOutgoingVideoCallInConversation'
   | 'outgoingCallButtonStyle'
@@ -729,14 +732,14 @@ function OutgoingCallButtons({
           : undefined
       )}
       disabled={showBackButton}
-      onClick={onOutgoingVideoCallInConversation}
+      onClick={() => onOutgoingVideoCallInConversation(id)}
       type="button"
     />
   );
 
   const startCallShortcuts = useStartCallShortcuts(
-    onOutgoingAudioCallInConversation,
-    onOutgoingVideoCallInConversation
+    () => onOutgoingAudioCallInConversation(id),
+    () => onOutgoingVideoCallInConversation(id)
   );
   useKeyboardShortcuts(startCallShortcuts);
 
@@ -751,7 +754,7 @@ function OutgoingCallButtons({
           {videoButton}
           <button
             type="button"
-            onClick={onOutgoingAudioCallInConversation}
+            onClick={() => onOutgoingAudioCallInConversation(id)}
             className={classNames(
               'module-ConversationHeader__button',
               'module-ConversationHeader__button--audio',
@@ -772,7 +775,7 @@ function OutgoingCallButtons({
             showBackButton ? null : 'module-ConversationHeader__button--show'
           )}
           disabled={showBackButton}
-          onClick={onOutgoingVideoCallInConversation}
+          onClick={() => onOutgoingVideoCallInConversation(id)}
           type="button"
         >
           {isNarrow ? null : i18n('joinOngoingCall')}

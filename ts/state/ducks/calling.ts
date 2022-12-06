@@ -47,6 +47,10 @@ import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { waitForOnline } from '../../util/waitForOnline';
 import * as mapUtil from '../../util/mapUtil';
+import { isCallSafe } from '../../util/isCallSafe';
+import { isDirectConversation } from '../../util/whatTypeOfConversation';
+import { SHOW_TOAST, ToastType } from './toast';
+import type { ShowToastActionType } from './toast';
 
 // State
 
@@ -1189,6 +1193,106 @@ function setOutgoingRing(payload: boolean): SetOutgoingRingActionType {
   };
 }
 
+function onOutgoingVideoCallInConversation(
+  conversationId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  StartCallingLobbyActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        `onOutgoingVideoCallInConversation: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    log.info('onOutgoingVideoCallInConversation: about to start a video call');
+
+    // if it's a group call on an announcementsOnly group
+    // only allow join if the call has already been started (presumably by the admin)
+    if (conversation.get('announcementsOnly') && !conversation.areWeAdmin()) {
+      const call = getOwn(
+        getState().calling.callsByConversation,
+        conversationId
+      );
+
+      // technically not necessary, but isAnybodyElseInGroupCall requires it
+      const ourUuid = window.storage.user.getCheckedUuid().toString();
+
+      const isOngoingGroupCall =
+        call &&
+        ourUuid &&
+        call.callMode === CallMode.Group &&
+        call.peekInfo &&
+        isAnybodyElseInGroupCall(call.peekInfo, ourUuid);
+
+      if (!isOngoingGroupCall) {
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            toastType: ToastType.CannotStartGroupCall,
+          },
+        });
+        return;
+      }
+    }
+
+    if (await isCallSafe(conversation.attributes)) {
+      log.info(
+        'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
+      );
+      startCallingLobby({
+        conversationId,
+        isVideoCall: true,
+      })(dispatch, getState, undefined);
+      log.info('onOutgoingVideoCallInConversation: started the call');
+    } else {
+      log.info(
+        'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
+      );
+    }
+  };
+}
+
+function onOutgoingAudioCallInConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, StartCallingLobbyActionType> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        `onOutgoingAudioCallInConversation: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    if (!isDirectConversation(conversation.attributes)) {
+      throw new Error(
+        `onOutgoingAudioCallInConversation: Conversation ${conversation.idForLogging()} is not 1:1`
+      );
+    }
+
+    log.info('onOutgoingAudioCallInConversation: about to start an audio call');
+
+    if (await isCallSafe(conversation.attributes)) {
+      log.info(
+        'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
+      );
+      startCallingLobby({
+        conversationId,
+        isVideoCall: false,
+      })(dispatch, getState, undefined);
+      log.info('onOutgoingAudioCallInConversation: started the call');
+    } else {
+      log.info(
+        'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
+      );
+    }
+  };
+}
+
 function startCallingLobby({
   conversationId,
   isVideoCall,
@@ -1346,6 +1450,8 @@ export const actions = {
   hangUpActiveCall,
   keyChangeOk,
   keyChanged,
+  onOutgoingVideoCallInConversation,
+  onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
   outgoingCall,
   peekGroupCallForTheFirstTime,

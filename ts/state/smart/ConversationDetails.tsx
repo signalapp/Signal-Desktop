@@ -57,9 +57,6 @@ export type SmartConversationDetailsProps = {
   onBlock: () => void;
   onLeave: () => void;
   onUnblock: () => void;
-  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
-  onOutgoingAudioCallInConversation: () => unknown;
-  onOutgoingVideoCallInConversation: () => unknown;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;

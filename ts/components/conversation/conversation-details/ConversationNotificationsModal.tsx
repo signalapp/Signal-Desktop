@@ -12,13 +12,18 @@ import { Button, ButtonVariant } from '../../Button';
 
 type PropsType = {
   i18n: LocalizerType;
+  id: string;
   muteExpiresAt: undefined | number;
   onClose: () => unknown;
-  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
+  setMuteExpiration: (
+    conversationId: string,
+    muteExpiresAt: undefined | number
+  ) => unknown;
 };
 
 export function ConversationNotificationsModal({
   i18n,
+  id,
   muteExpiresAt,
   onClose,
   setMuteExpiration,
@@ -40,7 +45,7 @@ export function ConversationNotificationsModal({
       muteExpirationValue,
       'NotificationSettings: mute ms was not an integer'
     );
-    setMuteExpiration(ms);
+    setMuteExpiration(id, ms);
     onClose();
   };
 
