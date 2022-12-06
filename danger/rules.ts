@@ -6,4 +6,19 @@ import { run } from 'endanger';
 import migrateBackboneToRedux from './rules/migrateBackboneToRedux';
 import packageJsonVersionsShouldBePinned from './rules/packageJsonVersionsShouldBePinned';
 
-run(migrateBackboneToRedux(), packageJsonVersionsShouldBePinned());
+function isGitDeletedError(error: unknown) {
+  return (
+    typeof error === 'object' &&
+    error != null &&
+    error['code'] === 128 &&
+    error['command']?.startsWith('git show ')
+  );
+}
+
+try {
+  run(migrateBackboneToRedux(), packageJsonVersionsShouldBePinned());
+} catch (error: unknown) {
+  if (!isGitDeletedError(error)) {
+    throw error;
+  }
+}
