@@ -8205,7 +8205,7 @@ serialize-javascript@6.0.0:
 
 "session_util_wrapper@https://github.com/oxen-io/libsession-util-nodejs":
   version "0.1.0"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs#08bebd19042dee4d53f617bf93d51ab8fe9d8282"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs#d1519f038c738cb446b23714913db5fd33ef1d9c"
   dependencies:
     bindings "^1.5.0"
     nan "^2.17.0"

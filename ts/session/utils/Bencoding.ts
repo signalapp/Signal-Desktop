@@ -214,7 +214,6 @@ export class BEncode {
 
     if (isArray(item)) {
       let content = new Uint8Array();
-      //tslint disable prefer-for-of
       for (let index = 0; index < item.length; index++) {
         const encodedItem = this.encodeItem(item[index]);
         const encodedItemLength = encodedItem.length;

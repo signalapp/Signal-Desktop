@@ -78,8 +78,7 @@ const allowedKeysFormatRowOfConversation = [
   'conversationIdOrigin',
   'identityPrivateKey',
 ];
-
-//tslint-disable cyclomatic-complexity
+// tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
   if (!row) {
     return null;

@@ -580,7 +580,7 @@ describe('knownBlindedKeys', () => {
 
         expect(real).to.eq(undefined);
       });
-      it('does iterate over all the conversations but is not private so must fail: groupv3', async () => {
+      it('does iterate over all the conversations but is not private so must fail: groupv3', () => {
         // we actually cannot test this one as we would need to create  a conversation with groupv3 as type but 05 as prefix, and the conversation controller denies it, as expected
       });
     });

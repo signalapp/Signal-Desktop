@@ -1,4 +1,3 @@
-
 export type SwarmForSubRequest = { method: 'get_swarm'; params: { pubkey: string } };
 
 type RetrieveMaxCountSize = { max_count?: number; max_size?: number };
@@ -124,11 +123,10 @@ export type SnodeApiSubRequests =
   | StoreOnNodeSubRequest
   | NetworkTimeSubRequest;
 
-//tslint-disable: array-type
+// tslint:disable: array-type
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type NotEmptyArrayOfBatchResults = NonEmptyArray<{
   code: number;
   body: Record<string, any>;
 }>;
-

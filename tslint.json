@@ -26,6 +26,9 @@
     "object-literal-sort-keys": false,
     "no-async-without-await": true,
     "no-empty-interface": false,
+    "prefer-for-of": false,
+    "chai-vague-errors": false,
+    "no-useless-files": false,
     "ordered-imports": [
       true,
       {

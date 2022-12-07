@@ -244,7 +244,6 @@ export class SwarmPolling {
         return group;
       });
     } else if (isGroup) {
-      debugger;
       window?.log?.info(
         `Polled for group(${ed25519Str(
           pubkey.key
@@ -291,7 +290,6 @@ export class SwarmPolling {
             namespaces,
             UserUtils.getOurPubKeyStrFromCache()
           );
-          debugger;
           if (!results.length) {
             return [];
           }

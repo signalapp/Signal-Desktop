@@ -12,7 +12,6 @@ import { NotEmptyArrayOfBatchResults, SnodeApiSubRequests } from './SnodeRequest
  * @param targetNode the node to do the request to, once all the onion routing is done
  * @param timeout the timeout at which we should cancel this request.
  * @param associatedWith used mostly for handling 421 errors, we need the pubkey the change is associated to
- * @returns
  */
 export async function doSnodeBatchRequest(
   subRequests: Array<SnodeApiSubRequests>,

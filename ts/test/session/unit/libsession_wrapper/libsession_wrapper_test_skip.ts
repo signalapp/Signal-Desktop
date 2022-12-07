@@ -1,15 +1,20 @@
 import { expect } from 'chai';
 
-import * as SessionUtilWrapper from 'session_util_wrapper';
 import { stringToUint8Array } from '../../../../session/utils/String';
 import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
 import { concatUInt8Array } from '../../../../session/crypto';
+import * as SessionUtilWrapper from 'session_util_wrapper';
+
+// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace
 
 describe('libsession_wrapper', () => {
-  it.skip('[config][user_profile][c]', () => {
+  it('[config][user_profile][c]', () => {
     // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
     // To do this, you can cd to the node_module/libsession_wrapper folder and do
     // yarn configure && yarn build
+    // once that is done, you can rename this file and remove the _skip suffix so that test is run.
+
+    // We have to disable it by filename as nodejs tries to load the module during the import step above, and fails as it is not compiled for nodejs but for electron.
 
     const edSecretKey = from_hex(
       '0123456789abcdef0123456789abcdef000000000000000000000000000000004cb76fdc6d32278e3f83dbf608360ecc6b65727934b85d2fb86862ff98c46ab7'
@@ -67,54 +72,39 @@ describe('libsession_wrapper', () => {
     pushResult = conf.push();
     expect(pushResult.seqno).to.be.eq(1);
 
-    const exp_hash0 = from_hex('ea173b57beca8af18c3519a7bbf69c3e7a05d1c049fa9558341d8ebb48b0c965');
+    const expHash0 = from_hex('ea173b57beca8af18c3519a7bbf69c3e7a05d1c049fa9558341d8ebb48b0c965');
 
-    // prettier-ignore
-    const exp_push1_start = "d" +
-            "1:#" +"i1e"+
-            "1:&" +"d"+
-                "1:n" +"6:Kallie"+
-                "1:p" +"34:http://example.org/omg-pic-123.bmp"+
-                "1:q" +"6:secret"+
-            "e"+
-            "1:<"+ "l"+
-            "l" +"i0e" +"32:" ;
-    // prettier-ignore
-    const exp_push1_end = "de"+ "e"+
-            "e"+
-            "1:="+ "d"+
-                "1:n" +"0:"+
-                "1:p" +"0:"+
-                "1:q" +"0:"+
-            "e"+
-            "e";
+    const expPush1Start =
+      'd1:#i1e1:&d1:n6:Kallie1:p34:http://example.org/omg-pic-123.bmp1:q6:secrete1:<lli0e32:';
+    const expPush1End = 'deee1:=d1:n0:1:p0:1:q0:ee';
 
     // The data to be actually pushed, expanded like this to make it somewhat human-readable:
-    const exp_push1_decrypted = concatUInt8Array(
-      stringToUint8Array(exp_push1_start),
-      exp_hash0,
-      stringToUint8Array(exp_push1_end)
+    const expPush1Decrypted = concatUInt8Array(
+      stringToUint8Array(expPush1Start),
+      expHash0,
+      stringToUint8Array(expPush1End)
     );
-    const exp_push1_encrypted = from_hex(
+    const expPush1Encrypted = from_hex(
       'a2952190dcb9797bc48e48f6dc7b3254d004bde9091cfc9ec3433cbc5939a3726deb04f58a546d7d79e6f80ea185d43bf93278398556304998ae882304075c77f15c67f9914c4d10005a661f29ff7a79e0a9de7f21725ba3b5a6c19eaa3797671b8fa4008d62e9af2744629cbb46664c4d8048e2867f66ed9254120371bdb24e95b2d92341fa3b1f695046113a768ceb7522269f937ead5591bfa8a5eeee3010474002f2db9de043f0f0d1cfb1066a03e7b5d6cfb70a8f84a20cd2df5a510cd3d175708015a52dd4a105886d916db0005dbea5706e5a5dc37ffd0a0ca2824b524da2e2ad181a48bb38e21ed9abe136014a4ee1e472cb2f53102db2a46afa9d68'
     );
 
-    expect(to_hex(pushResult.data)).to.be.deep.eq(to_hex(exp_push1_encrypted));
+    expect(to_hex(pushResult.data)).to.be.deep.eq(to_hex(expPush1Encrypted));
 
     // We haven't dumped, so still need to dump:
     expect(conf.needsDump()).to.be.true;
     // We did call push, but we haven't confirmed it as stored yet, so this will still return true:
     expect(conf.needsPush()).to.be.true;
 
-    let dumped = conf.dump();
+    const dumped = conf.dump();
     // (in a real client we'd now store this to disk)
     expect(conf.needsDump()).to.be.false;
 
-    // prettier-ignore
-    const expected_dump = concatUInt8Array(stringToUint8Array("d" +
-        "1:!" +"i2e"+
-          "1:$" + `${exp_push1_decrypted.length}` + ':'), exp_push1_decrypted, stringToUint8Array("e"));
-    expect(to_hex(dumped)).to.be.deep.eq(to_hex(expected_dump));
+    const expectedDump = concatUInt8Array(
+      stringToUint8Array('d' + '1:!' + 'i2e' + '1:$' + `${expPush1Decrypted.length}` + ':'),
+      expPush1Decrypted,
+      stringToUint8Array('e')
+    );
+    expect(to_hex(dumped)).to.be.deep.eq(to_hex(expectedDump));
 
     // So now imagine we got back confirmation from the swarm that the push has been stored:
     conf.confirmPushed(pushResult.seqno);
@@ -134,7 +124,7 @@ describe('libsession_wrapper', () => {
     expect(conf2.needsDump()).to.be.false;
 
     // Now imagine we just pulled down the encrypted string from the swarm; we merge it into conf2:
-    const accepted = conf2.merge([exp_push1_encrypted]);
+    const accepted = conf2.merge([expPush1Encrypted]);
     expect(accepted).to.be.eq(1);
 
     // Our state has changed, so we need to dump:
