@@ -1,6 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import fs from 'fs/promises';
+import path from 'path';
 import { assert } from 'chai';
 
 import * as Attachment from '../../types/Attachment';
@@ -12,8 +14,6 @@ import * as logger from '../../logging/log';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { DAY } from '../../util/durations';
 
-import fs from 'fs/promises';
-import path from 'path';
 import { IMAGE_WEBP } from '../../types/MIME';
 
 describe('Attachment', () => {

@@ -24,7 +24,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 const withOverrideProps = (overrideProps?: Partial<Props>): Story => {
   const props = createProps(overrideProps);
-  return () => <GifPicker {...props} />;
+  const wrapper = () => <GifPicker {...props} />;
+  wrapper.displayName = `WithOverrideProps(${GifPicker.displayName})`;
+  return wrapper;
 };
 
 export const Default = withOverrideProps(undefined);

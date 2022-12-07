@@ -208,3 +208,5 @@ export const GifPicker = React.memo(
     }
   )
 );
+
+GifPicker.displayName = 'GifPicker';

@@ -154,3 +154,5 @@ export const GifButton = React.memo(
     );
   }
 );
+
+GifButton.displayName = 'GifButton';

@@ -38,7 +38,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 const withOverrideProps = (overrideProps?: Partial<Props>): React.FC => {
   const props = createProps(overrideProps);
-  return () => <GifButton {...props} />;
+  const wrapper = () => <GifButton {...props} />;
+  wrapper.displayName = `WithOverrideProps(${GifButton.displayName})`;
+  return wrapper;
 };
 
 export const Default = withOverrideProps(undefined);

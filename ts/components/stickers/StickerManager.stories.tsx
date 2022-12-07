@@ -8,7 +8,7 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './StickerManager';
 import { StickerManager } from './StickerManager';
-import { createPack, sticker1, sticker2 } from './StickerPicker.stories';
+import { createPack, sticker1, sticker2 } from './_fixtures';
 
 const i18n = setupI18n('en', enMessages);
 
