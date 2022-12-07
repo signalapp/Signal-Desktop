@@ -21,7 +21,7 @@
       "sourceMap": true
     },
     "util-worker": {
-      "source": "ts/webworker/workers/util.worker.ts",
+      "source": "ts/webworker/workers/util/util.worker.ts",
       "distDir": "./ts/webworker/workers/",
       "optimize": true,
       "sourceMap": false,

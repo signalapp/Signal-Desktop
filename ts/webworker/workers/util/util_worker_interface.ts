@@ -1,6 +1,6 @@
-import { WorkerInterface } from '../worker_interface';
+import { WorkerInterface } from '../../worker_interface';
 import { join } from 'path';
-import { getAppRootPath } from '../../node/getRootPath';
+import { getAppRootPath } from '../../../node/getRootPath';
 
 let utilWorkerInterface: WorkerInterface | undefined;
 
@@ -19,7 +19,7 @@ export const internalCallUtilsWorker = async (
 ): Promise<any> => {
   if (!utilWorkerInterface) {
     const utilWorkerPath = join(getAppRootPath(), 'ts', 'webworker', 'workers', 'util.worker.js');
-    utilWorkerInterface = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000); //{ type: 'module' }
+    utilWorkerInterface = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
   }
   return utilWorkerInterface?.callWorker(fnName, ...args);
 };

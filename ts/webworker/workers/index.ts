@@ -1,2 +1,2 @@
-import * as utilWorkerInterface from './util_worker_interface';
+import * as utilWorkerInterface from './util/util_worker_interface';
 export { utilWorkerInterface };

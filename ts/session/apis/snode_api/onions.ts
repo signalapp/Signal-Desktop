@@ -14,7 +14,7 @@ let snodeFailureCount: Record<string, number> = {};
 import { Snode } from '../../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { hrefPnServerProd } from '../push_notification_api/PnServer';
-import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../../../webworker/workers/util/util_worker_interface';
 import { encodeV4Request } from '../../onions/onionv4';
 import { AbortSignal } from 'abort-controller';
 import { to_string } from 'libsodium-wrappers-sumo';
