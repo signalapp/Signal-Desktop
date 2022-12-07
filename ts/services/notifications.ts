@@ -9,7 +9,6 @@ import {
   getAudioNotificationSupport,
   shouldHideExpiringMessageBody,
 } from '../types/Settings';
-import * as OS from '../OS';
 import * as log from '../logging/log';
 import { makeEnumParser } from '../util/enum';
 import { missingCaseError } from '../util/missingCaseError';
@@ -145,7 +144,7 @@ class NotificationService extends EventEmitter {
     const audioNotificationSupport = getAudioNotificationSupport();
 
     const notification = new window.Notification(title, {
-      body: OS.isLinux() ? filterNotificationText(message) : message,
+      body: message,
       icon,
       silent:
         silent || audioNotificationSupport !== AudioNotificationSupport.Native,
@@ -386,12 +385,3 @@ class NotificationService extends EventEmitter {
 }
 
 export const notificationService = new NotificationService();
-
-function filterNotificationText(text: string) {
-  return (text || '')
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
