@@ -120,8 +120,8 @@ export const GifButton = React.memo(
               onClick={handleClickButton}
               className={classNames(
                 {
-                  'module-gif-button__button': true,
-                  'module-gif-button__button--active': isOpen,
+                  GifButton__button: true,
+                  'GifButton__button--active': isOpen,
                 },
                 className
               )}

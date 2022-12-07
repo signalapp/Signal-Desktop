@@ -1,0 +1,137 @@
+@use '../mixins';
+@use '../variables';
+
+.GifPicker {
+  height: 400px;
+  display: grid;
+  grid-template-rows: 44px 1fr;
+  grid-template-columns: 1fr;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    padding: 0 8px;
+    justify-content: center;
+    align-items: center;
+
+    &__categories {
+      width: 288px;
+      overflow: hidden;
+      position: relative;
+
+      &__slider {
+        display: flex;
+        flex-direction: row;
+        transform: translateX(0);
+        transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+        &__button {
+          width: 28px;
+          height: 28px;
+          border: 0;
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: none;
+          margin-right: 4px;
+
+          outline: none;
+
+          &:active,
+          &:focus {
+            @include mixins.keyboard-mode {
+              background: variables.$color-gray-05;
+            }
+            @include mixins.dark-keyboard-mode {
+              background: variables.$color-gray-60;
+            }
+          }
+
+          &--selected {
+            @include mixins.light-theme {
+              background: variables.$color-gray-15;
+            }
+            @include mixins.dark-theme {
+              background: variables.$color-gray-45;
+            }
+          }
+
+          &::after {
+            content: '';
+            display: block;
+            min-width: 20px;
+            min-height: 20px;
+          }
+
+          @mixin themedIcon($url) {
+            &::after {
+              @include mixins.light-theme {
+                @include mixins.color-svg($url, variables.$color-gray-60);
+              }
+              @include mixins.dark-theme {
+                @include mixins.color-svg($url, variables.$color-gray-25);
+              }
+            }
+          }
+
+          &--recents {
+            @include themedIcon('../images/icons/v2/recent-outline-20.svg');
+          }
+
+          &--search {
+            @include themedIcon('../images/icons/v2/search-24.svg');
+          }
+
+          &--angry {
+            @include themedIcon('../images/icons/v2/gif-angry-24.svg');
+          }
+
+          &--celebrate {
+            @include themedIcon('../images/icons/v2/gif-celebrate-24.svg');
+          }
+
+          &--excited {
+            @include themedIcon('../images/icons/v2/gif-excited-24.svg');
+          }
+
+          &--love {
+            @include themedIcon('../images/icons/v2/gif-love-24.svg');
+          }
+
+          &--sad {
+            @include themedIcon('../images/icons/v2/gif-sad-24.svg');
+          }
+
+          &--surprised {
+            @include themedIcon('../images/icons/v2/gif-surprised-24.svg');
+          }
+
+          &--thumbsup {
+            @include themedIcon('../images/icons/v2/gif-thumbsup-24.svg');
+          }
+
+          &--trending {
+            @include themedIcon('../images/icons/v2/gif-trending-24.svg');
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    font-size: 0.8em;
+    overflow-y: auto;
+
+    &__searchbox {
+      &__container {
+        margin-top: 0;
+        width: 100%;
+      }
+    }
+  }
+}

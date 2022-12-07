@@ -127,19 +127,19 @@ export const GifPicker = React.memo(
         <FocusTrap
           focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}
         >
-          <div className="module-gif-picker" ref={ref} style={style}>
-            <div className="module-gif-picker__header">
-              <div className="module-gif-picker__header__categories">
-                <div className="module-gif-picker__header__categories__slider">
+          <div className="GifPicker" ref={ref} style={style}>
+            <div className="GifPicker__header">
+              <div className="GifPicker__header__categories">
+                <div className="GifPicker__header__categories__slider">
                   {hasRecentGifs ? (
                     <button
                       type="button"
                       onClick={onCategoryClickFactory('recent')}
                       className={classNames(
-                        'module-gif-picker__header__categories__slider__button',
-                        'module-gif-picker__header__categories__slider__button--recents',
+                        'GifPicker__header__categories__slider__button',
+                        'GifPicker__header__categories__slider__button--recents',
                         {
-                          'module-gif-picker__header__categories__slider__button--selected':
+                          'GifPicker__header__categories__slider__button--selected':
                             currentTabName === 'recent',
                         }
                       )}
@@ -150,10 +150,10 @@ export const GifPicker = React.memo(
                     type="button"
                     onClick={onCategoryClickFactory('search')}
                     className={classNames(
-                      'module-gif-picker__header__categories__slider__button',
-                      'module-gif-picker__header__categories__slider__button--search',
+                      'GifPicker__header__categories__slider__button',
+                      'GifPicker__header__categories__slider__button--search',
                       {
-                        'module-gif-picker__header__categories__slider__button--selected':
+                        'GifPicker__header__categories__slider__button--selected':
                           currentTabName === 'search',
                       }
                     )}
@@ -165,10 +165,10 @@ export const GifPicker = React.memo(
                       key={category}
                       onClick={onCategoryClickFactory(category)}
                       className={classNames(
-                        'module-gif-picker__header__categories__slider__button',
-                        `module-gif-picker__header__categories__slider__button--${category}`,
+                        'GifPicker__header__categories__slider__button',
+                        `GifPicker__header__categories__slider__button--${category}`,
                         {
-                          'module-gif-picker__header__categories__slider__button--selected':
+                          'GifPicker__header__categories__slider__button--selected':
                             currentTabName === category,
                         }
                       )}
@@ -178,9 +178,9 @@ export const GifPicker = React.memo(
                 </div>
               </div>
             </div>
-            <div className="module-gif-picker__body" ref={resizeDetectorRef}>
+            <div className="GifPicker__body" ref={resizeDetectorRef}>
               <Input
-                moduleClassName="module-gif-picker__body__searchbox"
+                moduleClassName="GifPicker__body__searchbox"
                 i18n={i18n}
                 value={currentTabName === 'search' ? searchTerm : ''}
                 onChange={onSearchTermChange}

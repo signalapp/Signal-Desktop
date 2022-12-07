@@ -1,0 +1,56 @@
+@use '../mixins';
+@use '../variables';
+
+.GifButton {
+  &__button {
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include mixins.keyboard-mode {
+      &:focus {
+        outline: 2px solid variables.$color-ultramarine;
+      }
+    }
+
+    outline: none;
+
+    &::after {
+      display: block;
+      content: '';
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+
+      @include mixins.light-theme {
+        @include mixins.color-svg(
+          '../images/icons/v2/gif-outline-24.svg',
+          variables.$color-gray-75
+        );
+      }
+      @include mixins.dark-theme {
+        @include mixins.color-svg(
+          '../images/icons/v2/gif-outline-24.svg',
+          variables.$color-gray-15
+        );
+      }
+    }
+
+    &--active {
+      @include mixins.light-theme() {
+        background: variables.$color-gray-05;
+      }
+
+      @include mixins.dark-theme() {
+        background: variables.$color-gray-75;
+      }
+
+      opacity: 1;
+    }
+  }
+}
