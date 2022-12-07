@@ -105,6 +105,10 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.PinnedConversationsFull) {
+    return <Toast onClose={hideToast}>{i18n('pinnedConversationsFull')}</Toast>;
+  }
+
   if (toastType === ToastType.StoryMuted) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>

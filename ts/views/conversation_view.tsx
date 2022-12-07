@@ -70,7 +70,6 @@ import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 import { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedMultiAttachment';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
-import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
@@ -299,23 +298,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return this;
   }
 
-  setPin(value: boolean): void {
-    if (value) {
-      const pinnedConversationIds = window.storage.get(
-        'pinnedConversationIds',
-        new Array<string>()
-      );
-
-      if (pinnedConversationIds.length >= 4) {
-        showToast(ToastPinnedConversationsFull);
-        return;
-      }
-      this.model.pin();
-    } else {
-      this.model.unpin();
-    }
-  }
-
   setupConversationView(): void {
     // setupHeader
     const conversationHeaderProps = {
@@ -325,7 +307,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         const { searchInConversation } = window.reduxActions.search;
         searchInConversation(this.model.id);
       },
-      onSetPin: this.setPin.bind(this),
       onShowConversationDetails: () => {
         this.showConversationDetails();
       },

@@ -84,7 +84,6 @@ export type PropsActionsType = {
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
-  onSetPin: (value: boolean) => void;
 
   onShowConversationDetails: () => void;
   onShowAllMedia: () => void;
@@ -99,6 +98,7 @@ export type PropsActionsType = {
     conversationId: string,
     seconds: DurationInSeconds
   ) => void;
+  setPinned: (conversationId: string, value: boolean) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -349,12 +349,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onArchive,
       onMarkUnread,
       onMoveToInbox,
-      onSetPin,
       onShowAllMedia,
       onShowConversationDetails,
       onShowGroupMembers,
       setDisappearingMessages,
       setMuteExpiration,
+      setPinned,
       type,
     } = this.props;
 
@@ -502,11 +502,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           {i18n('deleteMessages')}
         </MenuItem>
         {isPinned ? (
-          <MenuItem onClick={() => onSetPin(false)}>
+          <MenuItem onClick={() => setPinned(id, false)}>
             {i18n('unpinConversation')}
           </MenuItem>
         ) : (
-          <MenuItem onClick={() => onSetPin(true)}>
+          <MenuItem onClick={() => setPinned(id, true)}>
             {i18n('pinConversation')}
           </MenuItem>
         )}

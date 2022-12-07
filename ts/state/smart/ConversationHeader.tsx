@@ -34,7 +34,6 @@ export type OwnProps = {
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
   onSearchInConversation: () => void;
-  onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
   onShowConversationDetails: () => void;
   onShowGroupMembers: () => void;

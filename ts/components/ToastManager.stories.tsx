@@ -39,6 +39,86 @@ InvalidToast.args = {
   },
 };
 
+export const AddingUserToGroup = Template.bind({});
+AddingUserToGroup.args = {
+  toast: {
+    toastType: ToastType.AddingUserToGroup,
+    parameters: {
+      contact: 'Sam Mirete',
+    },
+  },
+};
+
+export const CannotStartGroupCall = Template.bind({});
+CannotStartGroupCall.args = {
+  toast: {
+    toastType: ToastType.CannotStartGroupCall,
+  },
+};
+
+export const CopiedUsername = Template.bind({});
+CopiedUsername.args = {
+  toast: {
+    toastType: ToastType.CopiedUsername,
+  },
+};
+
+export const CopiedUsernameLink = Template.bind({});
+CopiedUsernameLink.args = {
+  toast: {
+    toastType: ToastType.CopiedUsernameLink,
+  },
+};
+
+export const DeleteForEveryoneFailed = Template.bind({});
+DeleteForEveryoneFailed.args = {
+  toast: {
+    toastType: ToastType.DeleteForEveryoneFailed,
+  },
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  toast: {
+    toastType: ToastType.Error,
+  },
+};
+
+export const FailedToDeleteUsername = Template.bind({});
+FailedToDeleteUsername.args = {
+  toast: {
+    toastType: ToastType.FailedToDeleteUsername,
+  },
+};
+
+export const MessageBodyTooLong = Template.bind({});
+MessageBodyTooLong.args = {
+  toast: {
+    toastType: ToastType.MessageBodyTooLong,
+  },
+};
+
+export const PinnedConversationsFull = Template.bind({});
+PinnedConversationsFull.args = {
+  toast: {
+    toastType: ToastType.PinnedConversationsFull,
+  },
+};
+
+export const StoryMuted = Template.bind({});
+StoryMuted.args = {
+  toast: {
+    toastType: ToastType.StoryMuted,
+  },
+};
+
+export const ReportedSpamAndBlocked = Template.bind({});
+ReportedSpamAndBlocked.args = {
+  toast: {
+    toastType: ToastType.ReportedSpamAndBlocked,
+  },
+};
+
 export const StoryReact = Template.bind({});
 StoryReact.args = {
   toast: {
@@ -53,10 +133,10 @@ StoryReply.args = {
   },
 };
 
-export const MessageBodyTooLong = Template.bind({});
-MessageBodyTooLong.args = {
+export const StoryVideoError = Template.bind({});
+StoryVideoError.args = {
   toast: {
-    toastType: ToastType.MessageBodyTooLong,
+    toastType: ToastType.StoryVideoError,
   },
 };
 
@@ -74,16 +154,13 @@ StoryVideoUnsupported.args = {
   },
 };
 
-export const StoryVideoError = Template.bind({});
-StoryVideoError.args = {
+export const UserAddedToGroup = Template.bind({});
+UserAddedToGroup.args = {
   toast: {
-    toastType: ToastType.StoryVideoError,
-  },
-};
-
-export const ReportedSpamAndBlocked = Template.bind({});
-ReportedSpamAndBlocked.args = {
-  toast: {
-    toastType: ToastType.ReportedSpamAndBlocked,
+    toastType: ToastType.UserAddedToGroup,
+    parameters: {
+      contact: 'Sam Mirete',
+      group: 'Hike Group 🏔',
+    },
   },
 };

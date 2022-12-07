@@ -13,6 +13,7 @@ export enum ToastType {
   Error = 'Error',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
   MessageBodyTooLong = 'MessageBodyTooLong',
+  PinnedConversationsFull = 'PinnedConversationsFull',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',

@@ -55,8 +55,8 @@ const commonProps = {
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
-  onSetPin: action('onSetPin'),
   setMuteExpiration: action('onSetMuteNotifications'),
+  setPinned: action('setPinned'),
   viewUserStories: action('viewUserStories'),
 };
 

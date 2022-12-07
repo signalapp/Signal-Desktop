@@ -909,6 +909,7 @@ export const actions = {
   setIsNearBottom,
   setMessageLoadingState,
   setMuteExpiration,
+  setPinned,
   setPreJoinConversation,
   setSelectedConversationHeaderTitle,
   setSelectedConversationPanelDepth,
@@ -1154,6 +1155,40 @@ function setMuteExpiration(
       ? muteExpiresAt
       : Date.now() + muteExpiresAt
   );
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function setPinned(
+  conversationId: string,
+  value: boolean
+): NoopActionType | ShowToastActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('setPinned: No conversation found');
+  }
+
+  if (value) {
+    const pinnedConversationIds = window.storage.get(
+      'pinnedConversationIds',
+      new Array<string>()
+    );
+
+    if (pinnedConversationIds.length >= 4) {
+      return {
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.PinnedConversationsFull,
+        },
+      };
+    }
+    conversation.pin();
+  } else {
+    conversation.unpin();
+  }
 
   return {
     type: 'NOOP',
