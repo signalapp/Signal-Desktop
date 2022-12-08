@@ -105,7 +105,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   title: '',
   // GroupV1 Disabled Actions
-  onStartGroupMigration: action('onStartGroupMigration'),
+  showGV2MigrationDialog: action('showGV2MigrationDialog'),
   // GroupV2
   announcementsOnly: boolean(
     'announcementsOnly',

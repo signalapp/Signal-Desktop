@@ -6,13 +6,15 @@ import { Intl } from '../Intl';
 import type { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
+  conversationId: string;
   i18n: LocalizerType;
-  onStartGroupMigration: () => unknown;
+  showGV2MigrationDialog: (id: string) => unknown;
 };
 
 export function GroupV1DisabledActions({
+  conversationId,
   i18n,
-  onStartGroupMigration,
+  showGV2MigrationDialog,
 }: PropsType): JSX.Element {
   return (
     <div className="module-group-v1-disabled-actions">
@@ -37,7 +39,7 @@ export function GroupV1DisabledActions({
       <div className="module-group-v1-disabled-actions__buttons">
         <button
           type="button"
-          onClick={onStartGroupMigration}
+          onClick={() => showGV2MigrationDialog(conversationId)}
           tabIndex={0}
           className="module-group-v1-disabled-actions__buttons__button"
         >

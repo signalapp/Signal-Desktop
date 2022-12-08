@@ -1121,6 +1121,7 @@ function getPropsForGroupV1Migration(
 
     return {
       areWeInvited: false,
+      conversationId: message.conversationId,
       droppedMembers,
       invitedMembers,
     };
@@ -1140,6 +1141,7 @@ function getPropsForGroupV1Migration(
 
   return {
     areWeInvited,
+    conversationId: message.conversationId,
     droppedMembers,
     invitedMembers,
   };

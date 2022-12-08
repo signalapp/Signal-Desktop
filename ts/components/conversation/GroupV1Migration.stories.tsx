@@ -31,6 +31,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'areWeInvited',
     isBoolean(overrideProps.areWeInvited) ? overrideProps.areWeInvited : false
   ),
+  conversationId: '123',
   droppedMembers: overrideProps.droppedMembers || [contact1],
   getPreferredBadge: () => undefined,
   i18n,

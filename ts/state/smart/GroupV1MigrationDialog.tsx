@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import type { PropsType as GroupV1MigrationDialogPropsType } from '../../components/GroupV1MigrationDialog';
+import type { DataPropsType as GroupV1MigrationDialogPropsType } from '../../components/GroupV1MigrationDialog';
 import { GroupV1MigrationDialog } from '../../components/GroupV1MigrationDialog';
 import type { ConversationType } from '../ducks/conversations';
 import type { StateType } from '../reducer';

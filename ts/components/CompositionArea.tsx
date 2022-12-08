@@ -162,7 +162,7 @@ export type Props = Pick<
     | 'clearShowPickerHint'
   > &
   MessageRequestActionsProps &
-  Pick<GroupV1DisabledActionsPropsType, 'onStartGroupMigration'> &
+  Pick<GroupV1DisabledActionsPropsType, 'showGV2MigrationDialog'> &
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
@@ -244,7 +244,7 @@ export function CompositionArea({
   title,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
-  onStartGroupMigration,
+  showGV2MigrationDialog,
   // GroupV2
   announcementsOnly,
   areWeAdmin,
@@ -561,8 +561,9 @@ export function CompositionArea({
   if (!left && isGroupV1AndDisabled) {
     return (
       <GroupV1DisabledActions
+        conversationId={conversationId}
         i18n={i18n}
-        onStartGroupMigration={onStartGroupMigration}
+        showGV2MigrationDialog={showGV2MigrationDialog}
       />
     );
   }

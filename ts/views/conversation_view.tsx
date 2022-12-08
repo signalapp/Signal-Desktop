@@ -16,21 +16,14 @@ import * as Errors from '../types/errors';
 import type { DraftBodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
-import type {
-  GroupV2PendingMemberType,
-  MessageAttributesType,
-} from '../model-types.d';
+import type { MessageAttributesType } from '../model-types.d';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
-import {
-  isDirectConversation,
-  isGroup,
-  isGroupV1,
-} from '../util/whatTypeOfConversation';
+import { isDirectConversation, isGroup } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
@@ -195,7 +188,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   private contactModalView?: Backbone.View;
   private conversationView?: Backbone.View;
   private lightboxView?: ReactWrapperView;
-  private migrationDialog?: Backbone.View;
   private stickerPreviewModalView?: Backbone.View;
 
   // Panel support
@@ -450,7 +442,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(undefined),
-      onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
         await window.showConfirmationDialog({
           dialogName: 'GroupV2CancelRequestToJoin',
@@ -684,62 +675,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     this.model.loadAndScroll(messageId);
-  }
-
-  async startMigrationToGV2(): Promise<void> {
-    const logId = this.model.idForLogging();
-
-    if (!isGroupV1(this.model.attributes)) {
-      throw new Error(
-        `startMigrationToGV2/${logId}: Cannot start, not a GroupV1 group`
-      );
-    }
-
-    const onClose = () => {
-      if (this.migrationDialog) {
-        this.migrationDialog.remove();
-        this.migrationDialog = undefined;
-      }
-    };
-    onClose();
-
-    const migrate = () => {
-      onClose();
-
-      longRunningTaskWrapper({
-        idForLogging: this.model.idForLogging(),
-        name: 'initiateMigrationToGroupV2',
-        task: () => window.Signal.Groups.initiateMigrationToGroupV2(this.model),
-      });
-    };
-
-    // Note: this call will throw if, after generating member lists, we are no longer a
-    //   member or are in the pending member list.
-    const { droppedGV2MemberIds, pendingMembersV2 } =
-      await longRunningTaskWrapper({
-        idForLogging: this.model.idForLogging(),
-        name: 'getGroupMigrationMembers',
-        task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
-      });
-
-    const invitedMemberIds = pendingMembersV2.map(
-      (item: GroupV2PendingMemberType) => item.uuid
-    );
-
-    this.migrationDialog = new ReactWrapperView({
-      className: 'group-v1-migration-wrapper',
-      JSX: window.Signal.State.Roots.createGroupV1MigrationModal(
-        window.reduxStore,
-        {
-          areWeInvited: false,
-          droppedMemberIds: droppedGV2MemberIds,
-          hasMigrated: false,
-          invitedMemberIds,
-          migrate,
-          onClose,
-        }
-      ),
-    });
   }
 
   unload(reason: string): void {

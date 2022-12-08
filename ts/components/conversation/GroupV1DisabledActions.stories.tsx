@@ -12,8 +12,9 @@ import enMessages from '../../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (): GroupV1DisabledActionsPropsType => ({
+  conversationId: '123',
   i18n,
-  onStartGroupMigration: action('onStartGroupMigration'),
+  showGV2MigrationDialog: action('showGV2MigrationDialog'),
 });
 
 export default {

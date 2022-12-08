@@ -107,6 +107,11 @@ import { denyPendingApprovalRequest } from '../../util/denyPendingApprovalReques
 import { SignalService as Proto } from '../../protobuf';
 import { addReportSpamJob } from '../../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../../jobs/reportSpamJobQueue';
+import {
+  modifyGroupV2,
+  buildPromotePendingAdminApprovalMemberChange,
+  initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
+} from '../../groups';
 
 // State
 
@@ -876,6 +881,7 @@ export const actions = {
   doubleCheckMissingQuoteReference,
   generateNewGroupLink,
   loadRecentMediaItems,
+  initiateMigrationToGroupV2,
   messageChanged,
   messageDeleted,
   messageExpanded,
@@ -2142,7 +2148,7 @@ function approvePendingMembershipFromGroupV2(
       isGroupV2(conversation.attributes) &&
       isMemberRequestingToJoin(conversation.attributes, uuid)
     ) {
-      await window.Signal.Groups.modifyGroupV2({
+      await modifyGroupV2({
         conversation,
         usingCredentialsFrom: [pendingMember],
         createGroupChange: async () => {
@@ -2157,12 +2163,10 @@ function approvePendingMembershipFromGroupV2(
             return undefined;
           }
 
-          return window.Signal.Groups.buildPromotePendingAdminApprovalMemberChange(
-            {
-              group: conversation.attributes,
-              uuid,
-            }
-          );
+          return buildPromotePendingAdminApprovalMemberChange({
+            group: conversation.attributes,
+            uuid,
+          });
         },
         name: 'approvePendingMembershipFromGroupV2',
       });
@@ -2354,6 +2358,26 @@ function deleteConversation(conversationId: string): NoopActionType {
       conversation,
       messageRequestEnum.DELETE
     ),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function initiateMigrationToGroupV2(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'deleteConversation: Expected a conversation to be found. Doing nothing'
+    );
+  }
+
+  longRunningTaskWrapper({
+    idForLogging: conversation.idForLogging(),
+    name: 'initiateMigrationToGroupV2',
+    task: () => doInitiateMigrationToGroupV2(conversation),
   });
 
   return {

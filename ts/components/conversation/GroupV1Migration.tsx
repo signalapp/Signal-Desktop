@@ -15,6 +15,7 @@ import * as log from '../../logging/log';
 
 export type PropsDataType = {
   areWeInvited: boolean;
+  conversationId: string;
   droppedMembers: Array<ConversationType>;
   invitedMembers: Array<ConversationType>;
 };
@@ -30,6 +31,7 @@ export type PropsType = PropsDataType & PropsHousekeepingType;
 export function GroupV1Migration(props: PropsType): React.ReactElement {
   const {
     areWeInvited,
+    conversationId,
     droppedMembers,
     getPreferredBadge,
     i18n,
@@ -86,6 +88,7 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
+          conversationId={conversationId}
           droppedMembers={droppedMembers}
           getPreferredBadge={getPreferredBadge}
           hasMigrated

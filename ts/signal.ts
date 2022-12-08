@@ -28,7 +28,6 @@ import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
-import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createMessageDetail } from './state/roots/createMessageDetail';
 import { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
@@ -410,7 +409,6 @@ export const setup = (options: {
     createChatColorPicker,
     createConversationDetails,
     createGroupLinkManagement,
-    createGroupV1MigrationModal,
     createGroupV2JoinModal,
     createGroupV2Permissions,
     createMessageDetail,

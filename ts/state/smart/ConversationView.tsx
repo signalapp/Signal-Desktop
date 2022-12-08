@@ -30,7 +30,6 @@ export type PropsType = {
     | 'onPickSticker'
     | 'onSelectMediaQuality'
     | 'onSendMessage'
-    | 'onStartGroupMigration'
     | 'onTextTooLong'
     | 'openConversation'
   >;
