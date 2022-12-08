@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {
   decryptAttachmentBufferNode as realDecryptAttachmentBufferNode,
   encryptAttachmentBufferNode as realEncryptAttachmentBufferNode,
-} from '../../../node/encrypt_attachment_buffer';
+} from '../../../../node/encrypt_attachment_buffer';
 
 /* eslint-disable no-console */
 /* eslint-disable strict */

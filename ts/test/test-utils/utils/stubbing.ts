@@ -3,7 +3,7 @@ import Sinon from 'sinon';
 import { Data } from '../../../../ts/data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 
-import * as utilWorker from '../../../webworker/workers/util/util_worker_interface';
+import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
 const globalAny: any = global;
 

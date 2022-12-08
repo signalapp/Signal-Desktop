@@ -17,16 +17,20 @@ export class WorkerInterface {
   private readonly _DEBUG: boolean;
   private _jobCounter: number;
   private readonly _jobs: Record<number, any>;
-  private readonly _utilWorker: Worker;
+  private readonly _worker: Worker;
 
   constructor(path: string, timeout = WORKER_TIMEOUT) {
-    this._utilWorker = new Worker(path);
+    (process as any).dlopen = () => {
+      throw new Error('Load native module is not safe');
+    };
+
+    this._worker = new Worker(path);
     this.timeout = timeout;
     this._jobs = Object.create(null);
     this._DEBUG = false;
     this._jobCounter = 0;
 
-    this._utilWorker.onmessage = e => {
+    this._worker.onmessage = e => {
       const [jobId, errorForDisplay, result] = e.data;
 
       const job = this._getJob(jobId);
@@ -52,7 +56,7 @@ export class WorkerInterface {
     const jobId = this._makeJob(fnName);
 
     return new Promise((resolve, reject) => {
-      this._utilWorker.postMessage([jobId, fnName, ...args]);
+      this._worker.postMessage([jobId, fnName, ...args]);
 
       this._updateJob(jobId, {
         resolve,

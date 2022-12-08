@@ -12,7 +12,7 @@ import { handleCapabilities } from './sogsCapabilities';
 import { getConversationController } from '../../../conversations';
 import { ConversationModel } from '../../../../models/conversation';
 import { filterDuplicatesFromDbAndIncomingV4 } from '../opengroupV2/SogsFilterDuplicate';
-import { callUtilsWorker } from '../../../../webworker/workers/util/util_worker_interface';
+import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
 import { PubKey } from '../../../types';
 import {
   addCachedBlindedKey,

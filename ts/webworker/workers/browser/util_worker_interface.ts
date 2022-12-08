@@ -13,12 +13,20 @@ type WorkerAllowedFunctionName =
   | 'verifyAllSignatures'
   | 'encryptForPubkey';
 
-export const internalCallUtilsWorker = async (
+const internalCallUtilsWorker = async (
   fnName: WorkerAllowedFunctionName,
   ...args: any
 ): Promise<any> => {
   if (!utilWorkerInterface) {
-    const utilWorkerPath = join(getAppRootPath(), 'ts', 'webworker', 'workers', 'util.worker.js');
+    const utilWorkerPath = join(
+      getAppRootPath(),
+      'ts',
+      'webworker',
+      'workers',
+      'node',
+      'util',
+      'util.worker.js'
+    );
     utilWorkerInterface = new WorkerInterface(utilWorkerPath, 3 * 60 * 1000);
   }
   return utilWorkerInterface?.callWorker(fnName, ...args);

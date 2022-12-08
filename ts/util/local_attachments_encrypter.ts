@@ -1,6 +1,6 @@
 import { isArrayBuffer } from 'lodash';
 import { fromHexToArray } from '../session/utils/String';
-import { callUtilsWorker } from '../webworker/workers/util/util_worker_interface';
+import { callUtilsWorker } from '../webworker/workers/browser/util_worker_interface';
 import { Data } from '../data/data';
 
 export const encryptAttachmentBufferRenderer = async (bufferIn: ArrayBuffer) => {

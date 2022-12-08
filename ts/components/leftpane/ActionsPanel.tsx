@@ -47,6 +47,7 @@ import { switchThemeTo } from '../../themes/switchTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
+import { callLibSessionWorker } from '../../webworker/workers/browser/libsession_worker_interface';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -211,6 +212,14 @@ const doAppStartUp = () => {
   void loadDefaultRooms();
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
+
+  setTimeout(async () => {
+    // callLibSessionWorker(['ClosedGroupConfig-123', 'dump']);
+    console.warn(`getName result:"${await callLibSessionWorker(['UserConfig', 'getName'])}"`);
+    console.warn('setName');
+    await callLibSessionWorker(['UserConfig', 'setName', 'MyName']);
+    console.warn(`getName result:"${await callLibSessionWorker(['UserConfig', 'getName'])}"`);
+  }, 3000);
 };
 
 async function fetchReleaseFromFSAndUpdateMain() {
