@@ -1506,7 +1506,7 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 't' || key === 'T')
       ) {
-        conversation.trigger('focus-composer');
+        window.reduxActions.composer.setComposerFocus(conversation.id);
         event.preventDefault();
         event.stopPropagation();
         return;

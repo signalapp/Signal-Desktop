@@ -18,7 +18,6 @@ export type PropsType = {
   compositionAreaProps: Pick<
     CompositionAreaPropsType,
     | 'clearQuotedMessage'
-    | 'compositionApi'
     | 'getQuotedMessage'
     | 'handleClickQuotedMessage'
     | 'id'

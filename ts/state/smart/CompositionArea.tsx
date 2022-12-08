@@ -70,6 +70,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const {
     attachments: draftAttachments,
+    focusCounter,
     isDisabled,
     linkPreviewLoading,
     linkPreviewResult,
@@ -83,11 +84,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   return {
     // Base
     conversationId: id,
+    focusCounter,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isDisabled,
     messageCompositionId,
     theme: getTheme(state),
+
     // AudioCapture
     errorDialogAudioRecorderType:
       state.audioRecorder.errorDialogAudioRecorderType,

@@ -1,7 +1,6 @@
 // Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MutableRefObject } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
@@ -60,14 +59,6 @@ import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { usePrevious } from '../hooks/usePrevious';
 
-export type CompositionAPIType =
-  | {
-      focusInput: () => void;
-      isDirty: () => boolean;
-      resetEmojiResults: InputApi['resetEmojiResults'];
-    }
-  | undefined;
-
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
   addAttachment: (
@@ -83,12 +74,12 @@ export type OwnProps = Readonly<{
     conversationId: string,
     onSendAudioRecording?: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
-  compositionApi?: MutableRefObject<CompositionAPIType>;
   conversationId: string;
   uuid?: string;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
+  focusCounter: number;
   groupAdmins: Array<ConversationType>;
   groupVersion?: 1 | 2;
   i18n: LocalizerType;
@@ -133,6 +124,7 @@ export type OwnProps = Readonly<{
     'i18n' | 'onClick' | 'onClose' | 'withContentAbove'
   >;
   removeAttachment: (conversationId: string, filePath: string) => unknown;
+  setComposerFocus: (conversationId: string) => unknown;
   setQuotedMessage(message: undefined): unknown;
   shouldSendHighQualityAttachments: boolean;
   startRecording: () => unknown;
@@ -177,14 +169,16 @@ export function CompositionArea({
   // Base props
   addAttachment,
   conversationId,
+  focusCounter,
   i18n,
   imageToBlurHash,
   isDisabled,
   isSignalConversation,
+  messageCompositionId,
   processAttachments,
   removeAttachment,
-  messageCompositionId,
   sendMultiMediaMessage,
+  setComposerFocus,
   theme,
 
   // AttachmentList
@@ -209,7 +203,6 @@ export function CompositionArea({
   onSelectMediaQuality,
   shouldSendHighQualityAttachments,
   // CompositionInput
-  compositionApi,
   onEditorStateChange,
   onTextTooLong,
   draftText,
@@ -315,11 +308,22 @@ export function CompositionArea({
   const attachFileShortcut = useAttachFileShortcut(launchAttachmentPicker);
   useKeyboardShortcuts(attachFileShortcut);
 
-  const focusInput = useCallback(() => {
+  // Focus input on first mount
+  const previousFocusCounter = usePrevious<number | undefined>(
+    focusCounter,
+    focusCounter
+  );
+  useEffect(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
     }
-  }, [inputApiRef]);
+  });
+  // Focus input whenever explicitly requested
+  useEffect(() => {
+    if (focusCounter !== previousFocusCounter && inputApiRef.current) {
+      inputApiRef.current.focus();
+    }
+  }, [inputApiRef, focusCounter, previousFocusCounter]);
 
   const withStickers =
     countStickers({
@@ -328,20 +332,6 @@ export function CompositionArea({
       installedPacks,
       receivedPacks,
     }) > 0;
-
-  if (compositionApi) {
-    // Using a React.MutableRefObject, so we need to reassign this prop.
-    // eslint-disable-next-line no-param-reassign
-    compositionApi.current = {
-      isDirty: () => dirty,
-      focusInput,
-      resetEmojiResults: () => {
-        if (inputApiRef.current) {
-          inputApiRef.current.resetEmojiResults();
-        }
-      },
-    };
-  }
 
   const previousMessageCompositionId = usePrevious(
     messageCompositionId,
@@ -382,7 +372,7 @@ export function CompositionArea({
           i18n={i18n}
           doSend={handleForceSend}
           onPickEmoji={insertEmoji}
-          onClose={focusInput}
+          onClose={() => setComposerFocus(conversationId)}
           recentEmojis={recentEmojis}
           skinTone={skinTone}
           onSetSkinTone={onSetSkinTone}
@@ -706,6 +696,7 @@ export function CompositionArea({
           )}
         >
           <CompositionInput
+            conversationId={conversationId}
             clearQuotedMessage={clearQuotedMessage}
             disabled={isDisabled}
             draftBodyRanges={draftBodyRanges}

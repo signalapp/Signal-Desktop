@@ -121,6 +121,7 @@ export function SmartForwardMessageModal(): JSX.Element | null {
       messageBody={cleanedBody}
       onClose={closeModal}
       onEditorStateChange={(
+        _conversationId: string | undefined,
         messageText: string,
         _: DraftBodyRangesType,
         caretLocation?: number

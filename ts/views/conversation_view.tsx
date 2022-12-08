@@ -6,13 +6,12 @@
 import type * as Backbone from 'backbone';
 import type { ComponentProps } from 'react';
 import * as React from 'react';
-import { debounce, flatten } from 'lodash';
+import { flatten } from 'lodash';
 import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Stickers from '../types/Stickers';
-import type { DraftBodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageAttributesType } from '../model-types.d';
@@ -43,7 +42,6 @@ import { ConversationDetailsMembershipList } from '../components/conversation/co
 import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
-import type { CompositionAPIType } from '../components/CompositionArea';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
@@ -67,16 +65,15 @@ import { ContactDetail } from '../components/conversation/ContactDetail';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
-  maybeGrabLinkPreview,
   removeLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
-import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { closeLightbox, showLightbox } from '../util/showLightbox';
 import { saveAttachment } from '../util/saveAttachment';
 import { SECOND } from '../util/durations';
 import { startConversation } from '../util/startConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
+import { hasDraftAttachments } from '../util/hasDraftAttachments';
 
 type AttachmentOptions = {
   messageId: string;
@@ -160,16 +157,6 @@ type MediaType = {
 };
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
-  private debouncedSaveDraft: (
-    messageText: string,
-    bodyRanges: DraftBodyRangesType
-  ) => Promise<void>;
-
-  // Composing messages
-  private compositionApi: {
-    current: CompositionAPIType;
-  } = { current: undefined };
-
   // Sub-views
   private contactModalView?: Backbone.View;
   private conversationView?: Backbone.View;
@@ -184,8 +171,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   constructor(...args: Array<any>) {
     super(...args);
 
-    this.debouncedSaveDraft = debounce(this.saveDraft.bind(this), 200);
-
     // Events on Conversation model
     this.listenTo(this.model, 'destroy', this.stopListening);
 
@@ -197,7 +182,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
 
     // These are triggered by background.ts for keyboard handling
-    this.listenTo(this.model, 'focus-composer', this.focusMessageField);
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
@@ -416,13 +400,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const compositionAreaProps = {
       id: this.model.id,
-      compositionApi: this.compositionApi,
       onClickAddPack: () => this.showStickerManager(),
-      onEditorStateChange: (
-        msg: string,
-        bodyRanges: DraftBodyRangesType,
-        caretLocation?: number
-      ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(undefined),
@@ -736,7 +714,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     loadAndUpdate();
 
-    this.focusMessageField();
+    window.reduxActions.composer.setComposerFocus(this.model.id);
 
     const quotedMessageId = this.model.get('quotedMessageId');
     if (quotedMessageId) {
@@ -1619,78 +1597,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
   }
 
-  focusMessageField(): void {
-    if (this.panels && this.panels.length) {
-      return;
-    }
-
-    this.compositionApi.current?.focusInput();
-  }
-
-  resetEmojiResults(): void {
-    this.compositionApi.current?.resetEmojiResults();
-  }
-
-  onEditorStateChange(
-    messageText: string,
-    bodyRanges: DraftBodyRangesType,
-    caretLocation?: number
-  ): void {
-    if (messageText.length && this.model.throttledBumpTyping) {
-      this.model.throttledBumpTyping();
-    }
-
-    this.debouncedSaveDraft(messageText, bodyRanges);
-
-    // If we have attachments, don't add link preview
-    if (!this.hasFiles({ includePending: true })) {
-      maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
-        caretLocation,
-      });
-    }
-  }
-
-  async saveDraft(
-    messageText: string,
-    bodyRanges: DraftBodyRangesType
-  ): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    const trimmed =
-      messageText && messageText.length > 0 ? messageText.trim() : '';
-
-    if (model.get('draft') && (!messageText || trimmed.length === 0)) {
-      this.model.set({
-        draft: null,
-        draftChanged: true,
-        draftBodyRanges: [],
-      });
-      await this.saveModel();
-
-      return;
-    }
-
-    if (messageText !== model.get('draft')) {
-      const now = Date.now();
-      let active_at = this.model.get('active_at');
-      let timestamp = this.model.get('timestamp');
-
-      if (!active_at) {
-        active_at = now;
-        timestamp = now;
-      }
-
-      this.model.set({
-        active_at,
-        draft: messageText,
-        draftBodyRanges: bodyRanges,
-        draftChanged: true,
-        timestamp,
-      });
-      await this.saveModel();
-    }
-  }
-
   async setQuoteMessage(messageId: string | undefined): Promise<void> {
     const { model } = this;
     const message = messageId ? await getMessageById(messageId) : undefined;
@@ -1738,8 +1644,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         quote,
       });
 
+      window.reduxActions.composer.setComposerFocus(this.model.id);
       window.reduxActions.composer.setComposerDisabledState(false);
-      this.focusMessageField();
     } else {
       window.reduxActions.composer.setQuotedMessage(undefined);
     }
@@ -1763,22 +1669,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     ]);
   }
 
-  hasFiles(options: { includePending: boolean }): boolean {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    if (options.includePending) {
-      return draftAttachments.length > 0;
-    }
-
-    return draftAttachments.some(item => !item.pending);
-  }
-
   updateAttachmentsView(): void {
     const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
       this.model.get('id'),
       draftAttachments
     );
-    if (this.hasFiles({ includePending: true })) {
+    if (hasDraftAttachments(this.model.attributes, { includePending: true })) {
       removeLinkPreview();
     }
   }

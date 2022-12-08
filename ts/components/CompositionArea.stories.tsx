@@ -34,6 +34,7 @@ export default {
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
   conversationId: '123',
+  focusCounter: 0,
   i18n,
   isDisabled: false,
   messageCompositionId: '456',
@@ -41,6 +42,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),
   theme: React.useContext(StorybookThemeContext),
+  setComposerFocus: action('setComposerFocus'),
 
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],

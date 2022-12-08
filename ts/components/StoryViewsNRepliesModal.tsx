@@ -245,7 +245,7 @@ export function StoryViewsNRepliesModal({
               i18n={i18n}
               inputApi={inputApiRef}
               moduleClassName="StoryViewsNRepliesModal__input"
-              onEditorStateChange={messageText => {
+              onEditorStateChange={(_conversationId, messageText) => {
                 setMessageBodyText(messageText);
               }}
               onPickEmoji={onUseEmoji}

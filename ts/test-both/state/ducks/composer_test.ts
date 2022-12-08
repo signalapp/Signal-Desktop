@@ -107,6 +107,7 @@ describe('both/state/ducks/composer', () => {
       const nextState = reducer(
         {
           attachments: [],
+          focusCounter: 0,
           isDisabled: false,
           linkPreviewLoading: true,
           messageCompositionId: emptyState.messageCompositionId,

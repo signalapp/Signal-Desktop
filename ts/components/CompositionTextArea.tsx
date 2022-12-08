@@ -87,6 +87,7 @@ export function CompositionTextArea({
 
   const handleChange = React.useCallback(
     (
+      _conversationId: string | undefined,
       newValue: string,
       bodyRanges: DraftBodyRangesType,
       caretLocation?: number | undefined

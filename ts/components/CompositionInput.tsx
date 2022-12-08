@@ -62,12 +62,12 @@ export type InputApi = {
   insertEmoji: (e: EmojiPickDataType) => void;
   setText: (text: string, cursorToEnd?: boolean) => void;
   reset: () => void;
-  resetEmojiResults: () => void;
   submit: () => void;
 };
 
 export type Props = Readonly<{
   children?: React.ReactNode;
+  conversationId?: string;
   i18n: LocalizerType;
   disabled?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -83,6 +83,7 @@ export type Props = Readonly<{
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
+    conversationId: string | undefined,
     messageText: string,
     bodyRanges: DraftBodyRangesType,
     caretLocation?: number
@@ -105,6 +106,7 @@ const BASE_CLASS_NAME = 'module-composition-input';
 export function CompositionInput(props: Props): React.ReactElement {
   const {
     children,
+    conversationId,
     i18n,
     disabled,
     large,
@@ -246,16 +248,6 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
   };
 
-  const resetEmojiResults = () => {
-    const emojiCompletion = emojiCompletionRef.current;
-
-    if (emojiCompletion === undefined) {
-      return;
-    }
-
-    emojiCompletion.reset();
-  };
-
   const submit = () => {
     const timestamp = Date.now();
     const quill = quillRef.current;
@@ -286,7 +278,6 @@ export function CompositionInput(props: Props): React.ReactElement {
       insertEmoji,
       setText,
       reset,
-      resetEmojiResults,
       submit,
     };
   }
@@ -446,6 +437,7 @@ export function CompositionInput(props: Props): React.ReactElement {
           const selection = quill.getSelection();
 
           onEditorStateChange(
+            conversationId,
             text,
             mentions,
             selection ? selection.index : undefined

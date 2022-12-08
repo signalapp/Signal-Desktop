@@ -3,6 +3,7 @@
 
 import path from 'path';
 
+import { debounce } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
 import type {
@@ -40,8 +41,9 @@ import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUnti
 import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments';
 import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
 import {
-  hasLinkPreviewLoaded,
   getLinkPreviewForSend,
+  hasLinkPreviewLoaded,
+  maybeGrabLinkPreview,
   resetLinkPreview,
 } from '../../services/LinkPreview';
 import { getMaximumAttachmentSize } from '../../util/attachments';
@@ -64,6 +66,7 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 
 export type ComposerStateType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
+  focusCounter: number;
   isDisabled: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
@@ -77,6 +80,7 @@ export type ComposerStateType = {
 const ADD_PENDING_ATTACHMENT = 'composer/ADD_PENDING_ATTACHMENT';
 const REPLACE_ATTACHMENTS = 'composer/REPLACE_ATTACHMENTS';
 const RESET_COMPOSER = 'composer/RESET_COMPOSER';
+const SET_FOCUS = 'composer/SET_FOCUS';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
 const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
@@ -100,6 +104,10 @@ type SetComposerDisabledStateActionType = {
   payload: boolean;
 };
 
+type SetFocusActionType = {
+  type: typeof SET_FOCUS;
+};
+
 type SetHighQualitySettingActionType = {
   type: typeof SET_HIGH_QUALITY_SETTING;
   payload: boolean;
@@ -117,6 +125,7 @@ type ComposerActionType =
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
   | SetComposerDisabledStateActionType
+  | SetFocusActionType
   | SetHighQualitySettingActionType
   | SetQuotedMessageActionType;
 
@@ -125,13 +134,15 @@ type ComposerActionType =
 export const actions = {
   addAttachment,
   addPendingAttachment,
+  onEditorStateChange,
   processAttachments,
   removeAttachment,
   replaceAttachments,
   resetComposer,
-  setComposerDisabledState,
   sendMultiMediaMessage,
   sendStickerMessage,
+  setComposerDisabledState,
+  setComposerFocus,
   setMediaQualitySetting,
   setQuotedMessage,
 };
@@ -421,6 +432,56 @@ function addPendingAttachment(
   };
 }
 
+function setComposerFocus(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
+  return async (dispatch, getState) => {
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
+    }
+
+    dispatch({
+      type: SET_FOCUS,
+    });
+  };
+}
+
+function onEditorStateChange(
+  conversationId: string | undefined,
+  messageText: string,
+  bodyRanges: DraftBodyRangesType,
+  caretLocation?: number
+): NoopActionType {
+  if (!conversationId) {
+    throw new Error(
+      'onEditorStateChange: Got falsey conversationId, needs local override'
+    );
+  }
+
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('processAttachments: Unable to find conversation');
+  }
+
+  if (messageText.length && conversation.throttledBumpTyping) {
+    conversation.throttledBumpTyping();
+  }
+
+  debouncedSaveDraft(conversationId, messageText, bodyRanges);
+
+  // If we have attachments, don't add link preview
+  if (!hasDraftAttachments(conversation.attributes, { includePending: true })) {
+    maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
+      caretLocation,
+    });
+  }
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
 function processAttachments({
   conversationId,
   files,
@@ -661,6 +722,51 @@ function resetComposer(): ResetComposerActionType {
     type: RESET_COMPOSER,
   };
 }
+const debouncedSaveDraft = debounce(saveDraft);
+
+function saveDraft(
+  conversationId: string,
+  messageText: string,
+  bodyRanges: DraftBodyRangesType
+) {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('saveDraft: Unable to find conversation');
+  }
+
+  const trimmed =
+    messageText && messageText.length > 0 ? messageText.trim() : '';
+
+  if (conversation.get('draft') && (!messageText || trimmed.length === 0)) {
+    conversation.set({
+      draft: null,
+      draftChanged: true,
+      draftBodyRanges: [],
+    });
+    window.Signal.Data.updateConversation(conversation.attributes);
+    return;
+  }
+
+  if (messageText !== conversation.get('draft')) {
+    const now = Date.now();
+    let activeAt = conversation.get('active_at');
+    let timestamp = conversation.get('timestamp');
+
+    if (!activeAt) {
+      activeAt = now;
+      timestamp = now;
+    }
+
+    conversation.set({
+      active_at: activeAt,
+      draft: messageText,
+      draftBodyRanges: bodyRanges,
+      draftChanged: true,
+      timestamp,
+    });
+    window.Signal.Data.updateConversation(conversation.attributes);
+  }
+}
 
 function setComposerDisabledState(
   value: boolean
@@ -694,6 +800,7 @@ function setQuotedMessage(
 export function getEmptyState(): ComposerStateType {
   return {
     attachments: [],
+    focusCounter: 0,
     isDisabled: false,
     linkPreviewLoading: false,
     messageCompositionId: UUID.generate().toString(),
@@ -716,6 +823,13 @@ export function reducer(
       ...(attachments.length
         ? {}
         : { shouldSendHighQualityAttachments: undefined }),
+    };
+  }
+
+  if (action.type === SET_FOCUS) {
+    return {
+      ...state,
+      focusCounter: state.focusCounter + 1,
     };
   }
 

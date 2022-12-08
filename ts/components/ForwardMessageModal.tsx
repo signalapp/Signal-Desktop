@@ -56,6 +56,7 @@ export type DataPropsType = {
   messageBody?: string;
   onClose: () => void;
   onEditorStateChange: (
+    conversationId: string | undefined,
     messageText: string,
     bodyRanges: DraftBodyRangesType,
     caretLocation?: number
@@ -332,7 +333,12 @@ export function ForwardMessageModal({
                 draftText={messageBodyText}
                 onChange={(messageText, bodyRanges, caretLocation?) => {
                   setMessageBodyText(messageText);
-                  onEditorStateChange(messageText, bodyRanges, caretLocation);
+                  onEditorStateChange(
+                    undefined,
+                    messageText,
+                    bodyRanges,
+                    caretLocation
+                  );
                 }}
                 onSubmit={forwardMessage}
                 theme={theme}
