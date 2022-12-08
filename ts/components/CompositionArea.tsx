@@ -58,6 +58,7 @@ import {
 import { MediaEditor } from './MediaEditor';
 import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
+import { usePrevious } from '../hooks/usePrevious';
 
 export type CompositionAPIType =
   | {
@@ -342,13 +343,18 @@ export function CompositionArea({
     };
   }
 
+  const previousMessageCompositionId = usePrevious(
+    messageCompositionId,
+    messageCompositionId
+  );
   useEffect(() => {
     if (!inputApiRef.current) {
       return;
     }
-
-    inputApiRef.current.reset();
-  }, [messageCompositionId]);
+    if (previousMessageCompositionId !== messageCompositionId) {
+      inputApiRef.current.reset();
+    }
+  }, [messageCompositionId, previousMessageCompositionId]);
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
