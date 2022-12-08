@@ -49,6 +49,13 @@ AddingUserToGroup.args = {
   },
 };
 
+export const CannotMixMultiAndNonMultiAttachments = Template.bind({});
+CannotMixMultiAndNonMultiAttachments.args = {
+  toast: {
+    toastType: ToastType.CannotMixMultiAndNonMultiAttachments,
+  },
+};
+
 export const CannotStartGroupCall = Template.bind({});
 CannotStartGroupCall.args = {
   toast: {
@@ -67,6 +74,13 @@ export const CopiedUsernameLink = Template.bind({});
 CopiedUsernameLink.args = {
   toast: {
     toastType: ToastType.CopiedUsernameLink,
+  },
+};
+
+export const DangerousFileType = Template.bind({});
+DangerousFileType.args = {
+  toast: {
+    toastType: ToastType.DangerousFileType,
   },
 };
 
@@ -91,6 +105,24 @@ FailedToDeleteUsername.args = {
   },
 };
 
+export const FileSize = Template.bind({});
+FileSize.args = {
+  toast: {
+    toastType: ToastType.FileSize,
+    parameters: {
+      limit: '100',
+      units: 'MB',
+    },
+  },
+};
+
+export const MaxAttachments = Template.bind({});
+MaxAttachments.args = {
+  toast: {
+    toastType: ToastType.MaxAttachments,
+  },
+};
+
 export const MessageBodyTooLong = Template.bind({});
 MessageBodyTooLong.args = {
   toast: {
@@ -105,17 +137,17 @@ PinnedConversationsFull.args = {
   },
 };
 
-export const StoryMuted = Template.bind({});
-StoryMuted.args = {
-  toast: {
-    toastType: ToastType.StoryMuted,
-  },
-};
-
 export const ReportedSpamAndBlocked = Template.bind({});
 ReportedSpamAndBlocked.args = {
   toast: {
     toastType: ToastType.ReportedSpamAndBlocked,
+  },
+};
+
+export const StoryMuted = Template.bind({});
+StoryMuted.args = {
+  toast: {
+    toastType: ToastType.StoryMuted,
   },
 };
 
@@ -151,6 +183,20 @@ export const StoryVideoUnsupported = Template.bind({});
 StoryVideoUnsupported.args = {
   toast: {
     toastType: ToastType.StoryVideoUnsupported,
+  },
+};
+
+export const UnableToLoadAttachment = Template.bind({});
+UnableToLoadAttachment.args = {
+  toast: {
+    toastType: ToastType.UnableToLoadAttachment,
+  },
+};
+
+export const UnsupportedMultiAttachment = Template.bind({});
+UnsupportedMultiAttachment.args = {
+  toast: {
+    toastType: ToastType.UnsupportedMultiAttachment,
   },
 };
 

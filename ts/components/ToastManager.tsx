@@ -42,6 +42,14 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.CannotMixMultiAndNonMultiAttachments) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('cannotSelectPhotosAndVideosAlongWithFiles')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
@@ -64,6 +72,10 @@ export function ToastManager({
         {i18n('ProfileEditor--username--copied-username-link')}
       </Toast>
     );
+  }
+
+  if (toastType === ToastType.DangerousFileType) {
+    return <Toast onClose={hideToast}>{i18n('dangerousFileType')}</Toast>;
   }
 
   if (toastType === ToastType.DeleteForEveryoneFailed) {
@@ -91,6 +103,18 @@ export function ToastManager({
         {i18n('ProfileEditor--username--delete-general-error')}
       </Toast>
     );
+  }
+
+  if (toastType === ToastType.FileSize) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:fileSizeWarning', toast?.parameters)}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.MaxAttachments) {
+    return <Toast onClose={hideToast}>{i18n('maximumAttachments')}</Toast>;
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {
@@ -153,6 +177,18 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-unsupported')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.UnableToLoadAttachment) {
+    return <Toast onClose={hideToast}>{i18n('unableToLoadAttachment')}</Toast>;
+  }
+
+  if (toastType === ToastType.UnsupportedMultiAttachment) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('cannotSelectPhotosAndVideosAlongWithFiles')}
       </Toast>
     );
   }

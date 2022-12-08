@@ -19,10 +19,8 @@ import type { ConversationModel } from '../models/conversations';
 import type {
   GroupV2PendingMemberType,
   MessageAttributesType,
-  QuotedMessageType,
 } from '../model-types.d';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
-import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
@@ -53,22 +51,17 @@ import { ConversationDetailsMembershipList } from '../components/conversation/co
 import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
-import { AttachmentToastType } from '../types/AttachmentToastType';
 import type { CompositionAPIType } from '../components/CompositionArea';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
-import { ToastCannotMixMultiAndNonMultiAttachments } from '../components/ToastCannotMixMultiAndNonMultiAttachments';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import { ToastExpired } from '../components/ToastExpired';
-import { ToastFileSize } from '../components/ToastFileSize';
 import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
 import { ToastLeftGroup } from '../components/ToastLeftGroup';
-import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
-import { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedMultiAttachment';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
@@ -81,7 +74,6 @@ import { isNotNil } from '../util/isNotNil';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { resolveAttachmentDraftData } from '../util/resolveAttachmentDraftData';
 import { showToast } from '../util/showToast';
-import { RecordingState } from '../state/ducks/audioRecorder';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
@@ -90,7 +82,6 @@ import { MediaGallery } from '../components/conversation/media-gallery/MediaGall
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
   getLinkPreviewForSend,
-  hasLinkPreviewLoaded,
   maybeGrabLinkPreview,
   removeLinkPreview,
   resetLinkPreview,
@@ -200,10 +191,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   } = { current: undefined };
   private sendStart?: number;
 
-  // Quotes
-  private quote?: QuotedMessageType;
-  private quotedMessage?: MessageModel;
-
   // Sub-views
   private contactModalView?: Backbone.View;
   private conversationView?: Backbone.View;
@@ -241,8 +228,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.model,
       'toggle-reply',
       (messageId: string | undefined) => {
-        const target = this.quote || !messageId ? null : messageId;
-        this.setQuoteMessage(target);
+        const composerState = window.reduxStore
+          ? window.reduxStore.getState().composer
+          : undefined;
+        const quote = composerState?.quotedMessage?.quote;
+
+        this.setQuoteMessage(quote ? undefined : messageId);
       }
     );
     this.listenTo(
@@ -458,7 +449,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
-      clearQuotedMessage: () => this.setQuoteMessage(null),
+      clearQuotedMessage: () => this.setQuoteMessage(undefined),
       onStartGroupMigration: () => this.startMigrationToGV2(),
       onCancelJoinRequest: async () => {
         await window.showConfirmationDialog({
@@ -516,6 +507,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     // createConversationView root
 
     const JSX = createConversationView(window.reduxStore, {
+      conversationId: this.model.id,
       compositionAreaProps,
       conversationHeaderProps,
       timelineProps,
@@ -750,59 +742,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
 
-  // TODO DESKTOP-2426
-  async processAttachments(files: Array<File>): Promise<void> {
-    const state = window.reduxStore.getState();
-
-    const isRecording =
-      state.audioRecorder.recordingState === RecordingState.Recording;
-
-    if (hasLinkPreviewLoaded() || isRecording) {
-      return;
-    }
-
-    const {
-      addAttachment,
-      addPendingAttachment,
-      processAttachments,
-      removeAttachment,
-    } = window.reduxActions.composer;
-
-    await processAttachments({
-      addAttachment,
-      addPendingAttachment,
-      conversationId: this.model.id,
-      draftAttachments: this.model.get('draftAttachments') || [],
-      files,
-      onShowToast: (toastType: AttachmentToastType) => {
-        if (toastType === AttachmentToastType.ToastFileSize) {
-          showToast(ToastFileSize, {
-            limit: 100,
-            units: 'MB',
-          });
-        } else if (toastType === AttachmentToastType.ToastDangerousFileType) {
-          showToast(ToastDangerousFileType);
-        } else if (toastType === AttachmentToastType.ToastMaxAttachments) {
-          showToast(ToastMaxAttachments);
-        } else if (
-          toastType === AttachmentToastType.ToastUnsupportedMultiAttachment
-        ) {
-          showToast(ToastUnsupportedMultiAttachment);
-        } else if (
-          toastType ===
-          AttachmentToastType.ToastCannotMixMultiAndNonMultiAttachments
-        ) {
-          showToast(ToastCannotMixMultiAndNonMultiAttachments);
-        } else if (
-          toastType === AttachmentToastType.ToastUnableToLoadAttachment
-        ) {
-          showToast(ToastUnableToLoadAttachment);
-        }
-      },
-      removeAttachment,
-    });
-  }
-
   unload(reason: string): void {
     log.info(
       'unloading conversation',
@@ -865,99 +804,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.remove();
   }
 
-  async onDrop(e: JQuery.TriggeredEvent): Promise<void> {
-    if (!e.originalEvent) {
-      return;
-    }
-    const event = e.originalEvent as DragEvent;
-    if (!event.dataTransfer) {
-      return;
-    }
-
-    if (event.dataTransfer.types[0] !== 'Files') {
-      return;
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-
-    const { files } = event.dataTransfer;
-    this.processAttachments(Array.from(files));
-  }
-
-  onPaste(e: JQuery.TriggeredEvent): void {
-    if (!e.originalEvent) {
-      return;
-    }
-    const event = e.originalEvent as ClipboardEvent;
-    if (!event.clipboardData) {
-      return;
-    }
-    const { items } = event.clipboardData;
-
-    const anyImages = [...items].some(
-      item => item.type.split('/')[0] === 'image'
-    );
-    if (!anyImages) {
-      return;
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-
-    const files: Array<File> = [];
-    for (let i = 0; i < items.length; i += 1) {
-      if (items[i].type.split('/')[0] === 'image') {
-        const file = items[i].getAsFile();
-        if (file) {
-          files.push(file);
-        }
-      }
-    }
-
-    this.processAttachments(files);
-  }
-
   async saveModel(): Promise<void> {
     window.Signal.Data.updateConversation(this.model.attributes);
-  }
-
-  async clearAttachments(): Promise<void> {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    this.model.set({
-      draftAttachments: [],
-      draftChanged: true,
-    });
-
-    this.updateAttachmentsView();
-
-    // We're fine doing this all at once; at most it should be 32 attachments
-    await Promise.all([
-      this.saveModel(),
-      Promise.all(
-        draftAttachments.map(attachment => deleteDraftAttachment(attachment))
-      ),
-    ]);
-  }
-
-  hasFiles(options: { includePending: boolean }): boolean {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    if (options.includePending) {
-      return draftAttachments.length > 0;
-    }
-
-    return draftAttachments.some(item => !item.pending);
-  }
-
-  updateAttachmentsView(): void {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    window.reduxActions.composer.replaceAttachments(
-      this.model.get('id'),
-      draftAttachments
-    );
-    if (this.hasFiles({ includePending: true })) {
-      removeLinkPreview();
-    }
   }
 
   async onOpened(messageId: string): Promise<void> {
@@ -1217,26 +1065,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.addPanel({ view, headerTitle });
 
     update();
-  }
-
-  focusMessageField(): void {
-    if (this.panels && this.panels.length) {
-      return;
-    }
-
-    this.compositionApi.current?.focusInput();
-  }
-
-  disableMessageField(): void {
-    this.compositionApi.current?.setDisabled(true);
-  }
-
-  enableMessageField(): void {
-    this.compositionApi.current?.setDisabled(false);
-  }
-
-  resetEmojiResults(): void {
-    this.compositionApi.current?.resetEmojiResults();
   }
 
   showGV1Members(): void {
@@ -1922,74 +1750,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
-  async setQuoteMessage(messageId: null | string): Promise<void> {
-    const { model } = this;
-    const message = messageId ? await getMessageById(messageId) : undefined;
-
-    if (
-      message &&
-      !canReply(
-        message.attributes,
-        window.ConversationController.getOurConversationIdOrThrow(),
-        findAndFormatContact
-      )
-    ) {
-      return;
-    }
-
-    if (message && !message.isNormalBubble()) {
-      return;
-    }
-
-    this.quote = undefined;
-    this.quotedMessage = undefined;
-
-    const existing = model.get('quotedMessageId');
-    if (existing !== messageId) {
-      const now = Date.now();
-      let active_at = this.model.get('active_at');
-      let timestamp = this.model.get('timestamp');
-
-      if (!active_at && messageId) {
-        active_at = now;
-        timestamp = now;
-      }
-
-      this.model.set({
-        active_at,
-        draftChanged: true,
-        quotedMessageId: messageId,
-        timestamp,
-      });
-
-      await this.saveModel();
-    }
-
-    if (message) {
-      this.quotedMessage = message;
-      this.quote = await model.makeQuote(this.quotedMessage);
-
-      this.enableMessageField();
-      this.focusMessageField();
-    }
-
-    this.renderQuotedMessage();
-  }
-
-  renderQuotedMessage(): void {
-    const { model }: { model: ConversationModel } = this;
-
-    if (!this.quotedMessage) {
-      window.reduxActions.composer.setQuotedMessage(undefined);
-      return;
-    }
-
-    window.reduxActions.composer.setQuotedMessage({
-      conversationId: model.id,
-      quote: this.quote,
-    });
-  }
-
   showInvalidMessageToast(messageText?: string): boolean {
     const { model }: { model: ConversationModel } = this;
 
@@ -2105,9 +1865,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         ).filter(isNotNil);
       }
 
-      const shouldSendHighQualityAttachments = window.reduxStore
-        ? window.reduxStore.getState().composer.shouldSendHighQualityAttachments
+      const composerState = window.reduxStore
+        ? window.reduxStore.getState().composer
         : undefined;
+      const shouldSendHighQualityAttachments =
+        composerState?.shouldSendHighQualityAttachments;
+      const quote = composerState?.quotedMessage?.quote;
 
       const sendHQImages =
         shouldSendHighQualityAttachments !== undefined
@@ -2122,7 +1885,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         {
           body: message,
           attachments,
-          quote: this.quote,
+          quote,
           preview: getLinkPreviewForSend(message),
           mentions,
         },
@@ -2132,7 +1895,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           extraReduxActions: () => {
             this.compositionApi.current?.reset();
             this.model.setMarkedUnread(false);
-            this.setQuoteMessage(null);
+            this.setQuoteMessage(undefined);
             resetLinkPreview();
             this.clearAttachments();
             window.reduxActions.composer.resetComposer();
@@ -2149,12 +1912,35 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
+  focusMessageField(): void {
+    if (this.panels && this.panels.length) {
+      return;
+    }
+
+    this.compositionApi.current?.focusInput();
+  }
+
+  disableMessageField(): void {
+    this.compositionApi.current?.setDisabled(true);
+  }
+
+  enableMessageField(): void {
+    this.compositionApi.current?.setDisabled(false);
+  }
+
+  resetEmojiResults(): void {
+    this.compositionApi.current?.resetEmojiResults();
+  }
+
   onEditorStateChange(
     messageText: string,
     bodyRanges: DraftBodyRangesType,
     caretLocation?: number
   ): void {
-    this.maybeBumpTyping(messageText);
+    if (messageText.length && this.model.throttledBumpTyping) {
+      this.model.throttledBumpTyping();
+    }
+
     this.debouncedSaveDraft(messageText, bodyRanges);
 
     // If we have attachments, don't add link preview
@@ -2206,11 +1992,95 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
-  // Called whenever the user changes the message composition field. But only
-  //   fires if there's content in the message field after the change.
-  maybeBumpTyping(messageText: string): void {
-    if (messageText.length && this.model.throttledBumpTyping) {
-      this.model.throttledBumpTyping();
+  async setQuoteMessage(messageId: string | undefined): Promise<void> {
+    const { model } = this;
+    const message = messageId ? await getMessageById(messageId) : undefined;
+
+    if (
+      message &&
+      !canReply(
+        message.attributes,
+        window.ConversationController.getOurConversationIdOrThrow(),
+        findAndFormatContact
+      )
+    ) {
+      return;
+    }
+
+    if (message && !message.isNormalBubble()) {
+      return;
+    }
+
+    const existing = model.get('quotedMessageId');
+    if (existing !== messageId) {
+      const now = Date.now();
+      let active_at = this.model.get('active_at');
+      let timestamp = this.model.get('timestamp');
+
+      if (!active_at && messageId) {
+        active_at = now;
+        timestamp = now;
+      }
+
+      this.model.set({
+        active_at,
+        draftChanged: true,
+        quotedMessageId: messageId,
+        timestamp,
+      });
+
+      await this.saveModel();
+    }
+
+    if (message) {
+      const quote = await model.makeQuote(message);
+      window.reduxActions.composer.setQuotedMessage({
+        conversationId: model.id,
+        quote,
+      });
+
+      this.enableMessageField();
+      this.focusMessageField();
+    } else {
+      window.reduxActions.composer.setQuotedMessage(undefined);
+    }
+  }
+
+  async clearAttachments(): Promise<void> {
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    this.model.set({
+      draftAttachments: [],
+      draftChanged: true,
+    });
+
+    this.updateAttachmentsView();
+
+    // We're fine doing this all at once; at most it should be 32 attachments
+    await Promise.all([
+      this.saveModel(),
+      Promise.all(
+        draftAttachments.map(attachment => deleteDraftAttachment(attachment))
+      ),
+    ]);
+  }
+
+  hasFiles(options: { includePending: boolean }): boolean {
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    if (options.includePending) {
+      return draftAttachments.length > 0;
+    }
+
+    return draftAttachments.some(item => !item.pending);
+  }
+
+  updateAttachmentsView(): void {
+    const draftAttachments = this.model.get('draftAttachments') || [];
+    window.reduxActions.composer.replaceAttachments(
+      this.model.get('id'),
+      draftAttachments
+    );
+    if (this.hasFiles({ includePending: true })) {
+      removeLinkPreview();
     }
   }
 }

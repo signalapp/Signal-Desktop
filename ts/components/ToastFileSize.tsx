@@ -6,7 +6,7 @@ import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
 export type ToastPropsType = {
-  limit: number;
+  limit: string;
   units: string;
 };
 
@@ -23,8 +23,7 @@ export function ToastFileSize({
 }: PropsType): JSX.Element {
   return (
     <Toast onClose={onClose}>
-      {i18n('fileSizeWarning')} {limit}
-      {units}
+      {i18n('icu:fileSizeWarning', { limit, units })}
     </Toast>
   );
 }

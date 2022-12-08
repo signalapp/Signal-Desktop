@@ -8,7 +8,6 @@ import type { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMem
 import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 import type { ToastBlocked } from '../components/ToastBlocked';
 import type { ToastBlockedGroup } from '../components/ToastBlockedGroup';
-import type { ToastUnsupportedMultiAttachment } from '../components/ToastUnsupportedMultiAttachment';
 import type {
   ToastCannotOpenGiftBadge,
   ToastPropsType as ToastCannotOpenGiftBadgePropsType,
@@ -21,7 +20,6 @@ import type {
 } from '../components/ToastConversationArchived';
 import type { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import type { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
-import type { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import type {
   ToastInternalError,
   ToastPropsType as ToastInternalErrorPropsType,
@@ -40,7 +38,6 @@ import type { ToastInvalidConversation } from '../components/ToastInvalidConvers
 import type { ToastLeftGroup } from '../components/ToastLeftGroup';
 import type { ToastLinkCopied } from '../components/ToastLinkCopied';
 import type { ToastLoadingFullLogs } from '../components/ToastLoadingFullLogs';
-import type { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import type { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 
 import type { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
@@ -56,7 +53,6 @@ export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
 export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
 export function showToast(Toast: typeof ToastBlocked): void;
 export function showToast(Toast: typeof ToastBlockedGroup): void;
-export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
 export function showToast(
   Toast: typeof ToastCannotOpenGiftBadge,
   props: Omit<ToastCannotOpenGiftBadgePropsType, 'i18n' | 'onClose'>
@@ -69,7 +65,6 @@ export function showToast(
 ): void;
 export function showToast(Toast: typeof ToastConversationMarkedUnread): void;
 export function showToast(Toast: typeof ToastConversationUnarchived): void;
-export function showToast(Toast: typeof ToastDangerousFileType): void;
 export function showToast(
   Toast: typeof ToastInternalError,
   props: ToastInternalErrorPropsType
@@ -88,9 +83,7 @@ export function showToast(Toast: typeof ToastInvalidConversation): void;
 export function showToast(Toast: typeof ToastLeftGroup): void;
 export function showToast(Toast: typeof ToastLinkCopied): void;
 export function showToast(Toast: typeof ToastLoadingFullLogs): void;
-export function showToast(Toast: typeof ToastMaxAttachments): void;
 export function showToast(Toast: typeof ToastMessageBodyTooLong): void;
-export function showToast(Toast: typeof ToastUnsupportedMultiAttachment): void;
 export function showToast(Toast: typeof ToastOriginalMessageNotFound): void;
 export function showToast(Toast: typeof ToastReactionFailed): void;
 export function showToast(Toast: typeof ToastStickerPackInstallFailed): void;

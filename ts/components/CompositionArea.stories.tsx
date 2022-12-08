@@ -33,7 +33,6 @@ export default {
 
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
-  addPendingAttachment: action('addPendingAttachment'),
   conversationId: '123',
   i18n,
   onSendMessage: action('onSendMessage'),

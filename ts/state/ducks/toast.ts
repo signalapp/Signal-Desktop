@@ -6,12 +6,16 @@ import type { ReplacementValuesType } from '../../types/Util';
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
+  CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
   CannotStartGroupCall = 'CannotStartGroupCall',
   CopiedUsername = 'CopiedUsername',
   CopiedUsernameLink = 'CopiedUsernameLink',
+  DangerousFileType = 'DangerousFileType',
   DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
   Error = 'Error',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
+  FileSize = 'FileSize',
+  MaxAttachments = 'MaxAttachments',
   MessageBodyTooLong = 'MessageBodyTooLong',
   PinnedConversationsFull = 'PinnedConversationsFull',
   ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
@@ -21,6 +25,8 @@ export enum ToastType {
   StoryVideoError = 'StoryVideoError',
   StoryVideoTooLong = 'StoryVideoTooLong',
   StoryVideoUnsupported = 'StoryVideoUnsupported',
+  UnableToLoadAttachment = 'UnableToLoadAttachment',
+  UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
   UserAddedToGroup = 'UserAddedToGroup',
 }
 

@@ -14,6 +14,7 @@ import type { TimelinePropsType } from './Timeline';
 import { SmartTimeline } from './Timeline';
 
 export type PropsType = {
+  conversationId: string;
   compositionAreaProps: Pick<
     CompositionAreaPropsType,
     | 'clearQuotedMessage'
@@ -38,10 +39,15 @@ export type PropsType = {
 };
 
 const mapStateToProps = (_state: StateType, props: PropsType) => {
-  const { compositionAreaProps, conversationHeaderProps, timelineProps } =
-    props;
+  const {
+    compositionAreaProps,
+    conversationHeaderProps,
+    conversationId,
+    timelineProps,
+  } = props;
 
   return {
+    conversationId,
     renderCompositionArea: () => (
       <SmartCompositionArea {...compositionAreaProps} />
     ),

@@ -20,7 +20,7 @@ export default {
 };
 
 export const _ToastFileSize = (): JSX.Element => (
-  <ToastFileSize {...defaultProps} limit={100} units="MB" />
+  <ToastFileSize {...defaultProps} limit="100" units="MB" />
 );
 
 _ToastFileSize.story = {

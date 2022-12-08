@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import path from 'path';
+
 import type { ThunkAction } from 'redux-thunk';
 
 import * as log from '../../logging/log';
@@ -25,9 +27,19 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
 import { replaceIndex } from '../../util/replaceIndex';
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
-import type { HandleAttachmentsProcessingArgsType } from '../../util/handleAttachmentsProcessing';
-import { handleAttachmentsProcessing } from '../../util/handleAttachmentsProcessing';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
+import { RecordingState } from './audioRecorder';
+import { hasLinkPreviewLoaded } from '../../services/LinkPreview';
+import { SHOW_TOAST, ToastType } from './toast';
+import type { ShowToastActionType } from './toast';
+import { getMaximumAttachmentSize } from '../../util/attachments';
+import { isFileDangerous } from '../../util/isFileDangerous';
+import { isImage, isVideo, stringToMIMEType } from '../../types/MIME';
+import {
+  getRenderDetailsForLimit,
+  processAttachment,
+} from '../../util/processAttachment';
+import type { ReplacementValuesType } from '../../types/Util';
 
 // State
 
@@ -187,15 +199,180 @@ function addPendingAttachment(
   };
 }
 
-function processAttachments(
-  options: HandleAttachmentsProcessingArgsType
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async dispatch => {
-    await handleAttachmentsProcessing(options);
+function processAttachments({
+  conversationId,
+  files,
+}: {
+  conversationId: string;
+  files: ReadonlyArray<File>;
+}): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    if (!files.length) {
+      return;
+    }
+
+    // If the call came from a conversation we are no longer in we do not
+    // update the state.
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('processAttachments: Unable to find conv');
+    }
+
+    const state = getState();
+    const isRecording =
+      state.audioRecorder.recordingState === RecordingState.Recording;
+
+    if (hasLinkPreviewLoaded() || isRecording) {
+      return;
+    }
+
+    let toastToShow:
+      | { toastType: ToastType; parameters?: ReplacementValuesType }
+      | undefined;
+
+    const nextDraftAttachments = (
+      conversation.get('draftAttachments') || []
+    ).slice();
+    const filesToProcess: Array<File> = [];
+    for (let i = 0; i < files.length; i += 1) {
+      const file = files[i];
+      const processingResult = preProcessAttachment(file, nextDraftAttachments);
+      if (processingResult != null) {
+        toastToShow = processingResult;
+      } else {
+        const pendingAttachment = getPendingAttachment(file);
+        if (pendingAttachment) {
+          addPendingAttachment(conversationId, pendingAttachment)(
+            dispatch,
+            getState,
+            undefined
+          );
+          filesToProcess.push(file);
+          // we keep a running count of the draft attachments so we can show a
+          // toast in case we add too many attachments at once
+          nextDraftAttachments.push(pendingAttachment);
+        }
+      }
+    }
+
+    await Promise.all(
+      filesToProcess.map(async file => {
+        try {
+          const attachment = await processAttachment(file);
+          if (!attachment) {
+            removeAttachment(conversationId, file.path)(
+              dispatch,
+              getState,
+              undefined
+            );
+            return;
+          }
+          addAttachment(conversationId, attachment)(
+            dispatch,
+            getState,
+            undefined
+          );
+        } catch (err) {
+          log.error(
+            'handleAttachmentsProcessing: failed to process attachment:',
+            err.stack
+          );
+          removeAttachment(conversationId, file.path)(
+            dispatch,
+            getState,
+            undefined
+          );
+          toastToShow = { toastType: ToastType.UnableToLoadAttachment };
+        }
+      })
+    );
+
+    if (toastToShow) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: toastToShow,
+      });
+
+      return;
+    }
+
     dispatch({
       type: 'NOOP',
       payload: null,
     });
+  };
+}
+
+function preProcessAttachment(
+  file: File,
+  draftAttachments: Array<AttachmentDraftType>
+): { toastType: ToastType; parameters?: ReplacementValuesType } | undefined {
+  if (!file) {
+    return;
+  }
+
+  const limitKb = getMaximumAttachmentSize();
+  if (file.size > limitKb) {
+    return {
+      toastType: ToastType.FileSize,
+      parameters: getRenderDetailsForLimit(limitKb),
+    };
+  }
+
+  if (isFileDangerous(file.name)) {
+    return { toastType: ToastType.DangerousFileType };
+  }
+
+  if (draftAttachments.length >= 32) {
+    return { toastType: ToastType.MaxAttachments };
+  }
+
+  const haveNonImageOrVideo = draftAttachments.some(
+    (attachment: AttachmentDraftType) => {
+      return (
+        !isImage(attachment.contentType) && !isVideo(attachment.contentType)
+      );
+    }
+  );
+  // You can't add another attachment if you already have a non-image staged
+  if (haveNonImageOrVideo) {
+    return { toastType: ToastType.UnsupportedMultiAttachment };
+  }
+
+  const fileType = stringToMIMEType(file.type);
+  const imageOrVideo = isImage(fileType) || isVideo(fileType);
+
+  // You can't add a non-image attachment if you already have attachments staged
+  if (!imageOrVideo && draftAttachments.length > 0) {
+    return { toastType: ToastType.CannotMixMultiAndNonMultiAttachments };
+  }
+
+  return undefined;
+}
+
+function getPendingAttachment(file: File): AttachmentDraftType | undefined {
+  if (!file) {
+    return;
+  }
+
+  const fileType = stringToMIMEType(file.type);
+  const { name: fileName } = path.parse(file.name);
+
+  return {
+    contentType: fileType,
+    fileName,
+    size: file.size,
+    path: file.name,
+    pending: true,
   };
 }
 

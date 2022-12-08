@@ -12,7 +12,6 @@ import type {
 } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
 import { RecordingState } from '../state/ducks/audioRecorder';
-import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
 import { Spinner } from './Spinner';
 import type {
@@ -76,10 +75,6 @@ export type OwnProps = Readonly<{
     conversationId: string,
     attachment: InMemoryAttachmentDraftType
   ) => unknown;
-  addPendingAttachment: (
-    conversationId: string,
-    pendingAttachment: AttachmentDraftType
-  ) => unknown;
   announcementsOnly?: boolean;
   areWeAdmin?: boolean;
   areWePending?: boolean;
@@ -112,7 +107,10 @@ export type OwnProps = Readonly<{
   onClearAttachments(): unknown;
   onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
-  processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
+  processAttachments: (options: {
+    conversationId: string;
+    files: ReadonlyArray<File>;
+  }) => unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
   onSendMessage(options: {
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
@@ -171,7 +169,6 @@ export type Props = Pick<
 export function CompositionArea({
   // Base props
   addAttachment,
-  addPendingAttachment,
   conversationId,
   i18n,
   onSendMessage,
@@ -733,13 +730,10 @@ export function CompositionArea({
         </div>
       ) : null}
       <CompositionUpload
-        addAttachment={addAttachment}
-        addPendingAttachment={addPendingAttachment}
         conversationId={conversationId}
         draftAttachments={draftAttachments}
         i18n={i18n}
         processAttachments={processAttachments}
-        removeAttachment={removeAttachment}
         ref={fileInputRef}
       />
     </div>
