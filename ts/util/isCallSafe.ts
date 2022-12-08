@@ -2,27 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types';
-import type { RecipientsByConversation } from '../state/ducks/stories';
 
 import * as log from '../logging/log';
 import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified';
-import { getConversationMembers } from './getConversationMembers';
-import { UUID } from '../types/UUID';
-import { isNotNil } from './isNotNil';
+import { getRecipientsByConversation } from './getRecipientsByConversation';
 
 export async function isCallSafe(
   attributes: ConversationAttributesType
 ): Promise<boolean> {
-  const recipientsByConversation: RecipientsByConversation = {
-    [attributes.id]: {
-      uuids: getConversationMembers(attributes)
-        .map(member =>
-          member.uuid ? UUID.checkedLookup(member.uuid).toString() : undefined
-        )
-        .filter(isNotNil),
-    },
-  };
+  const recipientsByConversation = getRecipientsByConversation([attributes]);
 
   const callAnyway = await blockSendUntilConversationsAreVerified(
     recipientsByConversation,

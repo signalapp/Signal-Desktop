@@ -10,7 +10,7 @@ import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversa
 import { getMessageIdForLogging } from './idForLogging';
 import { isNotNil } from './isNotNil';
 import { resetLinkPreview } from '../services/LinkPreview';
-import type { RecipientsByConversation } from '../state/ducks/stories';
+import { getRecipientsByConversation } from './getRecipientsByConversation';
 
 export async function maybeForwardMessage(
   messageAttributes: MessageAttributesType,
@@ -41,12 +41,9 @@ export async function maybeForwardMessage(
     throw new Error('Cannot send to group');
   }
 
-  const recipientsByConversation: RecipientsByConversation = {};
-  conversations.forEach(conversation => {
-    recipientsByConversation[conversation.id] = {
-      uuids: conversation.getMemberUuids().map(uuid => uuid.toString()),
-    };
-  });
+  const recipientsByConversation = getRecipientsByConversation(
+    conversations.map(x => x.attributes)
+  );
 
   // Verify that all contacts that we're forwarding
   // to are verified and trusted.

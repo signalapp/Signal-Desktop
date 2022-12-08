@@ -1,52 +1,73 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import path from 'path';
 
 import type { ThunkAction } from 'redux-thunk';
 
-import * as log from '../../logging/log';
-import type { NoopActionType } from './noop';
-import type { StateType as RootStateType } from '../reducer';
-import type {
-  AttachmentDraftType,
-  InMemoryAttachmentDraftType,
-} from '../../types/Attachment';
-import type { MessageAttributesType } from '../../model-types.d';
-import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 import type {
   AddLinkPreviewActionType,
   RemoveLinkPreviewActionType,
 } from './linkPreviews';
+import type {
+  AttachmentType,
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
+} from '../../types/Attachment';
+import type {
+  DraftBodyRangesType,
+  ReplacementValuesType,
+} from '../../types/Util';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { MessageAttributesType } from '../../model-types.d';
+import type { NoopActionType } from './noop';
+import type { ShowToastActionType } from './toast';
+import type { StateType as RootStateType } from '../reducer';
+import type { UUIDStringType } from '../../types/UUID';
+import * as log from '../../logging/log';
+import * as Errors from '../../types/errors';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
 } from './linkPreviews';
-import { writeDraftAttachment } from '../../util/writeDraftAttachment';
-import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
-import { replaceIndex } from '../../util/replaceIndex';
-import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { RecordingState } from './audioRecorder';
-import { hasLinkPreviewLoaded } from '../../services/LinkPreview';
 import { SHOW_TOAST, ToastType } from './toast';
-import type { ShowToastActionType } from './toast';
+import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
+import { UUID } from '../../types/UUID';
+import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
+import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
+import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments';
+import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
+import {
+  hasLinkPreviewLoaded,
+  getLinkPreviewForSend,
+  resetLinkPreview,
+} from '../../services/LinkPreview';
 import { getMaximumAttachmentSize } from '../../util/attachments';
-import { isFileDangerous } from '../../util/isFileDangerous';
-import { isImage, isVideo, stringToMIMEType } from '../../types/MIME';
+import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
 import {
   getRenderDetailsForLimit,
   processAttachment,
 } from '../../util/processAttachment';
-import type { ReplacementValuesType } from '../../types/Util';
+import { hasDraftAttachments } from '../../util/hasDraftAttachments';
+import { isFileDangerous } from '../../util/isFileDangerous';
+import { isImage, isVideo, stringToMIMEType } from '../../types/MIME';
+import { isNotNil } from '../../util/isNotNil';
+import { replaceIndex } from '../../util/replaceIndex';
+import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData';
+import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
+import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast';
+import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 
 // State
 
 export type ComposerStateType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
+  isDisabled: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
+  messageCompositionId: UUIDStringType;
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
   shouldSendHighQualityAttachments?: boolean;
 };
@@ -58,6 +79,7 @@ const REPLACE_ATTACHMENTS = 'composer/REPLACE_ATTACHMENTS';
 const RESET_COMPOSER = 'composer/RESET_COMPOSER';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
+const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
 
 type AddPendingAttachmentActionType = {
   type: typeof ADD_PENDING_ATTACHMENT;
@@ -71,6 +93,11 @@ type ReplaceAttachmentsActionType = {
 
 type ResetComposerActionType = {
   type: typeof RESET_COMPOSER;
+};
+
+type SetComposerDisabledStateActionType = {
+  type: typeof SET_COMPOSER_DISABLED;
+  payload: boolean;
 };
 
 type SetHighQualitySettingActionType = {
@@ -89,6 +116,7 @@ type ComposerActionType =
   | RemoveLinkPreviewActionType
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
+  | SetComposerDisabledStateActionType
   | SetHighQualitySettingActionType
   | SetQuotedMessageActionType;
 
@@ -101,9 +129,203 @@ export const actions = {
   removeAttachment,
   replaceAttachments,
   resetComposer,
+  setComposerDisabledState,
+  sendMultiMediaMessage,
+  sendStickerMessage,
   setMediaQualitySetting,
   setQuotedMessage,
 };
+
+function sendMultiMediaMessage(
+  conversationId: string,
+  options: {
+    draftAttachments?: ReadonlyArray<AttachmentDraftType>;
+    mentions?: DraftBodyRangesType;
+    message?: string;
+    timestamp?: number;
+    voiceNoteAttachment?: InMemoryAttachmentDraftType;
+  }
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | NoopActionType
+  | ResetComposerActionType
+  | SetComposerDisabledStateActionType
+  | SetQuotedMessageActionType
+  | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('sendMultiMediaMessage: No conversation found');
+    }
+
+    const {
+      draftAttachments,
+      message = '',
+      mentions,
+      timestamp = Date.now(),
+      voiceNoteAttachment,
+    } = options;
+
+    const state = getState();
+
+    const sendStart = Date.now();
+    const recipientsByConversation = getRecipientsByConversation([
+      conversation.attributes,
+    ]);
+
+    try {
+      dispatch(setComposerDisabledState(true));
+
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        recipientsByConversation,
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
+        dispatch(setComposerDisabledState(false));
+        return;
+      }
+    } catch (error) {
+      dispatch(setComposerDisabledState(false));
+      log.error('sendMessage error:', Errors.toLogFormat(error));
+      return;
+    }
+
+    conversation.clearTypingTimers();
+
+    const toastType = shouldShowInvalidMessageToast(conversation.attributes);
+    if (toastType) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType,
+        },
+      });
+      return;
+    }
+
+    try {
+      if (
+        !message.length &&
+        !hasDraftAttachments(conversation.attributes.draftAttachments, {
+          includePending: false,
+        }) &&
+        !voiceNoteAttachment
+      ) {
+        return;
+      }
+
+      let attachments: Array<AttachmentType> = [];
+      if (voiceNoteAttachment) {
+        attachments = [voiceNoteAttachment];
+      } else if (draftAttachments) {
+        attachments = (
+          await Promise.all(draftAttachments.map(resolveAttachmentDraftData))
+        ).filter(isNotNil);
+      }
+
+      const quote = state.composer.quotedMessage?.quote;
+
+      const shouldSendHighQualityAttachments = window.reduxStore
+        ? state.composer.shouldSendHighQualityAttachments
+        : undefined;
+
+      const sendHQImages =
+        shouldSendHighQualityAttachments !== undefined
+          ? shouldSendHighQualityAttachments
+          : state.items['sent-media-quality'] === 'high';
+
+      const sendDelta = Date.now() - sendStart;
+
+      log.info('Send pre-checks took', sendDelta, 'milliseconds');
+
+      await conversation.enqueueMessageForSend(
+        {
+          body: message,
+          attachments,
+          quote,
+          preview: getLinkPreviewForSend(message),
+          mentions,
+        },
+        {
+          sendHQImages,
+          timestamp,
+          extraReduxActions: () => {
+            conversation.setMarkedUnread(false);
+            resetLinkPreview();
+            clearConversationDraftAttachments(conversationId, draftAttachments);
+            dispatch(setQuotedMessage(undefined));
+            dispatch(resetComposer());
+          },
+        }
+      );
+    } catch (error) {
+      log.error(
+        'Error pulling attached files before send',
+        Errors.toLogFormat(error)
+      );
+    } finally {
+      dispatch(setComposerDisabledState(false));
+    }
+  };
+}
+
+function sendStickerMessage(
+  conversationId: string,
+  options: {
+    packId: string;
+    stickerId: number;
+  }
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('sendStickerMessage: No conversation found');
+    }
+
+    const recipientsByConversation = getRecipientsByConversation([
+      conversation.attributes,
+    ]);
+
+    try {
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        recipientsByConversation,
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
+        return;
+      }
+
+      const toastType = shouldShowInvalidMessageToast(conversation.attributes);
+      if (toastType) {
+        dispatch({
+          type: SHOW_TOAST,
+          payload: {
+            toastType,
+          },
+        });
+        return;
+      }
+
+      const { packId, stickerId } = options;
+      conversation.sendStickerMessage(packId, stickerId);
+    } catch (error) {
+      log.error('clickSend error:', Errors.toLogFormat(error));
+    }
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
 
 // Not cool that we have to pull from ConversationModel here
 // but if the current selected conversation isn't the one that we're operating
@@ -440,6 +662,15 @@ function resetComposer(): ResetComposerActionType {
   };
 }
 
+function setComposerDisabledState(
+  value: boolean
+): SetComposerDisabledStateActionType {
+  return {
+    type: SET_COMPOSER_DISABLED,
+    payload: value,
+  };
+}
+
 function setMediaQualitySetting(
   payload: boolean
 ): SetHighQualitySettingActionType {
@@ -463,7 +694,9 @@ function setQuotedMessage(
 export function getEmptyState(): ComposerStateType {
   return {
     attachments: [],
+    isDisabled: false,
     linkPreviewLoading: false,
+    messageCompositionId: UUID.generate().toString(),
   };
 }
 
@@ -523,6 +756,13 @@ export function reducer(
     return {
       ...state,
       attachments: [...state.attachments, action.payload],
+    };
+  }
+
+  if (action.type === SET_COMPOSER_DISABLED) {
+    return {
+      ...state,
+      isDisabled: action.payload,
     };
   }
 

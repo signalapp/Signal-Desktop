@@ -12,7 +12,6 @@ import { render } from 'mustache';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Stickers from '../types/Stickers';
-import * as Errors from '../types/errors';
 import type { DraftBodyRangesType } from '../types/Util';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
@@ -45,15 +44,10 @@ import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import type { CompositionAPIType } from '../components/CompositionArea';
-import { ToastBlocked } from '../components/ToastBlocked';
-import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
-import { ToastExpired } from '../components/ToastExpired';
-import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
-import { ToastLeftGroup } from '../components/ToastLeftGroup';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
@@ -65,7 +59,6 @@ import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { retryMessageSend } from '../util/retryMessageSend';
 import { isNotNil } from '../util/isNotNil';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
-import { resolveAttachmentDraftData } from '../util/resolveAttachmentDraftData';
 import { showToast } from '../util/showToast';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
@@ -74,18 +67,14 @@ import { ContactDetail } from '../components/conversation/ContactDetail';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
-  getLinkPreviewForSend,
   maybeGrabLinkPreview,
   removeLinkPreview,
-  resetLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { closeLightbox, showLightbox } from '../util/showLightbox';
 import { saveAttachment } from '../util/saveAttachment';
 import { SECOND } from '../util/durations';
-import { blockSendUntilConversationsAreVerified } from '../util/blockSendUntilConversationsAreVerified';
-import { SafetyNumberChangeSource } from '../components/SafetyNumberChangeDialog';
 import { startConversation } from '../util/startConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 
@@ -170,8 +159,6 @@ type MediaType = {
   };
 };
 
-const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
 export class ConversationView extends window.Backbone.View<ConversationModel> {
   private debouncedSaveDraft: (
     messageText: string,
@@ -182,7 +169,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   private compositionApi: {
     current: CompositionAPIType;
   } = { current: undefined };
-  private sendStart?: number;
 
   // Sub-views
   private contactModalView?: Backbone.View;
@@ -432,8 +418,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       id: this.model.id,
       compositionApi: this.compositionApi,
       onClickAddPack: () => this.showStickerManager(),
-      onPickSticker: (packId: string, stickerId: number) =>
-        this.sendStickerMessage({ packId, stickerId }),
       onEditorStateChange: (
         msg: string,
         bodyRanges: DraftBodyRangesType,
@@ -473,26 +457,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       },
 
       openConversation: this.openConversation.bind(this),
-
-      onSendMessage: ({
-        draftAttachments,
-        mentions = [],
-        message = '',
-        timestamp,
-        voiceNoteAttachment,
-      }: {
-        draftAttachments?: ReadonlyArray<AttachmentType>;
-        mentions?: DraftBodyRangesType;
-        message?: string;
-        timestamp?: number;
-        voiceNoteAttachment?: AttachmentType;
-      }): void => {
-        this.sendMessage(message, mentions, {
-          draftAttachments,
-          timestamp,
-          voiceNoteAttachment,
-        });
-      },
     };
 
     // createConversationView root
@@ -1655,212 +1619,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
   }
 
-  async sendStickerMessage(options: {
-    packId: string;
-    stickerId: number;
-  }): Promise<void> {
-    const recipientsByConversation = {
-      [this.model.id]: {
-        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
-      },
-    };
-
-    try {
-      const sendAnyway = await blockSendUntilConversationsAreVerified(
-        recipientsByConversation,
-        SafetyNumberChangeSource.MessageSend
-      );
-      if (!sendAnyway) {
-        return;
-      }
-
-      if (this.showInvalidMessageToast()) {
-        return;
-      }
-
-      const { packId, stickerId } = options;
-      this.model.sendStickerMessage(packId, stickerId);
-    } catch (error) {
-      log.error('clickSend error:', Errors.toLogFormat(error));
-    }
-  }
-
-  showInvalidMessageToast(messageText?: string): boolean {
-    const { model }: { model: ConversationModel } = this;
-
-    let toastView:
-      | undefined
-      | typeof ToastBlocked
-      | typeof ToastBlockedGroup
-      | typeof ToastExpired
-      | typeof ToastInvalidConversation
-      | typeof ToastLeftGroup
-      | typeof ToastMessageBodyTooLong;
-
-    if (window.reduxStore.getState().expiration.hasExpired) {
-      toastView = ToastExpired;
-    }
-    if (!model.isValid()) {
-      toastView = ToastInvalidConversation;
-    }
-
-    const e164 = this.model.get('e164');
-    const uuid = this.model.get('uuid');
-    if (
-      isDirectConversation(this.model.attributes) &&
-      ((e164 && window.storage.blocked.isBlocked(e164)) ||
-        (uuid && window.storage.blocked.isUuidBlocked(uuid)))
-    ) {
-      toastView = ToastBlocked;
-    }
-
-    const groupId = this.model.get('groupId');
-    if (
-      !isDirectConversation(this.model.attributes) &&
-      groupId &&
-      window.storage.blocked.isGroupBlocked(groupId)
-    ) {
-      toastView = ToastBlockedGroup;
-    }
-
-    if (!isDirectConversation(model.attributes) && model.get('left')) {
-      toastView = ToastLeftGroup;
-    }
-    if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {
-      toastView = ToastMessageBodyTooLong;
-    }
-
-    if (toastView) {
-      showToast(toastView);
-      return true;
-    }
-
-    return false;
-  }
-
-  async sendMessage(
-    message = '',
-    mentions: DraftBodyRangesType = [],
-    options: {
-      draftAttachments?: ReadonlyArray<AttachmentType>;
-      timestamp?: number;
-      voiceNoteAttachment?: AttachmentType;
-    } = {}
-  ): Promise<void> {
-    const timestamp = options.timestamp || Date.now();
-
-    this.sendStart = Date.now();
-    const recipientsByConversation = {
-      [this.model.id]: {
-        uuids: this.model.getMemberUuids().map(uuid => uuid.toString()),
-      },
-    };
-
-    try {
-      this.disableMessageField();
-
-      const sendAnyway = await blockSendUntilConversationsAreVerified(
-        recipientsByConversation,
-        SafetyNumberChangeSource.MessageSend
-      );
-      if (!sendAnyway) {
-        this.enableMessageField();
-        return;
-      }
-    } catch (error) {
-      this.enableMessageField();
-      log.error('sendMessage error:', Errors.toLogFormat(error));
-      return;
-    }
-
-    this.model.clearTypingTimers();
-
-    if (this.showInvalidMessageToast(message)) {
-      this.enableMessageField();
-      return;
-    }
-
-    try {
-      if (
-        !message.length &&
-        !this.hasFiles({ includePending: false }) &&
-        !options.voiceNoteAttachment
-      ) {
-        return;
-      }
-
-      let attachments: Array<AttachmentType> = [];
-      if (options.voiceNoteAttachment) {
-        attachments = [options.voiceNoteAttachment];
-      } else if (options.draftAttachments) {
-        attachments = (
-          await Promise.all(
-            options.draftAttachments.map(resolveAttachmentDraftData)
-          )
-        ).filter(isNotNil);
-      }
-
-      const composerState = window.reduxStore
-        ? window.reduxStore.getState().composer
-        : undefined;
-      const shouldSendHighQualityAttachments =
-        composerState?.shouldSendHighQualityAttachments;
-      const quote = composerState?.quotedMessage?.quote;
-
-      const sendHQImages =
-        shouldSendHighQualityAttachments !== undefined
-          ? shouldSendHighQualityAttachments
-          : window.storage.get('sent-media-quality') === 'high';
-
-      const sendDelta = Date.now() - this.sendStart;
-
-      log.info('Send pre-checks took', sendDelta, 'milliseconds');
-
-      await this.model.enqueueMessageForSend(
-        {
-          body: message,
-          attachments,
-          quote,
-          preview: getLinkPreviewForSend(message),
-          mentions,
-        },
-        {
-          sendHQImages,
-          timestamp,
-          extraReduxActions: () => {
-            this.compositionApi.current?.reset();
-            this.model.setMarkedUnread(false);
-            this.setQuoteMessage(undefined);
-            resetLinkPreview();
-            this.clearAttachments();
-            window.reduxActions.composer.resetComposer();
-          },
-        }
-      );
-    } catch (error) {
-      log.error(
-        'Error pulling attached files before send',
-        Errors.toLogFormat(error)
-      );
-    } finally {
-      this.enableMessageField();
-    }
-  }
-
   focusMessageField(): void {
     if (this.panels && this.panels.length) {
       return;
     }
 
     this.compositionApi.current?.focusInput();
-  }
-
-  disableMessageField(): void {
-    this.compositionApi.current?.setDisabled(true);
-  }
-
-  enableMessageField(): void {
-    this.compositionApi.current?.setDisabled(false);
   }
 
   resetEmojiResults(): void {
@@ -1974,7 +1738,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         quote,
       });
 
-      this.enableMessageField();
+      window.reduxActions.composer.setComposerDisabledState(false);
       this.focusMessageField();
     } else {
       window.reduxActions.composer.setQuotedMessage(undefined);

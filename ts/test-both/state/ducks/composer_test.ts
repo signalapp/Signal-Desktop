@@ -103,17 +103,23 @@ describe('both/state/ducks/composer', () => {
   describe('resetComposer', () => {
     it('returns composer back to empty state', () => {
       const { resetComposer } = actions;
+      const emptyState = getEmptyState();
       const nextState = reducer(
         {
           attachments: [],
+          isDisabled: false,
           linkPreviewLoading: true,
+          messageCompositionId: emptyState.messageCompositionId,
           quotedMessage: QUOTED_MESSAGE,
           shouldSendHighQualityAttachments: true,
         },
         resetComposer()
       );
 
-      assert.deepEqual(nextState, getEmptyState());
+      assert.deepEqual(nextState, {
+        ...getEmptyState(),
+        messageCompositionId: nextState.messageCompositionId,
+      });
     });
   });
 

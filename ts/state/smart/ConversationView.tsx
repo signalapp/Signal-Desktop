@@ -27,9 +27,7 @@ export type PropsType = {
     | 'onClickAddPack'
     | 'onCloseLinkPreview'
     | 'onEditorStateChange'
-    | 'onPickSticker'
     | 'onSelectMediaQuality'
-    | 'onSendMessage'
     | 'onTextTooLong'
     | 'openConversation'
   >;

@@ -49,6 +49,20 @@ AddingUserToGroup.args = {
   },
 };
 
+export const Blocked = Template.bind({});
+Blocked.args = {
+  toast: {
+    toastType: ToastType.Blocked,
+  },
+};
+
+export const BlockedGroup = Template.bind({});
+BlockedGroup.args = {
+  toast: {
+    toastType: ToastType.BlockedGroup,
+  },
+};
+
 export const CannotMixMultiAndNonMultiAttachments = Template.bind({});
 CannotMixMultiAndNonMultiAttachments.args = {
   toast: {
@@ -98,6 +112,13 @@ Error.args = {
   },
 };
 
+export const Expired = Template.bind({});
+Expired.args = {
+  toast: {
+    toastType: ToastType.Expired,
+  },
+};
+
 export const FailedToDeleteUsername = Template.bind({});
 FailedToDeleteUsername.args = {
   toast: {
@@ -113,6 +134,20 @@ FileSize.args = {
       limit: '100',
       units: 'MB',
     },
+  },
+};
+
+export const InvalidConversation = Template.bind({});
+InvalidConversation.args = {
+  toast: {
+    toastType: ToastType.InvalidConversation,
+  },
+};
+
+export const LeftGroup = Template.bind({});
+LeftGroup.args = {
+  toast: {
+    toastType: ToastType.LeftGroup,
   },
 };
 

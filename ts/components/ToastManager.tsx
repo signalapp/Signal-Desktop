@@ -42,6 +42,14 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.Blocked) {
+    return <Toast onClose={hideToast}>{i18n('unblockToSend')}</Toast>;
+  }
+
+  if (toastType === ToastType.BlockedGroup) {
+    return <Toast onClose={hideToast}>{i18n('unblockGroupToSend')}</Toast>;
+  }
+
   if (toastType === ToastType.CannotMixMultiAndNonMultiAttachments) {
     return (
       <Toast onClose={hideToast}>
@@ -97,6 +105,10 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.Expired) {
+    return <Toast onClose={hideToast}>{i18n('expiredWarning')}</Toast>;
+  }
+
   if (toastType === ToastType.FailedToDeleteUsername) {
     return (
       <Toast onClose={hideToast}>
@@ -111,6 +123,14 @@ export function ToastManager({
         {i18n('icu:fileSizeWarning', toast?.parameters)}
       </Toast>
     );
+  }
+
+  if (toastType === ToastType.InvalidConversation) {
+    return <Toast onClose={hideToast}>{i18n('invalidConversation')}</Toast>;
+  }
+
+  if (toastType === ToastType.LeftGroup) {
+    return <Toast onClose={hideToast}>{i18n('youLeftTheGroup')}</Toast>;
   }
 
   if (toastType === ToastType.MaxAttachments) {

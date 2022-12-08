@@ -6,8 +6,6 @@ import { render, unmountComponentAtNode } from 'react-dom';
 
 import type { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
 import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
-import type { ToastBlocked } from '../components/ToastBlocked';
-import type { ToastBlockedGroup } from '../components/ToastBlockedGroup';
 import type {
   ToastCannotOpenGiftBadge,
   ToastPropsType as ToastCannotOpenGiftBadgePropsType,
@@ -24,7 +22,6 @@ import type {
   ToastInternalError,
   ToastPropsType as ToastInternalErrorPropsType,
 } from '../components/ToastInternalError';
-import type { ToastExpired } from '../components/ToastExpired';
 import type {
   ToastFileSaved,
   ToastPropsType as ToastFileSavedPropsType,
@@ -34,8 +31,6 @@ import type {
   ToastPropsType as ToastFileSizePropsType,
 } from '../components/ToastFileSize';
 import type { ToastGroupLinkCopied } from '../components/ToastGroupLinkCopied';
-import type { ToastInvalidConversation } from '../components/ToastInvalidConversation';
-import type { ToastLeftGroup } from '../components/ToastLeftGroup';
 import type { ToastLinkCopied } from '../components/ToastLinkCopied';
 import type { ToastLoadingFullLogs } from '../components/ToastLoadingFullLogs';
 import type { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
@@ -51,8 +46,6 @@ import type { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoic
 
 export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
 export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
-export function showToast(Toast: typeof ToastBlocked): void;
-export function showToast(Toast: typeof ToastBlockedGroup): void;
 export function showToast(
   Toast: typeof ToastCannotOpenGiftBadge,
   props: Omit<ToastCannotOpenGiftBadgePropsType, 'i18n' | 'onClose'>
@@ -69,7 +62,6 @@ export function showToast(
   Toast: typeof ToastInternalError,
   props: ToastInternalErrorPropsType
 ): void;
-export function showToast(Toast: typeof ToastExpired): void;
 export function showToast(
   Toast: typeof ToastFileSaved,
   props: ToastFileSavedPropsType
@@ -79,8 +71,6 @@ export function showToast(
   props: ToastFileSizePropsType
 ): void;
 export function showToast(Toast: typeof ToastGroupLinkCopied): void;
-export function showToast(Toast: typeof ToastInvalidConversation): void;
-export function showToast(Toast: typeof ToastLeftGroup): void;
 export function showToast(Toast: typeof ToastLinkCopied): void;
 export function showToast(Toast: typeof ToastLoadingFullLogs): void;
 export function showToast(Toast: typeof ToastMessageBodyTooLong): void;

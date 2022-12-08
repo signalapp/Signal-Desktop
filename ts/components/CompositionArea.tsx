@@ -63,8 +63,6 @@ export type CompositionAPIType =
   | {
       focusInput: () => void;
       isDirty: () => boolean;
-      setDisabled: (disabled: boolean) => void;
-      reset: InputApi['reset'];
       resetEmojiResults: InputApi['resetEmojiResults'];
     }
   | undefined;
@@ -94,11 +92,13 @@ export type OwnProps = Readonly<{
   groupVersion?: 1 | 2;
   i18n: LocalizerType;
   imageToBlurHash: typeof imageToBlurHash;
+  isDisabled: boolean;
   isFetchingUUID?: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSignalConversation?: boolean;
   recordingState: RecordingState;
+  messageCompositionId: string;
   isSMSOnly?: boolean;
   left?: boolean;
   linkPreviewLoading: boolean;
@@ -112,13 +112,20 @@ export type OwnProps = Readonly<{
     files: ReadonlyArray<File>;
   }) => unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
-  onSendMessage(options: {
-    draftAttachments?: ReadonlyArray<AttachmentDraftType>;
-    mentions?: DraftBodyRangesType;
-    message?: string;
-    timestamp?: number;
-    voiceNoteAttachment?: InMemoryAttachmentDraftType;
-  }): unknown;
+  sendStickerMessage(
+    id: string,
+    opts: { packId: string; stickerId: number }
+  ): unknown;
+  sendMultiMediaMessage(
+    conversationId: string,
+    options: {
+      draftAttachments?: ReadonlyArray<AttachmentDraftType>;
+      mentions?: DraftBodyRangesType;
+      message?: string;
+      timestamp?: number;
+      voiceNoteAttachment?: InMemoryAttachmentDraftType;
+    }
+  ): unknown;
   openConversation(conversationId: string): unknown;
   quotedMessageProps?: Omit<
     QuoteProps,
@@ -156,7 +163,6 @@ export type Props = Pick<
     | 'recentStickers'
     | 'clearInstalledStickerPack'
     | 'onClickAddPack'
-    | 'onPickSticker'
     | 'clearShowIntroduction'
     | 'showPickerHint'
     | 'clearShowPickerHint'
@@ -171,12 +177,14 @@ export function CompositionArea({
   addAttachment,
   conversationId,
   i18n,
-  onSendMessage,
   imageToBlurHash,
+  isDisabled,
+  isSignalConversation,
   processAttachments,
   removeAttachment,
+  messageCompositionId,
+  sendMultiMediaMessage,
   theme,
-  isSignalConversation,
 
   // AttachmentList
   draftAttachments,
@@ -223,7 +231,7 @@ export function CompositionArea({
   recentStickers,
   clearInstalledStickerPack,
   onClickAddPack,
-  onPickSticker,
+  sendStickerMessage,
   clearShowIntroduction,
   showPickerHint,
   clearShowPickerHint,
@@ -255,7 +263,6 @@ export function CompositionArea({
   isSMSOnly,
   isFetchingUUID,
 }: Props): JSX.Element {
-  const [disabled, setDisabled] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
   const [attachmentToEdit, setAttachmentToEdit] = useState<
@@ -275,7 +282,7 @@ export function CompositionArea({
   const handleSubmit = useCallback(
     (message: string, mentions: DraftBodyRangesType, timestamp: number) => {
       emojiButtonRef.current?.close();
-      onSendMessage({
+      sendMultiMediaMessage(conversationId, {
         draftAttachments,
         mentions,
         message,
@@ -283,7 +290,7 @@ export function CompositionArea({
       });
       setLarge(false);
     },
-    [draftAttachments, onSendMessage, setLarge]
+    [conversationId, draftAttachments, sendMultiMediaMessage, setLarge]
   );
 
   const launchAttachmentPicker = useCallback(() => {
@@ -327,12 +334,6 @@ export function CompositionArea({
     compositionApi.current = {
       isDirty: () => dirty,
       focusInput,
-      setDisabled,
-      reset: () => {
-        if (inputApiRef.current) {
-          inputApiRef.current.reset();
-        }
-      },
       resetEmojiResults: () => {
         if (inputApiRef.current) {
           inputApiRef.current.resetEmojiResults();
@@ -340,6 +341,14 @@ export function CompositionArea({
       },
     };
   }
+
+  useEffect(() => {
+    if (!inputApiRef.current) {
+      return;
+    }
+
+    inputApiRef.current.reset();
+  }, [messageCompositionId]);
 
   const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
@@ -400,7 +409,7 @@ export function CompositionArea({
           voiceNoteAttachment: InMemoryAttachmentDraftType
         ) => {
           emojiButtonRef.current?.close();
-          onSendMessage({ voiceNoteAttachment });
+          sendMultiMediaMessage(conversationId, { voiceNoteAttachment });
         }}
         startRecording={startRecording}
       />
@@ -447,7 +456,9 @@ export function CompositionArea({
         recentStickers={recentStickers}
         clearInstalledStickerPack={clearInstalledStickerPack}
         onClickAddPack={onClickAddPack}
-        onPickSticker={onPickSticker}
+        onPickSticker={(packId, stickerId) =>
+          sendStickerMessage(conversationId, { packId, stickerId })
+        }
         clearShowIntroduction={clearShowIntroduction}
         showPickerHint={showPickerHint}
         clearShowPickerHint={clearShowPickerHint}
@@ -690,7 +701,7 @@ export function CompositionArea({
         >
           <CompositionInput
             clearQuotedMessage={clearQuotedMessage}
-            disabled={disabled}
+            disabled={isDisabled}
             draftBodyRanges={draftBodyRanges}
             draftText={draftText}
             getPreferredBadge={getPreferredBadge}
