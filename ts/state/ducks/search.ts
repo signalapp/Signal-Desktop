@@ -339,7 +339,10 @@ export function reducer(
   }
 
   if (action.type === 'SEARCH_CLEAR') {
-    return getEmptyState();
+    return {
+      ...getEmptyState(),
+      startSearchCounter: state.startSearchCounter,
+    };
   }
 
   if (action.type === 'SEARCH_UPDATE') {
