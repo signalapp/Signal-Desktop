@@ -42,7 +42,7 @@ export type PropsData = {
 export type PropsActions = {
   deleteMessage: (id: string) => void;
   deleteMessageForEveryone: (id: string) => void;
-  showForwardMessageModal: (id: string) => void;
+  toggleForwardMessageModal: (id: string) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -100,7 +100,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     retrySend,
     retryDeleteForEveryone,
     selectedReaction,
-    showForwardMessageModal,
+    toggleForwardMessageModal,
     showMessageDetail,
     text,
     timestamp,
@@ -335,7 +335,7 @@ export function TimelineMessage(props: Props): JSX.Element {
             ? () => retryDeleteForEveryone(id)
             : undefined
         }
-        onForward={canForward ? () => showForwardMessageModal(id) : undefined}
+        onForward={canForward ? () => toggleForwardMessageModal(id) : undefined}
         onDeleteForMe={() => deleteMessage(id)}
         onDeleteForEveryone={
           canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined

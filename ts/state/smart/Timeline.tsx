@@ -89,7 +89,6 @@ export type TimelinePropsType = ExternalProps &
     | 'showContactModal'
     | 'showExpiredIncomingTapToViewToast'
     | 'showExpiredOutgoingTapToViewToast'
-    | 'showForwardMessageModal'
     | 'showIdentity'
     | 'showMessageDetail'
     | 'showVisualAttachment'

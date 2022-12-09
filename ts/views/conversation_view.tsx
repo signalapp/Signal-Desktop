@@ -128,7 +128,6 @@ type MessageActionsType = {
   showSafetyNumber: (contactId: string) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
-  showForwardMessageModal: (messageId: string) => unknown;
   showIdentity: (conversationId: string) => unknown;
   showMessageDetail: (messageId: string) => unknown;
   showVisualAttachment: (options: {
@@ -559,8 +558,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showToast(ToastTapToViewExpiredOutgoing);
     };
 
-    const showForwardMessageModal = this.showForwardMessageModal.bind(this);
-
     return {
       deleteMessage,
       displayTapToViewMessage,
@@ -580,7 +577,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showSafetyNumber,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
-      showForwardMessageModal,
       showIdentity,
       showMessageDetail,
       showVisualAttachment,
@@ -746,10 +742,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     this.model.updateVerified();
-  }
-
-  async showForwardMessageModal(messageId: string): Promise<void> {
-    window.reduxActions.globalModals.toggleForwardMessageModal(messageId);
   }
 
   showAllMedia(): void {
@@ -1207,7 +1199,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       getConversation: getConversationSelector(window.reduxStore.getState()),
       media,
       onForward: messageId => {
-        this.showForwardMessageModal(messageId);
+        window.reduxActions.globalModals.toggleForwardMessageModal(messageId);
       },
       onSave,
       selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,

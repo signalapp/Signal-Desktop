@@ -303,7 +303,7 @@ const actions = () => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  showForwardMessageModal: action('showForwardMessageModal'),
+  toggleForwardMessageModal: action('toggleForwardMessageModal'),
 
   showIdentity: action('showIdentity'),
 

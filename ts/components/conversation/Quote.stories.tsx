@@ -138,7 +138,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  showForwardMessageModal: action('default--showForwardMessageModal'),
+  toggleForwardMessageModal: action('default--toggleForwardMessageModal'),
   showMessageDetail: action('default--showMessageDetail'),
   showVisualAttachment: action('default--showVisualAttachment'),
   startConversation: action('default--startConversation'),

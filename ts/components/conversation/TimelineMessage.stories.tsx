@@ -316,7 +316,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  showForwardMessageModal: action('showForwardMessageModal'),
+  toggleForwardMessageModal: action('toggleForwardMessageModal'),
   showMessageDetail: action('showMessageDetail'),
   showVisualAttachment: action('showVisualAttachment'),
   startConversation: action('startConversation'),

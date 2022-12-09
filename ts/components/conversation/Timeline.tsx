@@ -242,7 +242,7 @@ const getActions = createSelector(
       'replyToMessage',
       'retryDeleteForEveryone',
       'retrySend',
-      'showForwardMessageModal',
+      'toggleForwardMessageModal',
       'deleteMessage',
       'deleteMessageForEveryone',
       'showMessageDetail',

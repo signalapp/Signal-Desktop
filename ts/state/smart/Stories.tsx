@@ -75,9 +75,7 @@ export function SmartStories(): JSX.Element | null {
       i18n={i18n}
       me={me}
       myStories={myStories}
-      onForwardStory={storyId => {
-        toggleForwardMessageModal(storyId);
-      }}
+      onForwardStory={toggleForwardMessageModal}
       onSaveStory={story => {
         if (story.attachment) {
           saveAttachment(story.attachment, story.timestamp);
