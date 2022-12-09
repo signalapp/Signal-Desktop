@@ -24,6 +24,7 @@ export type OwnProps = Omit<
   | 'renderEmojiPicker'
   | 'renderReactionPicker'
   | 'theme'
+  | 'showContactModal'
   | 'markViewed'
 >;
 
@@ -45,7 +46,6 @@ const mapStateToProps = (
     openGiftBadge,
     openLink,
     showContactDetail,
-    showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
     showVisualAttachment,
@@ -84,7 +84,6 @@ const mapStateToProps = (
     openLink,
     renderAudioAttachment,
     showContactDetail,
-    showContactModal,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
     showVisualAttachment,

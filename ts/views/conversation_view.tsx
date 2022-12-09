@@ -124,7 +124,6 @@ type MessageActionsType = {
       uuid: UUIDStringType;
     };
   }) => unknown;
-  showContactModal: (contactId: string) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   showMessageDetail: (messageId: string) => unknown;
@@ -182,7 +181,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(this.model, 'show-contact-modal', this.showContactModal);
     this.listenTo(
       this.model,
       'toggle-reply',
@@ -474,9 +472,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
-    const showContactModal = (contactId: string) => {
-      this.showContactModal(contactId);
-    };
     const openConversation = (conversationId: string, messageId?: string) => {
       this.openConversation(conversationId, messageId);
     };
@@ -565,7 +560,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       retrySend,
       retryDeleteForEveryone,
       showContactDetail,
-      showContactModal,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showMessageDetail,
@@ -952,7 +946,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           maxShownMemberCount={32}
           memberships={memberships}
           showContactModal={contactId => {
-            this.showContactModal(contactId);
+            window.reduxActions.globalModals.showContactModal(
+              contactId,
+              this.model.id
+            );
           }}
           theme={theme}
         />
@@ -1264,10 +1261,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.showLightboxForMedia(selectedMedia, media);
   }
 
-  showContactModal(contactId: string): void {
-    window.reduxActions.globalModals.showContactModal(contactId, this.model.id);
-  }
-
   showGroupLinkManagement(): void {
     const view = new ReactWrapperView({
       className: 'panel',
@@ -1367,7 +1360,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       addMembers: this.model.addMembersV2.bind(this.model),
       conversationId: this.model.get('id'),
       showAllMedia: this.showAllMedia.bind(this),
-      showContactModal: this.showContactModal.bind(this),
       showChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),

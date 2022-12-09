@@ -87,7 +87,6 @@ export type PropsBackboneActions = Pick<
   | 'openLink'
   | 'renderAudioAttachment'
   | 'showContactDetail'
-  | 'showContactModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showVisualAttachment'
@@ -99,6 +98,7 @@ export type PropsReduxActions = Pick<
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
   | 'checkForAccount'
+  | 'showContactModal'
   | 'viewStory'
 > & {
   toggleSafetyNumberModal: (contactId: string) => void;
