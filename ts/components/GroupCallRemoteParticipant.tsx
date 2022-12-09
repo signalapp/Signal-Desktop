@@ -215,17 +215,15 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
     if (props.isInPip) {
       containerStyles = canvasStyles;
-      avatarSize = AvatarSize.FIFTY_TWO;
+      avatarSize = AvatarSize.FORTY_EIGHT;
     } else {
       const { width, height } = props;
       const shorterDimension = Math.min(width, height);
 
-      if (shorterDimension >= 240) {
-        avatarSize = AvatarSize.ONE_HUNDRED_TWELVE;
-      } else if (shorterDimension >= 180) {
+      if (shorterDimension >= 180) {
         avatarSize = AvatarSize.EIGHTY;
       } else {
-        avatarSize = AvatarSize.FIFTY_TWO;
+        avatarSize = AvatarSize.FORTY_EIGHT;
       }
 
       containerStyles = {

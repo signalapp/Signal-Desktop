@@ -5,7 +5,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import type { Props as AvatarProps } from './Avatar';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 import type { LocalizerType, ThemeType } from '../types/Util';
@@ -26,7 +26,7 @@ export type Props = {
   innerRef?: React.Ref<HTMLDivElement>;
   style: React.CSSProperties;
   name?: string;
-} & Omit<AvatarProps, 'onClick'>;
+} & Omit<AvatarProps, 'onClick' | 'size'>;
 
 export function AvatarPopup(props: Props): JSX.Element {
   const {
@@ -58,7 +58,7 @@ export function AvatarPopup(props: Props): JSX.Element {
         ref={focusRef}
         type="button"
       >
-        <Avatar {...props} size={52} />
+        <Avatar {...props} size={AvatarSize.FORTY_EIGHT} />
         <div className="module-avatar-popup__profile__text">
           <div className="module-avatar-popup__profile__name">
             <Emojify text={profileName || title} />

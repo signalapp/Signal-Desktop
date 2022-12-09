@@ -11,7 +11,7 @@ import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { Avatar } from '../../components/Avatar';
+import { Avatar, AvatarSize } from '../../components/Avatar';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { MemberRepository } from '../memberRepository';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
@@ -268,7 +268,7 @@ export class MentionCompletion {
                     i18n={this.options.i18n}
                     isMe={member.isMe}
                     sharedGroupNames={member.sharedGroupNames}
-                    size={28}
+                    size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}
                     unblurredAvatarPath={member.unblurredAvatarPath}

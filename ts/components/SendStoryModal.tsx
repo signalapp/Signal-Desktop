@@ -558,7 +558,7 @@ export function SendStoryModal({
                       i18n={i18n}
                       isMe={false}
                       sharedGroupNames={[]}
-                      size={AvatarSize.THIRTY_SIX}
+                      size={AvatarSize.THIRTY_TWO}
                       title={group.title}
                     />
 
@@ -708,7 +708,7 @@ export function SendStoryModal({
                     i18n={i18n}
                     isMe
                     sharedGroupNames={me.sharedGroupNames}
-                    size={AvatarSize.THIRTY_SIX}
+                    size={AvatarSize.THIRTY_TWO}
                     title={me.title}
                   />
                 ) : (
@@ -822,7 +822,7 @@ export function SendStoryModal({
                   i18n={i18n}
                   isMe={false}
                   sharedGroupNames={[]}
-                  size={AvatarSize.THIRTY_SIX}
+                  size={AvatarSize.THIRTY_TWO}
                   title={group.title}
                 />
 

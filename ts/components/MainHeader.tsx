@@ -6,7 +6,7 @@ import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 
 import { showSettings } from '../shims/Whisper';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
@@ -175,7 +175,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                   // `sharedGroupNames` makes no sense for yourself, but
                   // `<Avatar>` needs it to determine blurring.
                   sharedGroupNames={[]}
-                  size={28}
+                  size={AvatarSize.TWENTY_EIGHT}
                   innerRef={ref}
                   onClick={this.showAvatarPopup}
                 />
@@ -204,7 +204,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       theme={theme}
                       title={title}
                       avatarPath={avatarPath}
-                      size={28}
                       hasPendingUpdate={hasPendingUpdate}
                       startUpdate={startUpdate}
                       // See the comment above about `sharedGroupNames`.

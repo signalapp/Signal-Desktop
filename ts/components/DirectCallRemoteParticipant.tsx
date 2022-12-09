@@ -6,7 +6,7 @@ import type { SetRendererCanvasType } from '../state/ducks/calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 
 type PropsType = {
   conversation: ConversationType;
@@ -78,7 +78,7 @@ function renderAvatar(
         profileName={profileName}
         title={title}
         sharedGroupNames={sharedGroupNames}
-        size={112}
+        size={AvatarSize.EIGHTY}
       />
     </div>
   );

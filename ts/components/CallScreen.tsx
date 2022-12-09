@@ -13,7 +13,7 @@ import type {
   SetLocalVideoType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { CallingHeader } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
@@ -358,7 +358,7 @@ export function CallScreen({
               // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
               //   to determine blurring.
               sharedGroupNames={[]}
-              size={80}
+              size={AvatarSize.EIGHTY}
             />
             <div className="module-calling__camera-is-off">
               {i18n('calling__your-video-is-off')}
@@ -394,7 +394,7 @@ export function CallScreen({
           title={me.title}
           // See comment above about `sharedGroupNames`.
           sharedGroupNames={[]}
-          size={80}
+          size={AvatarSize.EIGHTY}
         />
       </CallBackgroundBlur>
     );

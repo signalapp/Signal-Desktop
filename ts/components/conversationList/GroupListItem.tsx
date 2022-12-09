@@ -54,7 +54,7 @@ export function GroupListItem({
       disabled={group.disabledReason !== undefined}
       conversationType="group"
       title={group.title}
-      avatarSize={AvatarSize.THIRTY_SIX}
+      avatarSize={AvatarSize.THIRTY_TWO}
       avatarPath={group.avatarPath}
       acceptedMessageRequest
       isMe={false}

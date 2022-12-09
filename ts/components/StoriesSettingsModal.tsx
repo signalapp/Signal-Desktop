@@ -164,7 +164,7 @@ function DistributionListItem({
             i18n={i18n}
             isMe
             sharedGroupNames={me.sharedGroupNames}
-            size={AvatarSize.THIRTY_SIX}
+            size={AvatarSize.THIRTY_TWO}
             title={me.title}
           />
         ) : (
@@ -218,7 +218,7 @@ function GroupStoryItem({
           i18n={i18n}
           isMe={false}
           sharedGroupNames={[]}
-          size={AvatarSize.THIRTY_SIX}
+          size={AvatarSize.THIRTY_TWO}
           title={groupStory.title}
         />
         <span className="StoriesSettingsModal__list__title">
@@ -676,7 +676,7 @@ export function DistributionListSettingsModal({
                   i18n={i18n}
                   isMe
                   sharedGroupNames={member.sharedGroupNames}
-                  size={AvatarSize.THIRTY_SIX}
+                  size={AvatarSize.THIRTY_TWO}
                   theme={ThemeType.dark}
                   title={member.title}
                 />
@@ -1077,7 +1077,7 @@ export function EditDistributionListModal({
                 i18n={i18n}
                 isMe
                 sharedGroupNames={contact.sharedGroupNames}
-                size={AvatarSize.THIRTY_SIX}
+                size={AvatarSize.THIRTY_TWO}
                 theme={ThemeType.dark}
                 title={contact.title}
               />
@@ -1260,7 +1260,7 @@ export function GroupStorySettingsModal({
           i18n={i18n}
           isMe={false}
           sharedGroupNames={[]}
-          size={AvatarSize.THIRTY_SIX}
+          size={AvatarSize.THIRTY_TWO}
           title={group.title}
         />
         <span className="GroupStorySettingsModal__title">{group.title}</span>
@@ -1287,7 +1287,7 @@ export function GroupStorySettingsModal({
               i18n={i18n}
               isMe={false}
               sharedGroupNames={[]}
-              size={AvatarSize.THIRTY_SIX}
+              size={AvatarSize.THIRTY_TWO}
               title={member.title}
             />
             <p className="GroupStorySettingsModal__members_item__name">

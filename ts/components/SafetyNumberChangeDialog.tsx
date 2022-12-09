@@ -5,7 +5,7 @@ import * as React from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import type { ActionSpec } from './ConfirmationDialog';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { InContactsIcon } from './InContactsIcon';
@@ -456,7 +456,7 @@ function ContactRow({
         theme={theme}
         title={contact.title}
         sharedGroupNames={contact.sharedGroupNames}
-        size={36}
+        size={AvatarSize.THIRTY_TWO}
         unblurredAvatarPath={contact.unblurredAvatarPath}
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">

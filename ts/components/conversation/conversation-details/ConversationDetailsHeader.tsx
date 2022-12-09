@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { Emojify } from '../Emojify';
@@ -89,7 +89,7 @@ export function ConversationDetailsHeader({
       badge={preferredBadge}
       conversationType={conversation.type}
       i18n={i18n}
-      size={80}
+      size={AvatarSize.EIGHTY}
       {...conversation}
       noteToSelf={isMe}
       onClick={() => {

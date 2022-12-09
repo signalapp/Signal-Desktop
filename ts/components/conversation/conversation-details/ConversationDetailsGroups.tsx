@@ -7,7 +7,7 @@ import type {
   ShowConversationType,
 } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
@@ -60,7 +60,7 @@ export function ConversationDetailsGroups({
               conversationType="group"
               badge={undefined}
               i18n={i18n}
-              size={32}
+              size={AvatarSize.THIRTY_TWO}
               {...group}
             />
           }

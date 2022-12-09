@@ -144,7 +144,7 @@ export function LeftPaneSearchInput({
             isMe={searchConversation.isMe}
             noteToSelf={searchConversation.isMe}
             sharedGroupNames={searchConversation.sharedGroupNames}
-            size={AvatarSize.SIXTEEN}
+            size={AvatarSize.TWENTY}
             title={searchConversation.title}
             unblurredAvatarPath={searchConversation.unblurredAvatarPath}
           />

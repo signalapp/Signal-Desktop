@@ -156,7 +156,7 @@ export class MessageDetail extends React.Component<Props> {
         theme={theme}
         title={title}
         sharedGroupNames={sharedGroupNames}
-        size={AvatarSize.THIRTY_SIX}
+        size={AvatarSize.THIRTY_TWO}
         unblurredAvatarPath={unblurredAvatarPath}
       />
     );

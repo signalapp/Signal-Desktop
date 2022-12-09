@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import type { Props as AvatarProps } from '../Avatar';
-import { Avatar, AvatarBlur } from '../Avatar';
+import { Avatar, AvatarSize, AvatarBlur } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
 import { GroupDescription } from './GroupDescription';
@@ -180,7 +180,7 @@ export function ConversationHero({
           onClick={avatarOnClick}
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
-          size={112}
+          size={AvatarSize.EIGHTY}
           // user may have stories, but we don't show that on Note to Self conversation
           storyRing={isMe ? undefined : hasStories}
           theme={theme}

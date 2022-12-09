@@ -14,9 +14,9 @@
     display: flex;
     flex-direction: row;
     left: 3px;
-    padding: 1px 3px 1px 4px;
+    padding: 0 3px 0 0;
     position: absolute;
-    top: 3px;
+    top: 5px;
 
     @include light-theme {
       background-color: $color-gray-25;

@@ -132,7 +132,7 @@ export function StoryDetailsModal({
                       phoneNumber={contact.phoneNumber}
                       profileName={contact.profileName}
                       sharedGroupNames={contact.sharedGroupNames}
-                      size={AvatarSize.THIRTY_SIX}
+                      size={AvatarSize.THIRTY_TWO}
                       theme={ThemeType.dark}
                       title={contact.title}
                       unblurredAvatarPath={contact.unblurredAvatarPath}
@@ -174,7 +174,7 @@ export function StoryDetailsModal({
               isMe={sender.isMe}
               profileName={sender.profileName}
               sharedGroupNames={sender.sharedGroupNames}
-              size={AvatarSize.THIRTY_SIX}
+              size={AvatarSize.THIRTY_TWO}
               theme={ThemeType.dark}
               title={sender.title}
             />

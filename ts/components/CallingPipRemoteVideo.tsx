@@ -4,7 +4,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { clamp, maxBy } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
@@ -61,7 +61,7 @@ function NoVideo({
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
-            size={52}
+            size={AvatarSize.FORTY_EIGHT}
             sharedGroupNames={sharedGroupNames}
           />
         </div>

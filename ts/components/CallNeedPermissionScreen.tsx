@@ -4,7 +4,7 @@
 import React, { useRef, useEffect } from 'react';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -57,7 +57,7 @@ export function CallNeedPermissionScreen({
         profileName={conversation.profileName}
         title={conversation.title}
         sharedGroupNames={conversation.sharedGroupNames}
-        size={112}
+        size={AvatarSize.EIGHTY}
       />
 
       <p className="module-call-need-permission-screen__text">

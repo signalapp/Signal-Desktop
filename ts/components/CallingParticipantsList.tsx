@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
 
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
 import type { LocalizerType } from '../types/Util';
@@ -119,7 +119,7 @@ export const CallingParticipantsList = React.memo(
                         profileName={participant.profileName}
                         title={participant.title}
                         sharedGroupNames={participant.sharedGroupNames}
-                        size={32}
+                        size={AvatarSize.THIRTY_TWO}
                       />
                       {ourUuid && participant.uuid === ourUuid ? (
                         <span className="module-calling-participants-list__name">

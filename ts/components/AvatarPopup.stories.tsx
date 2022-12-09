@@ -50,7 +50,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
   profileName: text('profileName', overrideProps.profileName || ''),
   sharedGroupNames: [],
-  size: 80,
   startUpdate: action('startUpdate'),
   style: {},
   theme: React.useContext(StorybookThemeContext),

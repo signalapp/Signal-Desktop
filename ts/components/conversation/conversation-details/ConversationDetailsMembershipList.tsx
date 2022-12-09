@@ -5,7 +5,7 @@ import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
@@ -115,7 +115,7 @@ export function ConversationDetailsMembershipList({
               conversationType="direct"
               badge={getPreferredBadge(member.badges)}
               i18n={i18n}
-              size={32}
+              size={AvatarSize.THIRTY_TWO}
               theme={theme}
               {...member}
             />

@@ -113,7 +113,7 @@ const Template: Story<Props> = args => (
 
 // eslint-disable-next-line react/function-component-definition
 const TemplateSingle: Story<Props> = args => (
-  <Avatar {...args} size={AvatarSize.ONE_HUNDRED_TWELVE} />
+  <Avatar {...args} size={AvatarSize.EIGHTY} />
 );
 
 export const Default = Template.bind({});

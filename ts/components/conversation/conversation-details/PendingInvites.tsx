@@ -9,7 +9,7 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import type { UUIDStringType } from '../../../types/UUID';
-import { Avatar } from '../../Avatar';
+import { Avatar, AvatarSize } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
@@ -361,7 +361,7 @@ function MembersPendingAdminApproval({
             <Avatar
               badge={getPreferredBadge(membership.member.badges)}
               conversationType="direct"
-              size={32}
+              size={AvatarSize.THIRTY_TWO}
               i18n={i18n}
               theme={theme}
               {...membership.member}
@@ -460,7 +460,7 @@ function MembersPendingProfileKey({
                 <Avatar
                   badge={getPreferredBadge(membership.member.badges)}
                   conversationType="direct"
-                  size={32}
+                  size={AvatarSize.THIRTY_TWO}
                   i18n={i18n}
                   theme={theme}
                   {...membership.member}
@@ -496,7 +496,7 @@ function MembersPendingProfileKey({
                 <Avatar
                   badge={getPreferredBadge(member.badges)}
                   conversationType="direct"
-                  size={32}
+                  size={AvatarSize.THIRTY_TWO}
                   i18n={i18n}
                   theme={theme}
                   {...member}

@@ -3,7 +3,7 @@
 
 import type { ReactChild } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Avatar } from './Avatar';
+import { Avatar, AvatarSize } from './Avatar';
 import { Tooltip } from './Tooltip';
 import { Intl } from './Intl';
 import { Theme } from '../util/theme';
@@ -260,7 +260,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
               profileName={profileName}
               title={title}
               sharedGroupNames={sharedGroupNames}
-              size={52}
+              size={AvatarSize.FORTY_EIGHT}
             />
           </div>
           <div className="IncomingCallBar__conversation--name">
