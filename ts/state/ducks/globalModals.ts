@@ -10,6 +10,7 @@ import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChan
 import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
 import * as SingleServePromise from '../../services/singleServePromise';
+import * as Stickers from '../../types/Stickers';
 import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -49,6 +50,7 @@ export type GlobalModalsStateType = Readonly<{
   profileEditorHasError: boolean;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
+  stickerPackPreviewId?: string;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
 
@@ -76,6 +78,8 @@ export const SHOW_SEND_ANYWAY_DIALOG = 'globalModals/SHOW_SEND_ANYWAY_DIALOG';
 const HIDE_SEND_ANYWAY_DIALOG = 'globalModals/HIDE_SEND_ANYWAY_DIALOG';
 const SHOW_GV2_MIGRATION_DIALOG = 'globalModals/SHOW_GV2_MIGRATION_DIALOG';
 const CLOSE_GV2_MIGRATION_DIALOG = 'globalModals/CLOSE_GV2_MIGRATION_DIALOG';
+const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
+const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
 
 export type ContactModalStateType = {
   contactId: string;
@@ -173,6 +177,15 @@ type HideSendAnywayDialogActiontype = {
   type: typeof HIDE_SEND_ANYWAY_DIALOG;
 };
 
+type ShowStickerPackPreviewActionType = {
+  type: typeof SHOW_STICKER_PACK_PREVIEW;
+  payload: string;
+};
+
+type CloseStickerPackPreviewActionType = {
+  type: typeof CLOSE_STICKER_PACK_PREVIEW;
+};
+
 export type GlobalModalsActionType =
   | StartMigrationToGV2ActionType
   | CloseGV2MigrationDialogActionType
@@ -186,6 +199,8 @@ export type GlobalModalsActionType =
   | ShowStoriesSettingsActionType
   | HideSendAnywayDialogActiontype
   | ShowSendAnywayDialogActionType
+  | CloseStickerPackPreviewActionType
+  | ShowStickerPackPreviewActionType
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -214,6 +229,8 @@ export const actions = {
   toggleSignalConnectionsModal,
   showGV2MigrationDialog,
   closeGV2MigrationDialog,
+  showStickerPackPreview,
+  closeStickerPackPreview,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -417,6 +434,40 @@ function hideBlockingSafetyNumberChangeDialog(): HideSendAnywayDialogActiontype 
   };
 }
 
+function closeStickerPackPreview(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CloseStickerPackPreviewActionType
+> {
+  return async (dispatch, getState) => {
+    const packId = getState().globalModals.stickerPackPreviewId;
+
+    if (!packId) {
+      return;
+    }
+
+    await Stickers.removeEphemeralPack(packId);
+    dispatch({
+      type: CLOSE_STICKER_PACK_PREVIEW,
+    });
+  };
+}
+
+function showStickerPackPreview(
+  packId: string,
+  packKey: string
+): ShowStickerPackPreviewActionType {
+  // Intentionally not awaiting this so that we can show the modal right away.
+  // The modal has a loading spinner on it.
+  Stickers.downloadEphemeralPack(packId, packKey);
+
+  return {
+    type: SHOW_STICKER_PACK_PREVIEW,
+    payload: packId,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
@@ -549,6 +600,20 @@ export function reducer(
     return {
       ...state,
       safetyNumberChangedBlockingData: undefined,
+    };
+  }
+
+  if (action.type === CLOSE_STICKER_PACK_PREVIEW) {
+    return {
+      ...state,
+      stickerPackPreviewId: undefined,
+    };
+  }
+
+  if (action.type === SHOW_STICKER_PACK_PREVIEW) {
+    return {
+      ...state,
+      stickerPackPreviewId: action.payload,
     };
   }
 

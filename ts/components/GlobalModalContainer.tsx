@@ -37,6 +37,9 @@ export type PropsType = {
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
+  // StickerPackPreviewModal
+  stickerPackPreviewId?: string;
+  renderStickerPreviewModal: () => JSX.Element | null;
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
   renderStoriesSettings: () => JSX.Element;
@@ -72,6 +75,9 @@ export function GlobalModalContainer({
   // SignalConnectionsModal
   isSignalConnectionsVisible,
   toggleSignalConnectionsModal,
+  // StickerPackPreviewModal
+  stickerPackPreviewId,
+  renderStickerPreviewModal,
   // StoriesSettings
   isStoriesSettingsVisible,
   renderStoriesSettings,
@@ -156,6 +162,10 @@ export function GlobalModalContainer({
 
   if (isStoriesSettingsVisible) {
     return renderStoriesSettings();
+  }
+
+  if (stickerPackPreviewId) {
+    return renderStickerPreviewModal();
   }
 
   return null;

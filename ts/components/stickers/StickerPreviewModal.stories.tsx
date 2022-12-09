@@ -64,7 +64,7 @@ export function Full(): JSX.Element {
 
   return (
     <StickerPreviewModal
-      onClose={action('onClose')}
+      closeStickerPackPreview={action('closeStickerPackPreview')}
       installStickerPack={action('installStickerPack')}
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
@@ -93,7 +93,7 @@ export function JustFourStickers(): JSX.Element {
 
   return (
     <StickerPreviewModal
-      onClose={action('onClose')}
+      closeStickerPackPreview={action('closeStickerPackPreview')}
       installStickerPack={action('installStickerPack')}
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
@@ -110,7 +110,7 @@ JustFourStickers.story = {
 export function InitialDownload(): JSX.Element {
   return (
     <StickerPreviewModal
-      onClose={action('onClose')}
+      closeStickerPackPreview={action('closeStickerPackPreview')}
       installStickerPack={action('installStickerPack')}
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}
@@ -128,7 +128,7 @@ InitialDownload.story = {
 export function PackDeleted(): JSX.Element {
   return (
     <StickerPreviewModal
-      onClose={action('onClose')}
+      closeStickerPackPreview={action('closeStickerPackPreview')}
       installStickerPack={action('installStickerPack')}
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}

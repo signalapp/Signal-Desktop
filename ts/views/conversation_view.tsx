@@ -11,7 +11,6 @@ import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
-import * as Stickers from '../types/Stickers';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageAttributesType } from '../model-types.d';
@@ -1108,29 +1107,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
 
-  showStickerPackPreview(packId: string, packKey: string): void {
-    Stickers.downloadEphemeralPack(packId, packKey);
-
-    const props = {
-      packId,
-      onClose: async () => {
-        if (this.stickerPreviewModalView) {
-          this.stickerPreviewModalView.remove();
-          this.stickerPreviewModalView = undefined;
-        }
-        await Stickers.removeEphemeralPack(packId);
-      },
-    };
-
-    this.stickerPreviewModalView = new ReactWrapperView({
-      className: 'sticker-preview-modal-wrapper',
-      JSX: window.Signal.State.Roots.createStickerPreviewModal(
-        window.reduxStore,
-        props
-      ),
-    });
-  }
-
   showLightboxForMedia(
     selectedMediaItem: MediaItemType,
     media: Array<MediaItemType> = []
@@ -1195,7 +1171,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const sticker = message.get('sticker');
     if (sticker) {
       const { packId, packKey } = sticker;
-      this.showStickerPackPreview(packId, packKey);
+      window.reduxActions.globalModals.showStickerPackPreview(packId, packKey);
       return;
     }
 

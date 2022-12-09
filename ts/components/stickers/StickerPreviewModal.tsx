@@ -13,7 +13,7 @@ import { Spinner } from '../Spinner';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 export type OwnProps = {
-  readonly onClose: () => unknown;
+  readonly closeStickerPackPreview: () => unknown;
   readonly downloadStickerPack: (
     packId: string,
     packKey: string,
@@ -76,7 +76,7 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
   props: Props
 ) {
   const {
-    onClose,
+    closeStickerPackPreview,
     pack,
     i18n,
     downloadStickerPack,
@@ -119,9 +119,9 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
 
   React.useEffect(() => {
     if (!pack) {
-      onClose();
+      closeStickerPackPreview();
     }
-  }, [pack, onClose]);
+  }, [pack, closeStickerPackPreview]);
 
   const isInstalled = Boolean(pack && pack.status === 'installed');
   const handleToggleInstall = React.useCallback(() => {
@@ -132,16 +132,16 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
       setConfirmingUninstall(true);
     } else if (pack.status === 'ephemeral') {
       downloadStickerPack(pack.id, pack.key, { finalStatus: 'installed' });
-      onClose();
+      closeStickerPackPreview();
     } else {
       installStickerPack(pack.id, pack.key);
-      onClose();
+      closeStickerPackPreview();
     }
   }, [
     downloadStickerPack,
     installStickerPack,
     isInstalled,
-    onClose,
+    closeStickerPackPreview,
     pack,
     setConfirmingUninstall,
   ]);
@@ -152,13 +152,13 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
     }
     uninstallStickerPack(pack.id, pack.key);
     setConfirmingUninstall(false);
-    // onClose is called by <ConfirmationDialog />
+    // closeStickerPackPreview is called by <ConfirmationDialog />'s onClose
   }, [uninstallStickerPack, setConfirmingUninstall, pack]);
 
   React.useEffect(() => {
     const handler = ({ key }: KeyboardEvent) => {
       if (key === 'Escape') {
-        onClose();
+        closeStickerPackPreview();
       }
     };
 
@@ -167,15 +167,15 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
     return () => {
       document.removeEventListener('keydown', handler);
     };
-  }, [onClose]);
+  }, [closeStickerPackPreview]);
 
   const handleClickToClose = React.useCallback(
     (e: React.MouseEvent) => {
       if (e.target === e.currentTarget) {
-        onClose();
+        closeStickerPackPreview();
       }
     },
-    [onClose]
+    [closeStickerPackPreview]
   );
 
   return root
@@ -192,7 +192,7 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
             <ConfirmationDialog
               dialogName="StickerPreviewModal.confirmUninstall"
               i18n={i18n}
-              onClose={onClose}
+              onClose={closeStickerPackPreview}
               actions={[
                 {
                   style: 'negative',
@@ -211,7 +211,7 @@ export const StickerPreviewModal = React.memo(function StickerPreviewModalInner(
                 </h2>
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={closeStickerPackPreview}
                   className="module-sticker-manager__preview-modal__container__header__close-button"
                   aria-label={i18n('close')}
                 />

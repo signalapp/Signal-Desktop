@@ -35,7 +35,6 @@ import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions
 import { createPendingInvites } from './state/roots/createPendingInvites';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import { createStickerManager } from './state/roots/createStickerManager';
-import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 
 import { createStore } from './state/createStore';
@@ -417,7 +416,6 @@ export const setup = (options: {
     createSafetyNumberViewer,
     createShortcutGuideModal,
     createStickerManager,
-    createStickerPreviewModal,
   };
 
   const Ducks = {

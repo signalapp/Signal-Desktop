@@ -15,7 +15,6 @@ import {
 
 export type ExternalProps = {
   packId: string;
-  readonly onClose: () => unknown;
 };
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {

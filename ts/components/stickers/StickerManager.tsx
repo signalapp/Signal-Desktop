@@ -68,7 +68,7 @@ export const StickerManager = React.memo(function StickerManagerInner({
         <StickerPreviewModal
           i18n={i18n}
           pack={packToPreview}
-          onClose={clearPackToPreview}
+          closeStickerPackPreview={clearPackToPreview}
           downloadStickerPack={downloadStickerPack}
           installStickerPack={installStickerPack}
           uninstallStickerPack={uninstallStickerPack}

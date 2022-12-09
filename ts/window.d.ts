@@ -48,7 +48,6 @@ import type { createPendingInvites } from './state/roots/createPendingInvites';
 import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import type { createStickerManager } from './state/roots/createStickerManager';
-import type { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
 import type * as appDuck from './state/ducks/app';
 import type * as callingDuck from './state/ducks/calling';
 import type * as conversationsDuck from './state/ducks/conversations';
@@ -179,7 +178,6 @@ export type SignalCoreType = {
       createSafetyNumberViewer: typeof createSafetyNumberViewer;
       createShortcutGuideModal: typeof createShortcutGuideModal;
       createStickerManager: typeof createStickerManager;
-      createStickerPreviewModal: typeof createStickerPreviewModal;
     };
     Ducks: {
       app: typeof appDuck;

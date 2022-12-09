@@ -16,6 +16,7 @@ import { mapDispatchToProps } from '../actions';
 
 import { getIntl, getTheme } from '../selectors/user';
 import { SmartAddUserToAnotherGroupModal } from './AddUserToAnotherGroupModal';
+import { SmartStickerPreviewModal } from './StickerPreviewModal';
 
 function renderProfileEditor(): JSX.Element {
   return <SmartProfileEditorModal />;
@@ -40,6 +41,8 @@ function renderSendAnywayDialog(): JSX.Element {
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
+  const { stickerPackPreviewId } = state.globalModals;
+
   return {
     ...state.globalModals,
     hasSafetyNumberChangeModal: getConversationsStoppingSend(state).length > 0,
@@ -49,6 +52,10 @@ const mapStateToProps = (state: StateType) => {
     renderForwardMessageModal,
     renderProfileEditor,
     renderStoriesSettings,
+    renderStickerPreviewModal: () =>
+      stickerPackPreviewId ? (
+        <SmartStickerPreviewModal packId={stickerPackPreviewId} />
+      ) : null,
     renderSafetyNumber: () => (
       <SmartSafetyNumberModal
         contactID={String(state.globalModals.safetyNumberModalContactId)}

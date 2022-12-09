@@ -441,59 +441,12 @@ export function createIPCEvents(
         log.warn('showStickerPack: Not registered, returning early');
         return;
       }
-      if (window.isShowingModal) {
-        log.warn('showStickerPack: Already showing modal, returning early');
-        return;
-      }
-      try {
-        window.isShowingModal = true;
-
-        // Kick off the download
-        Stickers.downloadEphemeralPack(packId, key);
-
-        const props = {
-          packId,
-          onClose: async () => {
-            window.isShowingModal = false;
-            stickerPreviewModalView.remove();
-            await Stickers.removeEphemeralPack(packId);
-          },
-        };
-
-        const stickerPreviewModalView = new ReactWrapperView({
-          className: 'sticker-preview-modal-wrapper',
-          JSX: window.Signal.State.Roots.createStickerPreviewModal(
-            window.reduxStore,
-            props
-          ),
-        });
-      } catch (error) {
-        window.isShowingModal = false;
-        log.error(
-          'showStickerPack: Ran into an error!',
-          Errors.toLogFormat(error)
-        );
-        const errorView = new ReactWrapperView({
-          className: 'error-modal-wrapper',
-          JSX: (
-            <ErrorModal
-              i18n={window.i18n}
-              onClose={() => {
-                errorView.remove();
-              }}
-            />
-          ),
-        });
-      }
+      window.reduxActions.globalModals.showStickerPackPreview(packId, key);
     },
     showGroupViaLink: async hash => {
       // We can get these events even if the user has never linked this instance.
       if (!window.Signal.Util.Registration.everDone()) {
         log.warn('showGroupViaLink: Not registered, returning early');
-        return;
-      }
-      if (window.isShowingModal) {
-        log.warn('showGroupViaLink: Already showing modal, returning early');
         return;
       }
       try {
@@ -517,7 +470,6 @@ export function createIPCEvents(
           ),
         });
       }
-      window.isShowingModal = false;
     },
     async showConversationViaSignalDotMe(hash: string) {
       if (!window.Signal.Util.Registration.everDone()) {
@@ -559,13 +511,7 @@ export function createIPCEvents(
       }
 
       log.info('showConversationViaSignalDotMe: invalid E164');
-      if (window.isShowingModal) {
-        log.info(
-          'showConversationViaSignalDotMe: a modal is already showing. Doing nothing'
-        );
-      } else {
-        showUnknownSgnlLinkModal();
-      }
+      showUnknownSgnlLinkModal();
     },
 
     unknownSignalLink: () => {
