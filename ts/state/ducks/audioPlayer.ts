@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { Sound } from '../../util/Sound';
 import * as Errors from '../../types/errors';
@@ -106,7 +107,8 @@ export const actions = {
   setIsPlaying,
 };
 
-export const useActions = (): typeof actions => useBoundActions(actions);
+export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
+  useBoundActions(actions);
 
 function setCurrentTime(value: number): CurrentTimeUpdated {
   globalMessageAudio.currentTime = value;

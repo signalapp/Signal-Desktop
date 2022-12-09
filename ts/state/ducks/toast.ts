@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ReplacementValuesType } from '../../types/Util';
 
@@ -94,7 +95,9 @@ export const actions = {
   showToast,
 };
 
-export const useToastActions = (): typeof actions => useBoundActions(actions);
+export const useToastActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 // Reducer
 

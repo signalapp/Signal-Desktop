@@ -12,6 +12,7 @@ import type { UUIDStringType } from '../../types/UUID';
 import * as SingleServePromise from '../../services/singleServePromise';
 import { getMessageById } from '../../messages/getMessageById';
 import { getMessagePropsSelector } from '../selectors/message';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isGroupV1 } from '../../util/whatTypeOfConversation';
@@ -215,8 +216,9 @@ export const actions = {
   closeGV2MigrationDialog,
 };
 
-export const useGlobalModalActions = (): typeof actions =>
-  useBoundActions(actions);
+export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function hideContactModal(): HideContactModalActionType {
   return {

@@ -51,6 +51,7 @@ import { isGroup } from '../../util/whatTypeOfConversation';
 import { isNotNil } from '../../util/isNotNil';
 import { isStory } from '../../messages/helpers';
 import { sendStoryMessage as doSendStoryMessage } from '../../util/sendStoryMessage';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/verifyStoryListMembers';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
@@ -1317,7 +1318,9 @@ export const actions = {
   setStorySending,
 };
 
-export const useStoriesActions = (): typeof actions => useBoundActions(actions);
+export const useStoriesActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 // Reducer
 

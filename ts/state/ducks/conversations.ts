@@ -83,6 +83,7 @@ import {
   SelectedMessageSource,
 } from './conversationsEnums';
 import { markViewed as messageUpdaterMarkViewed } from '../../services/MessageUpdater';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
@@ -935,8 +936,9 @@ export const actions = {
   verifyConversationsStoppingSend,
 };
 
-export const useConversationsActions = (): typeof actions =>
-  useBoundActions(actions);
+export const useConversationsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function filterAvatarData(
   avatars: ReadonlyArray<AvatarDataType>,
@@ -2621,7 +2623,7 @@ function addMemberToGroup(
 
 function toggleGroupsForStorySend(
   conversationIds: Array<string>
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): ThunkAction<Promise<void>, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     await Promise.all(
       conversationIds.map(async conversationId => {
