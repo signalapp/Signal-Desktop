@@ -305,7 +305,7 @@ const actions = () => ({
   ),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
 
-  showIdentity: action('showIdentity'),
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
   downloadNewVersion: action('downloadNewVersion'),
 

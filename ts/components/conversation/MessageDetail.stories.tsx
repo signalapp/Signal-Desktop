@@ -69,7 +69,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   interactionMode: 'keyboard',
   theme: ThemeType.light,
 
-  showSafetyNumber: action('showSafetyNumber'),
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),

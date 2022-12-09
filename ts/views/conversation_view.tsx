@@ -21,7 +21,7 @@ import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
-import { isDirectConversation, isGroup } from '../util/whatTypeOfConversation';
+import { isGroup } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
@@ -125,10 +125,8 @@ type MessageActionsType = {
     };
   }) => unknown;
   showContactModal: (contactId: string) => unknown;
-  showSafetyNumber: (contactId: string) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
-  showIdentity: (conversationId: string) => unknown;
   showMessageDetail: (messageId: string) => unknown;
   showVisualAttachment: (options: {
     attachment: AttachmentType;
@@ -528,9 +526,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
     const displayTapToViewMessage = (messageId: string) =>
       this.displayTapToViewMessage(messageId);
-    const showIdentity = (conversationId: string) => {
-      this.showSafetyNumber(conversationId);
-    };
     const openGiftBadge = (messageId: string): void => {
       const message = window.MessageController.getById(messageId);
       if (!message) {
@@ -545,9 +540,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const openLink = openLinkInWebBrowser;
     const downloadNewVersion = () => {
       openLinkInWebBrowser('https://signal.org/download');
-    };
-    const showSafetyNumber = (contactId: string) => {
-      this.showSafetyNumber(contactId);
     };
     const showExpiredIncomingTapToViewToast = () => {
       log.info('Showing expired tap-to-view toast for an incoming message');
@@ -574,10 +566,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       retryDeleteForEveryone,
       showContactDetail,
       showContactModal,
-      showSafetyNumber,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
-      showIdentity,
       showMessageDetail,
       showVisualAttachment,
       startConversation,
@@ -971,21 +961,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.addPanel({ view });
     view.render();
-  }
-
-  showSafetyNumber(id?: string): void {
-    let conversation: undefined | ConversationModel;
-
-    if (!id && isDirectConversation(this.model.attributes)) {
-      conversation = this.model;
-    } else {
-      conversation = window.ConversationController.get(id);
-    }
-    if (conversation) {
-      window.reduxActions.globalModals.toggleSafetyNumberModal(
-        conversation.get('id')
-      );
-    }
   }
 
   downloadAttachmentWrapper(

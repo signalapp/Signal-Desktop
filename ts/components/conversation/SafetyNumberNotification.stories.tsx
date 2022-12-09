@@ -21,7 +21,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   contact: overrideProps.contact || ({} as ContactType),
   isGroup: boolean('isGroup', overrideProps.isGroup || false),
-  showIdentity: action('showIdentity'),
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 });
 
 export default {

@@ -24,7 +24,7 @@ type PropsHousekeeping = {
 };
 
 export type PropsActions = {
-  showIdentity: (id: string) => void;
+  toggleSafetyNumberModal: (id: string) => void;
 };
 
 export type Props = PropsData & PropsHousekeeping & PropsActions;
@@ -33,7 +33,7 @@ export function SafetyNumberNotification({
   contact,
   isGroup,
   i18n,
-  showIdentity,
+  toggleSafetyNumberModal,
 }: Props): JSX.Element {
   const changeKey = isGroup
     ? 'safetyNumberChangedGroup'
@@ -62,7 +62,7 @@ export function SafetyNumberNotification({
       button={
         <Button
           onClick={() => {
-            showIdentity(contact.id);
+            toggleSafetyNumberModal(contact.id);
           }}
           size={ButtonSize.Small}
           variant={ButtonVariant.SystemMessage}

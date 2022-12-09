@@ -262,7 +262,7 @@ const getActions = createSelector(
       'showExpiredOutgoingTapToViewToast',
       'startConversation',
 
-      'showIdentity',
+      'toggleSafetyNumberModal',
 
       'downloadNewVersion',
 

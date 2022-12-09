@@ -96,7 +96,7 @@ const getDefaultProps = () => ({
   openLink: action('openLink'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   downloadNewVersion: action('downloadNewVersion'),
-  showIdentity: action('showIdentity'),
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),

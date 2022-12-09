@@ -65,7 +65,6 @@ export type PropsData = {
   receivedAt: number;
   sentAt: number;
 
-  showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -101,7 +100,9 @@ export type PropsReduxActions = Pick<
   | 'doubleCheckMissingQuoteReference'
   | 'checkForAccount'
   | 'viewStory'
->;
+> & {
+  toggleSafetyNumberModal: (contactId: string) => void;
+};
 
 export type ExternalProps = PropsData & PropsBackboneActions;
 export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
@@ -162,7 +163,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact): JSX.Element {
-    const { i18n, showSafetyNumber } = this.props;
+    const { i18n, toggleSafetyNumberModal } = this.props;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -170,7 +171,7 @@ export class MessageDetail extends React.Component<Props> {
         <button
           type="button"
           className="module-message-detail__contact__show-safety-number"
-          onClick={() => showSafetyNumber(contact.id)}
+          onClick={() => toggleSafetyNumberModal(contact.id)}
         >
           {i18n('showSafetyNumber')}
         </button>

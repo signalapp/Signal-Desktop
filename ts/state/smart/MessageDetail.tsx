@@ -38,8 +38,6 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
-    showSafetyNumber,
-
     displayTapToViewMessage,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
@@ -76,8 +74,6 @@ const mapStateToProps = (
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),
-
-    showSafetyNumber,
 
     displayTapToViewMessage,
     kickOffAttachmentDownload,
