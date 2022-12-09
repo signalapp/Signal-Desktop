@@ -1631,7 +1631,16 @@ export async function startApp(): Promise<void> {
       ) {
         const { selectedMessage } = state.conversations;
 
-        conversation.trigger('toggle-reply', selectedMessage);
+        const composerState = window.reduxStore
+          ? window.reduxStore.getState().composer
+          : undefined;
+        const quote = composerState?.quotedMessage?.quote;
+
+        window.reduxActions.composer.setQuoteByMessageId(
+          conversation.id,
+          quote ? undefined : selectedMessage
+        );
+
         event.preventDefault();
         event.stopPropagation();
         return;

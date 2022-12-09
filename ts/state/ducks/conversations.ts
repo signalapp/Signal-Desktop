@@ -70,6 +70,7 @@ import {
   getConversationUuidsStoppingSend,
   getConversationIdsStoppedForVerification,
   getMe,
+  getMessagesByConversation,
 } from '../selectors/conversations';
 import type { AvatarDataType, AvatarUpdateType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
@@ -113,6 +114,7 @@ import {
   buildPromotePendingAdminApprovalMemberChange,
   initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
 } from '../../groups';
+import { getMessageById } from '../../messages/getMessageById';
 
 // State
 
@@ -2480,16 +2482,55 @@ function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
 function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionType {
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
 }
+
 function scrollToMessage(
   conversationId: string,
   messageId: string
-): ScrollToMessageActionType {
-  return {
-    type: 'SCROLL_TO_MESSAGE',
-    payload: {
-      conversationId,
-      messageId,
-    },
+): ThunkAction<void, RootStateType, unknown, ScrollToMessageActionType> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('scrollToMessage: No conversation found');
+    }
+
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`scrollToMessage: failed to load message ${messageId}`);
+    }
+    if (message.get('conversationId') !== conversationId) {
+      throw new Error(
+        `scrollToMessage: ${messageId} didn't have conversationId ${conversationId}`
+      );
+    }
+
+    const state = getState();
+
+    let isInMemory = true;
+
+    if (!window.MessageController.getById(messageId)) {
+      isInMemory = false;
+    }
+
+    // Message might be in memory, but not in the redux anymore because
+    // we call `messageReset()` in `loadAndScroll()`.
+    const messagesByConversation =
+      getMessagesByConversation(state)[conversationId];
+    if (!messagesByConversation?.messageIds.includes(messageId)) {
+      isInMemory = false;
+    }
+
+    if (isInMemory) {
+      dispatch({
+        type: 'SCROLL_TO_MESSAGE',
+        payload: {
+          conversationId,
+          messageId,
+        },
+      });
+      return;
+    }
+
+    conversation.loadAndScroll(messageId);
   };
 }
 

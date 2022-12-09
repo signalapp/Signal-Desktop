@@ -97,7 +97,6 @@ export type OwnProps = Readonly<{
   linkPreviewResult?: LinkPreviewType;
   messageRequestsEnabled?: boolean;
   onClearAttachments(): unknown;
-  onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
   processAttachments: (options: {
     conversationId: string;
@@ -119,13 +118,18 @@ export type OwnProps = Readonly<{
     }
   ): unknown;
   openConversation(conversationId: string): unknown;
+  quotedMessageId?: string;
   quotedMessageProps?: Omit<
     QuoteProps,
     'i18n' | 'onClick' | 'onClose' | 'withContentAbove'
   >;
   removeAttachment: (conversationId: string, filePath: string) => unknown;
+  scrollToMessage: (conversationId: string, messageId: string) => unknown;
   setComposerFocus: (conversationId: string) => unknown;
-  setQuotedMessage(message: undefined): unknown;
+  setQuoteByMessageId(
+    conversationId: string,
+    messageId: string | undefined
+  ): unknown;
   shouldSendHighQualityAttachments: boolean;
   startRecording: () => unknown;
   theme: ThemeType;
@@ -179,6 +183,7 @@ export function CompositionArea({
   removeAttachment,
   sendMultiMediaMessage,
   setComposerFocus,
+  setQuoteByMessageId,
   theme,
 
   // AttachmentList
@@ -196,9 +201,9 @@ export function CompositionArea({
   linkPreviewResult,
   onCloseLinkPreview,
   // Quote
+  quotedMessageId,
   quotedMessageProps,
-  onClickQuotedMessage,
-  setQuotedMessage,
+  scrollToMessage,
   // MediaQualitySelector
   onSelectMediaQuality,
   shouldSendHighQualityAttachments,
@@ -639,18 +644,15 @@ export function CompositionArea({
           'CompositionArea__row--column'
         )}
       >
-        {quotedMessageProps && (
+        {quotedMessageId && quotedMessageProps && (
           <div className="quote-wrapper">
             <Quote
               isCompose
               {...quotedMessageProps}
               i18n={i18n}
-              onClick={onClickQuotedMessage}
+              onClick={() => scrollToMessage(conversationId, quotedMessageId)}
               onClose={() => {
-                // This one is for redux...
-                setQuotedMessage(undefined);
-                // and this is for conversation_view.
-                clearQuotedMessage?.();
+                setQuoteByMessageId(conversationId, undefined);
               }}
             />
           </div>

@@ -21,18 +21,13 @@ import { strictAssert } from '../util/assert';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { findAndFormatContact } from '../util/findAndFormatContact';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import {
-  canReply,
   isIncoming,
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
-import {
-  getConversationSelector,
-  getMessagesByConversation,
-} from '../state/selectors/conversations';
+import { getConversationSelector } from '../state/selectors/conversations';
 import { getActiveCallState } from '../state/selectors/calling';
 import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
@@ -113,7 +108,6 @@ type MessageActionsType = {
     messageId: string,
     reaction: { emoji: string; remove: boolean }
   ) => unknown;
-  replyToMessage: (messageId: string) => unknown;
   retrySend: (messageId: string) => unknown;
   retryDeleteForEveryone: (messageId: string) => unknown;
   showContactDetail: (options: {
@@ -171,7 +165,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // These are triggered by InboxView
     this.listenTo(this.model, 'opened', this.onOpened);
-    this.listenTo(this.model, 'scroll-to-message', this.scrollToMessage);
     this.listenTo(this.model, 'unload', (reason: string) =>
       this.unload(`model trigger - ${reason}`)
     );
@@ -180,18 +173,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(
-      this.model,
-      'toggle-reply',
-      (messageId: string | undefined) => {
-        const composerState = window.reduxStore
-          ? window.reduxStore.getState().composer
-          : undefined;
-        const quote = composerState?.quotedMessage?.quote;
-
-        this.setQuoteMessage(quote ? undefined : messageId);
-      }
-    );
     this.listenTo(
       this.model,
       'save-attachment',
@@ -332,7 +313,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         return;
       }
 
-      this.scrollToMessage(message.id);
+      window.reduxActions.conversations.scrollToMessage(
+        conversationId,
+        message.id
+      );
     };
 
     const markMessageRead = async (messageId: string) => {
@@ -396,8 +380,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       id: this.model.id,
       onClickAddPack: () => this.showStickerManager(),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
-      getQuotedMessage: () => this.model.get('quotedMessageId'),
-      clearQuotedMessage: () => this.setQuoteMessage(undefined),
       onCancelJoinRequest: async () => {
         await window.showConfirmationDialog({
           dialogName: 'GroupV2CancelRequestToJoin',
@@ -420,8 +402,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
       },
-
-      handleClickQuotedMessage: (id: string) => this.scrollToMessage(id),
 
       onCloseLinkPreview: () => {
         suspendLinkPreviews();
@@ -460,9 +440,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         log.error('Error sending reaction', error, messageId, reaction);
         showToast(ToastReactionFailed);
       }
-    };
-    const replyToMessage = (messageId: string) => {
-      this.setQuoteMessage(messageId);
     };
     const retrySend = retryMessageSend;
     const deleteMessage = (messageId: string) => {
@@ -555,7 +532,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       openGiftBadge,
       openLink,
       reactToMessage,
-      replyToMessage,
       retrySend,
       retryDeleteForEveryone,
       showContactDetail,
@@ -565,37 +541,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showVisualAttachment,
       startConversation,
     };
-  }
-
-  async scrollToMessage(messageId: string): Promise<void> {
-    const message = await getMessageById(messageId);
-    if (!message) {
-      throw new Error(`scrollToMessage: failed to load message ${messageId}`);
-    }
-
-    const state = window.reduxStore.getState();
-
-    let isInMemory = true;
-
-    if (!window.MessageController.getById(messageId)) {
-      isInMemory = false;
-    }
-
-    // Message might be in memory, but not in the redux anymore because
-    // we call `messageReset()` in `loadAndScroll()`.
-    const messagesByConversation =
-      getMessagesByConversation(state)[this.model.id];
-    if (!messagesByConversation?.messageIds.includes(messageId)) {
-      isInMemory = false;
-    }
-
-    if (isInMemory) {
-      const { scrollToMessage } = window.reduxActions.conversations;
-      scrollToMessage(this.model.id, messageId);
-      return;
-    }
-
-    this.model.loadAndScroll(messageId);
   }
 
   unload(reason: string): void {
@@ -697,7 +642,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const quotedMessageId = this.model.get('quotedMessageId');
     if (quotedMessageId) {
-      this.setQuoteMessage(quotedMessageId);
+      window.reduxActions.composer.setQuoteByMessageId(
+        this.model.id,
+        quotedMessageId
+      );
     }
 
     this.model.fetchLatestGroupV2Data();
@@ -1530,60 +1478,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       this.panels[0]?.headerTitle
     );
-  }
-
-  async setQuoteMessage(messageId: string | undefined): Promise<void> {
-    const { model } = this;
-    const message = messageId ? await getMessageById(messageId) : undefined;
-
-    if (
-      message &&
-      !canReply(
-        message.attributes,
-        window.ConversationController.getOurConversationIdOrThrow(),
-        findAndFormatContact
-      )
-    ) {
-      return;
-    }
-
-    if (message && !message.isNormalBubble()) {
-      return;
-    }
-
-    const existing = model.get('quotedMessageId');
-    if (existing !== messageId) {
-      const now = Date.now();
-      let active_at = this.model.get('active_at');
-      let timestamp = this.model.get('timestamp');
-
-      if (!active_at && messageId) {
-        active_at = now;
-        timestamp = now;
-      }
-
-      this.model.set({
-        active_at,
-        draftChanged: true,
-        quotedMessageId: messageId,
-        timestamp,
-      });
-
-      await this.saveModel();
-    }
-
-    if (message) {
-      const quote = await model.makeQuote(message);
-      window.reduxActions.composer.setQuotedMessage({
-        conversationId: model.id,
-        quote,
-      });
-
-      window.reduxActions.composer.setComposerFocus(this.model.id);
-      window.reduxActions.composer.setComposerDisabledState(false);
-    } else {
-      window.reduxActions.composer.setQuotedMessage(undefined);
-    }
   }
 
   async clearAttachments(): Promise<void> {

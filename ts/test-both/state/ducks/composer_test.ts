@@ -15,6 +15,7 @@ import { fakeDraftAttachment } from '../../helpers/fakeAttachment';
 describe('both/state/ducks/composer', () => {
   const QUOTED_MESSAGE = {
     conversationId: '123',
+    id: 'quoted-message-id',
     quote: {
       attachments: [],
       id: 456,

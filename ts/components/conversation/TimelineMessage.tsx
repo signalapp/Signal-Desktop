@@ -49,8 +49,7 @@ export type PropsActions = {
   ) => void;
   retrySend: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
-
-  replyToMessage: (id: string) => void;
+  setQuoteByMessageId: (conversationId: string, messageId: string) => void;
 } & MessagePropsActions;
 
 export type Props = PropsData &
@@ -83,6 +82,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canRetryDeleteForEveryone,
     contact,
     payment,
+    conversationId,
     containerElementRef,
     containerWidthBreakpoint,
     deletedForEveryone,
@@ -94,7 +94,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     isSticker,
     isTapToView,
     reactToMessage,
-    replyToMessage,
+    setQuoteByMessageId,
     renderReactionPicker,
     renderEmojiPicker,
     retrySend,
@@ -234,7 +234,9 @@ export function TimelineMessage(props: Props): JSX.Element {
       ? openGenericAttachment
       : undefined;
 
-  const handleReplyToMessage = canReply ? () => replyToMessage(id) : undefined;
+  const handleReplyToMessage = canReply
+    ? () => setQuoteByMessageId(conversationId, id)
+    : undefined;
 
   const handleReact = canReact ? () => toggleReactionPicker() : undefined;
 

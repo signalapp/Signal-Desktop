@@ -43,6 +43,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   removeAttachment: action('removeAttachment'),
   theme: React.useContext(StorybookThemeContext),
   setComposerFocus: action('setComposerFocus'),
+  setQuoteByMessageId: action('setQuoteByMessageId'),
 
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],
@@ -63,8 +64,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   onCloseLinkPreview: action('onCloseLinkPreview'),
   // Quote
   quotedMessageProps: overrideProps.quotedMessageProps,
-  onClickQuotedMessage: action('onClickQuotedMessage'),
-  setQuotedMessage: action('setQuotedMessage'),
+  scrollToMessage: action('scrollToMessage'),
   // MediaEditor
   imageToBlurHash: async () => 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
   // MediaQualitySelector

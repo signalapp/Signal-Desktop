@@ -61,6 +61,9 @@ import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftDat
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk';
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
+import { getMessageById } from '../../messages/getMessageById';
+import { canReply } from '../selectors/message';
+import { getConversationSelector } from '../selectors/conversations';
 
 // State
 
@@ -143,6 +146,7 @@ export const actions = {
   sendStickerMessage,
   setComposerDisabledState,
   setComposerFocus,
+  setQuoteByMessageId,
   setMediaQualitySetting,
   setQuotedMessage,
 };
@@ -267,7 +271,11 @@ function sendMultiMediaMessage(
             conversation.setMarkedUnread(false);
             resetLinkPreview();
             clearConversationDraftAttachments(conversationId, draftAttachments);
-            dispatch(setQuotedMessage(undefined));
+            setQuoteByMessageId(conversationId, undefined)(
+              dispatch,
+              getState,
+              undefined
+            );
             dispatch(resetComposer());
           },
         }
@@ -347,6 +355,77 @@ function getAttachmentsFromConversationModel(
 ): Array<AttachmentDraftType> {
   const conversation = window.ConversationController.get(conversationId);
   return conversation?.get('draftAttachments') || [];
+}
+
+function setQuoteByMessageId(
+  conversationId: string,
+  messageId: string | undefined
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetComposerDisabledStateActionType | SetQuotedMessageActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('sendStickerMessage: No conversation found');
+    }
+
+    const message = messageId ? await getMessageById(messageId) : undefined;
+    const state = getState();
+
+    if (
+      message &&
+      !canReply(
+        message.attributes,
+        window.ConversationController.getOurConversationIdOrThrow(),
+        getConversationSelector(state)
+      )
+    ) {
+      return;
+    }
+
+    if (message && !message.isNormalBubble()) {
+      return;
+    }
+
+    const existing = conversation.get('quotedMessageId');
+    if (existing !== messageId) {
+      const now = Date.now();
+      let activeAt = conversation.get('active_at');
+      let timestamp = conversation.get('timestamp');
+
+      if (!activeAt && messageId) {
+        activeAt = now;
+        timestamp = now;
+      }
+
+      conversation.set({
+        active_at: activeAt,
+        draftChanged: true,
+        quotedMessageId: messageId,
+        timestamp,
+      });
+
+      window.Signal.Data.updateConversation(conversation.attributes);
+    }
+
+    if (message) {
+      const quote = await conversation.makeQuote(message);
+      dispatch(
+        setQuotedMessage({
+          conversationId,
+          quote,
+        })
+      );
+
+      dispatch(setComposerFocus(conversation.id));
+      dispatch(setComposerDisabledState(false));
+    } else {
+      dispatch(setQuotedMessage(undefined));
+    }
+  };
 }
 
 function addAttachment(

@@ -45,12 +45,13 @@ type PropsType = {
 
   executeMenuRole: ExecuteMenuRoleType;
   executeMenuAction: (action: MenuActionType) => void;
+  hideToast: () => unknown;
   titleBarDoubleClick: () => void;
   toast?: {
     toastType: ToastType;
     parameters?: ReplacementValuesType;
   };
-  hideToast: () => unknown;
+  scrollToMessage: (conversationId: string, messageId: string) => unknown;
   toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;
 } & ComponentProps<typeof Inbox>;
@@ -79,6 +80,7 @@ export function App({
   renderStories,
   renderStoryViewer,
   requestVerification,
+  scrollToMessage,
   selectedConversationId,
   selectedMessage,
   selectedMessageSource,
@@ -116,6 +118,7 @@ export function App({
           renderCustomizingPreferredReactionsModal
         }
         renderLeftPane={renderLeftPane}
+        scrollToMessage={scrollToMessage}
         selectedConversationId={selectedConversationId}
         selectedMessage={selectedMessage}
         selectedMessageSource={selectedMessageSource}

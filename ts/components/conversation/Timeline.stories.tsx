@@ -276,7 +276,7 @@ const actions = () => ({
   updateSharedGroups: action('updateSharedGroups'),
 
   reactToMessage: action('reactToMessage'),
-  replyToMessage: action('replyToMessage'),
+  setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retrySend: action('retrySend'),
   deleteMessage: action('deleteMessage'),

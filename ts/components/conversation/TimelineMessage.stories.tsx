@@ -294,7 +294,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderEmojiPicker,
   renderReactionPicker,
   renderAudioAttachment,
-  replyToMessage: action('replyToMessage'),
+  setQuoteByMessageId: action('setQuoteByMessageId'),
   retrySend: action('retrySend'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),

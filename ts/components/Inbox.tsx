@@ -23,6 +23,7 @@ export type PropsType = {
   isCustomizingPreferredReactions: boolean;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderLeftPane: () => JSX.Element;
+  scrollToMessage: (conversationId: string, messageId: string) => unknown;
   selectedConversationId?: string;
   selectedMessage?: string;
   selectedMessageSource?: SelectedMessageSource;
@@ -36,6 +37,7 @@ export function Inbox({
   isCustomizingPreferredReactions,
   renderCustomizingPreferredReactionsModal,
   renderLeftPane,
+  scrollToMessage,
   selectedConversationId,
   selectedMessage,
   selectedMessageSource,
@@ -93,10 +95,11 @@ export function Inbox({
       selectedMessage &&
       selectedMessageSource !== SelectedMessageSource.Focus
     ) {
-      conversation.trigger('scroll-to-message', selectedMessage);
+      scrollToMessage(conversation.id, selectedMessage);
     }
   }, [
     prevConversation,
+    scrollToMessage,
     selectedConversationId,
     selectedMessage,
     selectedMessageSource,

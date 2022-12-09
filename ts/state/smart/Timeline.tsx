@@ -81,7 +81,6 @@ export type TimelinePropsType = ExternalProps &
     | 'openLink'
     | 'reactToMessage'
     | 'removeMember'
-    | 'replyToMessage'
     | 'retryDeleteForEveryone'
     | 'retrySend'
     | 'scrollToQuotedMessage'

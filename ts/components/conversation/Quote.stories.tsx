@@ -122,7 +122,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   renderEmojiPicker: () => <div />,
   renderReactionPicker: () => <div />,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
-  replyToMessage: action('default--replyToMessage'),
+  setQuoteByMessageId: action('default--setQuoteByMessageId'),
   retrySend: action('default--retrySend'),
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
   scrollToQuotedMessage: action('default--scrollToQuotedMessage'),

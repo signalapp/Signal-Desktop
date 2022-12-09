@@ -33,13 +33,12 @@ import { isSignalConversation } from '../../util/isSignalConversation';
 
 type ExternalProps = {
   id: string;
-  handleClickQuotedMessage: (id: string) => unknown;
 };
 
 export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id, handleClickQuotedMessage } = props;
+  const { id } = props;
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);
@@ -108,18 +107,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     linkPreviewLoading,
     linkPreviewResult,
     // Quote
+    quotedMessageId: quotedMessage?.quote?.messageId,
     quotedMessageProps: quotedMessage
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
           ourConversationId: getUserConversationId(state),
         })
       : undefined,
-    onClickQuotedMessage: () => {
-      const messageId = quotedMessage?.quote?.messageId;
-      if (messageId) {
-        handleClickQuotedMessage(messageId);
-      }
-    },
     // Emojis
     recentEmojis,
     skinTone: getEmojiSkinTone(state),

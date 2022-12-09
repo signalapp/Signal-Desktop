@@ -17,9 +17,6 @@ export type PropsType = {
   conversationId: string;
   compositionAreaProps: Pick<
     CompositionAreaPropsType,
-    | 'clearQuotedMessage'
-    | 'getQuotedMessage'
-    | 'handleClickQuotedMessage'
     | 'id'
     | 'onCancelJoinRequest'
     | 'onClearAttachments'
