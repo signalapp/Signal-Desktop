@@ -9,32 +9,27 @@ import { createPortal } from 'react-dom';
 import { noop } from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
-import * as GoogleChrome from '../util/GoogleChrome';
-import type { AttachmentType } from '../types/Attachment';
-import { isGIF } from '../types/Attachment';
-import { Avatar, AvatarSize } from './Avatar';
 import type { ConversationType } from '../state/ducks/conversations';
-import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import type { LocalizerType } from '../types/Util';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
-import { formatDuration } from '../util/formatDuration';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
+import * as GoogleChrome from '../util/GoogleChrome';
 import * as log from '../logging/log';
+import { Avatar, AvatarSize } from './Avatar';
+import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
+import { formatDuration } from '../util/formatDuration';
+import { isGIF } from '../types/Attachment';
+import { saveAttachment } from '../util/saveAttachment';
+import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 export type PropsType = {
   children?: ReactNode;
-  close: () => void;
+  closeLightbox: () => unknown;
   getConversation?: (id: string) => ConversationType;
   i18n: LocalizerType;
   isViewOnce?: boolean;
   media: Array<MediaItemType>;
-  onForward?: (messageId: string) => void;
-  onSave?: (options: {
-    attachment: AttachmentType;
-    message: MediaItemMessageType;
-    index: number;
-  }) => void;
   selectedIndex?: number;
+  toggleForwardMessageModal: (messageId: string) => unknown;
 };
 
 const ZOOM_SCALE = 3;
@@ -53,14 +48,13 @@ const INITIAL_IMAGE_TRANSFORM = {
 
 export function Lightbox({
   children,
-  close,
+  closeLightbox,
   getConversation,
   media,
   i18n,
   isViewOnce = false,
-  onForward,
-  onSave,
   selectedIndex: initialSelectedIndex = 0,
+  toggleForwardMessageModal,
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
   const [selectedIndex, setSelectedIndex] =
@@ -138,31 +132,39 @@ export function Lightbox({
   const handleSave = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    if (isViewOnce) {
+      return;
+    }
+
     event.stopPropagation();
     event.preventDefault();
 
     const mediaItem = media[selectedIndex];
     const { attachment, message, index } = mediaItem;
 
-    onSave?.({ attachment, message, index });
+    saveAttachment(attachment, message.sent_at, index + 1);
   };
 
   const handleForward = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    if (isViewOnce) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
 
-    close();
+    closeLightbox();
     const mediaItem = media[selectedIndex];
-    onForward?.(mediaItem.message.id);
+    toggleForwardMessageModal(mediaItem.message.id);
   };
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
       switch (event.key) {
         case 'Escape': {
-          close();
+          closeLightbox();
 
           event.preventDefault();
           event.stopPropagation();
@@ -181,14 +183,14 @@ export function Lightbox({
         default:
       }
     },
-    [close, onNext, onPrevious]
+    [closeLightbox, onNext, onPrevious]
   );
 
   const onClose = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     event.preventDefault();
 
-    close();
+    closeLightbox();
   };
 
   const playVideo = useCallback(() => {
@@ -521,7 +523,7 @@ export function Lightbox({
             event.stopPropagation();
             event.preventDefault();
 
-            close();
+            closeLightbox();
           }}
           onKeyUp={(event: React.KeyboardEvent<HTMLDivElement>) => {
             if (
@@ -531,7 +533,7 @@ export function Lightbox({
               return;
             }
 
-            close();
+            closeLightbox();
           }}
           ref={containerRef}
           role="presentation"
@@ -553,7 +555,7 @@ export function Lightbox({
                   <div />
                 )}
                 <div className="Lightbox__controls">
-                  {onForward ? (
+                  {!isViewOnce ? (
                     <button
                       aria-label={i18n('forwardMessage')}
                       className="Lightbox__button Lightbox__button--forward"
@@ -561,7 +563,7 @@ export function Lightbox({
                       type="button"
                     />
                   ) : null}
-                  {onSave ? (
+                  {!isViewOnce ? (
                     <button
                       aria-label={i18n('save')}
                       className="Lightbox__button Lightbox__button--save"
@@ -572,7 +574,7 @@ export function Lightbox({
                   <button
                     aria-label={i18n('close')}
                     className="Lightbox__button Lightbox__button--close"
-                    onClick={close}
+                    onClick={closeLightbox}
                     type="button"
                   />
                 </div>

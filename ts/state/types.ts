@@ -14,6 +14,7 @@ import type { actions as emojis } from './ducks/emojis';
 import type { actions as expiration } from './ducks/expiration';
 import type { actions as globalModals } from './ducks/globalModals';
 import type { actions as items } from './ducks/items';
+import type { actions as lightbox } from './ducks/lightbox';
 import type { actions as linkPreviews } from './ducks/linkPreviews';
 import type { actions as network } from './ducks/network';
 import type { actions as safetyNumber } from './ducks/safetyNumber';
@@ -40,6 +41,7 @@ export type ReduxActions = {
   expiration: typeof expiration;
   globalModals: typeof globalModals;
   items: typeof items;
+  lightbox: typeof lightbox;
   linkPreviews: typeof linkPreviews;
   network: typeof network;
   safetyNumber: typeof safetyNumber;

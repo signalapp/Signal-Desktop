@@ -73,7 +73,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('clearSelectedMessage'),
-  displayTapToViewMessage: action('displayTapToViewMessage'),
+  showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
@@ -90,7 +90,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
-  showVisualAttachment: action('showVisualAttachment'),
+  showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),
   viewStory: action('viewStory'),
 });

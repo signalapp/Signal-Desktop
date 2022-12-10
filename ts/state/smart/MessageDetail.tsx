@@ -39,7 +39,6 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
-    displayTapToViewMessage,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     openConversation,
@@ -48,7 +47,6 @@ const mapStateToProps = (
     showContactDetail,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
-    showVisualAttachment,
     startConversation,
   } = props;
 
@@ -75,7 +73,6 @@ const mapStateToProps = (
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),
 
-    displayTapToViewMessage,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     markViewed,
@@ -86,7 +83,6 @@ const mapStateToProps = (
     showContactDetail,
     showExpiredIncomingTapToViewToast,
     showExpiredOutgoingTapToViewToast,
-    showVisualAttachment,
     startConversation,
   };
 };

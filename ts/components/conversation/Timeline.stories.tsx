@@ -289,9 +289,8 @@ const actions = () => ({
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
-  showVisualAttachment: action('showVisualAttachment'),
-  downloadAttachment: action('downloadAttachment'),
-  displayTapToViewMessage: action('displayTapToViewMessage'),
+  showLightbox: action('showLightbox'),
+  showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
   openLink: action('openLink'),

@@ -87,6 +87,7 @@ import { PaymentEventKind } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
+import { saveAttachment } from '../../util/saveAttachment';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -318,16 +319,11 @@ export type PropsActions = {
     messageId: string;
   }) => void;
   markViewed(messageId: string): void;
-  showVisualAttachment: (options: {
+  showLightbox: (options: {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
-  downloadAttachment: (options: {
-    attachment: AttachmentType;
-    timestamp: number;
-    isDangerous: boolean;
-  }) => void;
-  displayTapToViewMessage: (messageId: string) => unknown;
+  showLightboxForViewOnceMedia: (messageId: string) => unknown;
 
   openLink: (url: string) => void;
   scrollToQuotedMessage: (options: {
@@ -847,7 +843,7 @@ export class Message extends React.PureComponent<Props, State> {
       renderAudioAttachment,
       renderingContext,
       showMessageDetail,
-      showVisualAttachment,
+      showLightbox,
       shouldCollapseAbove,
       shouldCollapseBelow,
       status,
@@ -898,7 +894,7 @@ export class Message extends React.PureComponent<Props, State> {
               reducedMotion={reducedMotion}
               onError={this.handleImageError}
               showVisualAttachment={() => {
-                showVisualAttachment({
+                showLightbox({
                   attachment: firstAttachment,
                   messageId: id,
                 });
@@ -945,7 +941,7 @@ export class Message extends React.PureComponent<Props, State> {
                 if (!isDownloaded(attachment)) {
                   kickOffAttachmentDownload({ attachment, messageId: id });
                 } else {
-                  showVisualAttachment({ attachment, messageId: id });
+                  showLightbox({ attachment, messageId: id });
                 }
               }}
             />
@@ -2240,7 +2236,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       contact,
-      displayTapToViewMessage,
+      showLightboxForViewOnceMedia,
       direction,
       giftBadge,
       id,
@@ -2250,7 +2246,7 @@ export class Message extends React.PureComponent<Props, State> {
       startConversation,
       openGiftBadge,
       showContactDetail,
-      showVisualAttachment,
+      showLightbox,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
     } = this.props;
@@ -2291,7 +2287,7 @@ export class Message extends React.PureComponent<Props, State> {
         event.preventDefault();
         event.stopPropagation();
 
-        displayTapToViewMessage(id);
+        showLightboxForViewOnceMedia(id);
       }
 
       return;
@@ -2328,7 +2324,7 @@ export class Message extends React.PureComponent<Props, State> {
 
       const attachment = attachments[0];
 
-      showVisualAttachment({ attachment, messageId: id });
+      showLightbox({ attachment, messageId: id });
 
       return;
     }
@@ -2384,13 +2380,8 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public openGenericAttachment = (event?: React.MouseEvent): void => {
-    const {
-      id,
-      attachments,
-      downloadAttachment,
-      timestamp,
-      kickOffAttachmentDownload,
-    } = this.props;
+    const { id, attachments, timestamp, kickOffAttachmentDownload } =
+      this.props;
 
     if (event) {
       event.preventDefault();
@@ -2410,14 +2401,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    const { fileName } = attachment;
-    const isDangerous = isFileDangerous(fileName || '');
-
-    downloadAttachment({
-      isDangerous,
-      attachment,
-      timestamp,
-    });
+    saveAttachment(attachment, timestamp);
   };
 
   public handleClick = (event: React.MouseEvent): void => {

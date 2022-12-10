@@ -4,17 +4,15 @@
 /* eslint-disable camelcase */
 
 import type * as Backbone from 'backbone';
-import type { ComponentProps } from 'react';
 import * as React from 'react';
 import { flatten } from 'lodash';
 import { render } from 'mustache';
 
 import type { AttachmentType } from '../types/Attachment';
-import { isGIF } from '../types/Attachment';
 import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
 import type { MessageAttributesType } from '../model-types.d';
-import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
+import type { MediaItemType } from '../types/MediaItem';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
@@ -22,16 +20,10 @@ import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
-import {
-  isIncoming,
-  isOutgoing,
-  isTapToView,
-} from '../state/selectors/message';
-import { getConversationSelector } from '../state/selectors/conversations';
+import { isIncoming, isOutgoing } from '../state/selectors/message';
 import { getActiveCallState } from '../state/selectors/calling';
 import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
-import type { Lightbox } from '../components/Lightbox';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import * as log from '../logging/log';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
@@ -39,13 +31,11 @@ import { createConversationView } from '../state/roots/createConversationView';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
-import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
-import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { retryMessageSend } from '../util/retryMessageSend';
@@ -62,7 +52,6 @@ import {
   removeLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
-import { closeLightbox, showLightbox } from '../util/showLightbox';
 import { saveAttachment } from '../util/saveAttachment';
 import { SECOND } from '../util/durations';
 import { startConversation } from '../util/startConversation';
@@ -78,24 +67,13 @@ type PanelType = { view: Backbone.View; headerTitle?: string };
 
 const { Message } = window.Signal.Types;
 
-const {
-  copyIntoTempDirectory,
-  deleteTempFile,
-  getAbsoluteAttachmentPath,
-  getAbsoluteTempPath,
-  upgradeMessageSchema,
-} = window.Signal.Migrations;
+const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
+  window.Signal.Migrations;
 
 const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
   deleteMessage: (messageId: string) => unknown;
-  displayTapToViewMessage: (messageId: string) => unknown;
-  downloadAttachment: (options: {
-    attachment: AttachmentType;
-    timestamp: number;
-    isDangerous: boolean;
-  }) => unknown;
   downloadNewVersion: () => unknown;
   kickOffAttachmentDownload: (
     options: Readonly<{ messageId: string }>
@@ -120,11 +98,6 @@ type MessageActionsType = {
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   showMessageDetail: (messageId: string) => unknown;
-  showVisualAttachment: (options: {
-    attachment: AttachmentType;
-    messageId: string;
-    showSingle?: boolean;
-  }) => unknown;
   startConversation: (e164: string, uuid: UUIDStringType) => unknown;
 };
 
@@ -173,11 +146,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(
-      this.model,
-      'save-attachment',
-      this.downloadAttachmentWrapper
-    );
     this.listenTo(this.model, 'delete-message', this.deleteMessage);
     this.listenTo(this.model, 'remove-link-review', removeLinkPreview);
     this.listenTo(
@@ -481,22 +449,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       message.markAttachmentAsCorrupted(options.attachment);
     };
 
-    const showVisualAttachment = (options: {
-      attachment: AttachmentType;
-      messageId: string;
-      showSingle?: boolean;
-    }) => {
-      this.showLightbox(options);
-    };
-    const downloadAttachment = (options: {
-      attachment: AttachmentType;
-      timestamp: number;
-      isDangerous: boolean;
-    }) => {
-      this.downloadAttachment(options);
-    };
-    const displayTapToViewMessage = (messageId: string) =>
-      this.displayTapToViewMessage(messageId);
     const openGiftBadge = (messageId: string): void => {
       const message = window.MessageController.getById(messageId);
       if (!message) {
@@ -523,8 +475,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     return {
       deleteMessage,
-      displayTapToViewMessage,
-      downloadAttachment,
       downloadNewVersion,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
@@ -538,7 +488,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showMessageDetail,
-      showVisualAttachment,
       startConversation,
     };
   }
@@ -805,9 +754,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           }
 
           case 'media': {
-            const selectedMedia =
-              media.find(item => attachment.path === item.path) || media[0];
-            this.showLightboxForMedia(selectedMedia, media);
+            window.reduxActions.lightbox.showLightboxWithMedia(
+              attachment.path,
+              media
+            );
             break;
           }
 
@@ -907,131 +857,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     view.render();
   }
 
-  downloadAttachmentWrapper(
-    messageId: string,
-    providedAttachment?: AttachmentType
-  ): void {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(
-        `downloadAttachmentWrapper: Message ${messageId} missing!`
-      );
-    }
-
-    const { attachments, sent_at: timestamp } = message.attributes;
-    if (!attachments || attachments.length < 1) {
-      return;
-    }
-
-    const attachment =
-      providedAttachment && attachments.includes(providedAttachment)
-        ? providedAttachment
-        : attachments[0];
-    const { fileName } = attachment;
-
-    const isDangerous = window.Signal.Util.isFileDangerous(fileName || '');
-
-    this.downloadAttachment({ attachment, timestamp, isDangerous });
-  }
-
-  async downloadAttachment({
-    attachment,
-    timestamp,
-    isDangerous,
-  }: {
-    attachment: AttachmentType;
-    timestamp: number;
-    isDangerous: boolean;
-  }): Promise<void> {
-    if (isDangerous) {
-      showToast(ToastDangerousFileType);
-      return;
-    }
-
-    return saveAttachment(attachment, timestamp);
-  }
-
-  async displayTapToViewMessage(messageId: string): Promise<void> {
-    log.info('displayTapToViewMessage: attempting to display message');
-
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`displayTapToViewMessage: Message ${messageId} missing!`);
-    }
-
-    if (!isTapToView(message.attributes)) {
-      throw new Error(
-        `displayTapToViewMessage: Message ${message.idForLogging()} is not a tap to view message`
-      );
-    }
-
-    if (message.isErased()) {
-      throw new Error(
-        `displayTapToViewMessage: Message ${message.idForLogging()} is already erased`
-      );
-    }
-
-    const firstAttachment = (message.get('attachments') || [])[0];
-    if (!firstAttachment || !firstAttachment.path) {
-      throw new Error(
-        `displayTapToViewMessage: Message ${message.idForLogging()} had no first attachment with path`
-      );
-    }
-
-    const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
-    const { path: tempPath } = await copyIntoTempDirectory(absolutePath);
-    const tempAttachment = {
-      ...firstAttachment,
-      path: tempPath,
-    };
-
-    await message.markViewOnceMessageViewed();
-
-    const close = (): void => {
-      try {
-        this.stopListening(message);
-        closeLightbox();
-      } finally {
-        deleteTempFile(tempPath);
-      }
-    };
-
-    this.listenTo(message, 'expired', close);
-    this.listenTo(message, 'change', () => {
-      showLightbox(getProps());
-    });
-
-    const getProps = (): ComponentProps<typeof Lightbox> => {
-      const { path, contentType } = tempAttachment;
-
-      return {
-        close,
-        i18n: window.i18n,
-        media: [
-          {
-            attachment: tempAttachment,
-            objectURL: getAbsoluteTempPath(path),
-            contentType,
-            index: 0,
-            message: {
-              attachments: message.get('attachments') || [],
-              id: message.get('id'),
-              conversationId: message.get('conversationId'),
-              received_at: message.get('received_at'),
-              received_at_ms: Number(message.get('received_at_ms')),
-              sent_at: message.get('sent_at'),
-            },
-          },
-        ],
-        isViewOnce: true,
-      };
-    };
-
-    showLightbox(getProps());
-
-    log.info('displayTapToViewMessage: showed lightbox');
-  }
-
   deleteMessage(messageId: string): void {
     const message = window.MessageController.getById(messageId);
     if (!message) {
@@ -1053,136 +878,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.resetPanel();
       },
     });
-  }
-
-  showLightboxForMedia(
-    selectedMediaItem: MediaItemType,
-    media: Array<MediaItemType> = []
-  ): void {
-    const onSave = async ({
-      attachment,
-      message,
-      index,
-    }: {
-      attachment: AttachmentType;
-      message: MediaItemMessageType;
-      index: number;
-    }) => {
-      return saveAttachment(attachment, message.sent_at, index + 1);
-    };
-
-    const selectedIndex = media.findIndex(
-      mediaItem =>
-        mediaItem.attachment.path === selectedMediaItem.attachment.path
-    );
-
-    const mediaMessage = selectedMediaItem.message;
-    const message = window.MessageController.getById(mediaMessage.id);
-    if (!message) {
-      throw new Error(
-        `showLightboxForMedia: Message ${mediaMessage.id} missing!`
-      );
-    }
-
-    const close = () => {
-      closeLightbox();
-      this.stopListening(message, 'expired', closeLightbox);
-    };
-
-    showLightbox({
-      close,
-      i18n: window.i18n,
-      getConversation: getConversationSelector(window.reduxStore.getState()),
-      media,
-      onForward: messageId => {
-        window.reduxActions.globalModals.toggleForwardMessageModal(messageId);
-      },
-      onSave,
-      selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
-    });
-
-    this.listenTo(message, 'expired', close);
-  }
-
-  showLightbox({
-    attachment,
-    messageId,
-  }: {
-    attachment: AttachmentType;
-    messageId: string;
-    showSingle?: boolean;
-  }): void {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`showLightbox: Message ${messageId} missing!`);
-    }
-    const sticker = message.get('sticker');
-    if (sticker) {
-      const { packId, packKey } = sticker;
-      window.reduxActions.globalModals.showStickerPackPreview(packId, packKey);
-      return;
-    }
-
-    const { contentType } = attachment;
-
-    if (
-      !window.Signal.Util.GoogleChrome.isImageTypeSupported(contentType) &&
-      !window.Signal.Util.GoogleChrome.isVideoTypeSupported(contentType)
-    ) {
-      this.downloadAttachmentWrapper(messageId, attachment);
-      return;
-    }
-
-    const attachments: Array<AttachmentType> = message.get('attachments') || [];
-
-    const loop = isGIF(attachments);
-
-    const media = attachments
-      .filter(item => item.thumbnail && !item.pending && !item.error)
-      .map((item, index) => ({
-        objectURL: getAbsoluteAttachmentPath(item.path ?? ''),
-        path: item.path,
-        contentType: item.contentType,
-        loop,
-        index,
-        message: {
-          attachments: message.get('attachments') || [],
-          id: message.get('id'),
-          conversationId:
-            window.ConversationController.lookupOrCreate({
-              uuid: message.get('sourceUuid'),
-              e164: message.get('source'),
-              reason: 'conversation_view.showLightBox',
-            })?.id || message.get('conversationId'),
-          received_at: message.get('received_at'),
-          received_at_ms: Number(message.get('received_at_ms')),
-          sent_at: message.get('sent_at'),
-        },
-        attachment: item,
-        thumbnailObjectUrl:
-          item.thumbnail?.objectUrl ||
-          getAbsoluteAttachmentPath(item.thumbnail?.path ?? ''),
-      }));
-
-    if (!media.length) {
-      log.error(
-        'showLightbox: unable to load attachment',
-        attachments.map(x => ({
-          contentType: x.contentType,
-          error: x.error,
-          flags: x.flags,
-          path: x.path,
-          size: x.size,
-        }))
-      );
-      showToast(ToastUnableToLoadAttachment);
-      return;
-    }
-
-    const selectedMedia =
-      media.find(item => attachment.path === item.path) || media[0];
-
-    this.showLightboxForMedia(selectedMedia, media);
   }
 
   showGroupLinkManagement(): void {
@@ -1290,7 +985,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showConversationNotificationsSettings:
         this.showConversationNotificationsSettings.bind(this),
       showPendingInvites: this.showPendingInvites.bind(this),
-      showLightboxForMedia: this.showLightboxForMedia.bind(this),
       updateGroupAttributes: this.model.updateGroupAttributesV2.bind(
         this.model
       ),

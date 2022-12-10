@@ -82,10 +82,9 @@ const getDefaultProps = () => ({
   openGiftBadge: action('openGiftBadge'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
+  showLightbox: action('showLightbox'),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
-  showVisualAttachment: action('showVisualAttachment'),
-  downloadAttachment: action('downloadAttachment'),
-  displayTapToViewMessage: action('displayTapToViewMessage'),
+  showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'

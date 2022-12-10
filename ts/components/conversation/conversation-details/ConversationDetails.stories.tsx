@@ -88,7 +88,7 @@ const createProps = (
   ),
   showConversation: action('showConversation'),
   showPendingInvites: action('showPendingInvites'),
-  showLightboxForMedia: action('showLightboxForMedia'),
+  showLightboxWithMedia: action('showLightboxWithMedia'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();
   },

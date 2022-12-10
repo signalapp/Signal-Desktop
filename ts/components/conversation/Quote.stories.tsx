@@ -97,8 +97,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   deleteMessage: action('default--deleteMessage'),
   deleteMessageForEveryone: action('default--deleteMessageForEveryone'),
   direction: 'incoming',
-  displayTapToViewMessage: action('default--displayTapToViewMessage'),
-  downloadAttachment: action('default--downloadAttachment'),
+  showLightboxForViewOnceMedia: action('default--showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action(
     'default--doubleCheckMissingQuoteReference'
   ),
@@ -140,7 +139,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   ),
   toggleForwardMessageModal: action('default--toggleForwardMessageModal'),
   showMessageDetail: action('default--showMessageDetail'),
-  showVisualAttachment: action('default--showVisualAttachment'),
+  showLightbox: action('default--showLightbox'),
   startConversation: action('default--startConversation'),
   status: 'sent',
   text: 'This is really interesting.',

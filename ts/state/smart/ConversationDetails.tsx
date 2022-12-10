@@ -18,7 +18,6 @@ import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getActiveCallState } from '../selectors/calling';
 import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
-import type { MediaItemType } from '../../types/MediaItem';
 import {
   getBadgesSelector,
   getPreferredBadgeSelector,
@@ -44,10 +43,6 @@ export type SmartConversationDetailsProps = {
   showGroupV2Permissions: () => void;
   showConversationNotificationsSettings: () => void;
   showPendingInvites: () => void;
-  showLightboxForMedia: (
-    selectedMediaItem: MediaItemType,
-    media: Array<MediaItemType>
-  ) => void;
   updateGroupAttributes: (
     _: Readonly<{
       avatar?: undefined | Uint8Array;

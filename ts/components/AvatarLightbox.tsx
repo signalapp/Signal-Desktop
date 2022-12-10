@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { noop } from 'lodash';
 
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarPreview } from './AvatarPreview';
@@ -26,7 +27,13 @@ export function AvatarLightbox({
   onClose,
 }: PropsType): JSX.Element {
   return (
-    <Lightbox close={onClose} i18n={i18n} media={[]}>
+    <Lightbox
+      closeLightbox={onClose}
+      i18n={i18n}
+      media={[]}
+      isViewOnce
+      toggleForwardMessageModal={noop}
+    >
       <AvatarPreview
         avatarColor={avatarColor}
         avatarPath={avatarPath}

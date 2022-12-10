@@ -249,9 +249,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   // disableMenu: overrideProps.disableMenu,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
-  displayTapToViewMessage: action('displayTapToViewMessage'),
+  showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
-  downloadAttachment: action('downloadAttachment'),
   expirationLength:
     number('expirationLength', overrideProps.expirationLength || 0) ||
     undefined,
@@ -318,7 +317,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
   showMessageDetail: action('showMessageDetail'),
-  showVisualAttachment: action('showVisualAttachment'),
+  showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),

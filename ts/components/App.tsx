@@ -31,6 +31,7 @@ type PropsType = {
   renderStories: (closeView: () => unknown) => JSX.Element;
   hasSelectedStoryData: boolean;
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
+  renderLightbox: () => JSX.Element | null;
   requestVerification: (
     type: 'sms' | 'voice',
     number: string,
@@ -77,6 +78,7 @@ export function App({
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
   renderLeftPane,
+  renderLightbox,
   renderStories,
   renderStoryViewer,
   requestVerification,
@@ -179,6 +181,7 @@ export function App({
         <ToastManager hideToast={hideToast} i18n={i18n} toast={toast} />
         {renderGlobalModalContainer()}
         {renderCallManager()}
+        {renderLightbox()}
         {isShowingStoriesView && renderStories(toggleStoriesView)}
         {hasSelectedStoryData &&
           renderStoryViewer(() => viewStory({ closeViewer: true }))}

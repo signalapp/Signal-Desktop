@@ -55,12 +55,12 @@ function createMediaItem(
 }
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  close: action('close'),
+  closeLightbox: action('closeLightbox'),
   i18n,
   isViewOnce: Boolean(overrideProps.isViewOnce),
   media: overrideProps.media || [],
-  onSave: action('onSave'),
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
+  toggleForwardMessageModal: action('toggleForwardMessageModal'),
 });
 
 export function Multimedia(): JSX.Element {
@@ -304,10 +304,6 @@ export function CustomChildren(): JSX.Element {
 CustomChildren.story = {
   name: 'Custom children',
 };
-
-export function Forwarding(): JSX.Element {
-  return <Lightbox {...createProps({})} onForward={action('onForward')} />;
-}
 
 export function ConversationHeader(): JSX.Element {
   return (

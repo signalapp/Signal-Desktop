@@ -11,6 +11,7 @@ import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLeftPane } from './LeftPane';
+import { SmartLightbox } from './Lightbox';
 import { SmartStories } from './Stories';
 import { SmartStoryViewer } from './StoryViewer';
 import type { StateType } from '../reducer';
@@ -55,6 +56,7 @@ const mapStateToProps = (state: StateType) => {
     ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
     renderLeftPane: () => <SmartLeftPane />,
+    renderLightbox: () => <SmartLightbox />,
     isShowingStoriesView: shouldShowStoriesView(state),
     renderStories: (closeView: () => unknown) => (
       <ErrorBoundary name="App/renderStories" closeView={closeView}>

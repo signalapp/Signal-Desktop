@@ -30,7 +30,7 @@ const createProps = (mediaItems?: Array<MediaItemType>): Props => ({
   i18n,
   loadRecentMediaItems: action('loadRecentMediaItems'),
   showAllMedia: action('showAllMedia'),
-  showLightboxForMedia: action('showLightboxForMedia'),
+  showLightboxWithMedia: action('showLightboxWithMedia'),
 });
 
 export function Basic(): JSX.Element {

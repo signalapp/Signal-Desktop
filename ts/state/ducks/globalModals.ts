@@ -177,7 +177,7 @@ type HideSendAnywayDialogActiontype = {
   type: typeof HIDE_SEND_ANYWAY_DIALOG;
 };
 
-type ShowStickerPackPreviewActionType = {
+export type ShowStickerPackPreviewActionType = {
   type: typeof SHOW_STICKER_PACK_PREVIEW;
   payload: string;
 };
@@ -454,7 +454,7 @@ function closeStickerPackPreview(): ThunkAction<
   };
 }
 
-function showStickerPackPreview(
+export function showStickerPackPreview(
   packId: string,
   packKey: string
 ): ShowStickerPackPreviewActionType {

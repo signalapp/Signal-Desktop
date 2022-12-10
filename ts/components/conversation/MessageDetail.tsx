@@ -79,7 +79,6 @@ export type PropsData = {
 
 export type PropsBackboneActions = Pick<
   MessagePropsType,
-  | 'displayTapToViewMessage'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'openConversation'
@@ -89,16 +88,17 @@ export type PropsBackboneActions = Pick<
   | 'showContactDetail'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
-  | 'showVisualAttachment'
   | 'startConversation'
 >;
 
 export type PropsReduxActions = Pick<
   MessagePropsType,
+  | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
-  | 'checkForAccount'
   | 'showContactModal'
+  | 'showLightbox'
+  | 'showLightboxForViewOnceMedia'
   | 'viewStory'
 > & {
   toggleSafetyNumberModal: (contactId: string) => void;
@@ -280,7 +280,7 @@ export class MessageDetail extends React.Component<Props> {
       checkForAccount,
       clearSelectedMessage,
       contactNameColor,
-      displayTapToViewMessage,
+      showLightboxForViewOnceMedia,
       doubleCheckMissingQuoteReference,
       expirationTimestamp,
       getPreferredBadge,
@@ -297,7 +297,7 @@ export class MessageDetail extends React.Component<Props> {
       showContactModal,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
-      showVisualAttachment,
+      showLightbox,
       startConversation,
       theme,
       viewStory,
@@ -325,10 +325,7 @@ export class MessageDetail extends React.Component<Props> {
             menu={undefined}
             disableScroll
             displayLimit={Number.MAX_SAFE_INTEGER}
-            displayTapToViewMessage={displayTapToViewMessage}
-            downloadAttachment={() =>
-              log.warn('MessageDetail: downloadAttachment called!')
-            }
+            showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
@@ -358,7 +355,7 @@ export class MessageDetail extends React.Component<Props> {
             showMessageDetail={() => {
               log.warn('MessageDetail: showMessageDetail called!');
             }}
-            showVisualAttachment={showVisualAttachment}
+            showLightbox={showLightbox}
             startConversation={startConversation}
             theme={theme}
             viewStory={viewStory}

@@ -17,7 +17,6 @@ import { assertDev } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
-import type { MediaItemType } from '../../../types/MediaItem';
 import type { BadgeType } from '../../../badges/types';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { DurationInSeconds } from '../../../util/durations';
@@ -30,6 +29,7 @@ import { AddGroupMembersModal } from './AddGroupMembersModal';
 import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
+import type { Props as ConversationDetailsMediaListPropsType } from './ConversationDetailsMediaList';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
@@ -84,10 +84,6 @@ export type StateProps = {
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showPendingInvites: () => void;
-  showLightboxForMedia: (
-    selectedMediaItem: MediaItemType,
-    media: Array<MediaItemType>
-  ) => void;
   showConversationNotificationsSettings: () => void;
   updateGroupAttributes: (
     _: Readonly<{
@@ -123,7 +119,7 @@ type ActionProps = {
   showConversation: ShowConversationType;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
-};
+} & Pick<ConversationDetailsMediaListPropsType, 'showLightboxWithMedia'>;
 
 export type Props = StateProps & ActionProps;
 
@@ -167,7 +163,7 @@ export function ConversationDetails({
   showConversation,
   showGroupLinkManagement,
   showGroupV2Permissions,
-  showLightboxForMedia,
+  showLightboxWithMedia,
   showPendingInvites,
   theme,
   toggleSafetyNumberModal,
@@ -536,7 +532,7 @@ export function ConversationDetails({
         i18n={i18n}
         loadRecentMediaItems={loadRecentMediaItems}
         showAllMedia={showAllMedia}
-        showLightboxForMedia={showLightboxForMedia}
+        showLightboxWithMedia={showLightboxWithMedia}
       />
 
       {!isGroup && !conversation.isMe && (

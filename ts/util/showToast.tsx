@@ -40,7 +40,6 @@ import type { ToastReactionFailed } from '../components/ToastReactionFailed';
 import type { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 import type { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import type { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
-import type { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
 import type { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
 import type { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
 
@@ -79,7 +78,6 @@ export function showToast(Toast: typeof ToastReactionFailed): void;
 export function showToast(Toast: typeof ToastStickerPackInstallFailed): void;
 export function showToast(Toast: typeof ToastTapToViewExpiredIncoming): void;
 export function showToast(Toast: typeof ToastTapToViewExpiredOutgoing): void;
-export function showToast(Toast: typeof ToastUnableToLoadAttachment): void;
 export function showToast(Toast: typeof ToastVoiceNoteLimit): void;
 export function showToast(
   Toast: typeof ToastVoiceNoteMustBeOnlyAttachment

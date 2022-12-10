@@ -16,6 +16,7 @@ import { reducer as emojis } from './ducks/emojis';
 import { reducer as expiration } from './ducks/expiration';
 import { reducer as globalModals } from './ducks/globalModals';
 import { reducer as items } from './ducks/items';
+import { reducer as lightbox } from './ducks/lightbox';
 import { reducer as linkPreviews } from './ducks/linkPreviews';
 import { reducer as network } from './ducks/network';
 import { reducer as preferredReactions } from './ducks/preferredReactions';
@@ -43,6 +44,7 @@ export const reducer = combineReducers({
   expiration,
   globalModals,
   items,
+  lightbox,
   linkPreviews,
   network,
   preferredReactions,

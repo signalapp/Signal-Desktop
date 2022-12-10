@@ -12,7 +12,6 @@ import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preve
 import { isDownloaded } from '../../types/Attachment';
 import type { LocalizerType } from '../../types/I18N';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { isFileDangerous } from '../../util/isFileDangerous';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import { StopPropagation } from '../StopPropagation';
 import { WidthBreakpoint } from '../_util';
@@ -28,6 +27,7 @@ import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
+import { saveAttachment } from '../../util/saveAttachment';
 
 export type PropsData = {
   canDownload: boolean;
@@ -172,7 +172,7 @@ export function TimelineMessage(props: Props): JSX.Element {
   });
 
   const openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { downloadAttachment, kickOffAttachmentDownload } = props;
+    const { kickOffAttachmentDownload } = props;
 
     if (event) {
       event.preventDefault();
@@ -192,14 +192,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       return;
     }
 
-    const { fileName } = attachment;
-    const isDangerous = isFileDangerous(fileName || '');
-
-    downloadAttachment({
-      isDangerous,
-      attachment,
-      timestamp,
-    });
+    saveAttachment(attachment, timestamp);
   };
 
   const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
