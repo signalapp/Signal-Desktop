@@ -5,7 +5,7 @@ import React from 'react';
 
 import type { Props as MessageBodyPropsType } from './MessageBody';
 import { MessageBody } from './MessageBody';
-import { graphemeAwareSlice } from '../../util/graphemeAwareSlice';
+import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -46,7 +46,7 @@ export function MessageBodyReadMore({
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
-  const { hasReadMore, text: slicedText } = graphemeAwareSlice(
+  const { hasReadMore, text: slicedText } = graphemeAndLinkAwareSlice(
     text,
     maxLength,
     BUFFER
