@@ -21,12 +21,17 @@ export const getIsViewOnce = createSelector(
 
 export const getSelectedIndex = createSelector(
   getLightboxState,
-  (state): number =>
-    state.isShowingLightbox
-      ? state.media.findIndex(
-          item => item.attachment.path === state.selectedAttachmentPath
-        ) || 0
-      : 0
+  (state): number => {
+    if (!state.isShowingLightbox) {
+      return 0;
+    }
+
+    const index = state.media.findIndex(
+      item => item.attachment.path === state.selectedAttachmentPath
+    );
+
+    return index > 0 ? index : 0;
+  }
 );
 
 export const getMedia = createSelector(
