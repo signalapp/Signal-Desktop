@@ -57,7 +57,9 @@ const expandToIncludeEntireLink = (
       startIndex < truncated.length && lastIndex > truncated.length
   );
 
-  if (truncatedLink.length === 0) return truncated;
+  if (truncatedLink.length === 0) {
+    return truncated;
+  }
 
   return original.slice(0, truncatedLink[0].lastIndex);
 };
