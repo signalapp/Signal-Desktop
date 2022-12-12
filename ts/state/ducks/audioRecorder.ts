@@ -10,6 +10,7 @@ import type { StateType as RootStateType } from '../reducer';
 import { fileToBytes } from '../../util/fileToBytes';
 import { recorder } from '../../services/audioRecorder';
 import { stringToMIMEType } from '../../types/MIME';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 export enum ErrorDialogAudioRecorderType {
@@ -76,7 +77,8 @@ export const actions = {
   startRecording,
 };
 
-export const useActions = (): typeof actions => useBoundActions(actions);
+export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
+  useBoundActions(actions);
 
 function startRecording(): ThunkAction<
   void,

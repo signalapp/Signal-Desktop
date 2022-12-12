@@ -12,6 +12,7 @@ import type {
 } from '../../types/LinkPreview';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 import { maybeGrabLinkPreview } from '../../services/LinkPreview';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
@@ -84,8 +85,9 @@ export const actions = {
   removeLinkPreview,
 };
 
-export const useLinkPreviewActions = (): typeof actions =>
-  useBoundActions(actions);
+export const useLinkPreviewActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 // Reducer
 

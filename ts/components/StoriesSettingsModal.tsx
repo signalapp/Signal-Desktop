@@ -54,7 +54,7 @@ export type PropsType = {
   onDistributionListCreated: (
     name: string,
     viewerUuids: Array<UUIDStringType>
-  ) => unknown;
+  ) => Promise<string>;
   onHideMyStoriesFrom: (viewerUuids: Array<UUIDStringType>) => unknown;
   onRemoveMembers: (listId: string, uuids: Array<UUIDStringType>) => unknown;
   onRepliesNReactionsChanged: (

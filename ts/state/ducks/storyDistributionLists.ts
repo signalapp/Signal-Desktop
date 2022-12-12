@@ -14,6 +14,7 @@ import { UUID } from '../../types/UUID';
 import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { replaceIndex } from '../../util/replaceIndex';
 import { storageServiceUploadJob } from '../../services/storage';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
@@ -156,7 +157,12 @@ function createDistributionList(
   memberUuids: Array<UUIDStringType>,
   storageServiceDistributionListRecord?: StoryDistributionWithMembersType,
   shouldSave = true
-): ThunkAction<void, RootStateType, null, CreateListActionType> {
+): ThunkAction<
+  Promise<UUIDStringType>,
+  RootStateType,
+  string,
+  CreateListActionType
+> {
   return async dispatch => {
     const storyDistribution: StoryDistributionWithMembersType = {
       allowsReplies: true,
@@ -188,6 +194,8 @@ function createDistributionList(
         name: storyDistribution.name,
       },
     });
+
+    return storyDistribution.id;
   };
 }
 
@@ -483,8 +491,8 @@ export const actions = {
   updateStoryViewers,
 };
 
-export const useStoryDistributionListsActions = (): typeof actions =>
-  useBoundActions(actions);
+export const useStoryDistributionListsActions =
+  (): BoundActionCreatorsMapObject<typeof actions> => useBoundActions(actions);
 
 // Reducer
 

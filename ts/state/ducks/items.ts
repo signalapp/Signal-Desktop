@@ -6,6 +6,7 @@ import { v4 as getGuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
 import type { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type {
   ConversationColorType,
@@ -93,7 +94,8 @@ export const actions = {
   resetItems,
 };
 
-export const useActions = (): typeof actions => useBoundActions(actions);
+export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
+  useBoundActions(actions);
 
 function putItem<K extends keyof StorageAccessType>(
   key: K,

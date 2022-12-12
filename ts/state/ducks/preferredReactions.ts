@@ -6,6 +6,7 @@ import { omit } from 'lodash';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import { replaceIndex } from '../../util/replaceIndex';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import { DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES } from '../../reactions/constants';
@@ -97,7 +98,8 @@ export const actions = {
   selectDraftEmojiToBeReplaced,
 };
 
-export const useActions = (): typeof actions => useBoundActions(actions);
+export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
+  useBoundActions(actions);
 
 function cancelCustomizePreferredReactionsModal(): CancelCustomizePreferredReactionsModalActionType {
   return { type: CANCEL_CUSTOMIZE_PREFERRED_REACTIONS_MODAL };
