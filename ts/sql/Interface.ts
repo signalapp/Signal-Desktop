@@ -425,6 +425,7 @@ export type DataInterface = {
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
   removeSessionById: (id: SessionIdType) => Promise<void>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
+  removeSessionsByUUID: (uuid: UUIDStringType) => Promise<void>;
   removeAllSessions: () => Promise<void>;
   getAllSessions: () => Promise<Array<SessionType>>;
 

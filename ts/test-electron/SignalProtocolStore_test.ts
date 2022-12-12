@@ -995,7 +995,7 @@ describe('SignalProtocolStore', () => {
       assert.equal(record, testRecord);
     });
   });
-  describe('removeAllSessions', () => {
+  describe('removeSessionsByUUID', () => {
     it('removes all sessions for a uuid', async () => {
       const devices = [1, 2, 3].map(
         deviceId =>
@@ -1008,14 +1008,72 @@ describe('SignalProtocolStore', () => {
         })
       );
 
-      await store.removeAllSessions(theirUuid.toString());
+      const records0 = await Promise.all(
+        devices.map(device => store.loadSession(device))
+      );
+      for (let i = 0, max = records0.length; i < max; i += 1) {
+        assert.exists(records0[i], 'before delete');
+      }
+
+      await store.removeSessionsByUUID(theirUuid.toString());
 
       const records = await Promise.all(
         devices.map(device => store.loadSession(device))
       );
-
       for (let i = 0, max = records.length; i < max; i += 1) {
-        assert.isUndefined(records[i]);
+        assert.isUndefined(records[i], 'in-memory');
+      }
+
+      await store.hydrateCaches();
+
+      const records2 = await Promise.all(
+        devices.map(device => store.loadSession(device))
+      );
+      for (let i = 0, max = records2.length; i < max; i += 1) {
+        assert.isUndefined(records2[i], 'from database');
+      }
+    });
+  });
+  describe('removeSessionsByConversation', () => {
+    it('removes all sessions for a uuid', async () => {
+      const devices = [1, 2, 3].map(
+        deviceId =>
+          new QualifiedAddress(ourUuid, new Address(theirUuid, deviceId))
+      );
+      const conversationId = window.ConversationController.getOrCreate(
+        theirUuid.toString(),
+        'private'
+      ).id;
+
+      await Promise.all(
+        devices.map(async encodedAddress => {
+          await store.storeSession(encodedAddress, getSessionRecord());
+        })
+      );
+
+      const records0 = await Promise.all(
+        devices.map(device => store.loadSession(device))
+      );
+      for (let i = 0, max = records0.length; i < max; i += 1) {
+        assert.exists(records0[i], 'before delete');
+      }
+
+      await store.removeSessionsByConversation(conversationId);
+
+      const records = await Promise.all(
+        devices.map(device => store.loadSession(device))
+      );
+      for (let i = 0, max = records.length; i < max; i += 1) {
+        assert.isUndefined(records[i], 'in-memory');
+      }
+
+      await store.hydrateCaches();
+
+      const records2 = await Promise.all(
+        devices.map(device => store.loadSession(device))
+      );
+      for (let i = 0, max = records2.length; i < max; i += 1) {
+        assert.isUndefined(records[i], 'from database');
       }
     });
   });
@@ -1145,7 +1203,7 @@ describe('SignalProtocolStore', () => {
 
     beforeEach(async () => {
       await store.removeAllUnprocessed();
-      await store.removeAllSessions(theirUuid.toString());
+      await store.removeSessionsByUUID(theirUuid.toString());
       await store.removeAllSenderKeys();
     });
 

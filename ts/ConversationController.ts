@@ -1062,7 +1062,9 @@ export class ConversationController {
 
       log.warn(`${logId}: Delete all sessions tied to old conversationId`);
       // Note: we use the conversationId here in case we've already lost our uuid.
-      await window.textsecure.storage.protocol.removeAllSessions(obsoleteId);
+      await window.textsecure.storage.protocol.removeSessionsByConversation(
+        obsoleteId
+      );
 
       log.warn(
         `${logId}: Delete all identity information tied to old conversationId`

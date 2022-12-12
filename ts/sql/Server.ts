@@ -200,6 +200,7 @@ const dataInterface: ServerInterface = {
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
+  removeSessionsByUUID,
   removeAllSessions,
   getAllSessions,
 
@@ -1306,6 +1307,17 @@ async function removeSessionsByConversation(
     `
   ).run({
     conversationId,
+  });
+}
+async function removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>(
+    `
+    DELETE FROM sessions
+    WHERE uuid = $uuid;
+    `
+  ).run({
+    uuid,
   });
 }
 async function removeAllSessions(): Promise<void> {

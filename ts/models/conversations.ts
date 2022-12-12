@@ -1966,14 +1966,7 @@ export class ConversationModel extends window.Backbone
     //   for the case where we need to do old and new PNI comparisons. We'll wait
     //   for the PNI update to do that.
     if (oldValue && oldValue !== this.get('pni')) {
-      // We've already changed our UUID, so we need account for lookups on that old UUID
-      //   to returng nothing: pass conversationId into removeAllSessions, and disable
-      //   auto-deletion in removeIdentityKey.
-      window.textsecure.storage.protocol.removeAllSessions(this.id);
-      window.textsecure.storage.protocol.removeIdentityKey(
-        UUID.cast(oldValue),
-        { disableSessionDeletion: true }
-      );
+      window.textsecure.storage.protocol.removeIdentityKey(UUID.cast(oldValue));
     }
 
     this.captureChange('updateUuid');
@@ -2059,14 +2052,7 @@ export class ConversationModel extends window.Backbone
 
     // If this PNI is going away or going to someone else, we'll delete all its sessions
     if (oldValue) {
-      // We've already changed our UUID, so we need account for lookups on that old UUID
-      //   to returng nothing: pass conversationId into removeAllSessions, and disable
-      //   auto-deletion in removeIdentityKey.
-      window.textsecure.storage.protocol.removeAllSessions(this.id);
-      window.textsecure.storage.protocol.removeIdentityKey(
-        UUID.cast(oldValue),
-        { disableSessionDeletion: true }
-      );
+      window.textsecure.storage.protocol.removeIdentityKey(UUID.cast(oldValue));
     }
 
     if (pni && !this.get('uuid')) {

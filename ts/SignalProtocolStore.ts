@@ -1226,35 +1226,68 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  async removeAllSessions(identifier: string): Promise<void> {
-    return this.withZone(GLOBAL_ZONE, 'removeAllSessions', async () => {
+  async removeSessionsByConversation(identifier: string): Promise<void> {
+    return this.withZone(
+      GLOBAL_ZONE,
+      'removeSessionsByConversation',
+      async () => {
+        if (!this.sessions) {
+          throw new Error(
+            'removeSessionsByConversation: this.sessions not yet cached!'
+          );
+        }
+
+        if (identifier == null) {
+          throw new Error(
+            'removeSessionsByConversation: identifier was undefined/null'
+          );
+        }
+
+        log.info(
+          'removeSessionsByConversation: deleting sessions for',
+          identifier
+        );
+
+        const id = window.ConversationController.getConversationId(identifier);
+        strictAssert(
+          id,
+          `removeSessionsByConversation: Conversation not found: ${identifier}`
+        );
+
+        const entries = Array.from(this.sessions.values());
+
+        for (let i = 0, max = entries.length; i < max; i += 1) {
+          const entry = entries[i];
+          if (entry.fromDB.conversationId === id) {
+            this.sessions.delete(entry.fromDB.id);
+            this.pendingSessions.delete(entry.fromDB.id);
+          }
+        }
+
+        await window.Signal.Data.removeSessionsByConversation(id);
+      }
+    );
+  }
+
+  async removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
+    return this.withZone(GLOBAL_ZONE, 'removeSessionsByUUID', async () => {
       if (!this.sessions) {
-        throw new Error('removeAllSessions: this.sessions not yet cached!');
+        throw new Error('removeSessionsByUUID: this.sessions not yet cached!');
       }
 
-      if (identifier == null) {
-        throw new Error('removeAllSessions: identifier was undefined/null');
-      }
-
-      log.info('removeAllSessions: deleting sessions for', identifier);
-
-      const id = window.ConversationController.getConversationId(identifier);
-      strictAssert(
-        id,
-        `removeAllSessions: Conversation not found: ${identifier}`
-      );
+      log.info('removeSessionsByUUID: deleting sessions for', uuid);
 
       const entries = Array.from(this.sessions.values());
 
       for (let i = 0, max = entries.length; i < max; i += 1) {
         const entry = entries[i];
-        if (entry.fromDB.conversationId === id) {
+        if (entry.fromDB.uuid === uuid) {
           this.sessions.delete(entry.fromDB.id);
           this.pendingSessions.delete(entry.fromDB.id);
         }
       }
 
-      await window.Signal.Data.removeSessionsByConversation(id);
+      await window.Signal.Data.removeSessionsByUUID(uuid);
     });
   }
 
@@ -1961,10 +1994,7 @@ export class SignalProtocolStore extends EventEmitter {
     return false;
   }
 
-  async removeIdentityKey(
-    uuid: UUID,
-    options?: { disableSessionDeletion: boolean }
-  ): Promise<void> {
+  async removeIdentityKey(uuid: UUID): Promise<void> {
     if (!this.identityKeys) {
       throw new Error('removeIdentityKey: this.identityKeys not yet cached!');
     }
@@ -1972,9 +2002,7 @@ export class SignalProtocolStore extends EventEmitter {
     const id = uuid.toString();
     this.identityKeys.delete(id);
     await window.Signal.Data.removeIdentityKeyById(id);
-    if (!options?.disableSessionDeletion) {
-      await this.removeAllSessions(id);
-    }
+    await this.removeSessionsByUUID(id);
   }
 
   // Not yet processed messages - for resiliency
