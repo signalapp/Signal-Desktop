@@ -75,7 +75,7 @@ async function doGracefulRename({
       );
     }
   } catch (error) {
-    if (error.code !== 'EACCESS' && error.code !== 'EPERM') {
+    if (error.code !== 'EACCES' && error.code !== 'EPERM') {
       throw error;
     }
 

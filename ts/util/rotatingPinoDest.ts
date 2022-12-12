@@ -69,7 +69,7 @@ export function createRotatingPinoDest({
       // delay.
       if (
         retryCount < MAX_RETRY_COUNT &&
-        (error.code === 'EACCESS' || error.code === 'EPERM')
+        (error.code === 'EACCES' || error.code === 'EPERM')
       ) {
         retryCount += 1;
         warn(`rotatingPinoDest: retrying rotation, retryCount=${retryCount}`);
