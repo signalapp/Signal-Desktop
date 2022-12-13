@@ -1984,4 +1984,8 @@ export function updateSchema(db: Database, logger: LoggerType): void {
 
     runSchemaUpdate(userVersion, db, logger);
   }
+
+  if (userVersion !== maxUserVersion) {
+    db.pragma('optimize');
+  }
 }
