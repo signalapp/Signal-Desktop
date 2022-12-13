@@ -251,6 +251,29 @@ export function TextStoryCreator({
     }
   );
 
+  useEffect(() => {
+    if (!isLinkPreviewInputShowing) {
+      return noop;
+    }
+    return handleOutsideClick(
+      () => {
+        setIsLinkPreviewInputShowing(false);
+        return true;
+      },
+      {
+        containerElements: [
+          linkPreviewInputPopperRef,
+          linkPreviewInputPopperButtonRef,
+        ],
+        name: 'TextStoryCreator.linkPreview',
+      }
+    );
+  }, [
+    isLinkPreviewInputShowing,
+    linkPreviewInputPopperButtonRef,
+    linkPreviewInputPopperRef,
+  ]);
+
   useEscapeHandling(
     useCallback(() => {
       if (isColorPickerShowing || isEditingText || isLinkPreviewInputShowing) {
