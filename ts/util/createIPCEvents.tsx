@@ -494,6 +494,8 @@ export function createIPCEvents(
           trigger('showConversation', convoId);
           return;
         }
+        // We will show not found modal on error
+        return;
       }
 
       const maybeUsername = parseUsernameFromSignalDotMeHash(hash);
@@ -508,6 +510,8 @@ export function createIPCEvents(
           trigger('showConversation', convoId);
           return;
         }
+        // We will show not found modal on error
+        return;
       }
 
       log.info('showConversationViaSignalDotMe: invalid E164');
