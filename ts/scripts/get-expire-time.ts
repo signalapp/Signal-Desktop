@@ -8,7 +8,8 @@ import { writeFileSync } from 'fs';
 import { DAY } from '../util/durations';
 
 const unixTimestamp = parseInt(
-  execSync('git show -s --format=%ct').toString('utf8'),
+  process.env.SOURCE_DATE_EPOCH ||
+    execSync('git show -s --format=%ct').toString('utf8'),
   10
 );
 const buildCreation = unixTimestamp * 1000;
