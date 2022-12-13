@@ -15,7 +15,7 @@ export function getMinNickname(): number {
 }
 
 export function isValidNickname(nickname: string): boolean {
-  if (!/^[a-z_][0-9a-z_]*$/.test(nickname)) {
+  if (!/^[a-z_][0-9a-z_]*$/i.test(nickname)) {
     return false;
   }
 
@@ -31,7 +31,7 @@ export function isValidNickname(nickname: string): boolean {
 }
 
 export function isValidUsername(username: string): boolean {
-  const match = username.match(/^([a-z_][0-9a-z_]*)(\.\d+)?$/);
+  const match = username.match(/^([a-z_][0-9a-z_]*)(\.\d+)?$/i);
   if (!match) {
     return false;
   }
