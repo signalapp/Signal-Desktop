@@ -3,7 +3,10 @@
 
 import { useEffect } from 'react';
 
-export function useEscapeHandling(handleEscape?: () => unknown): void {
+export function useEscapeHandling(
+  handleEscape?: () => unknown,
+  useCapture?: boolean
+): void {
   useEffect(() => {
     if (!handleEscape) {
       return;
@@ -17,10 +20,10 @@ export function useEscapeHandling(handleEscape?: () => unknown): void {
         event.stopPropagation();
       }
     };
-    document.addEventListener('keydown', handler);
+    document.addEventListener('keydown', handler, useCapture);
 
     return () => {
-      document.removeEventListener('keydown', handler);
+      document.removeEventListener('keydown', handler, useCapture);
     };
-  }, [handleEscape]);
+  }, [handleEscape, useCapture]);
 }

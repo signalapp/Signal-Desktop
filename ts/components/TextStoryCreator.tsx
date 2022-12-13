@@ -34,6 +34,7 @@ import { objectMap } from '../util/objectMap';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 import { Spinner } from './Spinner';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -250,40 +251,23 @@ export function TextStoryCreator({
     }
   );
 
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        if (
-          isColorPickerShowing ||
-          isEditingText ||
-          isLinkPreviewInputShowing
-        ) {
-          setIsColorPickerShowing(false);
-          setIsEditingText(false);
-          setIsLinkPreviewInputShowing(false);
-        } else {
-          onTryClose();
-        }
-        event.preventDefault();
-        event.stopPropagation();
+  useEscapeHandling(
+    useCallback(() => {
+      if (isColorPickerShowing || isEditingText || isLinkPreviewInputShowing) {
+        setIsColorPickerShowing(false);
+        setIsEditingText(false);
+        setIsLinkPreviewInputShowing(false);
+      } else {
+        onTryClose();
       }
-    };
-
-    const useCapture = true;
-    document.addEventListener('keydown', handleEscape, useCapture);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape, useCapture);
-    };
-  }, [
-    isColorPickerShowing,
-    isEditingText,
-    isLinkPreviewInputShowing,
-    colorPickerPopperButtonRef,
-    showConfirmDiscardModal,
-    setShowConfirmDiscardModal,
-    onTryClose,
-  ]);
+    }, [
+      isColorPickerShowing,
+      isEditingText,
+      isLinkPreviewInputShowing,
+      onTryClose,
+    ]),
+    true
+  );
 
   useEffect(() => {
     if (!isColorPickerShowing) {
