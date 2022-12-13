@@ -474,6 +474,9 @@
       "node_modules/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "!**/node_modules/react-dom/*/*.development.js",
+      "!node_modules/mp4box/**",
+      "node_modules/mp4box/package.json",
+      "node_modules/mp4box/dist/mp4box.all.js",
       "!node_modules/.cache"
     ]
   }
