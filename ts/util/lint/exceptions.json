@@ -1298,6 +1298,13 @@
     "reasonDetail": "node-gyp dependency"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/agentkeepalive/node_modules/depd/index.js",
+    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-12-13T00:55:48.389Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/asar/node_modules/commander/index.js",
     "line": "          desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
@@ -1758,14 +1765,6 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch|",
     "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/depd/index.js",
-    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
   },
   {
     "rule": "jQuery-load(",
@@ -5002,13 +5001,6 @@
     "updated": "2022-06-04T00:50:49.405Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/micro/node_modules/depd/index.js",
-    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-02-11T21:58:24.827Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -5221,6 +5213,13 @@
     "updated": "2020-09-14T16:19:54.461Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/on-finished/index.js",
+    "line": "  attachListener(msg, wrap(listener))",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-12-13T00:55:48.389Z"
+  },
+  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/p-event/index.js",
     "line": "\t\t\tmultiArgs: false,",
@@ -5282,6 +5281,13 @@
     "line": "function load() {",
     "reasonCategory": "falseMatch",
     "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/pac-proxy-agent/node_modules/depd/index.js",
+    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-12-13T00:55:48.389Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -7064,6 +7070,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-13T18:36:57.012Z",
     "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/raw-body/node_modules/depd/index.js",
+    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-12-13T00:55:48.389Z"
   },
   {
     "rule": "DOM-innerHTML",
