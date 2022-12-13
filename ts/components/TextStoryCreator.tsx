@@ -161,6 +161,26 @@ export function TextStoryCreator({
   const [colorPickerPopperRef, setColorPickerPopperRef] =
     useState<HTMLDivElement | null>(null);
 
+  const [toolsRef, setToolsRef] = useState<HTMLDivElement | null>(null);
+  const [controlTextButtonRef, setControlTextButtonRef] =
+    useState<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!isEditingText) {
+      return noop;
+    }
+    return handleOutsideClick(
+      () => {
+        setIsEditingText(false);
+        return true;
+      },
+      {
+        containerElements: [toolsRef, controlTextButtonRef],
+        name: 'TextStoryCreator.fontEditor',
+      }
+    );
+  }, [toolsRef, controlTextButtonRef, isEditingText]);
+
   const colorPickerPopper = usePopper(
     colorPickerPopperButtonRef,
     colorPickerPopperRef,
@@ -359,7 +379,7 @@ export function TextStoryCreator({
         </div>
         <div className="StoryCreator__toolbar">
           {isEditingText ? (
-            <div className="StoryCreator__tools">
+            <div className="StoryCreator__tools" ref={setToolsRef}>
               <Slider
                 handleStyle={{ backgroundColor: getRGBA(sliderValue) }}
                 label={getRGBA(sliderValue)}
@@ -534,6 +554,7 @@ export function TextStoryCreator({
                   setIsEditingText(!isEditingText);
                 }}
                 type="button"
+                ref={setControlTextButtonRef}
               />
               <button
                 aria-label={i18n('StoryCreator__control--link')}
