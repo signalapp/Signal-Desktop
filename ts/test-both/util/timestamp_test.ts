@@ -21,6 +21,22 @@ import {
 
 const FAKE_NOW = new Date('2020-01-23T04:56:00.000');
 
+// Force locale of toLocaleTimeString to be US in order to
+// have reproducible outputs
+let dateToLocaleTimeStringStub: sinon.SinonStub;
+before(() => {
+  const original = Date.prototype.toLocaleTimeString;
+  dateToLocaleTimeStringStub = sinon
+    .stub(Date.prototype, 'toLocaleTimeString')
+    // `function` necessary here to pass along the `this` parameter
+    .callsFake(function fakeToLocaleTimeString(this: Date, _, options) {
+      return original.apply(this, [['en-US'], options]);
+    });
+});
+after(() => {
+  dateToLocaleTimeStringStub.restore();
+});
+
 describe('timestamp', () => {
   function useFakeTimers() {
     let sandbox: sinon.SinonSandbox;
