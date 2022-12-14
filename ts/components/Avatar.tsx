@@ -161,7 +161,8 @@ export function Avatar({
     assertDev(avatarPath, 'avatarPath should be defined here');
 
     assertDev(
-      blur !== AvatarBlur.BlurPictureWithClickToView || size >= 100,
+      blur !== AvatarBlur.BlurPictureWithClickToView ||
+        size >= AvatarSize.EIGHTY,
       'Rendering "click to view" for a small avatar. This may not render correctly'
     );
 
