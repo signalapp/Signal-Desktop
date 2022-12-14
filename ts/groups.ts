@@ -2273,7 +2273,7 @@ export async function initiateMigrationToGroupV2(
     await conversation.queueJob('initiateMigrationToGroupV2', async () => {
       const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
-      const isEligible = isGroupEligibleToMigrate(conversation);
+      const isEligible = await isGroupEligibleToMigrate(conversation);
       const previousGroupV1Id = conversation.get('groupId');
 
       if (!isEligible || !previousGroupV1Id) {
