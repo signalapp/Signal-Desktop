@@ -101,7 +101,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { isIncoming } from '../selectors/message';
+import { isIncoming, isOutgoing } from '../selectors/message';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import type { ShowToastActionType } from './toast';
 import { SHOW_TOAST, ToastType } from './toast';
@@ -882,6 +882,7 @@ export const actions = {
   deleteAvatarFromDisk,
   deleteConversation,
   deleteMessageForEveryone,
+  deleteMessage,
   destroyMessages,
   discardMessages,
   doubleCheckMissingQuoteReference,
@@ -1208,6 +1209,46 @@ function setPinned(
   return {
     type: 'NOOP',
     payload: null,
+  };
+}
+
+function deleteMessage({
+  conversationId,
+  messageId,
+}: {
+  conversationId: string;
+  messageId: string;
+}): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`deleteMessage: Message ${messageId} missing!`);
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('deleteMessage: No conversation found');
+    }
+
+    const messageConversationId = message.get('conversationId');
+    if (conversationId !== messageConversationId) {
+      throw new Error(
+        `deleteMessage: message conversation ${messageConversationId} doesn't match provided conversation ${conversationId}`
+      );
+    }
+
+    window.Signal.Data.removeMessage(messageId);
+    if (isOutgoing(message.attributes)) {
+      conversation.decrementSentMessageCount();
+    } else {
+      conversation.decrementMessageCount();
+    }
+    popPanelForConversation(conversationId)(dispatch, getState, undefined);
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 

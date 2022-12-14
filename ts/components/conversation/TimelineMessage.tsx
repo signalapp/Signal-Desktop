@@ -39,7 +39,10 @@ export type PropsData = {
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
-  deleteMessage: (id: string) => void;
+  deleteMessage: (options: {
+    conversationId: string;
+    messageId: string;
+  }) => void;
   deleteMessageForEveryone: (id: string) => void;
   toggleForwardMessageModal: (id: string) => void;
   reactToMessage: (
@@ -233,6 +236,7 @@ export function TimelineMessage(props: Props): JSX.Element {
   const handleReact = canReact ? () => toggleReactionPicker() : undefined;
 
   const [hasDOEConfirmation, setHasDOEConfirmation] = useState(false);
+  const [hasDeleteConfirmation, setHasDeleteConfirmation] = useState(false);
 
   const toggleReactionPickerKeyboard = useToggleReactionPicker(
     handleReact || noop
@@ -264,6 +268,26 @@ export function TimelineMessage(props: Props): JSX.Element {
           onClose={() => setHasDOEConfirmation(false)}
         >
           {i18n('deleteForEveryoneWarning')}
+        </ConfirmationDialog>
+      )}
+      {hasDeleteConfirmation && (
+        <ConfirmationDialog
+          actions={[
+            {
+              action: () =>
+                deleteMessage({
+                  conversationId,
+                  messageId: id,
+                }),
+              style: 'negative',
+              text: i18n('delete'),
+            },
+          ]}
+          dialogName="TimelineMessage/deleteMessage"
+          i18n={i18n}
+          onClose={() => setHasDeleteConfirmation(false)}
+        >
+          {i18n('deleteWarning')}
         </ConfirmationDialog>
       )}
       <Message
@@ -330,7 +354,7 @@ export function TimelineMessage(props: Props): JSX.Element {
             : undefined
         }
         onForward={canForward ? () => toggleForwardMessageModal(id) : undefined}
-        onDeleteForMe={() => deleteMessage(id)}
+        onDeleteForMe={() => setHasDeleteConfirmation(true)}
         onDeleteForEveryone={
           canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
         }

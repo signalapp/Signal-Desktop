@@ -1677,10 +1677,22 @@ export async function startApp(): Promise<void> {
         const { selectedMessage } = state.conversations;
 
         if (selectedMessage) {
-          conversation.trigger('delete-message', selectedMessage);
-
           event.preventDefault();
           event.stopPropagation();
+
+          window.showConfirmationDialog({
+            dialogName: 'deleteMessage',
+            confirmStyle: 'negative',
+            message: window.i18n('deleteWarning'),
+            okText: window.i18n('delete'),
+            resolve: () => {
+              window.reduxActions.conversations.deleteMessage({
+                conversationId: conversation.id,
+                messageId: selectedMessage,
+              });
+            },
+          });
+
           return;
         }
       }

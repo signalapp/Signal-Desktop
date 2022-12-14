@@ -65,7 +65,6 @@ export type TimelinePropsType = ExternalProps &
     | 'acknowledgeGroupMemberNameCollisions'
     | 'contactSupport'
     | 'blockGroupLinkRequests'
-    | 'deleteMessage'
     | 'downloadNewVersion'
     | 'kickOffAttachmentDownload'
     | 'learnMoreAboutDeliveryIssue'

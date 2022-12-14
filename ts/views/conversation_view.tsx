@@ -20,7 +20,7 @@ import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
 import { getPreferredBadgeSelector } from '../state/selectors/badges';
-import { isIncoming, isOutgoing } from '../state/selectors/message';
+import { isIncoming } from '../state/selectors/message';
 import { getActiveCallState } from '../state/selectors/calling';
 import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
@@ -73,7 +73,6 @@ const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
 const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
-  deleteMessage: (messageId: string) => unknown;
   downloadNewVersion: () => unknown;
   kickOffAttachmentDownload: (
     options: Readonly<{ messageId: string }>
@@ -147,7 +146,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       window.reduxActions.conversations.popPanelForConversation(this.model.id);
     });
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
-    this.listenTo(this.model, 'delete-message', this.deleteMessage);
 
     this.listenTo(this.model, 'pushPanel', this.pushPanel);
     this.listenTo(this.model, 'popPanel', this.popPanel);
@@ -410,9 +408,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     };
     const retrySend = retryMessageSend;
-    const deleteMessage = (messageId: string) => {
-      this.deleteMessage(messageId);
-    };
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
@@ -471,7 +466,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
 
     return {
-      deleteMessage,
       downloadNewVersion,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
@@ -860,31 +854,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     view.render();
 
     return view;
-  }
-
-  deleteMessage(messageId: string): void {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`deleteMessage: Message ${messageId} missing!`);
-    }
-
-    window.showConfirmationDialog({
-      dialogName: 'deleteMessage',
-      confirmStyle: 'negative',
-      message: window.i18n('deleteWarning'),
-      okText: window.i18n('delete'),
-      resolve: () => {
-        window.Signal.Data.removeMessage(message.id);
-        if (isOutgoing(message.attributes)) {
-          this.model.decrementSentMessageCount();
-        } else {
-          this.model.decrementMessageCount();
-        }
-        window.reduxActions.conversations.popPanelForConversation(
-          this.model.id
-        );
-      },
-    });
   }
 
   showGroupLinkManagement(): void {
