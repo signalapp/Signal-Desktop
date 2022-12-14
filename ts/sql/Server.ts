@@ -7,8 +7,8 @@ import { mkdirSync } from 'fs';
 import { join } from 'path';
 import rimraf from 'rimraf';
 import { randomBytes } from 'crypto';
-import type { Database, Statement } from 'better-sqlite3';
-import SQL from 'better-sqlite3';
+import type { Database, Statement } from '@signalapp/better-sqlite3';
+import SQL from '@signalapp/better-sqlite3';
 import pProps from 'p-props';
 
 import type { Dictionary } from 'lodash';

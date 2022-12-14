@@ -31,7 +31,7 @@ const bundleDefaults = {
     // Native libraries
     '@signalapp/libsignal-client',
     '@signalapp/libsignal-client/zkgroup',
-    'better-sqlite3',
+    '@signalapp/better-sqlite3',
     'electron',
     'fs-xattr',
     'fsevents',
