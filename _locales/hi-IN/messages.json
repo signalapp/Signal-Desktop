@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "आपने {receiver} को एक भुगतान करना शुरू किया",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "आपने एक भुगतान शुरू किया",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender} ने आपको एक भुगतान शुरू किया",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "{sender} चाहते हैं कि आप भुगतान सक्रीय करें। केवल अपने भरोसे के लोगों को ही भुगतान करें। सेटिंग्स -> भुगतान, में जा कर आपके मोबाइल डिवाइस पर भुगतान सक्रीय किए जा सकते हैं।",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "आपने भुगतान सक्रीय करने हेतु {receiver} को एक अनुरोध भेजा।",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "आपने भुगतान सक्रीय करने हेतु एक अनुरोध भेजा।",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender} अब भुगतान स्वीकार कर सकते हैं।",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "आपने भुगतान सक्रीय किए।",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "भुगतान",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "इस भुगतान की स्थिति के लिए अपने मुख्य डिवाइस को चेक करें",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "अटैचमेंट डाउनलोड करें",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "टाइमस्टैम्प कॉपी करें",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "जब आप छोटे समूहों (16 लोगों तक वाले) के लिए ग्रुप कॉल शुरू करते हैं तब आप एक रिंग होनेवाला नोटिफ़िकेशन भेजने का चुनाव कर सकते हैं। समूह के सदस्य यही iOS बीटा पर हों या डेस्कटॉप या ऐंड्रॉयड का इस्तेमाल कर रहे हों तो उन्हें एक रिंग सुनाई देगी।",
     "description": "Release notes for v6.1"
   }
 }

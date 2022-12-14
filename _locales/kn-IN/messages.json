@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "ನೀವು {receiver} ಅವರಿಗೆ ಪಾವತಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ್ದೀರಿ",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "ನೀವು ಪಾವತಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ್ದೀರಿ",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender} ಅವರು ನಿಮಗೆ ಪಾವತಿಯನ್ನು ಪ್ರಾರಂಭಿಸಿದ್ದಾರೆ",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "ನೀವು ಪಾವತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬೇಕೆಂದು {sender} ಅವರು ಬಯಸುತ್ತಾರೆ. ನೀವು ವಿಶ್ವಾಸ ಹೊಂದಿರುವವರಿಗೆ ಮಾತ್ರ ಪಾವತಿಗಳನ್ನು ಕಳುಹಿಸಿ. ಸೆಟ್ಟಿಂಗ್‌ಗಳು -> ಪಾವತಿಗಳು ಗೆ ಹೋಗುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊಬೈಲ್ ಸಾಧನದಲ್ಲಿ ಪಾವತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "ನೀವು {receiver} ಅವರಿಗೆ ಪಾವತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ವಿನಂತಿ ಕಳುಹಿಸಿದ್ದೀರಿ.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "ನೀವು ಪಾವತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ವಿನಂತಿ ಕಳುಹಿಸಿದ್ದೀರಿ.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender} ಅವರು ಈಗ ಪಾವತಿಗಳನ್ನು ಸ್ವೀಕರಿಸಬಹುದು.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "ನೀವು ಪಾವತಿಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿದ್ದೀರಿ.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "ಪಾವತಿ",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "ಈ ಪಾವತಿಯ ಸ್ಥಿತಿಗಾಗಿ ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನವನ್ನು ಪರಿಶೀಲಿಸಿ",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "ಟೈಂಸ್ಟಾಂಪ್ ನಕಲಿಸಿ",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "ನೀವು ಸಣ್ಣ ಗ್ರೂಪ್‌ಗಳಿಗೆ (16 ಜನರ ತನಕ) ಗ್ರೂಪ್ ಕಾಲ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸುವಾಗ, ರಿಂಗಣಿಸುವ ಅಧಿಸೂಚನೆಯನ್ನು ಕಳುಹಿಸಲು ನೀವು ಆಯ್ಕೆ ಮಾಡಬಹುದು. ಗ್ರೂಪ್ ಸದಸ್ಯರು iOS ಬೀಟಾದಲ್ಲಿದ್ದರೆ ಅಥವಾ Desktop ಅಥವಾ Android ಬಳಸುತ್ತಿದ್ದರೆ ರಿಂಗ್ ಆಲಿಸುತ್ತಾರೆ.",
     "description": "Release notes for v6.1"
   }
 }

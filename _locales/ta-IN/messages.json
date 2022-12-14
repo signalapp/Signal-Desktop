@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "{receiver} க்கு கட்டணம் செலுத்தத் தொடங்கியுள்ளீர்கள்",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "நீங்கள் கட்டணம் செலுத்தத் தொடங்கியுள்ளீர்கள்",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender} உங்களுக்குப் பணம் செலுத்தத் தொடங்கியுள்ளார்",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "நீங்கள் கட்டணங்களைச் செயல்படுத்த {sender} விரும்புகிறார். நீங்கள் நம்பும் நபர்களுக்கு மட்டும் கட்டணங்களை அனுப்பவும். அமைப்புகள் -> கட்டணங்களுக்குச் சென்று உங்கள் மொபைல் சாதனத்தில் கட்டணங்களைச் செயல்படுத்தலாம்.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "கட்டணங்களைச் செயல்படுத்த {receiver} க்கு நீங்கள் ஒரு கோரிக்கை அனுப்பியுள்ளீர்கள்.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "கட்டணங்களைச் செயல்படுத்த நீங்கள் ஒரு கோரிக்கை அனுப்பியுள்ளீர்கள்.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender} -ஆல் இப்போது கட்டணங்களை ஏற்றுக்கொள்ள முடியும்.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "நீங்கள் கட்டணங்களைச் செயல்படுத்தியுள்ளீர்கள்.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "பேமெண்ட்",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "இந்தக் கட்டணத்தின் நிலையை அறிய உங்கள் முதன்மைச் சாதனத்தைச் சரிபார்க்கவும்",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "இணைப்பு பதிவிறக்கவும்",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "நேர முத்திரையை நகலெடுக்கவும்",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "சிறிய குழுக்களுக்கு (16 பேர் வரை) நீங்கள் ஒரு குழு அழைப்பைத் தொடங்கும்போது, ஒரு அழைப்பு அறிவிப்பை அனுப்ப நீங்கள் தேர்வு செய்யலாம். குழு உறுப்பினர்கள் ஐ.ஓ.எஸ் பீட்டாவில் இருந்தால் அல்லது டெஸ்க்டாப் அல்லது ஆண்ட்ராய்டைப் பயன்படுத்தினால் அவர்கள் ஒரு அழைப்பு ஒலியைக் கேட்பார்கள்.",
     "description": "Release notes for v6.1"
   }
 }

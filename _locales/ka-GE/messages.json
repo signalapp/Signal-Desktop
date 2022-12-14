@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "შენ დაიწყე {receiver}-ისთვის გადარიცხვა",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "შენ დაიწყე გადარიცხვა",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender}-მა დაიწყო შენთვის გადმორიცხვა",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "{sender}-ს სურს, რომ ტრანზაქციები გაააქტიურო. მხოლოდ იმ ადამიანებს გადაურიცხე, ვისაც ენდობი. ტრანზაქციების გააქტიურება შესაძლებელია შენი მობილური მოწყობილობის პარამეტრებში -> ტრანზაქციები.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "შენ გაუგზავნე მოთხოვნა {receiver}-ს, რომ ტრანზაქციები გაააქტიუროს",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "შენ გააგზავნე ტრანზაქციების გაააქტიურების მოთხოვნა.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender}-ს უკვე შეუძლია ტრანზაქციები მიიღოს.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "შენ გაააქტიურე ტრანზაქციები.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "ტრანზაქცია",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "ამ ტრანზაქციის სტატუსის სანახავად, შეამოწმე შენი მთავარი მოწყობილობა",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "დანართის ჩამოტვირთვა",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "დროის აღმნიშვნელის დაკოპირება",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "როცა მცირე ზომის ჯგუფში (16 პერსონამდე) ჯგუფურ ზარს ახორციელებ, შეგიძლია წევრებს ზარის მრეკავი შეტყობინება გაუგზავნო. ჯგუფის წევრები ზარის ხმას გაიგებენ თუ iOS ბეტაზე არიან ან Desktop-ს თუ Android-ს იყენებენ.",
     "description": "Release notes for v6.1"
   }
 }

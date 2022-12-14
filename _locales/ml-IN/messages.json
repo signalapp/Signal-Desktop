@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "{receiver} എന്നതിലേക്ക് നിങ്ങൾ ഒരു പേയ്‌മെന്റ് ആരംഭിച്ചു",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "നിങ്ങൾ ഒരു പേയ്‌മെന്റ് ആരംഭിച്ചു",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender} നിങ്ങളുമായി ഒരു പേയ്‌മെന്റ് ആരംഭിച്ചു",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "നിങ്ങൾ പേയ്മെന്റുകൾ ആക്‌ടിവേറ്റ് ചെയ്യണമെന്ന് {sender} ആഗ്രഹിക്കുന്നു. നിങ്ങൾ വിശ്വസിക്കുന്ന ആളുകൾക്ക് മാത്രം പേയ്‌മെന്റുകൾ അയയ്ക്കുക. ക്രമീകരണങ്ങൾ -> പേയ്‌മെന്റുകൾ എന്നതിലേക്ക് പോയി നിങ്ങളുടെ മൊബൈൽ ഉപകരണത്തിൽ പേയ്‌മെന്റുകൾ ആക്‌ടിവേറ്റ് ചെയ്യാം.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "പേയ്‌മെന്റുകൾ ആക്‌ടിവേറ്റ് ചെയ്യാൻ നിങ്ങൾ {receiver} എന്നയാൾക്ക് ഒരു അഭ്യർത്ഥന അയച്ചു.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "പേയ്‌മെന്റുകൾ ആക്‌ടിവേറ്റ് ചെയ്യാൻ നിങ്ങൾ ഒരു അഭ്യർത്ഥന അയച്ചു.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender} എന്നയാൾക്ക് ഇപ്പോൾ പേയ്‌മെന്റുകൾ സ്വീകരിക്കാൻ കഴിയും.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "നിങ്ങൾ പേയ്‌മെന്റുകൾ ആക്‌ടിവേറ്റ് ചെയ്‌തു.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "പേയ്മെന്റ്",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "ഈ പേയ്‌മെന്റിന്റെ നില അറിയാൻ നിങ്ങളുടെ പ്രാഥമിക ഉപകരണം പരിശോധിക്കുക",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "അറ്റാച്ച്‌മെന്റ് ഡൗൺലോഡ് ചെയ്യുക",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "ടൈംസ്റ്റാമ്പ് പകർത്തുക",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "നിങ്ങൾ ചെറിയ ഗ്രൂപ്പുകൾക്കായി (16 ആളുകൾ വരെയുള്ളത്) ഒരു ഗ്രൂപ്പ് കോൾ ആരംഭിക്കുമ്പോൾ, നിങ്ങൾക്ക് ഒരു റിംഗിംഗ് അറിയിപ്പ് അയയ്ക്കാൻ തീരുമാനിക്കാം. ഗ്രൂപ്പ് അംഗങ്ങൾ iOS ബീറ്റയിലാണെങ്കിലോ അല്ലെങ്കിൽ ഡെസ്‌ക്ടോപ്പ് അല്ലെങ്കിൽ Android ഉപയോഗിക്കുകയാണെങ്കിലോ അവർ ഒരു റിംഗ് കേൾക്കും.",
     "description": "Release notes for v6.1"
   }
 }
