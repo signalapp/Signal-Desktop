@@ -40,7 +40,10 @@ import type {
 import { isImageAttachment } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
-import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationType,
+  ShowConversationType,
+} from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 
@@ -117,7 +120,6 @@ export type OwnProps = Readonly<{
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
     }
   ): unknown;
-  openConversation(conversationId: string): unknown;
   quotedMessageId?: string;
   quotedMessageProps?: Omit<
     QuoteProps,
@@ -131,6 +133,7 @@ export type OwnProps = Readonly<{
     messageId: string | undefined
   ): unknown;
   shouldSendHighQualityAttachments: boolean;
+  showConversation: ShowConversationType;
   startRecording: () => unknown;
   theme: ThemeType;
 }>;
@@ -257,7 +260,7 @@ export function CompositionArea({
   areWeAdmin,
   groupAdmins,
   onCancelJoinRequest,
-  openConversation,
+  showConversation,
   // SMS-only contacts
   isSMSOnly,
   isFetchingUUID,
@@ -594,7 +597,7 @@ export function CompositionArea({
       <AnnouncementsOnlyGroupBanner
         groupAdmins={groupAdmins}
         i18n={i18n}
-        openConversation={openConversation}
+        showConversation={showConversation}
         theme={theme}
       />
     );

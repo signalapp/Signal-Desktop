@@ -135,10 +135,6 @@ export function Inbox({
       prevConversation.trigger('unload', 'force unload requested');
     }
 
-    function onShowConversation(id: string, messageId?: string): void {
-      showConversation({ conversationId: id, messageId });
-    }
-
     function packInstallFailed() {
       showToast(ToastStickerPackInstallFailed);
     }
@@ -147,14 +143,12 @@ export function Inbox({
     window.Whisper.events.on('pack-install-failed', packInstallFailed);
     window.Whisper.events.on('refreshConversation', refreshConversation);
     window.Whisper.events.on('setupAsNewDevice', unload);
-    window.Whisper.events.on('showConversation', onShowConversation);
 
     return () => {
       window.Whisper.events.off('loadingProgress', setLoadingMessageCount);
       window.Whisper.events.off('pack-install-failed', packInstallFailed);
       window.Whisper.events.off('refreshConversation', refreshConversation);
       window.Whisper.events.off('setupAsNewDevice', unload);
-      window.Whisper.events.off('showConversation', onShowConversation);
     };
   }, [prevConversation, showConversation]);
 

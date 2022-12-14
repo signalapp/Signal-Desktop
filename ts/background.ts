@@ -158,6 +158,8 @@ import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
 import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
 import { downloadOnboardingStory } from './util/downloadOnboardingStory';
+import { clearConversationDraftAttachments } from './util/clearConversationDraftAttachments';
+import { removeLinkPreview } from './services/LinkPreview';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1545,10 +1547,9 @@ export async function startApp(): Promise<void> {
         showToast(ToastConversationArchived, {
           undo: () => {
             conversation.setArchived(false);
-            window.Whisper.events.trigger(
-              'showConversation',
-              conversation.get('id')
-            );
+            window.reduxActions.conversations.showConversation({
+              conversationId: conversation.get('id'),
+            });
           },
         });
 
@@ -1702,7 +1703,7 @@ export async function startApp(): Promise<void> {
         !shiftKey &&
         (key === 'p' || key === 'P')
       ) {
-        conversation.trigger('remove-link-review');
+        removeLinkPreview();
 
         event.preventDefault();
         event.stopPropagation();
@@ -1716,7 +1717,10 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'p' || key === 'P')
       ) {
-        conversation.trigger('remove-all-draft-attachments');
+        clearConversationDraftAttachments(
+          conversation.id,
+          conversation.get('draftAttachments')
+        );
 
         event.preventDefault();
         event.stopPropagation();
@@ -1924,7 +1928,10 @@ export async function startApp(): Promise<void> {
             viewTarget: StoryViewTargetType.Replies,
           });
         } else {
-          window.Whisper.events.trigger('showConversation', id, messageId);
+          window.reduxActions.conversations.showConversation({
+            conversationId: id,
+            messageId,
+          });
         }
       } else {
         window.reduxActions.app.openInbox();

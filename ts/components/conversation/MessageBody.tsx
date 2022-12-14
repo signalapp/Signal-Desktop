@@ -13,31 +13,27 @@ import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
+import type { ShowConversationType } from '../../state/ducks/conversations';
 import type {
   HydratedBodyRangesType,
   LocalizerType,
   RenderTextCallbackType,
 } from '../../types/Util';
 
-type OpenConversationActionType = (
-  conversationId: string,
-  messageId?: string
-) => void;
-
 export type Props = {
-  direction?: 'incoming' | 'outgoing';
-  text: string;
   author?: string;
-  textAttachment?: Pick<AttachmentType, 'pending' | 'digest' | 'key'>;
+  bodyRanges?: HydratedBodyRangesType;
+  direction?: 'incoming' | 'outgoing';
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
   disableJumbomoji?: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
   i18n: LocalizerType;
-  bodyRanges?: HydratedBodyRangesType;
-  onIncreaseTextLength?: () => unknown;
-  openConversation?: OpenConversationActionType;
   kickOffBodyDownload?: () => void;
+  onIncreaseTextLength?: () => unknown;
+  showConversation?: ShowConversationType;
+  text: string;
+  textAttachment?: Pick<AttachmentType, 'pending' | 'digest' | 'key'>;
 };
 
 const renderEmoji = ({
@@ -67,17 +63,17 @@ const renderEmoji = ({
  * them for you.
  */
 export function MessageBody({
+  author,
   bodyRanges,
   direction,
   disableJumbomoji,
   disableLinks,
   i18n,
-  onIncreaseTextLength,
-  openConversation,
-  text,
-  author,
-  textAttachment,
   kickOffBodyDownload,
+  onIncreaseTextLength,
+  showConversation,
+  text,
+  textAttachment,
 }: Props): JSX.Element {
   const hasReadMore = Boolean(onIncreaseTextLength);
   const textWithSuffix =
@@ -100,10 +96,10 @@ export function MessageBody({
         renderNonNewLine={({ text: innerText, key: innerKey }) => (
           <AtMentionify
             key={innerKey}
-            direction={direction}
-            text={innerText}
             bodyRanges={bodyRanges}
-            openConversation={openConversation}
+            direction={direction}
+            showConversation={showConversation}
+            text={innerText}
           />
         )}
       />

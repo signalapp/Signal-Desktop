@@ -9,14 +9,14 @@ import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice'
 
 export type Props = Pick<
   MessageBodyPropsType,
+  | 'bodyRanges'
   | 'direction'
-  | 'text'
-  | 'textAttachment'
   | 'disableLinks'
   | 'i18n'
-  | 'bodyRanges'
-  | 'openConversation'
   | 'kickOffBodyDownload'
+  | 'showConversation'
+  | 'text'
+  | 'textAttachment'
 > & {
   id: string;
   displayLimit?: number;
@@ -38,9 +38,9 @@ export function MessageBodyReadMore({
   displayLimit,
   i18n,
   id,
-  messageExpanded,
-  openConversation,
   kickOffBodyDownload,
+  messageExpanded,
+  showConversation,
   text,
   textAttachment,
 }: Props): JSX.Element {
@@ -61,12 +61,12 @@ export function MessageBodyReadMore({
   return (
     <MessageBody
       bodyRanges={bodyRanges}
-      disableLinks={disableLinks}
       direction={direction}
+      disableLinks={disableLinks}
       i18n={i18n}
-      onIncreaseTextLength={onIncreaseTextLength}
-      openConversation={openConversation}
       kickOffBodyDownload={kickOffBodyDownload}
+      onIncreaseTextLength={onIncreaseTextLength}
+      showConversation={showConversation}
       text={slicedText}
       textAttachment={textAttachment}
     />

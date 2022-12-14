@@ -117,8 +117,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   ),
   areWeAdmin: boolean('areWeAdmin', Boolean(overrideProps.areWeAdmin)),
   groupAdmins: [],
-  openConversation: action('openConversation'),
   onCancelJoinRequest: action('onCancelJoinRequest'),
+  showConversation: action('showConversation'),
   // SMS-only
   isSMSOnly: overrideProps.isSMSOnly || false,
   isFetchingUUID: overrideProps.isFetchingUUID || false,

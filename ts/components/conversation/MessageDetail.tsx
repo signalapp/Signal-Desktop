@@ -81,7 +81,6 @@ export type PropsBackboneActions = Pick<
   MessagePropsType,
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
-  | 'openConversation'
   | 'openGiftBadge'
   | 'openLink'
   | 'renderAudioAttachment'
@@ -98,6 +97,7 @@ export type PropsReduxActions = Pick<
   | 'doubleCheckMissingQuoteReference'
   | 'saveAttachment'
   | 'showContactModal'
+  | 'showConversation'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
   | 'viewStory'
@@ -290,13 +290,13 @@ export class MessageDetail extends React.Component<Props> {
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       markViewed,
-      openConversation,
       openGiftBadge,
       openLink,
       renderAudioAttachment,
       saveAttachment,
       showContactDetail,
       showContactModal,
+      showConversation,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showLightbox,
@@ -336,7 +336,7 @@ export class MessageDetail extends React.Component<Props> {
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
             markViewed={markViewed}
             messageExpanded={noop}
-            openConversation={openConversation}
+            showConversation={showConversation}
             openGiftBadge={openGiftBadge}
             openLink={openLink}
             renderAudioAttachment={renderAudioAttachment}

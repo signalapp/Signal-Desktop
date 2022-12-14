@@ -78,7 +78,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   markViewed: action('markViewed'),
-  openConversation: action('openConversation'),
+  showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   openLink: action('openLink'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,

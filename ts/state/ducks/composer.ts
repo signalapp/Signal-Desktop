@@ -44,6 +44,7 @@ import {
   getLinkPreviewForSend,
   hasLinkPreviewLoaded,
   maybeGrabLinkPreview,
+  removeLinkPreview,
   resetLinkPreview,
 } from '../../services/LinkPreview';
 import { getMaximumAttachmentSize } from '../../util/attachments';
@@ -787,6 +788,10 @@ function replaceAttachments(
     // update the state.
     if (getState().conversations.selectedConversationId !== conversationId) {
       return;
+    }
+
+    if (hasDraftAttachments(attachments, { includePending: true })) {
+      removeLinkPreview();
     }
 
     dispatch({

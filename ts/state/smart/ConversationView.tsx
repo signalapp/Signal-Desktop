@@ -29,7 +29,6 @@ export type PropsType = {
     | 'onEditorStateChange'
     | 'onSelectMediaQuality'
     | 'onTextTooLong'
-    | 'openConversation'
   >;
   conversationHeaderProps: ConversationHeaderPropsType;
   timelineProps: TimelinePropsType;

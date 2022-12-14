@@ -16,15 +16,15 @@ type PropsType = {
   clearSearch: () => void;
   disabled?: boolean;
   i18n: LocalizerType;
-  searchConversation?: ConversationType;
-  searchTerm: string;
-  startSearchCounter: number;
-  updateSearchTerm: (searchTerm: string) => void;
-  showConversation: ShowConversationType;
   onEnterKeyDown?: (
     clearSearch: () => void,
     showConversation: ShowConversationType
   ) => void;
+  searchConversation?: ConversationType;
+  searchTerm: string;
+  showConversation: ShowConversationType;
+  startSearchCounter: number;
+  updateSearchTerm: (searchTerm: string) => void;
 };
 
 export function LeftPaneSearchInput({
@@ -32,12 +32,12 @@ export function LeftPaneSearchInput({
   clearSearch,
   disabled,
   i18n,
+  onEnterKeyDown,
   searchConversation,
   searchTerm,
+  showConversation,
   startSearchCounter,
   updateSearchTerm,
-  showConversation,
-  onEnterKeyDown,
 }: PropsType): JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 

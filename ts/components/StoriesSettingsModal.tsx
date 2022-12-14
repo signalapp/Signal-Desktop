@@ -1193,22 +1193,22 @@ export function EditDistributionListModal({
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
                 i18n={i18n}
+                lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
                 onClickArchiveButton={shouldNeverBeCalled}
                 onClickContactCheckbox={(conversationId: string) => {
                   toggleSelectedConversation(conversationId);
                 }}
-                lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
-                showConversation={shouldNeverBeCalled}
-                showUserNotFoundModal={shouldNeverBeCalled}
-                setIsFetchingUUID={shouldNeverBeCalled}
                 onSelectConversation={shouldNeverBeCalled}
                 renderMessageSearchResult={() => {
                   shouldNeverBeCalled();
                   return <div />;
                 }}
                 rowCount={rowCount}
+                setIsFetchingUUID={shouldNeverBeCalled}
                 shouldRecomputeRowHeights={false}
                 showChooseGroupMembers={shouldNeverBeCalled}
+                showConversation={shouldNeverBeCalled}
+                showUserNotFoundModal={shouldNeverBeCalled}
                 theme={ThemeType.dark}
               />
             </div>

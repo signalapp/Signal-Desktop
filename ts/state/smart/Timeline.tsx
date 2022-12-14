@@ -74,7 +74,6 @@ export type TimelinePropsType = ExternalProps &
     | 'loadOlderMessages'
     | 'markAttachmentAsCorrupted'
     | 'markMessageRead'
-    | 'openConversation'
     | 'openGiftBadge'
     | 'openLink'
     | 'reactToMessage'

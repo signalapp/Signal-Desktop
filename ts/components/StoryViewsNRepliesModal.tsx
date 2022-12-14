@@ -57,7 +57,7 @@ const MESSAGE_DEFAULT_PROPS = {
   markViewed: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
   // Called when clicking mention, but shouldn't do anything.
-  openConversation: noop,
+  showConversation: noop,
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,
   previews: [],

@@ -3,7 +3,9 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { noop } from 'lodash';
 
+import type { ReduxActions } from '../../../state/types';
 import { actions, getEmptyState, reducer } from '../../../state/ducks/composer';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
@@ -38,6 +40,22 @@ describe('both/state/ducks/composer', () => {
   };
 
   describe('replaceAttachments', () => {
+    let oldReduxActions: ReduxActions;
+    before(() => {
+      oldReduxActions = window.reduxActions;
+      window.reduxActions = {
+        ...oldReduxActions,
+        linkPreviews: {
+          ...oldReduxActions?.linkPreviews,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          removeLinkPreview: noop as any,
+        },
+      };
+    });
+    after(() => {
+      window.reduxActions = oldReduxActions;
+    });
+
     it('replaces the attachments state', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();

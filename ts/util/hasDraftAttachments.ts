@@ -4,7 +4,7 @@
 import type { AttachmentDraftType } from '../types/Attachment';
 
 export function hasDraftAttachments(
-  draftAttachments: Array<AttachmentDraftType> | undefined,
+  draftAttachments: ReadonlyArray<AttachmentDraftType> | undefined,
   options: { includePending: boolean }
 ): boolean {
   if (!draftAttachments) {

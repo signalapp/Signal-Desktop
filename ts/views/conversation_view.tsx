@@ -37,7 +37,6 @@ import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
 import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
-import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { retryMessageSend } from '../util/retryMessageSend';
 import { isNotNil } from '../util/isNotNil';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
@@ -55,7 +54,7 @@ import {
 import { SECOND } from '../util/durations';
 import { startConversation } from '../util/startConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
-import { hasDraftAttachments } from '../util/hasDraftAttachments';
+import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments';
 import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
 import { PanelType, isPanelHandledByReact } from '../types/Panels';
 
@@ -80,7 +79,6 @@ type MessageActionsType = {
     options: Readonly<{ messageId: string }>
   ) => unknown;
   markAttachmentAsCorrupted: (options: AttachmentOptions) => unknown;
-  openConversation: (conversationId: string, messageId?: string) => unknown;
   openGiftBadge: (messageId: string) => unknown;
   openLink: (url: string) => unknown;
   reactToMessage: (
@@ -150,27 +148,18 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
     this.listenTo(this.model, 'delete-message', this.deleteMessage);
-    this.listenTo(this.model, 'remove-link-review', removeLinkPreview);
-    this.listenTo(
-      this.model,
-      'remove-all-draft-attachments',
-      this.clearAttachments
-    );
+
+    this.listenTo(this.model, 'pushPanel', this.pushPanel);
+    this.listenTo(this.model, 'popPanel', this.popPanel);
 
     this.render();
 
     this.setupConversationView();
-    this.updateAttachmentsView();
 
-    this.listenTo(this.model, 'pushPanel', this.pushPanel);
-    this.listenTo(this.model, 'popPanel', this.popPanel);
-  }
-
-  override events(): Record<string, string> {
-    return {
-      drop: 'onDrop',
-      paste: 'onPaste',
-    };
+    window.reduxActions.composer.replaceAttachments(
+      this.model.get('id'),
+      this.model.get('draftAttachments') || []
+    );
   }
 
   // We need this ignore because the backbone types really want this to be a string
@@ -231,7 +220,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         showToast(ToastConversationArchived, {
           undo: () => {
             this.model.setArchived(false);
-            this.openConversation(this.model.get('id'));
+            window.reduxActions.conversations.showConversation({
+              conversationId: this.model.id,
+            });
           },
         });
       },
@@ -373,7 +364,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       },
 
-      onClearAttachments: this.clearAttachments.bind(this),
+      onClearAttachments: () =>
+        clearConversationDraftAttachments(
+          this.model.id,
+          this.model.get('draftAttachments')
+        ),
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
       },
@@ -382,8 +377,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         suspendLinkPreviews();
         removeLinkPreview();
       },
-
-      openConversation: this.openConversation.bind(this),
     };
 
     // createConversationView root
@@ -422,9 +415,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
-    };
-    const openConversation = (conversationId: string, messageId?: string) => {
-      this.openConversation(conversationId, messageId);
     };
     const showContactDetail = (options: {
       contact: EmbeddedContactType;
@@ -485,7 +475,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       downloadNewVersion,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
-      openConversation,
       openGiftBadge,
       openLink,
       reactToMessage,
@@ -530,8 +519,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       }
 
-      // We don't wait here; we need to take down the view
-      this.saveModel();
+      window.Signal.Data.updateConversation(this.model.attributes);
 
       this.model.updateLastMessage();
     }
@@ -558,10 +546,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     suspendLinkPreviews();
 
     this.remove();
-  }
-
-  async saveModel(): Promise<void> {
-    window.Signal.Data.updateConversation(this.model.attributes);
   }
 
   async onOpened(messageId: string): Promise<void> {
@@ -1171,17 +1155,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return view;
   }
 
-  async openConversation(
-    conversationId: string,
-    messageId?: string
-  ): Promise<void> {
-    window.Whisper.events.trigger(
-      'showConversation',
-      conversationId,
-      messageId
-    );
-  }
-
   pushPanel(panel: PanelRenderType): void {
     if (isPanelHandledByReact(panel)) {
       return;
@@ -1285,35 +1258,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // Backup, in case things go wrong with the transitionend event
     timeout = setTimeout(removePanel, SECOND);
-  }
-
-  async clearAttachments(): Promise<void> {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    this.model.set({
-      draftAttachments: [],
-      draftChanged: true,
-    });
-
-    this.updateAttachmentsView();
-
-    // We're fine doing this all at once; at most it should be 32 attachments
-    await Promise.all([
-      this.saveModel(),
-      Promise.all(
-        draftAttachments.map(attachment => deleteDraftAttachment(attachment))
-      ),
-    ]);
-  }
-
-  updateAttachmentsView(): void {
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    window.reduxActions.composer.replaceAttachments(
-      this.model.get('id'),
-      draftAttachments
-    );
-    if (hasDraftAttachments(this.model.attributes, { includePending: true })) {
-      removeLinkPreview();
-    }
   }
 }
 

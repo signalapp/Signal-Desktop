@@ -112,7 +112,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
   markViewed: action('default--markViewed'),
   messageExpanded: action('default--message-expanded'),
-  openConversation: action('default--openConversation'),
+  showConversation: action('default--showConversation'),
   openGiftBadge: action('openGiftBadge'),
   openLink: action('default--openLink'),
   previews: [],

@@ -78,7 +78,7 @@ const getDefaultProps = () => ({
   markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
   showMessageDetail: action('showMessageDetail'),
-  openConversation: action('openConversation'),
+  showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
   showContactDetail: action('showContactDetail'),

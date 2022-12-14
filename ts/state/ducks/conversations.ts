@@ -2860,7 +2860,9 @@ type ShowConversationArgsType = {
   messageId?: string;
   switchToAssociatedView?: boolean;
 };
-export type ShowConversationType = (_: ShowConversationArgsType) => unknown;
+export type ShowConversationType = (
+  options: ShowConversationArgsType
+) => unknown;
 
 function showConversation({
   conversationId,

@@ -63,8 +63,8 @@ enum SubModalState {
 }
 
 export function ContactModal({
-  areWeASubscriber,
   areWeAdmin,
+  areWeASubscriber,
   badges,
   contact,
   conversation,
@@ -76,9 +76,9 @@ export function ContactModal({
   removeMemberFromGroup,
   showConversation,
   theme,
+  toggleAddUserToAnotherGroupModal,
   toggleAdmin,
   toggleSafetyNumberModal,
-  toggleAddUserToAnotherGroupModal,
   updateConversationModelSharedGroups,
   viewUserStories,
 }: PropsType): JSX.Element {

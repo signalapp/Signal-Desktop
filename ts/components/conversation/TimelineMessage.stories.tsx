@@ -279,7 +279,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
-  openConversation: action('openConversation'),
+  showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   openLink: action('openLink'),
   previews: overrideProps.previews || [],

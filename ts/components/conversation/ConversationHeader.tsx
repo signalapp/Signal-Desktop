@@ -81,23 +81,21 @@ export type PropsDataType = {
 
 export type PropsActionsType = {
   destroyMessages: (conversationId: string) => void;
-  onSearchInConversation: () => void;
-  onOutgoingAudioCallInConversation: (conversationId: string) => void;
-  onOutgoingVideoCallInConversation: (conversationId: string) => void;
-
-  onShowConversationDetails: () => void;
-  onShowAllMedia: () => void;
-  onShowGroupMembers: () => void;
-  onGoBack: () => void;
-
   onArchive: () => void;
+  onGoBack: () => void;
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
-  setMuteExpiration: (conversationId: string, seconds: number) => void;
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
+  onSearchInConversation: () => void;
+  onShowAllMedia: () => void;
+  onShowConversationDetails: () => void;
+  onShowGroupMembers: () => void;
   setDisappearingMessages: (
     conversationId: string,
     seconds: DurationInSeconds
   ) => void;
+  setMuteExpiration: (conversationId: string, seconds: number) => void;
   setPinned: (conversationId: string, value: boolean) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };

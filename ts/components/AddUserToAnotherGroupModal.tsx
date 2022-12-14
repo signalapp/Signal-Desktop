@@ -167,20 +167,20 @@ export function AddUserToAnotherGroupModal({
                 >
                   <ConversationList
                     dimensions={contentRect.bounds}
-                    rowCount={filteredConversations.length}
-                    getRow={handleGetRow}
-                    shouldRecomputeRowHeights={false}
-                    showConversation={noop}
                     getPreferredBadge={() => undefined}
+                    getRow={handleGetRow}
                     i18n={i18n}
-                    theme={theme}
+                    lookupConversationWithoutUuid={async _ => undefined}
                     onClickArchiveButton={noop}
                     onClickContactCheckbox={noop}
                     onSelectConversation={setSelectedGroupId}
-                    showChooseGroupMembers={noop}
-                    lookupConversationWithoutUuid={async _ => undefined}
-                    showUserNotFoundModal={noop}
+                    rowCount={filteredConversations.length}
                     setIsFetchingUUID={noop}
+                    shouldRecomputeRowHeights={false}
+                    showChooseGroupMembers={noop}
+                    showConversation={noop}
+                    showUserNotFoundModal={noop}
+                    theme={theme}
                   />
                 </div>
               )}

@@ -26,7 +26,6 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
-import { trigger } from '../shims/events';
 import { themeChanged } from '../shims/themeChanged';
 import { renderClearingDataView } from '../shims/renderClearingDataView';
 
@@ -491,7 +490,9 @@ export function createIPCEvents(
           setIsFetchingUUID: noop,
         });
         if (convoId) {
-          trigger('showConversation', convoId);
+          window.reduxActions.conversations.showConversation({
+            conversationId: convoId,
+          });
           return;
         }
         // We will show not found modal on error
@@ -507,7 +508,9 @@ export function createIPCEvents(
           setIsFetchingUUID: noop,
         });
         if (convoId) {
-          trigger('showConversation', convoId);
+          window.reduxActions.conversations.showConversation({
+            conversationId: convoId,
+          });
           return;
         }
         // We will show not found modal on error

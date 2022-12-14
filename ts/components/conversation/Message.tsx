@@ -15,6 +15,7 @@ import type {
   ConversationTypeType,
   InteractionModeType,
   SaveAttachmentActionCreatorType,
+  ShowConversationType,
 } from '../../state/ducks/conversations';
 import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
 import type { ReadStatus } from '../../messages/MessageReadStatus';
@@ -299,7 +300,7 @@ export type PropsActions = {
   showMessageDetail: (id: string) => void;
 
   startConversation: (e164: string, uuid: UUIDStringType) => void;
-  openConversation: (conversationId: string, messageId?: string) => void;
+  showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   showContactDetail: (options: {
     contact: EmbeddedContactType;
@@ -1709,13 +1710,13 @@ export class Message extends React.PureComponent<Props, State> {
       displayLimit,
       i18n,
       id,
-      messageExpanded,
-      openConversation,
       kickOffAttachmentDownload,
+      messageExpanded,
+      showConversation,
       status,
       text,
-      textDirection,
       textAttachment,
+      textDirection,
     } = this.props;
     const { metadataWidth } = this.state;
     const isRTL = textDirection === TextDirection.RightToLeft;
@@ -1747,13 +1748,11 @@ export class Message extends React.PureComponent<Props, State> {
       >
         <MessageBodyReadMore
           bodyRanges={bodyRanges}
-          disableLinks={!this.areLinksEnabled()}
           direction={direction}
+          disableLinks={!this.areLinksEnabled()}
           displayLimit={displayLimit}
           i18n={i18n}
           id={id}
-          messageExpanded={messageExpanded}
-          openConversation={openConversation}
           kickOffBodyDownload={() => {
             if (!textAttachment) {
               return;
@@ -1763,6 +1762,8 @@ export class Message extends React.PureComponent<Props, State> {
               messageId: id,
             });
           }}
+          messageExpanded={messageExpanded}
+          showConversation={showConversation}
           text={contents || ''}
           textAttachment={textAttachment}
         />

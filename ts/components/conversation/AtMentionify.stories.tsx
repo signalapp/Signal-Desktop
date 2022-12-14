@@ -20,7 +20,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     { incoming: 'incoming', outgoing: 'outgoing' },
     overrideProps.direction || 'incoming'
   ),
-  openConversation: action('openConversation'),
+  showConversation: action('showConversation'),
   text: text('text', overrideProps.text || ''),
 });
 

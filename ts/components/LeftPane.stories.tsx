@@ -148,8 +148,8 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
         getPreferredBadge={() => undefined}
         i18n={i18n}
         id={id}
-        showConversation={action('showConversation')}
         sentAt={1587358800000}
+        showConversation={action('showConversation')}
         snippet="Lorem <<left>>ipsum<<right>> wow"
         theme={ThemeType.light}
         to={defaultConversations[1]}

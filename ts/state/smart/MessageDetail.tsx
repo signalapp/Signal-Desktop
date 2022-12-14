@@ -25,6 +25,7 @@ export type OwnProps = Omit<
   | 'renderReactionPicker'
   | 'theme'
   | 'showContactModal'
+  | 'showConversation'
   | 'markViewed'
 >;
 
@@ -41,7 +42,6 @@ const mapStateToProps = (
 
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
-    openConversation,
     openGiftBadge,
     openLink,
     showContactDetail,
@@ -76,7 +76,6 @@ const mapStateToProps = (
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     markViewed,
-    openConversation,
     openGiftBadge,
     openLink,
     renderAudioAttachment,

@@ -13,14 +13,17 @@ import type {
 export type Props = {
   bodyRanges?: HydratedBodyRangesType;
   direction?: 'incoming' | 'outgoing';
-  openConversation?: (conversationId: string, messageId?: string) => void;
+  showConversation?: (options: {
+    conversationId: string;
+    messageId?: string;
+  }) => unknown;
   text: string;
 };
 
 export function AtMentionify({
   bodyRanges,
   direction,
-  openConversation,
+  showConversation,
   text,
 }: Props): JSX.Element {
   if (!bodyRanges) {
@@ -53,17 +56,17 @@ export function AtMentionify({
           className={`MessageBody__at-mention MessageBody__at-mention--${direction}`}
           key={range.start}
           onClick={() => {
-            if (openConversation) {
-              openConversation(range.conversationID);
+            if (showConversation) {
+              showConversation({ conversationId: range.conversationID });
             }
           }}
           onKeyUp={e => {
             if (
               e.target === e.currentTarget &&
               e.keyCode === 13 &&
-              openConversation
+              showConversation
             ) {
-              openConversation(range.conversationID);
+              showConversation({ conversationId: range.conversationID });
             }
           }}
           tabIndex={0}

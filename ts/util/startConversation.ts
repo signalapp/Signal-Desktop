@@ -15,5 +15,7 @@ export function startConversation(e164: string, uuid: UUIDStringType): void {
     `startConversation failed given ${e164}/${uuid} combination`
   );
 
-  window.Whisper.events.trigger('showConversation', conversation.id);
+  window.reduxActions.conversations.showConversation({
+    conversationId: conversation.id,
+  });
 }
