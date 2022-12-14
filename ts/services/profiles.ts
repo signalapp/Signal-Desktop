@@ -341,10 +341,6 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
       }
     }
 
-    if (isMe(c.attributes)) {
-      c.unset('pniCredential');
-    }
-
     if (profile.identityKey) {
       await updateIdentityKey(profile.identityKey, uuid);
     }

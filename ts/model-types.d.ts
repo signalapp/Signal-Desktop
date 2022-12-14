@@ -311,8 +311,6 @@ export type ConversationAttributesType = {
   };
   profileKeyCredential?: string | null;
   profileKeyCredentialExpiration?: number | null;
-  // TODO: DESKTOP-4223
-  pniCredential?: void;
   lastProfile?: ConversationLastProfileType;
   quotedMessageId?: string | null;
   sealedSender?: unknown;
