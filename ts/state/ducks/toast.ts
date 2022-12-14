@@ -1,9 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { ipcRenderer } from 'electron';
+
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
-import { useBoundActions } from '../../hooks/useBoundActions';
+import type { NoopActionType } from './noop';
 import type { ReplacementValuesType } from '../../types/Util';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
@@ -18,6 +21,7 @@ export enum ToastType {
   Error = 'Error',
   Expired = 'Expired',
   FailedToDeleteUsername = 'FailedToDeleteUsername',
+  FileSaved = 'FileSaved',
   FileSize = 'FileSize',
   InvalidConversation = 'InvalidConversation',
   LeftGroup = 'LeftGroup',
@@ -72,6 +76,14 @@ function hideToast(): HideToastActionType {
   };
 }
 
+function openFileInFolder(target: string): NoopActionType {
+  ipcRenderer.send('show-item-in-folder', target);
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
 export type ShowToastActionCreatorType = (
   toastType: ToastType,
   parameters?: ReplacementValuesType
@@ -92,6 +104,7 @@ export const showToast: ShowToastActionCreatorType = (
 
 export const actions = {
   hideToast,
+  openFileInFolder,
   showToast,
 };
 

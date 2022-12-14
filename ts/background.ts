@@ -158,7 +158,6 @@ import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
 import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
 import { downloadOnboardingStory } from './util/downloadOnboardingStory';
-import { saveAttachmentFromMessage } from './util/saveAttachment';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1661,7 +1660,9 @@ export async function startApp(): Promise<void> {
           event.preventDefault();
           event.stopPropagation();
 
-          saveAttachmentFromMessage(selectedMessage);
+          window.reduxActions.conversations.saveAttachmentFromMessage(
+            selectedMessage
+          );
           return;
         }
       }

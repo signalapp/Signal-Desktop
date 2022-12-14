@@ -11,6 +11,7 @@ import type { StateType } from '../reducer';
 import { Lightbox } from '../../components/Lightbox';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
+import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useLightboxActions } from '../ducks/lightbox';
 import {
@@ -22,6 +23,7 @@ import {
 
 export function SmartLightbox(): JSX.Element | null {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
+  const { saveAttachment } = useConversationsActions();
   const { closeLightbox } = useLightboxActions();
   const { toggleForwardMessageModal } = useGlobalModalActions();
 
@@ -45,6 +47,7 @@ export function SmartLightbox(): JSX.Element | null {
       i18n={i18n}
       isViewOnce={isViewOnce}
       media={media}
+      saveAttachment={saveAttachment}
       selectedIndex={selectedIndex || 0}
       toggleForwardMessageModal={toggleForwardMessageModal}
     />

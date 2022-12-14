@@ -9,7 +9,10 @@ import { createPortal } from 'react-dom';
 import { noop } from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
-import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationType,
+  SaveAttachmentActionCreatorType,
+} from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import type { MediaItemType, MediaItemMessageType } from '../types/MediaItem';
 import * as GoogleChrome from '../util/GoogleChrome';
@@ -18,7 +21,6 @@ import { Avatar, AvatarSize } from './Avatar';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import { formatDuration } from '../util/formatDuration';
 import { isGIF } from '../types/Attachment';
-import { saveAttachment } from '../util/saveAttachment';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 export type PropsType = {
@@ -28,6 +30,7 @@ export type PropsType = {
   i18n: LocalizerType;
   isViewOnce?: boolean;
   media: Array<MediaItemType>;
+  saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex?: number;
   toggleForwardMessageModal: (messageId: string) => unknown;
 };
@@ -53,6 +56,7 @@ export function Lightbox({
   media,
   i18n,
   isViewOnce = false,
+  saveAttachment,
   selectedIndex: initialSelectedIndex = 0,
   toggleForwardMessageModal,
 }: PropsType): JSX.Element | null {

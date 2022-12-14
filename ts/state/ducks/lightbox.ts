@@ -19,7 +19,7 @@ import {
 } from '../../util/GoogleChrome';
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST, ToastType } from './toast';
-import { saveAttachmentFromMessage } from '../../util/saveAttachment';
+import { saveAttachmentFromMessage } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
@@ -213,7 +213,7 @@ function showLightbox(opts: {
   | ShowStickerPackPreviewActionType
   | ShowToastActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
     const message = await getMessageById(messageId);
@@ -233,7 +233,11 @@ function showLightbox(opts: {
       !isImageTypeSupported(contentType) &&
       !isVideoTypeSupported(contentType)
     ) {
-      await saveAttachmentFromMessage(messageId, attachment);
+      saveAttachmentFromMessage(messageId, attachment)(
+        dispatch,
+        getState,
+        null
+      );
       return;
     }
 

@@ -12,7 +12,10 @@ import React, {
 import classNames from 'classnames';
 import type { DraftBodyRangesType, LocalizerType } from '../types/Util';
 import type { ContextMenuOptionType } from './ContextMenu';
-import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationType,
+  SaveAttachmentActionCreatorType,
+} from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
@@ -44,7 +47,6 @@ import { ToastType } from '../state/ducks/toast';
 import { getAvatarColor } from '../types/Colors';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { getStoryDuration } from '../util/getStoryDuration';
-import type { saveAttachment } from '../util/saveAttachment';
 import { isVideoAttachment } from '../types/Attachment';
 import { graphemeAndLinkAwareSlice } from '../util/graphemeAndLinkAwareSlice';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
@@ -100,7 +102,7 @@ export type PropsType = {
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
   retrySend: (messageId: string) => unknown;
-  saveAttachment: typeof saveAttachment;
+  saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showToast: ShowToastActionCreatorType;
   skinTone?: number;

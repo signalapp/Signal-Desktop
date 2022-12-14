@@ -62,6 +62,7 @@ const MESSAGE_DEFAULT_PROPS = {
   openLink: shouldNeverBeCalled,
   previews: [],
   renderAudioAttachment: () => <div />,
+  saveAttachment: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
   showContactDetail: shouldNeverBeCalled,
   showContactModal: shouldNeverBeCalled,

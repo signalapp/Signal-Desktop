@@ -29,7 +29,6 @@ import { isInFullScreenCall } from '../selectors/calling';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { retryMessageSend } from '../../util/retryMessageSend';
-import { saveAttachment } from '../../util/saveAttachment';
 import { strictAssert } from '../../util/assert';
 import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 import { useActions as useEmojisActions } from '../ducks/emojis';
@@ -42,7 +41,8 @@ import { useIsWindowActive } from '../../hooks/useIsWindowActive';
 export function SmartStoryViewer(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const { onUseEmoji } = useEmojisActions();
-  const { showConversation, toggleHideStories } = useConversationsActions();
+  const { saveAttachment, showConversation, toggleHideStories } =
+    useConversationsActions();
   const { onSetSkinTone } = useItemsActions();
   const { showToast } = useToastActions();
 

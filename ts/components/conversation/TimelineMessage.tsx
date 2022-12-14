@@ -27,7 +27,6 @@ import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
-import { saveAttachment } from '../../util/saveAttachment';
 
 export type PropsData = {
   canDownload: boolean;
@@ -172,7 +171,7 @@ export function TimelineMessage(props: Props): JSX.Element {
   });
 
   const openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { kickOffAttachmentDownload } = props;
+    const { kickOffAttachmentDownload, saveAttachment } = props;
 
     if (event) {
       event.preventDefault();

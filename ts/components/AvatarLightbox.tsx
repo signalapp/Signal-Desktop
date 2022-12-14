@@ -30,8 +30,9 @@ export function AvatarLightbox({
     <Lightbox
       closeLightbox={onClose}
       i18n={i18n}
-      media={[]}
       isViewOnce
+      media={[]}
+      saveAttachment={noop}
       toggleForwardMessageModal={noop}
     >
       <AvatarPreview

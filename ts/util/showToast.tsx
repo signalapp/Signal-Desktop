@@ -23,10 +23,6 @@ import type {
   ToastPropsType as ToastInternalErrorPropsType,
 } from '../components/ToastInternalError';
 import type {
-  ToastFileSaved,
-  ToastPropsType as ToastFileSavedPropsType,
-} from '../components/ToastFileSaved';
-import type {
   ToastFileSize,
   ToastPropsType as ToastFileSizePropsType,
 } from '../components/ToastFileSize';
@@ -60,10 +56,6 @@ export function showToast(Toast: typeof ToastConversationUnarchived): void;
 export function showToast(
   Toast: typeof ToastInternalError,
   props: ToastInternalErrorPropsType
-): void;
-export function showToast(
-  Toast: typeof ToastFileSaved,
-  props: ToastFileSavedPropsType
 ): void;
 export function showToast(
   Toast: typeof ToastFileSize,

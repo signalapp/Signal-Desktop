@@ -59,6 +59,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   isViewOnce: Boolean(overrideProps.isViewOnce),
   media: overrideProps.media || [],
+  saveAttachment: action('saveAttachment'),
   selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
 });

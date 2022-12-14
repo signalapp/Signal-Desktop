@@ -126,6 +126,16 @@ FailedToDeleteUsername.args = {
   },
 };
 
+export const FileSaved = Template.bind({});
+FileSaved.args = {
+  toast: {
+    toastType: ToastType.FileSaved,
+    parameters: {
+      fullPath: '/image.png',
+    },
+  },
+};
+
 export const FileSize = Template.bind({});
 FileSize.args = {
   toast: {

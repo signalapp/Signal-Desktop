@@ -96,6 +96,7 @@ export type PropsReduxActions = Pick<
   | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
+  | 'saveAttachment'
   | 'showContactModal'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
@@ -293,6 +294,7 @@ export class MessageDetail extends React.Component<Props> {
       openGiftBadge,
       openLink,
       renderAudioAttachment,
+      saveAttachment,
       showContactDetail,
       showContactModal,
       showExpiredIncomingTapToViewToast,
@@ -338,6 +340,7 @@ export class MessageDetail extends React.Component<Props> {
             openGiftBadge={openGiftBadge}
             openLink={openLink}
             renderAudioAttachment={renderAudioAttachment}
+            saveAttachment={saveAttachment}
             shouldCollapseAbove={false}
             shouldCollapseBelow={false}
             shouldHideMetadata={false}

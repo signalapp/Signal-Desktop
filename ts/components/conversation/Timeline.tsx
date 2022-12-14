@@ -253,6 +253,7 @@ const getActions = createSelector(
       'kickOffAttachmentDownload',
       'markAttachmentAsCorrupted',
       'messageExpanded',
+      'saveAttachment',
       'showLightbox',
       'showLightboxForViewOnceMedia',
       'openLink',

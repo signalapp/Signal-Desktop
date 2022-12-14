@@ -52,7 +52,6 @@ import {
   removeLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
-import { saveAttachment } from '../util/saveAttachment';
 import { SECOND } from '../util/durations';
 import { startConversation } from '../util/startConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
@@ -749,7 +748,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }: ItemClickEvent) => {
         switch (type) {
           case 'documents': {
-            saveAttachment(attachment, message.sent_at);
+            window.reduxActions.conversations.saveAttachment(
+              attachment,
+              message.sent_at
+            );
             break;
           }
 

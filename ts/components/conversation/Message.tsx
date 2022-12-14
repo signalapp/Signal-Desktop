@@ -14,6 +14,7 @@ import type {
   ConversationType,
   ConversationTypeType,
   InteractionModeType,
+  SaveAttachmentActionCreatorType,
 } from '../../state/ducks/conversations';
 import type { ViewStoryActionCreatorType } from '../../state/ducks/stories';
 import type { ReadStatus } from '../../messages/MessageReadStatus';
@@ -87,7 +88,6 @@ import { PaymentEventKind } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
-import { saveAttachment } from '../../util/saveAttachment';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -319,6 +319,7 @@ export type PropsActions = {
     messageId: string;
   }) => void;
   markViewed(messageId: string): void;
+  saveAttachment: SaveAttachmentActionCreatorType;
   showLightbox: (options: {
     attachment: AttachmentType;
     messageId: string;
@@ -2380,8 +2381,13 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { id, attachments, timestamp, kickOffAttachmentDownload } =
-      this.props;
+    const {
+      id,
+      attachments,
+      saveAttachment,
+      timestamp,
+      kickOffAttachmentDownload,
+    } = this.props;
 
     if (event) {
       event.preventDefault();

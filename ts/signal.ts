@@ -122,7 +122,6 @@ type MigrationsModuleType = {
   loadStickerData: (
     sticker: StickerType | undefined
   ) => Promise<StickerWithHydratedData | undefined>;
-  openFileInFolder: (target: string) => Promise<void>;
   readAttachmentData: (path: string) => Promise<Uint8Array>;
   readDraftData: (path: string) => Promise<Uint8Array>;
   readStickerData: (path: string) => Promise<Uint8Array>;
@@ -185,7 +184,6 @@ export function initializeMigrations({
     getStickersPath,
     getBadgesPath,
     getTempPath,
-    openFileInFolder,
     saveAttachmentToDisk,
   } = Attachments;
   const {
@@ -266,7 +264,6 @@ export function initializeMigrations({
     loadPreviewData,
     loadQuoteData,
     loadStickerData,
-    openFileInFolder,
     readAttachmentData,
     readDraftData,
     readStickerData,
@@ -364,7 +361,6 @@ type AttachmentsModuleType = {
   ) => (relativePath: string) => string;
 
   createDoesExist: (root: string) => (relativePath: string) => Promise<boolean>;
-  openFileInFolder: (target: string) => Promise<void>;
   saveAttachmentToDisk: ({
     data,
     name,

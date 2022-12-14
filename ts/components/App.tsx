@@ -41,6 +41,7 @@ type PropsType = {
   isMaximized: boolean;
   isFullScreen: boolean;
   menuOptions: MenuOptionsType;
+  openFileInFolder: (target: string) => unknown;
   hasCustomTitleBar: boolean;
   hideMenuBar: boolean;
 
@@ -73,6 +74,7 @@ export function App({
   hasCustomTitleBar,
   menuOptions,
   openInbox,
+  openFileInFolder,
   registerSingleDevice,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
@@ -178,7 +180,12 @@ export function App({
           'dark-theme': theme === ThemeType.dark,
         })}
       >
-        <ToastManager hideToast={hideToast} i18n={i18n} toast={toast} />
+        <ToastManager
+          hideToast={hideToast}
+          i18n={i18n}
+          openFileInFolder={openFileInFolder}
+          toast={toast}
+        />
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {renderLightbox()}

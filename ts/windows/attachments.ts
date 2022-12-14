@@ -197,10 +197,6 @@ export const createDoesExist = (
   };
 };
 
-export const openFileInFolder = async (target: string): Promise<void> => {
-  ipcRenderer.send('show-item-in-folder', target);
-};
-
 const showSaveDialog = (
   defaultPath: string
 ): Promise<{

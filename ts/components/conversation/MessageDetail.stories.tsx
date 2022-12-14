@@ -82,6 +82,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   openGiftBadge: action('openGiftBadge'),
   openLink: action('openLink'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
+  saveAttachment: action('saveAttachment'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(

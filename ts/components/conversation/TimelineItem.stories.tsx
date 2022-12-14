@@ -80,6 +80,7 @@ const getDefaultProps = () => ({
   showMessageDetail: action('showMessageDetail'),
   openConversation: action('openConversation'),
   openGiftBadge: action('openGiftBadge'),
+  saveAttachment: action('saveAttachment'),
   showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showLightbox: action('showLightbox'),

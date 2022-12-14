@@ -12,6 +12,7 @@ import { missingCaseError } from '../util/missingCaseError';
 export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
+  openFileInFolder: (target: string) => unknown;
   toast?: {
     toastType: ToastType;
     parameters?: ReplacementValuesType;
@@ -23,6 +24,7 @@ const SHORT_TIMEOUT = 3 * SECOND;
 export function ToastManager({
   hideToast,
   i18n,
+  openFileInFolder,
   toast,
 }: PropsType): JSX.Element | null {
   if (toast === undefined) {
@@ -113,6 +115,24 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('ProfileEditor--username--delete-general-error')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.FileSaved) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('attachmentSavedShow'),
+          onClick: () => {
+            if (toast.parameters && 'fullPath' in toast.parameters) {
+              openFileInFolder(String(toast.parameters.fullPath));
+            }
+          },
+        }}
+      >
+        {i18n('attachmentSaved')}
       </Toast>
     );
   }

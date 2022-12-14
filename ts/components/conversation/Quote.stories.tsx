@@ -124,6 +124,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   setQuoteByMessageId: action('default--setQuoteByMessageId'),
   retrySend: action('default--retrySend'),
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
+  saveAttachment: action('saveAttachment'),
   scrollToQuotedMessage: action('default--scrollToQuotedMessage'),
   selectMessage: action('default--selectMessage'),
   shouldCollapseAbove: false,

@@ -21,6 +21,8 @@ import { getOwn } from '../../util/getOwn';
 import { assertDev, strictAssert } from '../../util/assert';
 import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
+import * as Attachment from '../../types/Attachment';
+import { isFileDangerous } from '../../util/isFileDangerous';
 import type {
   ShowSendAnywayDialogActionType,
   ToggleProfileEditorErrorActionType,
@@ -901,6 +903,8 @@ export const actions = {
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   revokePendingMembershipsFromGroupV2,
+  saveAttachment,
+  saveAttachmentFromMessage,
   saveAvatarToDisk,
   scrollToMessage,
   selectMessage,
@@ -2448,6 +2452,83 @@ function loadRecentMediaItems(
       type: 'SET_RECENT_MEDIA_ITEMS',
       payload: { id: conversationId, recentMediaItems },
     });
+  };
+}
+
+export type SaveAttachmentActionCreatorType = (
+  attachment: AttachmentType,
+  timestamp?: number,
+  index?: number
+) => unknown;
+
+function saveAttachment(
+  attachment: AttachmentType,
+  timestamp = Date.now(),
+  index = 0
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async dispatch => {
+    const { fileName = '' } = attachment;
+
+    const isDangerous = isFileDangerous(fileName);
+
+    if (isDangerous) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.DangerousFileType,
+        },
+      });
+      return;
+    }
+
+    const { readAttachmentData, saveAttachmentToDisk } =
+      window.Signal.Migrations;
+
+    const fullPath = await Attachment.save({
+      attachment,
+      index: index + 1,
+      readAttachmentData,
+      saveAttachmentToDisk,
+      timestamp,
+    });
+
+    if (fullPath) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.FileSaved,
+          parameters: {
+            fullPath,
+          },
+        },
+      });
+    }
+  };
+}
+
+export function saveAttachmentFromMessage(
+  messageId: string,
+  providedAttachment?: AttachmentType
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async (dispatch, getState) => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(
+        `saveAttachmentFromMessage: Message ${messageId} missing!`
+      );
+    }
+
+    const { attachments, sent_at: timestamp } = message.attributes;
+    if (!attachments || attachments.length < 1) {
+      return;
+    }
+
+    const attachment =
+      providedAttachment && attachments.includes(providedAttachment)
+        ? providedAttachment
+        : attachments[0];
+
+    saveAttachment(attachment, timestamp)(dispatch, getState, null);
   };
 }
 
