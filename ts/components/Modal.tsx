@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { ContentRect, MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
 import classNames from 'classnames';
@@ -12,10 +12,12 @@ import { animated } from '@react-spring/web';
 import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import type { Theme } from '../util/theme';
+import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';
 import { useRefMerger } from '../hooks/useRefMerger';
+import * as log from '../logging/log';
 
 type PropsType = {
   children: ReactNode;
@@ -56,14 +58,28 @@ export function Modal({
   hasHeaderDivider = false,
   hasFooterDivider = false,
   padded = true,
-}: Readonly<ModalPropsType>): ReactElement {
-  const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
+}: Readonly<ModalPropsType>): JSX.Element | null {
+  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
     getTo: isOpen =>
       isOpen
         ? { opacity: 1, transform: 'translateY(0px)' }
         : { opacity: 0, transform: 'translateY(48px)' },
   });
+
+  useEffect(() => {
+    if (!isClosed) {
+      return noop;
+    }
+
+    const timer = setTimeout(() => {
+      log.error(`Modal ${modalName} is closed, but still visible`);
+      assertDev(false, `Invisible modal ${modalName}`);
+    }, 0);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [modalName, isClosed]);
 
   return (
     <ModalHost
@@ -286,14 +302,32 @@ export function PagedModal({
   onClose = noop,
   theme,
   useFocusTrap,
-}: PagedModalProps): ReactElement {
-  const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
+}: PagedModalProps): JSX.Element | null {
+  const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
     getTo: isOpen =>
       isOpen
         ? { opacity: 1, transform: 'translateY(0px)' }
         : { opacity: 0, transform: 'translateY(48px)' },
   });
+
+  useEffect(() => {
+    if (!isClosed) {
+      return noop;
+    }
+
+    const timer = setTimeout(() => {
+      log.error(`PagedModal ${modalName} is closed, but still visible`);
+      assertDev(false, `Invisible paged modal ${modalName}`);
+    }, 0);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [modalName, isClosed]);
+
+  if (isClosed) {
+    return null;
+  }
 
   return (
     <ModalHost

@@ -10,6 +10,12 @@ export type ModalConfigType = {
   transform?: string;
 };
 
+enum ModalState {
+  Open = 'Open',
+  Closing = 'Closing',
+  Closed = 'Closed',
+}
+
 export function useAnimated(
   onClose: () => unknown,
   {
@@ -21,10 +27,13 @@ export function useAnimated(
   }
 ): {
   close: () => unknown;
+  isClosed: boolean;
   modalStyles: SpringValues<ModalConfigType>;
   overlayStyles: SpringValues<ModalConfigType>;
 } {
-  const [isOpen, setIsOpen] = useState(true);
+  const [state, setState] = useState(ModalState.Open);
+  const isOpen = state === ModalState.Open;
+  const isClosed = state === ModalState.Closed;
 
   const modalRef = useSpringRef();
 
@@ -32,7 +41,8 @@ export function useAnimated(
     from: getFrom(isOpen),
     to: getTo(isOpen),
     onRest: () => {
-      if (!isOpen) {
+      if (state === ModalState.Closing) {
+        setState(ModalState.Closed);
         onClose();
       }
     },
@@ -59,10 +69,18 @@ export function useAnimated(
   });
 
   useChain(isOpen ? [overlayRef, modalRef] : [modalRef, overlayRef]);
-  const close = useCallback(() => setIsOpen(false), []);
+  const close = useCallback(() => {
+    setState(currentState => {
+      if (currentState === ModalState.Open) {
+        return ModalState.Closing;
+      }
+      return currentState;
+    });
+  }, []);
 
   return {
     close,
+    isClosed,
     overlayStyles,
     modalStyles,
   };
