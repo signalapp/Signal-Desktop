@@ -175,6 +175,7 @@ export function reducer(
     return {
       ...state,
       dialogType: DialogType.None,
+      didSnooze: false,
     };
   }
 
