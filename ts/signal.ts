@@ -24,7 +24,6 @@ import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 
 // State
-import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
@@ -401,7 +400,6 @@ export const setup = (options: {
 
   const Roots = {
     createApp,
-    createChatColorPicker,
     createConversationDetails,
     createGroupLinkManagement,
     createGroupV2JoinModal,

@@ -117,6 +117,7 @@ import {
   initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
 } from '../../groups';
 import { getMessageById } from '../../messages/getMessageById';
+import type { PanelRenderType } from '../../types/Panels';
 
 // State
 
@@ -392,8 +393,7 @@ export type ConversationsStateType = {
   selectedMessage: string | undefined;
   selectedMessageCounter: number;
   selectedMessageSource: SelectedMessageSource | undefined;
-  selectedConversationTitle?: string;
-  selectedConversationPanelDepth: number;
+  selectedConversationPanels: Array<PanelRenderType>;
   showArchived: boolean;
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
@@ -457,7 +457,8 @@ const DISCARD_MESSAGES = 'conversations/DISCARD_MESSAGES';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 export const SELECTED_CONVERSATION_CHANGED =
   'conversations/SELECTED_CONVERSATION_CHANGED';
-
+const PUSH_PANEL = 'conversations/PUSH_PANEL';
+const POP_PANEL = 'conversations/POP_PANEL';
 export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 
@@ -678,14 +679,6 @@ export type SetIsNearBottomActionType = {
     isNearBottom: boolean;
   };
 };
-export type SetConversationHeaderTitleActionType = {
-  type: 'SET_CONVERSATION_HEADER_TITLE';
-  payload: { title?: string };
-};
-export type SetSelectedConversationPanelDepthActionType = {
-  type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
-  payload: { panelDepth: number };
-};
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
   payload: {
@@ -781,6 +774,14 @@ export type ToggleConversationInChooseMembersActionType = {
     maxGroupSize: number;
   };
 };
+type PushPanelActionType = {
+  type: typeof PUSH_PANEL;
+  payload: PanelRenderType;
+};
+type PopPanelActionType = {
+  type: typeof POP_PANEL;
+  payload: null;
+};
 
 type ReplaceAvatarsActionType = {
   type: typeof REPLACE_AVATARS;
@@ -822,6 +823,8 @@ export type ConversationActionType =
   | MessageSelectedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
+  | PopPanelActionType
+  | PushPanelActionType
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
@@ -834,13 +837,11 @@ export type ConversationActionType =
   | SetComposeGroupExpireTimerActionType
   | SetComposeGroupNameActionType
   | SetComposeSearchTermActionType
-  | SetConversationHeaderTitleActionType
   | SetIsFetchingUUIDActionType
   | SetIsNearBottomActionType
   | SetMessageLoadingStateActionType
   | SetPreJoinConversationActionType
   | SetRecentMediaItemsActionType
-  | SetSelectedConversationPanelDepthActionType
   | ShowArchivedConversationsActionType
   | ShowChooseGroupMembersActionType
   | ShowInboxActionType
@@ -885,14 +886,16 @@ export const actions = {
   discardMessages,
   doubleCheckMissingQuoteReference,
   generateNewGroupLink,
-  loadRecentMediaItems,
   initiateMigrationToGroupV2,
+  loadRecentMediaItems,
   messageChanged,
   messageDeleted,
   messageExpanded,
   messagesAdded,
   messagesReset,
   myProfileChanged,
+  popPanelForConversation,
+  pushPanelForConversation,
   removeAllConversations,
   removeCustomColorOnConversations,
   removeMemberFromGroup,
@@ -924,8 +927,6 @@ export const actions = {
   setMuteExpiration,
   setPinned,
   setPreJoinConversation,
-  setSelectedConversationHeaderTitle,
-  setSelectedConversationPanelDepth,
   setVoiceNotePlaybackRate,
   showArchivedConversations,
   showChooseGroupMembers,
@@ -2064,20 +2065,61 @@ function setIsFetchingUUID(
     },
   };
 }
-function setSelectedConversationHeaderTitle(
-  title?: string
-): SetConversationHeaderTitleActionType {
+
+export type PushPanelForConversationActionType = (
+  conversationId: string,
+  panel: PanelRenderType
+) => unknown;
+
+function pushPanelForConversation(
+  conversationId: string,
+  panel: PanelRenderType
+): PushPanelActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      `addPanelToConversation: No conversation found for conversation ${conversationId}`
+    );
+  }
+
+  conversation.trigger('pushPanel', panel);
+
   return {
-    type: 'SET_CONVERSATION_HEADER_TITLE',
-    payload: { title },
+    type: PUSH_PANEL,
+    payload: panel,
   };
 }
-function setSelectedConversationPanelDepth(
-  panelDepth: number
-): SetSelectedConversationPanelDepthActionType {
-  return {
-    type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH',
-    payload: { panelDepth },
+
+function popPanelForConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, PopPanelActionType> {
+  return (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        `addPanelToConversation: No conversation found for conversation ${conversationId}`
+      );
+    }
+
+    const { conversations } = getState();
+    const { selectedConversationPanels } = conversations;
+
+    if (!selectedConversationPanels.length) {
+      return;
+    }
+
+    const panel = [...selectedConversationPanels].pop();
+
+    if (!panel) {
+      return;
+    }
+
+    conversation.trigger('popPanel', panel);
+
+    dispatch({
+      type: POP_PANEL,
+      payload: null,
+    });
   };
 }
 
@@ -2869,8 +2911,7 @@ export function getEmptyState(): ConversationsStateType {
     selectedMessageCounter: 0,
     selectedMessageSource: undefined,
     showArchived: false,
-    selectedConversationTitle: '',
-    selectedConversationPanelDepth: 0,
+    selectedConversationPanels: [],
   };
 }
 
@@ -3375,7 +3416,7 @@ export function reducer(
     return {
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId,
-      selectedConversationPanelDepth: 0,
+      selectedConversationPanels: [],
       messagesLookup: omit(state.messagesLookup, messageIds),
       messagesByConversation: omit(state.messagesByConversation, [id]),
     };
@@ -3421,12 +3462,6 @@ export function reducer(
         hasError: true,
         isCreating: false,
       },
-    };
-  }
-  if (action.type === 'SET_SELECTED_CONVERSATION_PANEL_DEPTH') {
-    return {
-      ...state,
-      selectedConversationPanelDepth: action.payload.panelDepth,
     };
   }
   if (action.type === 'MESSAGE_SELECTED') {
@@ -4180,10 +4215,24 @@ export function reducer(
     };
   }
 
-  if (action.type === 'SET_CONVERSATION_HEADER_TITLE') {
+  if (action.type === PUSH_PANEL) {
     return {
       ...state,
-      selectedConversationTitle: action.payload.title,
+      selectedConversationPanels: [
+        ...state.selectedConversationPanels,
+        action.payload,
+      ],
+    };
+  }
+
+  if (action.type === POP_PANEL) {
+    const { selectedConversationPanels } = state;
+    const nextPanels = [...selectedConversationPanels];
+    nextPanels.pop();
+
+    return {
+      ...state,
+      selectedConversationPanels: nextPanels,
     };
   }
 

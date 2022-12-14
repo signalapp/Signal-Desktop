@@ -8,6 +8,7 @@ import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
 import type {
   ConversationType,
+  PushPanelForConversationActionType,
   ShowConversationType,
 } from '../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
@@ -50,6 +51,7 @@ import type {
 } from '../../../types/Avatar';
 import { isConversationMuted } from '../../../util/isConversationMuted';
 import { ConversationDetailsGroups } from './ConversationDetailsGroups';
+import { PanelType } from '../../../types/Panels';
 
 enum ModalState {
   NothingOpen,
@@ -80,7 +82,6 @@ export type StateProps = {
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   showAllMedia: () => void;
-  showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showPendingInvites: () => void;
@@ -110,6 +111,7 @@ type ActionProps = {
   loadRecentMediaItems: (id: string, limit: number) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
+  pushPanelForConversation: PushPanelForConversationActionType;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   searchInConversation: (id: string) => unknown;
@@ -149,6 +151,7 @@ export function ConversationDetails({
   onOutgoingVideoCallInConversation,
   pendingApprovalMemberships,
   pendingMemberships,
+  pushPanelForConversation,
   renderChooseGroupMembersModal,
   renderConfirmAdditionsModal,
   replaceAvatar,
@@ -157,7 +160,6 @@ export function ConversationDetails({
   setDisappearingMessages,
   setMuteExpiration,
   showAllMedia,
-  showChatColorEditor,
   showContactModal,
   showConversationNotificationsSettings,
   showConversation,
@@ -426,7 +428,11 @@ export function ConversationDetails({
             />
           }
           label={i18n('showChatColorEditor')}
-          onClick={showChatColorEditor}
+          onClick={() => {
+            pushPanelForConversation(conversation.id, {
+              type: PanelType.ChatColorEditor,
+            });
+          }}
           right={
             <div
               className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}

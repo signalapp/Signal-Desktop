@@ -38,7 +38,6 @@ export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
   showAllMedia: () => void;
-  showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showConversationNotificationsSettings: () => void;

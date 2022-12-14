@@ -12,6 +12,7 @@ export type PropsType = {
   renderCompositionArea: () => JSX.Element;
   renderConversationHeader: () => JSX.Element;
   renderTimeline: () => JSX.Element;
+  renderPanel: () => JSX.Element | undefined;
 };
 
 export function ConversationView({
@@ -20,6 +21,7 @@ export function ConversationView({
   renderCompositionArea,
   renderConversationHeader,
   renderTimeline,
+  renderPanel,
 }: PropsType): JSX.Element {
   const onDrop = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
@@ -93,6 +95,7 @@ export function ConversationView({
           {renderCompositionArea()}
         </div>
       </div>
+      {renderPanel()}
     </div>
   );
 }

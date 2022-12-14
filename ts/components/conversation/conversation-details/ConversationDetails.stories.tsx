@@ -80,7 +80,7 @@ const createProps = (
   setDisappearingMessages: action('setDisappearingMessages'),
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
-  showChatColorEditor: action('showChatColorEditor'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   showGroupLinkManagement: action('showGroupLinkManagement'),
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showConversationNotificationsSettings: action(

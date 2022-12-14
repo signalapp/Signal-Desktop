@@ -12,6 +12,7 @@ import {
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationSelector,
+  getConversationTitle,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
@@ -108,14 +109,14 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'unblurredAvatarPath',
     ]),
     badge: getPreferredBadgeSelector(state)(conversation.badges),
-    conversationTitle: state.conversations.selectedConversationTitle,
+    conversationTitle: getConversationTitle(state),
     hasStories,
     isMissingMandatoryProfileSharing:
       isMissingRequiredProfileSharing(conversation),
     isSMSOnly: isConversationSMSOnly(conversation),
     isSignalConversation: isSignalConversation(conversation),
     i18n: getIntl(state),
-    showBackButton: state.conversations.selectedConversationPanelDepth > 0,
+    showBackButton: state.conversations.selectedConversationPanels.length > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
     theme: getTheme(state),
   };

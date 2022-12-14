@@ -56,15 +56,17 @@ import { SECOND } from '../util/durations';
 import { startConversation } from '../util/startConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { hasDraftAttachments } from '../util/hasDraftAttachments';
+import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
+import { PanelType, isPanelHandledByReact } from '../types/Panels';
 
 type AttachmentOptions = {
   messageId: string;
   attachment: AttachmentType;
 };
 
-type PanelType = { view: Backbone.View; headerTitle?: string };
-
 const { Message } = window.Signal.Types;
+
+type BackbonePanelType = { panelType: PanelType; view: Backbone.View };
 
 const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
   window.Signal.Migrations;
@@ -125,7 +127,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   private stickerPreviewModalView?: Backbone.View;
 
   // Panel support
-  private panels: Array<PanelType> = [];
+  private panels: Array<BackbonePanelType> = [];
   private previousFocus?: HTMLElement;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -143,7 +145,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // These are triggered by background.ts for keyboard handling
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
-    this.listenTo(this.model, 'escape-pressed', this.resetPanel);
+    this.listenTo(this.model, 'escape-pressed', () => {
+      window.reduxActions.conversations.popPanelForConversation(this.model.id);
+    });
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
     this.listenTo(this.model, 'delete-message', this.deleteMessage);
     this.listenTo(this.model, 'remove-link-review', removeLinkPreview);
@@ -157,6 +161,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.setupConversationView();
     this.updateAttachmentsView();
+
+    this.listenTo(this.model, 'pushPanel', this.pushPanel);
+    this.listenTo(this.model, 'popPanel', this.popPanel);
   }
 
   override events(): Record<string, string> {
@@ -212,7 +219,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.showGV1Members();
       },
       onGoBack: () => {
-        this.resetPanel();
+        window.reduxActions.conversations.popPanelForConversation(
+          this.model.id
+        );
       },
 
       onArchive: () => {
@@ -237,7 +246,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         showToast(ToastConversationUnarchived);
       },
     };
-    window.reduxActions.conversations.setSelectedConversationHeaderTitle();
 
     // setupTimeline
 
@@ -544,7 +552,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         const panel = this.panels[i];
         panel.view.remove();
       }
-      window.reduxActions.conversations.setSelectedConversationPanelDepth(0);
     }
 
     removeLinkPreview();
@@ -624,6 +631,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showAllMedia(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.AllMedia,
+    });
+  }
+
+  getAllMedia(): Backbone.View | undefined {
     if (document.querySelectorAll('.module-media-gallery').length) {
       return;
     }
@@ -807,19 +820,24 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         unsubscribe();
       },
     });
-    const headerTitle = window.i18n('allMedia');
 
     const update = async () => {
       const props = await getProps();
       view.update(<MediaGallery i18n={window.i18n} {...props} />);
     };
 
-    this.addPanel({ view, headerTitle });
-
     update();
+
+    return view;
   }
 
   showGV1Members(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.GroupV1Members,
+    });
+  }
+
+  getGV1Members(): Backbone.View {
     const { contactCollection, id } = this.model;
 
     const memberships =
@@ -855,8 +873,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ),
     });
 
-    this.addPanel({ view });
     view.render();
+
+    return view;
   }
 
   deleteMessage(messageId: string): void {
@@ -877,12 +896,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         } else {
           this.model.decrementMessageCount();
         }
-        this.resetPanel();
+        window.reduxActions.conversations.popPanelForConversation(
+          this.model.id
+        );
       },
     });
   }
 
   showGroupLinkManagement(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.GroupLinkManagement,
+    });
+  }
+
+  getGroupLinkManagement(): Backbone.View {
     const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupLinkManagement(
@@ -892,13 +919,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    const headerTitle = window.i18n('ConversationDetails--group-link');
 
-    this.addPanel({ view, headerTitle });
     view.render();
+
+    return view;
   }
 
   showGroupV2Permissions(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.GroupPermissions,
+    });
+  }
+
+  getGroupV2Permissions(): Backbone.View {
     const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createGroupV2Permissions(
@@ -908,13 +941,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    const headerTitle = window.i18n('permissions');
 
-    this.addPanel({ view, headerTitle });
     view.render();
+
+    return view;
   }
 
   showPendingInvites(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.GroupInvites,
+    });
+  }
+
+  getPendingInvites(): Backbone.View {
     const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
@@ -922,15 +961,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
       }),
     });
-    const headerTitle = window.i18n(
-      'ConversationDetails--requests-and-invites'
-    );
 
-    this.addPanel({ view, headerTitle });
     view.render();
+
+    return view;
   }
 
   showConversationNotificationsSettings(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.NotificationSettings,
+    });
+  }
+
+  getConversationNotificationsSettings(): Backbone.View {
     const view = new ReactWrapperView({
       className: 'panel',
       JSX: window.Signal.State.Roots.createConversationNotificationsSettings(
@@ -940,26 +983,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-    const headerTitle = window.i18n('ConversationDetails--notifications');
 
-    this.addPanel({ view, headerTitle });
     view.render();
-  }
 
-  showChatColorEditor(): void {
-    const view = new ReactWrapperView({
-      className: 'panel',
-      JSX: window.Signal.State.Roots.createChatColorPicker(window.reduxStore, {
-        conversationId: this.model.get('id'),
-      }),
-    });
-    const headerTitle = window.i18n('ChatColorPicker__menu-title');
-
-    this.addPanel({ view, headerTitle });
-    view.render();
+    return view;
   }
 
   showConversationDetails(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.ConversationDetails,
+    });
+  }
+
+  getConversationDetails(): Backbone.View {
     // Run a getProfiles in case member's capabilities have changed
     // Redux should cover us on the return here so no need to await this.
     if (this.model.throttledGetProfiles) {
@@ -981,7 +1017,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       addMembers: this.model.addMembersV2.bind(this.model),
       conversationId: this.model.get('id'),
       showAllMedia: this.showAllMedia.bind(this),
-      showChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
       showConversationNotificationsSettings:
@@ -1000,13 +1035,24 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         props
       ),
     });
-    const headerTitle = '';
 
-    this.addPanel({ view, headerTitle });
     view.render();
+
+    return view;
   }
 
   showMessageDetail(messageId: string): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.MessageDetails,
+      args: { messageId },
+    });
+  }
+
+  getMessageDetail({
+    messageId,
+  }: {
+    messageId: string;
+  }): Backbone.View | undefined {
     const message = window.MessageController.getById(messageId);
     if (!message) {
       throw new Error(`showMessageDetail: Message ${messageId} missing!`);
@@ -1025,7 +1071,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const onClose = () => {
       this.stopListening(message, 'change', update);
-      this.resetPanel();
+      window.reduxActions.conversations.popPanelForConversation(this.model.id);
     };
 
     const view = new ReactWrapperView({
@@ -1048,21 +1094,31 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(message, 'expired', onClose);
     // We could listen to all involved contacts, but we'll call that overkill
 
-    this.addPanel({ view });
     view.render();
+
+    return view;
   }
 
   showStickerManager(): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.StickerManager,
+    });
+  }
+
+  getStickerManager(): Backbone.View {
     const view = new ReactWrapperView({
       className: ['sticker-manager-wrapper', 'panel'].join(' '),
       JSX: window.Signal.State.Roots.createStickerManager(window.reduxStore),
       onClose: () => {
-        this.resetPanel();
+        window.reduxActions.conversations.popPanelForConversation(
+          this.model.id
+        );
       },
     });
 
-    this.addPanel({ view });
     view.render();
+
+    return view;
   }
 
   showContactDetail({
@@ -1075,6 +1131,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       uuid: UUIDStringType;
     };
   }): void {
+    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
+      type: PanelType.ContactDetails,
+      args: { contact, signalAccount },
+    });
+  }
+
+  getContactDetail({
+    contact,
+    signalAccount,
+  }: {
+    contact: EmbeddedContactType;
+    signalAccount?: {
+      phoneNumber: string;
+      uuid: UUIDStringType;
+    };
+  }): Backbone.View {
     const view = new ReactWrapperView({
       className: 'contact-detail-pane panel',
       JSX: (
@@ -1090,11 +1162,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         />
       ),
       onClose: () => {
-        this.resetPanel();
+        window.reduxActions.conversations.popPanelForConversation(
+          this.model.id
+        );
       },
     });
 
-    this.addPanel({ view });
+    return view;
   }
 
   async openConversation(
@@ -1108,32 +1182,63 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
   }
 
-  addPanel(panel: PanelType): void {
+  pushPanel(panel: PanelRenderType): void {
+    if (isPanelHandledByReact(panel)) {
+      return;
+    }
+
     this.panels = this.panels || [];
 
     if (this.panels.length === 0) {
       this.previousFocus = document.activeElement as HTMLElement;
     }
 
-    this.panels.unshift(panel);
-    panel.view.$el.insertAfter(this.$('.panel').last());
-    panel.view.$el.one('animationend', () => {
-      panel.view.$el.addClass('panel--static');
-    });
+    const { type } = panel as BackbonePanelRenderType;
 
-    window.reduxActions.conversations.setSelectedConversationPanelDepth(
-      this.panels.length
-    );
-    window.reduxActions.conversations.setSelectedConversationHeaderTitle(
-      panel.headerTitle
-    );
-  }
-  resetPanel(): void {
-    if (!this.panels || !this.panels.length) {
+    let view: Backbone.View | undefined;
+    if (type === PanelType.AllMedia) {
+      view = this.getAllMedia();
+    } else if (panel.type === PanelType.ContactDetails) {
+      view = this.getContactDetail(panel.args);
+    } else if (type === PanelType.ConversationDetails) {
+      view = this.getConversationDetails();
+    } else if (type === PanelType.GroupInvites) {
+      view = this.getPendingInvites();
+    } else if (type === PanelType.GroupLinkManagement) {
+      view = this.getGroupLinkManagement();
+    } else if (type === PanelType.GroupPermissions) {
+      view = this.getGroupV2Permissions();
+    } else if (type === PanelType.GroupV1Members) {
+      view = this.getGV1Members();
+    } else if (type === PanelType.NotificationSettings) {
+      view = this.getConversationNotificationsSettings();
+    } else if (panel.type === PanelType.MessageDetails) {
+      view = this.getMessageDetail(panel.args);
+    } else if (type === PanelType.StickerManager) {
+      view = this.getStickerManager();
+    }
+
+    if (!view) {
       return;
     }
 
-    const panel = this.panels.shift();
+    this.panels.push({
+      panelType: type,
+      view,
+    });
+
+    view.$el.insertAfter(this.$('.panel').last());
+    view.$el.one('animationend', () => {
+      if (view) {
+        view.$el.addClass('panel--static');
+      }
+    });
+  }
+
+  popPanel(poppedPanel: PanelRenderType): void {
+    if (!this.panels || !this.panels.length) {
+      return;
+    }
 
     if (
       this.panels.length === 0 &&
@@ -1144,36 +1249,42 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.previousFocus = undefined;
     }
 
+    const panel = this.panels[this.panels.length - 1];
+
+    if (!panel) {
+      return;
+    }
+
+    if (isPanelHandledByReact(poppedPanel)) {
+      return;
+    }
+
+    this.panels.pop();
+
+    if (panel.panelType !== poppedPanel.type) {
+      log.warn('popPanel: last panel was not of same type');
+      return;
+    }
+
     if (this.panels.length > 0) {
-      this.panels[0].view.$el.fadeIn(250);
+      this.panels[this.panels.length - 1].view.$el.fadeIn(250);
     }
 
-    if (panel) {
-      let timeout: ReturnType<typeof setTimeout> | undefined;
-      const removePanel = () => {
-        if (!timeout) {
-          return;
-        }
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const removePanel = () => {
+      if (!timeout) {
+        return;
+      }
 
-        clearTimeout(timeout);
-        timeout = undefined;
+      clearTimeout(timeout);
+      timeout = undefined;
 
-        panel.view.remove();
-      };
-      panel.view.$el
-        .addClass('panel--remove')
-        .one('transitionend', removePanel);
+      panel.view.remove();
+    };
+    panel.view.$el.addClass('panel--remove').one('transitionend', removePanel);
 
-      // Backup, in case things go wrong with the transitionend event
-      timeout = setTimeout(removePanel, SECOND);
-    }
-
-    window.reduxActions.conversations.setSelectedConversationPanelDepth(
-      this.panels.length
-    );
-    window.reduxActions.conversations.setSelectedConversationHeaderTitle(
-      this.panels[0]?.headerTitle
-    );
+    // Backup, in case things go wrong with the transitionend event
+    timeout = setTimeout(removePanel, SECOND);
   }
 
   async clearAttachments(): Promise<void> {
