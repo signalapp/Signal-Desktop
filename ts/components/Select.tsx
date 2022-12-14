@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ChangeEvent } from 'react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 export type Option = Readonly<{
@@ -35,9 +35,12 @@ export const Select = React.forwardRef(function SelectInner(
   }: PropsType,
   ref: React.Ref<HTMLSelectElement>
 ): JSX.Element {
-  const onSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onChange(event.target.value);
-  };
+  const onSelectChange = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      onChange(event.target.value);
+    },
+    [onChange]
+  );
 
   return (
     <div className={classNames(['module-select', moduleClassName])}>

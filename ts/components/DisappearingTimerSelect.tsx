@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../types/Util';
@@ -29,27 +29,36 @@ export function DisappearingTimerSelect(props: Props): JSX.Element {
   let expirationTimerOptions: ReadonlyArray<{
     readonly value: DurationInSeconds;
     readonly text: string;
-  }> = expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
-    const text = expirationTimer.format(i18n, seconds, {
-      capitalizeOff: true,
+  }> = useMemo(() => {
+    return expirationTimer.DEFAULT_DURATIONS_IN_SECONDS.map(seconds => {
+      const text = expirationTimer.format(i18n, seconds, {
+        capitalizeOff: true,
+      });
+      return {
+        value: seconds,
+        text,
+      };
     });
-    return {
-      value: seconds,
-      text,
-    };
-  });
+  }, [i18n]);
 
   const isCustomTimeSelected =
     !expirationTimer.DEFAULT_DURATIONS_SET.has(value);
 
-  const onSelectChange = (newValue: string) => {
-    const intValue = DurationInSeconds.fromSeconds(parseInt(newValue, 10));
-    if (intValue === -1) {
-      setIsModalOpen(true);
-    } else {
-      onChange(intValue);
-    }
-  };
+  const onSelectChange = useCallback(
+    (newValue: string) => {
+      const intValue = DurationInSeconds.fromSeconds(parseInt(newValue, 10));
+      if (intValue === -1) {
+        // On Windows we get "change" event followed by "click" (even if
+        // the <option/> was selected with keyboard. This click unfortunately
+        // closes the modal so we need to delay opening it until after the
+        // "click" event.
+        setTimeout(() => setIsModalOpen(true), 0);
+      } else {
+        onChange(intValue);
+      }
+    },
+    [onChange]
+  );
 
   // Custom time...
   expirationTimerOptions = [
