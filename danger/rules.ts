@@ -15,10 +15,14 @@ function isGitDeletedError(error: unknown) {
   );
 }
 
-try {
-  run(migrateBackboneToRedux(), packageJsonVersionsShouldBePinned());
-} catch (error: unknown) {
-  if (!isGitDeletedError(error)) {
-    throw error;
+async function main() {
+  try {
+    await run(migrateBackboneToRedux(), packageJsonVersionsShouldBePinned());
+  } catch (error: unknown) {
+    if (!isGitDeletedError(error)) {
+      throw error;
+    }
   }
 }
+
+main();
