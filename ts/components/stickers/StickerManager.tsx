@@ -1,35 +1,42 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
 import { StickerManagerPackRow } from './StickerManagerPackRow';
 import { StickerPreviewModal } from './StickerPreviewModal';
 import type { LocalizerType } from '../../types/Util';
 import type { StickerPackType } from '../../state/ducks/stickers';
+import { Tabs } from '../Tabs';
 
 export type OwnProps = {
-  readonly installedPacks: ReadonlyArray<StickerPackType>;
-  readonly receivedPacks: ReadonlyArray<StickerPackType>;
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
-  readonly knownPacks?: ReadonlyArray<StickerPackType>;
+  readonly closeStickerPackPreview: (packId: string) => unknown;
   readonly downloadStickerPack: (packId: string, packKey: string) => unknown;
-  readonly installStickerPack: (packId: string, packKey: string) => unknown;
-  readonly uninstallStickerPack: (packId: string, packKey: string) => unknown;
   readonly i18n: LocalizerType;
+  readonly installStickerPack: (packId: string, packKey: string) => unknown;
+  readonly installedPacks: ReadonlyArray<StickerPackType>;
+  readonly knownPacks?: ReadonlyArray<StickerPackType>;
+  readonly receivedPacks: ReadonlyArray<StickerPackType>;
+  readonly uninstallStickerPack: (packId: string, packKey: string) => unknown;
 };
 
 export type Props = OwnProps;
 
+enum TabViews {
+  Available = 'Available',
+  Installed = 'Installed',
+}
+
 export const StickerManager = React.memo(function StickerManagerInner({
-  installedPacks,
-  receivedPacks,
-  knownPacks,
   blessedPacks,
+  closeStickerPackPreview,
   downloadStickerPack,
-  installStickerPack,
-  uninstallStickerPack,
   i18n,
+  installStickerPack,
+  installedPacks,
+  knownPacks,
+  receivedPacks,
+  uninstallStickerPack,
 }: Props) {
   const focusRef = React.createRef<HTMLDivElement>();
   const [packToPreview, setPackToPreview] =
@@ -66,68 +73,94 @@ export const StickerManager = React.memo(function StickerManagerInner({
     <>
       {packToPreview ? (
         <StickerPreviewModal
-          i18n={i18n}
-          pack={packToPreview}
-          closeStickerPackPreview={clearPackToPreview}
+          closeStickerPackPreview={closeStickerPackPreview}
           downloadStickerPack={downloadStickerPack}
+          i18n={i18n}
           installStickerPack={installStickerPack}
+          onClose={clearPackToPreview}
+          pack={packToPreview}
           uninstallStickerPack={uninstallStickerPack}
         />
       ) : null}
       <div className="module-sticker-manager" tabIndex={-1} ref={focusRef}>
-        {[
-          {
-            i18nKey: 'stickers--StickerManager--InstalledPacks',
-            i18nEmptyKey: 'stickers--StickerManager--InstalledPacks--Empty',
-            packs: installedPacks,
-            hideIfEmpty: false,
-          },
-          {
-            i18nKey: 'stickers--StickerManager--BlessedPacks',
-            i18nEmptyKey: 'stickers--StickerManager--BlessedPacks--Empty',
-            packs: blessedPacks,
-            hideIfEmpty: true,
-          },
-          {
-            i18nKey: 'stickers--StickerManager--ReceivedPacks',
-            i18nEmptyKey: 'stickers--StickerManager--ReceivedPacks--Empty',
-            packs: receivedPacks,
-            hideIfEmpty: false,
-          },
-        ].map(section => {
-          if (section.hideIfEmpty && section.packs.length === 0) {
-            return null;
-          }
+        <Tabs
+          initialSelectedTab={TabViews.Available}
+          tabs={[
+            {
+              id: TabViews.Available,
+              label: i18n('stickers--StickerManager--Available'),
+            },
+            {
+              id: TabViews.Installed,
+              label: i18n('stickers--StickerManager--InstalledPacks'),
+            },
+          ]}
+        >
+          {({ selectedTab }) => (
+            <>
+              {selectedTab === TabViews.Available && (
+                <>
+                  <h2 className="module-sticker-manager__text module-sticker-manager__text--heading">
+                    {i18n('stickers--StickerManager--BlessedPacks')}
+                  </h2>
+                  {blessedPacks.length > 0 ? (
+                    blessedPacks.map(pack => (
+                      <StickerManagerPackRow
+                        key={pack.id}
+                        pack={pack}
+                        i18n={i18n}
+                        onClickPreview={previewPack}
+                        installStickerPack={installStickerPack}
+                        uninstallStickerPack={uninstallStickerPack}
+                      />
+                    ))
+                  ) : (
+                    <div className="module-sticker-manager__empty">
+                      {i18n('stickers--StickerManager--BlessedPacks--Empty')}
+                    </div>
+                  )}
 
-          return (
-            <React.Fragment key={section.i18nKey}>
-              <h2
-                className={classNames(
-                  'module-sticker-manager__text',
-                  'module-sticker-manager__text--heading'
-                )}
-              >
-                {i18n(section.i18nKey)}
-              </h2>
-              {section.packs.length > 0 ? (
-                section.packs.map(pack => (
-                  <StickerManagerPackRow
-                    key={pack.id}
-                    pack={pack}
-                    i18n={i18n}
-                    onClickPreview={previewPack}
-                    installStickerPack={installStickerPack}
-                    uninstallStickerPack={uninstallStickerPack}
-                  />
-                ))
-              ) : (
-                <div className="module-sticker-manager__empty">
-                  {i18n(section.i18nEmptyKey)}
-                </div>
+                  <h2 className="module-sticker-manager__text module-sticker-manager__text--heading">
+                    {i18n('stickers--StickerManager--ReceivedPacks')}
+                  </h2>
+                  {receivedPacks.length > 0 ? (
+                    receivedPacks.map(pack => (
+                      <StickerManagerPackRow
+                        key={pack.id}
+                        pack={pack}
+                        i18n={i18n}
+                        onClickPreview={previewPack}
+                        installStickerPack={installStickerPack}
+                        uninstallStickerPack={uninstallStickerPack}
+                      />
+                    ))
+                  ) : (
+                    <div className="module-sticker-manager__empty">
+                      {i18n('stickers--StickerManager--ReceivedPacks--Empty')}
+                    </div>
+                  )}
+                </>
               )}
-            </React.Fragment>
-          );
-        })}
+              {selectedTab === TabViews.Installed &&
+                (installedPacks.length > 0 ? (
+                  installedPacks.map(pack => (
+                    <StickerManagerPackRow
+                      key={pack.id}
+                      pack={pack}
+                      i18n={i18n}
+                      onClickPreview={previewPack}
+                      installStickerPack={installStickerPack}
+                      uninstallStickerPack={uninstallStickerPack}
+                    />
+                  ))
+                ) : (
+                  <div className="module-sticker-manager__empty">
+                    {i18n('stickers--StickerManager--InstalledPacks--Empty')}
+                  </div>
+                ))}
+            </>
+          )}
+        </Tabs>
       </div>
     </>
   );

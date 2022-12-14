@@ -44,6 +44,7 @@ const knownPacks = [
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   blessedPacks: overrideProps.blessedPacks || [],
+  closeStickerPackPreview: action('closeStickerPackPreview'),
   downloadStickerPack: action('downloadStickerPack'),
   i18n,
   installStickerPack: action('installStickerPack'),

@@ -1,11 +1,11 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { StickerPackInstallButton } from './StickerPackInstallButton';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
 import type { StickerPackType } from '../../state/ducks/stickers';
+import { Button, ButtonVariant } from '../Button';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -136,17 +136,21 @@ export const StickerManagerPackRow = React.memo(
           </div>
           <div className="module-sticker-manager__pack-row__controls">
             {pack.status === 'installed' ? (
-              <StickerPackInstallButton
-                installed
-                i18n={i18n}
+              <Button
+                aria-label={i18n('stickers--StickerManager--Uninstall')}
+                variant={ButtonVariant.Secondary}
                 onClick={handleUninstall}
-              />
+              >
+                {i18n('stickers--StickerManager--Uninstall')}
+              </Button>
             ) : (
-              <StickerPackInstallButton
-                installed={false}
-                i18n={i18n}
+              <Button
+                aria-label={i18n('stickers--StickerManager--Install')}
+                variant={ButtonVariant.Secondary}
                 onClick={handleInstall}
-              />
+              >
+                {i18n('stickers--StickerManager--Install')}
+              </Button>
             )}
           </div>
         </div>

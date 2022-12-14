@@ -65,6 +65,7 @@ export function Full(): JSX.Element {
   return (
     <StickerPreviewModal
       closeStickerPackPreview={action('closeStickerPackPreview')}
+      onClose={action('onClose')}
       installStickerPack={action('installStickerPack')}
       uninstallStickerPack={action('uninstallStickerPack')}
       downloadStickerPack={action('downloadStickerPack')}

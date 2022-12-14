@@ -142,7 +142,7 @@ describe('storage service', function needsName() {
         .click({ noWaitAfter: true });
       await window
         .locator(
-          '.module-sticker-manager__preview-modal__container button >> "Install"'
+          '.module-sticker-manager__preview-modal__footer--install button >> "Install"'
         )
         .click();
 
@@ -186,13 +186,15 @@ describe('storage service', function needsName() {
         .click({ noWaitAfter: true });
       await window
         .locator(
-          '.module-sticker-manager__preview-modal__container button ' +
+          '.module-sticker-manager__preview-modal__footer--install button ' +
             '>> "Uninstall"'
         )
         .click();
 
       // Confirm
-      await window.locator('.module-Modal button >> "Uninstall"').click();
+      await window
+        .locator('.module-Button--destructive >> "Uninstall"')
+        .click();
 
       debug('waiting for sync message');
       const { syncMessage } = await phone.waitForSyncMessage(entry =>
