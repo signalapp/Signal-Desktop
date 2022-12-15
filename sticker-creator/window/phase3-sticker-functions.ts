@@ -160,7 +160,6 @@ window.processStickerImage = async function processStickerImage(
       quality: 0.8,
     });
 
-    // eslint-disable-next-line no-await-in-loop
     processedBuffer = Buffer.from(await blob.arrayBuffer());
 
     if (
