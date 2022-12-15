@@ -268,7 +268,7 @@
     "css-loader": "3.2.0",
     "danger": "11.1.2",
     "debug": "4.3.3",
-    "electron": "21.3.3",
+    "electron": "22.0.0",
     "electron-builder": "23.0.8",
     "electron-mocha": "11.0.2",
     "electron-notarize": "1.2.1",
@@ -316,7 +316,7 @@
     "read-last-lines/mz/thenify-all/thenify": "3.3.1"
   },
   "engines": {
-    "node": "16.16.0"
+    "node": "16.17.1"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

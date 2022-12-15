@@ -447,8 +447,7 @@ async function prepareUrl(
   return setUrlSearchParams(url, { config: JSON.stringify(parsed.data) }).href;
 }
 
-async function handleUrl(event: Electron.Event, rawTarget: string) {
-  event.preventDefault();
+async function handleUrl(rawTarget: string) {
   const parsedUrl = maybeParseUrl(rawTarget);
   if (!parsedUrl) {
     return;
@@ -481,8 +480,15 @@ function handleCommonWindowEvents(
   window: BrowserWindow,
   titleBarOverlay: TitleBarOverlayOptions | false = false
 ) {
-  window.webContents.on('will-navigate', handleUrl);
-  window.webContents.on('new-window', handleUrl);
+  window.webContents.on('will-navigate', (event, rawTarget) => {
+    event.preventDefault();
+
+    handleUrl(rawTarget);
+  });
+  window.webContents.setWindowOpenHandler(({ url }) => {
+    handleUrl(url);
+    return { action: 'deny' };
+  });
   window.webContents.on(
     'preload-error',
     (_event: Electron.Event, preloadPath: string, error: Error) => {
@@ -2001,9 +2007,7 @@ app.on(
     contents.on('will-attach-webview', attachEvent => {
       attachEvent.preventDefault();
     });
-    contents.on('new-window', newEvent => {
-      newEvent.preventDefault();
-    });
+    contents.setWindowOpenHandler(() => ({ action: 'deny' }));
   }
 );
 
