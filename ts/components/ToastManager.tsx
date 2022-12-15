@@ -6,8 +6,8 @@ import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
 import { ToastMessageBodyTooLong } from './ToastMessageBodyTooLong';
-import { ToastType } from '../state/ducks/toast';
 import { missingCaseError } from '../util/missingCaseError';
+import { ToastType } from '../types/Toast';
 
 export type PropsType = {
   hideToast: () => unknown;

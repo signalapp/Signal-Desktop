@@ -8,7 +8,7 @@ import type { LocalizerType } from '../types/Util';
 import type { ShowToastActionCreatorType } from '../state/ducks/toast';
 import { ContextMenu } from './ContextMenu';
 import { Theme } from '../util/theme';
-import { ToastType } from '../state/ducks/toast';
+import { ToastType } from '../types/Toast';
 import {
   isVideoGoodForStories,
   ReasonVideoNotGood,

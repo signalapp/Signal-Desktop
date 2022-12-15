@@ -33,7 +33,8 @@ import {
 } from './linkPreviews';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { RecordingState } from './audioRecorder';
-import { SHOW_TOAST, ToastType } from './toast';
+import { SHOW_TOAST } from './toast';
+import { ToastType } from '../../types/Toast';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { UUID } from '../../types/UUID';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';

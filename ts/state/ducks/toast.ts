@@ -7,39 +7,7 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { NoopActionType } from './noop';
 import type { ReplacementValuesType } from '../../types/Util';
 import { useBoundActions } from '../../hooks/useBoundActions';
-
-export enum ToastType {
-  AddingUserToGroup = 'AddingUserToGroup',
-  Blocked = 'Blocked',
-  BlockedGroup = 'BlockedGroup',
-  CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
-  CannotStartGroupCall = 'CannotStartGroupCall',
-  CopiedUsername = 'CopiedUsername',
-  CopiedUsernameLink = 'CopiedUsernameLink',
-  DangerousFileType = 'DangerousFileType',
-  DeleteForEveryoneFailed = 'DeleteForEveryoneFailed',
-  Error = 'Error',
-  Expired = 'Expired',
-  FailedToDeleteUsername = 'FailedToDeleteUsername',
-  FileSaved = 'FileSaved',
-  FileSize = 'FileSize',
-  InvalidConversation = 'InvalidConversation',
-  LeftGroup = 'LeftGroup',
-  MaxAttachments = 'MaxAttachments',
-  MessageBodyTooLong = 'MessageBodyTooLong',
-  PinnedConversationsFull = 'PinnedConversationsFull',
-  ReportedSpamAndBlocked = 'ReportedSpamAndBlocked',
-  StoryMuted = 'StoryMuted',
-  StoryReact = 'StoryReact',
-  StoryReply = 'StoryReply',
-  StoryVideoError = 'StoryVideoError',
-  StoryVideoTooLong = 'StoryVideoTooLong',
-  StoryVideoUnsupported = 'StoryVideoUnsupported',
-  UnableToLoadAttachment = 'UnableToLoadAttachment',
-  UnsupportedMultiAttachment = 'UnsupportedMultiAttachment',
-  UserAddedToGroup = 'UserAddedToGroup',
-}
-
+import type { ToastType } from '../../types/Toast';
 // State
 
 export type ToastStateType = {

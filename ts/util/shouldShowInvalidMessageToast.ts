@@ -3,7 +3,7 @@
 
 import type { ConversationAttributesType } from '../model-types';
 
-import { ToastType } from '../state/ducks/toast';
+import { ToastType } from '../types/Toast';
 import {
   isDirectConversation,
   isGroupV1,

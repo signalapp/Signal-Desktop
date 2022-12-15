@@ -17,7 +17,7 @@ import {
   UsernameReservationError,
 } from '../../../state/ducks/usernameEnums';
 import { actions } from '../../../state/ducks/username';
-import { ToastType } from '../../../state/ducks/toast';
+import { ToastType } from '../../../types/Toast';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer } from '../../../state/reducer';
 import { ReserveUsernameError } from '../../../types/Username';

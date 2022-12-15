@@ -9,7 +9,8 @@ import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import type { SelectedStoryDataType } from '../ducks/stories';
 import { StoryViewer } from '../../components/StoryViewer';
-import { ToastType, useToastActions } from '../ducks/toast';
+import { ToastType } from '../../types/Toast';
+import { useToastActions } from '../ducks/toast';
 import { getConversationSelector } from '../selectors/conversations';
 import {
   getEmojiSkinTone,

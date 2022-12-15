@@ -12,7 +12,7 @@ import type {
   ReplacementValuesType,
   ThemeType,
 } from '../types/Util';
-import { ToastType } from '../state/ducks/toast';
+import { ToastType } from '../types/Toast';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import type { Row } from './ConversationList';

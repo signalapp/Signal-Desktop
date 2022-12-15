@@ -7,7 +7,7 @@ import React from 'react';
 import type { PropsType } from './ToastManager';
 import enMessages from '../../_locales/en/messages.json';
 import { ToastManager } from './ToastManager';
-import { ToastType } from '../state/ducks/toast';
+import { ToastType } from '../types/Toast';
 import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);

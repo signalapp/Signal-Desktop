@@ -6,7 +6,7 @@ import React from 'react';
 
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
-import { ToastType } from '../state/ducks/toast';
+import { ToastType } from '../types/Toast';
 
 export type Props = {
   children: ReactNode;

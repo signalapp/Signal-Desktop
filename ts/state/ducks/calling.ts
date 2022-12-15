@@ -49,7 +49,8 @@ import { waitForOnline } from '../../util/waitForOnline';
 import * as mapUtil from '../../util/mapUtil';
 import { isCallSafe } from '../../util/isCallSafe';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
-import { SHOW_TOAST, ToastType } from './toast';
+import { SHOW_TOAST } from './toast';
+import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
 
 // State

@@ -18,7 +18,8 @@ import {
   isVideoTypeSupported,
 } from '../../util/GoogleChrome';
 import { isTapToView } from '../selectors/message';
-import { SHOW_TOAST, ToastType } from './toast';
+import { SHOW_TOAST } from './toast';
+import { ToastType } from '../../types/Toast';
 import { saveAttachmentFromMessage } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';

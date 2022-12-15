@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
-import type { ToastType } from '../state/ducks/toast';
+import type { ToastType } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import type { ReplacementValuesType } from '../types/Util';
 import { ThemeType } from '../types/Util';

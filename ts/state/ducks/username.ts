@@ -23,7 +23,8 @@ import {
   UsernameReservationState,
   UsernameReservationError,
 } from './usernameEnums';
-import { showToast, ToastType } from './toast';
+import { showToast } from './toast';
+import { ToastType } from '../../types/Toast';
 import type { ToastActionType } from './toast';
 
 export type UsernameReservationStateType = Readonly<{
