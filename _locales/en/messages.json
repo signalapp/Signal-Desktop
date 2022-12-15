@@ -63,18 +63,6 @@
     "message": "Membership is pending",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
-  "Preferences__sent-media-quality": {
-    "message": "Sent media quality",
-    "description": "Title for the sent media quality setting"
-  },
-  "sentMediaQualityStandard": {
-    "message": "Standard",
-    "description": "Label text for standard media quality option"
-  },
-  "sentMediaQualityHigh": {
-    "message": "High",
-    "description": "Label text for high media quality option"
-  },
   "softwareAcknowledgments": {
     "message": "Software Acknowledgments",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -690,12 +678,7 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected file exceeds message size restrictions.",
-    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
-    "description": "Shown in a toast if the user tries to attach too-large file"
+    "message": "Sorry, the selected file exceeds message size restrictions."
   },
   "unableToLoadAttachment": {
     "message": "Unable to load selected attachment."
@@ -1226,34 +1209,6 @@
   "ChangeNumber--notification": {
     "message": "$sender$ changed their phone number",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
-  },
-  "icu:ConversationMerge--notification": {
-    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
-  },
-  "icu:ConversationMerge--notification--no-e164": {
-    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
-    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
-  },
-  "icu:ConversationMerge--learn-more": {
-    "messageformat": "Learn More",
-    "description": "Shown on a button below a 'conversations were merged' timeline notification"
-  },
-  "icu:ConversationMerge--explainer-dialog--line-1": {
-    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
-    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:ConversationMerge--explainer-dialog--line-2": {
-    "messageformat": "Your message history for both conversations have been merged here.",
-    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
-  },
-  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
-    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
-  },
-  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
-    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
-    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
@@ -2352,16 +2307,8 @@
     "message": "Sticker pack could not be installed",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
-  "stickers--StickerManager--title": {
-    "message": "Stickers",
-    "description": "Title for the sticker manager"
-  },
-  "stickers--StickerManager--Available": {
-    "message": "Available",
-    "description": "Shown in the sticker pack manager as a tab for available stickers"
-  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Installed",
+    "message": "Installed Stickers",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -4111,10 +4058,6 @@
   "GroupV2--announcements--member--unknown": {
     "message": "The group was changed to allow all members to send messages.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
-  },
-  "icu:GroupV2--summary": {
-    "messageformat": "This group's members or settings have changed.",
-    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
   "GroupV1--Migration--disabled": {
     "message": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. $learnMore$",
@@ -6259,14 +6202,6 @@
   "WhatsNew__bugfixes--6": {
     "message": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
-  },
-  "WhatsNew__v5.63--0": {
-    "message": "Hard at work fixing bugs and making other performance improvements to keep the app running smoothly for you.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Start using and testing our new stories feature. You can use the feature with other beta testers and let us know how it's working.",
-    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Stories are now in Signal! Share disappearing text, images, and video updates with select friends or groups that automatically disappear after 24 hours. For everyone who loves sharing stories, here’s a way to do it privately and without seeing any ads. If you don’t want to see or share stories, you can opt out of it all in your Preferences > Privacy.",

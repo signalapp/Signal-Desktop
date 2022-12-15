@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "Začeli ste plačilo za {receiver}",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "Začeli ste plačilo",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "{sender} je začel_a plačilo za vas",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "{sender} želi, da aktivirate Plačila. Plačila pošiljajte le osebam, ki jim zaupate. Plačila lahko aktivirate na svoji mobilni napravi tako, da odprete Nastavitve -> Plačila.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "Osebi {receiver} ste poslali zahtevo za aktiviranje Plačil.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "Poslali ste zahtevo za aktiviranje Plačil.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "{sender} lahko zdaj sprejema Plačila.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "Aktivirali ste Plačila.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "Plačilo",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "Preverite stanje tega plačila v vaši primarni napravi",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "Prenesi priponko",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "Kopiraj časovni žig",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "Ko začnete skupinski klic za majhne skupine (do 16 oseb), lahko izberete pošiljanje obvestila o zvonjenju. Člani skupine bodo slišali zvonjenje, če uporabljajo iOS beta, namizni računalnik ali Android.",
     "description": "Release notes for v6.1"
   }
 }

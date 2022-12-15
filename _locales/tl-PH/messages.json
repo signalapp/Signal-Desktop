@@ -5485,35 +5485,35 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "Nagsimula ka ng isang payment kay {receiver}",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "Nagsimula ka ng isang payment",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "Si {sender} ay nagsimula ng isang payment sa'yo",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "Gusto ni {sender} na i-activate mo ang Payments. Mag-send lang ng payment sa mga taong pinagkakatiwalaan mo. Ang Payments ay pwedeng i-activate sa iyong mobile device sa pamamagitan ng pagpunta sa Settings -> Payments.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "Nag-send ka ng request kay {receiver} para i-activate ang Payments.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "Nag-send ka ng request para i-activate ang Payments.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "Makakatanggap na si {sender} ng Payments.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "Na-activate mo na ang Payments.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
@@ -5521,7 +5521,7 @@
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "I-check ang iyong primary device para sa status ng payment na ito",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "I-download ang Attachment",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "Kapag nagsimula ka ng isang group call sa maliliit na groups (hanggang 16 users), pwede kang mag-send ng ringing notification. Makakarinig ang group members ng ringing notification kung sila'y nasa iOS beta o gumagamit ng Desktop o Android.",
     "description": "Release notes for v6.1"
   }
 }

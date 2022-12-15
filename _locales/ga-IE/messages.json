@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "Chuir tú tús le híocaíocht chuig {receiver}",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "Chuir tú tús le híocaíocht",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "Chuir {sender} íocaíocht chugat",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "Iarrann {sender} ort Íocaíochtaí a ghníomhachtú. Ná seol íocaíochtaí ach chuig daoine a bhfuil muinín agat astu. Is féidir Íocaíochtaí a ghníomhachtú ar do ghléas móibíleach ach dul chuig Socruithe -> Íocaíochtaí.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "Sheol tú iarratas chuig {receiver} chun Íocaíochtaí a ghníomhachtú.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "Sheol tú iarratas chun Íocaíochtaí a ghníomhachtú.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "Is féidir le {sender} glacadh le hÍocaíochtaí anois.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "Ghníomhachtaigh tú Íocaíochtaí.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "Íocaíocht",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "Seiceáil do phríomhghléas do stádas na híocaíochta seo",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "Íoslódáil an Ceangaltán",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "Cóipeáil stampa ama",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6217,7 +6217,7 @@
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "Nuair a thosaíonn tú ar ghlao grúpa do ghrúpaí beaga (suas le 16 duine), is féidir leat a roghnú fógra glaoigh a sheoladh. Cluinfidh baill den ghrúpa glaoch má tá siad ar an mbéite iOS nó ag úsáid Ríomhaire deisce nó Android.",
     "description": "Release notes for v6.1"
   }
 }

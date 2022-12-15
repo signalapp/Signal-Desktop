@@ -5485,43 +5485,43 @@
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {
-    "messageformat": "You started a payment to {receiver}",
+    "messageformat": "Ξεκίνησες μία πληρωμή στον/στην {receiver}",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-you-label-without-receiver": {
-    "messageformat": "You started a payment",
+    "messageformat": "Ξεκίνησες μία πληρωμή",
     "description": "Payment event notification from you message bubble label"
   },
   "icu:payment-event-notification-message-label": {
-    "messageformat": "{sender} started a payment to you",
+    "messageformat": "Ο/Η {sender} ξεκίνησε μία πληρωμή σε σένα",
     "description": "Payment event notification from contact message bubble label"
   },
   "icu:payment-event-activation-request-label": {
-    "messageformat": "{sender} wants you to activate Payments. Only send payments to people you trust. Payments can be activated on your mobile device by going to Settings -> Payments.",
+    "messageformat": "Ο/Η {sender} θέλει να ενεργοποιήσεις τις Πληρωμές. Στείλε πληρωμές μόνο σε άτομα που εμπιστεύεσαι. Οι πληρωμές μπορούν να ενεργοποιηθούν στο κινητό σου από τις Ρυθμίσεις -> Πληρωμές.",
     "description": "Payment event activation request from contact label"
   },
   "icu:payment-event-activation-request-you-label": {
-    "messageformat": "You sent {receiver} a request to activate Payments.",
+    "messageformat": "Έστειλες στον/στην {receiver} αίτημα να ενεργοποιήσει τις Πληρωμές.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activation-request-you-label-without-receiver": {
-    "messageformat": "You sent a request to activate Payments.",
+    "messageformat": "Έστειλες ένα αίτημα για ενεργοποίηση των Πληρωμών.",
     "description": "Payment event activation request from you label"
   },
   "icu:payment-event-activated-label": {
-    "messageformat": "{sender} can now accept Payments.",
+    "messageformat": "Ο/Η {sender} μπορεί πλέον να αποδεχτεί Πληρωμές.",
     "description": "Payment event activation from contact label"
   },
   "icu:payment-event-activated-you-label": {
-    "messageformat": "You activated Payments.",
+    "messageformat": "Ενεργοποίησες τις Πληρωμές.",
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Payment",
+    "messageformat": "Πληρωμή",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
-    "messageformat": "Check your primary device for this payment’s status",
+    "messageformat": "Έλεγξε τη βασική συσκευή σου για την κατάσταση αυτής της πληρωμής",
     "description": "Payment event notification check device label"
   },
   "SignalConnectionsModal__title": {
@@ -5617,7 +5617,7 @@
     "description": "Alert error message when unable to send a story"
   },
   "StoriesSettings__title": {
-    "message": "Απόρρητο ιστορίας",
+    "message": "Ιδιωτικότητα ιστορίας",
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
@@ -5753,7 +5753,7 @@
     "description": "Learn more link to learn about who can view your story"
   },
   "StoriesSettings__context-menu": {
-    "message": "Απόρρητο ιστορίας",
+    "message": "Ιδιωτικότητα ιστορίας",
     "description": "Button label to get to story settings"
   },
   "StoriesSettings__view-receipts--label": {
@@ -5949,7 +5949,7 @@
     "description": "Context menu item to help debugging"
   },
   "StoryDetailsModal__download-attachment": {
-    "message": "Download attachment",
+    "message": "Λήψη συνημμένου",
     "description": "Context menu item to help debugging"
   },
   "StoryViewsNRepliesModal__read-receipts-off": {
@@ -5993,7 +5993,7 @@
     "description": "Shown as a menu item in the context menu of a story reply, to the author of the reply, for deleting the reply for everyone"
   },
   "icu:StoryViewsNRepliesModal__copy-reply-timestamp": {
-    "messageformat": "Copy timestamp",
+    "messageformat": "Αντιγραφή χρονικής σήμανσης",
     "description": "Shown for internal users as a menu item in the context menu of a story reply, to the author of the reply, for copying the reply timestamp"
   },
   "StoryListItem__label": {
@@ -6213,11 +6213,11 @@
     "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
-    "message": "Οι ιστορίες έφτασαν τώρα στο Signal! Μοιράσου κείμενα, εικόνες και ενημερώσεις βίντεο που εξαφανίζονται αυτόματα μετά από 24 ώρες με επιλεγμένους φίλους ή ομάδες. Για όλα τα άτομα που αγαπούν να μοιράζονται ιστορίες, ορίστε ένας τρόπος να το κάνουν ιδιωτικά και χωρίς διαφημίσεις. Εάν δεν θέλεις να βλέπεις ή να μοιράζεσαι ιστορίες, μπορείς να καταργήσεις τη συμμετοχή σου από όλα στις Προτιμήσεις > Απόρρητο.",
+    "message": "Οι ιστορίες έφτασαν τώρα στο Signal! Μοιράσου κείμενα, εικόνες και ενημερώσεις βίντεο που εξαφανίζονται αυτόματα μετά από 24 ώρες με επιλεγμένους φίλους ή ομάδες. Για όλα τα άτομα που αγαπούν να μοιράζονται ιστορίες, ορίστε ένας τρόπος να το κάνουν ιδιωτικά και χωρίς διαφημίσεις. Εάν δεν θέλεις να βλέπεις ή να μοιράζεσαι ιστορίες, μπορείς να καταργήσεις τη συμμετοχή σου από όλα στις Προτιμήσεις > Ιδιωτικότητα.",
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {
-    "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
+    "message": "Όταν ξεκινάς μια ομαδική κλήση για μικρές ομάδες (έως 16 άτομα), μπορείς να επιλέξεις να στείλεις μια ειδοποίηση κλήσης. Τα μέλη της ομάδας θα ακούσουν ένα κουδούνισμα εάν έχουν iOS beta ή χρησιμοποιούν σταθερό υπολογιστή ή λογισμικό Android.",
     "description": "Release notes for v6.1"
   }
 }
