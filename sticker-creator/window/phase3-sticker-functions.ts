@@ -207,7 +207,6 @@ window.encryptAndUpload = async (
 
   const packKey = getRandomBytes(32);
   const encryptionKey = deriveStickerPackKey(packKey);
-  const iv = getRandomBytes(16);
 
   const server = WebAPI.connect({
     username,
@@ -259,15 +258,14 @@ window.encryptAndUpload = async (
 
   const encryptedManifest = await encrypt(
     Proto.StickerPack.encode(manifestProto).finish(),
-    encryptionKey,
-    iv
+    encryptionKey
   );
   const encryptedStickers = uniqueStickers.map(({ imageData }) => {
     if (!imageData?.buffer) {
       throw new Error('encryptStickers: Missing image data on sticker');
     }
 
-    return encrypt(imageData.buffer, encryptionKey, iv);
+    return encrypt(imageData.buffer, encryptionKey);
   });
 
   const packId = await server.putStickers(
@@ -283,12 +281,8 @@ window.encryptAndUpload = async (
   return { packId, key: hexKey };
 };
 
-function encrypt(
-  data: Uint8Array,
-  key: Uint8Array,
-  iv: Uint8Array
-): Uint8Array {
-  const { ciphertext } = encryptAttachment(data, key, iv);
+function encrypt(data: Uint8Array, key: Uint8Array): Uint8Array {
+  const { ciphertext } = encryptAttachment(data, key);
 
   return ciphertext;
 }

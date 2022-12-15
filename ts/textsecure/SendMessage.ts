@@ -700,9 +700,8 @@ export default class MessageSender {
 
     const padded = this.getPaddedAttachment(data);
     const key = getRandomBytes(64);
-    const iv = getRandomBytes(16);
 
-    const result = encryptAttachment(padded, key, iv);
+    const result = encryptAttachment(padded, key);
     const id = await this.server.putAttachment(result.ciphertext);
 
     const proto = new Proto.AttachmentPointer();
