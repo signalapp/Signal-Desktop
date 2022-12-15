@@ -14,6 +14,7 @@ import type {
   ConversationType,
   ConversationTypeType,
   InteractionModeType,
+  PushPanelForConversationActionType,
   SaveAttachmentActionCreatorType,
   ShowConversationType,
 } from '../../state/ducks/conversations';
@@ -89,6 +90,7 @@ import { PaymentEventKind } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
+import { PanelType } from '../../types/Panels';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -302,13 +304,7 @@ export type PropsActions = {
   startConversation: (e164: string, uuid: UUIDStringType) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
-  showContactDetail: (options: {
-    contact: EmbeddedContactType;
-    signalAccount?: {
-      phoneNumber: string;
-      uuid: UUIDStringType;
-    };
-  }) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   showContactModal: (contactId: string, conversationId?: string) => void;
 
   kickOffAttachmentDownload: (options: {
@@ -1566,10 +1562,11 @@ export class Message extends React.PureComponent<Props, State> {
   public renderEmbeddedContact(): JSX.Element | null {
     const {
       contact,
+      conversationId,
       conversationType,
       direction,
       i18n,
-      showContactDetail,
+      pushPanelForConversation,
       text,
     } = this.props;
     if (!contact) {
@@ -1601,9 +1598,12 @@ export class Message extends React.PureComponent<Props, State> {
                 }
               : undefined;
 
-          showContactDetail({
-            contact,
-            signalAccount,
+          pushPanelForConversation(conversationId, {
+            type: PanelType.ContactDetails,
+            args: {
+              contact,
+              signalAccount,
+            },
           });
         }}
         withContentAbove={withContentAbove}
@@ -2238,6 +2238,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       contact,
+      conversationId,
       showLightboxForViewOnceMedia,
       direction,
       giftBadge,
@@ -2247,7 +2248,7 @@ export class Message extends React.PureComponent<Props, State> {
       kickOffAttachmentDownload,
       startConversation,
       openGiftBadge,
-      showContactDetail,
+      pushPanelForConversation,
       showLightbox,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
@@ -2374,7 +2375,13 @@ export class Message extends React.PureComponent<Props, State> {
               uuid: contact.uuid,
             }
           : undefined;
-      showContactDetail({ contact, signalAccount });
+      pushPanelForConversation(conversationId, {
+        type: PanelType.ContactDetails,
+        args: {
+          contact,
+          signalAccount,
+        },
+      });
 
       event.preventDefault();
       event.stopPropagation();

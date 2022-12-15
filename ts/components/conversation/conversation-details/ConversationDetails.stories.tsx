@@ -81,13 +81,7 @@ const createProps = (
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
-  showGroupLinkManagement: action('showGroupLinkManagement'),
-  showGroupV2Permissions: action('showGroupV2Permissions'),
-  showConversationNotificationsSettings: action(
-    'showConversationNotificationsSettings'
-  ),
   showConversation: action('showConversation'),
-  showPendingInvites: action('showPendingInvites'),
   showLightboxWithMedia: action('showLightboxWithMedia'),
   updateGroupAttributes: async () => {
     action('updateGroupAttributes')();

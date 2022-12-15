@@ -21,6 +21,10 @@ export function getConversationTitleForPanelType(
     return i18n('ChatColorPicker__menu-title');
   }
 
+  if (panelType === PanelType.ContactDetails) {
+    return '';
+  }
+
   if (panelType === PanelType.ConversationDetails) {
     return '';
   }
@@ -41,11 +45,13 @@ export function getConversationTitleForPanelType(
     return i18n('ConversationDetails--notifications');
   }
 
+  if (panelType === PanelType.StickerManager) {
+    return '';
+  }
+
   if (
-    panelType === PanelType.ContactDetails ||
     panelType === PanelType.GroupV1Members ||
-    panelType === PanelType.MessageDetails ||
-    panelType === PanelType.StickerManager
+    panelType === PanelType.MessageDetails
   ) {
     return undefined;
   }

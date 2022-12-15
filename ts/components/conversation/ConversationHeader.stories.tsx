@@ -49,12 +49,12 @@ const commonProps = {
   ),
 
   onShowAllMedia: action('onShowAllMedia'),
-  onShowGroupMembers: action('onShowGroupMembers'),
   onGoBack: action('onGoBack'),
 
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   setMuteExpiration: action('onSetMuteNotifications'),
   setPinned: action('setPinned'),
   viewUserStories: action('viewUserStories'),

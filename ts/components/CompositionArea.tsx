@@ -42,6 +42,7 @@ import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
   ConversationType,
+  PushPanelForConversationActionType,
   ShowConversationType,
 } from '../state/ducks/conversations';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -61,6 +62,7 @@ import { MediaEditor } from './MediaEditor';
 import { isImageTypeSupported } from '../util/GoogleChrome';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { usePrevious } from '../hooks/usePrevious';
+import { PanelType } from '../types/Panels';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -162,15 +164,15 @@ export type Props = Pick<
     | 'blessedPacks'
     | 'recentStickers'
     | 'clearInstalledStickerPack'
-    | 'onClickAddPack'
     | 'clearShowIntroduction'
     | 'showPickerHint'
     | 'clearShowPickerHint'
   > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'showGV2MigrationDialog'> &
-  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
-  OwnProps;
+  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> & {
+    pushPanelForConversation: PushPanelForConversationActionType;
+  } & OwnProps;
 
 export function CompositionArea({
   // Base props
@@ -182,6 +184,7 @@ export function CompositionArea({
   isDisabled,
   isSignalConversation,
   messageCompositionId,
+  pushPanelForConversation,
   processAttachments,
   removeAttachment,
   sendMultiMediaMessage,
@@ -232,7 +235,6 @@ export function CompositionArea({
   blessedPacks,
   recentStickers,
   clearInstalledStickerPack,
-  onClickAddPack,
   sendStickerMessage,
   clearShowIntroduction,
   showPickerHint,
@@ -459,7 +461,11 @@ export function CompositionArea({
         blessedPacks={blessedPacks}
         recentStickers={recentStickers}
         clearInstalledStickerPack={clearInstalledStickerPack}
-        onClickAddPack={onClickAddPack}
+        onClickAddPack={() =>
+          pushPanelForConversation(conversationId, {
+            type: PanelType.StickerManager,
+          })
+        }
         onPickSticker={(packId, stickerId) =>
           sendStickerMessage(conversationId, { packId, stickerId })
         }

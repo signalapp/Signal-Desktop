@@ -82,10 +82,6 @@ export type StateProps = {
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   showAllMedia: () => void;
-  showGroupLinkManagement: () => void;
-  showGroupV2Permissions: () => void;
-  showPendingInvites: () => void;
-  showConversationNotificationsSettings: () => void;
   updateGroupAttributes: (
     _: Readonly<{
       avatar?: undefined | Uint8Array;
@@ -161,12 +157,8 @@ export function ConversationDetails({
   setMuteExpiration,
   showAllMedia,
   showContactModal,
-  showConversationNotificationsSettings,
   showConversation,
-  showGroupLinkManagement,
-  showGroupV2Permissions,
   showLightboxWithMedia,
-  showPendingInvites,
   theme,
   toggleSafetyNumberModal,
   toggleAddUserToAnotherGroupModal,
@@ -451,7 +443,11 @@ export function ConversationDetails({
               />
             }
             label={i18n('ConversationDetails--notifications')}
-            onClick={showConversationNotificationsSettings}
+            onClick={() =>
+              pushPanelForConversation(conversation.id, {
+                type: PanelType.NotificationSettings,
+              })
+            }
             right={
               conversation.muteExpiresAt
                 ? getMutedUntilText(conversation.muteExpiresAt, i18n)
@@ -503,7 +499,11 @@ export function ConversationDetails({
                 />
               }
               label={i18n('ConversationDetails--group-link')}
-              onClick={showGroupLinkManagement}
+              onClick={() =>
+                pushPanelForConversation(conversation.id, {
+                  type: PanelType.GroupLinkManagement,
+                })
+              }
               right={hasGroupLink ? i18n('on') : i18n('off')}
             />
           ) : null}
@@ -515,7 +515,11 @@ export function ConversationDetails({
               />
             }
             label={i18n('ConversationDetails--requests-and-invites')}
-            onClick={showPendingInvites}
+            onClick={() =>
+              pushPanelForConversation(conversation.id, {
+                type: PanelType.GroupInvites,
+              })
+            }
             right={invitesCount}
           />
           {isAdmin ? (
@@ -527,7 +531,11 @@ export function ConversationDetails({
                 />
               }
               label={i18n('permissions')}
-              onClick={showGroupV2Permissions}
+              onClick={() =>
+                pushPanelForConversation(conversation.id, {
+                  type: PanelType.GroupPermissions,
+                })
+              }
             />
           ) : null}
         </PanelSection>

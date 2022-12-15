@@ -38,15 +38,10 @@ import type { ReduxActions } from './state/types';
 import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
 import type { createConversationDetails } from './state/roots/createConversationDetails';
-import type { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
-import type { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
 import type { createMessageDetail } from './state/roots/createMessageDetail';
-import type { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
-import type { createPendingInvites } from './state/roots/createPendingInvites';
 import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
-import type { createStickerManager } from './state/roots/createStickerManager';
 import type * as appDuck from './state/ducks/app';
 import type * as callingDuck from './state/ducks/calling';
 import type * as conversationsDuck from './state/ducks/conversations';
@@ -167,15 +162,10 @@ export type SignalCoreType = {
     Roots: {
       createApp: typeof createApp;
       createConversationDetails: typeof createConversationDetails;
-      createGroupLinkManagement: typeof createGroupLinkManagement;
       createGroupV2JoinModal: typeof createGroupV2JoinModal;
-      createGroupV2Permissions: typeof createGroupV2Permissions;
       createMessageDetail: typeof createMessageDetail;
-      createConversationNotificationsSettings: typeof createConversationNotificationsSettings;
-      createPendingInvites: typeof createPendingInvites;
       createSafetyNumberViewer: typeof createSafetyNumberViewer;
       createShortcutGuideModal: typeof createShortcutGuideModal;
-      createStickerManager: typeof createStickerManager;
     };
     Ducks: {
       app: typeof appDuck;

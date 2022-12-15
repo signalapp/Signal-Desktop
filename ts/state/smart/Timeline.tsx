@@ -80,7 +80,6 @@ export type TimelinePropsType = ExternalProps &
     | 'retryDeleteForEveryone'
     | 'retrySend'
     | 'scrollToQuotedMessage'
-    | 'showContactDetail'
     | 'showExpiredIncomingTapToViewToast'
     | 'showExpiredOutgoingTapToViewToast'
     | 'showMessageDetail'

@@ -283,7 +283,7 @@ const actions = () => ({
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   showMessageDetail: action('showMessageDetail'),
   saveAttachment: action('saveAttachment'),
-  showContactDetail: action('showContactDetail'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showConversation: action('showConversation'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),

@@ -84,7 +84,6 @@ export type PropsBackboneActions = Pick<
   | 'openGiftBadge'
   | 'openLink'
   | 'renderAudioAttachment'
-  | 'showContactDetail'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'startConversation'
@@ -95,6 +94,7 @@ export type PropsReduxActions = Pick<
   | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
+  | 'pushPanelForConversation'
   | 'saveAttachment'
   | 'showContactModal'
   | 'showConversation'
@@ -292,9 +292,9 @@ export class MessageDetail extends React.Component<Props> {
       markViewed,
       openGiftBadge,
       openLink,
+      pushPanelForConversation,
       renderAudioAttachment,
       saveAttachment,
-      showContactDetail,
       showContactModal,
       showConversation,
       showExpiredIncomingTapToViewToast,
@@ -339,6 +339,7 @@ export class MessageDetail extends React.Component<Props> {
             showConversation={showConversation}
             openGiftBadge={openGiftBadge}
             openLink={openLink}
+            pushPanelForConversation={pushPanelForConversation}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}
             shouldCollapseAbove={false}
@@ -347,7 +348,6 @@ export class MessageDetail extends React.Component<Props> {
             scrollToQuotedMessage={() => {
               log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
-            showContactDetail={showContactDetail}
             showContactModal={showContactModal}
             showExpiredIncomingTapToViewToast={
               showExpiredIncomingTapToViewToast

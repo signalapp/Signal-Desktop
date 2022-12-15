@@ -308,7 +308,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   shouldHideMetadata: isBoolean(overrideProps.shouldHideMetadata)
     ? overrideProps.shouldHideMetadata
     : false,
-  showContactDetail: action('showContactDetail'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'

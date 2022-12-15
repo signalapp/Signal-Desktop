@@ -92,7 +92,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   blessedPacks: [],
   recentStickers: [],
   clearInstalledStickerPack: action('clearInstalledStickerPack'),
-  onClickAddPack: action('onClickAddPack'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   sendStickerMessage: action('sendStickerMessage'),
   clearShowIntroduction: action('clearShowIntroduction'),
   showPickerHint: false,

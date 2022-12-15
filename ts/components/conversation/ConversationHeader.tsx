@@ -18,7 +18,10 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
-import type { ConversationType } from '../../state/ducks/conversations';
+import type {
+  ConversationType,
+  PushPanelForConversationActionType,
+} from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
 import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
@@ -34,6 +37,7 @@ import {
   useStartCallShortcuts,
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
+import { PanelType } from '../../types/Panels';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -90,7 +94,7 @@ export type PropsActionsType = {
   onSearchInConversation: () => void;
   onShowAllMedia: () => void;
   onShowConversationDetails: () => void;
-  onShowGroupMembers: () => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   setDisappearingMessages: (
     conversationId: string,
     seconds: DurationInSeconds
@@ -349,7 +353,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onMoveToInbox,
       onShowAllMedia,
       onShowConversationDetails,
-      onShowGroupMembers,
+      pushPanelForConversation,
       setDisappearingMessages,
       setMuteExpiration,
       setPinned,
@@ -478,7 +482,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           </MenuItem>
         ) : null}
         {isGroup && !hasGV2AdminEnabled ? (
-          <MenuItem onClick={onShowGroupMembers}>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation(id, { type: PanelType.GroupV1Members })
+            }
+          >
             {i18n('showMembers')}
           </MenuItem>
         ) : null}

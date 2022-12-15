@@ -130,7 +130,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
-  showContactDetail: action('default--showContactDetail'),
+  pushPanelForConversation: action('default--pushPanelForConversation'),
   showContactModal: action('default--showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'

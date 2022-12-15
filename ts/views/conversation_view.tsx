@@ -19,14 +19,10 @@ import { strictAssert } from '../util/assert';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { getPreferredBadgeSelector } from '../state/selectors/badges';
 import { isIncoming } from '../state/selectors/message';
 import { getActiveCallState } from '../state/selectors/calling';
-import { getTheme } from '../state/selectors/user';
 import { ReactWrapperView } from './ReactWrapperView';
-import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import * as log from '../logging/log';
-import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
@@ -44,7 +40,6 @@ import { showToast } from '../util/showToast';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
-import { ContactDetail } from '../components/conversation/ContactDetail';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
@@ -86,13 +81,6 @@ type MessageActionsType = {
   ) => unknown;
   retrySend: (messageId: string) => unknown;
   retryDeleteForEveryone: (messageId: string) => unknown;
-  showContactDetail: (options: {
-    contact: EmbeddedContactType;
-    signalAccount?: {
-      phoneNumber: string;
-      uuid: UUIDStringType;
-    };
-  }) => unknown;
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
   showMessageDetail: (messageId: string) => unknown;
@@ -201,9 +189,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       },
       onShowAllMedia: () => {
         this.showAllMedia();
-      },
-      onShowGroupMembers: () => {
-        this.showGV1Members();
       },
       onGoBack: () => {
         window.reduxActions.conversations.popPanelForConversation(
@@ -342,7 +327,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const compositionAreaProps = {
       id: this.model.id,
-      onClickAddPack: () => this.showStickerManager(),
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       onCancelJoinRequest: async () => {
         await window.showConfirmationDialog({
@@ -411,15 +395,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
-    const showContactDetail = (options: {
-      contact: EmbeddedContactType;
-      signalAccount?: {
-        phoneNumber: string;
-        uuid: UUIDStringType;
-      };
-    }) => {
-      this.showContactDetail(options);
-    };
     const kickOffAttachmentDownload = async (
       options: Readonly<{ messageId: string }>
     ) => {
@@ -474,7 +449,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       reactToMessage,
       retrySend,
       retryDeleteForEveryone,
-      showContactDetail,
       showExpiredIncomingTapToViewToast,
       showExpiredOutgoingTapToViewToast,
       showMessageDetail,
@@ -809,139 +783,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return view;
   }
 
-  showGV1Members(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.GroupV1Members,
-    });
-  }
-
-  getGV1Members(): Backbone.View {
-    const { contactCollection, id } = this.model;
-
-    const memberships =
-      contactCollection?.map((conversation: ConversationModel) => {
-        return {
-          isAdmin: false,
-          member: conversation.format(),
-        };
-      }) || [];
-
-    const reduxState = window.reduxStore.getState();
-    const getPreferredBadge = getPreferredBadgeSelector(reduxState);
-    const theme = getTheme(reduxState);
-
-    const view = new ReactWrapperView({
-      className: 'group-member-list panel',
-      JSX: (
-        <ConversationDetailsMembershipList
-          canAddNewMembers={false}
-          conversationId={id}
-          i18n={window.i18n}
-          getPreferredBadge={getPreferredBadge}
-          maxShownMemberCount={32}
-          memberships={memberships}
-          showContactModal={contactId => {
-            window.reduxActions.globalModals.showContactModal(
-              contactId,
-              this.model.id
-            );
-          }}
-          theme={theme}
-        />
-      ),
-    });
-
-    view.render();
-
-    return view;
-  }
-
-  showGroupLinkManagement(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.GroupLinkManagement,
-    });
-  }
-
-  getGroupLinkManagement(): Backbone.View {
-    const view = new ReactWrapperView({
-      className: 'panel',
-      JSX: window.Signal.State.Roots.createGroupLinkManagement(
-        window.reduxStore,
-        {
-          conversationId: this.model.id,
-        }
-      ),
-    });
-
-    view.render();
-
-    return view;
-  }
-
-  showGroupV2Permissions(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.GroupPermissions,
-    });
-  }
-
-  getGroupV2Permissions(): Backbone.View {
-    const view = new ReactWrapperView({
-      className: 'panel',
-      JSX: window.Signal.State.Roots.createGroupV2Permissions(
-        window.reduxStore,
-        {
-          conversationId: this.model.id,
-        }
-      ),
-    });
-
-    view.render();
-
-    return view;
-  }
-
-  showPendingInvites(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.GroupInvites,
-    });
-  }
-
-  getPendingInvites(): Backbone.View {
-    const view = new ReactWrapperView({
-      className: 'panel',
-      JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
-        conversationId: this.model.id,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-      }),
-    });
-
-    view.render();
-
-    return view;
-  }
-
-  showConversationNotificationsSettings(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.NotificationSettings,
-    });
-  }
-
-  getConversationNotificationsSettings(): Backbone.View {
-    const view = new ReactWrapperView({
-      className: 'panel',
-      JSX: window.Signal.State.Roots.createConversationNotificationsSettings(
-        window.reduxStore,
-        {
-          conversationId: this.model.id,
-        }
-      ),
-    });
-
-    view.render();
-
-    return view;
-  }
-
   showConversationDetails(): void {
     window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
       type: PanelType.ConversationDetails,
@@ -970,11 +811,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       addMembers: this.model.addMembersV2.bind(this.model),
       conversationId: this.model.get('id'),
       showAllMedia: this.showAllMedia.bind(this),
-      showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
-      showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
-      showConversationNotificationsSettings:
-        this.showConversationNotificationsSettings.bind(this),
-      showPendingInvites: this.showPendingInvites.bind(this),
       updateGroupAttributes: this.model.updateGroupAttributesV2.bind(
         this.model
       ),
@@ -1052,78 +888,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return view;
   }
 
-  showStickerManager(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.StickerManager,
-    });
-  }
-
-  getStickerManager(): Backbone.View {
-    const view = new ReactWrapperView({
-      className: ['sticker-manager-wrapper', 'panel'].join(' '),
-      JSX: window.Signal.State.Roots.createStickerManager(window.reduxStore),
-      onClose: () => {
-        window.reduxActions.conversations.popPanelForConversation(
-          this.model.id
-        );
-      },
-    });
-
-    view.render();
-
-    return view;
-  }
-
-  showContactDetail({
-    contact,
-    signalAccount,
-  }: {
-    contact: EmbeddedContactType;
-    signalAccount?: {
-      phoneNumber: string;
-      uuid: UUIDStringType;
-    };
-  }): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.ContactDetails,
-      args: { contact, signalAccount },
-    });
-  }
-
-  getContactDetail({
-    contact,
-    signalAccount,
-  }: {
-    contact: EmbeddedContactType;
-    signalAccount?: {
-      phoneNumber: string;
-      uuid: UUIDStringType;
-    };
-  }): Backbone.View {
-    const view = new ReactWrapperView({
-      className: 'contact-detail-pane panel',
-      JSX: (
-        <ContactDetail
-          i18n={window.i18n}
-          contact={contact}
-          hasSignalAccount={Boolean(signalAccount)}
-          onSendMessage={() => {
-            if (signalAccount) {
-              startConversation(signalAccount.phoneNumber, signalAccount.uuid);
-            }
-          }}
-        />
-      ),
-      onClose: () => {
-        window.reduxActions.conversations.popPanelForConversation(
-          this.model.id
-        );
-      },
-    });
-
-    return view;
-  }
-
   pushPanel(panel: PanelRenderType): void {
     if (isPanelHandledByReact(panel)) {
       return;
@@ -1140,24 +904,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     let view: Backbone.View | undefined;
     if (type === PanelType.AllMedia) {
       view = this.getAllMedia();
-    } else if (panel.type === PanelType.ContactDetails) {
-      view = this.getContactDetail(panel.args);
     } else if (type === PanelType.ConversationDetails) {
       view = this.getConversationDetails();
-    } else if (type === PanelType.GroupInvites) {
-      view = this.getPendingInvites();
-    } else if (type === PanelType.GroupLinkManagement) {
-      view = this.getGroupLinkManagement();
-    } else if (type === PanelType.GroupPermissions) {
-      view = this.getGroupV2Permissions();
-    } else if (type === PanelType.GroupV1Members) {
-      view = this.getGV1Members();
-    } else if (type === PanelType.NotificationSettings) {
-      view = this.getConversationNotificationsSettings();
     } else if (panel.type === PanelType.MessageDetails) {
       view = this.getMessageDetail(panel.args);
-    } else if (type === PanelType.StickerManager) {
-      view = this.getStickerManager();
     }
 
     if (!view) {

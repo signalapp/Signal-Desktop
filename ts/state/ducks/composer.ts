@@ -15,6 +15,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../../types/Attachment';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
   DraftBodyRangesType,
   ReplacementValuesType,
@@ -66,6 +67,7 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { getMessageById } from '../../messages/getMessageById';
 import { canReply } from '../selectors/message';
 import { getConversationSelector } from '../selectors/conversations';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
@@ -152,6 +154,10 @@ export const actions = {
   setMediaQualitySetting,
   setQuotedMessage,
 };
+
+export const useComposerActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function sendMultiMediaMessage(
   conversationId: string,

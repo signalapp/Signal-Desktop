@@ -26,14 +26,9 @@ import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 // State
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
-import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createMessageDetail } from './state/roots/createMessageDetail';
-import { createConversationNotificationsSettings } from './state/roots/createConversationNotificationsSettings';
-import { createGroupV2Permissions } from './state/roots/createGroupV2Permissions';
-import { createPendingInvites } from './state/roots/createPendingInvites';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import { createStickerManager } from './state/roots/createStickerManager';
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 
 import { createStore } from './state/createStore';
@@ -401,15 +396,10 @@ export const setup = (options: {
   const Roots = {
     createApp,
     createConversationDetails,
-    createGroupLinkManagement,
     createGroupV2JoinModal,
-    createGroupV2Permissions,
     createMessageDetail,
-    createConversationNotificationsSettings,
-    createPendingInvites,
     createSafetyNumberViewer,
     createShortcutGuideModal,
-    createStickerManager,
   };
 
   const Ducks = {

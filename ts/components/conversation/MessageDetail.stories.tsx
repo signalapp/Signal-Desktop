@@ -83,7 +83,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   openLink: action('openLink'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   saveAttachment: action('saveAttachment'),
-  showContactDetail: action('showContactDetail'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showExpiredIncomingTapToViewToast: action(
     'showExpiredIncomingTapToViewToast'
