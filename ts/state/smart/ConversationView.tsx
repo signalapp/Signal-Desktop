@@ -14,11 +14,12 @@ import { ConversationView } from '../../components/conversation/ConversationView
 import { PanelType } from '../../types/Panels';
 import { SmartChatColorPicker } from './ChatColorPicker';
 import { SmartCompositionArea } from './CompositionArea';
-import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings';
+import { SmartConversationDetails } from './ConversationDetails';
 import { SmartConversationHeader } from './ConversationHeader';
+import { SmartConversationNotificationsSettings } from './ConversationNotificationsSettings';
+import { SmartGV1Members } from './GV1Members';
 import { SmartGroupLinkManagement } from './GroupLinkManagement';
 import { SmartGroupV2Permissions } from './GroupV2Permissions';
-import { SmartGV1Members } from './GV1Members';
 import { SmartPendingInvites } from './PendingInvites';
 import { SmartStickerManager } from './StickerManager';
 import { SmartTimeline } from './Timeline';
@@ -98,6 +99,14 @@ export function SmartConversationView({
                   }
                 }}
               />
+            </div>
+          );
+        }
+
+        if (topPanel.type === PanelType.ConversationDetails) {
+          return (
+            <div className="panel conversation-details-pane">
+              <SmartConversationDetails conversationId={conversationId} />
             </div>
           );
         }

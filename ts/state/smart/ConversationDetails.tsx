@@ -35,16 +35,7 @@ import {
 } from '../../groups/limits';
 
 export type SmartConversationDetailsProps = {
-  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   conversationId: string;
-  showAllMedia: () => void;
-  updateGroupAttributes: (
-    _: Readonly<{
-      avatar?: undefined | Uint8Array;
-      title?: string;
-    }>
-  ) => Promise<void>;
-  onLeave: () => void;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;

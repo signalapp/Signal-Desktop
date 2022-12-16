@@ -93,7 +93,6 @@ export type PropsActionsType = {
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onSearchInConversation: () => void;
   onShowAllMedia: () => void;
-  onShowConversationDetails: () => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   setDisappearingMessages: (
     conversationId: string,
@@ -352,7 +351,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onMarkUnread,
       onMoveToInbox,
       onShowAllMedia,
-      onShowConversationDetails,
       pushPanelForConversation,
       setDisappearingMessages,
       setMuteExpiration,
@@ -475,7 +473,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           ))}
         </SubMenu>
         {!isGroup || hasGV2AdminEnabled ? (
-          <MenuItem onClick={onShowConversationDetails}>
+          <MenuItem
+            onClick={() =>
+              pushPanelForConversation(id, {
+                type: PanelType.ConversationDetails,
+              })
+            }
+          >
             {isGroup
               ? i18n('showConversationDetails')
               : i18n('showConversationDetails--direct')}
@@ -552,8 +556,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderHeader(): ReactNode {
-    const { conversationTitle, groupVersion, onShowConversationDetails, type } =
-      this.props;
+    const {
+      conversationTitle,
+      id,
+      groupVersion,
+      pushPanelForConversation,
+      type,
+    } = this.props;
 
     if (conversationTitle !== undefined) {
       return (
@@ -571,14 +580,16 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     switch (type) {
       case 'direct':
         onClick = () => {
-          onShowConversationDetails();
+          pushPanelForConversation(id, { type: PanelType.ConversationDetails });
         };
         break;
       case 'group': {
         const hasGV2AdminEnabled = groupVersion === 2;
         onClick = hasGV2AdminEnabled
           ? () => {
-              onShowConversationDetails();
+              pushPanelForConversation(id, {
+                type: PanelType.ConversationDetails,
+              });
             }
           : undefined;
         break;

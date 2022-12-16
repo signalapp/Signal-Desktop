@@ -30,6 +30,7 @@ export type ReactPanelRenderType =
         };
       };
     }
+  | { type: PanelType.ConversationDetails }
   | { type: PanelType.GroupInvites }
   | { type: PanelType.GroupLinkManagement }
   | { type: PanelType.GroupPermissions }
@@ -39,7 +40,6 @@ export type ReactPanelRenderType =
 
 export type BackbonePanelRenderType =
   | { type: PanelType.AllMedia }
-  | { type: PanelType.ConversationDetails }
   | { type: PanelType.MessageDetails; args: { messageId: string } };
 
 export type PanelRenderType = ReactPanelRenderType | BackbonePanelRenderType;
@@ -54,6 +54,7 @@ export function isPanelHandledByReact(
   return (
     panel.type === PanelType.ChatColorEditor ||
     panel.type === PanelType.ContactDetails ||
+    panel.type === PanelType.ConversationDetails ||
     panel.type === PanelType.GroupInvites ||
     panel.type === PanelType.GroupLinkManagement ||
     panel.type === PanelType.GroupPermissions ||

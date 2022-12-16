@@ -2416,43 +2416,6 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  async addMembersV2(conversationIds: ReadonlyArray<string>): Promise<void> {
-    await this.modifyGroupV2({
-      name: 'addMembersV2',
-      usingCredentialsFrom: conversationIds
-        .map(id => window.ConversationController.get(id))
-        .filter(isNotNil),
-      createGroupChange: () =>
-        window.Signal.Groups.buildAddMembersChange(
-          this.attributes,
-          conversationIds
-        ),
-    });
-  }
-
-  async updateGroupAttributesV2(
-    attributes: Readonly<{
-      avatar?: undefined | Uint8Array;
-      description?: string;
-      title?: string;
-    }>
-  ): Promise<void> {
-    await this.modifyGroupV2({
-      name: 'updateGroupAttributesV2',
-      usingCredentialsFrom: [],
-      createGroupChange: () =>
-        window.Signal.Groups.buildUpdateAttributesChange(
-          {
-            id: this.id,
-            publicParams: this.get('publicParams'),
-            revision: this.get('revision'),
-            secretParams: this.get('secretParams'),
-          },
-          attributes
-        ),
-    });
-  }
-
   async leaveGroupV2(): Promise<void> {
     if (!isGroupV2(this.attributes)) {
       return;

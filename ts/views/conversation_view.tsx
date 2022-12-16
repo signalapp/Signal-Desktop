@@ -184,9 +184,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         const { searchInConversation } = window.reduxActions.search;
         searchInConversation(this.model.id);
       },
-      onShowConversationDetails: () => {
-        this.showConversationDetails();
-      },
       onShowAllMedia: () => {
         this.showAllMedia();
       },
@@ -783,53 +780,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return view;
   }
 
-  showConversationDetails(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.ConversationDetails,
-    });
-  }
-
-  getConversationDetails(): Backbone.View {
-    // Run a getProfiles in case member's capabilities have changed
-    // Redux should cover us on the return here so no need to await this.
-    if (this.model.throttledGetProfiles) {
-      this.model.throttledGetProfiles();
-    }
-
-    // these methods are used in more than one place and should probably be
-    // dried up and hoisted to methods on ConversationView
-
-    const onLeave = () => {
-      longRunningTaskWrapper({
-        idForLogging: this.model.idForLogging(),
-        name: 'onLeave',
-        task: () => this.model.leaveGroupV2(),
-      });
-    };
-
-    const props = {
-      addMembers: this.model.addMembersV2.bind(this.model),
-      conversationId: this.model.get('id'),
-      showAllMedia: this.showAllMedia.bind(this),
-      updateGroupAttributes: this.model.updateGroupAttributesV2.bind(
-        this.model
-      ),
-      onLeave,
-    };
-
-    const view = new ReactWrapperView({
-      className: 'conversation-details-pane panel',
-      JSX: window.Signal.State.Roots.createConversationDetails(
-        window.reduxStore,
-        props
-      ),
-    });
-
-    view.render();
-
-    return view;
-  }
-
   showMessageDetail(messageId: string): void {
     window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
       type: PanelType.MessageDetails,
@@ -904,8 +854,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     let view: Backbone.View | undefined;
     if (type === PanelType.AllMedia) {
       view = this.getAllMedia();
-    } else if (type === PanelType.ConversationDetails) {
-      view = this.getConversationDetails();
     } else if (panel.type === PanelType.MessageDetails) {
       view = this.getMessageDetail(panel.args);
     }

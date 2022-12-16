@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import { Tooltip } from '../../Tooltip';
@@ -63,7 +63,6 @@ enum ModalState {
 }
 
 export type StateProps = {
-  addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
   canEditGroupInfo: boolean;
@@ -81,15 +80,6 @@ export type StateProps = {
   memberships: Array<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
-  showAllMedia: () => void;
-  updateGroupAttributes: (
-    _: Readonly<{
-      avatar?: undefined | Uint8Array;
-      description?: string;
-      title?: string;
-    }>
-  ) => Promise<void>;
-  onLeave: () => void;
   theme: ThemeType;
   userAvatarData: Array<AvatarDataType>;
   renderChooseGroupMembersModal: (
@@ -102,8 +92,18 @@ export type StateProps = {
 
 type ActionProps = {
   acceptConversation: (id: string) => void;
+  addMembersToGroup: (
+    conversationId: string,
+    conversationIds: ReadonlyArray<string>,
+    opts: {
+      onSuccess?: () => unknown;
+      onFailure?: () => unknown;
+    }
+  ) => unknown;
   blockConversation: (id: string) => void;
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  getProfilesForConversation: (id: string) => unknown;
+  leaveGroup: (conversationId: string) => void;
   loadRecentMediaItems: (id: string, limit: number) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
@@ -117,13 +117,25 @@ type ActionProps = {
   showConversation: ShowConversationType;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
+  updateGroupAttributes: (
+    conversationId: string,
+    _: Readonly<{
+      avatar?: undefined | Uint8Array;
+      description?: string;
+      title?: string;
+    }>,
+    opts: {
+      onSuccess?: () => unknown;
+      onFailure?: () => unknown;
+    }
+  ) => unknown;
 } & Pick<ConversationDetailsMediaListPropsType, 'showLightboxWithMedia'>;
 
 export type Props = StateProps & ActionProps;
 
 export function ConversationDetails({
   acceptConversation,
-  addMembers,
+  addMembersToGroup,
   areWeASubscriber,
   badges,
   blockConversation,
@@ -133,16 +145,17 @@ export function ConversationDetails({
   deleteAvatarFromDisk,
   hasGroupLink,
   getPreferredBadge,
+  getProfilesForConversation,
   groupsInCommon,
   hasActiveCall,
   i18n,
   isAdmin,
   isGroup,
+  leaveGroup,
   loadRecentMediaItems,
   memberships,
   maxGroupSize,
   maxRecommendedGroupSize,
-  onLeave,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   pendingApprovalMemberships,
@@ -155,7 +168,6 @@ export function ConversationDetails({
   searchInConversation,
   setDisappearingMessages,
   setMuteExpiration,
-  showAllMedia,
   showContactModal,
   showConversation,
   showLightboxWithMedia,
@@ -176,6 +188,10 @@ export function ConversationDetails({
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');
   }
+
+  useEffect(() => {
+    getProfilesForConversation(conversation.id);
+  }, [conversation.id, getProfilesForConversation]);
 
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
@@ -214,15 +230,17 @@ export function ConversationDetails({
           ) => {
             setEditGroupAttributesRequestState(RequestState.Active);
 
-            try {
-              await updateGroupAttributes(options);
-              setModalState(ModalState.NothingOpen);
-              setEditGroupAttributesRequestState(RequestState.Inactive);
-            } catch (err) {
-              setEditGroupAttributesRequestState(
-                RequestState.InactiveWithError
-              );
-            }
+            updateGroupAttributes(conversation.id, options, {
+              onSuccess: () => {
+                setModalState(ModalState.NothingOpen);
+                setEditGroupAttributesRequestState(RequestState.Inactive);
+              },
+              onFailure: () => {
+                setEditGroupAttributesRequestState(
+                  RequestState.InactiveWithError
+                );
+              },
+            });
           }}
           onClose={() => {
             setModalState(ModalState.NothingOpen);
@@ -259,13 +277,15 @@ export function ConversationDetails({
           makeRequest={async conversationIds => {
             setAddGroupMembersRequestState(RequestState.Active);
 
-            try {
-              await addMembers(conversationIds);
-              setModalState(ModalState.NothingOpen);
-              setAddGroupMembersRequestState(RequestState.Inactive);
-            } catch (err) {
-              setAddGroupMembersRequestState(RequestState.InactiveWithError);
-            }
+            addMembersToGroup(conversation.id, conversationIds, {
+              onSuccess: () => {
+                setModalState(ModalState.NothingOpen);
+                setAddGroupMembersRequestState(RequestState.Inactive);
+              },
+              onFailure: () => {
+                setAddGroupMembersRequestState(RequestState.InactiveWithError);
+              },
+            });
           }}
           maxGroupSize={maxGroupSize}
           maxRecommendedGroupSize={maxRecommendedGroupSize}
@@ -545,7 +565,11 @@ export function ConversationDetails({
         conversation={conversation}
         i18n={i18n}
         loadRecentMediaItems={loadRecentMediaItems}
-        showAllMedia={showAllMedia}
+        showAllMedia={() =>
+          pushPanelForConversation(conversation.id, {
+            type: PanelType.AllMedia,
+          })
+        }
         showLightboxWithMedia={showLightboxWithMedia}
       />
 
@@ -570,7 +594,7 @@ export function ConversationDetails({
           isBlocked={Boolean(conversation.isBlocked)}
           isGroup={isGroup}
           left={Boolean(conversation.left)}
-          onLeave={onLeave}
+          onLeave={() => leaveGroup(conversation.id)}
         />
       )}
 

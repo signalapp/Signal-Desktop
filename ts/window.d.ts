@@ -37,7 +37,6 @@ import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
 import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
-import type { createConversationDetails } from './state/roots/createConversationDetails';
 import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import type { createMessageDetail } from './state/roots/createMessageDetail';
 import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
@@ -161,7 +160,6 @@ export type SignalCoreType = {
     createStore: typeof createStore;
     Roots: {
       createApp: typeof createApp;
-      createConversationDetails: typeof createConversationDetails;
       createGroupV2JoinModal: typeof createGroupV2JoinModal;
       createMessageDetail: typeof createMessageDetail;
       createSafetyNumberViewer: typeof createSafetyNumberViewer;

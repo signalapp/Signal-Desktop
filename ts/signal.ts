@@ -24,7 +24,6 @@ import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 
 // State
-import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createApp } from './state/roots/createApp';
 import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createMessageDetail } from './state/roots/createMessageDetail';
@@ -395,7 +394,6 @@ export const setup = (options: {
 
   const Roots = {
     createApp,
-    createConversationDetails,
     createGroupV2JoinModal,
     createMessageDetail,
     createSafetyNumberViewer,

@@ -37,7 +37,6 @@ const commonProps = {
 
   i18n,
 
-  onShowConversationDetails: action('onShowConversationDetails'),
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
   onSearchInConversation: action('onSearchInConversation'),

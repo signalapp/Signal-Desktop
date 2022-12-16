@@ -114,11 +114,14 @@ import { addReportSpamJob } from '../../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../../jobs/reportSpamJobQueue';
 import {
   modifyGroupV2,
+  buildAddMembersChange,
   buildPromotePendingAdminApprovalMemberChange,
+  buildUpdateAttributesChange,
   initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
 } from '../../groups';
 import { getMessageById } from '../../messages/getMessageById';
 import type { PanelRenderType } from '../../types/Panels';
+import { isNotNil } from '../../util/isNotNil';
 
 // State
 
@@ -856,7 +859,7 @@ export type ConversationActionType =
 
 export const actions = {
   acceptConversation,
-  addMemberToGroup,
+  addMembersToGroup,
   approvePendingMembershipFromGroupV2,
   blockAndReportSpam,
   blockConversation,
@@ -888,7 +891,9 @@ export const actions = {
   discardMessages,
   doubleCheckMissingQuoteReference,
   generateNewGroupLink,
+  getProfilesForConversation,
   initiateMigrationToGroupV2,
+  leaveGroup,
   loadRecentMediaItems,
   messageChanged,
   messageDeleted,
@@ -942,6 +947,7 @@ export const actions = {
   toggleGroupsForStorySend,
   toggleHideStories,
   updateConversationModelSharedGroups,
+  updateGroupAttributes,
   verifyConversationsStoppingSend,
 };
 
@@ -1911,6 +1917,20 @@ function selectMessage(
   };
 }
 
+function getProfilesForConversation(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('getProfilesForConversation: no conversation found');
+  }
+
+  conversation.getProfiles();
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
 function conversationStoppedByMissingVerification(payload: {
   conversationId: string;
   distributionId?: string;
@@ -2808,22 +2828,102 @@ function removeMemberFromGroup(
   };
 }
 
-function addMemberToGroup(
+function addMembersToGroup(
   conversationId: string,
-  contactId: string,
-  onComplete: () => void
+  contactIds: ReadonlyArray<string>,
+  {
+    onSuccess,
+    onFailure,
+  }: {
+    onSuccess?: () => unknown;
+    onFailure?: () => unknown;
+  } = {}
 ): ThunkAction<void, RootStateType, unknown, never> {
   return async () => {
-    const conversationModel = window.ConversationController.get(conversationId);
-    if (conversationModel) {
-      const idForLogging = conversationModel.idForLogging();
-      await longRunningTaskWrapper({
-        name: 'addMemberToGroup',
-        idForLogging,
-        task: () => conversationModel.addMembersV2([contactId]),
-      });
-      onComplete();
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('addMembersToGroup: No conversation found');
     }
+
+    const idForLogging = conversation.idForLogging();
+    try {
+      await longRunningTaskWrapper({
+        name: 'addMembersToGroup',
+        idForLogging,
+        task: () =>
+          modifyGroupV2({
+            name: 'addMembersToGroup',
+            conversation,
+            usingCredentialsFrom: contactIds
+              .map(id => window.ConversationController.get(id))
+              .filter(isNotNil),
+            createGroupChange: async () =>
+              buildAddMembersChange(conversation.attributes, contactIds),
+          }),
+      });
+      onSuccess?.();
+    } catch {
+      onFailure?.();
+    }
+  };
+}
+
+function updateGroupAttributes(
+  conversationId: string,
+  attributes: Readonly<{
+    avatar?: undefined | Uint8Array;
+    description?: string;
+    title?: string;
+  }>,
+  {
+    onSuccess,
+    onFailure,
+  }: {
+    onSuccess?: () => unknown;
+    onFailure?: () => unknown;
+  } = {}
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('updateGroupAttributes: No conversation found');
+    }
+
+    const { id, publicParams, revision, secretParams } =
+      conversation.attributes;
+
+    try {
+      await modifyGroupV2({
+        name: 'updateGroupAttributes',
+        conversation,
+        usingCredentialsFrom: [],
+        createGroupChange: async () =>
+          buildUpdateAttributesChange(
+            { id, publicParams, revision, secretParams },
+            attributes
+          ),
+      });
+      onSuccess?.();
+    } catch {
+      onFailure?.();
+    }
+  };
+}
+
+function leaveGroup(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('leaveGroup: No conversation found');
+    }
+
+    await longRunningTaskWrapper({
+      idForLogging: conversation.idForLogging(),
+      name: 'leaveGroup',
+      task: () => conversation.leaveGroupV2(),
+    });
   };
 }
 

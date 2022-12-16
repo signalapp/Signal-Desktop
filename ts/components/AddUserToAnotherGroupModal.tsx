@@ -32,10 +32,13 @@ type OwnProps = {
 
 type DispatchProps = {
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
-  addMemberToGroup: (
+  addMembersToGroup: (
     conversationId: string,
-    contactId: string,
-    onComplete: () => void
+    contactIds: Array<string>,
+    opts: {
+      onSuccess?: () => unknown;
+      onFailure?: () => unknown;
+    }
   ) => void;
   showToast: (toastType: ToastType, parameters?: ReplacementValuesType) => void;
 };
@@ -47,7 +50,7 @@ export function AddUserToAnotherGroupModal({
   theme,
   contact,
   toggleAddUserToAnotherGroupModal,
-  addMemberToGroup,
+  addMembersToGroup,
   showToast,
   candidateConversations,
   regionCode,
@@ -203,12 +206,13 @@ export function AddUserToAnotherGroupModal({
                 showToast(ToastType.AddingUserToGroup, {
                   contact: contact.title,
                 });
-                addMemberToGroup(selectedGroupId, contact.id, () =>
-                  showToast(ToastType.UserAddedToGroup, {
-                    contact: contact.title,
-                    group: selectedGroup.title,
-                  })
-                );
+                addMembersToGroup(selectedGroupId, [contact.id], {
+                  onSuccess: () =>
+                    showToast(ToastType.UserAddedToGroup, {
+                      contact: contact.title,
+                      group: selectedGroup.title,
+                    }),
+                });
                 toggleAddUserToAnotherGroupModal(undefined);
               },
             },
