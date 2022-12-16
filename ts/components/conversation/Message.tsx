@@ -1745,6 +1745,11 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
         dir={isRTL ? 'rtl' : undefined}
+        onDoubleClick={(event: React.MouseEvent) => {
+          // Prevent double-click interefering with interactions _inside_
+          // the bubble.
+          event.stopPropagation();
+        }}
       >
         <MessageBodyReadMore
           bodyRanges={bodyRanges}
@@ -2505,6 +2510,10 @@ export class Message extends React.PureComponent<Props, State> {
           role="row"
           onKeyDown={onKeyDown}
           onClick={this.handleClick}
+          onDoubleClick={ev => {
+            // Prevent double click from triggering the replyToMessage action
+            ev.stopPropagation();
+          }}
           tabIndex={-1}
         >
           {this.renderAuthor()}
