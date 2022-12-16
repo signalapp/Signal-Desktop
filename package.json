@@ -86,7 +86,7 @@
     "@indutny/frameless-titlebar": "2.3.5",
     "@popperjs/core": "2.11.6",
     "@react-spring/web": "9.5.5",
-    "@signalapp/better-sqlite3": "8.0.3",
+    "@signalapp/better-sqlite3": "8.0.4",
     "@signalapp/libsignal-client": "0.21.1",
     "@sindresorhus/is": "0.8.0",
     "@types/fabric": "4.5.3",
@@ -176,7 +176,7 @@
     "testcheck": "1.0.0-rc.2",
     "typeface-inter": "3.18.1",
     "uuid": "3.3.2",
-    "websocket": "1.0.28",
+    "websocket": "1.0.34",
     "zod": "3.5.1"
   },
   "devDependencies": {

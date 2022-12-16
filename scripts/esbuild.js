@@ -38,7 +38,8 @@ const bundleDefaults = {
     'mac-screen-capture-permissions',
     'ringrtc',
     'sass',
-    'websocket',
+    'bufferutil',
+    'utf-8-validate',
 
     // Things that don't bundle well
     'got',
@@ -46,6 +47,7 @@ const bundleDefaults = {
     'node-fetch',
     'pino',
     'proxy-agent',
+    'websocket',
 
     // Large libraries (3.7mb total)
     // See: https://esbuild.github.io/api/#analyze
