@@ -41,6 +41,7 @@ import type {
 } from '../state/ducks/calling';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -197,7 +198,7 @@ function ActiveCallManager({
   let groupMembers:
     | undefined
     | Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
-  let isConversationTooBigToRing = false;
+  let isConvoTooBigToRing = false;
 
   switch (activeCall.callMode) {
     case CallMode.Direct: {
@@ -223,7 +224,7 @@ function ActiveCallManager({
     case CallMode.Group: {
       showCallLobby = activeCall.joinState !== GroupCallJoinState.Joined;
       isCallFull = activeCall.deviceCount >= activeCall.maxDevices;
-      isConversationTooBigToRing = activeCall.isConversationTooBigToRing;
+      isConvoTooBigToRing = activeCall.isConversationTooBigToRing;
       ({ groupMembers } = activeCall);
       break;
     }
@@ -244,7 +245,7 @@ function ActiveCallManager({
           isGroupCall={activeCall.callMode === CallMode.Group}
           isGroupCallOutboundRingEnabled={isGroupCallOutboundRingEnabled}
           isCallFull={isCallFull}
-          isConversationTooBigToRing={isConversationTooBigToRing}
+          isConversationTooBigToRing={isConvoTooBigToRing}
           me={me}
           onCallCanceled={cancelActiveCall}
           onJoinCall={joinActiveCall}
@@ -456,6 +457,11 @@ function getShouldRing({
   incomingCall,
 }: Readonly<Pick<PropsType, 'activeCall' | 'incomingCall'>>): boolean {
   if (incomingCall) {
+    // don't ring a large group
+    if (isConversationTooBigToRing(incomingCall.conversation)) {
+      return false;
+    }
+
     return !activeCall;
   }
 
