@@ -22,6 +22,8 @@ const SUPPORTED_IMAGE_MIME_TYPES: MIMETypeSupportMap = {
   // PNG
   'image/apng': true,
   'image/png': true,
+  // AVIF
+  'image/avif': true,
 };
 
 export const isImageTypeSupported = (mimeType: MIME.MIMEType): boolean =>
