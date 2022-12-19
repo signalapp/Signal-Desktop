@@ -92,7 +92,7 @@ import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
 
-const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 10;
+const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
 const GUESS_METADATA_WIDTH_OUTGOING_SIZE: Record<MessageStatusType, number> = {
   delivered: 24,
@@ -274,8 +274,10 @@ export type PropsData = {
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
 
-  menu: JSX.Element | undefined;
+  renderMenu?: () => JSX.Element | undefined;
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+
+  item?: never;
 };
 
 export type PropsHousekeeping = {
@@ -2531,7 +2533,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       shouldCollapseAbove,
       shouldCollapseBelow,
-      menu,
+      renderMenu,
       onKeyDown,
     } = this.props;
     const { expired, expiring, isSelected, imageBroken } = this.state;
@@ -2565,7 +2567,7 @@ export class Message extends React.PureComponent<Props, State> {
         {this.renderError()}
         {this.renderAvatar()}
         {this.renderContainer()}
-        {menu}
+        {renderMenu?.()}
       </div>
     );
   }

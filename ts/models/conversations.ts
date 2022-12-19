@@ -4101,6 +4101,10 @@ export class ConversationModel extends window.Backbone
     // Perform asynchronous tasks before entering the batching mode
     await this.beforeAddSingleMessage(model);
 
+    if (sticker) {
+      await addStickerPackReference(model.id, sticker.packId);
+    }
+
     this.isInReduxBatch = true;
     batchDispatch(() => {
       try {
@@ -4145,10 +4149,6 @@ export class ConversationModel extends window.Backbone
         this.isInReduxBatch = false;
       }
     });
-
-    if (sticker) {
-      await addStickerPackReference(model.id, sticker.packId);
-    }
 
     const renderDuration = Date.now() - renderStart;
 

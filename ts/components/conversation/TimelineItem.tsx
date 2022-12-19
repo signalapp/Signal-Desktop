@@ -214,6 +214,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       shouldRenderDateHeader,
       startCallingLobby,
       theme,
+      ...reducedProps
     } = this.props;
 
     if (!item) {
@@ -230,7 +231,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     if (item.type === 'message') {
       itemContents = (
         <TimelineMessage
-          {...this.props}
+          {...reducedProps}
           {...item.data}
           isSelected={isSelected}
           shouldCollapseAbove={shouldCollapseAbove}
@@ -247,7 +248,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
 
       if (item.type === 'unsupportedMessage') {
         notification = (
-          <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
+          <UnsupportedMessage {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'callHistory') {
         notification = (
@@ -262,26 +263,26 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         );
       } else if (item.type === 'chatSessionRefreshed') {
         notification = (
-          <ChatSessionRefreshedNotification {...this.props} i18n={i18n} />
+          <ChatSessionRefreshedNotification {...reducedProps} i18n={i18n} />
         );
       } else if (item.type === 'deliveryIssue') {
         notification = (
           <DeliveryIssueNotification
             {...item.data}
-            {...this.props}
+            {...reducedProps}
             i18n={i18n}
           />
         );
       } else if (item.type === 'timerNotification') {
         notification = (
-          <TimerNotification {...this.props} {...item.data} i18n={i18n} />
+          <TimerNotification {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'universalTimerNotification') {
         notification = renderUniversalTimerNotification();
       } else if (item.type === 'changeNumberNotification') {
         notification = (
           <ChangeNumberNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -289,7 +290,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'safetyNumberNotification') {
         notification = (
           <SafetyNumberNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -297,27 +298,33 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'verificationNotification') {
         notification = (
           <VerificationNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
         );
       } else if (item.type === 'groupNotification') {
         notification = (
-          <GroupNotification {...this.props} {...item.data} i18n={i18n} />
+          <GroupNotification {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'groupV2Change') {
         notification = (
-          <GroupV2Change {...this.props} {...item.data} i18n={i18n} />
+          <GroupV2Change {...reducedProps} {...item.data} i18n={i18n} />
         );
       } else if (item.type === 'groupV1Migration') {
         notification = (
-          <GroupV1Migration {...this.props} {...item.data} i18n={i18n} />
+          <GroupV1Migration
+            {...reducedProps}
+            {...item.data}
+            i18n={i18n}
+            getPreferredBadge={getPreferredBadge}
+            theme={theme}
+          />
         );
       } else if (item.type === 'conversationMerge') {
         notification = (
           <ConversationMergeNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -325,17 +332,19 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'phoneNumberDiscovery') {
         notification = (
           <PhoneNumberDiscoveryNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
         );
       } else if (item.type === 'resetSessionNotification') {
-        notification = <ResetSessionNotification {...this.props} i18n={i18n} />;
+        notification = (
+          <ResetSessionNotification {...reducedProps} i18n={i18n} />
+        );
       } else if (item.type === 'profileChange') {
         notification = (
           <ProfileChangeNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />
@@ -343,7 +352,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       } else if (item.type === 'paymentEvent') {
         notification = (
           <PaymentEventNotification
-            {...this.props}
+            {...reducedProps}
             {...item.data}
             i18n={i18n}
           />

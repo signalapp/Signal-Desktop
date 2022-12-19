@@ -584,7 +584,7 @@ function ReplyOrReactionMessage({
         conversationType="group"
         direction="incoming"
         deletedForEveryone={reply.deletedForEveryone}
-        menu={undefined}
+        renderMenu={undefined}
         onContextMenu={onContextMenu}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}

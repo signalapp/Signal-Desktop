@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { Ref } from 'react';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import ReactDOM, { createPortal } from 'react-dom';
@@ -106,6 +106,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     showMessageDetail,
     text,
     timestamp,
+    kickOffAttachmentDownload,
+    saveAttachment,
   } = props;
 
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
@@ -116,27 +118,28 @@ export function TimelineMessage(props: Props): JSX.Element {
   const isWindowWidthNotNarrow =
     containerWidthBreakpoint !== WidthBreakpoint.Narrow;
 
-  function popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
-    return {
-      name: 'preventOverflow',
-      options: {
-        altAxis: true,
-        boundary: containerElementRef.current || undefined,
-        padding: {
-          bottom: 16,
-          left: 8,
-          right: 8,
-          top: 16,
+  const popperPreventOverflowModifier =
+    useCallback((): Partial<PreventOverflowModifier> => {
+      return {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          boundary: containerElementRef.current || undefined,
+          padding: {
+            bottom: 16,
+            left: 8,
+            right: 8,
+            top: 16,
+          },
         },
-      },
-    };
-  }
+      };
+    }, [containerElementRef]);
 
   // This id is what connects our triple-dot click with our associated pop-up menu.
   //   It needs to be unique.
   const triggerId = String(id || `${author.id}-${timestamp}`);
 
-  const toggleReactionPicker = React.useCallback(
+  const toggleReactionPicker = useCallback(
     (onlyRemove = false): void => {
       if (reactionPickerRoot) {
         document.body.removeChild(reactionPickerRoot);
@@ -173,42 +176,46 @@ export function TimelineMessage(props: Props): JSX.Element {
     };
   });
 
-  const openGenericAttachment = (event?: React.MouseEvent): void => {
-    const { kickOffAttachmentDownload, saveAttachment } = props;
+  const openGenericAttachment = useCallback(
+    (event?: React.MouseEvent): void => {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
 
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+      if (!attachments || attachments.length !== 1) {
+        return;
+      }
 
-    if (!attachments || attachments.length !== 1) {
-      return;
-    }
+      const attachment = attachments[0];
+      if (!isDownloaded(attachment)) {
+        kickOffAttachmentDownload({
+          attachment,
+          messageId: id,
+        });
+        return;
+      }
 
-    const attachment = attachments[0];
-    if (!isDownloaded(attachment)) {
-      kickOffAttachmentDownload({
-        attachment,
-        messageId: id,
-      });
-      return;
-    }
+      saveAttachment(attachment, timestamp);
+    },
+    [kickOffAttachmentDownload, saveAttachment, attachments, id, timestamp]
+  );
 
-    saveAttachment(attachment, timestamp);
-  };
-
-  const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
-    const selection = window.getSelection();
-    if (selection && !selection.isCollapsed) {
-      return;
-    }
-    if (event.target instanceof HTMLAnchorElement) {
-      return;
-    }
-    if (menuTriggerRef.current) {
-      menuTriggerRef.current.handleContextClick(event);
-    }
-  };
+  const handleContextMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>): void => {
+      const selection = window.getSelection();
+      if (selection && !selection.isCollapsed) {
+        return;
+      }
+      if (event.target instanceof HTMLAnchorElement) {
+        return;
+      }
+      if (menuTriggerRef.current) {
+        menuTriggerRef.current.handleContextClick(event);
+      }
+    },
+    [menuTriggerRef]
+  );
 
   const canForward =
     !isTapToView && !deletedForEveryone && !giftBadge && !contact && !payment;
@@ -229,11 +236,18 @@ export function TimelineMessage(props: Props): JSX.Element {
       ? openGenericAttachment
       : undefined;
 
-  const handleReplyToMessage = canReply
-    ? () => setQuoteByMessageId(conversationId, id)
-    : undefined;
+  const handleReplyToMessage = useCallback(() => {
+    if (!canReply) {
+      return;
+    }
+    setQuoteByMessageId(conversationId, id);
+  }, [canReply, conversationId, id, setQuoteByMessageId]);
 
-  const handleReact = canReact ? () => toggleReactionPicker() : undefined;
+  const handleReact = useCallback(() => {
+    if (canReact) {
+      toggleReactionPicker();
+    }
+  }, [canReact, toggleReactionPicker]);
 
   const [hasDOEConfirmation, setHasDOEConfirmation] = useState(false);
   const [hasDeleteConfirmation, setHasDeleteConfirmation] = useState(false);
@@ -251,6 +265,71 @@ export function TimelineMessage(props: Props): JSX.Element {
       document.removeEventListener('keydown', toggleReactionPickerKeyboard);
     };
   }, [isSelected, toggleReactionPickerKeyboard]);
+
+  const renderMenu = useCallback(() => {
+    return (
+      <Manager>
+        <MessageMenu
+          i18n={i18n}
+          triggerId={triggerId}
+          isWindowWidthNotNarrow={isWindowWidthNotNarrow}
+          direction={direction}
+          menuTriggerRef={menuTriggerRef}
+          showMenu={handleContextMenu}
+          onDownload={handleDownload}
+          onReplyToMessage={handleReplyToMessage}
+          onReact={handleReact}
+        />
+        {reactionPickerRoot &&
+          createPortal(
+            <Popper
+              placement="top"
+              modifiers={[
+                offsetDistanceModifier(4),
+                popperPreventOverflowModifier(),
+              ]}
+            >
+              {({ ref, style }) =>
+                renderReactionPicker({
+                  ref,
+                  style,
+                  selected: selectedReaction,
+                  onClose: toggleReactionPicker,
+                  onPick: emoji => {
+                    toggleReactionPicker(true);
+                    reactToMessage(id, {
+                      emoji,
+                      remove: emoji === selectedReaction,
+                    });
+                  },
+                  renderEmojiPicker,
+                })
+              }
+            </Popper>,
+            reactionPickerRoot
+          )}
+      </Manager>
+    );
+  }, [
+    i18n,
+    triggerId,
+    isWindowWidthNotNarrow,
+    direction,
+    menuTriggerRef,
+    handleContextMenu,
+    handleDownload,
+
+    handleReplyToMessage,
+    handleReact,
+    reactionPickerRoot,
+    popperPreventOverflowModifier,
+    renderReactionPicker,
+    selectedReaction,
+    reactToMessage,
+    renderEmojiPicker,
+    toggleReactionPicker,
+    id,
+  ]);
 
   return (
     <>
@@ -305,49 +384,7 @@ export function TimelineMessage(props: Props): JSX.Element {
           {...props}
           renderingContext="conversation/TimelineItem"
           onContextMenu={handleContextMenu}
-          menu={
-            <Manager>
-              <MessageMenu
-                i18n={i18n}
-                triggerId={triggerId}
-                isWindowWidthNotNarrow={isWindowWidthNotNarrow}
-                direction={direction}
-                menuTriggerRef={menuTriggerRef}
-                showMenu={handleContextMenu}
-                onDownload={handleDownload}
-                onReplyToMessage={handleReplyToMessage}
-                onReact={handleReact}
-              />
-              {reactionPickerRoot &&
-                createPortal(
-                  <Popper
-                    placement="top"
-                    modifiers={[
-                      offsetDistanceModifier(4),
-                      popperPreventOverflowModifier(),
-                    ]}
-                  >
-                    {({ ref, style }) =>
-                      renderReactionPicker({
-                        ref,
-                        style,
-                        selected: selectedReaction,
-                        onClose: toggleReactionPicker,
-                        onPick: emoji => {
-                          toggleReactionPicker(true);
-                          reactToMessage(id, {
-                            emoji,
-                            remove: emoji === selectedReaction,
-                          });
-                        },
-                        renderEmojiPicker,
-                      })
-                    }
-                  </Popper>,
-                  reactionPickerRoot
-                )}
-            </Manager>
-          }
+          renderMenu={renderMenu}
         />
       </div>
 

@@ -324,7 +324,7 @@ export class MessageDetail extends React.Component<Props> {
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             containerWidthBreakpoint={WidthBreakpoint.Wide}
-            menu={undefined}
+            renderMenu={undefined}
             disableScroll
             displayLimit={Number.MAX_SAFE_INTEGER}
             showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}

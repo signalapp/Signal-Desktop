@@ -37,7 +37,7 @@ const defaultMessage: MessageDataPropsType = {
   direction: 'incoming',
   id: 'my-message',
   renderingContext: 'storybook',
-  menu: undefined,
+  renderMenu: undefined,
   isBlocked: false,
   isMessageRequestAccepted: true,
   previews: [],

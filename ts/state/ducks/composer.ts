@@ -226,20 +226,22 @@ function sendMultiMediaMessage(
           toastType,
         },
       });
+      dispatch(setComposerDisabledState(false));
+      return;
+    }
+
+    if (
+      !message.length &&
+      !hasDraftAttachments(conversation.attributes.draftAttachments, {
+        includePending: false,
+      }) &&
+      !voiceNoteAttachment
+    ) {
+      dispatch(setComposerDisabledState(false));
       return;
     }
 
     try {
-      if (
-        !message.length &&
-        !hasDraftAttachments(conversation.attributes.draftAttachments, {
-          includePending: false,
-        }) &&
-        !voiceNoteAttachment
-      ) {
-        return;
-      }
-
       let attachments: Array<AttachmentType> = [];
       if (voiceNoteAttachment) {
         attachments = [voiceNoteAttachment];
@@ -285,6 +287,7 @@ function sendMultiMediaMessage(
               undefined
             );
             dispatch(resetComposer());
+            dispatch(setComposerDisabledState(false));
           },
         }
       );
@@ -293,7 +296,6 @@ function sendMultiMediaMessage(
         'Error pulling attached files before send',
         Errors.toLogFormat(error)
       );
-    } finally {
       dispatch(setComposerDisabledState(false));
     }
   };

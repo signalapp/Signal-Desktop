@@ -291,6 +291,10 @@ export function reducer(
   if (action.type === 'items/PUT_EXTERNAL') {
     const { payload } = action;
 
+    if (state[payload.key] === payload.value) {
+      return state;
+    }
+
     return {
       ...state,
       [payload.key]: payload.value,
