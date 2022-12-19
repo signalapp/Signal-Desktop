@@ -21,7 +21,6 @@ const internalCallLibSessionWorker = async ([
       'libsession.worker.js'
     );
 
-    console.warn('libsessionWorkerPath', libsessionWorkerPath);
     libsessionWorkerInterface = new WorkerInterface(libsessionWorkerPath, 1 * 60 * 1000);
   }
   return libsessionWorkerInterface?.callWorker(config, fnName, ...args);

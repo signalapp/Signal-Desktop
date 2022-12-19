@@ -14,15 +14,15 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
     fallback: {
-      crypto: require.resolve('crypto-browserify'),
-      path: require.resolve('path-browserify'),
+      crypto: false,
+      path: false,
       fs: false,
-      stream: require.resolve('stream-browserify'),
+      stream: false,
     },
   },
   output: {
     filename: 'util.worker.js',
     path: path.resolve(__dirname, 'ts', 'webworker', 'workers', 'node', 'util'),
   },
-  target: 'webworker',
+  target: 'node',
 };

@@ -214,7 +214,12 @@ const doAppStartUp = () => {
   debounce(triggerAvatarReUploadIfNeeded, 200);
 
   setTimeout(async () => {
-    // callLibSessionWorker(['ClosedGroupConfig-123', 'dump']);
+    const keypair = await UserUtils.getUserED25519KeyPairBytes();
+    if (!keypair) {
+      throw new Error('edkeypair not found for current user');
+    }
+
+    await callLibSessionWorker(['UserConfig', 'init', keypair.privKeyBytes, null]);
     console.warn(`getName result:"${await callLibSessionWorker(['UserConfig', 'getName'])}"`);
     console.warn('setName');
     await callLibSessionWorker(['UserConfig', 'setName', 'MyName']);
