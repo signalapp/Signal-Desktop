@@ -289,11 +289,7 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": [
-        "deb",
-        "rpm",
-        "freebsd"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [
