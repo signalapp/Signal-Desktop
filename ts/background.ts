@@ -40,6 +40,7 @@ import { assertDev, strictAssert } from './util/assert';
 import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
+import { isPnpEnabled } from './util/isPnpEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
@@ -2302,6 +2303,7 @@ export async function startApp(): Promise<void> {
               senderKey: true,
               changeNumber: true,
               stories: true,
+              pni: isPnpEnabled(),
             }),
             updateOurUsernameAndPni(),
           ]);

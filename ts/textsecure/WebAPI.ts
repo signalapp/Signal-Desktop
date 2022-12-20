@@ -27,6 +27,7 @@ import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
+import { isPnpEnabled } from '../util/isPnpEnabled';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -612,6 +613,7 @@ export type CapabilitiesType = {
   senderKey: boolean;
   changeNumber: boolean;
   stories: boolean;
+  pni: boolean;
 };
 export type CapabilitiesUploadType = {
   announcementGroup: true;
@@ -620,6 +622,9 @@ export type CapabilitiesUploadType = {
   senderKey: true;
   changeNumber: true;
   stories: true;
+
+  // true in staging, false in production
+  pni: boolean;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -1857,6 +1862,7 @@ export function initialize({
         senderKey: true,
         changeNumber: true,
         stories: true,
+        pni: isPnpEnabled(),
       };
 
       const jsonData = {
