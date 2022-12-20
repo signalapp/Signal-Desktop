@@ -49,6 +49,17 @@
       margin-right: 12px;
     }
   }
+  
+  &__view-once {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin: {
+      bottom: 6px;
+    }
+  }
+
   &__send-button {
     display: flex;
     justify-content: center;
