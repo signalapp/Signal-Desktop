@@ -22,6 +22,7 @@ export type Props<T extends AttachmentType | AttachmentDraftType> = Readonly<{
   attachments: ReadonlyArray<T>;
   canEditImages?: boolean;
   i18n: LocalizerType;
+  viewOnceAttachment?: boolean;
   onAddAttachment?: () => void;
   onClickAttachment?: (attachment: T) => void;
   onClose?: () => void;
@@ -53,6 +54,7 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
   attachments,
   canEditImages,
   i18n,
+  viewOnceAttachment,
   onAddAttachment,
   onClickAttachment,
   onCloseAttachment,
@@ -145,7 +147,7 @@ export function AttachmentList<T extends AttachmentType | AttachmentDraftType>({
             />
           );
         })}
-        {allVisualAttachments && onAddAttachment ? (
+        {!viewOnceAttachment && allVisualAttachments && onAddAttachment ? (
           <StagedPlaceholderAttachment onClick={onAddAttachment} i18n={i18n} />
         ) : null}
       </div>
