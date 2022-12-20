@@ -301,6 +301,13 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         verificationData.type ===
         ConversationVerificationState.PendingVerification
       ) {
+        if (type === conversationQueueJobEnum.enum.ProfileKey) {
+          log.warn(
+            "Cancelling profile share, we don't want to wait for pending verification."
+          );
+          return;
+        }
+
         log.info(
           'verification is pending for this conversation; waiting at most 5m...'
         );
@@ -426,9 +433,17 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
       }
 
       if (untrustedUuids.length) {
+        if (type === jobSet.ProfileKey) {
+          log.warn(
+            `Cancelling profile share, since there were ${untrustedUuids.length} untrusted send targets.`
+          );
+          return;
+        }
+
         log.error(
           `Send failed because ${untrustedUuids.length} conversation(s) were untrusted. Adding to verification list.`
         );
+
         window.reduxActions.conversations.conversationStoppedByMissingVerification(
           {
             conversationId: conversation.id,
