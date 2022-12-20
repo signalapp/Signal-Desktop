@@ -116,6 +116,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   ),
   toggleSettings: action('toggle-settings'),
   toggleSpeakerView: action('toggle-speaker-view'),
+  isConversationTooBigToRing: false,
 });
 
 export default {

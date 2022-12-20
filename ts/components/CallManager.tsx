@@ -41,7 +41,6 @@ import type {
 } from '../state/ducks/calling';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
-import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -100,6 +99,7 @@ export type PropsType = {
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
   toggleSpeakerView: () => void;
+  isConversationTooBigToRing: boolean;
 };
 
 type ActiveCallManagerPropsType = PropsType & {
@@ -455,10 +455,13 @@ export function CallManager(props: PropsType): JSX.Element | null {
 function getShouldRing({
   activeCall,
   incomingCall,
-}: Readonly<Pick<PropsType, 'activeCall' | 'incomingCall'>>): boolean {
+  isConversationTooBigToRing,
+}: Readonly<
+  Pick<PropsType, 'activeCall' | 'incomingCall' | 'isConversationTooBigToRing'>
+>): boolean {
   if (incomingCall) {
     // don't ring a large group
-    if (isConversationTooBigToRing(incomingCall.conversation)) {
+    if (isConversationTooBigToRing) {
       return false;
     }
 
