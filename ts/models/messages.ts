@@ -188,6 +188,7 @@ import { getStringForPhoneNumberDiscovery } from '../util/getStringForPhoneNumbe
 import { getTitle, renderNumber } from '../util/getTitle';
 import { DurationInSeconds } from '../util/durations';
 import dataInterface from '../sql/Client';
+import { canMessageBeViewOnce } from '../util/isValidViewOnceMessage';
 
 function isSameUuid(
   a: UUID | string | null | undefined,
@@ -1125,43 +1126,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   isValidTapToView(): boolean {
-    const body = this.get('body');
-    if (body) {
-      return false;
-    }
-
-    const attachments = this.get('attachments');
-    if (!attachments || attachments.length !== 1) {
-      return false;
-    }
-
-    const firstAttachment = attachments[0];
-    if (
-      !window.Signal.Util.GoogleChrome.isImageTypeSupported(
-        firstAttachment.contentType
-      ) &&
-      !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
-        firstAttachment.contentType
-      )
-    ) {
-      return false;
-    }
-
-    const quote = this.get('quote');
-    const sticker = this.get('sticker');
-    const contact = this.get('contact');
-    const preview = this.get('preview');
-
-    if (
-      quote ||
-      sticker ||
-      (contact && contact.length > 0) ||
-      (preview && preview.length > 0)
-    ) {
-      return false;
-    }
-
-    return true;
+    return canMessageBeViewOnce(this.attributes);
   }
 
   async markViewOnceMessageViewed(options?: {
@@ -1957,12 +1922,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           isUpdate,
           options: sendOptions,
           urgent: false,
+          isViewOnce: this.get('isViewOnce'),
         }),
         // Note: in some situations, for doNotSave messages, the message has no
         //   id, so we provide an empty array here.
         { messageIds: this.id ? [this.id] : [], sendType: 'sentSync' }
       ).then(async result => {
         let newSendStateByConversationId: undefined | SendStateByConversationId;
+        
+        // Once our View-once message is sent, we mark it as viewed from the devices
+        // which will also erase its content from the app.
+        if(this.isValidTapToView()){
+          this.markViewOnceMessageViewed();
+        }
+        
         const sendStateByConversationId =
           this.get('sendStateByConversationId') || {};
         const ourOldSendState = getOwn(
