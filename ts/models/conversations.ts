@@ -153,6 +153,9 @@ import { isSignalConversation } from '../util/isSignalConversation';
 import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../util/removePendingMember';
 import { isMemberPending } from '../util/isMemberPending';
+import { canMessageBeViewOnce } from '../util/isValidViewOnceMessage';
+import { showToast } from '../util/showToast';
+import { ToastViewOnceAttachmentError } from '../components/ToastViewOnceAttachmentError';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -4060,6 +4063,38 @@ export class ConversationModel extends window.Backbone
         }
       });
     }
+    
+    // Checks to ensure the message we sent is a valid view-once message.
+    if(isViewOnce){
+      // A view-once message shouldn't contain quotes, text, stickers, contacts or link previews
+      quote = undefined;
+      body = undefined;
+      sticker = undefined;
+      contact = undefined;
+      preview = undefined;
+      
+      if(!attachmentsToSend){
+        return;
+      }
+
+      if(attachmentsToSend.length > 1){
+        return;
+      }
+
+      // We only keep the first attachment in case a user sends more than 1 somehow
+      let uniqueAttachment = attachmentsToSend[0];
+      // The attachment must be either a supported image or a supported video
+      // NOT(a OR B) <=> (NOT a) AND (NOT b)
+      if (!window.Signal.Util.GoogleChrome.
+        getSupportedImageTypes().includes(uniqueAttachment.contentType) &&
+        !window.Signal.Util.GoogleChrome.
+        getSupportedVideoTypes().includes(uniqueAttachment.contentType)){
+          showToast(ToastViewOnceAttachmentError);
+          return;
+      }
+      
+      attachmentsToSend = [uniqueAttachment]
+    }
 
     // Here we move attachments to disk
     const attributes = await upgradeMessageSchema({
@@ -4090,6 +4125,7 @@ export class ConversationModel extends window.Backbone
         })
       ),
       storyId,
+      isViewOnce,
     });
 
     const model = new window.Whisper.Message(attributes);
@@ -4101,6 +4137,11 @@ export class ConversationModel extends window.Backbone
 
     const dbStart = Date.now();
 
+    // Something went wrong, cancel send
+    if(isViewOnce && !canMessageBeViewOnce(message.attributes)){
+      return;
+    }
+    
     strictAssert(
       typeof message.attributes.timestamp === 'number',
       'Expected a timestamp'
