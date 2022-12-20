@@ -157,6 +157,7 @@ export async function sendNormalMessage(
       storyMessage,
       storyContext,
       reaction,
+      isViewOnce,
     } = await getMessageSendData({ log, message });
 
     if (reaction) {
@@ -221,6 +222,7 @@ export async function sendNormalMessage(
         storyContext,
         timestamp: messageTimestamp,
         reaction,
+        isViewOnce,
       });
       messageSendPromise = message.sendSyncMessageOnly(dataMessage, saveErrors);
     } else {
@@ -267,6 +269,7 @@ export async function sendNormalMessage(
                 reaction,
                 timestamp: messageTimestamp,
                 mentions,
+                isViewOnce,
               },
               messageId,
               sendOptions,
@@ -324,6 +327,7 @@ export async function sendNormalMessage(
           // Note: 1:1 story replies should not set story=true -   they aren't group sends
           urgent: true,
           includePniSignatureMessage: true,
+          isViewOnce,
         });
       }
 
@@ -476,6 +480,7 @@ async function getMessageSendData({
   reaction: ReactionType | undefined;
   storyMessage?: MessageModel;
   storyContext?: StoryContextType;
+  isViewOnce?: boolean;
 }> {
   const {
     loadAttachmentData,
@@ -501,6 +506,8 @@ async function getMessageSendData({
   }
 
   const storyId = message.get('storyId');
+  
+  const isViewOnce = message.get('isViewOnce');
 
   const [attachmentsWithData, contact, preview, quote, sticker, storyMessage] =
     await Promise.all([
@@ -553,6 +560,7 @@ async function getMessageSendData({
           remove: false,
         }
       : undefined,
+    isViewOnce,
   };
 }
 
