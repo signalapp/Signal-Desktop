@@ -6204,14 +6204,6 @@
     "message": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Trdo delamo, da odpravimo napake in uvedemo druge izboljšave delovanja, da bo aplikacija za vas delovala nemoteno.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Začnite uporabljati in preizkušati našo novo funkcijo zgodb. Funkcijo lahko uporabljate z drugimi beta preizkuševalci in nam sporočite, kako deluje.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Zgodbe so zdaj na Signalu! Z izbranimi prijatelji ali skupinami delite izginjajoča sporočila, slike in video posodobitve, ki samodejno izginejo po 24 urah. Za vse, ki radi delite Zgodbe, je tukaj način, kako to storiti zasebno in brez prikazovanja oglasov. Če ne želite videti ali deliti Zgodb, jih lahko onemogočite tako, da greste v Nastavitve > Zasebnost.",
     "description": "Release notes for v6.0"

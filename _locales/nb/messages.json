@@ -6204,14 +6204,6 @@
     "message": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Jobber iherdig med å fikse feil og andre ytelsesforbedringer som sørger for at appen fungerer optimalt.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Bli med å teste den nye Storyer-funksjonen vår. Du kan prøve ut funksjonen med andre beta-testere, og fortelle oss hvordan den fungerer.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Storyer har kommet til Signal! Del tekst, bilder og videoer med utvalgte venner og grupper. Storyene forsvinner automatisk etter 24 timer. For alle som elsker å dele storyer – her kan du gjøre det helt privat uten annonser. Hvis du ikke vil se eller dele storyer, kan du velge bort dette alternativet under Preferanser > Personvern.",
     "description": "Release notes for v6.0"

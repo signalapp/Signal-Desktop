@@ -2181,7 +2181,7 @@
     "description": "Shown in notifications and in the left pane when a GIF is received."
   },
   "message--getNotificationText--photo": {
-    "message": "Billed",
+    "message": "Billede",
     "description": "Shown in notifications and in the left pane when a photo is received."
   },
   "message--getNotificationText--video": {
@@ -6203,14 +6203,6 @@
   "WhatsNew__bugfixes--6": {
     "message": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
-  },
-  "WhatsNew__v5.63--0": {
-    "message": "Vi arbejder på at rette nogle bugs og forbedre appens præstation, så den kører uden problemer.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Begynd at bruge og teste vores nye historiefunktion. Du kan bruge funktionen sammen med andre betatestere og fortælle os, om den fungerer ordentligt.",
-    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Nu tilbyder Signal historier! Del tekst, billeder og videoer, der automatisk forsvinder efter 24 timer, med udvalgte venner eller grupper. Alle, der elsker at dele historier, kan nu gøre det privat og uden at se nogen reklamer. Hvis du ikke vil se eller dele historier, kan du fravælge det hele i dine Præferencer > Privatliv.",

@@ -6204,14 +6204,6 @@
     "message": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Estamos trabalhando para corrigir bugs e fazer outras melhorias de desempenho para manter o app funcionando bem.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Comece a usar e teste nosso novo recurso de stories. Você pode usar o recurso com outros usuários da versão beta e contar para a gente como ele está funcionando.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Os stories chegaram ao Signal! Compartilhe atualizações de texto, imagens e vídeos com amigos ou grupos. Os stories desaparecerão automaticamente após 24 horas. Quem ama compartilhar stories pode fazer isso de forma privada e sem ver anúncios. Se não quiser ver ou compartilhar stories, desative essa opção em Preferências > Privacidade.",
     "description": "Release notes for v6.0"

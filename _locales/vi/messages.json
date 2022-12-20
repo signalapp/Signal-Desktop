@@ -6204,14 +6204,6 @@
     "message": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Nỗ lực sửa các lỗi và cải thiện hiệu năng để ứng dụng của bạn có thể chạy một cách trơn tru.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Bắt đầu sử dụng và thử nghiệm tính năng story mới của chúng tôi. Bạn có thể sử dụng tính năng này cùng các thành viên thử nghiệm phiên bản beta khác và cho chúng tôi biết tính năng hoạt động có ổn không.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Story đã có mặt trên Signal! Chia sẻ các cập nhật văn bản, hình ảnh, và video với những người bạn hoặc nhóm bạn chọn, tự động biến mất sau 24 giờ. Với những thành viên thích story, đây là một cách chia sẻ riêng tư và không có quảng cáo. Nếu bạn không muốn chia sẻ hoặc thấy story, bạn có thể tắt tính năng này trong mục Cài đặt > Riêng tư.",
     "description": "Release notes for v6.0"

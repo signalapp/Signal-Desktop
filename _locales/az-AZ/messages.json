@@ -6204,14 +6204,6 @@
     "message": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Tətbiqin sizlər üçün rahat işləməsini təmin etmək məqsədilə xəta düzəlişləri və digər məhsuldarlıq təkmilləşdirmələri üzərində ciddi iş gedir.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Yeni hekayələr xüsusiyyətindən istifadə edin və onu sınaqdan keçirin. Xüsusiyyətdən digər beta sınaq istifadəçiləri ilə birgə istifadə edə və necə işlədiyini bizimlə paylaşa bilərsiniz.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Artıq hekayələr Signal-dadır! 24 saat sonra avtomatik yox olacaq mətn, təsvir və video yeniləmələrini seçdiyiniz dostlarınız və ya qruplarınızla paylaşın. Hekayələr paylaşmağı sevən hər kəs, burada bunu məxfi və heç bir reklama məruz qalmadan edə bilər. Hekayələri görmək və ya paylaşmaq istəmirsinizsə bu funksiyaların hamısını Seçimlər > Məxfilik bölmələrinə klikləyərək söndürə bilərsiniz.",
     "description": "Release notes for v6.0"

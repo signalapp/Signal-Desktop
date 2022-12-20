@@ -6204,14 +6204,6 @@
     "message": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Keményen dolgoztunk a hibák helyrehozásán és egyéb teljesítményjavításokon, hogy az alkalmazás zökkenőmentesen működjön.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Kezdd el használni és teszteld az új Történetfunkciót. A funkciót más béta tesztelőkkel is használhatod, és megoszthatod velünk, hogyan működik.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Megérkeztek a Történetek a Signalba! Ossz meg szövegeket, képeket és videókat az általad kiválasztott ismerőseiddel vagy csoportjaiddal, amelyek aztán 24 óra elteltével automatikusan eltűnnek. Mindenki számára, aki szeret Történeteket megosztani, itt a módja annak, hogy privátban, hirdetések nélkül tegye meg. Ha nem szeretnél Történeteket látni vagy megosztani, a Beállítások > Adatvédelem menüpontban kikapcsolhatod a funkciót.",
     "description": "Release notes for v6.0"

@@ -6204,14 +6204,6 @@
     "message": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "開始使用和測試最新的限時動態功能。你可以與測試版的其他測試者一同使用該功能，並讓我們知道是否好用。",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Signal 現已推出限時動態功能！與選定的好友或群組分享自動銷毀的訊息、圖像和影片更新，這些內容會在 24 小時後自動消失。喜歡分享限時動態的你，可以透過這種方法私下分享，而無需看到任何廣告。如果你不想瀏覽或分享限時動態，可以在「偏好設定」>「隱私」關閉所有相關功能。",
     "description": "Release notes for v6.0"

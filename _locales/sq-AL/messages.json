@@ -6204,14 +6204,6 @@
     "message": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Punojmë fort për të rregulluar problemet dhe për të bërë përmirësime të tjera të mbarëvajtjes, që aplikacioni të funksionojë pa probleme.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Fillo të përdorësh dhe testosh funksionin tonë të ri të postimeve të përkohshme. Mund ta përdorësh funksionin me testues të tjerë beta dhe të na thuash si funksionon.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Tani postimet e përkohshme janë në Signal! Shpërndaj me miq ose grupe të caktuara përditësimet e teksteve, imazheve dhe videove që zhduken automatikisht pas 24 orësh. Për këdo që do të ndajë postimet e përkohshme, ja një mënyrë për ta bërë atë privatisht dhe pa parë asnjë reklamë. Nëse nuk dëshiron të shohësh ose të ndash postimet e përkohshme, mund të dalësh nga të gjitha te Preferencat > Privatësia.",
     "description": "Release notes for v6.0"

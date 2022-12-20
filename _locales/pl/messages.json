@@ -6204,14 +6204,6 @@
     "message": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Pracujemy w pocie czoła nad poprawieniem błędów i wprowadzeniem innych ulepszeń, dzięki którym apka będzie działała płynnie.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Zacznij używać i testować naszą nową funkcję relacji. Możesz korzystać z tej funkcji razem z innymi testerami wersji beta i informować nas, jak się sprawdza.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Relacje już dostępne w Signal! Udostępniaj wybranym znajomym lub grupom tekst, obrazy i wideo — udostępnione treści znikają automatycznie po 24 godzinach. Mamy coś dla każdego, kto lubi dzielić się opowieściami, a ceni sobie prywatność i przestrzeń bez reklam. Jeśli nie chcesz oglądać ani udostępniać relacji, możesz z nich zrezygnować w punkcie menu Preferencje > Prywatność.",
     "description": "Release notes for v6.0"

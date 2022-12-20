@@ -457,7 +457,7 @@
     "description": "Shown after reviewing large number of contacts"
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} destinataire de la story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} destinataires de la story {story} ?}}",
+    "messageformat": "{count, plural, one {Êtes-vous sûr de vouloir retirer {count,number} destinataire de la Story {story} ?} other {Êtes-vous sûr de vouloir retirer {count,number} destinataires de la Story {story} ?}}",
     "description": "Shown if user selects 'remove all' option to remove all potentially untrusted contacts from a given story"
   },
   "safetyNumberChangeDialog__remove-all": {
@@ -469,7 +469,7 @@
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
-    "message": "Supprimer de la story",
+    "message": "Supprimer de la Story",
     "description": "Shown in the context menu for a story recipient, to remove this contact from from their parent list"
   },
   "safetyNumberChangeDialog__actions-contact": {
@@ -477,7 +477,7 @@
     "description": "Label for button that opens context menu for contact"
   },
   "safetyNumberChangeDialog__actions-story": {
-    "message": "Menu pour la story $story$",
+    "message": "Menu pour la Story $story$",
     "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
@@ -5293,7 +5293,7 @@
     "description": "Label in confirmation modal to disable stories"
   },
   "Preferences__turn-stories-off--body": {
-    "message": "Vous ne pourrez plus partager ou voir de stories. Les nouveaux contenus récemment ajoutés à vos stories seront également supprimés.",
+    "message": "Vous ne pourrez plus partager ou voir de Stories. Les nouveaux contenus récemment ajoutés à vos Stories seront également supprimés.",
     "description": "Confirmation modal body for disabling stories"
   },
   "DialogUpdate--version-available": {
@@ -5613,7 +5613,7 @@
     "description": "Toast message"
   },
   "Stories__failed-send": {
-    "message": "Cette story n’a pas pu être envoyée à certaines personnes. Vérifiez votre connexion et réessayez.",
+    "message": "Cette Story n’a pas pu être envoyée à certaines personnes. Vérifiez votre connexion et réessayez.",
     "description": "Alert error message when unable to send a story"
   },
   "StoriesSettings__title": {
@@ -5621,7 +5621,7 @@
     "description": "Title for the story settings modal"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "Les stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre story ou créez de nouvelles stories en identifiant des spectateurs ou des groupes spécifiques.",
+    "messageformat": "Les Stories sont automatiquement supprimées après 24 heures. Identifiez les spectateurs autorisés à voir votre Story ou créez de nouvelles Stories en identifiant des spectateurs ou des groupes spécifiques.",
     "description": "Description for story settings modal"
   },
   "icu:StoriesSettings__my_stories": {
@@ -5769,11 +5769,11 @@
     "description": "Stories settings > Group Story > members list title"
   },
   "icu:GroupStorySettingsModal__members_help": {
-    "messageformat": "Les membres du groupe de la discussion “{groupTitle}” peuvent consulter et interagir avec cette story. Vous pouvez paramétrer les spectateurs depuis la discussion du groupe.",
+    "messageformat": "Les membres du groupe de la discussion “{groupTitle}” peuvent consulter et interagir avec cette Story. Vous pouvez paramétrer les spectateurs depuis la discussion du groupe.",
     "description": "Stories settings > Group Story > group story help text"
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "Supprimer la story du groupe",
+    "messageformat": "Supprimer la Story du groupe",
     "descirption": "Stories settings > Group Story > button to remove group story"
   },
   "icu:StoriesSettings__remove_group--confirm": {
@@ -5885,7 +5885,7 @@
     "description": "Select box title for the stories on/off toggle"
   },
   "Stories__settings-toggle--description": {
-    "message": "Si vous décidez de quitter la fonction stories, vous ne pourrez plus en partager ni en consulter.",
+    "message": "Si vous décidez de quitter la fonction Stories, vous ne pourrez plus en partager ni en consulter.",
     "description": "Select box description for the stories on/off toggle"
   },
   "Stories__settings-toggle--button": {
@@ -5981,7 +5981,7 @@
     "description": "Description of someone reacting to a story"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
-    "messageformat": "Vous ne pouvez pas interagir sur cette story, car vous n'êtes plus membre de ce groupe.",
+    "messageformat": "Vous ne pouvez pas interagir sur cette Story, car vous n'êtes plus membre de ce groupe.",
     "description": "Shown in the composer area of the reply-to-story modal when a user can't make a reply because they are no longer a member"
   },
   "icu:StoryViewsNRepliesModal__delete-reply": {
@@ -6204,16 +6204,8 @@
     "message": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Nous travaillons sans relâche à la correction des bugs et à l'amélioration des performances afin de garantir le bon fonctionnement de l'application.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Testez notre nouvelle fonction stories dès maintenant. Vous pouvez utiliser cette fonction avec d’autres testeurs de la version bêta et nous donner votre avis.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
-    "message": "Les stories sont disponibles sur Signal ! Partagez du texte, des images et des vidéos éphémères qui disparaissent automatiquement après 24 heures avec une sélection d’amis ou de groupes. Pour tous ceux qui aiment partager des stories, voici un moyen de le faire en privé et sans voir de publicité. Si vous ne souhaitez pas voir ou partager des stories, vous pouvez les désactiver dans Préférences > Réglages.",
+    "message": "Les stories sont disponibles sur Signal ! Partagez du texte, des images et des vidéos éphémères qui disparaissent automatiquement après 24 heures avec une sélection d’amis ou de groupes. Pour tous ceux qui aiment partager des Stories, voici un moyen de le faire en privé et sans voir de publicité. Si vous ne souhaitez pas voir ou partager des Stories, vous pouvez les désactiver dans Préférences > Réglages.",
     "description": "Release notes for v6.0"
   },
   "WhatsNew__v6.1--1": {

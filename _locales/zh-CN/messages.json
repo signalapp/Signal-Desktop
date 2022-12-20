@@ -6204,14 +6204,6 @@
     "message": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "我们努力修复了漏洞并增强了性能，让您的应用可以顺畅运行。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "欢迎立即体验和测试我们的新动态功能。您可以和其他测试用户一起体验此功能，并与我们分享使用反馈。",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Signal 现在推出动态功能啦！您现在可以给选定的好友或群组分享限时文本、图片和视频动态。这些动态将会在 24 小时后自动消失。喜欢分享动态的用户可以进行私密分享，并且不会看到任何广告。如果您不想浏览其他人的动态，也不想分享动态，您可以在“偏好 > 隐私”中选择退出此功能。",
     "description": "Release notes for v6.0"

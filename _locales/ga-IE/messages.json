@@ -6204,14 +6204,6 @@
     "message": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Ag obair go crua ar fhabhtanna a réiteach agus ar fheabhsúcháin feidhmíochta eile chun an aip a choinneáil ar rith gan stró duit.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Tosaigh ar úsáid agus ar thástáil ár ngné scéalta nua. Is féidir leat an ghné a úsáid i gcomhar le tástálaithe eile béite agus sinn a chur ar an eolas maidir lena feidhmiú.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Tá Scéalta in Signal anois! Comhroinn le cairde nó grúpaí ar leith téacs, íomhánna agus nuashonruithe ar fhíseáin a imíonn as radharc go huathoibríoch tar éis 24 uair an chloig. Seo bealach chun scéalta a chomhroinnt go príobháideach agus gan aon fhógraí a fheiceáil, dóibh siúd go léir ar breá leo scéalta a chomhroinnt. Mura mian leat scéalta a fheiceáil ná a chomhroinnt, is féidir leat gan an méid uile a roghnú i Sainroghanna > Príobháideachas.",
     "description": "Release notes for v6.0"

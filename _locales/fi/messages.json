@@ -6204,14 +6204,6 @@
     "message": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Teemme kovasti töitä korjataksemme virheitä ja parantaaksemme suorituskykyä, jotta sinä voisit käyttää sovellusta entistä sujuvammin.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Aloita uuden Tarinat-ominaisuuden käyttö ja kokeilu. Voit käyttää ominaisuutta muiden beetaversion käyttäjien kanssa ja antaa meille palautetta sen toiminnasta.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Tarinat ovat nyt käytettävissä Signalissa! Jaa katoavia teksti-, kuva- ja videopäivityksiä valituille ystäville tai ryhmille. Tarinat katoavat automaattisesti 24 tunnin kuluttua. Jos pidät tarinoiden jakamisesta, näin voit tehdä sen yksityisesti ja ilman mainoksia. Jos et halua nähdä tai jakaa tarinoita, voit poistaa ne kokonaan käytöstä kohdassa Asetukset > Yksityisyys.",
     "description": "Release notes for v6.0"

@@ -6204,14 +6204,6 @@
     "message": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Smagi strādājam pie kļūdu labojumiem un citiem darbības uzlabojumiem, lai jūs varētu netraucēti izmantot lietotni.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Sāciet izmantot un testēt mūsu jauno stāstu funkciju. Varat izmantot šo funkciju kopā ar citiem beta testētājiem un paziņot mums, kā tā darbojas.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Tagad Signal ir pieejami stāsti! Kopīgojiet tekstu, attēlus un video ar noteiktiem draugiem vai grupām. Kopīgotais saturs automātiski pazudīs pēc 24 stundām. Ikviens, kam patīk dalīties ar stāstiem, var to paveikt privāti un bez reklāmām. Ja nevēlaties redzēt vai kopīgot stāstus, varat atteikties no šīs funkcijas sadaļā Preferences > Privātums.",
     "description": "Release notes for v6.0"

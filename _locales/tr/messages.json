@@ -6204,14 +6204,6 @@
     "message": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Uygulamanın sorunsuz çalışmasını sağlamak için hataları düzelttik ve performans iyileştirmeleri yaptık.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Yeni hikayeler özelliğimizi kullanmaya ve test etmeye başla. Bu özelliği diğer beta test kullanıcıları ile kullanabilir ve bize yorumlarını bildirebilirsin.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Hikayeler artık Signal'da! 24 saat sonra otomatik olarak kaybolan metin, resim ve videoları belirli arkadaşlarınla veya gruplarınla paylaş. Hikaye paylaşmayı seviyorsan, bunu gizli ve reklam görmeden yapmanın bir yolu var. Hikayeleri görmek veya paylaşmak istemiyorsan, Tercihler > Gizlilik bölümünden tümünü devre dışı bırakabilirsin.",
     "description": "Release notes for v6.0"
