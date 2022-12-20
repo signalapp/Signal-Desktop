@@ -16,6 +16,7 @@ import type { actions as globalModals } from './ducks/globalModals';
 import type { actions as items } from './ducks/items';
 import type { actions as lightbox } from './ducks/lightbox';
 import type { actions as linkPreviews } from './ducks/linkPreviews';
+import type { actions as mediaGallery } from './ducks/mediaGallery';
 import type { actions as network } from './ducks/network';
 import type { actions as safetyNumber } from './ducks/safetyNumber';
 import type { actions as search } from './ducks/search';
@@ -43,6 +44,7 @@ export type ReduxActions = {
   items: typeof items;
   lightbox: typeof lightbox;
   linkPreviews: typeof linkPreviews;
+  mediaGallery: typeof mediaGallery;
   network: typeof network;
   safetyNumber: typeof safetyNumber;
   search: typeof search;

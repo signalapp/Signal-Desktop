@@ -47,7 +47,6 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
-  onShowAllMedia: action('onShowAllMedia'),
   onGoBack: action('onGoBack'),
 
   onArchive: action('onArchive'),

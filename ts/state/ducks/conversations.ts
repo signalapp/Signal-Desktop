@@ -469,8 +469,11 @@ export const SELECTED_CONVERSATION_CHANGED =
   'conversations/SELECTED_CONVERSATION_CHANGED';
 const PUSH_PANEL = 'conversations/PUSH_PANEL';
 const POP_PANEL = 'conversations/POP_PANEL';
+export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
+export const MESSAGE_DELETED = 'MESSAGE_DELETED';
 export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
+export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
 
 export type CancelVerificationDataByConversationActionType = {
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -581,7 +584,7 @@ export type ConversationRemovedActionType = {
   };
 };
 export type ConversationUnloadedActionType = {
-  type: 'CONVERSATION_UNLOADED';
+  type: typeof CONVERSATION_UNLOADED;
   payload: {
     id: string;
   };
@@ -626,7 +629,7 @@ export type MessageChangedActionType = {
   };
 };
 export type MessageDeletedActionType = {
-  type: 'MESSAGE_DELETED';
+  type: typeof MESSAGE_DELETED;
   payload: {
     id: string;
     conversationId: string;
@@ -648,6 +651,13 @@ export type MessagesAddedActionType = {
     isJustSent: boolean;
     isNewMessage: boolean;
     messages: Array<MessageAttributesType>;
+  };
+};
+
+export type MessageExpiredActionType = {
+  type: typeof MESSAGE_EXPIRED;
+  payload: {
+    id: string;
   };
 };
 
@@ -906,6 +916,7 @@ export const actions = {
   messageChanged,
   messageDeleted,
   messageExpanded,
+  messageExpired,
   messagesAdded,
   messagesReset,
   myProfileChanged,
@@ -1979,7 +1990,7 @@ function conversationRemoved(id: string): ConversationRemovedActionType {
 }
 function conversationUnloaded(id: string): ConversationUnloadedActionType {
   return {
-    type: 'CONVERSATION_UNLOADED',
+    type: CONVERSATION_UNLOADED,
     payload: {
       id,
     },
@@ -2118,7 +2129,7 @@ function messageDeleted(
   conversationId: string
 ): MessageDeletedActionType {
   return {
-    type: 'MESSAGE_DELETED',
+    type: MESSAGE_DELETED,
     payload: {
       id,
       conversationId,
@@ -2134,6 +2145,14 @@ function messageExpanded(
     payload: {
       id,
       displayLimit,
+    },
+  };
+}
+function messageExpired(id: string): MessageExpiredActionType {
+  return {
+    type: MESSAGE_EXPIRED,
+    payload: {
+      id,
     },
   };
 }
@@ -3707,7 +3726,7 @@ export function reducer(
       ...updateConversationLookups(undefined, existing, state),
     };
   }
-  if (action.type === 'CONVERSATION_UNLOADED') {
+  if (action.type === CONVERSATION_UNLOADED) {
     const { payload } = action;
     const { id } = payload;
     const existingConversation = state.messagesByConversation[id];
@@ -4185,7 +4204,7 @@ export function reducer(
       },
     };
   }
-  if (action.type === 'MESSAGE_DELETED') {
+  if (action.type === MESSAGE_DELETED) {
     const { id, conversationId } = action.payload;
     const { messagesByConversation, messagesLookup } = state;
 

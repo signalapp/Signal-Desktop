@@ -56,9 +56,7 @@ class ExpiringMessagesDeletionService {
 
         // We do this to update the UI, if this message is being displayed somewhere
         message.trigger('expired');
-        window.reduxActions.lightbox.closeLightboxIfViewingExpiredMessage(
-          message.id
-        );
+        window.reduxActions.conversations.messageExpired(message.id);
 
         if (conversation) {
           // An expired message only counts as decrementing the message count, not

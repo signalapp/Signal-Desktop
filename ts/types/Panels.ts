@@ -19,6 +19,7 @@ export enum PanelType {
 }
 
 export type ReactPanelRenderType =
+  | { type: PanelType.AllMedia }
   | { type: PanelType.ChatColorEditor }
   | {
       type: PanelType.ContactDetails;
@@ -38,9 +39,10 @@ export type ReactPanelRenderType =
   | { type: PanelType.NotificationSettings }
   | { type: PanelType.StickerManager };
 
-export type BackbonePanelRenderType =
-  | { type: PanelType.AllMedia }
-  | { type: PanelType.MessageDetails; args: { messageId: string } };
+export type BackbonePanelRenderType = {
+  type: PanelType.MessageDetails;
+  args: { messageId: string };
+};
 
 export type PanelRenderType = ReactPanelRenderType | BackbonePanelRenderType;
 
@@ -52,6 +54,7 @@ export function isPanelHandledByReact(
   }
 
   return (
+    panel.type === PanelType.AllMedia ||
     panel.type === PanelType.ChatColorEditor ||
     panel.type === PanelType.ContactDetails ||
     panel.type === PanelType.ConversationDetails ||

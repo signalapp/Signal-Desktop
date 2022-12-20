@@ -160,6 +160,7 @@ import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
 import { downloadOnboardingStory } from './util/downloadOnboardingStory';
 import { clearConversationDraftAttachments } from './util/clearConversationDraftAttachments';
 import { removeLinkPreview } from './services/LinkPreview';
+import { PanelType } from './types/Panels';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1121,6 +1122,10 @@ export async function startApp(): Promise<void> {
         actionCreators.linkPreviews,
         store.dispatch
       ),
+      mediaGallery: bindActionCreators(
+        actionCreators.mediaGallery,
+        store.dispatch
+      ),
       network: bindActionCreators(actionCreators.network, store.dispatch),
       safetyNumber: bindActionCreators(
         actionCreators.safetyNumber,
@@ -1522,7 +1527,10 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'm' || key === 'M')
       ) {
-        conversation.trigger('open-all-media');
+        window.reduxActions.conversations.pushPanelForConversation(
+          conversation.id,
+          { type: PanelType.AllMedia }
+        );
         event.preventDefault();
         event.stopPropagation();
         return;

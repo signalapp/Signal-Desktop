@@ -9222,9 +9222,9 @@
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
-    "rule": "React-createRef",
+    "rule": "React-useRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
-    "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"

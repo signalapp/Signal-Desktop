@@ -2232,42 +2232,6 @@ button.ConversationDetails__action-button {
   outline: none;
 }
 
-.module-media-gallery__tab-container {
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-  cursor: pointer;
-  width: 100%;
-}
-
-.module-media-gallery__tab {
-  width: 100%;
-  padding: 20px;
-  text-align: center;
-
-  @include light-theme {
-    background-color: $color-gray-02;
-  }
-  @include dark-theme {
-    background-color: $color-gray-90;
-  }
-
-  outline: none;
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $color-gray-15;
-    }
-    @include dark-keyboard-mode {
-      background-color: $color-gray-75;
-    }
-  }
-}
-
-.module-media-gallery__tab--active {
-  border-bottom: 2px solid $color-ultramarine;
-}
-
 .module-media-gallery__content {
   display: flex;
   flex-grow: 1;

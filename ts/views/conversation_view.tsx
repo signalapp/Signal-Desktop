@@ -4,15 +4,9 @@
 /* eslint-disable camelcase */
 
 import type * as Backbone from 'backbone';
-import * as React from 'react';
-import { flatten } from 'lodash';
 import { render } from 'mustache';
 
-import type { AttachmentType } from '../types/Attachment';
-import type { MIMEType } from '../types/MIME';
 import type { ConversationModel } from '../models/conversations';
-import type { MessageAttributesType } from '../model-types.d';
-import type { MediaItemType } from '../types/MediaItem';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
@@ -27,13 +21,10 @@ import { ToastConversationMarkedUnread } from '../components/ToastConversationMa
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
-import { isNotNil } from '../util/isNotNil';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { showToast } from '../util/showToast';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
-import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
-import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
   removeLinkPreview,
   suspendLinkPreviews,
@@ -45,35 +36,13 @@ import { clearConversationDraftAttachments } from '../util/clearConversationDraf
 import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
 import { PanelType, isPanelHandledByReact } from '../types/Panels';
 
-const { Message } = window.Signal.Types;
-
 type BackbonePanelType = { panelType: PanelType; view: Backbone.View };
-
-const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
-  window.Signal.Migrations;
 
 const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
   showMessageDetail: (messageId: string) => unknown;
   startConversation: (e164: string, uuid: UUIDStringType) => unknown;
-};
-
-type MediaType = {
-  path: string;
-  objectURL: string;
-  thumbnailObjectUrl?: string;
-  contentType: MIMEType;
-  index: number;
-  attachment: AttachmentType;
-  message: {
-    attachments: Array<AttachmentType>;
-    conversationId: string;
-    id: string;
-    received_at: number;
-    received_at_ms: number;
-    sent_at: number;
-  };
 };
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
@@ -101,7 +70,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     );
 
     // These are triggered by background.ts for keyboard handling
-    this.listenTo(this.model, 'open-all-media', this.showAllMedia);
     this.listenTo(this.model, 'escape-pressed', () => {
       window.reduxActions.conversations.popPanelForConversation(this.model.id);
     });
@@ -155,9 +123,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSearchInConversation: () => {
         const { searchInConversation } = window.reduxActions.search;
         searchInConversation(this.model.id);
-      },
-      onShowAllMedia: () => {
-        this.showAllMedia();
       },
       onGoBack: () => {
         window.reduxActions.conversations.popPanelForConversation(
@@ -480,207 +445,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.model.updateVerified();
   }
 
-  showAllMedia(): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.AllMedia,
-    });
-  }
-
-  getAllMedia(): Backbone.View | undefined {
-    if (document.querySelectorAll('.module-media-gallery').length) {
-      return;
-    }
-
-    // We fetch more documents than media as they don’t require to be loaded
-    // into memory right away. Revisit this once we have infinite scrolling:
-    const DEFAULT_MEDIA_FETCH_COUNT = 50;
-    const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
-
-    const conversationId = this.model.get('id');
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
-
-    const getProps = async () => {
-      const rawMedia =
-        await window.Signal.Data.getMessagesWithVisualMediaAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_MEDIA_FETCH_COUNT,
-          }
-        );
-      const rawDocuments =
-        await window.Signal.Data.getMessagesWithFileAttachments(
-          conversationId,
-          {
-            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-          }
-        );
-
-      // First we upgrade these messages to ensure that they have thumbnails
-      for (let max = rawMedia.length, i = 0; i < max; i += 1) {
-        const message = rawMedia[i];
-        const { schemaVersion } = message;
-
-        // We want these message to be cached in memory for other operations like
-        //   listening to 'expired' events when showing the lightbox, and so any other
-        //   code working with this message has the latest updates.
-        const model = window.MessageController.register(message.id, message);
-
-        if (
-          schemaVersion &&
-          schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY
-        ) {
-          // Yep, we really do want to wait for each of these
-          // eslint-disable-next-line no-await-in-loop
-          rawMedia[i] = await upgradeMessageSchema(message);
-          model.set(rawMedia[i]);
-
-          // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(rawMedia[i], { ourUuid });
-        }
-      }
-
-      const media: Array<MediaType> = flatten(
-        rawMedia.map(message => {
-          return (message.attachments || []).map(
-            (
-              attachment: AttachmentType,
-              index: number
-            ): MediaType | undefined => {
-              if (
-                !attachment.path ||
-                !attachment.thumbnail ||
-                attachment.pending ||
-                attachment.error
-              ) {
-                return;
-              }
-
-              const { thumbnail } = attachment;
-              return {
-                path: attachment.path,
-                objectURL: getAbsoluteAttachmentPath(attachment.path),
-                thumbnailObjectUrl: thumbnail?.path
-                  ? getAbsoluteAttachmentPath(thumbnail.path)
-                  : undefined,
-                contentType: attachment.contentType,
-                index,
-                attachment,
-                message: {
-                  attachments: message.attachments || [],
-                  conversationId:
-                    window.ConversationController.lookupOrCreate({
-                      uuid: message.sourceUuid,
-                      e164: message.source,
-                      reason: 'conversation_view.showAllMedia',
-                    })?.id || message.conversationId,
-                  id: message.id,
-                  received_at: message.received_at,
-                  received_at_ms: Number(message.received_at_ms),
-                  sent_at: message.sent_at,
-                },
-              };
-            }
-          );
-        })
-      ).filter(isNotNil);
-
-      // Unlike visual media, only one non-image attachment is supported
-      const documents: Array<MediaItemType> = [];
-      rawDocuments.forEach(message => {
-        const attachments = message.attachments || [];
-        const attachment = attachments[0];
-        if (!attachment) {
-          return;
-        }
-
-        documents.push({
-          contentType: attachment.contentType,
-          index: 0,
-          attachment,
-          // We do this cast because we know there attachments (see the checks above).
-          message: message as MessageAttributesType & {
-            attachments: Array<AttachmentType>;
-          },
-        });
-      });
-
-      const onItemClick = async ({
-        message,
-        attachment,
-        type,
-      }: ItemClickEvent) => {
-        switch (type) {
-          case 'documents': {
-            window.reduxActions.conversations.saveAttachment(
-              attachment,
-              message.sent_at
-            );
-            break;
-          }
-
-          case 'media': {
-            window.reduxActions.lightbox.showLightboxWithMedia(
-              attachment.path,
-              media
-            );
-            break;
-          }
-
-          default:
-            throw new TypeError(`Unknown attachment type: '${type}'`);
-        }
-      };
-
-      return {
-        documents,
-        media,
-        onItemClick,
-      };
-    };
-
-    function getMessageIds(): Array<string | undefined> | undefined {
-      const state = window.reduxStore.getState();
-      const byConversation = state?.conversations?.messagesByConversation;
-      const messages = byConversation && byConversation[conversationId];
-      if (!messages || !messages.messageIds) {
-        return undefined;
-      }
-
-      return messages.messageIds;
-    }
-
-    // Detect message changes in the current conversation
-    let previousMessageList: Array<string | undefined> | undefined;
-    previousMessageList = getMessageIds();
-
-    const unsubscribe = window.reduxStore.subscribe(() => {
-      const currentMessageList = getMessageIds();
-      if (currentMessageList !== previousMessageList) {
-        update();
-        previousMessageList = currentMessageList;
-      }
-    });
-
-    const view = new ReactWrapperView({
-      className: 'panel',
-      // We present an empty panel briefly, while we wait for props to load.
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      JSX: <></>,
-      onClose: () => {
-        unsubscribe();
-      },
-    });
-
-    const update = async () => {
-      const props = await getProps();
-      view.update(<MediaGallery i18n={window.i18n} {...props} />);
-    };
-
-    update();
-
-    return view;
-  }
-
   showMessageDetail(messageId: string): void {
     window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
       type: PanelType.MessageDetails,
@@ -753,9 +517,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const { type } = panel as BackbonePanelRenderType;
 
     let view: Backbone.View | undefined;
-    if (type === PanelType.AllMedia) {
-      view = this.getAllMedia();
-    } else if (panel.type === PanelType.MessageDetails) {
+    if (panel.type === PanelType.MessageDetails) {
       view = this.getMessageDetail(panel.args);
     }
 

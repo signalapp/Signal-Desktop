@@ -24,9 +24,7 @@ async function eraseTapToViewMessages() {
 
         // We do this to update the UI, if this message is being displayed somewhere
         message.trigger('expired');
-        window.reduxActions.lightbox.closeLightboxIfViewingExpiredMessage(
-          message.id
-        );
+        window.reduxActions.conversations.messageExpired(message.id);
 
         await message.eraseContents();
       })

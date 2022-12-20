@@ -12,6 +12,7 @@ import * as log from '../../logging/log';
 import { ContactDetail } from '../../components/conversation/ContactDetail';
 import { ConversationView } from '../../components/conversation/ConversationView';
 import { PanelType } from '../../types/Panels';
+import { SmartAllMedia } from './AllMedia';
 import { SmartChatColorPicker } from './ChatColorPicker';
 import { SmartCompositionArea } from './CompositionArea';
 import { SmartConversationDetails } from './ConversationDetails';
@@ -71,6 +72,14 @@ export function SmartConversationView({
       renderPanel={() => {
         if (!topPanel) {
           return;
+        }
+
+        if (topPanel.type === PanelType.AllMedia) {
+          return (
+            <div className="panel">
+              <SmartAllMedia conversationId={conversationId} />
+            </div>
+          );
         }
 
         if (topPanel.type === PanelType.ChatColorEditor) {

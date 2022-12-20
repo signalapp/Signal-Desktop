@@ -35,7 +35,6 @@ export type OwnProps = {
   onMarkUnread: () => void;
   onMoveToInbox: () => void;
   onSearchInConversation: () => void;
-  onShowAllMedia: () => void;
 };
 
 const getOutgoingCallButtonStyle = (

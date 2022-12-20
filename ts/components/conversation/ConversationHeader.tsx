@@ -92,7 +92,6 @@ export type PropsActionsType = {
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onSearchInConversation: () => void;
-  onShowAllMedia: () => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   setDisappearingMessages: (
     conversationId: string,
@@ -350,7 +349,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       onArchive,
       onMarkUnread,
       onMoveToInbox,
-      onShowAllMedia,
       pushPanelForConversation,
       setDisappearingMessages,
       setMuteExpiration,
@@ -494,7 +492,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             {i18n('showMembers')}
           </MenuItem>
         ) : null}
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
+        <MenuItem
+          onClick={() =>
+            pushPanelForConversation(id, { type: PanelType.AllMedia })
+          }
+        >
+          {i18n('viewRecentMedia')}
+        </MenuItem>
         <MenuItem divider />
         {!markedUnread ? (
           <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>

@@ -6,9 +6,10 @@ import type { ThunkAction } from 'redux-thunk';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { MediaItemType } from '../../types/MediaItem';
-import type { StateType as RootStateType } from '../reducer';
+import type { MessageExpiredActionType } from './conversations';
 import type { ShowStickerPackPreviewActionType } from './globalModals';
 import type { ShowToastActionType } from './toast';
+import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
 import { getMessageById } from '../../messages/getMessageById';
@@ -20,7 +21,7 @@ import {
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
-import { saveAttachmentFromMessage } from './conversations';
+import { MESSAGE_EXPIRED, saveAttachmentFromMessage } from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
@@ -51,7 +52,10 @@ type ShowLightboxActionType = {
   };
 };
 
-type LightboxActionType = CloseLightboxActionType | ShowLightboxActionType;
+type LightboxActionType =
+  | CloseLightboxActionType
+  | MessageExpiredActionType
+  | ShowLightboxActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -75,34 +79,6 @@ function closeLightbox(): ThunkAction<
         }
         window.Signal.Migrations.deleteTempFile(item.attachment.path);
       });
-    }
-
-    dispatch({
-      type: CLOSE_LIGHTBOX,
-    });
-  };
-}
-
-function closeLightboxIfViewingExpiredMessage(
-  messageId: string
-): ThunkAction<void, RootStateType, unknown, CloseLightboxActionType> {
-  return (dispatch, getState) => {
-    const { lightbox } = getState();
-
-    if (!lightbox.isShowingLightbox) {
-      return;
-    }
-
-    const { isViewOnce, media } = lightbox;
-
-    if (!isViewOnce) {
-      return;
-    }
-
-    const hasExpiredMedia = media.some(item => item.message.id === messageId);
-
-    if (!hasExpiredMedia) {
-      return;
     }
 
     dispatch({
@@ -309,7 +285,6 @@ function showLightbox(opts: {
 
 export const actions = {
   closeLightbox,
-  closeLightboxIfViewingExpiredMessage,
   showLightbox,
   showLightboxForViewOnceMedia,
   showLightboxWithMedia,
@@ -338,6 +313,26 @@ export function reducer(
       ...action.payload,
       isShowingLightbox: true,
     };
+  }
+
+  if (action.type === MESSAGE_EXPIRED) {
+    if (!state.isShowingLightbox) {
+      return state;
+    }
+
+    if (!state.isViewOnce) {
+      return state;
+    }
+
+    const hasExpiredMedia = state.media.some(
+      item => item.message.id === action.payload.id
+    );
+
+    if (!hasExpiredMedia) {
+      return state;
+    }
+
+    return getEmptyState();
   }
 
   return state;

@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -24,10 +24,13 @@ export default {
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  onItemClick: action('onItemClick'),
+  conversationId: '123',
   documents: overrideProps.documents || [],
+  i18n,
+  loadMediaItems: action('loadMediaItems'),
   media: overrideProps.media || [],
+  saveAttachment: action('saveAttachment'),
+  showLightboxWithMedia: action('showLightboxWithMedia'),
 });
 
 export function Populated(): JSX.Element {
