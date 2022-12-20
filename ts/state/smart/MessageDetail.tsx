@@ -12,7 +12,6 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { getContactNameColorSelector } from '../selectors/conversations';
-import { markViewed } from '../ducks/conversations';
 
 export { Contact } from '../../components/conversation/MessageDetail';
 export type OwnProps = Omit<
@@ -26,7 +25,6 @@ export type OwnProps = Omit<
   | 'theme'
   | 'showContactModal'
   | 'showConversation'
-  | 'markViewed'
 >;
 
 const mapStateToProps = (
@@ -40,12 +38,6 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
-    kickOffAttachmentDownload,
-    markAttachmentAsCorrupted,
-    openGiftBadge,
-    openLink,
-    showExpiredIncomingTapToViewToast,
-    showExpiredOutgoingTapToViewToast,
     startConversation,
   } = props;
 
@@ -72,14 +64,7 @@ const mapStateToProps = (
     interactionMode: getInteractionMode(state),
     theme: getTheme(state),
 
-    kickOffAttachmentDownload,
-    markAttachmentAsCorrupted,
-    markViewed,
-    openGiftBadge,
-    openLink,
     renderAudioAttachment,
-    showExpiredIncomingTapToViewToast,
-    showExpiredOutgoingTapToViewToast,
     startConversation,
   };
 };

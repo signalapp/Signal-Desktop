@@ -70,6 +70,20 @@ CannotMixMultiAndNonMultiAttachments.args = {
   },
 };
 
+export const CannotOpenGiftBadgeIncoming = Template.bind({});
+CannotOpenGiftBadgeIncoming.args = {
+  toast: {
+    toastType: ToastType.CannotOpenGiftBadgeIncoming,
+  },
+};
+
+export const CannotOpenGiftBadgeOutgoing = Template.bind({});
+CannotOpenGiftBadgeOutgoing.args = {
+  toast: {
+    toastType: ToastType.CannotOpenGiftBadgeOutgoing,
+  },
+};
+
 export const CannotStartGroupCall = Template.bind({});
 CannotStartGroupCall.args = {
   toast: {
@@ -182,6 +196,13 @@ PinnedConversationsFull.args = {
   },
 };
 
+export const ReactionFailed = Template.bind({});
+ReactionFailed.args = {
+  toast: {
+    toastType: ToastType.ReactionFailed,
+  },
+};
+
 export const ReportedSpamAndBlocked = Template.bind({});
 ReportedSpamAndBlocked.args = {
   toast: {
@@ -228,6 +249,20 @@ export const StoryVideoUnsupported = Template.bind({});
 StoryVideoUnsupported.args = {
   toast: {
     toastType: ToastType.StoryVideoUnsupported,
+  },
+};
+
+export const TapToViewExpiredIncoming = Template.bind({});
+TapToViewExpiredIncoming.args = {
+  toast: {
+    toastType: ToastType.TapToViewExpiredIncoming,
+  },
+};
+
+export const TapToViewExpiredOutgoing = Template.bind({});
+TapToViewExpiredOutgoing.args = {
+  toast: {
+    toastType: ToastType.TapToViewExpiredOutgoing,
   },
 };
 

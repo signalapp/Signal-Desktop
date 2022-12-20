@@ -54,7 +54,6 @@ const MESSAGE_DEFAULT_PROPS = {
   isMessageRequestAccepted: true,
   kickOffAttachmentDownload: shouldNeverBeCalled,
   markAttachmentAsCorrupted: shouldNeverBeCalled,
-  markViewed: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
   openGiftBadge: shouldNeverBeCalled,
   openLink: shouldNeverBeCalled,

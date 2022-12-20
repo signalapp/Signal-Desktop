@@ -19,11 +19,8 @@ import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
 import type { PropsActions as MessageActionsType } from './TimelineMessage';
-import type { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
 import type { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
-import type { PropsActionsType as GroupV2ChangeActionsType } from './GroupV2Change';
 import { ErrorBoundary } from './ErrorBoundary';
-import type { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
@@ -47,6 +44,8 @@ import {
 } from '../../util/scrollUtil';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { MINUTE } from '../../util/durations';
+import type { PropsActionsType as DeliveryIssueNotificationActionsType } from './DeliveryIssueNotification';
+import type { PropsActionsType as GroupV2ChangeActionsType } from './GroupV2Change';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -125,7 +124,7 @@ type PropsHousekeepingType = {
   theme: ThemeType;
 
   renderItem: (props: {
-    actionProps: PropsActionsType;
+    actionProps: PropsActionsFromBackboneForChildrenType;
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
@@ -146,41 +145,47 @@ type PropsHousekeepingType = {
   ) => JSX.Element;
 };
 
+export type PropsActionsFromBackboneForChildrenType = Pick<
+  MessageActionsType,
+  'scrollToQuotedMessage' | 'showMessageDetail' | 'startConversation'
+> &
+  ChatSessionRefreshedNotificationActionsType &
+  DeliveryIssueNotificationActionsType &
+  GroupV2ChangeActionsType;
+
 export type PropsActionsType = {
+  // From Backbone
   acknowledgeGroupMemberNameCollisions: (
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
+  loadOlderMessages: (messageId: string) => unknown;
+  loadNewerMessages: (messageId: string) => unknown;
+  loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
+  markMessageRead: (messageId: string) => unknown;
+  removeMember: (conversationId: string) => unknown;
+  unblurAvatar: () => void;
+  updateSharedGroups: () => unknown;
+
+  // From Redux
+  acceptConversation: (conversationId: string) => unknown;
+  blockConversation: (conversationId: string) => unknown;
+  blockAndReportSpam: (conversationId: string) => unknown;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
+  clearSelectedMessage: () => unknown;
   closeContactSpoofingReview: () => void;
+  deleteConversation: (conversationId: string) => unknown;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
+  peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
+  peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   reviewGroupMemberNameCollision: (groupConversationId: string) => void;
   reviewMessageRequestNameCollision: (
     _: Readonly<{
       safeConversationId: string;
     }>
   ) => void;
-
-  learnMoreAboutDeliveryIssue: () => unknown;
-  loadOlderMessages: (messageId: string) => unknown;
-  loadNewerMessages: (messageId: string) => unknown;
-  loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
-  markMessageRead: (messageId: string) => unknown;
-  blockConversation: (conversationId: string) => unknown;
-  blockAndReportSpam: (conversationId: string) => unknown;
-  deleteConversation: (conversationId: string) => unknown;
-  acceptConversation: (conversationId: string) => unknown;
-  peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
-  peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
-  removeMember: (conversationId: string) => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
-  clearSelectedMessage: () => unknown;
-  unblurAvatar: () => void;
-  updateSharedGroups: () => unknown;
-} & MessageActionsType &
-  SafetyNumberActionsType &
-  UnsupportedMessageActionsType &
-  GroupV2ChangeActionsType &
-  ChatSessionRefreshedNotificationActionsType;
+  showContactModal: (contactId: string, conversationId?: string) => void;
+} & PropsActionsFromBackboneForChildrenType;
 
 export type PropsType = PropsDataType &
   PropsHousekeepingType &
@@ -209,69 +214,29 @@ const getActions = createSelector(
   // use `createSelector` to memoize them by the last seen `props` object.
   (props: PropsType) => props,
 
-  (props: PropsType): PropsActionsType => {
+  (props: PropsType): PropsActionsFromBackboneForChildrenType => {
+    // Note: Because TimelineItem is smart, we only need to include action creators here
+    //   which are passed in from backbone and not available via mapDispatchToProps
     const unsafe = pick(props, [
-      'acknowledgeGroupMemberNameCollisions',
-      'blockGroupLinkRequests',
-      'clearInvitedUuidsForNewlyCreatedGroup',
-      'closeContactSpoofingReview',
-      'setIsNearBottom',
-      'reviewGroupMemberNameCollision',
-      'reviewMessageRequestNameCollision',
-      'learnMoreAboutDeliveryIssue',
-      'loadOlderMessages',
-      'loadNewerMessages',
-      'loadNewestMessages',
-      'markMessageRead',
-      'markViewed',
-      'acceptConversation',
-      'blockAndReportSpam',
-      'blockConversation',
-      'deleteConversation',
-      'peekGroupCallForTheFirstTime',
-      'peekGroupCallIfItHasMembers',
-      'removeMember',
-      'selectMessage',
-      'clearSelectedMessage',
-      'unblurAvatar',
-      'updateSharedGroups',
-
-      'doubleCheckMissingQuoteReference',
-      'checkForAccount',
-      'reactToMessage',
-      'retryDeleteForEveryone',
-      'retrySend',
-      'toggleForwardMessageModal',
-      'deleteMessage',
-      'deleteMessageForEveryone',
-      'showConversation',
-      'showMessageDetail',
-      'openGiftBadge',
-      'setQuoteByMessageId',
-      'showContactModal',
-      'kickOffAttachmentDownload',
-      'markAttachmentAsCorrupted',
-      'messageExpanded',
-      'saveAttachment',
-      'showLightbox',
-      'showLightboxForViewOnceMedia',
-      'openLink',
-      'pushPanelForConversation',
+      // MessageActionsType
       'scrollToQuotedMessage',
-      'showExpiredIncomingTapToViewToast',
-      'showExpiredOutgoingTapToViewToast',
+      'showMessageDetail',
       'startConversation',
 
-      'toggleSafetyNumberModal',
-
-      'downloadNewVersion',
-
+      // ChatSessionRefreshedNotificationActionsType
       'contactSupport',
 
-      'viewStory',
+      // DeliveryIssueNotificationActionsType
+      'learnMoreAboutDeliveryIssue',
+
+      // GroupV2ChangeActionsType
+      'blockGroupLinkRequests',
     ]);
 
-    const safe: AssertProps<PropsActionsType, typeof unsafe> = unsafe;
+    const safe: AssertProps<
+      PropsActionsFromBackboneForChildrenType,
+      typeof unsafe
+    > = unsafe;
 
     return safe;
   }

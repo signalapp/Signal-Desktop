@@ -12,7 +12,7 @@ import { SmartMessageDetail } from '../smart/MessageDetail';
 
 export const createMessageDetail = (
   store: Store,
-  props: Omit<OwnProps, 'markViewed'>
+  props: OwnProps
 ): ReactElement => (
   <Provider store={store}>
     <SmartMessageDetail {...props} />

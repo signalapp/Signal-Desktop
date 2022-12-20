@@ -91,6 +91,7 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { Emojify } from './Emojify';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 const GUESS_METADATA_WIDTH_TIMESTAMP_SIZE = 16;
 const GUESS_METADATA_WIDTH_EXPIRE_TIMER_SIZE = 18;
@@ -317,7 +318,6 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
-  markViewed(messageId: string): void;
   saveAttachment: SaveAttachmentActionCreatorType;
   showLightbox: (options: {
     attachment: AttachmentType;
@@ -325,7 +325,6 @@ export type PropsActions = {
   }) => void;
   showLightboxForViewOnceMedia: (messageId: string) => unknown;
 
-  openLink: (url: string) => void;
   scrollToQuotedMessage: (options: {
     authorId: string;
     sentAt: number;
@@ -1072,7 +1071,6 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       kickOffAttachmentDownload,
-      openLink,
       previews,
       quote,
       shouldCollapseAbove,
@@ -1123,7 +1121,7 @@ export class Message extends React.PureComponent<Props, State> {
             });
             return;
           }
-          openLink(first.url);
+          openLinkInWebBrowser(first.url);
         }
       : noop;
     const contents = (
@@ -1208,14 +1206,14 @@ export class Message extends React.PureComponent<Props, State> {
             event.stopPropagation();
             event.preventDefault();
 
-            openLink(first.url);
+            openLinkInWebBrowser(first.url);
           }
         }}
         onClick={(event: React.MouseEvent) => {
           event.stopPropagation();
           event.preventDefault();
 
-          openLink(first.url);
+          openLinkInWebBrowser(first.url);
         }}
       >
         {contents}
@@ -2277,15 +2275,8 @@ export class Message extends React.PureComponent<Props, State> {
         return;
       }
 
-      if (attachments && !isDownloaded(attachments[0])) {
-        event.preventDefault();
-        event.stopPropagation();
-        kickOffAttachmentDownload({
-          attachment: attachments[0],
-          messageId: id,
-        });
-        return;
-      }
+      event.preventDefault();
+      event.stopPropagation();
 
       if (isTapToViewExpired) {
         const action =
@@ -2293,12 +2284,20 @@ export class Message extends React.PureComponent<Props, State> {
             ? showExpiredOutgoingTapToViewToast
             : showExpiredIncomingTapToViewToast;
         action();
-      } else {
-        event.preventDefault();
-        event.stopPropagation();
 
-        showLightboxForViewOnceMedia(id);
+        return;
       }
+
+      if (attachments && !isDownloaded(attachments[0])) {
+        kickOffAttachmentDownload({
+          attachment: attachments[0],
+          messageId: id,
+        });
+
+        return;
+      }
+
+      showLightboxForViewOnceMedia(id);
 
       return;
     }

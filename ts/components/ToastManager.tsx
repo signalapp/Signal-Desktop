@@ -60,6 +60,22 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.CannotOpenGiftBadgeIncoming) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('message--giftBadge--unopened--toast--incoming')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CannotOpenGiftBadgeOutgoing) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('message--giftBadge--unopened--toast--outgoing')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotStartGroupCall) {
     return (
       <Toast onClose={hideToast}>
@@ -173,6 +189,10 @@ export function ToastManager({
     return <Toast onClose={hideToast}>{i18n('pinnedConversationsFull')}</Toast>;
   }
 
+  if (toastType === ToastType.ReactionFailed) {
+    return <Toast onClose={hideToast}>{i18n('Reactions--error')}</Toast>;
+  }
+
   if (toastType === ToastType.StoryMuted) {
     return (
       <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
@@ -217,6 +237,22 @@ export function ToastManager({
     return (
       <Toast onClose={hideToast}>
         {i18n('StoryCreator__error--video-unsupported')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.TapToViewExpiredIncoming) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('Message--tap-to-view--incoming--expired-toast')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.TapToViewExpiredOutgoing) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('Message--tap-to-view--outgoing--expired-toast')}
       </Toast>
     );
   }

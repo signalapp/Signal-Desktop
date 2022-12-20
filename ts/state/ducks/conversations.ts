@@ -90,7 +90,10 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
-import { conversationJobQueue } from '../../jobs/conversationJobQueue';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../../jobs/conversationJobQueue';
 import type { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import {
   isDirectConversation,
@@ -121,6 +124,9 @@ import {
 } from '../../groups';
 import { getMessageById } from '../../messages/getMessageById';
 import type { PanelRenderType } from '../../types/Panels';
+import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue';
+import { isOlderThan } from '../../util/timestamp';
+import { DAY } from '../../util/durations';
 import { isNotNil } from '../../util/isNotNil';
 
 // State
@@ -893,14 +899,17 @@ export const actions = {
   generateNewGroupLink,
   getProfilesForConversation,
   initiateMigrationToGroupV2,
+  kickOffAttachmentDownload,
   leaveGroup,
   loadRecentMediaItems,
+  markAttachmentAsCorrupted,
   messageChanged,
   messageDeleted,
   messageExpanded,
   messagesAdded,
   messagesReset,
   myProfileChanged,
+  openGiftBadge,
   popPanelForConversation,
   pushPanelForConversation,
   removeAllConversations,
@@ -910,6 +919,8 @@ export const actions = {
   repairOldestMessage,
   replaceAvatar,
   resetAllChatColors,
+  retryDeleteForEveryone,
+  retryMessageSend,
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   revokePendingMembershipsFromGroupV2,
@@ -938,6 +949,8 @@ export const actions = {
   showArchivedConversations,
   showChooseGroupMembers,
   showConversation,
+  showExpiredIncomingTapToViewToast,
+  showExpiredOutgoingTapToViewToast,
   showInbox,
   startComposing,
   startSettingGroupMetadata,
@@ -1558,6 +1571,136 @@ function resetAllChatColors(): ThunkAction<
         customColorData: undefined,
       },
     });
+  };
+}
+
+function kickOffAttachmentDownload(
+  options: Readonly<{ messageId: string }>
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const message = await getMessageById(options.messageId);
+    if (!message) {
+      throw new Error(
+        `kickOffAttachmentDownload: Message ${options.messageId} missing!`
+      );
+    }
+    await message.queueAttachmentDownloads();
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+type AttachmentOptions = {
+  messageId: string;
+  attachment: AttachmentType;
+};
+
+function markAttachmentAsCorrupted(
+  options: AttachmentOptions
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const message = await getMessageById(options.messageId);
+    if (!message) {
+      throw new Error(
+        `markAttachmentAsCorrupted: Message ${options.messageId} missing!`
+      );
+    }
+    message.markAttachmentAsCorrupted(options.attachment);
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function openGiftBadge(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async dispatch => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`openGiftBadge: Message ${messageId} missing!`);
+    }
+
+    dispatch({
+      type: SHOW_TOAST,
+      payload: {
+        toastType: isIncoming(message.attributes)
+          ? ToastType.CannotOpenGiftBadgeIncoming
+          : ToastType.CannotOpenGiftBadgeOutgoing,
+      },
+    });
+  };
+}
+
+function retryMessageSend(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`retryMessageSend: Message ${messageId} missing!`);
+    }
+    await message.retrySend();
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+export function retryDeleteForEveryone(
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`retryDeleteForEveryone: Message ${messageId} missing!`);
+    }
+
+    if (isOlderThan(message.get('sent_at'), DAY)) {
+      throw new Error(
+        'retryDeleteForEveryone: Message too old to retry delete for everyone!'
+      );
+    }
+
+    try {
+      const conversation = message.getConversation();
+      if (!conversation) {
+        throw new Error(
+          `retryDeleteForEveryone: Conversation for ${messageId} missing!`
+        );
+      }
+
+      const jobData: ConversationQueueJobData = {
+        type: conversationQueueJobEnum.enum.DeleteForEveryone,
+        conversationId: conversation.id,
+        messageId,
+        recipients: conversation.getRecipients(),
+        revision: conversation.get('revision'),
+        targetTimestamp: message.get('sent_at'),
+      };
+
+      log.info(
+        `retryDeleteForEveryone: Adding job for message ${message.idForLogging()}!`
+      );
+      await conversationJobQueue.add(jobData);
+
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    } catch (error) {
+      log.error(
+        'retryDeleteForEveryone: Failed to queue delete for everyone',
+        Errors.toLogFormat(error)
+      );
+    }
   };
 }
 
@@ -2987,6 +3130,27 @@ function updateConversationModelSharedGroups(
       type: 'NOOP',
       payload: null,
     });
+  };
+}
+
+function showExpiredIncomingTapToViewToast(): ShowToastActionType {
+  log.info(
+    'showExpiredIncomingTapToViewToastShowing expired tap-to-view toast for an incoming message'
+  );
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.TapToViewExpiredIncoming,
+    },
+  };
+}
+function showExpiredOutgoingTapToViewToast(): ShowToastActionType {
+  log.info('Showing expired tap-to-view toast for an outgoing message');
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.TapToViewExpiredOutgoing,
+    },
   };
 }
 

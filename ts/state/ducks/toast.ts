@@ -8,6 +8,7 @@ import type { NoopActionType } from './noop';
 import type { ReplacementValuesType } from '../../types/Util';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import type { ToastType } from '../../types/Toast';
+
 // State
 
 export type ToastStateType = {

@@ -27,7 +27,7 @@ export type PropsType = {
   onForward: (storyId: string) => unknown;
   onSave: (story: StoryViewType) => unknown;
   queueStoryDownload: (storyId: string) => unknown;
-  retrySend: (messageId: string) => unknown;
+  retryMessageSend: (messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
   hasViewReceiptSetting: boolean;
 };
@@ -40,7 +40,7 @@ export function MyStories({
   onForward,
   onSave,
   queueStoryDownload,
-  retrySend,
+  retryMessageSend,
   viewStory,
   hasViewReceiptSetting,
 }: PropsType): JSX.Element {
@@ -95,7 +95,7 @@ export function MyStories({
                 onForward={onForward}
                 onSave={onSave}
                 queueStoryDownload={queueStoryDownload}
-                retrySend={retrySend}
+                retryMessageSend={retryMessageSend}
                 setConfirmDeleteStory={setConfirmDeleteStory}
                 story={story}
                 viewStory={viewStory}
@@ -120,7 +120,7 @@ type StorySentPropsType = Pick<
   | 'onForward'
   | 'onSave'
   | 'queueStoryDownload'
-  | 'retrySend'
+  | 'retryMessageSend'
   | 'viewStory'
 > & {
   setConfirmDeleteStory: (_: StoryViewType | undefined) => unknown;
@@ -133,7 +133,7 @@ function StorySent({
   onForward,
   onSave,
   queueStoryDownload,
-  retrySend,
+  retryMessageSend,
   setConfirmDeleteStory,
   story,
   viewStory,
@@ -155,7 +155,7 @@ function StorySent({
               sendStatus === ResolvedSendStatus.PartiallySent)
           ) {
             setWasManuallyRetried(true);
-            retrySend(story.messageId);
+            retryMessageSend(story.messageId);
             return;
           }
 

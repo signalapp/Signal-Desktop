@@ -67,6 +67,7 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { getMessageById } from '../../messages/getMessageById';
 import { canReply } from '../selectors/message';
 import { getConversationSelector } from '../selectors/conversations';
+import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
@@ -143,6 +144,7 @@ export const actions = {
   addPendingAttachment,
   onEditorStateChange,
   processAttachments,
+  reactToMessage,
   removeAttachment,
   replaceAttachments,
   resetComposer,
@@ -807,6 +809,44 @@ function replaceAttachments(
       type: REPLACE_ATTACHMENTS,
       payload: attachments.map(resolveDraftAttachmentOnDisk),
     });
+  };
+}
+
+function reactToMessage(
+  messageId: string,
+  reaction: { emoji: string; remove: boolean }
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  NoopActionType | ShowToastActionType
+> {
+  return async dispatch => {
+    const { emoji, remove } = reaction;
+    try {
+      await enqueueReactionForSend({
+        messageId,
+        emoji,
+        remove,
+      });
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
+    } catch (error) {
+      log.error(
+        'reactToMessage: Error sending reaction',
+        error,
+        messageId,
+        reaction
+      );
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.ReactionFailed,
+        },
+      });
+    }
   };
 }
 

@@ -26,10 +26,7 @@ import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberN
 import { ChangeNumberNotification } from './ChangeNumberNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
-import type {
-  PropsActions as UnsupportedMessageActionsType,
-  PropsData as UnsupportedMessageProps,
-} from './UnsupportedMessage';
+import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
 import { UnsupportedMessage } from './UnsupportedMessage';
 import type { PropsData as TimerNotificationProps } from './TimerNotification';
 import { TimerNotification } from './TimerNotification';
@@ -177,7 +174,6 @@ type PropsActionsType = MessageActionsType &
   DeliveryIssueActionProps &
   GroupV2ChangeActionsType &
   PropsChatSessionRefreshedActionsType &
-  UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
 export type PropsType = PropsLocalType &

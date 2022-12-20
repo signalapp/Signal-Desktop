@@ -56,7 +56,7 @@ export default {
     },
     queueStoryDownload: { action: true },
     renderEmojiPicker: { action: true },
-    retrySend: { action: true },
+    retryMessageSend: { action: true },
     showToast: { action: true },
     skinTone: {
       defaultValue: 0,

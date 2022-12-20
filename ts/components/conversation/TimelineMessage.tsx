@@ -49,7 +49,7 @@ export type PropsActions = {
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
   ) => void;
-  retrySend: (id: string) => void;
+  retryMessageSend: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
 } & MessagePropsActions;
@@ -99,7 +99,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     setQuoteByMessageId,
     renderReactionPicker,
     renderEmojiPicker,
-    retrySend,
+    retryMessageSend,
     retryDeleteForEveryone,
     selectedReaction,
     toggleForwardMessageModal,
@@ -395,7 +395,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         onDownload={handleDownload}
         onReplyToMessage={handleReplyToMessage}
         onReact={handleReact}
-        onRetrySend={canRetry ? () => retrySend(id) : undefined}
+        onRetryMessageSend={canRetry ? () => retryMessageSend(id) : undefined}
         onRetryDeleteForEveryone={
           canRetryDeleteForEveryone
             ? () => retryDeleteForEveryone(id)
@@ -575,7 +575,7 @@ type MessageContextProps = {
   onDownload: (() => void) | undefined;
   onReplyToMessage: (() => void) | undefined;
   onReact: (() => void) | undefined;
-  onRetrySend: (() => void) | undefined;
+  onRetryMessageSend: (() => void) | undefined;
   onRetryDeleteForEveryone: (() => void) | undefined;
   onForward: (() => void) | undefined;
   onDeleteForMe: () => void;
@@ -591,7 +591,7 @@ const MessageContextMenu = ({
   onReplyToMessage,
   onReact,
   onMoreInfo,
-  onRetrySend,
+  onRetryMessageSend,
   onRetryDeleteForEveryone,
   onForward,
   onDeleteForMe,
@@ -660,7 +660,7 @@ const MessageContextMenu = ({
       >
         {i18n('moreInfo')}
       </MenuItem>
-      {onRetrySend && (
+      {onRetryMessageSend && (
         <MenuItem
           attributes={{
             className:
@@ -670,7 +670,7 @@ const MessageContextMenu = ({
             event.stopPropagation();
             event.preventDefault();
 
-            onRetrySend();
+            onRetryMessageSend();
           }}
         >
           {i18n('retrySend')}

@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { boolean, text } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -26,7 +25,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   canProcessNow: boolean('canProcessNow', overrideProps.canProcessNow || false),
   contact: overrideProps.contact || ({} as ContactType),
-  downloadNewVersion: action('downloadNewVersion'),
 });
 
 export function FromSomeone(): JSX.Element {

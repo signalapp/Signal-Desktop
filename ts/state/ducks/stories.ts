@@ -24,7 +24,6 @@ import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
-import { ToastReactionFailed } from '../../components/ToastReactionFailed';
 import { assertDev } from '../../util/assert';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
@@ -35,7 +34,6 @@ import { markOnboardingStoryAsRead } from '../../util/markOnboardingStoryAsRead'
 import { markViewed } from '../../services/MessageUpdater';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { replaceIndex } from '../../util/replaceIndex';
-import { showToast } from '../../util/showToast';
 import type { DurationInSeconds } from '../../util/durations';
 import { hasFailed, isDownloaded, isDownloading } from '../../types/Attachment';
 import {
@@ -57,6 +55,9 @@ import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/v
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { getOwn } from '../../util/getOwn';
+import { SHOW_TOAST } from './toast';
+import { ToastType } from '../../types/Toast';
+import type { ShowToastActionType } from './toast';
 
 export type StoryDataType = {
   attachment?: AttachmentType;
@@ -492,7 +493,12 @@ function queueStoryDownload(
 function reactToStory(
   nextReaction: string,
   messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowToastActionType | NoopActionType
+> {
   return async dispatch => {
     try {
       await enqueueReactionForSend({
@@ -500,15 +506,19 @@ function reactToStory(
         emoji: nextReaction,
         remove: false,
       });
+      dispatch({
+        type: 'NOOP',
+        payload: null,
+      });
     } catch (error) {
       log.error('Error enqueuing reaction', error, messageId, nextReaction);
-      showToast(ToastReactionFailed);
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.ReactionFailed,
+        },
+      });
     }
-
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
   };
 }
 

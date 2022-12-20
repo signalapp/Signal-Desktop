@@ -278,23 +278,22 @@ const actions = () => ({
   reactToMessage: action('reactToMessage'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
-  retrySend: action('retrySend'),
+  retryMessageSend: action('retryMessageSend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
   showMessageDetail: action('showMessageDetail'),
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),
+  showContactDetail: action('showContactDetail'),
   showContactModal: action('showContactModal'),
   showConversation: action('showConversation'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
-  markViewed: action('markViewed'),
   messageExpanded: action('messageExpanded'),
   showLightbox: action('showLightbox'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
-  openLink: action('openLink'),
   openGiftBadge: action('openGiftBadge'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showExpiredIncomingTapToViewToast: action(
@@ -306,8 +305,6 @@ const actions = () => ({
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-
-  downloadNewVersion: action('downloadNewVersion'),
 
   startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),

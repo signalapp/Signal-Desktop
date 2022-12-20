@@ -68,7 +68,6 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-  markViewed: (messageId: string) => void;
 } & Pick<
   MessagePropsType,
   | 'getPreferredBadge'
@@ -79,14 +78,7 @@ export type PropsData = {
 
 export type PropsBackboneActions = Pick<
   MessagePropsType,
-  | 'kickOffAttachmentDownload'
-  | 'markAttachmentAsCorrupted'
-  | 'openGiftBadge'
-  | 'openLink'
-  | 'renderAudioAttachment'
-  | 'showExpiredIncomingTapToViewToast'
-  | 'showExpiredOutgoingTapToViewToast'
-  | 'startConversation'
+  'renderAudioAttachment' | 'startConversation'
 >;
 
 export type PropsReduxActions = Pick<
@@ -94,10 +86,15 @@ export type PropsReduxActions = Pick<
   | 'checkForAccount'
   | 'clearSelectedMessage'
   | 'doubleCheckMissingQuoteReference'
+  | 'kickOffAttachmentDownload'
+  | 'markAttachmentAsCorrupted'
+  | 'openGiftBadge'
   | 'pushPanelForConversation'
   | 'saveAttachment'
   | 'showContactModal'
   | 'showConversation'
+  | 'showExpiredIncomingTapToViewToast'
+  | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
   | 'viewStory'
@@ -289,9 +286,7 @@ export class MessageDetail extends React.Component<Props> {
       interactionMode,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
-      markViewed,
       openGiftBadge,
-      openLink,
       pushPanelForConversation,
       renderAudioAttachment,
       saveAttachment,
@@ -334,11 +329,9 @@ export class MessageDetail extends React.Component<Props> {
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-            markViewed={markViewed}
             messageExpanded={noop}
             showConversation={showConversation}
             openGiftBadge={openGiftBadge}
-            openLink={openLink}
             pushPanelForConversation={pushPanelForConversation}
             renderAudioAttachment={renderAudioAttachment}
             saveAttachment={saveAttachment}

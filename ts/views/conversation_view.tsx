@@ -16,10 +16,8 @@ import type { MediaItemType } from '../types/MediaItem';
 import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
-import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { isIncoming } from '../state/selectors/message';
 import { getActiveCallState } from '../state/selectors/calling';
 import { ReactWrapperView } from './ReactWrapperView';
 import * as log from '../logging/log';
@@ -29,17 +27,11 @@ import { ToastConversationMarkedUnread } from '../components/ToastConversationMa
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
-import { ToastReactionFailed } from '../components/ToastReactionFailed';
-import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
-import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
-import { ToastCannotOpenGiftBadge } from '../components/ToastCannotOpenGiftBadge';
-import { retryMessageSend } from '../util/retryMessageSend';
 import { isNotNil } from '../util/isNotNil';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 import { showToast } from '../util/showToast';
 import { UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
-import { retryDeleteForEveryone } from '../util/retryDeleteForEveryone';
 import { MediaGallery } from '../components/conversation/media-gallery/MediaGallery';
 import type { ItemClickEvent } from '../components/conversation/media-gallery/types/ItemClickEvent';
 import {
@@ -53,11 +45,6 @@ import { clearConversationDraftAttachments } from '../util/clearConversationDraf
 import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
 import { PanelType, isPanelHandledByReact } from '../types/Panels';
 
-type AttachmentOptions = {
-  messageId: string;
-  attachment: AttachmentType;
-};
-
 const { Message } = window.Signal.Types;
 
 type BackbonePanelType = { panelType: PanelType; view: Backbone.View };
@@ -68,21 +55,6 @@ const { getAbsoluteAttachmentPath, upgradeMessageSchema } =
 const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
-  downloadNewVersion: () => unknown;
-  kickOffAttachmentDownload: (
-    options: Readonly<{ messageId: string }>
-  ) => unknown;
-  markAttachmentAsCorrupted: (options: AttachmentOptions) => unknown;
-  openGiftBadge: (messageId: string) => unknown;
-  openLink: (url: string) => unknown;
-  reactToMessage: (
-    messageId: string,
-    reaction: { emoji: string; remove: boolean }
-  ) => unknown;
-  retrySend: (messageId: string) => unknown;
-  retryDeleteForEveryone: (messageId: string) => unknown;
-  showExpiredIncomingTapToViewToast: () => unknown;
-  showExpiredOutgoingTapToViewToast: () => unknown;
   showMessageDetail: (messageId: string) => unknown;
   startConversation: (e164: string, uuid: UUIDStringType) => unknown;
 };
@@ -372,82 +344,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   getMessageActions(): MessageActionsType {
-    const reactToMessage = async (
-      messageId: string,
-      reaction: { emoji: string; remove: boolean }
-    ) => {
-      const { emoji, remove } = reaction;
-      try {
-        await enqueueReactionForSend({
-          messageId,
-          emoji,
-          remove,
-        });
-      } catch (error) {
-        log.error('Error sending reaction', error, messageId, reaction);
-        showToast(ToastReactionFailed);
-      }
-    };
-    const retrySend = retryMessageSend;
     const showMessageDetail = (messageId: string) => {
       this.showMessageDetail(messageId);
     };
-    const kickOffAttachmentDownload = async (
-      options: Readonly<{ messageId: string }>
-    ) => {
-      const message = window.MessageController.getById(options.messageId);
-      if (!message) {
-        throw new Error(
-          `kickOffAttachmentDownload: Message ${options.messageId} missing!`
-        );
-      }
-      await message.queueAttachmentDownloads();
-    };
-    const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
-      const message = window.MessageController.getById(options.messageId);
-      if (!message) {
-        throw new Error(
-          `markAttachmentAsCorrupted: Message ${options.messageId} missing!`
-        );
-      }
-      message.markAttachmentAsCorrupted(options.attachment);
-    };
-
-    const openGiftBadge = (messageId: string): void => {
-      const message = window.MessageController.getById(messageId);
-      if (!message) {
-        throw new Error(`openGiftBadge: Message ${messageId} missing!`);
-      }
-
-      showToast(ToastCannotOpenGiftBadge, {
-        isIncoming: isIncoming(message.attributes),
-      });
-    };
-
-    const openLink = openLinkInWebBrowser;
-    const downloadNewVersion = () => {
-      openLinkInWebBrowser('https://signal.org/download');
-    };
-    const showExpiredIncomingTapToViewToast = () => {
-      log.info('Showing expired tap-to-view toast for an incoming message');
-      showToast(ToastTapToViewExpiredIncoming);
-    };
-    const showExpiredOutgoingTapToViewToast = () => {
-      log.info('Showing expired tap-to-view toast for an outgoing message');
-      showToast(ToastTapToViewExpiredOutgoing);
-    };
 
     return {
-      downloadNewVersion,
-      kickOffAttachmentDownload,
-      markAttachmentAsCorrupted,
-      openGiftBadge,
-      openLink,
-      reactToMessage,
-      retrySend,
-      retryDeleteForEveryone,
-      showExpiredIncomingTapToViewToast,
-      showExpiredOutgoingTapToViewToast,
       showMessageDetail,
       startConversation,
     };

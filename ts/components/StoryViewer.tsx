@@ -101,7 +101,7 @@ export type PropsType = {
   recentEmojis?: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
-  retrySend: (messageId: string) => unknown;
+  retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
   showToast: ShowToastActionCreatorType;
@@ -153,7 +153,7 @@ export function StoryViewer({
   recentEmojis,
   renderEmojiPicker,
   replyState,
-  retrySend,
+  retryMessageSend,
   saveAttachment,
   setHasAllStoriesUnmuted,
   showToast,
@@ -555,7 +555,7 @@ export function StoryViewer({
     ];
   }
 
-  function doRetrySend() {
+  function doRetryMessageSend() {
     if (wasManuallyRetried) {
       return;
     }
@@ -568,7 +568,7 @@ export function StoryViewer({
     }
 
     setWasManuallyRetried(true);
-    retrySend(messageId);
+    retryMessageSend(messageId);
   }
 
   return (
@@ -800,7 +800,7 @@ export function StoryViewer({
               {sendStatus === ResolvedSendStatus.Failed && !wasManuallyRetried && (
                 <button
                   className="StoryViewer__actions__failed"
-                  onClick={doRetrySend}
+                  onClick={doRetryMessageSend}
                   type="button"
                 >
                   {i18n('StoryViewer__failed')}
@@ -810,7 +810,7 @@ export function StoryViewer({
                 !wasManuallyRetried && (
                   <button
                     className="StoryViewer__actions__failed"
-                    onClick={doRetrySend}
+                    onClick={doRetryMessageSend}
                     type="button"
                   >
                     {i18n('StoryViewer__partial-fail')}

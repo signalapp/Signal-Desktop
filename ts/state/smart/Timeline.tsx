@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 
 import { mapDispatchToProps } from '../actions';
 import type {
-  PropsActionsType as TimelineActionsType,
   ContactSpoofingReviewPropType,
   WarningType as TimelineWarningType,
   PropsType as ComponentPropsType,
+  PropsActionsFromBackboneForChildrenType,
 } from '../../components/conversation/Timeline';
 import { Timeline } from '../../components/conversation/Timeline';
 import type { StateType } from '../reducer';
@@ -62,30 +62,31 @@ type ExternalProps = {
 export type TimelinePropsType = ExternalProps &
   Pick<
     ComponentPropsType,
+    // All of these are the ones we need from backbone
+
+    // Used by Timeline itself
     | 'acknowledgeGroupMemberNameCollisions'
-    | 'contactSupport'
-    | 'blockGroupLinkRequests'
-    | 'downloadNewVersion'
-    | 'kickOffAttachmentDownload'
-    | 'learnMoreAboutDeliveryIssue'
+    | 'loadOlderMessages'
     | 'loadNewerMessages'
     | 'loadNewestMessages'
-    | 'loadOlderMessages'
-    | 'markAttachmentAsCorrupted'
     | 'markMessageRead'
-    | 'openGiftBadge'
-    | 'openLink'
-    | 'reactToMessage'
     | 'removeMember'
-    | 'retryDeleteForEveryone'
-    | 'retrySend'
-    | 'scrollToQuotedMessage'
-    | 'showExpiredIncomingTapToViewToast'
-    | 'showExpiredOutgoingTapToViewToast'
-    | 'showMessageDetail'
-    | 'startConversation'
     | 'unblurAvatar'
     | 'updateSharedGroups'
+
+    // MessageActionsType
+    | 'scrollToQuotedMessage'
+    | 'showMessageDetail'
+    | 'startConversation'
+
+    // ChatSessionRefreshedNotificationActionsType
+    | 'contactSupport'
+
+    // DeliveryIssueNotificationActionsType
+    | 'learnMoreAboutDeliveryIssue'
+
+    // GroupV2ChangeActionsType
+    | 'blockGroupLinkRequests'
   >;
 
 function renderItem({
@@ -99,7 +100,7 @@ function renderItem({
   previousMessageId,
   unreadIndicatorPlacement,
 }: {
-  actionProps: TimelineActionsType;
+  actionProps: PropsActionsFromBackboneForChildrenType;
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
@@ -269,7 +270,7 @@ const getContactSpoofingReview = (
   }
 };
 
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
+const mapStateToProps = (state: StateType, props: TimelinePropsType) => {
   const { id, ...actions } = props;
 
   const conversation = getConversationSelector(state)(id);
