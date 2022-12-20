@@ -36,6 +36,7 @@ import { AttachmentList } from './conversation/AttachmentList';
 import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
+  isVideoAttachment,
 } from '../types/Attachment';
 import { isImageAttachment } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
@@ -50,6 +51,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
+import { ViewOnceSettingButton } from './ViewOnceSettingButton';
 import type { Props as QuoteProps } from './conversation/Quote';
 import { Quote } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -108,6 +110,7 @@ export type OwnProps = Readonly<{
     files: ReadonlyArray<File>;
   }) => unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
+  onViewOnceToggle(isVO: boolean): unknown;
   sendStickerMessage(
     id: string,
     opts: { packId: string; stickerId: number }
@@ -135,6 +138,7 @@ export type OwnProps = Readonly<{
     messageId: string | undefined
   ): unknown;
   shouldSendHighQualityAttachments: boolean;
+  shouldSendAsViewOnce: boolean;
   showConversation: ShowConversationType;
   startRecording: () => unknown;
   theme: ThemeType;
@@ -213,6 +217,9 @@ export function CompositionArea({
   // MediaQualitySelector
   onSelectMediaQuality,
   shouldSendHighQualityAttachments,
+  // ViewOnceSettingButton
+  onViewOnceToggle,
+  shouldSendAsViewOnce,
   // CompositionInput
   onEditorStateChange,
   onTextTooLong,
@@ -370,10 +377,20 @@ export function CompositionArea({
     setLarge(l => !l);
   }, [setLarge]);
 
-  const shouldShowMicrophone = !large && !draftAttachments.length && !draftText;
+  const shouldShowMicrophone = !large && !draftAttachments.length && !draftText && !shouldSendAsViewOnce;
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
+  /** Conditions for View-Once media:
+   *    - 1 Image OR 1 Video only (no file)
+   *    - Text field is empty
+   *  */ 
+  const showViewOnceToggle = 
+    draftAttachments
+    && (draftAttachments.some(isImageAttachment) || draftAttachments.some(isVideoAttachment))
+    && draftAttachments.length == 1
+    && !draftText;
+  
   const leftHandSideButtonsFragment = (
     <>
       <div className="CompositionArea__button-cell">
@@ -394,6 +411,15 @@ export function CompositionArea({
             i18n={i18n}
             isHighQuality={shouldSendHighQualityAttachments}
             onSelectQuality={onSelectMediaQuality}
+          />
+        </div>
+      ) : null}
+      {showViewOnceToggle ? (
+        <div className="CompositionArea__button-cell">
+          <ViewOnceSettingButton
+            i18n={i18n}
+            isViewOnceToggled={shouldSendAsViewOnce}
+            onViewOnceButtonToggle={onViewOnceToggle}
           />
         </div>
       ) : null}
@@ -424,7 +450,7 @@ export function CompositionArea({
 
   const isRecording = recordingState === RecordingState.Recording;
   const attButton =
-    linkPreviewResult || isRecording ? undefined : (
+    shouldSendAsViewOnce || linkPreviewResult || isRecording ? undefined : (
       <div className="CompositionArea__button-cell">
         <button
           type="button"
@@ -436,7 +462,9 @@ export function CompositionArea({
     );
 
   const sendButtonFragment = (
+    // The placeholder/padding should only be present in the "large" composition mode
     <>
+      {!shouldSendAsViewOnce ? <div className="CompositionArea__placeholder" /> : null}
       <div className="CompositionArea__placeholder" />
       <div className="CompositionArea__button-cell">
         <button
@@ -450,7 +478,7 @@ export function CompositionArea({
   );
 
   const stickerButtonPlacement = large ? 'top-start' : 'top-end';
-  const stickerButtonFragment = withStickers ? (
+  const stickerButtonFragment = !shouldSendAsViewOnce && withStickers ? (
     <div className="CompositionArea__button-cell">
       <StickerButton
         i18n={i18n}
@@ -635,7 +663,7 @@ export function CompositionArea({
         />
       )}
       <div className="CompositionArea__toggle-large">
-        <button
+        {!shouldSendAsViewOnce? <button
           type="button"
           className={classNames(
             'CompositionArea__toggle-large__button',
@@ -645,7 +673,7 @@ export function CompositionArea({
           tabIndex={-1}
           onClick={handleToggleLarge}
           aria-label={i18n('CompositionArea--expand')}
-        />
+        /> : null}
       </div>
       <div
         className={classNames(
@@ -653,7 +681,7 @@ export function CompositionArea({
           'CompositionArea__row--column'
         )}
       >
-        {quotedMessageId && quotedMessageProps && (
+        {!shouldSendAsViewOnce ? quotedMessageId && quotedMessageProps && (
           <div className="quote-wrapper">
             <Quote
               isCompose
@@ -665,7 +693,7 @@ export function CompositionArea({
               }}
             />
           </div>
-        )}
+        ) : null}
         {linkPreviewLoading && linkPreviewResult && (
           <div className="preview-wrapper">
             <StagedLinkPreview
@@ -680,6 +708,7 @@ export function CompositionArea({
             <AttachmentList
               attachments={draftAttachments}
               canEditImages
+              viewOnceAttachment={shouldSendAsViewOnce}
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
               onClickAttachment={maybeEditAttachment}
@@ -700,6 +729,7 @@ export function CompositionArea({
         )}
       >
         {!large ? leftHandSideButtonsFragment : null}
+        {!shouldSendAsViewOnce ?
         <div
           className={classNames(
             'CompositionArea__input',
@@ -711,7 +741,9 @@ export function CompositionArea({
             clearQuotedMessage={clearQuotedMessage}
             disabled={isDisabled}
             draftBodyRanges={draftBodyRanges}
-            draftText={draftText}
+            // All written text should get disabled if user chooses
+            // to send a View-once media
+            draftText={shouldSendAsViewOnce ? undefined : draftText}
             getPreferredBadge={getPreferredBadge}
             getQuotedMessage={getQuotedMessage}
             i18n={i18n}
@@ -727,11 +759,17 @@ export function CompositionArea({
             theme={theme}
           />
         </div>
+        : <div
+            className={classNames(
+              'CompositionArea__view-once'
+            )}>{i18n("sendViewOnceMedia")}</div>
+        }
         {!large ? (
           <>
             {stickerButtonFragment}
             {!dirty ? micButtonFragment : null}
             {attButton}
+            {shouldSendAsViewOnce ? sendButtonFragment : null}
           </>
         ) : null}
       </div>
