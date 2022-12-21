@@ -76,6 +76,9 @@ export function showToast(Toast: typeof ToastVoiceNoteLimit): void;
 export function showToast(
   Toast: typeof ToastVoiceNoteMustBeOnlyAttachment
 ): void;
+export function showToast(Toast: typeof ToastViewOnceAttachmentError): void;
+export function showToast(Toast: typeof ToastViewOnceTooManyAttachmentsError): void;
+export function showToast(Toast: typeof ToastViewOnceInvalidError): void;
 
 // eslint-disable-next-line max-len
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
