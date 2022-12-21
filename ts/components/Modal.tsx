@@ -81,6 +81,10 @@ export function Modal({
     };
   }, [modalName, isClosed]);
 
+  if (isClosed) {
+    return null;
+  }
+
   return (
     <ModalHost
       modalName={modalName}
