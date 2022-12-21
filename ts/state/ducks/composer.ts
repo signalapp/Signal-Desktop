@@ -91,6 +91,7 @@ const SET_FOCUS = 'composer/SET_FOCUS';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
 const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
+const SET_VIEW_ONCE_SETTING = 'composer/SET_VIEW_ONCE_SETTING';
 
 type AddPendingAttachmentActionType = {
   type: typeof ADD_PENDING_ATTACHMENT;
