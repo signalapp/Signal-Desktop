@@ -39,7 +39,6 @@ const commonProps = {
 
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
-  onSearchInConversation: action('onSearchInConversation'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -47,12 +46,12 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
-  onGoBack: action('onGoBack'),
-
   onArchive: action('onArchive'),
   onMarkUnread: action('onMarkUnread'),
   onMoveToInbox: action('onMoveToInbox'),
   pushPanelForConversation: action('pushPanelForConversation'),
+  popPanelForConversation: action('popPanelForConversation'),
+  searchInConversation: action('searchInConversation'),
   setMuteExpiration: action('onSetMuteNotifications'),
   setPinned: action('setPinned'),
   viewUserStories: action('viewUserStories'),

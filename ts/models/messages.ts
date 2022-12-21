@@ -42,10 +42,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { dropNull } from '../util/dropNull';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
-import type {
-  OwnProps as SmartMessageDetailPropsType,
-  Contact as SmartMessageDetailContact,
-} from '../state/smart/MessageDetail';
+import type { Contact as SmartMessageDetailContact } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
 import type {
   ProcessedDataMessage,
@@ -53,6 +50,7 @@ import type {
   ProcessedUnidentifiedDeliveryStatus,
   CallbackResultType,
 } from '../textsecure/Types.d';
+import type { Props as PropsForMessageDetails } from '../components/conversation/MessageDetail';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 import { getUserLanguages } from '../util/userLanguages';
@@ -186,7 +184,6 @@ import type { StickerWithHydratedData } from '../types/Stickers';
 import { getStringForConversationMerge } from '../util/getStringForConversationMerge';
 import { getStringForPhoneNumberDiscovery } from '../util/getStringForPhoneNumberDiscovery';
 import { getTitle, renderNumber } from '../util/getTitle';
-import { DurationInSeconds } from '../util/durations';
 import dataInterface from '../sql/Client';
 
 function isSameUuid(
@@ -265,15 +262,9 @@ async function shouldReplyNotifyUser(
 
 /* eslint-disable more/no-then */
 
-type PropsForMessageDetail = Pick<
-  SmartMessageDetailPropsType,
-  | 'sentAt'
-  | 'receivedAt'
-  | 'message'
-  | 'errors'
-  | 'contacts'
-  | 'expirationLength'
-  | 'expirationTimestamp'
+export type MinimalPropsForMessageDetails = Pick<
+  PropsForMessageDetails,
+  'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
 >;
 
 window.Whisper = window.Whisper || {};
@@ -482,7 +473,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
   }
 
-  getPropsForMessageDetail(ourConversationId: string): PropsForMessageDetail {
+  getPropsForMessageDetail(
+    ourConversationId: string
+  ): MinimalPropsForMessageDetails {
     const newIdentity = window.i18n('newIdentity');
     const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -578,21 +571,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         };
       });
 
-    const expireTimer = this.get('expireTimer');
-    const expirationStartTimestamp = this.get('expirationStartTimestamp');
-    const expirationLength = isNumber(expireTimer)
-      ? DurationInSeconds.toMillis(expireTimer)
-      : undefined;
-    const expirationTimestamp = expirationTimer.calculateExpirationTimestamp({
-      expireTimer,
-      expirationStartTimestamp,
-    });
-
     return {
       sentAt: this.get('sent_at'),
       receivedAt: this.getReceivedAt(),
-      expirationLength,
-      expirationTimestamp,
       message: getPropsForMessage(this.attributes, {
         conversationSelector: findAndFormatContact,
         ourConversationId,

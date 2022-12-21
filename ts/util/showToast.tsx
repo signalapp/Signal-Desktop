@@ -9,12 +9,6 @@ import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequ
 import type { ToastCaptchaFailed } from '../components/ToastCaptchaFailed';
 import type { ToastCaptchaSolved } from '../components/ToastCaptchaSolved';
 import type {
-  ToastConversationArchived,
-  ToastPropsType as ToastConversationArchivedPropsType,
-} from '../components/ToastConversationArchived';
-import type { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
-import type { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
-import type {
   ToastInternalError,
   ToastPropsType as ToastInternalErrorPropsType,
 } from '../components/ToastInternalError';
@@ -25,9 +19,7 @@ import type {
 import type { ToastGroupLinkCopied } from '../components/ToastGroupLinkCopied';
 import type { ToastLinkCopied } from '../components/ToastLinkCopied';
 import type { ToastLoadingFullLogs } from '../components/ToastLoadingFullLogs';
-import type { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
 
-import type { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import type { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 import type { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
 import type { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
@@ -36,12 +28,6 @@ export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
 export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
 export function showToast(Toast: typeof ToastCaptchaFailed): void;
 export function showToast(Toast: typeof ToastCaptchaSolved): void;
-export function showToast(
-  Toast: typeof ToastConversationArchived,
-  props: ToastConversationArchivedPropsType
-): void;
-export function showToast(Toast: typeof ToastConversationMarkedUnread): void;
-export function showToast(Toast: typeof ToastConversationUnarchived): void;
 export function showToast(
   Toast: typeof ToastInternalError,
   props: ToastInternalErrorPropsType
@@ -53,8 +39,6 @@ export function showToast(
 export function showToast(Toast: typeof ToastGroupLinkCopied): void;
 export function showToast(Toast: typeof ToastLinkCopied): void;
 export function showToast(Toast: typeof ToastLoadingFullLogs): void;
-export function showToast(Toast: typeof ToastMessageBodyTooLong): void;
-export function showToast(Toast: typeof ToastOriginalMessageNotFound): void;
 export function showToast(Toast: typeof ToastStickerPackInstallFailed): void;
 export function showToast(Toast: typeof ToastVoiceNoteLimit): void;
 export function showToast(

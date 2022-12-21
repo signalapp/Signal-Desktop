@@ -29,12 +29,6 @@ import { isSignalConversation } from '../../util/isSignalConversation';
 
 export type OwnProps = {
   id: string;
-
-  onArchive: () => void;
-  onGoBack: () => void;
-  onMarkUnread: () => void;
-  onMoveToInbox: () => void;
-  onSearchInConversation: () => void;
 };
 
 const getOutgoingCallButtonStyle = (

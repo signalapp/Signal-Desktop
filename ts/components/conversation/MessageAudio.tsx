@@ -16,6 +16,7 @@ import type { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
 import * as log from '../../logging/log';
 import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 
 export type OwnProps = Readonly<{
   active: ActiveAudioPlayerStateType | undefined;
@@ -34,7 +35,6 @@ export type OwnProps = Readonly<{
   id: string;
   conversationId: string;
   played: boolean;
-  showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
@@ -51,6 +51,7 @@ export type DispatchProps = Readonly<{
     position: number,
     isConsecutive: boolean
   ) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   setCurrentTime: (currentTime: number) => void;
   setPlaybackRate: (conversationId: string, rate: number) => void;
   setIsPlaying: (value: boolean) => void;
@@ -263,7 +264,6 @@ export function MessageAudio(props: Props): JSX.Element {
     expirationTimestamp,
     id,
     played,
-    showMessageDetail,
     status,
     textPending,
     timestamp,
@@ -273,6 +273,7 @@ export function MessageAudio(props: Props): JSX.Element {
     computePeaks,
     setPlaybackRate,
     loadAndPlayMessageAudio,
+    pushPanelForConversation,
     setCurrentTime,
     setIsPlaying,
   } = props;
@@ -591,6 +592,7 @@ export function MessageAudio(props: Props): JSX.Element {
 
       {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
+          conversationId={conversationId}
           direction={direction}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
@@ -600,7 +602,7 @@ export function MessageAudio(props: Props): JSX.Element {
           isShowingImage={false}
           isSticker={false}
           isTapToViewExpired={false}
-          showMessageDetail={showMessageDetail}
+          pushPanelForConversation={pushPanelForConversation}
           status={status}
           textPending={textPending}
           timestamp={timestamp}

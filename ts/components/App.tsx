@@ -41,6 +41,7 @@ type PropsType = {
   isMaximized: boolean;
   isFullScreen: boolean;
   menuOptions: MenuOptionsType;
+  onUndoArchive: (conversationId: string) => unknown;
   openFileInFolder: (target: string) => unknown;
   hasCustomTitleBar: boolean;
   hideMenuBar: boolean;
@@ -73,6 +74,7 @@ export function App({
   isShowingStoriesView,
   hasCustomTitleBar,
   menuOptions,
+  onUndoArchive,
   openInbox,
   openFileInFolder,
   registerSingleDevice,
@@ -183,6 +185,7 @@ export function App({
         <ToastManager
           hideToast={hideToast}
           i18n={i18n}
+          onUndoArchive={onUndoArchive}
           openFileInFolder={openFileInFolder}
           toast={toast}
         />

@@ -12,8 +12,9 @@ import enMessages from '../../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (): GroupV2PendingApprovalActionsPropsType => ({
+  cancelJoinRequest: action('cancelJoinRequest'),
+  conversationId: 'some-random-id',
   i18n,
-  onCancelJoinRequest: action('onCancelJoinRequest'),
 });
 
 export default {

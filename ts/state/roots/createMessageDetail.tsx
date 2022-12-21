@@ -7,12 +7,11 @@ import { Provider } from 'react-redux';
 
 import type { Store } from 'redux';
 
-import type { OwnProps } from '../smart/MessageDetail';
 import { SmartMessageDetail } from '../smart/MessageDetail';
 
 export const createMessageDetail = (
   store: Store,
-  props: OwnProps
+  props: Parameters<typeof SmartMessageDetail>[0]
 ): ReactElement => (
   <Provider store={store}>
     <SmartMessageDetail {...props} />

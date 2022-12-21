@@ -25,6 +25,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 export type PropsType = {
+  conversationId: string;
   acceptConversation: (conversationId: string) => unknown;
   blockAndReportSpam: (conversationId: string) => unknown;
   blockConversation: (conversationId: string) => unknown;
@@ -32,8 +33,11 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
-  onShowContactModal: (contactId: string, conversationId?: string) => unknown;
-  removeMember: (conversationId: string) => unknown;
+  showContactModal: (contactId: string, conversationId?: string) => unknown;
+  removeMember: (
+    conversationId: string,
+    memberConversationId: string
+  ) => unknown;
   theme: ThemeType;
 } & (
   | {
@@ -65,11 +69,12 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     acceptConversation,
     blockAndReportSpam,
     blockConversation,
+    conversationId,
     deleteConversation,
     getPreferredBadge,
     i18n,
     onClose,
-    onShowContactModal,
+    showContactModal,
     removeMember,
     theme,
   } = props;
@@ -150,7 +155,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
               setConfirmationState(undefined);
             }}
             onRemove={() => {
-              removeMember(affectedConversation.id);
+              removeMember(conversationId, affectedConversation.id);
             }}
           />
         );
@@ -218,7 +223,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             onClick={() => {
-              onShowContactModal(safeConversation.id);
+              showContactModal(safeConversation.id);
             }}
             theme={theme}
           />

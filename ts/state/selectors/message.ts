@@ -1087,6 +1087,7 @@ function getPropsForGroupV2Change(
 
   return {
     areWeAdmin: Boolean(conversation.areWeAdmin),
+    conversationId: conversation.id,
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
     groupMemberships: conversation.memberships,
     groupBannedMemberships: conversation.bannedMemberships,

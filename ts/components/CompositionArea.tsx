@@ -101,13 +101,13 @@ export type OwnProps = Readonly<{
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
   messageRequestsEnabled?: boolean;
-  onClearAttachments(): unknown;
+  onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(): unknown;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
   }) => unknown;
-  onSelectMediaQuality(isHQ: boolean): unknown;
+  setMediaQualitySetting(isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
     opts: { packId: string; stickerId: number }
@@ -170,7 +170,7 @@ export type Props = Pick<
   > &
   MessageRequestActionsProps &
   Pick<GroupV1DisabledActionsPropsType, 'showGV2MigrationDialog'> &
-  Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> & {
+  Pick<GroupV2PendingApprovalActionsPropsType, 'cancelJoinRequest'> & {
     pushPanelForConversation: PushPanelForConversationActionType;
   } & OwnProps;
 
@@ -211,7 +211,7 @@ export function CompositionArea({
   quotedMessageProps,
   scrollToMessage,
   // MediaQualitySelector
-  onSelectMediaQuality,
+  setMediaQualitySetting,
   shouldSendHighQualityAttachments,
   // CompositionInput
   onEditorStateChange,
@@ -261,7 +261,7 @@ export function CompositionArea({
   announcementsOnly,
   areWeAdmin,
   groupAdmins,
-  onCancelJoinRequest,
+  cancelJoinRequest,
   showConversation,
   // SMS-only contacts
   isSMSOnly,
@@ -393,7 +393,7 @@ export function CompositionArea({
           <MediaQualitySelector
             i18n={i18n}
             isHighQuality={shouldSendHighQualityAttachments}
-            onSelectQuality={onSelectMediaQuality}
+            onSelectQuality={setMediaQualitySetting}
           />
         </div>
       ) : null}
@@ -592,8 +592,9 @@ export function CompositionArea({
   if (areWePendingApproval) {
     return (
       <GroupV2PendingApprovalActions
+        cancelJoinRequest={cancelJoinRequest}
+        conversationId={conversationId}
         i18n={i18n}
-        onCancelJoinRequest={onCancelJoinRequest}
       />
     );
   }
@@ -683,7 +684,7 @@ export function CompositionArea({
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
               onClickAttachment={maybeEditAttachment}
-              onClose={onClearAttachments}
+              onClose={() => onClearAttachments(conversationId)}
               onCloseAttachment={attachment => {
                 if (attachment.path) {
                   removeAttachment(conversationId, attachment.path);

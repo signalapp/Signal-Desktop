@@ -30,9 +30,9 @@ export type Props = {
   name?: string;
   phoneNumber?: string;
   sharedGroupNames?: Array<string>;
-  unblurAvatar: () => void;
+  unblurAvatar: (conversationId: string) => void;
   unblurredAvatarPath?: string;
-  updateSharedGroups: () => unknown;
+  updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
@@ -133,8 +133,8 @@ export function ConversationHero({
 
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups();
-  }, [updateSharedGroups]);
+    updateSharedGroups(id);
+  }, [id, updateSharedGroups]);
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
   let avatarOnClick: undefined | (() => void);
@@ -148,7 +148,7 @@ export function ConversationHero({
     })
   ) {
     avatarBlur = AvatarBlur.BlurPictureWithClickToView;
-    avatarOnClick = unblurAvatar;
+    avatarOnClick = () => unblurAvatar(id);
   } else if (hasStories) {
     avatarOnClick = () => {
       viewUserStories({

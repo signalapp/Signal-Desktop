@@ -48,6 +48,7 @@ import {
   maybeGrabLinkPreview,
   removeLinkPreview,
   resetLinkPreview,
+  suspendLinkPreviews,
 } from '../../services/LinkPreview';
 import { getMaximumAttachmentSize } from '../../util/attachments';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
@@ -66,9 +67,13 @@ import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessa
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { getMessageById } from '../../messages/getMessageById';
 import { canReply } from '../selectors/message';
+import { getContactId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { scrollToMessage } from './conversations';
+import type { ScrollToMessageActionType } from './conversations';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 
 // State
 
@@ -142,24 +147,120 @@ type ComposerActionType =
 export const actions = {
   addAttachment,
   addPendingAttachment,
+  cancelJoinRequest,
+  onClearAttachments,
+  onCloseLinkPreview,
   onEditorStateChange,
+  onTextTooLong,
   processAttachments,
   reactToMessage,
   removeAttachment,
   replaceAttachments,
   resetComposer,
+  scrollToQuotedMessage,
   sendMultiMediaMessage,
   sendStickerMessage,
   setComposerDisabledState,
   setComposerFocus,
-  setQuoteByMessageId,
   setMediaQualitySetting,
+  setQuoteByMessageId,
   setQuotedMessage,
 };
 
 export const useComposerActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function onClearAttachments(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('onClearAttachments: No conversation found');
+  }
+
+  clearConversationDraftAttachments(
+    conversation.id,
+    conversation.get('draftAttachments')
+  );
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function cancelJoinRequest(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('cancelJoinRequest: No conversation found');
+  }
+
+  longRunningTaskWrapper({
+    idForLogging: conversation.idForLogging(),
+    name: 'cancelJoinRequest',
+    task: async () => conversation.cancelJoinRequest(),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function onCloseLinkPreview(): NoopActionType {
+  suspendLinkPreviews();
+  removeLinkPreview();
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function onTextTooLong(): ShowToastActionType {
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.MessageBodyTooLong,
+    },
+  };
+}
+
+function scrollToQuotedMessage({
+  authorId,
+  conversationId,
+  sentAt,
+}: Readonly<{
+  authorId: string;
+  conversationId: string;
+  sentAt: number;
+}>): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowToastActionType | ScrollToMessageActionType
+> {
+  return async (dispatch, getState) => {
+    const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
+    const message = messages.find(item =>
+      Boolean(
+        item.conversationId === conversationId &&
+          authorId &&
+          getContactId(item) === authorId
+      )
+    );
+
+    if (!message) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.OriginalMessageNotFound,
+        },
+      });
+      return;
+    }
+
+    scrollToMessage(conversationId, message.id)(dispatch, getState, undefined);
+  };
+}
 
 function sendMultiMediaMessage(
   conversationId: string,

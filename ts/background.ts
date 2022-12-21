@@ -142,8 +142,6 @@ import { deleteAllLogs } from './util/deleteAllLogs';
 import { ReactWrapperView } from './views/ReactWrapperView';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
-import { ToastConversationArchived } from './components/ToastConversationArchived';
-import { ToastConversationUnarchived } from './components/ToastConversationUnarchived';
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import type { MainWindowStatsType } from './windows/context';
@@ -1454,7 +1452,9 @@ export async function startApp(): Promise<void> {
 
       // Send Escape to active conversation so it can close panels
       if (conversation && key === 'Escape') {
-        conversation.trigger('escape-pressed');
+        window.reduxActions.conversations.popPanelForConversation(
+          conversation.id
+        );
         event.preventDefault();
         event.stopPropagation();
         return;
@@ -1530,7 +1530,9 @@ export async function startApp(): Promise<void> {
       ) {
         window.reduxActions.conversations.pushPanelForConversation(
           conversation.id,
-          { type: PanelType.AllMedia }
+          {
+            type: PanelType.AllMedia,
+          }
         );
         event.preventDefault();
         event.stopPropagation();
@@ -1551,16 +1553,10 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'a' || key === 'A')
       ) {
-        conversation.setArchived(true);
-        conversation.trigger('unload', 'keyboard shortcut archive');
-        showToast(ToastConversationArchived, {
-          undo: () => {
-            conversation.setArchived(false);
-            window.reduxActions.conversations.showConversation({
-              conversationId: conversation.get('id'),
-            });
-          },
-        });
+        event.preventDefault();
+        event.stopPropagation();
+
+        window.reduxActions.conversations.onArchive(conversation.id);
 
         // It's very likely that the act of archiving a conversation will set focus to
         //   'none,' or the top-level body element. This resets it to the left pane.
@@ -1573,8 +1569,6 @@ export async function startApp(): Promise<void> {
           }
         }
 
-        event.preventDefault();
-        event.stopPropagation();
         return;
       }
       if (
@@ -1584,11 +1578,11 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'u' || key === 'U')
       ) {
-        conversation.setArchived(false);
-        showToast(ToastConversationUnarchived);
-
         event.preventDefault();
         event.stopPropagation();
+
+        window.reduxActions.conversations.onMoveToInbox(conversation.id);
+
         return;
       }
 
@@ -1603,13 +1597,15 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'c' || key === 'C')
       ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         conversation.trigger('unload', 'keyboard shortcut close');
         window.reduxActions.conversations.showConversation({
           conversationId: undefined,
           messageId: undefined,
         });
-        event.preventDefault();
-        event.stopPropagation();
+
         return;
       }
 
@@ -1622,14 +1618,22 @@ export async function startApp(): Promise<void> {
         !shiftKey &&
         (key === 'd' || key === 'D')
       ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         const { selectedMessage } = state.conversations;
         if (!selectedMessage) {
           return;
         }
 
-        conversation.trigger('show-message-details', selectedMessage);
-        event.preventDefault();
-        event.stopPropagation();
+        window.reduxActions.conversations.pushPanelForConversation(
+          conversation.id,
+          {
+            type: PanelType.MessageDetails,
+            args: { messageId: selectedMessage },
+          }
+        );
+
         return;
       }
 
@@ -1640,6 +1644,9 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'r' || key === 'R')
       ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         const { selectedMessage } = state.conversations;
 
         const composerState = window.reduxStore
@@ -1652,8 +1659,6 @@ export async function startApp(): Promise<void> {
           quote ? undefined : selectedMessage
         );
 
-        event.preventDefault();
-        event.stopPropagation();
         return;
       }
 
@@ -1664,12 +1669,12 @@ export async function startApp(): Promise<void> {
         !shiftKey &&
         (key === 's' || key === 'S')
       ) {
+        event.preventDefault();
+        event.stopPropagation();
+
         const { selectedMessage } = state.conversations;
 
         if (selectedMessage) {
-          event.preventDefault();
-          event.stopPropagation();
-
           window.reduxActions.conversations.saveAttachmentFromMessage(
             selectedMessage
           );

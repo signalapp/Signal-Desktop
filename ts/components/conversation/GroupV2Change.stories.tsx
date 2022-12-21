@@ -55,6 +55,7 @@ const renderChange = (
   <GroupV2Change
     areWeAdmin={areWeAdmin ?? true}
     blockGroupLinkRequests={action('blockGroupLinkRequests')}
+    conversationId="some-conversation-id"
     change={change}
     groupBannedMemberships={groupBannedMemberships}
     groupMemberships={groupMemberships}

@@ -11,8 +11,11 @@ import type { DirectionType, MessageStatusType } from './Message';
 import { ExpireTimer } from './ExpireTimer';
 import { MessageTimestamp } from './MessageTimestamp';
 import { Spinner } from '../Spinner';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
+import { PanelType } from '../../types/Panels';
 
 type PropsType = {
+  conversationId: string;
   deletedForEveryone?: boolean;
   direction: DirectionType;
   expirationLength?: number;
@@ -25,13 +28,14 @@ type PropsType = {
   isSticker?: boolean;
   isTapToViewExpired?: boolean;
   onWidthMeasured?: (width: number) => unknown;
-  showMessageDetail: (id: string) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
 };
 
 export function MessageMetadata({
+  conversationId,
   deletedForEveryone,
   direction,
   expirationLength,
@@ -44,7 +48,7 @@ export function MessageMetadata({
   isSticker,
   isTapToViewExpired,
   onWidthMeasured,
-  showMessageDetail,
+  pushPanelForConversation,
   status,
   textPending,
   timestamp,
@@ -76,7 +80,10 @@ export function MessageMetadata({
               event.stopPropagation();
               event.preventDefault();
 
-              showMessageDetail(id);
+              pushPanelForConversation(conversationId, {
+                type: PanelType.MessageDetails,
+                args: { messageId: id },
+              });
             }}
           >
             {deletedForEveryone

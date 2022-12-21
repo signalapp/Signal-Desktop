@@ -27,6 +27,8 @@ import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
+import { PanelType } from '../../types/Panels';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 
 export type PropsData = {
   canDownload: boolean;
@@ -45,6 +47,7 @@ export type PropsActions = {
   }) => void;
   deleteMessageForEveryone: (id: string) => void;
   toggleForwardMessageModal: (id: string) => void;
+  pushPanelForConversation: PushPanelForConversationActionType;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -95,6 +98,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     isSelected,
     isSticker,
     isTapToView,
+    pushPanelForConversation,
     reactToMessage,
     setQuoteByMessageId,
     renderReactionPicker,
@@ -103,7 +107,6 @@ export function TimelineMessage(props: Props): JSX.Element {
     retryDeleteForEveryone,
     selectedReaction,
     toggleForwardMessageModal,
-    showMessageDetail,
     text,
     timestamp,
     kickOffAttachmentDownload,
@@ -406,7 +409,12 @@ export function TimelineMessage(props: Props): JSX.Element {
         onDeleteForEveryone={
           canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
         }
-        onMoreInfo={() => showMessageDetail(id)}
+        onMoreInfo={() =>
+          pushPanelForConversation(conversationId, {
+            type: PanelType.MessageDetails,
+            args: { messageId: id },
+          })
+        }
       />
     </>
   );

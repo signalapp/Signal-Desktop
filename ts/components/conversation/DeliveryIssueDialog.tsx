@@ -12,17 +12,17 @@ import { Emojify } from './Emojify';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 import type { LocalizerType } from '../../types/Util';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type PropsType = {
   i18n: LocalizerType;
   sender: ConversationType;
   inGroup: boolean;
-  learnMoreAboutDeliveryIssue: () => unknown;
   onClose: () => unknown;
 };
 
 export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
-  const { i18n, inGroup, learnMoreAboutDeliveryIssue, sender, onClose } = props;
+  const { i18n, inGroup, sender, onClose } = props;
 
   const key = inGroup
     ? 'DeliveryIssue--summary--group'
@@ -34,7 +34,11 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
   const footer = (
     <>
       <Button
-        onClick={learnMoreAboutDeliveryIssue}
+        onClick={() =>
+          openLinkInWebBrowser(
+            'https://support.signal.org/hc/articles/4404859745690'
+          )
+        }
         size={ButtonSize.Medium}
         variant={ButtonVariant.Secondary}
       >

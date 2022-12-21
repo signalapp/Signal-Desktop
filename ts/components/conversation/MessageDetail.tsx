@@ -68,18 +68,9 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-} & Pick<
-  MessagePropsType,
-  | 'getPreferredBadge'
-  | 'interactionMode'
-  | 'expirationLength'
-  | 'expirationTimestamp'
->;
+} & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
 
-export type PropsBackboneActions = Pick<
-  MessagePropsType,
-  'renderAudioAttachment' | 'startConversation'
->;
+export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 
 export type PropsReduxActions = Pick<
   MessagePropsType,
@@ -97,13 +88,13 @@ export type PropsReduxActions = Pick<
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
   | 'showLightboxForViewOnceMedia'
+  | 'startConversation'
   | 'viewStory'
 > & {
   toggleSafetyNumberModal: (contactId: string) => void;
 };
 
-export type ExternalProps = PropsData & PropsBackboneActions;
-export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
+export type Props = PropsData & PropsSmartActions & PropsReduxActions;
 
 const contactSortCollator = new Intl.Collator();
 
@@ -280,7 +271,6 @@ export class MessageDetail extends React.Component<Props> {
       contactNameColor,
       showLightboxForViewOnceMedia,
       doubleCheckMissingQuoteReference,
-      expirationTimestamp,
       getPreferredBadge,
       i18n,
       interactionMode,
@@ -300,8 +290,8 @@ export class MessageDetail extends React.Component<Props> {
       viewStory,
     } = this.props;
 
-    const timeRemaining = expirationTimestamp
-      ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
+    const timeRemaining = message.expirationTimestamp
+      ? DurationInSeconds.fromMillis(message.expirationTimestamp - Date.now())
       : undefined;
 
     return (
@@ -348,9 +338,6 @@ export class MessageDetail extends React.Component<Props> {
             showExpiredOutgoingTapToViewToast={
               showExpiredOutgoingTapToViewToast
             }
-            showMessageDetail={() => {
-              log.warn('MessageDetail: showMessageDetail called!');
-            }}
             showLightbox={showLightbox}
             startConversation={startConversation}
             theme={theme}

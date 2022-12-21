@@ -3,11 +3,8 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import type { CompositionAreaPropsType } from './CompositionArea';
-import type { OwnProps as ConversationHeaderPropsType } from './ConversationHeader';
 import type { StateType } from '../reducer';
 import type { ReactPanelRenderType } from '../../types/Panels';
-import type { TimelinePropsType } from './Timeline';
 import * as log from '../../logging/log';
 import { ContactDetail } from '../../components/conversation/ContactDetail';
 import { ConversationView } from '../../components/conversation/ConversationView';
@@ -26,31 +23,17 @@ import { SmartStickerManager } from './StickerManager';
 import { SmartTimeline } from './Timeline';
 import { getIntl } from '../selectors/user';
 import { getTopPanelRenderableByReact } from '../selectors/conversations';
-import { startConversation } from '../../util/startConversation';
 import { useComposerActions } from '../ducks/composer';
+import { useConversationsActions } from '../ducks/conversations';
 
 export type PropsType = {
   conversationId: string;
-  compositionAreaProps: Pick<
-    CompositionAreaPropsType,
-    | 'id'
-    | 'onCancelJoinRequest'
-    | 'onClearAttachments'
-    | 'onCloseLinkPreview'
-    | 'onEditorStateChange'
-    | 'onSelectMediaQuality'
-    | 'onTextTooLong'
-  >;
-  conversationHeaderProps: ConversationHeaderPropsType;
-  timelineProps: TimelinePropsType;
 };
 
 export function SmartConversationView({
-  compositionAreaProps,
-  conversationHeaderProps,
   conversationId,
-  timelineProps,
 }: PropsType): JSX.Element {
+  const { startConversation } = useConversationsActions();
   const topPanel = useSelector<StateType, ReactPanelRenderType | undefined>(
     getTopPanelRenderableByReact
   );
@@ -62,13 +45,11 @@ export function SmartConversationView({
     <ConversationView
       conversationId={conversationId}
       processAttachments={processAttachments}
-      renderCompositionArea={() => (
-        <SmartCompositionArea {...compositionAreaProps} />
-      )}
+      renderCompositionArea={() => <SmartCompositionArea id={conversationId} />}
       renderConversationHeader={() => (
-        <SmartConversationHeader {...conversationHeaderProps} />
+        <SmartConversationHeader id={conversationId} />
       )}
-      renderTimeline={() => <SmartTimeline {...timelineProps} />}
+      renderTimeline={() => <SmartTimeline id={conversationId} />}
       renderPanel={() => {
         if (!topPanel) {
           return;

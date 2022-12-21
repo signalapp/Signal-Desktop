@@ -5,7 +5,6 @@ import React from 'react';
 import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { SECOND } from '../util/durations';
 import { Toast } from './Toast';
-import { ToastMessageBodyTooLong } from './ToastMessageBodyTooLong';
 import { missingCaseError } from '../util/missingCaseError';
 import { ToastType } from '../types/Toast';
 
@@ -13,6 +12,7 @@ export type PropsType = {
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
+  onUndoArchive: (conversaetionId: string) => unknown;
   toast?: {
     toastType: ToastType;
     parameters?: ReplacementValuesType;
@@ -25,6 +25,7 @@ export function ToastManager({
   hideToast,
   i18n,
   openFileInFolder,
+  onUndoArchive,
   toast,
 }: PropsType): JSX.Element | null {
   if (toast === undefined) {
@@ -81,6 +82,36 @@ export function ToastManager({
       <Toast onClose={hideToast}>
         {i18n('GroupV2--cannot-start-group-call', toast.parameters)}
       </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ConversationArchived) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('conversationArchivedUndo'),
+          onClick: () => {
+            if (toast.parameters && 'conversationId' in toast.parameters) {
+              onUndoArchive(String(toast.parameters.conversationId));
+            }
+          },
+        }}
+      >
+        {i18n('conversationArchived')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ConversationMarkedUnread) {
+    return (
+      <Toast onClose={hideToast}>{i18n('conversationMarkedUnread')}</Toast>
+    );
+  }
+
+  if (toastType === ToastType.ConversationUnarchived) {
+    return (
+      <Toast onClose={hideToast}>{i18n('conversationReturnedToInbox')}</Toast>
     );
   }
 
@@ -174,15 +205,11 @@ export function ToastManager({
   }
 
   if (toastType === ToastType.MessageBodyTooLong) {
-    return <ToastMessageBodyTooLong i18n={i18n} onClose={hideToast} />;
+    return <Toast onClose={hideToast}>{i18n('messageBodyTooLong')}</Toast>;
   }
 
-  if (toastType === ToastType.ReportedSpamAndBlocked) {
-    return (
-      <Toast onClose={hideToast}>
-        {i18n('MessageRequests--block-and-report-spam-success-toast')}
-      </Toast>
-    );
+  if (toastType === ToastType.OriginalMessageNotFound) {
+    return <Toast onClose={hideToast}>{i18n('originalMessageNotFound')}</Toast>;
   }
 
   if (toastType === ToastType.PinnedConversationsFull) {
@@ -191,6 +218,14 @@ export function ToastManager({
 
   if (toastType === ToastType.ReactionFailed) {
     return <Toast onClose={hideToast}>{i18n('Reactions--error')}</Toast>;
+  }
+
+  if (toastType === ToastType.ReportedSpamAndBlocked) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('MessageRequests--block-and-report-spam-success-toast')}
+      </Toast>
+    );
   }
 
   if (toastType === ToastType.StoryMuted) {

@@ -8,42 +8,21 @@ import { render } from 'mustache';
 
 import type { ConversationModel } from '../models/conversations';
 import { getMessageById } from '../messages/getMessageById';
-import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
-import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { getActiveCallState } from '../state/selectors/calling';
 import { ReactWrapperView } from './ReactWrapperView';
 import * as log from '../logging/log';
 import { createConversationView } from '../state/roots/createConversationView';
-import { ToastConversationArchived } from '../components/ToastConversationArchived';
-import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
-import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
-import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
-import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
-import { showToast } from '../util/showToast';
-import { UUIDKind } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
 import {
   removeLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
 import { SECOND } from '../util/durations';
-import { startConversation } from '../util/startConversation';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
-import { clearConversationDraftAttachments } from '../util/clearConversationDraftAttachments';
 import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
 import { PanelType, isPanelHandledByReact } from '../types/Panels';
+import { UUIDKind } from '../types/UUID';
 
 type BackbonePanelType = { panelType: PanelType; view: Backbone.View };
-
-const { getMessagesBySentAt } = window.Signal.Data;
-
-type MessageActionsType = {
-  showMessageDetail: (messageId: string) => unknown;
-  startConversation: (e164: string, uuid: UUIDStringType) => unknown;
-};
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Sub-views
@@ -68,12 +47,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(this.model, 'unload', (reason: string) =>
       this.unload(`model trigger - ${reason}`)
     );
-
-    // These are triggered by background.ts for keyboard handling
-    this.listenTo(this.model, 'escape-pressed', () => {
-      window.reduxActions.conversations.popPanelForConversation(this.model.id);
-    });
-    this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
 
     this.listenTo(this.model, 'pushPanel', this.pushPanel);
     this.listenTo(this.model, 'popPanel', this.popPanel);
@@ -116,207 +89,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   setupConversationView(): void {
-    // setupHeader
-    const conversationHeaderProps = {
-      id: this.model.id,
-
-      onSearchInConversation: () => {
-        const { searchInConversation } = window.reduxActions.search;
-        searchInConversation(this.model.id);
-      },
-      onGoBack: () => {
-        window.reduxActions.conversations.popPanelForConversation(
-          this.model.id
-        );
-      },
-
-      onArchive: () => {
-        this.model.setArchived(true);
-        this.model.trigger('unload', 'archive');
-
-        showToast(ToastConversationArchived, {
-          undo: () => {
-            this.model.setArchived(false);
-            window.reduxActions.conversations.showConversation({
-              conversationId: this.model.id,
-            });
-          },
-        });
-      },
-      onMarkUnread: () => {
-        this.model.setMarkedUnread(true);
-
-        showToast(ToastConversationMarkedUnread);
-      },
-      onMoveToInbox: () => {
-        this.model.setArchived(false);
-
-        showToast(ToastConversationUnarchived);
-      },
-    };
-
-    // setupTimeline
-
-    const contactSupport = () => {
-      const baseUrl =
-        'https://support.signal.org/hc/LOCALE/requests/new?desktop&chat_refreshed';
-      const locale = window.getLocale();
-      const supportLocale = window.Signal.Util.mapToSupportLocale(locale);
-      const url = baseUrl.replace('LOCALE', supportLocale);
-
-      openLinkInWebBrowser(url);
-    };
-
-    const learnMoreAboutDeliveryIssue = () => {
-      openLinkInWebBrowser(
-        'https://support.signal.org/hc/articles/4404859745690'
-      );
-    };
-
-    const scrollToQuotedMessage = async (
-      options: Readonly<{
-        authorId: string;
-        sentAt: number;
-      }>
-    ) => {
-      const { authorId, sentAt } = options;
-
-      const conversationId = this.model.id;
-      const messages = await getMessagesBySentAt(sentAt);
-      const message = messages.find(item =>
-        Boolean(
-          item.conversationId === conversationId &&
-            authorId &&
-            getContactId(item) === authorId
-        )
-      );
-
-      if (!message) {
-        showToast(ToastOriginalMessageNotFound);
-        return;
-      }
-
-      window.reduxActions.conversations.scrollToMessage(
-        conversationId,
-        message.id
-      );
-    };
-
-    const markMessageRead = async (messageId: string) => {
-      if (!window.SignalContext.activeWindowService.isActive()) {
-        return;
-      }
-
-      const activeCall = getActiveCallState(window.reduxStore.getState());
-      if (activeCall && !activeCall.pip) {
-        return;
-      }
-
-      const message = await getMessageById(messageId);
-      if (!message) {
-        throw new Error(`markMessageRead: failed to load message ${messageId}`);
-      }
-
-      await this.model.markRead(message.get('received_at'), {
-        newestSentAt: message.get('sent_at'),
-        sendReadReceipts: true,
-      });
-    };
-
-    const timelineProps = {
-      id: this.model.id,
-
-      ...this.getMessageActions(),
-
-      acknowledgeGroupMemberNameCollisions: (
-        groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
-      ): void => {
-        this.model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
-      },
-      blockGroupLinkRequests: (uuid: UUIDStringType) => {
-        this.model.blockGroupLinkRequests(uuid);
-      },
-      contactSupport,
-      learnMoreAboutDeliveryIssue,
-      loadNewerMessages: this.model.loadNewerMessages.bind(this.model),
-      loadNewestMessages: this.model.loadNewestMessages.bind(this.model),
-      loadOlderMessages: this.model.loadOlderMessages.bind(this.model),
-      markMessageRead,
-      removeMember: (conversationId: string) => {
-        longRunningTaskWrapper({
-          idForLogging: this.model.idForLogging(),
-          name: 'removeMember',
-          task: () => this.model.removeFromGroupV2(conversationId),
-        });
-      },
-      scrollToQuotedMessage,
-      unblurAvatar: () => {
-        this.model.unblurAvatar();
-      },
-      updateSharedGroups: () => this.model.throttledUpdateSharedGroups?.(),
-    };
-
     // setupCompositionArea
     window.reduxActions.composer.resetComposer();
 
-    const compositionAreaProps = {
-      id: this.model.id,
-      onTextTooLong: () => showToast(ToastMessageBodyTooLong),
-      onCancelJoinRequest: async () => {
-        await window.showConfirmationDialog({
-          dialogName: 'GroupV2CancelRequestToJoin',
-          message: window.i18n(
-            'GroupV2--join--cancel-request-to-join--confirmation'
-          ),
-          okText: window.i18n('GroupV2--join--cancel-request-to-join--yes'),
-          cancelText: window.i18n('GroupV2--join--cancel-request-to-join--no'),
-          resolve: () => {
-            longRunningTaskWrapper({
-              idForLogging: this.model.idForLogging(),
-              name: 'onCancelJoinRequest',
-              task: async () => this.model.cancelJoinRequest(),
-            });
-          },
-        });
-      },
-
-      onClearAttachments: () =>
-        clearConversationDraftAttachments(
-          this.model.id,
-          this.model.get('draftAttachments')
-        ),
-      onSelectMediaQuality: (isHQ: boolean) => {
-        window.reduxActions.composer.setMediaQualitySetting(isHQ);
-      },
-
-      onCloseLinkPreview: () => {
-        suspendLinkPreviews();
-        removeLinkPreview();
-      },
-    };
-
     // createConversationView root
-
     const JSX = createConversationView(window.reduxStore, {
       conversationId: this.model.id,
-      compositionAreaProps,
-      conversationHeaderProps,
-      timelineProps,
     });
 
     this.conversationView = new ReactWrapperView({ JSX });
     this.$('.ConversationView__template').append(this.conversationView.el);
-  }
-
-  getMessageActions(): MessageActionsType {
-    const showMessageDetail = (messageId: string) => {
-      this.showMessageDetail(messageId);
-    };
-
-    return {
-      showMessageDetail,
-      startConversation,
-    };
   }
 
   unload(reason: string): void {
@@ -445,13 +227,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.model.updateVerified();
   }
 
-  showMessageDetail(messageId: string): void {
-    window.reduxActions.conversations.pushPanelForConversation(this.model.id, {
-      type: PanelType.MessageDetails,
-      args: { messageId },
-    });
-  }
-
   getMessageDetail({
     messageId,
   }: {
@@ -459,7 +234,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }): Backbone.View | undefined {
     const message = window.MessageController.getById(messageId);
     if (!message) {
-      throw new Error(`showMessageDetail: Message ${messageId} missing!`);
+      throw new Error(`getMessageDetail: Message ${messageId} missing!`);
     }
 
     if (!message.isNormalBubble()) {
@@ -470,7 +245,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ...message.getPropsForMessageDetail(
         window.ConversationController.getOurConversationIdOrThrow()
       ),
-      ...this.getMessageActions(),
     });
 
     const onClose = () => {

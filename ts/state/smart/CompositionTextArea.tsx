@@ -11,8 +11,7 @@ import { getIntl } from '../selectors/user';
 import { useActions as useEmojiActions } from '../ducks/emojis';
 import { useActions as useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { showToast } from '../../util/showToast';
-import { ToastMessageBodyTooLong } from '../../components/ToastMessageBodyTooLong';
+import { useComposerActions } from '../ducks/composer';
 
 export type SmartCompositionTextAreaProps = Pick<
   CompositionTextAreaProps,
@@ -34,6 +33,7 @@ export function SmartCompositionTextArea(
 
   const { onUseEmoji: onPickEmoji } = useEmojiActions();
   const { onSetSkinTone } = useItemsActions();
+  const { onTextTooLong } = useComposerActions();
 
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
 
@@ -44,7 +44,7 @@ export function SmartCompositionTextArea(
       onPickEmoji={onPickEmoji}
       onSetSkinTone={onSetSkinTone}
       getPreferredBadge={getPreferredBadge}
-      onTextTooLong={() => showToast(ToastMessageBodyTooLong)}
+      onTextTooLong={onTextTooLong}
     />
   );
 }

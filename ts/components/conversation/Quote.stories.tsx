@@ -137,7 +137,6 @@ const defaultMessageProps: TimelineMessagesProps = {
     'showExpiredOutgoingTapToViewToast'
   ),
   toggleForwardMessageModal: action('default--toggleForwardMessageModal'),
-  showMessageDetail: action('default--showMessageDetail'),
   showLightbox: action('default--showLightbox'),
   startConversation: action('default--startConversation'),
   status: 'sent',

@@ -105,6 +105,7 @@ import { viewedReceiptsJobQueue } from '../../jobs/viewedReceiptsJobQueue';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { isIncoming, isOutgoing } from '../selectors/message';
+import { getActiveCallState } from '../selectors/calling';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import type { ShowToastActionType } from './toast';
 import { SHOW_TOAST } from './toast';
@@ -128,6 +129,7 @@ import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue';
 import { isOlderThan } from '../../util/timestamp';
 import { DAY } from '../../util/durations';
 import { isNotNil } from '../../util/isNotNil';
+import { startConversation } from '../../util/startConversation';
 
 // State
 
@@ -875,10 +877,12 @@ export type ConversationActionType =
 
 export const actions = {
   acceptConversation,
+  acknowledgeGroupMemberNameCollisions,
   addMembersToGroup,
   approvePendingMembershipFromGroupV2,
   blockAndReportSpam,
   blockConversation,
+  blockGroupLinkRequests,
   cancelConversationVerification,
   changeHasGroupLink,
   clearCancelledConversationVerification,
@@ -901,8 +905,8 @@ export const actions = {
   createGroup,
   deleteAvatarFromDisk,
   deleteConversation,
-  deleteMessageForEveryone,
   deleteMessage,
+  deleteMessageForEveryone,
   destroyMessages,
   discardMessages,
   doubleCheckMissingQuoteReference,
@@ -911,8 +915,12 @@ export const actions = {
   initiateMigrationToGroupV2,
   kickOffAttachmentDownload,
   leaveGroup,
+  loadNewerMessages,
+  loadNewestMessages,
+  loadOlderMessages,
   loadRecentMediaItems,
   markAttachmentAsCorrupted,
+  markMessageRead,
   messageChanged,
   messageDeleted,
   messageExpanded,
@@ -920,11 +928,16 @@ export const actions = {
   messagesAdded,
   messagesReset,
   myProfileChanged,
+  onArchive,
+  onMarkUnread,
+  onMoveToInbox,
+  onUndoArchive,
   openGiftBadge,
   popPanelForConversation,
   pushPanelForConversation,
   removeAllConversations,
   removeCustomColorOnConversations,
+  removeMember,
   removeMemberFromGroup,
   repairNewestMessage,
   repairOldestMessage,
@@ -964,20 +977,247 @@ export const actions = {
   showExpiredOutgoingTapToViewToast,
   showInbox,
   startComposing,
+  startConversation,
   startSettingGroupMetadata,
   toggleAdmin,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
   toggleGroupsForStorySend,
   toggleHideStories,
+  unblurAvatar,
   updateConversationModelSharedGroups,
   updateGroupAttributes,
+  updateSharedGroups,
   verifyConversationsStoppingSend,
 };
 
 export const useConversationsActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function onArchive(conversationId: string): ShowToastActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('onArchive: Conversation not found!');
+  }
+
+  conversation.setArchived(true);
+  conversation.trigger('unload', 'archive');
+
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.ConversationArchived,
+      parameters: {
+        conversationId,
+      },
+    },
+  };
+}
+function onUndoArchive(
+  conversationId: string
+): SelectedConversationChangedActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('onUndoArchive: Conversation not found!');
+  }
+
+  conversation.setArchived(false);
+  return showConversation({
+    conversationId,
+  });
+}
+
+function onMarkUnread(conversationId: string): ShowToastActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('onMarkUnread: Conversation not found!');
+  }
+
+  conversation.setMarkedUnread(true);
+
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.ConversationMarkedUnread,
+    },
+  };
+}
+function onMoveToInbox(conversationId: string): ShowToastActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('onMoveToInbox: Conversation not found!');
+  }
+
+  conversation.setArchived(false);
+
+  return {
+    type: SHOW_TOAST,
+    payload: {
+      toastType: ToastType.ConversationUnarchived,
+    },
+  };
+}
+
+function acknowledgeGroupMemberNameCollisions(
+  conversationId: string,
+  groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error(
+      'acknowledgeGroupMemberNameCollisions: Conversation not found!'
+    );
+  }
+
+  conversation.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function blockGroupLinkRequests(
+  conversationId: string,
+  uuid: UUIDStringType
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('blockGroupLinkRequests: Conversation not found!');
+  }
+
+  conversation.blockGroupLinkRequests(uuid);
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function loadNewerMessages(
+  conversationId: string,
+  newestMessageId: string
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('loadNewerMessages: Conversation not found!');
+  }
+
+  conversation.loadNewerMessages(newestMessageId);
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function loadNewestMessages(
+  conversationId: string,
+  newestMessageId: string | undefined,
+  setFocus: boolean | undefined
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('loadNewestMessages: Conversation not found!');
+  }
+
+  conversation.loadNewestMessages(newestMessageId, setFocus);
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function loadOlderMessages(
+  conversationId: string,
+  oldestMessageId: string
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('loadOlderMessages: Conversation not found!');
+  }
+
+  conversation.loadOlderMessages(oldestMessageId);
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+
+function markMessageRead(
+  conversationId: string,
+  messageId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (_dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('markMessageRead: Conversation not found!');
+    }
+
+    if (!window.SignalContext.activeWindowService.isActive()) {
+      return;
+    }
+
+    const activeCall = getActiveCallState(getState());
+    if (activeCall && !activeCall.pip) {
+      return;
+    }
+
+    const message = await getMessageById(messageId);
+    if (!message) {
+      throw new Error(`markMessageRead: failed to load message ${messageId}`);
+    }
+
+    await conversation.markRead(message.get('received_at'), {
+      newestSentAt: message.get('sent_at'),
+      sendReadReceipts: true,
+    });
+  };
+}
+function removeMember(
+  conversationId: string,
+  memberConversationId: string
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('removeMember: Conversation not found!');
+  }
+
+  longRunningTaskWrapper({
+    idForLogging: conversation.idForLogging(),
+    name: 'removeMember',
+    task: () => conversation.removeFromGroupV2(memberConversationId),
+  });
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function unblurAvatar(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('unblurAvatar: Conversation not found!');
+  }
+
+  conversation.unblurAvatar();
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
+function updateSharedGroups(conversationId: string): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('updateSharedGroups: Conversation not found!');
+  }
+
+  conversation.throttledUpdateSharedGroups?.();
+
+  return {
+    type: 'NOOP',
+    payload: null,
+  };
+}
 
 function filterAvatarData(
   avatars: ReadonlyArray<AvatarDataType>,
@@ -2314,6 +2554,10 @@ function pushPanelForConversation(
   };
 }
 
+export type PopPanelForConversationActionType = (
+  conversationId: string
+) => unknown;
+
 function popPanelForConversation(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, PopPanelActionType> {
@@ -2830,7 +3074,7 @@ function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionT
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
 }
 
-function scrollToMessage(
+export function scrollToMessage(
   conversationId: string,
   messageId: string
 ): ThunkAction<void, RootStateType, unknown, ScrollToMessageActionType> {

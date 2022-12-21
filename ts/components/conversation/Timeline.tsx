@@ -1,16 +1,15 @@
 // Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { first, get, isNumber, last, pick, throttle } from 'lodash';
+import { first, get, isNumber, last, throttle } from 'lodash';
 import classNames from 'classnames';
 import type { ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
-import { createSelector } from 'reselect';
 import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
 
-import type { AssertProps, LocalizerType, ThemeType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { assertDev, strictAssert } from '../../util/assert';
@@ -18,8 +17,6 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary';
 import { WidthBreakpoint } from '../_util';
 
-import type { PropsActions as MessageActionsType } from './TimelineMessage';
-import type { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
@@ -44,8 +41,6 @@ import {
 } from '../../util/scrollUtil';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { MINUTE } from '../../util/durations';
-import type { PropsActionsType as DeliveryIssueNotificationActionsType } from './DeliveryIssueNotification';
-import type { PropsActionsType as GroupV2ChangeActionsType } from './GroupV2Change';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -124,7 +119,6 @@ type PropsHousekeepingType = {
   theme: ThemeType;
 
   renderItem: (props: {
-    actionProps: PropsActionsFromBackboneForChildrenType;
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
@@ -134,46 +128,31 @@ type PropsHousekeepingType = {
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
-  renderHeroRow: (
-    id: string,
-    unblurAvatar: () => void,
-    updateSharedGroups: () => unknown
-  ) => JSX.Element;
+  renderHeroRow: (id: string) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
   renderContactSpoofingReviewDialog: (
     props: SmartContactSpoofingReviewDialogPropsType
   ) => JSX.Element;
 };
 
-export type PropsActionsFromBackboneForChildrenType = Pick<
-  MessageActionsType,
-  'scrollToQuotedMessage' | 'showMessageDetail' | 'startConversation'
-> &
-  ChatSessionRefreshedNotificationActionsType &
-  DeliveryIssueNotificationActionsType &
-  GroupV2ChangeActionsType;
-
 export type PropsActionsType = {
   // From Backbone
   acknowledgeGroupMemberNameCollisions: (
+    conversationId: string,
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
-  loadOlderMessages: (messageId: string) => unknown;
-  loadNewerMessages: (messageId: string) => unknown;
-  loadNewestMessages: (messageId: string, setFocus?: boolean) => unknown;
-  markMessageRead: (messageId: string) => unknown;
-  removeMember: (conversationId: string) => unknown;
-  unblurAvatar: () => void;
-  updateSharedGroups: () => unknown;
-
-  // From Redux
-  acceptConversation: (conversationId: string) => unknown;
-  blockConversation: (conversationId: string) => unknown;
-  blockAndReportSpam: (conversationId: string) => unknown;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
   clearSelectedMessage: () => unknown;
   closeContactSpoofingReview: () => void;
-  deleteConversation: (conversationId: string) => unknown;
+  loadOlderMessages: (conversationId: string, messageId: string) => unknown;
+  loadNewerMessages: (conversationId: string, messageId: string) => unknown;
+  loadNewestMessages: (
+    conversationId: string,
+    messageId: string,
+    setFocus?: boolean
+  ) => unknown;
+  markMessageRead: (conversationId: string, messageId: string) => unknown;
+  selectMessage: (messageId: string, conversationId: string) => unknown;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => unknown;
   peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
@@ -183,9 +162,7 @@ export type PropsActionsType = {
       safeConversationId: string;
     }>
   ) => void;
-  selectMessage: (messageId: string, conversationId: string) => unknown;
-  showContactModal: (contactId: string, conversationId?: string) => void;
-} & PropsActionsFromBackboneForChildrenType;
+};
 
 export type PropsType = PropsDataType &
   PropsHousekeepingType &
@@ -208,39 +185,6 @@ type SnapshotType =
   | { scrollToIndex: number }
   | { scrollTop: number }
   | { scrollBottom: number };
-
-const getActions = createSelector(
-  // It is expensive to pick so many properties out of the `props` object so we
-  // use `createSelector` to memoize them by the last seen `props` object.
-  (props: PropsType) => props,
-
-  (props: PropsType): PropsActionsFromBackboneForChildrenType => {
-    // Note: Because TimelineItem is smart, we only need to include action creators here
-    //   which are passed in from backbone and not available via mapDispatchToProps
-    const unsafe = pick(props, [
-      // MessageActionsType
-      'scrollToQuotedMessage',
-      'showMessageDetail',
-      'startConversation',
-
-      // ChatSessionRefreshedNotificationActionsType
-      'contactSupport',
-
-      // DeliveryIssueNotificationActionsType
-      'learnMoreAboutDeliveryIssue',
-
-      // GroupV2ChangeActionsType
-      'blockGroupLinkRequests',
-    ]);
-
-    const safe: AssertProps<
-      PropsActionsFromBackboneForChildrenType,
-      typeof unsafe
-    > = unsafe;
-
-    return safe;
-  }
-);
 
 export class Timeline extends React.Component<
   PropsType,
@@ -348,7 +292,7 @@ export class Timeline extends React.Component<
     } else {
       const lastId = last(items);
       if (lastId) {
-        loadNewestMessages(lastId, setFocus);
+        loadNewestMessages(id, lastId, setFocus);
       }
     }
   };
@@ -472,7 +416,7 @@ export class Timeline extends React.Component<
             maxRowIndex >= 0 &&
             rowIndex >= maxRowIndex - LOAD_NEWER_THRESHOLD
           ) {
-            loadNewerMessages(newestBottomVisibleMessageId);
+            loadNewerMessages(id, newestBottomVisibleMessageId);
           }
         }
 
@@ -482,7 +426,7 @@ export class Timeline extends React.Component<
           oldestPartiallyVisibleMessageId &&
           oldestPartiallyVisibleMessageId === items[0]
         ) {
-          loadOlderMessages(oldestPartiallyVisibleMessageId);
+          loadOlderMessages(id, oldestPartiallyVisibleMessageId);
         }
       };
 
@@ -522,10 +466,10 @@ export class Timeline extends React.Component<
   }
 
   private markNewestBottomVisibleMessageRead = throttle((): void => {
-    const { markMessageRead } = this.props;
+    const { id, markMessageRead } = this.props;
     const { newestBottomVisibleMessageId } = this.state;
     if (newestBottomVisibleMessageId) {
-      markMessageRead(newestBottomVisibleMessageId);
+      markMessageRead(id, newestBottomVisibleMessageId);
     }
   }, 500);
 
@@ -792,14 +736,10 @@ export class Timeline extends React.Component<
 
   public override render(): JSX.Element | null {
     const {
-      acceptConversation,
       acknowledgeGroupMemberNameCollisions,
-      blockAndReportSpam,
-      blockConversation,
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
-      deleteConversation,
       getPreferredBadge,
       getTimestampForMessage,
       haveNewest,
@@ -813,19 +753,15 @@ export class Timeline extends React.Component<
       items,
       messageLoadingState,
       oldestUnseenIndex,
-      removeMember,
       renderContactSpoofingReviewDialog,
       renderHeroRow,
       renderItem,
       renderTypingBubble,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
-      showContactModal,
       theme,
       totalUnseen,
-      unblurAvatar,
       unreadCount,
-      updateSharedGroups,
     } = this.props;
     const {
       hasRecentlyScrolled,
@@ -865,8 +801,6 @@ export class Timeline extends React.Component<
       areThereAnyMessages &&
         (areUnreadBelowCurrentPosition || areSomeMessagesBelowCurrentPosition)
     );
-
-    const actionProps = getActions(this.props);
 
     let floatingHeader: ReactNode;
     // It's possible that a message was removed from `items` but we still have its ID in
@@ -938,7 +872,6 @@ export class Timeline extends React.Component<
         >
           <ErrorBoundary i18n={i18n} showDebugLog={showDebugLog}>
             {renderItem({
-              actionProps,
               containerElementRef: this.containerRef,
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
@@ -1011,7 +944,7 @@ export class Timeline extends React.Component<
             />
           );
           onClose = () => {
-            acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+            acknowledgeGroupMemberNameCollisions(id, groupNameCollisions);
           };
           break;
         }
@@ -1047,16 +980,8 @@ export class Timeline extends React.Component<
     let contactSpoofingReviewDialog: ReactNode;
     if (contactSpoofingReview) {
       const commonProps = {
-        acceptConversation,
-        blockAndReportSpam,
-        blockConversation,
-        deleteConversation,
-        getPreferredBadge,
-        i18n,
+        conversationId: id,
         onClose: closeContactSpoofingReview,
-        onShowContactModal: showContactModal,
-        removeMember,
-        theme,
       };
 
       switch (contactSpoofingReview.type) {
@@ -1138,7 +1063,7 @@ export class Timeline extends React.Component<
                       {Timeline.getWarning(this.props, this.state) && (
                         <div style={{ height: lastMeasuredWarningHeight }} />
                       )}
-                      {renderHeroRow(id, unblurAvatar, updateSharedGroups)}
+                      {renderHeroRow(id)}
                     </>
                   )}
 

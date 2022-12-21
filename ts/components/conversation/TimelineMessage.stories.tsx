@@ -202,15 +202,17 @@ function MessageAudioContainer({
   return (
     <MessageAudio
       {...props}
-      id="storybook"
-      renderingContext="storybook"
-      computePeaks={computePeaks}
+      conversationId="some-conversation-id"
       active={active}
-      played={_played}
+      computePeaks={computePeaks}
+      id="storybook"
       loadAndPlayMessageAudio={loadAndPlayMessageAudio}
+      played={_played}
+      pushPanelForConversation={action('pushPanelForConversation')}
+      renderingContext="storybook"
+      setCurrentTime={setCurrentTimeAction}
       setIsPlaying={setIsPlayingAction}
       setPlaybackRate={setPlaybackRateAction}
-      setCurrentTime={setCurrentTimeAction}
     />
   );
 }
@@ -315,7 +317,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'showExpiredOutgoingTapToViewToast'
   ),
   toggleForwardMessageModal: action('toggleForwardMessageModal'),
-  showMessageDetail: action('showMessageDetail'),
   showLightbox: action('showLightbox'),
   startConversation: action('startConversation'),
   status: overrideProps.status || 'sent',

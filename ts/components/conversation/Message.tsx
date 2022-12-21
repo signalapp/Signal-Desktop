@@ -167,7 +167,6 @@ export type AudioAttachmentProps = {
   id: string;
   conversationId: string;
   played: boolean;
-  showMessageDetail: (id: string) => void;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
@@ -302,8 +301,6 @@ export type PropsActions = {
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  showMessageDetail: (id: string) => void;
-
   startConversation: (e164: string, uuid: UUIDStringType) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
@@ -327,6 +324,7 @@ export type PropsActions = {
 
   scrollToQuotedMessage: (options: {
     authorId: string;
+    conversationId: string;
     sentAt: number;
   }) => void;
   selectMessage?: (messageId: string, conversationId: string) => unknown;
@@ -752,6 +750,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const {
+      conversationId,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -760,17 +759,18 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
       status,
       i18n,
+      pushPanelForConversation,
       text,
       textAttachment,
       timestamp,
       id,
-      showMessageDetail,
     } = this.props;
 
     const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
 
     return (
       <MessageMetadata
+        conversationId={conversationId}
         deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
@@ -783,7 +783,7 @@ export class Message extends React.PureComponent<Props, State> {
         isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         onWidthMeasured={isInline ? this.updateMetadataWidth : undefined}
-        showMessageDetail={showMessageDetail}
+        pushPanelForConversation={pushPanelForConversation}
         status={status}
         textPending={textAttachment?.pending}
         timestamp={timestamp}
@@ -841,7 +841,6 @@ export class Message extends React.PureComponent<Props, State> {
       reducedMotion,
       renderAudioAttachment,
       renderingContext,
-      showMessageDetail,
       showLightbox,
       shouldCollapseAbove,
       shouldCollapseBelow,
@@ -967,7 +966,6 @@ export class Message extends React.PureComponent<Props, State> {
         id,
         conversationId,
         played,
-        showMessageDetail,
         status,
         textPending: textAttachment?.pending,
         timestamp,
@@ -1453,6 +1451,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
+      conversationId,
       conversationTitle,
       customColor,
       direction,
@@ -1475,6 +1474,7 @@ export class Message extends React.PureComponent<Props, State> {
       : () => {
           scrollToQuotedMessage({
             authorId: quote.authorId,
+            conversationId,
             sentAt: quote.sentAt,
           });
         };

@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 
-import type { ExternalProps as MessageDetailProps } from '../../components/conversation/MessageDetail';
+import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail';
 import { MessageDetail } from '../../components/conversation/MessageDetail';
 
 import { mapDispatchToProps } from '../actions';
@@ -12,34 +12,25 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { getContactNameColorSelector } from '../selectors/conversations';
+import type { MinimalPropsForMessageDetails } from '../../models/messages';
 
 export { Contact } from '../../components/conversation/MessageDetail';
-export type OwnProps = Omit<
-  MessageDetailProps,
-  | 'getPreferredBadge'
-  | 'i18n'
-  | 'interactionMode'
-  | 'renderAudioAttachment'
-  | 'renderEmojiPicker'
-  | 'renderReactionPicker'
-  | 'theme'
-  | 'showContactModal'
-  | 'showConversation'
->;
+export type PropsWithExtraFunctions = MinimalPropsForMessageDetails &
+  Pick<
+    MessageDetailProps,
+    | 'contactNameColor'
+    | 'getPreferredBadge'
+    | 'i18n'
+    | 'interactionMode'
+    | 'renderAudioAttachment'
+    | 'theme'
+  >;
 
 const mapStateToProps = (
   state: StateType,
-  props: OwnProps
-): MessageDetailProps => {
-  const {
-    contacts,
-    errors,
-    message,
-    receivedAt,
-    sentAt,
-
-    startConversation,
-  } = props;
+  props: MinimalPropsForMessageDetails
+): PropsWithExtraFunctions => {
+  const { contacts, errors, message, receivedAt, sentAt } = props;
 
   const contactNameColor =
     message.conversationType === 'group'
@@ -65,7 +56,6 @@ const mapStateToProps = (
     theme: getTheme(state),
 
     renderAudioAttachment,
-    startConversation,
   };
 };
 

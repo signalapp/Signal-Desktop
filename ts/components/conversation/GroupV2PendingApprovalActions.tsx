@@ -3,16 +3,21 @@
 
 import * as React from 'react';
 import type { LocalizerType } from '../../types/Util';
+import { ConfirmationDialog } from '../ConfirmationDialog';
 
 export type PropsType = {
+  conversationId: string;
   i18n: LocalizerType;
-  onCancelJoinRequest: () => unknown;
+  cancelJoinRequest: (conversationId: string) => unknown;
 };
 
 export function GroupV2PendingApprovalActions({
+  cancelJoinRequest,
+  conversationId,
   i18n,
-  onCancelJoinRequest,
 }: PropsType): JSX.Element {
+  const [isConfirming, setIsConfirming] = React.useState(false);
+
   return (
     <div className="module-group-v2-pending-approval-actions">
       <p className="module-group-v2-pending-approval-actions__message">
@@ -21,13 +26,30 @@ export function GroupV2PendingApprovalActions({
       <div className="module-group-v2-pending-approval-actions__buttons">
         <button
           type="button"
-          onClick={onCancelJoinRequest}
+          onClick={() => setIsConfirming(true)}
           tabIndex={0}
           className="module-group-v2-pending-approval-actions__buttons__button"
         >
           {i18n('GroupV2--join--cancel-request-to-join')}
         </button>
       </div>
+      {isConfirming ? (
+        <ConfirmationDialog
+          actions={[
+            {
+              text: i18n('GroupV2--join--cancel-request-to-join--yes'),
+              style: 'negative',
+              action: () => cancelJoinRequest(conversationId),
+            },
+          ]}
+          cancelText={i18n('GroupV2--join--cancel-request-to-join--no')}
+          dialogName="GroupV2CancelRequestToJoin"
+          i18n={i18n}
+          onClose={() => setIsConfirming(false)}
+        >
+          {i18n('GroupV2--join--cancel-request-to-join--confirmation')}
+        </ConfirmationDialog>
+      ) : undefined}
     </div>
   );
 }

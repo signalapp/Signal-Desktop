@@ -266,7 +266,6 @@ const actions = () => ({
     'clearInvitedUuidsForNewlyCreatedGroup'
   ),
   setIsNearBottom: action('setIsNearBottom'),
-  learnMoreAboutDeliveryIssue: action('learnMoreAboutDeliveryIssue'),
   loadOlderMessages: action('loadOlderMessages'),
   loadNewerMessages: action('loadNewerMessages'),
   loadNewestMessages: action('loadNewestMessages'),
@@ -281,7 +280,6 @@ const actions = () => ({
   retryMessageSend: action('retryMessageSend'),
   deleteMessage: action('deleteMessage'),
   deleteMessageForEveryone: action('deleteMessageForEveryone'),
-  showMessageDetail: action('showMessageDetail'),
   saveAttachment: action('saveAttachment'),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactDetail: action('showContactDetail'),
@@ -310,19 +308,11 @@ const actions = () => ({
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
 
-  contactSupport: action('contactSupport'),
-
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
   reviewGroupMemberNameCollision: action('reviewGroupMemberNameCollision'),
   reviewMessageRequestNameCollision: action(
     'reviewMessageRequestNameCollision'
   ),
-
-  acceptConversation: action('acceptConversation'),
-  blockAndReportSpam: action('blockAndReportSpam'),
-  blockConversation: action('blockConversation'),
-  deleteConversation: action('deleteConversation'),
-  removeMember: action('removeMember'),
 
   unblurAvatar: action('unblurAvatar'),
 
@@ -371,10 +361,23 @@ const renderItem = ({
 const renderContactSpoofingReviewDialog = (
   props: SmartContactSpoofingReviewDialogPropsType
 ) => {
+  const sharedProps = {
+    acceptConversation: action('acceptConversation'),
+    blockAndReportSpam: action('blockAndReportSpam'),
+    blockConversation: action('blockConversation'),
+    deleteConversation: action('deleteConversation'),
+    getPreferredBadge: () => undefined,
+    i18n,
+    removeMember: action('removeMember'),
+    showContactModal: action('showContactModal'),
+    theme: ThemeType.dark,
+  };
+
   if (props.type === ContactSpoofingType.MultipleGroupMembersWithSameTitle) {
     return (
       <ContactSpoofingReviewDialog
         {...props}
+        {...sharedProps}
         group={{
           ...getDefaultConversation(),
           areWeAdmin: true,
@@ -383,7 +386,7 @@ const renderContactSpoofingReviewDialog = (
     );
   }
 
-  return <ContactSpoofingReviewDialog {...props} />;
+  return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
 };
 
 const getAbout = () => text('about', '👍 Free to chat');

@@ -20,6 +20,7 @@ import { InContactsIcon } from '../InContactsIcon';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type {
   ConversationType,
+  PopPanelForConversationActionType,
   PushPanelForConversationActionType,
 } from '../../state/ducks/conversations';
 import type { BadgeType } from '../../badges/types';
@@ -85,14 +86,14 @@ export type PropsDataType = {
 
 export type PropsActionsType = {
   destroyMessages: (conversationId: string) => void;
-  onArchive: () => void;
-  onGoBack: () => void;
-  onMarkUnread: () => void;
-  onMoveToInbox: () => void;
+  onArchive: (conversationId: string) => void;
+  onMarkUnread: (conversationId: string) => void;
+  onMoveToInbox: (conversationId: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
-  onSearchInConversation: () => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  popPanelForConversation: PopPanelForConversationActionType;
+  searchInConversation: (conversationId: string) => void;
   setDisappearingMessages: (
     conversationId: string,
     seconds: DurationInSeconds
@@ -153,12 +154,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderBackButton(): ReactNode {
-    const { i18n, onGoBack, showBackButton } = this.props;
+    const { i18n, id, popPanelForConversation, showBackButton } = this.props;
 
     return (
       <button
         type="button"
-        onClick={onGoBack}
+        onClick={() => popPanelForConversation(id)}
         className={classNames(
           'module-ConversationHeader__back-icon',
           showBackButton ? 'module-ConversationHeader__back-icon--show' : null
@@ -314,12 +315,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderSearchButton(): ReactNode {
-    const { i18n, onSearchInConversation, showBackButton } = this.props;
+    const { i18n, id, searchInConversation, showBackButton } = this.props;
 
     return (
       <button
         type="button"
-        onClick={onSearchInConversation}
+        onClick={() => searchInConversation(id)}
         className={classNames(
           'module-ConversationHeader__button',
           'module-ConversationHeader__button--search',
@@ -501,14 +502,18 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         </MenuItem>
         <MenuItem divider />
         {!markedUnread ? (
-          <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>
+          <MenuItem onClick={() => onMarkUnread(id)}>
+            {i18n('markUnread')}
+          </MenuItem>
         ) : null}
         {isArchived ? (
-          <MenuItem onClick={onMoveToInbox}>
+          <MenuItem onClick={() => onMoveToInbox(id)}>
             {i18n('moveConversationToInbox')}
           </MenuItem>
         ) : (
-          <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+          <MenuItem onClick={() => onArchive(id)}>
+            {i18n('archiveConversation')}
+          </MenuItem>
         )}
         <MenuItem
           onClick={() => this.setState({ hasDeleteMessagesConfirmation: true })}

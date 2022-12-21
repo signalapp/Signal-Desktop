@@ -24,6 +24,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 
 export type PropsDataType = {
   areWeAdmin: boolean;
+  conversationId: string;
   groupMemberships?: Array<{
     uuid: UUIDStringType;
     isAdmin: boolean;
@@ -36,7 +37,10 @@ export type PropsDataType = {
 };
 
 export type PropsActionsType = {
-  blockGroupLinkRequests: (uuid: UUIDStringType) => unknown;
+  blockGroupLinkRequests: (
+    conversationId: string,
+    uuid: UUIDStringType
+  ) => unknown;
 };
 
 export type PropsHousekeepingType = {
@@ -130,6 +134,7 @@ function getIcon(
 function GroupV2Detail({
   areWeAdmin,
   blockGroupLinkRequests,
+  conversationId,
   detail,
   isLastText,
   fromId,
@@ -143,7 +148,11 @@ function GroupV2Detail({
   text,
 }: {
   areWeAdmin: boolean;
-  blockGroupLinkRequests: (uuid: UUIDStringType) => unknown;
+  blockGroupLinkRequests: (
+    conversationId: string,
+    uuid: UUIDStringType
+  ) => unknown;
+  conversationId: string;
   detail: GroupV2ChangeDetailType;
   isLastText: boolean;
   groupMemberships?: Array<{
@@ -209,7 +218,7 @@ function GroupV2Detail({
           title={i18n('PendingRequests--block--title')}
           actions={[
             {
-              action: () => blockGroupLinkRequests(detail.uuid),
+              action: () => blockGroupLinkRequests(conversationId, detail.uuid),
               text: i18n('PendingRequests--block--confirm'),
               style: 'affirmative',
             },
@@ -282,6 +291,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
     areWeAdmin,
     blockGroupLinkRequests,
     change,
+    conversationId,
     groupBannedMemberships,
     groupMemberships,
     groupName,
@@ -304,6 +314,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
           <GroupV2Detail
             areWeAdmin={areWeAdmin}
             blockGroupLinkRequests={blockGroupLinkRequests}
+            conversationId={conversationId}
             detail={detail}
             isLastText={isLastText}
             fromId={change.from}

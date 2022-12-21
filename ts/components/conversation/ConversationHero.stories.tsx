@@ -134,6 +134,16 @@ DirectNoGroupsNoDataNotAccepted.story = {
   name: 'Direct (No Groups, No Data, Not Accepted)',
 };
 
+export const DirectNoGroupsNotAcceptedWithAvatar = Template.bind({});
+DirectNoGroupsNotAcceptedWithAvatar.args = {
+  ...getDefaultConversation(),
+  acceptedMessageRequest: false,
+  profileName: '',
+};
+DirectNoGroupsNotAcceptedWithAvatar.story = {
+  name: 'Direct (No Groups, No Data, Not Accepted, With Avatar)',
+};
+
 export const GroupManyMembers = Template.bind({});
 GroupManyMembers.args = {
   conversationType: 'group',

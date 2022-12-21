@@ -10,8 +10,6 @@ import { mapDispatchToProps } from '../actions';
 import type {
   ContactSpoofingReviewPropType,
   WarningType as TimelineWarningType,
-  PropsType as ComponentPropsType,
-  PropsActionsFromBackboneForChildrenType,
 } from '../../components/conversation/Timeline';
 import { Timeline } from '../../components/conversation/Timeline';
 import type { StateType } from '../reducer';
@@ -50,47 +48,12 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import type { UnreadIndicatorPlacement } from '../../util/timelineUtil';
 import type { WidthBreakpoint } from '../../components/_util';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { markViewed } from '../ducks/conversations';
 
 type ExternalProps = {
   id: string;
-
-  // Note: most action creators are not wired into redux; for now they
-  //   are provided by ConversationView in setupTimeline().
 };
 
-export type TimelinePropsType = ExternalProps &
-  Pick<
-    ComponentPropsType,
-    // All of these are the ones we need from backbone
-
-    // Used by Timeline itself
-    | 'acknowledgeGroupMemberNameCollisions'
-    | 'loadOlderMessages'
-    | 'loadNewerMessages'
-    | 'loadNewestMessages'
-    | 'markMessageRead'
-    | 'removeMember'
-    | 'unblurAvatar'
-    | 'updateSharedGroups'
-
-    // MessageActionsType
-    | 'scrollToQuotedMessage'
-    | 'showMessageDetail'
-    | 'startConversation'
-
-    // ChatSessionRefreshedNotificationActionsType
-    | 'contactSupport'
-
-    // DeliveryIssueNotificationActionsType
-    | 'learnMoreAboutDeliveryIssue'
-
-    // GroupV2ChangeActionsType
-    | 'blockGroupLinkRequests'
-  >;
-
 function renderItem({
-  actionProps,
   containerElementRef,
   containerWidthBreakpoint,
   conversationId,
@@ -100,7 +63,6 @@ function renderItem({
   previousMessageId,
   unreadIndicatorPlacement,
 }: {
-  actionProps: PropsActionsFromBackboneForChildrenType;
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
@@ -112,7 +74,6 @@ function renderItem({
 }): JSX.Element {
   return (
     <SmartTimelineItem
-      {...actionProps}
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
@@ -134,18 +95,8 @@ function renderContactSpoofingReviewDialog(
   return <SmartContactSpoofingReviewDialog {...props} />;
 }
 
-function renderHeroRow(
-  id: string,
-  unblurAvatar: () => void,
-  updateSharedGroups: () => unknown
-): JSX.Element {
-  return (
-    <SmartHeroRow
-      id={id}
-      unblurAvatar={unblurAvatar}
-      updateSharedGroups={updateSharedGroups}
-    />
-  );
+function renderHeroRow(id: string): JSX.Element {
+  return <SmartHeroRow id={id} />;
 }
 function renderTypingBubble(id: string): JSX.Element {
   return <SmartTypingBubble id={id} />;
@@ -270,8 +221,8 @@ const getContactSpoofingReview = (
   }
 };
 
-const mapStateToProps = (state: StateType, props: TimelinePropsType) => {
-  const { id, ...actions } = props;
+const mapStateToProps = (state: StateType, props: ExternalProps) => {
+  const { id } = props;
 
   const conversation = getConversationSelector(state)(id);
 
@@ -307,8 +258,6 @@ const mapStateToProps = (state: StateType, props: TimelinePropsType) => {
     renderContactSpoofingReviewDialog,
     renderHeroRow,
     renderTypingBubble,
-    markViewed,
-    ...actions,
   };
 };
 

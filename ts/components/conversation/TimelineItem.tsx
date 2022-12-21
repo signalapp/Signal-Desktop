@@ -15,12 +15,8 @@ import type {
 } from './TimelineMessage';
 import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification';
 import { CallingNotification } from './CallingNotification';
-import type { PropsActionsType as PropsChatSessionRefreshedActionsType } from './ChatSessionRefreshedNotification';
 import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
-import type {
-  PropsActionsType as DeliveryIssueActionProps,
-  PropsDataType as DeliveryIssueProps,
-} from './DeliveryIssueNotification';
+import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification';
 import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
@@ -171,9 +167,7 @@ type PropsLocalType = {
 
 type PropsActionsType = MessageActionsType &
   CallingNotificationActionsType &
-  DeliveryIssueActionProps &
   GroupV2ChangeActionsType &
-  PropsChatSessionRefreshedActionsType &
   SafetyNumberActionsType;
 
 export type PropsType = PropsLocalType &

@@ -17,6 +17,8 @@ export default {
   component: ToastManager,
   argTypes: {
     hideToast: { action: true },
+    openFileInFolder: { action: true },
+    onUndoArchive: { action: true },
     i18n: {
       defaultValue: i18n,
     },
@@ -88,6 +90,30 @@ export const CannotStartGroupCall = Template.bind({});
 CannotStartGroupCall.args = {
   toast: {
     toastType: ToastType.CannotStartGroupCall,
+  },
+};
+
+export const ConversationArchived = Template.bind({});
+ConversationArchived.args = {
+  toast: {
+    toastType: ToastType.ConversationArchived,
+    parameters: {
+      conversationId: 'some-conversation-id',
+    },
+  },
+};
+
+export const ConversationMarkedUnread = Template.bind({});
+ConversationMarkedUnread.args = {
+  toast: {
+    toastType: ToastType.ConversationMarkedUnread,
+  },
+};
+
+export const ConversationUnarchived = Template.bind({});
+ConversationUnarchived.args = {
+  toast: {
+    toastType: ToastType.ConversationUnarchived,
   },
 };
 
@@ -179,6 +205,13 @@ export const MaxAttachments = Template.bind({});
 MaxAttachments.args = {
   toast: {
     toastType: ToastType.MaxAttachments,
+  },
+};
+
+export const OriginalMessageNotFound = Template.bind({});
+OriginalMessageNotFound.args = {
+  toast: {
+    toastType: ToastType.OriginalMessageNotFound,
   },
 };
 
