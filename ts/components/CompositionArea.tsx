@@ -416,7 +416,6 @@ export function CompositionArea({
       {showViewOnceToggle ? (
         <div className="CompositionArea__button-cell">
           <ViewOnceSettingButton
-            i18n={i18n}
             isViewOnceToggled={shouldSendAsViewOnce}
             onViewOnceButtonToggle={onViewOnceToggle}
           />
