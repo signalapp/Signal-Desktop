@@ -8,7 +8,6 @@ import type { LocalizerType } from '../types/Util';
 import { useRefMerger } from '../hooks/useRefMerger';
 
 export type PropsType = {
-  i18n: LocalizerType;
   isViewOnceToggled: boolean;
   onViewOnceButtonToggle: (isVO: boolean) => unknown;
 };
