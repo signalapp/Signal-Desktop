@@ -707,7 +707,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       isTapToView: isMessageTapToView,
       isTapToViewError:
         isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
-      isTapToViewExpired: isMessageTapToView && message.isErased,
+      isTapToViewExpired: (isMessageTapToView && message.isErased) || !isIncoming(message),
       readStatus: message.readStatus ?? ReadStatus.Read,
       selectedReaction,
       status: getMessagePropStatus(message, ourConversationId),
