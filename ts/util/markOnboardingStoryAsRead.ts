@@ -38,11 +38,11 @@ export async function markOnboardingStoryAsRead(): Promise<void> {
     })
     .filter(isNotNil);
 
-  window.Signal.Data.saveMessages(messageAttributes, {
+  await window.Signal.Data.saveMessages(messageAttributes, {
     ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
   });
 
-  window.storage.put('hasViewedOnboardingStory', true);
+  await window.storage.put('hasViewedOnboardingStory', true);
 
   storageServiceUploadJob();
 }

@@ -122,7 +122,7 @@ export const refreshRemoteConfig = async (
     };
   }, {});
 
-  window.storage.put('remoteConfig', config);
+  await window.storage.put('remoteConfig', config);
 };
 
 export const maybeRefreshRemoteConfig = throttle(

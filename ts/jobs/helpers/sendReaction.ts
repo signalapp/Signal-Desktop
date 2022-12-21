@@ -322,7 +322,7 @@ export async function sendReaction(
           reactionMessage.hydrateStoryContext(message),
         ]);
 
-        conversation.addSingleMessage(
+        void conversation.addSingleMessage(
           window.MessageController.register(reactionMessage.id, reactionMessage)
         );
       }

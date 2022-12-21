@@ -20,7 +20,7 @@ describe('sleep', () => {
   it('returns a promise that resolves after the specified number of milliseconds', async function test() {
     let isDone = false;
 
-    (async () => {
+    void (async () => {
       await sleep(123);
       isDone = true;
     })();

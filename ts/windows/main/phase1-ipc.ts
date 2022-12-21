@@ -155,7 +155,7 @@ window.setMenuBarVisibility = visibility =>
 window.updateSystemTraySetting = (
   systemTraySetting /* : Readonly<SystemTraySetting> */
 ) => {
-  ipc.invoke('update-system-tray-setting', systemTraySetting);
+  void ipc.invoke('update-system-tray-setting', systemTraySetting);
 };
 
 window.restart = () => {
@@ -322,7 +322,7 @@ ipc.on('show-group-via-link', (_event, info) => {
   const { hash } = info;
   const { showGroupViaLink } = window.Events;
   if (showGroupViaLink) {
-    showGroupViaLink(hash);
+    void showGroupViaLink(hash);
   }
 });
 
@@ -332,7 +332,7 @@ ipc.on('show-conversation-via-signal.me', (_event, info) => {
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(hash);
   }
 });
 
@@ -347,7 +347,7 @@ ipc.on('install-sticker-pack', (_event, info) => {
   const { packId, packKey } = info;
   const { installStickerPack } = window.Events;
   if (installStickerPack) {
-    installStickerPack(packId, packKey);
+    void installStickerPack(packId, packKey);
   }
 });
 

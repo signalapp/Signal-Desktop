@@ -191,7 +191,7 @@ export async function maybeFetchNewCredentials(): Promise<void> {
 
   log.info(`${logId}: Saving new credentials...`);
   // Note: we don't wait for this to finish
-  window.storage.put('groupCredentials', finalCredentials);
+  await window.storage.put('groupCredentials', finalCredentials);
   log.info(`${logId}: Save complete.`);
 }
 

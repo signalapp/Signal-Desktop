@@ -92,7 +92,7 @@ function _maybeGrabLinkPreview(
     return;
   }
 
-  addLinkPreview(link, source, {
+  void addLinkPreview(link, source, {
     disableFetch: !window.Events.getLinkPreviewSetting(),
   });
 }

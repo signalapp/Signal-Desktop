@@ -78,7 +78,7 @@ class ExpiringMessagesDeletionService {
     window.SignalContext.log.info(
       'destroyExpiredMessages: done, scheduling another check'
     );
-    this.update();
+    void this.update();
   }
 
   private async checkExpiringMessages() {

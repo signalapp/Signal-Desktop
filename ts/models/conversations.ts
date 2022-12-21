@@ -23,6 +23,7 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
 } from '../model-types.d';
+import { drop } from '../util/drop';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
@@ -880,19 +881,19 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.blocked.addBlockedUuid(uuid);
+      drop(window.storage.blocked.addBlockedUuid(uuid));
       blocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.blocked.addBlockedNumber(e164);
+      drop(window.storage.blocked.addBlockedNumber(e164));
       blocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.blocked.addBlockedGroup(groupId);
+      drop(window.storage.blocked.addBlockedGroup(groupId));
       blocked = true;
     }
 
@@ -912,19 +913,19 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.get('uuid');
     if (uuid) {
-      window.storage.blocked.removeBlockedUuid(uuid);
+      drop(window.storage.blocked.removeBlockedUuid(uuid));
       unblocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      window.storage.blocked.removeBlockedNumber(e164);
+      drop(window.storage.blocked.removeBlockedNumber(e164));
       unblocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      window.storage.blocked.removeBlockedGroup(groupId);
+      drop(window.storage.blocked.removeBlockedGroup(groupId));
       unblocked = true;
     }
 
@@ -936,7 +937,7 @@ export class ConversationModel extends window.Backbone
         this.captureChange('unblock');
       }
 
-      this.fetchLatestGroupV2Data({ force: true });
+      void this.fetchLatestGroupV2Data({ force: true });
     }
 
     return unblocked;
@@ -1010,7 +1011,7 @@ export class ConversationModel extends window.Backbone
     if (!this.typingRefreshTimer) {
       const isTyping = true;
       this.setTypingRefreshTimer();
-      this.sendTypingMessage(isTyping);
+      void this.sendTypingMessage(isTyping);
     }
 
     this.setTypingPauseTimer();
@@ -1026,7 +1027,7 @@ export class ConversationModel extends window.Backbone
 
   onTypingRefreshTimeout(): void {
     const isTyping = true;
-    this.sendTypingMessage(isTyping);
+    void this.sendTypingMessage(isTyping);
 
     // This timer will continue to reset itself until the pause timer stops it
     this.setTypingRefreshTimer();
@@ -1042,7 +1043,7 @@ export class ConversationModel extends window.Backbone
 
   onTypingPauseTimeout(): void {
     const isTyping = false;
-    this.sendTypingMessage(isTyping);
+    void this.sendTypingMessage(isTyping);
 
     this.clearTypingTimers();
   }
@@ -1331,7 +1332,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    this.addSingleMessage(message);
+    void this.addSingleMessage(message);
   }
 
   // New messages might arrive while we're in the middle of a bulk fetch from the
@@ -1380,7 +1381,7 @@ export class ConversationModel extends window.Backbone
       newestId && messageIds && messageIds[messageIds.length - 1] === newestId;
 
     if (isJustSent && existingConversation && !isLatestInMemory) {
-      this.loadNewestMessages(undefined, undefined);
+      void this.loadNewestMessages(undefined, undefined);
     } else if (
       // The message has to be not a story or has to be a story reply in direct
       // conversation.
@@ -1452,12 +1453,12 @@ export class ConversationModel extends window.Backbone
       //   scroll directly to the oldest message, because that could scroll the hero off
       //   the screen.
       if (!newestMessageId && !this.getAccepted() && metrics.oldest) {
-        this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
+        void this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
         return;
       }
 
       if (scrollToLatestUnread && metrics.oldestUnseen) {
-        this.loadAndScroll(metrics.oldestUnseen.id, {
+        void this.loadAndScroll(metrics.oldestUnseen.id, {
           disableScroll: !setFocus,
         });
         return;
@@ -1939,12 +1940,12 @@ export class ConversationModel extends window.Backbone
       this.get('profileSharing') || this.get('sentMessageCount')
     );
     if (!oldValue && e164 && haveSentMessage && !disableDiscoveryNotification) {
-      this.addPhoneNumberDiscovery(e164);
+      void this.addPhoneNumberDiscovery(e164);
     }
 
     // This user changed their phone number
     if (oldValue && e164) {
-      this.addChangeNumberNotification(oldValue, e164);
+      void this.addChangeNumberNotification(oldValue, e164);
     }
 
     window.Signal.Data.updateConversation(this.attributes);
@@ -1966,7 +1967,11 @@ export class ConversationModel extends window.Backbone
     //   for the case where we need to do old and new PNI comparisons. We'll wait
     //   for the PNI update to do that.
     if (oldValue && oldValue !== this.get('pni')) {
-      window.textsecure.storage.protocol.removeIdentityKey(UUID.cast(oldValue));
+      drop(
+        window.textsecure.storage.protocol.removeIdentityKey(
+          UUID.cast(oldValue)
+        )
+      );
     }
 
     this.captureChange('updateUuid');
@@ -1985,7 +1990,7 @@ export class ConversationModel extends window.Backbone
       log.warn(
         `${logId}: Already had previousIdentityKey, new one does not match`
       );
-      this.addKeyChange('trackPreviousIdentityKey - change');
+      void this.addKeyChange('trackPreviousIdentityKey - change');
     }
 
     log.warn(`${logId}: Setting new previousIdentityKey`);
@@ -2031,7 +2036,7 @@ export class ConversationModel extends window.Backbone
             newIdentityRecord.publicKey
           )
         ) {
-          this.addKeyChange('updatePni - change');
+          void this.addKeyChange('updatePni - change');
         } else if (!newIdentityRecord && oldIdentityRecord) {
           this.trackPreviousIdentityKey(oldIdentityRecord.publicKey);
         }
@@ -2052,7 +2057,11 @@ export class ConversationModel extends window.Backbone
 
     // If this PNI is going away or going to someone else, we'll delete all its sessions
     if (oldValue) {
-      window.textsecure.storage.protocol.removeIdentityKey(UUID.cast(oldValue));
+      drop(
+        window.textsecure.storage.protocol.removeIdentityKey(
+          UUID.cast(oldValue)
+        )
+      );
     }
 
     if (pni && !this.get('uuid')) {
@@ -2235,7 +2244,7 @@ export class ConversationModel extends window.Backbone
             isGroupV1(this.attributes) ||
             isDirectConversation(this.attributes)
           ) {
-            this.sendProfileKeyUpdate();
+            void this.sendProfileKeyUpdate();
           } else if (
             isGroupV2(this.attributes) &&
             this.isMemberPending(ourACI)
@@ -2283,7 +2292,7 @@ export class ConversationModel extends window.Backbone
         // Delete messages locally, other devices should delete upon receiving
         // the sync message
         await this.destroyMessages();
-        this.updateLastMessage();
+        void this.updateLastMessage();
 
         if (isLocalAction) {
           this.trigger('unload', 'deleted from message request');
@@ -2302,7 +2311,7 @@ export class ConversationModel extends window.Backbone
         // Delete messages locally, other devices should delete upon receiving
         // the sync message
         await this.destroyMessages();
-        this.updateLastMessage();
+        void this.updateLastMessage();
 
         if (isLocalAction) {
           this.trigger('unload', 'blocked and deleted from message request');
@@ -2944,7 +2953,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
-    this.updateUnread();
+    void this.updateUnread();
   }
 
   async addDeliveryIssue({
@@ -2990,7 +2999,7 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
 
     await this.notify(model);
-    this.updateUnread();
+    void this.updateUnread();
   }
 
   async addKeyChange(reason: string, keyChangedId?: UUID): Promise<void> {
@@ -3053,7 +3062,7 @@ export class ConversationModel extends window.Backbone
             parsedUuid
           );
         groups.forEach(group => {
-          group.addKeyChange('addKeyChange - group fan-out', parsedUuid);
+          void group.addKeyChange('addKeyChange - group fan-out', parsedUuid);
         });
       }
 
@@ -3197,14 +3206,14 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
-    this.updateUnread();
+    void this.updateUnread();
 
     const uuid = this.getUuid();
     if (isDirectConversation(this.attributes) && uuid) {
-      window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
+      void window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
           groups.forEach(group => {
-            group.addVerifiedChange(this.id, verified, options);
+            void group.addVerifiedChange(this.id, verified, options);
           });
         }
       );
@@ -3263,7 +3272,7 @@ export class ConversationModel extends window.Backbone
     );
 
     this.trigger('newmessage', model);
-    this.updateUnread();
+    void this.updateUnread();
 
     if (this.get('isArchived')) {
       this.setArchived(false);
@@ -3289,7 +3298,7 @@ export class ConversationModel extends window.Backbone
       (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
 
     if (alreadyHasMessage) {
-      this.updateLastMessage();
+      void this.updateLastMessage();
       return false;
     }
 
@@ -3338,10 +3347,10 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.getUuid();
     if (isDirectConversation(this.attributes) && uuid) {
-      window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
+      void window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
           groups.forEach(group => {
-            group.addProfileChange(profileChange, this.id);
+            void group.addProfileChange(profileChange, this.id);
           });
         }
       );
@@ -3892,11 +3901,13 @@ export class ConversationModel extends window.Backbone
       },
     };
 
-    this.enqueueMessageForSend({
-      body: undefined,
-      attachments: [],
-      sticker,
-    });
+    drop(
+      this.enqueueMessageForSend({
+        body: undefined,
+        attachments: [],
+        sticker,
+      })
+    );
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
@@ -4019,7 +4030,7 @@ export class ConversationModel extends window.Backbone
     if (preview && preview.length) {
       attachments.forEach(attachment => {
         if (attachment.path) {
-          deleteAttachmentData(attachment.path);
+          void deleteAttachmentData(attachment.path);
         }
       });
     }
@@ -4208,8 +4219,10 @@ export class ConversationModel extends window.Backbone
     });
 
     // This runs as a job to avoid race conditions
-    this.queueJob('maybeSetPendingUniversalTimer', async () =>
-      this.maybeSetPendingUniversalTimer(stats.hasUserInitiatedMessages)
+    drop(
+      this.queueJob('maybeSetPendingUniversalTimer', async () =>
+        this.maybeSetPendingUniversalTimer(stats.hasUserInitiatedMessages)
+      )
     );
 
     const { preview, activity } = stats;
@@ -4608,8 +4621,8 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageController.register(id, model);
 
-    this.addSingleMessage(message);
-    this.updateUnread();
+    void this.addSingleMessage(message);
+    void this.updateUnread();
 
     log.info(
       `${logId}: added a notification received_at=${model.get('received_at')}`
@@ -4664,10 +4677,10 @@ export class ConversationModel extends window.Backbone
     model.set({ id });
 
     const message = window.MessageController.register(model.id, model);
-    this.addSingleMessage(message);
+    void this.addSingleMessage(message);
 
     const options = await getSendOptions(this.attributes);
-    message.send(
+    void message.send(
       handleMessageSend(
         messaging.leaveGroup(groupId, groupIdentifiers, options),
         { messageIds: [], sendType: 'legacyGroupChange' }
@@ -4739,7 +4752,7 @@ export class ConversationModel extends window.Backbone
 
   onChangeProfileKey(): void {
     if (isDirectConversation(this.attributes)) {
-      this.getProfiles();
+      void this.getProfiles();
     }
   }
 
@@ -4799,9 +4812,9 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     if (isMe(this.attributes)) {
       if (avatarPath) {
-        window.storage.put('avatarUrl', avatarPath);
+        await window.storage.put('avatarUrl', avatarPath);
       } else {
-        window.storage.remove('avatarUrl');
+        await window.storage.remove('avatarUrl');
       }
     }
 
@@ -4938,7 +4951,7 @@ export class ConversationModel extends window.Backbone
         'deriveProfileKeyVersion: Failed to derive profile key version, ' +
           'clearing profile key.'
       );
-      this.setProfileKey(undefined);
+      void this.setProfileKey(undefined);
       return;
     }
 
@@ -5210,7 +5223,7 @@ export class ConversationModel extends window.Backbone
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
     this.set({ needsStorageServiceSync: true });
 
-    this.queueJob('captureChange', async () => {
+    void this.queueJob('captureChange', async () => {
       storageServiceUploadJob();
     });
   }
@@ -5474,7 +5487,7 @@ export class ConversationModel extends window.Backbone
   }
 
   writePinnedConversations(pinnedConversationIds: Array<string>): void {
-    window.storage.put('pinnedConversationIds', pinnedConversationIds);
+    drop(window.storage.put('pinnedConversationIds', pinnedConversationIds));
 
     const myId = window.ConversationController.getOurConversationId();
     const me = window.ConversationController.get(myId);

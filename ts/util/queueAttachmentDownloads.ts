@@ -236,7 +236,7 @@ export async function queueAttachmentDownloads(
     }
     if (!status) {
       // Save the packId/packKey for future download/install
-      savePackMetadata(packId, packKey, { messageId });
+      void savePackMetadata(packId, packKey, { messageId });
     } else {
       await dataInterface.addStickerPackReference(messageId, packId);
     }

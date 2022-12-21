@@ -182,7 +182,7 @@ describe('pnp/send gv2 invite', function needsName() {
       const detailsHeader = conversationStack.locator(
         '_react=ConversationDetailsHeader'
       );
-      detailsHeader.locator('button >> "My group"').click();
+      await detailsHeader.locator('button >> "My group"').click();
 
       const modal = window.locator('.module-Modal:has-text("Edit group")');
 

@@ -10,7 +10,7 @@ import { Tabs } from '../Tabs';
 
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
-  readonly closeStickerPackPreview: (packId: string) => unknown;
+  readonly closeStickerPackPreview: () => unknown;
   readonly downloadStickerPack: (packId: string, packKey: string) => unknown;
   readonly i18n: LocalizerType;
   readonly installStickerPack: (packId: string, packKey: string) => unknown;

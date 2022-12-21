@@ -25,6 +25,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
 import { assertDev } from '../../util/assert';
+import { drop } from '../../util/drop';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
 import { deleteGroupStoryReplyForEveryone as doDeleteGroupStoryReplyForEveryone } from '../../util/deleteGroupStoryReplyForEveryone';
@@ -374,14 +375,14 @@ function markStoryRead(
     const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
 
     if (isSignalOnboardingStory) {
-      markOnboardingStoryAsRead();
+      void markOnboardingStoryAsRead();
       return;
     }
 
     const storyReadDate = Date.now();
 
     message.set(markViewed(message.attributes, storyReadDate));
-    window.Signal.Data.saveMessage(message.attributes, {
+    void window.Signal.Data.saveMessage(message.attributes, {
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
     });
 
@@ -395,11 +396,11 @@ function markStoryRead(
     const viewSyncs: Array<SyncType> = [viewedReceipt];
 
     if (!window.ConversationController.areWePrimaryDevice()) {
-      viewSyncJobQueue.add({ viewSyncs });
+      drop(viewSyncJobQueue.add({ viewSyncs }));
     }
 
     if (window.Events.getStoryViewReceiptsEnabled()) {
-      viewedReceiptsJobQueue.add({ viewedReceipt });
+      drop(viewedReceiptsJobQueue.add({ viewedReceipt }));
     }
 
     await dataInterface.addNewStoryRead({

@@ -89,7 +89,7 @@ export async function maybeForwardMessage(
               }
             : undefined;
 
-          conversation.enqueueMessageForSend(
+          void conversation.enqueueMessageForSend(
             {
               body: undefined,
               attachments: [],
@@ -99,7 +99,7 @@ export async function maybeForwardMessage(
           );
         } else if (contact?.length) {
           const contactWithHydratedAvatar = await loadContactData(contact);
-          conversation.enqueueMessageForSend(
+          void conversation.enqueueMessageForSend(
             {
               body: undefined,
               attachments: [],
@@ -124,7 +124,7 @@ export async function maybeForwardMessage(
               )
           );
 
-          conversation.enqueueMessageForSend(
+          void conversation.enqueueMessageForSend(
             {
               body: messageBody || undefined,
               attachments: attachmentsToSend,

@@ -9,6 +9,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import Long from 'long';
 import * as durations from '../../util/durations';
+import { drop } from '../../util/drop';
 import * as Bytes from '../../Bytes';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
 import { SignalService as Proto } from '../../protobuf';
@@ -232,8 +233,8 @@ describe('SenderCertificateService', () => {
 
       const service = initializeTestService();
 
-      service.get(SenderCertificateMode.WithE164);
-      service.get(SenderCertificateMode.WithoutE164);
+      drop(service.get(SenderCertificateMode.WithE164));
+      drop(service.get(SenderCertificateMode.WithoutE164));
 
       await service.clear();
 

@@ -618,7 +618,7 @@ function ReplyOrReactionMessage({
       icon: 'module-message__context--icon module-message__context__copy-timestamp',
       label: i18n('icu:StoryViewsNRepliesModal__copy-reply-timestamp'),
       onClick: () => {
-        window.navigator.clipboard.writeText(String(reply.timestamp));
+        void window.navigator.clipboard.writeText(String(reply.timestamp));
       },
     });
   }

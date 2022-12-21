@@ -139,6 +139,6 @@ export default class SyncRequest {
   }
 
   start(): void {
-    this.inner.start();
+    void this.inner.start();
   }
 }

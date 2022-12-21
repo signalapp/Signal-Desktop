@@ -23,7 +23,7 @@ import {
 const CONVERSATION_SIZE = 500; // messages
 const LAST_MESSAGE = 'start sending messages now';
 
-(async () => {
+void (async () => {
   const bootstrap = new Bootstrap({
     benchmark: true,
   });

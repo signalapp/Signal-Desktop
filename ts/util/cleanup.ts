@@ -78,7 +78,7 @@ async function cleanupStoryReplies(
     replies.forEach(reply => {
       const model = window.MessageController.register(reply.id, reply);
       model.unset('storyReplyContext');
-      model.hydrateStoryContext(null);
+      void model.hydrateStoryContext(null);
     });
   }
 

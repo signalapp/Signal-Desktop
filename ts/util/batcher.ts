@@ -8,6 +8,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { clearTimeoutIfNecessary } from './clearTimeoutIfNecessary';
 import { MINUTE } from './durations';
+import { drop } from './drop';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -67,9 +68,11 @@ export function createBatcher<ItemType>(
 
     const itemsRef = items;
     items = [];
-    queue.add(async () => {
-      await options.processBatch(itemsRef);
-    });
+    drop(
+      queue.add(async () => {
+        await options.processBatch(itemsRef);
+      })
+    );
   }
 
   function add(item: ItemType) {

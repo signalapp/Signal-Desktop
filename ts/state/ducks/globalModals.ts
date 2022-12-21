@@ -443,11 +443,10 @@ function closeStickerPackPreview(): ThunkAction<
   return async (dispatch, getState) => {
     const packId = getState().globalModals.stickerPackPreviewId;
 
-    if (!packId) {
-      return;
+    if (packId && Stickers.getStickerPack(packId) !== undefined) {
+      await Stickers.removeEphemeralPack(packId);
     }
 
-    await Stickers.removeEphemeralPack(packId);
     dispatch({
       type: CLOSE_STICKER_PACK_PREVIEW,
     });
@@ -460,7 +459,7 @@ export function showStickerPackPreview(
 ): ShowStickerPackPreviewActionType {
   // Intentionally not awaiting this so that we can show the modal right away.
   // The modal has a loading spinner on it.
-  Stickers.downloadEphemeralPack(packId, packKey);
+  void Stickers.downloadEphemeralPack(packId, packKey);
 
   return {
     type: SHOW_STICKER_PACK_PREVIEW,

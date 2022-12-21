@@ -23,6 +23,7 @@ import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
 import * as log from '../../logging/log';
 import { MINUTE } from '../../util/durations';
+import { drop } from '../../util/drop';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -124,11 +125,11 @@ export const preloadImages = async (): Promise<void> => {
   const start = Date.now();
 
   data.forEach(emoji => {
-    imageQueue.add(() => preload(makeImagePath(emoji.image)));
+    drop(imageQueue.add(() => preload(makeImagePath(emoji.image))));
 
     if (emoji.skin_variations) {
       Object.values(emoji.skin_variations).forEach(variation => {
-        imageQueue.add(() => preload(makeImagePath(variation.image)));
+        drop(imageQueue.add(() => preload(makeImagePath(variation.image))));
       });
     }
   });

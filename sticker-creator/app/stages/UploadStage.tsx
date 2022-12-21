@@ -29,7 +29,7 @@ export function UploadStage(): JSX.Element {
   const [complete, setComplete] = React.useState(0);
 
   React.useEffect(() => {
-    (async () => {
+    void (async () => {
       const onProgress = () => {
         setComplete(i => i + 1);
       };

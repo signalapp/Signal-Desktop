@@ -39,6 +39,7 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import MessageSender from '../textsecure/SendMessage';
 import type { StoryDistributionListDataType } from '../state/ducks/storyDistributionLists';
+import { drop } from './drop';
 
 const RETRY_LIMIT = 5;
 
@@ -690,14 +691,18 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
   }
 
   log.warn(`requestResend/${logId}: No content hint, adding error immediately`);
-  conversation.queueJob('addDeliveryIssue', async () => {
-    conversation.addDeliveryIssue({
-      receivedAt: receivedAtDate,
-      receivedAtCounter,
-      senderUuid,
-      sentAt: timestamp,
-    });
-  });
+  drop(
+    conversation.queueJob('addDeliveryIssue', async () => {
+      drop(
+        conversation.addDeliveryIssue({
+          receivedAt: receivedAtDate,
+          receivedAtCounter,
+          senderUuid,
+          sentAt: timestamp,
+        })
+      );
+    })
+  );
 }
 
 function scheduleSessionReset(senderUuid: string, senderDevice: number) {
@@ -710,13 +715,15 @@ function scheduleSessionReset(senderUuid: string, senderDevice: number) {
     );
   }
 
-  lightSessionResetQueue.add(async () => {
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+  drop(
+    lightSessionResetQueue.add(async () => {
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
 
-    await window.textsecure.storage.protocol.lightSessionReset(
-      new QualifiedAddress(ourUuid, Address.create(senderUuid, senderDevice))
-    );
-  });
+      await window.textsecure.storage.protocol.lightSessionReset(
+        new QualifiedAddress(ourUuid, Address.create(senderUuid, senderDevice))
+      );
+    })
+  );
 }
 
 function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
@@ -740,7 +747,14 @@ function startAutomaticSessionReset(decryptionError: DecryptionErrorEventData) {
 
   const receivedAt = Date.now();
   const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
-  conversation.queueJob('addChatSessionRefreshed', async () => {
-    conversation.addChatSessionRefreshed({ receivedAt, receivedAtCounter });
-  });
+  drop(
+    conversation.queueJob('addChatSessionRefreshed', async () => {
+      drop(
+        conversation.addChatSessionRefreshed({
+          receivedAt,
+          receivedAtCounter,
+        })
+      );
+    })
+  );
 }

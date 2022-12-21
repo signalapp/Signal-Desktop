@@ -138,7 +138,7 @@ export function StandaloneRegistration({
       });
 
       try {
-        requestVerification(type, number, token);
+        void requestVerification(type, number, token);
         setError(undefined);
       } catch (err) {
         setError(err.message);
@@ -152,7 +152,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      onRequestCode('sms');
+      void onRequestCode('sms');
     },
     [onRequestCode]
   );
@@ -162,7 +162,7 @@ export function StandaloneRegistration({
       e.preventDefault();
       e.stopPropagation();
 
-      onRequestCode('voice');
+      void onRequestCode('voice');
     },
     [onRequestCode]
   );

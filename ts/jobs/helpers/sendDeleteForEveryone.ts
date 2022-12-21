@@ -71,7 +71,11 @@ export async function sendDeleteForEveryone(
 
   if (!shouldContinue) {
     log.info(`${logId}: Ran out of time. Giving up on sending`);
-    updateMessageWithFailure(message, [new Error('Ran out of time!')], log);
+    void updateMessageWithFailure(
+      message,
+      [new Error('Ran out of time!')],
+      log
+    );
     return;
   }
 
@@ -148,7 +152,7 @@ export async function sendDeleteForEveryone(
             log.info(
               `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
             );
-            updateMessageWithFailure(
+            void updateMessageWithFailure(
               message,
               [new Error('Message request was not accepted')],
               log
@@ -159,7 +163,7 @@ export async function sendDeleteForEveryone(
             log.info(
               `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
             );
-            updateMessageWithFailure(
+            void updateMessageWithFailure(
               message,
               [new Error('Contact no longer has a Signal account')],
               log
@@ -170,7 +174,7 @@ export async function sendDeleteForEveryone(
             log.info(
               `conversation ${conversation.idForLogging()} is blocked; refusing to send`
             );
-            updateMessageWithFailure(
+            void updateMessageWithFailure(
               message,
               [new Error('Contact is blocked')],
               log

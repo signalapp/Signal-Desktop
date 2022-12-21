@@ -1130,7 +1130,7 @@ export function initialize({
     });
 
     if (useWebSocket) {
-      socketManager.authenticate({ username, password });
+      void socketManager.authenticate({ username, password });
     }
 
     const { directoryUrl, directoryMRENCLAVE } = directoryConfig;
@@ -1368,7 +1368,7 @@ export function initialize({
 
     function checkSockets(): void {
       // Intentionally not awaiting
-      socketManager.check();
+      void socketManager.check();
     }
 
     async function onOnline(): Promise<void> {
@@ -1392,7 +1392,7 @@ export function initialize({
     }
 
     function onHasStoriesDisabledChange(newValue: boolean): void {
-      socketManager.onHasStoriesDisabledChange(newValue);
+      void socketManager.onHasStoriesDisabledChange(newValue);
     }
 
     async function getConfig() {

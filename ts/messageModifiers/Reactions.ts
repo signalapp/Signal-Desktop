@@ -208,7 +208,7 @@ export class Reactions extends Collection<ReactionModel> {
             generatedMessage.id,
             generatedMessage
           );
-          targetConversation.addSingleMessage(messageToAdd);
+          void targetConversation.addSingleMessage(messageToAdd);
         }
 
         await message.handleReaction(reaction);

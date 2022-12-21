@@ -131,7 +131,7 @@ describe('pnp/merge', function needsName() {
     );
     {
       const state = await phone.expectStorageState('consistency check');
-      phone.setStorageState(
+      await phone.setStorageState(
         state
           .removeRecord(
             item =>

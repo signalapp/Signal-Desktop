@@ -116,7 +116,7 @@ export class ReadSyncs extends Collection {
           // onReadMessage may result in messages older than this one being
           //   marked read. We want those messages to have the same expire timer
           //   start time as this one, so we pass the readAt value through.
-          message.getConversation()?.onReadMessage(message, readAt);
+          void message.getConversation()?.onReadMessage(message, readAt);
         };
 
         if (window.startupProcessingQueue) {

@@ -39,7 +39,7 @@ export class RecorderClass {
     this.stream = undefined;
 
     if (this.context) {
-      this.context.close();
+      void this.context.close();
       this.context = undefined;
     }
   }

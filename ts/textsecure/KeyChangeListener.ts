@@ -13,7 +13,7 @@ export function init(signalProtocolStore: SignalProtocolStore): void {
           uuid.toString(),
           'private'
         );
-      conversation.addKeyChange(reason);
+      void conversation.addKeyChange(reason);
     }
   );
 }

@@ -196,7 +196,7 @@ export function SmartInstallScreen(): ReactElement {
       return result;
     };
 
-    (async () => {
+    void (async () => {
       try {
         await accountManager.registerSecondDevice(
           updateProvisioningUrl,

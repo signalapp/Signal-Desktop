@@ -55,7 +55,7 @@ export class ChallengeMainHandler {
 
   private initialize(): void {
     ipc.on('challenge:request', (event, request) => {
-      this.onRequest(event, request);
+      void this.onRequest(event, request);
     });
   }
 }

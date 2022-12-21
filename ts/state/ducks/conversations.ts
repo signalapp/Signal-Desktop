@@ -19,6 +19,7 @@ import * as log from '../../logging/log';
 import { calling } from '../../services/calling';
 import { getOwn } from '../../util/getOwn';
 import { assertDev, strictAssert } from '../../util/assert';
+import { drop } from '../../util/drop';
 import type { DurationInSeconds } from '../../util/durations';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import * as Attachment from '../../types/Attachment';
@@ -1086,7 +1087,7 @@ function blockGroupLinkRequests(
     throw new Error('blockGroupLinkRequests: Conversation not found!');
   }
 
-  conversation.blockGroupLinkRequests(uuid);
+  void conversation.blockGroupLinkRequests(uuid);
 
   return {
     type: 'NOOP',
@@ -1102,7 +1103,7 @@ function loadNewerMessages(
     throw new Error('loadNewerMessages: Conversation not found!');
   }
 
-  conversation.loadNewerMessages(newestMessageId);
+  void conversation.loadNewerMessages(newestMessageId);
 
   return {
     type: 'NOOP',
@@ -1119,7 +1120,7 @@ function loadNewestMessages(
     throw new Error('loadNewestMessages: Conversation not found!');
   }
 
-  conversation.loadNewestMessages(newestMessageId, setFocus);
+  void conversation.loadNewestMessages(newestMessageId, setFocus);
 
   return {
     type: 'NOOP',
@@ -1135,7 +1136,7 @@ function loadOlderMessages(
     throw new Error('loadOlderMessages: Conversation not found!');
   }
 
-  conversation.loadOlderMessages(oldestMessageId);
+  void conversation.loadOlderMessages(oldestMessageId);
   return {
     type: 'NOOP',
     payload: null,
@@ -1181,7 +1182,7 @@ function removeMember(
     throw new Error('removeMember: Conversation not found!');
   }
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     idForLogging: conversation.idForLogging(),
     name: 'removeMember',
     task: () => conversation.removeFromGroupV2(memberConversationId),
@@ -1211,7 +1212,7 @@ function updateSharedGroups(conversationId: string): NoopActionType {
     throw new Error('updateSharedGroups: Conversation not found!');
   }
 
-  conversation.throttledUpdateSharedGroups?.();
+  void conversation.throttledUpdateSharedGroups?.();
 
   return {
     type: 'NOOP',
@@ -1508,7 +1509,7 @@ function deleteMessage({
       );
     }
 
-    window.Signal.Data.removeMessage(messageId);
+    void window.Signal.Data.removeMessage(messageId);
     if (isOutgoing(message.attributes)) {
       conversation.decrementSentMessageCount();
     } else {
@@ -1538,7 +1539,7 @@ function destroyMessages(
       task: async () => {
         conversation.trigger('unload', 'delete messages');
         await conversation.destroyMessages();
-        conversation.updateLastMessage();
+        void conversation.updateLastMessage();
       },
     });
 
@@ -1596,29 +1597,33 @@ export const markViewed = (messageId: string): void => {
   message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
 
   if (isIncoming(message.attributes)) {
-    viewedReceiptsJobQueue.add({
-      viewedReceipt: {
-        messageId,
-        senderE164,
-        senderUuid,
-        timestamp,
-        isDirectConversation: isDirectConversation(
-          message.getConversation()?.attributes
-        ),
-      },
-    });
+    drop(
+      viewedReceiptsJobQueue.add({
+        viewedReceipt: {
+          messageId,
+          senderE164,
+          senderUuid,
+          timestamp,
+          isDirectConversation: isDirectConversation(
+            message.getConversation()?.attributes
+          ),
+        },
+      })
+    );
   }
 
-  viewSyncJobQueue.add({
-    viewSyncs: [
-      {
-        messageId,
-        senderE164,
-        senderUuid,
-        timestamp,
-      },
-    ],
-  });
+  drop(
+    viewSyncJobQueue.add({
+      viewSyncs: [
+        {
+          messageId,
+          senderE164,
+          senderUuid,
+          timestamp,
+        },
+      ],
+    })
+  );
 };
 
 function setAccessControlAddFromInviteLinkSetting(
@@ -2317,7 +2322,7 @@ function getProfilesForConversation(conversationId: string): NoopActionType {
     throw new Error('getProfilesForConversation: no conversation found');
   }
 
-  conversation.getProfiles();
+  void conversation.getProfiles();
 
   return {
     type: 'NOOP',
@@ -2341,7 +2346,7 @@ function conversationStoppedByMissingVerification(payload: {
     }
 
     // Intentionally not awaiting here
-    conversation.getProfiles();
+    void conversation.getProfiles();
   });
 
   return {
@@ -2784,7 +2789,7 @@ function blockAndReportSpam(
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
     const idForLogging = conversation.idForLogging();
 
-    longRunningTaskWrapper({
+    void longRunningTaskWrapper({
       name: 'blockAndReportSpam',
       idForLogging,
       task: async () => {
@@ -2819,7 +2824,7 @@ function acceptConversation(conversationId: string): NoopActionType {
 
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     name: 'acceptConversation',
     idForLogging: conversation.idForLogging(),
     task: conversation.syncMessageRequestResponse.bind(
@@ -2844,7 +2849,7 @@ function blockConversation(conversationId: string): NoopActionType {
 
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     name: 'blockConversation',
     idForLogging: conversation.idForLogging(),
     task: conversation.syncMessageRequestResponse.bind(
@@ -2869,7 +2874,7 @@ function deleteConversation(conversationId: string): NoopActionType {
 
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     name: 'deleteConversation',
     idForLogging: conversation.idForLogging(),
     task: conversation.syncMessageRequestResponse.bind(
@@ -2892,7 +2897,7 @@ function initiateMigrationToGroupV2(conversationId: string): NoopActionType {
     );
   }
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     idForLogging: conversation.idForLogging(),
     name: 'initiateMigrationToGroupV2',
     task: () => doInitiateMigrationToGroupV2(conversation),
@@ -3121,7 +3126,7 @@ export function scrollToMessage(
       return;
     }
 
-    conversation.loadAndScroll(messageId);
+    void conversation.loadAndScroll(messageId);
   };
 }
 
@@ -3221,7 +3226,7 @@ function removeMemberFromGroup(
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
       const idForLogging = conversationModel.idForLogging();
-      longRunningTaskWrapper({
+      void longRunningTaskWrapper({
         name: 'removeMemberFromGroup',
         idForLogging,
         task: () => conversationModel.removeFromGroupV2(contactId),
@@ -3372,7 +3377,7 @@ function toggleAdmin(
   return dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
-      conversationModel.toggleAdmin(contactId);
+      void conversationModel.toggleAdmin(contactId);
     }
     dispatch({
       type: 'NOOP',
@@ -3387,7 +3392,7 @@ function updateConversationModelSharedGroups(
   return dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (conversation && conversation.throttledUpdateSharedGroups) {
-      conversation.throttledUpdateSharedGroups();
+      void conversation.throttledUpdateSharedGroups();
     }
     dispatch({
       type: 'NOOP',
@@ -3457,7 +3462,7 @@ function showArchivedConversations(): ShowArchivedConversationsActionType {
 function doubleCheckMissingQuoteReference(messageId: string): NoopActionType {
   const message = window.MessageController.getById(messageId);
   if (message) {
-    message.doubleCheckMissingQuoteReference();
+    void message.doubleCheckMissingQuoteReference();
   }
 
   return {

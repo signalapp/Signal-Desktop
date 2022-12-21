@@ -196,7 +196,7 @@ export async function sendNormalMessage(
         log.info(
           'No recipients; not sending to ourselves or to group, and no successful sends. Failing job.'
         );
-        markMessageFailed(message, [new Error('No valid recipients')]);
+        void markMessageFailed(message, [new Error('No valid recipients')]);
         return;
       }
 
@@ -281,7 +281,7 @@ export async function sendNormalMessage(
           log.info(
             `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
           );
-          markMessageFailed(message, [
+          void markMessageFailed(message, [
             new Error('Message request was not accepted'),
           ]);
           return;
@@ -290,7 +290,7 @@ export async function sendNormalMessage(
           log.info(
             `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
           );
-          markMessageFailed(message, [
+          void markMessageFailed(message, [
             new Error('Contact no longer has a Signal account'),
           ]);
           return;
@@ -299,7 +299,7 @@ export async function sendNormalMessage(
           log.info(
             `conversation ${conversation.idForLogging()} is blocked; refusing to send`
           );
-          markMessageFailed(message, [new Error('Contact is blocked')]);
+          void markMessageFailed(message, [new Error('Contact is blocked')]);
           return;
         }
 
@@ -561,7 +561,7 @@ async function markMessageFailed(
   errors: Array<Error>
 ): Promise<void> {
   message.markFailed();
-  message.saveErrors(errors, { skipSave: true });
+  void message.saveErrors(errors, { skipSave: true });
   await window.Signal.Data.saveMessage(message.attributes, {
     ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
   });

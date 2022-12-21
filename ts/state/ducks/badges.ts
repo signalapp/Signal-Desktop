@@ -76,7 +76,7 @@ function updateOrCreate(
       payload: badges,
     });
 
-    badgeImageFileDownloader.checkForFilesToDownload();
+    void badgeImageFileDownloader.checkForFilesToDownload();
   };
 }
 

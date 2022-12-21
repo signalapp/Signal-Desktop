@@ -9,7 +9,7 @@ import { Bootstrap } from './fixtures';
 
 const CONTACT_COUNT = 1000;
 
-(async () => {
+void (async () => {
   const contactNames = new Array<string>();
   for (let i = 0; i < CONTACT_COUNT; i += 1) {
     contactNames.push(`Contact ${i}`);

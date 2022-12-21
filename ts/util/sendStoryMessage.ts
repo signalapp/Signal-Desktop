@@ -222,7 +222,7 @@ export async function sendStoryMessage(
   for (const group of groupsToUpdate) {
     group.set('storySendMode', StorySendMode.Always);
   }
-  window.Signal.Data.updateConversations(
+  void window.Signal.Data.updateConversations(
     groupsToUpdate.map(group => group.attributes)
   );
   for (const group of groupsToUpdate) {
@@ -290,7 +290,7 @@ export async function sendStoryMessage(
       const model = new window.Whisper.Message(messageAttributes);
       const message = window.MessageController.register(model.id, model);
 
-      ourConversation.addSingleMessage(model, { isJustSent: true });
+      void ourConversation.addSingleMessage(model, { isJustSent: true });
 
       log.info(
         `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`
@@ -341,7 +341,7 @@ export async function sendStoryMessage(
           const message = window.MessageController.register(model.id, model);
 
           const conversation = message.getConversation();
-          conversation?.addSingleMessage(model, { isJustSent: true });
+          void conversation?.addSingleMessage(model, { isJustSent: true });
 
           log.info(
             `stories.sendStoryMessage: saving message ${messageAttributes.timestamp}`

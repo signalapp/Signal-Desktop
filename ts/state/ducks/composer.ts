@@ -177,7 +177,7 @@ function onClearAttachments(conversationId: string): NoopActionType {
     throw new Error('onClearAttachments: No conversation found');
   }
 
-  clearConversationDraftAttachments(
+  void clearConversationDraftAttachments(
     conversation.id,
     conversation.get('draftAttachments')
   );
@@ -194,7 +194,7 @@ function cancelJoinRequest(conversationId: string): NoopActionType {
     throw new Error('cancelJoinRequest: No conversation found');
   }
 
-  longRunningTaskWrapper({
+  void longRunningTaskWrapper({
     idForLogging: conversation.idForLogging(),
     name: 'cancelJoinRequest',
     task: async () => conversation.cancelJoinRequest(),
@@ -383,7 +383,10 @@ function sendMultiMediaMessage(
           extraReduxActions: () => {
             conversation.setMarkedUnread(false);
             resetLinkPreview();
-            clearConversationDraftAttachments(conversationId, draftAttachments);
+            void clearConversationDraftAttachments(
+              conversationId,
+              draftAttachments
+            );
             setQuoteByMessageId(conversationId, undefined)(
               dispatch,
               getState,
@@ -447,7 +450,7 @@ function sendStickerMessage(
       }
 
       const { packId, stickerId } = options;
-      conversation.sendStickerMessage(packId, stickerId);
+      void conversation.sendStickerMessage(packId, stickerId);
     } catch (error) {
       log.error('clickSend error:', Errors.toLogFormat(error));
     }

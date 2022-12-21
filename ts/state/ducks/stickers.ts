@@ -193,7 +193,7 @@ function downloadStickerPack(
   const { finalStatus } = options || { finalStatus: undefined };
 
   // We're just kicking this off, since it will generate more redux events
-  externalDownloadStickerPack(packId, packKey, { finalStatus });
+  void externalDownloadStickerPack(packId, packKey, { finalStatus });
 
   return {
     type: 'NOOP',
@@ -223,7 +223,7 @@ async function doInstallStickerPack(
 
   if (!fromSync && !fromStorageService) {
     // Kick this off, but don't wait for it
-    sendStickerPackSync(packId, packKey, true);
+    void sendStickerPackSync(packId, packKey, true);
   }
 
   if (!fromStorageService) {
@@ -268,7 +268,7 @@ async function doUninstallStickerPack(
 
   if (!fromSync && !fromStorageService) {
     // Kick this off, but don't wait for it
-    sendStickerPackSync(packId, packKey, false);
+    void sendStickerPackSync(packId, packKey, false);
   }
 
   if (!fromStorageService) {

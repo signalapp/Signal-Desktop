@@ -122,7 +122,7 @@ function setIsPlaying(value: boolean): SetIsPlayingAction {
   if (!value) {
     globalMessageAudio.pause();
   } else {
-    globalMessageAudio.play();
+    void globalMessageAudio.play();
   }
   return {
     type: 'audioPlayer/SET_IS_PLAYING',
@@ -244,7 +244,7 @@ function loadAndPlayMessageAudio(
         // navigates away from the conversation
         // TODO: DESKTOP-4158
         if (nextVoiceNoteMessage) {
-          stateChangeConfirmUpSound.play();
+          void stateChangeConfirmUpSound.play();
           dispatch(
             loadAndPlayMessageAudio(
               nextVoiceNoteMessage.id,
@@ -255,7 +255,7 @@ function loadAndPlayMessageAudio(
             )
           );
         } else if (isConsecutive) {
-          stateChangeConfirmDownSound.play();
+          void stateChangeConfirmDownSound.play();
         }
       },
     });

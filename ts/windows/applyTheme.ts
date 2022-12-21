@@ -25,9 +25,9 @@ async function applyThemeLoop() {
   }
 }
 
-applyTheme();
-applyThemeLoop();
+void applyTheme();
+void applyThemeLoop();
 
 window.SignalContext.nativeThemeListener.subscribe(() => {
-  applyTheme();
+  void applyTheme();
 });

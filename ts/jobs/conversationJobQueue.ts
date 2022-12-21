@@ -412,7 +412,7 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           }
           untrustedUuids.push(uuid);
         } else if (toProcess instanceof SendMessageChallengeError) {
-          window.Signal.challengeHandler?.register(
+          void window.Signal.challengeHandler?.register(
             {
               conversationId,
               createdAt: Date.now(),

@@ -8,6 +8,7 @@ import type { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { drop } from '../../util/drop';
 import type {
   ConversationColorType,
   CustomColorType,
@@ -100,16 +101,19 @@ export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
 function putItem<K extends keyof StorageAccessType>(
   key: K,
   value: StorageAccessType[K]
-): ItemPutAction {
-  storageShim.put(key, value);
-
-  return {
-    type: 'items/PUT',
-    payload: null,
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return async dispatch => {
+    dispatch({
+      type: 'items/PUT',
+      payload: null,
+    });
+    await storageShim.put(key, value);
   };
 }
 
-function onSetSkinTone(tone: number): ItemPutAction {
+function onSetSkinTone(
+  tone: number
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return putItem('skinTone', tone);
 }
 
@@ -124,7 +128,7 @@ function putItemExternal(key: string, value: unknown): ItemPutExternalAction {
 }
 
 function removeItem(key: keyof StorageAccessType): ItemRemoveAction {
-  storageShim.remove(key);
+  drop(storageShim.remove(key));
 
   return {
     type: 'items/REMOVE',

@@ -35,7 +35,7 @@ export async function deleteStoryForEveryone(
     story.conversationId
   );
   if (sourceConversation && isGroupV2(sourceConversation.attributes)) {
-    sendDeleteForEveryoneMessage(sourceConversation.attributes, {
+    void sendDeleteForEveryoneMessage(sourceConversation.attributes, {
       deleteForEveryoneDuration: DAY,
       id: story.messageId,
       timestamp: story.timestamp,
@@ -212,5 +212,5 @@ export async function deleteStoryForEveryone(
     },
     noop
   );
-  onStoryRecipientUpdate(ev);
+  void onStoryRecipientUpdate(ev);
 }

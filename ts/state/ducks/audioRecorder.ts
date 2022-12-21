@@ -197,7 +197,7 @@ function cancelRecording(): ThunkAction<
 function errorRecording(
   errorDialogAudioRecorderType: ErrorDialogAudioRecorderType
 ): ErrorRecordingAction {
-  recorder.stop();
+  void recorder.stop();
 
   return {
     type: ERROR_RECORDING,

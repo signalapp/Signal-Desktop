@@ -96,7 +96,7 @@ export async function initialize(
     globalLogger = undefined;
 
     if (shouldRestart) {
-      initialize(getMainWindow);
+      void initialize(getMainWindow);
     }
   };
 

@@ -45,7 +45,7 @@ export function AvatarIconEditor({
         setAvatarBuffer(buffer);
       }
     }
-    loadAvatar();
+    void loadAvatar();
 
     return () => {
       shouldCancel = true;

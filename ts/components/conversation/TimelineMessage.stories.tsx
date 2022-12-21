@@ -163,7 +163,7 @@ function MessageAudioContainer({
       setIsActive(true);
     }
     if (!playing) {
-      audio.play();
+      void audio.play();
       setPlaying(true);
       setPlayed(true);
     }
@@ -183,7 +183,7 @@ function MessageAudioContainer({
 
   const setIsPlayingAction = (value: boolean) => {
     if (value) {
-      audio.play();
+      void audio.play();
     } else {
       audio.pause();
     }

@@ -203,7 +203,7 @@ export function Lightbox({
     }
 
     if (videoElement.paused) {
-      videoElement.play();
+      void videoElement.play();
     } else {
       videoElement.pause();
     }

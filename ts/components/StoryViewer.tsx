@@ -247,7 +247,7 @@ export function StoryViewer({
   // are sequentially posted.
   useEffect(() => {
     let shouldCancel = false;
-    (async function hydrateStoryDuration() {
+    void (async function hydrateStoryDuration() {
       if (!attachment) {
         return;
       }

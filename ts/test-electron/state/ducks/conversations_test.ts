@@ -2172,7 +2172,7 @@ describe('both/state/ducks/conversations', () => {
         assert.isUndefined(
           nextState.conversationsByGroupId.jkl.conversationColor
         );
-        window.storage.remove('defaultConversationColor');
+        await window.storage.remove('defaultConversationColor');
       });
     });
 

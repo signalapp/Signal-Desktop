@@ -58,7 +58,7 @@ class BadgeImageFileDownloader {
           previousState ===
           BadgeDownloaderState.CheckingWithAnotherCheckEnqueued
         ) {
-          this.checkForFilesToDownload();
+          void this.checkForFilesToDownload();
         }
         return;
       }

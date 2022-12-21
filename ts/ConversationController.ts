@@ -20,6 +20,7 @@ import * as Errors from './types/errors';
 import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
+import { drop } from './util/drop';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import { UUID, isValidUuid, UUIDKind } from './types/UUID';
@@ -193,7 +194,7 @@ export class ConversationController {
         ),
       0
     );
-    window.storage.put('unreadCount', newUnreadCount);
+    drop(window.storage.put('unreadCount', newUnreadCount));
 
     if (newUnreadCount > 0) {
       window.setBadgeCount(newUnreadCount);
@@ -1119,13 +1120,13 @@ export class ConversationController {
     this._conversations.resetLookups();
 
     current.captureChange('combineConversations');
-    current.updateLastMessage();
+    void current.updateLastMessage();
 
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
     if (!fromPniSignature && obsoleteTitleInfo && titleIsUseful) {
-      current.addConversationMerge(obsoleteTitleInfo);
+      void current.addConversationMerge(obsoleteTitleInfo);
     }
 
     log.warn(`${logId}: Complete!`);
@@ -1305,10 +1306,12 @@ export class ConversationController {
         timeout: MINUTE * 30,
         throwOnTimeout: true,
       });
-      queue.addAll(
-        temporaryConversations.map(item => async () => {
-          await removeConversation(item.id);
-        })
+      drop(
+        queue.addAll(
+          temporaryConversations.map(item => async () => {
+            await removeConversation(item.id);
+          })
+        )
       );
       await queue.onIdle();
 

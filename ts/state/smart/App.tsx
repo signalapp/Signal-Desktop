@@ -91,10 +91,10 @@ const mapStateToProps = (state: StateType) => {
     theme: getTheme(state),
 
     executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {
-      window.SignalContext.executeMenuRole(role);
+      void window.SignalContext.executeMenuRole(role);
     },
     executeMenuAction: (action: MenuActionType): void => {
-      window.SignalContext.executeMenuAction(action);
+      void window.SignalContext.executeMenuAction(action);
     },
     titleBarDoubleClick: (): void => {
       window.titleBarDoubleClick();

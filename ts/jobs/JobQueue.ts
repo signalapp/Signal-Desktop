@@ -130,7 +130,7 @@ export abstract class JobQueue<T> {
 
     const stream = this.store.stream(this.queueType);
     for await (const storedJob of stream) {
-      this.enqueueStoredJob(storedJob);
+      void this.enqueueStoredJob(storedJob);
     }
   }
 

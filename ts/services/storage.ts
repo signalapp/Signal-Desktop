@@ -361,7 +361,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.modifyStoryDistribution({
+        void dataInterface.modifyStoryDistribution({
           ...storyDistributionList,
           storageID,
           storageVersion: version,
@@ -394,7 +394,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.addUninstalledStickerPack({
+        void dataInterface.addUninstalledStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -436,7 +436,7 @@ async function generateManifest(
 
     if (isNewItem) {
       postUploadUpdateFunctions.push(() => {
-        dataInterface.createOrUpdateStickerPack({
+        void dataInterface.createOrUpdateStickerPack({
           ...stickerPack,
           storageID,
           storageVersion: version,
@@ -784,7 +784,7 @@ async function uploadManifest(
   }
 
   log.info(`storageService.upload(${version}): setting new manifestVersion`);
-  window.storage.put('manifestVersion', version);
+  await window.storage.put('manifestVersion', version);
   conflictBackOff.reset();
   backOff.reset();
 
@@ -883,7 +883,7 @@ async function fetchManifest(
   try {
     const credentials =
       await window.textsecure.messaging.getStorageCredentials();
-    window.storage.put('storageCredentials', credentials);
+    await window.storage.put('storageCredentials', credentials);
 
     const manifestBinary = await window.textsecure.messaging.getStorageManifest(
       {
@@ -1247,7 +1247,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.addUninstalledStickerPack({
+      void dataInterface.addUninstalledStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1265,7 +1265,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.createOrUpdateStickerPack({
+      void dataInterface.createOrUpdateStickerPack({
         ...stickerPack,
         storageID: undefined,
         storageVersion: undefined,
@@ -1283,7 +1283,7 @@ async function processManifest(
         `storageService.process(${version}): localKey=${missingKey} was not ` +
           'in remote manifest'
       );
-      dataInterface.modifyStoryDistribution({
+      void dataInterface.modifyStoryDistribution({
         ...storyDistributionList,
         storageID: undefined,
         storageVersion: undefined,
@@ -1688,7 +1688,7 @@ async function sync(
     const previousFetchComplete = window.storage.get('storageFetchComplete');
     const manifestFromStorage = window.storage.get('manifestVersion');
     if (!previousFetchComplete && isNumber(manifestFromStorage)) {
-      window.storage.put('storageFetchComplete', true);
+      await window.storage.put('storageFetchComplete', true);
     }
 
     const localManifestVersion = manifestFromStorage || 0;
@@ -1931,7 +1931,7 @@ export const storageServiceUploadJob = debounce(() => {
     return;
   }
 
-  storageJobQueue(async () => {
+  void storageJobQueue(async () => {
     await upload();
   }, `upload v${window.storage.get('manifestVersion')}`);
 }, 500);

@@ -39,6 +39,7 @@ import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { softAssert, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
+import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
@@ -1791,7 +1792,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       saveErrors(errorsToSave);
     } else {
       // We skip save because we'll save in the next step.
-      this.saveErrors(errorsToSave, { skipSave: true });
+      void this.saveErrors(errorsToSave, { skipSave: true });
     }
 
     if (!this.doNotSave) {
@@ -1853,7 +1854,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         saveErrors(errors);
       } else {
         // We don't save because we're about to save below.
-        this.saveErrors(errors, { skipSave: true });
+        void this.saveErrors(errors, { skipSave: true });
       }
       throw error;
     } finally {
@@ -2583,15 +2584,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // Note: We both queue and batch because we want to wait until we are done
         //   processing incoming messages to start sending outgoing delivery receipts.
         //   The queue can be paused easily.
-        window.Whisper.deliveryReceiptQueue.add(() => {
-          window.Whisper.deliveryReceiptBatcher.add({
-            messageId,
-            senderE164: source,
-            senderUuid: sourceUuid,
-            timestamp: this.get('sent_at'),
-            isDirectConversation: isDirectConversation(conversation.attributes),
-          });
-        });
+        drop(
+          window.Whisper.deliveryReceiptQueue.add(() => {
+            window.Whisper.deliveryReceiptBatcher.add({
+              messageId,
+              senderE164: source,
+              senderUuid: sourceUuid,
+              timestamp: this.get('sent_at'),
+              isDirectConversation: isDirectConversation(
+                conversation.attributes
+              ),
+            });
+          })
+        );
       }
 
       const [quote, storyQuote] = await Promise.all([
@@ -2957,7 +2962,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             //   along with an expireTimer), the conversation will be updated by this
             //   point and these calls will return early.
             if (dataMessage.expireTimer) {
-              conversation.updateExpirationTimer(dataMessage.expireTimer, {
+              void conversation.updateExpirationTimer(dataMessage.expireTimer, {
                 source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
@@ -2970,7 +2975,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               !isGroupUpdate(message.attributes) &&
               !isEndSession(message.attributes)
             ) {
-              conversation.updateExpirationTimer(undefined, {
+              void conversation.updateExpirationTimer(undefined, {
                 source: sourceUuid || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
@@ -2989,14 +2994,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {
-              conversation.setProfileKey(profileKey);
+              void conversation.setProfileKey(profileKey);
             } else {
               const local = window.ConversationController.lookupOrCreate({
                 e164: source,
                 uuid: sourceUuid,
                 reason: 'handleDataMessage:setProfileKey',
               });
-              local?.setProfileKey(profileKey);
+              void local?.setProfileKey(profileKey);
             }
           }
 
@@ -3119,7 +3124,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         await this.modifyTargetMessage(conversation, isFirstRun);
 
         log.info(`${idLog}: Batching save`);
-        this.saveAndNotify(conversation, confirm);
+        void this.saveAndNotify(conversation, confirm);
       } catch (error) {
         const errorForLog = Errors.toLogFormat(error);
         log.error(`${idLog}: error:`, errorForLog);
@@ -3154,7 +3159,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     confirm();
 
     if (!isStory(this.attributes)) {
-      conversation.queueJob('updateUnread', () => conversation.updateUnread());
+      drop(
+        conversation.queueJob('updateUnread', () => conversation.updateUnread())
+      );
     }
   }
 
@@ -3307,7 +3314,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         // We run this when `isFirstRun` is false so that it triggers when the
         // message and the other ones accompanying it in the batch are fully in
         // the database.
-        message.getConversation()?.onReadMessage(message, markReadAt);
+        void message.getConversation()?.onReadMessage(message, markReadAt);
       }
 
       // Check for out-of-order view once open syncs
@@ -3450,7 +3457,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           'handleReaction: receiving story reaction to ' +
             `${this.idForLogging()} from someone else`
         );
-        conversation.notify(this, reaction);
+        void conversation.notify(this, reaction);
       }
     } else if (isFromThisDevice) {
       log.info(
@@ -3522,7 +3529,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.set({ reactions });
 
         if (isOutgoing(this.attributes) && isFromSomeoneElse) {
-          conversation.notify(this, reaction);
+          void conversation.notify(this, reaction);
         }
 
         await window.Signal.Data.addReaction({
@@ -3583,7 +3590,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           reactionMessage.hydrateStoryContext(this),
         ]);
 
-        conversation.addSingleMessage(
+        void conversation.addSingleMessage(
           window.MessageController.register(reactionMessage.id, reactionMessage)
         );
 
@@ -3652,7 +3659,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       // Update the conversation's last message in case this was the last message
-      this.getConversation()?.updateLastMessage();
+      void this.getConversation()?.updateLastMessage();
     } finally {
       this.deletingForEveryone = undefined;
     }

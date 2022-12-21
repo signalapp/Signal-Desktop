@@ -864,7 +864,7 @@ function groupCallStateChange(
     });
 
     if (didSomeoneStartPresenting) {
-      callingTones.someonePresenting();
+      void callingTones.someonePresenting();
     }
 
     if (payload.connectionState === GroupCallConnectionState.NotConnected) {
@@ -978,7 +978,7 @@ function openSystemPreferencesAction(): ThunkAction<
   never
 > {
   return () => {
-    openSystemPreferences();
+    void openSystemPreferences();
   };
 }
 

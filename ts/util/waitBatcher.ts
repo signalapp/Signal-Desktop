@@ -132,14 +132,14 @@ export function createWaitBatcher<ItemType>(
       // time is bounded by `options.wait` and not extended by further pushes.
       timeout = setTimeout(() => {
         timeout = null;
-        _kickBatchOff();
+        void _kickBatchOff();
       }, options.wait);
     }
     if (items.length >= options.maxSize) {
       clearTimeoutIfNecessary(timeout);
       timeout = null;
 
-      _kickBatchOff();
+      void _kickBatchOff();
     }
 
     await promise;

@@ -321,7 +321,7 @@ export function MessageAudio(props: Props): JSX.Element {
 
     let canceled = false;
 
-    (async () => {
+    void (async () => {
       try {
         if (!attachment.url) {
           throw new Error(

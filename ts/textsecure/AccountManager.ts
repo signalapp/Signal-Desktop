@@ -721,7 +721,7 @@ export default class AccountManager extends EventTarget {
     // Intentionally not awaiting becase `updatePNIIdentity` runs on an
     // Encrypted queue of MessageReceiver and we don't want to await remote
     // endpoints and block message processing.
-    this.queueTask(async () => {
+    void this.queueTask(async () => {
       try {
         const keys = await this.generateKeys(
           SIGNED_KEY_GEN_BATCH_SIZE,
@@ -847,8 +847,8 @@ export default class AccountManager extends EventTarget {
     await Promise.all(promises);
 
     // This is primarily for the signed prekey summary it logs out
-    this.cleanSignedPreKeys(UUIDKind.ACI);
-    this.cleanSignedPreKeys(UUIDKind.PNI);
+    void this.cleanSignedPreKeys(UUIDKind.ACI);
+    void this.cleanSignedPreKeys(UUIDKind.PNI);
 
     return {
       ...result,
@@ -885,7 +885,7 @@ export default class AccountManager extends EventTarget {
 
       // Intentionally not awaiting since this is processed on encrypted queue
       // of MessageReceiver.
-      this.queueTask(async () => {
+      void this.queueTask(async () => {
         try {
           const keys = await this.generateKeys(
             SIGNED_KEY_GEN_BATCH_SIZE,

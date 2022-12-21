@@ -26,6 +26,7 @@ import { isMe } from '../util/whatTypeOfConversation';
 import { getUserLanguages } from '../util/userLanguages';
 import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
 import { strictAssert } from '../util/assert';
+import { drop } from '../util/drop';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { HTTPError } from '../textsecure/Errors';
@@ -123,7 +124,7 @@ export class ProfileService {
         if (isRecord(error) && 'code' in error && error.code === 413) {
           this.clearAll('got 413 from server');
           const time = findRetryAfterTimeFromError(error);
-          this.pause(time);
+          void this.pause(time);
         }
       } finally {
         this.jobsByConversationId.delete(conversationId);
@@ -139,7 +140,7 @@ export class ProfileService {
     };
 
     this.jobsByConversationId.set(conversationId, jobData);
-    this.jobQueue.add(job);
+    drop(this.jobQueue.add(job));
 
     return promise;
   }
@@ -416,7 +417,7 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
     }
 
     if (profile.paymentAddress && isMe(c.attributes)) {
-      window.storage.put('paymentAddress', profile.paymentAddress);
+      await window.storage.put('paymentAddress', profile.paymentAddress);
     }
 
     if (profile.capabilities) {

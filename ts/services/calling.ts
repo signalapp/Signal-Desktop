@@ -71,6 +71,7 @@ import * as Errors from '../types/errors';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
+import { drop } from '../util/drop';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
@@ -311,9 +312,11 @@ export class CallingClass {
       window.storage.get('previousAudioDeviceModule')
     );
     this.currentAudioDeviceModule = getAudioDeviceModule();
-    window.storage.put(
-      'previousAudioDeviceModule',
-      this.currentAudioDeviceModule
+    drop(
+      window.storage.put(
+        'previousAudioDeviceModule',
+        this.currentAudioDeviceModule
+      )
     );
 
     RingRTC.setConfig({
@@ -348,7 +351,7 @@ export class CallingClass {
       }
     });
 
-    this.cleanExpiredGroupCallRingsAndLoop();
+    void this.cleanExpiredGroupCallRingsAndLoop();
   }
 
   private attemptToGiveOurUuidToRingRtc(): void {
@@ -699,7 +702,7 @@ export class CallingClass {
               eraId
             ) {
               updateMessageState = GroupCallUpdateMessageState.SentLeft;
-              this.sendGroupCallUpdateMessage(conversationId, eraId);
+              void this.sendGroupCallUpdateMessage(conversationId, eraId);
             }
           } else {
             this.callsByConversation[conversationId] = groupCall;
@@ -717,7 +720,7 @@ export class CallingClass {
               eraId
             ) {
               updateMessageState = GroupCallUpdateMessageState.SentJoin;
-              this.sendGroupCallUpdateMessage(conversationId, eraId);
+              void this.sendGroupCallUpdateMessage(conversationId, eraId);
             }
           }
 
@@ -749,10 +752,10 @@ export class CallingClass {
             eraId
           ) {
             updateMessageState = GroupCallUpdateMessageState.SentJoin;
-            this.sendGroupCallUpdateMessage(conversationId, eraId);
+            void this.sendGroupCallUpdateMessage(conversationId, eraId);
           }
 
-          this.updateCallHistoryForGroupCall(
+          void this.updateCallHistoryForGroupCall(
             conversationId,
             groupCall.getPeekInfo()
           );
@@ -1458,7 +1461,7 @@ export class CallingClass {
       device.index,
       truncateForLogging(device.name)
     );
-    window.Events.setPreferredAudioInputDevice(device);
+    void window.Events.setPreferredAudioInputDevice(device);
     RingRTC.setAudioInput(device.index);
   }
 
@@ -1468,7 +1471,7 @@ export class CallingClass {
       device.index,
       truncateForLogging(device.name)
     );
-    window.Events.setPreferredAudioOutputDevice(device);
+    void window.Events.setPreferredAudioOutputDevice(device);
     RingRTC.setAudioOutput(device.index);
   }
 
@@ -1482,7 +1485,7 @@ export class CallingClass {
 
   async setPreferredCamera(device: string): Promise<void> {
     log.info('MediaDevice: setPreferredCamera', device);
-    window.Events.setPreferredVideoInputDevice(device);
+    void window.Events.setPreferredVideoInputDevice(device);
     await this.videoCapturer.setPreferredDevice(device);
   }
 
@@ -2107,7 +2110,7 @@ export class CallingClass {
       acceptedTime = Date.now();
     }
 
-    conversation.addCallHistory(
+    void conversation.addCallHistory(
       {
         callMode: CallMode.Direct,
         wasIncoming: call.isIncoming,
@@ -2125,7 +2128,7 @@ export class CallingClass {
     wasVideoCall: boolean,
     timestamp: number
   ) {
-    conversation.addCallHistory(
+    void conversation.addCallHistory(
       {
         callMode: CallMode.Direct,
         wasIncoming: true,
@@ -2156,7 +2159,7 @@ export class CallingClass {
     }
     // Otherwise it will show up as a missed call.
 
-    conversation.addCallHistory(
+    void conversation.addCallHistory(
       {
         callMode: CallMode.Direct,
         wasIncoming: true,
@@ -2264,7 +2267,7 @@ export class CallingClass {
     }
 
     setTimeout(() => {
-      this.cleanExpiredGroupCallRingsAndLoop();
+      void this.cleanExpiredGroupCallRingsAndLoop();
     }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
   }
 }

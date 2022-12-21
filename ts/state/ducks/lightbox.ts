@@ -77,7 +77,7 @@ function closeLightbox(): ThunkAction<
         if (!item.attachment.path) {
           return;
         }
-        window.Signal.Migrations.deleteTempFile(item.attachment.path);
+        void window.Signal.Migrations.deleteTempFile(item.attachment.path);
       });
     }
 

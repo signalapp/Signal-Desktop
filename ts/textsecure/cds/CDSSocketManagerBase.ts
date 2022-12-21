@@ -81,7 +81,7 @@ export abstract class CDSSocketManagerBase<
       throw error;
     } finally {
       log.info('CDSSocketManager: closing socket');
-      socket.close(3000, 'Normal');
+      void socket.close(3000, 'Normal');
     }
   }
 

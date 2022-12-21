@@ -227,7 +227,7 @@ export default class WebSocketResource extends EventTarget {
     if (!this.keepalive) {
       return;
     }
-    this.keepalive.send();
+    void this.keepalive.send();
   }
 
   public close(code = 3000, reason?: string): void {

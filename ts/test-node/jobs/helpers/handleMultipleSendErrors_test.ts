@@ -105,7 +105,7 @@ describe('handleMultipleSendErrors', () => {
     it('sleeps for the longest 413 Retry-After time', async () => {
       let done = false;
 
-      (async () => {
+      void (async () => {
         try {
           await handleMultipleSendErrors({
             ...defaultOptions,
@@ -134,7 +134,7 @@ describe('handleMultipleSendErrors', () => {
     it("doesn't sleep longer than the remaining time", async () => {
       let done = false;
 
-      (async () => {
+      void (async () => {
         try {
           await handleMultipleSendErrors({
             ...defaultOptions,

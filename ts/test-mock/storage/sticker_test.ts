@@ -114,7 +114,9 @@ describe('storage service', function needsName() {
     const window = await app.getWindow();
 
     const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const conversationView = window.locator(
+      '.ConversationView__template > .react-wrapper'
+    );
 
     debug('sending two sticker pack links');
     await firstContact.sendText(
@@ -137,7 +139,7 @@ describe('storage service', function needsName() {
       debug('installing first sticker pack via UI');
       const state = await phone.expectStorageState('initial state');
 
-      await conversationStack
+      await conversationView
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
         .click({ noWaitAfter: true });
       await window
@@ -181,7 +183,7 @@ describe('storage service', function needsName() {
       debug('uninstalling first sticker pack via UI');
       const state = await phone.expectStorageState('initial state');
 
-      await conversationStack
+      await conversationView
         .locator(`a:has-text("${STICKER_PACKS[0].id.toString('hex')}")`)
         .click({ noWaitAfter: true });
       await window
@@ -227,12 +229,17 @@ describe('storage service', function needsName() {
       );
     }
 
-    debug('opening sticker picker');
-    conversationStack
+    debug('opening sticker manager');
+    await conversationView
       .locator('.CompositionArea .module-sticker-button__button')
       .click();
 
-    const stickerPicker = conversationStack.locator('.module-sticker-picker');
+    const stickerManager = conversationView.locator(
+      '_react=StickerManagerInner'
+    );
+
+    debug('switching to Installed tab');
+    await stickerManager.locator('.Tabs__tab >> "Installed"').click();
 
     {
       debug('installing first sticker pack via storage service');
@@ -257,10 +264,10 @@ describe('storage service', function needsName() {
       });
 
       debug('waiting for sticker pack to become visible');
-      stickerPicker
+      await stickerManager
         .locator(
-          'button.module-sticker-picker__header__button' +
-            `[key="${STICKER_PACKS[0].id.toString('hex')}"]`
+          '_react=StickerManagerPackRowInner' +
+            `[pack.id="${STICKER_PACKS[0].id.toString('hex')}"]`
         )
         .waitFor();
     }
@@ -277,10 +284,10 @@ describe('storage service', function needsName() {
       });
 
       debug('waiting for sticker pack to become visible');
-      stickerPicker
+      await stickerManager
         .locator(
-          'button.module-sticker-picker__header__button' +
-            `[key="${STICKER_PACKS[1].id.toString('hex')}"]`
+          '_react=StickerManagerPackRowInner' +
+            `[pack.id="${STICKER_PACKS[1].id.toString('hex')}"]`
         )
         .waitFor();
 
@@ -301,7 +308,7 @@ describe('storage service', function needsName() {
       );
       assert.strictEqual(
         stickerPack?.record.stickerPack?.position,
-        6,
+        7,
         'Wrong sticker pack position'
       );
     }

@@ -523,14 +523,14 @@ function applyMessageRequestState(
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   if (record.blocked) {
-    conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
+    void conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
       fromSync: true,
       viaStorageServiceSync: true,
     });
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
-    conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
+    void conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
       fromSync: true,
       viaStorageServiceSync: true,
     });
@@ -893,7 +893,7 @@ export async function mergeGroupV2Record(
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    waitThenRespondToGroupV2Migration({
+    void waitThenRespondToGroupV2Migration({
       conversation,
     });
   } else if (isGroupNewToUs) {
@@ -903,7 +903,7 @@ export async function mergeGroupV2Record(
 
     // We don't await this because this could take a very long time, waiting for queues to
     //   empty, etc.
-    waitThenMaybeUpdateGroup(
+    void waitThenMaybeUpdateGroup(
       {
         conversation,
         dropInitialJoinMessage,
@@ -1001,7 +1001,7 @@ export async function mergeContactRecord(
   ) {
     // Local name doesn't match remote name, fetch profile
     if (localName) {
-      conversation.getProfiles();
+      void conversation.getProfiles();
       details.push('refreshing profile');
     } else {
       conversation.set({
@@ -1134,36 +1134,36 @@ export async function mergeAccountRecord(
 
   const updatedConversations = new Array<ConversationModel>();
 
-  window.storage.put('read-receipt-setting', Boolean(readReceipts));
+  await window.storage.put('read-receipt-setting', Boolean(readReceipts));
 
   if (typeof sealedSenderIndicators === 'boolean') {
-    window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
+    await window.storage.put('sealedSenderIndicators', sealedSenderIndicators);
   }
 
   if (typeof typingIndicators === 'boolean') {
-    window.storage.put('typingIndicators', typingIndicators);
+    await window.storage.put('typingIndicators', typingIndicators);
   }
 
   if (typeof linkPreviews === 'boolean') {
-    window.storage.put('linkPreviews', linkPreviews);
+    await window.storage.put('linkPreviews', linkPreviews);
   }
 
   if (typeof preferContactAvatars === 'boolean') {
     const previous = window.storage.get('preferContactAvatars');
-    window.storage.put('preferContactAvatars', preferContactAvatars);
+    await window.storage.put('preferContactAvatars', preferContactAvatars);
 
     if (Boolean(previous) !== Boolean(preferContactAvatars)) {
-      window.ConversationController.forceRerender();
+      await window.ConversationController.forceRerender();
     }
   }
 
   if (typeof primarySendsSms === 'boolean') {
-    window.storage.put('primarySendsSms', primarySendsSms);
+    await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
   if (typeof accountE164 === 'string' && accountE164) {
-    window.storage.put('accountE164', accountE164);
-    window.storage.user.setNumber(accountE164);
+    await window.storage.put('accountE164', accountE164);
+    await window.storage.user.setNumber(accountE164);
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
@@ -1176,10 +1176,13 @@ export async function mergeAccountRecord(
         rawPreferredReactionEmoji.length
       );
     }
-    window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
+    await window.storage.put(
+      'preferredReactionEmoji',
+      rawPreferredReactionEmoji
+    );
   }
 
-  setUniversalExpireTimer(
+  void setUniversalExpireTimer(
     DurationInSeconds.fromSeconds(universalExpireTimer || 0)
   );
 
@@ -1206,15 +1209,18 @@ export async function mergeAccountRecord(
       phoneNumberSharingModeToStore = PhoneNumberSharingMode.Everybody;
       break;
   }
-  window.storage.put('phoneNumberSharingMode', phoneNumberSharingModeToStore);
+  await window.storage.put(
+    'phoneNumberSharingMode',
+    phoneNumberSharingModeToStore
+  );
 
   const discoverability = notDiscoverableByPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
-  window.storage.put('phoneNumberDiscoverability', discoverability);
+  await window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    ourProfileKeyService.set(profileKey);
+    void ourProfileKeyService.set(profileKey);
   }
 
   if (pinnedConversations) {
@@ -1323,40 +1329,52 @@ export async function mergeAccountRecord(
       updatedConversations.push(conversation);
     });
 
-    window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
+    await window.storage.put(
+      'pinnedConversationIds',
+      remotelyPinnedConversationIds
+    );
   }
 
   if (subscriberId instanceof Uint8Array) {
-    window.storage.put('subscriberId', subscriberId);
+    await window.storage.put('subscriberId', subscriberId);
   }
   if (typeof subscriberCurrencyCode === 'string') {
-    window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+    await window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
   }
-  window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
-  window.storage.put('keepMutedChatsArchived', Boolean(keepMutedChatsArchived));
-  window.storage.put('hasSetMyStoriesPrivacy', Boolean(hasSetMyStoriesPrivacy));
+  await window.storage.put(
+    'displayBadgesOnProfile',
+    Boolean(displayBadgesOnProfile)
+  );
+  await window.storage.put(
+    'keepMutedChatsArchived',
+    Boolean(keepMutedChatsArchived)
+  );
+  await window.storage.put(
+    'hasSetMyStoriesPrivacy',
+    Boolean(hasSetMyStoriesPrivacy)
+  );
   {
     const hasViewedOnboardingStoryBool = Boolean(hasViewedOnboardingStory);
-    window.storage.put(
+    await window.storage.put(
       'hasViewedOnboardingStory',
       hasViewedOnboardingStoryBool
     );
     if (hasViewedOnboardingStoryBool) {
-      findAndDeleteOnboardingStoryIfExists();
+      void findAndDeleteOnboardingStoryIfExists();
     }
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
-    window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
+    await window.storage.put('hasStoriesDisabled', hasStoriesDisabled);
     window.textsecure.server?.onHasStoriesDisabledChange(hasStoriesDisabled);
   }
 
   switch (storyViewReceiptsEnabled) {
     case Proto.OptionalBool.ENABLED:
-      window.storage.put('storyViewReceiptsEnabled', true);
+      await window.storage.put('storyViewReceiptsEnabled', true);
       break;
     case Proto.OptionalBool.DISABLED:
-      window.storage.put('storyViewReceiptsEnabled', false);
+      await window.storage.put('storyViewReceiptsEnabled', false);
       break;
     case Proto.OptionalBool.UNSET:
     default:
@@ -1396,7 +1414,7 @@ export async function mergeAccountRecord(
 
     const avatarUrl = dropNull(accountRecord.avatarUrl);
     await conversation.setProfileAvatar(avatarUrl, profileKey);
-    window.storage.put('avatarUrl', avatarUrl);
+    await window.storage.put('avatarUrl', avatarUrl);
   }
 
   const { hasConflict, details: extraDetails } = doesRecordHavePendingChanges(
@@ -1663,7 +1681,7 @@ export async function mergeStickerPackRecord(
         }
       );
     } else {
-      Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
+      void Stickers.downloadStickerPack(stickerPack.id, stickerPack.key, {
         finalStatus: 'installed',
         fromStorageService: true,
       });

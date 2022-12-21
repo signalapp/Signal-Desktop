@@ -954,7 +954,7 @@ export function SendStoryModal({
           actions={[
             {
               action: () => {
-                toggleGroupsForStorySend([confirmRemoveGroupId]);
+                void toggleGroupsForStorySend([confirmRemoveGroupId]);
                 setConfirmRemoveGroupId(undefined);
               },
               style: 'negative',

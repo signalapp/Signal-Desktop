@@ -134,7 +134,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       window.Signal.Data.updateConversation(this.model.attributes);
 
-      this.model.updateLastMessage();
+      void this.model.updateLastMessage();
     }
 
     this.conversationView?.remove();
@@ -168,7 +168,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const message = await getMessageById(messageId);
 
       if (message) {
-        this.model.loadAndScroll(messageId);
+        void this.model.loadAndScroll(messageId);
         return;
       }
 
@@ -181,14 +181,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     const loadAndUpdate = async () => {
-      Promise.all([
+      void Promise.all([
         this.model.loadNewestMessages(undefined, undefined),
         this.model.updateLastMessage(),
         this.model.updateUnread(),
       ]);
     };
 
-    loadAndUpdate();
+    void loadAndUpdate();
 
     window.reduxActions.composer.setComposerFocus(this.model.id);
 
@@ -200,17 +200,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       );
     }
 
-    this.model.fetchLatestGroupV2Data();
+    void this.model.fetchLatestGroupV2Data();
     strictAssert(
       this.model.throttledMaybeMigrateV1Group !== undefined,
       'Conversation model should be initialized'
     );
-    this.model.throttledMaybeMigrateV1Group();
+    void this.model.throttledMaybeMigrateV1Group();
     strictAssert(
       this.model.throttledFetchSMSOnlyUUID !== undefined,
       'Conversation model should be initialized'
     );
-    this.model.throttledFetchSMSOnlyUUID();
+    void this.model.throttledFetchSMSOnlyUUID();
 
     const ourUuid = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
     if (
@@ -224,7 +224,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       await this.model.throttledGetProfiles();
     }
 
-    this.model.updateVerified();
+    void this.model.updateVerified();
   }
 
   getMessageDetail({

@@ -209,7 +209,7 @@ const doSearch = debounce(
       return;
     }
 
-    (async () => {
+    void (async () => {
       dispatch({
         type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
         payload: {
@@ -220,7 +220,7 @@ const doSearch = debounce(
     })();
 
     if (!searchConversationId) {
-      (async () => {
+      void (async () => {
         const { conversationIds, contactIds } =
           await queryConversationsAndContacts(query, {
             ourConversationId,

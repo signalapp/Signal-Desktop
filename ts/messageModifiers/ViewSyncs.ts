@@ -98,7 +98,7 @@ export class ViewSyncs extends Collection {
 
         const attachments = message.get('attachments');
         if (!attachments?.every(isDownloaded)) {
-          queueAttachmentDownloads(message.attributes);
+          void queueAttachmentDownloads(message.attributes);
         }
       }
 

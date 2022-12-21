@@ -86,7 +86,7 @@ export function DebugLogWindow({
       setToastType(undefined);
     }
 
-    doFetchLogs();
+    void doFetchLogs();
 
     return () => {
       shouldCancel = true;

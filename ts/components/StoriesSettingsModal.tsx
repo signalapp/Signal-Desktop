@@ -311,7 +311,7 @@ export function StoriesSettingsModal({
         page={page}
         onClose={onClose}
         onCreateList={(name, uuids) => {
-          onDistributionListCreated(name, uuids);
+          void onDistributionListCreated(name, uuids);
           resetChooseViewersScreen();
         }}
         onBackButtonClick={() =>

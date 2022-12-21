@@ -399,7 +399,7 @@ export async function sendStory(
         //   conversationJobQueue.
         errors.forEach(error => {
           if (error instanceof SendMessageChallengeError) {
-            window.Signal.challengeHandler?.register(
+            void window.Signal.challengeHandler?.register(
               {
                 conversationId: conversation.id,
                 createdAt: Date.now(),
@@ -641,7 +641,7 @@ async function markMessageFailed(
   errors: Array<Error>
 ): Promise<void> {
   message.markFailed();
-  message.saveErrors(errors, { skipSave: true });
+  void message.saveErrors(errors, { skipSave: true });
   await window.Signal.Data.saveMessage(message.attributes, {
     ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
   });

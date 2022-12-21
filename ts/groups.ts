@@ -1602,7 +1602,7 @@ export async function modifyGroupV2({
           `modifyGroupV2/${logId}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.
-        conversation.fetchLatestGroupV2Data({ force: true });
+        void conversation.fetchLatestGroupV2Data({ force: true });
         throw error;
       } else {
         const errorString = Errors.toLogFormat(error);
@@ -2403,7 +2403,7 @@ export async function initiateMigrationToGroupV2(
       });
 
       if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-        window.storage.blocked.addBlockedGroup(groupId);
+        await window.storage.blocked.addBlockedGroup(groupId);
       }
 
       // Save these most recent updates to conversation
@@ -2721,7 +2721,7 @@ export async function respondToGroupV2Migration({
           );
 
           if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-            window.storage.blocked.addBlockedGroup(groupId);
+            await window.storage.blocked.addBlockedGroup(groupId);
           }
 
           if (wereWePreviouslyAMember) {
@@ -2862,7 +2862,7 @@ export async function respondToGroupV2Migration({
   });
 
   if (window.storage.blocked.isGroupBlocked(previousGroupV1Id)) {
-    window.storage.blocked.addBlockedGroup(groupId);
+    await window.storage.blocked.addBlockedGroup(groupId);
   }
 
   // Save these most recent updates to conversation
@@ -3080,7 +3080,7 @@ async function updateGroup(
       contact.get('profileKey') !== member.profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
-      contact.setProfileKey(member.profileKey);
+      void contact.setProfileKey(member.profileKey);
     }
   });
 
@@ -3155,7 +3155,7 @@ async function updateGroup(
       };
 
       // Cannot await here, would infinitely block queue
-      waitThenLeave();
+      void waitThenLeave();
     }
   }
 }
@@ -3359,7 +3359,7 @@ async function appendChangeMessages(
   // We updated the message, but didn't add new ones - refresh left pane
   if (!newMessages && mergedMessages.length > 0) {
     await conversation.updateLastMessage();
-    conversation.updateUnread();
+    void conversation.updateUnread();
   }
 }
 

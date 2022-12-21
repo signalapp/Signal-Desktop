@@ -204,7 +204,7 @@ export function StoryDetailsModal({
       icon: 'StoryDetailsModal__copy-icon',
       label: i18n('StoryDetailsModal__copy-timestamp'),
       onClick: () => {
-        window.navigator.clipboard.writeText(String(timestamp));
+        void window.navigator.clipboard.writeText(String(timestamp));
       },
     },
   ];

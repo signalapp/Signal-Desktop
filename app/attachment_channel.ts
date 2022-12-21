@@ -178,7 +178,7 @@ function deleteOrphanedAttachments({
   }
 
   // Intentionally not awaiting
-  runSafe();
+  void runSafe();
 }
 
 export function initialize({

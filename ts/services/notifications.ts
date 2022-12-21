@@ -157,7 +157,7 @@ class NotificationService extends EventEmitter {
       audioNotificationSupport === AudioNotificationSupport.Custom
     ) {
       // We kick off the sound to be played. No need to await it.
-      new Sound({ src: 'sounds/notification.ogg' }).play();
+      void new Sound({ src: 'sounds/notification.ogg' }).play();
     }
 
     this.lastNotification = notification;

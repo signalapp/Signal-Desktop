@@ -14,6 +14,7 @@ import type { ConversationModel } from './models/conversations';
 import type { StorageInterface } from './types/Storage.d';
 import * as Errors from './types/errors';
 import { getProfile } from './util/getProfile';
+import { drop } from './util/drop';
 import { MINUTE, HOUR, DAY, WEEK, MONTH } from './util/durations';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
@@ -155,7 +156,7 @@ export async function routineProfileRefresh({
     throwOnTimeout: true,
   });
   for (const conversation of conversationsToRefresh) {
-    refreshQueue.add(() => refreshConversation(conversation));
+    drop(refreshQueue.add(() => refreshConversation(conversation)));
   }
   await refreshQueue.onIdle();
 

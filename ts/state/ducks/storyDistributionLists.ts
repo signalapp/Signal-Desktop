@@ -291,7 +291,7 @@ function hideMyStoriesFrom(
 
     storageServiceUploadJob();
 
-    window.storage.put('hasSetMyStoriesPrivacy', true);
+    await window.storage.put('hasSetMyStoriesPrivacy', true);
 
     dispatch({
       type: HIDE_MY_STORIES_FROM,
@@ -338,7 +338,7 @@ function removeMembersFromDistributionList(
       toRemove = [];
 
       // The user has now configured My Stories
-      window.storage.put('hasSetMyStoriesPrivacy', true);
+      await window.storage.put('hasSetMyStoriesPrivacy', true);
     }
 
     await dataInterface.modifyStoryDistributionWithMembers(
@@ -410,7 +410,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
       storageServiceUploadJob();
     }
 
-    window.storage.put('hasSetMyStoriesPrivacy', true);
+    await window.storage.put('hasSetMyStoriesPrivacy', true);
 
     dispatch({
       type: RESET_MY_STORIES,
@@ -467,7 +467,7 @@ function updateStoryViewers(
     storageServiceUploadJob();
 
     if (listId === MY_STORY_ID) {
-      window.storage.put('hasSetMyStoriesPrivacy', true);
+      await window.storage.put('hasSetMyStoriesPrivacy', true);
     }
 
     dispatch({

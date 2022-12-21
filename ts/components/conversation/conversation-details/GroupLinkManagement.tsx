@@ -138,7 +138,7 @@ export function GroupLinkManagement({
               ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
-                  copyGroupLink(conversation.groupLink);
+                  void copyGroupLink(conversation.groupLink);
                 }
               }}
             />

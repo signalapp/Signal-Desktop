@@ -76,7 +76,7 @@ class TapToViewMessagesDeletionService {
     clearTimeoutIfNecessary(this.timeout);
     this.timeout = setTimeout(async () => {
       await eraseTapToViewMessages();
-      this.update();
+      void this.update();
     }, wait);
   }
 }

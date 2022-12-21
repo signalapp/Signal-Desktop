@@ -10,7 +10,7 @@ const MESSAGE_BATCH_SIZE = 1000; // messages
 
 const ENABLE_RECEIPTS = Boolean(process.env.ENABLE_RECEIPTS);
 
-(async () => {
+void (async () => {
   const bootstrap = new Bootstrap({
     benchmark: true,
   });

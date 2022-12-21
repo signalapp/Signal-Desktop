@@ -249,7 +249,7 @@ export function AddGroupMembersModal({
       return renderConfirmAdditionsModal({
         groupTitle,
         makeRequest: () => {
-          makeRequest(selectedConversationIds);
+          void makeRequest(selectedConversationIds);
         },
         onClose: onCloseConfirmationDialog,
         requestState,

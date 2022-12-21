@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import { sleep } from '../../util';
 import { MINUTE } from '../../util/durations';
+import { drop } from '../../util/drop';
 
 import { ProfileService } from '../../services/profiles';
 import { UUID } from '../../types/UUID';
@@ -55,9 +56,9 @@ describe('util/profiles', () => {
       const service = new ProfileService(getProfileWithIncrement);
 
       // Queued and immediately started due to concurrency = 3
-      service.get(UUID_1);
-      service.get(UUID_2);
-      service.get(UUID_3);
+      drop(service.get(UUID_1));
+      drop(service.get(UUID_2));
+      drop(service.get(UUID_3));
 
       // Queued but only run after paused queue restarts
       const lastPromise = service.get(UUID_4);

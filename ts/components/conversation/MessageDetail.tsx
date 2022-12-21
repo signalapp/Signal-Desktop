@@ -367,7 +367,9 @@ export class MessageDetail extends React.Component<Props> {
                       icon: 'StoryDetailsModal__copy-icon',
                       label: i18n('StoryDetailsModal__copy-timestamp'),
                       onClick: () => {
-                        window.navigator.clipboard.writeText(String(sentAt));
+                        void window.navigator.clipboard.writeText(
+                          String(sentAt)
+                        );
                       },
                     },
                   ]}

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { WebAPIType } from '../textsecure/WebAPI';
+import { drop } from '../util/drop';
 
 import { conversationJobQueue } from './conversationJobQueue';
 import { deliveryReceiptsJobQueue } from './deliveryReceiptsJobQueue';
@@ -25,22 +26,22 @@ export function initializeAllJobQueues({
   reportSpamJobQueue.initialize({ server });
 
   // General conversation send queue
-  conversationJobQueue.streamJobs();
+  drop(conversationJobQueue.streamJobs());
 
   // Single proto send queue, used for a variety of one-off simple messages
-  singleProtoJobQueue.streamJobs();
+  drop(singleProtoJobQueue.streamJobs());
 
   // Syncs to others
-  deliveryReceiptsJobQueue.streamJobs();
-  readReceiptsJobQueue.streamJobs();
-  viewedReceiptsJobQueue.streamJobs();
+  drop(deliveryReceiptsJobQueue.streamJobs());
+  drop(readReceiptsJobQueue.streamJobs());
+  drop(viewedReceiptsJobQueue.streamJobs());
 
   // Syncs to ourselves
-  readSyncJobQueue.streamJobs();
-  viewSyncJobQueue.streamJobs();
-  viewOnceOpenJobQueue.streamJobs();
+  drop(readSyncJobQueue.streamJobs());
+  drop(viewSyncJobQueue.streamJobs());
+  drop(viewOnceOpenJobQueue.streamJobs());
 
   // Other queues
-  removeStorageKeyJobQueue.streamJobs();
-  reportSpamJobQueue.streamJobs();
+  drop(removeStorageKeyJobQueue.streamJobs());
+  drop(reportSpamJobQueue.streamJobs());
 }

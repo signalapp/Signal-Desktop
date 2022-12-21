@@ -51,7 +51,7 @@ describe('story/no-sender-key', function needsName() {
         },
       },
     });
-    phone.setStorageState(state);
+    await phone.setStorageState(state);
 
     app = await bootstrap.link();
   });

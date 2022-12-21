@@ -520,7 +520,7 @@ export default class OutgoingMessage {
               this.numberCompleted();
 
               if (this.sendLogCallback) {
-                this.sendLogCallback({
+                void this.sendLogCallback({
                   identifier,
                   deviceIds,
                 });
@@ -559,7 +559,7 @@ export default class OutgoingMessage {
             this.numberCompleted();
 
             if (this.sendLogCallback) {
-              this.sendLogCallback({
+              void this.sendLogCallback({
                 identifier,
                 deviceIds,
               });

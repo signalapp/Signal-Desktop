@@ -188,6 +188,17 @@ const typescriptRules = {
   '@typescript-eslint/no-redeclare': 'error',
   '@typescript-eslint/no-shadow': 'error',
   '@typescript-eslint/no-useless-constructor': ['error'],
+  '@typescript-eslint/no-misused-promises': [
+    'error',
+    {
+      checksVoidReturn: false
+    }
+  ],
+
+  '@typescript-eslint/no-floating-promises': 'error',
+  // We allow "void promise", but new call-sites should use `drop(promise)`.
+  'no-void': ['error', { 'allowAsStatement': true }],
+
   'no-shadow': 'off',
   'no-useless-constructor': 'off',
 

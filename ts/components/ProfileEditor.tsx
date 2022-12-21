@@ -504,7 +504,7 @@ export function ProfileEditor({
                 username !== undefined,
                 'Should not be visible without username'
               );
-              window.navigator.clipboard.writeText(username);
+              void window.navigator.clipboard.writeText(username);
               showToast(ToastType.CopiedUsername);
             },
           },
@@ -517,7 +517,7 @@ export function ProfileEditor({
                 username !== undefined,
                 'Should not be visible without username'
               );
-              window.navigator.clipboard.writeText(
+              void window.navigator.clipboard.writeText(
                 generateUsernameLink(username)
               );
               showToast(ToastType.CopiedUsernameLink);

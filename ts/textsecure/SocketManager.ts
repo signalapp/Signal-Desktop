@@ -219,7 +219,7 @@ export class SocketManager extends EventListener {
         }
       }
 
-      reconnect();
+      void reconnect();
       return;
     }
 
@@ -244,7 +244,7 @@ export class SocketManager extends EventListener {
         return;
       }
 
-      reconnect();
+      void reconnect();
     });
   }
 

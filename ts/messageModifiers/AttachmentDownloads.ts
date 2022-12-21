@@ -62,7 +62,7 @@ export async function start(options: StartOptionsType): Promise<void> {
   enabled = true;
   await resetAttachmentDownloadPending();
 
-  _tick();
+  void _tick();
 }
 
 export async function stop(): Promise<void> {
@@ -133,7 +133,7 @@ export async function addJob(
 
   await saveAttachmentDownloadJob(toSave);
 
-  _maybeStartJob();
+  void _maybeStartJob();
 
   return {
     ...attachment,
@@ -146,7 +146,7 @@ async function _tick(): Promise<void> {
   clearTimeoutIfNecessary(timeout);
   timeout = null;
 
-  _maybeStartJob();
+  void _maybeStartJob();
   timeout = setTimeout(_tick, TICK_INTERVAL);
 }
 
@@ -229,13 +229,13 @@ async function _maybeStartJob(): Promise<void> {
               Errors.toLogFormat(error)
             );
           } finally {
-            _maybeStartJob();
+            void _maybeStartJob();
           }
         }
       };
 
       // Note: intentionally not awaiting
-      postProcess();
+      void postProcess();
     }
   }
 }
@@ -360,7 +360,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       await saveAttachmentDownloadJob(failedJob);
     } finally {
       delete _activeAttachmentDownloadJobs[id];
-      _maybeStartJob();
+      void _maybeStartJob();
     }
   }
 }
@@ -420,7 +420,7 @@ async function _finishJob(
 
   await removeAttachmentDownloadJob(id);
   delete _activeAttachmentDownloadJobs[id];
-  _maybeStartJob();
+  void _maybeStartJob();
 }
 
 function getActiveJobCount(): number {
@@ -472,7 +472,7 @@ async function _addAttachmentToMessage(
       });
     } finally {
       if (attachment.path) {
-        window.Signal.Migrations.deleteAttachmentData(attachment.path);
+        void window.Signal.Migrations.deleteAttachmentData(attachment.path);
       }
     }
     return;

@@ -118,7 +118,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
         return;
       }
 
-      conversation.applyMessageRequestResponse(sync.get('type'), {
+      void conversation.applyMessageRequestResponse(sync.get('type'), {
         fromSync: true,
       });
 

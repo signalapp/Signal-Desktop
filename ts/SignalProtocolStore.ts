@@ -1419,7 +1419,7 @@ export class SignalProtocolStore extends EventEmitter {
     }
 
     sessionResets[id] = Date.now();
-    window.storage.put('sessionResets', sessionResets);
+    await window.storage.put('sessionResets', sessionResets);
 
     try {
       const { uuid } = qualifiedAddress;
@@ -1446,7 +1446,7 @@ export class SignalProtocolStore extends EventEmitter {
       // If we failed to do the session reset, then we'll allow another attempt sooner
       //   than one hour from now.
       delete sessionResets[id];
-      window.storage.put('sessionResets', sessionResets);
+      await window.storage.put('sessionResets', sessionResets);
 
       log.error(
         `lightSessionReset/${id}: Encountered error`,

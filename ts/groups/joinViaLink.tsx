@@ -422,7 +422,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     }
   };
 
-  fetchAvatar();
+  void fetchAvatar();
 
   await promise;
 }

@@ -1246,7 +1246,7 @@ export default class MessageSender {
     });
 
     recipients.forEach(identifier => {
-      this.queueJobForIdentifier(identifier, async () =>
+      void this.queueJobForIdentifier(identifier, async () =>
         outgoing.sendToIdentifier(identifier)
       );
     });
@@ -2186,7 +2186,7 @@ export default class MessageSender {
         return;
       }
 
-      if (!initialSavePromise) {
+      if (initialSavePromise === undefined) {
         initialSavePromise = window.Signal.Data.insertSentProto(
           {
             contentHint,
