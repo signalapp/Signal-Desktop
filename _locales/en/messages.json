@@ -6123,10 +6123,6 @@
     "message": "Visit link",
     "description": "Title for the link preview tooltip"
   },
-  "ViewOnce--invalid": {
-    "message": "View-once message is invalid",
-    "description": "Error string if the view-once message is invalid"
-  },
   "ViewOnce--invalidAttachmentTypeError": {
     "message": "View-once attachment type is invalid",
     "description": "Error string if the view-once attachment is invalid"
@@ -6134,18 +6130,6 @@
   "ViewOnce--tooManyAttachments": {
     "message": "You cannot send more than one attachment as view-once",
     "description": "Error string if user sends more than one attachment at once in view-once"
-  },
-  "ViewOnceSettingButton--title": {
-    "message": "View-once settings",
-    "description": "Title for the view-once toggle setting button"
-  },
-  "ViewOnceSettingButton--view-once-title": {
-    "message": "Send as View-once media",
-    "description": "Title for the view-once option in the view-once toggle settings"
-  },
-  "ViewOnceSettingButton--view-forever-title": {
-    "message": "Send as attachment",
-    "description": "Title for the attachment option in the view-once toggle settings"
   },
   "Quote__story": {
     "message": "Story",
