@@ -36,9 +36,8 @@ import { AttachmentList } from './conversation/AttachmentList';
 import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
-  isVideoAttachment,
 } from '../types/Attachment';
-import { isImageAttachment } from '../types/Attachment';
+import { isImageAttachment, isVideoAttachment } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
