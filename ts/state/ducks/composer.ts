@@ -68,6 +68,8 @@ import { getMessageById } from '../../messages/getMessageById';
 import { canReply } from '../selectors/message';
 import { getConversationSelector } from '../selectors/conversations';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { ToastViewOnceTooManyAttachmentsError } from '../../components/ToastViewOnceTooManyAttachmentsError';
+import { showToast } from '../../util/showToast';
 
 // State
 
@@ -80,6 +82,7 @@ export type ComposerStateType = {
   messageCompositionId: UUIDStringType;
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
   shouldSendHighQualityAttachments?: boolean;
+  shouldSendAsViewOnce: boolean;
 };
 
 // Actions
@@ -125,6 +128,11 @@ type SetQuotedMessageActionType = {
   payload?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
 };
 
+type SetViewOnceSettingActionType = {
+  type: typeof SET_VIEW_ONCE_SETTING;
+  payload: boolean;
+};
+
 type ComposerActionType =
   | AddLinkPreviewActionType
   | AddPendingAttachmentActionType
@@ -134,7 +142,8 @@ type ComposerActionType =
   | SetComposerDisabledStateActionType
   | SetFocusActionType
   | SetHighQualitySettingActionType
-  | SetQuotedMessageActionType;
+  | SetQuotedMessageActionType
+  | SetViewOnceSettingActionType;
 
 // Action Creators
 
@@ -153,6 +162,7 @@ export const actions = {
   setQuoteByMessageId,
   setMediaQualitySetting,
   setQuotedMessage,
+  setViewOnceSetting,
 };
 
 export const useComposerActions = (): BoundActionCreatorsMapObject<
@@ -259,6 +269,16 @@ function sendMultiMediaMessage(
         shouldSendHighQualityAttachments !== undefined
           ? shouldSendHighQualityAttachments
           : state.items['sent-media-quality'] === 'high';
+      
+      const shouldSendViewOnce = window.reduxStore
+        ? state.composer.shouldSendAsViewOnce
+        : undefined;
+
+      // View Once setting for messages
+      const isViewOnce = 
+        shouldSendViewOnce !== undefined
+          ? shouldSendViewOnce
+          : undefined;
 
       const sendDelta = Date.now() - sendStart;
 
@@ -274,6 +294,7 @@ function sendMultiMediaMessage(
         },
         {
           sendHQImages,
+          isViewOnce,
           timestamp,
           extraReduxActions: () => {
             conversation.setMarkedUnread(false);
@@ -608,6 +629,16 @@ function processAttachments({
     let toastToShow:
       | { toastType: ToastType; parameters?: ReplacementValuesType }
       | undefined;
+    
+    // Account for if the user tries to drag an attachment
+    // while there is already one and set to view-once
+    const isViewOnce =
+      state.composer.shouldSendAsViewOnce || conversation.attributes.isViewOnce;
+
+    if(isViewOnce) {
+      showToast(ToastViewOnceTooManyAttachmentsError);
+      return;
+    }
 
     const nextDraftAttachments = (
       conversation.get('draftAttachments') || []
@@ -886,6 +917,15 @@ function setQuotedMessage(
   };
 }
 
+function setViewOnceSetting(
+  payload: boolean
+): SetViewOnceSettingActionType {
+  return {
+    type: SET_VIEW_ONCE_SETTING,
+    payload,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): ComposerStateType {
@@ -895,6 +935,7 @@ export function getEmptyState(): ComposerStateType {
     isDisabled: false,
     linkPreviewLoading: false,
     messageCompositionId: UUID.generate().toString(),
+    shouldSendAsViewOnce: false,
   };
 }
 
@@ -913,7 +954,8 @@ export function reducer(
       attachments,
       ...(attachments.length
         ? {}
-        : { shouldSendHighQualityAttachments: undefined }),
+        : { shouldSendHighQualityAttachments: undefined,
+            shouldSendAsViewOnce: false }),
     };
   }
 
@@ -930,7 +972,14 @@ export function reducer(
       shouldSendHighQualityAttachments: action.payload,
     };
   }
-
+  
+  if (action.type === SET_VIEW_ONCE_SETTING) {
+    return {
+      ...state,
+      shouldSendAsViewOnce: action.payload,
+    };
+  }
+  
   if (action.type === SET_QUOTED_MESSAGE) {
     return {
       ...state,
