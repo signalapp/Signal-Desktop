@@ -38,6 +38,8 @@ import type { ToastTapToViewExpiredIncoming } from '../components/ToastTapToView
 import type { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
 import type { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
 import type { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
+import type { ToastViewOnceAttachmentError } from '../components/ToastViewOnceAttachmentError';
+import type { ToastViewOnceTooManyAttachmentsError } from '../components/ToastViewOnceTooManyAttachmentsError';
 
 export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
 export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
