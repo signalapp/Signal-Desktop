@@ -125,11 +125,12 @@ import {
   initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
 } from '../../groups';
 import { getMessageById } from '../../messages/getMessageById';
-import type { PanelRenderType } from '../../types/Panels';
+import type { PanelRenderType, PanelRequestType } from '../../types/Panels';
 import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue';
 import { isOlderThan } from '../../util/timestamp';
 import { DAY } from '../../util/durations';
 import { isNotNil } from '../../util/isNotNil';
+import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
 
 // State
@@ -407,6 +408,7 @@ export type ConversationsStateType = {
   selectedMessageCounter: number;
   selectedMessageSource: SelectedMessageSource | undefined;
   selectedConversationPanels: Array<PanelRenderType>;
+  selectedMessageForDetails?: MessageAttributesType;
   showArchived: boolean;
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
@@ -817,11 +819,11 @@ type ReplaceAvatarsActionType = {
 export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
   | ClearCancelledVerificationActionType
-  | ClearVerificationDataByConversationActionType
   | ClearGroupCreationErrorActionType
   | ClearInvitedUuidsForNewlyCreatedGroupActionType
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
+  | ClearVerificationDataByConversationActionType
   | CloseContactSpoofingReviewActionType
   | CloseMaximumGroupSizeModalActionType
   | CloseRecommendedGroupSizeModalActionType
@@ -843,6 +845,7 @@ export type ConversationActionType =
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpandedActionType
+  | MessageExpiredActionType
   | MessageSelectedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
@@ -871,8 +874,8 @@ export type ConversationActionType =
   | ShowSendAnywayDialogActionType
   | StartComposingActionType
   | StartSettingGroupMetadataActionType
-  | ToggleConversationInChooseMembersActionType
-  | ToggleComposeEditingAvatarActionType;
+  | ToggleComposeEditingAvatarActionType
+  | ToggleConversationInChooseMembersActionType;
 
 // Action Creators
 
@@ -1515,7 +1518,7 @@ function deleteMessage({
     } else {
       conversation.decrementMessageCount();
     }
-    popPanelForConversation(conversationId)(dispatch, getState, undefined);
+    popPanelForConversation()(dispatch, getState, undefined);
 
     dispatch({
       type: 'NOOP',
@@ -2536,58 +2539,56 @@ function setIsFetchingUUID(
 }
 
 export type PushPanelForConversationActionType = (
-  conversationId: string,
-  panel: PanelRenderType
+  panel: PanelRequestType
 ) => unknown;
 
 function pushPanelForConversation(
-  conversationId: string,
-  panel: PanelRenderType
-): PushPanelActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error(
-      `addPanelToConversation: No conversation found for conversation ${conversationId}`
-    );
-  }
+  panel: PanelRequestType
+): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
+  return async dispatch => {
+    if (panel.type === PanelType.MessageDetails) {
+      const { messageId } = panel.args;
 
-  conversation.trigger('pushPanel', panel);
+      const message = await getMessageById(messageId);
+      if (!message) {
+        throw new Error(
+          'pushPanelForConversation: could not find message for MessageDetails'
+        );
+      }
+      dispatch({
+        type: PUSH_PANEL,
+        payload: {
+          type: PanelType.MessageDetails,
+          args: {
+            message: message.attributes,
+          },
+        },
+      });
+      return;
+    }
 
-  return {
-    type: PUSH_PANEL,
-    payload: panel,
+    dispatch({
+      type: PUSH_PANEL,
+      payload: panel,
+    });
   };
 }
 
-export type PopPanelForConversationActionType = (
-  conversationId: string
-) => unknown;
+export type PopPanelForConversationActionType = () => unknown;
 
-function popPanelForConversation(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, PopPanelActionType> {
+function popPanelForConversation(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  PopPanelActionType
+> {
   return (dispatch, getState) => {
-    const conversation = window.ConversationController.get(conversationId);
-    if (!conversation) {
-      throw new Error(
-        `addPanelToConversation: No conversation found for conversation ${conversationId}`
-      );
-    }
-
     const { conversations } = getState();
     const { selectedConversationPanels } = conversations;
 
     if (!selectedConversationPanels.length) {
       return;
     }
-
-    const panel = [...selectedConversationPanels].pop();
-
-    if (!panel) {
-      return;
-    }
-
-    conversation.trigger('popPanel', panel);
 
     dispatch({
       type: POP_PANEL,
@@ -3718,6 +3719,30 @@ function visitListsInVerificationData(
   return result;
 }
 
+function maybeUpdateSelectedMessageForDetails(
+  {
+    messageId,
+    selectedMessageForDetails,
+  }: {
+    messageId: string;
+    selectedMessageForDetails: MessageAttributesType | undefined;
+  },
+  state: ConversationsStateType
+): ConversationsStateType {
+  if (!state.selectedMessageForDetails) {
+    return state;
+  }
+
+  if (state.selectedMessageForDetails.id !== messageId) {
+    return state;
+  }
+
+  return {
+    ...state,
+    selectedMessageForDetails,
+  };
+}
+
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
   action: Readonly<ConversationActionType | StoryDistributionListsActionType>
@@ -4242,18 +4267,26 @@ export function reducer(
       verificationDataByConversation,
     };
   }
+
   if (action.type === 'MESSAGE_CHANGED') {
     const { id, conversationId, data } = action.payload;
     const existingConversation = state.messagesByConversation[conversationId];
 
     // We don't keep track of messages unless their conversation is loaded...
     if (!existingConversation) {
-      return state;
+      return maybeUpdateSelectedMessageForDetails(
+        { messageId: id, selectedMessageForDetails: data },
+        state
+      );
     }
+
     // ...and we've already loaded that message once
     const existingMessage = getOwn(state.messagesLookup, id);
     if (!existingMessage) {
-      return state;
+      return maybeUpdateSelectedMessageForDetails(
+        { messageId: id, selectedMessageForDetails: data },
+        state
+      );
     }
 
     const conversationAttrs = state.conversationLookup[conversationId];
@@ -4265,7 +4298,13 @@ export function reducer(
     const toIncrement = data.reactions?.length ? 1 : 0;
 
     return {
-      ...state,
+      ...maybeUpdateSelectedMessageForDetails(
+        {
+          messageId: id,
+          selectedMessageForDetails: data,
+        },
+        state
+      ),
       messagesByConversation: {
         ...state.messagesByConversation,
         [conversationId]: {
@@ -4283,6 +4322,14 @@ export function reducer(
       },
     };
   }
+
+  if (action.type === MESSAGE_EXPIRED) {
+    return maybeUpdateSelectedMessageForDetails(
+      { messageId: action.payload.id, selectedMessageForDetails: undefined },
+      state
+    );
+  }
+
   if (action.type === 'MESSAGE_EXPANDED') {
     const { id, displayLimit } = action.payload;
 
@@ -4459,7 +4506,10 @@ export function reducer(
 
     const existingConversation = messagesByConversation[conversationId];
     if (!existingConversation) {
-      return state;
+      return maybeUpdateSelectedMessageForDetails(
+        { messageId: id, selectedMessageForDetails: undefined },
+        state
+      );
     }
 
     // Assuming that we always have contiguous groups of messages in memory, the removal
@@ -4503,7 +4553,10 @@ export function reducer(
     }
 
     return {
-      ...state,
+      ...maybeUpdateSelectedMessageForDetails(
+        { messageId: id, selectedMessageForDetails: undefined },
+        state
+      ),
       messagesLookup: omit(messagesLookup, id),
       messagesByConversation: {
         [conversationId]: {
@@ -4792,6 +4845,17 @@ export function reducer(
   }
 
   if (action.type === PUSH_PANEL) {
+    if (action.payload.type === PanelType.MessageDetails) {
+      return {
+        ...state,
+        selectedConversationPanels: [
+          ...state.selectedConversationPanels,
+          action.payload,
+        ],
+        selectedMessageForDetails: action.payload.args.message,
+      };
+    }
+
     return {
       ...state,
       selectedConversationPanels: [
@@ -4804,7 +4868,19 @@ export function reducer(
   if (action.type === POP_PANEL) {
     const { selectedConversationPanels } = state;
     const nextPanels = [...selectedConversationPanels];
-    nextPanels.pop();
+    const panel = nextPanels.pop();
+
+    if (!panel) {
+      return state;
+    }
+
+    if (panel.type === PanelType.MessageDetails) {
+      return {
+        ...state,
+        selectedConversationPanels: nextPanels,
+        selectedMessageForDetails: undefined,
+      };
+    }
 
     return {
       ...state,

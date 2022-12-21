@@ -154,12 +154,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderBackButton(): ReactNode {
-    const { i18n, id, popPanelForConversation, showBackButton } = this.props;
+    const { i18n, popPanelForConversation, showBackButton } = this.props;
 
     return (
       <button
         type="button"
-        onClick={() => popPanelForConversation(id)}
+        onClick={popPanelForConversation}
         className={classNames(
           'module-ConversationHeader__back-icon',
           showBackButton ? 'module-ConversationHeader__back-icon--show' : null
@@ -474,7 +474,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         {!isGroup || hasGV2AdminEnabled ? (
           <MenuItem
             onClick={() =>
-              pushPanelForConversation(id, {
+              pushPanelForConversation({
                 type: PanelType.ConversationDetails,
               })
             }
@@ -487,16 +487,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         {isGroup && !hasGV2AdminEnabled ? (
           <MenuItem
             onClick={() =>
-              pushPanelForConversation(id, { type: PanelType.GroupV1Members })
+              pushPanelForConversation({ type: PanelType.GroupV1Members })
             }
           >
             {i18n('showMembers')}
           </MenuItem>
         ) : null}
         <MenuItem
-          onClick={() =>
-            pushPanelForConversation(id, { type: PanelType.AllMedia })
-          }
+          onClick={() => pushPanelForConversation({ type: PanelType.AllMedia })}
         >
           {i18n('viewRecentMedia')}
         </MenuItem>
@@ -565,13 +563,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderHeader(): ReactNode {
-    const {
-      conversationTitle,
-      id,
-      groupVersion,
-      pushPanelForConversation,
-      type,
-    } = this.props;
+    const { conversationTitle, groupVersion, pushPanelForConversation, type } =
+      this.props;
 
     if (conversationTitle !== undefined) {
       return (
@@ -589,14 +582,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     switch (type) {
       case 'direct':
         onClick = () => {
-          pushPanelForConversation(id, { type: PanelType.ConversationDetails });
+          pushPanelForConversation({ type: PanelType.ConversationDetails });
         };
         break;
       case 'group': {
         const hasGV2AdminEnabled = groupVersion === 2;
         onClick = hasGV2AdminEnabled
           ? () => {
-              pushPanelForConversation(id, {
+              pushPanelForConversation({
                 type: PanelType.ConversationDetails,
               });
             }

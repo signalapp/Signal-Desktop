@@ -17,23 +17,11 @@ import {
   removeLinkPreview,
   suspendLinkPreviews,
 } from '../services/LinkPreview';
-import { SECOND } from '../util/durations';
-import type { BackbonePanelRenderType, PanelRenderType } from '../types/Panels';
-import { PanelType, isPanelHandledByReact } from '../types/Panels';
 import { UUIDKind } from '../types/UUID';
-
-type BackbonePanelType = { panelType: PanelType; view: Backbone.View };
 
 export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Sub-views
-  private contactModalView?: Backbone.View;
   private conversationView?: Backbone.View;
-  private lightboxView?: ReactWrapperView;
-  private stickerPreviewModalView?: Backbone.View;
-
-  // Panel support
-  private panels: Array<BackbonePanelType> = [];
-  private previousFocus?: HTMLElement;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(...args: Array<any>) {
@@ -47,9 +35,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenTo(this.model, 'unload', (reason: string) =>
       this.unload(`model trigger - ${reason}`)
     );
-
-    this.listenTo(this.model, 'pushPanel', this.pushPanel);
-    this.listenTo(this.model, 'popPanel', this.popPanel);
 
     this.render();
 
@@ -139,22 +124,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.conversationView?.remove();
 
-    if (this.contactModalView) {
-      this.contactModalView.remove();
-    }
-    if (this.stickerPreviewModalView) {
-      this.stickerPreviewModalView.remove();
-    }
-    if (this.lightboxView) {
-      this.lightboxView.remove();
-    }
-    if (this.panels && this.panels.length) {
-      for (let i = 0, max = this.panels.length; i < max; i += 1) {
-        const panel = this.panels[i];
-        panel.view.remove();
-      }
-    }
-
     removeLinkPreview();
     suspendLinkPreviews();
 
@@ -225,143 +194,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     void this.model.updateVerified();
-  }
-
-  getMessageDetail({
-    messageId,
-  }: {
-    messageId: string;
-  }): Backbone.View | undefined {
-    const message = window.MessageController.getById(messageId);
-    if (!message) {
-      throw new Error(`getMessageDetail: Message ${messageId} missing!`);
-    }
-
-    if (!message.isNormalBubble()) {
-      return;
-    }
-
-    const getProps = () => ({
-      ...message.getPropsForMessageDetail(
-        window.ConversationController.getOurConversationIdOrThrow()
-      ),
-    });
-
-    const onClose = () => {
-      this.stopListening(message, 'change', update);
-      window.reduxActions.conversations.popPanelForConversation(this.model.id);
-    };
-
-    const view = new ReactWrapperView({
-      className: 'panel message-detail-wrapper',
-      JSX: window.Signal.State.Roots.createMessageDetail(
-        window.reduxStore,
-        getProps()
-      ),
-      onClose,
-    });
-
-    const update = () =>
-      view.update(
-        window.Signal.State.Roots.createMessageDetail(
-          window.reduxStore,
-          getProps()
-        )
-      );
-    this.listenTo(message, 'change', update);
-    this.listenTo(message, 'expired', onClose);
-    // We could listen to all involved contacts, but we'll call that overkill
-
-    view.render();
-
-    return view;
-  }
-
-  pushPanel(panel: PanelRenderType): void {
-    if (isPanelHandledByReact(panel)) {
-      return;
-    }
-
-    this.panels = this.panels || [];
-
-    if (this.panels.length === 0) {
-      this.previousFocus = document.activeElement as HTMLElement;
-    }
-
-    const { type } = panel as BackbonePanelRenderType;
-
-    let view: Backbone.View | undefined;
-    if (panel.type === PanelType.MessageDetails) {
-      view = this.getMessageDetail(panel.args);
-    }
-
-    if (!view) {
-      return;
-    }
-
-    this.panels.push({
-      panelType: type,
-      view,
-    });
-
-    view.$el.insertAfter(this.$('.panel').last());
-    view.$el.one('animationend', () => {
-      if (view) {
-        view.$el.addClass('panel--static');
-      }
-    });
-  }
-
-  popPanel(poppedPanel: PanelRenderType): void {
-    if (!this.panels || !this.panels.length) {
-      return;
-    }
-
-    if (
-      this.panels.length === 0 &&
-      this.previousFocus &&
-      this.previousFocus.focus
-    ) {
-      this.previousFocus.focus();
-      this.previousFocus = undefined;
-    }
-
-    const panel = this.panels[this.panels.length - 1];
-
-    if (!panel) {
-      return;
-    }
-
-    if (isPanelHandledByReact(poppedPanel)) {
-      return;
-    }
-
-    this.panels.pop();
-
-    if (panel.panelType !== poppedPanel.type) {
-      log.warn('popPanel: last panel was not of same type');
-      return;
-    }
-
-    if (this.panels.length > 0) {
-      this.panels[this.panels.length - 1].view.$el.fadeIn(250);
-    }
-
-    let timeout: ReturnType<typeof setTimeout> | undefined;
-    const removePanel = () => {
-      if (!timeout) {
-        return;
-      }
-
-      clearTimeout(timeout);
-      timeout = undefined;
-
-      panel.view.remove();
-    };
-    panel.view.$el.addClass('panel--remove').one('transitionend', removePanel);
-
-    // Backup, in case things go wrong with the transitionend event
-    timeout = setTimeout(removePanel, SECOND);
   }
 }
 

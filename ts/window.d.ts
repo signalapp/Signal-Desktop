@@ -38,7 +38,6 @@ import type { ReduxActions } from './state/types';
 import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
 import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
-import type { createMessageDetail } from './state/roots/createMessageDetail';
 import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import type * as appDuck from './state/ducks/app';
@@ -161,7 +160,6 @@ export type SignalCoreType = {
     Roots: {
       createApp: typeof createApp;
       createGroupV2JoinModal: typeof createGroupV2JoinModal;
-      createMessageDetail: typeof createMessageDetail;
       createSafetyNumberViewer: typeof createSafetyNumberViewer;
       createShortcutGuideModal: typeof createShortcutGuideModal;
     };

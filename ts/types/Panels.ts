@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { EmbeddedContactType } from './EmbeddedContact';
+import type { MessageAttributesType } from '../model-types.d';
 import type { UUIDStringType } from './UUID';
 
 export enum PanelType {
@@ -18,7 +19,7 @@ export enum PanelType {
   StickerManager = 'StickerManager',
 }
 
-export type ReactPanelRenderType =
+export type PanelRequestType =
   | { type: PanelType.AllMedia }
   | { type: PanelType.ChatColorEditor }
   | {
@@ -36,33 +37,28 @@ export type ReactPanelRenderType =
   | { type: PanelType.GroupLinkManagement }
   | { type: PanelType.GroupPermissions }
   | { type: PanelType.GroupV1Members }
+  | { type: PanelType.MessageDetails; args: { messageId: string } }
   | { type: PanelType.NotificationSettings }
   | { type: PanelType.StickerManager };
 
-export type BackbonePanelRenderType = {
-  type: PanelType.MessageDetails;
-  args: { messageId: string };
-};
-
-export type PanelRenderType = ReactPanelRenderType | BackbonePanelRenderType;
-
-export function isPanelHandledByReact(
-  panel: PanelRenderType
-): panel is ReactPanelRenderType {
-  if (!panel) {
-    return false;
-  }
-
-  return (
-    panel.type === PanelType.AllMedia ||
-    panel.type === PanelType.ChatColorEditor ||
-    panel.type === PanelType.ContactDetails ||
-    panel.type === PanelType.ConversationDetails ||
-    panel.type === PanelType.GroupInvites ||
-    panel.type === PanelType.GroupLinkManagement ||
-    panel.type === PanelType.GroupPermissions ||
-    panel.type === PanelType.GroupV1Members ||
-    panel.type === PanelType.NotificationSettings ||
-    panel.type === PanelType.StickerManager
-  );
-}
+export type PanelRenderType =
+  | { type: PanelType.AllMedia }
+  | { type: PanelType.ChatColorEditor }
+  | {
+      type: PanelType.ContactDetails;
+      args: {
+        contact: EmbeddedContactType;
+        signalAccount?: {
+          phoneNumber: string;
+          uuid: UUIDStringType;
+        };
+      };
+    }
+  | { type: PanelType.ConversationDetails }
+  | { type: PanelType.GroupInvites }
+  | { type: PanelType.GroupLinkManagement }
+  | { type: PanelType.GroupPermissions }
+  | { type: PanelType.GroupV1Members }
+  | { type: PanelType.MessageDetails; args: { message: MessageAttributesType } }
+  | { type: PanelType.NotificationSettings }
+  | { type: PanelType.StickerManager };

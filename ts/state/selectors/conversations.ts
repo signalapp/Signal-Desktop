@@ -65,8 +65,7 @@ import { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { reduce } from '../../util/iterables';
 import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
-import type { ReactPanelRenderType, PanelRenderType } from '../../types/Panels';
-import { isPanelHandledByReact } from '../../types/Panels';
+import type { PanelRenderType } from '../../types/Panels';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -1135,28 +1134,12 @@ export const getHideStoryConversationIds = createSelector(
     )
 );
 
-const getTopPanel = createSelector(
+export const getTopPanel = createSelector(
   getConversations,
   (conversations): PanelRenderType | undefined =>
     conversations.selectedConversationPanels[
       conversations.selectedConversationPanels.length - 1
     ]
-);
-
-export const getTopPanelRenderableByReact = createSelector(
-  getConversations,
-  (conversations): ReactPanelRenderType | undefined => {
-    const topPanel =
-      conversations.selectedConversationPanels[
-        conversations.selectedConversationPanels.length - 1
-      ];
-
-    if (!isPanelHandledByReact(topPanel)) {
-      return;
-    }
-
-    return topPanel;
-  }
 );
 
 export const getConversationTitle = createSelector(

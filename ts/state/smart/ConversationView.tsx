@@ -3,8 +3,8 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import type { PanelRenderType } from '../../types/Panels';
 import type { StateType } from '../reducer';
-import type { ReactPanelRenderType } from '../../types/Panels';
 import * as log from '../../logging/log';
 import { ContactDetail } from '../../components/conversation/ContactDetail';
 import { ConversationView } from '../../components/conversation/ConversationView';
@@ -18,11 +18,12 @@ import { SmartConversationNotificationsSettings } from './ConversationNotificati
 import { SmartGV1Members } from './GV1Members';
 import { SmartGroupLinkManagement } from './GroupLinkManagement';
 import { SmartGroupV2Permissions } from './GroupV2Permissions';
+import { SmartMessageDetail } from './MessageDetail';
 import { SmartPendingInvites } from './PendingInvites';
 import { SmartStickerManager } from './StickerManager';
 import { SmartTimeline } from './Timeline';
 import { getIntl } from '../selectors/user';
-import { getTopPanelRenderableByReact } from '../selectors/conversations';
+import { getTopPanel } from '../selectors/conversations';
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
 
@@ -33,10 +34,10 @@ export type PropsType = {
 export function SmartConversationView({
   conversationId,
 }: PropsType): JSX.Element {
-  const { startConversation } = useConversationsActions();
-  const topPanel = useSelector<StateType, ReactPanelRenderType | undefined>(
-    getTopPanelRenderableByReact
+  const topPanel = useSelector<StateType, PanelRenderType | undefined>(
+    getTopPanel
   );
+  const { startConversation } = useConversationsActions();
 
   const { processAttachments } = useComposerActions();
   const i18n = useSelector(getIntl);
@@ -132,6 +133,14 @@ export function SmartConversationView({
           return (
             <div className="group-member-list panel">
               <SmartGV1Members conversationId={conversationId} />
+            </div>
+          );
+        }
+
+        if (topPanel.type === PanelType.MessageDetails) {
+          return (
+            <div className="panel message-detail-wrapper">
+              <SmartMessageDetail />
             </div>
           );
         }

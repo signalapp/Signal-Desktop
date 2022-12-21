@@ -167,6 +167,7 @@ export type AudioAttachmentProps = {
   id: string;
   conversationId: string;
   played: boolean;
+  pushPanelForConversation: PushPanelForConversationActionType;
   status?: MessageStatusType;
   textPending?: boolean;
   timestamp: number;
@@ -750,27 +751,25 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const {
-      conversationId,
       deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
+      i18n,
+      id,
       isSticker,
       isTapToViewExpired,
-      status,
-      i18n,
       pushPanelForConversation,
+      status,
       text,
       textAttachment,
       timestamp,
-      id,
     } = this.props;
 
     const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
 
     return (
       <MessageMetadata
-        conversationId={conversationId}
         deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
@@ -827,23 +826,24 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAttachment(): JSX.Element | null {
     const {
       attachments,
+      conversationId,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
-      conversationId,
       isSticker,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
+      pushPanelForConversation,
       quote,
       readStatus,
       reducedMotion,
       renderAudioAttachment,
       renderingContext,
-      showLightbox,
       shouldCollapseAbove,
       shouldCollapseBelow,
+      showLightbox,
       status,
       text,
       textAttachment,
@@ -966,6 +966,7 @@ export class Message extends React.PureComponent<Props, State> {
         id,
         conversationId,
         played,
+        pushPanelForConversation,
         status,
         textPending: textAttachment?.pending,
         timestamp,
@@ -1562,7 +1563,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderEmbeddedContact(): JSX.Element | null {
     const {
       contact,
-      conversationId,
       conversationType,
       direction,
       i18n,
@@ -1598,7 +1598,7 @@ export class Message extends React.PureComponent<Props, State> {
                 }
               : undefined;
 
-          pushPanelForConversation(conversationId, {
+          pushPanelForConversation({
             type: PanelType.ContactDetails,
             args: {
               contact,
@@ -2243,7 +2243,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       contact,
-      conversationId,
       showLightboxForViewOnceMedia,
       direction,
       giftBadge,
@@ -2381,7 +2380,7 @@ export class Message extends React.PureComponent<Props, State> {
               uuid: contact.uuid,
             }
           : undefined;
-      pushPanelForConversation(conversationId, {
+      pushPanelForConversation({
         type: PanelType.ContactDetails,
         args: {
           contact,

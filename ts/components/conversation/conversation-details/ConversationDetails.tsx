@@ -441,7 +441,7 @@ export function ConversationDetails({
           }
           label={i18n('showChatColorEditor')}
           onClick={() => {
-            pushPanelForConversation(conversation.id, {
+            pushPanelForConversation({
               type: PanelType.ChatColorEditor,
             });
           }}
@@ -464,7 +464,7 @@ export function ConversationDetails({
             }
             label={i18n('ConversationDetails--notifications')}
             onClick={() =>
-              pushPanelForConversation(conversation.id, {
+              pushPanelForConversation({
                 type: PanelType.NotificationSettings,
               })
             }
@@ -520,7 +520,7 @@ export function ConversationDetails({
               }
               label={i18n('ConversationDetails--group-link')}
               onClick={() =>
-                pushPanelForConversation(conversation.id, {
+                pushPanelForConversation({
                   type: PanelType.GroupLinkManagement,
                 })
               }
@@ -536,7 +536,7 @@ export function ConversationDetails({
             }
             label={i18n('ConversationDetails--requests-and-invites')}
             onClick={() =>
-              pushPanelForConversation(conversation.id, {
+              pushPanelForConversation({
                 type: PanelType.GroupInvites,
               })
             }
@@ -552,7 +552,7 @@ export function ConversationDetails({
               }
               label={i18n('permissions')}
               onClick={() =>
-                pushPanelForConversation(conversation.id, {
+                pushPanelForConversation({
                   type: PanelType.GroupPermissions,
                 })
               }
@@ -566,7 +566,7 @@ export function ConversationDetails({
         i18n={i18n}
         loadRecentMediaItems={loadRecentMediaItems}
         showAllMedia={() =>
-          pushPanelForConversation(conversation.id, {
+          pushPanelForConversation({
             type: PanelType.AllMedia,
           })
         }

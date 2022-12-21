@@ -1460,9 +1460,7 @@ export async function startApp(): Promise<void> {
 
       // Send Escape to active conversation so it can close panels
       if (conversation && key === 'Escape') {
-        window.reduxActions.conversations.popPanelForConversation(
-          conversation.id
-        );
+        window.reduxActions.conversations.popPanelForConversation();
         event.preventDefault();
         event.stopPropagation();
         return;
@@ -1536,12 +1534,9 @@ export async function startApp(): Promise<void> {
         shiftKey &&
         (key === 'm' || key === 'M')
       ) {
-        window.reduxActions.conversations.pushPanelForConversation(
-          conversation.id,
-          {
-            type: PanelType.AllMedia,
-          }
-        );
+        window.reduxActions.conversations.pushPanelForConversation({
+          type: PanelType.AllMedia,
+        });
         event.preventDefault();
         event.stopPropagation();
         return;
@@ -1634,14 +1629,12 @@ export async function startApp(): Promise<void> {
           return;
         }
 
-        window.reduxActions.conversations.pushPanelForConversation(
-          conversation.id,
-          {
-            type: PanelType.MessageDetails,
-            args: { messageId: selectedMessage },
-          }
-        );
-
+        window.reduxActions.conversations.pushPanelForConversation({
+          type: PanelType.MessageDetails,
+          args: {
+            messageId: selectedMessage,
+          },
+        });
         return;
       }
 

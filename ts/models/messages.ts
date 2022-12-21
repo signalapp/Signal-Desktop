@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
-  groupBy,
   difference,
   isEmpty,
   isEqual,
@@ -14,7 +13,6 @@ import {
   omit,
   partition,
   pick,
-  reject,
   union,
   without,
 } from 'lodash';
@@ -43,7 +41,6 @@ import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
-import type { Contact as SmartMessageDetailContact } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
 import type {
   ProcessedDataMessage,
@@ -51,7 +48,6 @@ import type {
   ProcessedUnidentifiedDeliveryStatus,
   CallbackResultType,
 } from '../textsecure/Types.d';
-import type { Props as PropsForMessageDetails } from '../components/conversation/MessageDetail';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 import { getUserLanguages } from '../util/userLanguages';
@@ -76,7 +72,6 @@ import type { SendStateByConversationId } from '../messages/MessageSendState';
 import {
   SendActionType,
   SendStatus,
-  isMessageJustForMe,
   isSent,
   sendStateReducer,
   someSendStatus,
@@ -100,7 +95,6 @@ import {
   getAttachmentsForMessage,
   getMessagePropStatus,
   getPropsForCallHistory,
-  getPropsForMessage,
   hasErrors,
   isCallHistory,
   isChatSessionRefreshed,
@@ -129,8 +123,6 @@ import {
   getCallSelector,
   getActiveCall,
 } from '../state/selectors/calling';
-import { getAccountSelector } from '../state/selectors/accounts';
-import { getContactNameColorSelector } from '../state/selectors/conversations';
 import {
   MessageReceipts,
   MessageReceiptType,
@@ -262,11 +254,6 @@ async function shouldReplyNotifyUser(
 }
 
 /* eslint-disable more/no-then */
-
-export type MinimalPropsForMessageDetails = Pick<
-  PropsForMessageDetails,
-  'sentAt' | 'receivedAt' | 'message' | 'errors' | 'contacts'
->;
 
 window.Whisper = window.Whisper || {};
 
@@ -472,137 +459,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         messageId: message.get('id'),
       },
     });
-  }
-
-  getPropsForMessageDetail(
-    ourConversationId: string
-  ): MinimalPropsForMessageDetails {
-    const newIdentity = window.i18n('newIdentity');
-    const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
-
-    const sendStateByConversationId =
-      this.get('sendStateByConversationId') || {};
-
-    const unidentifiedDeliveries = this.get('unidentifiedDeliveries') || [];
-    const unidentifiedDeliveriesSet = new Set(
-      map(
-        unidentifiedDeliveries,
-        identifier =>
-          window.ConversationController.getConversationId(identifier) as string
-      )
-    );
-
-    let conversationIds: Array<string>;
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    if (isIncoming(this.attributes)) {
-      conversationIds = [getContactId(this.attributes)!];
-    } else if (!isEmpty(sendStateByConversationId)) {
-      if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
-        conversationIds = [ourConversationId];
-      } else {
-        conversationIds = Object.keys(sendStateByConversationId).filter(
-          id => id !== ourConversationId
-        );
-      }
-    } else {
-      // Older messages don't have the recipients included on the message, so we fall back
-      //   to the conversation's current recipients
-      conversationIds = (this.getConversation()?.getRecipients() || []).map(
-        (id: string) => window.ConversationController.getConversationId(id)!
-      );
-    }
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
-
-    // This will make the error message for outgoing key errors a bit nicer
-    const allErrors = (this.get('errors') || []).map(error => {
-      if (error.name === OUTGOING_KEY_ERROR) {
-        // eslint-disable-next-line no-param-reassign
-        error.message = newIdentity;
-      }
-
-      return error;
-    });
-
-    // If an error has a specific number it's associated with, we'll show it next to
-    //   that contact. Otherwise, it will be a standalone entry.
-    const errors = reject(allErrors, error =>
-      Boolean(error.identifier || error.number)
-    );
-    const errorsGroupedById = groupBy(allErrors, error => {
-      const identifier = error.identifier || error.number;
-      if (!identifier) {
-        return null;
-      }
-
-      return window.ConversationController.getConversationId(identifier);
-    });
-
-    const contacts: ReadonlyArray<SmartMessageDetailContact> =
-      conversationIds.map(id => {
-        const errorsForContact = getOwn(errorsGroupedById, id);
-        const isOutgoingKeyError = Boolean(
-          errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
-        );
-        const isUnidentifiedDelivery =
-          window.storage.get('unidentifiedDeliveryIndicators', false) &&
-          this.isUnidentifiedDelivery(id, unidentifiedDeliveriesSet);
-
-        const sendState = getOwn(sendStateByConversationId, id);
-
-        let status = sendState?.status;
-
-        // If a message was only sent to yourself (Note to Self or a lonely group), it
-        //   is shown read.
-        if (id === ourConversationId && status && isSent(status)) {
-          status = SendStatus.Read;
-        }
-
-        const statusTimestamp = sendState?.updatedAt;
-
-        return {
-          ...findAndFormatContact(id),
-          status,
-          statusTimestamp:
-            statusTimestamp === this.get('sent_at')
-              ? undefined
-              : statusTimestamp,
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-        };
-      });
-
-    return {
-      sentAt: this.get('sent_at'),
-      receivedAt: this.getReceivedAt(),
-      message: getPropsForMessage(this.attributes, {
-        conversationSelector: findAndFormatContact,
-        ourConversationId,
-        ourNumber: window.textsecure.storage.user.getNumber(),
-        ourACI: window.textsecure.storage.user
-          .getCheckedUuid(UUIDKind.ACI)
-          .toString(),
-        ourPNI: window.textsecure.storage.user
-          .getCheckedUuid(UUIDKind.PNI)
-          .toString(),
-        regionCode: window.storage.get('regionCode', 'ZZ'),
-        accountSelector: (identifier?: string) => {
-          const state = window.reduxStore.getState();
-          const accountSelector = getAccountSelector(state);
-          return accountSelector(identifier);
-        },
-        contactNameColorSelector: (
-          conversationId: string,
-          contactId: string | undefined
-        ) => {
-          const state = window.reduxStore.getState();
-          const contactNameColorSelector = getContactNameColorSelector(state);
-          return contactNameColorSelector(conversationId, contactId);
-        },
-      }),
-      errors,
-      contacts,
-    };
   }
 
   // Dependencies of prop-generation functions

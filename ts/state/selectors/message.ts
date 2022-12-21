@@ -1,19 +1,35 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { identity, isEqual, isNumber, isObject, map, omit, pick } from 'lodash';
+import {
+  groupBy,
+  identity,
+  isEmpty,
+  isEqual,
+  isNumber,
+  isObject,
+  map,
+  omit,
+  pick,
+} from 'lodash';
 import { createSelector, createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 
+import type { StateType } from '../reducer';
 import type {
   LastMessageStatus,
+  MessageAttributesType,
   MessageReactionType,
   ShallowChallengeError,
 } from '../../model-types.d';
 
+import type {
+  Contact as SmartMessageDetailContact,
+  OwnProps as SmartMessageDetailPropsType,
+} from '../smart/MessageDetail';
 import type { TimelineItemType } from '../../components/conversation/TimelineItem';
 import type { PropsData } from '../../components/conversation/Message';
 import type { PropsData as TimelineMessagePropsData } from '../../components/conversation/TimelineMessage';
@@ -52,6 +68,8 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import { memoizeByRoot } from '../../util/memoizeByRoot';
 import { missingCaseError } from '../../util/missingCaseError';
+import { getRecipients } from '../../util/getRecipients';
+import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
 import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
@@ -65,10 +83,11 @@ import {
   isMissingRequiredProfileSharing,
 } from './conversations';
 import {
+  getIntl,
   getRegionCode,
+  getUserACI,
   getUserConversationId,
   getUserNumber,
-  getUserACI,
   getUserPNI,
 } from './user';
 
@@ -1937,3 +1956,172 @@ export function getLastChallengeError(
 
   return challengeErrors.pop();
 }
+
+const getSelectedMessageForDetails = (
+  state: StateType
+): MessageAttributesType | undefined =>
+  state.conversations.selectedMessageForDetails;
+
+const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
+
+export const getMessageDetails = createSelector(
+  getAccountSelector,
+  getContactNameColorSelector,
+  getConversationSelector,
+  getIntl,
+  getRegionCode,
+  getSelectedMessageForDetails,
+  getUserACI,
+  getUserPNI,
+  getUserConversationId,
+  getUserNumber,
+  (
+    accountSelector,
+    contactNameColorSelector,
+    conversationSelector,
+    i18n,
+    regionCode,
+    message,
+    ourACI,
+    ourPNI,
+    ourConversationId,
+    ourNumber
+  ): SmartMessageDetailPropsType | undefined => {
+    if (!message || !ourConversationId) {
+      return;
+    }
+
+    const {
+      errors: messageErrors = [],
+      sendStateByConversationId = {},
+      unidentifiedDeliveries = [],
+      unidentifiedDeliveryReceived,
+    } = message;
+
+    const unidentifiedDeliveriesSet = new Set(
+      map(
+        unidentifiedDeliveries,
+        identifier =>
+          window.ConversationController.getConversationId(identifier) as string
+      )
+    );
+
+    let conversationIds: Array<string>;
+    if (isIncoming(message)) {
+      conversationIds = [
+        getContactId(message, {
+          conversationSelector,
+          ourConversationId,
+          ourNumber,
+          ourACI,
+        }),
+      ].filter(isNotNil);
+    } else if (!isEmpty(sendStateByConversationId)) {
+      if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+        conversationIds = [ourConversationId];
+      } else {
+        conversationIds = Object.keys(sendStateByConversationId).filter(
+          id => id !== ourConversationId
+        );
+      }
+    } else {
+      const messageConversation = window.ConversationController.get(
+        message.conversationId
+      );
+      const conversationRecipients = messageConversation
+        ? getRecipients(messageConversation.attributes) || []
+        : [];
+      // Older messages don't have the recipients included on the message, so we fall back
+      //   to the conversation's current recipients
+      conversationIds = conversationRecipients
+        .map((id: string) =>
+          window.ConversationController.getConversationId(id)
+        )
+        .filter(isNotNil);
+    }
+
+    // This will make the error message for outgoing key errors a bit nicer
+    const allErrors = messageErrors.map(error => {
+      if (error.name === OUTGOING_KEY_ERROR) {
+        return {
+          ...error,
+          message: i18n('newIdentity'),
+        };
+      }
+
+      return error;
+    });
+
+    // If an error has a specific number it's associated with, we'll show it next to
+    //   that contact. Otherwise, it will be a standalone entry.
+    const errors = allErrors.filter(error =>
+      Boolean(error.identifier || error.number)
+    );
+    const errorsGroupedById = groupBy(allErrors, error => {
+      const identifier = error.identifier || error.number;
+      if (!identifier) {
+        return null;
+      }
+
+      return window.ConversationController.getConversationId(identifier);
+    });
+
+    const hasUnidentifiedDeliveryIndicators = window.storage.get(
+      'unidentifiedDeliveryIndicators',
+      false
+    );
+
+    const contacts: ReadonlyArray<SmartMessageDetailContact> =
+      conversationIds.map(id => {
+        const errorsForContact = getOwn(errorsGroupedById, id);
+        const isOutgoingKeyError = Boolean(
+          errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
+        );
+
+        let isUnidentifiedDelivery = false;
+        if (hasUnidentifiedDeliveryIndicators) {
+          isUnidentifiedDelivery = isIncoming(message)
+            ? Boolean(unidentifiedDeliveryReceived)
+            : unidentifiedDeliveriesSet.has(id);
+        }
+
+        const sendState = getOwn(sendStateByConversationId, id);
+
+        let status = sendState?.status;
+
+        // If a message was only sent to yourself (Note to Self or a lonely group), it
+        //   is shown read.
+        if (id === ourConversationId && status && isSent(status)) {
+          status = SendStatus.Read;
+        }
+
+        const statusTimestamp = sendState?.updatedAt;
+
+        return {
+          ...conversationSelector(id),
+          errors: errorsForContact,
+          isOutgoingKeyError,
+          isUnidentifiedDelivery,
+          status,
+          statusTimestamp:
+            statusTimestamp === message.timestamp ? undefined : statusTimestamp,
+        };
+      });
+
+    return {
+      contacts,
+      errors,
+      message: getPropsForMessage(message, {
+        accountSelector,
+        contactNameColorSelector,
+        conversationSelector,
+        ourACI,
+        ourConversationId,
+        ourNumber,
+        ourPNI,
+        regionCode,
+      }),
+      receivedAt: Number(message.received_at_ms || message.received_at),
+    };
+  }
+);

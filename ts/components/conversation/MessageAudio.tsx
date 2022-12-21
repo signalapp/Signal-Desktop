@@ -9,6 +9,7 @@ import { animated, useSpring } from '@react-spring/web';
 
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { isDownloaded } from '../../types/Attachment';
 import type { DirectionType, MessageStatusType } from './Message';
 
@@ -16,7 +17,6 @@ import type { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
 import * as log from '../../logging/log';
 import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 
 export type OwnProps = Readonly<{
   active: ActiveAudioPlayerStateType | undefined;
@@ -592,7 +592,6 @@ export function MessageAudio(props: Props): JSX.Element {
 
       {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
-          conversationId={conversationId}
           direction={direction}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}

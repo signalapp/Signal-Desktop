@@ -6,9 +6,11 @@ import type { ThunkAction } from 'redux-thunk';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
 
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { StateType as RootStateType } from '../reducer';
 import type { UUIDStringType } from '../../types/UUID';
 import { getUuidsForE164s } from '../../util/getUuidsForE164s';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type { NoopActionType } from './noop';
 
@@ -35,6 +37,10 @@ export type AccountsActionType = AccountUpdateActionType;
 export const actions = {
   checkForAccount,
 };
+
+export const useAccountsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function checkForAccount(
   phoneNumber: string

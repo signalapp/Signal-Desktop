@@ -8,14 +8,13 @@ import Measure from 'react-measure';
 
 import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { ExpireTimer } from './ExpireTimer';
 import { MessageTimestamp } from './MessageTimestamp';
-import { Spinner } from '../Spinner';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { PanelType } from '../../types/Panels';
+import { Spinner } from '../Spinner';
 
 type PropsType = {
-  conversationId: string;
   deletedForEveryone?: boolean;
   direction: DirectionType;
   expirationLength?: number;
@@ -35,7 +34,6 @@ type PropsType = {
 };
 
 export function MessageMetadata({
-  conversationId,
   deletedForEveryone,
   direction,
   expirationLength,
@@ -80,7 +78,7 @@ export function MessageMetadata({
               event.stopPropagation();
               event.preventDefault();
 
-              pushPanelForConversation(conversationId, {
+              pushPanelForConversation({
                 type: PanelType.MessageDetails,
                 args: { messageId: id },
               });

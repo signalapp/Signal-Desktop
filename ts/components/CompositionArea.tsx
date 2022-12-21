@@ -462,7 +462,7 @@ export function CompositionArea({
         recentStickers={recentStickers}
         clearInstalledStickerPack={clearInstalledStickerPack}
         onClickAddPack={() =>
-          pushPanelForConversation(conversationId, {
+          pushPanelForConversation({
             type: PanelType.StickerManager,
           })
         }

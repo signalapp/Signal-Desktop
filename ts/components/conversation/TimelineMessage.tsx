@@ -23,12 +23,12 @@ import type {
   PropsData as MessagePropsData,
   PropsHousekeeping,
 } from './Message';
+import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
-import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 
 export type PropsData = {
   canDownload: boolean;
@@ -46,8 +46,8 @@ export type PropsActions = {
     messageId: string;
   }) => void;
   deleteMessageForEveryone: (id: string) => void;
-  toggleForwardMessageModal: (id: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  toggleForwardMessageModal: (id: string) => void;
   reactToMessage: (
     id: string,
     { emoji, remove }: { emoji: string; remove: boolean }
@@ -75,42 +75,42 @@ type Trigger = {
  */
 export function TimelineMessage(props: Props): JSX.Element {
   const {
-    i18n,
-    id,
-    author,
     attachments,
+    author,
+    canDeleteForEveryone,
     canDownload,
     canReact,
     canReply,
     canRetry,
-    canDeleteForEveryone,
     canRetryDeleteForEveryone,
     contact,
-    payment,
-    conversationId,
     containerElementRef,
     containerWidthBreakpoint,
-    deletedForEveryone,
+    conversationId,
     deleteMessage,
     deleteMessageForEveryone,
+    deletedForEveryone,
     direction,
     giftBadge,
+    i18n,
+    id,
     isSelected,
     isSticker,
     isTapToView,
+    kickOffAttachmentDownload,
+    payment,
     pushPanelForConversation,
     reactToMessage,
-    setQuoteByMessageId,
-    renderReactionPicker,
     renderEmojiPicker,
-    retryMessageSend,
+    renderReactionPicker,
     retryDeleteForEveryone,
+    retryMessageSend,
+    saveAttachment,
     selectedReaction,
-    toggleForwardMessageModal,
+    setQuoteByMessageId,
     text,
     timestamp,
-    kickOffAttachmentDownload,
-    saveAttachment,
+    toggleForwardMessageModal,
   } = props;
 
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
@@ -410,7 +410,7 @@ export function TimelineMessage(props: Props): JSX.Element {
           canDeleteForEveryone ? () => setHasDOEConfirmation(true) : undefined
         }
         onMoreInfo={() =>
-          pushPanelForConversation(conversationId, {
+          pushPanelForConversation({
             type: PanelType.MessageDetails,
             args: { messageId: id },
           })
