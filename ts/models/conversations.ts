@@ -3990,12 +3990,14 @@ export class ConversationModel extends window.Backbone
       sendHQImages,
       storyId,
       timestamp,
+      isViewOnce,
       extraReduxActions,
     }: {
       dontClearDraft?: boolean;
       sendHQImages?: boolean;
       storyId?: string;
       timestamp?: number;
+      isViewOnce?: boolean;
       extraReduxActions?: () => void;
     } = {}
   ): Promise<MessageAttributesType | undefined> {
