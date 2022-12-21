@@ -354,7 +354,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
       },
-
+      
+      onViewOnceToggle: (isVO: boolean) => {
+        window.reduxActions.composer.setViewOnceSetting(isVO);
+      },
+      
       onCloseLinkPreview: () => {
         suspendLinkPreviews();
         removeLinkPreview();
