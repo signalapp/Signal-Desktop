@@ -76,6 +76,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     messageCompositionId,
     quotedMessage,
     shouldSendHighQualityAttachments,
+    shouldSendAsViewOnce,
   } = state.composer;
 
   const recentEmojis = selectRecentEmojis(state);
@@ -103,6 +104,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       shouldSendHighQualityAttachments !== undefined
         ? shouldSendHighQualityAttachments
         : window.storage.get('sent-media-quality') === 'high',
+    // ViewOnceSettingButton
+    shouldSendAsViewOnce,
     // StagedLinkPreview
     linkPreviewLoading,
     linkPreviewResult,
