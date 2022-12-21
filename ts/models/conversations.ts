@@ -4054,7 +4054,7 @@ export class ConversationModel extends window.Backbone
 
     // If there are link previews present in the message we shouldn't include
     // any attachments as well.
-    const attachmentsToSend = preview && preview.length ? [] : attachments;
+    let attachmentsToSend = preview && preview.length ? [] : attachments;
 
     if (preview && preview.length) {
       attachments.forEach(attachment => {
