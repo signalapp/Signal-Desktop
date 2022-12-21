@@ -194,6 +194,7 @@ export type MessageOptionsType = {
   mentions?: BodyRangesType;
   groupCallUpdate?: GroupCallUpdateType;
   storyContext?: StoryContextType;
+  isViewOnce?: boolean;
 };
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
@@ -213,6 +214,7 @@ export type GroupSendOptionsType = {
   sticker?: StickerWithHydratedData;
   storyContext?: StoryContextType;
   timestamp: number;
+  isViewOnce?: boolean;
 };
 
 class Message {
@@ -260,6 +262,8 @@ class Message {
   groupCallUpdate?: GroupCallUpdateType;
 
   storyContext?: StoryContextType;
+  
+  isViewOnce?: boolean;
 
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
@@ -281,6 +285,7 @@ class Message {
     this.mentions = options.mentions;
     this.groupCallUpdate = options.groupCallUpdate;
     this.storyContext = options.storyContext;
+    this.isViewOnce = options.isViewOnce;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -348,6 +353,7 @@ class Message {
 
     proto.timestamp = Long.fromNumber(this.timestamp);
     proto.attachments = this.attachmentPointers;
+    proto.isViewOnce = Boolean(this.isViewOnce);
 
     if (this.body) {
       proto.body = this.body;
@@ -1089,6 +1095,7 @@ export default class MessageSender {
       sticker,
       storyContext,
       timestamp,
+      isViewOnce,
     } = options;
 
     if (!groupV1 && !groupV2) {
@@ -1145,6 +1152,7 @@ export default class MessageSender {
       sticker,
       storyContext,
       timestamp,
+      isViewOnce,
     };
   }
 
@@ -1356,6 +1364,7 @@ export default class MessageSender {
     timestamp,
     urgent,
     includePniSignatureMessage,
+    isViewOnce,
   }: Readonly<{
     attachments: ReadonlyArray<AttachmentType> | undefined;
     contact?: Array<ContactWithHydratedAvatar>;
@@ -1376,6 +1385,7 @@ export default class MessageSender {
     timestamp: number;
     urgent: boolean;
     includePniSignatureMessage?: boolean;
+    isViewOnce?: boolean;
   }>): Promise<CallbackResultType> {
     return this.sendMessage({
       messageOptions: {
@@ -1392,6 +1402,7 @@ export default class MessageSender {
         sticker,
         storyContext,
         timestamp,
+        isViewOnce,
       },
       contentHint,
       groupId,
@@ -1419,6 +1430,7 @@ export default class MessageSender {
     options,
     storyMessage,
     storyMessageRecipients,
+    isViewOnce,
   }: Readonly<{
     encodedDataMessage?: Uint8Array;
     timestamp: number;
@@ -1432,6 +1444,7 @@ export default class MessageSender {
     options?: SendOptionsType;
     storyMessage?: Proto.StoryMessage;
     storyMessageRecipients?: ReadonlyArray<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
+    isViewOnce?: boolean;
   }>): Promise<CallbackResultType> {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
@@ -1441,6 +1454,9 @@ export default class MessageSender {
     if (encodedDataMessage) {
       const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
       sentMessage.message = dataMessage;
+      if (isViewOnce) {
+        dataMessage.isViewOnce = isViewOnce;
+      }
     }
     if (destination) {
       sentMessage.destination = destination;
