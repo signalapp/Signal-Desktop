@@ -37,6 +37,7 @@ export type PropsType = {
     | 'onCloseLinkPreview'
     | 'onEditorStateChange'
     | 'onSelectMediaQuality'
+    | 'onViewOnceToggle'
     | 'onTextTooLong'
   >;
   conversationHeaderProps: ConversationHeaderPropsType;
