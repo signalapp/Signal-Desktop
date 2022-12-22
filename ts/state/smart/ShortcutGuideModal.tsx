@@ -15,13 +15,7 @@ import {
   getReceivedStickerPacks,
 } from '../selectors/stickers';
 
-export type ExternalProps = {
-  close: () => unknown;
-};
-
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { close } = props;
-
+const mapStateToProps = (state: StateType) => {
   const blessedPacks = getBlessedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
   const knownPacks = getKnownStickerPacks(state);
@@ -38,7 +32,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const platform = getPlatform(state);
 
   return {
-    close,
     hasInstalledStickers,
     platform,
     i18n: getIntl(state),

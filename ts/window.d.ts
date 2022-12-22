@@ -37,9 +37,7 @@ import type { ConversationController } from './ConversationController';
 import type { ReduxActions } from './state/types';
 import type { createStore } from './state/createStore';
 import type { createApp } from './state/roots/createApp';
-import type { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import type { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import type { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import type * as appDuck from './state/ducks/app';
 import type * as callingDuck from './state/ducks/calling';
 import type * as conversationsDuck from './state/ducks/conversations';
@@ -159,9 +157,7 @@ export type SignalCoreType = {
     createStore: typeof createStore;
     Roots: {
       createApp: typeof createApp;
-      createGroupV2JoinModal: typeof createGroupV2JoinModal;
       createSafetyNumberViewer: typeof createSafetyNumberViewer;
-      createShortcutGuideModal: typeof createShortcutGuideModal;
     };
     Ducks: {
       app: typeof appDuck;

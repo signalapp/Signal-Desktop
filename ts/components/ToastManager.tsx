@@ -45,6 +45,22 @@ export function ToastManager({
     );
   }
 
+  if (toastType === ToastType.AlreadyGroupMember) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('GroupV2--join--already-in-group')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.AlreadyRequestedToJoin) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('GroupV2--join--already-awaiting-approval')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.Blocked) {
     return <Toast onClose={hideToast}>{i18n('unblockToSend')}</Toast>;
   }

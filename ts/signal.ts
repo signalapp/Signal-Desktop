@@ -25,9 +25,7 @@ import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
 
 // State
 import { createApp } from './state/roots/createApp';
-import { createGroupV2JoinModal } from './state/roots/createGroupV2JoinModal';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
-import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 
 import { createStore } from './state/createStore';
 import * as appDuck from './state/ducks/app';
@@ -393,9 +391,7 @@ export const setup = (options: {
 
   const Roots = {
     createApp,
-    createGroupV2JoinModal,
     createSafetyNumberViewer,
-    createShortcutGuideModal,
   };
 
   const Ducks = {

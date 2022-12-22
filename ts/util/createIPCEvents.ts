@@ -3,7 +3,6 @@
 
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
-import * as React from 'react';
 import { noop } from 'lodash';
 import { getStoriesAvailable } from './stories';
 
@@ -18,9 +17,6 @@ import * as Errors from '../types/errors';
 import * as Stickers from '../types/Stickers';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { parseSystemTraySetting } from '../types/SystemTraySetting';
-
-import { ReactWrapperView } from '../views/ReactWrapperView';
-import { ErrorModal } from '../components/ErrorModal';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
@@ -422,7 +418,8 @@ export function createIPCEvents(
         elem.remove();
       }
     },
-    showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
+    showKeyboardShortcuts: () =>
+      window.reduxActions.globalModals.showShortcutGuideModal(),
 
     deleteAllData: async () => {
       await window.Signal.Data.goBackToMainProcess();
@@ -455,18 +452,9 @@ export function createIPCEvents(
           'showGroupViaLink: Ran into an error!',
           Errors.toLogFormat(error)
         );
-        const errorView = new ReactWrapperView({
-          className: 'error-modal-wrapper',
-          JSX: (
-            <ErrorModal
-              i18n={window.i18n}
-              title={window.i18n('GroupV2--join--general-join-failure--title')}
-              description={window.i18n('GroupV2--join--general-join-failure')}
-              onClose={() => {
-                errorView.remove();
-              }}
-            />
-          ),
+        window.reduxActions.globalModals.showErrorModal({
+          title: window.i18n('GroupV2--join--general-join-failure--title'),
+          description: window.i18n('GroupV2--join--general-join-failure'),
         });
       }
     },
@@ -549,16 +537,7 @@ export function createIPCEvents(
 }
 
 function showUnknownSgnlLinkModal(): void {
-  const errorView = new ReactWrapperView({
-    className: 'error-modal-wrapper',
-    JSX: (
-      <ErrorModal
-        i18n={window.i18n}
-        description={window.i18n('unknown-sgnl-link')}
-        onClose={() => {
-          errorView.remove();
-        }}
-      />
-    ),
+  window.reduxActions.globalModals.showErrorModal({
+    description: window.i18n('unknown-sgnl-link'),
   });
 }

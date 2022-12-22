@@ -1,16 +1,17 @@
 // Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, max-classes-per-file */
 
-import type * as Backbone from 'backbone';
+import type { ReactElement } from 'react';
+import * as Backbone from 'backbone';
+import * as ReactDOM from 'react-dom';
 import { render } from 'mustache';
 
 import type { ConversationModel } from '../models/conversations';
 import { getMessageById } from '../messages/getMessageById';
 import { strictAssert } from '../util/assert';
 import { isGroup } from '../util/whatTypeOfConversation';
-import { ReactWrapperView } from './ReactWrapperView';
 import * as log from '../logging/log';
 import { createConversationView } from '../state/roots/createConversationView';
 import {
@@ -194,6 +195,49 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     void this.model.updateVerified();
+  }
+}
+
+class ReactWrapperView extends Backbone.View {
+  private readonly onClose?: () => unknown;
+  private JSX: ReactElement;
+
+  constructor({
+    className,
+    onClose,
+    JSX,
+  }: Readonly<{
+    className?: string;
+    onClose?: () => unknown;
+    JSX: ReactElement;
+  }>) {
+    super();
+
+    this.className = className ?? 'react-wrapper';
+    this.JSX = JSX;
+    this.onClose = onClose;
+
+    this.render();
+  }
+
+  update(JSX: ReactElement): void {
+    this.JSX = JSX;
+    this.render();
+  }
+
+  override render(): this {
+    this.el.className = this.className;
+    ReactDOM.render(this.JSX, this.el);
+    return this;
+  }
+
+  override remove(): this {
+    if (this.onClose) {
+      this.onClose();
+    }
+    ReactDOM.unmountComponentAtNode(this.el);
+    Backbone.View.prototype.remove.call(this);
+    return this;
   }
 }
 

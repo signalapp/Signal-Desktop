@@ -51,6 +51,20 @@ AddingUserToGroup.args = {
   },
 };
 
+export const AlreadyGroupMember = Template.bind({});
+AlreadyGroupMember.args = {
+  toast: {
+    toastType: ToastType.AlreadyGroupMember,
+  },
+};
+
+export const AlreadyRequestedToJoin = Template.bind({});
+AlreadyRequestedToJoin.args = {
+  toast: {
+    toastType: ToastType.AlreadyRequestedToJoin,
+  },
+};
+
 export const Blocked = Template.bind({});
 Blocked.args = {
   toast: {

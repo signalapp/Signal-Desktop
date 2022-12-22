@@ -18,7 +18,7 @@ import type { LoggerType } from '../../types/Logging';
 
 import { JobQueue } from '../../jobs/JobQueue';
 import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
-import { sleep } from '../../util';
+import { sleep } from '../../util/sleep';
 
 describe('JobQueue', () => {
   describe('end-to-end tests', () => {

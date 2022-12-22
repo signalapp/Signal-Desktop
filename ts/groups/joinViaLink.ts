@@ -1,7 +1,19 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+
+import type { ConversationAttributesType } from '../model-types.d';
+import type { ConversationModel } from '../models/conversations';
+import type { PreJoinConversationType } from '../state/ducks/conversations';
+
+import * as Bytes from '../Bytes';
+import * as Errors from '../types/errors';
+import * as log from '../logging/log';
+import { HTTPError } from '../textsecure/Errors';
+import { SignalService as Proto } from '../protobuf';
+import { ToastType } from '../types/Toast';
+import { UUIDKind } from '../types/UUID';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -12,25 +24,11 @@ import {
   LINK_VERSION_ERROR,
   parseGroupLink,
 } from '../groups';
-import * as Errors from '../types/errors';
-import { UUIDKind } from '../types/UUID';
-import * as Bytes from '../Bytes';
-import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
-import { isGroupV1 } from '../util/whatTypeOfConversation';
+import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal';
 import { explodePromise } from '../util/explodePromise';
-
-import type { ConversationAttributesType } from '../model-types.d';
-import type { ConversationModel } from '../models/conversations';
-import type { PreJoinConversationType } from '../state/ducks/conversations';
-import { SignalService as Proto } from '../protobuf';
-import * as log from '../logging/log';
-import { showToast } from '../util/showToast';
-import { ReactWrapperView } from '../views/ReactWrapperView';
-import { ErrorModal } from '../components/ErrorModal';
-import { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
-import { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
-import { HTTPError } from '../textsecure/Errors';
 import { isAccessControlEnabled } from './util';
+import { isGroupV1 } from '../util/whatTypeOfConversation';
+import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
 
 export async function joinViaLink(hash: string): Promise<void> {
@@ -43,15 +41,15 @@ export async function joinViaLink(hash: string): Promise<void> {
     log.error(`joinViaLink: Failed to parse group link ${errorString}`);
 
     if (error instanceof Error && error.name === LINK_VERSION_ERROR) {
-      showErrorDialog(
-        window.i18n('GroupV2--join--unknown-link-version'),
-        window.i18n('GroupV2--join--unknown-link-version--title')
-      );
+      window.reduxActions.globalModals.showErrorModal({
+        description: window.i18n('GroupV2--join--unknown-link-version'),
+        title: window.i18n('GroupV2--join--unknown-link-version--title'),
+      });
     } else {
-      showErrorDialog(
-        window.i18n('GroupV2--join--invalid-link'),
-        window.i18n('GroupV2--join--invalid-link--title')
-      );
+      window.reduxActions.globalModals.showErrorModal({
+        description: window.i18n('GroupV2--join--invalid-link'),
+        title: window.i18n('GroupV2--join--invalid-link--title'),
+      });
     }
     return;
   }
@@ -74,7 +72,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     window.reduxActions.conversations.showConversation({
       conversationId: existingConversation.id,
     });
-    showToast(ToastAlreadyGroupMember);
+    window.reduxActions.toast.showToast(ToastType.AlreadyGroupMember);
     return;
   }
 
@@ -99,20 +97,20 @@ export async function joinViaLink(hash: string): Promise<void> {
       error instanceof HTTPError &&
       error.responseHeaders['x-signal-forbidden-reason']
     ) {
-      showErrorDialog(
-        window.i18n('GroupV2--join--link-forbidden'),
-        window.i18n('GroupV2--join--link-forbidden--title')
-      );
+      window.reduxActions.globalModals.showErrorModal({
+        description: window.i18n('GroupV2--join--link-forbidden'),
+        title: window.i18n('GroupV2--join--link-forbidden--title'),
+      });
     } else if (error instanceof HTTPError && error.code === 403) {
-      showErrorDialog(
-        window.i18n('GroupV2--join--link-revoked'),
-        window.i18n('GroupV2--join--link-revoked--title')
-      );
+      window.reduxActions.globalModals.showErrorModal({
+        description: window.i18n('GroupV2--join--link-revoked'),
+        title: window.i18n('GroupV2--join--link-revoked--title'),
+      });
     } else {
-      showErrorDialog(
-        window.i18n('GroupV2--join--general-join-failure'),
-        window.i18n('GroupV2--join--general-join-failure--title')
-      );
+      window.reduxActions.globalModals.showErrorModal({
+        description: window.i18n('GroupV2--join--general-join-failure'),
+        title: window.i18n('GroupV2--join--general-join-failure--title'),
+      });
     }
     return;
   }
@@ -121,10 +119,10 @@ export async function joinViaLink(hash: string): Promise<void> {
     log.error(
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
-    showErrorDialog(
-      window.i18n('GroupV2--join--link-revoked'),
-      window.i18n('GroupV2--join--link-revoked--title')
-    );
+    window.reduxActions.globalModals.showErrorModal({
+      description: window.i18n('GroupV2--join--link-revoked'),
+      title: window.i18n('GroupV2--join--link-revoked--title'),
+    });
     return;
   }
 
@@ -168,7 +166,7 @@ export async function joinViaLink(hash: string): Promise<void> {
       conversationId: existingConversation.id,
     });
 
-    showToast(ToastAlreadyRequestedToJoin);
+    window.reduxActions.toast.showToast(ToastType.AlreadyRequestedToJoin);
     return;
   }
 
@@ -202,9 +200,9 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   const closeDialog = async () => {
     try {
-      if (groupV2InfoDialog) {
-        groupV2InfoDialog.remove();
-        groupV2InfoDialog = undefined;
+      if (groupV2InfoNode) {
+        unmountComponentAtNode(groupV2InfoNode);
+        groupV2InfoNode = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -220,9 +218,9 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   const join = async () => {
     try {
-      if (groupV2InfoDialog) {
-        groupV2InfoDialog.remove();
-        groupV2InfoDialog = undefined;
+      if (groupV2InfoNode) {
+        unmountComponentAtNode(groupV2InfoNode);
+        groupV2InfoNode = undefined;
       }
 
       window.reduxActions.conversations.setPreJoinConversation(undefined);
@@ -375,13 +373,13 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog: Backbone.View | undefined = new ReactWrapperView({
-    className: 'group-v2-join-dialog-wrapper',
-    JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
-      join,
-      onClose: closeDialog,
-    }),
-  });
+  let groupV2InfoNode: HTMLDivElement | undefined =
+    document.createElement('div');
+
+  render(
+    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog }),
+    groupV2InfoNode
+  );
 
   // We declare a new function here so we can await but not block
   const fetchAvatar = async () => {
@@ -405,7 +403,7 @@ export async function joinViaLink(hash: string): Promise<void> {
         };
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar
-        if (!groupV2InfoDialog) {
+        if (!groupV2InfoNode) {
           await window.Signal.Migrations.deleteAttachmentData(
             attributes.avatar.path
           );
@@ -425,20 +423,4 @@ export async function joinViaLink(hash: string): Promise<void> {
   void fetchAvatar();
 
   await promise;
-}
-
-function showErrorDialog(description: string, title: string) {
-  const errorView = new ReactWrapperView({
-    className: 'error-modal-wrapper',
-    JSX: (
-      <ErrorModal
-        i18n={window.i18n}
-        title={title}
-        description={description}
-        onClose={() => {
-          errorView.remove();
-        }}
-      />
-    ),
-  });
 }

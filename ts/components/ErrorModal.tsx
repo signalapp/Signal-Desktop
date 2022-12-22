@@ -8,7 +8,6 @@ import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';
 
 export type PropsType = {
-  buttonText?: string;
   description?: string;
   title?: string;
 
@@ -23,11 +22,11 @@ function focusRef(el: HTMLElement | null) {
 }
 
 export function ErrorModal(props: PropsType): JSX.Element {
-  const { buttonText, description, i18n, onClose, title } = props;
+  const { description, i18n, onClose, title } = props;
 
   const footer = (
     <Button onClick={onClose} ref={focusRef} variant={ButtonVariant.Secondary}>
-      {buttonText || i18n('Confirmation--confirm')}
+      {i18n('Confirmation--confirm')}
     </Button>
   );
 

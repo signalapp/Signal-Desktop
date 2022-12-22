@@ -19,9 +19,18 @@ import { WhatsNewModal } from './WhatsNewModal';
 export type PropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
+  // AddUserToAnotherGroupModal
+  addUserToAnotherGroupModalContactId?: string;
+  renderAddUserToAnotherGroup: () => JSX.Element;
   // ContactModal
   contactModalState?: ContactModalStateType;
   renderContactModal: () => JSX.Element;
+  // ErrorModal
+  errorModalProps?: { description?: string; title?: string };
+  renderErrorModal: (opts: {
+    description?: string;
+    title?: string;
+  }) => JSX.Element;
   // ForwardMessageModal
   forwardMessageProps?: ForwardMessagePropsType;
   renderForwardMessageModal: () => JSX.Element;
@@ -31,9 +40,9 @@ export type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId?: string;
   renderSafetyNumber: () => JSX.Element;
-  // AddUserToAnotherGroupModal
-  addUserToAnotherGroupModalContactId?: string;
-  renderAddUserToAnotherGroup: () => JSX.Element;
+  // ShortcutGuideModal
+  isShortcutGuideModalVisible: boolean;
+  renderShortcutGuideModal: () => JSX.Element;
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
@@ -57,9 +66,15 @@ export type PropsType = {
 
 export function GlobalModalContainer({
   i18n,
+  // AddUserToAnotherGroupModal
+  addUserToAnotherGroupModalContactId,
+  renderAddUserToAnotherGroup,
   // ContactModal
   contactModalState,
   renderContactModal,
+  // ErrorModal
+  errorModalProps,
+  renderErrorModal,
   // ForwardMessageModal
   forwardMessageProps,
   renderForwardMessageModal,
@@ -69,9 +84,9 @@ export function GlobalModalContainer({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
-  // AddUserToAnotherGroupModal
-  addUserToAnotherGroupModalContactId,
-  renderAddUserToAnotherGroup,
+  // ShortcutGuideModal
+  isShortcutGuideModalVisible,
+  renderShortcutGuideModal,
   // SignalConnectionsModal
   isSignalConnectionsVisible,
   toggleSignalConnectionsModal,
@@ -92,18 +107,66 @@ export function GlobalModalContainer({
   hideWhatsNewModal,
   isWhatsNewVisible,
 }: PropsType): JSX.Element | null {
-  // We want the send anyway dialog to supersede most modals since this is an
-  // immediate action the user needs to take.
+  // We want the following dialogs to show in this order:
+  // 1. Errors
+  // 2. Safety Number Changes
+  // 3. The Rest (in no particular order, but they're ordered alphabetically)
+
+  // Errors
+  if (errorModalProps) {
+    return renderErrorModal(errorModalProps);
+  }
+
+  // Safety Number
   if (hasSafetyNumberChangeModal || safetyNumberChangedBlockingData) {
     return renderSendAnywayDialog();
+  }
+
+  // The Rest
+
+  if (addUserToAnotherGroupModalContactId) {
+    return renderAddUserToAnotherGroup();
+  }
+
+  if (contactModalState) {
+    return renderContactModal();
+  }
+
+  if (forwardMessageProps) {
+    return renderForwardMessageModal();
+  }
+
+  if (isProfileEditorVisible) {
+    return renderProfileEditor();
+  }
+
+  if (isShortcutGuideModalVisible) {
+    return renderShortcutGuideModal();
+  }
+
+  if (isSignalConnectionsVisible) {
+    return (
+      <SignalConnectionsModal
+        i18n={i18n}
+        onClose={toggleSignalConnectionsModal}
+      />
+    );
+  }
+
+  if (isStoriesSettingsVisible) {
+    return renderStoriesSettings();
+  }
+
+  if (isWhatsNewVisible) {
+    return <WhatsNewModal hideWhatsNewModal={hideWhatsNewModal} i18n={i18n} />;
   }
 
   if (safetyNumberModalContactId) {
     return renderSafetyNumber();
   }
 
-  if (addUserToAnotherGroupModalContactId) {
-    return renderAddUserToAnotherGroup();
+  if (stickerPackPreviewId) {
+    return renderStickerPreviewModal();
   }
 
   if (userNotFoundModalState) {
@@ -133,39 +196,6 @@ export function GlobalModalContainer({
         {content}
       </ConfirmationDialog>
     );
-  }
-
-  if (contactModalState) {
-    return renderContactModal();
-  }
-
-  if (isProfileEditorVisible) {
-    return renderProfileEditor();
-  }
-
-  if (isWhatsNewVisible) {
-    return <WhatsNewModal hideWhatsNewModal={hideWhatsNewModal} i18n={i18n} />;
-  }
-
-  if (forwardMessageProps) {
-    return renderForwardMessageModal();
-  }
-
-  if (isSignalConnectionsVisible) {
-    return (
-      <SignalConnectionsModal
-        i18n={i18n}
-        onClose={toggleSignalConnectionsModal}
-      />
-    );
-  }
-
-  if (isStoriesSettingsVisible) {
-    return renderStoriesSettings();
-  }
-
-  if (stickerPackPreviewId) {
-    return renderStickerPreviewModal();
   }
 
   return null;

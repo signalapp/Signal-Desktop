@@ -41,10 +41,15 @@ type MigrateToGV2PropsType = {
 export type GlobalModalsStateType = Readonly<{
   addUserToAnotherGroupModalContactId?: string;
   contactModalState?: ContactModalStateType;
+  errorModalProps?: {
+    description?: string;
+    title?: string;
+  };
   forwardMessageProps?: ForwardMessagePropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   isProfileEditorVisible: boolean;
   isSignalConnectionsVisible: boolean;
+  isShortcutGuideModalVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
   profileEditorHasError: boolean;
@@ -80,6 +85,10 @@ const SHOW_GV2_MIGRATION_DIALOG = 'globalModals/SHOW_GV2_MIGRATION_DIALOG';
 const CLOSE_GV2_MIGRATION_DIALOG = 'globalModals/CLOSE_GV2_MIGRATION_DIALOG';
 const SHOW_STICKER_PACK_PREVIEW = 'globalModals/SHOW_STICKER_PACK_PREVIEW';
 const CLOSE_STICKER_PACK_PREVIEW = 'globalModals/CLOSE_STICKER_PACK_PREVIEW';
+const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
+const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
+const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
+const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 
 export type ContactModalStateType = {
   contactId: string;
@@ -186,6 +195,26 @@ type CloseStickerPackPreviewActionType = {
   type: typeof CLOSE_STICKER_PACK_PREVIEW;
 };
 
+type CloseErrorModalActionType = {
+  type: typeof CLOSE_ERROR_MODAL;
+};
+
+type ShowErrorModalActionType = {
+  type: typeof SHOW_ERROR_MODAL;
+  payload: {
+    description?: string;
+    title?: string;
+  };
+};
+
+type CloseShortcutGuideModalActionType = {
+  type: typeof CLOSE_SHORTCUT_GUIDE_MODAL;
+};
+
+type ShowShortcutGuideModalActionType = {
+  type: typeof SHOW_SHORTCUT_GUIDE_MODAL;
+};
+
 export type GlobalModalsActionType =
   | StartMigrationToGV2ActionType
   | CloseGV2MigrationDialogActionType
@@ -201,6 +230,10 @@ export type GlobalModalsActionType =
   | ShowSendAnywayDialogActionType
   | CloseStickerPackPreviewActionType
   | ShowStickerPackPreviewActionType
+  | CloseErrorModalActionType
+  | ShowErrorModalActionType
+  | CloseShortcutGuideModalActionType
+  | ShowShortcutGuideModalActionType
   | ToggleForwardMessageModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
@@ -231,6 +264,10 @@ export const actions = {
   closeGV2MigrationDialog,
   showStickerPackPreview,
   closeStickerPackPreview,
+  closeErrorModal,
+  showErrorModal,
+  closeShortcutGuideModal,
+  showShortcutGuideModal,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -467,11 +504,46 @@ export function showStickerPackPreview(
   };
 }
 
+function closeErrorModal(): CloseErrorModalActionType {
+  return {
+    type: CLOSE_ERROR_MODAL,
+  };
+}
+
+function showErrorModal({
+  description,
+  title,
+}: {
+  title?: string;
+  description?: string;
+}): ShowErrorModalActionType {
+  return {
+    type: SHOW_ERROR_MODAL,
+    payload: {
+      description,
+      title,
+    },
+  };
+}
+
+function closeShortcutGuideModal(): CloseShortcutGuideModalActionType {
+  return {
+    type: CLOSE_SHORTCUT_GUIDE_MODAL,
+  };
+}
+
+function showShortcutGuideModal(): ShowShortcutGuideModalActionType {
+  return {
+    type: SHOW_SHORTCUT_GUIDE_MODAL,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
     isProfileEditorVisible: false,
+    isShortcutGuideModalVisible: false,
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
@@ -613,6 +685,34 @@ export function reducer(
     return {
       ...state,
       stickerPackPreviewId: action.payload,
+    };
+  }
+
+  if (action.type === CLOSE_ERROR_MODAL) {
+    return {
+      ...state,
+      errorModalProps: undefined,
+    };
+  }
+
+  if (action.type === SHOW_ERROR_MODAL) {
+    return {
+      ...state,
+      errorModalProps: action.payload,
+    };
+  }
+
+  if (action.type === CLOSE_SHORTCUT_GUIDE_MODAL) {
+    return {
+      ...state,
+      isShortcutGuideModalVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_SHORTCUT_GUIDE_MODAL) {
+    return {
+      ...state,
+      isShortcutGuideModalVisible: true,
     };
   }
 

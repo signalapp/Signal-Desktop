@@ -4,8 +4,6 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-import type { ToastAlreadyGroupMember } from '../components/ToastAlreadyGroupMember';
-import type { ToastAlreadyRequestedToJoin } from '../components/ToastAlreadyRequestedToJoin';
 import type { ToastCaptchaFailed } from '../components/ToastCaptchaFailed';
 import type { ToastCaptchaSolved } from '../components/ToastCaptchaSolved';
 import type {
@@ -24,8 +22,6 @@ import type { ToastStickerPackInstallFailed } from '../components/ToastStickerPa
 import type { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
 import type { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
 
-export function showToast(Toast: typeof ToastAlreadyGroupMember): void;
-export function showToast(Toast: typeof ToastAlreadyRequestedToJoin): void;
 export function showToast(Toast: typeof ToastCaptchaFailed): void;
 export function showToast(Toast: typeof ToastCaptchaSolved): void;
 export function showToast(

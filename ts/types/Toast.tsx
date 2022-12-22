@@ -3,6 +3,8 @@
 
 export enum ToastType {
   AddingUserToGroup = 'AddingUserToGroup',
+  AlreadyGroupMember = 'AlreadyGroupMember',
+  AlreadyRequestedToJoin = 'AlreadyRequestedToJoin',
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',

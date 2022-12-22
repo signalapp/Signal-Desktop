@@ -140,7 +140,6 @@ import { isValidUuid, UUIDKind, UUID } from './types/UUID';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
-import { ReactWrapperView } from './views/ReactWrapperView';
 import { ToastCaptchaFailed } from './components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { showToast } from './util/showToast';
@@ -1267,30 +1266,6 @@ export async function startApp(): Promise<void> {
       window.reduxActions.user.userChanged({ menuOptions: options });
     });
 
-    let shortcutGuideView: ReactWrapperView | null = null;
-
-    window.showKeyboardShortcuts = () => {
-      if (!shortcutGuideView) {
-        shortcutGuideView = new ReactWrapperView({
-          className: 'shortcut-guide-wrapper',
-          JSX: window.Signal.State.Roots.createShortcutGuideModal(
-            window.reduxStore,
-            {
-              close: () => {
-                if (shortcutGuideView) {
-                  shortcutGuideView.remove();
-                  shortcutGuideView = null;
-                }
-              },
-            }
-          ),
-          onClose: () => {
-            shortcutGuideView = null;
-          },
-        });
-      }
-    };
-
     document.addEventListener('keydown', event => {
       const { ctrlKey, metaKey, shiftKey } = event;
 
@@ -1309,7 +1284,7 @@ export async function startApp(): Promise<void> {
       // Show keyboard shortcuts - handled by Electron-managed keyboard shortcuts
       // However, on linux Ctrl+/ selects all text, so we prevent that
       if (commandOrCtrl && key === '/') {
-        window.showKeyboardShortcuts();
+        window.Events.showKeyboardShortcuts();
 
         event.stopPropagation();
         event.preventDefault();
@@ -1374,9 +1349,11 @@ export async function startApp(): Promise<void> {
       }
 
       // Cancel out of keyboard shortcut screen - has first precedence
-      if (shortcutGuideView && key === 'Escape') {
-        shortcutGuideView.remove();
-        shortcutGuideView = null;
+      const isShortcutGuideModalVisible = window.reduxStore
+        ? window.reduxStore.getState().globalModals.isShortcutGuideModalVisible
+        : false;
+      if (isShortcutGuideModalVisible && key === 'Escape') {
+        window.reduxActions.globalModals.closeShortcutGuideModal();
         event.preventDefault();
         event.stopPropagation();
         return;
