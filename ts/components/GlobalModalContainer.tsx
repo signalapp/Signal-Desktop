@@ -16,29 +16,31 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
+// NOTE: All types should be required for this component so that the smart
+// component gives you type errors when adding/removing props.
 export type PropsType = {
   i18n: LocalizerType;
   theme: ThemeType;
   // AddUserToAnotherGroupModal
-  addUserToAnotherGroupModalContactId?: string;
+  addUserToAnotherGroupModalContactId: string | undefined;
   renderAddUserToAnotherGroup: () => JSX.Element;
   // ContactModal
-  contactModalState?: ContactModalStateType;
+  contactModalState: ContactModalStateType | undefined;
   renderContactModal: () => JSX.Element;
   // ErrorModal
-  errorModalProps?: { description?: string; title?: string };
+  errorModalProps: { description?: string; title?: string } | undefined;
   renderErrorModal: (opts: {
     description?: string;
     title?: string;
   }) => JSX.Element;
   // ForwardMessageModal
-  forwardMessageProps?: ForwardMessagePropsType;
+  forwardMessageProps: ForwardMessagePropsType | undefined;
   renderForwardMessageModal: () => JSX.Element;
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
   // SafetyNumberModal
-  safetyNumberModalContactId?: string;
+  safetyNumberModalContactId: string | undefined;
   renderSafetyNumber: () => JSX.Element;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
@@ -47,18 +49,20 @@ export type PropsType = {
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
   // StickerPackPreviewModal
-  stickerPackPreviewId?: string;
+  stickerPackPreviewId: string | undefined;
   renderStickerPreviewModal: () => JSX.Element | null;
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
   renderStoriesSettings: () => JSX.Element;
   // SendAnywayDialog
   hasSafetyNumberChangeModal: boolean;
-  safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
+  safetyNumberChangedBlockingData:
+    | SafetyNumberChangedBlockingDataType
+    | undefined;
   renderSendAnywayDialog: () => JSX.Element;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
-  userNotFoundModalState?: UserNotFoundModalStateType;
+  userNotFoundModalState: UserNotFoundModalStateType | undefined;
   // WhatsNewModal
   isWhatsNewVisible: boolean;
   hideWhatsNewModal: () => unknown;

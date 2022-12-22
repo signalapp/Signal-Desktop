@@ -54,13 +54,18 @@ export function SmartGlobalModalContainer(): JSX.Element {
 
   const {
     addUserToAnotherGroupModalContactId,
+    contactModalState,
+    errorModalProps,
+    forwardMessageProps,
     isProfileEditorVisible,
-    isSignalConnectionsVisible,
     isShortcutGuideModalVisible,
+    isSignalConnectionsVisible,
     isStoriesSettingsVisible,
     isWhatsNewVisible,
+    safetyNumberChangedBlockingData,
     safetyNumberModalContactId,
     stickerPackPreviewId,
+    userNotFoundModalState,
   } = useSelector<StateType, GlobalModalsStateType>(
     state => state.globalModals
   );
@@ -109,6 +114,10 @@ export function SmartGlobalModalContainer(): JSX.Element {
 
   return (
     <GlobalModalContainer
+      addUserToAnotherGroupModalContactId={addUserToAnotherGroupModalContactId}
+      contactModalState={contactModalState}
+      errorModalProps={errorModalProps}
+      forwardMessageProps={forwardMessageProps}
       hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
       hideUserNotFoundModal={hideUserNotFoundModal}
       hideWhatsNewModal={hideWhatsNewModal}
@@ -128,8 +137,12 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderShortcutGuideModal={renderShortcutGuideModal}
       renderStickerPreviewModal={renderStickerPreviewModal}
       renderStoriesSettings={renderStoriesSettings}
+      safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
+      safetyNumberModalContactId={safetyNumberModalContactId}
+      stickerPackPreviewId={stickerPackPreviewId}
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+      userNotFoundModalState={userNotFoundModalState}
     />
   );
 }
