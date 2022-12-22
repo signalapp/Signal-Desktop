@@ -3209,7 +3209,10 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     throw new Error('saveUnprocessedSync: id was falsey');
   }
 
-  if (attempts >= MAX_UNPROCESSED_ATTEMPTS) {
+  if (attempts > MAX_UNPROCESSED_ATTEMPTS) {
+    logger.warn(
+      `saveUnprocessedSync: not saving ${id} due to exhausted attempts`
+    );
     removeUnprocessedSync(id);
     return id;
   }
@@ -3376,7 +3379,7 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
       .prepare<Query>(
         `
           DELETE FROM unprocessed
-          WHERE attempts >= $MAX_UNPROCESSED_ATTEMPTS
+          WHERE attempts > $MAX_UNPROCESSED_ATTEMPTS
         `
       )
       .run({ MAX_UNPROCESSED_ATTEMPTS });
