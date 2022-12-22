@@ -18,7 +18,7 @@ export function getRecipients(
     isStoryReply = false,
   }: {
     includePendingMembers?: boolean;
-    extraConversationsForSend?: Array<string>;
+    extraConversationsForSend?: ReadonlyArray<string>;
     isStoryReply?: boolean;
   } = {}
 ): Array<string> {

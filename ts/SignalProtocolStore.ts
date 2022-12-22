@@ -1105,7 +1105,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   async getOpenDevices(
     ourUuid: UUID,
-    identifiers: Array<string>,
+    identifiers: ReadonlyArray<string>,
     { zone = GLOBAL_ZONE }: SessionTransactionOptions = {}
   ): Promise<{
     devices: Array<DeviceType>;

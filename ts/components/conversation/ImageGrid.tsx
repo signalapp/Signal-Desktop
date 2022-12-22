@@ -21,7 +21,7 @@ import type { LocalizerType, ThemeType } from '../../types/Util';
 export type DirectionType = 'incoming' | 'outgoing';
 
 export type Props = {
-  attachments: Array<AttachmentType>;
+  attachments: ReadonlyArray<AttachmentType>;
   bottomOverlay?: boolean;
   direction: DirectionType;
   isSticker?: boolean;

@@ -74,14 +74,14 @@ export type StateProps = {
   i18n: LocalizerType;
   isAdmin: boolean;
   isGroup: boolean;
-  groupsInCommon: Array<ConversationType>;
+  groupsInCommon: ReadonlyArray<ConversationType>;
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
-  memberships: Array<GroupV2Membership>;
+  memberships: ReadonlyArray<GroupV2Membership>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   theme: ThemeType;
-  userAvatarData: Array<AvatarDataType>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
   ) => JSX.Element;

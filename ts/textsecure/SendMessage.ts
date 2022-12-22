@@ -97,11 +97,11 @@ export type GroupV2InfoType = {
   groupChange?: Uint8Array;
   masterKey: Uint8Array;
   revision: number;
-  members: Array<string>;
+  members: ReadonlyArray<string>;
 };
 export type GroupV1InfoType = {
   id: string;
-  members: Array<string>;
+  members: ReadonlyArray<string>;
 };
 
 type GroupCallUpdateType = {

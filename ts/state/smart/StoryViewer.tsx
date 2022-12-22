@@ -54,7 +54,7 @@ export function SmartStoryViewer(): JSX.Element | null {
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const preferredReactionEmoji = useSelector<StateType, Array<string>>(
+  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
     getPreferredReactionEmoji
   );
 

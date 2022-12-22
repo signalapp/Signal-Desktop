@@ -37,7 +37,7 @@ export type ItemsStateType = {
 
   readonly preferredLeftPaneWidth?: number;
 
-  readonly preferredReactionEmoji?: Array<string>;
+  readonly preferredReactionEmoji?: ReadonlyArray<string>;
 
   readonly areWeASubscriber?: boolean;
 };

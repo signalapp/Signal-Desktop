@@ -279,7 +279,7 @@ export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
   selectedConversation?: string,
-  pinnedConversationIds?: Array<string>
+  pinnedConversationIds?: ReadonlyArray<string>
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
@@ -603,7 +603,7 @@ export const getFilteredComposeContacts = createSelector(
   getRegionCode,
   (
     searchTerm: string,
-    contacts: Array<ConversationType>,
+    contacts: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
     return filterAndSortConversationsByRecent(contacts, searchTerm, regionCode);
@@ -616,7 +616,7 @@ export const getFilteredComposeGroups = createSelector(
   getRegionCode,
   (
     searchTerm: string,
-    groups: Array<ConversationType>,
+    groups: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
     return filterAndSortConversationsByRecent(groups, searchTerm, regionCode);
@@ -638,7 +638,7 @@ const getGroupCreationComposerState = createSelector(
     groupName: string;
     groupAvatar: undefined | Uint8Array;
     groupExpireTimer: DurationInSeconds;
-    selectedConversationIds: Array<string>;
+    selectedConversationIds: ReadonlyArray<string>;
   } => {
     switch (composerState?.step) {
       case ComposerStep.ChooseGroupMembers:

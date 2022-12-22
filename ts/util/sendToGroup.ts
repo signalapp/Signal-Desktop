@@ -167,7 +167,7 @@ export async function sendContentMessageToGroup({
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
@@ -254,7 +254,7 @@ export async function sendToGroupViaSenderKey(options: {
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
-  recipients: Array<string>;
+  recipients: ReadonlyArray<string>;
   recursionCount: number;
   sendOptions?: SendOptionsType;
   sendTarget: SenderKeyTargetType;
@@ -836,7 +836,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
   return false;
 }
 
-function getRecipients(options: GroupSendOptionsType): Array<string> {
+function getRecipients(options: GroupSendOptionsType): ReadonlyArray<string> {
   if (options.groupV2) {
     return options.groupV2.members;
   }

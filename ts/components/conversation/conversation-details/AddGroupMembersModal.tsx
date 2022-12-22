@@ -48,7 +48,7 @@ type StateType = {
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
   searchTerm: string;
-  selectedConversationIds: Array<string>;
+  selectedConversationIds: ReadonlyArray<string>;
   stage: Stage;
 };
 

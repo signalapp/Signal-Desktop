@@ -726,14 +726,16 @@ export function hasFailed(attachment?: AttachmentType): boolean {
   return Boolean(resolved && resolved.error);
 }
 
-export function hasVideoBlurHash(attachments?: Array<AttachmentType>): boolean {
+export function hasVideoBlurHash(
+  attachments?: ReadonlyArray<AttachmentType>
+): boolean {
   const firstAttachment = attachments ? attachments[0] : null;
 
   return Boolean(firstAttachment && firstAttachment.blurHash);
 }
 
 export function hasVideoScreenshot(
-  attachments?: Array<AttachmentType>
+  attachments?: ReadonlyArray<AttachmentType>
 ): string | null | undefined {
   const firstAttachment = attachments ? attachments[0] : null;
 

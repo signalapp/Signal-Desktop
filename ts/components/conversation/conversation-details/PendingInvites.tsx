@@ -34,7 +34,7 @@ type PropsActionType = {
   ) => void;
   readonly revokePendingMembershipsFromGroupV2: (
     conversationId: string,
-    memberIds: Array<string>
+    memberIds: ReadonlyArray<string>
   ) => void;
 };
 
@@ -193,14 +193,14 @@ function MembershipActionConfirmation({
   ) => void;
   conversation: ConversationType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members: ReadonlyArray<ConversationType>;
   onClose: () => void;
   ourUuid: string;
   revokePendingMembershipsFromGroupV2: (
     conversationId: string,
-    memberIds: Array<string>
+    memberIds: ReadonlyArray<string>
   ) => void;
-  stagedMemberships: Array<StagedMembershipType>;
+  stagedMemberships: ReadonlyArray<StagedMembershipType>;
 }) {
   const revokeStagedMemberships = () => {
     if (!stagedMemberships) {
@@ -424,7 +424,7 @@ function MembersPendingProfileKey({
   conversation: ConversationType;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  members: Array<ConversationType>;
+  members: ReadonlyArray<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
   ourUuid: string;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;

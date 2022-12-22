@@ -25,11 +25,11 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 export type PropsDataType = {
   areWeAdmin: boolean;
   conversationId: string;
-  groupMemberships?: Array<{
+  groupMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: Array<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
   groupName?: string;
   ourACI?: UUIDStringType;
   ourPNI?: UUIDStringType;
@@ -155,11 +155,11 @@ function GroupV2Detail({
   conversationId: string;
   detail: GroupV2ChangeDetailType;
   isLastText: boolean;
-  groupMemberships?: Array<{
+  groupMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
-  groupBannedMemberships?: Array<UUIDStringType>;
+  groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
   groupName?: string;
   i18n: LocalizerType;
   fromId?: UUIDStringType;

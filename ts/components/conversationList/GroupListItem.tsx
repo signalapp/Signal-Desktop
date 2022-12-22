@@ -19,7 +19,7 @@ export type GroupListItemConversationType = Pick<
 > & {
   disabledReason: DisabledReason | undefined;
   membersCount: number;
-  memberships: Array<{
+  memberships: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;

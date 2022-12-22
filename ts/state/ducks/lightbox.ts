@@ -32,7 +32,7 @@ export type LightboxStateType =
   | {
       isShowingLightbox: true;
       isViewOnce: boolean;
-      media: Array<MediaItemType>;
+      media: ReadonlyArray<MediaItemType>;
       selectedAttachmentPath: string | undefined;
     };
 
@@ -47,7 +47,7 @@ type ShowLightboxActionType = {
   type: typeof SHOW_LIGHTBOX;
   payload: {
     isViewOnce: boolean;
-    media: Array<MediaItemType>;
+    media: ReadonlyArray<MediaItemType>;
     selectedAttachmentPath: string | undefined;
   };
 };
@@ -89,7 +89,7 @@ function closeLightbox(): ThunkAction<
 
 function showLightboxWithMedia(
   selectedAttachmentPath: string | undefined,
-  media: Array<MediaItemType>
+  media: ReadonlyArray<MediaItemType>
 ): ShowLightboxActionType {
   return {
     type: SHOW_LIGHTBOX,

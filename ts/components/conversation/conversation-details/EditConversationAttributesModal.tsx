@@ -41,7 +41,7 @@ type PropsType = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
-  userAvatarData: Array<AvatarDataType>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
 export function EditConversationAttributesModal({

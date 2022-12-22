@@ -98,14 +98,14 @@ export type PropsType = {
   onSetSkinTone: (tone: number) => unknown;
   onTextTooLong: () => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
-  preferredReactionEmoji: Array<string>;
-  recentEmojis?: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
+  recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replies: ReadonlyArray<ReplyType>;
   skinTone?: number;
-  sortedGroupMembers?: Array<ConversationType>;
+  sortedGroupMembers?: ReadonlyArray<ConversationType>;
   storyPreviewAttachment?: AttachmentType;
-  views: Array<StorySendStateType>;
+  views: ReadonlyArray<StorySendStateType>;
   viewTarget: StoryViewTargetType;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   deleteGroupStoryReply: (id: string) => void;

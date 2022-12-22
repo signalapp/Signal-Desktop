@@ -69,7 +69,7 @@ export type PropsDataType = {
   firstName: string;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
-  userAvatarData: Array<AvatarDataType>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   usernameEditState: UsernameEditState;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;

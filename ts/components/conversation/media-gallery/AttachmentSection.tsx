@@ -14,7 +14,7 @@ import { missingCaseError } from '../../../util/missingCaseError';
 export type Props = {
   header?: string;
   i18n: LocalizerType;
-  mediaItems: Array<MediaItemType>;
+  mediaItems: ReadonlyArray<MediaItemType>;
   onItemClick: (event: ItemClickEvent) => unknown;
   type: 'media' | 'documents';
 };

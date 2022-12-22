@@ -14,9 +14,9 @@ import { getRecipientsByConversation } from './getRecipientsByConversation';
 
 export async function maybeForwardMessage(
   messageAttributes: MessageAttributesType,
-  conversationIds: Array<string>,
+  conversationIds: ReadonlyArray<string>,
   messageBody?: string,
-  attachments?: Array<AttachmentType>,
+  attachments?: ReadonlyArray<AttachmentType>,
   linkPreview?: LinkPreviewType
 ): Promise<boolean> {
   const idForLogging = getMessageIdForLogging(messageAttributes);

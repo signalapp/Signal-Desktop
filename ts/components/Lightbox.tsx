@@ -29,7 +29,7 @@ export type PropsType = {
   getConversation?: (id: string) => ConversationType;
   i18n: LocalizerType;
   isViewOnce?: boolean;
-  media: Array<MediaItemType>;
+  media: ReadonlyArray<MediaItemType>;
   saveAttachment: SaveAttachmentActionCreatorType;
   selectedIndex?: number;
   toggleForwardMessageModal: (messageId: string) => unknown;

@@ -223,7 +223,7 @@ export type PropsData = {
   >;
   reducedMotion?: boolean;
   conversationType: ConversationTypeType;
-  attachments?: Array<AttachmentType>;
+  attachments?: ReadonlyArray<AttachmentType>;
   giftBadge?: GiftBadgeType;
   payment?: AnyPaymentEvent;
   quote?: {
@@ -255,7 +255,7 @@ export type PropsData = {
     storyId?: string;
     text: string;
   };
-  previews: Array<LinkPreviewType>;
+  previews: ReadonlyArray<LinkPreviewType>;
 
   isTapToView?: boolean;
   isTapToViewExpired?: boolean;

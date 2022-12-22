@@ -170,7 +170,7 @@ export type ConversationType = {
   about?: string;
   aboutText?: string;
   aboutEmoji?: string;
-  avatars?: Array<AvatarDataType>;
+  avatars?: ReadonlyArray<AvatarDataType>;
   avatarPath?: string;
   avatarHash?: string;
   profileAvatarPath?: string;
@@ -215,24 +215,24 @@ export type ConversationType = {
   announcementsOnly?: boolean;
   announcementsOnlyReady?: boolean;
   expireTimer?: DurationInSeconds;
-  memberships?: Array<{
+  memberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
-  pendingMemberships?: Array<{
+  pendingMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
     addedByUserId?: UUIDStringType;
   }>;
-  pendingApprovalMemberships?: Array<{
+  pendingApprovalMemberships?: ReadonlyArray<{
     uuid: UUIDStringType;
   }>;
-  bannedMemberships?: Array<UUIDStringType>;
+  bannedMemberships?: ReadonlyArray<UUIDStringType>;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
   isMe: boolean;
   lastUpdated?: number;
   // This is used by the CompositionInput for @mentions
-  sortedGroupMembers?: Array<ConversationType>;
+  sortedGroupMembers?: ReadonlyArray<ConversationType>;
   title: string;
   titleNoDefault?: string;
   searchableTitle?: string;
@@ -240,7 +240,7 @@ export type ConversationType = {
   isSelected?: boolean;
   isFetchingUUID?: boolean;
   typingContactId?: string;
-  recentMediaItems?: Array<MediaItemType>;
+  recentMediaItems?: ReadonlyArray<MediaItemType>;
   profileSharing?: boolean;
 
   shouldShowDraft?: boolean;
@@ -248,7 +248,7 @@ export type ConversationType = {
   draftBodyRanges?: DraftBodyRangesType;
   draftPreview?: string;
 
-  sharedGroupNames: Array<string>;
+  sharedGroupNames: ReadonlyArray<string>;
   groupDescription?: string;
   groupVersion?: 1 | 2;
   groupId?: string;
@@ -260,7 +260,7 @@ export type ConversationType = {
   profileKey?: string;
   voiceNotePlaybackRate?: number;
 
-  badges: Array<
+  badges: ReadonlyArray<
     | {
         id: string;
       }
@@ -312,7 +312,7 @@ export type MessageLookupType = {
 export type ConversationMessageType = {
   isNearBottom?: boolean;
   messageChangeCounter: number;
-  messageIds: Array<string>;
+  messageIds: ReadonlyArray<string>;
   messageLoadingState?: undefined | TimelineMessageLoadingState;
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
@@ -340,8 +340,8 @@ type ComposerGroupCreationState = {
   groupExpireTimer: DurationInSeconds;
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
-  selectedConversationIds: Array<string>;
-  userAvatarData: Array<AvatarDataType>;
+  selectedConversationIds: ReadonlyArray<string>;
+  userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
 type DistributionVerificationData = {
@@ -397,7 +397,7 @@ type ContactSpoofingReviewStateType =
 
 export type ConversationsStateType = {
   preJoinConversation?: PreJoinConversationType;
-  invitedUuidsForNewlyCreatedGroup?: Array<string>;
+  invitedUuidsForNewlyCreatedGroup?: ReadonlyArray<string>;
   conversationLookup: ConversationLookupType;
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
@@ -407,8 +407,9 @@ export type ConversationsStateType = {
   selectedMessage: string | undefined;
   selectedMessageCounter: number;
   selectedMessageSource: SelectedMessageSource | undefined;
-  selectedConversationPanels: Array<PanelRenderType>;
+  selectedConversationPanels: ReadonlyArray<PanelRenderType>;
   selectedMessageForDetails?: MessageAttributesType;
+
   showArchived: boolean;
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
@@ -600,7 +601,7 @@ type CreateGroupPendingActionType = {
 type CreateGroupFulfilledActionType = {
   type: 'CREATE_GROUP_FULFILLED';
   payload: {
-    invitedUuids: Array<UUIDStringType>;
+    invitedUuids: ReadonlyArray<UUIDStringType>;
   };
 };
 type CreateGroupRejectedActionType = {
@@ -655,7 +656,7 @@ export type MessagesAddedActionType = {
     isActive: boolean;
     isJustSent: boolean;
     isNewMessage: boolean;
-    messages: Array<MessageAttributesType>;
+    messages: ReadonlyArray<MessageAttributesType>;
   };
 };
 
@@ -682,7 +683,7 @@ export type MessagesResetActionType = {
   type: 'MESSAGES_RESET';
   payload: {
     conversationId: string;
-    messages: Array<MessageAttributesType>;
+    messages: ReadonlyArray<MessageAttributesType>;
     metrics: MessageMetricsType;
     scrollToMessageId?: string;
     // The set of provided messages should be trusted, even if it conflicts with metrics,
@@ -776,7 +777,7 @@ type SetRecentMediaItemsActionType = {
   type: 'SET_RECENT_MEDIA_ITEMS';
   payload: {
     id: string;
-    recentMediaItems: Array<MediaItemType>;
+    recentMediaItems: ReadonlyArray<MediaItemType>;
   };
 };
 type ToggleComposeEditingAvatarActionType = {
@@ -812,7 +813,7 @@ type ReplaceAvatarsActionType = {
   type: typeof REPLACE_AVATARS;
   payload: {
     conversationId: string;
-    avatars: Array<AvatarDataType>;
+    avatars: ReadonlyArray<AvatarDataType>;
   };
 };
 
@@ -1230,7 +1231,7 @@ function filterAvatarData(
   return avatars.filter(avatarData => !isSameAvatarData(data, avatarData));
 }
 
-function getNextAvatarId(avatars: Array<AvatarDataType>): number {
+function getNextAvatarId(avatars: ReadonlyArray<AvatarDataType>): number {
   return Math.max(...avatars.map(x => Number(x.id))) + 1;
 }
 
@@ -1238,10 +1239,10 @@ async function getAvatarsAndUpdateConversation(
   conversations: ConversationsStateType,
   conversationId: string,
   getNextAvatarsData: (
-    avatars: Array<AvatarDataType>,
+    avatars: ReadonlyArray<AvatarDataType>,
     nextId: number
-  ) => Array<AvatarDataType>
-): Promise<Array<AvatarDataType>> {
+  ) => ReadonlyArray<AvatarDataType>
+): Promise<ReadonlyArray<AvatarDataType>> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
     throw new Error('getAvatarsAndUpdateConversation: No conversation found');
@@ -2415,7 +2416,7 @@ function messagesAdded({
   isActive: boolean;
   isJustSent: boolean;
   isNewMessage: boolean;
-  messages: Array<MessageAttributesType>;
+  messages: ReadonlyArray<MessageAttributesType>;
 }): MessagesAddedActionType {
   return {
     type: 'MESSAGES_ADDED',
@@ -2469,7 +2470,7 @@ function reviewMessageRequestNameCollision(
 
 export type MessageResetOptionsType = Readonly<{
   conversationId: string;
-  messages: Array<MessageAttributesType>;
+  messages: ReadonlyArray<MessageAttributesType>;
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
   unboundedFetch?: boolean;
@@ -2705,7 +2706,7 @@ function approvePendingMembershipFromGroupV2(
 
 function revokePendingMembershipsFromGroupV2(
   conversationId: string,
-  memberIds: Array<string>
+  memberIds: ReadonlyArray<string>
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
@@ -3340,7 +3341,7 @@ function leaveGroup(
 }
 
 function toggleGroupsForStorySend(
-  conversationIds: Array<string>
+  conversationIds: ReadonlyArray<string>
 ): ThunkAction<Promise<void>, RootStateType, unknown, NoopActionType> {
   return async dispatch => {
     await Promise.all(
@@ -4018,7 +4019,7 @@ export function reducer(
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId,
       selectedConversationPanels: [],
-      messagesLookup: omit(state.messagesLookup, messageIds),
+      messagesLookup: omit(state.messagesLookup, [...messageIds]),
       messagesByConversation: omit(state.messagesByConversation, [id]),
     };
   }
@@ -4930,7 +4931,7 @@ export function reducer(
   }
 
   if (action.type === 'SHOW_CHOOSE_GROUP_MEMBERS') {
-    let selectedConversationIds: Array<string>;
+    let selectedConversationIds: ReadonlyArray<string>;
     let recommendedGroupSizeModalState: OneTimeModalState;
     let maximumGroupSizeModalState: OneTimeModalState;
     let groupName: string;

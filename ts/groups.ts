@@ -1193,7 +1193,7 @@ export function buildDeletePendingMemberChange({
   uuids,
   group,
 }: {
-  uuids: Array<UUID>;
+  uuids: ReadonlyArray<UUID>;
   group: ConversationAttributesType;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
@@ -1452,7 +1452,7 @@ export async function modifyGroupV2({
   conversation: ConversationModel;
   usingCredentialsFrom: ReadonlyArray<ConversationModel>;
   createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
-  extraConversationsForSend?: Array<string>;
+  extraConversationsForSend?: ReadonlyArray<string>;
   inviteLinkPassword?: string;
   name: string;
 }): Promise<void> {
@@ -1554,7 +1554,7 @@ export async function modifyGroupV2({
           type: conversationQueueJobEnum.enum.GroupUpdate,
           conversationId: conversation.id,
           groupChangeBase64,
-          recipients: groupV2Info.members,
+          recipients: groupV2Info.members.slice(),
           revision: groupV2Info.revision,
         });
       });
@@ -1733,8 +1733,8 @@ export async function createGroupV2(
     name: string;
     avatar: undefined | Uint8Array;
     expireTimer: undefined | DurationInSeconds;
-    conversationIds: Array<string>;
-    avatars?: Array<AvatarDataType>;
+    conversationIds: ReadonlyArray<string>;
+    avatars?: ReadonlyArray<AvatarDataType>;
     refreshedCredentials?: boolean;
   }>
 ): Promise<ConversationModel> {
@@ -1953,7 +1953,7 @@ export async function createGroupV2(
   await conversationJobQueue.add({
     type: conversationQueueJobEnum.enum.GroupUpdate,
     conversationId: conversation.id,
-    recipients: groupV2Info.members,
+    recipients: groupV2Info.members.slice(),
     revision: groupV2Info.revision,
   });
 
@@ -2438,7 +2438,7 @@ export async function initiateMigrationToGroupV2(
   await conversationJobQueue.add({
     type: conversationQueueJobEnum.enum.GroupUpdate,
     conversationId: conversation.id,
-    recipients: groupV2Info.members,
+    recipients: groupV2Info.members.slice(),
     revision: groupV2Info.revision,
   });
 }
@@ -2466,7 +2466,7 @@ export async function waitThenRespondToGroupV2Migration(
 }
 
 export function buildMigrationBubble(
-  previousGroupV1MembersIds: Array<string>,
+  previousGroupV1MembersIds: ReadonlyArray<string>,
   newAttributes: ConversationAttributesType
 ): GroupChangeMessageType {
   const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI);
@@ -3880,7 +3880,7 @@ async function integrateGroupChanges({
 }: {
   group: ConversationAttributesType;
   newRevision: number | undefined;
-  changes: Array<Proto.IGroupChanges>;
+  changes: ReadonlyArray<Proto.IGroupChanges>;
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
   let attributes = group;
@@ -4715,7 +4715,7 @@ function extractDiffs({
   return result;
 }
 
-function profileKeysToMembers(items: Array<GroupChangeMemberType>) {
+function profileKeysToMembers(items: ReadonlyArray<GroupChangeMemberType>) {
   return items.map(item => ({
     profileKey: Bytes.toBase64(item.profileKey),
     uuid: item.uuid,

@@ -36,7 +36,7 @@ export type OwnProps = {
   readonly doSend?: () => unknown;
   readonly skinTone?: number;
   readonly onSetSkinTone?: (tone: number) => unknown;
-  readonly recentEmojis?: Array<string>;
+  readonly recentEmojis?: ReadonlyArray<string>;
   readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
 };

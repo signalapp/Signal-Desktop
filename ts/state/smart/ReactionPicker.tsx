@@ -34,7 +34,7 @@ export const SmartReactionPicker = React.forwardRef<
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
 
-  const preferredReactionEmoji = useSelector<StateType, Array<string>>(
+  const preferredReactionEmoji = useSelector<StateType, ReadonlyArray<string>>(
     getPreferredReactionEmoji
   );
 

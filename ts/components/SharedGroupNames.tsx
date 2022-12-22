@@ -11,7 +11,7 @@ import type { LocalizerType } from '../types/Util';
 type PropsType = {
   i18n: LocalizerType;
   nameClassName?: string;
-  sharedGroupNames: Array<string>;
+  sharedGroupNames: ReadonlyArray<string>;
 };
 
 export function SharedGroupNames({

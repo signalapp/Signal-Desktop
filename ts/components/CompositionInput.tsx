@@ -79,7 +79,7 @@ export type Props = Readonly<{
   moduleClassName?: string;
   theme: ThemeType;
   placeholder?: string;
-  sortedGroupMembers?: Array<ConversationType>;
+  sortedGroupMembers?: ReadonlyArray<ConversationType>;
   scrollerRef?: React.RefObject<HTMLDivElement>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
@@ -488,7 +488,9 @@ export function CompositionInput(props: Props): React.ReactElement {
     []
   );
 
-  const removeStaleMentions = (currentMembers: Array<ConversationType>) => {
+  const removeStaleMentions = (
+    currentMembers: ReadonlyArray<ConversationType>
+  ) => {
     const quill = quillRef.current;
 
     if (quill === undefined) {

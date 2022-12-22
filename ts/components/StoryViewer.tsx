@@ -96,9 +96,9 @@ export type PropsType = {
     story: StoryViewType
   ) => unknown;
   onUseEmoji: (_: EmojiPickDataType) => unknown;
-  preferredReactionEmoji: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
   queueStoryDownload: (storyId: string) => unknown;
-  recentEmojis?: Array<string>;
+  recentEmojis?: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => JSX.Element;
   replyState?: ReplyStateType;
   retryMessageSend: (messageId: string) => unknown;

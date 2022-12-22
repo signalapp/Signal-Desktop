@@ -33,7 +33,7 @@ export function SmartLightbox(): JSX.Element | null {
 
   const isShowingLightbox = useSelector<StateType, boolean>(shouldShowLightbox);
   const isViewOnce = useSelector<StateType, boolean>(getIsViewOnce);
-  const media = useSelector<StateType, Array<MediaItemType>>(getMedia);
+  const media = useSelector<StateType, ReadonlyArray<MediaItemType>>(getMedia);
   const selectedIndex = useSelector<StateType, number>(getSelectedIndex);
 
   if (!isShowingLightbox) {

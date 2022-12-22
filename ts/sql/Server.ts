@@ -1509,7 +1509,7 @@ async function updateConversations(
   })();
 }
 
-function removeConversationsSync(ids: Array<string>): void {
+function removeConversationsSync(ids: ReadonlyArray<string>): void {
   const db = getInstance();
 
   // Our node interface doesn't seem to allow you to replace one single ? with an array
@@ -2046,7 +2046,7 @@ async function removeMessage(id: string): Promise<void> {
   db.prepare<Query>('DELETE FROM messages WHERE id = $id;').run({ id });
 }
 
-function removeMessagesSync(ids: Array<string>): void {
+function removeMessagesSync(ids: ReadonlyArray<string>): void {
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -2057,7 +2057,7 @@ function removeMessagesSync(ids: Array<string>): void {
   ).run(ids);
 }
 
-async function removeMessages(ids: Array<string>): Promise<void> {
+async function removeMessages(ids: ReadonlyArray<string>): Promise<void> {
   batchMultiVarQuery(getInstance(), ids, removeMessagesSync);
 }
 
@@ -2091,7 +2091,7 @@ async function getMessagesById(
   return batchMultiVarQuery(
     db,
     messageIds,
-    (batch: Array<string>): Array<MessageType> => {
+    (batch: ReadonlyArray<string>): Array<MessageType> => {
       const query = db.prepare<ArrayQuery>(
         `SELECT json FROM messages WHERE id IN (${Array(batch.length)
           .fill('?')
@@ -2325,7 +2325,7 @@ async function getUnreadReactionsAndMarkRead({
       });
 
     const idsToUpdate = unreadMessages.map(item => item.rowid);
-    batchMultiVarQuery(db, idsToUpdate, (ids: Array<number>): void => {
+    batchMultiVarQuery(db, idsToUpdate, (ids: ReadonlyArray<number>): void => {
       db.prepare<ArrayQuery>(
         `
         UPDATE reactions SET
@@ -3408,7 +3408,7 @@ async function getAllUnprocessedAndIncrementAttempts(): Promise<
   })();
 }
 
-function removeUnprocessedsSync(ids: Array<string>): void {
+function removeUnprocessedsSync(ids: ReadonlyArray<string>): void {
   const db = getInstance();
 
   db.prepare<ArrayQuery>(
@@ -4680,7 +4680,7 @@ function modifyStoryDistributionMembersSync(
     });
   }
 
-  batchMultiVarQuery(db, toRemove, (uuids: Array<UUIDStringType>) => {
+  batchMultiVarQuery(db, toRemove, (uuids: ReadonlyArray<UUIDStringType>) => {
     db.prepare<ArrayQuery>(
       `
       DELETE FROM storyDistributionMembers
@@ -5166,7 +5166,7 @@ async function getKnownMessageAttachments(
     const messages = batchMultiVarQuery(
       db,
       rowids,
-      (batch: Array<number>): Array<MessageType> => {
+      (batch: ReadonlyArray<number>): Array<MessageType> => {
         const query = db.prepare<ArrayQuery>(
           `SELECT json FROM messages WHERE rowid IN (${Array(batch.length)
             .fill('?')

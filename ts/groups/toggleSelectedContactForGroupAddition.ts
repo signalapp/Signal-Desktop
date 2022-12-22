@@ -17,12 +17,12 @@ export function toggleSelectedContactForGroupAddition(
     maximumGroupSizeModalState: OneTimeModalState;
     numberOfContactsAlreadyInGroup: number;
     recommendedGroupSizeModalState: OneTimeModalState;
-    selectedConversationIds: Array<string>;
+    selectedConversationIds: ReadonlyArray<string>;
   }>
 ): {
   maximumGroupSizeModalState: OneTimeModalState;
   recommendedGroupSizeModalState: OneTimeModalState;
-  selectedConversationIds: Array<string>;
+  selectedConversationIds: ReadonlyArray<string>;
 } {
   const {
     maxGroupSize,

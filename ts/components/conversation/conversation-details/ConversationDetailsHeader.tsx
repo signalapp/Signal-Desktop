@@ -24,7 +24,7 @@ export type Props = {
   i18n: LocalizerType;
   isGroup: boolean;
   isMe: boolean;
-  memberships: Array<GroupV2Membership>;
+  memberships: ReadonlyArray<GroupV2Membership>;
   startEditing: (isGroupTitle: boolean) => void;
   theme: ThemeType;
 };

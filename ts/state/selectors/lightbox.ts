@@ -36,5 +36,6 @@ export const getSelectedIndex = createSelector(
 
 export const getMedia = createSelector(
   getLightboxState,
-  (state): Array<MediaItemType> => (state.isShowingLightbox ? state.media : [])
+  (state): ReadonlyArray<MediaItemType> =>
+    state.isShowingLightbox ? state.media : []
 );

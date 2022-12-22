@@ -49,7 +49,7 @@ export type Props = {
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
-  sharedGroupNames: Array<string>;
+  sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
   unblurredAvatarPath?: string;

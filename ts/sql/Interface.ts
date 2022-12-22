@@ -471,7 +471,7 @@ export type DataInterface = {
     options: { forceSave?: boolean; ourUuid: UUIDStringType }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
-  removeMessages: (ids: Array<string>) => Promise<void>;
+  removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
   getTotalUnreadForConversation: (
     conversationId: string,
     options: {

@@ -15,7 +15,7 @@ import { PanelSection } from './PanelSection';
 type Props = {
   contactId: string;
   i18n: LocalizerType;
-  groupsInCommon: Array<ConversationType>;
+  groupsInCommon: ReadonlyArray<ConversationType>;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   showConversation: ShowConversationType;
 };

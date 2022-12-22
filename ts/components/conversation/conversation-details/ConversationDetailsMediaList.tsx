@@ -19,7 +19,7 @@ export type Props = {
   showAllMedia: () => void;
   showLightboxWithMedia: (
     selectedAttachmentPath: string | undefined,
-    media: Array<MediaItemType>
+    media: ReadonlyArray<MediaItemType>
   ) => void;
 };
 

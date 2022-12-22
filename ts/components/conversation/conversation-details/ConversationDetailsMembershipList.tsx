@@ -25,7 +25,7 @@ export type Props = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   maxShownMemberCount?: number;
-  memberships: Array<GroupV2Membership>;
+  memberships: ReadonlyArray<GroupV2Membership>;
   showContactModal: (contactId: string, conversationId?: string) => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;

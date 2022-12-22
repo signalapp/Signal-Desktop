@@ -28,7 +28,7 @@ export type OwnProps = {
   onPick: (emoji: string) => unknown;
   onSetSkinTone: (tone: number) => unknown;
   openCustomizePreferredReactionsModal?: () => unknown;
-  preferredReactionEmoji: Array<string>;
+  preferredReactionEmoji: ReadonlyArray<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
 };
 

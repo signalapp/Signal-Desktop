@@ -8,7 +8,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 
 export function getAvatarData(
   conversationAttrs: Pick<ConversationAttributesType, 'avatars' | 'type'>
-): Array<AvatarDataType> {
+): ReadonlyArray<AvatarDataType> {
   const { avatars } = conversationAttrs;
 
   if (avatars && avatars.length) {

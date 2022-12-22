@@ -43,11 +43,11 @@ const renderChange = (
     groupName,
     areWeAdmin = true,
   }: {
-    groupMemberships?: Array<{
+    groupMemberships?: ReadonlyArray<{
       uuid: UUIDStringType;
       isAdmin: boolean;
     }>;
-    groupBannedMemberships?: Array<UUIDStringType>;
+    groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
     groupName?: string;
     areWeAdmin?: boolean;
   } = {}

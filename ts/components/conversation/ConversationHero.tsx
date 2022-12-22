@@ -29,7 +29,7 @@ export type Props = {
   membersCount?: number;
   name?: string;
   phoneNumber?: string;
-  sharedGroupNames?: Array<string>;
+  sharedGroupNames?: ReadonlyArray<string>;
   unblurAvatar: (conversationId: string) => void;
   unblurredAvatarPath?: string;
   updateSharedGroups: (conversationId: string) => unknown;

@@ -741,7 +741,7 @@ export class ConversationModel extends window.Backbone
   }: {
     usingCredentialsFrom: ReadonlyArray<ConversationModel>;
     createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
-    extraConversationsForSend?: Array<string>;
+    extraConversationsForSend?: ReadonlyArray<string>;
     inviteLinkPassword?: string;
     name: string;
   }): Promise<void> {
@@ -1159,9 +1159,9 @@ export class ConversationModel extends window.Backbone
       { groupChange?: Uint8Array } & (
         | {
             includePendingMembers?: boolean;
-            extraConversationsForSend?: Array<string>;
+            extraConversationsForSend?: ReadonlyArray<string>;
           }
-        | { members: Array<string> }
+        | { members: ReadonlyArray<string> }
       )
     > = {}
   ): GroupV2InfoType | undefined {
@@ -3712,7 +3712,7 @@ export class ConversationModel extends window.Backbone
     isStoryReply = false,
   }: {
     includePendingMembers?: boolean;
-    extraConversationsForSend?: Array<string>;
+    extraConversationsForSend?: ReadonlyArray<string>;
     isStoryReply?: boolean;
   } = {}): Array<string> {
     return getRecipients(this.attributes, {
