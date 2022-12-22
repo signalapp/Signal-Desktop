@@ -228,7 +228,7 @@ export function ToastManager({
   if (toastType === ToastType.UnsupportedMultiAttachment) {
     return (
       <Toast onClose={hideToast}>
-        {i18n('cannotSelectPhotosAndVideosAlongWithFiles')}
+        {i18n('cannotSelectMultipleNonImageAttachments')}
       </Toast>
     );
   }
