@@ -18,12 +18,13 @@ import type {
   ConversationAttributesType,
   ConversationLastProfileType,
   ConversationRenderInfoType,
-  LastMessageStatus,
   MessageAttributesType,
   QuotedMessageType,
   SenderKeyInfoType,
 } from '../model-types.d';
 import { drop } from '../util/drop';
+import { isShallowEqual } from '../util/isShallowEqual';
+import { memoizeByThis } from '../util/memoizeByThis';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
@@ -48,7 +49,10 @@ import type {
   CallbackResultType,
   PniSignatureMessageType,
 } from '../textsecure/Types.d';
-import type { ConversationType } from '../state/ducks/conversations';
+import type {
+  ConversationType,
+  LastMessageType,
+} from '../state/ducks/conversations';
 import type {
   AvatarColorType,
   ConversationColorType,
@@ -78,7 +82,7 @@ import {
   deriveAccessKey,
 } from '../Crypto';
 import * as Bytes from '../Bytes';
-import type { BodyRangesType } from '../types/Util';
+import type { BodyRangesType, DraftBodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util/getTextWithMentions';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
@@ -154,6 +158,9 @@ import { isSignalConversation } from '../util/isSignalConversation';
 import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../util/removePendingMember';
 import { isMemberPending } from '../util/isMemberPending';
+
+const EMPTY_ARRAY: Readonly<[]> = [];
+const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1722,7 +1729,15 @@ export class ConversationModel extends window.Backbone
     };
 
     try {
-      this.cachedProps = this.getProps();
+      const { oldCachedProps } = this;
+      const newCachedProps = this.getProps();
+
+      if (oldCachedProps && isShallowEqual(oldCachedProps, newCachedProps)) {
+        this.cachedProps = oldCachedProps;
+      } else {
+        this.cachedProps = newCachedProps;
+      }
+
       return this.cachedProps;
     } finally {
       this.format = oldFormat;
@@ -1739,30 +1754,6 @@ export class ConversationModel extends window.Backbone
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const color = this.getColor()!;
 
-    let lastMessage:
-      | undefined
-      | {
-          status?: LastMessageStatus;
-          text: string;
-          author?: string;
-          deletedForEveryone: false;
-        }
-      | { deletedForEveryone: true };
-
-    if (this.get('lastMessageDeletedForEveryone')) {
-      lastMessage = { deletedForEveryone: true };
-    } else {
-      const lastMessageText = this.get('lastMessage');
-      if (lastMessageText) {
-        lastMessage = {
-          status: dropNull(this.get('lastMessageStatus')),
-          text: lastMessageText,
-          author: dropNull(this.get('lastMessageAuthor')),
-          deletedForEveryone: false,
-        };
-      }
-    }
-
     const typingValues = Object.values(this.contactTypingTimers || {});
     const typingMostRecent = head(sortBy(typingValues, 'timestamp'));
 
@@ -1770,11 +1761,10 @@ export class ConversationModel extends window.Backbone
     const timestamp = this.get('timestamp')!;
     const draftTimestamp = this.get('draftTimestamp');
     const draftPreview = this.getDraftPreview();
-    const draftText = this.get('draft');
-    const draftBodyRanges = this.get('draftBodyRanges');
-    const shouldShowDraft = (this.hasDraft() &&
-      draftTimestamp &&
-      draftTimestamp >= timestamp) as boolean;
+    const draftText = dropNull(this.get('draft'));
+    const shouldShowDraft = Boolean(
+      this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp
+    );
     const inboxPosition = this.get('inbox_position');
     const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
       'desktop.messageRequests'
@@ -1831,7 +1821,7 @@ export class ConversationModel extends window.Backbone
       ),
       areWeAdmin: this.areWeAdmin(),
       avatars: getAvatarData(this.attributes),
-      badges: this.get('badges') || [],
+      badges: this.get('badges') ?? EMPTY_ARRAY,
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
       canAddNewMembers: this.canAddNewMembers(),
@@ -1844,7 +1834,7 @@ export class ConversationModel extends window.Backbone
       customColor,
       customColorId,
       discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
-      draftBodyRanges,
+      draftBodyRanges: this.getDraftBodyRanges(),
       draftPreview,
       draftText,
       familyName: this.get('profileFamilyName'),
@@ -1863,14 +1853,14 @@ export class ConversationModel extends window.Backbone
       isUntrusted: this.isUntrusted(),
       isVerified: this.isVerified(),
       isFetchingUUID: this.isFetchingUUID,
-      lastMessage,
+      lastMessage: this.getLastMessage(),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       lastUpdated: this.get('timestamp')!,
       left: Boolean(this.get('left')),
       markedUnread: this.get('markedUnread'),
       membersCount: this.getMembersCount(),
       memberships: this.getMemberships(),
-      messageCount: this.get('messageCount') || 0,
+      hasMessages: (this.get('messageCount') ?? 0) > 0,
       pendingMemberships: this.getPendingMemberships(),
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
       bannedMemberships: this.getBannedMemberships(),
@@ -1906,13 +1896,14 @@ export class ConversationModel extends window.Backbone
       ...(isDirectConversation(this.attributes)
         ? {
             type: 'direct' as const,
-            sharedGroupNames: this.get('sharedGroupNames') || [],
+            sharedGroupNames: this.get('sharedGroupNames') || EMPTY_ARRAY,
           }
         : {
             type: 'group' as const,
             acknowledgedGroupNameCollisions:
-              this.get('acknowledgedGroupNameCollisions') || {},
-            sharedGroupNames: [],
+              this.get('acknowledgedGroupNameCollisions') ||
+              EMPTY_GROUP_COLLISIONS,
+            sharedGroupNames: EMPTY_ARRAY,
             storySendMode: this.getGroupStorySendMode(),
           }),
       voiceNotePlaybackRate: this.get('voiceNotePlaybackRate'),
@@ -3611,20 +3602,44 @@ export class ConversationModel extends window.Backbone
     return result;
   }
 
-  private getMemberships(): Array<{
-    uuid: UUIDStringType;
-    isAdmin: boolean;
-  }> {
-    if (!isGroupV2(this.attributes)) {
-      return [];
+  private getDraftBodyRanges = memoizeByThis(
+    (): DraftBodyRangesType | undefined => {
+      return this.get('draftBodyRanges');
     }
+  );
 
-    const members = this.get('membersV2') || [];
-    return members.map(member => ({
-      isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
-      uuid: member.uuid,
-    }));
-  }
+  private getLastMessage = memoizeByThis((): LastMessageType | undefined => {
+    if (this.get('lastMessageDeletedForEveryone')) {
+      return { deletedForEveryone: true };
+    }
+    const lastMessageText = this.get('lastMessage');
+    if (!lastMessageText) {
+      return undefined;
+    }
+    return {
+      status: dropNull(this.get('lastMessageStatus')),
+      text: lastMessageText,
+      author: dropNull(this.get('lastMessageAuthor')),
+      deletedForEveryone: false,
+    };
+  });
+
+  private getMemberships = memoizeByThis(
+    (): ReadonlyArray<{
+      uuid: UUIDStringType;
+      isAdmin: boolean;
+    }> => {
+      if (!isGroupV2(this.attributes)) {
+        return EMPTY_ARRAY;
+      }
+
+      const members = this.get('membersV2') || [];
+      return members.map(member => ({
+        isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
+        uuid: member.uuid,
+      }));
+    }
+  );
 
   getGroupLink(): string | undefined {
     if (!isGroupV2(this.attributes)) {
@@ -3638,39 +3653,45 @@ export class ConversationModel extends window.Backbone
     return window.Signal.Groups.buildGroupLink(this);
   }
 
-  private getPendingMemberships(): Array<{
-    addedByUserId?: UUIDStringType;
-    uuid: UUIDStringType;
-  }> {
-    if (!isGroupV2(this.attributes)) {
-      return [];
+  private getPendingMemberships = memoizeByThis(
+    (): ReadonlyArray<{
+      addedByUserId?: UUIDStringType;
+      uuid: UUIDStringType;
+    }> => {
+      if (!isGroupV2(this.attributes)) {
+        return EMPTY_ARRAY;
+      }
+
+      const members = this.get('pendingMembersV2') || [];
+      return members.map(member => ({
+        addedByUserId: member.addedByUserId,
+        uuid: member.uuid,
+      }));
     }
+  );
 
-    const members = this.get('pendingMembersV2') || [];
-    return members.map(member => ({
-      addedByUserId: member.addedByUserId,
-      uuid: member.uuid,
-    }));
-  }
+  private getPendingApprovalMemberships = memoizeByThis(
+    (): ReadonlyArray<{ uuid: UUIDStringType }> => {
+      if (!isGroupV2(this.attributes)) {
+        return EMPTY_ARRAY;
+      }
 
-  private getPendingApprovalMemberships(): Array<{ uuid: UUIDStringType }> {
-    if (!isGroupV2(this.attributes)) {
-      return [];
+      const members = this.get('pendingAdminApprovalV2') || [];
+      return members.map(member => ({
+        uuid: member.uuid,
+      }));
     }
+  );
 
-    const members = this.get('pendingAdminApprovalV2') || [];
-    return members.map(member => ({
-      uuid: member.uuid,
-    }));
-  }
+  private getBannedMemberships = memoizeByThis(
+    (): ReadonlyArray<UUIDStringType> => {
+      if (!isGroupV2(this.attributes)) {
+        return EMPTY_ARRAY;
+      }
 
-  private getBannedMemberships(): Array<UUIDStringType> {
-    if (!isGroupV2(this.attributes)) {
-      return [];
+      return (this.get('bannedMembersV2') || []).map(member => member.uuid);
     }
-
-    return (this.get('bannedMembersV2') || []).map(member => member.uuid);
-  }
+  );
 
   getMembers(
     options: { includePendingMembers?: boolean } = {}
@@ -4132,7 +4153,7 @@ export class ConversationModel extends window.Backbone
         const draftProperties = dontClearDraft
           ? {}
           : {
-              draft: null,
+              draft: '',
               draftTimestamp: null,
               lastMessage: model.getNotificationText(),
               lastMessageAuthor: model.getAuthorText(),

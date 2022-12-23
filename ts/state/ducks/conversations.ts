@@ -155,6 +155,16 @@ export type MessageWithUIFieldsType = MessageAttributesType & {
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypeType = typeof ConversationTypes[number];
 
+export type LastMessageType = Readonly<
+  | {
+      status?: LastMessageStatus;
+      text: string;
+      author?: string;
+      deletedForEveryone: false;
+    }
+  | { deletedForEveryone: true }
+>;
+
 export type ConversationType = {
   id: string;
   uuid?: UUIDStringType;
@@ -197,18 +207,11 @@ export type ConversationType = {
   timestamp?: number;
   inboxPosition?: number;
   left?: boolean;
-  lastMessage?:
-    | {
-        status?: LastMessageStatus;
-        text: string;
-        author?: string;
-        deletedForEveryone: false;
-      }
-    | { deletedForEveryone: true };
+  lastMessage?: LastMessageType;
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
-  messageCount?: number;
+  hasMessages?: boolean;
   accessControlAddFromInviteLink?: number;
   accessControlAttributes?: number;
   accessControlMembers?: number;
@@ -244,7 +247,7 @@ export type ConversationType = {
   profileSharing?: boolean;
 
   shouldShowDraft?: boolean;
-  draftText?: string | null;
+  draftText?: string;
   draftBodyRanges?: DraftBodyRangesType;
   draftPreview?: string;
 

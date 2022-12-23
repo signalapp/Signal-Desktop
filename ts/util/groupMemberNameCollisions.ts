@@ -8,7 +8,9 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { isConversationNameKnown } from './isConversationNameKnown';
 import { isInSystemContacts } from './isInSystemContacts';
 
-export type GroupNameCollisionsWithIdsByTitle = Record<string, Array<string>>;
+export type GroupNameCollisionsWithIdsByTitle = Readonly<
+  Record<string, Array<string>>
+>;
 export type GroupNameCollisionsWithConversationsByTitle = Record<
   string,
   Array<ConversationType>

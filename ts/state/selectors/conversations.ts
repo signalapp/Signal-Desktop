@@ -1033,8 +1033,7 @@ export function isMissingRequiredProfileSharing(
     doesConversationRequireIt &&
       !conversation.profileSharing &&
       window.Signal.RemoteConfig.isEnabled('desktop.mandatoryProfileSharing') &&
-      conversation.messageCount &&
-      conversation.messageCount > 0
+      conversation.hasMessages
   );
 }
 
