@@ -685,8 +685,8 @@
     "message": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "cannotSelectMultipleNonImageAttachments": {
-    "message": "You can only select one non-image attachment.",
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
     "description": "An error popup when the user has attempted to add multiple non-image attachments"
   },
   "maximumAttachments": {
