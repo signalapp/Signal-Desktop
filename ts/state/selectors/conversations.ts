@@ -27,7 +27,6 @@ import { getOwn } from '../../util/getOwn';
 import type { UUIDFetchStateType } from '../../util/uuidFetchState';
 import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
-import type { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
@@ -51,15 +50,8 @@ import {
   getRegionCode,
   getUserConversationId,
   getUserNumber,
-  getUserACI,
-  getUserPNI,
 } from './user';
 import { getPinnedConversationIds } from './items';
-import { getPropsForBubble } from './message';
-import type { CallSelectorType, CallStateType } from './calling';
-import { getActiveCall, getCallSelector } from './calling';
-import type { AccountSelectorType } from './accounts';
-import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil';
 import { isSignalConversation } from '../../util/isSignalConversation';
@@ -772,18 +764,6 @@ export const getConversationByUuidSelector = createSelector(
       getOwn(conversationsByUuid, uuid)
 );
 
-// A little optimization to reset our selector cache whenever high-level application data
-//   changes: regionCode and userNumber.
-export const getCachedSelectorForMessage = createSelector(
-  getRegionCode,
-  getUserNumber,
-  (): typeof getPropsForBubble => {
-    // Note: memoizee will check all parameters provided, and only run our selector
-    //   if any of them have changed.
-    return memoizee(getPropsForBubble, { max: 2000 });
-  }
-);
-
 const getCachedConversationMemberColorsSelector = createSelector(
   getConversationSelector,
   getUserConversationId,
@@ -851,60 +831,6 @@ export const getContactNameColorSelector = createSelector(
         return ContactNameColors[0];
       }
       return color;
-    };
-  }
-);
-
-type GetMessageByIdType = (id: string) => TimelineItemType | undefined;
-export const getMessageSelector = createSelector(
-  getCachedSelectorForMessage,
-  getMessages,
-  getSelectedMessage,
-  getConversationSelector,
-  getRegionCode,
-  getUserNumber,
-  getUserACI,
-  getUserPNI,
-  getUserConversationId,
-  getCallSelector,
-  getActiveCall,
-  getAccountSelector,
-  getContactNameColorSelector,
-  (
-    messageSelector: typeof getPropsForBubble,
-    messageLookup: MessageLookupType,
-    selectedMessage: SelectedMessageType | undefined,
-    conversationSelector: GetConversationByIdType,
-    regionCode: string | undefined,
-    ourNumber: string | undefined,
-    ourACI: UUIDStringType | undefined,
-    ourPNI: UUIDStringType | undefined,
-    ourConversationId: string | undefined,
-    callSelector: CallSelectorType,
-    activeCall: undefined | CallStateType,
-    accountSelector: AccountSelectorType,
-    contactNameColorSelector: ContactNameColorSelectorType
-  ): GetMessageByIdType => {
-    return (id: string) => {
-      const message = messageLookup[id];
-      if (!message) {
-        return undefined;
-      }
-
-      return messageSelector(message, {
-        conversationSelector,
-        ourConversationId,
-        ourNumber,
-        ourACI,
-        ourPNI,
-        regionCode,
-        selectedMessageId: selectedMessage?.id,
-        selectedMessageCounter: selectedMessage?.counter,
-        contactNameColorSelector,
-        callSelector,
-        activeCall,
-        accountSelector,
-      });
     };
   }
 );

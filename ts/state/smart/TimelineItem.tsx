@@ -13,9 +13,9 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import {
   getConversationSelector,
-  getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
+import { getTimelineItem } from '../selectors/timeline';
 import {
   areMessagesInSameGroup,
   shouldCurrentMessageHideMetadata,
@@ -55,13 +55,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     unreadIndicatorPlacement,
   } = props;
 
-  const messageSelector = getMessageSelector(state);
-
-  const item = messageSelector(messageId);
+  const item = getTimelineItem(state, messageId);
   const previousItem = previousMessageId
-    ? messageSelector(previousMessageId)
+    ? getTimelineItem(state, previousMessageId)
     : undefined;
-  const nextItem = nextMessageId ? messageSelector(nextMessageId) : undefined;
+  const nextItem = nextMessageId
+    ? getTimelineItem(state, nextMessageId)
+    : undefined;
 
   const selectedMessage = getSelectedMessage(state);
   const isSelected = Boolean(

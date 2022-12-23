@@ -17,12 +17,12 @@ import type { ConversationType } from '../ducks/conversations';
 
 import { getIntl, getTheme } from '../selectors/user';
 import {
+  getMessages,
   getConversationByUuidSelector,
   getConversationMessagesSelector,
   getConversationSelector,
   getConversationsByTitleSelector,
   getInvitedContactsForNewlyCreatedGroup,
-  getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
 
@@ -229,9 +229,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const conversationMessages = getConversationMessagesSelector(state)(id);
   const selectedMessage = getSelectedMessage(state);
 
-  const messageSelector = getMessageSelector(state);
   const getTimestampForMessage = (messageId: string): undefined | number =>
-    messageSelector(messageId)?.timestamp;
+    getMessages(state)[messageId]?.timestamp;
 
   return {
     id,
