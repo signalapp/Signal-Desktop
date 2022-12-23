@@ -1383,20 +1383,38 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.set('sendStateByConversationId', newSendStateByConversationId);
 
-    await conversationJobQueue.add(
-      {
-        type: conversationQueueJobEnum.enum.NormalMessage,
-        conversationId: conversation.id,
-        messageId: this.id,
-        revision: conversation.get('revision'),
-      },
-      async jobToInsert => {
-        await window.Signal.Data.saveMessage(this.attributes, {
-          jobToInsert,
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-        });
-      }
-    );
+    if (isStory(this.attributes)) {
+      await conversationJobQueue.add(
+        {
+          type: conversationQueueJobEnum.enum.Story,
+          conversationId: conversation.id,
+          messageIds: [this.id],
+          // using the group timestamp, which will differ from the 1:1 timestamp
+          timestamp: this.attributes.timestamp,
+        },
+        async jobToInsert => {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            jobToInsert,
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          });
+        }
+      );
+    } else {
+      await conversationJobQueue.add(
+        {
+          type: conversationQueueJobEnum.enum.NormalMessage,
+          conversationId: conversation.id,
+          messageId: this.id,
+          revision: conversation.get('revision'),
+        },
+        async jobToInsert => {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            jobToInsert,
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          });
+        }
+      );
+    }
   }
 
   isReplayableError(e: Error): boolean {
