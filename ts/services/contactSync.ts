@@ -13,7 +13,6 @@ import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
 import { strictAssert } from '../util/assert';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
-import { normalizeUuid } from '../util/normalizeUuid';
 import * as log from '../logging/log';
 
 // When true - we are running the very first storage and contact sync after
@@ -78,24 +77,13 @@ const queue = new PQueue({ concurrency: 1 });
 
 async function doContactSync({
   contacts,
-  complete,
+  complete: isFullSync,
   receivedAtCounter,
   sentAt,
 }: ContactSyncEvent): Promise<void> {
-  // iOS sets `syncMessage.contacts.complete` flag to `true` unconditionally
-  // and so we have to employ tricks to figure out whether the sync is full or
-  // partial. Thankfully, iOS sends only two kinds of contact syncs: full or
-  // local sync. Local sync is always a single our own contact so we can do an
-  // UUID check.
-  const isFullSync =
-    complete &&
-    !(
-      contacts.length === 1 &&
-      normalizeUuid(contacts[0].uuid, 'doContactSync') ===
-        window.storage.user.getUuid()?.toString()
-    );
-
-  const logId = `doContactSync(sent=${sentAt}, receivedAt=${receivedAtCounter}, isFullSync=${isFullSync})`;
+  const logId =
+    `doContactSync(sent=${sentAt}, ` +
+    `receivedAt=${receivedAtCounter}, isFullSync=${isFullSync})`;
   log.info(`${logId}: got ${contacts.length} contacts`);
 
   const updatedConversations = new Set<ConversationModel>();
@@ -157,6 +145,8 @@ async function doContactSync({
   const notUpdated = isFullSync
     ? window.ConversationController.getAll().filter(
         convo =>
+          (convo.get('name') !== undefined ||
+            convo.get('inbox_position') !== undefined) &&
           !updatedConversations.has(convo) &&
           isDirectConversation(convo.attributes) &&
           !isMe(convo.attributes)
