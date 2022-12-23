@@ -1607,6 +1607,11 @@
     classnames "^2.2.6"
     deepmerge "^4.2.2"
 
+"@indutny/sneequals@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@indutny/sneequals/-/sneequals-1.0.1.tgz#9e0fa9ab68038f640105b837ae8f9ee453ba0fac"
+  integrity sha512-UBWmN5kI4VDvV8/ratSqUGodYWiEhu2KlJqIqB5ga43CRhNXlrzhFg9ejM3PeoZaB9PP5hf8s2ZOOagAefYNhw==
+
 "@istanbuljs/schema@^0.1.2", "@istanbuljs/schema@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
@@ -14368,11 +14373,6 @@ proxy-agent@5.0.0:
     pac-proxy-agent "^5.0.0"
     proxy-from-env "^1.0.0"
     socks-proxy-agent "^5.0.0"
-
-proxy-compare@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.3.0.tgz#ac9633ae52918ff9c9fcc54dfe6316c7a02d20ee"
-  integrity sha512-c3L2CcAi7f7pvlD0D7xsF+2CQIW8C3HaYx2Pfgq8eA4HAl3GAH6/dVYsyBbYF/0XJs2ziGLrzmz5fmzPm6A0pQ==
 
 proxy-from-env@^1.0.0, proxy-from-env@^1.1.0:
   version "1.1.0"

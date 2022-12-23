@@ -7,6 +7,7 @@ import filesize from 'filesize';
 import getDirection from 'direction';
 import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
+import { memoize } from '@indutny/sneequals';
 
 import type { StateType } from '../reducer';
 import type {
@@ -56,7 +57,6 @@ import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
-import { proxyMemoize } from '../../util/proxyMemoize';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getRecipients } from '../../util/getRecipients';
 import { getOwn } from '../../util/getOwn';
@@ -270,7 +270,7 @@ export function getConversation(
 
 // Message
 
-export const getAttachmentsForMessage = proxyMemoize(
+export const getAttachmentsForMessage = memoize(
   ({
     sticker,
     attachments = [],
@@ -299,13 +299,10 @@ export const getAttachmentsForMessage = proxyMemoize(
       .filter(attachment => !attachment.error || canBeDownloaded(attachment))
       .map(attachment => getPropsForAttachment(attachment))
       .filter(isNotNil);
-  },
-  {
-    name: 'getAttachmentsForMessage',
   }
 );
 
-export const processBodyRanges = proxyMemoize(
+export const processBodyRanges = memoize(
   (
     { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
     options: { conversationSelector: GetConversationByIdType }
@@ -327,9 +324,6 @@ export const processBodyRanges = proxyMemoize(
         };
       })
       .sort((a, b) => b.start - a.start);
-  },
-  {
-    name: 'processBodyRanges',
   }
 );
 
@@ -489,7 +483,7 @@ const getPropsForStoryReplyContext = (
   };
 };
 
-export const getPropsForQuote = proxyMemoize(
+export const getPropsForQuote = memoize(
   (
     message: Pick<
       MessageWithUIFieldsType,
@@ -555,9 +549,6 @@ export const getPropsForQuote = proxyMemoize(
       sentAt: Number(sentAt),
       text,
     };
-  },
-  {
-    name: 'getPropsForQuote',
   }
 );
 
@@ -642,7 +633,7 @@ function getTextDirection(body?: string): TextDirection {
   }
 }
 
-export const getPropsForMessage = proxyMemoize(
+export const getPropsForMessage = memoize(
   (
     message: MessageWithUIFieldsType,
     options: GetPropsForMessageOptions
@@ -747,9 +738,6 @@ export const getPropsForMessage = proxyMemoize(
       textDirection: getTextDirection(message.body),
       timestamp: message.sent_at,
     };
-  },
-  {
-    name: 'getPropsForMessage',
   }
 );
 

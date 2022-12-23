@@ -1,8 +1,8 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { memoize } from '@indutny/sneequals';
 import type { TimelineItemType } from '../../components/conversation/TimelineItem';
-import { proxyMemoize } from '../../util/proxyMemoize';
 
 import type { StateType } from '../reducer';
 import type { MessageWithUIFieldsType } from '../ducks/conversations';
@@ -23,7 +23,7 @@ import {
 import { getActiveCall, getCallSelector } from './calling';
 import { getPropsForBubble } from './message';
 
-const getTimelineItemInner = proxyMemoize(
+const getTimelineItemInner = memoize(
   (message: MessageWithUIFieldsType, state: StateType): TimelineItemType => {
     const selectedMessage = getSelectedMessage(state);
     const conversationSelector = getConversationSelector(state);
@@ -51,9 +51,6 @@ const getTimelineItemInner = proxyMemoize(
       activeCall,
       accountSelector,
     });
-  },
-  {
-    name: 'getTimelineItemInner',
   }
 );
 

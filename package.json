@@ -84,6 +84,7 @@
   "dependencies": {
     "@formatjs/fast-memoize": "1.2.6",
     "@indutny/frameless-titlebar": "2.3.5",
+    "@indutny/sneequals": "1.0.1",
     "@popperjs/core": "2.11.6",
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.0.4",
@@ -143,7 +144,6 @@
     "pino": "8.6.1",
     "protobufjs": "6.11.3",
     "proxy-agent": "5.0.0",
-    "proxy-compare": "2.3.0",
     "qrcode-generator": "1.4.4",
     "quill": "1.3.7",
     "quill-delta": "4.0.1",
