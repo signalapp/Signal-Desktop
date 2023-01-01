@@ -599,7 +599,7 @@ function sendStoryMessage(
       'sendStoryMessage: sendStoryModalData is not defined, cannot send'
     );
 
-    log.info('sendStoryMessage: Verifing trust for all recipients');
+    log.info('sendStoryMessage: Verifying trust for all recipients');
 
     const result = await blockSendUntilConversationsAreVerified(
       sendStoryModalData,

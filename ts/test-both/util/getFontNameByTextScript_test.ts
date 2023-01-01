@@ -38,7 +38,7 @@ describe('getFontNameByTextScript', () => {
     assert.isFalse(fontSniffer.hasArabic(text), 'arabic');
   });
 
-  it('has cyrillic (Ukranian)', () => {
+  it('has cyrillic (Ukrainian)', () => {
     const text = 'Швидка бура лисиця стрибає через ледачого пса';
     assert.isFalse(fontSniffer.hasLatin(text), 'latin');
     assert.isTrue(fontSniffer.hasCyrillic(text), 'cyrillic');

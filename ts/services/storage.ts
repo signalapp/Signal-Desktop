@@ -1684,7 +1684,7 @@ async function sync(
 
   let manifest: Proto.ManifestRecord | undefined;
   try {
-    // If we've previously interacted with strage service, update 'fetchComplete' record
+    // If we've previously interacted with storage service, update 'fetchComplete' record
     const previousFetchComplete = window.storage.get('storageFetchComplete');
     const manifestFromStorage = window.storage.get('manifestVersion');
     if (!previousFetchComplete && isNumber(manifestFromStorage)) {

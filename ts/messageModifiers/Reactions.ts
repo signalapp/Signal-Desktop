@@ -172,7 +172,7 @@ export class Reactions extends Collection<ReactionModel> {
         );
 
         // Use the generated message in ts/background.ts to create a message
-        // if the reaction is targetted at a story.
+        // if the reaction is targeted at a story.
         if (isStory(targetMessage)) {
           generatedMessage.set({
             expireTimer: targetConversation.get('expireTimer'),

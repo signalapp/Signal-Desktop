@@ -3034,7 +3034,7 @@ async function updateGroup(
   // By updating activeAt we force this conversation into the left pane if this is the
   //   first time we've fetched data about it, and we were able to fetch its name. Nobody
   //   likes to see Unknown Group in the left pane. After first fetch, we rely on normal
-  //   message activity (including group change messsages) to set the timestamp properly.
+  //   message activity (including group change messages) to set the timestamp properly.
   let activeAt = conversation.get('active_at') || null;
   if (
     !viaFirstStorageSync &&
@@ -4692,7 +4692,7 @@ function extractDiffs({
   ) {
     const expireTimer = current.expireTimer || DurationInSeconds.ZERO;
     log.info(
-      `extractDiffs/${logId}: generating change notifcation for new ${expireTimer} timer`
+      `extractDiffs/${logId}: generating change notification for new ${expireTimer} timer`
     );
     timerNotification = {
       ...generateBasicMessage(),
@@ -5304,7 +5304,7 @@ export async function decryptGroupAvatar(
   return avatar;
 }
 
-// Ovewriting result.avatar as part of functionality
+// Overwriting result.avatar as part of functionality
 /* eslint-disable no-param-reassign */
 export async function applyNewAvatar(
   newAvatar: string | undefined,

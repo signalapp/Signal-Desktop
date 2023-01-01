@@ -191,7 +191,7 @@ export async function sendProfileKey(
   } catch (error: unknown) {
     if (canAllErrorsBeIgnored(conversation.attributes, error)) {
       log.info(
-        'Group send failures were all OutgoingIdentityKeyError, SendMessageChallengeError, or UnregisteredUserError. Returning succcessfully.'
+        'Group send failures were all OutgoingIdentityKeyError, SendMessageChallengeError, or UnregisteredUserError. Returning successfully.'
       );
       return;
     }

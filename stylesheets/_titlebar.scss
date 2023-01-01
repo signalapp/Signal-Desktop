@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 body {
-  // Overriden by ts/background.ts
+  // Overridden by ts/background.ts
   --zoom-factor: 1;
 
   // These should match the logic in `ts/types/Settings.ts`'s `getTitleBarVisibility`.

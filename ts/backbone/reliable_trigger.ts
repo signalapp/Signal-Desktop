@@ -23,7 +23,7 @@ type InternalBackboneEvent = {
 //   2. added try/catch handlers to triggerEvents with error logging inside
 //      every while loop
 
-// And of course, we update the protoypes of Backbone.Model/Backbone.View as well as
+// And of course, we update the prototypes of Backbone.Model/Backbone.View as well as
 //   Backbone.Events itself
 
 // Regular expression used to split event strings.
