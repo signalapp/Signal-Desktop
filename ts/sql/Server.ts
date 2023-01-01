@@ -2181,7 +2181,7 @@ export function _storyIdPredicate(
     return '$storyId IS NULL';
   }
 
-  // In constrast to: replies to a specific story
+  // In contrast to: replies to a specific story
   return 'storyId IS $storyId';
 }
 
@@ -3206,7 +3206,7 @@ function saveUnprocessedSync(data: UnprocessedType): string {
     story,
   } = data;
   if (!id) {
-    throw new Error('saveUnprocessedSync: id was falsey');
+    throw new Error('saveUnprocessedSync: id was false');
   }
 
   if (attempts >= MAX_UNPROCESSED_ATTEMPTS) {

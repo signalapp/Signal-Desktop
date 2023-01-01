@@ -66,7 +66,7 @@ export function format(
     seconds % SECONDS_PER_WEEK === 0 ? ['w'] : ['d', 'h', 'm', 's'];
 
   return humanizeDuration(seconds * SECOND, {
-    // if we have an explict `largest` specified,
+    // if we have an explicit `largest` specified,
     // allow it to pick from all the units
     units: largest ? allUnits : defaultUnits,
     largest,

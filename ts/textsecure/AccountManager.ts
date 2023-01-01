@@ -604,7 +604,7 @@ export default class AccountManager extends EventTarget {
 
     // `setCredentials` needs to be called
     // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
-    // indirectly calls `ConversationController.getConverationId()` which
+    // indirectly calls `ConversationController.getConversationId()` which
     // initializes the conversation for the given number (our number) which
     // calls out to the user storage API to get the stored UUID and number
     // information.
@@ -718,7 +718,7 @@ export default class AccountManager extends EventTarget {
       await storage.protocol.hydrateCaches();
     });
 
-    // Intentionally not awaiting becase `updatePNIIdentity` runs on an
+    // Intentionally not awaiting because `updatePNIIdentity` runs on an
     // Encrypted queue of MessageReceiver and we don't want to await remote
     // endpoints and block message processing.
     this.queueTask(async () => {

@@ -122,7 +122,7 @@ const timeToText = (time: number): string => {
 };
 
 /**
- * Handles animations, key events, and stoping event propagation
+ * Handles animations, key events, and stopping event propagation
  * for play button and playback rate button
  */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

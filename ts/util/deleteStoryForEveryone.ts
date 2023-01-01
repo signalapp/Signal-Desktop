@@ -175,7 +175,7 @@ export async function deleteStoryForEveryone(
   });
 
   // Send the DOE
-  log.info(`${logId}: enqueing DeleteStoryForEveryone`);
+  log.info(`${logId}: enqueuing DeleteStoryForEveryone`);
 
   try {
     const jobData: ConversationQueueJobData = {

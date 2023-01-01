@@ -60,7 +60,7 @@ export async function sendDeleteForEveryoneMessage(
   );
 
   log.info(
-    `sendDeleteForEveryoneMessage: enqueing DeleteForEveryone: ${idForLogging} ` +
+    `sendDeleteForEveryoneMessage: enqueuing DeleteForEveryone: ${idForLogging} ` +
       `in conversation ${conversationIdForLogging}`
   );
 

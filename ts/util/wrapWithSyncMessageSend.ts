@@ -93,7 +93,7 @@ export async function wrapWithSyncMessageSend({
     if (areAllErrorsUnregistered(conversation.attributes, error)) {
       log.info(
         `${logId}: Group send failures were all UnregisteredUserError, ` +
-          'returning succcessfully.'
+          'returning successfully.'
       );
       return;
     }

@@ -35,7 +35,7 @@ export type PropsType = Readonly<{
   titleBarDoubleClick?: () => void;
   children: ReactNode;
 
-  // Needs to be overriden in sticker-creator
+  // Needs to be overridden in sticker-creator
   iconSrc?: string;
 }> &
   (MenuPropsType | { hasMenu?: false });

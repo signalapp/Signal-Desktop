@@ -1305,7 +1305,7 @@ async function fetchKeysForIdentifier(
   );
 
   try {
-    // Note: we have no way to make an unrestricted unathenticated key fetch as part of a
+    // Note: we have no way to make an unrestricted unauthenticated key fetch as part of a
     //   story send, so we hardcode story=false.
     const { accessKeyFailed } = await getKeysForIdentifier(
       identifier,
