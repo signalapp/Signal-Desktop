@@ -77,7 +77,6 @@ import type { Address } from './types/Address';
 import type { QualifiedAddress } from './types/QualifiedAddress';
 import type { CI } from './CI';
 import type { IPCEventsType } from './util/createIPCEvents';
-import type { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
 import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
@@ -358,13 +357,4 @@ export type WhisperType = {
   deliveryReceiptQueue: PQueue;
   deliveryReceiptBatcher: BatcherType<Receipt>;
   events: Backbone.Events;
-
-  // Backbone views
-
-  ConversationView: typeof ConversationView;
-
-  // Note: we can no longer use 'View.extend' once we've moved to Typescript's preferred
-  //   'extend View' syntax. Thus, we'll need to typescriptify most of it at once.
-
-  InboxView: typeof Backbone.View;
 };

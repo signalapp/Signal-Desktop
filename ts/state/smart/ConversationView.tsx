@@ -23,17 +23,20 @@ import { SmartPendingInvites } from './PendingInvites';
 import { SmartStickerManager } from './StickerManager';
 import { SmartTimeline } from './Timeline';
 import { getIntl } from '../selectors/user';
-import { getTopPanel } from '../selectors/conversations';
+import {
+  getSelectedConversationId,
+  getTopPanel,
+} from '../selectors/conversations';
 import { useComposerActions } from '../ducks/composer';
 import { useConversationsActions } from '../ducks/conversations';
 
-export type PropsType = {
-  conversationId: string;
-};
+export function SmartConversationView(): JSX.Element {
+  const conversationId = useSelector(getSelectedConversationId);
 
-export function SmartConversationView({
-  conversationId,
-}: PropsType): JSX.Element {
+  if (!conversationId) {
+    throw new Error('SmartConversationView: No selected conversation');
+  }
+
   const topPanel = useSelector<StateType, PanelRenderType | undefined>(
     getTopPanel
   );

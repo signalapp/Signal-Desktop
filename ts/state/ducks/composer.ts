@@ -103,12 +103,12 @@ type AddPendingAttachmentActionType = {
   payload: AttachmentDraftType;
 };
 
-type ReplaceAttachmentsActionType = {
+export type ReplaceAttachmentsActionType = {
   type: typeof REPLACE_ATTACHMENTS;
   payload: ReadonlyArray<AttachmentDraftType>;
 };
 
-type ResetComposerActionType = {
+export type ResetComposerActionType = {
   type: typeof RESET_COMPOSER;
 };
 
@@ -117,7 +117,7 @@ type SetComposerDisabledStateActionType = {
   payload: boolean;
 };
 
-type SetFocusActionType = {
+export type SetFocusActionType = {
   type: typeof SET_FOCUS;
 };
 
@@ -126,7 +126,7 @@ type SetHighQualitySettingActionType = {
   payload: boolean;
 };
 
-type SetQuotedMessageActionType = {
+export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
 };
@@ -473,7 +473,7 @@ function getAttachmentsFromConversationModel(
   return conversation?.get('draftAttachments') || [];
 }
 
-function setQuoteByMessageId(
+export function setQuoteByMessageId(
   conversationId: string,
   messageId: string | undefined
 ): ThunkAction<
@@ -627,7 +627,7 @@ function addPendingAttachment(
   };
 }
 
-function setComposerFocus(
+export function setComposerFocus(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
   return async (dispatch, getState) => {
@@ -894,7 +894,7 @@ function removeAttachment(
   };
 }
 
-function replaceAttachments(
+export function replaceAttachments(
   conversationId: string,
   attachments: ReadonlyArray<AttachmentDraftType>
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
@@ -954,7 +954,7 @@ function reactToMessage(
   };
 }
 
-function resetComposer(): ResetComposerActionType {
+export function resetComposer(): ResetComposerActionType {
   return {
     type: RESET_COMPOSER,
   };

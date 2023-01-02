@@ -1,7 +1,6 @@
 // Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
 import React, { useEffect } from 'react';
 import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
@@ -10,10 +9,9 @@ import type { ExecuteMenuRoleType } from './TitleBarContainer';
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { ToastType } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
-import type { ReplacementValuesType } from '../types/Util';
+import type { LocalizerType, ReplacementValuesType } from '../types/Util';
 import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
-import { Inbox } from './Inbox';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { TitleBarContainer } from './TitleBarContainer';
@@ -28,6 +26,7 @@ type PropsType = {
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   isShowingStoriesView: boolean;
+  i18n: LocalizerType;
   renderStories: (closeView: () => unknown) => JSX.Element;
   hasSelectedStoryData: boolean;
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
@@ -57,41 +56,33 @@ type PropsType = {
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;
-} & ComponentProps<typeof Inbox>;
+  renderInbox: () => JSX.Element;
+};
 
 export function App({
   appView,
   executeMenuAction,
   executeMenuRole,
-  hasInitialLoadCompleted,
+  hasCustomTitleBar,
   hasSelectedStoryData,
   hideMenuBar,
   hideToast,
   i18n,
-  isCustomizingPreferredReactions,
   isFullScreen,
   isMaximized,
   isShowingStoriesView,
-  hasCustomTitleBar,
   menuOptions,
   onUndoArchive,
-  openInbox,
   openFileInFolder,
+  openInbox,
   registerSingleDevice,
   renderCallManager,
-  renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
-  renderLeftPane,
+  renderInbox,
   renderLightbox,
   renderStories,
   renderStoryViewer,
   requestVerification,
-  scrollToMessage,
-  selectedConversationId,
-  selectedMessage,
-  selectedMessageSource,
-  showConversation,
-  showWhatsNewModal,
   theme,
   titleBarDoubleClick,
   toast,
@@ -115,23 +106,7 @@ export function App({
       />
     );
   } else if (appView === AppViewType.Inbox) {
-    contents = (
-      <Inbox
-        hasInitialLoadCompleted={hasInitialLoadCompleted}
-        i18n={i18n}
-        isCustomizingPreferredReactions={isCustomizingPreferredReactions}
-        renderCustomizingPreferredReactionsModal={
-          renderCustomizingPreferredReactionsModal
-        }
-        renderLeftPane={renderLeftPane}
-        scrollToMessage={scrollToMessage}
-        selectedConversationId={selectedConversationId}
-        selectedMessage={selectedMessage}
-        selectedMessageSource={selectedMessageSource}
-        showConversation={showConversation}
-        showWhatsNewModal={showWhatsNewModal}
-      />
-    );
+    contents = renderInbox();
   }
 
   // This are here so that themes are properly applied to anything that is

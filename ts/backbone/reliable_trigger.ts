@@ -149,7 +149,6 @@ function trigger<
 
 [
   window.Backbone.Model.prototype,
-  window.Backbone.View.prototype,
   window.Backbone.Collection.prototype,
   window.Backbone.Events,
 ].forEach(proto => {

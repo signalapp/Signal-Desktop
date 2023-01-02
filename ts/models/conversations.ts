@@ -236,9 +236,9 @@ export class ConversationModel extends window.Backbone
 
   throttledBumpTyping?: () => void;
 
-  throttledFetchSMSOnlyUUID?: () => Promise<void> | void;
+  throttledFetchSMSOnlyUUID?: () => Promise<void> | undefined;
 
-  throttledMaybeMigrateV1Group?: () => Promise<void> | void;
+  throttledMaybeMigrateV1Group?: () => Promise<void> | undefined;
 
   throttledGetProfiles?: () => Promise<void>;
 
@@ -2286,7 +2286,10 @@ export class ConversationModel extends window.Backbone
         void this.updateLastMessage();
 
         if (isLocalAction) {
-          this.trigger('unload', 'deleted from message request');
+          window.reduxActions.conversations.onConversationClosed(
+            this.id,
+            'deleted from message request'
+          );
 
           if (isGroupV1(this.attributes)) {
             await this.leaveGroup();
@@ -2305,7 +2308,10 @@ export class ConversationModel extends window.Backbone
         void this.updateLastMessage();
 
         if (isLocalAction) {
-          this.trigger('unload', 'blocked and deleted from message request');
+          window.reduxActions.conversations.onConversationClosed(
+            this.id,
+            'blocked and deleted from message request'
+          );
 
           if (isGroupV1(this.attributes)) {
             await this.leaveGroup();

@@ -115,7 +115,7 @@ describe('storage service', function needsName() {
 
     const leftPane = window.locator('.left-pane-wrapper');
     const conversationView = window.locator(
-      '.ConversationView__template > .react-wrapper'
+      '.conversation > .ConversationView'
     );
 
     debug('sending two sticker pack links');

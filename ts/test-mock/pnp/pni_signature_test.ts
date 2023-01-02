@@ -110,8 +110,7 @@ describe('pnp/PNI Signature', function needsName() {
     const leftPane = window.locator('.left-pane-wrapper');
     const conversationStack = window.locator('.conversation-stack');
     const composeArea = window.locator(
-      '.composition-area-wrapper, ' +
-        '.ConversationView__template .react-wrapper'
+      '.composition-area-wrapper, .conversation .ConversationView'
     );
 
     debug('creating a stranger');
@@ -269,8 +268,7 @@ describe('pnp/PNI Signature', function needsName() {
 
     const leftPane = window.locator('.left-pane-wrapper');
     const composeArea = window.locator(
-      '.composition-area-wrapper, ' +
-        '.ConversationView__template .react-wrapper'
+      '.composition-area-wrapper, .conversation .ConversationView'
     );
 
     debug('opening conversation with the pni contact');

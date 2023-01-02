@@ -122,8 +122,7 @@ describe('storage service', function needsName() {
 
     debug('Enter message text');
     const composeArea = window.locator(
-      '.composition-area-wrapper, ' +
-        '.ConversationView__template .react-wrapper'
+      '.composition-area-wrapper, .conversation .ConversationView'
     );
     const input = composeArea.locator('_react=CompositionInput');
 

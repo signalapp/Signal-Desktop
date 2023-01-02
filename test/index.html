@@ -12,46 +12,7 @@
     <div id="mocha"></div>
     <div id="tests"></div>
 
-    <script type="text/x-tmpl-mustache" id="app-loading-screen">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='content'>
-        <div class="module-splash-screen__logo module-img--150"></div>
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-        <div class='message'>{{ message }}</div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="conversation">
-      <div id="ConversationView__template"></div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="recorder">
-      <button class='finish'><span class='icon'></span></button>
-      <span class='time'>0:00</span>
-      <button class='close'><span class='icon'></span></button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="file-size-modal">
-      {{ file-size-warning }}
-      ({{ limit }}{{ units }})
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="group-member-list">
-      <div class='container'>
-        {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
-      </div>
-    </script>
-
     <script type="text/javascript" src="../js/components.js"></script>
-    <script
-      type="text/javascript"
-      src="../ts/backbone/backboneJquery.js"
-    ></script>
     <script
       type="text/javascript"
       src="../ts/backbone/reliable_trigger.js"

@@ -1155,12 +1155,13 @@ export async function startApp(): Promise<void> {
       conversationChanged,
       conversationRemoved,
       removeAllConversations,
+      onConversationClosed,
     } = window.reduxActions.conversations;
 
     convoCollection.on('remove', conversation => {
       const { id } = conversation || {};
 
-      conversation.trigger('unload', 'removed');
+      onConversationClosed(id, 'removed');
       conversationRemoved(id);
     });
     convoCollection.on('add', conversation => {
@@ -1580,7 +1581,7 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
         event.stopPropagation();
 
-        conversation.trigger('unload', 'keyboard shortcut close');
+        onConversationClosed(conversation.id, 'keyboard shortcut close');
         window.reduxActions.conversations.showConversation({
           conversationId: undefined,
           messageId: undefined,

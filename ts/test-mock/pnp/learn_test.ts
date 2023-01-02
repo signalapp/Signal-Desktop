@@ -94,8 +94,7 @@ describe('pnp/learn', function needsName() {
     debug('Send message to contactA');
     {
       const composeArea = window.locator(
-        '.composition-area-wrapper, ' +
-          '.ConversationView__template .react-wrapper'
+        '.composition-area-wrapper, .conversation .ConversationView'
       );
       const compositionInput = composeArea.locator('_react=CompositionInput');
 

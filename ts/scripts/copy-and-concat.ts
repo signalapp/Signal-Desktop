@@ -9,11 +9,8 @@ import { copyFileSync, readFileSync, writeFileSync } from 'fs';
 console.log('Concatenating...');
 
 const BASE_BOWER = join(__dirname, '../../components');
-const BASE_NODE = join(__dirname, '../../node_modules');
 const CONCAT_TARGET = join(__dirname, '../../js/components.js');
 const CONCAT_SOURCES = [
-  join(BASE_NODE, 'jquery/dist/jquery.js'),
-  join(BASE_NODE, 'mustache/mustache.js'),
   join(BASE_BOWER, 'webaudiorecorder/lib/WebAudioRecorder.js'),
 ];
 

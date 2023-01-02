@@ -8,9 +8,7 @@ import type { MenuItemConstructorOptions } from 'electron';
 import type { MenuActionType } from '../../types/menu';
 import { App } from '../../components/App';
 import { SmartCallManager } from './CallManager';
-import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
-import { SmartLeftPane } from './LeftPane';
 import { SmartLightbox } from './Lightbox';
 import { SmartStories } from './Stories';
 import { SmartStoryViewer } from './StoryViewer';
@@ -28,10 +26,14 @@ import {
   shouldShowStoriesView,
 } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
-import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
+import { SmartInbox } from './Inbox';
+
+function renderInbox(): JSX.Element {
+  return <SmartInbox />;
+}
 
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
@@ -40,7 +42,6 @@ const mapStateToProps = (state: StateType) => {
     ...state.app,
     i18n,
     localeMessages: getLocaleMessages(state),
-    isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
     isMaximized: getIsMainWindowMaximized(state),
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
@@ -51,11 +52,7 @@ const mapStateToProps = (state: StateType) => {
         <SmartCallManager />
       </ModalContainer>
     ),
-    renderCustomizingPreferredReactionsModal: () => (
-      <SmartCustomizingPreferredReactionsModal />
-    ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
-    renderLeftPane: () => <SmartLeftPane />,
     renderLightbox: () => <SmartLightbox />,
     isShowingStoriesView: shouldShowStoriesView(state),
     renderStories: (closeView: () => unknown) => (
@@ -69,6 +66,7 @@ const mapStateToProps = (state: StateType) => {
         <SmartStoryViewer />
       </ErrorBoundary>
     ),
+    renderInbox,
     requestVerification: (
       type: 'sms' | 'voice',
       number: string,
@@ -85,9 +83,6 @@ const mapStateToProps = (state: StateType) => {
     registerSingleDevice: (number: string, code: string): Promise<void> => {
       return window.getAccountManager().registerSingleDevice(number, code);
     },
-    selectedConversationId: state.conversations.selectedConversationId,
-    selectedMessage: state.conversations.selectedMessage,
-    selectedMessageSource: state.conversations.selectedMessageSource,
     theme: getTheme(state),
 
     executeMenuRole: (role: MenuItemConstructorOptions['role']): void => {

@@ -132,6 +132,23 @@ import { DAY } from '../../util/durations';
 import { isNotNil } from '../../util/isNotNil';
 import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
+import { UUIDKind } from '../../types/UUID';
+import {
+  removeLinkPreview,
+  suspendLinkPreviews,
+} from '../../services/LinkPreview';
+import type {
+  ReplaceAttachmentsActionType,
+  SetFocusActionType,
+  SetQuotedMessageActionType,
+  ResetComposerActionType,
+} from './composer';
+import {
+  replaceAttachments,
+  setComposerFocus,
+  setQuoteByMessageId,
+  resetComposer,
+} from './composer';
 
 // State
 
@@ -884,6 +901,8 @@ export type ConversationActionType =
 // Action Creators
 
 export const actions = {
+  onConversationOpened,
+  onConversationClosed,
   acceptConversation,
   acknowledgeGroupMemberNameCollisions,
   addMembersToGroup,
@@ -909,7 +928,6 @@ export const actions = {
   conversationChanged,
   conversationRemoved,
   conversationStoppedByMissingVerification,
-  conversationUnloaded,
   createGroup,
   deleteAvatarFromDisk,
   deleteConversation,
@@ -1003,23 +1021,37 @@ export const useConversationsActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function onArchive(conversationId: string): ShowToastActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('onArchive: Conversation not found!');
-  }
+function onArchive(
+  conversationId: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ConversationUnloadedActionType | ShowToastActionType
+> {
+  return (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onArchive: Conversation not found!');
+    }
 
-  conversation.setArchived(true);
-  conversation.trigger('unload', 'archive');
+    conversation.setArchived(true);
 
-  return {
-    type: SHOW_TOAST,
-    payload: {
-      toastType: ToastType.ConversationArchived,
-      parameters: {
-        conversationId,
+    onConversationClosed(conversationId, 'archive')(
+      dispatch,
+      getState,
+      undefined
+    );
+
+    dispatch({
+      type: SHOW_TOAST,
+      payload: {
+        toastType: ToastType.ConversationArchived,
+        parameters: {
+          conversationId,
+        },
       },
-    },
+    });
   };
 }
 function onUndoArchive(
@@ -1533,8 +1565,13 @@ function deleteMessage({
 
 function destroyMessages(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async dispatch => {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ConversationUnloadedActionType | NoopActionType
+> {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('destroyMessages: No conversation found');
@@ -1544,9 +1581,14 @@ function destroyMessages(
       name: 'destroymessages',
       idForLogging: conversation.idForLogging(),
       task: async () => {
-        conversation.trigger('unload', 'delete messages');
+        onConversationClosed(conversationId, 'delete messages')(
+          dispatch,
+          getState,
+          undefined
+        );
+
         await conversation.destroyMessages();
-        void conversation.updateLastMessage();
+        drop(conversation.updateLastMessage());
       },
     });
 
@@ -2235,14 +2277,6 @@ function conversationChanged(
 function conversationRemoved(id: string): ConversationRemovedActionType {
   return {
     type: 'CONVERSATION_REMOVED',
-    payload: {
-      id,
-    },
-  };
-}
-function conversationUnloaded(id: string): ConversationUnloadedActionType {
-  return {
-    type: CONVERSATION_UNLOADED,
     payload: {
       id,
     },
@@ -3131,7 +3165,7 @@ export function scrollToMessage(
       return;
     }
 
-    void conversation.loadAndScroll(messageId);
+    drop(conversation.loadAndScroll(messageId));
   };
 }
 
@@ -3457,6 +3491,152 @@ function showConversation({
     },
   };
 }
+
+function onConversationOpened(
+  conversationId: string,
+  messageId?: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ReplaceAttachmentsActionType
+  | ResetComposerActionType
+  | SetFocusActionType
+  | SetQuotedMessageActionType
+> {
+  return async (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onConversationOpened: Conversation not found');
+    }
+
+    conversation.onOpenStart();
+
+    if (messageId) {
+      const message = await getMessageById(messageId);
+
+      if (message) {
+        drop(conversation.loadAndScroll(messageId));
+        return;
+      }
+
+      log.warn(`onOpened: Did not find message ${messageId}`);
+    }
+
+    const { retryPlaceholders } = window.Signal.Services;
+    if (retryPlaceholders) {
+      await retryPlaceholders.findByConversationAndMarkOpened(conversation.id);
+    }
+
+    const loadAndUpdate = async () => {
+      drop(
+        Promise.all([
+          conversation.loadNewestMessages(undefined, undefined),
+          conversation.updateLastMessage(),
+          conversation.updateUnread(),
+        ])
+      );
+    };
+
+    drop(loadAndUpdate());
+
+    dispatch(setComposerFocus(conversation.id));
+
+    const quotedMessageId = conversation.get('quotedMessageId');
+    if (quotedMessageId) {
+      setQuoteByMessageId(conversation.id, quotedMessageId)(
+        dispatch,
+        getState,
+        undefined
+      );
+    }
+
+    drop(conversation.fetchLatestGroupV2Data());
+    strictAssert(
+      conversation.throttledMaybeMigrateV1Group !== undefined,
+      'Conversation model should be initialized'
+    );
+    drop(conversation.throttledMaybeMigrateV1Group());
+    strictAssert(
+      conversation.throttledFetchSMSOnlyUUID !== undefined,
+      'Conversation model should be initialized'
+    );
+    drop(conversation.throttledFetchSMSOnlyUUID());
+
+    const ourUuid = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
+    if (
+      !isGroup(conversation.attributes) ||
+      (ourUuid && conversation.hasMember(ourUuid))
+    ) {
+      strictAssert(
+        conversation.throttledGetProfiles !== undefined,
+        'Conversation model should be initialized'
+      );
+      await conversation.throttledGetProfiles();
+    }
+
+    drop(conversation.updateVerified());
+
+    replaceAttachments(
+      conversation.get('id'),
+      conversation.get('draftAttachments') || []
+    )(dispatch, getState, undefined);
+    dispatch(resetComposer());
+  };
+}
+
+function onConversationClosed(
+  conversationId: string,
+  reason: string
+): ThunkAction<void, RootStateType, unknown, ConversationUnloadedActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onConversationClosed: Conversation not found');
+    }
+
+    log.info(
+      'unloading conversation',
+      conversation.idForLogging(),
+      'due to:',
+      reason
+    );
+
+    if (conversation.get('draftChanged')) {
+      if (conversation.hasDraft()) {
+        const now = Date.now();
+        const activeAt = conversation.get('active_at') || now;
+
+        conversation.set({
+          active_at: activeAt,
+          draftChanged: false,
+          draftTimestamp: now,
+          timestamp: now,
+        });
+      } else {
+        conversation.set({
+          draftChanged: false,
+          draftTimestamp: null,
+        });
+      }
+
+      window.Signal.Data.updateConversation(conversation.attributes);
+
+      drop(conversation.updateLastMessage());
+    }
+
+    removeLinkPreview();
+    suspendLinkPreviews();
+
+    dispatch({
+      type: CONVERSATION_UNLOADED,
+      payload: {
+        id: conversationId,
+      },
+    });
+  };
+}
+
 function showArchivedConversations(): ShowArchivedConversationsActionType {
   return {
     type: 'SHOW_ARCHIVED_CONVERSATIONS',

@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import type { ConversationModel } from '../models/conversations';
 import type { ShowConversationType } from '../state/ducks/conversations';
-import type { ConversationView } from '../views/conversation_view';
 import type { LocalizerType } from '../types/Util';
 
 import * as log from '../logging/log';
@@ -16,11 +14,15 @@ import { WhatsNewLink } from './WhatsNewLink';
 import { showToast } from '../util/showToast';
 import { strictAssert } from '../util/assert';
 import { SelectedMessageSource } from '../state/ducks/conversationsEnums';
+import { usePrevious } from '../hooks/usePrevious';
 
 export type PropsType = {
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
+  onConversationClosed: (id: string, reason: string) => unknown;
+  onConversationOpened: (id: string, messageId?: string) => unknown;
+  renderConversationView: () => JSX.Element;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderLeftPane: () => JSX.Element;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
@@ -35,6 +37,9 @@ export function Inbox({
   hasInitialLoadCompleted,
   i18n,
   isCustomizingPreferredReactions,
+  onConversationClosed,
+  onConversationOpened,
+  renderConversationView,
   renderCustomizingPreferredReactionsModal,
   renderLeftPane,
   scrollToMessage,
@@ -48,14 +53,28 @@ export function Inbox({
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
 
-  const conversationMountRef = useRef<HTMLDivElement | null>(null);
-  const conversationViewRef = useRef<ConversationView | null>(null);
-
-  const [prevConversation, setPrevConversation] = useState<
-    ConversationModel | undefined
-  >();
+  const prevConversationId = usePrevious(
+    selectedConversationId,
+    selectedConversationId
+  );
 
   useEffect(() => {
+    if (prevConversationId !== selectedConversationId) {
+      if (prevConversationId) {
+        onConversationClosed(prevConversationId, 'opened another conversation');
+      }
+
+      if (selectedConversationId) {
+        onConversationOpened(selectedConversationId, selectedMessage);
+      }
+    } else if (
+      selectedConversationId &&
+      selectedMessage &&
+      selectedMessageSource !== SelectedMessageSource.Focus
+    ) {
+      scrollToMessage(selectedConversationId, selectedMessage);
+    }
+
     if (!selectedConversationId) {
       return;
     }
@@ -66,52 +85,15 @@ export function Inbox({
     strictAssert(conversation, 'Conversation must be found');
 
     conversation.setMarkedUnread(false);
-
-    if (!prevConversation || prevConversation.id !== selectedConversationId) {
-      // We create a mount point because when calling .remove() on the Backbone
-      // view it'll also remove the mount point along with it.
-      const viewMountNode = document.createElement('div');
-      conversationMountRef.current?.appendChild(viewMountNode);
-
-      // Make sure to unload the previous conversation along with calling
-      // Backbone's remove so that it is taken out of the DOM.
-      if (prevConversation) {
-        prevConversation.trigger('unload', 'opened another conversation');
-      }
-      conversationViewRef.current?.remove();
-
-      // Can't import ConversationView directly because conversation_view
-      // needs access to window.Signal first.
-      const view = new window.Whisper.ConversationView({
-        el: viewMountNode,
-        model: conversation,
-      });
-      conversationViewRef.current = view;
-
-      setPrevConversation(conversation);
-
-      conversation.trigger('opened', selectedMessage);
-    } else if (
-      selectedMessage &&
-      selectedMessageSource !== SelectedMessageSource.Focus
-    ) {
-      scrollToMessage(conversation.id, selectedMessage);
-    }
   }, [
-    prevConversation,
+    onConversationClosed,
+    onConversationOpened,
+    prevConversationId,
     scrollToMessage,
     selectedConversationId,
     selectedMessage,
     selectedMessageSource,
   ]);
-
-  // Whenever the selectedConversationId is cleared we should also ensure
-  // that prevConversation is cleared too.
-  useEffect(() => {
-    if (prevConversation && !selectedConversationId) {
-      setPrevConversation(undefined);
-    }
-  }, [prevConversation, selectedConversationId]);
 
   useEffect(() => {
     function refreshConversation({
@@ -121,7 +103,7 @@ export function Inbox({
       newId: string;
       oldId: string;
     }) {
-      if (prevConversation && prevConversation.get('id') === oldId) {
+      if (prevConversationId === oldId) {
         showConversation({ conversationId: newId });
       }
     }
@@ -129,10 +111,10 @@ export function Inbox({
     // Close current opened conversation to reload the group information once
     // linked.
     function unload() {
-      if (!prevConversation) {
+      if (!prevConversationId) {
         return;
       }
-      prevConversation.trigger('unload', 'force unload requested');
+      onConversationClosed(prevConversationId, 'force unload requested');
     }
 
     function packInstallFailed() {
@@ -150,7 +132,7 @@ export function Inbox({
       window.Whisper.events.off('refreshConversation', refreshConversation);
       window.Whisper.events.off('setupAsNewDevice', unload);
     };
-  }, [prevConversation, showConversation]);
+  }, [onConversationClosed, prevConversationId, showConversation]);
 
   useEffect(() => {
     if (internalHasInitialLoadCompleted) {
@@ -226,8 +208,15 @@ export function Inbox({
 
         <div className="conversation-stack">
           <div id="toast" />
-          <div className="conversation" ref={conversationMountRef} />
-          {!prevConversation && (
+          {selectedConversationId && (
+            <div
+              className="conversation"
+              id={`conversation-${selectedConversationId}`}
+            >
+              {renderConversationView()}
+            </div>
+          )}
+          {!prevConversationId && (
             <div className="no-conversation-open">
               <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
               <h3>{i18n('welcomeToSignal')}</h3>

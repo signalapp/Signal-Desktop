@@ -94,40 +94,6 @@
       type="text/css"
     />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-
-    <!--
-    When making changes to these templates, be sure to update test/index.html as well
-  -->
-
-    <script type="text/x-tmpl-mustache" id="app-loading-screen">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='content'>
-        <div class="module-splash-screen__logo module-img--150"></div>
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-        <div class='message'>{{ message }}</div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="conversation">
-      <div class="ConversationView__template"></div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="recorder">
-      <button class='close' tabIndex='2'><span class='icon'></span></button>
-      <span class='time'>0:00</span>
-      <button class='finish' tabIndex='1'><span class='icon'></span></button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="group-member-list">
-      <div class='container' tabindex='0'>
-        {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
-      </div>
-    </script>
   </head>
   <body class="overflow-hidden">
     <div id="app-container">
@@ -158,7 +124,6 @@
       type="text/javascript"
       src="ts/manage_full_screen_class.js"
     ></script>
-    <script type="text/javascript" src="ts/backbone/backboneJquery.js"></script>
     <script
       type="text/javascript"
       src="ts/backbone/reliable_trigger.js"
