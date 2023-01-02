@@ -755,6 +755,13 @@ export default class MessageReceiver
   }
 
   private async queueAllCached(): Promise<void> {
+    if (this.stoppingProcessing) {
+      log.info(
+        'MessageReceiver.queueAllCached: not running due to stopped processing'
+      );
+      return;
+    }
+
     const items = await this.getAllFromCache();
     const max = items.length;
     for (let i = 0; i < max; i += 1) {
@@ -1070,7 +1077,7 @@ export default class MessageReceiver
       id,
       version: 2,
 
-      attempts: 1,
+      attempts: 0,
       envelope: Bytes.toBase64(plaintext),
       messageAgeSec: envelope.messageAgeSec,
       receivedAtCounter: envelope.receivedAtCounter,
