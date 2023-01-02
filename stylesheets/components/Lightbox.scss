@@ -140,12 +140,16 @@
 
   &__zoomable-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin: 0 40px;
   }
 
   &__zoom-button {
     @include button-reset;
+    max-height: 100%;
+    max-width: 100%;
     cursor: zoom-in;
   }
 
