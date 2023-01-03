@@ -4160,9 +4160,10 @@ export class ConversationModel extends window.Backbone
           ? {}
           : {
               draft: '',
+              draftBodyRanges: [],
               draftTimestamp: null,
-              lastMessage: model.getNotificationText(),
               lastMessageAuthor: model.getAuthorText(),
+              lastMessage: model.getNotificationText(),
               lastMessageStatus: 'sending' as const,
             };
 

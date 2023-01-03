@@ -74,6 +74,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 import { scrollToMessage } from './conversations';
 import type { ScrollToMessageActionType } from './conversations';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
+import { drop } from '../../util/drop';
 
 // State
 
@@ -384,12 +385,15 @@ function sendMultiMediaMessage(
         {
           sendHQImages,
           timestamp,
+          // We rely on enqueueMessageForSend to call these within redux's batch
           extraReduxActions: () => {
             conversation.setMarkedUnread(false);
             resetLinkPreview();
-            void clearConversationDraftAttachments(
-              conversationId,
-              draftAttachments
+            drop(
+              clearConversationDraftAttachments(
+                conversationId,
+                draftAttachments
+              )
             );
             setQuoteByMessageId(conversationId, undefined)(
               dispatch,
