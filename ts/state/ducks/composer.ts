@@ -258,6 +258,10 @@ function scrollToQuotedMessage({
       return;
     }
 
+    if (getState().conversations.selectedConversationId !== conversationId) {
+      return;
+    }
+
     scrollToMessage(conversationId, message.id)(dispatch, getState, undefined);
   };
 }
@@ -529,6 +533,12 @@ export function setQuoteByMessageId(
 
     if (message) {
       const quote = await conversation.makeQuote(message);
+
+      // In case the conversation changed while we were about to set the quote
+      if (getState().conversations.selectedConversationId !== conversationId) {
+        return;
+      }
+
       dispatch(
         setQuotedMessage({
           conversationId,
