@@ -37,9 +37,15 @@ export function ConversationDetailsGroups({
 
   return (
     <PanelSection
-      title={i18n('ConversationDetailsGroups--title', {
-        number: groupsInCommon.length,
-      })}
+      title={
+        groupsInCommon.length > 0
+          ? i18n('icu:ConversationDetailsGroups--title', {
+              count: groupsInCommon.length,
+            })
+          : i18n(
+              'icu:ConversationDetailsGroups--title--with-zero-groups-in-common'
+            )
+      }
     >
       <PanelRow
         icon={<div className="ConversationDetails-groups__add-to-group-icon" />}
