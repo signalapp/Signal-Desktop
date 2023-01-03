@@ -14,11 +14,13 @@ import Measure from 'react-measure';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
 import { getUsernameFromSearch } from '../../../../types/Username';
+import { strictAssert } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
 import type { LookupConversationWithoutUuidActionsType } from '../../../../util/lookupConversationWithoutUuid';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
+import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
 import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
@@ -91,8 +93,6 @@ export function ChooseGroupMembersModal({
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
-  const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-
   let username: string | undefined;
   let isUsernameChecked = false;
   let isUsernameVisible = false;
@@ -108,16 +108,23 @@ export function ChooseGroupMembersModal({
       candidateContacts.every(contact => contact.username !== username);
   }
 
-  let isPhoneNumberChecked = false;
-  if (!username && phoneNumber) {
-    isPhoneNumberChecked =
-      phoneNumber.isValid &&
-      selectedContacts.some(contact => contact.e164 === phoneNumber.e164);
+  let phoneNumber: ParsedE164Type | undefined;
+  if (!username) {
+    phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
   }
 
-  const isPhoneNumberVisible =
-    phoneNumber &&
-    candidateContacts.every(contact => contact.e164 !== phoneNumber.e164);
+  let isPhoneNumberChecked = false;
+  let isPhoneNumberVisible = false;
+  if (phoneNumber) {
+    const { e164 } = phoneNumber;
+    isPhoneNumberChecked =
+      phoneNumber.isValid &&
+      selectedContacts.some(contact => contact.e164 === e164);
+
+    isPhoneNumberVisible = candidateContacts.every(
+      contact => contact.e164 !== e164
+    );
+  }
 
   const inputRef = useRef<null | HTMLInputElement>(null);
 
@@ -229,6 +236,10 @@ export function ChooseGroupMembersModal({
     virtualIndex -= filteredContacts.length;
 
     if (isPhoneNumberVisible) {
+      strictAssert(
+        phoneNumber !== undefined,
+        "phone number can't be visible if not present"
+      );
       if (virtualIndex === 0) {
         return {
           type: RowType.Header,
