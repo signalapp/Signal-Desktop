@@ -1,4 +1,4 @@
-// Copyright 2018-2022 Signal Messenger, LLC
+// Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // For reference: https://github.com/airbnb/javascript
@@ -191,13 +191,13 @@ const typescriptRules = {
   '@typescript-eslint/no-misused-promises': [
     'error',
     {
-      checksVoidReturn: false
-    }
+      checksVoidReturn: false,
+    },
   ],
 
   '@typescript-eslint/no-floating-promises': 'error',
   // We allow "void promise", but new call-sites should use `drop(promise)`.
-  'no-void': ['error', { 'allowAsStatement': true }],
+  'no-void': ['error', { allowAsStatement: true }],
 
   'no-shadow': 'off',
   'no-useless-constructor': 'off',

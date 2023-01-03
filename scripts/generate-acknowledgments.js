@@ -70,20 +70,6 @@ async function getMarkdownForDependency(dependencyName) {
   ].join('\n');
 }
 
-function licenseComment() {
-  const fileCreatedYear = 2020;
-  const currentYear = new Date().getFullYear();
-  const yearRange =
-    fileCreatedYear === currentYear
-      ? fileCreatedYear
-      : `${fileCreatedYear}-${currentYear}`;
-
-  return [
-    `<!-- Copyright ${yearRange} Signal Messenger, LLC -->`,
-    '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
-  ].join('\n');
-}
-
 async function main() {
   assert.deepStrictEqual(
     Object.keys(optionalDependencies),
@@ -109,7 +95,8 @@ async function main() {
   );
 
   const unformattedOutput = [
-    licenseComment(),
+    '<!-- Copyright 2020 Signal Messenger, LLC -->',
+    '<!-- SPDX-License-Identifier: AGPL-3.0-only -->',
     '# Acknowledgments',
     '',
     'Signal Desktop makes use of the following open source projects.',

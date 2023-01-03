@@ -1,4 +1,4 @@
-// Copyright 2019-2022 Signal Messenger, LLC
+// Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const webpack = require('webpack');
@@ -9,16 +9,14 @@ module.exports = ({ config }) => {
     '!!style-loader!css-loader!typeface-inter'
   );
 
-  config.module.rules.unshift(
-    {
-      test: /\.scss$/,
-      loaders: [
-        'style-loader',
-        'css-loader?modules=true&localsConvention=camelCaseOnly',
-        'sass-loader',
-      ],
-    }
-  );
+  config.module.rules.unshift({
+    test: /\.scss$/,
+    loaders: [
+      'style-loader',
+      'css-loader?modules=true&localsConvention=camelCaseOnly',
+      'sass-loader',
+    ],
+  });
 
   config.externals = {
     net: 'net',
