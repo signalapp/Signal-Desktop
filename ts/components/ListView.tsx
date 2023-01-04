@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import classNames from 'classnames';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 import type { Index, ListRowRenderer } from 'react-virtualized';
 import { List } from 'react-virtualized';
 import { ScrollBehavior } from '../types/Util';
@@ -45,6 +45,19 @@ export function ListView({
     }
   });
 
+  const rowHeight = useCallback(
+    (index: Index) => calculateRowHeight(index.index),
+    [calculateRowHeight]
+  );
+
+  const style = useMemo(() => {
+    return {
+      // See `<Timeline>` for an explanation of this `any` cast.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      overflowY: scrollable ? ('overlay' as any) : 'hidden',
+    };
+  }, [scrollable]);
+
   return (
     <List
       className={classNames(
@@ -56,14 +69,10 @@ export function ListView({
       height={height}
       ref={listRef}
       rowCount={rowCount}
-      rowHeight={(index: Index) => calculateRowHeight(index.index)}
+      rowHeight={rowHeight}
       rowRenderer={rowRenderer}
       scrollToIndex={scrollToIndex}
-      style={{
-        // See `<Timeline>` for an explanation of this `any` cast.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        overflowY: scrollable ? ('overlay' as any) : 'hidden',
-      }}
+      style={style}
       tabIndex={-1}
     />
   );
