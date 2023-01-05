@@ -42,13 +42,13 @@ type JobType = {
 };
 
 // Goals for this service:
-//   1. Ensure that when we get a 413 from the server, we stop firing off profile
+//   1. Ensure that when we get a 413/429 from the server, we stop firing off profile
 //      fetches for a while.
 //   2. Ensure that all existing profile fetches don't hang in this case; to solve this we
-//      cancel all outstanding requests when we hit a 413, and throw instead of queueing
-//      something new if we're waiting due to a retry-after. Note: It's no worse than what
-//      we were doing before, failing all requests and pushing the retry-after time out
-//      further.
+//      cancel all outstanding requests when we hit a 413/429, and throw instead of
+//      queueing something new if we're waiting due to a retry-after. Note: It's no worse
+//      than what we were doing before, failing all requests and pushing the retry-after
+//      time out further.
 //   3. Require no changes to callers.
 
 // Potential future goals for this problem area:
@@ -121,8 +121,12 @@ export class ProfileService {
           return;
         }
 
-        if (isRecord(error) && 'code' in error && error.code === 413) {
-          this.clearAll('got 413 from server');
+        if (
+          isRecord(error) &&
+          'code' in error &&
+          (error.code === 413 || error.code === 429)
+        ) {
+          this.clearAll(`got ${error.code} from server`);
           const time = findRetryAfterTimeFromError(error);
           void this.pause(time);
         }

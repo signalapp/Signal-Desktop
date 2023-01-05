@@ -78,9 +78,9 @@ export async function reserveUsername(
       if (error.code === 409) {
         return { ok: false, error: ReserveUsernameError.Conflict };
       }
-      if (error.code === 413) {
+      if (error.code === 413 || error.code === 429) {
         const time = findRetryAfterTimeFromError(error);
-        log.warn(`reserveUsername: got 413, waiting ${time}ms`);
+        log.warn(`reserveUsername: got ${error.code}, waiting ${time}ms`);
         await sleep(time, abortSignal);
 
         return reserveUsername(options);
@@ -139,9 +139,9 @@ export async function confirmUsername(
     await updateUsernameAndSyncProfile(username);
   } catch (error) {
     if (error instanceof HTTPError) {
-      if (error.code === 413) {
+      if (error.code === 413 || error.code === 429) {
         const time = findRetryAfterTimeFromError(error);
-        log.warn(`confirmUsername: got 413, waiting ${time}ms`);
+        log.warn(`confirmUsername: got ${error.code}, waiting ${time}ms`);
         await sleep(time, abortSignal);
 
         return confirmUsername(reservation, abortSignal);

@@ -101,41 +101,43 @@ describe('util/profiles', () => {
       assert.strictEqual(runCount, 0);
     });
 
-    it('clears all outstanding jobs if we get a 413, then pauses', async () => {
-      let runCount = 0;
-      const getProfileWhichThrows = async () => {
-        runCount += 1;
-        const error = new HTTPError('fake 413', {
-          code: 413,
-          headers: {
-            'retry-after': '1',
-          },
-        });
-        throw error;
-      };
-      const service = new ProfileService(getProfileWhichThrows);
+    for (const code of [413, 429] as const) {
+      it(`clears all outstanding jobs if we get a ${code}, then pauses`, async () => {
+        let runCount = 0;
+        const getProfileWhichThrows = async () => {
+          runCount += 1;
+          const error = new HTTPError(`fake ${code}`, {
+            code,
+            headers: {
+              'retry-after': '1',
+            },
+          });
+          throw error;
+        };
+        const service = new ProfileService(getProfileWhichThrows);
 
-      // Queued and immediately started due to concurrency = 3
-      const promise1 = service.get(UUID_1);
-      const promise2 = service.get(UUID_2);
-      const promise3 = service.get(UUID_3);
+        // Queued and immediately started due to concurrency = 3
+        const promise1 = service.get(UUID_1);
+        const promise2 = service.get(UUID_2);
+        const promise3 = service.get(UUID_3);
 
-      // Never started, but queued
-      const promise4 = service.get(UUID_4);
+        // Never started, but queued
+        const promise4 = service.get(UUID_4);
 
-      assert.strictEqual(runCount, 3, 'before await');
+        assert.strictEqual(runCount, 3, 'before await');
 
-      await assert.isRejected(promise1, 'fake 413');
+        await assert.isRejected(promise1, `fake ${code}`);
 
-      // Never queued
-      const promise5 = service.get(UUID_5);
+        // Never queued
+        const promise5 = service.get(UUID_5);
 
-      await assert.isRejected(promise2, 'job cancelled');
-      await assert.isRejected(promise3, 'job cancelled');
-      await assert.isRejected(promise4, 'job cancelled');
-      await assert.isRejected(promise5, 'paused queue');
+        await assert.isRejected(promise2, 'job cancelled');
+        await assert.isRejected(promise3, 'job cancelled');
+        await assert.isRejected(promise4, 'job cancelled');
+        await assert.isRejected(promise5, 'paused queue');
 
-      assert.strictEqual(runCount, 3, 'after await');
-    });
+        assert.strictEqual(runCount, 3, 'after await');
+      });
+    }
   });
 });
