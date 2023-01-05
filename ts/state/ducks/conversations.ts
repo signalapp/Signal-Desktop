@@ -495,8 +495,9 @@ export const SELECTED_CONVERSATION_CHANGED =
   'conversations/SELECTED_CONVERSATION_CHANGED';
 const PUSH_PANEL = 'conversations/PUSH_PANEL';
 const POP_PANEL = 'conversations/POP_PANEL';
-export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
+export const MESSAGE_CHANGED = 'MESSAGE_CHANGED';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
+export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
 export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
@@ -647,7 +648,7 @@ type ConversationStoppedByMissingVerificationActionType = {
   };
 };
 export type MessageChangedActionType = {
-  type: 'MESSAGE_CHANGED';
+  type: typeof MESSAGE_CHANGED;
   payload: {
     id: string;
     conversationId: string;
@@ -2403,7 +2404,7 @@ function messageChanged(
   data: MessageAttributesType
 ): MessageChangedActionType {
   return {
-    type: 'MESSAGE_CHANGED',
+    type: MESSAGE_CHANGED,
     payload: {
       id,
       conversationId,
@@ -4455,7 +4456,7 @@ export function reducer(
     };
   }
 
-  if (action.type === 'MESSAGE_CHANGED') {
+  if (action.type === MESSAGE_CHANGED) {
     const { id, conversationId, data } = action.payload;
     const existingConversation = state.messagesByConversation[conversationId];
 

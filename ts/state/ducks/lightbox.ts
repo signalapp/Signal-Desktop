@@ -6,7 +6,11 @@ import type { ThunkAction } from 'redux-thunk';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { MediaItemType } from '../../types/MediaItem';
-import type { MessageExpiredActionType } from './conversations';
+import type {
+  MessageChangedActionType,
+  MessageDeletedActionType,
+  MessageExpiredActionType,
+} from './conversations';
 import type { ShowStickerPackPreviewActionType } from './globalModals';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
@@ -21,7 +25,12 @@ import {
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
-import { MESSAGE_EXPIRED, saveAttachmentFromMessage } from './conversations';
+import {
+  MESSAGE_CHANGED,
+  MESSAGE_DELETED,
+  MESSAGE_EXPIRED,
+  saveAttachmentFromMessage,
+} from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
@@ -54,6 +63,8 @@ type ShowLightboxActionType = {
 
 type LightboxActionType =
   | CloseLightboxActionType
+  | MessageChangedActionType
+  | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowLightboxActionType;
 
@@ -156,7 +167,6 @@ function showLightboxForViewOnceMedia(
         objectURL: getAbsoluteTempPath(path),
         contentType,
         index: 0,
-        // TODO maybe we need to listen for message change?
         message: {
           attachments: message.get('attachments') || [],
           id: message.get('id'),
@@ -315,24 +325,42 @@ export function reducer(
     };
   }
 
-  if (action.type === MESSAGE_EXPIRED) {
+  if (
+    action.type === MESSAGE_CHANGED ||
+    action.type === MESSAGE_DELETED ||
+    action.type === MESSAGE_EXPIRED
+  ) {
     if (!state.isShowingLightbox) {
       return state;
     }
 
-    if (!state.isViewOnce) {
+    if (action.type === MESSAGE_EXPIRED && !state.isViewOnce) {
       return state;
     }
 
-    const hasExpiredMedia = state.media.some(
-      item => item.message.id === action.payload.id
+    if (
+      action.type === MESSAGE_CHANGED &&
+      !action.payload.data.deletedForEveryone
+    ) {
+      return state;
+    }
+
+    const nextMedia = state.media.filter(
+      item => item.message.id !== action.payload.id
     );
 
-    if (!hasExpiredMedia) {
+    if (nextMedia.length === state.media.length) {
       return state;
     }
 
-    return getEmptyState();
+    if (!nextMedia.length) {
+      return getEmptyState();
+    }
+
+    return {
+      ...state,
+      media: nextMedia,
+    };
   }
 
   return state;

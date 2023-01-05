@@ -7,6 +7,7 @@ import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type {
   ConversationUnloadedActionType,
+  MessageChangedActionType,
   MessageDeletedActionType,
   MessageExpiredActionType,
 } from './conversations';
@@ -17,6 +18,7 @@ import type { StateType as RootStateType } from '../reducer';
 import dataInterface from '../../sql/Client';
 import {
   CONVERSATION_UNLOADED,
+  MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
 } from './conversations';
@@ -60,6 +62,7 @@ type LoadMediaItemslActionType = {
 type MediaGalleryActionType =
   | ConversationUnloadedActionType
   | LoadMediaItemslActionType
+  | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpiredActionType;
 
@@ -204,6 +207,20 @@ export function reducer(
     return {
       ...state,
       ...action.payload,
+    };
+  }
+
+  if (action.type === MESSAGE_CHANGED) {
+    if (!action.payload.data.deletedForEveryone) {
+      return state;
+    }
+
+    return {
+      ...state,
+      media: state.media.filter(item => item.message.id !== action.payload.id),
+      documents: state.documents.filter(
+        item => item.message.id !== action.payload.id
+      ),
     };
   }
 
