@@ -1275,7 +1275,7 @@ export function reducer(
     }));
   }
 
-  if (action.type === REMOVE_LINK_PREVIEW) {
+  if (action.type === REMOVE_LINK_PREVIEW && action.payload.conversationId) {
     return updateComposerState(state, action, () => ({
       linkPreviewLoading: false,
       linkPreviewResult: undefined,
