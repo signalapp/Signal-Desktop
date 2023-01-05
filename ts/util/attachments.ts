@@ -14,20 +14,23 @@ import type { LoggerType } from '../types/Logging';
 import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
 
+export const KIBIBYTE = 1024;
 const MEBIBYTE = 1024 * 1024;
 const DEFAULT_MAX = 100 * MEBIBYTE;
 
-export const getMaximumAttachmentSize = (): number => {
+export const getMaximumAttachmentSizeInKb = (): number => {
   try {
-    return parseIntOrThrow(
-      getValue('global.attachments.maxBytes'),
-      'preProcessAttachment/maxAttachmentSize'
+    return (
+      parseIntOrThrow(
+        getValue('global.attachments.maxBytes'),
+        'preProcessAttachment/maxAttachmentSize'
+      ) / KIBIBYTE
     );
   } catch (error) {
     log.warn(
       'Failed to parse integer out of global.attachments.maxBytes feature flag'
     );
-    return DEFAULT_MAX;
+    return DEFAULT_MAX / KIBIBYTE;
   }
 };
 
