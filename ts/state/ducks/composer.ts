@@ -49,7 +49,7 @@ import {
   removeLinkPreview,
   resetLinkPreview,
 } from '../../services/LinkPreview';
-import { getMaximumAttachmentSize } from '../../util/attachments';
+import { getMaximumAttachmentSizeInKb } from '../../util/attachments';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
 import {
   getRenderDetailsForLimit,
@@ -690,7 +690,7 @@ function preProcessAttachment(
     return;
   }
 
-  const limitKb = getMaximumAttachmentSize();
+  const limitKb = getMaximumAttachmentSizeInKb();
   if (file.size > limitKb) {
     return {
       toastType: ToastType.FileSize,
