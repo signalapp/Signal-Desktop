@@ -34,10 +34,12 @@ export enum LinkPreviewSourceType {
 
 export type MaybeGrabLinkPreviewOptionsType = Readonly<{
   caretLocation?: number;
+  conversationId?: string;
   mode?: 'conversation' | 'story';
 }>;
 
 export type AddLinkPreviewOptionsType = Readonly<{
+  conversationId?: string;
   disableFetch?: boolean;
 }>;
 

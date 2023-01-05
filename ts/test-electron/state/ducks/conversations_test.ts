@@ -741,7 +741,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledWith(dispatch, {
           type: SELECTED_CONVERSATION_CHANGED,
           payload: {
-            id: '9876',
+            conversationId: '9876',
             messageId: undefined,
             switchToAssociatedView: true,
           },

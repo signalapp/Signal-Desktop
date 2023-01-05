@@ -71,14 +71,23 @@ import { getContactId } from '../../messages/helpers';
 import { getConversationSelector } from '../selectors/conversations';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import { scrollToMessage } from './conversations';
-import type { ScrollToMessageActionType } from './conversations';
+import {
+  CONVERSATION_UNLOADED,
+  SELECTED_CONVERSATION_CHANGED,
+  scrollToMessage,
+} from './conversations';
+import type {
+  ConversationUnloadedActionType,
+  SelectedConversationChangedActionType,
+  ScrollToMessageActionType,
+} from './conversations';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 import { drop } from '../../util/drop';
+import { strictAssert } from '../../util/assert';
 
 // State
 
-export type ComposerStateType = {
+type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
   isDisabled: boolean;
@@ -88,6 +97,32 @@ export type ComposerStateType = {
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
   shouldSendHighQualityAttachments?: boolean;
 };
+
+export type QuotedMessageType = Pick<
+  MessageAttributesType,
+  'conversationId' | 'quote'
+>;
+
+export type ComposerStateType = {
+  conversations: Record<string, ComposerStateByConversationType>;
+};
+
+function getEmptyComposerState(): ComposerStateByConversationType {
+  return {
+    attachments: [],
+    focusCounter: 0,
+    isDisabled: false,
+    linkPreviewLoading: false,
+    messageCompositionId: UUID.generate().toString(),
+  };
+}
+
+export function getComposerStateForConversation(
+  composer: ComposerStateType,
+  conversationId: string
+): ComposerStateByConversationType {
+  return composer.conversations[conversationId] ?? getEmptyComposerState();
+}
 
 // Actions
 
@@ -101,43 +136,66 @@ const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
 
 type AddPendingAttachmentActionType = {
   type: typeof ADD_PENDING_ATTACHMENT;
-  payload: AttachmentDraftType;
+  payload: {
+    conversationId: string;
+    attachment: AttachmentDraftType;
+  };
 };
 
 export type ReplaceAttachmentsActionType = {
   type: typeof REPLACE_ATTACHMENTS;
-  payload: ReadonlyArray<AttachmentDraftType>;
+  payload: {
+    conversationId: string;
+    attachments: ReadonlyArray<AttachmentDraftType>;
+  };
 };
 
 export type ResetComposerActionType = {
   type: typeof RESET_COMPOSER;
+  payload: {
+    conversationId: string;
+  };
 };
 
 type SetComposerDisabledStateActionType = {
   type: typeof SET_COMPOSER_DISABLED;
-  payload: boolean;
+  payload: {
+    conversationId: string;
+    value: boolean;
+  };
 };
 
 export type SetFocusActionType = {
   type: typeof SET_FOCUS;
+  payload: {
+    conversationId: string;
+  };
 };
 
 type SetHighQualitySettingActionType = {
   type: typeof SET_HIGH_QUALITY_SETTING;
-  payload: boolean;
+  payload: {
+    conversationId: string;
+    value: boolean;
+  };
 };
 
 export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
-  payload?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
+  payload: {
+    conversationId: string;
+    quotedMessage?: QuotedMessageType;
+  };
 };
 
 type ComposerActionType =
   | AddLinkPreviewActionType
   | AddPendingAttachmentActionType
+  | ConversationUnloadedActionType
   | RemoveLinkPreviewActionType
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
+  | SelectedConversationChangedActionType
   | SetComposerDisabledStateActionType
   | SetFocusActionType
   | SetHighQualitySettingActionType
@@ -207,9 +265,9 @@ function cancelJoinRequest(conversationId: string): NoopActionType {
   };
 }
 
-function onCloseLinkPreview(): NoopActionType {
+function onCloseLinkPreview(conversationId: string): NoopActionType {
   suspendLinkPreviews();
-  removeLinkPreview();
+  removeLinkPreview(conversationId);
 
   return {
     type: 'NOOP',
@@ -308,18 +366,18 @@ function sendMultiMediaMessage(
     ]);
 
     try {
-      dispatch(setComposerDisabledState(true));
+      dispatch(setComposerDisabledState(conversationId, true));
 
       const sendAnyway = await blockSendUntilConversationsAreVerified(
         recipientsByConversation,
         SafetyNumberChangeSource.MessageSend
       );
       if (!sendAnyway) {
-        dispatch(setComposerDisabledState(false));
+        dispatch(setComposerDisabledState(conversationId, false));
         return;
       }
     } catch (error) {
-      dispatch(setComposerDisabledState(false));
+      dispatch(setComposerDisabledState(conversationId, false));
       log.error('sendMessage error:', Errors.toLogFormat(error));
       return;
     }
@@ -334,7 +392,7 @@ function sendMultiMediaMessage(
           toastType,
         },
       });
-      dispatch(setComposerDisabledState(false));
+      dispatch(setComposerDisabledState(conversationId, false));
       return;
     }
 
@@ -345,7 +403,7 @@ function sendMultiMediaMessage(
       }) &&
       !voiceNoteAttachment
     ) {
-      dispatch(setComposerDisabledState(false));
+      dispatch(setComposerDisabledState(conversationId, false));
       return;
     }
 
@@ -359,10 +417,15 @@ function sendMultiMediaMessage(
         ).filter(isNotNil);
       }
 
-      const quote = state.composer.quotedMessage?.quote;
+      const conversationComposerState = getComposerStateForConversation(
+        state.composer,
+        conversationId
+      );
+
+      const quote = conversationComposerState.quotedMessage?.quote;
 
       const shouldSendHighQualityAttachments = window.reduxStore
-        ? state.composer.shouldSendHighQualityAttachments
+        ? conversationComposerState.shouldSendHighQualityAttachments
         : undefined;
 
       const sendHQImages =
@@ -388,7 +451,7 @@ function sendMultiMediaMessage(
           // We rely on enqueueMessageForSend to call these within redux's batch
           extraReduxActions: () => {
             conversation.setMarkedUnread(false);
-            resetLinkPreview();
+            resetLinkPreview(conversationId);
             drop(
               clearConversationDraftAttachments(
                 conversationId,
@@ -400,8 +463,8 @@ function sendMultiMediaMessage(
               getState,
               undefined
             );
-            dispatch(resetComposer());
-            dispatch(setComposerDisabledState(false));
+            dispatch(resetComposer(conversationId));
+            dispatch(setComposerDisabledState(conversationId, false));
           },
         }
       );
@@ -410,7 +473,7 @@ function sendMultiMediaMessage(
         'Error pulling attached files before send',
         Errors.toLogFormat(error)
       );
-      dispatch(setComposerDisabledState(false));
+      dispatch(setComposerDisabledState(conversationId, false));
     }
   };
 }
@@ -544,16 +607,16 @@ export function setQuoteByMessageId(
       }
 
       dispatch(
-        setQuotedMessage({
+        setQuotedMessage(conversationId, {
           conversationId,
           quote,
         })
       );
 
       dispatch(setComposerFocus(conversation.id));
-      dispatch(setComposerDisabledState(false));
+      dispatch(setComposerDisabledState(conversationId, false));
     } else {
-      dispatch(setQuotedMessage(undefined));
+      dispatch(setQuotedMessage(conversationId, undefined));
     }
   };
 }
@@ -567,11 +630,18 @@ function addAttachment(
     //   each other.
     const onDisk = await writeDraftAttachment(attachment);
 
+    const state = getState();
+
     const isSelectedConversation =
-      getState().conversations.selectedConversationId === conversationId;
+      state.conversations.selectedConversationId === conversationId;
+
+    const conversationComposerState = getComposerStateForConversation(
+      state.composer,
+      conversationId
+    );
 
     const draftAttachments = isSelectedConversation
-      ? getState().composer.attachments
+      ? conversationComposerState.attachments
       : getAttachmentsFromConversationModel(conversationId);
 
     // We expect there to either be a pending draft attachment or an existing
@@ -619,18 +689,28 @@ function addPendingAttachment(
   pendingAttachment: AttachmentDraftType
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
   return (dispatch, getState) => {
+    const state = getState();
+
     const isSelectedConversation =
-      getState().conversations.selectedConversationId === conversationId;
+      state.conversations.selectedConversationId === conversationId;
+
+    const conversationComposerState = getComposerStateForConversation(
+      state.composer,
+      conversationId
+    );
 
     const draftAttachments = isSelectedConversation
-      ? getState().composer.attachments
+      ? conversationComposerState.attachments
       : getAttachmentsFromConversationModel(conversationId);
 
     const nextAttachments = [...draftAttachments, pendingAttachment];
 
     dispatch({
       type: REPLACE_ATTACHMENTS,
-      payload: nextAttachments,
+      payload: {
+        conversationId,
+        attachments: nextAttachments,
+      },
     });
 
     const conversation = window.ConversationController.get(conversationId);
@@ -651,6 +731,9 @@ export function setComposerFocus(
 
     dispatch({
       type: SET_FOCUS,
+      payload: {
+        conversationId,
+      },
     });
   };
 }
@@ -686,6 +769,7 @@ function onEditorStateChange(
   ) {
     maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
       caretLocation,
+      conversationId,
     });
   }
 
@@ -877,7 +961,12 @@ function removeAttachment(
   filePath: string
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
   return async (dispatch, getState) => {
-    const { attachments } = getState().composer;
+    const state = getState();
+
+    const { attachments } = getComposerStateForConversation(
+      state.composer,
+      conversationId
+    );
 
     const [targetAttachment] = attachments.filter(
       attachment => attachment.path === filePath
@@ -924,12 +1013,15 @@ export function replaceAttachments(
     }
 
     if (hasDraftAttachments(attachments, { includePending: true })) {
-      removeLinkPreview();
+      removeLinkPreview(conversationId);
     }
 
     dispatch({
       type: REPLACE_ATTACHMENTS,
-      payload: attachments.map(resolveDraftAttachmentOnDisk),
+      payload: {
+        conversationId,
+        attachments: attachments.map(resolveDraftAttachmentOnDisk),
+      },
     });
   };
 }
@@ -972,9 +1064,12 @@ function reactToMessage(
   };
 }
 
-export function resetComposer(): ResetComposerActionType {
+export function resetComposer(conversationId: string): ResetComposerActionType {
   return {
     type: RESET_COMPOSER,
+    payload: {
+      conversationId,
+    },
   };
 }
 const debouncedSaveDraft = debounce(saveDraft);
@@ -1024,29 +1119,41 @@ function saveDraft(
 }
 
 function setComposerDisabledState(
+  conversationId: string,
   value: boolean
 ): SetComposerDisabledStateActionType {
   return {
     type: SET_COMPOSER_DISABLED,
-    payload: value,
+    payload: {
+      conversationId,
+      value,
+    },
   };
 }
 
 function setMediaQualitySetting(
-  payload: boolean
+  conversationId: string,
+  value: boolean
 ): SetHighQualitySettingActionType {
   return {
     type: SET_HIGH_QUALITY_SETTING,
-    payload,
+    payload: {
+      conversationId,
+      value,
+    },
   };
 }
 
 function setQuotedMessage(
-  payload?: Pick<MessageAttributesType, 'conversationId' | 'quote' | 'payment'>
+  conversationId: string,
+  quotedMessage?: QuotedMessageType
 ): SetQuotedMessageActionType {
   return {
     type: SET_QUOTED_MESSAGE,
-    payload,
+    payload: {
+      conversationId,
+      quotedMessage,
+    },
   };
 }
 
@@ -1054,52 +1161,107 @@ function setQuotedMessage(
 
 export function getEmptyState(): ComposerStateType {
   return {
-    attachments: [],
-    focusCounter: 0,
-    isDisabled: false,
-    linkPreviewLoading: false,
-    messageCompositionId: UUID.generate().toString(),
+    conversations: {},
   };
+}
+
+function updateComposerState(
+  state: Readonly<ComposerStateType>,
+  action: Readonly<ComposerActionType>,
+  getNextComposerState: (
+    prevState: ComposerStateByConversationType
+  ) => Partial<ComposerStateByConversationType>
+): ComposerStateType {
+  const { conversationId } = action.payload;
+
+  strictAssert(
+    conversationId,
+    'updateComposerState: no conversationId provided'
+  );
+
+  const prevComposerState = getComposerStateForConversation(
+    state,
+    conversationId
+  );
+
+  const nextComposerStateForConversation = assignWithNoUnnecessaryAllocation(
+    prevComposerState,
+    getNextComposerState(prevComposerState)
+  );
+
+  return assignWithNoUnnecessaryAllocation(state, {
+    conversations: assignWithNoUnnecessaryAllocation(state.conversations, {
+      [conversationId]: nextComposerStateForConversation,
+    }),
+  });
 }
 
 export function reducer(
   state: Readonly<ComposerStateType> = getEmptyState(),
   action: Readonly<ComposerActionType>
 ): ComposerStateType {
-  if (action.type === RESET_COMPOSER) {
+  if (action.type === CONVERSATION_UNLOADED) {
+    const nextConversations: Record<string, ComposerStateByConversationType> =
+      {};
+    Object.keys(state.conversations).forEach(conversationId => {
+      if (conversationId === action.payload.conversationId) {
+        return;
+      }
+
+      nextConversations[conversationId] = state.conversations[conversationId];
+    });
+
+    return {
+      ...state,
+      conversations: nextConversations,
+    };
+  }
+
+  if (action.type === SELECTED_CONVERSATION_CHANGED) {
+    if (action.payload.conversationId) {
+      return {
+        ...state,
+        conversations: {
+          [action.payload.conversationId]: getEmptyComposerState(),
+        },
+      };
+    }
+
     return getEmptyState();
   }
 
+  if (action.type === RESET_COMPOSER) {
+    return updateComposerState(state, action, () => ({}));
+  }
+
   if (action.type === REPLACE_ATTACHMENTS) {
-    const { payload: attachments } = action;
-    return {
-      ...state,
+    const { attachments } = action.payload;
+
+    return updateComposerState(state, action, () => ({
       attachments,
       ...(attachments.length
         ? {}
         : { shouldSendHighQualityAttachments: undefined }),
-    };
+    }));
   }
 
   if (action.type === SET_FOCUS) {
-    return {
-      ...state,
-      focusCounter: state.focusCounter + 1,
-    };
+    return updateComposerState(state, action, prevState => ({
+      focusCounter: prevState.focusCounter + 1,
+    }));
   }
 
   if (action.type === SET_HIGH_QUALITY_SETTING) {
-    return {
-      ...state,
-      shouldSendHighQualityAttachments: action.payload,
-    };
+    return updateComposerState(state, action, () => ({
+      shouldSendHighQualityAttachments: action.payload.value,
+    }));
   }
 
   if (action.type === SET_QUOTED_MESSAGE) {
-    return {
-      ...state,
-      quotedMessage: action.payload,
-    };
+    const { quotedMessage } = action.payload;
+    return updateComposerState(state, action, () => ({
+      quotedMessage,
+    }));
   }
 
   if (action.type === ADD_LINK_PREVIEW) {
@@ -1107,32 +1269,29 @@ export function reducer(
       return state;
     }
 
-    return {
-      ...state,
+    return updateComposerState(state, action, () => ({
       linkPreviewLoading: true,
       linkPreviewResult: action.payload.linkPreview,
-    };
+    }));
   }
 
   if (action.type === REMOVE_LINK_PREVIEW) {
-    return assignWithNoUnnecessaryAllocation(state, {
+    return updateComposerState(state, action, () => ({
       linkPreviewLoading: false,
       linkPreviewResult: undefined,
-    });
+    }));
   }
 
   if (action.type === ADD_PENDING_ATTACHMENT) {
-    return {
-      ...state,
-      attachments: [...state.attachments, action.payload],
-    };
+    return updateComposerState(state, action, prevState => ({
+      attachments: [...prevState.attachments, action.payload.attachment],
+    }));
   }
 
   if (action.type === SET_COMPOSER_DISABLED) {
-    return {
-      ...state,
-      isDisabled: action.payload,
-    };
+    return updateComposerState(state, action, () => ({
+      isDisabled: action.payload.value,
+    }));
   }
 
   return state;

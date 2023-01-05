@@ -12,6 +12,7 @@ import { recorder } from '../../services/audioRecorder';
 import { stringToMIMEType } from '../../types/MIME';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { getComposerStateForConversation } from './composer';
 
 export enum ErrorDialogAudioRecorderType {
   Blur,
@@ -80,17 +81,24 @@ export const actions = {
 export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
   useBoundActions(actions);
 
-function startRecording(): ThunkAction<
+function startRecording(
+  conversationId: string
+): ThunkAction<
   void,
   RootStateType,
   unknown,
   StartRecordingAction | NowRecordingAction | ErrorRecordingAction
 > {
   return async (dispatch, getState) => {
-    if (getState().composer.attachments.length) {
+    const state = getState();
+
+    if (
+      getComposerStateForConversation(state.composer, conversationId)
+        .attachments.length
+    ) {
       return;
     }
-    if (getState().audioRecorder.recordingState !== RecordingState.Idle) {
+    if (state.audioRecorder.recordingState !== RecordingState.Idle) {
       return;
     }
 

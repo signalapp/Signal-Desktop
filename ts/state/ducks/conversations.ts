@@ -612,7 +612,7 @@ export type ConversationRemovedActionType = {
 export type ConversationUnloadedActionType = {
   type: typeof CONVERSATION_UNLOADED;
   payload: {
-    id: string;
+    conversationId: string;
   };
 };
 type CreateGroupPendingActionType = {
@@ -745,7 +745,7 @@ export type ClearUnreadMetricsActionType = {
 export type SelectedConversationChangedActionType = {
   type: typeof SELECTED_CONVERSATION_CHANGED;
   payload: {
-    id?: string;
+    conversationId?: string;
     messageId?: string;
     switchToAssociatedView?: boolean;
   };
@@ -3485,7 +3485,7 @@ function showConversation({
   return {
     type: SELECTED_CONVERSATION_CHANGED,
     payload: {
-      id: conversationId,
+      conversationId,
       messageId,
       switchToAssociatedView,
     },
@@ -3581,7 +3581,7 @@ function onConversationOpened(
       conversation.get('id'),
       conversation.get('draftAttachments') || []
     )(dispatch, getState, undefined);
-    dispatch(resetComposer());
+    dispatch(resetComposer(conversationId));
   };
 }
 
@@ -3625,13 +3625,13 @@ function onConversationClosed(
       drop(conversation.updateLastMessage());
     }
 
-    removeLinkPreview();
+    removeLinkPreview(conversationId);
     suspendLinkPreviews();
 
     dispatch({
       type: CONVERSATION_UNLOADED,
       payload: {
-        id: conversationId,
+        conversationId,
       },
     });
   };
@@ -4186,15 +4186,15 @@ export function reducer(
   }
   if (action.type === CONVERSATION_UNLOADED) {
     const { payload } = action;
-    const { id } = payload;
-    const existingConversation = state.messagesByConversation[id];
+    const { conversationId } = payload;
+    const existingConversation = state.messagesByConversation[conversationId];
     if (!existingConversation) {
       return state;
     }
 
     const { messageIds } = existingConversation;
     const selectedConversationId =
-      state.selectedConversationId !== id
+      state.selectedConversationId !== conversationId
         ? state.selectedConversationId
         : undefined;
 
@@ -4203,7 +4203,9 @@ export function reducer(
       selectedConversationId,
       selectedConversationPanels: [],
       messagesLookup: omit(state.messagesLookup, [...messageIds]),
-      messagesByConversation: omit(state.messagesByConversation, [id]),
+      messagesByConversation: omit(state.messagesByConversation, [
+        conversationId,
+      ]),
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
@@ -4993,17 +4995,17 @@ export function reducer(
   }
   if (action.type === SELECTED_CONVERSATION_CHANGED) {
     const { payload } = action;
-    const { id, messageId, switchToAssociatedView } = payload;
+    const { conversationId, messageId, switchToAssociatedView } = payload;
 
     const nextState = {
       ...omit(state, 'contactSpoofingReview'),
-      selectedConversationId: id,
+      selectedConversationId: conversationId,
       selectedMessage: messageId,
       selectedMessageSource: SelectedMessageSource.NavigateToMessage,
     };
 
-    if (switchToAssociatedView && id) {
-      const conversation = getOwn(state.conversationLookup, id);
+    if (switchToAssociatedView && conversationId) {
+      const conversation = getOwn(state.conversationLookup, conversationId);
       if (!conversation) {
         return nextState;
       }

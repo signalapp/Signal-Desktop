@@ -31,7 +31,10 @@ import {
   getUserConversationId,
 } from '../selectors/user';
 import { strictAssert } from '../../util/assert';
-import { SELECTED_CONVERSATION_CHANGED } from './conversations';
+import {
+  CONVERSATION_UNLOADED,
+  SELECTED_CONVERSATION_CHANGED,
+} from './conversations';
 
 const {
   searchMessages: dataSearchMessages,
@@ -437,10 +440,10 @@ export function reducer(
 
   if (action.type === SELECTED_CONVERSATION_CHANGED) {
     const { payload } = action;
-    const { id, messageId } = payload;
+    const { conversationId, messageId } = payload;
     const { searchConversationId } = state;
 
-    if (searchConversationId && searchConversationId !== id) {
+    if (searchConversationId && searchConversationId !== conversationId) {
       return getEmptyState();
     }
 
@@ -450,12 +453,12 @@ export function reducer(
     };
   }
 
-  if (action.type === 'CONVERSATION_UNLOADED') {
+  if (action.type === CONVERSATION_UNLOADED) {
     const { payload } = action;
-    const { id } = payload;
+    const { conversationId } = payload;
     const { searchConversationId } = state;
 
-    if (searchConversationId && searchConversationId === id) {
+    if (searchConversationId && searchConversationId === conversationId) {
       return getEmptyState();
     }
 

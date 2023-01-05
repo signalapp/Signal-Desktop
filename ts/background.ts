@@ -160,6 +160,7 @@ import { downloadOnboardingStory } from './util/downloadOnboardingStory';
 import { clearConversationDraftAttachments } from './util/clearConversationDraftAttachments';
 import { removeLinkPreview } from './services/LinkPreview';
 import { PanelType } from './types/Panels';
+import { getQuotedMessageSelector } from './state/selectors/composer';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1628,10 +1629,8 @@ export async function startApp(): Promise<void> {
 
         const { selectedMessage } = state.conversations;
 
-        const composerState = window.reduxStore
-          ? window.reduxStore.getState().composer
-          : undefined;
-        const quote = composerState?.quotedMessage?.quote;
+        const quotedMessageSelector = getQuotedMessageSelector(state);
+        const quote = quotedMessageSelector(conversation.id);
 
         window.reduxActions.composer.setQuoteByMessageId(
           conversation.id,
@@ -1708,7 +1707,7 @@ export async function startApp(): Promise<void> {
         !shiftKey &&
         (key === 'p' || key === 'P')
       ) {
-        removeLinkPreview();
+        removeLinkPreview(conversation.id);
 
         event.preventDefault();
         event.stopPropagation();

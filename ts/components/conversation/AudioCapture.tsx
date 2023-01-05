@@ -38,7 +38,7 @@ export type PropsType = {
   i18n: LocalizerType;
   recordingState: RecordingState;
   onSendAudioRecording: OnSendAudioRecordingType;
-  startRecording: () => unknown;
+  startRecording: (id: string) => unknown;
 };
 
 enum ToastType {
@@ -96,7 +96,11 @@ export function AudioCapture({
 
   useEscapeHandling(escapeRecording);
 
-  const startRecordingShortcut = useStartRecordingShortcut(startRecording);
+  const recordConversation = useCallback(
+    () => startRecording(conversationId),
+    [conversationId, startRecording]
+  );
+  const startRecordingShortcut = useStartRecordingShortcut(recordConversation);
   useKeyboardShortcuts(startRecordingShortcut);
 
   const closeToast = useCallback(() => {
@@ -240,7 +244,7 @@ export function AudioCapture({
             if (draftAttachments.length) {
               setToastType(ToastType.VoiceNoteMustBeOnlyAttachment);
             } else {
-              startRecording();
+              startRecording(conversationId);
             }
           }}
           title={i18n('voiceRecording--start')}

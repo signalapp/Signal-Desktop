@@ -102,12 +102,12 @@ export type OwnProps = Readonly<{
   linkPreviewResult?: LinkPreviewType;
   messageRequestsEnabled?: boolean;
   onClearAttachments(conversationId: string): unknown;
-  onCloseLinkPreview(): unknown;
+  onCloseLinkPreview(conversationId: string): unknown;
   processAttachments: (options: {
     conversationId: string;
     files: ReadonlyArray<File>;
   }) => unknown;
-  setMediaQualitySetting(isHQ: boolean): unknown;
+  setMediaQualitySetting(conversationId: string, isHQ: boolean): unknown;
   sendStickerMessage(
     id: string,
     opts: { packId: string; stickerId: number }
@@ -136,7 +136,7 @@ export type OwnProps = Readonly<{
   ): unknown;
   shouldSendHighQualityAttachments: boolean;
   showConversation: ShowConversationType;
-  startRecording: () => unknown;
+  startRecording: (id: string) => unknown;
   theme: ThemeType;
 }>;
 
@@ -366,6 +366,20 @@ export function CompositionArea({
     [inputApiRef, onPickEmoji]
   );
 
+  const previousConversationId = usePrevious(conversationId, conversationId);
+  useEffect(() => {
+    if (!draftText) {
+      inputApiRef.current?.setText('');
+      return;
+    }
+
+    if (conversationId === previousConversationId) {
+      return;
+    }
+
+    inputApiRef.current?.setText(draftText, true);
+  }, [conversationId, draftText, previousConversationId]);
+
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
   }, [setLarge]);
@@ -391,6 +405,7 @@ export function CompositionArea({
       {showMediaQualitySelector ? (
         <div className="CompositionArea__button-cell">
           <MediaQualitySelector
+            conversationId={conversationId}
             i18n={i18n}
             isHighQuality={shouldSendHighQualityAttachments}
             onSelectQuality={setMediaQualitySetting}
@@ -672,7 +687,7 @@ export function CompositionArea({
             <StagedLinkPreview
               {...linkPreviewResult}
               i18n={i18n}
-              onClose={onCloseLinkPreview}
+              onClose={() => onCloseLinkPreview(conversationId)}
             />
           </div>
         )}
