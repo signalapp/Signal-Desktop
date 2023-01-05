@@ -359,7 +359,13 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
         };
-        const action = showConversation({ conversationId: 'abc123' });
+        const dispatch = sinon.spy();
+        showConversation({ conversationId: 'abc123' })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+        const action = dispatch.getCall(0).args[0];
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -370,10 +376,12 @@ describe('both/state/ducks/conversations', () => {
         const state = {
           ...getEmptyState(),
         };
-        const action = showConversation({
+        const dispatch = sinon.spy();
+        showConversation({
           conversationId: 'abc123',
           messageId: 'xyz987',
-        });
+        })(dispatch, getEmptyRootState, null);
+        const action = dispatch.getCall(0).args[0];
         const nextState = reducer(state, action);
 
         assert.equal(nextState.selectedConversationId, 'abc123');
@@ -384,10 +392,12 @@ describe('both/state/ducks/conversations', () => {
         let action: SelectedConversationChangedActionType;
 
         beforeEach(() => {
-          action = showConversation({
+          const dispatch = sinon.spy();
+          showConversation({
             conversationId: 'fake-conversation-id',
             switchToAssociatedView: true,
-          });
+          })(dispatch, getEmptyRootState, null);
+          [action] = dispatch.getCall(0).args;
         });
 
         it('shows the inbox if the conversation is not archived', () => {

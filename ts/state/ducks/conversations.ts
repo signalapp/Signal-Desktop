@@ -1057,16 +1057,23 @@ function onArchive(
 }
 function onUndoArchive(
   conversationId: string
-): SelectedConversationChangedActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('onUndoArchive: Conversation not found!');
-  }
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SelectedConversationChangedActionType
+> {
+  return (dispatch, getState) => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onUndoArchive: Conversation not found!');
+    }
 
-  conversation.setArchived(false);
-  return showConversation({
-    conversationId,
-  });
+    conversation.setArchived(false);
+    showConversation({
+      conversationId,
+    })(dispatch, getState, null);
+  };
 }
 
 function onMarkUnread(conversationId: string): ShowToastActionType {
@@ -2326,12 +2333,10 @@ function createGroup(
           ),
         },
       });
-      dispatch(
-        showConversation({
-          conversationId: conversation.id,
-          switchToAssociatedView: true,
-        })
-      );
+      showConversation({
+        conversationId: conversation.id,
+        switchToAssociatedView: true,
+      })(dispatch, getState, null);
     } catch (err) {
       log.error('Failed to create group', Errors.toLogFormat(err));
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
@@ -3483,14 +3488,27 @@ function showConversation({
   conversationId,
   messageId,
   switchToAssociatedView,
-}: ShowConversationArgsType): SelectedConversationChangedActionType {
-  return {
-    type: SELECTED_CONVERSATION_CHANGED,
-    payload: {
-      conversationId,
-      messageId,
-      switchToAssociatedView,
-    },
+}: ShowConversationArgsType): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SelectedConversationChangedActionType
+> {
+  return (dispatch, getState) => {
+    const { conversations } = getState();
+
+    if (conversationId === conversations.selectedConversationId) {
+      return;
+    }
+
+    dispatch({
+      type: SELECTED_CONVERSATION_CHANGED,
+      payload: {
+        conversationId,
+        messageId,
+        switchToAssociatedView,
+      },
+    });
   };
 }
 
