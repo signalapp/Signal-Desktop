@@ -539,7 +539,7 @@ function sendStickerMessage(
 // next in-memory store.
 function getAttachmentsFromConversationModel(
   conversationId: string
-): Array<AttachmentDraftType> {
+): ReadonlyArray<AttachmentDraftType> {
   const conversation = window.ConversationController.get(conversationId);
   return conversation?.get('draftAttachments') || [];
 }

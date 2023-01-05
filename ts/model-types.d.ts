@@ -290,7 +290,7 @@ export type ConversationAttributesType = {
   discoveredUnregisteredAt?: number;
   firstUnregisteredAt?: number;
   draftChanged?: boolean;
-  draftAttachments?: Array<AttachmentDraftType>;
+  draftAttachments?: ReadonlyArray<AttachmentDraftType>;
   draftBodyRanges?: DraftBodyRangesType;
   draftTimestamp?: number | null;
   hideStory?: boolean;
@@ -315,7 +315,7 @@ export type ConversationAttributesType = {
   quotedMessageId?: string | null;
   sealedSender?: unknown;
   sentMessageCount?: number;
-  sharedGroupNames?: Array<string>;
+  sharedGroupNames?: ReadonlyArray<string>;
   voiceNotePlaybackRate?: number;
 
   id: string;

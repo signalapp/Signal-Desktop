@@ -1646,6 +1646,7 @@ export const markViewed = (messageId: string): void => {
   message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
 
   if (isIncoming(message.attributes)) {
+    const convoAttributes = message.getConversation()?.attributes;
     drop(
       viewedReceiptsJobQueue.add({
         viewedReceipt: {
@@ -1653,9 +1654,9 @@ export const markViewed = (messageId: string): void => {
           senderE164,
           senderUuid,
           timestamp,
-          isDirectConversation: isDirectConversation(
-            message.getConversation()?.attributes
-          ),
+          isDirectConversation: convoAttributes
+            ? isDirectConversation(convoAttributes)
+            : true,
         },
       })
     );

@@ -506,9 +506,9 @@ export type DataInterface = {
   _getAllReactions: () => Promise<Array<ReactionType>>;
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
-    source: string;
-    sourceUuid: UUIDStringType;
-    sourceDevice: number;
+    source?: string;
+    sourceUuid?: UUIDStringType;
+    sourceDevice?: number;
     sent_at: number;
   }) => Promise<MessageType | undefined>;
   getMessageById: (id: string) => Promise<MessageType | undefined>;

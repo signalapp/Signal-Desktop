@@ -2558,7 +2558,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         storyId: storyQuote?.id,
       };
 
-      const dataMessage = await upgradeMessageSchema(withQuoteReference);
+      // There are type conflicts between ModelAttributesType and protos passed in here
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
 
       const isGroupStoryReply =
         isGroup(conversation.attributes) && dataMessage.storyId;
@@ -2712,7 +2714,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   };
                 }
 
-                attributes.avatar = avatar;
+                if (!avatar) {
+                  attributes.avatar = avatar;
+                } else {
+                  const { url, path } = avatar;
+                  strictAssert(url, 'Avatar needs url');
+                  strictAssert(path, 'Avatar needs path');
+                  attributes.avatar = {
+                    url,
+                    path,
+                    ...avatar,
+                  };
+                }
 
                 pendingGroupUpdate.avatarUpdated = true;
               } else {

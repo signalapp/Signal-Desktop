@@ -358,6 +358,12 @@ export async function getPreJoinGroupInfo(
 export function buildGroupLink(conversation: ConversationModel): string {
   const { masterKey, groupInviteLinkPassword } = conversation.attributes;
 
+  strictAssert(masterKey, 'buildGroupLink requires the master key!');
+  strictAssert(
+    groupInviteLinkPassword,
+    'buildGroupLink requires the groupInviteLinkPassword!'
+  );
+
   const bytes = Proto.GroupInviteLink.encode({
     v1Contents: {
       groupMasterKey: Bytes.fromBase64(masterKey),

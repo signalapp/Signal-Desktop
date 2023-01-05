@@ -81,8 +81,8 @@ export function calculateExpirationTimestamp({
   expireTimer,
   expirationStartTimestamp,
 }: {
-  expireTimer: DurationInSeconds | undefined;
-  expirationStartTimestamp: number | undefined | null;
+  expireTimer?: DurationInSeconds | null;
+  expirationStartTimestamp?: number | null;
 }): number | undefined {
   return isNumber(expirationStartTimestamp) && isNumber(expireTimer)
     ? expirationStartTimestamp + DurationInSeconds.toMillis(expireTimer)

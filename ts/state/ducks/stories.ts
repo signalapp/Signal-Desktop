@@ -24,7 +24,7 @@ import dataInterface from '../../sql/Client';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import { StoryViewDirectionType, StoryViewModeType } from '../../types/Stories';
-import { assertDev } from '../../util/assert';
+import { assertDev, strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { deleteStoryForEveryone as doDeleteStoryForEveryone } from '../../util/deleteStoryForEveryone';
@@ -371,6 +371,11 @@ function markStoryRead(
       log.warn(`markStoryRead: no message found ${messageId}`);
       return;
     }
+    const authorId = message.attributes.sourceUuid;
+    strictAssert(
+      authorId,
+      'markStoryRead: The message needs a sender to mark it read!'
+    );
 
     const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
 
@@ -404,7 +409,7 @@ function markStoryRead(
     }
 
     await dataInterface.addNewStoryRead({
-      authorId: message.attributes.sourceUuid,
+      authorId,
       conversationId: message.attributes.conversationId,
       storyId: messageId,
       storyReadDate,

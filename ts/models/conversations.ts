@@ -1686,7 +1686,7 @@ export class ConversationModel extends window.Backbone
       const { attributes } = message;
       const { schemaVersion } = attributes;
 
-      if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+      if ((schemaVersion || 0) < Message.VERSION_NEEDED_FOR_DISPLAY) {
         // Yep, we really do want to wait for each of these
         // eslint-disable-next-line no-await-in-loop
         const upgradedMessage = await upgradeMessageSchema(attributes);

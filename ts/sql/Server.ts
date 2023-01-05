@@ -2131,9 +2131,9 @@ async function getMessageBySender({
   sourceDevice,
   sent_at,
 }: {
-  source: string;
-  sourceUuid: UUIDStringType;
-  sourceDevice: number;
+  source?: string;
+  sourceUuid?: UUIDStringType;
+  sourceDevice?: number;
   sent_at: number;
 }): Promise<MessageType | undefined> {
   const db = getInstance();
@@ -2147,9 +2147,9 @@ async function getMessageBySender({
     LIMIT 2;
     `
   ).all({
-    source,
-    sourceUuid,
-    sourceDevice,
+    source: source || null,
+    sourceUuid: sourceUuid || null,
+    sourceDevice: sourceDevice || null,
     sent_at,
   });
 
