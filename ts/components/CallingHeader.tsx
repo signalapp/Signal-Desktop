@@ -91,19 +91,19 @@ export function CallingHeader({
         {isGroupCall && participantCount > 2 && toggleSpeakerView && (
           <div className="module-calling-tools__button">
             <Tooltip
-              content={i18n(
+              content={
                 isInSpeakerView
-                  ? 'calling__switch-view--to-grid'
-                  : 'calling__switch-view--to-speaker'
-              )}
+                  ? i18n('calling__switch-view--to-grid')
+                  : i18n('calling__switch-view--to-speaker')
+              }
               theme={Theme.Dark}
             >
               <button
-                aria-label={i18n(
+                aria-label={
                   isInSpeakerView
-                    ? 'calling__switch-view--to-grid'
-                    : 'calling__switch-view--to-speaker'
-                )}
+                    ? i18n('calling__switch-view--to-grid')
+                    : i18n('calling__switch-view--to-speaker')
+                }
                 className={
                   isInSpeakerView
                     ? 'CallingButton__grid-view'

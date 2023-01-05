@@ -95,6 +95,7 @@ export function AppStage(props: Props): JSX.Element {
         className={styles.toaster}
         loaf={toasts.map((slice, id) => ({
           id,
+          // eslint-disable-next-line local-rules/valid-i18n-keys
           text: i18n(slice.key, slice.subs),
         }))}
         onDismiss={dismissToast}

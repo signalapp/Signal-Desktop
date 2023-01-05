@@ -24,10 +24,6 @@ export type PropsType = {
 export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
   const { i18n, inGroup, sender, onClose } = props;
 
-  const key = inGroup
-    ? 'DeliveryIssue--summary--group'
-    : 'DeliveryIssue--summary';
-
   // Focus first button after initial render, restore focus on teardown
   const [focusRef] = useRestoreFocus();
 
@@ -56,6 +52,10 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
     </>
   );
 
+  const intlComponents = {
+    sender: <Emojify text={sender.title} />,
+  };
+
   return (
     <Modal
       modalName="DeliveryIssueDialog"
@@ -77,13 +77,19 @@ export function DeliveryIssueDialog(props: PropsType): React.ReactElement {
           {i18n('DeliveryIssue--title')}
         </div>
         <div className="module-delivery-issue-dialog__description">
-          <Intl
-            id={key}
-            components={{
-              sender: <Emojify text={sender.title} />,
-            }}
-            i18n={i18n}
-          />
+          {inGroup ? (
+            <Intl
+              id="DeliveryIssue--summary--group"
+              components={intlComponents}
+              i18n={i18n}
+            />
+          ) : (
+            <Intl
+              id="DeliveryIssue--summary"
+              components={intlComponents}
+              i18n={i18n}
+            />
+          )}
         </div>
       </section>
     </Modal>

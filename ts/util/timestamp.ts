@@ -141,11 +141,10 @@ export function formatDate(
 
   const m = moment(rawTimestamp);
 
-  const formatI18nKey =
+  const rawFormatString =
     Math.abs(m.diff(Date.now())) < 6 * MONTH
-      ? 'TimelineDateHeader--date-in-last-6-months'
-      : 'TimelineDateHeader--date-older-than-6-months';
-  const rawFormatString = i18n(formatI18nKey);
+      ? i18n('TimelineDateHeader--date-in-last-6-months')
+      : i18n('TimelineDateHeader--date-older-than-6-months');
   const formatString = sanitizeFormatString(rawFormatString, 'LL');
 
   return m.format(formatString);

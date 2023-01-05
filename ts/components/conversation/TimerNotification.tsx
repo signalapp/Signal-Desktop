@@ -55,6 +55,7 @@ export function TimerNotification(props: Props): JSX.Element {
   switch (type) {
     case 'fromOther':
       message = (
+        // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           i18n={i18n}
           id={changeKey}

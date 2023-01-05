@@ -188,9 +188,9 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
     case CallMode.Direct:
       ({ isVideoCall } = props);
       headerNode = <ContactName title={title} />;
-      messageNode = i18n(
-        isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
-      );
+      messageNode = isVideoCall
+        ? i18n('incomingVideoCall')
+        : i18n('incomingAudioCall');
       break;
     case CallMode.Group: {
       const { otherMembersRung, ringer } = props;

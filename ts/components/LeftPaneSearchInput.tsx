@@ -87,7 +87,7 @@ export function LeftPaneSearchInput({
     inputRef.current?.focus();
   };
 
-  const label = i18n(searchConversation ? 'searchIn' : 'search');
+  const label = searchConversation ? i18n('searchIn') : i18n('search');
 
   return (
     <SearchInput

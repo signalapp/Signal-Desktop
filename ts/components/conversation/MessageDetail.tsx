@@ -225,6 +225,7 @@ export class MessageDetail extends React.Component<Props> {
               `module-message-detail__contact-group__header--${sendStatus}`
           )}
         >
+          {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
           {i18n(i18nKey)}
         </div>
         {sortedContacts.map(contact => this.renderContact(contact))}

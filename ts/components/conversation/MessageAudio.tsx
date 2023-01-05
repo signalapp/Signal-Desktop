@@ -189,6 +189,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           onMouseUp={() => setIsDown(false)}
           onMouseLeave={() => setIsDown(false)}
           tabIndex={0}
+          // eslint-disable-next-line local-rules/valid-i18n-keys
           aria-label={i18n(label)}
         >
           {children}

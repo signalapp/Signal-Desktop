@@ -74,7 +74,8 @@ function MediaSection({
     const header =
       section.type === 'yearMonth'
         ? date.format(MONTH_FORMAT)
-        : i18n(section.type);
+        : // eslint-disable-next-line local-rules/valid-i18n-keys
+          i18n(section.type);
 
     return (
       <AttachmentSection

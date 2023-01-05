@@ -319,6 +319,7 @@ function renderShortcut(
   return (
     <div key={index} className="module-shortcut-guide__shortcut">
       <div className="module-shortcut-guide__shortcut__description">
+        {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
         {i18n(shortcut.description)}
       </div>
       <div className="module-shortcut-guide__shortcut__key-container">

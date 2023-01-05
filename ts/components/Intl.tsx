@@ -88,6 +88,7 @@ export class Intl extends React.Component<Props> {
       return intl.formatMessage({ id }, components);
     }
 
+    // eslint-disable-next-line local-rules/valid-i18n-keys
     const text = i18n(id);
     const results: Array<
       string | JSX.Element | Array<string | JSX.Element> | null

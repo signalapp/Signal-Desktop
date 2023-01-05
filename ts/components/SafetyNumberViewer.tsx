@@ -64,7 +64,6 @@ export function SafetyNumberViewer({
   );
 
   const { isVerified } = contact;
-  const verifiedStatusKey = isVerified ? 'isVerified' : 'isNotVerified';
   const verifyButtonText = isVerified ? i18n('unverify') : i18n('verify');
 
   return (
@@ -79,7 +78,12 @@ export function SafetyNumberViewer({
         ) : (
           <span className="module-SafetyNumberViewer__icon--shield" />
         )}
-        <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName]} />
+        {}
+        {isVerified ? (
+          <Intl i18n={i18n} id="isVerified" components={[boldName]} />
+        ) : (
+          <Intl i18n={i18n} id="isNotVerified" components={[boldName]} />
+        )}
       </div>
       <div className="module-SafetyNumberViewer__button">
         <Button

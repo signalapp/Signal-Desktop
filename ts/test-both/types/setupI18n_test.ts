@@ -15,6 +15,7 @@ describe('setupI18n', () => {
 
   describe('i18n', () => {
     it('returns empty string for unknown string', () => {
+      // eslint-disable-next-line local-rules/valid-i18n-keys
       assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', () => {

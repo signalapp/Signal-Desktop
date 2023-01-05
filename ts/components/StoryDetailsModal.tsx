@@ -114,6 +114,7 @@ export function StoryDetailsModal({
           return (
             <div key={i18nKey} className="StoryDetailsModal__contact-group">
               <div className="StoryDetailsModal__contact-group__header">
+                {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
                 {i18n(i18nKey)}
               </div>
               {sortedContacts.map(status => {

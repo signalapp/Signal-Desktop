@@ -2276,6 +2276,10 @@
     "message": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "View this message on mobile to open it",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"

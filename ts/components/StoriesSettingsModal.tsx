@@ -815,6 +815,7 @@ export function EditMyStoryPrivacy({
 }: EditMyStoryPrivacyPropsType): JSX.Element {
   const disclaimerElement = (
     <div className="StoriesSettingsModal__disclaimer">
+      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
       <Intl
         components={{
           learnMore: (

@@ -47,6 +47,7 @@ export class VerificationNotification extends React.Component<Props> {
     const id = this.getStringId();
 
     return (
+      // eslint-disable-next-line local-rules/valid-i18n-keys
       <Intl
         id={id}
         components={[

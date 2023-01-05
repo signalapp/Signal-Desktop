@@ -81,6 +81,7 @@ jobs:
     - run: yarn test-release
       env:
         NODE_ENV: production
+    - run: yarn test-eslint
 
   linux:
     needs: lint

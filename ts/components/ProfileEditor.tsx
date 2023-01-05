@@ -418,6 +418,7 @@ export function ProfileEditor({
                 <Emoji shortName={defaultBio.shortName} size={24} />
               </div>
             }
+            // eslint-disable-next-line local-rules/valid-i18n-keys
             label={i18n(defaultBio.i18nLabel)}
             onClick={() => {
               const emojiData = getEmojiData(defaultBio.shortName, skinTone);
@@ -425,6 +426,7 @@ export function ProfileEditor({
               setStagedProfile(profileData => ({
                 ...profileData,
                 aboutEmoji: unifiedToEmoji(emojiData.unified),
+                // eslint-disable-next-line local-rules/valid-i18n-keys
                 aboutText: i18n(defaultBio.i18nLabel),
               }));
             }}

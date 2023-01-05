@@ -43,6 +43,7 @@ export function SafetyNumberNotification({
     <SystemMessage
       icon="safety-number"
       contents={
+        // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           id={changeKey}
           components={[

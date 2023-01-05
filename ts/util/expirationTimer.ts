@@ -35,7 +35,7 @@ export function format(
 ): string {
   let seconds = Math.abs(dirtySeconds || 0);
   if (!seconds) {
-    return i18n(capitalizeOff ? 'off' : 'disappearingMessages__off');
+    return capitalizeOff ? i18n('off') : i18n('disappearingMessages__off');
   }
   seconds = Math.max(Math.floor(seconds), 1);
 

@@ -374,8 +374,10 @@ export function ConversationList({
           result = (
             <div
               className="module-conversation-list__item--header"
+              // eslint-disable-next-line local-rules/valid-i18n-keys
               aria-label={i18n(row.i18nKey)}
             >
+              {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
               {i18n(row.i18nKey)}
             </div>
           );

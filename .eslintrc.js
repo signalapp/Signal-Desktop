@@ -1,5 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+const { messagesCacheKey } = require('./.eslint/rules/valid-i18n-keys');
 
 // For reference: https://github.com/airbnb/javascript
 
@@ -215,6 +216,8 @@ const typescriptRules = {
 
   // TODO: DESKTOP-4655
   'import/no-cycle': 'off',
+
+  'local-rules/valid-i18n-keys': ['error', { messagesCacheKey }],
 };
 
 module.exports = {
@@ -228,7 +231,7 @@ module.exports = {
 
   extends: ['airbnb-base', 'prettier'],
 
-  plugins: ['mocha', 'more'],
+  plugins: ['mocha', 'more', 'local-rules'],
 
   overrides: [
     {

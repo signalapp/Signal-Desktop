@@ -285,14 +285,12 @@ function getConfirmationMessage({
 
   // Requesting a membership since they weren't added by anyone
   if (membershipType === StageType.DENY_REQUEST) {
-    const key = isAccessControlEnabled(
-      conversation.accessControlAddFromInviteLink
-    )
-      ? 'PendingRequests--deny-for--with-link'
-      : 'PendingRequests--deny-for';
-    return i18n(key, {
+    const params = {
       name: firstMembership.member.title,
-    });
+    };
+    return isAccessControlEnabled(conversation.accessControlAddFromInviteLink)
+      ? i18n('PendingRequests--deny-for--with-link', params)
+      : i18n('PendingRequests--deny-for', params);
   }
 
   if (membershipType === StageType.APPROVE_REQUEST) {

@@ -415,11 +415,13 @@ export function ConversationDetails({
                 icon={IconType.timer}
               />
             }
-            info={i18n(
+            info={
               isGroup
-                ? 'ConversationDetails--disappearing-messages-info--group'
-                : 'ConversationDetails--disappearing-messages-info--direct'
-            )}
+                ? i18n('ConversationDetails--disappearing-messages-info--group')
+                : i18n(
+                    'ConversationDetails--disappearing-messages-info--direct'
+                  )
+            }
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
               <DisappearingTimerSelect
@@ -621,6 +623,7 @@ function ConversationDetailsCallButton({
       onClick={onClick}
       variant={ButtonVariant.Details}
     >
+      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
       {i18n(type)}
     </Button>
   );

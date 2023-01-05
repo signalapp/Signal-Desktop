@@ -50,6 +50,7 @@ export function UnsupportedMessage({
     <SystemMessage
       icon={icon}
       contents={
+        // eslint-disable-next-line local-rules/valid-i18n-keys
         <Intl
           id={stringId}
           components={[

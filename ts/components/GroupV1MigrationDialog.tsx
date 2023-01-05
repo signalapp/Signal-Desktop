@@ -154,6 +154,7 @@ function renderMembers({
 
   return (
     <>
+      {/* eslint-disable-next-line local-rules/valid-i18n-keys */}
       <GroupDialog.Paragraph>{i18n(key)}</GroupDialog.Paragraph>
       <GroupDialog.Contacts
         contacts={sortByTitle(members)}

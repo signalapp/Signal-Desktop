@@ -75,20 +75,24 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        // eslint-disable-next-line no-case-declarations
-        const otherPeopleNotifMsg =
-          otherPeople.length === 1
-            ? 'joinedTheGroup'
-            : 'multipleJoinedTheGroup';
-
         return (
           <>
             {otherPeople.length > 0 && (
-              <Intl
-                i18n={i18n}
-                id={otherPeopleNotifMsg}
-                components={[otherPeopleWithCommas]}
-              />
+              <>
+                {otherPeople.length === 1 ? (
+                  <Intl
+                    i18n={i18n}
+                    id="joinedTheGroup"
+                    components={[otherPeopleWithCommas]}
+                  />
+                ) : (
+                  <Intl
+                    i18n={i18n}
+                    id="multipleJoinedTheGroup"
+                    components={[otherPeopleWithCommas]}
+                  />
+                )}
+              </>
             )}
             {contactsIncludesMe && (
               <div className="module-group-notification__change">
@@ -106,12 +110,18 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        // eslint-disable-next-line no-case-declarations
-        const leftKey =
-          contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
-
-        return (
-          <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
+        return contacts.length > 1 ? (
+          <Intl
+            id="multipleLeftTheGroup"
+            i18n={i18n}
+            components={[otherPeopleWithCommas]}
+          />
+        ) : (
+          <Intl
+            id="leftTheGroup"
+            i18n={i18n}
+            components={[otherPeopleWithCommas]}
+          />
         );
       case 'general':
         return;
