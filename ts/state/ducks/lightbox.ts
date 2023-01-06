@@ -7,6 +7,10 @@ import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType as RootStateType } from '../reducer';
+import type {
+  MessageChangedActionType,
+  MessageDeletedActionType,
+} from './conversations';
 import type { ShowStickerPackPreviewActionType } from './globalModals';
 import type { ShowToastActionType } from './toast';
 
@@ -20,7 +24,11 @@ import {
 import { isTapToView } from '../selectors/message';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
-import { saveAttachmentFromMessage } from './conversations';
+import {
+  MESSAGE_CHANGED,
+  MESSAGE_DELETED,
+  saveAttachmentFromMessage,
+} from './conversations';
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
@@ -51,7 +59,11 @@ type ShowLightboxActionType = {
   };
 };
 
-type LightboxActionType = CloseLightboxActionType | ShowLightboxActionType;
+type LightboxActionType =
+  | CloseLightboxActionType
+  | MessageChangedActionType
+  | MessageDeletedActionType
+  | ShowLightboxActionType;
 
 function closeLightbox(): ThunkAction<
   void,
@@ -180,7 +192,6 @@ function showLightboxForViewOnceMedia(
         objectURL: getAbsoluteTempPath(path),
         contentType,
         index: 0,
-        // TODO maybe we need to listen for message change?
         message: {
           attachments: message.get('attachments') || [],
           id: message.get('id'),
@@ -337,6 +348,36 @@ export function reducer(
     return {
       ...action.payload,
       isShowingLightbox: true,
+    };
+  }
+
+  if (action.type === MESSAGE_CHANGED || action.type === MESSAGE_DELETED) {
+    if (!state.isShowingLightbox) {
+      return state;
+    }
+
+    if (
+      action.type === MESSAGE_CHANGED &&
+      !action.payload.data.deletedForEveryone
+    ) {
+      return state;
+    }
+
+    const nextMedia = state.media.filter(
+      item => item.message.id !== action.payload.id
+    );
+
+    if (nextMedia.length === state.media.length) {
+      return state;
+    }
+
+    if (!nextMedia.length) {
+      return getEmptyState();
+    }
+
+    return {
+      ...state,
+      media: nextMedia,
     };
   }
 
