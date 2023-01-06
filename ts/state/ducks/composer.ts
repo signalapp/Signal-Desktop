@@ -50,7 +50,7 @@ import {
   resetLinkPreview,
   suspendLinkPreviews,
 } from '../../services/LinkPreview';
-import { getMaximumAttachmentSizeInKb } from '../../util/attachments';
+import { getMaximumAttachmentSizeInKb, KIBIBYTE } from '../../util/attachments';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation';
 import {
   getRenderDetailsForLimit,
@@ -901,7 +901,7 @@ function preProcessAttachment(
   }
 
   const limitKb = getMaximumAttachmentSizeInKb();
-  if (file.size > limitKb) {
+  if (file.size / KIBIBYTE > limitKb) {
     return {
       toastType: ToastType.FileSize,
       parameters: getRenderDetailsForLimit(limitKb),
