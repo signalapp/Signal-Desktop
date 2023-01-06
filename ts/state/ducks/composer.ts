@@ -557,7 +557,11 @@ function onEditorStateChange(
   debouncedSaveDraft(conversationId, messageText, bodyRanges);
 
   // If we have attachments, don't add link preview
-  if (!hasDraftAttachments(conversation.attributes, { includePending: true })) {
+  if (
+    !hasDraftAttachments(conversation.attributes.draftAttachments, {
+      includePending: true,
+    })
+  ) {
     maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
       caretLocation,
     });
