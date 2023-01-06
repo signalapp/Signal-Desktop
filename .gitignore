@@ -50,3 +50,4 @@ coverage/
 stylesheets/dist/
 
 *.worker.js.LICENSE.txt
+ts/webworker/workers/node/**/*.node
