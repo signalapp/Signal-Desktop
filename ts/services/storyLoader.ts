@@ -47,6 +47,10 @@ export function getStoryDataFromMessageAttributes(
       ? getAttachmentsForMessage(message)
       : [unresolvedAttachment];
 
+  // If a story message has a preview property in its attributes then we
+  // rebuild the textAttachment data structure to contain the all the data it
+  // needs to fully render the text attachment including the link preview and
+  // its image.
   let preview: LinkPreviewType | undefined;
   if (message.preview?.length) {
     strictAssert(

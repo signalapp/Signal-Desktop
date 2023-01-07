@@ -2053,6 +2053,9 @@ export default class MessageReceiver
     }
 
     if (msg.textAttachment) {
+      // If a text attachment has a link preview we remove it from the
+      // textAttachment data structure and instead process the preview and add
+      // it as a "preview" property for the message attributes.
       const { text, preview: unprocessedPreview } = msg.textAttachment;
       if (unprocessedPreview) {
         preview = processPreview([unprocessedPreview]);
