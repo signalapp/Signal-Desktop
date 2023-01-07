@@ -13,6 +13,7 @@ import {
 } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
+import type { LinkPreviewType } from './message/LinkPreviews';
 import type { LoggerType } from './Logging';
 import * as MIME from './MIME';
 import { toLogFormat } from './errors';
@@ -99,11 +100,7 @@ export type TextAttachmentType = {
   textStyle?: number | null;
   textForegroundColor?: number | null;
   textBackgroundColor?: number | null;
-  preview?: {
-    image?: AttachmentType;
-    title?: string | null;
-    url?: string | null;
-  } | null;
+  preview?: LinkPreviewType;
   gradient?: {
     startColor?: number | null;
     endColor?: number | null;

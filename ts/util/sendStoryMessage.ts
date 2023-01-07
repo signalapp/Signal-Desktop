@@ -24,6 +24,21 @@ import { isGroupV2 } from './whatTypeOfConversation';
 import { isNotNil } from './isNotNil';
 import { collect } from './iterables';
 import { DurationInSeconds } from './durations';
+import { sanitizeLinkPreview } from '../services/LinkPreview';
+
+function cleanLinkPreviewIfAny(attachment: AttachmentType): AttachmentType {
+  if (!attachment.textAttachment || !attachment.textAttachment.preview) {
+    return attachment;
+  }
+
+  return {
+    ...attachment,
+    textAttachment: {
+      ...attachment.textAttachment,
+      preview: undefined,
+    },
+  };
+}
 
 export async function sendStoryMessage(
   listIds: Array<string>,
@@ -135,7 +150,17 @@ export async function sendStoryMessage(
       sendStateByListId.set(distributionList.id, sendStateByConversationId);
     });
 
-  const attachments: Array<AttachmentType> = [attachment];
+  const cleanedAttachment = cleanLinkPreviewIfAny(attachment);
+  const attachments: Array<AttachmentType> = [cleanedAttachment];
+
+  const linkPreview = attachment?.textAttachment?.preview;
+  const sanitizedLinkPreview = linkPreview
+    ? sanitizeLinkPreview(linkPreview)
+    : undefined;
+  // If a text attachment has a link preview we remove it from the
+  // textAttachment data structure and instead process the preview and add
+  // it as a "preview" property for the message attributes.
+  const preview = sanitizedLinkPreview ? [sanitizedLinkPreview] : undefined;
 
   // * Gather all the job data we'll be sending to the sendStory job
   // * Create the message for each distribution list
@@ -161,6 +186,7 @@ export async function sendStoryMessage(
           expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
           id: UUID.generate().toString(),
+          preview,
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
           received_at_ms: timestamp,

@@ -244,30 +244,34 @@ export function getLinkPreviewForSend(message: string): Array<LinkPreviewType> {
       //   the message. This can happen if you have a link preview, then quickly delete
       //   the link and send the message.
       .filter(({ url }: Readonly<{ url: string }>) => urlsInMessage.has(url))
-      .map((item: LinkPreviewResult) => {
-        if (item.image) {
-          // We eliminate the ObjectURL here, unneeded for send or save
-          return {
-            ...item,
-            image: omit(item.image, 'url'),
-            title: dropNull(item.title),
-            description: dropNull(item.description),
-            date: dropNull(item.date),
-            domain: LinkPreview.getDomain(item.url),
-            isStickerPack: LinkPreview.isStickerPack(item.url),
-          };
-        }
-
-        return {
-          ...item,
-          title: dropNull(item.title),
-          description: dropNull(item.description),
-          date: dropNull(item.date),
-          domain: LinkPreview.getDomain(item.url),
-          isStickerPack: LinkPreview.isStickerPack(item.url),
-        };
-      })
+      .map(sanitizeLinkPreview)
   );
+}
+
+export function sanitizeLinkPreview(
+  item: LinkPreviewResult | LinkPreviewType
+): LinkPreviewType {
+  if (item.image) {
+    // We eliminate the ObjectURL here, unneeded for send or save
+    return {
+      ...item,
+      image: omit(item.image, 'url'),
+      title: dropNull(item.title),
+      description: dropNull(item.description),
+      date: dropNull(item.date),
+      domain: LinkPreview.getDomain(item.url),
+      isStickerPack: LinkPreview.isStickerPack(item.url),
+    };
+  }
+
+  return {
+    ...item,
+    title: dropNull(item.title),
+    description: dropNull(item.description),
+    date: dropNull(item.date),
+    domain: LinkPreview.getDomain(item.url),
+    isStickerPack: LinkPreview.isStickerPack(item.url),
+  };
 }
 
 async function getPreview(
