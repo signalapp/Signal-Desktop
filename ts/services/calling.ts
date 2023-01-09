@@ -13,7 +13,7 @@ import type {
   UserId,
   VideoFrameSource,
   VideoRequest,
-} from 'ringrtc';
+} from '@signalapp/ringrtc';
 import {
   Call,
   CallEndedReason,
@@ -34,7 +34,7 @@ import {
   RingRTC,
   RingUpdate,
   BandwidthMode,
-} from 'ringrtc';
+} from '@signalapp/ringrtc';
 import { uniqBy, noop } from 'lodash';
 
 import type {

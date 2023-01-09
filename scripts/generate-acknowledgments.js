@@ -13,8 +13,8 @@ const {
 } = require('../package.json');
 
 const SKIPPED_DEPENDENCIES = new Set([
-  'ringrtc',
   '@signalapp/libsignal-client',
+  '@signalapp/ringrtc',
 ]);
 
 const rootDir = join(__dirname, '..');

@@ -4,7 +4,7 @@
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, clamp, chunk, maxBy, flatten, noop } from 'lodash';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
   GroupCallOverflowArea,

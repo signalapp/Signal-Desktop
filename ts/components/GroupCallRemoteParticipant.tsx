@@ -11,7 +11,7 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';

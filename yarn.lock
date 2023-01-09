@@ -2073,6 +2073,13 @@
     uuid "^8.3.2"
     ws "^8.4.2"
 
+"@signalapp/ringrtc@=2.23.0":
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.23.0.tgz#982fb6268eab2eb35a61624149b5f9ce9af28907"
+  integrity sha512-3Yj+s7jXWM172rrAADg5MXKdAbS7CWa62TavCMzFy3+Q0UtlrOFfTlnzT7XW+W+0QUhVYE5juLh3GzuS3B1gzw==
+  dependencies:
+    tar "^6.1.0"
+
 "@sindresorhus/is@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.8.0.tgz#073aee40b0aab2d4ace33c0a2a2672a37da6fa12"
@@ -15539,10 +15546,6 @@ rimraf@^3.0.0, rimraf@^3.0.2:
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
   dependencies:
     glob "^7.1.3"
-
-"ringrtc@https://github.com/signalapp/signal-ringrtc-node.git#9a9d9fbc1ca43e7a0707a960ce9642dbf82dc64a":
-  version "2.22.0"
-  resolved "https://github.com/signalapp/signal-ringrtc-node.git#9a9d9fbc1ca43e7a0707a960ce9642dbf82dc64a"
 
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.1"

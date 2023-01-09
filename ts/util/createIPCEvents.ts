@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import type { AudioDevice } from 'ringrtc';
+import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
 import { getStoriesAvailable } from './stories';
 

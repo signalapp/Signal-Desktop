@@ -90,6 +90,7 @@
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.0.4",
     "@signalapp/libsignal-client": "0.21.1",
+    "@signalapp/ringrtc": "=2.23.0",
     "@sindresorhus/is": "0.8.0",
     "@types/fabric": "4.5.3",
     "array-move": "2.1.0",
@@ -169,7 +170,6 @@
     "redux-ts-utils": "3.2.2",
     "reselect": "4.1.2",
     "rimraf": "2.6.2",
-    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#9a9d9fbc1ca43e7a0707a960ce9642dbf82dc64a",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
     "split2": "4.0.0",
@@ -334,7 +334,7 @@
         }
       ],
       "mergeASARs": true,
-      "singleArchFiles": "node_modules/{@signalapp/libsignal-client/prebuilds/**,ringrtc/build/**}",
+      "singleArchFiles": "node_modules/@signalapp/{libsignal-client/prebuilds/**,ringrtc/build/**}",
       "target": [
         {
           "target": "zip",
@@ -482,7 +482,8 @@
       "!node_modules/@signalapp/better-sqlite3/src/*",
       "node_modules/@signalapp/better-sqlite3/build/Release/better_sqlite3.node",
       "node_modules/@signalapp/libsignal-client/prebuilds/${platform}-${arch}/*.node",
-      "node_modules/ringrtc/build/${platform}/*${arch}*.node",
+      "!node_modules/@signalapp/ringrtc/scripts/*",
+      "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/mp4box/**",

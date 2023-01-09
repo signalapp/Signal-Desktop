@@ -31,12 +31,12 @@ const bundleDefaults = {
     // Native libraries
     '@signalapp/libsignal-client',
     '@signalapp/libsignal-client/zkgroup',
+    '@signalapp/ringrtc',
     '@signalapp/better-sqlite3',
     'electron',
     'fs-xattr',
     'fsevents',
     'mac-screen-capture-permissions',
-    'ringrtc',
     'sass',
     'bufferutil',
     'utf-8-validate',

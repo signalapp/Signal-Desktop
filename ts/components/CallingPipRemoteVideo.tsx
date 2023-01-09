@@ -3,7 +3,7 @@
 
 import React, { useMemo, useEffect } from 'react';
 import { clamp, maxBy } from 'lodash';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { Avatar, AvatarSize } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';

@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
-import type { VideoFrameSource } from 'ringrtc';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   ActiveCallStateType,
   SetLocalAudioType,

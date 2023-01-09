@@ -3,7 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { CallEndedReason } from 'ringrtc';
+import { CallEndedReason } from '@signalapp/ringrtc';
 import {
   hasScreenCapturePermission,
   openSystemPreferences,

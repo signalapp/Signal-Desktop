@@ -8,7 +8,7 @@ import {
   HangupMessage,
   HangupType,
   OpaqueMessage,
-} from 'ringrtc';
+} from '@signalapp/ringrtc';
 import { SignalService as Proto } from '../../protobuf';
 
 import { callingMessageToProto } from '../../util/callingMessageToProto';

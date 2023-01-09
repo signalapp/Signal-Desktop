@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
-import type { AudioDevice } from 'ringrtc';
+import type { AudioDevice } from '@signalapp/ringrtc';
 
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
