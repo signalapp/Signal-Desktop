@@ -52,12 +52,7 @@ describe('libsession_wrapper_contacts  ', () => {
     created.approvedMe = true;
     contacts.set(created);
 
-    contacts.setName(real_id, 'Joe');
-    contacts.setNickname(real_id, 'Joey');
-    contacts.setApproved(real_id, true);
-    contacts.setApprovedMe(real_id, true);
-
-    const updated = contacts.get(real_id);
+    let updated = contacts.get(real_id);
     expect(updated).to.not.be.null;
     expect(updated).to.not.be.undefined;
 
@@ -68,6 +63,13 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(updated?.approvedMe).to.be.true;
     expect(updated?.blocked).to.be.false;
     expect(updated?.profilePicture).to.be.undefined;
+
+    created.profilePicture = { key: new Uint8Array([1, 2, 3]), url: 'fakeUrl' };
+    contacts.set(created);
+    updated = contacts.get(real_id);
+
+    expect(updated?.profilePicture?.url).to.be.deep.eq('fakeUrl');
+    expect(updated?.profilePicture?.key).to.be.deep.eq(new Uint8Array([1, 2, 3]));
 
     expect(contacts.needsPush()).to.be.eql(true);
     expect(contacts.needsDump()).to.be.eql(true);
@@ -98,7 +100,6 @@ describe('libsession_wrapper_contacts  ', () => {
     expect(x?.approved).to.be.true;
     expect(x?.approvedMe).to.be.true;
     expect(x?.blocked).to.be.false;
-    expect(x?.profilePicture).to.be.undefined;
 
     const another_id = '051111111111111111111111111111111111111111111111111111111111111111';
     contacts2.getOrCreate(another_id);
@@ -206,11 +207,11 @@ describe('libsession_wrapper_contacts  ', () => {
     c.nickname = 'Joey';
     c.approved = true;
     c.approvedMe = true;
-    // contacts.set(c); // FIXME use .set when ready
-    contacts.setName(real_id, c.name);
-    contacts.setNickname(real_id, c.nickname);
-    contacts.setApproved(real_id, c.approved);
-    contacts.setApprovedMe(real_id, c.approvedMe);
+    contacts.set(c); // FIXME use .set when ready
+    // contacts.setName(real_id, c.name);
+    // contacts.setNickname(real_id, c.nickname);
+    // contacts.setApproved(real_id, c.approved);
+    // contacts.setApprovedMe(real_id, c.approvedMe);
 
     const c2 = contacts.getOrCreate(real_id);
     expect(c2.name).to.be.eq('Joe');
