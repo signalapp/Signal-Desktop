@@ -1607,10 +1607,10 @@
     classnames "^2.2.6"
     deepmerge "^4.2.2"
 
-"@indutny/sneequals@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@indutny/sneequals/-/sneequals-1.0.1.tgz#9e0fa9ab68038f640105b837ae8f9ee453ba0fac"
-  integrity sha512-UBWmN5kI4VDvV8/ratSqUGodYWiEhu2KlJqIqB5ga43CRhNXlrzhFg9ejM3PeoZaB9PP5hf8s2ZOOagAefYNhw==
+"@indutny/sneequals@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@indutny/sneequals/-/sneequals-3.2.0.tgz#dd73d097fca6c8a89b1766bb87cc78f32017165d"
+  integrity sha512-dnL/SCNA2BceqJ4J/CR8R+dUCBfHnDBgPFBUv5w7Sa7QRoi2pNplJoundP9b8L8FnVrh4VAVPqM5q3H0f+n6Dg==
 
 "@istanbuljs/schema@^0.1.2", "@istanbuljs/schema@^0.1.3":
   version "0.1.3"
@@ -2073,7 +2073,7 @@
     uuid "^8.3.2"
     ws "^8.4.2"
 
-"@signalapp/ringrtc@=2.23.0":
+"@signalapp/ringrtc@2.23.0":
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.23.0.tgz#982fb6268eab2eb35a61624149b5f9ce9af28907"
   integrity sha512-3Yj+s7jXWM172rrAADg5MXKdAbS7CWa62TavCMzFy3+Q0UtlrOFfTlnzT7XW+W+0QUhVYE5juLh3GzuS3B1gzw==
