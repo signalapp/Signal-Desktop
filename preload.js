@@ -30,6 +30,7 @@ window.sessionFeatureFlags = {
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
   useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
+  useSharedUtilForUserConfig: true,
   debug: {
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,

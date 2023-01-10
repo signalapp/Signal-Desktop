@@ -37,6 +37,7 @@ declare global {
       useOnionRequests: boolean;
       useTestNet: boolean;
       useClosedGroupV3: boolean;
+      useSharedUtilForUserConfig: boolean;
       debug: {
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;

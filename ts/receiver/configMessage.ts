@@ -19,6 +19,17 @@ import { getLastProfileUpdateTimestamp, setLastProfileUpdateTimestamp } from '..
 import { appendFetchAvatarAndProfileJob, updateOurProfileSync } from './userProfileImageUpdates';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 
+export async function handleConfigMessagesViaLibSession(
+  configMessages: Array<SignalService.ConfigurationMessage>
+) {
+  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  }
+
+  window?.log?.info(
+    `Handling our profileUdpates via libsession_util. count: ${configMessages.length}`
+  );
+}
+
 async function handleOurProfileUpdate(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
@@ -195,10 +206,21 @@ const handleContactFromConfig = async (
   }
 };
 
-export async function handleConfigurationMessage(
+/**
+ * This is the legacy way of handling incoming configuration message.
+ * Should not be used at all soon.
+ */
+async function handleConfigurationMessage(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
+  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    window?.log?.info(
+      'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessage()"'
+    );
+    return;
+  }
+
   window?.log?.info('Handling configuration message');
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubkey) {
@@ -216,3 +238,8 @@ export async function handleConfigurationMessage(
 
   await removeFromCache(envelope);
 }
+
+export const ConfigMessageHandler = {
+  handleConfigurationMessage,
+  handleConfigMessagesViaLibSession,
+};

@@ -25,4 +25,7 @@ module.exports = {
     path: path.resolve(__dirname, 'ts', 'webworker', 'workers', 'node', 'util'),
   },
   target: 'node',
+  optimization: {
+    minimize: false,
+  },
 };

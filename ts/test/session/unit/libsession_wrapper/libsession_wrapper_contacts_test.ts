@@ -140,7 +140,7 @@ describe('libsession_wrapper_contacts  ', () => {
     contacts2.setNickname(third_id, 'Nickname 3');
     contacts2.setApproved(third_id, true);
     contacts2.setBlocked(third_id, true);
-    contacts2.setProfilePic(third_id, 'http://example.com/huge.bmp', from_string('qwerty'));
+    contacts2.setProfilePicture(third_id, 'http://example.com/huge.bmp', from_string('qwerty'));
 
     expect(contacts.needsPush()).to.be.true;
     expect(contacts2.needsPush()).to.be.true;

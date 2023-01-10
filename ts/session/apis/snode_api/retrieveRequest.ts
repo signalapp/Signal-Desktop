@@ -5,6 +5,7 @@ import { StringUtils, UserUtils } from '../../utils';
 import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
+import { SnodeNamespaces } from './namespaces';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
@@ -58,7 +59,7 @@ async function getRetrieveSignatureParams(params: {
 async function buildRetrieveRequest(
   lastHashes: Array<string>,
   pubkey: string,
-  namespaces: Array<number>,
+  namespaces: Array<SnodeNamespaces>,
   ourPubkey: string
 ): Promise<Array<RetrieveSubRequestType>> {
   const retrieveRequestsParams = await Promise.all(
@@ -70,7 +71,7 @@ async function buildRetrieveRequest(
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),
       };
 
-      if (namespace === -10) {
+      if (namespace === SnodeNamespaces.ClosedGroupMessages) {
         if (pubkey === ourPubkey || !pubkey.startsWith('05')) {
           throw new Error(
             'namespace -10 can only be used to retrieve messages from a legacy closed group'
@@ -90,7 +91,11 @@ async function buildRetrieveRequest(
 
       // all legacy closed group retrieves are unauthenticated and run above.
       // if we get here, this can only be a retrieve for our own swarm, which needs to be authenticated
-      if (namespace !== 0) {
+      if (
+        namespace !== SnodeNamespaces.UserMessages &&
+        namespace !== SnodeNamespaces.UserContacts &&
+        namespace !== SnodeNamespaces.UserProfile
+      ) {
         throw new Error('not a legacy closed group. namespace can only be 0');
       }
       if (pubkey !== ourPubkey) {
@@ -114,7 +119,7 @@ async function retrieveNextMessages(
   targetNode: Snode,
   lastHashes: Array<string>,
   associatedWith: string,
-  namespaces: Array<number>,
+  namespaces: Array<SnodeNamespaces>,
   ourPubkey: string
 ): Promise<Array<{ code: number; messages: Array<Record<string, any>> }>> {
   if (namespaces.length !== lastHashes.length) {
@@ -170,8 +175,13 @@ async function retrieveNextMessages(
     }
 
     GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
+    // merge results with their corresponding namespaces
 
-    return results.map(result => ({ code: result.code, messages: result.body as Array<any> }));
+    return results.map((result, index) => ({
+      code: result.code,
+      messages: result.body as Array<any>,
+      namespace: namespaces[index],
+    }));
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);
     if (!window.inboxStore?.getState().onionPaths.isOnline) {

@@ -12,7 +12,7 @@ import * as cache from '../../../../receiver/cache';
 import { EnvelopePlus } from '../../../../receiver/types';
 
 import chaiAsPromised from 'chai-as-promised';
-import { handleConfigurationMessage } from '../../../../receiver/configMessage';
+import { ConfigMessageHandler } from '../../../../receiver/configMessage';
 import { stubData } from '../../../test-utils/utils';
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -51,7 +51,7 @@ describe('ConfigurationMessage_receiving', () => {
     const proto = config.contentProto();
     createOrUpdateStub = stubData('createOrUpdateItem').resolves();
     getItemByIdStub = stubData('getItemById').resolves();
-    await handleConfigurationMessage(
+    await ConfigMessageHandler.handleConfigurationMessage(
       envelope,
       proto.configurationMessage as SignalService.ConfigurationMessage
     );
@@ -73,7 +73,7 @@ describe('ConfigurationMessage_receiving', () => {
 
       createOrUpdateStub = stubData('createOrUpdateItem').resolves();
       getItemByIdStub = stubData('getItemById').resolves();
-      await handleConfigurationMessage(
+      await ConfigMessageHandler.handleConfigurationMessage(
         envelope,
         proto.configurationMessage as SignalService.ConfigurationMessage
       );

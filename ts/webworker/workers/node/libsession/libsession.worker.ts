@@ -46,7 +46,7 @@ function initUserConfigWrapper(options: Array<any>) {
   if (!isNull(dump) && !isUInt8Array(dump)) {
     throw new Error('UserConfig init needs a valid dump');
   }
-
+  console.warn('UserConfigWrapper', UserConfigWrapper);
   userConfig = new UserConfigWrapper(edSecretKey, dump);
 }
 

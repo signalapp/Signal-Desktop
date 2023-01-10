@@ -12,7 +12,7 @@ import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { ECKeyPair } from './keypairs';
-import { handleConfigurationMessage } from './configMessage';
+import { ConfigMessageHandler } from './configMessage';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
@@ -425,8 +425,9 @@ export async function innerHandleSwarmContentMessage(
       return;
     }
     if (content.configurationMessage) {
-      // this one can be quite long (downloads profilePictures and everything, is do not block)
-      void handleConfigurationMessage(
+      // this one can be quite long (downloads profilePictures and everything),
+      // so do not await it
+      void ConfigMessageHandler.handleConfigurationMessage(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
       );

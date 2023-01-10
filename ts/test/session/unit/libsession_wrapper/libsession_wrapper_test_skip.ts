@@ -42,12 +42,12 @@ describe('libsession_wrapper', () => {
     );
 
     // This should also be unset:
-    const picResult = conf.getProfilePic();
+    const picResult = conf.getProfilePicture();
     expect(picResult.url).to.be.null;
     expect(picResult.key).to.be.null;
 
     // Now let's go set a profile name and picture:
-    conf.setProfilePic('http://example.org/omg-pic-123.bmp', stringToUint8Array('secret'));
+    conf.setProfilePicture('http://example.org/omg-pic-123.bmp', stringToUint8Array('secret'));
     conf.setName('Kallie');
 
     // Retrieve them just to make sure they set properly:
@@ -56,7 +56,7 @@ describe('libsession_wrapper', () => {
     expect(name).to.be.not.null;
     expect(name).to.be.eq('Kallie');
 
-    const picture = conf.getProfilePic();
+    const picture = conf.getProfilePicture();
 
     expect(picture.url).to.be.eq('http://example.org/omg-pic-123.bmp');
     expect(picture.key).to.be.deep.eq(stringToUint8Array('secret'));
@@ -143,7 +143,7 @@ describe('libsession_wrapper', () => {
     conf2.setName('Raz');
 
     // And, on conf2, we're also going to change the profile pic:
-    conf2.setProfilePic('http://new.example.com/pic', stringToUint8Array('qwert\0yuio'));
+    conf2.setProfilePicture('http://new.example.com/pic', stringToUint8Array('qwert\0yuio'));
 
     // Both have changes, so push need a push
     expect(conf.needsPush()).to.be.true;
@@ -189,8 +189,8 @@ describe('libsession_wrapper', () => {
     // test).
 
     // Since only one of them set a profile pic there should be no conflict there:
-    const pic = conf.getProfilePic();
-    const pic2 = conf2.getProfilePic();
+    const pic = conf.getProfilePicture();
+    const pic2 = conf2.getProfilePicture();
     expect(pic.url).to.be.eq('http://new.example.com/pic');
     expect(pic2.url).to.be.eq('http://new.example.com/pic');
 

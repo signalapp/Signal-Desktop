@@ -32,4 +32,7 @@ module.exports = {
     path: path.resolve(__dirname, 'ts', 'webworker', 'workers', 'node', 'libsession'),
   },
   target: 'node',
+  optimization: {
+    minimize: false,
+  },
 };

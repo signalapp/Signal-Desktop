@@ -15,12 +15,18 @@ import { ed25519Str } from '../../onions/onionPath';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import pRetry from 'p-retry';
 import { SnodeAPIRetrieve } from './retrieveRequest';
+import { SnodeNamespaces } from './namespaces';
 
 interface Message {
   hash: string;
   expiration: number;
   data: string;
 }
+
+export type RetrieveMessagesResults = Array<{
+  code: number;
+  messages: Record<string, any>[];
+}>;
 
 // Some websocket nonsense
 export function processMessage(message: string, options: any = {}, messageHash: string) {
@@ -142,10 +148,13 @@ export class SwarmPolling {
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    // const directPromises = Promise.resolve();
-    const directPromises = Promise.all([this.pollOnceForKey(ourPubkey, false, [0])]).then(
-      () => undefined
-    );
+    const directPromise = Promise.all([
+      this.pollOnceForKey(ourPubkey, false, [
+        SnodeNamespaces.UserMessages,
+        SnodeNamespaces.UserProfile,
+        SnodeNamespaces.UserContacts,
+      ]),
+    ]).then(() => undefined);
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
@@ -163,7 +172,7 @@ export class SwarmPolling {
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
         );
 
-        return this.pollOnceForKey(group.pubkey, true, [-10]);
+        return this.pollOnceForKey(group.pubkey, true, [SnodeNamespaces.ClosedGroupMessages]);
       }
       window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
@@ -172,7 +181,7 @@ export class SwarmPolling {
       return Promise.resolve();
     });
     try {
-      await Promise.all(concat([directPromises], groupPromises));
+      await Promise.all(concat([directPromise], groupPromises));
     } catch (e) {
       window?.log?.info('pollForAllKeys exception: ', e);
       throw e;
@@ -184,40 +193,37 @@ export class SwarmPolling {
   /**
    * Only exposed as public for testing
    */
-  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespaces: Array<number>) {
+  public async pollOnceForKey(
+    pubkey: PubKey,
+    isGroup: boolean,
+    namespaces: Array<SnodeNamespaces>
+  ) {
     const pkStr = pubkey.key;
 
     const swarmSnodes = await snodePool.getSwarmFor(pkStr);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
+    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
 
     // If we need more nodes, select randomly from the remaining nodes:
-
-    // We only poll from a single node.
-    let nodesToPoll = _.sampleSize(alreadyPolled, 1);
-    if (nodesToPoll.length < 1) {
+    if (!toPollFrom) {
       const notPolled = _.difference(swarmSnodes, alreadyPolled);
-
-      const newNodes = _.sampleSize(notPolled, 1);
-
-      nodesToPoll = _.concat(nodesToPoll, newNodes);
+      toPollFrom = _.sample(notPolled) as Snode;
     }
 
-    // this actually doesn't make much sense as we are at only polling from a single one
-    const promisesSettled = await Promise.allSettled(
-      nodesToPoll.map(async n => {
-        return this.pollNodeForKey(n, pubkey, namespaces);
-      })
-    );
-
-    const arrayOfResultsWithNull = promisesSettled.map(entry =>
-      entry.status === 'fulfilled' ? entry.value : null
-    );
+    let resultsFromAllNamespaces: RetrieveMessagesResults | null;
+    try {
+      resultsFromAllNamespaces = await this.pollNodeForKey(toPollFrom, pubkey, namespaces);
+    } catch (e) {
+      window.log.warn('pollNodeForKey failed with: ', e.message);
+      resultsFromAllNamespaces = null;
+    }
 
     // filter out null (exception thrown)
-    const arrayOfResults = _.compact(arrayOfResultsWithNull);
-
+    const arrayOfResults = resultsFromAllNamespaces?.length
+      ? _.compact(resultsFromAllNamespaces)
+      : null;
     // Merge results into one list of unique messages
     const messages = _.uniqBy(_.flatten(arrayOfResults), (x: any) => x.hash);
 
@@ -257,6 +263,9 @@ export class SwarmPolling {
 
     perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
 
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    }
+
     newMessages.forEach((m: Message) => {
       const options = isGroup ? { conversationId: pkStr } : {};
       processMessage(m.data, options, m.hash);
@@ -268,10 +277,10 @@ export class SwarmPolling {
   private async pollNodeForKey(
     node: Snode,
     pubkey: PubKey,
-    namespaces: Array<number>
-  ): Promise<Array<any> | null> {
+    namespaces: Array<SnodeNamespaces>
+  ): Promise<RetrieveMessagesResults | null> {
     const namespaceLength = namespaces.length;
-    if (namespaceLength > 2 || namespaceLength <= 0) {
+    if (namespaceLength > 3 || namespaceLength <= 0) {
       throw new Error('pollNodeForKey needs  1 or 2 namespaces to be given at all times');
     }
     const edkey = node.pubkey_ed25519;
@@ -310,7 +319,7 @@ export class SwarmPolling {
           await Promise.all(
             lastMessages.map(async (lastMessage, index) => {
               if (!lastMessage) {
-                return Promise.resolve();
+                return;
               }
               return this.updateLastHash({
                 edkey: edkey,
@@ -345,7 +354,7 @@ export class SwarmPolling {
           window.inboxStore?.dispatch(updateIsOnline(true));
         }
       }
-      window?.log?.info('pollNodeForKey failed with', e.message);
+      window?.log?.info('pollNodeForKey failed with:', e.message);
       return null;
     }
   }

@@ -148,8 +148,8 @@ export function handleRequest(plaintext: any, options: ReqOptions, messageHash: 
  */
 export async function queueAllCached() {
   const items = await getAllFromCache();
-  items.forEach(async item => {
-    await queueCached(item);
+  items.forEach(item => {
+    void queueCached(item);
   });
 }
 
