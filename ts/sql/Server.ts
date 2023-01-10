@@ -256,6 +256,7 @@ const dataInterface: ServerInterface = {
   getConversationRangeCenteredOnMessage,
   getConversationMessageStats,
   getLastConversationMessage,
+  getCallHistoryMessageByCallId,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -3007,6 +3008,32 @@ async function getConversationRangeCenteredOnMessage({
       }),
     };
   })();
+}
+
+async function getCallHistoryMessageByCallId(
+  conversationId: string,
+  callId: string
+): Promise<string | void> {
+  const db = getInstance();
+
+  const id: string | void = db
+    .prepare<Query>(
+      `
+      SELECT id
+      FROM messages
+      WHERE conversationId = $conversationId
+        AND type = 'call-history'
+        AND callMode = 'Direct'
+        AND callId = $callId
+    `
+    )
+    .pluck()
+    .get({
+      conversationId,
+      callId,
+    });
+
+  return id;
 }
 
 async function hasGroupCallHistoryMessage(

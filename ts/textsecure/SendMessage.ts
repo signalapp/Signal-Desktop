@@ -1897,6 +1897,52 @@ export default class MessageSender {
     };
   }
 
+  static getCallEventSync(
+    peerUuid: string,
+    callId: string,
+    isVideoCall: boolean,
+    isIncoming: boolean,
+    isAccepted: boolean
+  ): SingleProtoJobData {
+    const myUuid = window.textsecure.storage.user.getCheckedUuid();
+    const syncMessage = MessageSender.createSyncMessage();
+
+    const type = isVideoCall
+      ? Proto.SyncMessage.CallEvent.Type.VIDEO_CALL
+      : Proto.SyncMessage.CallEvent.Type.AUDIO_CALL;
+    const direction = isIncoming
+      ? Proto.SyncMessage.CallEvent.Direction.INCOMING
+      : Proto.SyncMessage.CallEvent.Direction.OUTGOING;
+    const event = isAccepted
+      ? Proto.SyncMessage.CallEvent.Event.ACCEPTED
+      : Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
+
+    syncMessage.callEvent = new Proto.SyncMessage.CallEvent({
+      peerUuid: uuidToBytes(peerUuid),
+      callId: Long.fromString(callId),
+      type,
+      direction,
+      event,
+      timestamp: Long.fromNumber(Date.now()),
+    });
+
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+
+    return {
+      contentHint: ContentHint.RESENDABLE,
+      identifier: myUuid.toString(),
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'callEventSync',
+      urgent: false,
+    };
+  }
+
   static getVerificationSync(
     destinationE164: string | undefined,
     destinationUuid: string | undefined,

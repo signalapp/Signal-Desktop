@@ -546,6 +546,10 @@ export type DataInterface = {
   getLastConversationMessage(options: {
     conversationId: string;
   }): Promise<MessageType | undefined>;
+  getCallHistoryMessageByCallId(
+    conversationId: string,
+    callId: string
+  ): Promise<string | void>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string

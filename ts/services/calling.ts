@@ -36,6 +36,7 @@ import {
   BandwidthMode,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop } from 'lodash';
+import Long from 'long';
 
 import type {
   ActionsType as CallingReduxActionsType,
@@ -1549,11 +1550,15 @@ export class CallingClass {
 
       await this.handleOutgoingSignaling(remoteUserId, message);
 
+      const callId = callingMessage.offer.callId?.toString();
+      assertDev(callId != null, 'Call ID missing from offer');
+
       const ProtoOfferType = Proto.CallingMessage.Offer.Type;
-      this.addCallHistoryForFailedIncomingCall(
+      await this.addCallHistoryForFailedIncomingCall(
         conversation,
         callingMessage.offer.type === ProtoOfferType.OFFER_VIDEO_CALL,
-        envelope.timestamp
+        envelope.timestamp,
+        callId
       );
 
       return;
@@ -1847,6 +1852,7 @@ export class CallingClass {
       return null;
     }
 
+    const callId = Long.fromValue(call.callId).toString();
     try {
       // The peer must be 'trusted' before accepting a call from them.
       // This is mostly the safety number check, unverified meaning that they were
@@ -1859,10 +1865,11 @@ export class CallingClass {
         log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
-        this.addCallHistoryForFailedIncomingCall(
+        await this.addCallHistoryForFailedIncomingCall(
           conversation,
           call.isVideoCall,
-          Date.now()
+          Date.now(),
+          callId
         );
         return null;
       }
@@ -1879,17 +1886,18 @@ export class CallingClass {
       return await this.getCallSettings(conversation);
     } catch (err) {
       log.error(`Ignoring incoming call: ${Errors.toLogFormat(err)}`);
-      this.addCallHistoryForFailedIncomingCall(
+      await this.addCallHistoryForFailedIncomingCall(
         conversation,
         call.isVideoCall,
-        Date.now()
+        Date.now(),
+        callId
       );
       return null;
     }
   }
 
-  private handleAutoEndedIncomingCallRequest(
-    _callId: CallId,
+  private async handleAutoEndedIncomingCallRequest(
+    callId: CallId,
     remoteUserId: UserId,
     reason: CallEndedReason,
     ageInSeconds: number,
@@ -1909,12 +1917,13 @@ export class CallingClass {
         : 0;
     const endedTime = Date.now() - ageInMilliseconds;
 
-    this.addCallHistoryForAutoEndedIncomingCall(
+    await this.addCallHistoryForAutoEndedIncomingCall(
       conversation,
       reason,
       endedTime,
       wasVideoCall,
-      receivedAtCounter
+      receivedAtCounter,
+      Long.fromValue(callId).toString()
     );
   }
 
@@ -1929,16 +1938,18 @@ export class CallingClass {
     let acceptedTime: number | undefined;
 
     // eslint-disable-next-line no-param-reassign
-    call.handleStateChanged = () => {
+    call.handleStateChanged = async () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime || Date.now();
       } else if (call.state === CallState.Ended) {
-        this.addCallHistoryForEndedCall(conversation, call, acceptedTime);
+        await this.addCallHistoryForEndedCall(conversation, call, acceptedTime);
         this.stopDeviceReselectionTimer();
         this.lastMediaDeviceSettings = undefined;
         delete this.callsByConversation[conversation.id];
       }
       reduxInterface.callStateChange({
+        remoteUserId: call.remoteUserId,
+        callId: Long.fromValue(call.callId).toString(),
         conversationId: conversation.id,
         acceptedTime,
         callState: call.state,
@@ -2088,7 +2099,7 @@ export class CallingClass {
     };
   }
 
-  private addCallHistoryForEndedCall(
+  private async addCallHistoryForEndedCall(
     conversation: ConversationModel,
     call: Call,
     acceptedTimeParam: number | undefined
@@ -2110,8 +2121,11 @@ export class CallingClass {
       acceptedTime = Date.now();
     }
 
-    void conversation.addCallHistory(
+    const callId = Long.fromValue(call.callId).toString();
+
+    await conversation.addCallHistory(
       {
+        callId,
         callMode: CallMode.Direct,
         wasIncoming: call.isIncoming,
         wasVideoCall: call.isVideoCall,
@@ -2123,12 +2137,13 @@ export class CallingClass {
     );
   }
 
-  private addCallHistoryForFailedIncomingCall(
+  private async addCallHistoryForFailedIncomingCall(
     conversation: ConversationModel,
     wasVideoCall: boolean,
-    timestamp: number
+    timestamp: number,
+    callId: string
   ) {
-    void conversation.addCallHistory(
+    await conversation.addCallHistory(
       {
         callMode: CallMode.Direct,
         wasIncoming: true,
@@ -2137,17 +2152,19 @@ export class CallingClass {
         wasDeclined: false,
         acceptedTime: undefined,
         endedTime: timestamp,
+        callId,
       },
       undefined
     );
   }
 
-  private addCallHistoryForAutoEndedIncomingCall(
+  private async addCallHistoryForAutoEndedIncomingCall(
     conversation: ConversationModel,
     reason: CallEndedReason,
     endedTime: number,
     wasVideoCall: boolean,
-    receivedAtCounter: number | undefined
+    receivedAtCounter: number | undefined,
+    callId: string
   ) {
     let wasDeclined = false;
     let acceptedTime;
@@ -2159,8 +2176,9 @@ export class CallingClass {
     }
     // Otherwise it will show up as a missed call.
 
-    void conversation.addCallHistory(
+    await conversation.addCallHistory(
       {
+        callId,
         callMode: CallMode.Direct,
         wasIncoming: true,
         wasVideoCall,

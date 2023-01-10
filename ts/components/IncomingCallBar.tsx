@@ -224,8 +224,10 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   }, [bounceAppIconStart, bounceAppIconStop]);
 
   const acceptVideoCall = useCallback(() => {
-    acceptCall({ conversationId, asVideoCall: true });
-  }, [acceptCall, conversationId]);
+    if (isVideoCall) {
+      acceptCall({ conversationId, asVideoCall: true });
+    }
+  }, [isVideoCall, acceptCall, conversationId]);
 
   const acceptAudioCall = useCallback(() => {
     acceptCall({ conversationId, asVideoCall: false });

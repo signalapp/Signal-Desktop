@@ -13,7 +13,7 @@ type DirectCallNotificationType = {
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
-  endedTime: number;
+  endedTime?: number;
 };
 
 type GroupCallNotificationType = {

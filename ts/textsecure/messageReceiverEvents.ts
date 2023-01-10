@@ -404,6 +404,27 @@ export class ViewSyncEvent extends ConfirmableEvent {
   }
 }
 
+export type CallEventSyncEventData = Readonly<{
+  timestamp: number;
+  peerUuid: string;
+  callId: string;
+  wasVideoCall: boolean;
+  wasIncoming: boolean;
+  wasDeclined: boolean;
+  acceptedTime: number | undefined;
+  endedTime: number | undefined;
+  receivedAtCounter: number;
+}>;
+
+export class CallEventSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly callEvent: CallEventSyncEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('callEventSync', confirm);
+  }
+}
+
 export type StoryRecipientUpdateData = Readonly<{
   destinationUuid: string;
   storyMessageRecipients: Array<Proto.SyncMessage.Sent.IStoryMessageRecipient>;

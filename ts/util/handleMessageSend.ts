@@ -65,6 +65,7 @@ export const sendTypesEnum = z.enum([
   'verificationSync',
   'viewOnceSync',
   'viewSync',
+  'callEventSync',
 
   // No longer used, all non-urgent
   'legacyGroupChange',

@@ -167,12 +167,13 @@ export type MediaDeviceSettings = AvailableIODevicesType & {
 };
 
 type DirectCallHistoryDetailsType = {
+  callId: string;
   callMode: CallMode.Direct;
   wasIncoming: boolean;
   wasVideoCall: boolean;
   wasDeclined: boolean;
   acceptedTime?: number;
-  endedTime: number;
+  endedTime?: number;
 };
 
 type GroupCallHistoryDetailsType = {

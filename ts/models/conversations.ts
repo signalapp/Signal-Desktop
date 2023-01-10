@@ -60,7 +60,7 @@ import type {
 } from '../types/Colors';
 import type { MessageModel } from './messages';
 import { getContact } from '../messages/helpers';
-import { strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import {
@@ -3226,8 +3226,11 @@ export class ConversationModel extends window.Backbone
     let detailsToSave: CallHistoryDetailsType;
 
     switch (callHistoryDetails.callMode) {
-      case CallMode.Direct:
-        timestamp = callHistoryDetails.endedTime;
+      case CallMode.Direct: {
+        const resolvedTime =
+          callHistoryDetails.acceptedTime ?? callHistoryDetails.endedTime;
+        assertDev(resolvedTime, 'Direct call must have accepted or ended time');
+        timestamp = resolvedTime;
         unread =
           !callHistoryDetails.wasDeclined && !callHistoryDetails.acceptedTime;
         detailsToSave = {
@@ -3235,6 +3238,7 @@ export class ConversationModel extends window.Backbone
           callMode: CallMode.Direct,
         };
         break;
+      }
       case CallMode.Group:
         timestamp = callHistoryDetails.startedTime;
         unread = false;
@@ -3257,9 +3261,20 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
+    if (callHistoryDetails.callMode === CallMode.Direct) {
+      const messageId = await window.Signal.Data.getCallHistoryMessageByCallId(
+        this.id,
+        callHistoryDetails.callId
+      );
+      if (messageId != null) {
+        message.id = messageId;
+      }
+    }
+
     const id = await window.Signal.Data.saveMessage(message, {
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
     });
+
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({

@@ -205,11 +205,11 @@ const CALLING_SHORTCUTS: Array<ShortcutType> = [
     keys: [['shift', 'V']],
   },
   {
-    description: 'Keyboard--accept-video-call',
+    description: 'icu:Keyboard--accept-video-call',
     keys: [['ctrlOrAlt', 'shift', 'V']],
   },
   {
-    description: 'Keyboard--accept-audio-call',
+    description: 'icu:Keyboard--accept-call-without-video',
     keys: [['ctrlOrAlt', 'shift', 'A']],
   },
   {

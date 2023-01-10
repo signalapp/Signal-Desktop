@@ -37,7 +37,7 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { strictAssert } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { drop } from '../util/drop';
@@ -111,6 +111,7 @@ import {
   GroupEvent,
   GroupSyncEvent,
   StoryRecipientUpdateEvent,
+  CallEventSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -615,6 +616,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'storyRecipientUpdate',
     handler: (ev: StoryRecipientUpdateEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'callEventSync',
+    handler: (ev: CallEventSyncEvent) => void
   ): void;
 
   public override addEventListener(name: string, handler: EventHandler): void {
@@ -2958,6 +2964,9 @@ export default class MessageReceiver
     if (syncMessage.viewed && syncMessage.viewed.length) {
       return this.handleViewed(envelope, syncMessage.viewed);
     }
+    if (syncMessage.callEvent) {
+      return this.handleCallEvent(envelope, syncMessage.callEvent);
+    }
 
     this.removeFromCache(envelope);
     log.warn(
@@ -3217,6 +3226,64 @@ export default class MessageReceiver
         await this.dispatchAndWait(logId, ev);
       })
     );
+  }
+
+  private async handleCallEvent(
+    envelope: ProcessedEnvelope,
+    callEvent: Proto.SyncMessage.ICallEvent
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleCallEvent', logId);
+    const { peerUuid, callId } = callEvent;
+
+    if (!peerUuid) {
+      throw new Error('MessageReceiver.handleCallEvent: missing peerUuid');
+    }
+
+    if (!callId) {
+      throw new Error('MessageReceiver.handleCallEvent: missing callId');
+    }
+
+    logUnexpectedUrgentValue(envelope, 'callEventSync');
+
+    const peerUuidStr = bytesToUuid(peerUuid);
+
+    assertDev(
+      peerUuidStr != null,
+      'MessageReceiver.handleCallEvent: invalid peerUuid'
+    );
+
+    const { receivedAtCounter, timestamp } = envelope;
+
+    const wasIncoming =
+      callEvent.direction === Proto.SyncMessage.CallEvent.Direction.INCOMING;
+    const wasVideoCall =
+      callEvent.type === Proto.SyncMessage.CallEvent.Type.VIDEO_CALL;
+    const wasAccepted =
+      callEvent.event === Proto.SyncMessage.CallEvent.Event.ACCEPTED;
+    const wasDeclined =
+      callEvent.event === Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
+
+    const acceptedTime = wasAccepted ? timestamp : undefined;
+    const endedTime = wasDeclined ? timestamp : undefined;
+
+    const callEventSync = new CallEventSyncEvent(
+      {
+        timestamp: envelope.timestamp,
+        peerUuid: peerUuidStr,
+        callId: callId.toString(),
+        wasIncoming,
+        wasVideoCall,
+        wasDeclined,
+        acceptedTime,
+        endedTime,
+        receivedAtCounter,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+    await this.dispatchAndWait(logId, callEventSync);
+
+    log.info('handleCallEvent: finished');
   }
 
   private async handleContacts(

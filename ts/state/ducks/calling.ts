@@ -52,6 +52,8 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
+import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
+import MessageSender from '../../textsecure/SendMessage';
 
 // State
 
@@ -137,6 +139,8 @@ export type AcceptCallType = {
 };
 
 export type CallStateChangeType = {
+  remoteUserId: string; // TODO: Remove
+  callId: string; // TODO: Remove
   conversationId: string;
   acceptedTime?: number;
   callState: CallState;
@@ -688,10 +692,65 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { callState } = payload;
+    const {
+      callId,
+      callState,
+      isVideoCall,
+      isIncoming,
+      acceptedTime,
+      callEndedReason,
+      remoteUserId,
+    } = payload;
+
     if (callState === CallState.Ended) {
       await callingTones.playEndCall();
       ipcRenderer.send('close-screen-share-controller');
+    }
+
+    const isOutgoing = !isIncoming;
+    const wasAccepted = acceptedTime != null;
+    const isConnected = callState === CallState.Accepted; // "connected"
+    const isEnded = callState === CallState.Ended && callEndedReason != null;
+
+    const isLocalHangup = callEndedReason === CallEndedReason.LocalHangup;
+    const isRemoteHangup = callEndedReason === CallEndedReason.RemoteHangup;
+
+    const answered = isConnected && wasAccepted;
+    const notAnswered = isEnded && !wasAccepted;
+
+    const isOutgoingRemoteAccept = isOutgoing && isConnected && answered;
+    const isIncomingLocalAccept = isIncoming && isConnected && answered;
+    const isOutgoingLocalHangup = isOutgoing && isLocalHangup && notAnswered;
+    const isIncomingLocalHangup = isIncoming && isLocalHangup && notAnswered;
+    const isOutgoingRemoteHangup = isOutgoing && isRemoteHangup && notAnswered;
+    const isIncomingRemoteHangup = isIncoming && isRemoteHangup && notAnswered;
+
+    if (isIncomingRemoteHangup) {
+      // This is considered just another "missed" event
+      log.info('callStateChange: not syncing hangup from self');
+    } else if (
+      isOutgoingRemoteAccept ||
+      isIncomingLocalAccept ||
+      isOutgoingLocalHangup ||
+      isIncomingLocalHangup ||
+      isOutgoingRemoteHangup
+    ) {
+      try {
+        await singleProtoJobQueue.add(
+          MessageSender.getCallEventSync(
+            remoteUserId,
+            callId,
+            isVideoCall,
+            isIncoming,
+            acceptedTime != null
+          )
+        );
+      } catch (error) {
+        log.error(
+          'callStateChange: Failed to queue sync message',
+          Errors.toLogFormat(error)
+        );
+      }
     }
 
     dispatch({

@@ -161,6 +161,7 @@ import { clearConversationDraftAttachments } from './util/clearConversationDraft
 import { removeLinkPreview } from './services/LinkPreview';
 import { PanelType } from './types/Panels';
 import { getQuotedMessageSelector } from './state/selectors/composer';
+import { onCallEventSync } from './util/onCallEventSync';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -410,6 +411,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'storyRecipientUpdate',
       queuedEventListener(onStoryRecipientUpdate, false)
+    );
+    messageReceiver.addEventListener(
+      'callEventSync',
+      queuedEventListener(onCallEventSync, false)
     );
   });
 
