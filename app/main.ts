@@ -136,8 +136,6 @@ const development =
   getEnvironment() === Environment.Development ||
   getEnvironment() === Environment.Staging;
 
-const isThrottlingEnabled = development || !isProduction(app.getVersion());
-
 const enableCI = config.get<boolean>('enableCI');
 const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
 
@@ -685,7 +683,7 @@ async function createWindow() {
           : '../ts/windows/main/preload.js'
       ),
       spellcheck: await getSpellCheckSetting(),
-      backgroundThrottling: isThrottlingEnabled,
+      backgroundThrottling: true,
       enablePreferredSizeMode: true,
       disableBlinkFeatures: 'Accelerated2dCanvas,AcceleratedSmallCanvases',
     },
@@ -995,10 +993,6 @@ ipc.on('set-is-call-active', (_event, isCallActive) => {
   preventDisplaySleepService.setEnabled(isCallActive);
 
   if (!mainWindow) {
-    return;
-  }
-
-  if (!isThrottlingEnabled) {
     return;
   }
 
