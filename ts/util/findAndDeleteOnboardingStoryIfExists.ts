@@ -4,6 +4,7 @@
 import * as log from '../logging/log';
 import { getMessageById } from '../messages/getMessageById';
 import { calculateExpirationTimestamp } from './expirationTimer';
+import { DAY } from './durations';
 
 export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   const existingOnboardingStoryMessageIds = window.storage.get(
@@ -24,7 +25,11 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
 
       const expires = calculateExpirationTimestamp(message.attributes) ?? 0;
 
-      return expires < Date.now();
+      const now = Date.now();
+      const isExpired = expires < now;
+      const needsRepair = expires > now + 2 * DAY;
+
+      return isExpired || needsRepair;
     }
 
     return true;
