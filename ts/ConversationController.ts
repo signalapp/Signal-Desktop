@@ -1120,13 +1120,19 @@ export class ConversationController {
     this._conversations.resetLookups();
 
     current.captureChange('combineConversations');
-    void current.updateLastMessage();
+    drop(current.updateLastMessage());
+
+    const state = window.reduxStore.getState();
+    if (state.conversations.selectedConversationId === current.id) {
+      // TODO: DESKTOP-4807
+      drop(current.loadNewestMessages(undefined, undefined));
+    }
 
     const titleIsUseful = Boolean(
       obsoleteTitleInfo && getTitleNoDefault(obsoleteTitleInfo)
     );
     if (!fromPniSignature && obsoleteTitleInfo && titleIsUseful) {
-      void current.addConversationMerge(obsoleteTitleInfo);
+      drop(current.addConversationMerge(obsoleteTitleInfo));
     }
 
     log.warn(`${logId}: Complete!`);

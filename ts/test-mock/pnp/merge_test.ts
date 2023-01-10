@@ -99,81 +99,130 @@ describe('pnp/merge', function needsName() {
     await bootstrap.teardown();
   });
 
-  it('happens via storage service, with notification', async () => {
-    const { phone } = bootstrap;
+  for (const finalContact of [UUIDKind.ACI, UUIDKind.PNI]) {
+    // eslint-disable-next-line no-loop-func
+    it(`happens via storage service, with notification (${finalContact})`, async () => {
+      const { phone } = bootstrap;
 
-    const window = await app.getWindow();
-
-    debug('opening conversation with the pni contact');
-    {
+      const window = await app.getWindow();
       const leftPane = window.locator('.left-pane-wrapper');
 
+      debug('opening conversation with the aci contact');
+      await leftPane
+        .locator('_react=ConversationListItem[title = "ACI Contact"]')
+        .click();
+
+      await window.locator('.module-conversation-hero').waitFor();
+
+      debug('Send message to ACI');
+      {
+        const composeArea = window.locator(
+          '.composition-area-wrapper, .conversation .ConversationView'
+        );
+        const compositionInput = composeArea.locator('_react=CompositionInput');
+
+        await compositionInput.type('Hello ACI');
+        await compositionInput.press('Enter');
+      }
+
+      debug('opening conversation with the pni contact');
       await leftPane
         .locator('_react=ConversationListItem[title = "PNI Contact"]')
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
-    }
 
-    debug('Verify starting state');
-    {
-      // No messages
-      const messages = window.locator('.module-message__text');
-      assert.strictEqual(await messages.count(), 0, 'message count');
+      debug('Verify starting state');
+      {
+        // No messages
+        const messages = window.locator('.module-message__text');
+        assert.strictEqual(await messages.count(), 0, 'message count');
 
-      // No notifications
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
-    }
+        // No notifications
+        const notifications = window.locator('.SystemMessage');
+        assert.strictEqual(
+          await notifications.count(),
+          0,
+          'notification count'
+        );
+      }
 
-    debug(
-      'removing both contacts from storage service, adding one combined contact'
-    );
-    {
-      const state = await phone.expectStorageState('consistency check');
-      await phone.setStorageState(
-        state
-          .removeRecord(
-            item =>
-              item.record.contact?.serviceUuid ===
-              pniContact.device.getUUIDByKind(UUIDKind.ACI)
-          )
-          .removeRecord(
-            item =>
-              item.record.contact?.serviceUuid ===
-              pniContact.device.getUUIDByKind(UUIDKind.PNI)
-          )
-          .addContact(pniContact, {
-            identityState: Proto.ContactRecord.IdentityState.DEFAULT,
-            whitelisted: true,
-            pni: pniContact.device.getUUIDByKind(UUIDKind.PNI),
-            identityKey: pniContact.publicKey.serialize(),
-            profileKey: pniContact.profileKey.serialize(),
-          })
+      debug('Send message to PNI');
+      {
+        const composeArea = window.locator(
+          '.composition-area-wrapper, .conversation .ConversationView'
+        );
+        const compositionInput = composeArea.locator('_react=CompositionInput');
+
+        await compositionInput.type('Hello PNI');
+        await compositionInput.press('Enter');
+      }
+
+      if (finalContact === UUIDKind.ACI) {
+        debug('switching back to ACI conversation');
+        await leftPane
+          .locator('_react=ConversationListItem[title = "ACI Contact"]')
+          .click();
+
+        await window.locator('.module-conversation-hero').waitFor();
+      }
+
+      debug(
+        'removing both contacts from storage service, adding one combined contact'
       );
-      await phone.sendFetchStorage({
-        timestamp: bootstrap.getTimestamp(),
-      });
-    }
+      {
+        const state = await phone.expectStorageState('consistency check');
+        await phone.setStorageState(
+          state
+            .removeRecord(
+              item =>
+                item.record.contact?.serviceUuid ===
+                pniContact.device.getUUIDByKind(UUIDKind.ACI)
+            )
+            .removeRecord(
+              item =>
+                item.record.contact?.serviceUuid ===
+                pniContact.device.getUUIDByKind(UUIDKind.PNI)
+            )
+            .addContact(pniContact, {
+              identityState: Proto.ContactRecord.IdentityState.DEFAULT,
+              whitelisted: true,
+              pni: pniContact.device.getUUIDByKind(UUIDKind.PNI),
+              identityKey: pniContact.publicKey.serialize(),
+              profileKey: pniContact.profileKey.serialize(),
+            })
+        );
+        await phone.sendFetchStorage({
+          timestamp: bootstrap.getTimestamp(),
+        });
+      }
 
-    // wait for desktop to process these changes
-    await window.locator('.SystemMessage').waitFor();
+      // wait for desktop to process these changes
+      await window.locator('.SystemMessage').waitFor();
 
-    debug('Verify final state');
-    {
-      // No messages
-      const messages = window.locator('.module-message__text');
-      assert.strictEqual(await messages.count(), 0, 'message count');
+      debug('Verify final state');
+      {
+        // Should have both PNI and ACI messages
+        await window.locator('.module-message__text >> "Hello ACI"').waitFor();
+        await window.locator('.module-message__text >> "Hello PNI"').waitFor();
 
-      // One notification - the merge
-      const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
+        const messages = window.locator('.module-message__text');
+        assert.strictEqual(await messages.count(), 2, 'message count');
 
-      const first = await notifications.first();
-      assert.match(
-        await first.innerText(),
-        /and ACI Contact are the same account. Your message history for both chats are here./
-      );
-    }
-  });
+        // One notification - the merge
+        const notifications = window.locator('.SystemMessage');
+        assert.strictEqual(
+          await notifications.count(),
+          1,
+          'notification count'
+        );
+
+        const first = await notifications.first();
+        assert.match(
+          await first.innerText(),
+          /and ACI Contact are the same account. Your message history for both chats are here./
+        );
+      }
+    });
+  }
 });
