@@ -470,10 +470,13 @@ export declare class MessageModelCollectionType extends Backbone.Collection<Mess
 
 export type ReactionAttributesType = {
   emoji: string;
+  fromId: string;
   remove?: boolean;
+  source: ReactionSource;
+  // Necessary to put 1:1 story replies into the right conversation - not the same
+  //   conversation as the target message!
+  storyReactionMessage?: MessageModel;
   targetAuthorUuid: string;
   targetTimestamp: number;
-  fromId: string;
   timestamp: number;
-  source: ReactionSource;
 };

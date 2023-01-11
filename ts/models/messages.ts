@@ -39,7 +39,6 @@ import { softAssert, strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
-import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import type { ConversationModel } from './conversations';
 import { getCallingNotificationText } from '../util/callingNotification';
 import type {
@@ -415,20 +414,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async hydrateStoryContext(
-    inMemoryMessage?: MessageModel | null
+    inMemoryMessage?: MessageAttributesType
   ): Promise<void> {
     const storyId = this.get('storyId');
     if (!storyId) {
       return;
     }
 
-    if (this.get('storyReplyContext')) {
+    const context = this.get('storyReplyContext');
+    // We'll continue trying to get the attachment as long as the message still exists
+    if (context && (context.attachment?.url || !context.messageId)) {
       return;
     }
 
     const message =
       inMemoryMessage === undefined
-        ? await getMessageById(storyId)
+        ? (await getMessageById(storyId))?.attributes
         : inMemoryMessage;
 
     if (!message) {
@@ -450,13 +451,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const attachments = getAttachmentsForMessage({ ...message.attributes });
+    const attachments = getAttachmentsForMessage({ ...message });
+    let attachment: AttachmentType | undefined = attachments?.[0];
+    if (attachment && !attachment.url) {
+      attachment = undefined;
+    }
 
     this.set({
       storyReplyContext: {
-        attachment: attachments ? attachments[0] : undefined,
-        authorUuid: message.get('sourceUuid'),
-        messageId: message.get('id'),
+        attachment,
+        authorUuid: message.sourceUuid,
+        messageId: message.id,
       },
     });
   }
@@ -1078,7 +1083,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       if (this.get('storyReplyContext')) {
         this.unset('storyReplyContext');
       }
-      await this.hydrateStoryContext(message);
+      await this.hydrateStoryContext(message.attributes);
       return;
     }
 
@@ -2478,16 +2483,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         findStoryMessage(conversation.id, initialMessage.storyContext),
       ]);
 
-      if (
-        initialMessage.storyContext &&
-        !storyQuote &&
-        !isDirectConversation(conversation.attributes)
-      ) {
+      if (initialMessage.storyContext && !storyQuote) {
+        if (!isDirectConversation(conversation.attributes)) {
+          log.warn(
+            `${idLog}: Received storyContext message in group but no matching story. Dropping.`
+          );
+
+          confirm();
+          return;
+        }
         log.warn(
-          `${idLog}: Received storyContext message in group but no matching story. Dropping.`
+          `${idLog}: Received 1:1 storyContext message but no matching story. We'll try processing this message again later.`
         );
 
-        confirm();
         return;
       }
 
@@ -2511,10 +2519,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         if (
           storyQuoteIsFromSelf &&
-          sendState.isAllowedToReplyToStory === false
+          sendState.isAllowedToReplyToStory === false &&
+          isDirectConversation(conversation.attributes)
         ) {
           log.warn(
-            `${idLog}: Received storyContext message but sender is not allowed to reply. Dropping.`
+            `${idLog}: Received 1:1 storyContext message but sender is not allowed to reply. Dropping.`
           );
 
           confirm();
@@ -2619,7 +2628,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
 
         if (storyQuote) {
-          await this.hydrateStoryContext(storyQuote);
+          await this.hydrateStoryContext(storyQuote.attributes);
         }
 
         const isSupported = !isUnsupportedMessage(message.attributes);
@@ -3063,10 +3072,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const message = this;
     const type = message.get('type');
     let changed = false;
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const sourceUuid = getSourceUuid(message.attributes);
 
-    if (type === 'outgoing') {
+    if (type === 'outgoing' || (type === 'story' && ourUuid === sourceUuid)) {
       const sendActions = MessageReceipts.getSingleton()
-        .forMessage(conversation, message)
+        .forMessage(message)
         .map(receipt => {
           let sendActionType: SendActionType;
           const receiptType = receipt.get('type');
@@ -3252,8 +3263,20 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const reactions = Reactions.getSingleton().forMessage(message);
     await Promise.all(
       reactions.map(async reaction => {
-        await message.handleReaction(reaction, false);
-        changed = true;
+        if (isStory(this.attributes)) {
+          // We don't set changed = true here, because we don't modify the original story
+          const generatedMessage = reaction.get('storyReactionMessage');
+          strictAssert(
+            generatedMessage,
+            'Story reactions must provide storyReactionMessage'
+          );
+          await generatedMessage.handleReaction(reaction, {
+            storyMessage: this.attributes,
+          });
+        } else {
+          changed = true;
+          await message.handleReaction(reaction, { shouldPersist: false });
+        }
       })
     );
 
@@ -3279,7 +3302,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   async handleReaction(
     reaction: ReactionModel,
-    shouldPersist = true
+    {
+      storyMessage,
+      shouldPersist = true,
+    }: {
+      storyMessage?: MessageAttributesType;
+      shouldPersist?: boolean;
+    } = {}
   ): Promise<void> {
     const { attributes } = this;
 
@@ -3305,7 +3334,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const previousLength = (this.get('reactions') || []).length;
     const newReaction: MessageReactionType = {
       emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
       fromId: reaction.get('fromId'),
@@ -3328,163 +3356,221 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       'Reaction can only be from this device, from sync, or from someone else'
     );
 
-    if (isStory(this.attributes)) {
+    // Reactions to stories are saved as separate messages, and so require a totally
+    //   different codepath.
+    if (storyMessage) {
       if (isFromThisDevice) {
         log.info(
           'handleReaction: sending story reaction to ' +
-            `${this.idForLogging()} from this device`
-        );
-      } else if (isFromSync) {
-        log.info(
-          'handleReaction: receiving story reaction to ' +
-            `${this.idForLogging()} from another device`
+            `${getMessageIdForLogging(storyMessage)} from this device`
         );
       } else {
-        log.info(
-          'handleReaction: receiving story reaction to ' +
-            `${this.idForLogging()} from someone else`
+        const generatedMessage = reaction.get('storyReactionMessage');
+        strictAssert(
+          generatedMessage,
+          'Story reactions must provide storyReactionMessage'
         );
-        void conversation.notify(this, reaction);
-      }
-    } else if (isFromThisDevice) {
-      log.info(
-        `handleReaction: sending reaction to ${this.idForLogging()} ` +
-          'from this device'
-      );
-
-      const reactions = reactionUtil.addOutgoingReaction(
-        this.get('reactions') || [],
-        newReaction
-      );
-      this.set({ reactions });
-    } else {
-      const oldReactions = this.get('reactions') || [];
-      let reactions: Array<MessageReactionType>;
-      const oldReaction = oldReactions.find(re =>
-        isNewReactionReplacingPrevious(re, reaction.attributes)
-      );
-      if (oldReaction) {
-        this.clearNotifications(oldReaction);
-      }
-
-      if (reaction.get('remove')) {
-        log.info(
-          'handleReaction: removing reaction for message',
-          this.idForLogging()
+        const targetConversation = window.ConversationController.get(
+          generatedMessage.get('conversationId')
         );
+        strictAssert(
+          targetConversation,
+          'handleReaction: targetConversation not found'
+        );
+
+        generatedMessage.set({
+          expireTimer: isDirectConversation(targetConversation.attributes)
+            ? targetConversation.get('expireTimer')
+            : undefined,
+          storyId: storyMessage.id,
+          storyReaction: {
+            emoji: reaction.get('emoji'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          },
+        });
+
+        // Note: generatedMessage comes with an id, so we have to force this save
+        await Promise.all([
+          window.Signal.Data.saveMessage(generatedMessage.attributes, {
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            forceSave: true,
+          }),
+          generatedMessage.hydrateStoryContext(storyMessage),
+        ]);
+
+        log.info('Reactions.onReaction adding reaction to story', {
+          reactionMessageId: getMessageIdForLogging(
+            generatedMessage.attributes
+          ),
+          storyId: getMessageIdForLogging(storyMessage),
+          targetTimestamp: reaction.get('targetTimestamp'),
+          timestamp: reaction.get('timestamp'),
+        });
+
+        const messageToAdd = window.MessageController.register(
+          generatedMessage.id,
+          generatedMessage
+        );
+        if (isDirectConversation(targetConversation.attributes)) {
+          await targetConversation.addSingleMessage(messageToAdd);
+          if (!targetConversation.get('active_at')) {
+            targetConversation.set({
+              active_at: messageToAdd.get('timestamp'),
+            });
+            window.Signal.Data.updateConversation(
+              targetConversation.attributes
+            );
+          }
+        }
+        if (isFromSomeoneElse) {
+          drop(targetConversation.notify(messageToAdd));
+        }
 
         if (isFromSync) {
-          reactions = oldReactions.filter(
-            re =>
-              !isNewReactionReplacingPrevious(re, reaction.attributes) ||
-              re.timestamp > reaction.get('timestamp')
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from another device`
           );
         } else {
+          log.info(
+            'handleReaction: receiving story reaction to ' +
+              `${getMessageIdForLogging(storyMessage)} from someone else`
+          );
+          void conversation.notify(this, reaction);
+        }
+      }
+    } else {
+      // Reactions to all messages other than stories will update the target message
+      const previousLength = (this.get('reactions') || []).length;
+
+      if (isFromThisDevice) {
+        log.info(
+          `handleReaction: sending reaction to ${this.idForLogging()} ` +
+            'from this device'
+        );
+
+        const reactions = reactionUtil.addOutgoingReaction(
+          this.get('reactions') || [],
+          newReaction
+        );
+        this.set({ reactions });
+      } else {
+        const oldReactions = this.get('reactions') || [];
+        let reactions: Array<MessageReactionType>;
+        const oldReaction = oldReactions.find(re =>
+          isNewReactionReplacingPrevious(re, newReaction)
+        );
+        if (oldReaction) {
+          this.clearNotifications(oldReaction);
+        }
+
+        if (reaction.get('remove')) {
+          log.info(
+            'handleReaction: removing reaction for message',
+            this.idForLogging()
+          );
+
+          if (isFromSync) {
+            reactions = oldReactions.filter(
+              re =>
+                !isNewReactionReplacingPrevious(re, newReaction) ||
+                re.timestamp > reaction.get('timestamp')
+            );
+          } else {
+            reactions = oldReactions.filter(
+              re => !isNewReactionReplacingPrevious(re, newReaction)
+            );
+          }
+          this.set({ reactions });
+
+          await window.Signal.Data.removeReactionFromConversation({
+            emoji: reaction.get('emoji'),
+            fromId: reaction.get('fromId'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          });
+        } else {
+          log.info(
+            'handleReaction: adding reaction for message',
+            this.idForLogging()
+          );
+
+          let reactionToAdd: MessageReactionType;
+          if (isFromSync) {
+            const ourReactions = [
+              newReaction,
+              ...oldReactions.filter(
+                re => re.fromId === reaction.get('fromId')
+              ),
+            ];
+            reactionToAdd = maxBy(ourReactions, 'timestamp') || newReaction;
+          } else {
+            reactionToAdd = newReaction;
+          }
+
           reactions = oldReactions.filter(
             re => !isNewReactionReplacingPrevious(re, reaction.attributes)
           );
+          reactions.push(reactionToAdd);
+          this.set({ reactions });
+
+          if (isOutgoing(this.attributes) && isFromSomeoneElse) {
+            void conversation.notify(this, reaction);
+          }
+
+          await window.Signal.Data.addReaction({
+            conversationId: this.get('conversationId'),
+            emoji: reaction.get('emoji'),
+            fromId: reaction.get('fromId'),
+            messageId: this.id,
+            messageReceivedAt: this.get('received_at'),
+            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetTimestamp: reaction.get('targetTimestamp'),
+          });
         }
-        this.set({ reactions });
-
-        await window.Signal.Data.removeReactionFromConversation({
-          emoji: reaction.get('emoji'),
-          fromId: reaction.get('fromId'),
-          targetAuthorUuid: reaction.get('targetAuthorUuid'),
-          targetTimestamp: reaction.get('targetTimestamp'),
-        });
-      } else {
-        log.info(
-          'handleReaction: adding reaction for message',
-          this.idForLogging()
-        );
-
-        let reactionToAdd: MessageReactionType;
-        if (isFromSync) {
-          const ourReactions = [
-            reaction.toJSON(),
-            ...oldReactions.filter(re => re.fromId === reaction.get('fromId')),
-          ];
-          reactionToAdd = maxBy(ourReactions, 'timestamp');
-        } else {
-          reactionToAdd = reaction.toJSON();
-        }
-
-        reactions = oldReactions.filter(
-          re => !isNewReactionReplacingPrevious(re, reaction.attributes)
-        );
-        reactions.push(reactionToAdd);
-        this.set({ reactions });
-
-        if (isOutgoing(this.attributes) && isFromSomeoneElse) {
-          void conversation.notify(this, reaction);
-        }
-
-        await window.Signal.Data.addReaction({
-          conversationId: this.get('conversationId'),
-          emoji: reaction.get('emoji'),
-          fromId: reaction.get('fromId'),
-          messageId: this.id,
-          messageReceivedAt: this.get('received_at'),
-          targetAuthorUuid: reaction.get('targetAuthorUuid'),
-          targetTimestamp: reaction.get('targetTimestamp'),
-        });
       }
-    }
 
-    const currentLength = (this.get('reactions') || []).length;
-    log.info(
-      'handleReaction:',
-      `Done processing reaction for message ${this.idForLogging()}.`,
-      `Went from ${previousLength} to ${currentLength} reactions.`
-    );
+      const currentLength = (this.get('reactions') || []).length;
+      log.info(
+        'handleReaction:',
+        `Done processing reaction for message ${this.idForLogging()}.`,
+        `Went from ${previousLength} to ${currentLength} reactions.`
+      );
+    }
 
     if (isFromThisDevice) {
       let jobData: ConversationQueueJobData;
-      if (isStory(this.attributes)) {
+      if (storyMessage) {
         strictAssert(
           newReaction.emoji !== undefined,
           'New story reaction must have an emoji'
         );
-        const reactionMessage = new window.Whisper.Message({
-          id: UUID.generate().toString(),
-          type: 'outgoing',
-          conversationId: conversation.id,
-          sent_at: newReaction.timestamp,
-          received_at: incrementMessageCounter(),
-          received_at_ms: newReaction.timestamp,
-          timestamp: newReaction.timestamp,
-          expireTimer: conversation.get('expireTimer'),
-          sendStateByConversationId: zipObject(
-            Object.keys(newReaction.isSentByConversationId || {}),
-            repeat({
-              status: SendStatus.Pending,
-              updatedAt: Date.now(),
-            })
-          ),
-          storyId: this.id,
-          storyReaction: {
-            emoji: newReaction.emoji,
-            targetAuthorUuid: newReaction.targetAuthorUuid,
-            targetTimestamp: newReaction.targetTimestamp,
-          },
-        });
 
+        const generatedMessage = reaction.get('storyReactionMessage');
+        strictAssert(
+          generatedMessage,
+          'Story reactions must provide storyReactionmessage'
+        );
         await Promise.all([
-          await window.Signal.Data.saveMessage(reactionMessage.attributes, {
+          await window.Signal.Data.saveMessage(generatedMessage.attributes, {
             ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
             forceSave: true,
           }),
-          reactionMessage.hydrateStoryContext(this),
+          generatedMessage.hydrateStoryContext(this.attributes),
         ]);
 
         void conversation.addSingleMessage(
-          window.MessageController.register(reactionMessage.id, reactionMessage)
+          window.MessageController.register(
+            generatedMessage.id,
+            generatedMessage
+          )
         );
 
         jobData = {
           type: conversationQueueJobEnum.enum.NormalMessage,
           conversationId: conversation.id,
-          messageId: reactionMessage.id,
+          messageId: generatedMessage.id,
           revision: conversation.get('revision'),
         };
       } else {

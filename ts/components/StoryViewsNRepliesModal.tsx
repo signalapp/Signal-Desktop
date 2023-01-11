@@ -326,6 +326,7 @@ export function StoryViewsNRepliesModal({
           return (
             <ReplyOrReactionMessage
               key={reply.id}
+              id={reply.id}
               i18n={i18n}
               isInternalUser={isInternalUser}
               reply={reply}
@@ -504,6 +505,7 @@ export function StoryViewsNRepliesModal({
 
 type ReplyOrReactionMessageProps = {
   i18n: LocalizerType;
+  id: string;
   isInternalUser?: boolean;
   reply: ReplyType;
   deleteGroupStoryReply: (replyId: string) => void;
@@ -517,6 +519,7 @@ type ReplyOrReactionMessageProps = {
 
 function ReplyOrReactionMessage({
   i18n,
+  id,
   isInternalUser,
   reply,
   deleteGroupStoryReply,
@@ -532,6 +535,7 @@ function ReplyOrReactionMessage({
         <div
           className="StoryViewsNRepliesModal__reaction"
           onContextMenu={onContextMenu}
+          data-id={id}
         >
           <div className="StoryViewsNRepliesModal__reaction--container">
             <Avatar
@@ -570,33 +574,35 @@ function ReplyOrReactionMessage({
     }
 
     return (
-      <Message
-        {...MESSAGE_DEFAULT_PROPS}
-        author={reply.author}
-        bodyRanges={reply.bodyRanges}
-        contactNameColor={reply.contactNameColor}
-        containerElementRef={containerElementRef}
-        conversationColor="ultramarine"
-        conversationId={reply.conversationId}
-        conversationTitle={reply.author.title}
-        conversationType="group"
-        direction="incoming"
-        deletedForEveryone={reply.deletedForEveryone}
-        renderMenu={undefined}
-        onContextMenu={onContextMenu}
-        getPreferredBadge={getPreferredBadge}
-        i18n={i18n}
-        id={reply.id}
-        interactionMode="mouse"
-        readStatus={reply.readStatus}
-        renderingContext="StoryViewsNRepliesModal"
-        shouldCollapseAbove={shouldCollapseAbove}
-        shouldCollapseBelow={shouldCollapseBelow}
-        shouldHideMetadata={false}
-        text={reply.body}
-        textDirection={TextDirection.Default}
-        timestamp={reply.timestamp}
-      />
+      <div className="StoryViewsNRepliesModal__reply" data-id={id}>
+        <Message
+          {...MESSAGE_DEFAULT_PROPS}
+          author={reply.author}
+          bodyRanges={reply.bodyRanges}
+          contactNameColor={reply.contactNameColor}
+          containerElementRef={containerElementRef}
+          conversationColor="ultramarine"
+          conversationId={reply.conversationId}
+          conversationTitle={reply.author.title}
+          conversationType="group"
+          direction="incoming"
+          deletedForEveryone={reply.deletedForEveryone}
+          renderMenu={undefined}
+          onContextMenu={onContextMenu}
+          getPreferredBadge={getPreferredBadge}
+          i18n={i18n}
+          id={reply.id}
+          interactionMode="mouse"
+          readStatus={reply.readStatus}
+          renderingContext="StoryViewsNRepliesModal"
+          shouldCollapseAbove={shouldCollapseAbove}
+          shouldCollapseBelow={shouldCollapseBelow}
+          shouldHideMetadata={false}
+          text={reply.body}
+          textDirection={TextDirection.Default}
+          timestamp={reply.timestamp}
+        />
+      </div>
     );
   };
 

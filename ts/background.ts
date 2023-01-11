@@ -3011,17 +3011,18 @@ export async function startApp(): Promise<void> {
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
         emoji: reaction.emoji,
+        fromId: fromConversation.id,
         remove: reaction.remove,
+        source: ReactionSource.FromSomeoneElse,
+        storyReactionMessage: message,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
-        fromId: fromConversation.id,
-        source: ReactionSource.FromSomeoneElse,
       };
       const reactionModel = Reactions.getSingleton().add(attributes);
 
-      // Note: We do not wait for completion here
-      void Reactions.getSingleton().onReaction(reactionModel, message);
+      drop(Reactions.getSingleton().onReaction(reactionModel));
+
       confirm();
       return;
     }
@@ -3383,16 +3384,17 @@ export async function startApp(): Promise<void> {
       log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
         emoji: reaction.emoji,
+        fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
+        source: ReactionSource.FromSync,
+        storyReactionMessage: message,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
-        fromId: window.ConversationController.getOurConversationIdOrThrow(),
-        source: ReactionSource.FromSync,
       };
       const reactionModel = Reactions.getSingleton().add(attributes);
-      // Note: We do not wait for completion here
-      void Reactions.getSingleton().onReaction(reactionModel, message);
+
+      drop(Reactions.getSingleton().onReaction(reactionModel));
 
       event.confirm();
       return;
@@ -3767,7 +3769,7 @@ export async function startApp(): Promise<void> {
     const attributes: MessageReceiptAttributesType = {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation?.id,
+      sourceConversationId: sourceConversation.id,
       sourceUuid,
       sourceDevice,
       type,

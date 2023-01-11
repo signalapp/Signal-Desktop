@@ -5357,6 +5357,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const conversationId = this.id;
+    const isMessageInDirectConversation = isDirectConversation(this.attributes);
 
     const sender = reaction
       ? window.ConversationController.get(reaction.get('fromId'))
@@ -5364,7 +5365,7 @@ export class ConversationModel extends window.Backbone
     const senderName = sender
       ? sender.getTitle()
       : window.i18n('unknownContact');
-    const senderTitle = isDirectConversation(this.attributes)
+    const senderTitle = isMessageInDirectConversation
       ? senderName
       : window.i18n('notificationSenderInGroup', {
           sender: senderName,
@@ -5375,7 +5376,7 @@ export class ConversationModel extends window.Backbone
     const avatar = this.get('avatar') || this.get('profileAvatar');
     if (avatar && avatar.path) {
       notificationIconUrl = getAbsoluteAttachmentPath(avatar.path);
-    } else if (isDirectConversation(this.attributes)) {
+    } else if (isMessageInDirectConversation) {
       notificationIconUrl = await this.getIdenticon();
     } else {
       // Not technically needed, but helps us be explicit: we don't show an icon for a
@@ -5390,7 +5391,9 @@ export class ConversationModel extends window.Backbone
     notificationService.add({
       senderTitle,
       conversationId,
-      storyId: message.get('storyId'),
+      storyId: isMessageInDirectConversation
+        ? undefined
+        : message.get('storyId'),
       notificationIconUrl,
       isExpiringMessage,
       message: message.getNotificationText(),

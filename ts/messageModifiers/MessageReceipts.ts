@@ -6,11 +6,9 @@
 import { isEqual } from 'lodash';
 import { Collection, Model } from 'backbone';
 
-import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
 import { isOutgoing, isStory } from '../state/selectors/message';
-import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { createWaitBatcher } from '../util/waitBatcher';
@@ -24,6 +22,7 @@ import {
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
+import { getSourceUuid } from '../messages/helpers';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -148,24 +147,20 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     return singleton;
   }
 
-  forMessage(
-    conversation: ConversationModel,
-    message: MessageModel
-  ): Array<MessageReceiptModel> {
-    if (!isOutgoing(message.attributes)) {
+  forMessage(message: MessageModel): Array<MessageReceiptModel> {
+    if (!isOutgoing(message.attributes) && !isStory(message.attributes)) {
       return [];
     }
-    let ids: Array<string>;
-    if (isDirectConversation(conversation.attributes)) {
-      ids = [conversation.id];
-    } else {
-      ids = conversation.getMemberIds();
+
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const sourceUuid = getSourceUuid(message.attributes);
+    if (ourUuid !== sourceUuid) {
+      return [];
     }
+
     const sentAt = message.get('sent_at');
     const receipts = this.filter(
-      receipt =>
-        receipt.get('messageSentAt') === sentAt &&
-        ids.includes(receipt.get('sourceConversationId'))
+      receipt => receipt.get('messageSentAt') === sentAt
     );
     if (receipts.length) {
       log.info(`MessageReceipts: found early receipts for message ${sentAt}`);

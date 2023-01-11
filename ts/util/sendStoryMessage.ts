@@ -3,7 +3,10 @@
 
 import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
-import type { SendStateByConversationId } from '../messages/MessageSendState';
+import type {
+  SendState,
+  SendStateByConversationId,
+} from '../messages/MessageSendState';
 import type { UUIDStringType } from '../types/UUID';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
@@ -261,27 +264,29 @@ export async function sendStoryMessage(
       const groupTimestamp = timestamp + index + 1;
 
       const myId = window.ConversationController.getOurConversationIdOrThrow();
-      const sendState = {
+      const sendState: SendState = {
         status: SendStatus.Pending,
         updatedAt: groupTimestamp,
+        isAllowedToReplyToStory: true,
       };
 
-      const sendStateByConversationId = getRecipients(group.attributes).reduce(
-        (acc, id) => {
-          const conversation = window.ConversationController.get(id);
-          if (!conversation) {
-            return acc;
-          }
+      const sendStateByConversationId: SendStateByConversationId =
+        getRecipients(group.attributes).reduce(
+          (acc, id) => {
+            const conversation = window.ConversationController.get(id);
+            if (!conversation) {
+              return acc;
+            }
 
-          return {
-            ...acc,
-            [conversation.id]: sendState,
-          };
-        },
-        {
-          [myId]: sendState,
-        }
-      );
+            return {
+              ...acc,
+              [conversation.id]: sendState,
+            };
+          },
+          {
+            [myId]: sendState,
+          }
+        );
 
       const messageAttributes =
         await window.Signal.Migrations.upgradeMessageSchema({

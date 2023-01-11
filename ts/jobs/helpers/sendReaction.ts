@@ -319,7 +319,7 @@ export async function sendReaction(
             ourUuid,
             forceSave: true,
           }),
-          reactionMessage.hydrateStoryContext(message),
+          reactionMessage.hydrateStoryContext(message.attributes),
         ]);
 
         void conversation.addSingleMessage(
