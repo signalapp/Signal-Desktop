@@ -727,7 +727,9 @@ function callStateChange(
 
     if (isIncomingRemoteHangup) {
       // This is considered just another "missed" event
-      log.info('callStateChange: not syncing hangup from self');
+      log.info(
+        `callStateChange: not syncing hangup from self (Call ID: ${callId}))`
+      );
     } else if (
       isOutgoingRemoteAccept ||
       isIncomingLocalAccept ||
@@ -735,6 +737,7 @@ function callStateChange(
       isIncomingLocalHangup ||
       isOutgoingRemoteHangup
     ) {
+      log.info(`callStateChange: syncing call event (Call ID: ${callId})`);
       try {
         await singleProtoJobQueue.add(
           MessageSender.getCallEventSync(

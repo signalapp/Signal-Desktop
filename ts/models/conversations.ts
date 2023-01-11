@@ -3227,6 +3227,9 @@ export class ConversationModel extends window.Backbone
 
     switch (callHistoryDetails.callMode) {
       case CallMode.Direct: {
+        log.info(
+          `addCallHistory: Adding direct call to history (Call ID ${callHistoryDetails.callId})`
+        );
         const resolvedTime =
           callHistoryDetails.acceptedTime ?? callHistoryDetails.endedTime;
         assertDev(resolvedTime, 'Direct call must have accepted or ended time');
@@ -3267,6 +3270,9 @@ export class ConversationModel extends window.Backbone
         callHistoryDetails.callId
       );
       if (messageId != null) {
+        log.info(
+          `addCallHistory: Found existing call history message (Call ID ${callHistoryDetails.callId}, Message ID: ${messageId})`
+        );
         message.id = messageId;
       }
     }

@@ -27,6 +27,9 @@ export async function onCallEventSync(
     return;
   }
 
+  log.info(
+    `onCallEventSync: Queuing job to add call history (Call ID: ${callId})`
+  );
   await conversation.queueJob('onCallEventSync', async () => {
     await conversation.addCallHistory(
       {

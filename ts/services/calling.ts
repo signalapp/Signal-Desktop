@@ -1942,7 +1942,18 @@ export class CallingClass {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime || Date.now();
       } else if (call.state === CallState.Ended) {
-        await this.addCallHistoryForEndedCall(conversation, call, acceptedTime);
+        try {
+          await this.addCallHistoryForEndedCall(
+            conversation,
+            call,
+            acceptedTime
+          );
+        } catch (error) {
+          log.error(
+            'Failed to add call history for ended call',
+            Errors.toLogFormat(error)
+          );
+        }
         this.stopDeviceReselectionTimer();
         this.lastMediaDeviceSettings = undefined;
         delete this.callsByConversation[conversation.id];
