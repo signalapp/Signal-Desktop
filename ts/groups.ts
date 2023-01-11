@@ -4102,16 +4102,18 @@ async function integrateGroupChange({
         `from version ${group.revision} to ${groupChangeActions.version}`
     );
 
-    const { newAttributes, newProfileKeys } = await applyGroupChange({
-      group,
-      actions: decryptedChangeActions,
-      sourceUuid,
-    });
+    const { newAttributes, newProfileKeys, promotedAciToPniMap } =
+      await applyGroupChange({
+        group,
+        actions: decryptedChangeActions,
+        sourceUuid,
+      });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
       current: newAttributes,
       sourceUuid,
+      promotedAciToPniMap,
     });
 
     attributes = newAttributes;
@@ -4193,11 +4195,13 @@ function extractDiffs({
   dropInitialJoinMessage,
   old,
   sourceUuid,
+  promotedAciToPniMap,
 }: {
   current: ConversationAttributesType;
   dropInitialJoinMessage?: boolean;
   old: ConversationAttributesType;
   sourceUuid?: UUIDStringType;
+  promotedAciToPniMap?: ReadonlyMap<UUIDStringType, UUIDStringType>;
 }): Array<GroupChangeMessageType> {
   const logId = idForLogging(old.groupId);
   const details: Array<GroupV2ChangeDetailType> = [];
@@ -4345,6 +4349,16 @@ function extractDiffs({
     (current.pendingMembersV2 || []).map(member => member.uuid)
   );
 
+  const aciToPniMap = new Map(promotedAciToPniMap?.entries());
+  if (ourACI && ourPNI) {
+    aciToPniMap.set(ourACI.toString(), ourPNI.toString());
+  }
+
+  const pniToAciMap = new Map<UUIDStringType, UUIDStringType>();
+  for (const [aci, pni] of aciToPniMap) {
+    pniToAciMap.set(pni, aci);
+  }
+
   (current.membersV2 || []).forEach(currentMember => {
     const { uuid } = currentMember;
     const uuidIsUs = isUs(uuid);
@@ -4356,9 +4370,19 @@ function extractDiffs({
     const oldMember = oldMemberLookup.get(uuid);
     if (!oldMember) {
       let pendingMember = oldPendingMemberLookup.get(uuid);
-      if (uuidIsUs && ourPNI && !pendingMember) {
-        pendingMember = oldPendingMemberLookup.get(ourPNI.toString());
+      const pni = aciToPniMap.get(uuid);
+      if (!pendingMember && pni) {
+        pendingMember = oldPendingMemberLookup.get(pni);
+
+        // Someone's ACI just joined (wasn't a member before) and their PNI
+        // disappeared from the invite list. Treat this as a promotion from PNI
+        // to ACI and pretend that the PNI wasn't pending so that we won't
+        // generate a pending-add-one notification below.
+        if (pendingMember && !currentPendingMemberSet.has(pni)) {
+          oldPendingMemberLookup.delete(pni);
+        }
       }
+
       if (pendingMember) {
         details.push({
           type: 'member-add-from-invite',
@@ -4400,20 +4424,6 @@ function extractDiffs({
 
     // This deletion makes it easier to capture removals
     oldMemberLookup.delete(uuid);
-
-    // Our ACI just joined (wasn't a member before) and our PNI disappeared
-    // from the invite list. Treat this as a promotion from PNI to ACI and
-    // pretend that the PNI wasn't pending so that we won't generate a
-    // pending-add-one notification below.
-    if (
-      uuidIsUs &&
-      ourPNI &&
-      !oldMember &&
-      oldPendingMemberLookup.has(ourPNI.toString()) &&
-      !currentPendingMemberSet.has(ourPNI.toString())
-    ) {
-      oldPendingMemberLookup.delete(ourPNI.toString());
-    }
   });
 
   const removedMemberIds = Array.from(oldMemberLookup.keys());
@@ -4555,6 +4565,8 @@ function extractDiffs({
   const isFromUs = ourACI.toString() === sourceUuid;
   const justJoinedGroup = !firstUpdate && !didWeStartInGroup && areWeInGroup;
 
+  const from = (sourceUuid && pniToAciMap.get(sourceUuid)) ?? sourceUuid;
+
   // Here we hardcode initial messages if this is our first time processing data for this
   //   group. Ideally we can collapse it down to just one of: 'you were added',
   //   'you were invited', or 'you created.'
@@ -4564,7 +4576,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: whoInvitedUsUserId || sourceUuid,
+        from: whoInvitedUsUserId || from,
         details: [
           {
             type: 'pending-add-one',
@@ -4603,7 +4615,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: [
           {
             type: 'create',
@@ -4625,7 +4637,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
@@ -4636,7 +4648,7 @@ function extractDiffs({
       ...generateBasicMessage(),
       type: 'group-v2-change',
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: [
           {
             type: 'create',
@@ -4666,7 +4678,7 @@ function extractDiffs({
       type: 'group-v2-change',
       sourceUuid,
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details: filteredDetails,
       },
       readStatus: ReadStatus.Read,
@@ -4678,7 +4690,7 @@ function extractDiffs({
       type: 'group-v2-change',
       sourceUuid,
       groupV2Change: {
-        from: sourceUuid,
+        from,
         details,
       },
       readStatus: ReadStatus.Read,
@@ -4737,6 +4749,10 @@ type GroupApplyResultType = {
   newProfileKeys: Array<GroupChangeMemberType>;
 };
 
+type GroupApplyChangeResultType = GroupApplyResultType & {
+  promotedAciToPniMap: Map<UUIDStringType, UUIDStringType>;
+};
+
 async function applyGroupChange({
   actions,
   group,
@@ -4745,7 +4761,7 @@ async function applyGroupChange({
   actions: DecryptedGroupChangeActions;
   group: ConversationAttributesType;
   sourceUuid: UUIDStringType;
-}): Promise<GroupApplyResultType> {
+}): Promise<GroupApplyChangeResultType> {
   const logId = idForLogging(group.groupId);
   const ourACI = window.storage.user.getCheckedUuid(UUIDKind.ACI).toString();
 
@@ -4755,6 +4771,7 @@ async function applyGroupChange({
   const version = actions.version || 0;
   const result = { ...group };
   const newProfileKeys: Array<GroupChangeMemberType> = [];
+  const promotedAciToPniMap = new Map<UUIDStringType, UUIDStringType>();
 
   const members: Record<UUIDStringType, GroupV2MemberType> = fromPairs(
     (result.membersV2 || []).map(member => [member.uuid, member])
@@ -4991,6 +5008,8 @@ async function applyGroupChange({
       }
 
       const previousRecord = pendingMembers[pni];
+
+      promotedAciToPniMap.set(aci, pni);
 
       if (pendingMembers[pni]) {
         delete pendingMembers[pni];
@@ -5278,6 +5297,7 @@ async function applyGroupChange({
   return {
     newAttributes: result,
     newProfileKeys,
+    promotedAciToPniMap,
   };
 }
 

@@ -269,9 +269,8 @@ export function renderChangeDetail<T>(
     const { uuid, inviter } = detail;
     const weAreJoiner = isOurUuid(uuid);
     const weAreInviter = isOurUuid(inviter);
-    const pniPromotedToACI = weAreJoiner && from === ourPNI;
 
-    if (!from || (from !== uuid && !pniPromotedToACI)) {
+    if (!from || from !== uuid) {
       if (weAreJoiner) {
         // They can't be the same, no fromYou check here
         if (from) {

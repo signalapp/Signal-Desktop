@@ -262,4 +262,58 @@ describe('pnp/accept gv2 invite', function needsName() {
     assert(!group.getPendingMemberByUUID(desktop.uuid));
     assert(group.getPendingMemberByUUID(desktop.pni));
   });
+
+  it('should display a single notification for remote PNI accept', async () => {
+    const { phone, contacts, desktop } = bootstrap;
+
+    const [first, second] = contacts;
+
+    debug('Creating new group with Desktop');
+    group = await phone.createGroup({
+      title: 'Remote Invite',
+      members: [phone, first],
+    });
+
+    debug('Inviting remote PNI to group');
+    const secondKey = await second.device.popSingleUseKey(UUIDKind.PNI);
+    await first.addSingleUseKey(second.device, secondKey, UUIDKind.PNI);
+
+    group = await first.inviteToGroup(group, second.device, {
+      uuidKind: UUIDKind.PNI,
+      timestamp: bootstrap.getTimestamp(),
+
+      // There is no one to receive it so don't bother.
+      sendInvite: false,
+    });
+
+    debug('Sending message to group');
+    await first.sendText(desktop, 'howdy', {
+      group,
+      timestamp: bootstrap.getTimestamp(),
+    });
+
+    const window = await app.getWindow();
+    const leftPane = window.locator('.left-pane-wrapper');
+
+    debug('Opening new group');
+    await leftPane
+      .locator(
+        '_react=ConversationListItem' +
+          `[title = ${JSON.stringify(group.title)}]`
+      )
+      .click();
+
+    debug('Accepting remote invite');
+    await second.acceptPniInvite(group, desktop, {
+      timestamp: bootstrap.getTimestamp(),
+    });
+
+    await window
+      .locator(
+        '.SystemMessage >> ' +
+          `text=${second.profileName} accepted an invitation to the group ` +
+          `from ${first.profileName}.`
+      )
+      .waitFor();
+  });
 });
