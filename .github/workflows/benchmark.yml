@@ -137,5 +137,5 @@ jobs:
           git config --global user.name "Signal Bot"
           git add .
           git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
-          git push origin main && break || sleep `$((1 + RANDOM % 5))`
+          git push origin main && break || sleep "$((1 + RANDOM % 5))"
         done
