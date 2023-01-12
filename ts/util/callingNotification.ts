@@ -5,6 +5,7 @@ import type { LocalizerType } from '../types/Util';
 import { CallMode } from '../types/Calling';
 import { missingCaseError } from './missingCaseError';
 import * as log from '../logging/log';
+import type { ConversationType } from '../state/ducks/conversations';
 
 type DirectCallNotificationType = {
   callMode: CallMode.Direct;
@@ -20,11 +21,7 @@ type GroupCallNotificationType = {
   activeCallConversationId?: string;
   callMode: CallMode.Group;
   conversationId: string;
-  creator?: {
-    firstName?: string;
-    isMe?: boolean;
-    title: string;
-  };
+  creator?: ConversationType;
   ended: boolean;
   deviceCount: number;
   maxDevices: number;
@@ -90,7 +87,7 @@ function getGroupCallNotificationText(
     return i18n('calling__call-notification__started-by-you');
   }
   return i18n('calling__call-notification__started', [
-    notification.creator.firstName || notification.creator.title,
+    notification.creator.systemGivenName ?? notification.creator.title,
   ]);
 }
 

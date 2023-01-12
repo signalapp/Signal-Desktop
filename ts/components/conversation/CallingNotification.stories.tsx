@@ -9,6 +9,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import { CallMode } from '../../types/Calling';
 import { CallingNotification } from './CallingNotification';
 import type { CallingNotificationType } from '../../util/callingNotification';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -235,7 +236,7 @@ export function GroupCallByYou(): JSX.Element {
     <CallingNotification
       {...getCommonProps()}
       callMode={CallMode.Group}
-      creator={{ isMe: true, title: 'Alicia' }}
+      creator={getDefaultConversation({ isMe: true, title: 'Alicia' })}
       deviceCount={15}
       ended={false}
       maxDevices={16}
@@ -249,7 +250,7 @@ export function GroupCallBySomeone(): JSX.Element {
     <CallingNotification
       {...getCommonProps()}
       callMode={CallMode.Group}
-      creator={{ isMe: false, title: 'Alicia' }}
+      creator={getDefaultConversation({ isMe: false, title: 'Alicia' })}
       deviceCount={15}
       ended={false}
       maxDevices={16}
@@ -265,10 +266,9 @@ export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
     <CallingNotification
       {...getCommonProps()}
       callMode={CallMode.Group}
-      creator={{
-        isMe: false,
+      creator={getDefaultConversation({
         title: longName,
-      }}
+      })}
       deviceCount={15}
       ended={false}
       maxDevices={16}
