@@ -64,6 +64,18 @@
     "message": "عضویت در انتظار تأیید است",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent media quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "High",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "تقدیرنامه‌های نرم‌افزار",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "نمی‌توانید همراه با فایل‌ها، عکس و ویدئو انتخاب کنید.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "شما نمی توانید پیوست بیشتری به این پیام اضافه کنید.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است."
+    "message": "متاسفانه حجم فایل انتخاب شده از حداکثر طول پیام بیشتر است.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "ناتوانی در بارگیری پیوست انتخابی."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "برای فرستادن پیام های صوتی، به سیگنال Desktop اجازه دسترسی به میکروفون خود را بدهید.",
+    "message": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,34 @@
   "ChangeNumber--notification": {
     "message": "$sender$شماره تلفن خود را تغییر داد",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--no-e164": {
+    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Learn More",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Your message history for both conversations have been merged here.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "تامبنیل تصویر از پیام نقل قول شده",
@@ -1511,7 +1560,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "شما صدا و تصویر آ‌ن‌ها را دریافت نمی‌کنید و آن‌ها هم صدا و تصویر شما را دریافت نخواهند کرد.",
+    "message": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2228,6 +2277,10 @@
     "message": "این پیام حذف شد",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "برای باز کردن این پیام، آن را در تلفن همراه مشاهده کنید",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
@@ -2308,8 +2361,16 @@
     "message": "پک استیکر نمی تواند نصب شود",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stickers",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Available",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "استیکر های نصب شده",
+    "message": "Installed",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2766,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "پذیرش تماس با تصویر",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Answer call with video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "پذیرش تماس با صدا",
+    "message": "Answer call with audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Answer call with video (video calls only)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Answer call without video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "شروع تماس صوتی",
+    "message": "Start voice call",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3198,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "پاسخ دهید",
+    "message": "Answer call",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "پاسخ دادن بدون تصویر",
+    "message": "Answer call without video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3210,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "شما یک تماس صوتی را رد کردید",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "You declined a voice call",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "شما یک تماس تصویری را رد کردید",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "تماس صوتی دریافتی",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Incoming voice call",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "تماس صوتی دریافتی",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "تماس صوتی از دست رفته",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Missed voice call",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "تماس تصویری از دست رفته",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "تماس صوتی خروجی",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Outgoing voice call",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "تماس تصویری خروجی",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "تماس صوتی بی‌پاسخ",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Unanswered voice call",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "تماس تصویری بی‌پاسخ",
@@ -3189,8 +3258,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "تماس صوتی دریافتی...",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Incoming voice call...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "تماس تصویری دریافتی...",
@@ -4060,6 +4129,10 @@
     "message": "تنظیمات گروه تغییر داده شدند تا به همهٔ اعضا اجازهٔ ارسال پیام داده شود.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "This group's members or settings have changed.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "این گروه را برای فعال کردن قابلیت‌ها‌ی جدید همانند اشاره‌ها@ و مدیران ارتقا دهید. اعضایی که که نام یا عکس خود را در این گروه به اشتراک نگذاشته‌اند برای پیوستن دعوت خواهند شد. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4443,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ گروه مشترک",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "افزودن به گروه",
@@ -6203,6 +6284,14 @@
   "WhatsNew__bugfixes--6": {
     "message": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "سخت در تلاش برای رفع اشکالات و ایجاد سایر بهبودهای عملکردی به‌منظور حفظ عملکرد روان برنامه برای شما.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "شروع به استفاده و آزمایش قابلیت جدید استوری‌های ما کنید. می‌توانید همزمان با سایر آزمایش‌کنندگان بتا از این قابلیت استفاده کنید و نحوه عملکرد آن را به ما اطلاع دهید.",
+    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "اکنون استوری‌ها در سیگنال هستند! به‌روزرسانی‌های ناپدیدشونده متنی، تصویری و ویدیویی را که به‌طور خودکار پس از ۲۴ ساعت ناپدید می‌شوند، با دوستان یا گروه‌های منتخب هم‌رسانی کنید. برای همه کسانی که عاشق هم‌رسانی استوری هستند، راهی برای انجام این کار به صورت خصوصی و بدون مشاهده تبلیغات وجود دارد. اگر نمی‌خواهید استوری‌ها را ببینید یا هم‌رسانی کنید، می‌توانید در «ترجیحات > حریم خصوصی» از همه آن‌ها انصراف دهید.",

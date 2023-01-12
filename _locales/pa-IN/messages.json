@@ -64,6 +64,18 @@
     "message": "ਮੈਂਬਰਸ਼ਿਪ ਬਾਕੀ ਹੈ",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent media quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "High",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "ਸਾਫਟਵੇਅਰ ਆਭਾਰ",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "ਤੁਸੀਂ ਫ਼ਾਈਲਾਂ ਦੇ ਨਾਲ-ਨਾਲ ਫ਼ੋਟੋੋਆਂ ਅਤੇ ਵੀਡੀਓ ਚੁਣ ਨਹੀਂ ਸਕਦੇ ਹੋ।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਵਿੱਚ ਹੁਣ ਹੋਰ ਨੱਥੀਆਂ ਨਹੀਂ ਜੋੜ ਸਕਦੇ ਹੋ।",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ।"
+    "message": "ਅਫ਼ਸੋਸ, ਚੁਣੀ ਹੋਈ ਫ਼ਾਈਲ ਦਾ ਅਕਾਰ ਸੁਨੇਹੇ ਦੇ ਅਕਾਰ ਸਬੰਧੀ ਪਾਬੰਦੀਆਂ ਤੋਂ ਵੱਧ ਗਿਆ ਹੈ।",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "ਸੁਣਨ ਵਾਲੇ ਸੁਨੇਹੇ ਭੇਜਣ ਲਈ, Signal Desktop ਨੂੰ ਆਪਣੇ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਤਕ ਪਹੁੰਚ ਦੀ ਆਗਿਆ ਦਿਓ।",
+    "message": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,34 @@
   "ChangeNumber--notification": {
     "message": "$sender$ ਨੇ ਆਪਣਾ ਫ਼ੋਨ ਨੰਬਰ ਬਦਲਿਆ ਹੈ",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--no-e164": {
+    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Learn More",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Your message history for both conversations have been merged here.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "ਹਵਾਲਾ ਦਿੱਤੇ ਸੁਨੇੇਹੇ ਤੋਂ ਚਿੱਤਰ ਦਾ ਥੰਬਨੇਲ",
@@ -1511,7 +1560,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "ਤੁਸੀਂ ਉਹਨਾਂ ਦੀ ਆਡੀਓ ਜਾਂ ਵੀਡੀਓ ਨਹੀਂ ਲਵੋਗੇ ਅਤੇ ਉਹ ਤੁਹਾਡੀਆਂ।",
+    "message": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2228,6 +2277,10 @@
     "message": "ਇਹ ਸੁਨੇਹਾ ਮਿਟਾਇਆ ਗਿਆ ਸੀ।",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਦੇਖਣ ਲਈ ਮੋਬਾਈਲ ਡਿਵਾਈਸ 'ਤੇ ਖੋਲ੍ਹੋ",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
@@ -2308,8 +2361,16 @@
     "message": "ਸਟਿੱਕਰ ਪੈਕ ਸਥਾਪਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stickers",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Available",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "ਸਥਾਪਤ ਕੀਤੇ ਸਟਿੱਕਰ",
+    "message": "Installed",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2766,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "ਵੀਡੀਓ ਨਾਲ ਕਾਲ ਚੁੱਕੋ",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Answer call with video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "ਆਡੀਓ ਨਾਲ ਕਾਲ ਚੁੱਕੋ",
+    "message": "Answer call with audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Answer call with video (video calls only)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Answer call without video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "ਆਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
+    "message": "Start voice call",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3198,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "ਜਵਾਬ",
+    "message": "Answer call",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "ਵੀਡੀਓ ਤੋਂ  ਬਿਨਾ ਜਵਾਬ ਦਿਓ",
+    "message": "Answer call without video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3210,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "ਤੁਸੀਂ ਆਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "You declined a voice call",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "ਤੁਸੀਂ ਵੀਡੀਓ ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "ਆ ਰਹੀ ਆਡੀਓ ਕਾਲ",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Incoming voice call",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "ਆ ਰਹੀ ਵੀਡੀਓ ਕਾਲ",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "ਖੁੰਝੀ ਆਡੀਓ ਕਾਲ",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Missed voice call",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "ਖੁੰਝੀ ਵੀਡੀਓ ਕਾਲ",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "ਜਾਰੀ ਆਡੀਓ ਕਾਲ",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Outgoing voice call",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "ਜਾਰੀ ਵੀਡੀਓ ਕਾਲ",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "ਜਵਾਬ ਨਾ ਦਿੱਤੀ ਆਡੀਓ ਕਾਲ",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Unanswered voice call",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "ਜਵਾਬ ਨਾ ਦਿੱਤੀ ਵੀਡੀਓ ਕਾਲ",
@@ -3189,8 +3258,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "ਆਡੀਓ ਕਾਲ ਆ ਰਹੀ ਹੈ…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Incoming voice call...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "ਵੀਡੀਓ ਕਾਲ ਆ ਰਹੀ ਹੈ…",
@@ -4060,6 +4129,10 @@
     "message": "ਗਰੁੱਪ ਨੂੰ ਬਦਲ ਦਿੱਤਾ ਗਿਆ ਸੀ ਤਾਂ ਜੋ ਸਾਰੇ ਮੇਂਬਰ ਹੀ ਸੁਨੇਹੇ ਭੇਜ ਸਕਣ।",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "This group's members or settings have changed.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "@mentions ਅਤੇ ਐਡਮਿਨਾਂ ਵਰਗੀਆਂ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਇਸ ਗਰੁੱਪ ਨੂੰ ਅੱਪਗ੍ਰੇਡ ਕਰੋ। ਜਿਹਨਾਂ ਮੈਂਬਰਾਂ ਨੇ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਆਪਣਾ ਨਾਂ ਜਾਂ ਫ਼ੋਟੋ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਨੂੰ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਸੱਦਾ ਭੇਜਿਆ ਜਾਵੇਗਾ। $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4443,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ ਗਰੁੱਪ ਸਾਂਝੇ ਹਨ",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "ਕਿਸੇ ਗਰੁੱਪ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ",
@@ -6203,6 +6284,14 @@
   "WhatsNew__bugfixes--6": {
     "message": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "ਤੁਹਾਡੇ ਲਈ ਐਪ ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕਰਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕਰਨ ਲਈ ਨਿਰੰਤਰ ਮਿਹਨਤ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ।",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "ਸਾਡੇ ਨਵੇਂ ਸਟੋਰੀ ਫੀਚਰ ਨੂੰ ਵਰਤਣਾ ਅਤੇ ਟੈਸਟ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ। ਤੁਸੀਂ ਹੋਰ ਬੀਟਾ ਟੈਸਟਰਾਂ ਨਾਲ ਫੀਚਰ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਸਾਨੂੰ ਦੱਸ ਸਕਦੇ ਹੋ ਕਿ ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ।",
+    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Signal ਵਿੱਚ ਹੁਣ ਸਟੋਰੀ ਫੀਚਰ ਉਪਲਬਧ ਹੈ!\n\n ਆਪਣੇ ਖਾਸ ਦੋਸਤਾਂ ਜਾਂ ਗਰੁੱਪਾਂ ਨਾਲ ਟੈਕਸਟ, ਤਸਵੀਰ ਜਾਂ ਵੀਡੀਓ ਅੱਪਡੇਟ ਸਾਂਝੀ ਕਰੋ ਜੋ 24 ਘੰਟੇ ਬਾਅਦ ਗਾਇਬ ਹੋ ਜਾਵੇਗੀ। ਜੋ ਲੋਕ ਸਟੋਰੀਆਂ ਨੂੰ ਸਾਂਝਾ ਕਰਨਾ ਪਸੰਦ ਕਰਦੇ ਹਨ, ਉਹ ਹੁਣ ਨਿੱਜੀ ਤੌਰ 'ਤੇ ਅਤੇ ਬਿਨਾਂ ਕਿਸੇ ਇਸ਼ਤਿਹਾਰ ਦੇ ਅਜਿਹਾ ਕਰ ਸਕਣਗੇ। ਜੇਕਰ ਤੁਸੀਂ ਸਟੋਰੀਆਂ ਨੂੰ ਦੇਖਣਾ ਜਾਂ ਸਾਂਝਾ ਨਹੀਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੀਆਂ ਪਸੰਦਾਂ > ਪਰਦੇਦਾਰੀ ਵਿੱਚ ਇਸ ਫੀਚਰ ਨੂੰ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।",

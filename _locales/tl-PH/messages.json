@@ -64,6 +64,18 @@
     "message": "Pending pa ang membership",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent media quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "High",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "Software Acknowledgments",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "Hindi ka pwedeng pumili ng photos at videos kasabay ng files.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "Hindi ka na pwedeng mag-add ng attachements sa message na ito.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Paumanhin, masyadong malaki ang pinili mong file."
+    "message": "Paumanhin, masyadong malaki ang pinili mong file.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "Unable to load selected attachment."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Para mag-send ng audio messages, i-allow ang Signal Desktop na magkaroon ng access sa iyong microphone.",
+    "message": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,34 @@
   "ChangeNumber--notification": {
     "message": "Pinalitan ni $sender$ ang kanyang phone number",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--no-e164": {
+    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Learn More",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Your message history for both conversations have been merged here.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image mula sa quoted message",
@@ -1511,7 +1560,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "Hindi mo mare-receive ang kanyang audio o video at hindi niya rin mare-receive ang audio o video na galing sa'yo.",
+    "message": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2228,6 +2277,10 @@
     "message": "Ang mensaheng ito ay nabura na.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "I-view ang message sa mobile para mabuksan ito",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
@@ -2308,8 +2361,16 @@
     "message": "Hindi ma-install ang sticker pack",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stickers",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Available",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "Mga Naka-install na Sticker",
+    "message": "Installed",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2766,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "Accept call with video",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Answer call with video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "Accept call with audio",
+    "message": "Answer call with audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Answer call with video (video calls only)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Answer call without video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "Start audio call",
+    "message": "Start voice call",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3198,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "Sagutin",
+    "message": "Answer call",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "Answer without video",
+    "message": "Answer call without video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3210,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "Nag-decline ka sa audio call",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "You declined a voice call",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "Nag-decline ka sa video call",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "Incoming audio call",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Incoming voice call",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "Incoming video call",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "Missed audio call",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Missed voice call",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "Missed video call",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "Outgoing audio call",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Outgoing voice call",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "Outgoing video call",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "Unanswered audio call",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Unanswered voice call",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "Unanswered video call",
@@ -3189,8 +3258,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "Incoming audio call…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Incoming voice call...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "Incoming video call…",
@@ -4060,6 +4129,10 @@
     "message": "Ang group ay nabago sa pag-allow sa lahat ng members na mag-send ng messages.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "This group's members or settings have changed.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "I-upgrade ang group na ito para ma-activate ang bagong features gaya ng @mentions at admins. Ang members na hindi nai-share ang kanilang pangalan at photo sa group na ito ay iimbitahang mag-join. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4443,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ groups in common",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "I-add sa isang group",
@@ -6203,6 +6284,14 @@
   "WhatsNew__bugfixes--6": {
     "message": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "Patuloy na nagta-trabaho para alisin ang ilang bugs at pagandahin ang takbo ng app para sa iyo.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "Simulang gamitin at i-test ang aming bagong stories feature. Pwede mong gamitin ang feature na ito kasama ang ibang beta testers at bigyan kami ng feedback tungkol dito.",
+    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Nasa Signal na ang Stories! Mag-share sa piling friends o groups ng disappearing text, images, at video updates na automatic na mawawala pagkalipas ng 24 oras. Para sa lahat ng mahilig mag-share ng stories, ito ang paraan para magawa ito privately at nang walang ads. Kung hindi mo gustong makakita o mag-share ng stories, pwede kang mag-opt out sa lahat ng ito sa iyong Preferences > Privacy.",

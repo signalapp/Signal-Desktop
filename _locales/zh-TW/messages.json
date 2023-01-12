@@ -64,6 +64,18 @@
     "message": "成員資格待定",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent media quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "High",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "軟體致謝",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "你無法同時選擇相片、影片以及檔案。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "你無法在這個訊息中新增更多的附檔。",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "抱歉，選擇的檔案大小超過訊息限制"
+    "message": "抱歉，選擇的檔案大小超過訊息限制",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "無法上傳所選附件。"
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "要傳送語音訊息，須授權 Siganl 桌面版可以使用您設備的麥克風。",
+    "message": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,34 @@
   "ChangeNumber--notification": {
     "message": "$sender$ 變更了他們的電話號碼",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--no-e164": {
+    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Learn More",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Your message history for both conversations have been merged here.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "引用訊息的縮圖",
@@ -1511,7 +1560,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "你將不會收到他們的語音或影片，他們也不會收到你的聲音或影片。",
+    "message": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2228,6 +2277,10 @@
     "message": "這則訊息已被刪除",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "在手機上查看此訊息以開啟",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
@@ -2308,8 +2361,16 @@
     "message": "貼圖包無法安裝",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stickers",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Available",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "已安裝的貼圖",
+    "message": "Installed",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2766,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "接受含影片的電話",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Answer call with video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "接受含聲音的電話",
+    "message": "Answer call with audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Answer call with video (video calls only)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Answer call without video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "開始語音通話",
+    "message": "Start voice call",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3198,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "接聽",
+    "message": "Answer call",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "已無視訊的方式回應",
+    "message": "Answer call without video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3210,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "你已拒絕一通語音來電",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "You declined a voice call",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "你已拒絕一通視訊電話",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "語音電話來電",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Incoming voice call",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "視訊電話來電",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "錯過語音電話",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Missed voice call",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "錯過視訊電話",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "撥出語音電話",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Outgoing voice call",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "撥出視訊電話",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "未接的語音電話",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Unanswered voice call",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "未接的視訊電話",
@@ -3189,8 +3258,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "來電語音電話…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Incoming voice call...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "來電視訊電話…",
@@ -4060,6 +4129,10 @@
     "message": "該群組已變更為允許所有成員傳送訊息。",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "This group's members or settings have changed.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "升級該群組以啟動新功能，例如@mentions和管理員。 未在此群組中分享姓名或照片的成員將被邀請加入。$learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4443,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "$number$ 個共同群組",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "新增至群組",
@@ -6203,6 +6284,14 @@
   "WhatsNew__bugfixes--6": {
     "message": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "努力修復問題並改善各項功能運作，讓 App 使用起來更順暢無礙。",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "開始使用和測試最新的限時動態功能。你可以與測試版的其他測試者一同使用該功能，並讓我們知道是否好用。",
+    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Signal 現已推出限時動態功能！與選定的好友或群組分享自動銷毀的訊息、圖像和影片更新，這些內容會在 24 小時後自動消失。喜歡分享限時動態的你，可以透過這種方法私下分享，而無需看到任何廣告。如果你不想瀏覽或分享限時動態，可以在「偏好設定」>「隱私」關閉所有相關功能。",

@@ -64,6 +64,18 @@
     "message": "멤버십이 보류 중입니다.",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "Preferences__sent-media-quality": {
+    "message": "Sent media quality",
+    "description": "Title for the sent media quality setting"
+  },
+  "sentMediaQualityStandard": {
+    "message": "Standard",
+    "description": "Label text for standard media quality option"
+  },
+  "sentMediaQualityHigh": {
+    "message": "High",
+    "description": "Label text for high media quality option"
+  },
   "softwareAcknowledgments": {
     "message": "소프트웨어 승인",
     "description": "Shown in the about box for the link to software acknowledgments"
@@ -674,12 +686,21 @@
     "message": "파일과 함께 사진이나 동영상을 선택할 수 없습니다.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
+  "cannotSelectMultipleFileAttachments": {
+    "message": "You can only select one file at a time.",
+    "description": "An error popup when the user has attempted to add multiple non-image attachments"
+  },
   "maximumAttachments": {
     "message": "이 메시지에 더 이상 첨부할 수 없습니다.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다."
+    "message": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다.",
+    "description": "(deleted 2022/12/07) Shown in a toast if the user tries to attach too-large file"
+  },
+  "icu:fileSizeWarning": {
+    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit}{units}",
+    "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "unableToLoadAttachment": {
     "message": "선택된 첨부 파일을 불러올 수 없습니다."
@@ -968,7 +989,7 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "audioPermissionNeeded": {
-    "message": "Signal Desktop에서 음성 메시지를 보내려면 마이크 권한이 필요합니다.",
+    "message": "To send voice messages, allow Signal Desktop to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "audioCallingPermissionNeeded": {
@@ -1210,6 +1231,34 @@
   "ChangeNumber--notification": {
     "message": "$sender$ 님이 전화번호를 변경했습니다.",
     "description": "Shown in timeline when a member of a conversation changes their phone number"
+  },
+  "icu:ConversationMerge--notification": {
+    "messageformat": "{obsoleteConversationTitle} and {conversationTitle} are the same account. Your message history for both chats are here.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way"
+  },
+  "icu:ConversationMerge--notification--no-e164": {
+    "messageformat": "Your message history with {conversationTitle} and another chat that belonged to them has been merged.",
+    "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the phone number for the old conversation"
+  },
+  "icu:ConversationMerge--learn-more": {
+    "messageformat": "Learn More",
+    "description": "Shown on a button below a 'conversations were merged' timeline notification"
+  },
+  "icu:ConversationMerge--explainer-dialog--line-1": {
+    "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:ConversationMerge--explainer-dialog--line-2": {
+    "messageformat": "Your message history for both conversations have been merged here.",
+    "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}. You're both members of {sharedGroup}.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} belongs to {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "quoteThumbnailAlt": {
     "message": "인용된 메시지의 이미지 섬네일",
@@ -1511,7 +1560,7 @@
     "description": "when you block someone and cannot view their video"
   },
   "calling__block-info": {
-    "message": "음성 또는 영상 통화를 더 이상 수신하지 않으며 차단된 사람도 나의 통화를 수신할 수 없습니다.",
+    "message": "You won't receive their voice or video and they won't receive yours.",
     "description": "Shown in the modal dialog to describe how blocking works in a group call"
   },
   "calling__overflow__scroll-up": {
@@ -2228,6 +2277,10 @@
     "message": "본 메세지는 삭제되었습니다.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "giftBadge--missing": {
+    "message": "Unable to fetch gift badge details",
+    "description": "Aria label for gift badge when we can't fetch the details"
+  },
   "message--giftBadge--unopened--incoming": {
     "message": "모바일에서 이 메시지를 확인하여 선물을 열어 보세요.",
     "description": "Shown in a message's bubble when you've received a gift badge from a contact"
@@ -2308,8 +2361,16 @@
     "message": "스티커 팩을 설치할 수 없음",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
   },
+  "stickers--StickerManager--title": {
+    "message": "Stickers",
+    "description": "Title for the sticker manager"
+  },
+  "stickers--StickerManager--Available": {
+    "message": "Available",
+    "description": "Shown in the sticker pack manager as a tab for available stickers"
+  },
   "stickers--StickerManager--InstalledPacks": {
-    "message": "설치된 스티커",
+    "message": "Installed",
     "description": "Shown in the sticker pack manager above your installed sticker packs."
   },
   "stickers--StickerManager--InstalledPacks--Empty": {
@@ -2705,15 +2766,23 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--accept-video-call": {
-    "message": "영상 통화 수락",
-    "description": "Shown in the calling keyboard shortcuts guide"
+    "message": "Answer call with video",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--accept-audio-call": {
-    "message": "음성 통화 수락",
+    "message": "Answer call with audio",
+    "description": "(deleted 2023/01/09) Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-video-call": {
+    "messageformat": "Answer call with video (video calls only)",
+    "description": "Shown in the calling keyboard shortcuts guide"
+  },
+  "icu:Keyboard--accept-call-without-video": {
+    "messageformat": "Answer call without video",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-audio-call": {
-    "message": "음성 통화 시작",
+    "message": "Start voice call",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "Keyboard--start-video-call": {
@@ -3129,11 +3198,11 @@
     "description": "When a user has no common groups, show this warning"
   },
   "acceptCall": {
-    "message": "응답",
+    "message": "Answer call",
     "description": "Shown in tooltip for the button to accept a call (audio or video)"
   },
   "acceptCallWithoutVideo": {
-    "message": "카메라 끄고 통화",
+    "message": "Answer call without video",
     "description": "Shown in tooltip for the button to accept a video call without video"
   },
   "declineCall": {
@@ -3141,40 +3210,40 @@
     "description": "Shown in tooltip for the button to decline a call (audio or video)"
   },
   "declinedIncomingAudioCall": {
-    "message": "음성 통화를 거부했습니다.",
-    "description": "Shown in conversation history when you declined an incoming audio call"
+    "message": "You declined a voice call",
+    "description": "Shown in conversation history when you declined an incoming voice call"
   },
   "declinedIncomingVideoCall": {
     "message": "영상 통화를 거부했습니다.",
     "description": "Shown in conversation history when you declined an incoming video call"
   },
   "acceptedIncomingAudioCall": {
-    "message": "수신 음성 통화",
-    "description": "Shown in conversation history when you accepted an incoming audio call"
+    "message": "Incoming voice call",
+    "description": "Shown in conversation history when you accepted an incoming voice call"
   },
   "acceptedIncomingVideoCall": {
     "message": "수신 영상 통화",
     "description": "Shown in conversation history when you accepted an incoming video call"
   },
   "missedIncomingAudioCall": {
-    "message": "부재중 음성 통화",
-    "description": "Shown in conversation history when you missed an incoming audio call"
+    "message": "Missed voice call",
+    "description": "Shown in conversation history when you missed an incoming voice call"
   },
   "missedIncomingVideoCall": {
     "message": "부재중 영상 통화",
     "description": "Shown in conversation history when you missed an incoming video call"
   },
   "acceptedOutgoingAudioCall": {
-    "message": "발신 음성 통화",
-    "description": "Shown in conversation history when you made an outgoing audio call"
+    "message": "Outgoing voice call",
+    "description": "Shown in conversation history when you made an outgoing voice call"
   },
   "acceptedOutgoingVideoCall": {
     "message": "발신 영상 통화",
     "description": "Shown in conversation history when you made an outgoing video call"
   },
   "missedOrDeclinedOutgoingAudioCall": {
-    "message": "응답하지 않은 음성 통화",
-    "description": "Shown in conversation history when your audio call is missed or declined"
+    "message": "Unanswered voice call",
+    "description": "Shown in conversation history when your voice call is missed or declined"
   },
   "missedOrDeclinedOutgoingVideoCall": {
     "message": "응답하지 않은 영상 통화",
@@ -3189,8 +3258,8 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "incomingAudioCall": {
-    "message": "음성 통화 수신 중…",
-    "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    "message": "Incoming voice call...",
+    "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "incomingVideoCall": {
     "message": "영상 통화 수신 중…",
@@ -4060,6 +4129,10 @@
     "message": "모든 회원이 메시지를 전송할 수 있도록 그룹이 변경되었습니다.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
+  "icu:GroupV2--summary": {
+    "messageformat": "This group's members or settings have changed.",
+    "description": "When rejoining a group, any detected changes are collapsed down into this summary"
+  },
   "GroupV1--Migration--disabled": {
     "message": "@멘션 및 관리자와 같은 새로운 기능을 활성화하려면 그룹을 업그레이드하세요. 그룹에서 이름이나 사진을 공유하지 않은 멤버는 가입하도록 초대됩니다. $learnMore$",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -4370,7 +4443,15 @@
   },
   "ConversationDetailsGroups--title": {
     "message": "공통 그룹 $number$개",
+    "description": "(deleted 2023/01/03) Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title": {
+    "messageformat": "{count, plural, one {1 group in common} other {{count,number} groups in common}}",
     "description": "Title of the groups-in-common panel, in the contact details"
+  },
+  "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
+    "messageformat": "No groups in common",
+    "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "ConversationDetailsGroups--add-to-group": {
     "message": "그룹에 추가",
@@ -6203,6 +6284,14 @@
   "WhatsNew__bugfixes--6": {
     "message": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.63--0": {
+    "message": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다.",
+    "description": "Release notes for v5.63"
+  },
+  "WhatsNew__v5.63--beta.2": {
+    "message": "새 스토리 기능을 사용하고 테스트해 보세요. 이 기능은 Signal의 다른 베타 테스터들과 함께 사용할 수 있습니다. 사용해 보고 감상을 알려주세요!",
+    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "이제 Signal에서 스토리를 사용해 보세요! 24시간 후 자동으로 사라지는 자동 삭제 텍스트, 이미지, 동영상 업데이트를 특정 친구나 그룹과 공유해 보세요. 이제 광고나 개인 정보 유출에 대한 걱정 없이 누구나 스토리를 공유할 수 있습니다. 스토리를 보거나 공유하고 싶지 않다면 기본 설정 > 개인 정보에서 관련 기능을 모두 선택 해제하세요.",
