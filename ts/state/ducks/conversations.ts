@@ -3498,6 +3498,10 @@ function showConversation({
     const { conversations } = getState();
 
     if (conversationId === conversations.selectedConversationId) {
+      if (conversationId && messageId) {
+        scrollToMessage(conversationId, messageId)(dispatch, getState, null);
+      }
+
       return;
     }
 
