@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import React from 'react';
 import { noop } from 'lodash';
 
-import { SystemMessage } from './SystemMessage';
+import { SystemMessage, SystemMessageKind } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { MessageTimestamp } from './MessageTimestamp';
 import type { LocalizerType } from '../../types/Util';
@@ -80,7 +80,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           </>
         }
         icon={icon}
-        isError={wasMissed}
+        kind={wasMissed ? SystemMessageKind.Danger : SystemMessageKind.Normal}
       />
     );
   }

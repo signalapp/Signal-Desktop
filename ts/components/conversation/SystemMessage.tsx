@@ -5,20 +5,30 @@ import type { ReactNode } from 'react';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+export enum SystemMessageKind {
+  Normal = 'Normal',
+  Danger = 'Danger',
+  Error = 'Error',
+}
+
 type PropsType = {
   icon: string;
   contents: ReactNode;
   button?: ReactNode;
-  isError?: boolean;
+  kind?: SystemMessageKind;
 };
 
 export const SystemMessage = forwardRef<HTMLDivElement, PropsType>(
-  function SystemMessageInner({ icon, contents, button, isError }, ref) {
+  function SystemMessageInner(
+    { icon, contents, button, kind = SystemMessageKind.Normal },
+    ref
+  ) {
     return (
       <div
         className={classNames(
           'SystemMessage',
-          isError && 'SystemMessage--error'
+          kind === SystemMessageKind.Danger && 'SystemMessage--danger',
+          kind === SystemMessageKind.Error && 'SystemMessage--error'
         )}
         ref={ref}
       >
