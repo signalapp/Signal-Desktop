@@ -1,7 +1,6 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import is from '@sindresorhus/is';
 import os from 'os';
 import semver from 'semver';
 
@@ -14,7 +13,7 @@ export const isWindows = (minVersion?: string): boolean => {
     return false;
   }
 
-  return is.undefined(minVersion) ? true : semver.gte(osRelease, minVersion);
+  return minVersion === undefined ? true : semver.gte(osRelease, minVersion);
 };
 
 // Windows 10 and above

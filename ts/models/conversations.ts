@@ -299,9 +299,11 @@ export class ConversationModel extends window.Backbone
     return collection;
   }
 
-  override initialize(
-    attributes: Partial<ConversationAttributesType> = {}
-  ): void {
+  constructor(attributes: ConversationAttributesType) {
+    super(attributes);
+
+    // Note that we intentionally don't use `initialize()` method because it
+    // isn't compatible with esnext output of esbuild.
     const uuid = this.get('uuid');
     const normalizedUuid =
       uuid && normalizeUuid(uuid, 'ConversationModel.initialize');

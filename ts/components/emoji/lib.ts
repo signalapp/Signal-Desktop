@@ -19,7 +19,6 @@ import {
 } from 'lodash';
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
-import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
 import * as log from '../../logging/log';
 import { MINUTE } from '../../util/durations';
@@ -275,7 +274,7 @@ export function convertShortNameToData(
     return undefined;
   }
 
-  const toneKey = is.number(skinTone) ? skinTones[skinTone - 1] : skinTone;
+  const toneKey = isNumber(skinTone) ? skinTones[skinTone - 1] : skinTone;
 
   if (skinTone && base.skin_variations) {
     const variation = base.skin_variations[toneKey];

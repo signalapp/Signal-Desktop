@@ -10,8 +10,7 @@ import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
-import { escapeRegExp, isNumber } from 'lodash';
-import is from '@sindresorhus/is';
+import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -1056,37 +1055,37 @@ export function initialize({
   proxyUrl,
   version,
 }: InitializeOptionsType): WebAPIConnectType {
-  if (!is.string(url)) {
+  if (!isString(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
   }
-  if (!is.string(storageUrl)) {
+  if (!isString(storageUrl)) {
     throw new Error('WebAPI.initialize: Invalid storageUrl');
   }
-  if (!is.string(updatesUrl)) {
+  if (!isString(updatesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl');
   }
-  if (!is.string(resourcesUrl)) {
+  if (!isString(resourcesUrl)) {
     throw new Error('WebAPI.initialize: Invalid updatesUrl (general)');
   }
-  if (!is.object(cdnUrlObject)) {
+  if (!isObject(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
   }
-  if (!is.string(cdnUrlObject['0'])) {
+  if (!isString(cdnUrlObject['0'])) {
     throw new Error('WebAPI.initialize: Missing CDN 0 configuration');
   }
-  if (!is.string(cdnUrlObject['2'])) {
+  if (!isString(cdnUrlObject['2'])) {
     throw new Error('WebAPI.initialize: Missing CDN 2 configuration');
   }
-  if (!is.string(certificateAuthority)) {
+  if (!isString(certificateAuthority)) {
     throw new Error('WebAPI.initialize: Invalid certificateAuthority');
   }
-  if (!is.string(contentProxyUrl)) {
+  if (!isString(contentProxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid contentProxyUrl');
   }
-  if (proxyUrl && !is.string(proxyUrl)) {
+  if (proxyUrl && !isString(proxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid proxyUrl');
   }
-  if (!is.string(version)) {
+  if (!isString(version)) {
     throw new Error('WebAPI.initialize: Invalid version');
   }
 
@@ -2469,7 +2468,7 @@ export function initialize({
         'X-SignalPadding': getHeaderPadding(),
       };
 
-      if (is.number(start) && is.number(end)) {
+      if (isNumber(start) && isNumber(end)) {
         headers.Range = `bytes=${start}-${end}`;
       }
 
@@ -2852,9 +2851,9 @@ export function initialize({
 
         if (
           match &&
-          is.number(start) &&
-          is.number(end) &&
-          is.number(currentRevision)
+          isNumber(start) &&
+          isNumber(end) &&
+          isNumber(currentRevision)
         ) {
           return {
             changes,

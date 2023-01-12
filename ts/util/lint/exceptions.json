@@ -409,16 +409,9 @@
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@sindresorhus/is/dist/index.js",
-    "line": "        'innerHTML',",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/@sindresorhus/is/dist/source/index.js",
-    "line": "        'innerHTML',",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "line": "    'innerHTML',",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-06T15:40:12.124Z"
   },
   {
     "rule": "eval",
@@ -697,6 +690,20 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
+    "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
+    "reasonCategory": "falseMatch",
+    "updated": "2023-01-11T23:51:00.603Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/domutils/node_modules/dom-serializer/lib/index.js",
+    "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
+    "reasonCategory": "falseMatch",
+    "updated": "2023-01-11T23:51:00.603Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/element-resize-detector/dist/element-resize-detector.js",
     "line": "            div.innerHTML = \"<!--[if gt IE \" + (++v) + \"]><i></i><![endif]-->\";",
@@ -807,13 +814,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-02-16T19:08:17.452Z",
     "reasonDetail": "Hard-coded string used for testing capabilities."
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/got/node_modules/@sindresorhus/is/dist/index.js",
-    "line": "    'innerHTML',",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-10-06T15:40:12.124Z"
   },
   {
     "rule": "DOM-innerHTML",

@@ -3,11 +3,10 @@
 
 /* eslint-env node */
 
-import is from '@sindresorhus/is';
 import { join as pathJoin } from 'path';
 
 import { compose } from 'lodash/fp';
-import { escapeRegExp } from 'lodash';
+import { escapeRegExp, isString, isRegExp } from 'lodash';
 
 export const APP_ROOT_PATH = pathJoin(__dirname, '..', '..');
 
@@ -21,18 +20,18 @@ const REDACTION_PLACEHOLDER = '[REDACTED]';
 export type RedactFunction = (value: string) => string;
 
 export const _redactPath = (filePath: string): RedactFunction => {
-  if (!is.string(filePath)) {
+  if (!isString(filePath)) {
     throw new TypeError("'filePath' must be a string");
   }
 
   const filePathPattern = _pathToRegExp(filePath);
 
   return (text: string): string => {
-    if (!is.string(text)) {
+    if (!isString(text)) {
       throw new TypeError("'text' must be a string");
     }
 
-    if (!is.regExp(filePathPattern)) {
+    if (!isRegExp(filePathPattern)) {
       return text;
     }
 
@@ -63,7 +62,7 @@ export const _pathToRegExp = (filePath: string): RegExp | undefined => {
 
 // Public API
 export const redactPhoneNumbers = (text: string): string => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
@@ -71,7 +70,7 @@ export const redactPhoneNumbers = (text: string): string => {
 };
 
 export const redactUuids = (text: string): string => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
@@ -79,7 +78,7 @@ export const redactUuids = (text: string): string => {
 };
 
 export const redactGroupIds = (text: string): string => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 

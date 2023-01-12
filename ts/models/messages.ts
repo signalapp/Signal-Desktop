@@ -298,7 +298,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   cachedOutgoingStickerData?: StickerWithHydratedData;
 
-  override initialize(attributes: unknown): void {
+  constructor(attributes: MessageAttributesType) {
+    super(attributes);
+
+    // Note that we intentionally don't use `initialize()` method because it
+    // isn't compatible with esnext output of esbuild.
     if (isObject(attributes)) {
       this.set(
         TypedMessage.initializeSchemaVersion({
