@@ -220,7 +220,7 @@ describe('pnp/merge', function needsName() {
         const first = await notifications.first();
         assert.match(
           await first.innerText(),
-          /and ACI Contact are the same account. Your message history for both chats are here./
+          /Your message history with ACI Contact and their number .* has been merged./
         );
       }
     });

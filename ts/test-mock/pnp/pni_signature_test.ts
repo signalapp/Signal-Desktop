@@ -339,6 +339,7 @@ describe('pnp/PNI Signature', function needsName() {
     }
 
     debug('Verify final state');
+
     {
       const newState = await phone.waitForStorageState({
         after: state,

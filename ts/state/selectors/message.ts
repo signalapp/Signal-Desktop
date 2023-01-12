@@ -34,7 +34,6 @@ import type { PropsDataType as GroupV1MigrationPropsType } from '../../component
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
 import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification';
 import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification';
-import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -119,7 +118,7 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
-import { getTitle, renderNumber } from '../../util/getTitle';
+import { getTitleNoDefault, getNumber } from '../../util/getTitle';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -895,13 +894,6 @@ export function getPropsForBubble(
       timestamp,
     };
   }
-  if (isPhoneNumberDiscovery(message)) {
-    return {
-      type: 'phoneNumberDiscovery',
-      data: getPhoneNumberDiscovery(message, options),
-      timestamp,
-    };
-  }
 
   if (
     messageHasPaymentEvent(message) &&
@@ -1422,36 +1414,15 @@ export function getPropsForConversationMerge(
   const conversation = getConversation(message, conversationSelector);
   const conversationTitle = conversation.title;
 
-  const { type, e164 } = conversationMerge.renderInfo;
-  const obsoleteConversationTitle = e164 ? getTitle({ type, e164 }) : undefined;
+  const { renderInfo } = conversationMerge;
+  const obsoleteConversationTitle = getTitleNoDefault(renderInfo);
+  const obsoleteConversationNumber = getNumber(renderInfo);
 
   return {
     conversationTitle,
     obsoleteConversationTitle,
+    obsoleteConversationNumber,
   };
-}
-export function isPhoneNumberDiscovery(
-  message: MessageWithUIFieldsType
-): boolean {
-  return message.type === 'phone-number-discovery';
-}
-export function getPhoneNumberDiscovery(
-  message: MessageWithUIFieldsType,
-  { conversationSelector }: GetPropsForBubbleOptions
-): PhoneNumberDiscoveryPropsType {
-  const { phoneNumberDiscovery } = message;
-  if (!phoneNumberDiscovery) {
-    throw new Error(
-      'getPhoneNumberDiscovery: message is missing phoneNumberDiscovery!'
-    );
-  }
-
-  const conversation = getConversation(message, conversationSelector);
-  const conversationTitle = conversation.title;
-  const sharedGroup = conversation.sharedGroupNames[0];
-  const phoneNumber = renderNumber(phoneNumberDiscovery.e164);
-
-  return { conversationTitle, sharedGroup, phoneNumber };
 }
 
 // Delivery Issue

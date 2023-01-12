@@ -48,6 +48,7 @@ import updateToSchemaVersion69 from './69-group-call-ring-cancellations';
 import updateToSchemaVersion70 from './70-story-reply-index';
 import updateToSchemaVersion71 from './71-merge-notifications';
 import updateToSchemaVersion72 from './72-optimize-call-id-message-lookup';
+import updateToSchemaVersion73 from './73-remove-phone-number-discovery';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1965,6 +1966,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion70,
   updateToSchemaVersion71,
   updateToSchemaVersion72,
+  updateToSchemaVersion73,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
