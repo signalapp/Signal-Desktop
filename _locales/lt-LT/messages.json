@@ -6204,14 +6204,6 @@
     "message": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Plušame taisydami klaidas ir kitaip gerindami programėlės veikimą, kad ir toliau ja sklandžiai naudotumeisi.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Pradėk naudoti ir testuoti mūsų naują istorijų funkciją. Gali ją naudoti kartu su kitais mūsų beta testuotojais ir pranešti, kaip veikia.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "„Signal“ istorijos jau čia! Bendrink dingstančias žinutes, nuotraukas ir vaizdo įrašus su pasirinktais draugais ar grupėmis – viskas automatiškai dingsta po 24 val. Visi, kas mėgsta bendrinti istorijas, gali daryti tai privačiai ir be jokių reklamų. Jei nenori žiūrėti ar bendrinti istorijų, gali visa tai išjungti: eik į Parinktis ir pasirink Privatumą.",
     "description": "Release notes for v6.0"

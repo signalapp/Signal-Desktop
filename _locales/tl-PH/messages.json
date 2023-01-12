@@ -6204,14 +6204,6 @@
     "message": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Patuloy na nagta-trabaho para alisin ang ilang bugs at pagandahin ang takbo ng app para sa iyo.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Simulang gamitin at i-test ang aming bagong stories feature. Pwede mong gamitin ang feature na ito kasama ang ibang beta testers at bigyan kami ng feedback tungkol dito.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Nasa Signal na ang Stories! Mag-share sa piling friends o groups ng disappearing text, images, at video updates na automatic na mawawala pagkalipas ng 24 oras. Para sa lahat ng mahilig mag-share ng stories, ito ang paraan para magawa ito privately at nang walang ads. Kung hindi mo gustong makakita o mag-share ng stories, pwede kang mag-opt out sa lahat ng ito sa iyong Preferences > Privacy.",
     "description": "Release notes for v6.0"

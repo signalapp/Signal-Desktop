@@ -6204,14 +6204,6 @@
     "message": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Hard aan die werk om foute reg te stel en ander prestasieverbeterings aan te bring om die toepassing vir jou glad te laat werk.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Begin om ons nuwe stories-kenmerk te gebruik en te toets. Jy kan die kenmerk saam met ander beta-toetsers gebruik en ons laat weet hoe dit werk.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Daar is nou Stories in Signal! Deel verdwynende teks, beelde en video-opdaterings met uitgesoekte vriende of groepe wat outomaties ná 24 uur verdwyn. Vir almal wat daarvan hou om stories te deel, hier is 'n manier om dit privaat te doen en sonder om enige advertensies te sien. As jy nie stories wil sien of deel nie, kan jy dit alles in jou Instellings > Privaatheid afskakel.",
     "description": "Release notes for v6.0"

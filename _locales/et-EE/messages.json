@@ -6204,14 +6204,6 @@
     "message": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Anname endast parima, et vigu parandada ning jõudlust suurendada, muutes nii rakenduse tööd sujuvamaks.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Proovi ja testi meie uut lugude funktsiooni. Saad seda funktsiooni koos teiste beetatestijatega proovidega ning meiega oma kogemusi jagada.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Lood on Signalisse jõudnud! Jaga valitud sõprade või gruppidega kaduvaid sõnumeid, pilte ja videoid, mis 24 tunni pärast automaatselt kustutatakse. Kõigil, kellele meeldib lugusid jagada, on nüüd võimalus teha seda privaatselt ja ilma reklaame nägemata. Kui sa ei taha lugusid näha või jagada, võid teha vastava valiku siin: Sätted > Privaatsus",
     "description": "Release notes for v6.0"

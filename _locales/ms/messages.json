@@ -6204,14 +6204,6 @@
     "message": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Bekerja keras membaiki pepijat dan membuat peningkatan prestasi yang lain untuk memastikan aplikasi berjalan lancar untuk anda.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Mula menggunakan dan menguji ciri cerita baru kami. Anda boleh menggunakan ciri ini dengan penguji beta lain dan beritahu kami jika ia berfungsi dengan baik.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Cerita kini dalam Signal! Kongsi kemas kini teks, imej dan video yang boleh hilang dengan rakan atau kumpulan terpilih. Ia akan hilang secara automatik selepas 24 jam. Untuk orang yang suka berkongsi cerita, berikut adalah cara untuk melakukannya secara peribadi dan tanpa melihat sebarang iklan. Jika anda tidak mahu melihat atau berkongsi cerita, anda boleh menarik diri daripada semua itu dalam Keutamaan anda > Privasi.",
     "description": "Release notes for v6.0"

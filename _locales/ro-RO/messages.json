@@ -6204,14 +6204,6 @@
     "message": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Lucrăm din greu să soluționăm bug-uri și să îmbunătățim performanța pentru ca aplicația să funcționeze perfect.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Începe să folosești și să testezi noua noastră opțiune de povești. Poți să folosești opțiunea împreună cu alți testări beta și să ne spui cum ți se pare.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Poveștile sunt acum în Signal! Distribuie text, imagini și actualizări video care dispar cu anumiți prieteni și grupuri și ei le vor vedea timp de 24 de ore. Pentru toate persoanele care adoră să trimită povești, iată un mod de a o face în mod privat și fără să vezi anunțuri. Dacă nu vrei să vezi sau să distribui povești, poți să renunți la ele din Preferințe > Confidențialitate.",
     "description": "Release notes for v6.0"

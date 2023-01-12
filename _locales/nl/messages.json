@@ -6204,14 +6204,6 @@
     "message": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "We zijn hard aan het werk om bugs te verhelpen en andere prestatieverbeteringen door te voeren om de app soepel voor je te laten werken.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Gebruik en test onze nieuwe verhalenfunctie. Gebruik de functie samen met andere bètatesters en laat ons weten wat je ervan vindt.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Signal heeft nu verhalen! Deel verdwijnende teksten, afbeeldingen, en video-updates met geselecteerde vrienden of groepen die automatisch na 24 uur verdwijnen. Voor iedereen die graag verhalen deelt, is hier een manier om dat privé en zonder advertenties te doen. Als je geen verhalen wilt zien of delen, dan kun je dit uitzetten in je Instellingen > Privacy.",
     "description": "Release notes for v6.0"

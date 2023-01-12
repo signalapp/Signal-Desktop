@@ -6204,14 +6204,6 @@
     "message": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Vrijedno radimo na ispravljanju grešaka i drugim poboljšanjima za nesmetano korištenje aplikacije.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Počnite koristiti i testirati našu novu značajku priča. Ovu značajku možete koristiti s drugim beta testerima i javiti nam svoje iskustvo.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Priče su stigle na Signal! Dijelite tekstove, fotografije i videozapise koji automatski nestaju nakon 24 sata s odabranim prijateljima ili grupama. Za sve koji vole dijeliti priče predstavljamo način da to učine privatno i bez oglasa. Ako ne želite vidjeti niti dijeliti priče, možete ih isključiti u: Postavke > Privatnost.",
     "description": "Release notes for v6.0"

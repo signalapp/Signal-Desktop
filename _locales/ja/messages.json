@@ -6204,14 +6204,6 @@
     "message": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "アプリがスムーズに動作するよう、バグの修正とその他のパフォーマンスの向上に努めています。",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "新機能「ストーリー」の使用とテストを開始します。ベータ版の「ストーリー」機能をご利用いただき、ご使用感をお知らせください。",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Signalにストーリーが登場しました！！24時間後に自動的に消えるテキスト、画像、動画などのアップデートを、選択した友達やグループと共有できます。ストーリーの共有が大好きな皆様のために、広告なしにプライベートで共有する方法をご紹介します。設定 > プライバシーから、ストーリーを見たり共有したりしないようにできます。",
     "description": "Release notes for v6.0"

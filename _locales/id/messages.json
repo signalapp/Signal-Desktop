@@ -6204,14 +6204,6 @@
     "message": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Kami berupaya memperbaiki bug dan memberikan peningkatan performa lain agar aplikasi bisa berjalan lancar untuk Anda.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Mulai gunakan dan uji fitur cerita baru kami. Anda bisa menggunakan fitur ini bersama para penguji beta lainnya dan beri tahu kami pengalaman Anda menggunakannya.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Cerita kini hadir di Signal! Bagikan kabar dengan teman atau grup tertentu, berupa teks, gambar & video yang akan hilang otomatis setelah 24 jam. Bagi yang suka berbagi cerita, inilah cara untuk melakukannya secara privat dan tanpa melihat iklan apa pun. Jika Anda tidak ingin melihat atau membagikan cerita, Anda dapat menonaktifkannya di menu Preferensi > Privasi.",
     "description": "Release notes for v6.0"

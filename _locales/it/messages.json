@@ -6204,14 +6204,6 @@
     "message": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Abbiamo lavorato tanto per risolvere i bug e inserire qualche miglioramento qua e là per garantire il corretto funzionamento di Signal.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Scopri la nuova funzione delle Storie su Signal! Puoi provare le Storie come beta tester con altre persone e farci sapere cosa ne pensi.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Le Storie sono arrivate su Signal! Condividi testi, foto e video temporanei con chi vuoi o con i tuoi gruppi. Le Storie scompaiono 24 ore dopo la pubblicazione. Se anche tu ami le Storie, ecco un modo per condividerle in modo privato, sicuro e senza pubblicità. Se non vuoi vedere o condividere le Storie, puoi disattivarle andando in Impostazioni > Privacy.",
     "description": "Release notes for v6.0"

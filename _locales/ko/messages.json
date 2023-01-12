@@ -6204,14 +6204,6 @@
     "message": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "앱의 원활한 실행을 위한 버그 수정과 성능 개선에 최선을 다하고 있습니다.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "새 스토리 기능을 사용하고 테스트해 보세요. 이 기능은 Signal의 다른 베타 테스터들과 함께 사용할 수 있습니다. 사용해 보고 감상을 알려주세요!",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "이제 Signal에서 스토리를 사용해 보세요! 24시간 후 자동으로 사라지는 자동 삭제 텍스트, 이미지, 동영상 업데이트를 특정 친구나 그룹과 공유해 보세요. 이제 광고나 개인 정보 유출에 대한 걱정 없이 누구나 스토리를 공유할 수 있습니다. 스토리를 보거나 공유하고 싶지 않다면 기본 설정 > 개인 정보에서 관련 기능을 모두 선택 해제하세요.",
     "description": "Release notes for v6.0"

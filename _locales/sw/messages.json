@@ -6204,14 +6204,6 @@
     "message": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Tunafanya kazi kwa bidii kurekebisha hitilafu na maboresho mengine ya kiutendaji ili kuifanya programu iwe vizuri kwa ajili yako.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Anza kutumia na kujaribu kipengele chetu kipya cha stori. Unaweza kutumia kipengele hiki na vijaribio vingine vya beta na kutujulisha namna inavyofanya kazi.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Stori sasa zipo Signal! Share jumbe zinazotoweka, masasisho ya picha na video na marafiki na vikundi utakavyochagua, ambayo yatatoweka baada ya saa 24. Kwa kila mtu anayependa kushiriki stori, hii ndiyo njia ya kuifanya kwa kibinafsi na bila kuona matangazo yoyote. Kama hutaki kuona au ku-share stori, unaweza kujiondoa katika Mapendeleo yako > Faragha.",
     "description": "Release notes for v6.0"

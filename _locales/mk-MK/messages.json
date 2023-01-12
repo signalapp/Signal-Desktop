@@ -409,35 +409,35 @@
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "youMarkedAsVerified": {
-    "message": "Го обележавте Вашиот сигурносен број со$name$ како проверен",
+    "message": "Го обележавте вашиот безбедносен број со$name$ како проверен",
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "youMarkedAsNotVerified": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како непроверен",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како непроверен",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "youMarkedAsVerifiedOtherDevice": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како проверен од друг уред.",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како проверен од друг уред.",
     "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
   },
   "youMarkedAsNotVerifiedOtherDevice": {
-    "message": "Го обележавте Вашиот сигурносен број со $name$ како непроверен од друг уред",
+    "message": "Го обележавте вашиот безбедносен број со $name$ како непроверен од друг уред",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "membersNeedingVerification": {
-    "message": "Вашите сигурносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите Вашиот сигурносен број со нив.",
+    "message": "Вашите безбедносни броеви со овие членови на групата се променети од последната проверка. Кликнете на член од групата за да го проверите вашиот безбедносен број со нив.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedRightAfterVerify": {
-    "message": "Сигурносниот број што сакате да го проверите е променет. Ве молиме проверете го Вашиот нов сигурносен број со $name1$. Запомнете, оваа промена може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека $name2$ го има реинсталирано Signal.",
+    "message": "Безбедносниот број што сакате да го проверите е променет. Ве молиме проверете го вашиот нов безбедносен број со $name1$. Запомнете, оваа промена може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека $name2$ го има реинсталирано Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "changedVerificationWarning": {
-    "message": "Следниве луѓе можно е да ги преинсталирале или промениле уредите. Проверете го Вашиот сигурносен број со нив за да ја осигурате приватноста.",
+    "message": "Следниве луѓе можно е да ги преинсталирале или промениле уредите. Проверете го вашиот безбедносен број со нив за да ја осигурате приватноста.",
     "description": "(deleted 2022/11/26) Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__message": {
-    "message": "Лицата подолу можно е да реинсталирале Signal или да ги смениле уредите. Кликнете на одреден примач за да го потврдите нивниот нов сигурносен број. Ова дејство е незадолжително.",
+    "message": "Лицата подолу можно е да реинсталирале Signal или да ги смениле уредите. Кликнете на одреден примач за да го потврдите нивниот нов  безбедносен број. Ова дејство е незадолжително.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "safetyNumberChangeDialog__pending-messages": {
@@ -465,7 +465,7 @@
     "description": "Shown in the context menu for a story header, to remove all contacts within from their parent list"
   },
   "safetyNumberChangeDialog__verify-number": {
-    "message": "Проверка на сигурносен број",
+    "message": "Проверка на  безбедносен број",
     "description": "Shown in the context menu for a story recipient header, to verify that they are still trusted"
   },
   "safetyNumberChangeDialog__remove": {
@@ -481,7 +481,7 @@
     "description": "Label for button that opens context menu for story"
   },
   "identityKeyErrorOnSend": {
-    "message": "Вашиот сигурносен број со $name1$ е променет. Оваа може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека$name2$ го има реинсталирано Signal. Не е лошо да го проверите проверите сигурносниот број со овој контакт.",
+    "message": "Вашиот безбедносен број со $name1$ е променет. Оваа може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека$name2$ го има реинсталирано Signal. Не е лошо да го проверите проверите безбедносниот број со овој контакт.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "sendAnyway": {
@@ -505,7 +505,7 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "noLongerVerified": {
-    "message": "Вашиот сигурносен број со $name$ е променет и повеќе не може да се провери. Кликнете за да се покаже.",
+    "message": "Вашиот безбедносен број со $name$ е променет и повеќе не може да се провери. Кликнете за да се покаже.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "multipleNoLongerVerified": {
@@ -566,36 +566,36 @@
     "message": "Означи како непроверено"
   },
   "isVerified": {
-    "message": "Успешна проверка на сигурносниот број со $name$.",
+    "message": "Успешна проверка на безбедносниот број со $name$.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "isNotVerified": {
-    "message": "Неуспешна проверка на сигурносниот број со $name$.",
+    "message": "Неуспешна проверка на безбедносниот број со $name$.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "verified": {
     "message": "Проверено"
   },
   "newIdentity": {
-    "message": "Нов сигурносен број",
+    "message": "Нов  безбедносен број",
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message": "Вашиот сигурносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите сигурносниот број подолу."
+    "message": "Вашиот безбедносен број со овој контакт е променет. Ова може да значи дека некој се обидува да ја пресретне Вашата комуникација или пак дека контактот го преинсталирал Signal. Не е лошо да го проверите безбедносниот број подолу."
   },
   "incomingError": {
     "message": "Грешка при справување со дојдовна порака"
   },
   "media": {
-    "message": "Медија",
+    "message": "Медиумски датотеки",
     "description": "Header of the default pane in the media gallery, showing images and videos"
   },
   "mediaEmptyState": {
-    "message": "Немате медија во овој разговор",
+    "message": "Немате медиумска датотека во овој разговор",
     "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "allMedia": {
-    "message": "Цела медија",
+    "message": "Сите медиумски датотеки",
     "description": "Header for the media gallery"
   },
   "documents": {
@@ -1111,17 +1111,17 @@
     "message": "Прикажи членови"
   },
   "showSafetyNumber": {
-    "message": "Види сигурносен број"
+    "message": "Види  безбедносен број"
   },
   "viewRecentMedia": {
-    "message": "Погледни скорешна медија",
+    "message": "Погледни скорешна медиумска датотека",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
     "message": "За да ја проверите безбедноста на целосното шифрирање со $name$, споредете ги бројките горе со нивниот уред."
   },
   "theirIdentityUnknown": {
-    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот сигурносен број за овој контакт ќе стане достапен по испраќањето на првата порака."
+    "message": "Сѐ уште немате разменето пораки со овој контакт. Вашиот безбедносен број за овој контакт ќе стане достапен по испраќањето на првата порака."
   },
   "back": {
     "message": "Назад",
@@ -1200,11 +1200,11 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "DeliveryIssue--summary": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медија од $sender$. Или се обиделе да ви ја испратат директно, или во група.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$. Или се обиделе да ви ја испратат директно, или во група.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медија од $sender$во овој разговор.",
+    "message": "Не можеше да се испрати до вас порака, налепница, реакција, потврда за прочитана порака или медиумска датотека од $sender$во овој разговор.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1741,7 +1741,7 @@
     "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
-    "message": "Порака со медија",
+    "message": "Порака со медиумски датотеки",
     "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
   "unregisteredUser": {
@@ -1893,15 +1893,15 @@
     "description": "Title for the modal for safety number verification"
   },
   "safetyNumberChanged": {
-    "message": "Сигурносниот број е променет",
+    "message": "Безбедносниот број е променет",
     "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "safetyNumberChanges": {
-    "message": "Промени на сигурносниот број",
+    "message": "Промени на безбедносниот број",
     "description": "Title for safety number changed modal"
   },
   "safetyNumberChangedGroup": {
-    "message": "Сигурносниот број за $name$ е променет",
+    "message": "Безбедносниот број за $name$ е променет",
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "verifyNewNumber": {
@@ -1913,7 +1913,7 @@
     "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
   },
   "yourSafetyNumberWith": {
-    "message": "Вашиот сигурносен број со $name1$:",
+    "message": "Вашиот безбедносен број со $name1$:",
     "description": "Heading for safety number view"
   },
   "themeLight": {
@@ -2213,7 +2213,7 @@
     "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
   },
   "message--getDescription--disappearing-media": {
-    "message": "Медија за брз преглед",
+    "message": "Еднократно видлива медиумска датотека",
     "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
   },
   "message--getDescription--disappearing-photo": {
@@ -2485,7 +2485,7 @@
     "description": "Text shown on messages with with individual timers, after user has viewed it"
   },
   "Message--tap-to-view--outgoing": {
-    "message": "Медија",
+    "message": "Медиумски датотеки",
     "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
   },
   "Message--tap-to-view--incoming--expired-toast": {
@@ -2569,7 +2569,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--open-all-media-view": {
-    "message": "Отвори поглед за медија",
+    "message": "Отвори преглед на сите медиумски датотеки",
     "description": "Shown in the shortcuts guide"
   },
   "Keyboard--open-emoji-chooser": {
@@ -4089,11 +4089,11 @@
     "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--keep-history": {
-    "message": "Цела историја на пораки и медија од пред надградбата беа зачувани.",
+    "message": "Цела историја на пораки и медиумски датотеки од пред надградбата беа зачувани.",
     "description": "Shown on Learn More popup after GV1 migration"
   },
   "GroupV1--Migration--migrate--keep-history": {
-    "message": "Цела историја на пораки и медија од пред надградбата ќе бидат зачувани.",
+    "message": "Цела историја на пораки и медиумска датотеки од пред надградбата ќе бидат зачувани.",
     "description": "Shown on Migration popup before GV1 migration"
   },
   "GroupV1--Migration--info--invited--you": {
@@ -4349,7 +4349,7 @@
     "description": "This is the number of members in a group"
   },
   "ConversationDetailsMediaList--shared-media": {
-    "message": "Споделена медија",
+    "message": "Споделена медиумска датотека",
     "description": "Title for the media thumbnails in the conversation details screen"
   },
   "ConversationDetailsMediaList--show-all": {
@@ -4933,7 +4933,7 @@
     "description": "Placeholder text in the details header for those that can edit the group description"
   },
   "MediaQualitySelector--button": {
-    "message": "Одбери квалитет на медија",
+    "message": "Одбери квалитет на медиумска датотека",
     "description": "aria-label for the media quality selector button"
   },
   "MediaQualitySelector--title": {
@@ -6203,14 +6203,6 @@
   "WhatsNew__bugfixes--6": {
     "message": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
-  },
-  "WhatsNew__v5.63--0": {
-    "message": "Напорно работиме за да ги решиме баговите и да го подобриме перформансот за апликацијата да продолжи да работи беспрекорно за вас.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Започнете да ги користите и тестирате нашите нови функции за приказни. Можете да ја користите оваа функција со другите бета тестери и да ни кажете како работи.",
-    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Сега има приказни на Signal! Споделувајте фото, видео и текстуални новости кои исчезнуваат автоматски по 24 часа со одредени пријатели или групи. За сите кои сакаат да споделуваат приказни, еве начин тоа да се направи приватно и без гледање реклами. Ако не сакате да гледате или споделувате приказни, исклучете ги во Поставувања > Приватност.",

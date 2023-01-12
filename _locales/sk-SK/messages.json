@@ -6204,14 +6204,6 @@
     "message": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Usilovne pracujeme na oprave chýb a ďalších vylepšeniach výkonu, vďaka ktorým bude vaša aplikácia fungovať bez problémov.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Začnite používať a testovať našu novú funkciu príbehov. Funkciu môžete používať spolu s ostatnými beta testermi. Tešíme sa na vašu spätnú väzbu.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Príbehy prichádzajú na Signal! Zdieľajte miznúce texty, fotky a videá s vybranými priateľmi či skupinami, ktoré automaticky zmiznú po 24 hodinách. Pre každého, kto rád zdieľa príbehy, je tu spôsob, ako ich zdieľať súkromne a bez zobrazovania reklám. Ak nechcete vidieť ani zdieľať príbehy, môžete všetky funkcie deaktivovať v Nastaveniach > Súkromie.",
     "description": "Release notes for v6.0"

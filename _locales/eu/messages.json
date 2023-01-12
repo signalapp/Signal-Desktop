@@ -6204,14 +6204,6 @@
     "message": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "WhatsNew__v5.63--0": {
-    "message": "Gogor ari gara lanean akatsak konpontzeko eta bestelako errendimendu-hobekuntzak egiteko, aplikazioa arazorik gabe erabili ahal izan dezazun.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "Hasi istorioen eginbide berria erabiltzen eta probatzen. Beste beta-probatzaile batzuekin erabil dezakezu, eta guri nola dabilen jakinarazi.",
-    "description": "Release notes for v5.63"
-  },
   "WhatsNew__v6.0": {
     "message": "Istorioak Signal-era iritsi dira! Partekatu 24 orduren buruan automatikoki desagertzen diren testuak, irudiak eta bideoen-eguneratzeak lagun edo talde jakinekin. Istorioak partekatzea maite duten guztientzat, hona hemen horretarako modu pribatu eta iragarkirik gabea. Istorioak ikusi edo partekatu nahi ez badituzu, aldatu ezarpenak Hobespenak > Pribatutasuna atalean.",
     "description": "Release notes for v6.0"

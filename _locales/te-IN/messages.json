@@ -1204,7 +1204,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "DeliveryIssue--summary--group": {
-    "message": "ఈ చాట్‌లో $sender$ నుంచి సందేశం, స్టిక్కర్, రియాక్షన్, రీడ్ రిసిప్ట్ లేదా మీడియా డెలివరీ చేయబడదు.",
+    "message": "ఈ చాట్‌లో $sender$ నుంచి సందేశం, స్టిక్కర్, ప్రతిస్పందన, రీడ్ రిసిప్ట్ లేదా మీడియా డెలివరీ చేయబడదు.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in groups"
   },
   "ChangeNumber--notification": {
@@ -1749,7 +1749,7 @@
     "description": "Error message displayed when sending to an unregistered user."
   },
   "sync": {
-    "message": "కాంటాక్ట్‌ల ఇంపోర్ట్",
+    "message": "కాంటాక్ట్‌లను దిగుమతి చేయండి",
     "description": "Label for contact and group sync settings"
   },
   "syncExplanation": {
@@ -2961,7 +2961,7 @@
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "Reactions--remove": {
-    "message": "రియాక్షన్ తొలగించండి",
+    "message": "ప్రతిస్పందనను తొలగించండి",
     "describe": "Shown when you want to remove a reaction you've made"
   },
   "Reactions--error": {
@@ -5185,7 +5185,7 @@
     "description": "Button to switch the settings view"
   },
   "Preferences--lastSynced": {
-    "message": "$date$ $time$ వద్ద చివరిగా ఇంపోర్ట్ చేయబడింది",
+    "message": "$date$ $time$ వద్ద చివరిగా దిగుమతి చేయబడింది",
     "description": "Label for date and time of last sync operation"
   },
   "Preferences--system": {
@@ -5473,7 +5473,7 @@
     "description": "Shown next to the user's story when the user has read receipts turned off"
   },
   "MyStories__replies--singular": {
-    "message": "$num$ రిప్లై",
+    "message": "$num$ ప్రత్యుత్తరము",
     "description": "Number of replies your story has"
   },
   "MyStories__replies--plural": {
@@ -5601,7 +5601,7 @@
     "description": "Title for someone sending a story to a group"
   },
   "Stories__toast--sending-reply": {
-    "message": "రిప్లై పంపుతోంది..",
+    "message": "ప్రత్యుత్తరము పంపుతోంది..",
     "description": "Toast message"
   },
   "Stories__toast--sending-reaction": {
@@ -6203,14 +6203,6 @@
   "WhatsNew__bugfixes--6": {
     "message": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
-  },
-  "WhatsNew__v5.63--0": {
-    "message": "మీ కొరకు యాప్ సజావుగా రన్ అయ్యేలా చేయడానికి బగ్‌లను ఫిక్స్ చేయడం మరియు ఇతర పనితీరు మెరుగుదలలు చేయడానికి ఎంతో కష్టపడి పనిచేశాం.",
-    "description": "Release notes for v5.63"
-  },
-  "WhatsNew__v5.63--beta.2": {
-    "message": "మా కొత్త కథల ఫీచర్‌ను ఉపయోగించడం మరియు పరీక్షించడం ప్రారంభించండి. ఇతర బీటా టెస్టర్లతో మీరు ఫీచర్‌ను ఉపయోగించవచ్చు మరియు అది ఎలా పనిచేస్తుందో మాకు తెలియజేయండి.",
-    "description": "Release notes for v5.63"
   },
   "WhatsNew__v6.0": {
     "message": "Signal లో ఇప్పుడు కథలు ఉన్నాయి! 24 గంటల తరువాత ఆటోమేటిక్‌గా అదృశ్యమయ్యే టెక్స్ట్, చిత్రాలు, మరియు వీడియో అప్‌డేట్‌లను ఎంపిక చేసిన స్నేహితులు లేదా గ్రూప్‌లతో పంచుకోండి. కథలను పంచుకోవడానికి ఇష్టపడే ప్రతిఒక్కరి కొరకు, దీనిని గోప్యంగా మరియు ఎటువంటి ప్రకటనలు చూడకుండానే చేసే మార్గం ఇదిగో ఇక్కడ ఉంది. ఒకవేళ కథలను చూడటానికి లేదా పంచుకోవడానికి మీరు ఇష్టపడకపోతే, మీ ప్రాధాన్యతలు > గోప్యతలో మీరు వాటిని అన్నింటిని నిలిపివేయవచ్చు.",
