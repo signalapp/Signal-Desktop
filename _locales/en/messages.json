@@ -6299,5 +6299,13 @@
   "WhatsNew__v6.1--1": {
     "message": "When you start a group call for small groups (up to 16 people), you can choose to send a ringing notification. Group members will hear a ring if they are on the iOS beta or using Desktop or Android.",
     "description": "Release notes for v6.1"
+  },
+  "icu:WhatsNew__v6.3--0": {
+    "messageformat": "Double-click on any message row in a chat to start a quoted reply. It's like a shortcut for new thoughts about old ideas. Thanks to {whynothugo} and the Signal community for implementing this feature and providing feedback.",
+    "description": "Release notes for v6.3"
+  },
+  "icu:WhatsNew__v6.3--1": {
+    "messageformat": "Now it's easier to click outside of an image to dismiss the gallery view without zooming in. Sometimes you just wanted to close, and instead things got too close. Thanks to {jojomatik} for the fix!",
+    "description": "Release notes for v6.3"
   }
 }

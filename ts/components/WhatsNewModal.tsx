@@ -31,8 +31,16 @@ const releaseNotes: ReleaseNotesType = {
   version: window.getVersion?.(),
   features: [
     {
-      key: 'WhatsNew__bugfixes--3',
-      components: undefined,
+      key: 'icu:WhatsNew__v6.3--0',
+      components: {
+        whynothugo: <a href="https://github.com/WhyNotHugo">@WhyNotHugo</a>,
+      },
+    },
+    {
+      key: 'icu:WhatsNew__v6.3--1',
+      components: {
+        jojomatik: <a href="https://github.com/jojomatik">@jojomatik</a>,
+      },
     },
   ],
 };
