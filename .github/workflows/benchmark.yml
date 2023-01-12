@@ -123,14 +123,19 @@ jobs:
     - name: Push benchmark repo
       working-directory: benchmark-results
       run: |
-        npm ci
-        node ./bin/collect.js ../benchmark-startup.log data/startup.json
-        node ./bin/collect.js ../benchmark-send.log data/send.json
-        node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
-        node ./bin/collect.js ../benchmark-convo-open.log data/convo-open.json
-        npm run build
-        git config --global user.email "no-reply@signal.org"
-        git config --global user.name "Signal Bot"
-        git add .
-        git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
-        git push --force origin main
+        for attempt in {1..5}; do
+          echo "Attempting to push to repository #$attempt"
+          git fetch origin
+          git reset --hard origin/main
+          npm ci
+          node ./bin/collect.js ../benchmark-startup.log data/startup.json
+          node ./bin/collect.js ../benchmark-send.log data/send.json
+          node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
+          node ./bin/collect.js ../benchmark-convo-open.log data/convo-open.json
+          npm run build
+          git config --global user.email "no-reply@signal.org"
+          git config --global user.name "Signal Bot"
+          git add .
+          git commit --message "${GITHUB_REF} ${GITHUB_SHA}"
+          git push origin main && break || sleep `$((1 + RANDOM % 5))`
+        done
