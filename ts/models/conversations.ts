@@ -1912,29 +1912,13 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  updateE164(
-    e164?: string | null,
-    {
-      disableDiscoveryNotification,
-    }: {
-      disableDiscoveryNotification?: boolean;
-    } = {}
-  ): void {
+  updateE164(e164?: string | null): void {
     const oldValue = this.get('e164');
     if (e164 === oldValue) {
       return;
     }
 
     this.set('e164', e164 || undefined);
-
-    // We just discovered a new phone number for this account. If we're not merging
-    //   then we'll add a standalone notification here.
-    const haveSentMessage = Boolean(
-      this.get('profileSharing') || this.get('sentMessageCount')
-    );
-    if (!oldValue && e164 && haveSentMessage && !disableDiscoveryNotification) {
-      void this.addPhoneNumberDiscovery(e164);
-    }
 
     // This user changed their phone number
     if (oldValue && e164) {
@@ -3081,43 +3065,6 @@ export class ConversationModel extends window.Backbone
         window.Signal.Data.updateConversation(this.attributes);
       }
     });
-  }
-
-  async addPhoneNumberDiscovery(e164: string): Promise<void> {
-    log.info(
-      `addPhoneNumberDiscovery/${this.idForLogging()}: Adding for ${e164}`
-    );
-
-    const timestamp = Date.now();
-    const message: MessageAttributesType = {
-      id: generateGuid(),
-      conversationId: this.id,
-      type: 'phone-number-discovery',
-      sent_at: timestamp,
-      timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
-      received_at_ms: timestamp,
-      phoneNumberDiscovery: {
-        e164,
-      },
-      readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Unseen,
-      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
-    };
-
-    const id = await window.Signal.Data.saveMessage(message, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-      forceSave: true,
-    });
-    const model = window.MessageController.register(
-      id,
-      new window.Whisper.Message({
-        ...message,
-        id,
-      })
-    );
-
-    this.trigger('newmessage', model);
   }
 
   async addConversationMerge(
@@ -4845,7 +4792,6 @@ export class ConversationModel extends window.Backbone
     //   same before/after string, even if someone is moving from just first name to
     //   first/last name in their profile data.
     const nameChanged = oldName !== newName;
-
     if (!isMe(this.attributes) && hadPreviousName && nameChanged) {
       const change = {
         type: 'name',
@@ -4902,8 +4848,10 @@ export class ConversationModel extends window.Backbone
     profileKey: string | undefined,
     { viaStorageServiceSync = false } = {}
   ): Promise<boolean> {
+    const oldProfileKey = this.get('profileKey');
+
     // profileKey is a string so we can compare it directly
-    if (this.get('profileKey') !== profileKey) {
+    if (oldProfileKey !== profileKey) {
       log.info(
         `Setting sealedSender to UNKNOWN for conversation ${this.idForLogging()}`
       );

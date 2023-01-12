@@ -115,7 +115,6 @@ import {
   isVerifiedChange,
   processBodyRanges,
   isConversationMerge,
-  isPhoneNumberDiscovery,
 } from '../state/selectors/message';
 import {
   isInCall,
@@ -174,8 +173,7 @@ import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { getStringForConversationMerge } from '../util/getStringForConversationMerge';
-import { getStringForPhoneNumberDiscovery } from '../util/getStringForPhoneNumberDiscovery';
-import { getTitle, renderNumber } from '../util/getTitle';
+import { getTitleNoDefault, getNumber } from '../util/getTitle';
 import dataInterface from '../sql/Client';
 
 function isSameUuid(
@@ -409,7 +407,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       !isGroupV1Migration(attributes) &&
       !isGroupV2Change(attributes) &&
       !isKeyChange(attributes) &&
-      !isPhoneNumberDiscovery(attributes) &&
       !isProfileChange(attributes) &&
       !isUniversalTimerNotification(attributes) &&
       !isUnsupportedMessage(attributes) &&
@@ -499,28 +496,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       return {
         text: getStringForConversationMerge({
-          obsoleteConversationTitle: getTitle(
+          obsoleteConversationTitle: getTitleNoDefault(
+            attributes.conversationMerge.renderInfo
+          ),
+          obsoleteConversationNumber: getNumber(
             attributes.conversationMerge.renderInfo
           ),
           conversationTitle: conversation.getTitle(),
-          i18n: window.i18n,
-        }),
-      };
-    }
-
-    if (isPhoneNumberDiscovery(attributes)) {
-      const conversation = this.getConversation();
-      strictAssert(conversation, 'getNotificationData/isPhoneNumberDiscovery');
-      strictAssert(
-        attributes.phoneNumberDiscovery,
-        'getNotificationData/isPhoneNumberDiscovery/phoneNumberDiscovery'
-      );
-
-      return {
-        text: getStringForPhoneNumberDiscovery({
-          phoneNumber: renderNumber(attributes.phoneNumberDiscovery.e164),
-          conversationTitle: conversation.getTitle(),
-          sharedGroup: conversation.get('sharedGroupNames')?.[0],
           i18n: window.i18n,
         }),
       };
@@ -1219,7 +1201,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isUniversalTimerNotificationValue =
       isUniversalTimerNotification(attributes);
     const isConversationMergeValue = isConversationMerge(attributes);
-    const isPhoneNumberDiscoveryValue = isPhoneNumberDiscovery(attributes);
 
     const isPayment = messageHasPaymentEvent(attributes);
 
@@ -1251,8 +1232,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isKeyChangeValue ||
       isProfileChangeValue ||
       isUniversalTimerNotificationValue ||
-      isConversationMergeValue ||
-      isPhoneNumberDiscoveryValue;
+      isConversationMergeValue;
 
     return !hasSomethingToDisplay;
   }

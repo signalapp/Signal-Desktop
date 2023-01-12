@@ -14,16 +14,23 @@ import { Intl } from '../Intl';
 export type PropsDataType = {
   conversationTitle: string;
   obsoleteConversationTitle: string | undefined;
+  obsoleteConversationNumber: string | undefined;
 };
 export type PropsType = PropsDataType & {
   i18n: LocalizerType;
 };
 
 export function ConversationMergeNotification(props: PropsType): JSX.Element {
-  const { conversationTitle, obsoleteConversationTitle, i18n } = props;
+  const {
+    conversationTitle,
+    obsoleteConversationTitle,
+    obsoleteConversationNumber,
+    i18n,
+  } = props;
   const message = getStringForConversationMerge({
     conversationTitle,
     obsoleteConversationTitle,
+    obsoleteConversationNumber,
     i18n,
   });
 
@@ -40,7 +47,7 @@ export function ConversationMergeNotification(props: PropsType): JSX.Element {
   return (
     <>
       <SystemMessage
-        icon="profile"
+        icon="merge"
         contents={<Emojify text={message} />}
         button={
           obsoleteConversationTitle ? (
