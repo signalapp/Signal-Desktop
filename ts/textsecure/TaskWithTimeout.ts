@@ -75,6 +75,9 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
       entry.startedAt = Date.now();
       timer = setTimeout(() => {
         if (complete) {
+          log.warn(
+            `TaskWithTimeout: ${id} task timed out, but was already complete`
+          );
           return;
         }
         complete = true;
@@ -93,8 +96,14 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
     const entry: TaskType = {
       id,
       startedAt: undefined,
-      suspend: stopTimer,
-      resume: startTimer,
+      suspend: () => {
+        log.warn(`TaskWithTimeout: ${id} task suspended`);
+        stopTimer();
+      },
+      resume: () => {
+        log.warn(`TaskWithTimeout: ${id} task resumed`);
+        startTimer();
+      },
     };
 
     tasks.add(entry);
