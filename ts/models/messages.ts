@@ -3334,18 +3334,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const newReaction: MessageReactionType = {
-      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
-      fromId: reaction.get('fromId'),
-      targetAuthorUuid: reaction.get('targetAuthorUuid'),
-      targetTimestamp: reaction.get('targetTimestamp'),
-      timestamp: reaction.get('timestamp'),
-      isSentByConversationId: zipObject(
-        conversation.getMemberConversationIds(),
-        repeat(false)
-      ),
-    };
-
     const isFromThisDevice =
       reaction.get('source') === ReactionSource.FromThisDevice;
     const isFromSync = reaction.get('source') === ReactionSource.FromSync;
@@ -3355,6 +3343,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       isFromThisDevice || isFromSync || isFromSomeoneElse,
       'Reaction can only be from this device, from sync, or from someone else'
     );
+
+    const newReaction: MessageReactionType = {
+      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
+      fromId: reaction.get('fromId'),
+      targetAuthorUuid: reaction.get('targetAuthorUuid'),
+      targetTimestamp: reaction.get('targetTimestamp'),
+      timestamp: reaction.get('timestamp'),
+      isSentByConversationId: isFromThisDevice
+        ? zipObject(conversation.getMemberConversationIds(), repeat(false))
+        : undefined,
+    };
 
     // Reactions to stories are saved as separate messages, and so require a totally
     //   different codepath.

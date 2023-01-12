@@ -232,6 +232,7 @@ export default class WebSocketResource extends EventTarget {
 
   public close(code = 3000, reason?: string): void {
     if (this.closed) {
+      log.info(`WebSocketResource.close: Already closed! ${code}/${reason}`);
       return;
     }
 
