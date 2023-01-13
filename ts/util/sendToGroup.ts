@@ -36,6 +36,7 @@ import {
   ConnectTimeoutError,
   OutgoingIdentityKeyError,
   SendMessageProtoError,
+  UnknownRecipientError,
   UnregisteredUserError,
 } from '../textsecure/Errors';
 import type { HTTPError } from '../textsecure/Errors';
@@ -63,6 +64,7 @@ import * as log from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
 
+const UNKNOWN_RECIPIENT = 404;
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
 
@@ -564,6 +566,10 @@ export async function sendToGroupViaSenderKey(options: {
       );
     }
   } catch (error) {
+    if (error.code === UNKNOWN_RECIPIENT) {
+      throw new UnknownRecipientError();
+    }
+
     if (error.code === ERROR_EXPIRED_OR_MISSING_DEVICES) {
       await handle409Response(logId, error);
 
@@ -758,6 +764,11 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     log.error(`_shouldFailSend/${logId}: ${message}`);
   };
 
+  // We need to fail over to a normal send if multi_recipient/ endpoint returns 404
+  if (error instanceof UnknownRecipientError) {
+    return false;
+  }
+
   if (
     error instanceof LibSignalErrorBase &&
     error.code === ErrorCode.UntrustedIdentity
@@ -794,7 +805,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
     }
 
     if (error.code === 404) {
-      logError('Missing user or endpoint error, failing.');
+      logError('Failed to fetch metadata before send, failing.');
       return true;
     }
 
