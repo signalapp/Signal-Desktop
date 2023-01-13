@@ -543,7 +543,8 @@ export const getNonGroupStories = createSelector(
     conversationIdsWithStories: Set<string>
   ): Array<ConversationType> => {
     return groups.filter(
-      group => !isGroupInStoryMode(group, conversationIdsWithStories)
+      group =>
+        !isGroupInStoryMode(group, conversationIdsWithStories) && !group.left
     );
   }
 );
@@ -578,8 +579,10 @@ export const getGroupStories = createSelector(
     conversationLookup: ConversationLookupType,
     conversationIdsWithStories: Set<string>
   ): Array<ConversationType> => {
-    return Object.values(conversationLookup).filter(conversation =>
-      isGroupInStoryMode(conversation, conversationIdsWithStories)
+    return Object.values(conversationLookup).filter(
+      conversation =>
+        isGroupInStoryMode(conversation, conversationIdsWithStories) &&
+        !conversation.left
     );
   }
 );
