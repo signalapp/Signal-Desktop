@@ -3619,15 +3619,12 @@ function onConversationClosed(
       throw new Error('onConversationClosed: Conversation not found');
     }
 
-    log.info(
-      'unloading conversation',
-      conversation.idForLogging(),
-      'due to:',
-      reason
-    );
+    const logId = `onConversationClosed/${conversation.idForLogging()}`;
+    log.info(`${logId}: unloading due to ${reason}`);
 
     if (conversation.get('draftChanged')) {
       if (conversation.hasDraft()) {
+        log.info(`${logId}: new draft info needs update`);
         const now = Date.now();
         const activeAt = conversation.get('active_at') || now;
 
@@ -3638,6 +3635,7 @@ function onConversationClosed(
           timestamp: now,
         });
       } else {
+        log.info(`${logId}: clearing draft info`);
         conversation.set({
           draftChanged: false,
           draftTimestamp: null,
