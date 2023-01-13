@@ -226,7 +226,7 @@ async function _maybeStartJob(): Promise<void> {
           } catch (deleteError) {
             log.error(
               `${logId}: Failed to delete attachment job`,
-              Errors.toLogFormat(error)
+              Errors.toLogFormat(deleteError)
             );
           } finally {
             void _maybeStartJob();
@@ -371,16 +371,18 @@ async function _markAttachmentAsFailed(
   const { id, messageId, attachment, type, index } = job;
   const message = await _getMessageById(id, messageId);
 
-  if (!message) {
-    return;
+  try {
+    if (!message) {
+      return;
+    }
+    await _addAttachmentToMessage(
+      message,
+      _markAttachmentAsPermanentError(attachment),
+      { type, index }
+    );
+  } finally {
+    await _finishJob(message, id);
   }
-
-  await _addAttachmentToMessage(
-    message,
-    _markAttachmentAsPermanentError(attachment),
-    { type, index }
-  );
-  await _finishJob(message, id);
 }
 
 async function _getMessageById(
