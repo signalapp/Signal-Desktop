@@ -345,7 +345,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
-      const storyData = getStoryDataFromMessageAttributes(this.attributes);
+      const storyData = getStoryDataFromMessageAttributes({
+        ...this.attributes,
+      });
 
       if (!storyData) {
         return;
