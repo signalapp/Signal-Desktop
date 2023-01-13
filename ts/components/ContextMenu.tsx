@@ -54,17 +54,7 @@ let closeCurrentOpenContextMenu: undefined | (() => unknown);
 // right under the mouse cursor.
 function generateVirtualElement(x: number, y: number): VirtualElement {
   return {
-    getBoundingClientRect: () => ({
-      bottom: y,
-      height: 0,
-      left: x,
-      right: x,
-      toJSON: () => ({ x, y }),
-      top: y,
-      width: 0,
-      x,
-      y,
-    }),
+    getBoundingClientRect: () => new DOMRect(x, y),
   };
 }
 

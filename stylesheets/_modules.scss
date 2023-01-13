@@ -2481,6 +2481,8 @@ button.ConversationDetails__action-button {
   align-items: center;
 
   .module-left-pane--width-narrow & {
+    flex-direction: column;
+    height: auto;
     justify-content: center;
   }
 
@@ -2499,7 +2501,9 @@ button.ConversationDetails__action-button {
       position: relative;
 
       .module-left-pane--width-narrow & {
-        display: none;
+        margin-bottom: 28px;
+        margin-right: 0;
+        margin-top: 16px;
       }
     }
 
@@ -2517,6 +2521,10 @@ button.ConversationDetails__action-button {
 
   &__icon-container {
     display: flex;
+
+    .module-left-pane--width-narrow & {
+      flex-direction: column-reverse;
+    }
   }
 
   &__compose-icon {
@@ -2616,7 +2624,9 @@ button.ConversationDetails__action-button {
     width: 32px;
 
     .module-left-pane--width-narrow & {
-      display: none;
+      margin-right: 0;
+      margin-top: 28px;
+      margin-bottom: 28px;
     }
 
     @include light-theme {

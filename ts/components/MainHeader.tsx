@@ -1,6 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { VirtualElement } from '@popperjs/core';
 import React from 'react';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
@@ -40,7 +41,19 @@ type StateType = {
   showingAvatarPopup: boolean;
   popperRoot: HTMLDivElement | null;
   outsideClickDestructor?: () => void;
+  virtualElement: {
+    getBoundingClientRect: () => DOMRect;
+  };
 };
+
+// https://popper.js.org/docs/v2/virtual-elements/
+// Generating a virtual element here so that we can make the menu pop up
+// right under the mouse cursor.
+function generateVirtualElement(x: number, y: number): VirtualElement {
+  return {
+    getBoundingClientRect: () => new DOMRect(x, y),
+  };
+}
 
 export class MainHeader extends React.Component<PropsType, StateType> {
   public containerRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -51,10 +64,11 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.state = {
       showingAvatarPopup: false,
       popperRoot: null,
+      virtualElement: generateVirtualElement(0, 0),
     };
   }
 
-  public showAvatarPopup = (): void => {
+  public showAvatarPopup = (ev: React.MouseEvent): void => {
     const popperRoot = document.createElement('div');
     document.body.appendChild(popperRoot);
 
@@ -79,6 +93,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       showingAvatarPopup: true,
       popperRoot,
       outsideClickDestructor,
+      virtualElement: generateVirtualElement(ev.clientX, ev.clientY),
     });
   };
 
@@ -187,7 +202,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
           </Reference>
           {showingAvatarPopup && popperRoot
             ? createPortal(
-                <Popper placement="bottom-end">
+                <Popper referenceElement={this.state.virtualElement}>
                   {({ ref, style }) => (
                     <AvatarPopup
                       acceptedMessageRequest
