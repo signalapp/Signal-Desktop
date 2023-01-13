@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { mapValues, pickBy } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 import { groupBy, map, filter } from './iterables';
 import { getOwn } from './getOwn';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -51,8 +52,8 @@ export function getCollisionsFromMemberships(
  * haven't dismissed.
  */
 export const hasUnacknowledgedCollisions = (
-  previous: Readonly<GroupNameCollisionsWithIdsByTitle>,
-  current: Readonly<GroupNameCollisionsWithIdsByTitle>
+  previous: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>,
+  current: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
 ): boolean =>
   Object.entries(current).some(([title, currentIds]) => {
     const previousIds = new Set(getOwn(previous, title) || []);
@@ -60,7 +61,7 @@ export const hasUnacknowledgedCollisions = (
   });
 
 export const invertIdsByTitle = (
-  idsByTitle: Readonly<GroupNameCollisionsWithIdsByTitle>
+  idsByTitle: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
 ): GroupNameCollisionsWithTitlesById => {
   const result: GroupNameCollisionsWithTitlesById = Object.create(null);
   Object.entries(idsByTitle).forEach(([title, ids]) => {

@@ -3,6 +3,7 @@
 
 import type { Dictionary } from 'lodash';
 import { omit, reject } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   StickerPackStatusType,
   StickerType as StickerDBType,
@@ -24,23 +25,23 @@ const { getRecentStickers, updateStickerLastUsed } = dataInterface;
 
 // State
 
-export type StickersStateType = {
-  readonly installedPack: string | null;
-  readonly packs: Dictionary<StickerPackDBType>;
-  readonly recentStickers: Array<RecentStickerType>;
-  readonly blessedPacks: Dictionary<boolean>;
-};
+export type StickersStateType = ReadonlyDeep<{
+  installedPack: string | null;
+  packs: Dictionary<StickerPackDBType>;
+  recentStickers: Array<RecentStickerType>;
+  blessedPacks: Dictionary<boolean>;
+}>;
 
 // These are for the React components
 
-export type StickerType = {
-  readonly id: number;
-  readonly packId: string;
-  readonly emoji?: string;
-  readonly url: string;
-};
+export type StickerType = ReadonlyDeep<{
+  id: number;
+  packId: string;
+  emoji?: string;
+  url: string;
+}>;
 
-export type StickerPackType = Readonly<{
+export type StickerPackType = ReadonlyDeep<{
   id: string;
   key: string;
   title: string;
@@ -56,76 +57,76 @@ export type StickerPackType = Readonly<{
 
 // Actions
 
-type StickerPackAddedAction = {
+type StickerPackAddedAction = ReadonlyDeep<{
   type: 'stickers/STICKER_PACK_ADDED';
   payload: StickerPackDBType;
-};
+}>;
 
-type StickerAddedAction = {
+type StickerAddedAction = ReadonlyDeep<{
   type: 'stickers/STICKER_ADDED';
   payload: StickerDBType;
-};
+}>;
 
-type InstallStickerPackPayloadType = {
+type InstallStickerPackPayloadType = ReadonlyDeep<{
   packId: string;
   fromSync: boolean;
   status: 'installed';
   installedAt: number;
   recentStickers: Array<RecentStickerType>;
-};
-type InstallStickerPackAction = {
+}>;
+type InstallStickerPackAction = ReadonlyDeep<{
   type: 'stickers/INSTALL_STICKER_PACK';
   payload: Promise<InstallStickerPackPayloadType>;
-};
-type InstallStickerPackFulfilledAction = {
+}>;
+type InstallStickerPackFulfilledAction = ReadonlyDeep<{
   type: 'stickers/INSTALL_STICKER_PACK_FULFILLED';
   payload: InstallStickerPackPayloadType;
-};
-type ClearInstalledStickerPackAction = {
+}>;
+type ClearInstalledStickerPackAction = ReadonlyDeep<{
   type: 'stickers/CLEAR_INSTALLED_STICKER_PACK';
-};
+}>;
 
-type UninstallStickerPackPayloadType = {
+type UninstallStickerPackPayloadType = ReadonlyDeep<{
   packId: string;
   fromSync: boolean;
   status: 'downloaded';
   installedAt?: undefined;
   recentStickers: Array<RecentStickerType>;
-};
-type UninstallStickerPackAction = {
+}>;
+type UninstallStickerPackAction = ReadonlyDeep<{
   type: 'stickers/UNINSTALL_STICKER_PACK';
   payload: Promise<UninstallStickerPackPayloadType>;
-};
-type UninstallStickerPackFulfilledAction = {
+}>;
+type UninstallStickerPackFulfilledAction = ReadonlyDeep<{
   type: 'stickers/UNINSTALL_STICKER_PACK_FULFILLED';
   payload: UninstallStickerPackPayloadType;
-};
+}>;
 
-type StickerPackUpdatedAction = {
+type StickerPackUpdatedAction = ReadonlyDeep<{
   type: 'stickers/STICKER_PACK_UPDATED';
   payload: { packId: string; patch: Partial<StickerPackDBType> };
-};
+}>;
 
-type StickerPackRemovedAction = {
+type StickerPackRemovedAction = ReadonlyDeep<{
   type: 'stickers/REMOVE_STICKER_PACK';
   payload: string;
-};
+}>;
 
-type UseStickerPayloadType = {
+type UseStickerPayloadType = ReadonlyDeep<{
   packId: string;
   stickerId: number;
   time: number;
-};
-type UseStickerAction = {
+}>;
+type UseStickerAction = ReadonlyDeep<{
   type: 'stickers/USE_STICKER';
   payload: Promise<UseStickerPayloadType>;
-};
-type UseStickerFulfilledAction = {
+}>;
+type UseStickerFulfilledAction = ReadonlyDeep<{
   type: 'stickers/USE_STICKER_FULFILLED';
   payload: UseStickerPayloadType;
-};
+}>;
 
-export type StickersActionType =
+export type StickersActionType = ReadonlyDeep<
   | ClearInstalledStickerPackAction
   | StickerAddedAction
   | StickerPackAddedAction
@@ -134,7 +135,8 @@ export type StickersActionType =
   | StickerPackUpdatedAction
   | StickerPackRemovedAction
   | UseStickerFulfilledAction
-  | NoopActionType;
+  | NoopActionType
+>;
 
 // Action Creators
 

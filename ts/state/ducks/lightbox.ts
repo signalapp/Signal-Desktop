@@ -3,6 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { AttachmentType } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { MediaItemType } from '../../types/MediaItem';
@@ -34,6 +35,7 @@ import {
 import { showStickerPackPreview } from './globalModals';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type LightboxStateType =
   | {
       isShowingLightbox: false;
@@ -41,26 +43,28 @@ export type LightboxStateType =
   | {
       isShowingLightbox: true;
       isViewOnce: boolean;
-      media: ReadonlyArray<MediaItemType>;
+      media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
       selectedAttachmentPath: string | undefined;
     };
 
 const CLOSE_LIGHTBOX = 'lightbox/CLOSE';
 const SHOW_LIGHTBOX = 'lightbox/SHOW';
 
-type CloseLightboxActionType = {
+type CloseLightboxActionType = ReadonlyDeep<{
   type: typeof CLOSE_LIGHTBOX;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type ShowLightboxActionType = {
   type: typeof SHOW_LIGHTBOX;
   payload: {
     isViewOnce: boolean;
-    media: ReadonlyArray<MediaItemType>;
+    media: ReadonlyArray<ReadonlyDeep<MediaItemType>>;
     selectedAttachmentPath: string | undefined;
   };
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type LightboxActionType =
   | CloseLightboxActionType
   | MessageChangedActionType
@@ -100,7 +104,7 @@ function closeLightbox(): ThunkAction<
 
 function showLightboxWithMedia(
   selectedAttachmentPath: string | undefined,
-  media: ReadonlyArray<MediaItemType>
+  media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
 ): ShowLightboxActionType {
   return {
     type: SHOW_LIGHTBOX,

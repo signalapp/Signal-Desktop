@@ -14,6 +14,7 @@ import { batch as batchDispatch } from 'react-redux';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationAttributesType,
   ConversationLastProfileType,
@@ -5512,7 +5513,7 @@ export class ConversationModel extends window.Backbone
   }
 
   acknowledgeGroupMemberNameCollisions(
-    groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+    groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
   ): void {
     this.set('acknowledgedGroupNameCollisions', groupNameCollisions);
     window.Signal.Data.updateConversation(this.attributes);

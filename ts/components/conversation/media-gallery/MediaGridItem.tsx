@@ -4,6 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import type { ReadonlyDeep } from 'type-fest';
 import {
   isImageTypeSupported,
   isVideoTypeSupported,
@@ -13,7 +14,7 @@ import type { MediaItemType } from '../../../types/MediaItem';
 import * as log from '../../../logging/log';
 
 export type Props = {
-  mediaItem: MediaItemType;
+  mediaItem: ReadonlyDeep<MediaItemType>;
   onClick?: () => void;
   i18n: LocalizerType;
 };

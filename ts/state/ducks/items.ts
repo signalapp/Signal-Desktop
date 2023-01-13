@@ -4,6 +4,7 @@
 import { omit } from 'lodash';
 import { v4 as getGuid } from 'uuid';
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -23,60 +24,61 @@ import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
 
 // State
 
-export type ItemsStateType = {
-  readonly universalExpireTimer?: number;
+export type ItemsStateType = ReadonlyDeep<{
+  universalExpireTimer?: number;
 
-  readonly [key: string]: unknown;
+  [key: string]: unknown;
 
-  readonly remoteConfig?: RemoteConfigType;
+  remoteConfig?: RemoteConfigType;
 
   // This property should always be set and this is ensured in background.ts
-  readonly defaultConversationColor?: DefaultConversationColorType;
+  defaultConversationColor?: DefaultConversationColorType;
 
-  readonly customColors?: CustomColorsItemType;
+  customColors?: CustomColorsItemType;
 
-  readonly preferredLeftPaneWidth?: number;
+  preferredLeftPaneWidth?: number;
 
-  readonly preferredReactionEmoji?: ReadonlyArray<string>;
+  preferredReactionEmoji?: Array<string>;
 
-  readonly areWeASubscriber?: boolean;
-};
+  areWeASubscriber?: boolean;
+}>;
 
 // Actions
 
-type ItemPutAction = {
+type ItemPutAction = ReadonlyDeep<{
   type: 'items/PUT';
   payload: null;
-};
+}>;
 
-type ItemPutExternalAction = {
+type ItemPutExternalAction = ReadonlyDeep<{
   type: 'items/PUT_EXTERNAL';
   payload: {
     key: string;
     value: unknown;
   };
-};
+}>;
 
-type ItemRemoveAction = {
+type ItemRemoveAction = ReadonlyDeep<{
   type: 'items/REMOVE';
   payload: null;
-};
+}>;
 
-type ItemRemoveExternalAction = {
+type ItemRemoveExternalAction = ReadonlyDeep<{
   type: 'items/REMOVE_EXTERNAL';
   payload: string;
-};
+}>;
 
-type ItemsResetAction = {
+type ItemsResetAction = ReadonlyDeep<{
   type: 'items/RESET';
-};
+}>;
 
-export type ItemsActionType =
+export type ItemsActionType = ReadonlyDeep<
   | ItemPutAction
   | ItemPutExternalAction
   | ItemRemoveAction
   | ItemRemoveExternalAction
-  | ItemsResetAction;
+  | ItemsResetAction
+>;
 
 // Action Creators
 

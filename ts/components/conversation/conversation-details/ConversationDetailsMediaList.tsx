@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { LocalizerType } from '../../../types/Util';
 
 import type { MediaItemType } from '../../../types/MediaItem';
@@ -19,7 +20,7 @@ export type Props = {
   showAllMedia: () => void;
   showLightboxWithMedia: (
     selectedAttachmentPath: string | undefined,
-    media: ReadonlyArray<MediaItemType>
+    media: ReadonlyArray<ReadonlyDeep<MediaItemType>>
   ) => void;
 };
 

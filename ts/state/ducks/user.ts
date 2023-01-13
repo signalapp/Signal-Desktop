@@ -1,6 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import { trigger } from '../../shims/events';
 
 import type { LocaleMessagesType } from '../../types/I18N';
@@ -13,7 +14,8 @@ import { ThemeType } from '../../types/Util';
 
 // State
 
-export type UserStateType = {
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+export type UserStateType = Readonly<{
   attachmentsPath: string;
   i18n: LocalizerType;
   interactionMode: 'mouse' | 'keyboard';
@@ -33,11 +35,11 @@ export type UserStateType = {
   tempPath: string;
   theme: ThemeType;
   version: string;
-};
+}>;
 
 // Actions
 
-type UserChangedActionType = {
+type UserChangedActionType = ReadonlyDeep<{
   type: 'USER_CHANGED';
   payload: {
     ourConversationId?: string;
@@ -52,9 +54,9 @@ type UserChangedActionType = {
     isMainWindowFullScreen?: boolean;
     menuOptions?: MenuOptionsType;
   };
-};
+}>;
 
-export type UserActionType = UserChangedActionType;
+export type UserActionType = ReadonlyDeep<UserChangedActionType>;
 
 // Action Creators
 

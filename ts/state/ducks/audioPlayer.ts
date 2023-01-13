@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction } from 'redux-thunk';
+import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { Sound } from '../../util/Sound';
@@ -35,25 +36,25 @@ import { getMessagePropStatus } from '../selectors/message';
 
 // State
 
-export type ActiveAudioPlayerStateType = {
-  readonly playing: boolean;
-  readonly currentTime: number;
-  readonly playbackRate: number;
-  readonly duration: number;
-};
+export type ActiveAudioPlayerStateType = ReadonlyDeep<{
+  playing: boolean;
+  currentTime: number;
+  playbackRate: number;
+  duration: number;
+}>;
 
-export type AudioPlayerStateType = {
-  readonly active:
+export type AudioPlayerStateType = ReadonlyDeep<{
+  active:
     | (ActiveAudioPlayerStateType & { id: string; context: string })
     | undefined;
-};
+}>;
 
 // Actions
 
 /**
  * Sets the current "active" message audio for a particular rendering "context"
  */
-export type SetMessageAudioAction = {
+export type SetMessageAudioAction = ReadonlyDeep<{
   type: 'audioPlayer/SET_MESSAGE_AUDIO';
   payload:
     | {
@@ -63,39 +64,40 @@ export type SetMessageAudioAction = {
         duration: number;
       }
     | undefined;
-};
+}>;
 
-type SetPlaybackRate = {
+type SetPlaybackRate = ReadonlyDeep<{
   type: 'audioPlayer/SET_PLAYBACK_RATE';
   payload: number;
-};
+}>;
 
-type SetIsPlayingAction = {
+type SetIsPlayingAction = ReadonlyDeep<{
   type: 'audioPlayer/SET_IS_PLAYING';
   payload: boolean;
-};
+}>;
 
-type CurrentTimeUpdated = {
+type CurrentTimeUpdated = ReadonlyDeep<{
   type: 'audioPlayer/CURRENT_TIME_UPDATED';
   payload: number;
-};
+}>;
 
-type MessageAudioEnded = {
+type MessageAudioEnded = ReadonlyDeep<{
   type: 'audioPlayer/MESSAGE_AUDIO_ENDED';
-};
+}>;
 
-type DurationChanged = {
+type DurationChanged = ReadonlyDeep<{
   type: 'audioPlayer/DURATION_CHANGED';
   payload: number;
-};
+}>;
 
-type AudioPlayerActionType =
+type AudioPlayerActionType = ReadonlyDeep<
   | SetMessageAudioAction
   | SetIsPlayingAction
   | SetPlaybackRate
   | MessageAudioEnded
   | CurrentTimeUpdated
-  | DurationChanged;
+  | DurationChanged
+>;
 
 // Action Creators
 

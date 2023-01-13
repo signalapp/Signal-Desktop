@@ -4,6 +4,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { GetConversationByIdType } from '../selectors/conversations';
 import type { LocalizerType } from '../../types/Util';
 import type { MediaItemType } from '../../types/MediaItem';
@@ -33,7 +34,10 @@ export function SmartLightbox(): JSX.Element | null {
 
   const isShowingLightbox = useSelector<StateType, boolean>(shouldShowLightbox);
   const isViewOnce = useSelector<StateType, boolean>(getIsViewOnce);
-  const media = useSelector<StateType, ReadonlyArray<MediaItemType>>(getMedia);
+  const media = useSelector<
+    StateType,
+    ReadonlyArray<ReadonlyDeep<MediaItemType>>
+  >(getMedia);
   const selectedIndex = useSelector<StateType, number>(getSelectedIndex);
 
   if (!isShowingLightbox) {

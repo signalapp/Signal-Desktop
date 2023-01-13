@@ -7,6 +7,7 @@ import type { ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
 import Measure from 'react-measure';
 
+import type { ReadonlyDeep } from 'type-fest';
 import { ScrollDownButton } from './ScrollDownButton';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
@@ -49,7 +50,7 @@ const MIN_ROW_HEIGHT = 18;
 const SCROLL_DOWN_BUTTON_THRESHOLD = 8;
 const LOAD_NEWER_THRESHOLD = 5;
 
-export type WarningType =
+export type WarningType = ReadonlyDeep<
   | {
       type: ContactSpoofingType.DirectConversationWithSameTitle;
       safeConversation: ConversationType;
@@ -58,7 +59,8 @@ export type WarningType =
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
       acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
       groupNameCollisions: GroupNameCollisionsWithIdsByTitle;
-    };
+    }
+>;
 
 export type ContactSpoofingReviewPropType =
   | {
@@ -139,7 +141,7 @@ export type PropsActionsType = {
   // From Backbone
   acknowledgeGroupMemberNameCollisions: (
     conversationId: string,
-    groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+    groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
   ) => void;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
   clearSelectedMessage: () => unknown;

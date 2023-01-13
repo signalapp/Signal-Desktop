@@ -27,6 +27,7 @@ import { isDownloading, hasFailed } from '../../types/Attachment';
 import { isNotNil } from '../../util/isNotNil';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type MediaType = {
   path: string;
   objectURL: string;
@@ -44,6 +45,7 @@ type MediaType = {
   };
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MediaGalleryStateType = {
   documents: Array<MediaItemType>;
   media: Array<MediaType>;
@@ -51,6 +53,7 @@ export type MediaGalleryStateType = {
 
 const LOAD_MEDIA_ITEMS = 'mediaGallery/LOAD_MEDIA_ITEMS';
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type LoadMediaItemslActionType = {
   type: typeof LOAD_MEDIA_ITEMS;
   payload: {
@@ -59,6 +62,7 @@ type LoadMediaItemslActionType = {
   };
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type MediaGalleryActionType =
   | ConversationUnloadedActionType
   | LoadMediaItemslActionType

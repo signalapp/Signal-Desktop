@@ -274,6 +274,12 @@ module.exports = {
         'react/no-array-index-key': 'off',
       },
     },
+    {
+      files: ['ts/state/ducks/**/*.ts'],
+      rules: {
+        'local-rules/type-alias-readonlydeep': 'error',
+      },
+    },
   ],
 
   rules: {

@@ -1,18 +1,19 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import { SocketStatus } from '../../types/SocketStatus';
 import { trigger } from '../../shims/events';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 
 // State
 
-export type NetworkStateType = {
+export type NetworkStateType = ReadonlyDeep<{
   isOnline: boolean;
   socketStatus: SocketStatus;
   withinConnectingGracePeriod: boolean;
   challengeStatus: 'required' | 'pending' | 'idle';
-};
+}>;
 
 // Actions
 
@@ -21,36 +22,37 @@ const CLOSE_CONNECTING_GRACE_PERIOD = 'network/CLOSE_CONNECTING_GRACE_PERIOD';
 const RELINK_DEVICE = 'network/RELINK_DEVICE';
 const SET_CHALLENGE_STATUS = 'network/SET_CHALLENGE_STATUS';
 
-export type CheckNetworkStatusPayloadType = {
+export type CheckNetworkStatusPayloadType = ReadonlyDeep<{
   isOnline: boolean;
   socketStatus: SocketStatus;
-};
+}>;
 
-type CheckNetworkStatusAction = {
+type CheckNetworkStatusAction = ReadonlyDeep<{
   type: 'network/CHECK_NETWORK_STATUS';
   payload: CheckNetworkStatusPayloadType;
-};
+}>;
 
-type CloseConnectingGracePeriodActionType = {
+type CloseConnectingGracePeriodActionType = ReadonlyDeep<{
   type: 'network/CLOSE_CONNECTING_GRACE_PERIOD';
-};
+}>;
 
-type RelinkDeviceActionType = {
+type RelinkDeviceActionType = ReadonlyDeep<{
   type: 'network/RELINK_DEVICE';
-};
+}>;
 
-type SetChallengeStatusActionType = {
+type SetChallengeStatusActionType = ReadonlyDeep<{
   type: 'network/SET_CHALLENGE_STATUS';
   payload: {
     challengeStatus: NetworkStateType['challengeStatus'];
   };
-};
+}>;
 
-export type NetworkActionType =
+export type NetworkActionType = ReadonlyDeep<
   | CheckNetworkStatusAction
   | CloseConnectingGracePeriodActionType
   | RelinkDeviceActionType
-  | SetChallengeStatusActionType;
+  | SetChallengeStatusActionType
+>;
 
 // Action Creators
 

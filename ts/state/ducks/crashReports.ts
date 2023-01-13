@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
 import * as log from '../../logging/log';
 import { showToast } from '../../util/showToast';
 import * as Errors from '../../types/errors';
@@ -10,10 +11,10 @@ import type { PromiseAction } from '../util';
 
 // State
 
-export type CrashReportsStateType = {
+export type CrashReportsStateType = ReadonlyDeep<{
   count: number;
   isPending: boolean;
-};
+}>;
 
 // Actions
 
@@ -21,15 +22,16 @@ const SET_COUNT = 'crashReports/SET_COUNT';
 const UPLOAD = 'crashReports/UPLOAD';
 const ERASE = 'crashReports/ERASE';
 
-type SetCrashReportCountActionType = {
+type SetCrashReportCountActionType = ReadonlyDeep<{
   type: typeof SET_COUNT;
   payload: number;
-};
+}>;
 
-type CrashReportsActionType =
+type CrashReportsActionType = ReadonlyDeep<
   | SetCrashReportCountActionType
   | PromiseAction<typeof UPLOAD>
-  | PromiseAction<typeof ERASE>;
+  | PromiseAction<typeof ERASE>
+>;
 
 // Action Creators
 

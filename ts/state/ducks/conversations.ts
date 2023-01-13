@@ -12,6 +12,7 @@ import {
   without,
 } from 'lodash';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { AttachmentType } from '../../types/Attachment';
 import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
@@ -152,27 +153,31 @@ import {
 
 // State
 
-export type DBConversationType = {
+export type DBConversationType = ReadonlyDeep<{
   id: string;
   activeAt?: number;
   lastMessage?: string | null;
   type: string;
-};
+}>;
 
 export const InteractionModes = ['mouse', 'keyboard'] as const;
-export type InteractionModeType = typeof InteractionModes[number];
+export type InteractionModeType = ReadonlyDeep<typeof InteractionModes[number]>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessageType = MessageAttributesType & {
   interactionType?: InteractionModeType;
 };
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessageWithUIFieldsType = MessageAttributesType & {
   displayLimit?: number;
 };
 
 export const ConversationTypes = ['direct', 'group'] as const;
-export type ConversationTypeType = typeof ConversationTypes[number];
+export type ConversationTypeType = ReadonlyDeep<
+  typeof ConversationTypes[number]
+>;
 
-export type LastMessageType = Readonly<
+export type LastMessageType = ReadonlyDeep<
   | {
       status?: LastMessageStatus;
       text: string;
@@ -182,154 +187,161 @@ export type LastMessageType = Readonly<
   | { deletedForEveryone: true }
 >;
 
-export type ConversationType = {
-  id: string;
-  uuid?: UUIDStringType;
-  pni?: UUIDStringType;
-  e164?: string;
-  name?: string;
-  systemGivenName?: string;
-  systemFamilyName?: string;
-  familyName?: string;
-  firstName?: string;
-  profileName?: string;
-  username?: string;
-  about?: string;
-  aboutText?: string;
-  aboutEmoji?: string;
-  avatars?: ReadonlyArray<AvatarDataType>;
-  avatarPath?: string;
-  avatarHash?: string;
-  profileAvatarPath?: string;
-  unblurredAvatarPath?: string;
-  areWeAdmin?: boolean;
-  areWePending?: boolean;
-  areWePendingApproval?: boolean;
-  canChangeTimer?: boolean;
-  canEditGroupInfo?: boolean;
-  canAddNewMembers?: boolean;
-  color?: AvatarColorType;
-  conversationColor?: ConversationColorType;
-  customColor?: CustomColorType;
-  customColorId?: string;
-  discoveredUnregisteredAt?: number;
-  hideStory?: boolean;
-  isArchived?: boolean;
-  isBlocked?: boolean;
-  isGroupV1AndDisabled?: boolean;
-  isPinned?: boolean;
-  isUntrusted?: boolean;
-  isVerified?: boolean;
-  activeAt?: number;
-  timestamp?: number;
-  inboxPosition?: number;
-  left?: boolean;
-  lastMessage?: LastMessageType;
-  markedUnread?: boolean;
-  phoneNumber?: string;
-  membersCount?: number;
-  hasMessages?: boolean;
-  accessControlAddFromInviteLink?: number;
-  accessControlAttributes?: number;
-  accessControlMembers?: number;
-  announcementsOnly?: boolean;
-  announcementsOnlyReady?: boolean;
-  expireTimer?: DurationInSeconds;
-  memberships?: ReadonlyArray<{
-    uuid: UUIDStringType;
-    isAdmin: boolean;
-  }>;
-  pendingMemberships?: ReadonlyArray<{
-    uuid: UUIDStringType;
-    addedByUserId?: UUIDStringType;
-  }>;
-  pendingApprovalMemberships?: ReadonlyArray<{
-    uuid: UUIDStringType;
-  }>;
-  bannedMemberships?: ReadonlyArray<UUIDStringType>;
-  muteExpiresAt?: number;
-  dontNotifyForMentionsIfMuted?: boolean;
-  isMe: boolean;
-  lastUpdated?: number;
-  // This is used by the CompositionInput for @mentions
-  sortedGroupMembers?: ReadonlyArray<ConversationType>;
-  title: string;
-  titleNoDefault?: string;
-  searchableTitle?: string;
-  unreadCount?: number;
-  isSelected?: boolean;
-  isFetchingUUID?: boolean;
-  typingContactId?: string;
-  recentMediaItems?: ReadonlyArray<MediaItemType>;
-  profileSharing?: boolean;
+export type ConversationType = ReadonlyDeep<
+  {
+    id: string;
+    uuid?: UUIDStringType;
+    pni?: UUIDStringType;
+    e164?: string;
+    name?: string;
+    systemGivenName?: string;
+    systemFamilyName?: string;
+    familyName?: string;
+    firstName?: string;
+    profileName?: string;
+    username?: string;
+    about?: string;
+    aboutText?: string;
+    aboutEmoji?: string;
+    avatars?: ReadonlyArray<AvatarDataType>;
+    avatarPath?: string;
+    avatarHash?: string;
+    profileAvatarPath?: string;
+    unblurredAvatarPath?: string;
+    areWeAdmin?: boolean;
+    areWePending?: boolean;
+    areWePendingApproval?: boolean;
+    canChangeTimer?: boolean;
+    canEditGroupInfo?: boolean;
+    canAddNewMembers?: boolean;
+    color?: AvatarColorType;
+    conversationColor?: ConversationColorType;
+    customColor?: CustomColorType;
+    customColorId?: string;
+    discoveredUnregisteredAt?: number;
+    hideStory?: boolean;
+    isArchived?: boolean;
+    isBlocked?: boolean;
+    isGroupV1AndDisabled?: boolean;
+    isPinned?: boolean;
+    isUntrusted?: boolean;
+    isVerified?: boolean;
+    activeAt?: number;
+    timestamp?: number;
+    inboxPosition?: number;
+    left?: boolean;
+    lastMessage?: LastMessageType;
+    markedUnread?: boolean;
+    phoneNumber?: string;
+    membersCount?: number;
+    hasMessages?: boolean;
+    accessControlAddFromInviteLink?: number;
+    accessControlAttributes?: number;
+    accessControlMembers?: number;
+    announcementsOnly?: boolean;
+    announcementsOnlyReady?: boolean;
+    expireTimer?: DurationInSeconds;
+    memberships?: ReadonlyArray<{
+      uuid: UUIDStringType;
+      isAdmin: boolean;
+    }>;
+    pendingMemberships?: ReadonlyArray<{
+      uuid: UUIDStringType;
+      addedByUserId?: UUIDStringType;
+    }>;
+    pendingApprovalMemberships?: ReadonlyArray<{
+      uuid: UUIDStringType;
+    }>;
+    bannedMemberships?: ReadonlyArray<UUIDStringType>;
+    muteExpiresAt?: number;
+    dontNotifyForMentionsIfMuted?: boolean;
+    isMe: boolean;
+    lastUpdated?: number;
+    // This is used by the CompositionInput for @mentions
+    sortedGroupMembers?: ReadonlyArray<ConversationType>;
+    title: string;
+    titleNoDefault?: string;
+    searchableTitle?: string;
+    unreadCount?: number;
+    isSelected?: boolean;
+    isFetchingUUID?: boolean;
+    typingContactId?: string;
+    recentMediaItems?: ReadonlyArray<MediaItemType>;
+    profileSharing?: boolean;
 
-  shouldShowDraft?: boolean;
-  draftText?: string;
-  draftBodyRanges?: DraftBodyRangesType;
-  draftPreview?: string;
+    shouldShowDraft?: boolean;
+    draftText?: string;
+    draftBodyRanges?: DraftBodyRangesType;
+    draftPreview?: string;
 
-  sharedGroupNames: ReadonlyArray<string>;
-  groupDescription?: string;
-  groupVersion?: 1 | 2;
-  groupId?: string;
-  groupLink?: string;
-  messageRequestsEnabled?: boolean;
-  acceptedMessageRequest: boolean;
-  secretParams?: string;
-  publicParams?: string;
-  profileKey?: string;
-  voiceNotePlaybackRate?: number;
+    sharedGroupNames: ReadonlyArray<string>;
+    groupDescription?: string;
+    groupVersion?: 1 | 2;
+    groupId?: string;
+    groupLink?: string;
+    messageRequestsEnabled?: boolean;
+    acceptedMessageRequest: boolean;
+    secretParams?: string;
+    publicParams?: string;
+    profileKey?: string;
+    voiceNotePlaybackRate?: number;
 
-  badges: ReadonlyArray<
+    badges: ReadonlyArray<
+      | {
+          id: string;
+        }
+      | {
+          id: string;
+          expiresAt: number;
+          isVisible: boolean;
+        }
+    >;
+  } & (
     | {
-        id: string;
+        type: 'direct';
+        storySendMode?: undefined;
+        acknowledgedGroupNameCollisions?: undefined;
       }
     | {
-        id: string;
-        expiresAt: number;
-        isVisible: boolean;
+        type: 'group';
+        storySendMode: StorySendMode;
+        acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
       }
-  >;
-} & (
-  | {
-      type: 'direct';
-      storySendMode?: undefined;
-      acknowledgedGroupNameCollisions?: undefined;
-    }
-  | {
-      type: 'group';
-      storySendMode: StorySendMode;
-      acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
-    }
-);
-export type ProfileDataType = {
-  firstName: string;
-} & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>;
+  )
+>;
+export type ProfileDataType = ReadonlyDeep<
+  {
+    firstName: string;
+  } & Pick<ConversationType, 'aboutEmoji' | 'aboutText' | 'familyName'>
+>;
 
-export type ConversationLookupType = {
+export type ConversationLookupType = ReadonlyDeep<{
   [key: string]: ConversationType;
-};
-export type CustomError = Error & {
-  identifier?: string;
-  number?: string;
-};
+}>;
+export type CustomError = ReadonlyDeep<
+  Error & {
+    identifier?: string;
+    number?: string;
+  }
+>;
 
-type MessagePointerType = {
+type MessagePointerType = ReadonlyDeep<{
   id: string;
   received_at: number;
   sent_at?: number;
-};
-type MessageMetricsType = {
+}>;
+type MessageMetricsType = ReadonlyDeep<{
   newest?: MessagePointerType;
   oldest?: MessagePointerType;
   oldestUnseen?: MessagePointerType;
   totalUnseen: number;
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessageLookupType = {
   [key: string]: MessageWithUIFieldsType;
 };
-export type ConversationMessageType = {
+export type ConversationMessageType = ReadonlyDeep<{
   isNearBottom?: boolean;
   messageChangeCounter: number;
   messageIds: ReadonlyArray<string>;
@@ -337,13 +349,13 @@ export type ConversationMessageType = {
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
   scrollToMessageCounter: number;
-};
+}>;
 
-export type MessagesByConversationType = {
+export type MessagesByConversationType = ReadonlyDeep<{
   [key: string]: ConversationMessageType | undefined;
-};
+}>;
 
-export type PreJoinConversationType = {
+export type PreJoinConversationType = ReadonlyDeep<{
   avatar?: {
     loading?: boolean;
     url?: string;
@@ -352,9 +364,9 @@ export type PreJoinConversationType = {
   memberCount: number;
   title: string;
   approvalRequired: boolean;
-};
+}>;
 
-type ComposerGroupCreationState = {
+type ComposerGroupCreationState = ReadonlyDeep<{
   groupAvatar: undefined | Uint8Array;
   groupName: string;
   groupExpireTimer: DurationInSeconds;
@@ -362,13 +374,13 @@ type ComposerGroupCreationState = {
   recommendedGroupSizeModalState: OneTimeModalState;
   selectedConversationIds: ReadonlyArray<string>;
   userAvatarData: ReadonlyArray<AvatarDataType>;
-};
+}>;
 
-type DistributionVerificationData = {
-  uuidsNeedingVerification: ReadonlyArray<UUIDStringType>;
-};
+type DistributionVerificationData = ReadonlyDeep<{
+  uuidsNeedingVerification: Array<UUIDStringType>;
+}>;
 
-export type ConversationVerificationData =
+export type ConversationVerificationData = ReadonlyDeep<
   | {
       type: ConversationVerificationState.PendingVerification;
       uuidsNeedingVerification: ReadonlyArray<UUIDStringType>;
@@ -378,14 +390,14 @@ export type ConversationVerificationData =
   | {
       type: ConversationVerificationState.VerificationCancelled;
       canceledAt: number;
-    };
-
-type VerificationDataByConversation = Record<
-  string,
-  ConversationVerificationData
+    }
 >;
 
-type ComposerStateType =
+type VerificationDataByConversation = ReadonlyDeep<
+  Record<string, ConversationVerificationData>
+>;
+
+type ComposerStateType = ReadonlyDeep<
   | {
       step: ComposerStep.StartDirectConversation;
       searchTerm: string;
@@ -403,9 +415,10 @@ type ComposerStateType =
       (
         | { isCreating: false; hasError: boolean }
         | { isCreating: true; hasError: false }
-      ));
+      ))
+>;
 
-type ContactSpoofingReviewStateType =
+type ContactSpoofingReviewStateType = ReadonlyDeep<
   | {
       type: ContactSpoofingType.DirectConversationWithSameTitle;
       safeConversationId: string;
@@ -413,9 +426,11 @@ type ContactSpoofingReviewStateType =
   | {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
       groupConversationId: string;
-    };
+    }
+>;
 
-export type ConversationsStateType = {
+// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
+export type ConversationsStateType = Readonly<{
   preJoinConversation?: PreJoinConversationType;
   invitedUuidsForNewlyCreatedGroup?: ReadonlyArray<string>;
   conversationLookup: ConversationLookupType;
@@ -444,7 +459,7 @@ export type ConversationsStateType = {
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
-};
+}>;
 
 // Helpers
 
@@ -502,35 +517,37 @@ export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
 
-export type CancelVerificationDataByConversationActionType = {
+export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
   payload: {
     canceledAt: number;
   };
-};
-type ClearGroupCreationErrorActionType = { type: 'CLEAR_GROUP_CREATION_ERROR' };
-type ClearInvitedUuidsForNewlyCreatedGroupActionType = {
+}>;
+type ClearGroupCreationErrorActionType = ReadonlyDeep<{
+  type: 'CLEAR_GROUP_CREATION_ERROR';
+}>;
+type ClearInvitedUuidsForNewlyCreatedGroupActionType = ReadonlyDeep<{
   type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP';
-};
-type ClearVerificationDataByConversationActionType = {
+}>;
+type ClearVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CLEAR_CONVERSATIONS_PENDING_VERIFICATION;
-};
-type ClearCancelledVerificationActionType = {
+}>;
+type ClearCancelledVerificationActionType = ReadonlyDeep<{
   type: typeof CLEAR_CANCELLED_VERIFICATION;
   payload: {
     conversationId: string;
   };
-};
-type CloseContactSpoofingReviewActionType = {
+}>;
+type CloseContactSpoofingReviewActionType = ReadonlyDeep<{
   type: 'CLOSE_CONTACT_SPOOFING_REVIEW';
-};
-type CloseMaximumGroupSizeModalActionType = {
+}>;
+type CloseMaximumGroupSizeModalActionType = ReadonlyDeep<{
   type: 'CLOSE_MAXIMUM_GROUP_SIZE_MODAL';
-};
-type CloseRecommendedGroupSizeModalActionType = {
+}>;
+type CloseRecommendedGroupSizeModalActionType = ReadonlyDeep<{
   type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL';
-};
-type ColorsChangedActionType = {
+}>;
+type ColorsChangedActionType = ReadonlyDeep<{
   type: typeof COLORS_CHANGED;
   payload: {
     conversationColor?: ConversationColorType;
@@ -539,41 +556,41 @@ type ColorsChangedActionType = {
       value: CustomColorType;
     };
   };
-};
-type ColorSelectedPayloadType = {
+}>;
+type ColorSelectedPayloadType = ReadonlyDeep<{
   conversationId: string;
   conversationColor?: ConversationColorType;
   customColorData?: {
     id: string;
     value: CustomColorType;
   };
-};
-export type ColorSelectedActionType = {
+}>;
+export type ColorSelectedActionType = ReadonlyDeep<{
   type: typeof COLOR_SELECTED;
   payload: ColorSelectedPayloadType;
-};
-type ComposeDeleteAvatarActionType = {
+}>;
+type ComposeDeleteAvatarActionType = ReadonlyDeep<{
   type: typeof COMPOSE_REMOVE_AVATAR;
   payload: AvatarDataType;
-};
-type ComposeReplaceAvatarsActionType = {
+}>;
+type ComposeReplaceAvatarsActionType = ReadonlyDeep<{
   type: typeof COMPOSE_REPLACE_AVATAR;
   payload: {
     curr: AvatarDataType;
     prev?: AvatarDataType;
   };
-};
-type ComposeSaveAvatarActionType = {
+}>;
+type ComposeSaveAvatarActionType = ReadonlyDeep<{
   type: typeof COMPOSE_ADD_AVATAR;
   payload: AvatarDataType;
-};
-type CustomColorRemovedActionType = {
+}>;
+type CustomColorRemovedActionType = ReadonlyDeep<{
   type: typeof CUSTOM_COLOR_REMOVED;
   payload: {
     colorId: string;
   };
-};
-type DiscardMessagesActionType = {
+}>;
+type DiscardMessagesActionType = ReadonlyDeep<{
   type: typeof DISCARD_MESSAGES;
   payload: Readonly<
     | {
@@ -582,71 +599,72 @@ type DiscardMessagesActionType = {
       }
     | { conversationId: string; numberToKeepAtTop: number }
   >;
-};
-type SetPreJoinConversationActionType = {
+}>;
+type SetPreJoinConversationActionType = ReadonlyDeep<{
   type: 'SET_PRE_JOIN_CONVERSATION';
   payload: {
     data: PreJoinConversationType | undefined;
   };
-};
+}>;
 
-type ConversationAddedActionType = {
+type ConversationAddedActionType = ReadonlyDeep<{
   type: 'CONVERSATION_ADDED';
   payload: {
     id: string;
     data: ConversationType;
   };
-};
-export type ConversationChangedActionType = {
+}>;
+export type ConversationChangedActionType = ReadonlyDeep<{
   type: 'CONVERSATION_CHANGED';
   payload: {
     id: string;
     data: ConversationType;
   };
-};
-export type ConversationRemovedActionType = {
+}>;
+export type ConversationRemovedActionType = ReadonlyDeep<{
   type: 'CONVERSATION_REMOVED';
   payload: {
     id: string;
   };
-};
-export type ConversationUnloadedActionType = {
+}>;
+export type ConversationUnloadedActionType = ReadonlyDeep<{
   type: typeof CONVERSATION_UNLOADED;
   payload: {
     conversationId: string;
   };
-};
-type CreateGroupPendingActionType = {
+}>;
+type CreateGroupPendingActionType = ReadonlyDeep<{
   type: 'CREATE_GROUP_PENDING';
-};
-type CreateGroupFulfilledActionType = {
+}>;
+type CreateGroupFulfilledActionType = ReadonlyDeep<{
   type: 'CREATE_GROUP_FULFILLED';
   payload: {
     invitedUuids: ReadonlyArray<UUIDStringType>;
   };
-};
-type CreateGroupRejectedActionType = {
+}>;
+type CreateGroupRejectedActionType = ReadonlyDeep<{
   type: 'CREATE_GROUP_REJECTED';
-};
-export type RemoveAllConversationsActionType = {
+}>;
+export type RemoveAllConversationsActionType = ReadonlyDeep<{
   type: 'CONVERSATIONS_REMOVE_ALL';
   payload: null;
-};
-export type MessageSelectedActionType = {
+}>;
+export type MessageSelectedActionType = ReadonlyDeep<{
   type: 'MESSAGE_SELECTED';
   payload: {
     messageId: string;
     conversationId: string;
   };
-};
-type ConversationStoppedByMissingVerificationActionType = {
+}>;
+type ConversationStoppedByMissingVerificationActionType = ReadonlyDeep<{
   type: typeof CONVERSATION_STOPPED_BY_MISSING_VERIFICATION;
   payload: {
     conversationId: string;
     distributionId?: string;
     untrustedUuids: ReadonlyArray<UUIDStringType>;
   };
-};
+}>;
+// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
 export type MessageChangedActionType = {
   type: typeof MESSAGE_CHANGED;
   payload: {
@@ -655,22 +673,23 @@ export type MessageChangedActionType = {
     data: MessageAttributesType;
   };
 };
-export type MessageDeletedActionType = {
+export type MessageDeletedActionType = ReadonlyDeep<{
   type: typeof MESSAGE_DELETED;
   payload: {
     id: string;
     conversationId: string;
   };
-};
-export type MessageExpandedActionType = {
+}>;
+export type MessageExpandedActionType = ReadonlyDeep<{
   type: 'MESSAGE_EXPANDED';
   payload: {
     id: string;
     displayLimit: number;
   };
-};
+}>;
 
-export type MessagesAddedActionType = {
+// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
+export type MessagesAddedActionType = Readonly<{
   type: 'MESSAGES_ADDED';
   payload: {
     conversationId: string;
@@ -679,27 +698,28 @@ export type MessagesAddedActionType = {
     isNewMessage: boolean;
     messages: ReadonlyArray<MessageAttributesType>;
   };
-};
+}>;
 
-export type MessageExpiredActionType = {
+export type MessageExpiredActionType = ReadonlyDeep<{
   type: typeof MESSAGE_EXPIRED;
   payload: {
     id: string;
   };
-};
+}>;
 
-export type RepairNewestMessageActionType = {
+export type RepairNewestMessageActionType = ReadonlyDeep<{
   type: 'REPAIR_NEWEST_MESSAGE';
   payload: {
     conversationId: string;
   };
-};
-export type RepairOldestMessageActionType = {
+}>;
+export type RepairOldestMessageActionType = ReadonlyDeep<{
   type: 'REPAIR_OLDEST_MESSAGE';
   payload: {
     conversationId: string;
   };
-};
+}>;
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessagesResetActionType = {
   type: 'MESSAGES_RESET';
   payload: {
@@ -712,132 +732,135 @@ export type MessagesResetActionType = {
     unboundedFetch: boolean;
   };
 };
-export type SetMessageLoadingStateActionType = {
+export type SetMessageLoadingStateActionType = ReadonlyDeep<{
   type: 'SET_MESSAGE_LOADING_STATE';
   payload: {
     conversationId: string;
     messageLoadingState: undefined | TimelineMessageLoadingState;
   };
-};
-export type SetIsNearBottomActionType = {
+}>;
+export type SetIsNearBottomActionType = ReadonlyDeep<{
   type: 'SET_NEAR_BOTTOM';
   payload: {
     conversationId: string;
     isNearBottom: boolean;
   };
-};
-export type ScrollToMessageActionType = {
+}>;
+export type ScrollToMessageActionType = ReadonlyDeep<{
   type: 'SCROLL_TO_MESSAGE';
   payload: {
     conversationId: string;
     messageId: string;
   };
-};
-export type ClearSelectedMessageActionType = {
+}>;
+export type ClearSelectedMessageActionType = ReadonlyDeep<{
   type: 'CLEAR_SELECTED_MESSAGE';
   payload: null;
-};
-export type ClearUnreadMetricsActionType = {
+}>;
+export type ClearUnreadMetricsActionType = ReadonlyDeep<{
   type: 'CLEAR_UNREAD_METRICS';
   payload: {
     conversationId: string;
   };
-};
-export type SelectedConversationChangedActionType = {
+}>;
+export type SelectedConversationChangedActionType = ReadonlyDeep<{
   type: typeof SELECTED_CONVERSATION_CHANGED;
   payload: {
     conversationId?: string;
     messageId?: string;
     switchToAssociatedView?: boolean;
   };
-};
-type ReviewGroupMemberNameCollisionActionType = {
+}>;
+type ReviewGroupMemberNameCollisionActionType = ReadonlyDeep<{
   type: 'REVIEW_GROUP_MEMBER_NAME_COLLISION';
   payload: {
     groupConversationId: string;
   };
-};
-type ReviewMessageRequestNameCollisionActionType = {
+}>;
+type ReviewMessageRequestNameCollisionActionType = ReadonlyDeep<{
   type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION';
   payload: {
     safeConversationId: string;
   };
-};
-type ShowInboxActionType = {
+}>;
+type ShowInboxActionType = ReadonlyDeep<{
   type: 'SHOW_INBOX';
   payload: null;
-};
-export type ShowArchivedConversationsActionType = {
+}>;
+export type ShowArchivedConversationsActionType = ReadonlyDeep<{
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
-};
-type SetComposeGroupAvatarActionType = {
+}>;
+type SetComposeGroupAvatarActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_GROUP_AVATAR';
   payload: { groupAvatar: undefined | Uint8Array };
-};
-type SetComposeGroupNameActionType = {
+}>;
+type SetComposeGroupNameActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_GROUP_NAME';
   payload: { groupName: string };
-};
-type SetComposeGroupExpireTimerActionType = {
+}>;
+type SetComposeGroupExpireTimerActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_GROUP_EXPIRE_TIMER';
   payload: { groupExpireTimer: DurationInSeconds };
-};
-type SetComposeSearchTermActionType = {
+}>;
+type SetComposeSearchTermActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_SEARCH_TERM';
   payload: { searchTerm: string };
-};
-type SetIsFetchingUUIDActionType = {
+}>;
+type SetIsFetchingUUIDActionType = ReadonlyDeep<{
   type: 'SET_IS_FETCHING_UUID';
   payload: {
     identifier: UUIDFetchStateKeyType;
     isFetching: boolean;
   };
-};
-type SetRecentMediaItemsActionType = {
+}>;
+type SetRecentMediaItemsActionType = ReadonlyDeep<{
   type: 'SET_RECENT_MEDIA_ITEMS';
   payload: {
     id: string;
     recentMediaItems: ReadonlyArray<MediaItemType>;
   };
-};
-type ToggleComposeEditingAvatarActionType = {
+}>;
+type ToggleComposeEditingAvatarActionType = ReadonlyDeep<{
   type: typeof COMPOSE_TOGGLE_EDITING_AVATAR;
-};
-type StartComposingActionType = {
+}>;
+type StartComposingActionType = ReadonlyDeep<{
   type: 'START_COMPOSING';
-};
-type ShowChooseGroupMembersActionType = {
+}>;
+type ShowChooseGroupMembersActionType = ReadonlyDeep<{
   type: 'SHOW_CHOOSE_GROUP_MEMBERS';
-};
-type StartSettingGroupMetadataActionType = {
+}>;
+type StartSettingGroupMetadataActionType = ReadonlyDeep<{
   type: 'START_SETTING_GROUP_METADATA';
-};
-export type ToggleConversationInChooseMembersActionType = {
+}>;
+export type ToggleConversationInChooseMembersActionType = ReadonlyDeep<{
   type: 'TOGGLE_CONVERSATION_IN_CHOOSE_MEMBERS';
   payload: {
     conversationId: string;
     maxRecommendedGroupSize: number;
     maxGroupSize: number;
   };
-};
-type PushPanelActionType = {
+}>;
+
+// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
+type PushPanelActionType = Readonly<{
   type: typeof PUSH_PANEL;
   payload: PanelRenderType;
-};
-type PopPanelActionType = {
+}>;
+type PopPanelActionType = ReadonlyDeep<{
   type: typeof POP_PANEL;
   payload: null;
-};
+}>;
 
-type ReplaceAvatarsActionType = {
+type ReplaceAvatarsActionType = ReadonlyDeep<{
   type: typeof REPLACE_AVATARS;
   payload: {
     conversationId: string;
     avatars: ReadonlyArray<AvatarDataType>;
   };
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
 export type ConversationActionType =
   | CancelVerificationDataByConversationActionType
   | ClearCancelledVerificationActionType
@@ -1109,7 +1132,7 @@ function onMoveToInbox(conversationId: string): ShowToastActionType {
 
 function acknowledgeGroupMemberNameCollisions(
   conversationId: string,
-  groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+  groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
 ): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
@@ -1907,10 +1930,10 @@ function kickOffAttachmentDownload(
   };
 }
 
-type AttachmentOptions = {
+type AttachmentOptions = ReadonlyDeep<{
   messageId: string;
   attachment: AttachmentType;
-};
+}>;
 
 function markAttachmentAsCorrupted(
   options: AttachmentOptions
@@ -2512,13 +2535,14 @@ function reviewMessageRequestNameCollision(
   return { type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION', payload };
 }
 
-export type MessageResetOptionsType = Readonly<{
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+export type MessageResetOptionsType = {
   conversationId: string;
   messages: ReadonlyArray<MessageAttributesType>;
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
   unboundedFetch?: boolean;
-}>;
+};
 
 function messagesReset({
   conversationId,
@@ -2583,9 +2607,9 @@ function setIsFetchingUUID(
   };
 }
 
-export type PushPanelForConversationActionType = (
-  panel: PanelRequestType
-) => unknown;
+export type PushPanelForConversationActionType = ReadonlyDeep<
+  (panel: PanelRequestType) => unknown
+>;
 
 function pushPanelForConversation(
   panel: PanelRequestType
@@ -2619,7 +2643,7 @@ function pushPanelForConversation(
   };
 }
 
-export type PopPanelForConversationActionType = () => unknown;
+export type PopPanelForConversationActionType = ReadonlyDeep<() => unknown>;
 
 function popPanelForConversation(): ThunkAction<
   void,
@@ -3016,11 +3040,9 @@ function loadRecentMediaItems(
   };
 }
 
-export type SaveAttachmentActionCreatorType = (
-  attachment: AttachmentType,
-  timestamp?: number,
-  index?: number
-) => unknown;
+export type SaveAttachmentActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number, index?: number) => unknown
+>;
 
 function saveAttachment(
   attachment: AttachmentType,
@@ -3475,14 +3497,14 @@ function showInbox(): ShowInboxActionType {
   };
 }
 
-type ShowConversationArgsType = {
+type ShowConversationArgsType = ReadonlyDeep<{
   conversationId?: string;
   messageId?: string;
   switchToAssociatedView?: boolean;
-};
-export type ShowConversationType = (
-  options: ShowConversationArgsType
-) => unknown;
+}>;
+export type ShowConversationType = ReadonlyDeep<
+  (options: ShowConversationArgsType) => unknown
+>;
 
 function showConversation({
   conversationId,
@@ -3858,10 +3880,12 @@ function getVerificationDataForConversation({
 }
 
 // Return same data, and we do nothing. Return undefined, and we'll delete the list.
-type DistributionVisitor = (
-  id: string,
-  data: DistributionVerificationData
-) => DistributionVerificationData | undefined;
+type DistributionVisitor = ReadonlyDeep<
+  (
+    id: string,
+    data: DistributionVerificationData
+  ) => DistributionVerificationData | undefined
+>;
 
 function visitListsInVerificationData(
   existing: VerificationDataByConversation,

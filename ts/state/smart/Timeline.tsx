@@ -6,6 +6,7 @@ import type { RefObject } from 'react';
 import React from 'react';
 import { connect } from 'react-redux';
 
+import type { ReadonlyDeep } from 'type-fest';
 import { mapDispatchToProps } from '../actions';
 import type {
   ContactSpoofingReviewPropType,
@@ -103,7 +104,7 @@ function renderTypingBubble(id: string): JSX.Element {
 }
 
 const getWarning = (
-  conversation: Readonly<ConversationType>,
+  conversation: ReadonlyDeep<ConversationType>,
   state: Readonly<StateType>
 ): undefined | TimelineWarningType => {
   switch (conversation.type) {

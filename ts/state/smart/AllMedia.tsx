@@ -8,6 +8,7 @@ import { MediaGallery } from '../../components/conversation/media-gallery/MediaG
 import { getMediaGalleryState } from '../selectors/mediaGallery';
 import { useConversationsActions } from '../ducks/conversations';
 import { useLightboxActions } from '../ducks/lightbox';
+
 import { useMediaGalleryActions } from '../ducks/mediaGallery';
 
 export type PropsType = {

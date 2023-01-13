@@ -125,7 +125,7 @@ export const getRecentStickers = createSelector(
   getStickersPath,
   getTempPath,
   (
-    recents: Array<RecentStickerType>,
+    recents: ReadonlyArray<RecentStickerType>,
     packs: Dictionary<StickerPackDBType>,
     stickersPath: string,
     tempPath: string

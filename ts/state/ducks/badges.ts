@@ -3,6 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import { mapValues } from 'lodash';
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import type { BadgeType, BadgeImageType } from '../../badges/types';
 import { getOwn } from '../../util/getOwn';
@@ -22,27 +23,27 @@ import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader'
 
 // State
 
-export type BadgesStateType = {
+export type BadgesStateType = ReadonlyDeep<{
   byId: Record<string, BadgeType>;
-};
+}>;
 
 // Actions
 
 const IMAGE_FILE_DOWNLOADED = 'badges/IMAGE_FILE_DOWNLOADED';
 const UPDATE_OR_CREATE = 'badges/UPDATE_OR_CREATE';
 
-type ImageFileDownloadedActionType = {
+type ImageFileDownloadedActionType = ReadonlyDeep<{
   type: typeof IMAGE_FILE_DOWNLOADED;
   payload: {
     url: string;
     localPath: string;
   };
-};
+}>;
 
-type UpdateOrCreateActionType = {
+type UpdateOrCreateActionType = ReadonlyDeep<{
   type: typeof UPDATE_OR_CREATE;
-  payload: ReadonlyArray<BadgeType>;
-};
+  payload: Array<BadgeType>;
+}>;
 
 // Action creators
 

@@ -1,22 +1,25 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ReadonlyDeep } from 'type-fest';
+
 // State
 
-export type ExpirationStateType = {
+export type ExpirationStateType = ReadonlyDeep<{
   hasExpired: boolean;
-};
+}>;
 
 // Actions
 
 const HYDRATE_EXPIRATION_STATUS = 'expiration/HYDRATE_EXPIRATION_STATUS';
 
-type HyrdateExpirationStatusActionType = {
+type HyrdateExpirationStatusActionType = ReadonlyDeep<{
   type: 'expiration/HYDRATE_EXPIRATION_STATUS';
   payload: boolean;
-};
+}>;
 
-export type ExpirationActionType = HyrdateExpirationStatusActionType;
+export type ExpirationActionType =
+  ReadonlyDeep<HyrdateExpirationStatusActionType>;
 
 // Action Creators
 

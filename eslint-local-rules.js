@@ -4,4 +4,5 @@
 
 module.exports = {
   'valid-i18n-keys': require('./.eslint/rules/valid-i18n-keys'),
+  'type-alias-readonlydeep': require('./.eslint/rules/type-alias-readonlydeep'),
 };

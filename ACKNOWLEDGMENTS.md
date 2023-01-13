@@ -2480,6 +2480,10 @@ Signal Desktop makes use of the following open source projects.
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## type-fest
+
+    License: (MIT OR CC0-1.0)
+
 ## typeface-inter
 
     Copyright (c) 2016-2020 The Inter Project Authors.

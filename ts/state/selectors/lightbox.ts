@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
+import type { ReadonlyDeep } from 'type-fest';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { StateType } from '../reducer';
 import type { LightboxStateType } from '../ducks/lightbox';
@@ -36,6 +37,6 @@ export const getSelectedIndex = createSelector(
 
 export const getMedia = createSelector(
   getLightboxState,
-  (state): ReadonlyArray<MediaItemType> =>
+  (state): ReadonlyArray<ReadonlyDeep<MediaItemType>> =>
     state.isShowingLightbox ? state.media : []
 );

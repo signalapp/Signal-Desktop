@@ -3,6 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
 import * as Errors from '../../types/errors';
 import * as log from '../../logging/log';
 
@@ -16,21 +17,21 @@ import type { NoopActionType } from './noop';
 
 // State
 
-export type AccountsStateType = {
+export type AccountsStateType = ReadonlyDeep<{
   accounts: Record<string, UUIDStringType | undefined>;
-};
+}>;
 
 // Actions
 
-type AccountUpdateActionType = {
+type AccountUpdateActionType = ReadonlyDeep<{
   type: 'accounts/UPDATE';
   payload: {
     phoneNumber: string;
     uuid?: UUIDStringType;
   };
-};
+}>;
 
-export type AccountsActionType = AccountUpdateActionType;
+export type AccountsActionType = ReadonlyDeep<AccountUpdateActionType>;
 
 // Action Creators
 

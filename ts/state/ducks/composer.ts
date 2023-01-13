@@ -6,6 +6,7 @@ import path from 'path';
 import { debounce } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type {
   AddLinkPreviewActionType,
   RemoveLinkPreviewActionType,
@@ -86,7 +87,7 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 
 // State
-
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
@@ -98,11 +99,13 @@ type ComposerStateByConversationType = {
   shouldSendHighQualityAttachments?: boolean;
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type QuotedMessageType = Pick<
   MessageAttributesType,
   'conversationId' | 'quote'
 >;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ComposerStateType = {
   conversations: Record<string, ComposerStateByConversationType>;
 };
@@ -134,14 +137,15 @@ const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
 const SET_COMPOSER_DISABLED = 'composer/SET_COMPOSER_DISABLED';
 
-type AddPendingAttachmentActionType = {
+type AddPendingAttachmentActionType = ReadonlyDeep<{
   type: typeof ADD_PENDING_ATTACHMENT;
   payload: {
     conversationId: string;
     attachment: AttachmentDraftType;
   };
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type ReplaceAttachmentsActionType = {
   type: typeof REPLACE_ATTACHMENTS;
   payload: {
@@ -150,36 +154,37 @@ export type ReplaceAttachmentsActionType = {
   };
 };
 
-export type ResetComposerActionType = {
+export type ResetComposerActionType = ReadonlyDeep<{
   type: typeof RESET_COMPOSER;
   payload: {
     conversationId: string;
   };
-};
+}>;
 
-type SetComposerDisabledStateActionType = {
+type SetComposerDisabledStateActionType = ReadonlyDeep<{
   type: typeof SET_COMPOSER_DISABLED;
   payload: {
     conversationId: string;
     value: boolean;
   };
-};
+}>;
 
-export type SetFocusActionType = {
+export type SetFocusActionType = ReadonlyDeep<{
   type: typeof SET_FOCUS;
   payload: {
     conversationId: string;
   };
-};
+}>;
 
-type SetHighQualitySettingActionType = {
+type SetHighQualitySettingActionType = ReadonlyDeep<{
   type: typeof SET_HIGH_QUALITY_SETTING;
   payload: {
     conversationId: string;
     value: boolean;
   };
-};
+}>;
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetQuotedMessageActionType = {
   type: typeof SET_QUOTED_MESSAGE;
   payload: {
@@ -188,6 +193,7 @@ export type SetQuotedMessageActionType = {
   };
 };
 
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
 type ComposerActionType =
   | AddLinkPreviewActionType
   | AddPendingAttachmentActionType

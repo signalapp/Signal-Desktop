@@ -4,6 +4,7 @@
 import { omit } from 'lodash';
 import type { ThunkAction } from 'redux-thunk';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface';
 import type { UUIDStringType } from '../../types/UUID';
@@ -19,18 +20,18 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 
 // State
 
-export type StoryDistributionListDataType = {
+export type StoryDistributionListDataType = ReadonlyDeep<{
   id: UUIDStringType;
   deletedAtTimestamp?: number;
   name: string;
   allowsReplies: boolean;
   isBlockList: boolean;
   memberUuids: Array<UUIDStringType>;
-};
+}>;
 
-export type StoryDistributionListStateType = {
+export type StoryDistributionListStateType = ReadonlyDeep<{
   distributionLists: Array<StoryDistributionListDataType>;
-};
+}>;
 
 // Actions
 
@@ -43,65 +44,65 @@ export const MODIFY_LIST = 'storyDistributionLists/MODIFY_LIST';
 const RESET_MY_STORIES = 'storyDistributionLists/RESET_MY_STORIES';
 export const VIEWERS_CHANGED = 'storyDistributionLists/VIEWERS_CHANGED';
 
-type AllowRepliesChangedActionType = {
+type AllowRepliesChangedActionType = ReadonlyDeep<{
   type: typeof ALLOW_REPLIES_CHANGED;
   payload: {
     listId: string;
     allowsReplies: boolean;
   };
-};
+}>;
 
-type CreateListActionType = {
+type CreateListActionType = ReadonlyDeep<{
   type: typeof CREATE_LIST;
   payload: StoryDistributionListDataType;
-};
+}>;
 
-type DeleteListActionType = {
+type DeleteListActionType = ReadonlyDeep<{
   type: typeof DELETE_LIST;
   payload: {
     listId: string;
     deletedAtTimestamp: number;
   };
-};
+}>;
 
-type HideMyStoriesFromActionType = {
+type HideMyStoriesFromActionType = ReadonlyDeep<{
   type: typeof HIDE_MY_STORIES_FROM;
   payload: Array<UUIDStringType>;
-};
+}>;
 
-type ModifyDistributionListType = Omit<
-  StoryDistributionListDataType,
-  'memberUuids'
-> & {
-  membersToAdd: Array<UUIDStringType>;
-  membersToRemove: Array<UUIDStringType>;
-};
+type ModifyDistributionListType = ReadonlyDeep<
+  Omit<StoryDistributionListDataType, 'memberUuids'> & {
+    membersToAdd: Array<UUIDStringType>;
+    membersToRemove: Array<UUIDStringType>;
+  }
+>;
 
-export type ModifyListActionType = {
+export type ModifyListActionType = ReadonlyDeep<{
   type: typeof MODIFY_LIST;
   payload: ModifyDistributionListType;
-};
+}>;
 
-type ResetMyStoriesActionType = {
+type ResetMyStoriesActionType = ReadonlyDeep<{
   type: typeof RESET_MY_STORIES;
-};
+}>;
 
-type ViewersChangedActionType = {
+type ViewersChangedActionType = ReadonlyDeep<{
   type: typeof VIEWERS_CHANGED;
   payload: {
     listId: string;
     memberUuids: Array<UUIDStringType>;
   };
-};
+}>;
 
-export type StoryDistributionListsActionType =
+export type StoryDistributionListsActionType = ReadonlyDeep<
   | AllowRepliesChangedActionType
   | CreateListActionType
   | DeleteListActionType
   | HideMyStoriesFromActionType
   | ModifyListActionType
   | ResetMyStoriesActionType
-  | ViewersChangedActionType;
+  | ViewersChangedActionType
+>;
 
 // Action Creators
 
@@ -503,7 +504,7 @@ export function getEmptyState(): StoryDistributionListStateType {
 }
 
 function replaceDistributionListData(
-  distributionLists: Array<StoryDistributionListDataType>,
+  distributionLists: ReadonlyArray<StoryDistributionListDataType>,
   listId: string,
   getNextDistributionListData: (
     list: StoryDistributionListDataType

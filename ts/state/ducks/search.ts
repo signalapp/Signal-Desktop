@@ -4,6 +4,7 @@
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { debounce, omit, reject } from 'lodash';
 
+import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
@@ -43,15 +44,17 @@ const {
 
 // State
 
-export type MessageSearchResultType = MessageType & {
-  snippet?: string;
-};
+export type MessageSearchResultType = ReadonlyDeep<
+  MessageType & {
+    snippet?: string;
+  }
+>;
 
-export type MessageSearchResultLookupType = {
+export type MessageSearchResultLookupType = ReadonlyDeep<{
   [id: string]: MessageSearchResultType;
-};
+}>;
 
-export type SearchStateType = {
+export type SearchStateType = ReadonlyDeep<{
   startSearchCounter: number;
   searchConversationId?: string;
   contactIds: Array<string>;
@@ -64,49 +67,49 @@ export type SearchStateType = {
   // Loading state
   discussionsLoading: boolean;
   messagesLoading: boolean;
-};
+}>;
 
 // Actions
 
-type SearchMessagesResultsFulfilledActionType = {
+type SearchMessagesResultsFulfilledActionType = ReadonlyDeep<{
   type: 'SEARCH_MESSAGES_RESULTS_FULFILLED';
   payload: {
     messages: Array<MessageSearchResultType>;
     query: string;
   };
-};
-type SearchDiscussionsResultsFulfilledActionType = {
+}>;
+type SearchDiscussionsResultsFulfilledActionType = ReadonlyDeep<{
   type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED';
   payload: {
     conversationIds: Array<string>;
     contactIds: Array<string>;
     query: string;
   };
-};
-type UpdateSearchTermActionType = {
+}>;
+type UpdateSearchTermActionType = ReadonlyDeep<{
   type: 'SEARCH_UPDATE';
   payload: {
     query: string;
   };
-};
-type StartSearchActionType = {
+}>;
+type StartSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_START';
   payload: null;
-};
-type ClearSearchActionType = {
+}>;
+type ClearSearchActionType = ReadonlyDeep<{
   type: 'SEARCH_CLEAR';
   payload: null;
-};
-type ClearConversationSearchActionType = {
+}>;
+type ClearConversationSearchActionType = ReadonlyDeep<{
   type: 'CLEAR_CONVERSATION_SEARCH';
   payload: null;
-};
-type SearchInConversationActionType = {
+}>;
+type SearchInConversationActionType = ReadonlyDeep<{
   type: 'SEARCH_IN_CONVERSATION';
   payload: { searchConversationId: string };
-};
+}>;
 
-export type SearchActionType =
+export type SearchActionType = ReadonlyDeep<
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
@@ -118,7 +121,8 @@ export type SearchActionType =
   | RemoveAllConversationsActionType
   | SelectedConversationChangedActionType
   | ShowArchivedConversationsActionType
-  | ConversationUnloadedActionType;
+  | ConversationUnloadedActionType
+>;
 
 // Action Creators
 

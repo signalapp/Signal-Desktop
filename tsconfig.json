@@ -7,7 +7,7 @@
     "lib": [
       "dom", // Required to access `window`
       "dom.iterable",
-      "es2020"
+      "es2022"
     ],
     "incremental": true,
     // "allowJs": true,                       // Allow javascript files to be compiled.
