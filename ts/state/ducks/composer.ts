@@ -679,6 +679,7 @@ function addAttachment(
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
       conversation.attributes.draftAttachments = nextAttachments;
+      conversation.attributes.draftChanged = true;
       window.Signal.Data.updateConversation(conversation.attributes);
     }
   };
@@ -716,6 +717,7 @@ function addPendingAttachment(
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
       conversation.attributes.draftAttachments = nextAttachments;
+      conversation.attributes.draftChanged = true;
       window.Signal.Data.updateConversation(conversation.attributes);
     }
   };
