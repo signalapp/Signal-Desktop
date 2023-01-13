@@ -85,7 +85,7 @@ function openInstaller(): ThunkAction<
   OpenInstallerActionType
 > {
   return dispatch => {
-    window.addSetupMenuItems();
+    window.IPC.addSetupMenuItems();
 
     dispatch({
       type: OPEN_INSTALLER,
@@ -104,7 +104,7 @@ function openStandalone(): ThunkAction<
       return;
     }
 
-    window.addSetupMenuItems();
+    window.IPC.addSetupMenuItems();
     dispatch({
       type: OPEN_STANDALONE,
     });

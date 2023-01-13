@@ -164,8 +164,10 @@ export function SmartInstallScreen(): ReactElement {
       }
       onQrCodeScanned();
 
-      if (window.CI) {
-        chooseDeviceNamePromiseWrapperRef.current.resolve(window.CI.deviceName);
+      if (window.Signal.CI) {
+        chooseDeviceNamePromiseWrapperRef.current.resolve(
+          window.Signal.CI.deviceName
+        );
       }
 
       const result = await chooseDeviceNamePromiseWrapperRef.current.promise;
@@ -203,7 +205,7 @@ export function SmartInstallScreen(): ReactElement {
           confirmNumber
         );
 
-        window.removeSetupMenuItems();
+        window.IPC.removeSetupMenuItems();
       } catch (error) {
         log.error(
           'account.registerSecondDevice: got an error',
@@ -233,7 +235,7 @@ export function SmartInstallScreen(): ReactElement {
         screenSpecificProps: {
           i18n,
           error: state.error,
-          quit: () => window.shutdown(),
+          quit: () => window.IPC.shutdown(),
           tryAgain: () => setState(INITIAL_STATE),
         },
       };

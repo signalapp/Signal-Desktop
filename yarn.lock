@@ -2178,10 +2178,10 @@
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/mock-server@2.12.0":
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-2.12.0.tgz#ca7ed46406603746d2cb49349d3fb843fe4b45eb"
-  integrity sha512-d6OFulnOWG0U3Xj0ChBGHThyBlno54Va+Cb/E0ggEx7PhD1Y9GX8gLc0V8HHP203b+1JThX4SdK03dpsOILxfQ==
+"@signalapp/mock-server@2.12.1":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-2.12.1.tgz#456ee3c9458363d333bd803910f874d388f28d04"
+  integrity sha512-c8ndwTtDoRPRZAWjbBeVH79DQLA4UvKPztgJUqtDOqFCju1+NMKbjxrK+v1PJQvhhOMANbG6Z3qTCl4UGcm/zQ==
   dependencies:
     "@signalapp/libsignal-client" "^0.20.0"
     debug "^4.3.2"
@@ -4031,11 +4031,6 @@
   version "0.7.31"
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
-
-"@types/mustache@4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@types/mustache/-/mustache-4.1.2.tgz#d0e158013c81674a5b6d8780bc3fe234e1804eaf"
-  integrity sha512-c4OVMMcyodKQ9dpwBwh3ofK9P6U9ZktKU9S+p33UqwMNN1vlv2P0zJZUScTshnx7OEoIIRcCFNQ904sYxZz8kg==
 
 "@types/node-fetch@2.6.2":
   version "2.6.2"

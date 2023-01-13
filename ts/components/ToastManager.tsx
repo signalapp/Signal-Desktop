@@ -162,7 +162,7 @@ export function ToastManager({
         onClose={hideToast}
         toastAction={{
           label: i18n('Toast--error--action'),
-          onClick: () => window.showDebugLog(),
+          onClick: () => window.IPC.showDebugLog(),
         }}
       >
         {i18n('Toast--error')}

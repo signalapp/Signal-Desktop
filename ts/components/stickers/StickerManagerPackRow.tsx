@@ -113,6 +113,7 @@ export const StickerManagerPackRow = React.memo(
           onKeyDown={handleKeyDown}
           onClick={handleClickPreview}
           className="module-sticker-manager__pack-row"
+          data-testid={id}
         >
           {pack.cover ? (
             <img

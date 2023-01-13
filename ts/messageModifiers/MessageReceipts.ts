@@ -266,7 +266,9 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
           // We want the above call to not be delayed when testing with
           // CI.
-          window.CI ? deleteSentProtoBatcher.flushAndWait() : Promise.resolve(),
+          window.Signal.CI
+            ? deleteSentProtoBatcher.flushAndWait()
+            : Promise.resolve(),
         ]);
       } else {
         log.warn(

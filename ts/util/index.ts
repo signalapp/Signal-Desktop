@@ -38,7 +38,6 @@ import {
   sessionStructureToBytes,
 } from './sessionTranslation';
 import * as zkgroup from './zkgroup';
-import { StartupQueue } from './StartupQueue';
 import { sendToGroup, sendContentMessageToGroup } from './sendToGroup';
 import { RetryPlaceholders } from './retryPlaceholders';
 import * as expirationTimer from './expirationTimer';
@@ -47,7 +46,6 @@ import { MessageController } from './MessageController';
 export {
   GoogleChrome,
   Registration,
-  StartupQueue,
   arrayBufferToObjectURL,
   combineNames,
   createBatcher,

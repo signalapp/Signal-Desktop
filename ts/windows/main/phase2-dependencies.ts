@@ -9,7 +9,6 @@ import * as moment from 'moment';
 import 'moment/min/locales.min';
 
 import { textsecure } from '../../textsecure';
-import { imageToBlurHash } from '../../util/imageToBlurHash';
 import * as Attachments from '../attachments';
 import { setup } from '../../signal';
 import { addSensitivePath } from '../../util/privacy';
@@ -38,7 +37,6 @@ window.WebAPI = window.textsecure.WebAPI.initialize({
   version: config.version,
 });
 
-window.imageToBlurHash = imageToBlurHash;
 window.libphonenumberInstance = PhoneNumberUtil.getInstance();
 window.libphonenumberFormat = PhoneNumberFormat;
 
@@ -56,12 +54,14 @@ moment.updateLocale(locale, {
 moment.locale(locale);
 
 const userDataPath = SignalContext.getPath('userData');
-window.baseAttachmentsPath = Attachments.getPath(userDataPath);
-window.baseStickersPath = Attachments.getStickersPath(userDataPath);
-window.baseTempPath = Attachments.getTempPath(userDataPath);
-window.baseDraftPath = Attachments.getDraftPath(userDataPath);
+window.BasePaths = {
+  attachments: Attachments.getPath(userDataPath),
+  draft: Attachments.getDraftPath(userDataPath),
+  stickers: Attachments.getStickersPath(userDataPath),
+  temp: Attachments.getTempPath(userDataPath),
+};
 
-addSensitivePath(window.baseAttachmentsPath);
+addSensitivePath(window.BasePaths.attachments);
 if (config.crashDumpsPath) {
   addSensitivePath(config.crashDumpsPath);
 }

@@ -41,6 +41,7 @@ export type PropsData = Pick<
   | 'badges'
   | 'color'
   | 'draftPreview'
+  | 'groupId'
   | 'id'
   | 'isMe'
   // NOTE: Passed for CI, not used for rendering
@@ -79,6 +80,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     badge,
     color,
     draftPreview,
+    groupId,
     i18n,
     id,
     isMe,
@@ -180,6 +182,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         badge={badge}
         color={color}
         conversationType={type}
+        groupId={groupId}
         headerDate={lastUpdated}
         headerName={headerName}
         i18n={i18n}
@@ -198,6 +201,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         title={title}
         unreadCount={unreadCount}
         unblurredAvatarPath={unblurredAvatarPath}
+        uuid={uuid}
       />
     );
   }

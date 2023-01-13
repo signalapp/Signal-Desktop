@@ -153,10 +153,7 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('opening conversation with the stranger');
     await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(stranger.profileName)}]`
-      )
+      .locator(`[data-testid="${stranger.toContact().uuid}"]`)
       .click();
 
     debug('Accept conversation from a stranger');
@@ -173,7 +170,9 @@ describe('pnp/PNI Signature', function needsName() {
     }
 
     debug('Enter first message text');
-    const compositionInput = composeArea.locator('_react=CompositionInput');
+    const compositionInput = composeArea.locator(
+      '[data-testid=CompositionInput]'
+    );
 
     await compositionInput.type('first');
     await compositionInput.press('Enter');
@@ -273,11 +272,14 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('opening conversation with the pni contact');
     await leftPane
-      .locator('_react=ConversationListItem[title = "PNI Contact"]')
+      .locator('.module-conversation-list__item--contact-or-conversation')
+      .first()
       .click();
 
     debug('Enter a PNI message text');
-    const compositionInput = composeArea.locator('_react=CompositionInput');
+    const compositionInput = composeArea.locator(
+      '[data-testid=CompositionInput]'
+    );
 
     await compositionInput.type('Hello PNI');
     await compositionInput.press('Enter');
@@ -313,13 +315,11 @@ describe('pnp/PNI Signature', function needsName() {
 
     debug('Wait for merge to happen');
     await leftPane
-      .locator('_react=ConversationListItem[title = "ACI Contact"]')
+      .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
       .waitFor();
 
     debug('Wait for composition input to clear');
-    await composeArea
-      .locator('_react=CompositionInput[draftText = ""]')
-      .waitFor();
+    await composeArea.locator('[data-testid=CompositionInput]').waitFor();
 
     debug('Enter an ACI message text');
     await compositionInput.type('Hello ACI');

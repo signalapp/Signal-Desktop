@@ -9,6 +9,8 @@ type EntryType = Readonly<{
   callback(): void;
 }>;
 
+let startupProcessingQueue: StartupQueue | undefined;
+
 export class StartupQueue {
   private readonly map = new Map<string, EntryType>();
 
@@ -37,5 +39,22 @@ export class StartupQueue {
         );
       }
     }
+  }
+
+  static initialize(): void {
+    startupProcessingQueue = new StartupQueue();
+  }
+
+  static isReady(): boolean {
+    return Boolean(startupProcessingQueue);
+  }
+
+  static add(id: string, value: number, f: () => void): void {
+    startupProcessingQueue?.add(id, value, f);
+  }
+
+  static flush(): void {
+    startupProcessingQueue?.flush();
+    startupProcessingQueue = undefined;
   }
 }

@@ -30,6 +30,7 @@ export type PropsDataType = {
   | 'acceptedMessageRequest'
   | 'avatarPath'
   | 'color'
+  | 'groupId'
   | 'id'
   | 'isMe'
   | 'phoneNumber'
@@ -38,6 +39,7 @@ export type PropsDataType = {
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
+  | 'uuid'
 >;
 
 type PropsHousekeepingType = {
@@ -59,6 +61,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     badge,
     color,
     disabledReason,
+    groupId,
     i18n,
     id,
     isChecked,
@@ -71,6 +74,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     title,
     type,
     unblurredAvatarPath,
+    uuid,
   }) {
     const disabled = Boolean(disabledReason);
 
@@ -104,6 +108,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         color={color}
         conversationType={type}
         disabled={disabled}
+        groupId={groupId}
         headerName={headerName}
         i18n={i18n}
         id={id}
@@ -117,6 +122,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         theme={theme}
         title={title}
         unblurredAvatarPath={unblurredAvatarPath}
+        uuid={uuid}
       />
     );
   }

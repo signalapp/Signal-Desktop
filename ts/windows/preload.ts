@@ -1,8 +1,6 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcRenderer as ipc } from 'electron';
-
 import { installCallback, installSetting } from '../util/preload';
 
 // ChatColorPicker redux hookups
@@ -71,14 +69,3 @@ installCallback('getAvailableIODevices');
 installSetting('preferredAudioInputDevice');
 installSetting('preferredAudioOutputDevice');
 installSetting('preferredVideoInputDevice');
-
-window.getMediaPermissions = () => ipc.invoke('settings:get:mediaPermissions');
-
-window.getMediaCameraPermissions = () =>
-  ipc.invoke('settings:get:mediaCameraPermissions');
-
-window.crashReports = {
-  getCount: () => ipc.invoke('crash-reports:get-count'),
-  upload: () => ipc.invoke('crash-reports:upload'),
-  erase: () => ipc.invoke('crash-reports:erase'),
-};

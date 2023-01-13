@@ -38,6 +38,18 @@ function renderInbox(): JSX.Element {
 const mapStateToProps = (state: StateType) => {
   const i18n = getIntl(state);
 
+  const { osName } = state.user;
+
+  let osClassName = '';
+
+  if (osName === 'windows') {
+    osClassName = 'os-windows';
+  } else if (osName === 'macos') {
+    osClassName = 'os-macos';
+  } else if (osName === 'linux') {
+    osClassName = 'os-linux';
+  }
+
   return {
     ...state.app,
     i18n,
@@ -46,6 +58,7 @@ const mapStateToProps = (state: StateType) => {
     isFullScreen: getIsMainWindowFullScreen(state),
     menuOptions: getMenuOptions(state),
     hasCustomTitleBar: window.SignalContext.OS.hasCustomTitleBar(),
+    osClassName,
     hideMenuBar: getHideMenuBar(state),
     renderCallManager: () => (
       <ModalContainer className="module-calling__modal-container">
@@ -92,7 +105,7 @@ const mapStateToProps = (state: StateType) => {
       void window.SignalContext.executeMenuAction(action);
     },
     titleBarDoubleClick: (): void => {
-      window.titleBarDoubleClick();
+      window.IPC.titleBarDoubleClick();
     },
     toast: state.toast.toast,
   };

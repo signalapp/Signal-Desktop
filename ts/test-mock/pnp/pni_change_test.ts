@@ -80,7 +80,9 @@ describe('pnp/PNI Change', function needsName() {
       const leftPane = window.locator('.left-pane-wrapper');
 
       await leftPane
-        .locator('_react=ConversationListItem[title = "ContactA"]')
+        .locator(
+          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+        )
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -102,7 +104,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -181,7 +185,9 @@ describe('pnp/PNI Change', function needsName() {
       const leftPane = window.locator('.left-pane-wrapper');
 
       await leftPane
-        .locator('_react=ConversationListItem[title = "ContactA"]')
+        .locator(
+          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+        )
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -203,7 +209,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -284,7 +292,9 @@ describe('pnp/PNI Change', function needsName() {
       const leftPane = window.locator('.left-pane-wrapper');
 
       await leftPane
-        .locator('_react=ConversationListItem[title = "ContactA"]')
+        .locator(
+          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+        )
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -306,7 +316,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -366,7 +378,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('message to contactB');
       await compositionInput.press('Enter');
@@ -420,7 +434,9 @@ describe('pnp/PNI Change', function needsName() {
       const leftPane = window.locator('.left-pane-wrapper');
 
       await leftPane
-        .locator('_react=ConversationListItem[title = "ContactA"]')
+        .locator(
+          `[data-testid="${contactA.device.getUUIDByKind(UUIDKind.PNI)}"]`
+        )
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -442,7 +458,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('message to contactA');
       await compositionInput.press('Enter');
@@ -533,7 +551,9 @@ describe('pnp/PNI Change', function needsName() {
       const composeArea = window.locator(
         '.composition-area-wrapper, .conversation .ConversationView'
       );
-      const compositionInput = composeArea.locator('_react=CompositionInput');
+      const compositionInput = composeArea.locator(
+        '[data-testid=CompositionInput]'
+      );
 
       await compositionInput.type('second message to contactA');
       await compositionInput.press('Enter');

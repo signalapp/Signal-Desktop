@@ -212,7 +212,7 @@ function maybeShowDecryptionToast(
     kind: ToastInternalErrorKind.DecryptionError,
     deviceId,
     name,
-    onShowDebugLog: () => window.showDebugLog(),
+    onShowDebugLog: () => window.IPC.showDebugLog(),
   });
 }
 

@@ -122,11 +122,9 @@ void (async () => {
     {
       const leftPane = window.locator('.left-pane-wrapper');
 
-      const item = leftPane.locator(
-        '_react=BaseConversationListItem' +
-          `[title = ${JSON.stringify(group.title)}] ` +
-          `>> text=${LAST_MESSAGE}`
-      );
+      const item = leftPane
+        .locator('.module-conversation-list__item--contact-or-conversation')
+        .first();
       await item.click();
     }
 
@@ -141,7 +139,7 @@ void (async () => {
         '.composition-area-wrapper, .conversation .ConversationView'
       );
 
-      const input = composeArea.locator('_react=CompositionInput');
+      const input = composeArea.locator('[data-testid=CompositionInput]');
 
       debug('entering message text');
       await input.type(`my message ${runId}`);
@@ -166,9 +164,7 @@ void (async () => {
       await server.send(desktop, delivery);
 
       debug('waiting for message state change');
-      const message = timeline.locator(
-        `_react=Message[timestamp = ${timestamp}][status = "delivered"]`
-      );
+      const message = timeline.locator(`[data-testid="${timestamp}"]`);
       await message.waitFor();
 
       if (runId >= DISCARD_COUNT) {

@@ -7,6 +7,7 @@
  * global helpers for tests
  */
 
+mocha.setup('bdd');
 mocha.setup({ timeout: 10000 });
 
 function deleteIndexedDB() {
@@ -38,7 +39,34 @@ before(async () => {
   await window.storage.fetch();
 });
 
-window.Whisper = window.Whisper || {};
-window.Whisper.events = { ...Backbone.Events };
+window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
-window.textsecure.storage.protocol = new window.SignalProtocolStore();
+window.testUtilities.prepareTests();
+delete window.testUtilities.prepareTests;
+
+!(function () {
+  const passed = [];
+  const failed = [];
+
+  class Reporter extends Mocha.reporters.HTML {
+    constructor(runner, options) {
+      super(runner, options);
+
+      runner.on('pass', test => passed.push(test.fullTitle()));
+      runner.on('fail', (test, error) => {
+        failed.push({
+          testName: test.fullTitle(),
+          error: error?.stack || String(error),
+        });
+      });
+
+      runner.on('end', () =>
+        window.testUtilities.onComplete({ passed, failed })
+      );
+    }
+  }
+
+  mocha.reporter(Reporter);
+
+  mocha.run();
+})();

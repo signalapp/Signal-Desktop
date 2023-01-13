@@ -158,6 +158,7 @@ import { isSignalConversation } from '../util/isSignalConversation';
 import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../util/removePendingMember';
 import { isMemberPending } from '../util/isMemberPending';
+import { imageToBlurHash } from '../util/imageToBlurHash';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -3890,7 +3891,7 @@ export class ConversationModel extends window.Backbone
         contentType,
         width,
         height,
-        blurHash: await window.imageToBlurHash(
+        blurHash: await imageToBlurHash(
           new Blob([data], {
             type: IMAGE_JPEG,
           })
@@ -5527,7 +5528,7 @@ export class ConversationModel extends window.Backbone
     const delta = now - startedAt;
 
     log.info(`conversation ${this.idForLogging()} open took ${delta}ms`);
-    window.CI?.handleEvent('conversation:open', { delta });
+    window.Signal.CI?.handleEvent('conversation:open', { delta });
   }
 
   async flushDebouncedUpdates(): Promise<void> {

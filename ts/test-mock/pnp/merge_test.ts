@@ -109,7 +109,7 @@ describe('pnp/merge', function needsName() {
 
       debug('opening conversation with the aci contact');
       await leftPane
-        .locator('_react=ConversationListItem[title = "ACI Contact"]')
+        .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -119,7 +119,9 @@ describe('pnp/merge', function needsName() {
         const composeArea = window.locator(
           '.composition-area-wrapper, .conversation .ConversationView'
         );
-        const compositionInput = composeArea.locator('_react=CompositionInput');
+        const compositionInput = composeArea.locator(
+          '[data-testid=CompositionInput]'
+        );
 
         await compositionInput.type('Hello ACI');
         await compositionInput.press('Enter');
@@ -127,7 +129,8 @@ describe('pnp/merge', function needsName() {
 
       debug('opening conversation with the pni contact');
       await leftPane
-        .locator('_react=ConversationListItem[title = "PNI Contact"]')
+        .locator('.module-conversation-list__item--contact-or-conversation')
+        .first()
         .click();
 
       await window.locator('.module-conversation-hero').waitFor();
@@ -152,7 +155,9 @@ describe('pnp/merge', function needsName() {
         const composeArea = window.locator(
           '.composition-area-wrapper, .conversation .ConversationView'
         );
-        const compositionInput = composeArea.locator('_react=CompositionInput');
+        const compositionInput = composeArea.locator(
+          '[data-testid=CompositionInput]'
+        );
 
         await compositionInput.type('Hello PNI');
         await compositionInput.press('Enter');
@@ -161,7 +166,7 @@ describe('pnp/merge', function needsName() {
       if (finalContact === UUIDKind.ACI) {
         debug('switching back to ACI conversation');
         await leftPane
-          .locator('_react=ConversationListItem[title = "ACI Contact"]')
+          .locator(`[data-testid="${pniContact.toContact().uuid}"]`)
           .click();
 
         await window.locator('.module-conversation-hero').waitFor();

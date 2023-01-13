@@ -221,7 +221,6 @@ export type PropsData = {
     | 'title'
     | 'unblurredAvatarPath'
   >;
-  reducedMotion?: boolean;
   conversationType: ConversationTypeType;
   attachments?: ReadonlyArray<AttachmentType>;
   giftBadge?: GiftBadgeType;
@@ -521,7 +520,7 @@ export class Message extends React.PureComponent<Props, State> {
         status === 'viewed')
     ) {
       const delta = Date.now() - timestamp;
-      window.CI?.handleEvent('message:send-complete', {
+      window.Signal.CI?.handleEvent('message:send-complete', {
         timestamp,
         delta,
       });
@@ -838,7 +837,6 @@ export class Message extends React.PureComponent<Props, State> {
       pushPanelForConversation,
       quote,
       readStatus,
-      reducedMotion,
       renderAudioAttachment,
       renderingContext,
       shouldCollapseAbove,
@@ -889,7 +887,6 @@ export class Message extends React.PureComponent<Props, State> {
               theme={theme}
               i18n={i18n}
               tabIndex={0}
-              reducedMotion={reducedMotion}
               onError={this.handleImageError}
               showVisualAttachment={() => {
                 showLightbox({
@@ -2529,10 +2526,11 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       isSticker,
+      onKeyDown,
+      renderMenu,
       shouldCollapseAbove,
       shouldCollapseBelow,
-      renderMenu,
-      onKeyDown,
+      timestamp,
     } = this.props;
     const { expired, expiring, isSelected, imageBroken } = this.state;
 
@@ -2554,6 +2552,7 @@ export class Message extends React.PureComponent<Props, State> {
           isSelected ? 'module-message--selected' : null,
           expiring ? 'module-message--expired' : null
         )}
+        data-testid={timestamp}
         tabIndex={0}
         // We need to have a role because screenreaders need to be able to focus here to
         //   read the message, but we can't be a button; that would break inner buttons.

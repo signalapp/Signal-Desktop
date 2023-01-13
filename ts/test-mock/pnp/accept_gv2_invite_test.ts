@@ -52,12 +52,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     const leftPane = window.locator('.left-pane-wrapper');
 
     debug('Opening group');
-    await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(group.title)}]`
-      )
-      .click();
+    await leftPane.locator(`[data-testid="${group.id}"]`).click();
   });
 
   afterEach(async function after() {
@@ -296,12 +291,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     const leftPane = window.locator('.left-pane-wrapper');
 
     debug('Opening new group');
-    await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(group.title)}]`
-      )
-      .click();
+    await leftPane.locator(`[data-testid="${group.id}"]`).click();
 
     debug('Accepting remote invite');
     await second.acceptPniInvite(group, desktop, {

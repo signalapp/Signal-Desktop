@@ -44,11 +44,11 @@ function setCrashReportCount(count: number): SetCrashReportCountActionType {
 }
 
 function uploadCrashReports(): PromiseAction<typeof UPLOAD> {
-  return { type: UPLOAD, payload: window.crashReports.upload() };
+  return { type: UPLOAD, payload: window.IPC.crashReports.upload() };
 }
 
 function eraseCrashReports(): PromiseAction<typeof ERASE> {
-  return { type: ERASE, payload: window.crashReports.erase() };
+  return { type: ERASE, payload: window.IPC.crashReports.erase() };
 }
 
 // Reducer

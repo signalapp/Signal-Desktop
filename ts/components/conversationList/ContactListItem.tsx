@@ -22,6 +22,7 @@ export type ContactListItemConversationType = Pick<
   | 'avatarPath'
   | 'badges'
   | 'color'
+  | 'groupId'
   | 'id'
   | 'isMe'
   | 'phoneNumber'
@@ -54,6 +55,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     avatarPath,
     badge,
     color,
+    groupId,
     i18n,
     id,
     isMe,
@@ -89,6 +91,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
         badge={badge}
         color={color}
         conversationType={type}
+        groupId={groupId}
         headerName={headerName}
         i18n={i18n}
         id={id}
@@ -102,6 +105,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
         theme={theme}
         title={title}
         unblurredAvatarPath={unblurredAvatarPath}
+        uuid={uuid}
       />
     );
   }

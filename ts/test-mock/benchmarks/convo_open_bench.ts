@@ -69,8 +69,7 @@ void (async () => {
       const openConvo = async (contact: PrimaryDevice): Promise<void> => {
         debug('opening conversation', contact.profileName);
         const item = leftPane.locator(
-          '_react=BaseConversationListItem' +
-            `[title = ${JSON.stringify(contact.profileName)}]`
+          `[data-testid="${contact.toContact().uuid}"]`
         );
 
         await item.click();

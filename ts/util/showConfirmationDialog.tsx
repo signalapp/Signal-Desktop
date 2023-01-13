@@ -1,12 +1,9 @@
 // Copyright 2015 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// This file is here temporarily while we're switching off of Backbone into
-// React. In the future, and in React-land, please just import and use
-// ConfirmationDialog directly. This is the thin API layer to bridge the gap
-// while we convert things over. Please delete this file once all usages are
-// ported over. Note: this file cannot have any imports/exports since it is
-// being included in a <script /> tag.
+import React from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { ConfirmationDialog } from '../components/ConfirmationDialog';
 
 type ConfirmationDialogViewProps = {
   onTopOfEverything?: boolean;
@@ -27,7 +24,7 @@ function removeConfirmationDialog() {
     return;
   }
 
-  window.ReactDOM.unmountComponentAtNode(confirmationDialogViewNode);
+  unmountComponentAtNode(confirmationDialogViewNode);
   document.body.removeChild(confirmationDialogViewNode);
 
   if (
@@ -39,7 +36,9 @@ function removeConfirmationDialog() {
   confirmationDialogViewNode = undefined;
 }
 
-function showConfirmationDialog(options: ConfirmationDialogViewProps) {
+export function showConfirmationDialog(
+  options: ConfirmationDialogViewProps
+): void {
   if (confirmationDialogViewNode) {
     removeConfirmationDialog();
   }
@@ -49,9 +48,8 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
 
   confirmationDialogPreviousFocus = document.activeElement as HTMLElement;
 
-  window.ReactDOM.render(
-    // eslint-disable-next-line react/react-in-jsx-scope, react/jsx-no-undef
-    <window.Signal.Components.ConfirmationDialog
+  render(
+    <ConfirmationDialog
       dialogName={options.dialogName}
       onTopOfEverything={options.onTopOfEverything}
       actions={[
@@ -78,5 +76,3 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
     confirmationDialogViewNode
   );
 }
-
-window.showConfirmationDialog = showConfirmationDialog;

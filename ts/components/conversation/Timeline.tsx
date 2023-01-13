@@ -1147,5 +1147,5 @@ function getRowIndexFromElement(
 }
 
 function showDebugLog() {
-  window.showDebugLog();
+  window.IPC.showDebugLog();
 }

@@ -260,7 +260,7 @@ class NotificationService extends EventEmitter {
     );
     if (shouldDrawAttention) {
       log.info('NotificationService: drawing attention');
-      window.drawAttention();
+      window.IPC.drawAttention();
     }
 
     let notificationTitle: string;

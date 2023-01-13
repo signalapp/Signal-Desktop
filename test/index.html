@@ -11,53 +11,10 @@
   <body>
     <div id="mocha"></div>
     <div id="tests"></div>
-
-    <script type="text/javascript" src="../js/components.js"></script>
-    <script
-      type="text/javascript"
-      src="../ts/backbone/reliable_trigger.js"
-    ></script>
     <script
       type="text/javascript"
       src="../node_modules/mocha/mocha.js"
     ></script>
-    <script type="text/javascript">
-      mocha.setup('bdd');
-    </script>
     <script type="text/javascript" src="test.js"></script>
-
-    <script type="text/javascript">
-      window.Signal.conversationControllerStart();
-
-      window.testUtilities.prepareTests();
-      delete window.testUtilities.prepareTests;
-
-      !(function () {
-        const passed = [];
-        const failed = [];
-
-        class Reporter extends Mocha.reporters.HTML {
-          constructor(runner, options) {
-            super(runner, options);
-
-            runner.on('pass', test => passed.push(test.fullTitle()));
-            runner.on('fail', (test, error) => {
-              failed.push({
-                testName: test.fullTitle(),
-                error: error?.stack || String(error),
-              });
-            });
-
-            runner.on('end', () =>
-              window.testUtilities.onComplete({ passed, failed })
-            );
-          }
-        }
-
-        mocha.reporter(Reporter);
-
-        mocha.run();
-      })();
-    </script>
   </body>
 </html>

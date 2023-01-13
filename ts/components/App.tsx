@@ -43,6 +43,7 @@ type PropsType = {
   onUndoArchive: (conversationId: string) => unknown;
   openFileInFolder: (target: string) => unknown;
   hasCustomTitleBar: boolean;
+  osClassName: string;
   hideMenuBar: boolean;
 
   executeMenuRole: ExecuteMenuRoleType;
@@ -75,6 +76,7 @@ export function App({
   onUndoArchive,
   openFileInFolder,
   openInbox,
+  osClassName,
   registerSingleDevice,
   renderCallManager,
   renderGlobalModalContainer,
@@ -95,7 +97,7 @@ export function App({
     contents = <SmartInstallScreen />;
   } else if (appView === AppViewType.Standalone) {
     const onComplete = () => {
-      window.removeSetupMenuItems();
+      window.IPC.removeSetupMenuItems();
       openInbox();
     };
     contents = (
@@ -122,6 +124,19 @@ export function App({
       document.body.classList.add('light-theme');
     }
   }, [theme]);
+
+  useEffect(() => {
+    document.body.classList.add(osClassName);
+  }, [osClassName]);
+
+  useEffect(() => {
+    document.body.classList.toggle('os-has-custom-titlebar', hasCustomTitleBar);
+  }, [hasCustomTitleBar]);
+
+  useEffect(() => {
+    document.body.classList.toggle('full-screen', isFullScreen);
+    document.body.classList.toggle('maximized', isMaximized);
+  }, [isFullScreen, isMaximized]);
 
   const isPageVisible = usePageVisibility();
   useEffect(() => {

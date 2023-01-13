@@ -87,7 +87,7 @@ async function notifyForCall(
       isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
     ),
     onNotificationClick: () => {
-      window.showWindow();
+      window.IPC.showWindow();
     },
     silent: false,
   });

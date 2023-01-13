@@ -53,10 +53,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(
-          '_react=ConversationListItem' +
-            `[title = ${JSON.stringify(firstContact.profileName)}]`
-        )
+        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
         .waitFor({ state: 'hidden' });
 
       await leftPane
@@ -76,11 +73,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(
-          '_react=ConversationListItem' +
-            '[isPinned = true]' +
-            `[title = ${JSON.stringify(firstContact.profileName)}]`
-        )
+        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
         .waitFor();
 
       await leftPane
@@ -93,10 +86,7 @@ describe('storage service', function needsName() {
       const state = await phone.expectStorageState('consistency check');
 
       await leftPane
-        .locator(
-          '_react=ConversationListItem' +
-            `[title = ${JSON.stringify(firstContact.profileName)}]`
-        )
+        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
         .click();
 
       const moreButton = conversationStack.locator(

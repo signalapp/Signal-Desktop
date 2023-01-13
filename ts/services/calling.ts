@@ -1620,12 +1620,12 @@ export class CallingClass {
   }
 
   private async requestCameraPermissions(): Promise<boolean> {
-    const cameraPermission = await window.getMediaCameraPermissions();
+    const cameraPermission = await window.IPC.getMediaCameraPermissions();
     if (!cameraPermission) {
-      await window.showPermissionsPopup(true, true);
+      await window.IPC.showPermissionsPopup(true, true);
 
       // Check the setting again (from the source of truth).
-      return window.getMediaCameraPermissions();
+      return window.IPC.getMediaCameraPermissions();
     }
 
     return true;

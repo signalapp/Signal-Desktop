@@ -308,15 +308,15 @@ export function createIPCEvents(
     getHideMenuBar: () => window.storage.get('hide-menu-bar'),
     setHideMenuBar: value => {
       const promise = window.storage.put('hide-menu-bar', value);
-      window.setAutoHideMenuBar(value);
-      window.setMenuBarVisibility(!value);
+      window.IPC.setAutoHideMenuBar(value);
+      window.IPC.setMenuBarVisibility(!value);
       return promise;
     },
     getSystemTraySetting: () =>
       parseSystemTraySetting(window.storage.get('system-tray-setting')),
     setSystemTraySetting: value => {
       const promise = window.storage.put('system-tray-setting', value);
-      window.updateSystemTraySetting(value);
+      window.IPC.updateSystemTraySetting(value);
       return promise;
     },
 
@@ -361,9 +361,9 @@ export function createIPCEvents(
     setAlwaysRelayCalls: value =>
       window.storage.put('always-relay-calls', value),
 
-    getAutoLaunch: () => window.getAutoLaunch(),
+    getAutoLaunch: () => window.IPC.getAutoLaunch(),
     setAutoLaunch: async (value: boolean) => {
-      return window.setAutoLaunch(value);
+      return window.IPC.setAutoLaunch(value);
     },
 
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
@@ -526,8 +526,8 @@ export function createIPCEvents(
       showWhatsNewModal();
     },
 
-    getMediaPermissions: window.getMediaPermissions,
-    getMediaCameraPermissions: window.getMediaCameraPermissions,
+    getMediaPermissions: window.IPC.getMediaPermissions,
+    getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 
     persistZoomFactor: zoomFactor =>
       window.storage.put('zoomFactor', zoomFactor),

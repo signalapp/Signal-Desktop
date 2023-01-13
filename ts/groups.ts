@@ -2137,7 +2137,10 @@ export async function getGroupMigrationMembers(
             `getGroupMigrationMembers/${logId}: membersV2 - missing local contact for ${e164}, skipping.`
           );
         }
-        if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_ADD) {
+        if (
+          !isMe(contact.attributes) &&
+          window.Flags.GV2_MIGRATION_DISABLE_ADD
+        ) {
           log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_ADD flag`
           );
@@ -2205,7 +2208,10 @@ export async function getGroupMigrationMembers(
         return null;
       }
 
-      if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_INVITE) {
+      if (
+        !isMe(contact.attributes) &&
+        window.Flags.GV2_MIGRATION_DISABLE_INVITE
+      ) {
         log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_INVITE flag`
         );
@@ -3402,7 +3408,7 @@ async function getGroupUpdates({
     newRevision === currentRevision + 1;
 
   if (
-    window.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
+    window.Flags.GV2_ENABLE_SINGLE_CHANGE_PROCESSING &&
     wrappedGroupChange &&
     isNumber(newRevision) &&
     (isInitialCreationMessage || weAreAwaitingApproval || isOneVersionUp)
@@ -3455,7 +3461,7 @@ async function getGroupUpdates({
 
   if (
     (!isFirstFetch || isNumber(newRevision)) &&
-    window.GV2_ENABLE_CHANGE_PROCESSING
+    window.Flags.GV2_ENABLE_CHANGE_PROCESSING
   ) {
     try {
       return await updateGroupViaLogs({
@@ -3483,7 +3489,7 @@ async function getGroupUpdates({
     }
   }
 
-  if (window.GV2_ENABLE_STATE_PROCESSING) {
+  if (window.Flags.GV2_ENABLE_STATE_PROCESSING) {
     try {
       return await updateGroupViaState({
         dropInitialJoinMessage,
@@ -3506,7 +3512,7 @@ async function getGroupUpdates({
     }
   }
 
-  if (window.GV2_ENABLE_PRE_JOIN_FETCH) {
+  if (window.Flags.GV2_ENABLE_PRE_JOIN_FETCH) {
     try {
       return await updateGroupViaPreJoinInfo({
         group,

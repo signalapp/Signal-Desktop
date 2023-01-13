@@ -1,30 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { basename, join } from 'path';
-import { copyFileSync, readFileSync, writeFileSync } from 'fs';
-
-// Concat
-
-console.log('Concatenating...');
+import { join } from 'path';
+import { copyFileSync } from 'fs';
 
 const BASE_BOWER = join(__dirname, '../../components');
-const CONCAT_TARGET = join(__dirname, '../../js/components.js');
-const CONCAT_SOURCES = [
-  join(BASE_BOWER, 'webaudiorecorder/lib/WebAudioRecorder.js'),
-];
-
-let concat = '// concatenated components.js';
-CONCAT_SOURCES.forEach(source => {
-  const contents = readFileSync(source, 'utf8');
-  const name = basename(source);
-
-  console.log(`Concatenating ${source}`);
-  concat += `\n\n// ${name}\n${contents}`;
-});
-
-console.log(`Writing to ${CONCAT_TARGET}`);
-writeFileSync(CONCAT_TARGET, concat);
 
 // Copy
 

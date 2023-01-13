@@ -82,7 +82,12 @@ export const StickerManager = React.memo(function StickerManagerInner({
           uninstallStickerPack={uninstallStickerPack}
         />
       ) : null}
-      <div className="module-sticker-manager" tabIndex={-1} ref={focusRef}>
+      <div
+        className="module-sticker-manager"
+        data-testid="StickerManager"
+        tabIndex={-1}
+        ref={focusRef}
+      >
         <Tabs
           initialSelectedTab={TabViews.Available}
           tabs={[

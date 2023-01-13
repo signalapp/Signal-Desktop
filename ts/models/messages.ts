@@ -173,6 +173,10 @@ import { GiftBadgeStates } from '../components/conversation/Message';
 import { downloadAttachment } from '../util/downloadAttachment';
 import type { StickerWithHydratedData } from '../types/Stickers';
 import { getStringForConversationMerge } from '../util/getStringForConversationMerge';
+import {
+  addToAttachmentDownloadQueue,
+  shouldUseAttachmentDownloadQueue,
+} from '../util/attachmentDownloadQueue';
 import { getTitleNoDefault, getNumber } from '../util/getTitle';
 import dataInterface from '../sql/Client';
 
@@ -346,6 +350,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   notifyRedux(): void {
+    if (!window.reduxActions) {
+      return;
+    }
+
     const { storyChanged } = window.reduxActions.stories;
 
     if (isStory(this.attributes)) {
@@ -2989,12 +2997,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           (conversation.getAccepted() || isOutgoing(message.attributes)) &&
           !shouldHoldOffDownload
         ) {
-          if (window.attachmentDownloadQueue) {
-            window.attachmentDownloadQueue.unshift(message);
-            log.info(
-              `${idLog}: Adding to attachmentDownloadQueue`,
-              message.get('sent_at')
-            );
+          if (shouldUseAttachmentDownloadQueue()) {
+            addToAttachmentDownloadQueue(idLog, message);
           } else {
             await message.queueAttachmentDownloads();
           }

@@ -148,7 +148,7 @@ export function ConversationDetailsHeader({
 
   if (canEdit) {
     return (
-      <div className={bem('root')}>
+      <div className={bem('root')} data-testid="ConversationDetailsHeader">
         {modal}
         {avatar}
         <button
@@ -182,7 +182,7 @@ export function ConversationDetailsHeader({
   }
 
   return (
-    <div className={bem('root')}>
+    <div className={bem('root')} data-testid="ConversationDetailsHeader">
       {modal}
       {avatar}
       {contents}

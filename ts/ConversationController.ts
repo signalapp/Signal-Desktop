@@ -194,13 +194,13 @@ export class ConversationController {
     drop(window.storage.put('unreadCount', newUnreadCount));
 
     if (newUnreadCount > 0) {
-      window.setBadgeCount(newUnreadCount);
+      window.IPC.setBadgeCount(newUnreadCount);
       window.document.title = `${window.getTitle()} (${newUnreadCount})`;
     } else {
-      window.setBadgeCount(0);
+      window.IPC.setBadgeCount(0);
       window.document.title = window.getTitle();
     }
-    window.updateTrayIcon(newUnreadCount);
+    window.IPC.updateTrayIcon(newUnreadCount);
   }
 
   onEmpty(): void {

@@ -668,7 +668,11 @@ export function CompositionInput(props: Props): React.ReactElement {
     <Manager>
       <Reference>
         {({ ref }) => (
-          <div className={getClassName('__input')} ref={ref}>
+          <div
+            className={getClassName('__input')}
+            ref={ref}
+            data-testid="CompositionInput"
+          >
             {children}
             <div
               ref={

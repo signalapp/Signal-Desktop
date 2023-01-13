@@ -55,11 +55,9 @@ describe('storage service', function needsName() {
     const conversationStack = window.locator('.conversation-stack');
 
     debug('Opening conversation with a stranger');
+    debug(stranger.toContact().uuid);
     await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(stranger.profileName)}]`
-      )
+      .locator(`[data-testid="${stranger.toContact().uuid}"]`)
       .click();
 
     debug("Verify that we stored stranger's profile key");
@@ -124,7 +122,7 @@ describe('storage service', function needsName() {
     const composeArea = window.locator(
       '.composition-area-wrapper, .conversation .ConversationView'
     );
-    const input = composeArea.locator('_react=CompositionInput');
+    const input = composeArea.locator('[data-testid=CompositionInput]');
 
     await input.type('hello stranger!');
     await input.press('Enter');

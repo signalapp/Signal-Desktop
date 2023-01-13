@@ -106,7 +106,7 @@ export function StandaloneRegistration({
   registerSingleDevice: (number: string, code: string) => Promise<void>;
 }): JSX.Element {
   useEffect(() => {
-    window.readyForUpdates();
+    window.IPC.readyForUpdates();
   }, []);
 
   const [isValidNumber, setIsValidNumber] = useState(false);

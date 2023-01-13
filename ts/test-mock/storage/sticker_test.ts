@@ -129,10 +129,7 @@ describe('storage service', function needsName() {
     );
 
     await leftPane
-      .locator(
-        '_react=ConversationListItem' +
-          `[title = ${JSON.stringify(firstContact.profileName)}]`
-      )
+      .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
       .click();
 
     {
@@ -235,7 +232,7 @@ describe('storage service', function needsName() {
       .click();
 
     const stickerManager = conversationView.locator(
-      '_react=StickerManagerInner'
+      '[data-testid=StickerManager]'
     );
 
     debug('switching to Installed tab');
@@ -265,10 +262,7 @@ describe('storage service', function needsName() {
 
       debug('waiting for sticker pack to become visible');
       await stickerManager
-        .locator(
-          '_react=StickerManagerPackRowInner' +
-            `[pack.id="${STICKER_PACKS[0].id.toString('hex')}"]`
-        )
+        .locator(`[data-testid="${STICKER_PACKS[0].id.toString('hex')}"]`)
         .waitFor();
     }
 
@@ -285,10 +279,7 @@ describe('storage service', function needsName() {
 
       debug('waiting for sticker pack to become visible');
       await stickerManager
-        .locator(
-          '_react=StickerManagerPackRowInner' +
-            `[pack.id="${STICKER_PACKS[1].id.toString('hex')}"]`
-        )
+        .locator(`[data-testid="${STICKER_PACKS[1].id.toString('hex')}"]`)
         .waitFor();
 
       debug('waiting for storage service update');

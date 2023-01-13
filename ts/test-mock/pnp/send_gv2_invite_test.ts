@@ -105,9 +105,7 @@ describe('pnp/send gv2 invite', function needsName() {
 
     await leftPane.locator('.module-main-header__compose-icon').click();
 
-    await leftPane
-      .locator('_react=BaseConversationListItem[title = "New group"]')
-      .click();
+    await leftPane.locator('[data-testid=CreateNewGroupButton]').click();
 
     debug('inviting ACI member');
 
@@ -116,7 +114,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .fill('ACI');
 
     await leftPane
-      .locator('_react=BaseConversationListItem[title = "ACI Contact"]')
+      .locator(`[data-testid="${aciContact.toContact().uuid}"]`)
       .click();
 
     debug('inviting PNI member');
@@ -126,7 +124,9 @@ describe('pnp/send gv2 invite', function needsName() {
       .fill('PNI');
 
     await leftPane
-      .locator('_react=BaseConversationListItem[title = "PNI Contact"]')
+      .locator(
+        `[data-testid="${pniContact.device.getUUIDByKind(UUIDKind.PNI)}"]`
+      )
       .click();
 
     await leftPane
@@ -180,7 +180,7 @@ describe('pnp/send gv2 invite', function needsName() {
     debug('editing group title');
     {
       const detailsHeader = conversationStack.locator(
-        '_react=ConversationDetailsHeader'
+        '[data-testid=ConversationDetailsHeader]'
       );
       await detailsHeader.locator('button >> "My group"').click();
 

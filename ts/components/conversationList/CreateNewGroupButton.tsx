@@ -26,6 +26,7 @@ export const CreateNewGroupButton: FunctionComponent<PropsType> = React.memo(
         isSelected={false}
         onClick={onClick}
         sharedGroupNames={[]}
+        testId="CreateNewGroupButton"
         title={title}
       />
     );

@@ -224,7 +224,6 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || getDefaultConversation(),
-  reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReact: true,
   canReply: true,

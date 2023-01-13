@@ -24,6 +24,7 @@ import { SECOND } from '../util/durations';
 import { autoScale } from '../util/handleImageAttachment';
 import { dropNull } from '../util/dropNull';
 import { fileToBytes } from '../util/fileToBytes';
+import { imageToBlurHash } from '../util/imageToBlurHash';
 import { maybeParseUrl } from '../util/url';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { drop } from '../util/drop';
@@ -343,7 +344,7 @@ async function getPreview(
       const data = await fileToBytes(withBlob.file);
       objectUrl = URL.createObjectURL(withBlob.file);
 
-      const blurHash = await window.imageToBlurHash(withBlob.file);
+      const blurHash = await imageToBlurHash(withBlob.file);
 
       const dimensions = await VisualAttachment.getImageDimensions({
         objectUrl,
@@ -535,7 +536,7 @@ async function getGroupPreview(
         data,
         size: data.byteLength,
         contentType: IMAGE_JPEG,
-        blurHash: await window.imageToBlurHash(
+        blurHash: await imageToBlurHash(
           new Blob([data], {
             type: IMAGE_JPEG,
           })

@@ -321,6 +321,7 @@ export function ConversationList({
             'badges',
             'color',
             'draftPreview',
+            'groupId',
             'id',
             'isMe',
             'isSelected',

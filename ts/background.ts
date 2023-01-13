@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
-import { isNumber, clone, debounce } from 'lodash';
+import { isNumber, debounce } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
@@ -56,7 +56,7 @@ import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
-import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
+import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
 import { getContact, isIncoming } from './messages/helpers';
@@ -161,9 +161,10 @@ import { clearConversationDraftAttachments } from './util/clearConversationDraft
 import { removeLinkPreview } from './services/LinkPreview';
 import { PanelType } from './types/Panels';
 import { getQuotedMessageSelector } from './state/selectors/composer';
+import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
+import { StartupQueue } from './util/StartupQueue';
+import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
-
-const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   const HOUR = 1000 * 60 * 60;
@@ -201,15 +202,11 @@ export async function startApp(): Promise<void> {
 
   await KeyboardLayout.initialize();
 
-  window.Whisper.events = clone(window.Backbone.Events);
-  window.Signal.Util.MessageController.install();
-  window.Signal.conversationControllerStart();
-  window.startupProcessingQueue = new window.Signal.Util.StartupQueue();
+  StartupQueue.initialize();
   notificationService.initialize({
     i18n: window.i18n,
     storage: window.storage,
   });
-  window.attachmentDownloadQueue = [];
 
   await window.Signal.Util.initializeMessageCounter();
 
@@ -249,8 +246,8 @@ export async function startApp(): Promise<void> {
       },
 
       requestChallenge(request) {
-        if (window.CI) {
-          window.CI.handleEvent('challenge', request);
+        if (window.Signal.CI) {
+          window.Signal.CI.handleEvent('challenge', request);
           return;
         }
         window.sendChallengeRequest(request);
@@ -494,7 +491,7 @@ export async function startApp(): Promise<void> {
     window.addEventListener('dblclick', (event: Event) => {
       const target = event.target as HTMLElement;
       if (isWindowDragElement(target)) {
-        window.titleBarDoubleClick();
+        window.IPC.titleBarDoubleClick();
       }
     });
   }
@@ -529,7 +526,7 @@ export async function startApp(): Promise<void> {
     }
   }
 
-  const builtInImages = await window.getBuiltInImages();
+  const builtInImages = await window.IPC.getBuiltInImages();
   preload(builtInImages);
 
   // We add this to window here because the default Node context is erased at the end
@@ -608,7 +605,7 @@ export async function startApp(): Promise<void> {
 
         try {
           await new Promise<void>((resolve, reject) => {
-            window.showConfirmationDialog({
+            showConfirmationDialog({
               dialogName: 'deleteOldIndexedDBData',
               onTopOfEverything: true,
               cancelText: window.i18n('quit'),
@@ -624,7 +621,7 @@ export async function startApp(): Promise<void> {
             'User chose not to delete old data. Shutting down.',
             Errors.toLogFormat(error)
           );
-          window.shutdown();
+          window.IPC.shutdown();
           return;
         }
 
@@ -852,7 +849,7 @@ export async function startApp(): Promise<void> {
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();
-        window.restart();
+        window.IPC.restart();
         return;
       }
     }
@@ -1252,22 +1249,6 @@ export async function startApp(): Promise<void> {
         enqueueReconnectToWebSocket();
       }
     });
-
-    window.Whisper.events.on(
-      'setWindowStats',
-      ({
-        isFullScreen,
-        isMaximized,
-      }: {
-        isFullScreen: boolean;
-        isMaximized: boolean;
-      }) => {
-        window.reduxActions.user.userChanged({
-          isMainWindowMaximized: isMaximized,
-          isMainWindowFullScreen: isFullScreen,
-        });
-      }
-    );
 
     window.Whisper.events.on('setMenuOptions', (options: MenuOptionsType) => {
       window.reduxActions.user.userChanged({ menuOptions: options });
@@ -1677,7 +1658,7 @@ export async function startApp(): Promise<void> {
           event.preventDefault();
           event.stopPropagation();
 
-          window.showConfirmationDialog({
+          showConfirmationDialog({
             dialogName: 'deleteMessage',
             confirmStyle: 'negative',
             message: window.i18n('deleteWarning'),
@@ -1895,8 +1876,8 @@ export async function startApp(): Promise<void> {
       document.getElementById('app-container')
     );
     const hideMenuBar = window.storage.get('hide-menu-bar', false);
-    window.setAutoHideMenuBar(hideMenuBar);
-    window.setMenuBarVisibility(!hideMenuBar);
+    window.IPC.setAutoHideMenuBar(hideMenuBar);
+    window.IPC.setMenuBarVisibility(!hideMenuBar);
 
     startTimeTravelDetector(() => {
       window.Whisper.events.trigger('timetravel');
@@ -1927,7 +1908,7 @@ export async function startApp(): Promise<void> {
     window.addEventListener('unload', () => notificationService.fastClear());
 
     notificationService.on('click', (id, messageId, storyId) => {
-      window.showWindow();
+      window.IPC.showWindow();
 
       if (id) {
         if (storyId) {
@@ -2491,7 +2472,7 @@ export async function startApp(): Promise<void> {
       window.flushAllWaitBatchers(),
     ]);
     log.info('onEmpty: All outstanding database requests complete');
-    window.readyForUpdates();
+    window.IPC.readyForUpdates();
     window.ConversationController.onEmpty();
 
     // Start listeners here, after we get through our queue.
@@ -2512,7 +2493,7 @@ export async function startApp(): Promise<void> {
     window.reduxActions.app.initialLoadComplete();
 
     const processedCount = messageReceiver?.getAndResetProcessedCount() || 0;
-    window.logAppLoadedEvent?.({
+    window.IPC.logAppLoadedEvent?.({
       processedCount,
     });
     if (messageReceiver) {
@@ -2520,53 +2501,12 @@ export async function startApp(): Promise<void> {
     }
 
     window.Signal.Util.setBatchingStrategy(false);
-
-    const attachmentDownloadQueue = window.attachmentDownloadQueue || [];
-
-    // NOTE: ts/models/messages.ts expects this global to become undefined
-    // once we stop processing the queue.
-    window.attachmentDownloadQueue = undefined;
-
-    const MAX_ATTACHMENT_MSGS_TO_DOWNLOAD = 250;
-    const attachmentsToDownload = attachmentDownloadQueue.filter(
-      (message, index) =>
-        index <= MAX_ATTACHMENT_MSGS_TO_DOWNLOAD ||
-        isMoreRecentThan(
-          message.getReceivedAt(),
-          MAX_ATTACHMENT_DOWNLOAD_AGE
-        ) ||
-        // Stickers and long text attachments has to be downloaded for UI
-        // to display the message properly.
-        message.hasRequiredAttachmentDownloads()
-    );
-    log.info(
-      'Downloading recent attachments of total attachments',
-      attachmentsToDownload.length,
-      attachmentDownloadQueue.length
-    );
-
-    if (window.startupProcessingQueue) {
-      window.startupProcessingQueue.flush();
-      window.startupProcessingQueue = undefined;
-    }
-
-    const messagesWithDownloads = await Promise.all(
-      attachmentsToDownload.map(message => message.queueAttachmentDownloads())
-    );
-    const messagesToSave: Array<MessageAttributesType> = [];
-    messagesWithDownloads.forEach((shouldSave, messageKey) => {
-      if (shouldSave) {
-        const message = attachmentsToDownload[messageKey];
-        messagesToSave.push(message.attributes);
-      }
-    });
-    await window.Signal.Data.saveMessages(messagesToSave, {
-      ourUuid: storage.user.getCheckedUuid().toString(),
-    });
+    StartupQueue.flush();
+    await flushAttachmentDownloadQueue();
 
     // Process crash reports if any
     window.reduxActions.crashReports.setCrashReportCount(
-      await window.crashReports.getCount()
+      await window.IPC.crashReports.getCount()
     );
 
     // Kick off a profile refresh if necessary, but don't wait for it, as failure is

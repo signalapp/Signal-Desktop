@@ -11,6 +11,7 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import { StartupQueue } from '../util/StartupQueue';
 
 export type ReadSyncAttributesType = {
   senderId: string;
@@ -119,10 +120,10 @@ export class ReadSyncs extends Collection {
           void message.getConversation()?.onReadMessage(message, readAt);
         };
 
-        if (window.startupProcessingQueue) {
+        if (StartupQueue.isReady()) {
           const conversation = message.getConversation();
           if (conversation) {
-            window.startupProcessingQueue.add(
+            StartupQueue.add(
               conversation.get('id'),
               message.get('sent_at'),
               updateConversation
