@@ -29,7 +29,6 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import type { MessageStatusType } from '../components/conversation/Message';
 
 const MAX_WIDTH = 300;
-const MAX_HEIGHT = MAX_WIDTH * 1.5;
 const MIN_WIDTH = 200;
 const MIN_HEIGHT = 50;
 
@@ -767,7 +766,7 @@ export function getImageDimensions(
 
   return {
     width: targetWidth,
-    height: Math.max(Math.min(MAX_HEIGHT, candidateHeight), MIN_HEIGHT),
+    height: candidateHeight,
   };
 }
 
