@@ -1068,7 +1068,7 @@ async function deleteSentProtoRecipient(
       const remainingDevices = prepare(
         db,
         `
-        SELECT count(*) FROM sendLogRecipients
+        SELECT count(1) FROM sendLogRecipients
         WHERE payloadId = $id AND recipientUuid = $recipientUuid;
         `
       )
@@ -1094,7 +1094,7 @@ async function deleteSentProtoRecipient(
       // 5. See how many more recipients there were for this payload.
       const remainingTotal = prepare(
         db,
-        'SELECT count(*) FROM sendLogRecipients WHERE payloadId = $id;'
+        'SELECT count(1) FROM sendLogRecipients WHERE payloadId = $id;'
       )
         .pluck(true)
         .get({ id });
@@ -1748,7 +1748,7 @@ function getMessageCountSync(
   const count = db
     .prepare<Query>(
       `
-        SELECT count(*)
+        SELECT count(1)
         FROM messages
         WHERE conversationId = $conversationId;
         `
@@ -1764,7 +1764,7 @@ async function getStoryCount(conversationId: string): Promise<number> {
   return db
     .prepare<Query>(
       `
-        SELECT count(*)
+        SELECT count(1)
         FROM messages
         WHERE conversationId = $conversationId AND isStory = 1;
         `
@@ -1787,9 +1787,10 @@ function hasUserInitiatedMessages(conversationId: string): boolean {
       `
       SELECT EXISTS(
         SELECT 1 FROM messages
+        INDEXED BY message_user_initiated
         WHERE
-          conversationId = $conversationId AND
-          isUserInitiatedMessage = 1
+          conversationId IS $conversationId AND
+          isUserInitiatedMessage IS 1
       );
       `
     )
@@ -2310,10 +2311,11 @@ async function getUnreadReactionsAndMarkRead({
         `
         SELECT reactions.rowid, targetAuthorUuid, targetTimestamp, messageId
         FROM reactions
+        INDEXED BY reactions_unread
         JOIN messages on messages.id IS reactions.messageId
         WHERE
-          unread > 0 AND
-          messages.conversationId IS $conversationId AND
+          reactions.conversationId IS $conversationId AND
+          reactions.unread > 0 AND
           messages.received_at <= $newestUnreadAt AND
           messages.storyId IS $storyId
         ORDER BY messageReceivedAt DESC;
@@ -2329,8 +2331,9 @@ async function getUnreadReactionsAndMarkRead({
     batchMultiVarQuery(db, idsToUpdate, (ids: ReadonlyArray<number>): void => {
       db.prepare<ArrayQuery>(
         `
-        UPDATE reactions SET
-        unread = 0 WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
+        UPDATE reactions
+        SET unread = 0
+        WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
         `
       ).run(ids);
     });
@@ -2704,8 +2707,9 @@ function getLastConversationActivity({
     db,
     `
       SELECT json FROM messages
+      INDEXED BY messages_activity
       WHERE
-        conversationId = $conversationId AND
+        conversationId IS $conversationId AND
         shouldAffectActivity IS 1 AND
         isTimerChangeFromSync IS 0 AND
         ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
@@ -2736,8 +2740,9 @@ function getLastConversationPreview({
     db,
     `
       SELECT json FROM messages
+      INDEXED BY messages_preview
       WHERE
-        conversationId = $conversationId AND
+        conversationId IS $conversationId AND
         shouldAffectPreview IS 1 AND
         isGroupLeaveEventFromOther IS 0 AND
         ${includeStoryReplies ? '' : 'storyId IS NULL AND'}
@@ -2872,7 +2877,7 @@ function getTotalUnreadForConversationSync(
   const row = db
     .prepare<Query>(
       `
-      SELECT count(id)
+      SELECT count(1)
       FROM messages
       WHERE
         conversationId = $conversationId AND
@@ -2881,16 +2886,13 @@ function getTotalUnreadForConversationSync(
         (${_storyIdPredicate(storyId, includeStoryReplies)})
       `
     )
+    .pluck()
     .get({
       conversationId,
       storyId: storyId || null,
     });
 
-  if (!row) {
-    throw new Error('getTotalUnreadForConversation: Unable to get count');
-  }
-
-  return row['count(id)'];
+  return row;
 }
 function getTotalUnseenForConversationSync(
   conversationId: string,
@@ -2906,7 +2908,7 @@ function getTotalUnseenForConversationSync(
   const row = db
     .prepare<Query>(
       `
-      SELECT count(id)
+      SELECT count(1)
       FROM messages
       WHERE
         conversationId = $conversationId AND
@@ -2915,16 +2917,13 @@ function getTotalUnseenForConversationSync(
         (${_storyIdPredicate(storyId, includeStoryReplies)})
       `
     )
+    .pluck()
     .get({
       conversationId,
       storyId: storyId || null,
     });
 
-  if (!row) {
-    throw new Error('getTotalUnseenForConversationSync: Unable to get count');
-  }
-
-  return row['count(id)'];
+  return row;
 }
 
 async function getMessageMetricsForConversation(
@@ -3971,20 +3970,15 @@ async function deleteStickerPackReference(
         packId,
       });
 
-      const countRow = db
+      const count = db
         .prepare<Query>(
           `
-          SELECT count(*) FROM sticker_references
+          SELECT count(1) FROM sticker_references
           WHERE packId = $packId;
           `
         )
+        .pluck()
         .get({ packId });
-      if (!countRow) {
-        throw new Error(
-          'deleteStickerPackReference: Unable to get count of references'
-        );
-      }
-      const count = countRow['count(*)'];
       if (count > 0) {
         return undefined;
       }
@@ -4827,7 +4821,7 @@ async function countStoryReadsByConversation(
   return db
     .prepare<Query>(
       `
-      SELECT COUNT(storyId) FROM storyReads
+      SELECT count(1) FROM storyReads
       WHERE conversationId = $conversationId;
       `
     )

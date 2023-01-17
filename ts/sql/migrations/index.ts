@@ -49,6 +49,7 @@ import updateToSchemaVersion70 from './70-story-reply-index';
 import updateToSchemaVersion71 from './71-merge-notifications';
 import updateToSchemaVersion72 from './72-optimize-call-id-message-lookup';
 import updateToSchemaVersion73 from './73-remove-phone-number-discovery';
+import updateToSchemaVersion74 from './74-optimize-convo-open';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1967,6 +1968,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion71,
   updateToSchemaVersion72,
   updateToSchemaVersion73,
+  updateToSchemaVersion74,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
@@ -1999,6 +2001,9 @@ export function updateSchema(db: Database, logger: LoggerType): void {
   }
 
   if (userVersion !== maxUserVersion) {
+    const start = Date.now();
     db.pragma('optimize');
+    const duration = Date.now() - start;
+    logger.info(`updateSchema: optimize took ${duration}ms`);
   }
 }
