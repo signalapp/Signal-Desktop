@@ -12,7 +12,6 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { addMessagePadding } from '../crypto/BufferPadding';
 import _ from 'lodash';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
-import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
 import { Data, Snode } from '../../../ts/data/data';
 import { getConversationController } from '../conversations';
@@ -27,8 +26,7 @@ import { AbortController } from 'abort-controller';
 import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
 import { StoreOnNodeParams } from '../apis/snode_api/SnodeRequestTypes';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-
-const DEFAULT_CONNECTIONS = 1;
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 
 // ================ SNODE STORE ================
 
@@ -83,6 +81,7 @@ export async function send(
     async () => {
       const recipient = PubKey.cast(message.device);
       const { encryption, ttl } = message;
+      let namespace = message.namespace;
 
       const {
         overRiddenTimestampBuffer,
@@ -113,14 +112,25 @@ export async function send(
         found.set({ sent_at: networkTimestamp });
         await found.commit();
       }
-      await MessageSender.sendMessageToSnode(
-        recipient.key,
+
+      // right when we upgrade from not having namespaces stored in the outgoing cached messages our messages won't have a namespace associated.
+      // So we need to keep doing the lookup of where they should go if the namespace is not set.
+      if (namespace === null || namespace === undefined) {
+        namespace = getConversationController()
+          .get(recipient.key)
+          ?.isClosedGroup()
+          ? SnodeNamespaces.ClosedGroupMessage
+          : SnodeNamespaces.UserMessages;
+      }
+      await MessageSender.sendMessageToSnode({
+        pubKey: recipient.key,
         data,
         ttl,
-        networkTimestamp,
+        timestamp: networkTimestamp,
         isSyncMessage,
-        message.identifier
-      );
+        messageId: message.identifier,
+        namespace,
+      });
       return { wrappedEnvelope: data, effectiveTimestamp: networkTimestamp };
     },
     {
@@ -132,21 +142,28 @@ export async function send(
 }
 
 // tslint:disable-next-line: function-name
-export async function sendMessageToSnode(
-  pubKey: string,
-  data: Uint8Array,
-  ttl: number,
-  timestamp: number,
-  isSyncMessage?: boolean,
-  messageId?: string
-): Promise<void> {
+export async function sendMessageToSnode({
+  data,
+  namespace,
+  pubKey,
+  timestamp,
+  ttl,
+  isSyncMessage,
+  messageId,
+}: {
+  pubKey: string;
+  data: Uint8Array;
+  ttl: number;
+  timestamp: number;
+  namespace: SnodeNamespaces;
+  isSyncMessage?: boolean;
+  messageId?: string;
+}): Promise<void> {
   const data64 = ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
   const conversation = getConversationController().get(pubKey);
   const isClosedGroup = conversation?.isClosedGroup();
-
-  const namespace = isClosedGroup ? -10 : 0;
 
   // send parameters
   const params: StoreOnNodeParams = {
@@ -157,32 +174,27 @@ export async function sendMessageToSnode(
     namespace,
   };
 
-  const usedNodes = _.slice(swarm, 0, DEFAULT_CONNECTIONS);
+  const usedNodes = _.slice(swarm, 0, 1);
   if (!usedNodes || usedNodes.length === 0) {
     throw new EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   }
 
   let successfulSendHash: string | undefined;
-  const promises = usedNodes.map(async usedNode => {
+
+  let snode: Snode | undefined;
+  try {
+    const snodeTried = usedNodes[0];
     // No pRetry here as if this is a bad path it will be handled and retried in lokiOnionFetch.
     // the only case we could care about a retry would be when the usedNode is not correct,
     // but considering we trigger this request with a few snode in //, this should be fine.
-    const successfulSend = await SnodeAPIStore.storeOnNode(usedNode, params);
+    const successfulSend = await SnodeAPIStore.storeOnNode(snodeTried, params);
 
     if (successfulSend) {
       if (_.isString(successfulSend)) {
         successfulSendHash = successfulSend;
       }
-      return usedNode;
+      snode = snodeTried;
     }
-    // should we mark snode as bad if it can't store our message?
-    return undefined;
-  });
-
-  let snode: Snode | undefined;
-  try {
-    const firstSuccessSnode = await firstTrue(promises);
-    snode = firstSuccessSnode;
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
@@ -203,11 +215,13 @@ export async function sendMessageToSnode(
     }
   }
 
-  window?.log?.info(
-    `loki_message:::sendMessage - Successfully stored message to ${ed25519Str(pubKey)} via ${
-      snode.ip
-    }:${snode.port}`
-  );
+  if (snode) {
+    window?.log?.info(
+      `loki_message:::sendMessage - Successfully stored message to ${ed25519Str(pubKey)} via ${
+        snode.ip
+      }:${snode.port}`
+    );
+  }
 }
 
 async function buildEnvelope(

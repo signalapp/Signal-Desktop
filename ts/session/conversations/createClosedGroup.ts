@@ -7,6 +7,7 @@ import { ECKeyPair } from '../../receiver/keypairs';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSwarmPollingInstance } from '../apis/snode_api';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import {
   generateClosedGroupPublicKey,
   generateCurve25519KeyPairWithoutPrefix,
@@ -230,6 +231,10 @@ function createInvitePromises(
       expireTimer: existingExpireTimer,
     };
     const message = new ClosedGroupNewMessage(messageParams);
-    return getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(m), message);
+    return getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(m),
+      message,
+      namespace: SnodeNamespaces.UserMessages,
+    });
   });
 }

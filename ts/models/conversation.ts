@@ -98,6 +98,7 @@ import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogs
 import { Reaction } from '../types/Reaction';
 import { Reactions } from '../util/reactions';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -609,12 +610,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         }
         const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
         // send with blinding if we need to
-        await getMessageQueue().sendToOpenGroupV2(
-          chatMessageOpenGroupV2,
+        await getMessageQueue().sendToOpenGroupV2({
+          message: chatMessageOpenGroupV2,
           roomInfos,
-          Boolean(roomHasBlindEnabled(openGroup)),
-          fileIdsToLink
-        );
+          blinded: Boolean(roomHasBlindEnabled(openGroup)),
+          filesToLink: fileIdsToLink,
+        });
         return;
       }
 
@@ -625,7 +626,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
 
-          await getMessageQueue().sendSyncMessage(chatMessageMe);
+          await getMessageQueue().sendSyncMessage({
+            namespace: SnodeNamespaces.UserMessages,
+            message: chatMessageMe,
+          });
           return;
         }
 
@@ -639,12 +643,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             expireTimer: this.get('expireTimer'),
           });
           // we need the return await so that errors are caught in the catch {}
-          await getMessageQueue().sendToPubKey(destinationPubkey, groupInvitMessage);
+          await getMessageQueue().sendToPubKey(
+            destinationPubkey,
+            groupInvitMessage,
+            SnodeNamespaces.UserMessages
+          );
           return;
         }
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
-        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
+        await getMessageQueue().sendToPubKey(
+          destinationPubkey,
+          chatMessagePrivate,
+          SnodeNamespaces.UserMessages
+        );
         return;
       }
 
@@ -656,7 +668,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         });
 
         // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+        await getMessageQueue().sendToGroup({
+          message: closedGroupVisibleMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
         return;
       }
 
@@ -729,7 +744,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const blinded = Boolean(roomHasBlindEnabled(openGroup));
 
         // send with blinding if we need to
-        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos, blinded, []);
+        await getMessageQueue().sendToOpenGroupV2({
+          message: chatMessageOpenGroupV2,
+          roomInfos,
+          blinded,
+          filesToLink: [],
+        });
         return;
       }
 
@@ -740,10 +760,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           ...chatMessageParams,
           syncTarget: this.id,
         });
-        await getMessageQueue().sendSyncMessage(chatMessageMe);
+        await getMessageQueue().sendSyncMessage({
+          namespace: SnodeNamespaces.UserMessages,
+          message: chatMessageMe,
+        });
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
-        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
+        await getMessageQueue().sendToPubKey(
+          destinationPubkey,
+          chatMessagePrivate,
+          SnodeNamespaces.UserMessages
+        );
         await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
@@ -760,7 +787,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           groupId: destination,
         });
         // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+        await getMessageQueue().sendToGroup({
+          message: closedGroupVisibleMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
         await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
@@ -893,12 +923,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.set({ active_at: Date.now(), isApproved: true });
 
-    await getMessageQueue().sendToOpenGroupV2BlindedRequest(
-      encryptedMsg,
-      roomInfo,
-      sogsVisibleMessage,
-      this.id
-    );
+    await getMessageQueue().sendToOpenGroupV2BlindedRequest({
+      encryptedContent: encryptedMsg,
+      roomInfos: roomInfo,
+      message: sogsVisibleMessage,
+      recipientBlindedId: this.id,
+    });
   }
 
   /**
@@ -920,7 +950,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
     const pubkeyForSending = new PubKey(this.id);
     await getMessageQueue()
-      .sendToPubKey(pubkeyForSending, messageRequestResponse)
+      .sendToPubKey(pubkeyForSending, messageRequestResponse, SnodeNamespaces.UserMessages)
       .catch(window?.log?.error);
   }
 
@@ -1118,7 +1148,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
-      await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
+      await getMessageQueue().sendToPubKey(
+        pubkey,
+        expirationTimerMessage,
+        SnodeNamespaces.UserMessages
+      );
     } else {
       window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {
@@ -1128,7 +1162,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
-      await getMessageQueue().sendToGroup(expirationTimerMessage);
+      await getMessageQueue().sendToGroup({
+        message: expirationTimerMessage,
+        namespace: SnodeNamespaces.ClosedGroupMessage,
+      });
     }
     return;
   }
@@ -1365,7 +1402,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       });
 
       const device = new PubKey(this.id);
-      await getMessageQueue().sendToPubKey(device, receiptMessage);
+      await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
     }
   }
 
@@ -2045,7 +2082,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // send the message to a single recipient if this is a session chat
     const device = new PubKey(recipientId);
     getMessageQueue()
-      .sendToPubKey(device, typingMessage)
+      .sendToPubKey(device, typingMessage, SnodeNamespaces.UserMessages)
       .catch(window?.log?.error);
   }
 

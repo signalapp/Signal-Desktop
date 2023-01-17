@@ -95,6 +95,7 @@ import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { ReactionList } from '../types/Reaction';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -905,12 +906,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
         const openGroup = OpenGroupData.getV2OpenGroupRoom(conversation.id);
 
-        return getMessageQueue().sendToOpenGroupV2(
-          openGroupMessage,
+        return getMessageQueue().sendToOpenGroupV2({
+          message: openGroupMessage,
           roomInfos,
-          roomHasBlindEnabled(openGroup),
-          fileIdsToLink
-        );
+          blinded: roomHasBlindEnabled(openGroup),
+          filesToLink: fileIdsToLink,
+        });
       }
 
       const chatParams = {
@@ -936,7 +937,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       if (conversation.isPrivate()) {
-        return getMessageQueue().sendToPubKey(PubKey.cast(conversation.id), chatMessage);
+        return getMessageQueue().sendToPubKey(
+          PubKey.cast(conversation.id),
+          chatMessage,
+          SnodeNamespaces.UserMessages
+        );
       }
 
       // Here, the convo is neither an open group, a private convo or ourself. It can only be a medium group.
@@ -954,7 +959,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         groupId: this.get('conversationId'),
       });
 
-      return getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+      return getMessageQueue().sendToGroup({
+        message: closedGroupVisibleMessage,
+        namespace: SnodeNamespaces.ClosedGroupMessage,
+      });
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -1060,7 +1068,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
       const syncMessage = buildSyncMessage(this.id, dataMessage, conversation.id, sentTimestamp);
-      await getMessageQueue().sendSyncMessage(syncMessage);
+      await getMessageQueue().sendSyncMessage({
+        namespace: SnodeNamespaces.UserMessages,
+        message: syncMessage,
+      });
     }
     this.set({ sentSync: true });
     await this.commit();

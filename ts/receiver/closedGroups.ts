@@ -19,6 +19,7 @@ import { queueAllCachedFromSource } from './receiver';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -906,7 +907,11 @@ async function sendLatestKeyPairToUsers(
       });
 
       // the encryption keypair is sent using established channels
-      await getMessageQueue().sendToPubKey(PubKey.cast(member), keypairsMessage);
+      await getMessageQueue().sendToPubKey(
+        PubKey.cast(member),
+        keypairsMessage,
+        SnodeNamespaces.UserMessages
+      );
     })
   );
 }

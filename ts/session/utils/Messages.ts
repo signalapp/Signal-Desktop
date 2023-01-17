@@ -7,6 +7,7 @@ import { ClosedGroupEncryptionPairReplyMessage } from '../messages/outgoing/cont
 import { ContentMessage } from '../messages/outgoing';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { SignalService } from '../../protobuf';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 
 function getEncryptionTypeFromMessageType(
   message: ContentMessage,
@@ -36,6 +37,7 @@ function getEncryptionTypeFromMessageType(
 export async function toRawMessage(
   destinationPubKey: PubKey,
   message: ContentMessage,
+  namespace: SnodeNamespaces,
   isGroup = false
 ): Promise<RawMessage> {
   const ttl = message.ttl();
@@ -50,6 +52,7 @@ export async function toRawMessage(
     device: destinationPubKey.key,
     ttl,
     encryption,
+    namespace,
   };
 
   return rawMessage;

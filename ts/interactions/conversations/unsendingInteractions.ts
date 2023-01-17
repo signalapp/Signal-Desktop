@@ -13,6 +13,7 @@ import { resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../../components/basic/SessionButton';
 import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
+import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -38,14 +39,14 @@ async function unsendMessagesForEveryone(
     await Promise.all(
       unsendMsgObjects.map(unsendObject =>
         getMessageQueue()
-          .sendToPubKey(new PubKey(destinationId), unsendObject)
+          .sendToPubKey(new PubKey(destinationId), unsendObject, SnodeNamespaces.UserMessages)
           .catch(window?.log?.error)
       )
     );
     await Promise.all(
       unsendMsgObjects.map(unsendObject =>
         getMessageQueue()
-          .sendSyncMessage(unsendObject)
+          .sendSyncMessage({ namespace: SnodeNamespaces.UserMessages, message: unsendObject })
           .catch(window?.log?.error)
       )
     );
@@ -54,7 +55,11 @@ async function unsendMessagesForEveryone(
     await Promise.all(
       unsendMsgObjects.map(unsendObject => {
         getMessageQueue()
-          .sendToGroup(unsendObject, undefined, new PubKey(destinationId))
+          .sendToGroup({
+            message: unsendObject,
+            namespace: SnodeNamespaces.ClosedGroupMessage,
+            groupPubKey: new PubKey(destinationId),
+          })
           .catch(window?.log?.error);
       })
     );
@@ -222,7 +227,7 @@ async function unsendMessageJustForThisUser(
   await Promise.all(
     unsendMsgObjects.map(unsendObject =>
       getMessageQueue()
-        .sendSyncMessage(unsendObject)
+        .sendSyncMessage({ namespace: SnodeNamespaces.UserMessages, message: unsendObject })
         .catch(window?.log?.error)
     )
   );

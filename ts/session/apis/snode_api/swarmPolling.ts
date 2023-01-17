@@ -3,7 +3,7 @@ import * as snodePool from './snodePool';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _, { concat, last } from 'lodash';
+import _, { compact, concat, difference, flatten, last, sample, uniqBy } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 
 import { StringUtils, UserUtils } from '../../utils';
@@ -15,18 +15,8 @@ import { ed25519Str } from '../../onions/onionPath';
 import { updateIsOnline } from '../../../state/ducks/onion';
 import pRetry from 'p-retry';
 import { SnodeAPIRetrieve } from './retrieveRequest';
-import { SnodeNamespaces } from './namespaces';
-
-interface Message {
-  hash: string;
-  expiration: number;
-  data: string;
-}
-
-export type RetrieveMessagesResults = Array<{
-  code: number;
-  messages: Record<string, any>[];
-}>;
+import { SnodeNamespace, SnodeNamespaces } from './namespaces';
+import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
 
 // Some websocket nonsense
 export function processMessage(message: string, options: any = {}, messageHash: string) {
@@ -172,7 +162,7 @@ export class SwarmPolling {
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
         );
 
-        return this.pollOnceForKey(group.pubkey, true, [SnodeNamespaces.ClosedGroupMessages]);
+        return this.pollOnceForKey(group.pubkey, true, [SnodeNamespaces.ClosedGroupMessage]);
       }
       window?.log?.info(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
@@ -208,27 +198,54 @@ export class SwarmPolling {
 
     // If we need more nodes, select randomly from the remaining nodes:
     if (!toPollFrom) {
-      const notPolled = _.difference(swarmSnodes, alreadyPolled);
-      toPollFrom = _.sample(notPolled) as Snode;
+      const notPolled = difference(swarmSnodes, alreadyPolled);
+      toPollFrom = sample(notPolled) as Snode;
     }
 
-    let resultsFromAllNamespaces: RetrieveMessagesResults | null;
+    let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
     try {
       resultsFromAllNamespaces = await this.pollNodeForKey(toPollFrom, pubkey, namespaces);
     } catch (e) {
-      window.log.warn('pollNodeForKey failed with: ', e.message);
+      window.log.warn(
+        `pollNodeForKey of ${pubkey} namespaces: ${namespaces} failed with: ${e.message}`
+      );
       resultsFromAllNamespaces = null;
     }
 
-    // filter out null (exception thrown)
-    const arrayOfResults = resultsFromAllNamespaces?.length
-      ? _.compact(resultsFromAllNamespaces)
-      : null;
+    let userConfigMessagesMerged: Array<RetrieveMessageItem> = [];
+    let allNamespacesWithoutUserConfigIfNeeded: Array<RetrieveMessageItem> = [];
+
+    // check if we just fetched the details from the config namespaces.
+    // If yes, merge them together and exclude them from the rest of the messages.
+    if (window.sessionFeatureFlags.useSharedUtilForUserConfig && resultsFromAllNamespaces) {
+      const userConfigMessages = resultsFromAllNamespaces
+        .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
+        .map(r => r.messages.messages);
+
+      allNamespacesWithoutUserConfigIfNeeded = flatten(
+        compact(
+          resultsFromAllNamespaces
+            .filter(m => !SnodeNamespace.isUserConfigNamespace(m.namespace))
+            .map(r => r.messages.messages)
+        )
+      );
+      userConfigMessagesMerged = flatten(compact(userConfigMessages));
+    } else {
+      allNamespacesWithoutUserConfigIfNeeded = flatten(
+        compact(resultsFromAllNamespaces?.map(m => m.messages.messages))
+      );
+    }
+
+    console.warn(`received userConfigMessagesMerged: ${userConfigMessagesMerged.length}`);
+    console.warn(
+      `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
+    );
+
     // Merge results into one list of unique messages
-    const messages = _.uniqBy(_.flatten(arrayOfResults), (x: any) => x.hash);
+    const messages = uniqBy(allNamespacesWithoutUserConfigIfNeeded, x => x.hash);
 
     // if all snodes returned an error (null), no need to update the lastPolledTimestamp
-    if (isGroup && arrayOfResults?.length) {
+    if (isGroup && allNamespacesWithoutUserConfigIfNeeded?.length) {
       window?.log?.info(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
@@ -263,10 +280,7 @@ export class SwarmPolling {
 
     perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
 
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    }
-
-    newMessages.forEach((m: Message) => {
+    newMessages.forEach((m: RetrieveMessageItem) => {
       const options = isGroup ? { conversationId: pkStr } : {};
       processMessage(m.data, options, m.hash);
     });
@@ -278,7 +292,7 @@ export class SwarmPolling {
     node: Snode,
     pubkey: PubKey,
     namespaces: Array<SnodeNamespaces>
-  ): Promise<RetrieveMessagesResults | null> {
+  ): Promise<RetrieveMessagesResultsBatched | null> {
     const namespaceLength = namespaces.length;
     if (namespaceLength > 3 || namespaceLength <= 0) {
       throw new Error('pollNodeForKey needs  1 or 2 namespaces to be given at all times');
@@ -313,7 +327,7 @@ export class SwarmPolling {
           }
 
           const lastMessages = results.map(r => {
-            return last(r.messages);
+            return last(r.messages.messages);
           });
 
           await Promise.all(
@@ -336,7 +350,6 @@ export class SwarmPolling {
         {
           minTimeout: 100,
           retries: 1,
-
           onFailedAttempt: e => {
             window?.log?.warn(
               `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}`
@@ -375,18 +388,20 @@ export class SwarmPolling {
     });
   }
 
-  private async handleSeenMessages(messages: Array<Message>): Promise<Array<Message>> {
+  private async handleSeenMessages(
+    messages: Array<RetrieveMessageItem>
+  ): Promise<Array<RetrieveMessageItem>> {
     if (!messages.length) {
       return [];
     }
 
-    const incomingHashes = messages.map((m: Message) => m.hash);
+    const incomingHashes = messages.map((m: RetrieveMessageItem) => m.hash);
 
     const dupHashes = await Data.getSeenMessagesByHashList(incomingHashes);
-    const newMessages = messages.filter((m: Message) => !dupHashes.includes(m.hash));
+    const newMessages = messages.filter((m: RetrieveMessageItem) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
-      const newHashes = newMessages.map((m: Message) => ({
+      const newHashes = newMessages.map((m: RetrieveMessageItem) => ({
         expiresAt: m.expiration,
         hash: m.hash,
       }));

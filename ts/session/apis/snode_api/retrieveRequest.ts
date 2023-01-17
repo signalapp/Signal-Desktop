@@ -6,10 +6,12 @@ import { fromHexToArray, fromUInt8ArrayToBase64 } from '../../utils/String';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { SnodeNamespaces } from './namespaces';
+
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
 } from './SnodeRequestTypes';
+import { RetrieveMessagesResultsBatched, RetrieveMessagesResultsContent } from './types';
 
 async function getRetrieveSignatureParams(params: {
   pubkey: string;
@@ -71,15 +73,15 @@ async function buildRetrieveRequest(
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),
       };
 
-      if (namespace === SnodeNamespaces.ClosedGroupMessages) {
+      if (namespace === SnodeNamespaces.ClosedGroupMessage) {
         if (pubkey === ourPubkey || !pubkey.startsWith('05')) {
           throw new Error(
-            'namespace -10 can only be used to retrieve messages from a legacy closed group'
+            'namespace -10 can only be used to retrieve messages from a legacy closed group (prefix 05)'
           );
         }
         const retrieveLegacyClosedGroup = {
           ...retrieveParam,
-          namespace: namespace as -10,
+          namespace,
         };
         const retrieveParamsLegacy: RetrieveLegacyClosedGroupSubRequestType = {
           method: 'retrieve',
@@ -99,7 +101,7 @@ async function buildRetrieveRequest(
         throw new Error('not a legacy closed group. namespace can only be 0');
       }
       if (pubkey !== ourPubkey) {
-        throw new Error('not a legacy closed group. pubkey can only be our number');
+        throw new Error('not a legacy closed group. pubkey can only be ours');
       }
       const signatureArgs = { ...retrieveParam, ourPubkey };
       const signatureBuilt = await getRetrieveSignatureParams(signatureArgs);
@@ -121,7 +123,7 @@ async function retrieveNextMessages(
   associatedWith: string,
   namespaces: Array<SnodeNamespaces>,
   ourPubkey: string
-): Promise<Array<{ code: number; messages: Array<Record<string, any>> }>> {
+): Promise<RetrieveMessagesResultsBatched> {
   if (namespaces.length !== lastHashes.length) {
     throw new Error('namespaces and lasthashes does not match');
   }
@@ -135,7 +137,7 @@ async function retrieveNextMessages(
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
 
-  console.warn('retrieveRequestsParams', retrieveRequestsParams);
+  console.warn(`fetching messages associatedWith:${associatedWith} namespaces:${namespaces}`);
   const results = await doSnodeBatchRequest(retrieveRequestsParams, targetNode, 4000);
 
   if (!results || !results.length) {
@@ -153,10 +155,10 @@ async function retrieveNextMessages(
     );
   }
 
-  if (namespaces.length > 1) {
-    throw new Error('multiple namespace polling todo');
-  }
   const firstResult = results[0];
+
+  // TODO we should probably check for status code of all the results (when polling for a few namespaces at a time)
+  console.warn('what should we do if we dont get a 200 on any of those fetches?');
 
   if (firstResult.code !== 200) {
     window?.log?.warn(`retrieveNextMessages result is not 200 but ${firstResult.code}`);
@@ -165,21 +167,19 @@ async function retrieveNextMessages(
     );
   }
 
-  console.warn('what should we do if we dont get a 200 on any of those fetches?');
-
   try {
-    // we rely on the code of the
+    // we rely on the code of the first one to check for online status
     const bodyFirstResult = firstResult.body;
     if (!window.inboxStore?.getState().onionPaths.isOnline) {
       window.inboxStore?.dispatch(updateIsOnline(true));
     }
 
     GetNetworkTime.handleTimestampOffsetFromNetwork('retrieve', bodyFirstResult.t);
-    // merge results with their corresponding namespaces
 
+    // merge results with their corresponding namespaces
     return results.map((result, index) => ({
       code: result.code,
-      messages: result.body as Array<any>,
+      messages: result.body as RetrieveMessagesResultsContent,
       namespace: namespaces[index],
     }));
   } catch (e) {

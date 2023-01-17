@@ -24,6 +24,11 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import { AbortController } from 'abort-controller';
 import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
+import {
+  SnodeNamespaces,
+  SnodeNamespacesGroup,
+  SnodeNamespacesUser,
+} from '../apis/snode_api/namespaces';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -49,13 +54,14 @@ export class MessageQueue {
   public async sendToPubKey(
     destinationPubKey: PubKey,
     message: ContentMessage,
+    namespace: SnodeNamespaces,
     sentCb?: (message: RawMessage) => Promise<void>,
     isGroup = false
   ): Promise<void> {
     if (message instanceof ConfigurationMessage || !!(message as any).syncTarget) {
       throw new Error('SyncMessage needs to be sent with sendSyncMessage');
     }
-    await this.process(destinationPubKey, message, sentCb, isGroup);
+    await this.process(destinationPubKey, message, namespace, sentCb, isGroup);
   }
 
   /**
@@ -66,12 +72,17 @@ export class MessageQueue {
    *
    * fileIds is the array of ids this message is linked to. If we upload files as part of a message but do not link them with this, the files will be deleted much sooner
    */
-  public async sendToOpenGroupV2(
-    message: OpenGroupVisibleMessage,
-    roomInfos: OpenGroupRequestCommonType,
-    blinded: boolean,
-    filesToLink: Array<number>
-  ) {
+  public async sendToOpenGroupV2({
+    blinded,
+    filesToLink,
+    message,
+    roomInfos,
+  }: {
+    message: OpenGroupVisibleMessage;
+    roomInfos: OpenGroupRequestCommonType;
+    blinded: boolean;
+    filesToLink: Array<number>;
+  }) {
     // Skipping the queue for Open Groups v2; the message is sent directly
 
     try {
@@ -115,12 +126,17 @@ export class MessageQueue {
     }
   }
 
-  public async sendToOpenGroupV2BlindedRequest(
-    encryptedContent: Uint8Array,
-    roomInfos: OpenGroupRequestCommonType,
-    message: OpenGroupVisibleMessage,
-    recipientBlindedId: string
-  ) {
+  public async sendToOpenGroupV2BlindedRequest({
+    encryptedContent,
+    message,
+    recipientBlindedId,
+    roomInfos,
+  }: {
+    encryptedContent: Uint8Array;
+    roomInfos: OpenGroupRequestCommonType;
+    message: OpenGroupVisibleMessage;
+    recipientBlindedId: string;
+  }) {
     try {
       if (!PubKey.hasBlindedPrefix(recipientBlindedId)) {
         throw new Error('sendToOpenGroupV2BlindedRequest needs a blindedId');
@@ -153,11 +169,17 @@ export class MessageQueue {
    *
    * @param sentCb currently only called for medium groups sent message
    */
-  public async sendToGroup(
-    message: ClosedGroupMessageType,
-    sentCb?: (message: RawMessage) => Promise<void>,
-    groupPubKey?: PubKey
-  ): Promise<void> {
+  public async sendToGroup({
+    message,
+    namespace,
+    groupPubKey,
+    sentCb,
+  }: {
+    message: ClosedGroupMessageType;
+    namespace: SnodeNamespacesGroup;
+    sentCb?: (message: RawMessage) => Promise<void>;
+    groupPubKey?: PubKey;
+  }): Promise<void> {
     let destinationPubKey: PubKey | undefined = groupPubKey;
     if (message instanceof ExpirationTimerUpdateMessage || message instanceof ClosedGroupMessage) {
       destinationPubKey = groupPubKey ? groupPubKey : message.groupId;
@@ -168,13 +190,18 @@ export class MessageQueue {
     }
 
     // if groupId is set here, it means it's for a medium group. So send it as it
-    return this.sendToPubKey(PubKey.cast(destinationPubKey), message, sentCb, true);
+    return this.sendToPubKey(PubKey.cast(destinationPubKey), message, namespace, sentCb, true);
   }
 
-  public async sendSyncMessage(
-    message?: SyncMessageType,
-    sentCb?: (message: RawMessage) => Promise<void>
-  ): Promise<void> {
+  public async sendSyncMessage({
+    namespace,
+    message,
+    sentCb,
+  }: {
+    namespace: SnodeNamespacesUser;
+    message?: SyncMessageType;
+    sentCb?: (message: RawMessage) => Promise<void>;
+  }): Promise<void> {
     if (!message) {
       return;
     }
@@ -188,7 +215,7 @@ export class MessageQueue {
 
     const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
-    await this.process(PubKey.cast(ourPubKey), message, sentCb);
+    await this.process(PubKey.cast(ourPubKey), message, namespace, sentCb);
   }
 
   /**
@@ -196,13 +223,18 @@ export class MessageQueue {
    * @param user user pub key to send to
    * @param message Message to be sent
    */
-  public async sendToPubKeyNonDurably(
-    user: PubKey,
-    message: ClosedGroupNewMessage | CallMessage
-  ): Promise<boolean | number> {
+  public async sendToPubKeyNonDurably({
+    message,
+    namespace,
+    pubkey,
+  }: {
+    pubkey: PubKey;
+    message: ClosedGroupNewMessage | CallMessage;
+    namespace: SnodeNamespaces;
+  }): Promise<boolean | number> {
     let rawMessage;
     try {
-      rawMessage = await MessageUtils.toRawMessage(user, message);
+      rawMessage = await MessageUtils.toRawMessage(pubkey, message, namespace);
       const { wrappedEnvelope, effectiveTimestamp } = await MessageSender.send(rawMessage);
       await MessageSentHandler.handleMessageSentSuccess(
         rawMessage,
@@ -281,6 +313,7 @@ export class MessageQueue {
   private async process(
     destinationPk: PubKey,
     message: ContentMessage,
+    namespace: SnodeNamespaces,
     sentCb?: (message: RawMessage) => Promise<void>,
     isGroup = false
   ): Promise<void> {
@@ -305,7 +338,7 @@ export class MessageQueue {
       }
     }
 
-    await this.pendingMessageCache.add(destinationPk, message, sentCb, isGroup);
+    await this.pendingMessageCache.add(destinationPk, message, namespace, sentCb, isGroup);
     void this.processPending(destinationPk, isSyncMessage);
   }
 

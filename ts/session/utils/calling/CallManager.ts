@@ -28,6 +28,7 @@ import { getCallMediaPermissionsSettings } from '../../../components/settings/Se
 import { PnServer } from '../../apis/push_notification_api';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 
 // tslint:disable: function-name
 
@@ -414,10 +415,11 @@ async function createOfferAndSendIt(recipient: string) {
       });
 
       window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
-      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
-        PubKey.cast(recipient),
-        offerMessage
-      );
+      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably({
+        pubkey: PubKey.cast(recipient),
+        message: offerMessage,
+        namespace: SnodeNamespaces.UserMessages,
+      });
       if (typeof negotiationOfferSendResult === 'number') {
         // window.log?.warn('setting last sent timestamp');
         lastOutgoingOfferTimestamp = negotiationOfferSendResult;
@@ -514,7 +516,11 @@ export async function USER_callRecipient(recipient: string) {
 
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
-  const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
+  const rawMessage = await MessageUtils.toRawMessage(
+    PubKey.cast(recipient),
+    preOfferMsg,
+    SnodeNamespaces.UserMessages
+  );
   const { wrappedEnvelope } = await MessageSender.send(rawMessage);
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
@@ -572,7 +578,11 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     `sending ICE CANDIDATES MESSAGE to ${ed25519Str(recipient)} about call ${currentCallUUID}`
   );
 
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
+  await getMessageQueue().sendToPubKeyNonDurably({
+    pubkey: PubKey.cast(recipient),
+    message: callIceCandicates,
+    namespace: SnodeNamespaces.UserMessages,
+  });
 }, 2000);
 
 const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.CallMessage.Type) => {
@@ -903,8 +913,16 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
   await Promise.all([
-    getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage),
-    getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(user),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: UserUtils.getOurPubKeyFromCache(),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
   ]);
 }
 
@@ -921,7 +939,11 @@ export async function USER_hangup(fromSender: string) {
       timestamp: Date.now(),
       uuid: currentCallUUID,
     });
-    void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
+    void getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(fromSender),
+      message: endCallMessage,
+      namespace: SnodeNamespaces.UserMessages,
+    });
   }
 
   window.inboxStore?.dispatch(endCall());

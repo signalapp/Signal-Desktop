@@ -4,6 +4,7 @@ import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import { MessageUtils } from '../utils';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
@@ -41,11 +42,17 @@ export class PendingMessageCache {
   public async add(
     destinationPubKey: PubKey,
     message: ContentMessage,
+    namespace: SnodeNamespaces,
     sentCb?: (message: any) => Promise<void>,
     isGroup = false
   ): Promise<RawMessage> {
     await this.loadFromDBIfNeeded();
-    const rawMessage = await MessageUtils.toRawMessage(destinationPubKey, message, isGroup);
+    const rawMessage = await MessageUtils.toRawMessage(
+      destinationPubKey,
+      message,
+      namespace,
+      isGroup
+    );
 
     // Does it exist in cache already?
     if (this.find(rawMessage)) {

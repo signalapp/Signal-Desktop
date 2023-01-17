@@ -26,6 +26,7 @@ import { DURATION } from '../constants';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 import { PubKey } from '../types';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -53,7 +54,10 @@ export const syncConfigurationIfNeeded = async () => {
   try {
     // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
 
-    await getMessageQueue().sendSyncMessage(configMessage);
+    await getMessageQueue().sendSyncMessage({
+      namespace: SnodeNamespaces.UserMessages,
+      message: configMessage,
+    });
   } catch (e) {
     window?.log?.warn('Caught an error while sending our ConfigurationMessage:', e);
     // we do return early so that next time we use the old timestamp again
@@ -81,7 +85,11 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
               resolve(true);
             }
           : undefined;
-        void getMessageQueue().sendSyncMessage(configMessage, callback as any);
+        void getMessageQueue().sendSyncMessage({
+          namespace: SnodeNamespaces.UserMessages,
+          message: configMessage,
+          sentCb: callback as any,
+        });
         // either we resolve from the callback if we need to wait for it,
         // or we don't want to wait, we resolve it here.
         if (!waitForMessageSent) {

@@ -29,6 +29,7 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 
 export type GroupInfo = {
   id: string;
@@ -338,11 +339,15 @@ export async function leaveClosedGroup(groupId: string) {
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
   // sent the message to the group and once done, remove everything related to this group
   getSwarmPollingInstance().removePubkey(groupId);
-  await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
-    window?.log?.info(
-      `Leaving message sent ${groupId}. Removing everything related to this group.`
-    );
-    await markGroupAsLeftOrKicked(groupId, convo, false);
+  await getMessageQueue().sendToGroup({
+    message: ourLeavingMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    sentCb: async () => {
+      window?.log?.info(
+        `Leaving message sent ${groupId}. Removing everything related to this group.`
+      );
+      await markGroupAsLeftOrKicked(groupId, convo, false);
+    },
   });
 }
 
@@ -361,7 +366,10 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     identifier: messageId,
     name,
   });
-  await getMessageQueue().sendToGroup(nameChangeMessage);
+  await getMessageQueue().sendToGroup({
+    message: nameChangeMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+  });
 }
 
 async function sendAddedMembers(
@@ -393,7 +401,10 @@ async function sendAddedMembers(
     addedMembers,
     identifier: messageId,
   });
-  await getMessageQueue().sendToGroup(closedGroupControlMessage);
+  await getMessageQueue().sendToGroup({
+    message: closedGroupControlMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+  });
 
   // Send closed group update messages to any new members individually
   const newClosedGroupUpdate = new ClosedGroupNewMessage({
@@ -410,7 +421,11 @@ async function sendAddedMembers(
   const promises = addedMembers.map(async m => {
     await getConversationController().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
     const memberPubKey = PubKey.cast(m);
-    await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
+    await getMessageQueue().sendToPubKey(
+      memberPubKey,
+      newClosedGroupUpdate,
+      SnodeNamespaces.ClosedGroupMessage
+    );
   });
   await Promise.all(promises);
 }
@@ -445,15 +460,19 @@ export async function sendRemovedMembers(
     identifier: messageId,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
-  await getMessageQueue().sendToGroup(mainClosedGroupControlMessage, async () => {
-    if (isCurrentUserAdmin) {
-      // we send the new encryption key only to members already here before the update
-      window?.log?.info(
-        `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
-      );
+  await getMessageQueue().sendToGroup({
+    message: mainClosedGroupControlMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    sentCb: async () => {
+      if (isCurrentUserAdmin) {
+        // we send the new encryption key only to members already here before the update
+        window?.log?.info(
+          `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
+        );
 
-      await generateAndSendNewEncryptionKeyPair(groupId, stillMembers);
-    }
+        await generateAndSendNewEncryptionKeyPair(groupId, stillMembers);
+      }
+    },
   });
 }
 
@@ -513,7 +532,11 @@ async function generateAndSendNewEncryptionKeyPair(
     await addKeyPairToCacheAndDBIfNeeded(toHex(groupId), newKeyPair.toHexKeyPair());
   };
   // this is to be sent to the group pubkey adress
-  await getMessageQueue().sendToGroup(keypairsMessage, messageSentCallback);
+  await getMessageQueue().sendToGroup({
+    message: keypairsMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    sentCb: messageSentCallback,
+  });
 }
 
 export async function buildEncryptionKeyPairWrappers(

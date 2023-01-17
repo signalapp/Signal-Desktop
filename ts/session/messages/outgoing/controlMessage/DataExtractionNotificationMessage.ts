@@ -8,6 +8,7 @@ import { getConversationController } from '../../../conversations';
 import { UserUtils } from '../../../utils';
 import { SettingsKey } from '../../../../data/settings-key';
 import { Storage } from '../../../../util/storage';
+import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
 interface DataExtractionNotificationMessageParams extends MessageParams {
   referencedAttachmentTimestamp: number;
 }
@@ -73,7 +74,7 @@ export const sendDataExtractionNotification = async (
   );
 
   try {
-    await getMessageQueue().sendToPubKey(pubkey, dataExtractionNotificationMessage);
+    await getMessageQueue().sendToPubKey(pubkey, dataExtractionNotificationMessage, SnodeNamespaces.UserMessages);
   } catch (e) {
     window.log.warn('failed to send data extraction notification', e);
   }

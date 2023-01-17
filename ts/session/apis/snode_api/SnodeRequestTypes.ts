@@ -1,3 +1,5 @@
+import { SnodeNamespaces } from './namespaces';
+
 export type SwarmForSubRequest = { method: 'get_swarm'; params: { pubkey: string } };
 
 type RetrieveMaxCountSize = { max_count?: number; max_size?: number };
@@ -29,7 +31,7 @@ export type RetrievePubkeySubRequestType = {
 export type RetrieveLegacyClosedGroupSubRequestType = {
   method: 'retrieve';
   params: {
-    namespace: -10; // legacy closed groups retrieve are not authenticated because the clients do not have a shared key
+    namespace: SnodeNamespaces.ClosedGroupMessage; // legacy closed groups retrieve are not authenticated because the clients do not have a shared key
   } & RetrieveAlwaysNeeded &
     RetrieveMaxCountSize;
 };
